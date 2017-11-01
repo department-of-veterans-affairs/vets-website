@@ -78,7 +78,7 @@ class AskVAPage extends React.Component {
                 {buttonMsg}
               </button>
               {!loadingDecisionRequest
-                ? <a className="usa-button-outline request-decision-button" onClick={this.goToStatusPage}>Not yet–I still have more evidence to submit</a>
+                ? <a className="usa-button-secondary request-decision-button" onClick={this.goToStatusPage}>Not yet–I still have more evidence to submit</a>
                 : null}
             </div>
           </div>

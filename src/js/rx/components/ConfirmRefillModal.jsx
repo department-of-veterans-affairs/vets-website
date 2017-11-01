@@ -46,7 +46,7 @@ class ConfirmRefillModal extends React.Component {
             </div>
             <div className="va-modal-button-group cf">
               <button type="submit" disabled={this.props.isLoading}>{spinnerIcon} Order refill</button>
-              <button type="button" className="usa-button-outline"
+              <button type="button" className="usa-button-secondary"
                 onClick={this.handleCloseModal}>Cancel</button>
             </div>
           </div>
