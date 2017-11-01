@@ -19,7 +19,7 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 ### Can I register my business through the Vets First Verification Program? 
 
-You may qualify to register your business as a Veteran-Owned Small Business (VOSB) if you’re a Veteran and you (or another Veteran):
+#### You may qualify to register your business as a Veteran-Owned Small Business (VOSB) if you’re a Veteran and you (or another Veteran):
 
 - Owns 51% or more of the company you want to register, **and**
 - Has full control over the day-to-day management, decision-making, and strategic policy of the business,** and**
@@ -33,19 +33,19 @@ You may qualify to register your business as a Veteran-Owned Small Business (VOS
 - Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
 - Served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
 
-You may qualify to register as a Service-Disabled Veteran-Owned Small Business (SDVOSB) if you meet all the requirements listed above and you (or another Veteran owner of the business) has:
+#### You may qualify to register as a Service-Disabled Veteran-Owned Small Business (SDVOSB) if you meet all the requirements listed above and you (or another Veteran owner of the business) has:
 
 - A disability rating letter from us confirming that you have a service-connected disability rating between 0 and 100%, **or**
 - A disability determination from the Department of Defense
 
 </div>
 
-**Jump to a section:**
-[What kind of advantages and support can I get when I register my business?](#business-advantages)
-[How do I register my small business?](#business-how)
-[How do I get advice for bidding on federal contracts in my area?](#business-bidding)
-[What if I have other questions about these benefits?](#business-questions)
-[Are there other resources that can help me start or grow a business?](#business-resources)
+**Jump to a section:**</br>
+[What kind of advantages and support can I get when I register my business?](#business-advantages)</br>
+[How do I register my small business?](#business-how)</br>
+[How do I get advice for bidding on federal contracts in my area?](#business-bidding)</br>
+[What if I have other questions about these benefits?](#business-questions)</br>
+[Are there other resources that can help me start or grow a business?](#business-resources)</br>
 
 <br>
 
@@ -67,6 +67,7 @@ You may qualify to register as a Service-Disabled Veteran-Owned Small Business (
 [Learn more about the Vets First Verification Program](https://www.va.gov/osdbu/verification/index.asp).
 
 </div>
+<br>
 
 <div id="business-how" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">How do I register my small business?</h4>
