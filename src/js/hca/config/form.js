@@ -517,7 +517,7 @@ const formConfig = {
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s social security number',
+              'ui:title': 'Spouse’s Social Security number',
             }),
             spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
