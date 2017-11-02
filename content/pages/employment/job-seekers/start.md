@@ -97,7 +97,7 @@ Contact your local VA Small Business Liaison. [Find a VA Small Business Liaison 
 </div>
 <br>
 
-<div id="health-about-basic" itemscope itemtype="http://schema.org/Question">
+<div id="business-questions" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">What if I have other questions about these benefits?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
