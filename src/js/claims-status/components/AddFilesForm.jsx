@@ -106,7 +106,7 @@ class AddFilesForm extends React.Component {
         {this.props.files.map(({ file, docType }, index) => (
           <div key={index} className="document-item-container">
             <Element name={`documentScroll${index}`}/>
-            <div className="document-title-size">
+            <div>
               <div className="document-title-row">
                 <div className="document-title-text-container">
                   <div>
@@ -116,8 +116,8 @@ class AddFilesForm extends React.Component {
                     {displayFileSize(file.size)}
                   </div>
                 </div>
-                <div>
-                  <button className="remove-document-button usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
+                <div className="remove-document-button">
+                  <button className="usa-button-secondary" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
                 </div>
               </div>
               <div className="clearfix"></div>

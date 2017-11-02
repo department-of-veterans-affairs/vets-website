@@ -68,7 +68,7 @@ export default class NavButtons extends React.Component {
       <ProgressButton
         onButtonClick={this.goBack}
         buttonText="Back"
-        buttonClass="usa-button-outline"
+        buttonClass="usa-button-secondary"
         beforeText="«"/>
     );
 

@@ -6,10 +6,15 @@ import CollapsiblePanel from '../../common/components/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
+import { focusElement } from '../../common/utils/helpers';
 import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
+  componentDidMount() {
+    focusElement('.nav-header');
+  }
+
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
@@ -57,7 +62,7 @@ export class LetterList extends React.Component {
           <div className="usa-alert-body">
             <h2 className="usa-alert-heading">Some letters may not be available</h2>
             <p className="usa-alert-text">
-              One of our systems appears to be down. If you believe you are missing a
+              One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.
             </p>
           </div>
@@ -66,7 +71,7 @@ export class LetterList extends React.Component {
     }
 
     return (
-      <div className="step-content">
+      <div className="step-content" aria-live="polite">
         <p>
           To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
         </p>
@@ -93,8 +98,8 @@ export class LetterList extends React.Component {
         </ul>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>If you have any questions, please call the Vets.gov Help Desk:<br/>
-            <a href="tel:855-574-7286">1-855-574-7286</a>, TTY <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+          <div>If you have any questions, please call the VA Benefits Help Desk:<br />
+            <a href="tel:1-800-827-1000">1-800-827-1000</a></div>, Monday &#8211; Friday, 8 a.m. &#8211; 9 p.m. (ET)
           </div>
         </div>
       </div>

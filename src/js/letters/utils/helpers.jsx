@@ -61,12 +61,12 @@ const serviceVerificationLetterContent = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-text">
-          You can now use the Service Verification and Benefit Summary Letter in place of your Service Verification Letter.
+          You can now use your Benefit Summary letter instead of this Service Verification letter.
         </p>
       </div>
     </div>
     <p>
-      This letter shows your branch of service, date entered on active duty, and date discharged from active duty.
+      This letter shows your branch of service, the date you started active duty, and the date you were discharged from active duty.
     </p>
   </div>
 );
