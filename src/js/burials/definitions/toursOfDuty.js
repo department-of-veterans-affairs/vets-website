@@ -11,7 +11,7 @@ export default {
   items: {
     dateRange: dateRangeUI(
       'Service start date',
-      'End of service period',
+      'Service end date',
       'End of service must be after start of service'
     ),
     serviceBranch: {

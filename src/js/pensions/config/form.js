@@ -266,7 +266,7 @@ const formConfig = {
                   'ui:title': 'Branch of service'
                 },
                 activeServiceDateRange: dateRangeUI(
-                  'Date entered active service',
+                  'Service start date',
                   'Service end date',
                   'Date entered service must be before date left service'
                 ),
