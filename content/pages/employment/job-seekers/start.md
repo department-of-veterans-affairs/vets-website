@@ -4,9 +4,6 @@ template: topic-landing
 title: Register to Do Business with VA and Get Support for Your Veteran-Owned Small Business
 display_title: Register Your Veteran-Owned Small Business
 concurrence: complete
-majorlinks:
-  - heading:
-    links: 
 ---
 
 <div class="va-introtext">
@@ -51,10 +48,7 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 <br>
 
-<div id="business-advantages" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">What kind of advantages and support can I get when I register my business?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<span id="business-advantages"></span>
 
 - The ability to do business with us. If you want to do business with VA, your company must be registered as a VOSB or SDVOSB.
 - Priority when you bid on contracts for other federal or state government agencies
@@ -68,13 +62,9 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 [Learn more about the Vets First Verification Program](https://www.va.gov/osdbu/verification/index.asp).
 
-</div>
 <br>
 
-<div id="business-how" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">How do I register my small business?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<span id="business-how"></span>
 
 To register as a VOSB or SDVOSB, you’ll need to apply through the Vets First Verification Program. 
 [Apply online](https://www.vip.vetbiz.gov/). 
@@ -84,38 +74,26 @@ Our VA-certified Verification Assistance Counselors and Verification Program Web
 [Find a VA verification counselor in your state](https://www.va.gov/osdbu/verification/assistance/counselors.asp).</br>
 [View Verification Program webinars on how to apply for the first time or for reverification](https://www.va.gov/osdbu/verification/you_asked_we_listened.asp).
 
-</div>
 <br>
 
-<div id="business-bidding" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">How do I get advice for bidding on federal contracts in my area?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<span id="business-bidding"></span>
 
 Contact your local VA Small Business Liaison. [Find a VA Small Business Liaison near you](https://www.va.gov/OSDBU/about/contacts.asp).
 
-</div>
 <br>
 
-<div id="business-questions" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">What if I have other questions about these benefits?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<span id="business-questions"></span>
 
 To learn more about how we can help you access opportunities:
 
-- Call the OSDBU Call Center at 866-584-2344 anytime from 8:00 a.m. to 6:00 p.m. (ET), **or**
-- Email us at osdbu@va.gov<br>
+- Call the OSDBU Call Center at <a href="tel:+1866-584-2344">1-866-584-2344</a> anytime from 8:00 a.m. to 6:00 p.m. (ET), **or**
+- Email us at <a href="mailto:osdbu@va.gov">osdbu@va.gov</a><br>
 
 To learn more about OSDBU and to access our events calendar and other online resources, visit our website. [Go to the OSDBU website](https://www.va.gov/OSDBU/index.asp). 
 
-</div>
 <br>
 
-<div id="business-resources" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">Are there other resources that can help me start or grow a business?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<span id="business-resources"></span>
 
 Yes. The U.S. Small Business Administration (SBA) can provide you with resources to help you start or grow your own business. And many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses for Veterans and military family members. Some courses are online, while others are in-person classes.</br>
 [Visit the Small Business Administration website](https://www.sba.gov/).</br> 
