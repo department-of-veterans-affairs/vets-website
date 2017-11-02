@@ -104,7 +104,7 @@ export const directDepositWarning = (
   </div>
 );
 
-export const applicantDescription = <p>You aren’t required to fill in <strong>all</strong> fields, but we can review your claim faster if you provide more information.</p>;
+export const applicantDescription = <p>You aren’t required to fill in <strong>all</strong> fields, but we can review your application faster if you provide more information.</p>;
 
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">

@@ -7,6 +7,8 @@ import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import {
   transform,
   employmentDescription,
@@ -16,7 +18,6 @@ import {
   fileHelp,
   directDepositWarning,
   isMarried,
-  applicantDescription,
   uploadMessage,
   dependentsMinItem,
   wartimeWarning,

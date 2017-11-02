@@ -12,6 +12,8 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 import { validateMatch } from '../../common/schemaform/validation';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ClaimantView from '../components/ClaimantView';
@@ -82,6 +84,7 @@ const formConfig = {
           title: 'Applicant information',
           path: 'applicant-information-1',
           uiSchema: {
+            'ui:description': applicantDescription,
             applications: {
               'ui:options': {
                 viewField: ClaimantView,
@@ -259,7 +262,7 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but we can review your claim faster if you provide more information.</p>,
+                'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but we can review your application faster if you provide more information.</p>,
                 veteran: _.merge(veteranUI, {
                   currentName: _.merge(fullNameUI, {
                     first: {

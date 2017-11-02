@@ -8,6 +8,8 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
@@ -153,6 +155,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
+            'ui:description': applicantDescription,
             veteranFullName: _.merge(fullNameUI, {
               last: {
                 'ui:errorMessages': {
