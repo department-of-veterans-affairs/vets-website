@@ -5,16 +5,16 @@ template: detail-page
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
-    - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-    - url: /vocational-rehab-and-employment/service-disabled/new-skills/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
       title: Employment Through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
-    - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
       title: Self-Employment Track
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
-    - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
@@ -99,5 +99,5 @@ If you’re eligible, a VRC will work with you to determine the severity of your
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Find out how to apply if haven't yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if haven't yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
