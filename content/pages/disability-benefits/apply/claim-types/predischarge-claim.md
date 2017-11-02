@@ -40,6 +40,6 @@ Filing your claim as you get ready to leave the military may speed up the claim 
 
 If you develop a health problem while serving that makes you unable to perform your duties, you'll be referred to the Integrated Disability Evaluation System (IDES). Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
-If you're found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. And you may be entitled to Vocational Rehabilitation and Employment (VR&E) services. [Find out if you may be eligible for VR&E](/vocational-rehab-and-employment/eligibility/).
+If you're found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. And you may be entitled to Vocational Rehabilitation and Employment (VR&E) services. [Find out if you may be eligible for VR&E](/employment/vocational-rehab-and-employment/eligibility/).
 
 </div>

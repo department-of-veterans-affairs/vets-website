@@ -5,16 +5,16 @@ template: detail-page
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
-    - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-    - url: /vocational-rehab-and-employment/service-disabled/new-skills/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
       title: Employment Through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
-    - url: /vocational-rehab-and-employment/service-disabled/independent-living/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
       title: Independent Living Track
       description: Learn about services that can help you live more independently with your service-connected disability.
-    - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
 ---
@@ -57,9 +57,9 @@ After you develop your business plan, we’ll review it and evaluate whether sel
 
 We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
-Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/).
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
 
-Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/vocational-rehab-and-employment/external-resources/).
+Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
 
 <hr>
 
@@ -106,4 +106,4 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
-[Find out how to apply if you haven’t yet received a disability rating](/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).

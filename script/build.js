@@ -386,14 +386,14 @@ smith.use(collections({
     }
   },
   vre: {
-    pattern: 'vocational-rehab-and-employment/*md',
+    pattern: 'employment/vocational-rehab-and-employment/*md',
     sortBy: 'order',
     metadata: {
       name: 'Vocational Rehab &amp; Employment'
     }
   },
   vreServiceDisabled: {
-    pattern: 'vocational-rehab-and-employment/service-disabled/*md',
+    pattern: 'employment/vocational-rehab-and-employment/service-disabled/*md',
     sortBy: 'order',
     metadata: {
       name: 'Vocational Rehab &amp; Employment'
