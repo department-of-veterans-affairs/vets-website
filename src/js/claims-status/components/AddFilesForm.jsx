@@ -106,7 +106,7 @@ class AddFilesForm extends React.Component {
         {this.props.files.map(({ file, docType }, index) => (
           <div key={index} className="document-item-container">
             <Element name={`documentScroll${index}`}/>
-            <div className="document-title-size">
+            <div>
               <div className="document-title-row">
                 <div className="document-title-text-container">
                   <div>

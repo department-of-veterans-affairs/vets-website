@@ -6,11 +6,10 @@ import { isValidDateRange } from '../common/utils/validations';
 export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
-  const endDate = moment().endOf('day').add(120, 'days');
+  const today = moment().startOf('day');
 
-  // TODO: Use a constant instead of a magic string
-  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-D').isAfter(endDate)) {
-    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (120 days from today)`);
+  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate).isAfter(today)) {
+    errors.lastDischargeDate.addError('Discharge date must be after start of service period date and before today');
   }
 
   if (veteranDateOfBirth) {

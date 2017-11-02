@@ -242,22 +242,23 @@ fieldset.schemaform-field-template {
 }
 
 //duplicated from claims-status.scss
-.ask-va-questions {
-  .talk {
-    margin: 0.5em 0;
-    padding: 0;
-  }
-  .phone-number {
-    margin: 0.5em 0 2em;
-    a {
-      font-weight: bold;
-      text-decoration: none;
-      margin: 0.5em 0;
-    }
-  }
+.help-talk {
+  margin: 0.5em 0;
+  padding: 0;
 }
+
+.help-phone-number {
+  margin: 0.5em 0 2em;
+}
+
+.help-phone-number-link {
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0.5em 0;
+}
+
 //duplicated/renamed from claims-status.scss
-.ask-va-questions.help-sidebar-box {
+.help-sidebar-box {
   padding: 2em 0;
   @include media($medium-large-screen) {
     padding-top: 0.6em;
@@ -268,13 +269,11 @@ fieldset.schemaform-field-template {
 .help-sidebar-box {
   padding-top: 0.3em;
 }
+
 //duplicated/renamed from claims-status.scss
-.help-h2-border {
+.help-heading {
   border-bottom: 3px solid $color-primary;
   margin: 0.3em 0;
-}
-//duplicated/renamed from claims-status.scss
-.help-h2 {
   font-size: 1.35em;
   line-height: 1.5;
   font-weight: bold;
