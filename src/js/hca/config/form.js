@@ -365,9 +365,9 @@ const formConfig = {
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
             lastEntryDate: currentOrPastDateUI('Service start date'),
-            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
+            lastDischargeDate: currentOrPastDateUI('Service end date'),
             dischargeType: {
-              'ui:title': 'Character of discharge',
+              'ui:title': 'Character of service',
               'ui:options': {
                 labels: dischargeTypeLabels
               }
@@ -816,7 +816,7 @@ const formConfig = {
                 }
               },
               vaMedicalFacility: {
-                'ui:title': 'Center/clinic',
+                'ui:title': 'Center or clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
                   updateSchema: (form) => {
