@@ -87,7 +87,7 @@ Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have PTSD—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
-  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>), **or**
+  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - [Contact your local VA medical center](/facilities/), **or**
   - [Contact a VA PTSD program near you](https://www.va.gov/directory/guide/PTSD.asp).
 
@@ -119,7 +119,7 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
   - [Visit About Face](http://www.ptsd.va.gov/apps/AboutFace/).
 - Use our PTSD Coach Online to help manage stress. [Visit PTSD Coach Online](https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm).
 - See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](http://www.mentalhealth.va.gov/self_help.asp).
-- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).
+- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 <script type="text/javascript">
 
