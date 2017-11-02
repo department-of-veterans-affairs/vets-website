@@ -221,10 +221,7 @@ export function expensesLessThanIncome(fieldShownUnder) {
     // then we need to make sure the current field is the last non-empty field
     if (!hideBasedOnValues) {
       const nonEmptyFields = fields.filter(field => formData[field]);
-      // If all fields are filled in, put it under the last one
-      if (!nonEmptyFields.length && fieldShownUnder === fields[fields.length - 1]) {
-        return false;
-      } else if (!nonEmptyFields.length || nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder) {
+      if (!nonEmptyFields.length || nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder) {
         return true;
       }
 
