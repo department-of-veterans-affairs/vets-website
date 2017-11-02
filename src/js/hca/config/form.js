@@ -50,6 +50,10 @@ import { validateServiceDates, validateMarriageDate } from '../validation';
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
+const emptyObjectSchema = {
+  type: 'object',
+  properties: {}
+};
 
 const {
   mothersMaidenName,
@@ -499,10 +503,7 @@ const formConfig = {
             required: ['discloseFinancialInformation'],
             properties: {
               discloseFinancialInformation,
-              'view:noDiscloseWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:noDiscloseWarning': emptyObjectSchema
             }
           }
         },
@@ -678,12 +679,24 @@ const formConfig = {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
             'ui:description': deductibleExpensesDescription,
             deductibleMedicalExpenses: currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.'),
-            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
-            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
-            'view:expensesIncomeWarning': {
+            'view:expensesIncomeWarning1': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: expensesLessThanIncome
+                hideIf: expensesLessThanIncome('deductibleMedicalExpenses')
+              }
+            },
+            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
+            'view:expensesIncomeWarning2': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome('deductibleFuneralExpenses')
+              }
+            },
+            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
+            'view:expensesIncomeWarning3': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome('deductibleEducationExpenses')
               }
             }
           },
@@ -692,12 +705,11 @@ const formConfig = {
             required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
             properties: {
               deductibleMedicalExpenses,
+              'view:expensesIncomeWarning1': emptyObjectSchema,
               deductibleFuneralExpenses,
+              'view:expensesIncomeWarning2': emptyObjectSchema,
               deductibleEducationExpenses,
-              'view:expensesIncomeWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:expensesIncomeWarning3': emptyObjectSchema
             }
           }
         }
@@ -860,10 +872,7 @@ const formConfig = {
                   })
                 }
               },
-              'view:locator': {
-                type: 'object',
-                properties: {}
-              },
+              'view:locator': emptyObjectSchema,
               wantsInitialVaContact
             }
           }
