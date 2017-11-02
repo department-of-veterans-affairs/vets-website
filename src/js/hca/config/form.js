@@ -751,6 +751,7 @@ const formConfig = {
             },
             providers: {
               'ui:options': {
+                itemName: 'Insurance Policy',
                 expandUnder: 'isCoveredByHealthInsurance',
                 viewField: InsuranceProviderView
               },
