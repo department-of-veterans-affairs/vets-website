@@ -19,7 +19,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 
 <div class="card information" markdown="0">
 <span class="number">In less than 1 week</span>
-<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387)</a>.</span>
 
 </div>
 
