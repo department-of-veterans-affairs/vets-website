@@ -336,6 +336,7 @@ const formConfig = {
             },
             previousNames: {
               'ui:options': {
+                itemName: 'Name',
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField,
                 reviewTitle: 'Previous names'
