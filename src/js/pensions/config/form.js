@@ -265,7 +265,7 @@ const formConfig = {
                 },
                 activeServiceDateRange: dateRangeUI(
                   'Date entered active service',
-                  'Date left active service',
+                  'Service end date',
                   'Date entered service must be before date left service'
                 ),
                 'ui:validations': [
