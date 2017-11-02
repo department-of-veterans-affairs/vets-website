@@ -54,7 +54,7 @@ describe('HCA helpers', () => {
       expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to.be.true;
       expect(expensesLessThanIncome('deductibleFuneralExpenses')(formData)).to.be.true;
     });
-    it('should shown only on last field if all expenses are filled', () => {
+    it('should show warning just under last field if all expenses are filled', () => {
       const formData = {
         dependents: [{
           grossIncome: 3
