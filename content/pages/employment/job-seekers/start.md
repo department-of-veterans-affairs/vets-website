@@ -39,19 +39,17 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 </div>
 
-**Jump to a section:**</br>
-[What kind of advantages and support can I get when I register my business?](#business-advantages)</br>
-[How do I register my small business?](#business-how)</br>
-[How do I get advice for bidding on federal contracts in my area?](#business-bidding)</br>
-[What if I have other questions about these benefits?](#business-questions)</br>
-[Are there other resources that can help me start or grow a business?](#business-resources)</br>
+**Jump to a section:**
+- [What kind of advantages and support can I get when I register my business?](#business-advantages)
+- [How do I register my small business?](#business-how)
+- [How do I get advice for bidding on federal contracts in my area?](#business-bidding)
+- [What if I have other questions about these benefits?](#business-questions)
+- [Are there other resources that can help me start or grow a business?](#business-resources)
 
 <br>
+<span id="business-advantages">
 
-<div id="business-advantages" itemscope itemtype="http://schema.org/Question">
- +<h4 itemprop="name">What kind of advantages and support can I get when I register my business?</h4>
- +<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
- +<div itemprop="text">
+#### What kind of advantages and support can I get when I register my business?
 
 - The ability to do business with us. If you want to do business with VA, your company must be registered as a VOSB or SDVOSB.
 - Priority when you bid on contracts for other federal or state government agencies
@@ -65,14 +63,11 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 [Learn more about the Vets First Verification Program](https://www.va.gov/osdbu/verification/index.asp).
 
-</div>
 <br>
+<span id="business-how">
 
-<div id="business-how" itemscope itemtype="http://schema.org/Question">
- +<h4 itemprop="name">How do I register my small business?</h4>
- +<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
- +<div itemprop="text">
-
+#### How do I register my small business?
+ 
 To register as a VOSB or SDVOSB, you’ll need to apply through the Vets First Verification Program. 
 [Apply online](https://www.vip.vetbiz.gov/). 
 
@@ -81,23 +76,17 @@ Our VA-certified Verification Assistance Counselors and Verification Program Web
 [Find a VA verification counselor in your state](https://www.va.gov/osdbu/verification/assistance/counselors.asp).</br>
 [View Verification Program webinars on how to apply for the first time or for reverification](https://www.va.gov/osdbu/verification/you_asked_we_listened.asp).
 
-</div>
 <br>
-
-<div id="business-bidding" itemscope itemtype="http://schema.org/Question">
- +<h4 itemprop="name">How do I get advice for bidding on federal contracts in my area?</h4>
- +<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
- +<div itemprop="text">
-
+<span id="business-bidding">
+ 
+#### How do I get advice for bidding on federal contracts in my area?
+ 
 Contact your local VA Small Business Liaison. [Find a VA Small Business Liaison near you](https://www.va.gov/OSDBU/about/contacts.asp).
 
-</div>
 <br>
+<span id="business-questions">
 
-<div id="business-questions" itemscope itemtype="http://schema.org/Question">
- +<h4 itemprop="name">What if I have other questions about these benefits?</h4>
- +<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
- +<div itemprop="text">
+#### What if I have other questions about these benefits?
 
 To learn more about how we can help you access opportunities:
 
@@ -106,13 +95,10 @@ To learn more about how we can help you access opportunities:
 
 To learn more about OSDBU and to access our events calendar and other online resources, visit our website. [Go to the OSDBU website](https://www.va.gov/OSDBU/index.asp). 
 
-</div>
 <br>
+<span id="business-resources">
 
-<div id="business-resources" itemscope itemtype="http://schema.org/Question">
- +<h4 itemprop="name">Are there other resources that can help me start or grow a business?</h4>
- +<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
- +<div itemprop="text">
+#### Are there other resources that can help me start or grow a business?
 
 Yes. The U.S. Small Business Administration (SBA) can provide you with resources to help you start or grow your own business. And many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses for Veterans and military family members. Some courses are online, while others are in-person classes.</br>
 [Visit the Small Business Administration website](https://www.sba.gov/).</br> 
@@ -124,5 +110,3 @@ Find out about these training programs offered by the Institute for Veterans and
 - [Veteran Women Igniting the Spirit of Entrepreneurship (for women Veterans and female military spouses/partners)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/v-wise/)<br>
 
 If you’re already open for business and want to sell to the federal government, the Procurement Technical Assistance Center (PTAC) can help with the required documentation and registration to bid on government contracts. [Find a PTAC near you](http://www.aptac-us.org/). 
-
-</div>
