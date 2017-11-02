@@ -88,7 +88,7 @@ Once you’ve signed up:
 - Talk to your primary care provider, who will connect you with any services you may need, **or**
 - Contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health. To connect with your local Women Veterans Program Manager:
   - Contact your local medical center and ask for the Women Veterans Program Manager ([find a VA medical center near you](/facilities/)), **or**
-  - Call our Women Veterans Call Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>) and we’ll connect you with your local manager.
+  - Call our Women Veterans Call Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>), and we’ll connect you with your local manager.
 
 <br>
 
