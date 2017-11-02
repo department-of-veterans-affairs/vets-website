@@ -966,6 +966,7 @@ const formConfig = {
             },
             dependents: {
               'ui:options': {
+                itemName: 'Dependent',
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
               },
