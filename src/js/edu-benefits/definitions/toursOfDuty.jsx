@@ -68,7 +68,7 @@ export const uiSchema = {
       'ui:title': 'Branch of service'
     },
     dateRange: dateRangeUI(
-      'Start of service period',
+      'Service start date',
       'End of service period',
       'End of service must be after start of service'
     ),
