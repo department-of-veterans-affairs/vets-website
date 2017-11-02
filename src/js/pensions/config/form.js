@@ -256,6 +256,7 @@ const formConfig = {
             'ui:title': 'Service periods',
             servicePeriods: {
               'ui:options': {
+                itemName: 'Service Period',
                 viewField: ServicePeriodView,
                 reviewTitle: 'Service periods'
               },
