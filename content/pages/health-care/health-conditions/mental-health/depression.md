@@ -69,7 +69,7 @@ Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have depression—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
-  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>), **or**
+  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
 
 <br>
@@ -91,7 +91,7 @@ You may still be able to get care:
 - Go to the VA website for information about depression and the treatment and support we offer. [Visit our Depression website](https://www.mentalhealth.va.gov/depression.asp).
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
-- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).
+- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 
 <script type="text/javascript">
