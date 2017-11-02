@@ -91,7 +91,7 @@ Once you’ve signed up:
 - **If you have a VA primary care provider,** talk to them about your substance use. Your provider can help you get screened for substance use problems and related issues (like PTSD or depression)—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - [Find a Substance Use Disorder (SUD) program near you](https://www.va.gov/directory/guide/SUD.asp), **or**
-  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>), **or**
+  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
 - **If you served in Operation Enduring Freedom (OEF), Operation Iraqi Freedom (OIF), or Operation New Dawn (OND),** call your local VA medical center, and ask to speak to the OEF/OIF/OND coordinator. [Find a VA medical center near you](/facilities/).
 
