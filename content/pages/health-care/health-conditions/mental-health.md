@@ -95,7 +95,7 @@ Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your mental health concerns. Your provider will offer support and treatment as needed, and can connect you with a mental health specialist (like a psychiatrist) for more support.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
-  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>), **or**
+  - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
 
 <br>
