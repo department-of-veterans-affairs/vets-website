@@ -6,7 +6,7 @@ class ClaimComplete extends React.Component {
   render() {
     const completedDate = this.props.completedDate;
     return (
-      <div className="claim-decision-is-ready usa-alert usa-alert-info no-background-image claims-alert-status">
+      <div className="usa-alert usa-alert-info no-background-image claims-alert-status">
         <h4 className="claims-alert-header">Your claim was closed {completedDate ? `on ${moment(completedDate).format('MMM D, YYYY')}` : null}</h4>
       </div>
     );

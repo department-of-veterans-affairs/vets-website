@@ -20,11 +20,15 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
         <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
-          resumeOnly
+          startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}>
+          Please complete the 21P-530 form to apply for burial benefits.
+        </SaveInProgressIntro>
         <div className="process schemaform-process schemaform-process-sip">
+          <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
@@ -64,12 +68,11 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          buttonOnly
           pageList={this.props.route.pageList}
+          startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Complete the form before submitting to apply for burial benefits with the 21P-530.
-        </SaveInProgressIntro>
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020"/>
         </div>
