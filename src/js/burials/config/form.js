@@ -266,6 +266,7 @@ const formConfig = {
           uiSchema: {
             previousNames: {
               'ui:options': {
+                itemName: 'Name',
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField
               },
