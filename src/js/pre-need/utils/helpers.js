@@ -16,6 +16,10 @@ export function isAuthorizedAgent(item) {
   return get('application.applicant.applicantRelationshipToClaimant', item) === 'Authorized Agent/Rep';
 }
 
+export function hasCurrentlyBuriedPersons(item) {
+  return get('application.hasCurrentlyBuried', item) === 'yes';
+}
+
 export function requiresSponsorInfo(item) {
   const sponsor = item['view:sponsor'];
   return sponsor === undefined || sponsor === 'Other';

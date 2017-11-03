@@ -18,6 +18,7 @@ import {
   GetFormHelp,
   isVeteran,
   isAuthorizedAgent,
+  hasCurrentlyBuriedPersons,
   formatName,
   transform,
   fullMaidenNameUI,
@@ -447,7 +448,7 @@ const formConfig = {
           uiSchema: {
             application: {
               claimant: {
-                desiredCemetery: {
+                'view:desiredCemetery': {
                   'ui:title': 'Which VA National Cemetery would you prefer to be buried in?'
                 },
                 'view:desiredCemeteryNote': {
@@ -479,8 +480,10 @@ const formConfig = {
                   'ui:order': ['name', 'cemeteryNumber'],
                   name: _.merge(fullMaidenNameUI, {
                     'ui:title': 'Name of deceased',
+                    first: { 'ui:required': hasCurrentlyBuriedPersons },
+                    last: { 'ui:required': hasCurrentlyBuriedPersons }
                   }),
-                  cemeteryNumber: {
+                  'view:cemeteryNumber': {
                     'ui:title': 'VA National Cemetery where they\'re buried'
                     // TODO: Create widget with validation message...
                     // It should map hundreds of cemetery numbers to names.
@@ -499,7 +502,10 @@ const formConfig = {
                   claimant: {
                     type: 'object',
                     properties: {
-                      desiredCemetery: claimant.properties.desiredCemetery,
+                      // TODO: Cemetery numbers should technically be 3-digit
+                      // strings. However, they're not required by EOAS and
+                      // can be sent as nil values for now.
+                      'view:desiredCemetery': { type: 'string' },
                       'view:desiredCemeteryNote': {
                         type: 'object',
                         properties: {}
@@ -507,10 +513,17 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  // TODO: currentlyBuriedPersons should technically be a
-                  // three-digit string. However, it's not required by EOAS and
-                  // can be sent as any value for now.
-                  currentlyBuriedPersons: { type: 'string' }
+                  currentlyBuriedPersons: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      required: ['name'],
+                      properties: {
+                        name: _.omit(fullName, 'required'),
+                        'view:cemeteryNumber': { type: 'string' }
+                      }
+                    }
+                  }
                 }
               }
             }
