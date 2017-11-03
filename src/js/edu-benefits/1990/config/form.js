@@ -112,7 +112,7 @@ const formConfig = {
             'veteranFullName',
             'veteranSocialSecurityNumber',
             'view:noSSN',
-            //'vaFileNumber',
+            'vaFileNumber',
             'veteranDateOfBirth',
             'gender'
           ],
