@@ -41,12 +41,14 @@ There are many ways for Veterans to make health care appointments.
 <h4 itemprop="name">By phone</h4>
 
 <div itemprop="itemListElement">
+
 You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
 </div>
 
 <h4 itemprop="name">Online</h4>
 
 <div itemprop="itemListElement">
+
 VA now offers online appointment scheduling for some appointments. We hope to expand the number of VA facilities and types of appointments in the future.
 
 If you have VA health care benefits, you can schedule your VA primary care appointments online if you:
