@@ -632,7 +632,7 @@ const formConfig = {
                       const applicantName = formatName(formData.application.claimant.name);
                       return {
                         'enum': ['Self', 'Authorized Agent/Rep'],
-                        enumNames: [applicantName, 'Someone else']
+                        enumNames: [applicantName || 'Myself', 'Someone else']
                       };
                     },
                     nestedContent: {

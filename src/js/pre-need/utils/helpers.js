@@ -23,7 +23,7 @@ export function requiresSponsorInfo(item) {
 
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
-  return `${first} ${middle ? `${middle} ` : ''}${last}${suffix ? `, ${suffix}` : ''}`;
+  return (first || last) && `${first} ${middle ? `${middle} ` : ''}${last}${suffix ? `, ${suffix}` : ''}`;
 }
 
 export function claimantHeader({ formData }) {
