@@ -104,8 +104,6 @@ export const directDepositWarning = (
   </div>
 );
 
-export const applicantDescription = <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>;
-
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
     <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility" target="_blank">Check your eligibility.</a></span>

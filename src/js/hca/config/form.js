@@ -8,6 +8,8 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
@@ -157,6 +159,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
+            'ui:description': applicantDescription,
             veteranFullName: _.merge(fullNameUI, {
               last: {
                 'ui:errorMessages': {
@@ -368,10 +371,10 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDateUI('Start of service period'),
-            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
+            lastEntryDate: currentOrPastDateUI('Service start date'),
+            lastDischargeDate: currentOrPastDateUI('Service end date'),
             dischargeType: {
-              'ui:title': 'Character of discharge',
+              'ui:title': 'Character of service',
               'ui:options': {
                 labels: dischargeTypeLabels
               }
@@ -518,7 +521,7 @@ const formConfig = {
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s social security number',
+              'ui:title': 'Spouse’s Social Security number',
             }),
             spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
@@ -763,6 +766,7 @@ const formConfig = {
             },
             providers: {
               'ui:options': {
+                itemName: 'Insurance Policy',
                 expandUnder: 'isCoveredByHealthInsurance',
                 viewField: InsuranceProviderView
               },
@@ -827,7 +831,7 @@ const formConfig = {
                 }
               },
               vaMedicalFacility: {
-                'ui:title': 'Center/clinic',
+                'ui:title': 'Center or clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
                   updateSchema: (form) => {
