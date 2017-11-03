@@ -9,7 +9,7 @@ import {
   inferAddressType,
   resetDisallowedAddressFields,
   stripEmpties,
-  militaryToGeneric
+  toGenericAddress
 } from '../../../src/js/letters/utils/helpers';
 
 const address = {
@@ -166,7 +166,7 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  describe('military to generic', () => {
+  describe('toGenericAddress', () => {
     const militaryAddress = {
       addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
       addressOne: '57 COLUMBUS STRASSA',
@@ -174,6 +174,18 @@ describe('Letters helpers: ', () => {
       addressTwo: '',
       militaryPostOfficeTypeCode: 'APO',
       militaryStateCode: 'AE',
+      type: 'MILITARY',
+      zipCode: '09028',
+      zipSuffix: ''
+    };
+
+    const genericFromMilitary = {
+      addressOne: '57 COLUMBUS STRASSA',
+      addressThree: '',
+      addressTwo: '',
+      city: 'APO',
+      stateCode: 'AE',
+      countryName: 'USA',
       type: 'MILITARY',
       zipCode: '09028',
       zipSuffix: ''
@@ -192,32 +204,31 @@ describe('Letters helpers: ', () => {
       zipSuffix: ''
     };
 
-    const genericAddress = {
-      addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
+    const genericFromDomestic = {
       addressOne: '57 COLUMBUS STRASSA',
       addressThree: '',
       addressTwo: '',
-      city: 'APO',
-      stateCode: 'AE',
+      city: 'Chicago',
+      stateCode: 'IL',
       countryName: 'USA',
-      type: 'MILITARY',
-      zipCode: '09028',
+      type: 'DOMESTIC',
+      zipCode: '06628',
       zipSuffix: ''
     };
 
     it('translates military addresses to generic', () => {
-      const actualAddress = militaryToGeneric(militaryAddress);
-      expect(actualAddress).to.eql(genericAddress);
+      const actualAddress = toGenericAddress(militaryAddress);
+      expect(actualAddress).to.eql(genericFromMilitary);
     });
 
-    it('lets non-military address types pass through unmodified', () => {
-      const actualAddress = militaryToGeneric(domesticAddress);
-      expect(actualAddress).to.eql(domesticAddress);
+    it('translates non-military address to generic', () => {
+      const actualAddress = toGenericAddress(domesticAddress);
+      expect(actualAddress).to.eql(genericFromDomestic);
     });
 
     it('returns a clone for all cases', () => {
-      const militaryTest = militaryToGeneric(militaryAddress);
-      const nonMilitaryTest = militaryToGeneric(domesticAddress);
+      const militaryTest = toGenericAddress(militaryAddress);
+      const nonMilitaryTest = toGenericAddress(domesticAddress);
       expect(militaryTest).to.not.equal(militaryAddress);
       expect(nonMilitaryTest).to.not.equal(domesticAddress);
     });

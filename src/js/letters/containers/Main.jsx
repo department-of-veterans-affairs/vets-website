@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
+import { systemDownMessage } from '../../common/utils/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
-
-// import { getAddressSuccessAction } from '../utils/helpers';
+import { recordsNotFound } from '../utils/helpers';
 
 import {
   getBenefitSummaryOptions,
@@ -63,7 +62,7 @@ export class Main extends React.Component {
         appContent = systemDownMessage;
         break;
       case backendAuthenticationError:
-        appContent = unableToFindRecordWarning;
+        appContent = recordsNotFound;
         break;
       case invalidAddressProperty:
         appContent = systemDownMessage;

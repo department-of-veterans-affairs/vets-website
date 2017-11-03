@@ -138,26 +138,9 @@ For more information, contact your care team or the Traveling Veteran Coordinato
 
 <span id="care-appointment">
 
-#### How do I schedule an appointment at a VA health facility?
+#### How do I schedule an appointment?
 
-<br>
-
-##### By phone
-
-You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facilities).
-
-<br>
-
-##### Online
-
-You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to access our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
-
-**Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
-
-Please keep in mind that your VA health care providers don't monitor this online tool:
-
-- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
-- **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
+You can schedule VA health care appointments by phone or through our online scheduling tool. [Find out how to schedule VA appointments by phone or online](/health-care/schedule-an-appointment).
 
 <br>
 

@@ -4,7 +4,7 @@ function AskVAQuestions(props) {
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <div className="help-sidebar-box">
+        <div className="help-footer-box">
           <h2 className="help-heading">Need Help?</h2>
           {props.children}
           <p className="help-talk">To report a problem with this form,<br/>
