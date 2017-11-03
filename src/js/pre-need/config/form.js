@@ -447,7 +447,14 @@ const formConfig = {
             application: {
               claimant: {
                 desiredCemetery: {
-                  'ui:title': 'Your desired VA National Cemetery'
+                  'ui:title': 'Which VA National Cemetery would you prefer to be buried in?'
+                },
+                'view:desiredCemeteryNote': {
+                  'ui:description': (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      <strong>Please note:</strong> This doesn't guarantee you'll be buried in your preferred cemetery. We'll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
+                    </div>
+                  )
                 }
               },
               hasCurrentlyBuried: {
@@ -468,11 +475,14 @@ const formConfig = {
                   expandUnderCondition: '1'
                 },
                 items: {
-                  name: {
-                    'ui:title': 'Name of deceased'
-                  },
+                  'ui:order': ['name', 'cemeteryNumber'],
+                  name: _.merge(fullMaidenNameUI, {
+                    'ui:title': 'Name of deceased',
+                  }),
                   cemeteryNumber: {
-                    'ui:title': 'VA National Cemetery where they are buried'
+                    'ui:title': 'VA National Cemetery where they\'re buried'
+                    // TODO: Create widget with validation message...
+                    // 'ui:widget': CemeteryNumberWidget
                   }
                 }
               }
@@ -487,7 +497,11 @@ const formConfig = {
                   claimant: {
                     type: 'object',
                     properties: {
-                      desiredCemetery: claimant.properties.desiredCemetery
+                      desiredCemetery: claimant.properties.desiredCemetery,
+                      'view:desiredCemeteryNote': {
+                        type: 'object',
+                        properties: {}
+                      }
                     }
                   },
                   hasCurrentlyBuried,
