@@ -305,247 +305,301 @@
     }
   },
   "properties": {
-    "applications": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "applicant",
-          "claimant",
-          "currentlyBuriedPersons",
-          "hasAttachments",
-          "hasCurrentlyBuried",
-          "veteran"
-        ],
-        "properties": {
-          "applicant": {
+    "application": {
+      "type": "object",
+      "required": [
+        "applicant",
+        "claimant",
+        "currentlyBuriedPersons",
+        "hasAttachments",
+        "hasCurrentlyBuried",
+        "veteran"
+      ],
+      "properties": {
+        "applicant": {
+          "type": "object",
+          "required": [
+            "applicantEmail",
+            "applicantPhoneNumber",
+            "applicantRelationshipToClaimant",
+            "mailingAddress",
+            "name"
+          ],
+          "properties": {
+            "applicantEmail": {
+              "$ref": "#/definitions/email"
+            },
+            "applicantPhoneNumber": {
+              "$ref": "#/definitions/phone"
+            },
+            "applicantRelationshipToClaimant": {
+              "type": "string",
+              "enum": [
+                "Self",
+                "Authorized Agent/Rep"
+              ]
+            },
+            "completingReason": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "mailingAddress": {
+              "$ref": "#/definitions/address"
+            },
+            "name": {
+              "$ref": "#/definitions/fullName"
+            }
+          }
+        },
+        "claimant": {
+          "type": "object",
+          "required": [
+            "address",
+            "dateOfBirth",
+            "name",
+            "relationshipToVet",
+            "ssn"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/address"
+            },
+            "dateOfBirth": {
+              "$ref": "#/definitions/date"
+            },
+            "desiredCemetery": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "email": {
+              "$ref": "#/definitions/email"
+            },
+            "name": {
+              "$ref": "#/definitions/fullName"
+            },
+            "phoneNumber": {
+              "$ref": "#/definitions/phone"
+            },
+            "relationshipToVet": {
+              "type": "string",
+              "enum": [
+                "1",
+                "2",
+                "3",
+                "4"
+              ]
+            },
+            "ssn": {
+              "$ref": "#/definitions/ssn"
+            }
+          }
+        },
+        "veteran": {
+          "type": "object",
+          "required": [
+            "currentName",
+            "gender",
+            "isDeceased",
+            "maritalStatus",
+            "serviceName",
+            "serviceRecords",
+            "ssn",
+            "militaryStatus"
+          ],
+          "properties": {
+            "address": {
+              "$ref": "#/definitions/address"
+            },
+            "currentName": {
+              "$ref": "#/definitions/fullName"
+            },
+            "dateOfBirth": {
+              "$ref": "#/definitions/date"
+            },
+            "dateOfDeath": {
+              "$ref": "#/definitions/date"
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "Female",
+                "Male"
+              ]
+            },
+            "isDeceased": {
+              "type": "string",
+              "enum": [
+                "yes",
+                "no",
+                "unsure"
+              ]
+            },
+            "maritalStatus": {
+              "type": "string",
+              "enum": [
+                "Single",
+                "Separated",
+                "Married",
+                "Divorced",
+                "Widowed"
+              ]
+            },
+            "militaryServiceNumber": {
+              "type": "string",
+              "maxLength": 9
+            },
+            "militaryStatus": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1,
+              "enum": [
+                "A",
+                "R",
+                "S",
+                "V",
+                "X",
+                "E",
+                "D",
+                "O",
+                "I"
+              ]
+            },
+            "placeOfBirth": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "serviceName": {
+              "$ref": "#/definitions/fullName"
+            },
+            "serviceRecords": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "dateRange": {
+                    "$ref": "#/definitions/dateRange"
+                  },
+                  "serviceBranch": {
+                    "type": "string",
+                    "enum": [
+                      "AC",
+                      "AF",
+                      "AR",
+                      "CG",
+                      "CV",
+                      "FP",
+                      "MM",
+                      "PH",
+                      "NN",
+                      "WA",
+                      "WS",
+                      "CF",
+                      "RO",
+                      "CA",
+                      "WR",
+                      "CS",
+                      "KC",
+                      "CB",
+                      "CO",
+                      "CI",
+                      "CC",
+                      "GS",
+                      "FT",
+                      "CE",
+                      "C2",
+                      "C3",
+                      "C4",
+                      "C5",
+                      "C7",
+                      "CD",
+                      "NM",
+                      "AL",
+                      "AA",
+                      "AT",
+                      "GP",
+                      "MC",
+                      "NO",
+                      "PS",
+                      "CM",
+                      "WP",
+                      "GU",
+                      "MO",
+                      "FS",
+                      "ES",
+                      "FF",
+                      "GC",
+                      "PA",
+                      "AG",
+                      "NG",
+                      "PG",
+                      "XA",
+                      "XR",
+                      "XF",
+                      "XC",
+                      "XG"
+                    ]
+                  },
+                  "dischargeType": {
+                    "type": "string",
+                    "enum": [
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7"
+                    ]
+                  },
+                  "highestRank": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "serviceBranch"
+                ]
+              }
+            },
+            "ssn": {
+              "$ref": "#/definitions/ssn"
+            },
+            "vaClaimNumber": {
+              "$ref": "#/definitions/vaFileNumber"
+            }
+          }
+        },
+        "hasCurrentlyBuried": {
+          "type": "string",
+          "enum": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "currentlyBuriedPersons": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
             "type": "object",
             "required": [
-              "applicantEmail",
-              "applicantPhoneNumber",
-              "applicantRelationshipToClaimant",
-              "mailingAddress",
               "name"
             ],
             "properties": {
-              "applicantEmail": {
-                "$ref": "#/definitions/email"
-              },
-              "applicantPhoneNumber": {
-                "$ref": "#/definitions/phone"
-              },
-              "applicantRelationshipToClaimant": {
-                "type": "string",
-                "enum": [
-                  "Self",
-                  "Authorized Agent/Rep"
-                ]
-              },
-              "completingReason": {
-                "type": "string",
-                "maxLength": 256
-              },
-              "mailingAddress": {
-                "$ref": "#/definitions/address"
-              },
-              "name": {
-                "$ref": "#/definitions/fullName"
-              }
-            }
-          },
-          "claimant": {
-            "type": "object",
-            "required": [
-              "address",
-              "dateOfBirth",
-              "name",
-              "relationshipToVet",
-              "ssn"
-            ],
-            "properties": {
-              "address": {
-                "$ref": "#/definitions/address"
-              },
-              "dateOfBirth": {
-                "$ref": "#/definitions/date"
-              },
-              "desiredCemetery": {
+              "cemeteryNumber": {
                 "type": "string",
                 "pattern": "^\\d{3}$"
               },
-              "email": {
-                "$ref": "#/definitions/email"
-              },
               "name": {
                 "$ref": "#/definitions/fullName"
-              },
-              "phoneNumber": {
-                "$ref": "#/definitions/phone"
-              },
-              "relationshipToVet": {
-                "type": "string",
-                "enum": [
-                  "1",
-                  "2",
-                  "3",
-                  "4"
-                ]
-              },
-              "ssn": {
-                "$ref": "#/definitions/ssn"
               }
             }
-          },
-          "veteran": {
-            "type": "object",
-            "required": [
-              "currentName",
-              "gender",
-              "isDeceased",
-              "maritalStatus",
-              "serviceName",
-              "serviceRecords",
-              "ssn",
-              "militaryStatus"
-            ],
-            "properties": {
-              "address": {
-                "$ref": "#/definitions/address"
-              },
-              "currentName": {
-                "$ref": "#/definitions/fullName"
-              },
-              "dateOfBirth": {
-                "$ref": "#/definitions/date"
-              },
-              "dateOfDeath": {
-                "$ref": "#/definitions/date"
-              },
-              "gender": {
-                "type": "string",
-                "enum": [
-                  "Female",
-                  "Male"
-                ]
-              },
-              "isDeceased": {
-                "type": "string",
-                "enum": [
-                  "yes",
-                  "no",
-                  "unsure"
-                ]
-              },
-              "maritalStatus": {
-                "type": "string",
-                "enum": [
-                  "Single",
-                  "Separated",
-                  "Married",
-                  "Divorced",
-                  "Widowed"
-                ]
-              },
-              "militaryServiceNumber": {
-                "type": "string",
-                "maxLength": 9
-              },
-              "militaryStatus": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 1,
-                "enum": [
-                  "A",
-                  "R",
-                  "S",
-                  "V",
-                  "X",
-                  "E",
-                  "D",
-                  "O",
-                  "I"
-                ]
-              },
-              "placeOfBirth": {
-                "type": "string",
-                "maxLength": 100
-              },
-              "serviceName": {
-                "$ref": "#/definitions/fullName"
-              },
-              "serviceRecords": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "dateRange": {
-                      "$ref": "#/definitions/dateRange"
-                    },
-                    "serviceBranch": {
-                      "type": "string"
-                    },
-                    "dischargeType": {
-                      "type": "string",
-                      "enum": [
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7"
-                      ]
-                    },
-                    "highestRank": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "serviceBranch"
-                  ]
-                }
-              },
-              "ssn": {
-                "$ref": "#/definitions/ssn"
-              },
-              "vaClaimNumber": {
-                "$ref": "#/definitions/vaFileNumber"
-              }
-            }
-          },
-          "hasCurrentlyBuried": {
-            "type": "string",
-            "enum": [
-              "1",
-              "2",
-              "3"
-            ]
-          },
-          "currentlyBuriedPersons": {
-            "type": "array",
-            "minItems": 0,
-            "items": {
-              "type": "object",
-              "required": [
-                "name"
-              ],
-              "properties": {
-                "cemeteryNumber": {
-                  "type": "string",
-                  "pattern": "^\\d{3}$"
-                },
-                "name": {
-                  "$ref": "#/definitions/fullName"
-                }
-              }
-            }
-          },
-          "hasAttachments": {
-            "type": "boolean"
-          },
-          "attachments": {
-            "$ref": "#/definitions/files"
           }
+        },
+        "hasAttachments": {
+          "type": "boolean"
+        },
+        "attachments": {
+          "$ref": "#/definitions/files"
         }
       }
     }
