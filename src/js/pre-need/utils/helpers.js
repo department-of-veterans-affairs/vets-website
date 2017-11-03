@@ -12,6 +12,10 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
 
+export function isAuthorizedAgent(item) {
+  return get('application.applicant.applicantRelationshipToClaimant', item) === 'Authorized Agent/Rep';
+}
+
 export function requiresSponsorInfo(item) {
   const sponsor = item['view:sponsor'];
   return sponsor === undefined || sponsor === 'Other';

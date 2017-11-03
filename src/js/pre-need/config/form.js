@@ -9,7 +9,6 @@ import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 // import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
-import { validateMatch } from '../../common/schemaform/validation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -18,6 +17,7 @@ import EligibleBuriedView from '../components/EligibleBuriedView';
 import {
   GetFormHelp,
   isVeteran,
+  isAuthorizedAgent,
   transform,
   fullMaidenNameUI,
   ssnDashesUI,
@@ -549,27 +549,22 @@ const formConfig = {
           uiSchema: {
             application: {
               claimant: {
-                address: address.uiSchema(),
-                'view:otherContactInfo': {
-                  'ui:title': 'Other contact information',
-                  'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
-                  'ui:validations': [
-                    validateMatch('email', 'view:confirmEmail')
-                  ],
-                  phoneNumber: phoneUI('Primary telephone number'),
-                  email: {
-                    'ui:title': 'Email address'
-                  },
-                  'view:confirmEmail': {
-                    'ui:title': 'Re-enter email address',
-                    'ui:options': {
-                      hideOnReview: true
-                    }
-                  }
+                address: address.uiSchema('Applicant\'s mailing address'),
+                'view:contactInfoDescription': {
+                  'ui:description': (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      <p>We may contact you by phone if we need more information about your application.</p>
+                      <p>You can also provide your email address to receive updates about new openings in VA National Cemeteries or other burial benefits.</p>
+                    </div>
+                  ),
+                },
+                phoneNumber: phoneUI('Primary telephone number'),
+                email: {
+                  'ui:title': 'Email address'
                 }
               },
               veteran: {
-                address: _.merge(address.uiSchema('Sponsor address'), {
+                address: _.merge(address.uiSchema('Sponsor\'s address'), {
                   'ui:options': {
                     hideIf: isVeteran
                   }
@@ -586,18 +581,13 @@ const formConfig = {
                   claimant: {
                     type: 'object',
                     properties: {
-                      address: address.schema(fullSchemaPreNeed),
-                      'view:otherContactInfo': {
+                      address: address.schema(fullSchemaPreNeed, true),
+                      'view:contactInfoDescription': {
                         type: 'object',
-                        properties: {
-                          phoneNumber: claimant.properties.phoneNumber,
-                          email: claimant.properties.email,
-                          'view:confirmEmail': {
-                            type: 'string',
-                            format: 'email'
-                          },
-                        }
-                      }
+                        properties: {}
+                      },
+                      phoneNumber: claimant.properties.phoneNumber,
+                      email: claimant.properties.email
                     }
                   },
                   veteran: {
@@ -610,25 +600,41 @@ const formConfig = {
               }
             }
           }
-        }
-      }
-    },
-    certification: {
-      title: 'Certification',
-      pages: {
+        },
         certification: {
-          title: 'Certification',
           path: 'certification',
           uiSchema: {
             application: {
               applicant: {
                 applicantRelationshipToClaimant: {
-                  'ui:title': 'Who is filling out this form?',
+                  'ui:title': 'Who is filling out this application?',
                   'ui:widget': 'radio',
                   'ui:options': {
+                    /*
+                    updateForm: (formData) => {
+                      const applicantName = formatName(formData.application.claimant.name);
+                      return {
+                        enum: ['Self', 'Authorized Agent/Rep'],
+                        enumNames: [applicantName, 'Someone else']
+                      };
+                    }
+                    */
                     labels: {
                       Self: 'Myself',
                       'Authorized Agent/Rep': 'Someone else'
+                    },
+                    nestedContent: {
+                      'Authorized Agent/Rep': (
+                        <div className="usa-alert usa-alert-info no-background-image">
+                          <p>A preparer may sign for an individual who's:</p>
+                          <ul>
+                            <li>Under 18 years of age, <strong>or</strong></li>
+                            <li>Is mentally incompetent, <strong>or</strong></li>
+                            <li>Is physically unable to sign the application</li>
+                          </ul>
+                          <p>If you're the preparer of this application, please provide your contact information.</p>
+                        </div>
+                      )
                     }
                   }
                 },
@@ -637,18 +643,23 @@ const formConfig = {
                     expandUnder: 'applicantRelationshipToClaimant',
                     expandUnderCondition: 'Authorized Agent/Rep'
                   },
-                  name: _.merge(fullNameUI, {
+                  name: _.merge(fullMaidenNameUI, {
                     'ui:title': 'Preparer information',
-                    suffix: {
-                      'ui:options': {
-                        hideIf: () => true
-                      }
-                    }
+                    first: { 'ui:required': isAuthorizedAgent },
+                    last: { 'ui:required': isAuthorizedAgent }
                   }),
-                  mailingAddress: address.uiSchema('Mailing address'),
+                  mailingAddress: _.merge(address.uiSchema('Mailing address'), {
+                    country: { 'ui:required': isAuthorizedAgent },
+                    street: { 'ui:required': isAuthorizedAgent },
+                    city: { 'ui:required': isAuthorizedAgent },
+                    state: { 'ui:required': isAuthorizedAgent },
+                    postalCode: { 'ui:required': isAuthorizedAgent },
+                  }),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',
-                    applicantPhoneNumber: phoneUI('Primary telephone number')
+                    applicantPhoneNumber: _.merge(phoneUI('Primary telephone number'), {
+                      'ui:required': isAuthorizedAgent
+                    })
                   }
                 }
               }
@@ -662,17 +673,16 @@ const formConfig = {
                 properties: {
                   applicant: {
                     type: 'object',
+                    required: ['applicantRelationshipToClaimant'],
                     properties: {
                       applicantRelationshipToClaimant: applicant.properties.applicantRelationshipToClaimant,
-                      // TODO: Make fields required when expanded and not required when not.
                       'view:applicantInfo': {
                         type: 'object',
                         properties: {
                           name: _.omit('required', fullName),
-                          mailingAddress: address.schema(fullSchemaPreNeed, /* true */),
+                          mailingAddress: address.schema(fullSchemaPreNeed),
                           'view:contactInfo': {
                             type: 'object',
-                            // required: ['applicantPhoneNumber'],
                             properties: {
                               applicantPhoneNumber: applicant.properties.applicantPhoneNumber
                             }
@@ -686,6 +696,11 @@ const formConfig = {
             }
           }
         }
+      }
+    },
+    certification: {
+      title: 'Certification',
+      pages: {
       }
     }
   }
