@@ -22,7 +22,8 @@ import {
   fullMaidenNameUI,
   ssnDashesUI,
   veteranUI,
-  serviceRecordsUI
+  serviceRecordsUI,
+  militaryNameUI
 } from '../utils/helpers';
 
 
@@ -312,6 +313,31 @@ const formConfig = {
             }
           }
         },
+        applicantMilitaryName: {
+          path: 'applicant-military-name',
+          depends: isVeteran,
+          uiSchema: militaryNameUI,
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: ['view:hasServiceName'],
+                    properties: {
+                      'view:hasServiceName': {
+                        type: 'boolean'
+                      },
+                      serviceName: _.omit('required', fullName),
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         sponsorMilitaryHistory: {
           path: 'sponsor-military-history',
           depends: (formData) => !isVeteran(formData),
@@ -321,10 +347,12 @@ const formConfig = {
                 serviceRecords: _.merge(serviceRecordsUI, {
                   'ui:title': 'Sponsor\'s service periods',
                   items: {
-                    serviceBranch: { 'ui:title': 'Sponsor\'s branch of service' },
+                    serviceBranch: {
+                      'ui:title': 'Sponsor\'s branch of service'
+                    },
                     dateRange: dateRangeUI(
-                      'Start of Sponsor\'s service period',
-                      'End of Sponsor\'s service period',
+                      'Start of sponsor\'s service period',
+                      'End of sponsor\'s service period',
                       'End of service must be after start of service'
                     ),
                     dischargeType: {
@@ -358,23 +386,35 @@ const formConfig = {
             }
           }
         },
-        militaryName: {
-          path: 'military-name',
-          uiSchema: {
+        sponsorMilitaryName: {
+          path: 'sponsor-military-name',
+          depends: (formData) => !isVeteran(formData),
+          uiSchema: _.merge(militaryNameUI, {
             application: {
               veteran: {
                 'view:hasServiceName': {
-                  'ui:title': 'Did you serve under another name?',
-                  'ui:widget': 'yesNo'
+                  'ui:title': 'Did your sponsor serve under another name?'
                 },
                 serviceName: _.merge(fullNameUI, {
-                  'ui:options': {
-                    expandUnder: 'view:hasServiceName'
+                  first: {
+                    'ui:title': 'Sponsor\'s first name'
+                  },
+                  last: {
+                    'ui:title': 'Sponsor\'s last name'
+                  },
+                  middle: {
+                    'ui:title': 'Sponsor\'s middle name'
+                  },
+                  suffix: {
+                    'ui:title': 'Sponsor\'s suffix'
+                  },
+                  maiden: {
+                    'ui:title': 'Sponsor\'s maiden name'
                   }
-                })
+                }),
               }
-            }
-          },
+            },
+          }),
           schema: {
             type: 'object',
             properties: {
@@ -383,11 +423,11 @@ const formConfig = {
                 properties: {
                   veteran: {
                     type: 'object',
+                    required: ['view:hasServiceName'],
                     properties: {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      // TODO: Make fields required when expanded and not required when not.
                       serviceName: _.omit('required', fullName),
                     }
                   }

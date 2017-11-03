@@ -283,3 +283,26 @@ export const serviceRecordsUI = {
     }
   }
 };
+
+export const militaryNameUI = {
+  application: {
+    veteran: {
+      'view:hasServiceName': {
+        'ui:title': 'Did you serve under another name?',
+        'ui:widget': 'yesNo'
+      },
+      serviceName: merge(fullMaidenNameUI, {
+        'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+        'ui:options': {
+          expandUnder: 'view:hasServiceName'
+        },
+        first: {
+          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+        },
+        last: {
+          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+        }
+      })
+    }
+  }
+};
