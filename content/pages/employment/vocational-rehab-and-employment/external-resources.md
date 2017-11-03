@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: External Resources
 source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
 template: detail-page
-order: 6
+order: 7
 relatedlinks:
   - heading: More information about VR&E benefits and services
     links:
