@@ -8,6 +8,8 @@
       "suffix": "II"
     },
     "veteranSocialSecurityNumber": "987654321",
+    "view:noSSN": true,
+    "vaFileNumber": "C12345678",
     "veteranDateOfBirth": "1900-01-01",
     "gender": "M",
     "civilianBenefitsAssistance": true,
