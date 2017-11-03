@@ -13,7 +13,7 @@ relatedlinks:
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
     - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
       title: Independent Living Track
-      description: Learn about services that can help you live more independently with your service-connected disability.
+      description: Learn about services that can help you live as independently as possible if you can't return to work right away.
     - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
@@ -21,19 +21,19 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that makes it hard for you to succeed in your career path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for career counseling and vocational training with VR&E. 
+If you have a service-connected disability that makes it hard for you to succeed in your employment path, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) Employment Through Long-Term Services track. VR&E training can help you find work in a different field that better suits your current abilities and interests. Find out if you’re eligible for vocational counseling and  training with VR&E. 
 
 </div>
 
 <div class="feature" markdown="1">
 
-### Can I get career counseling and training for new skills through VR&amp;E?
+### Can I get vocational counseling and training for new skills through VR&amp;E?
 
 You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and: 
 
 - You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
-- Your service-connected disability makes it hard for you to prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
+- Your service-connected disability makes it hard for you to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
 
 **Note:** You may be eligible for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
 
@@ -46,10 +46,18 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 - Job-market evaluation
 - Education and training for a vocational field that’s a good fit for you
 - Apprenticeship, on-the-job training, and volunteer opportunities
-- Employment help
+- Employment assistance
 
 
-### Get more information
+#### Get more information
+
+We offer opportunities to get training and practical hands-on work experience at the same time through these programs:
+
+- **VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+
+- **VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+
+VR&E employment coordinators, located at our VA regional offices and many of our out-based locations can help you access the employment services available to you. [Find an employment coordinator near you](link to Excel doc off of https://www.benefits.va.gov/vocrehab/).
 
 We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
