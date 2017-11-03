@@ -44,6 +44,18 @@
 
     button {
       margin-top: 2em;
+      
+      &.va-modal-close {
+        margin-top: .25rem;
+      }
+
+      &.address-help-btn {
+        text-decoration: underline;
+        background-color: transparent;
+        outline: none;
+        color: $color-primary-darker;
+        font-weight: normal;
+      }
     }
   }
 
@@ -118,7 +130,6 @@ table > tbody > tr {
 }
 
 div.usa-alert {
-
   #warning-address-block {
     margin-top: 1em;
     margin-bottom: 1em;

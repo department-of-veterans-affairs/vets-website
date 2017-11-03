@@ -296,15 +296,27 @@ export class AddressSection extends React.Component {
     } else {
       const modalContent = (
         <div>
-          <h4>Address usage</h4>
-          <p>Changing your address here will affect the address that shows on
-            your letters, as well as the location we mail your disability
-            compensation and pension information.</p>
-          <p>If you want to change your address for other VA benefits, such as
-            life insurance, education, and health care, you’ll need to update
-            it separately with each department.
-          </p>
-          <a href="#">Learn how to update your address for all VA departments</a>
+          <h3 id="address-help-title" className="address-help-header">Address usage</h3>
+          <button
+            className="va-modal-close"
+            type="button"
+            onClick={this.closeAddressHelp}>
+            <i className="fa fa-close"></i>
+            <span className="usa-sr-only">Close this modal</span>
+          </button>
+          <div>
+            <p>Changing your address here will affect the address that shows on
+              your letters, as well as the location we mail your disability
+              compensation and pension information.</p>
+            <p>If you want to change your address for other VA benefits, such as
+              life insurance, education, and health care, you’ll need to update
+              it separately with each department.
+            </p>
+          </div>
+          <a
+            href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
+            target="_blank">Learn how to update your address for all VA departments
+          </a>
         </div>
       );
 
@@ -314,16 +326,16 @@ export class AddressSection extends React.Component {
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
-          <button onClick={this.openAddressHelp}>What is This?</button>
+          <button className="address-help-btn" onClick={this.openAddressHelp}>What is This?</button>
           {this.props.canUpdate &&
             <button className="usa-button-secondary" onClick={this.startEditing}>Edit</button>
           }
           <Modal
-            onClose={this.closeAddressHelp}
+            onClose={() => true} // prop required but only used if !hideCloseButton
             visible={this.state.addressHelpVisible}
-            hideCloseButton>
-            <div>{modalContent}</div>
-          </Modal>
+            hideCloseButton
+            id="address-help"
+            contents={modalContent}/>
         </div>
       );
     }

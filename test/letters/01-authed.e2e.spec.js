@@ -35,6 +35,18 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.street').text.to.contain(oldStreetAddress);
     client.expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
+    // Open address help modal
+    client.expect.element('.va-modal').to.not.be.visible;
+    client
+      .click('.address-help-btn')
+      .waitForElementVisible('.va-modal', Timeouts.normal)
+      .expect.element('.va-modal').to.be.visible;
+
+    // Close the address help modal
+    client
+      .click('.va-modal-close')
+      .expect.element('.va-modal').to.not.be.visible;
+
     // Update address and cancel
     client
       .click('.usa-button-secondary')
