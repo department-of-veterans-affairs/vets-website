@@ -14,13 +14,13 @@ relatedlinks:
       title: Application Process
       description: Find out how to apply for VR&amp;E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/family-members/
-      title: Family Members
+      title: Dependent Family Members
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">
 
-VetSuccess on Campus supports Veterans, Servicemembers, and some eligible dependents in their transition from military to college life. We have Vocational Rehabilitation Counselors (VRCs) at 94 college campuses across the country. Our VRCs can help you with your Veterans’ benefits, which may include VA health services and education benefits. They can also show you how to get referrals for health services and disability accommodations (like help with taking notes or completing writing assignments) in the classroom. [Find out if your college has a VRC](http://www.benefits.va.gov/vocrehab/vsoc.asp).
+VetSuccess on Campus (VSOC) supports Veterans, Servicemembers, and some eligible dependents in their transition from military to college life. We have Vocational Rehabilitation Counselors (called VSOC Counselors) at 94 college campuses across the country. Our counselors can help you with your Veterans’ benefits, which may include VA health services and education benefits. They can also show you how to get referrals for health services and disability accommodations (like help with taking notes or completing writing assignments) in the classroom. [Find out if your college has a VSOC Counselor](http://www.benefits.va.gov/vocrehab/vsoc.asp).
 
 </div>
 
