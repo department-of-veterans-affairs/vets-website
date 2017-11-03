@@ -5,7 +5,7 @@ display_title: Integrated Disability Evaluation System (IDES)
 template: detail-page
 order: 4
 relatedlinks:
-  - heading: Other VA benefits you may want to explor
+  - heading: Other VA benefits you may want to explore
     links: 
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Disability Benefits Predischarge Claim
