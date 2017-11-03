@@ -278,6 +278,14 @@ describe('<AddressSection>', () => {
     expect(instance.state.isEditingAddress).to.be.true;
   });
 
+  describe('address help text', () => {
+    it('should render an address help button', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const helpButton = tree.dive(['AddressContent']).everySubTree('button')[0];
+      expect(helpButton.text()).to.contain('What is This?');
+    });
+  });
+
   describe('validation', () => {
     // Spy on all the validation functions!
     beforeEach(spyOnValidators);
