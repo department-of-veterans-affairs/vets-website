@@ -519,7 +519,7 @@ const formConfig = {
                       type: 'object',
                       required: ['name'],
                       properties: {
-                        name: _.omit(fullName, 'required'),
+                        name: _.omit('required', fullName),
                         'view:cemeteryNumber': { type: 'string' }
                       }
                     }
