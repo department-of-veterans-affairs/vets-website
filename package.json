@@ -206,6 +206,6 @@
     "nyc": "^11.1.0",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#49b199258daf9a3cd4cfc92fe59e68544c256f20"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3da753b1b802536af4efa05341ebbf6a66172497"
   }
 }
