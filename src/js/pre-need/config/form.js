@@ -628,7 +628,7 @@ const formConfig = {
                   'ui:title': 'Who is filling out this application?',
                   'ui:widget': 'radio',
                   'ui:options': {
-                    updateForm: (formData) => {
+                    updateSchema: (formData) => {
                       const applicantName = formatName(formData.application.claimant.name);
                       return {
                         'enum': ['Self', 'Authorized Agent/Rep'],
