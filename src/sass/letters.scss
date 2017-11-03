@@ -50,11 +50,19 @@
       }
 
       &.address-help-btn {
+        display: block;
+        margin: 1em 0;
+        padding: 0;
         text-decoration: underline;
         background-color: transparent;
         outline: none;
         color: $color-primary-darker;
         font-weight: normal;
+        text-align: left;
+      }
+
+      &.edit-address {
+        margin-top: 1em;
       }
     }
   }
