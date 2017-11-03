@@ -30,7 +30,7 @@ If you’re wounded, injured, or fall ill while serving and are unable to perfor
 
 </div>
 	
-### What VR&E services can I receive through VR&E?
+### What services can I receive through VR&E?
 
 Depending on your needs and goals, services may include:
 -	A complete evaluation to determine your abilities, skills, and interests for employment
