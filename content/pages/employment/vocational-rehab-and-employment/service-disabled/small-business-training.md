@@ -13,7 +13,7 @@ relatedlinks:
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
     - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
       title: Independent Living Track
-      description: Learn about services that can help you live more independently with your service-connected disability.
+      description: Learn about services that can help you live as independently as possible if you can't return to work right away.
     - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
@@ -29,16 +29,10 @@ If you're a Servicemember or Veteran with a service-connected disability and an 
 
 ### Can I get help starting my own business through the VR&amp;E Self-Employment track?
 
-You may be eligible for the VR&amp;E Self-Employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you:
-
-- Have an employment barrier, **and**
-- Are enrolled in VR&amp;E
-
-You may also be entitled to services if you’re a Servicemember or Veteran with a service-connected disability of at least 10% and:
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and:
+- You have an employment barrier or handicap, **and**
 - You’re enrolled in VR&E, **and**
-- A Vocational Rehabilitation Counselor (VRC) says you need help because of a severe employment handicap
-<br>
-**Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, get, and keep suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+- Your service-connected disability makes it hard for you to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests)
 
 </div>
 
@@ -49,11 +43,17 @@ You may also be entitled to services if you’re a Servicemember or Veteran with
 - Training in small-business operations, marketing, and finances
 - Guidance in getting the right resources to implement your business plan
 
-We may also provide minimum stocks, essential equipment, and business license fees for those with the most significant disabilities.
+We may also provide minimum stocks, essential equipment, and business license fees for those with the most significant disabilities where self-employment is the only employment option.
 
 After you develop your business plan, we’ll review it and evaluate whether self-employment and the proposed business are viable options.
 
-### Get more information
+#### Get more information
+
+We offer opportunities to get training and practical hands-on work experience at the same time through these programs:
+- **VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+- **VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+
+VR&E employment coordinators, located at our VA regional offices and many of our out-based locations can help you access the employment services available to you. [Find an employment coordinator near you](link to Excel doc off of https://www.benefits.va.gov/vocrehab/).	
 
 We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
