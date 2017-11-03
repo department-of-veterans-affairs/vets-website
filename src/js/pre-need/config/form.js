@@ -178,7 +178,7 @@ const formConfig = {
           path: 'sponsor-information',
           depends: (formData) => !isVeteran(formData),
           uiSchema: {
-            'ui:description': applicantDescription, 
+            'ui:description': applicantDescription,
             application: {
               veteran: _.merge(veteranUI, {
                 currentName: _.merge(fullNameUI, {
