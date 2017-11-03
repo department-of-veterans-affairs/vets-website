@@ -140,6 +140,8 @@
       "suffix": "Jr."
     },
     "veteranSocialSecurityNumber": "234244444",
+    "view:noSSN": true,
+    "vaFileNumber": "C12345678",
     "veteranDateOfBirth": "1970-03-21",
     "gender": "M",
     "privacyAgreementAccepted": true,
