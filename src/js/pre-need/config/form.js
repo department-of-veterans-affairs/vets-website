@@ -6,7 +6,7 @@ import fullSchemaPreNeed from './schema.json';
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import fileUploadUI from '../../common/schemaform/definitions/file';
+// import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -14,7 +14,7 @@ import { validateMatch } from '../../common/schemaform/validation';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
-import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
+// import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import {
   GetFormHelp,
   isVeteran,
@@ -33,7 +33,7 @@ const {
   applicant,
   hasCurrentlyBuried,
   currentlyBuriedPersons,
-  attachments
+  // attachments
 } = fullSchemaPreNeed.properties.application.properties;
 
 const {
@@ -499,6 +499,7 @@ const formConfig = {
         }
       }
     },
+    /*
     supportingDocuments: {
       title: 'Supporting documents',
       pages: {
@@ -525,6 +526,7 @@ const formConfig = {
         }
       }
     },
+    */
     contactInformation: {
       title: 'Contact Information',
       pages: {
