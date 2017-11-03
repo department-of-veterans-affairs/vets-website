@@ -144,7 +144,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
     const downloadSupported = typeof save.download !== 'undefined';
     let downloadWindow;
 
-    if (!downloadSupported) {
+    if (!downloadSupported && !isIE) {
       // Instead of giving the file a readable name and downloading
       // it directly, open it in a new window with an ugly hash URL
       // NOTE: We're opening the window here because Safari won't open
