@@ -33,7 +33,7 @@ const {
   veteran,
   applicant,
   hasCurrentlyBuried,
-  currentlyBuriedPersons,
+  // currentlyBuriedPersons,
   // attachments
 } = fullSchemaPreNeed.properties.application.properties;
 
@@ -483,6 +483,7 @@ const formConfig = {
                   cemeteryNumber: {
                     'ui:title': 'VA National Cemetery where they\'re buried'
                     // TODO: Create widget with validation message...
+                    // It should map hundreds of cemetery numbers to names.
                     // 'ui:widget': CemeteryNumberWidget
                   }
                 }
@@ -506,7 +507,10 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons
+                  // TODO: currentlyBuriedPersons should technically be a
+                  // three-digit string. However, it's not required by EOAS and
+                  // can be sent as any value for now.
+                  currentlyBuriedPersons: { type: 'string' }
                 }
               }
             }
