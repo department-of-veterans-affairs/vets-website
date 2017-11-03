@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Dependent Family Members
 template: detail-page
-order: 4
+order: 5
 relatedlinks:
   - heading: More information about VA benefits and services for dependents
     links: 
