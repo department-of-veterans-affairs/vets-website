@@ -70,19 +70,30 @@ const getState = () => ({});
 
 describe('saveAddress', () => {
   const frontEndAddress = {
-    type: ADDRESS_TYPES.military,
+    addressOne: '123 Any Street',
+    addressThree: '',
+    addressTwo: 'Apt 102',
     city: 'APO',
+    countryName: 'USA',
     stateCode: 'AE',
-    countryName: 'USA'
+    type: ADDRESS_TYPES.military,
+    zipCode: '12345',
+    zipSuffix: ''
   };
 
   const successResponse = {
     data: {
       attributes: {
         address: {
-          type: frontEndAddress.type,
+          addressEffectiveDate: null,
+          addressOne: frontEndAddress.addressOne,
+          addressThree: frontEndAddress.addressThree,
+          addressTwo: frontEndAddress.addressTwo,
           militaryPostOfficeTypeCode: frontEndAddress.city,
           militaryStateCode: frontEndAddress.stateCode,
+          type: frontEndAddress.type,
+          zipCode: frontEndAddress.zipCode,
+          zipSuffix: frontEndAddress.zipSuffix
         }
       }
     }
@@ -122,8 +133,8 @@ describe('saveAddress', () => {
     thunk(dispatch, getState)
       .then(() => {
         const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(SAVE_ADDRESS_SUCCESS);
         expect(action.address).to.eql(frontEndAddress);
+        expect(action.type).to.equal(SAVE_ADDRESS_SUCCESS);
       }).then(done, done);
   });
 
