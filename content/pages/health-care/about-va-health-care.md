@@ -8,7 +8,7 @@ lastupdate: 2017-06-28
 collection: healthCare
 children: healthCareCoverage
 order: 1
-relatedlinks: 
+relatedlinks:
   - heading: Related benefits you may qualify for
     links:
     - url: /disability-benefits/
@@ -80,15 +80,15 @@ You should also know that being signed up for VA health care meets your Affordab
   - Counseling on genetic diseases (diseases that run in families)
 - Inpatient hospital services, like:
   - Surgeries
-  - Medical treatments 
+  - Medical treatments
   - Kidney dialysis
   - Acute care (short-term treatment for a severe illness or injury or after surgery)
-  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp). 
-- Emergency care in a VA hospital, outpatient clinic, or Vet Center. [Find a VA health facility near you](https://www.vets.gov/facilities/). 
-- Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. [Learn more about non-VA emergency medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp). 
+  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp).
+- Emergency care in a VA hospital, outpatient clinic, or Vet Center. [Find a VA health facility near you](https://www.vets.gov/facilities/).
+- Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. [Learn more about non-VA emergency medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp).
 - Mental health services to treat certain issues like posttraumatic stress disorder (PTSD), military sexual trauma (MST), depression, and substance use problems. [Learn more about mental health services](/health-care/health-conditions/mental-health/).
 - Assisted living and home health care (depending on your needs and income as well as space in the programs). [Learn more about assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
-- Prescriptions written by a VA doctor. [Refill your prescriptions](/health-care/prescriptions/). 
+- Prescriptions written by a VA doctor. [Refill your prescriptions](/health-care/prescriptions/).
 
 </div>
 </div>
@@ -102,10 +102,10 @@ You should also know that being signed up for VA health care meets your Affordab
 
 We may cover services that your VA primary care provider concludes you need to support your treatment (called ancillary services), like:
 
-- Tests used to diagnose health conditions, including blood work, X-rays, and ultrasounds 
+- Tests used to diagnose health conditions, including blood work, X-rays, and ultrasounds
 - Therapy and rehabilitation services, including physical therapy, vision rehab, and therapy for traumatic brain injury
 - Additional services, including prosthetic items, audiology (care for hearing loss), and radiation oncology (cancer care)
- 
+
 </div>
 </div>
 </div>
@@ -120,7 +120,7 @@ You may be able to get help with some non-medical services, like:
 
 - [Beneficiary travel benefits (help paying for travel related to treatment)](https://www.va.gov/healthbenefits/vtp/beneficiary_travel.asp)
 - [Caregiver support (help for the person who cares for you)](http://www.caregiver.va.gov/)
-- [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp) 
+- [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp)
 
 </div>
 </div>
@@ -178,7 +178,7 @@ These services are **not** included in your VA medical benefits package:
   - You’re in an approved clinical trial, **or**
   - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
  - Inpatient hospital or outpatient care if you’re a patient or inmate in a non-VA government agency institution, if that agency must provide the care or services by law
- 
+
 </div>
 </div>
 </div>
@@ -225,7 +225,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
@@ -239,8 +239,8 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-87
 
 Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online:
 
-[Refill your prescriptions](/health-care/prescriptions/). <br> 
-[Send a secure message to your health care team](/health-care/messaging/). 
+[Refill your prescriptions](/health-care/prescriptions/). <br>
+[Send a secure message to your health care team](/health-care/messaging/).
 
 You can also check the status of a disability or pension claim online. [Check your claim status](/track-claims/).
 

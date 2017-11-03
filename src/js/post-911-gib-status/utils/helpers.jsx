@@ -91,7 +91,7 @@ export function notQualifiedWarning() {
         <ul>
           <li>You haven’t served on active duty for at least 90 days after September 10, 2001, and/or</li>
           <li>Your service component let us know that you didn’t receive an honorable discharge</li>
-          <li>If the information in our records is not accurate, please call us at 1-888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m (ET).</li>
+          <li>If the information in our records is not accurate, please call us at 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).</li>
         </ul>
         <h5>Resources</h5>
         <ul>
@@ -119,9 +119,8 @@ export function noChapter33BenefitsWarning() {
       </div>
       <h2>Need GI Bill help?</h2>
       <hr className="divider"/>
-      <p>If you have questions or need help looking up your GI Bill information, please call <a
-        className="gi-phone-nowrap" href="tel:1-888-442-4551">1-888-442-4551</a> <span className="gi-phone-nowrap">
-          (1-888-GI-BILL-1)</span> from 8:00 a.m. to 7:00 pm (ET).</p>
+      <p>If you have questions or need help looking up your GI Bill information, please call <span className="gi-phone-nowrap">1-888-GI-BILL-1</span>
+      (<a className="gi-phone-nowrap" href="tel:1-888-442-4551">1-888-442-4551</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).</p>
     </div>
   );
 }
