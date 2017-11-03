@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Where You’ll Get Care
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-07-06
 order: 2
@@ -91,13 +91,13 @@ You may also qualify to receive local community care through the Veterans Choice
 - Have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
 - Face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-[Learn more about the Choice program](https://www.va.gov/opa/choiceact/). 
+[Learn more about the Choice program](https://www.va.gov/opa/choiceact/).
 
 <br>
 
 <span id="care-emergency">
 
-#### Where should I go for care in an emergency? 
+#### Where should I go for care in an emergency?
 
 Call 911 or go to the nearest emergency room. You don’t have to contact us in advance. (**Note:** We consider an emergency to be a condition that a reasonable person believes will put your health or life at risk if you don’t get treatment right away.)
 
@@ -109,7 +109,7 @@ For more information, call your local VA medical center’s enrollment coordinat
 
 <span id="care-if-moving">
 
-#### What should I do if I move? 
+#### What should I do if I move?
 
 Let us know right away so we can help set up care in your new location. To change your address, call us at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
 
@@ -117,7 +117,7 @@ Let us know right away so we can help set up care in your new location. To chang
 
 <span id="care-while-traveling">
 
-#### What if I need care while traveling? 
+#### What if I need care while traveling?
 
 Let us know in advance so we can plan for your care at a VA location near where you’ll be staying. Please give us at least 4 to 6 weeks’ notice if you can.
 
@@ -138,32 +138,15 @@ For more information, contact your care team or the Traveling Veteran Coordinato
 
 <span id="care-appointment">
 
-#### How do I schedule an appointment at a VA health facility?
+#### How do I schedule an appointment?
 
-<br>
-
-##### By phone
-
-You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facilities).
-
-<br>
-
-##### Online
-
-You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to access our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
-
-**Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
-
-Please keep in mind that your VA health care providers don't monitor this online tool:
-
-- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
-- **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
+You can schedule VA health care appointments by phone or through our online scheduling tool. [Find out how to schedule VA appointments by phone or online](/health-care/schedule-an-appointment).
 
 <br>
 
 <span id="care-transportation">
 
-#### Can you help me get to and from appointments? 
+#### Can you help me get to and from appointments?
 
 Yes, we may be able to help you get to and from appointments in certain cases. Or, we may pay you back for the cost of transportation if you qualify for help. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 

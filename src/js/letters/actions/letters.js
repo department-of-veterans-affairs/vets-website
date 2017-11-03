@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
-import { apiRequest, stripEmpties, militaryToGeneric } from '../utils/helpers.jsx';
+import { apiRequest, stripEmpties, toGenericAddress } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -84,7 +84,7 @@ export function getMailingAddress() {
       (response) => {
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
-        responseCopy.data.attributes.address = militaryToGeneric(response.data.attributes.address);
+        responseCopy.data.attributes.address = toGenericAddress(response.data.attributes.address);
         return dispatch({
           type: GET_ADDRESS_SUCCESS,
           data: responseCopy
@@ -234,7 +234,7 @@ export function saveAddress(address) {
       settings,
       (response) => {
         // translate military address properties back to front end address
-        const responseAddress = militaryToGeneric(response.data.attributes.address);
+        const responseAddress = toGenericAddress(response.data.attributes.address);
         if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
           const mismatchError = new Error('letters-address-update addresses don\'t match');
           Raven.captureException(mismatchError);

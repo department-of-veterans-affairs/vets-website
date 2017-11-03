@@ -42,6 +42,27 @@ export const addressUpdateUnavailable = (
   </div>
 );
 
+export const recordsNotFound = (
+  <div id="records-not-found">
+    <header>
+      <h1>We couldn’t find your VA letters or documents</h1>
+    </header>
+    <div className="usa-alert usa-alert-warning">
+      <div className="usa-alert-body">
+        <p className="usa-alert-heading">
+          <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/download-letters">
+          If you’re a dependent, please go to eBenefits to look for your letters.</a>
+        </p>
+      </div>
+    </div>
+    <h2>Need help?</h2>
+    <hr className="divider"/>
+    <p>If you have questions or need help looking up your VA letters and documents, please call <a
+      className="letters-phone-nowrap" href="tel:1-800-827-1000">
+      1-800-827-1000</a> from 8:00 a.m. to 7:00 pm (ET).</p>
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const characterOfServiceContent = {
   honorable: 'Honorable',
@@ -348,11 +369,12 @@ export const stripEmpties = (input) => {
  * @param {Object} address an address object as formatted by vets-api
  * @returns {Object} shallow clone of address with military properties swapped for generics
  */
-export const militaryToGeneric = (address) => {
-  if (address.type !== ADDRESS_TYPES.military) {
-    return { ...address };
-  }
+export const toGenericAddress = (address) => {
   const genericAddress = { ...address };
+  delete genericAddress.addressEffectiveDate;
+  if (address.type !== ADDRESS_TYPES.military) {
+    return genericAddress;
+  }
   genericAddress.city = genericAddress.militaryPostOfficeTypeCode;
   genericAddress.stateCode = genericAddress.militaryStateCode;
   genericAddress.countryName = 'USA';
