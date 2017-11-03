@@ -124,3 +124,19 @@ div.usa-alert {
     margin-bottom: 1em;
   }
 }
+
+#records-not-found {
+  h2 {
+    margin-top: 2em;
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-color: $color-primary;
+  }
+
+  .letters-phone-nowrap {
+    white-space: nowrap;
+  }
+}
