@@ -19,7 +19,7 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 #### You may qualify to register your business as a Veteran-Owned Small Business (VOSB) if you’re a Veteran and you (or another Veteran):
 
 - Owns 51% or more of the company you want to register, **and**
-- Has full control over the day-to-day management, decision-making, and strategic policy of the business,** and**
+- Has full control over the day-to-day management, decision-making, and strategic policy of the business, **and**
 - Has the managerial experience needed to manage the business, **and**
 - Is the highest-paid person in the company (or can provide a written statement explaining why your taking lower pay helps the business), **and**
 - Works full time for the business, **and**
@@ -71,7 +71,7 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 To register as a VOSB or SDVOSB, you’ll need to apply through the Vets First Verification Program. 
 [Apply online](https://www.vip.vetbiz.gov/). 
 
-Our VA-certified Verification Assistance Counselors and Verification Program Webinars and Town Halls can help guide you through the process. If you use these pre-qualification resources, you can help speed up the decision on your application.</br>
+Our VA-certified Verification Assistance Counselors—and Verification Program Webinars and Town Halls—can help guide you through the process. If you use these pre-qualification resources, you can help speed up the decision on your application.</br>
 
 [Find a VA verification counselor in your state](https://www.va.gov/osdbu/verification/assistance/counselors.asp).</br>
 [View Verification Program webinars on how to apply for the first time or for reverification](https://www.va.gov/osdbu/verification/you_asked_we_listened.asp).
@@ -107,6 +107,6 @@ Yes. The U.S. Small Business Administration (SBA) can provide you with resources
 Find out about these training programs offered by the Institute for Veterans and Military Families at Syracuse University in partnership with SBA and other organizations:
 - [Boots to Business (for Servicemembers and their spouses)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/boots-to-business/).
 - [Entrepreneurship Bootcamp for Veterans with Disabilities (for post-9/11 Veterans with service-connected disabilities and their family caregivers)](http://ebv.vets.syr.edu/)
-- [Veteran Women Igniting the Spirit of Entrepreneurship (for women Veterans and female military spouses/partners)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/v-wise/)<br>
+- [Veteran Women Igniting the Spirit of Entrepreneurship (for women Veterans and female military spouses and partners)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/v-wise/)<br>
 
 If you’re already open for business and want to sell to the federal government, the Procurement Technical Assistance Center (PTAC) can help with the required documentation and registration to bid on government contracts. [Find a PTAC near you](http://www.aptac-us.org/). 
