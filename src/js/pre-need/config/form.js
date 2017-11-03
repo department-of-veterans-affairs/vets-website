@@ -709,11 +709,6 @@ const formConfig = {
           }
         }
       }
-    },
-    certification: {
-      title: 'Certification',
-      pages: {
-      }
     }
   }
 };
