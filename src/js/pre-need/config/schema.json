@@ -588,12 +588,12 @@
               "name"
             ],
             "properties": {
+              "name": {
+                "$ref": "#/definitions/fullName"
+              },
               "cemeteryNumber": {
                 "type": "string",
                 "pattern": "^\\d{3}$"
-              },
-              "name": {
-                "$ref": "#/definitions/fullName"
               }
             }
           }
