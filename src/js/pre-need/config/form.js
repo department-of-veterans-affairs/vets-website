@@ -18,6 +18,7 @@ import {
   GetFormHelp,
   isVeteran,
   isAuthorizedAgent,
+  formatName,
   transform,
   fullMaidenNameUI,
   ssnDashesUI,
@@ -589,7 +590,7 @@ const formConfig = {
             }
           }
         },
-        sponsorContactInformation: {
+        sponsorMailingAddress: {
           title: 'Sponsor\'s mailing address',
           path: 'sponsor-mailing-address',
           depends: (formData) => !isVeteran(formData),
@@ -617,8 +618,9 @@ const formConfig = {
             }
           }
         },
-        certification: {
-          path: 'certification',
+        preparer: {
+          title: 'Preparer',
+          path: 'preparer',
           uiSchema: {
             application: {
               applicant: {
@@ -626,18 +628,12 @@ const formConfig = {
                   'ui:title': 'Who is filling out this application?',
                   'ui:widget': 'radio',
                   'ui:options': {
-                    /*
                     updateForm: (formData) => {
                       const applicantName = formatName(formData.application.claimant.name);
                       return {
-                        enum: ['Self', 'Authorized Agent/Rep'],
+                        'enum': ['Self', 'Authorized Agent/Rep'],
                         enumNames: [applicantName, 'Someone else']
                       };
-                    }
-                    */
-                    labels: {
-                      Self: 'Myself',
-                      'Authorized Agent/Rep': 'Someone else'
                     },
                     nestedContent: {
                       'Authorized Agent/Rep': (
