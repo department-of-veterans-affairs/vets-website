@@ -77,9 +77,11 @@ With your online status, you'll also be able to:
 <h4 itemprop="name">Through secure messaging</h4>
 
 <div itemprop="itemListElement">
+
 If you have a [Vets.gov](/?next=%2Fhealth-care%2Fmessaging) account or a [My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication), you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments.
 
 **Please note:** These online tools only allow you to schedule VA appointments. If you have appointments with non-VA facilities through the [Community Care Program](https://www.va.gov/COMMUNITYCARE/veterans.asp), please contact that health care facility directly.
+
 </div>
 
 </div> <!-- closes overall FAQ -->
