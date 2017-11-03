@@ -544,8 +544,9 @@ const formConfig = {
     contactInformation: {
       title: 'Contact Information',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
+        applicantContactInformation: {
+          title: 'Applicant\'s contact information',
+          path: 'applicant-contact-information',
           uiSchema: {
             application: {
               claimant: {
@@ -562,13 +563,6 @@ const formConfig = {
                 email: {
                   'ui:title': 'Email address'
                 }
-              },
-              veteran: {
-                address: _.merge(address.uiSchema('Sponsor\'s address'), {
-                  'ui:options': {
-                    hideIf: isVeteran
-                  }
-                })
               }
             }
           },
@@ -589,7 +583,29 @@ const formConfig = {
                       phoneNumber: claimant.properties.phoneNumber,
                       email: claimant.properties.email
                     }
-                  },
+                  }
+                }
+              }
+            }
+          }
+        },
+        sponsorContactInformation: {
+          title: 'Sponsor\'s mailing address',
+          path: 'sponsor-mailing-address',
+          depends: (formData) => !isVeteran(formData),
+          uiSchema: {
+            application: {
+              veteran: {
+                address: address.uiSchema('Sponsor\'s address')
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
                   veteran: {
                     type: 'object',
                     properties: {
