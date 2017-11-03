@@ -18,6 +18,12 @@ majorlinks:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/overseas
       title: Go to an Intake Site in Korea or Germany
       description: Are you stationed overseas?
+ relatedlinks:
+   heading: Other information you may be interested in exploring
+   links:
+   - url: /employment/vocational-rehab-and-employment/ides/
+     title: Accessing VR&E Through the Integrated Disability Evaluation System (IDES)
+     description: Find out how you can access vocational rehabilitation and employment services as soon as possible through IDES.
 ---
 
 <div class="va-introtext">
@@ -32,14 +38,5 @@ If you have a disability and you’re currently in predischarge status, you can 
 - Release from National Guard duty
 
 Filing your claim as you get ready to leave the military may speed up the claim decision process. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
-
-
-<div class="feature" markdown=“1”>
-
-#### Integrated Disability Evaluation System
-
-If you develop a health problem while serving that makes you unable to perform your duties, you'll be referred to the Integrated Disability Evaluation System (IDES). Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
-
-If you're found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. And you may be entitled to Vocational Rehabilitation and Employment (VR&E) services. [Find out if you may be eligible for VR&E](/employment/vocational-rehab-and-employment/eligibility/).
 
 </div>
