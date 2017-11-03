@@ -1,24 +1,24 @@
-//======================================= 
+//=======================================
 // Media query helper. Use to set max-width queries.
 // Use this sparingly. Please use @include media instead.
-//======================================= 
+//=======================================
 
 @mixin media-maxwidth($bp) {
-  @media screen and (max-width: #{$bp}) {
+  @media screen, print and (max-width: #{$bp}) {
     @content;
   }
 }
 
-//======================================= 
+//=======================================
 // Heading style mixins
-//======================================= 
+//=======================================
 
 // These styles Were orginally pulled from the corresponding,
 // legacy h* elements, which is why there is no `h1` style
-// and why `h3` is currently larger than `h2`. 
-// See discussion in: 
+// and why `h3` is currently larger than `h2`.
+// See discussion in:
 //    https://github.com/department-of-veterans-affairs/vets-website/pull/5267#issuecomment-293024728
-// TODO(team, eventually): 
+// TODO(team, eventually):
 //  - Decide on heading style hierarchy and consistency (design).
 //  - Update markup accordingly
 //  - Update these mixins
