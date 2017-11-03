@@ -1,29 +1,28 @@
 ---
-	layout: page-breadcrumbs.html
-	title: Accessing VR&E Through the Integrated Disability Evaluation System (IDES)
-	display_title: Integrated Disability Evaluation System (IDES)
-	template: detail-page
-	order: 4
-	relatedlinks:
-	  - heading: Other VA benefits you may want to explore
-	    links: 
-	    - url: /disability-benefits/apply/claim-types/predischarge-claim/
-	      title: Disability Benefits Predischarge Claim
-	      description: Find out how to file a disability claim as you're getting ready to leave the military to speed up the decision process.
-	    - url: /health-care/apply/
-	      title: Health Care Application Process
-	      description: Find out how to apply for VA health care.
-	    - url: /life-insurance/options-and-eligibility/s-dvi/
-	      title: Service-Disabled Veterans Life Insurance (S-DVI)
-	      description: Find out if you can get life insurance based on your service-connected disability—and learn how to manage your coverage.
-	    - url: /pension/
-	      title: Pension Benefits
-	      description: If you're a wartime Veteran, find out if you can get pension benefits based on your age, disability, and income.
-	    - url: /housing-assistance/adaptive-housing-grants/
-	      title: Adaptive Housing Grants
-	      description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.  
+layout: page-breadcrumbs.html
+title: Accessing VR&E Through the Integrated Disability Evaluation System (IDES)
+display_title: Integrated Disability Evaluation System (IDES)
+template: detail-page
+order: 4
+relatedlinks:
+  - heading: Other VA benefits you may want to explore
+    links: 
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: Disability Benefits Predischarge Claim
+      description: Find out how to file a disability claim as you're getting ready to leave the military to speed up the decision process.
+    - url: /health-care/apply/
+      title: Health Care Application Process
+      description: Find out how to apply for VA health care.
+    - url: /life-insurance/options-and-eligibility/s-dvi/
+      title: Service-Disabled Veterans Life Insurance (S-DVI)
+      description: Find out if you can get life insurance based on your service-connected disability—and learn how to manage your coverage.
+    - url: /pension/
+      title: Pension Benefits
+      description: If you're a wartime Veteran, find out if you can get pension benefits based on your age, disability, and income.
+    - url: /housing-assistance/adaptive-housing-grants/
+      title: Adaptive Housing Grants
+      description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.  
 ---
-	
 
 <div class="va-introtext">
 	
