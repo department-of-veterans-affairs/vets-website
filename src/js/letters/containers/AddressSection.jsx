@@ -4,6 +4,7 @@ import Scroll from 'react-scroll';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
 
 import {
   getStateName,
@@ -52,6 +53,7 @@ export class AddressSection extends React.Component {
       errorMessages: {},
       fieldsToValidate: {},
       editableAddress: props.savedAddress || {},
+      addressHelpVisible: false,
     };
 
     // On the off chance that savedAddress is available in constructor, ensure
@@ -236,6 +238,9 @@ export class AddressSection extends React.Component {
     });
   }
 
+  closeAddressHelp = () => this.setState({ addressHelpVisible: false });
+
+  openAddressHelp = () => this.setState({ addressHelpVisible: true });
 
   render() {
     const address = this.props.savedAddress || {};
@@ -289,15 +294,36 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
+      const modalContent = (
+        <div>
+          <h4>Address usage</h4>
+          <p>Changing your address here will affect the address that shows on
+            your letters, as well as the location we mail your disability
+            compensation and pension information.</p>
+          <p>If you want to change your address for other VA benefits, such as
+            life insurance, education, and health care, you’ll need to update
+            it separately with each department.
+          </p>
+          <a href="#">Learn how to update your address for all VA departments</a>
+        </div>
+      );
+
       addressFields = (
         <div>
           <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
+          <button onClick={this.openAddressHelp}>What is This?</button>
           {this.props.canUpdate &&
             <button className="usa-button-secondary" onClick={this.startEditing}>Edit</button>
           }
+          <Modal
+            onClose={this.closeAddressHelp}
+            visible={this.state.addressHelpVisible}
+            hideCloseButton>
+            <div>{modalContent}</div>
+          </Modal>
         </div>
       );
     }
