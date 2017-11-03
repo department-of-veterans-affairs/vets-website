@@ -262,7 +262,7 @@ const formConfig = {
             applications: {
               items: {
                 'ui:title': claimantHeader,
-                'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but we can review your application faster if you provide more information.</p>,
+                'ui:description': applicantDescription, 
                 veteran: _.merge(veteranUI, {
                   currentName: _.merge(fullNameUI, {
                     first: {

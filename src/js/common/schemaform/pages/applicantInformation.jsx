@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import applicantDescription from '../ApplicantDescription';
 
 import currentOrPastDateUI from '../definitions/currentOrPastDate';
 import fullNameUI from '../definitions/fullName';
@@ -53,7 +54,7 @@ export default function applicantInformation(schema, options) {
     initialData: {},
     uiSchema: _.assign({
       'ui:order': fields,
-      'ui:description': <p>You aren’t required to fill in all fields, but we can review your application faster if you provide more information.</p>,
+      'ui:description': applicantDescription,
       [`${prefix}FullName`]: fullNameUI,
       [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
         {
