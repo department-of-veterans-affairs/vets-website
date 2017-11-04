@@ -18,7 +18,6 @@ import {
   GetFormHelp,
   isVeteran,
   isAuthorizedAgent,
-  hasCurrentlyBuriedPersons,
   formatName,
   transform,
   fullMaidenNameUI,
@@ -477,11 +476,8 @@ const formConfig = {
                   expandUnderCondition: '1'
                 },
                 items: {
-                  'ui:order': ['name', 'cemeteryNumber'],
                   name: _.merge(fullMaidenNameUI, {
-                    'ui:title': 'Name of deceased',
-                    first: { 'ui:required': hasCurrentlyBuriedPersons },
-                    last: { 'ui:required': hasCurrentlyBuriedPersons }
+                    'ui:title': 'Name of deceased'
                   }),
                   'view:cemeteryNumber': {
                     'ui:title': 'VA National Cemetery where they\'re buried'
@@ -498,6 +494,7 @@ const formConfig = {
             properties: {
               application: {
                 type: 'object',
+                required: ['hasCurrentlyBuried'],
                 properties: {
                   claimant: {
                     type: 'object',
@@ -515,11 +512,13 @@ const formConfig = {
                   hasCurrentlyBuried,
                   currentlyBuriedPersons: {
                     type: 'array',
+                    minItems: 0,
                     items: {
                       type: 'object',
                       required: ['name'],
                       properties: {
-                        name: _.omit('required', fullName),
+                        name: fullName,
+
                         'view:cemeteryNumber': { type: 'string' }
                       }
                     }
