@@ -35,7 +35,7 @@ majorlinks:
       title: Other Educational Assistance Programs
       description: If you don’t qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
 relatedlinks:
-  - heading: Other VA benefits you may be interested in exploring
+  - heading: Other VA benefits you may want to explore
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
