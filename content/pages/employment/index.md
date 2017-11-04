@@ -17,17 +17,20 @@ majorlinks:
     - url: /employment/commitments
       title: Commit to Hiring Veterans
       description: Share your company’s commitment to hiring Veterans and their spouses.
-  - heading: Explore Other Ways to Start a Career
+  - heading: Ways to Start a Career
     links:
+    - url: /employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services like help with exploring employment options and getting more training if required. 
     - url: /employment/job-seekers/start
       title: Start or Grow Your Business
       description:
-    - url: /employment/job-seekers/family-members
+   - heading: Other Resources
+     links:
+   - url: /employment/job-seekers/family-members
       title: Explore Resources for Military and Veteran Family Members
       description:
-  - heading: Learn New Skills Using Online Resources
-    links:
-    - url: https://veterans.linkedin.com/
+   - url: https://veterans.linkedin.com/
       title: Get Free Classes for a Year
       description: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
 
