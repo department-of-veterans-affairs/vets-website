@@ -25,21 +25,20 @@ majorlinks:
     - url: /employment/job-seekers/start
       title: Start or Grow Your Business
       description:
-   - heading: Other Resources
-     links:
-   - url: /employment/job-seekers/family-members
+  - heading: Other Resources
+    links:
+    - url: /employment/job-seekers/family-members
       title: Explore Resources for Military and Veteran Family Members
       description:
-   - url: https://veterans.linkedin.com/
+    - url: https://veterans.linkedin.com/
       title: Get Free Classes for a Year
       description: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
-
 ---
 
 **In partnership with the [United States Department of Labor](https://www.dol.gov/vets/)**
 
 <div class="va-introtext">
 
-We can support you in all stages of your job search. We’ve teamed up with the Department of Labor to give you career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses.
+We can support you in all stages of your job search. We offer benefits and services to help you explore your employment options and get more training if needed so you can return to work with a service-connected disability. We offer support to help you start and grow your own business. And, we can connect you with Department of Labor resources for more career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job for you.
 
 </div>
