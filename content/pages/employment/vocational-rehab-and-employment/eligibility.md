@@ -26,20 +26,7 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 <div class="feature" markdown="1">
 
-### Can I get VR&amp;E benefits and services?
-
-#### Active-Duty Servicemembers
-
-You may be eligible for VR&amp;E benefits and services if you're a Servicemember who:
-
-- Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
-- Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
-
-**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to Dec. 31, 2018.
-
-<br>
-
-#### Veterans
+### If I'm a Veteran, can I get VR&amp;E benefits and services?
 
 You may be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
 - Have a 20% or higher disability rating, **and**
@@ -51,6 +38,17 @@ You may also be eligible for VR&amp;E benefits and services if you're a Veteran 
 - Are beyond the 12-year basic period of eligibility
 
 **Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active-duty service.
+
+### If I'm still on active duty, can I get VR&amp;E benefits and services?
+
+You may be eligible for VR&amp;E benefits and services if you're a Servicemember who:
+
+- Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
+- Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
+
+**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to Dec. 31, 2018.
+
+<br>
 
 </div>
 
