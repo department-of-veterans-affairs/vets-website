@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: VR&E Self-Employment Track
 template: detail-page
+order: 3
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
