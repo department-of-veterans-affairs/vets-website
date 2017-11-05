@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: VR&E Independent Living Track
 template: detail-page
+order: 5
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
