@@ -24,6 +24,13 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/family-members/
       title: Dependent Family Members
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
+  - heading: Additional Resources
+    - url: /employment/vocational-rehab-and-employment/vetsuccess/
+      title: VetSuccess on Campus
+      description: Find out if our counselors can help you transition from military to college life.
+    - url: (link to Excel doc off of https://www.benefits.va.gov/vocrehab/)
+      title: VR&E Employment Coordinators
+      description: Our employment coordinators—located at our VA regional offices and many of our out-based locations—can help you access the employment services available to you. Find an employment coordinator near you.
 ---
 
 <div class="va-introtext">
