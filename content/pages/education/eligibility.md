@@ -63,7 +63,7 @@ You may be able to get help paying for school tuition, testing fees, and advance
 
 [Learn about other educational assistance programs](/education/other-educational-assistance-programs/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&ampE) benefits and services—like help with exploring employment options and getting more training if required. [Learn more about VR&E benefits and services](/employment/vocational-rehab-and-employment/).
+If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help with exploring employment options and getting more training if required. [Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
 
 </div>
 </div><div markdown="0"><br></div>
