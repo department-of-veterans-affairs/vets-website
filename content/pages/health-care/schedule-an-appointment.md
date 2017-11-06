@@ -53,7 +53,7 @@ VA now offers online appointment scheduling for some appointments. We hope to ex
 
 If you have VA health care benefits, you can schedule your VA primary care appointments online if you:
 
-- Are scheduling your appointment with a [VA medical facility that accepts online scheduling](https://mobile.va.gov/app/veteran-appointment-request#varLocationList), **and**
+- Are scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
 - Have had an appointment at that VA medical facility within the last 2 years, **and**
 - Have a [My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication) or [DS Logon Premium account](https://mobile.va.gov/dslogon) (used for eBenefits and milConnect)
 
@@ -65,7 +65,7 @@ With your online status, you'll also be able to:
 - Cancel appointments
 
 <div>
-  <a class="usa-button-primary va-button-primary" href="https://mobile.va.gov/app/veteran-appointment-request">Schedule a VA Appointment Online</a>
+  <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
 </div>
 
 <br>
