@@ -301,7 +301,7 @@ export class AddressSection extends React.Component {
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
-          <button className="address-help-btn" onClick={this.openAddressHelp}>What is This?</button>
+          <button className="address-help-btn" onClick={this.openAddressHelp}>What is this?</button>
           {this.props.canUpdate &&
             <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit</button>
           }
