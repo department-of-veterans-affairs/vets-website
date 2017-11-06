@@ -261,7 +261,7 @@ describe('<AddressSection>', () => {
   // Not sure how to test this bit yet...
   // it('should scroll to first error', () => {});
 
-  it('should start in the editing state if address is empty', () => {
+  it('should start in the editing state if address is empty and user canUpdate', () => {
     const props = cloneDeep(defaultProps);
     props.savedAddress = {
       addressOne: '',
@@ -277,6 +277,25 @@ describe('<AddressSection>', () => {
     const instance = tree.getMountedInstance();
     expect(instance.state.isEditingAddress).to.be.true;
   });
+
+  it('should not start editing if address is empty but user !canUpdate', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress = {
+      addressOne: '',
+      addressTwo: '',
+      addressThree: '',
+      city: '',
+      countryName: '',
+      stateCode: '',
+      type: ADDRESS_TYPES.domestic
+    };
+    props.canUpdate = false;
+
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+    const instance = tree.getMountedInstance();
+    expect(instance.state.isEditingAddress).to.be.false;
+  });
+
 
   describe('validation', () => {
     // Spy on all the validation functions!
