@@ -51,7 +51,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/preneed',
+  submitUrl: '/v0/preneeds/burial_forms',
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
