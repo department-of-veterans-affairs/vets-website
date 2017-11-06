@@ -29,9 +29,9 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
       description: Find out if our counselors can help you transition from military to college life.
-    - url: https://www.benefits.va.gov/vocrehab/
-      title: VR&E Employment Coordinators
-      description: Our employment coordinators—located at our VA regional offices and many of our out-based locations—can help you access the employment services available to you. Find an employment coordinator near you.
+    - url: /employment/vocational-rehab-and-employment/external-resources/
+      title: External Resources
+      description: Get links to more resources outside VA that can help you in your job search.
 ---
 
 <div class="va-introtext">
