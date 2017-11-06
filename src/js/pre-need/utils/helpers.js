@@ -4,7 +4,6 @@ import { get, merge } from 'lodash/fp';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import { transformForSubmit } from '../../common/schemaform/helpers';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
@@ -34,11 +33,9 @@ export function claimantHeader({ formData }) {
 }
 
 export function transform(formConfig, form) {
-  const formCopy = Object.assign({}, form);
-
   // Copy over sponsor data if the claimant is the veteran.
   const populateSponsorData = (application) => {
-    return isVeteran(application) ?
+    return isVeteran({ application }) ?
       merge(application, {
         veteran: {
           address: application.claimant.address,
@@ -52,7 +49,7 @@ export function transform(formConfig, form) {
 
   // Copy over preparer data if the claimant is the applicant.
   const populatePreparerData = (application) => {
-    return !isAuthorizedAgent(application) ?
+    return !isAuthorizedAgent({ application }) ?
       merge(application, {
         applicant: {
           applicantEmail: application.claimant.email,
@@ -63,16 +60,15 @@ export function transform(formConfig, form) {
       }) : application;
   };
 
-  const formData = transformForSubmit(formConfig, [
+  const application = [
     populateSponsorData,
     populatePreparerData
-  ].reduce((result, func) => func(result), formCopy));
+  ].reduce((result, func) => func(result), form.data.application);
 
-  return JSON.stringify({
-    preNeedClaim: {
-      form: formData
-    },
-  });
+  // const formCopy = set('application', application, Object.assign({}, form));
+  // const formData = transformForSubmit(formConfig, formCopy);
+
+  return JSON.stringify({ application });
 
   /* Transformation for multiple applicants.
    *
