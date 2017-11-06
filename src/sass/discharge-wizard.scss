@@ -4,5 +4,14 @@
   fieldset {
     margin: 0;
     padding: 0 1.5em;
+    margin-top: 2em;
+
+    .legend-label {
+      max-width: 100%;
+    }
+
+    label {
+      max-width: 100%;
+    }
   }
 }
