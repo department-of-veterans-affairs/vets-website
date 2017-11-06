@@ -14,13 +14,13 @@ const initialState = {
   '5_prevApplicationType': null, // 5b
 };
 
-function dischargeWizard(state = initialState, action) {
+function form(state = initialState, action) {
   switch (action.type) {
     case DW_UPDATE_FIELD:
-      return _.set(action.key, action.value, state);
+      return _.set(state, action.key, action.value);
     default:
       return state;
   }
 }
 
-export default dischargeWizard;
+export default form;
