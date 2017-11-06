@@ -63,7 +63,7 @@ You may be able to get help paying for school tuition, testing fees, and advance
 
 [Learn about other educational assistance programs](/education/other-educational-assistance-programs/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help with exploring employment options and getting more training if required. [Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
+If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required. [Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
 
 </div>
 </div><div markdown="0"><br></div>
@@ -76,7 +76,7 @@ In some cases, the dependent or surviving spouse and children of a Veteran can g
 
 Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> [Learn more about transferring benefits](/education/gi-bill/transfer/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling and other support through the VR&E program. [Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
+If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. [Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
 
 </div>
 </div>
