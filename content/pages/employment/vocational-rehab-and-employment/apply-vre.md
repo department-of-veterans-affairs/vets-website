@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&amp;E Application Process
+display_title: Application Process
 order: 3
 template: detail-page
 relatedlinks:
