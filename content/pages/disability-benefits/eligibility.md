@@ -20,7 +20,7 @@ relatedlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/eligibility/
       title: VR&E Eligibility
-      description: If your service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services like help with exploring employment options and getting more training if required. 
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
     - url: /employment/vocational-rehab-and-employment/ides/
       title: Accessing VR&E Through the Integrated Disability Evaluation System (IDES)
       description: If you've been referred to IDES to determine if you're medically unfit for duty due to a service-connected disability, find out how to access VR&E services as quickly as possible.
