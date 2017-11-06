@@ -594,6 +594,10 @@ const formConfig = {
                 properties: {
                   claimant: {
                     type: 'object',
+                    required: [
+                      'phoneNumber',
+                      'email'
+                    ],
                     properties: {
                       address: address.schema(fullSchemaPreNeed, true),
                       'view:contactInfoDescription': {

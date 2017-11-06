@@ -33,6 +33,13 @@ export function claimantHeader({ formData }) {
 }
 
 export function transform(formConfig, form) {
+  // Populate values that aren't entered in the form.
+  const initializeMissingValues = (application) => {
+    merge(application, {
+      hasAttachments: !!(application.attachments && application.attachments.length)
+    });
+  };
+
   // Copy over sponsor data if the claimant is the veteran.
   const populateSponsorData = (application) => {
     return isVeteran({ application }) ?
@@ -42,7 +49,8 @@ export function transform(formConfig, form) {
           currentName: application.claimant.name,
           dateOfBirth: application.claimant.dateOfBirth,
           ssn: application.claimant.ssn,
-          isDeceased: 'no'
+          isDeceased: 'no',
+          serviceName: application.veteran.serviceName || application.claimant.name
         }
       }) : application;
   };
@@ -61,8 +69,9 @@ export function transform(formConfig, form) {
   };
 
   const application = [
+    initializeMissingValues,
     populateSponsorData,
-    populatePreparerData
+    populatePreparerData,
   ].reduce((result, func) => func(result), form.data.application);
 
   // const formCopy = set('application', application, Object.assign({}, form));
