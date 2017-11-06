@@ -1,23 +1,24 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&E Independent Living Track
+display_title: Independent Living Track
 template: detail-page
 order: 5
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
-      title: Rapid Access to Employment Track
-      description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
-      title: Employment Through Long-Term Services Track
-      description: Find out if you may be eligible for vocational training to help you develop new job skills.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
-      title: Self-Employment Track
-      description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
     - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+      title: Rapid Access to Employment Track
+      description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
+      title: Self-Employment Track
+      description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
+      title: Employment Through Long-Term Services Track
+      description: Find out if you may be eligible for vocational training to help you develop new job skills.
 ---
 
 <div class="va-introtext">
