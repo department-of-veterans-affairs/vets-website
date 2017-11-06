@@ -35,7 +35,7 @@ export function claimantHeader({ formData }) {
 export function transform(formConfig, form) {
   // Populate values that aren't entered in the form.
   const initializeMissingValues = (application) => {
-    merge(application, {
+    return merge(application, {
       hasAttachments: !!(application.attachments && application.attachments.length)
     });
   };
