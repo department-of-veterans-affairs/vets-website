@@ -26,9 +26,11 @@ relatedlinks:
 
 <div class="va-introtext">
 	
-If you’re wounded, injured, or fall ill while serving and are unable to perform your duties, you'll be referred to the Integrated Disability Evaluation System (IDES). Through this system, we at the VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair. If you're found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service—and you’ll be entitled to vocational rehabilitation and employment (VR&E) services. Find out how to access VR&E services as soon as possible through IDES.
+If you’re wounded, injured, or fall ill while serving and are unable to perform your duties, you'll be referred to the Integrated Disability Evaluation System (IDES). Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair. If you're found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service—and you’ll be entitled to vocational rehabilitation and employment (VR&E) services. Find out how to access VR&E services as soon as possible through IDES.
 
 </div>
+
+<br>
 	
 ### What services can I get through VR&E?
 
@@ -41,7 +43,9 @@ Depending on your needs and goals, services may include:
 -	Post-secondary training at a college, vocational, technical, or business school
 -	Supportive rehabilitation services including case management, counseling, and medical referrals
 -	Independent-living services if you're unable to work due to the severity of your disabilities
-	
+
+<hr>
+
 ### How do I access these services?
 
 We have Vocational Rehabilitation Counselors (VRCs) assigned to military installations hosting an IDES site.  When you’re referred to the Physical Evaluation Board (PEB) at one of these sites, you’ll have a mandatory meeting with a VRC. 
