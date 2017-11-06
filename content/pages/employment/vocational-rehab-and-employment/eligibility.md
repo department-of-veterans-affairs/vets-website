@@ -85,7 +85,7 @@ We offer opportunities to get training and practical hands-on work experience at
 
 We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
 
-VR&E employment coordinators, located at our VA regional offices and many of our out-based locations can help you access the employment services available to you. [Find an employment coordinator near you](https://www.benefits.va.gov/vocrehab/).	
+VR&E employment coordinators, located at our VA regional offices and many of our out-based locations can help you access the employment services available to you. [Find an employment coordinator near you](https://www.benefits.va.gov/vocrehab/).
 
 Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
 
