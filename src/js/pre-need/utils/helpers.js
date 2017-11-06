@@ -33,13 +33,6 @@ export function claimantHeader({ formData }) {
 }
 
 export function transform(formConfig, form) {
-  // Populate values that aren't entered in the form.
-  const initializeMissingValues = (application) => {
-    return merge(application, {
-      hasAttachments: !!(application.attachments && application.attachments.length)
-    });
-  };
-
   // Copy over sponsor data if the claimant is the veteran.
   const populateSponsorData = (application) => {
     return isVeteran({ application }) ?
@@ -69,7 +62,6 @@ export function transform(formConfig, form) {
   };
 
   const application = [
-    initializeMissingValues,
     populateSponsorData,
     populatePreparerData,
   ].reduce((result, func) => func(result), form.data.application);
