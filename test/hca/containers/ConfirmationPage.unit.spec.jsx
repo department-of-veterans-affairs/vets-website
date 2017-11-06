@@ -33,7 +33,6 @@ describe('hca <ConfirmationPage>', () => {
     expect(tree.everySubTree('span')[3].text()).to.contain('3702390024');
     expect(tree.everySubTree('p')[0].text()).to.contain('We usually process claims within a week.');
     expect(tree.everySubTree('.confirmation-guidance-message')[0].text()).to.contain('Find out what happens after you apply.');
-    expect(tree.everySubTree('.confirmation-guidance-message')[1].text()).to.contain('If you have questions, please call 1-877-222-VETS (8387) and press 2, Monday - Friday, 8:00 a.m. - 7:00 p.m. (ET).');
   });
   it('should render without response properties', () => {
     const form = {
@@ -55,6 +54,5 @@ describe('hca <ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[0].text()).to.contain('We usually process claims within a week.');
     expect(tree.subTree('.claim-list')).to.be.false;
     expect(tree.everySubTree('.confirmation-guidance-message')[0].text()).to.contain('Find out what happens after you apply.');
-    expect(tree.everySubTree('.confirmation-guidance-message')[1].text()).to.contain('If you have questions, please call 1-877-222-VETS (8387) and press 2, Monday - Friday, 8:00 a.m. - 7:00 p.m. (ET).');
   });
 });

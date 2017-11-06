@@ -12,6 +12,8 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 import { validateMatch } from '../../common/schemaform/validation';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
@@ -78,6 +80,7 @@ const formConfig = {
           title: 'Applicant information',
           path: 'applicant-information-1',
           uiSchema: {
+            'ui:description': applicantDescription,
             application: {
               claimant: {
                 name: fullMaidenNameUI,
@@ -175,7 +178,7 @@ const formConfig = {
           path: 'sponsor-information',
           depends: (formData) => !isVeteran(formData),
           uiSchema: {
-            'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
+            'ui:description': applicantDescription,
             application: {
               veteran: _.merge(veteranUI, {
                 currentName: _.merge(fullNameUI, {

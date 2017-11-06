@@ -42,6 +42,22 @@ export const addressUpdateUnavailable = (
   </div>
 );
 
+export const addressModalContent = (
+  <div>
+    <p>Changing your address here will affect the address that shows on
+    your letters, as well as the location we mail your disability
+    compensation and pension information.</p>
+    <p>If you want to change your address for other VA benefits, such as
+    life insurance, education, and health care, you’ll need to update
+    it separately with each department.
+    </p>
+    <a
+      href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
+      target="_blank">Learn how to update your address for all VA departments
+    </a>
+  </div>
+);
+
 export const recordsNotFound = (
   <div id="records-not-found">
     <header>
@@ -116,7 +132,7 @@ export const letterContent = {
   commissary: commissaryLetterContent,
   proof_of_service: 'This card shows that you served honorably in the Armed Forces. This card might be useful as proof of status to receive discounts at certain stores or restaurants.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
-  minimum_essential_coverage: <div>This letter indicates that you have Minimum Essential Coverage (MEC) as provided by VA. MEC means that your health care plan meets the health insurance requirements under the Affordable Care Act (ACA). To prove that you’re enrolled in the VA health care system, you must have IRS Form 1095-B from VA to show what months you were covered by a VA health care plan. If you’ve lost your IRS Form 1095-B, please call <a href="tel:18772228387">1-877-222-VETS (1-877-222-8387)</a> to request another copy.</div>,
+  minimum_essential_coverage: <div>This letter indicates that you have Minimum Essential Coverage (MEC) as provided by VA. MEC means that your health care plan meets the health insurance requirements under the Affordable Care Act (ACA). To prove that you’re enrolled in the VA health care system, you must have IRS Form 1095-B from VA to show what months you were covered by a VA health care plan. If you’ve lost your IRS Form 1095-B, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) to request another copy.</div>,
   service_verification: serviceVerificationLetterContent,
   civil_service: 'This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
   benefit_summary: 'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
