@@ -3,7 +3,7 @@ import React from 'react';
 export const AdditionalResourcesLinks = () => (
   <div>
     <p>
-      <a href="/education/tools-programs/careerscope" target="_blank">
+      <a href="https://va.careerscope.net/gibill" target="_blank">
         Get started with CareerScope
       </a>
     </p>

@@ -4,18 +4,18 @@ template: detail-page
 title: After You Apply for a Pre-need Eligibility Determination
 display_title: After You Apply
 order: 2
-majorlinks: 
-  - heading: 
-    links: 
-    - url: 
-      title: 
-      description: 
+majorlinks:
+  - heading:
+    links:
+    - url:
+      title:
+      description:
 relatedlinks:
-  - heading: 
-    links: 
-    - url: 
-      title: 
-      description: 
+  - heading:
+    links:
+    - url:
+      title:
+      description:
 ---
 
 <div class="va-introtext">
@@ -28,7 +28,7 @@ Find out what happens after you apply for a pre-need eligibility determination f
 
 <div class="card information" markdown="0">
 <span class="number">About 90 days</span>
-<span class="description">If more than 90 days have passed since you sent us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">1-877-222-8387</a>.</span>
+<span class="description">If more than 90 days have passed since you sent us your application and you haven’t heard back, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
 </div>
 
 The amount of time it takes to review your application depends on:
@@ -40,7 +40,7 @@ The amount of time it takes to review your application depends on:
 
 #### What should I do while I wait?
 
-You don't need to do anything while you wait. We'll contact you if we need more information to make a decision. 
+You don't need to do anything while you wait. We'll contact you if we need more information to make a decision.
 
 <br>
 
@@ -48,7 +48,7 @@ You don't need to do anything while you wait. We'll contact you if we need more 
 
 You’ll receive a VA burial and memorial benefits folder from us in the mail. This folder will include:
 
-- A letter telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. 
+- A letter telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter.
 - A National Cemetery Administration brochure and a burial benefits information sheet. These will tell you more about the benefits you'll receive when you're buried in a VA national cemetery.
 - A copy of the supporting documents you submitted with your application
 
@@ -87,7 +87,7 @@ If you're a Veteran, your surviving spouse or other family members may also qual
 
 #### What if I need to update my information in the future?
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 <br>
 
@@ -99,7 +99,7 @@ We'll send you a denial decision letter explaining the reasons or basis of our d
 
 #### Can I appeal the decision?
 
-Yes. If you disagree with our decision, you can file a notice of disagreement within 1 year from the date of the pre-need decision letter. If you don't file a notice of disagreement within 1 year, our decision will become final. 
+Yes. If you disagree with our decision, you can file a notice of disagreement within 1 year from the date of the pre-need decision letter. If you don't file a notice of disagreement within 1 year, our decision will become final.
 
 You can submit more supporting documents whether or not you choose to appeal the pre-need decision. We'll send you VA Form 4107 (Your Rights to Appeal Our Decision) along with your denial letter. This form explains your rights to appeal and how to submit more evidence. [Learn more about appeals of VA claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap14.asp).
 

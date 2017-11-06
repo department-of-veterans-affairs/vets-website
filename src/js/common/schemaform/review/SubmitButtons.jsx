@@ -93,7 +93,7 @@ export default function SubmitButtons(props) {
       } else if (typeof errorText === 'string') {
         InlineErrorComponent = () => <p>{errorText}</p>;
       } else {
-        InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="1-855-574-7286">1-855-574-7286</a> (TTY: <a href="+18008778339">1-800-877-8339</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>;
+        InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>;
       }
       submitMessage = (
         <div className="usa-alert usa-alert-error schemaform-failure-alert">
