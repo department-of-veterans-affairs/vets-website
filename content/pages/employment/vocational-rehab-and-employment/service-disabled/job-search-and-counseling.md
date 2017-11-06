@@ -1,23 +1,24 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&E Rapid Access to Employment Track
+display_title: Rapid Access to Employment Track
 template: detail-page
 order: 2
 relatedlinks:
   - heading: Other VR&E tracks you may be interested in
     links:
-    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
-      title: Employment Through Long-Term Services Track
-      description: Find out if you may be eligible for vocational training to help you develop new job skills.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
-      title: Self-Employment Track
-      description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
-      title: Independent Living Track
-      description: Learn about services that can help you live as independently as possible if you can't return to work right away.
     - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/small-business-training/
+      title: Self-Employment Track
+      description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
+      title: Employment Through Long-Term Services Track
+      description: Find out if you may be eligible for vocational training to help you develop new job skills.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
+      title: Independent Living Track
+      description: Learn about services that can help you live as independently as possible if you can't return to work right away.
 ---
 
 <div class="va-introtext">
@@ -45,20 +46,6 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 - Vocational counseling
 - Help with writing your resume and preparing for interviews
 - Help determining if you’re eligible for Veterans’ Preference
-
-#### Get more information
-
-We offer opportunities to get training and practical hands-on work experience at the same time through these programs:
-- **VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-- **VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
-
-VR&E employment coordinators, located at our VA regional offices and many of our out-based locations, can help you access the employment services available to you. [Find an employment coordinator near you](link to Excel doc off of https://www.benefits.va.gov/vocrehab/).
-
-We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
-
-Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
-
-Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
 
 <hr>
 
@@ -108,3 +95,19 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 [Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
 Some dependents of Servicemembers or Veterans with service-connected disabilities may also be eligible for education and career counseling. [Learn about services for family members](/employment/vocational-rehab-and-employment/family-members/).
+
+<br>
+
+#### Get more information
+
+We offer opportunities to get training and practical hands-on work experience at the same time through these programs:
+- **VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+- **VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+
+We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+
+VR&E employment coordinators, located at our VA regional offices and many of our out-based locations, can help you access the employment services available to you. [Find an employment coordinator near you](https://www.benefits.va.gov/vocrehab/).
+
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+
+Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
