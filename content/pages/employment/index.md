@@ -20,7 +20,7 @@ majorlinks:
       description: Share your company’s commitment to hiring Veterans and their spouses.
   - heading: Explore Other Ways to Start a Career
     links:
-    - url: /employment/job-seekers/start
+    - url: /employment/job-seekers/register-your-business
       title: Register Your Veteran-Owned Small Business
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
     - url: /employment/job-seekers/family-members
