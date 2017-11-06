@@ -396,7 +396,7 @@ smith.use(collections({
     pattern: 'employment/vocational-rehab-and-employment/service-disabled/*md',
     sortBy: 'order',
     metadata: {
-      name: 'Vocational Rehab &amp; Employment'
+      name: 'Programs for Servicemembers and Veterans'
     }
   },
 }));
