@@ -4,15 +4,17 @@ import Scroll from 'react-scroll';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
 
 import {
+  addressModalContent,
+  addressUpdateUnavailable,
   getStateName,
   getZipCode,
-  isDomesticAddress,
-  isMilitaryAddress,
-  isInternationalAddress,
-  addressUpdateUnavailable,
   inferAddressType,
+  isDomesticAddress,
+  isInternationalAddress,
+  isMilitaryAddress,
   resetDisallowedAddressFields
 } from '../utils/helpers';
 import { saveAddress } from '../actions/letters';
@@ -52,6 +54,7 @@ export class AddressSection extends React.Component {
       errorMessages: {},
       fieldsToValidate: {},
       editableAddress: props.savedAddress || {},
+      addressHelpVisible: false,
     };
 
     // On the off chance that savedAddress is available in constructor, ensure
@@ -236,6 +239,9 @@ export class AddressSection extends React.Component {
     });
   }
 
+  closeAddressHelp = () => this.setState({ addressHelpVisible: false });
+
+  openAddressHelp = () => this.setState({ addressHelpVisible: true });
 
   render() {
     const address = this.props.savedAddress || {};
@@ -295,9 +301,16 @@ export class AddressSection extends React.Component {
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
+          <button className="address-help-btn" onClick={this.openAddressHelp}>What is this?</button>
           {this.props.canUpdate &&
-            <button className="usa-button-secondary" onClick={this.startEditing}>Edit</button>
+            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit</button>
           }
+          <Modal
+            title="Address usage"
+            onClose={this.closeAddressHelp}
+            visible={this.state.addressHelpVisible}
+            id="address-help"
+            contents={addressModalContent}/>
         </div>
       );
     }
