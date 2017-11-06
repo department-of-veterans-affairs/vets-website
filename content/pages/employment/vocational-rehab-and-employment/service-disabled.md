@@ -21,7 +21,7 @@ majorlinks:
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
     - url: /employment/vocational-rehab-and-employment/service-disabled/independent-living/
       title: Independent Living Track
-      description: Learn about services that can help you live more independently if you can't return to work right away.
+      description: Learn about services that can help you live as independently as possible if you can't return to work right away.
 ---
 
 <div class="va-introtext">
