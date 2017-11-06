@@ -39,7 +39,7 @@ class AuthApp extends React.Component {
     parent.sessionStorage.removeItem('userToken');
     parent.sessionStorage.setItem('userToken', token);
     parent.sessionStorage.removeItem('entryTime');
-    parent.sessionStorage.setItem('entryTime', new Date);
+    parent.sessionStorage.setItem('entryTime', new Date());
     parent.postMessage(token, environment.BASE_URL);
 
     // This will trigger a browser reload if the user is using IE or Edge.
