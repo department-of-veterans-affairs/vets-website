@@ -42,6 +42,22 @@ export const addressUpdateUnavailable = (
   </div>
 );
 
+export const addressModalContent = (
+  <div>
+    <p>Changing your address here will affect the address that shows on
+    your letters, as well as the location we mail your disability
+    compensation and pension information.</p>
+    <p>If you want to change your address for other VA benefits, such as
+    life insurance, education, and health care, you’ll need to update
+    it separately with each department.
+    </p>
+    <a
+      href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
+      target="_blank">Learn how to update your address for all VA departments
+    </a>
+  </div>
+);
+
 export const recordsNotFound = (
   <div id="records-not-found">
     <header>
