@@ -282,7 +282,7 @@ describe('<AddressSection>', () => {
     it('should render an address help button', () => {
       const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
       const helpButton = tree.dive(['AddressContent']).everySubTree('button')[0];
-      expect(helpButton.text()).to.contain('What is This?');
+      expect(helpButton.text()).to.contain('What is this?');
     });
   });
 
