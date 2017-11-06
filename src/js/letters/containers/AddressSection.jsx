@@ -307,7 +307,7 @@ export class AddressSection extends React.Component {
           }
           <Modal
             title="Address usage"
-            onClose={this.closeAddressHelp} // prop required but only used if !hideCloseButton
+            onClose={this.closeAddressHelp}
             visible={this.state.addressHelpVisible}
             id="address-help"
             contents={addressModalContent}/>
