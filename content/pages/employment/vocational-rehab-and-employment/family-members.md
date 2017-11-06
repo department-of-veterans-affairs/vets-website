@@ -4,7 +4,7 @@ title: Dependent Family Members
 template: detail-page
 order: 5
 relatedlinks:
-  - heading: More information about VA benefits and services for dependents
+  - heading: More information about VA education and employment benefits and services for dependents
     links: 
     - url: /education/gi-bill/survivors-dependent-assistance/dependents-education/
       title: Survivors' and Dependents' Educational Assistance (DEA) services
@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're eligible for certain benefits and services.
+As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're entitled to certain benefits and services.
 
 </div>
 
