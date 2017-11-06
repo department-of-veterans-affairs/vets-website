@@ -48,20 +48,6 @@ We may also provide minimum stocks, essential equipment, and business license fe
 
 After you develop your business plan, we’ll review it and evaluate whether self-employment and the proposed business are viable options.
 
-#### Get more information
-
-We offer opportunities to get training and practical hands-on work experience at the same time through these programs:
-- **VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-- **VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
-
-VR&E employment coordinators, located at our VA regional offices and many of our out-based locations can help you access the employment services available to you. [Find an employment coordinator near you](link to Excel doc off of https://www.benefits.va.gov/vocrehab/).	
-
-We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
-
-Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
-
-Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
-
 <hr>
 
 ### How do I get these benefits?
@@ -108,3 +94,19 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
 
 [Find out how to apply if you haven’t yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+
+<br>
+
+#### Get more information
+
+We offer opportunities to get training and practical hands-on work experience at the same time through these programs:
+- **VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+- **VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+
+We offer other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+
+VR&E employment coordinators, located at our VA regional offices and many of our out-based locations can help you access the employment services available to you. [Find an employment coordinator near you](https://www.benefits.va.gov/vocrehab/).	
+
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+
+Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
