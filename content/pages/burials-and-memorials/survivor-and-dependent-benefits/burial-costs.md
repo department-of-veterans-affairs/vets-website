@@ -76,7 +76,7 @@ Apply by mail using the Application for Burial Benefits (VA Form 21P-530). [Down
 
 Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
-If you have questions, call <a href="tel:+18008271000">1-800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
+If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefits office.
 
 #### What are the burial allowance amounts for a service-connected death?
 

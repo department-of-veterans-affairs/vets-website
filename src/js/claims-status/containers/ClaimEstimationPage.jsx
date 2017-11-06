@@ -49,7 +49,7 @@ class ClaimEstimationPage extends React.Component {
               <p>Sometimes we can’t estimate the decision date because we don’t have enough information. We can give you an estimated decision date after we have gathered all the information we need.</p>
             </div>
             <p>You can help speed up the process by promptly and electronically uploading the documents requested by VA.</p>
-            <p>If you have questions, call VA at 1-855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p>
+            <p>If you have questions, call VA at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns">
             <AskVAQuestions/>

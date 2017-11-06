@@ -5,6 +5,8 @@ import { createSelector } from 'reselect';
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileHelp, transportationWarning, serviceRecordNotification, serviceRecordWarning, burialDateWarning, transform } from '../helpers';
@@ -103,6 +105,7 @@ const formConfig = {
           title: 'Claimant information',
           path: 'claimant-information',
           uiSchema: {
+            'ui:description': applicantDescription,
             claimantFullName: fullNameUI,
             relationship: {
               type: {
@@ -266,6 +269,7 @@ const formConfig = {
           uiSchema: {
             previousNames: {
               'ui:options': {
+                itemName: 'Name',
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField
               },

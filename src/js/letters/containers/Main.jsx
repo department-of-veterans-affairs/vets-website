@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
+import { systemDownMessage } from '../../common/utils/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
-
-// import { getAddressSuccessAction } from '../utils/helpers';
+import { recordsNotFound } from '../utils/helpers';
 
 import {
   getBenefitSummaryOptions,
@@ -63,7 +62,7 @@ export class Main extends React.Component {
         appContent = systemDownMessage;
         break;
       case backendAuthenticationError:
-        appContent = unableToFindRecordWarning;
+        appContent = recordsNotFound;
         break;
       case invalidAddressProperty:
         appContent = systemDownMessage;
@@ -78,8 +77,8 @@ export class Main extends React.Component {
               <div className="usa-alert-body">
                 <h4 className="usa-alert-heading">Letters Unavailable</h4>
                 <p className="usa-alert-text">
-                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">
-                  1-855-574-7286</a> between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
+                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">1-855-574-7286</a>,
+                  TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
                 </p>
               </div>
             </div>

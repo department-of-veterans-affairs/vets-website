@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Management Centers
-concurrence: "" 
+concurrence: ""
 order: 6
 ---
 
@@ -55,9 +55,9 @@ To submit a pension application to this office, mail it to:
   Janesville, WI  53547-5206
 </p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
+Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
+[Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/).
 
 <br>
 
@@ -97,9 +97,9 @@ To submit a pension application to this office, mail it to:
   Janesville, WI 53547-5192<br>
 </p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
+Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
+[Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/).
 
 <br>
 
@@ -156,6 +156,6 @@ To submit a pension application to this office, mail it to:
   Janesville, WI 53547-5365<br>
 </p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
+Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/). 
+[Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/).
