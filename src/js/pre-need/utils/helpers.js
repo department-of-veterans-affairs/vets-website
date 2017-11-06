@@ -55,7 +55,7 @@ export function transform(formConfig, form) {
           applicantEmail: application.claimant.email,
           applicantPhoneNumber: application.claimant.phoneNumber,
           mailingAddress: application.claimant.address,
-          name: application.claimant.dateOfBirth
+          name: application.claimant.name
         }
       }) : application;
   };
