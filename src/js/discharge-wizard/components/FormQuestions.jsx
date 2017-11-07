@@ -216,10 +216,10 @@ class FormQuestions extends React.Component {
     const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
 
     const prevApplicationTypeOptions = [
-      { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: 'drb' },
-      { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: 'drbPAR' },
-      { label: 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)', value: 'bc' },
-      { label: 'Not sure', value: 'notSure' },
+      { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: '1' },
+      { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: '2' },
+      { label: 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)', value: '3' },
+      { label: 'Not sure', value: '4' },
     ];
 
     return this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions);
