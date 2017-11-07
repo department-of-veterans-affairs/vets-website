@@ -9,7 +9,7 @@ majorlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/service-disabled/
       title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-services tracks for help with learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.   
     - url: /employment/vocational-rehab-and-employment/apply-vre/
       title: Application Process
       description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
