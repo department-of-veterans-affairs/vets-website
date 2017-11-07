@@ -40,6 +40,9 @@ function nextQuestion(currentQuestion, answer, state) {
         next = '6_courtMartial';
       }
       break;
+    case '5_dischargeMonth':
+      next = '6_courtMartial';
+      break;
     case '6_courtMartial':
       next = '7_branchOfService';
       break;

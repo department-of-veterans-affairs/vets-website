@@ -244,7 +244,6 @@ class FormQuestions extends React.Component {
 
               if (k === '4_dischargeYear') {
                 const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['5_dischargeMonth']; });
-                if (k === '4_dischargeYear' && dischargeMonth) { return null; }
 
                 return (
                   <tr key={k}>
