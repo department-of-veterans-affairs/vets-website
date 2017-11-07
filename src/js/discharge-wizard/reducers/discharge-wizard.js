@@ -6,7 +6,7 @@ const initialState = {
   '1_dischargeType': null, // 1a
   '1_intention': null, // 1b
   '2_dischargeYear': undefined, // 2
-  '2_dischargeMonth': null, // 2a
+  '2_dischargeMonth': undefined, // 2a
   '3_courtMartial': null, // 3
   '4_branchOfService': null, // 4
   '5_prevApplication': null, // 5

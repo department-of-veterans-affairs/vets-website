@@ -106,7 +106,6 @@ class FormQuestions extends React.Component {
       </fieldset>
     );
 
-    const dischargeMonth = this.props.formValues['2_dischargeMonth'];
     const monthLabel = (
       <legend className="legend-label">
         <h4>What month were you discharged?</h4>
@@ -121,7 +120,7 @@ class FormQuestions extends React.Component {
           name="2_dischargeMonth"
           options={months}
           ref={(el) => { this['2_dischargeMonth'] = el; }}
-          value={{ value: dischargeMonth }}
+          value={{ value: this.props.formValues['2_dischargeMonth'] }}
           onValueChange={(update) => { this.updateField('2_dischargeMonth', update.value); }}/>
       </fieldset>
     );
@@ -238,10 +237,21 @@ class FormQuestions extends React.Component {
         <table className="usa-table-borderless">
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
-              if (this.props.formValues[k]) {
+              const value = this.props.formValues[k];
+              if (value && questionLabels[k][value]) {
                 return (
-                  <tr>
-                    <td><p>{questionLabels[k][this.props.formValues[k]]}</p></td>
+                  <tr key={k}>
+                    <td><p>{questionLabels[k][value]}</p></td>
+                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  </tr>
+                );
+              } else if (k.indexOf('2') > -1) {
+                const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['2_dischargeMonth']; });
+                if (!this.props.formValues['2_dischargeYear'] || (k === '2_dischargeYear' && dischargeMonth)) { return null; }
+
+                return (
+                  <tr key={k}>
+                    <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {this.props.formValues['2_dischargeYear']}</p></td>
                     <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                   </tr>
                 );
