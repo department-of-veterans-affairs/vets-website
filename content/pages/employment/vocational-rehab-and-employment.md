@@ -10,12 +10,12 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/eligibility/
       title: Eligibility
       description: Find out if you can get VR&E benefits and services as a Servicemember or Veteran.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/
-      title: VR&E Programs for Servicemembers and Veterans
-      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
     - url: /employment/vocational-rehab-and-employment/apply-vre/
       title: Application Process
       description: Find out how to apply for VR&amp;E benefits and services as a Servicemember or Veteran.
+    - url: /employment/vocational-rehab-and-employment/service-disabled/
+      title: VR&E Programs for Servicemembers and Veterans
+      description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
     - url: /employment/vocational-rehab-and-employment/ides/
       title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
       description: If you're wounded, injured, or fall ill while serving and can't perform your duties, find out how you can access VR&E services as soon as possible through IDES.    
