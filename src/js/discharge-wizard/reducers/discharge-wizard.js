@@ -1,5 +1,5 @@
 import { DW_UPDATE_FIELD } from '../actions';
-// import _ from 'lodash';
+import _ from 'lodash';
 
 const initialState = {
   '1_reason': null, // 1
@@ -50,18 +50,18 @@ function nextQuestion(currentQuestion, answer, state) {
       if (answer === '1' && parseInt(state['1_reason'], 10) < 5) {
         next = '9_prevApplicationYear';
       } else {
-        next = null;
+        next = 'END';
       }
       break;
     case '9_prevApplicationYear':
       if (answer.indexOf('after') > -1) {
         next = '10_prevApplicationType';
       } else {
-        next = null;
+        next = 'END';
       }
       break;
     default:
-      return null;
+      return 'END';
   }
   return next;
 }
@@ -69,11 +69,29 @@ function nextQuestion(currentQuestion, answer, state) {
 function form(state = initialState, action) {
   switch (action.type) {
     case DW_UPDATE_FIELD:
-    // TODO: reset answers to following questions
+      if (nextQuestion(action.key, action.value, state) === 'END') {
+        return {
+          ...state,
+          [action.key]: action.value,
+          questions: state.questions.concat([nextQuestion(action.key, action.value, state)]),
+        };
+      }
       return {
         ...state,
+        ...Object.keys(initialState).reduce((a, k) => {
+          const num = k.split('_')[0];
+          const nextNum = action.key.split('_')[0];
+          if (num > nextNum) {
+            return _.set(a, k, initialState[k]);
+          }
+          return a;
+        }, {}),
         [action.key]: action.value,
-        questions: state.questions.concat([nextQuestion(action.key, action.value, state)]),
+        questions: state.questions.filter(e => {
+          const num = e.split('_')[0];
+          const nextNum = action.key.split('_')[0];
+          return num <= nextNum;
+        }).concat([nextQuestion(action.key, action.value, state)]),
       };
     default:
       return state;

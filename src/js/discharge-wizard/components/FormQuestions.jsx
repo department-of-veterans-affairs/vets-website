@@ -239,6 +239,8 @@ class FormQuestions extends React.Component {
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
               const value = this.props.formValues[k];
+              if (Array.isArray(value)) { return null; }
+
               if (this.props.formValues['4_dischargeYear'] && k.indexOf('2') > -1) {
                 const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['5_dischargeMonth']; });
                 if (k === '4_dischargeYear' && dischargeMonth) { return null; }
