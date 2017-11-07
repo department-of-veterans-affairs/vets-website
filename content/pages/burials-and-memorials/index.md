@@ -39,6 +39,9 @@ majorlinks:
     - url: /burials-and-memorials/find-a-cemetery
       title: Find a Cemetery or Gravesite 
       description: Find where a Veteran or family member is buried in a national, state, tribal, military, or Department of the Interior cemetery.
+    - url: /burials-and-memorials/bereavement-counseling/
+      title: Bereavement Counseling
+      description: Find out if you qualify for assistance and support to help you through the emotional and psychological stress of a love one's death.
 ---
 
 <div class="va-introtext">
