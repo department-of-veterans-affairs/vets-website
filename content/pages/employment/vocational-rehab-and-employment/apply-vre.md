@@ -82,7 +82,7 @@ You may be eligible for VR&amp;E benefits and services if you're:
 
 ### What happens after I apply?
 
-After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're entitled to VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, obtain, and retain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+After you apply, we'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're entitled to VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
