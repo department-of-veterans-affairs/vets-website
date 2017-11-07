@@ -863,7 +863,6 @@ const formConfig = {
               isEssentialAcaCoverage,
               'view:preferredFacility': {
                 type: 'object',
-                required: ['view:facilityState', 'vaMedicalFacility'],
                 properties: {
                   'view:facilityState': {
                     type: 'string',
