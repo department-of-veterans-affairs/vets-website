@@ -7,6 +7,7 @@ import {
   genders,
   maritalStatuses
 } from '../../common/utils/options-for-select';
+
 import applicantDescription from '../../common/schemaform/ApplicantDescription';
 
 import GetFormHelp from '../components/GetFormHelp';
