@@ -48,7 +48,7 @@ You can call the VA health facility where you want to receive care. This is usu
 
 <div itemprop="itemListElement">
 
-You can now schedule some of your appointments online. We hope to expand the number of VA facilities and types of appointments in the future.
+You can now schedule some of your appointments online. We hope to add more VA facilities and types of appointments to our scheduling tool in the future.
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
