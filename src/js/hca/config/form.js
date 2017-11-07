@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
@@ -7,7 +8,7 @@ import {
   genders,
   maritalStatuses
 } from '../../common/utils/options-for-select';
-
+import AdditionalInfo from '../../common/components/AdditionalInfo';
 import applicantDescription from '../../common/schemaform/ApplicantDescription';
 
 import GetFormHelp from '../components/GetFormHelp';
@@ -729,12 +730,16 @@ const formConfig = {
             isMedicaidEligible: {
               'ui:title': 'Are you eligible for Medicaid?',
               'ui:widget': 'yesNo',
-              'ui:help': 'Medicaid is a United States health program for eligible individuals and families with low income and few resources.'
+              'ui:description': <AdditionalInfo triggerText="Learn more about Medicaid.">
+                  Medicaid is a government health program for eligible low-income individuals and families and people with disabilities.
+                </AdditionalInfo>
             },
             isEnrolledMedicarePartA: {
               'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
               'ui:widget': 'yesNo',
-              'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
+              'ui:description': <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
+                  Medicare is a federal health insurance program providing coverage for people who are 65 years or older or who meet who meet special criteria. Part A insurance covers hospital care, skilled nursing and nursing home care, hospice, and home health services.
+                </AdditionalInfo>
             },
             medicarePartAEffectiveDate: _.merge(
               currentOrPastDateUI('What is your Medicare Part A effective date?'), {
