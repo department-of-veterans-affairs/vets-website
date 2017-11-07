@@ -17,6 +17,7 @@ const initialState = {
 function form(state = initialState, action) {
   switch (action.type) {
     case DW_UPDATE_FIELD:
+    // TODO: reset answers to following questions
       return _.set(state, action.key, action.value);
     default:
       return state;

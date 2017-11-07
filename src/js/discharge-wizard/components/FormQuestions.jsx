@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
+import { questionLabels } from '../config';
 
 class FormQuestions extends React.Component {
   updateField(name, value) {
@@ -12,8 +13,9 @@ class FormQuestions extends React.Component {
     this.forceUpdate();
   }
 
-  handleScrollTo(refName) {
-    window.scrollTo(this[refName].offsetTop, 0);
+  handleScrollTo = (e) => {
+    e.preventDefault();
+    window.scrollTo(this[e.target.name].offsetTop, 0);
   }
 
   renderQuestion(name, label, options) {
@@ -37,13 +39,13 @@ class FormQuestions extends React.Component {
 
   renderQuestionOne() {
     const options = [
-      { label: 'I suffered from an undiagnosed, misdiagnosed, or untreated mental health condition including posttraumatic stress disorder (PTSD) in the service, and was discharged for reasons related to this condition.', value: '1' },
-      { label: 'I suffered from an undiagnosed, misdiagnosed, or untreated Traumatic Brain Injury (TBI) in the service, and was discharged for reasons related to this condition.', value: '2' },
-      { label: 'I was discharged due to homosexual conduct under Don’t Ask Don’t Tell (DADT) or preceding policies.', value: '3' },
-      { label: 'I was the victim of sexual assault or harassment in the service, and was discharged for reasons related to this incident.', value: '4' },
-      { label: 'I am transgender, and my discharge shows my birth name instead of my current name.', value: '5' },
-      { label: 'There is an error on my discharge paperwork for other reasons.', value: '6' },
-      { label: 'My discharge is unjust or unfair punishment for other reasons.', value: '7' },
+      { label: questionLabels['1_reason']['1'], value: '1' },
+      { label: questionLabels['1_reason']['2'], value: '2' },
+      { label: questionLabels['1_reason']['3'], value: '3' },
+      { label: questionLabels['1_reason']['4'], value: '4' },
+      { label: questionLabels['1_reason']['5'], value: '5' },
+      { label: questionLabels['1_reason']['6'], value: '6' },
+      { label: questionLabels['1_reason']['7'], value: '7' },
     ];
 
     const label = <h4>Which of the following best describes why you want to change your discharge paperwork?</h4>;
@@ -223,18 +225,32 @@ class FormQuestions extends React.Component {
   }
 
   renderAnswerReview() {
+    if (!this.props.formValues['5_prevApplication']) {
+      return null;
+    }
+
     return (
       <div className="review-answers">
         <h4>Review your answers</h4>
         <div className="va-introtext">
           <p>If any information below is incorrect, update your answers to get the best guidance for your discharge situation.</p>
-          <table>
-            <tr>
-              <td><p></p></td>
-              <td></td>
-            </tr>
-          </table>
         </div>
+        <table className="usa-table-borderless">
+          <tbody>
+            {Object.keys(this.props.formValues).map(k => {
+              if (this.props.formValues[k]) {
+                return (
+                  <tr>
+                    <td><p>{questionLabels[k][this.props.formValues[k]]}</p></td>
+                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  </tr>
+                );
+              }
+              return null;
+            })}
+          </tbody>
+        </table>
+        <a className="usa-button-primary va-button">Get my guidance »</a>
       </div>
     );
   }
