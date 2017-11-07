@@ -23,13 +23,13 @@ export const board = (formValues) => {
   const transgender = formValues['1_reason'] === '5';
   const intention = formValues['3_intention'] === '1';
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
-  const boardObj = () => {
-    if (['1', '3', '4'].indexOf(formValues['10_prevApplicationType']) > -1) {
-      return { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
-    }
 
-    return { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
-  };
+  let boardObj;
+  if (['1', '3', '4'].indexOf(formValues['10_prevApplicationType']) > -1) {
+    boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
+  }
+  boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
+
 
   if (noPrevApp || preAppDateBefore || prevAppType) {
     if (courtMartial || transgender || intention) {
