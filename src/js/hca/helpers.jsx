@@ -170,50 +170,66 @@ export const expensesGreaterThanIncomeWarning = (
   </div>
 );
 
-export function expensesLessThanIncome(formData) {
-  const {
-    veteranGrossIncome = 0,
-    veteranNetIncome = 0,
-    veteranOtherIncome = 0,
-    dependents = []
-  } = formData;
-
-  const {
-    spouseGrossIncome = 0,
-    spouseNetIncome = 0,
-    spouseOtherIncome = 0
-  } = formData['view:spouseIncome'] || {};
-
-  const vetSpouseIncome =
-    veteranGrossIncome +
-    veteranNetIncome +
-    veteranOtherIncome +
-    spouseGrossIncome +
-    spouseNetIncome +
-    spouseOtherIncome;
-
-  const income = dependents.reduce((sum, dependent) => {
+export function expensesLessThanIncome(fieldShownUnder) {
+  const fields = ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'];
+  return (formData) => {
     const {
-      grossIncome = 0,
-      netIncome = 0,
-      otherIncome = 0,
-    } = dependent;
+      veteranGrossIncome = 0,
+      veteranNetIncome = 0,
+      veteranOtherIncome = 0,
+      dependents = []
+    } = formData;
 
-    return grossIncome + netIncome + otherIncome + sum;
-  }, vetSpouseIncome);
+    const {
+      spouseGrossIncome = 0,
+      spouseNetIncome = 0,
+      spouseOtherIncome = 0
+    } = formData['view:spouseIncome'] || {};
 
-  const {
-    deductibleMedicalExpenses = 0,
-    deductibleFuneralExpenses = 0,
-    deductibleEducationExpenses = 0,
-  } = formData;
+    const vetSpouseIncome =
+      veteranGrossIncome +
+      veteranNetIncome +
+      veteranOtherIncome +
+      spouseGrossIncome +
+      spouseNetIncome +
+      spouseOtherIncome;
 
-  const expenses =
-    deductibleMedicalExpenses +
-    deductibleEducationExpenses +
-    deductibleFuneralExpenses;
+    const income = dependents.reduce((sum, dependent) => {
+      const {
+        grossIncome = 0,
+        netIncome = 0,
+        otherIncome = 0,
+      } = dependent;
 
-  return income > expenses;
+      return grossIncome + netIncome + otherIncome + sum;
+    }, vetSpouseIncome);
+
+    const {
+      deductibleMedicalExpenses = 0,
+      deductibleFuneralExpenses = 0,
+      deductibleEducationExpenses = 0,
+    } = formData;
+
+    const expenses =
+      deductibleMedicalExpenses +
+      deductibleEducationExpenses +
+      deductibleFuneralExpenses;
+
+    const hideBasedOnValues = income > expenses;
+
+    // If we're not going to hide based on values entered,
+    // then we need to make sure the current field is the last non-empty field
+    if (!hideBasedOnValues) {
+      const nonEmptyFields = fields.filter(field => formData[field]);
+      if (!nonEmptyFields.length || nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return true;
+  };
 }
 
 export const deductibleExpensesDescription = (

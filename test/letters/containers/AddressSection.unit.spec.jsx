@@ -108,14 +108,14 @@ describe('<AddressSection>', () => {
 
   it('should render an edit button if user is allowed to edit address', () => {
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const editButton = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
+    const editButton = ReactTestUtils.findRenderedDOMComponentWithClass(component, 'usa-button-secondary');
     expect(editButton).to.not.be.empty;
   });
 
   it('should not render an edit button if user not allowed to edit address', () => {
     const cannotEditProps = { ...defaultProps, canUpdate: false };
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);
-    expect(() => ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button')).to.throw();
+    expect(() => ReactTestUtils.findRenderedDOMComponentWithClass(component, 'usa-button-secondary')).to.throw();
   });
 
   it('should expand address fields when Edit button is clicked', () => {
@@ -124,7 +124,7 @@ describe('<AddressSection>', () => {
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
   });
@@ -137,7 +137,7 @@ describe('<AddressSection>', () => {
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
 
@@ -153,11 +153,11 @@ describe('<AddressSection>', () => {
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
 
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.not.be.empty;
 
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'select')).to.be.empty;
   });
@@ -169,7 +169,7 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
     expect(tree.getElement('.usa-alert-heading').textContent).to.contain('Address update unavailable');
   });
 
@@ -192,10 +192,10 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     // Try to save
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
     expect(saveSpy.called).to.be.false;
   });
 
@@ -205,7 +205,7 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     // Clear out country to get a validation error
     tree.fillData('[name="country"]', '');
@@ -220,7 +220,7 @@ describe('<AddressSection>', () => {
     const tree = getFormDOM(component);
 
     // Start editing
-    tree.click('button.usa-button-outline');
+    tree.click('button.usa-button-secondary');
 
     // Clear out country to get a validation error
     tree.fillData('[name="country"]', '');
@@ -278,6 +278,14 @@ describe('<AddressSection>', () => {
     expect(instance.state.isEditingAddress).to.be.true;
   });
 
+  describe('address help text', () => {
+    it('should render an address help button', () => {
+      const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+      const helpButton = tree.dive(['AddressContent']).everySubTree('button')[0];
+      expect(helpButton.text()).to.contain('What is this?');
+    });
+  });
+
   describe('validation', () => {
     // Spy on all the validation functions!
     beforeEach(spyOnValidators);
@@ -330,7 +338,7 @@ describe('<AddressSection>', () => {
       const form = getFormDOM(tree);
 
       // Start editing
-      form.click('.usa-button-outline');
+      form.click('.usa-button-secondary');
 
       // Sanity check - Start with no errors
       expect(() => form.findElement('.usa-input-error')).to.throw();

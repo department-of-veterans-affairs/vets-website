@@ -100,7 +100,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     if (this.props.optionsAvailable) {
       benefitSummaryContent = (
         <div>
-          <h2>Choose the information you want to include.</h2>
+          <h4>Choose the information you want to include.</h4>
           <h2>Military service information</h2>
           <p>
             Our records show the 3 most recent service periods. There may be additional service periods not shown here.
@@ -144,7 +144,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       benefitSummaryContent = (
         <div className="feature">
           <h4>Your VA Benefit Summary letter is currently unavailable</h4>
-          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
+          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</div>
         </div>
       );
     }

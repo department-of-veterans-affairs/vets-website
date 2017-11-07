@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import dischargeWizard from './discharge-wizard';
+import form from './discharge-wizard';
 
 export default {
-  dischargeWizard: combineReducers({ dischargeWizard })
+  dischargeWizard: combineReducers({ form })
 };
