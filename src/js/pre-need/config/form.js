@@ -515,7 +515,6 @@ const formConfig = {
                   hasCurrentlyBuried,
                   currentlyBuriedPersons: {
                     type: 'array',
-                    minItems: 0,
                     items: {
                       type: 'object',
                       required: ['name'],
