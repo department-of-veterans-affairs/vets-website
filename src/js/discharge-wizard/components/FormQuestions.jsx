@@ -1,6 +1,7 @@
 import React from 'react';
 import { range } from 'lodash';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
@@ -270,7 +271,9 @@ class FormQuestions extends React.Component {
             })}
           </tbody>
         </table>
-        <a className="usa-button-primary va-button">Get my guidance »</a>
+        <Link to="/guidance" className="usa-button-primary va-button">
+          Get my guidance »
+        </Link>
       </div>
     );
   }

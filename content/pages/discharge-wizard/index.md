@@ -4,13 +4,6 @@ layout: page-react.html
 entryname: discharge-wizard
 ---
 <div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-      <li><a href="/">Home</a></li>
-      <li><strong>Discharge</strong></li>
-    </ul>
-  </nav>
-
   <div class="section">
     <div id="react-root">
       <div class="loading-message">

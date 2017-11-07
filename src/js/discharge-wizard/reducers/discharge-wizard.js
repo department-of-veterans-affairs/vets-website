@@ -90,7 +90,7 @@ function form(state = initialState, action) {
         questions: state.questions.filter(e => {
           const num = e.split('_')[0];
           const nextNum = action.key.split('_')[0];
-          return num <= nextNum;
+          return parseInt(num, 10) <= parseInt(nextNum, 10);
         }).concat([nextQuestion(action.key, action.value, state)]),
       };
     default:
