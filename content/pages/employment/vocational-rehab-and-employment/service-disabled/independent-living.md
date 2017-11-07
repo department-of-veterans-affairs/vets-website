@@ -37,7 +37,7 @@ You may be eligible for independent-living services if you’re a Servicemember 
 - Your disabilities prevent you from looking for or returning to work, **and**
 - Your case manager refers you after you enroll in the VR&amp;E program
 
-**Please note:** Having an employment handicap means your service-connected disability limits your ability to prepare for, get, and obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Please note:** Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 <br>
 
 </div>
@@ -100,7 +100,7 @@ If you’re eligible, a VRC will work with you to determine the severity of your
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Find out how to apply if haven't yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
+[Find out how to apply if you haven't yet received a disability rating](/employment/vocational-rehab-and-employment/apply-vre#servicemember-not-received-rating).
 
