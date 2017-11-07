@@ -126,7 +126,7 @@ class FormQuestions extends React.Component {
 
     const content = [yearSelect];
 
-    if (dischargeYear === '2002') {
+    if (dischargeYear === `${(new Date()).getFullYear() - 15}`) {
       content.push(monthSelect);
     }
 
