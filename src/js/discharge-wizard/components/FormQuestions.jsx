@@ -95,9 +95,9 @@ class FormQuestions extends React.Component {
       </legend>
     );
 
-    const yearSelect = (
+    return (
       <fieldset className="fieldset-input dischargeYear" key="dischargeYear">
-        <ErrorableSelect errorMessage={dischargeYear ? undefined : ''}
+        <ErrorableSelect
           autocomplete="false"
           label={label}
           name="4_dischargeYear"
@@ -107,16 +107,18 @@ class FormQuestions extends React.Component {
           onValueChange={(update) => { this.updateField('4_dischargeYear', update.value); }}/>
       </fieldset>
     );
+  }
 
+  renderQuestionTwoB() {
     const monthLabel = (
       <legend className="legend-label">
         <h4>What month were you discharged?</h4>
       </legend>
     );
 
-    const monthSelect = (
+    return (
       <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth">
-        <ErrorableSelect errorMessage={dischargeYear ? undefined : ''}
+        <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
           name="5_dischargeMonth"
@@ -125,18 +127,6 @@ class FormQuestions extends React.Component {
           value={{ value: this.props.formValues['5_dischargeMonth'] }}
           onValueChange={(update) => { this.updateField('5_dischargeMonth', update.value); }}/>
       </fieldset>
-    );
-
-    const content = [yearSelect];
-
-    if (dischargeYear === `${(new Date()).getFullYear() - 15}`) {
-      content.push(monthSelect);
-    }
-
-    return (
-      <div>
-        {content}
-      </div>
     );
   }
 
@@ -281,6 +271,7 @@ class FormQuestions extends React.Component {
         {this.renderQuestionOneA()}
         {this.renderQuestionOneB()}
         {this.renderQuestionTwo()}
+        {this.renderQuestionTwoB()}
         {this.renderQuestionThree()}
         {this.renderQuestionFour()}
         {this.renderQuestionFive()}

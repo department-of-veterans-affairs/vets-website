@@ -27,7 +27,7 @@ function nextQuestion(currentQuestion, answer, state) {
         next = '3_intention';
       }
       break;
-    case '1_dischargeType':
+    case '2_dischargeType':
       next = '3_intention';
       break;
     case '3_intention':
