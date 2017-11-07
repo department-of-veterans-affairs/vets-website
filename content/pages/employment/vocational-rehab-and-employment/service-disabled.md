@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: VR&E Programs for Servicemembers and Veterans
 display_title: Servicemember & Veteran Programs
-order: 2
+order: 3
 template: detail-page
 children: vreServiceDisabled
 majorlinks:
