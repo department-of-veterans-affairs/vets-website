@@ -241,7 +241,7 @@ class FormQuestions extends React.Component {
               const value = this.props.formValues[k];
               if (Array.isArray(value)) { return null; }
 
-              if (this.props.formValues['4_dischargeYear'] && k.indexOf('2') > -1) {
+              if (k === '4_dischargeYear') {
                 const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['5_dischargeMonth']; });
                 if (k === '4_dischargeYear' && dischargeMonth) { return null; }
 
@@ -251,7 +251,7 @@ class FormQuestions extends React.Component {
                     <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                   </tr>
                 );
-              } else if (this.props.formValues['7_branchOfService'] && k.indexOf('4') > -1) {
+              } else if (k === '7_branchOfService') {
                 return (
                   <tr key={k}>
                     <td><p>I served in the {questionLabels[k][this.props.formValues['7_branchOfService']]}</p></td>
