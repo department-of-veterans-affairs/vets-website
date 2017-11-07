@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: VR&amp;E Application Process
 display_title: Application Process
-order: 3
+order: 2
 template: detail-page
 relatedlinks:
   - heading: More information about VR&E benefits and services
