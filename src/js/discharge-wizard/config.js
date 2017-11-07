@@ -20,7 +20,13 @@ module.exports = {
     '2_dischargeYear': {},
     '2_dischargeMonth': {},
     '3_courtMartial': {},
-    '4_branchOfService': {},
+    '4_branchOfService': {
+      army: 'Army',
+      navy: 'Navy',
+      airForce: 'Air Force',
+      coastGuard: 'Coast Guard',
+      marines: 'Marines',
+    },
     '5_prevApplication': {
       '1': 'I have previously applied for a discharge upgrade for this period of service.',
       '2': 'I have not previously applied for a discharge upgrade for this period of service.',

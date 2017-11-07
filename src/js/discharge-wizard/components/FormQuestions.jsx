@@ -66,8 +66,7 @@ class FormQuestions extends React.Component {
   }
 
   renderQuestionOneB() {
-    // TODO: hide if previous questions have not been answered
-    if (this.props.formValues['1_reason'] === '5') { return null; }
+    if (!this.props.formValues['1_reason'] || this.props.formValues['1_reason'] === '5') { return null; }
 
     const label = <h4>Do you want to change any portion of your record other than discharge status, re-enlistment code, and narrative reason for discharge? (For example, your name or remarks.)</h4>;
     const options = [
@@ -238,20 +237,27 @@ class FormQuestions extends React.Component {
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
               const value = this.props.formValues[k];
-              if (value && questionLabels[k][value]) {
-                return (
-                  <tr key={k}>
-                    <td><p>{questionLabels[k][value]}</p></td>
-                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-                  </tr>
-                );
-              } else if (k.indexOf('2') > -1) {
+              if (this.props.formValues['2_dischargeYear'] && k.indexOf('2') > -1) {
                 const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['2_dischargeMonth']; });
-                if (!this.props.formValues['2_dischargeYear'] || (k === '2_dischargeYear' && dischargeMonth)) { return null; }
+                if (k === '2_dischargeYear' && dischargeMonth) { return null; }
 
                 return (
                   <tr key={k}>
                     <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {this.props.formValues['2_dischargeYear']}</p></td>
+                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  </tr>
+                );
+              } else if (this.props.formValues['4_branchOfService'] && k.indexOf('4') > -1) {
+                return (
+                  <tr key={k}>
+                    <td><p>I served in the {questionLabels[k][this.props.formValues['4_branchOfService']]}</p></td>
+                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  </tr>
+                );
+              } else if (value && questionLabels[k][value]) {
+                return (
+                  <tr key={k}>
+                    <td><p>{questionLabels[k][value]}</p></td>
                     <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                   </tr>
                 );
