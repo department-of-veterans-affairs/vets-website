@@ -11,7 +11,45 @@ import fullSchema527EZ from '../src/js/pensions/config/form';
 import fullSchema530 from '../src/js/burials/config/form';
 import fullSchema10007 from '../src/js/pre-need/config/form';
 
+import schemas from 'vets-json-schema/dist/schemas';
+
+// Maps schema id to config id
+const mappedIds = [
+  '10-10EZ',
+  '21P-527EZ',
+  '21P-530',
+  '22-1990',
+  '22-1990E',
+  '22-1990N',
+  '22-1995',
+  '22-5490',
+  '22-5495',
+  '40-10007',
+  'definitions'
+];
+
 describe('form migrations:', () => {
+  it('should check all forms', () => {
+    const configs = [
+      fullSchema1010ez,
+      fullSchema527EZ,
+      fullSchema530,
+      fullSchema1990,
+      fullSchema1990e,
+      fullSchema1990n,
+      fullSchema1995,
+      fullSchema5490,
+      fullSchema5495,
+      fullSchema10007
+    ];
+    const allFormIds = Object.keys(schemas);
+    const reformattedIds = mappedIds.slice(0);
+    reformattedIds.splice(0, 1, '1010ez');
+    reformattedIds.pop();
+    const includedFormIds = configs.map(form => form.formId);
+    expect(allFormIds).to.deep.equal(mappedIds);
+    expect(includedFormIds).to.deep.equal(reformattedIds);
+  });
   it('should have a length equal to the version number', () => {
     const configs = [
       fullSchema1010ez,
