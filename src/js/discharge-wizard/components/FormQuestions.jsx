@@ -81,7 +81,10 @@ class FormQuestions extends React.Component {
   }
 
   renderQuestionTwo() {
-    const dischargeYear = this.props.formValues['4_dischargeYear'];
+    const key = '4_dischargeYear';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
+    const dischargeYear = this.props.formValues[key];
     const yearOptions = range(16).map(i => {
       const year = (new Date()).getFullYear() - i;
       return { label: year.toString(), value: year.toString() };
@@ -100,16 +103,19 @@ class FormQuestions extends React.Component {
         <ErrorableSelect
           autocomplete="false"
           label={label}
-          name="4_dischargeYear"
+          name={key}
           options={yearOptions}
-          ref={(el) => { this['4_dischargeYear'] = el; }}
+          ref={(el) => { this[key] = el; }}
           value={{ value: dischargeYear }}
-          onValueChange={(update) => { this.updateField('4_dischargeYear', update.value); }}/>
+          onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
     );
   }
 
   renderQuestionTwoB() {
+    const key = '5_dischargeMonth';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
     const monthLabel = (
       <legend className="legend-label">
         <h4>What month were you discharged?</h4>
@@ -121,26 +127,32 @@ class FormQuestions extends React.Component {
         <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
-          name="5_dischargeMonth"
+          name={key}
           options={months}
-          ref={(el) => { this['5_dischargeMonth'] = el; }}
-          value={{ value: this.props.formValues['5_dischargeMonth'] }}
-          onValueChange={(update) => { this.updateField('5_dischargeMonth', update.value); }}/>
+          ref={(el) => { this[key] = el; }}
+          value={{ value: this.props.formValues[key] }}
+          onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
     );
   }
 
   renderQuestionThree() {
+    const key = '6_courtMartial';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
     const label = <h4>Was your discharge the outcome of a General Court Martial? (Answer “no” if your discharge was administrative, or was the outcome of a Special or a Summary Court Martial.)</h4>;
     const options = [
       { label: 'Yes', value: '1' },
       { label: 'No', value: '2' },
     ];
 
-    return this.renderQuestion('6_courtMartial', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionFour() {
+    const key = '7_branchOfService';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
     const label = <h4>In which branch of service did you serve?</h4>;
     const options = [
       { label: 'Army', value: 'army' },
@@ -150,69 +162,66 @@ class FormQuestions extends React.Component {
       { label: 'Marines', value: 'marines' },
     ];
 
-    return this.renderQuestion('7_branchOfService', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionFive() {
+    const key = '8_prevApplication';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
     const label = <h4>Have you previously applied for a discharge upgrade for this period of service?</h4>;
     const options = [
       { label: 'Yes', value: '1' },
       { label: 'No', value: '2' },
     ];
 
-    const questions = [
-      this.renderQuestion('8_prevApplication', label, options),
+    return this.renderQuestion('8_prevApplication', label, options);
+  }
+
+  renderQuestionFiveA() {
+    const key = '9_prevApplicationYear';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
+    const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
+    let labelYear;
+
+    switch (this.props.formValues['8_prevApplication']) {
+      case '1':
+      case '2':
+        labelYear = 2014;
+        break;
+      case '3':
+        labelYear = 2011;
+        break;
+      case '4':
+        labelYear = 2017;
+        break;
+      default:
+        break;
+    }
+
+    const prevApplicationYearOptions = [
+      { label: `${labelYear} or earlier`, value: `before_${labelYear}` },
+      { label: `After ${labelYear}`, value: `after_${labelYear}` },
     ];
 
-    if (this.props.formValues['8_prevApplication'] === '1' && parseInt(this.props.formValues['1_reason'], 10) < 5) {
-      const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
-      let labelYear;
+    return this.renderQuestion('9_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions);
+  }
 
-      switch (this.props.formValues['8_prevApplication']) {
-        case '1':
-        case '2':
-          labelYear = 2014;
-          break;
-        case '3':
-          labelYear = 2011;
-          break;
-        case '4':
-          labelYear = 2017;
-          break;
-        default:
-          break;
-      }
+  renderQuestionFiveB() {
+    const key = '10_prevApplicationType';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
-      const prevApplicationYearOptions = [
-        { label: `${labelYear} or earlier`, value: `before_${labelYear}` },
-        { label: `After ${labelYear}`, value: `after_${labelYear}` },
-      ];
+    const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
 
-      questions.push(
-        this.renderQuestion('9_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions),
-      );
-    }
+    const prevApplicationTypeOptions = [
+      { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: 'drb' },
+      { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: 'drbPAR' },
+      { label: 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)', value: 'bc' },
+      { label: 'Not sure', value: 'notSure' },
+    ];
 
-    if (this.props.formValues['8_prevApplication'] === '1' && this.props.formValues['9_prevApplicationYear'] && this.props.formValues['9_prevApplicationYear'].indexOf('after') > -1) {
-      const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
-
-      const prevApplicationTypeOptions = [
-        { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: 'drb' },
-        { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: 'drbPAR' },
-        { label: 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)', value: 'bc' },
-        { label: 'Not sure', value: 'notSure' },
-      ];
-
-      questions.push(
-        this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions),
-      );
-    }
-
-    return (
-      <div>
-        {questions}
-      </div>
-    );
+    return this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions);
   }
 
   renderAnswerReview() {
@@ -275,6 +284,8 @@ class FormQuestions extends React.Component {
         {this.renderQuestionThree()}
         {this.renderQuestionFour()}
         {this.renderQuestionFive()}
+        {this.renderQuestionFiveA()}
+        {this.renderQuestionFiveB()}
         {this.renderAnswerReview()}
       </div>
     );

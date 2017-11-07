@@ -73,7 +73,7 @@ function form(state = initialState, action) {
       return {
         ...state,
         [action.key]: action.value,
-        questions: state.questions.concat([nextQuestion(action.key, action.value)]),
+        questions: state.questions.concat([nextQuestion(action.key, action.value, state)]),
       };
     default:
       return state;
