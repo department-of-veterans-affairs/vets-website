@@ -17,7 +17,7 @@ relatedlinks:
       title: Self-Employment Track
       description: If you’re a Servicemember or Veteran with a service-connected disability, find out how we can help you start your own business.
     - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
-      title: Employment Through Long-Term Services Track
+      title: Employment through Long-Term Services Track
       description: Find out if you may be eligible for vocational training to help you develop new job skills.
 ---
 
