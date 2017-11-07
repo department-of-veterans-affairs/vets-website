@@ -36,20 +36,23 @@ There are many ways for Veterans to make health care appointments.
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3>Schedule an appointment</h3>
 
-<h4 itemprop="name">By phone</h4>
+<h3 itemprop="name">Schedule by phone</h3>
 
 <div itemprop="itemListElement">
 
 You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
 </div>
 
-<h4 itemprop="name">Online</h4>
+<h3 itemprop="name">Schedule online</h3>
 
 <div itemprop="itemListElement">
 
 VA now offers online appointment scheduling for some appointments. We hope to expand the number of VA facilities and types of appointments in the future.
+
+<div>
+  <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
+</div>
 
 If you have VA health care benefits, you can schedule your VA primary care appointments online if you:
 
@@ -64,10 +67,6 @@ With your online status, you'll also be able to:
 - Get notifications about appointments
 - Cancel appointments
 
-<div>
-  <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
-</div>
-
 <br>
 
 ##### Upgrade your existing accounts
@@ -76,7 +75,7 @@ With your online status, you'll also be able to:
 - [Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon).
 </div>
 
-<h4 itemprop="name">Through secure messaging</h4>
+<h3 itemprop="name">Schedule through secure messaging</h3>
 
 <div itemprop="itemListElement">
 
