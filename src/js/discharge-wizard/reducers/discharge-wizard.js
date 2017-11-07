@@ -40,6 +40,9 @@ function nextQuestion(currentQuestion, answer, state) {
         next = '6_courtMartial';
       }
       break;
+    case '5_dischargeMonth':
+      next = '6_courtMartial';
+      break;
     case '6_courtMartial':
       next = '7_branchOfService';
       break;
@@ -54,7 +57,7 @@ function nextQuestion(currentQuestion, answer, state) {
       }
       break;
     case '9_prevApplicationYear':
-      if (answer.indexOf('after') > -1) {
+      if (answer === '2') {
         next = '10_prevApplicationType';
       } else {
         next = 'END';

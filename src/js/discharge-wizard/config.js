@@ -4,6 +4,7 @@ module.exports = {
     bcmr: 'Board for Correction of Military Records (BCMR)',
     bcnr: 'Board for Correction of Naval Records (BCNR)',
   },
+  venueWarning: 'You indicated you were not sure which venue you used to make your last application. This guidance is designed for Veterans who have not previously made any discharge upgrade applications; your process may differ based on your previous application. For more reliable guidance, please review your records and determine where you made your previous application.',
   /* eslint-disable quote-props */
   questionLabels: {
     '1_reason': {
