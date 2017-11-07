@@ -58,9 +58,15 @@ export function transform(formConfig, form) {
   });
 }
 
-export function FacilityHelp() {
-  return <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>;
-}
+export const facilityHelp = (
+  <div>
+    <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>
+    <br/>
+    If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank">Learn more about the Foreign Medical Program</a>.
+    <br/>
+    <p>You can also visit <a href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp" target="_blank">Veterans Living Abroad</a>.</p>
+  </div>
+);
 
 // Turns the facility list for each state into an array of strings
 export const medicalCentersByState = _.mapValues((val) => {
