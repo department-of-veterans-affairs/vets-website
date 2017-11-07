@@ -6,6 +6,7 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
 import { questionLabels } from '../config';
+import { shouldShowQuestion } from '../utils';
 
 class FormQuestions extends React.Component {
   updateField(name, value) {
@@ -54,31 +55,33 @@ class FormQuestions extends React.Component {
   }
 
   renderQuestionOneA() {
-    if (this.props.formValues['1_reason'] !== '3') { return null; }
+    // if (this.props.formValues['1_reason'] !== '3') { return null; }
+    const key = '2_dischargeType';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Which of the following categories best describes you?</h4>;
     const options = [
       { label: 'My discharge is Honorable or General Under Honorable Conditions, and I only want my narrative reason for discharge or enlistment code changed.', value: '1' },
       { label: 'My discharge status is not under honorable conditions.', value: '2' },
     ];
-
-    return this.renderQuestion('1_dischargeType', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionOneB() {
-    if (!this.props.formValues['1_reason'] || this.props.formValues['1_reason'] === '5') { return null; }
+    // if (!this.props.formValues['1_reason'] || this.props.formValues['1_reason'] === '5') { return null; }
+    const key = '3_intention';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Do you want to change any portion of your record other than discharge status, re-enlistment code, and narrative reason for discharge? (For example, your name or remarks.)</h4>;
     const options = [
       { label: 'Yes, I want to change other information on my record, like my name or remarks.', value: '1' },
       { label: 'No, I only want to change my discharge status, re-enlistment code, and/or narrative reason for discharge.', value: '2' },
     ];
-
-    return this.renderQuestion('1_intention', label, options);
+    return this.renderQuestion('3_intention', label, options);
   }
 
   renderQuestionTwo() {
-    const dischargeYear = this.props.formValues['2_dischargeYear'];
+    const dischargeYear = this.props.formValues['4_dischargeYear'];
     const yearOptions = range(16).map(i => {
       const year = (new Date()).getFullYear() - i;
       return { label: year.toString(), value: year.toString() };
@@ -97,11 +100,11 @@ class FormQuestions extends React.Component {
         <ErrorableSelect errorMessage={dischargeYear ? undefined : ''}
           autocomplete="false"
           label={label}
-          name="2_dischargeYear"
+          name="4_dischargeYear"
           options={yearOptions}
-          ref={(el) => { this['2_dischargeYear'] = el; }}
+          ref={(el) => { this['4_dischargeYear'] = el; }}
           value={{ value: dischargeYear }}
-          onValueChange={(update) => { this.updateField('2_dischargeYear', update.value); }}/>
+          onValueChange={(update) => { this.updateField('4_dischargeYear', update.value); }}/>
       </fieldset>
     );
 
@@ -116,11 +119,11 @@ class FormQuestions extends React.Component {
         <ErrorableSelect errorMessage={dischargeYear ? undefined : ''}
           autocomplete="false"
           label={monthLabel}
-          name="2_dischargeMonth"
+          name="5_dischargeMonth"
           options={months}
-          ref={(el) => { this['2_dischargeMonth'] = el; }}
-          value={{ value: this.props.formValues['2_dischargeMonth'] }}
-          onValueChange={(update) => { this.updateField('2_dischargeMonth', update.value); }}/>
+          ref={(el) => { this['5_dischargeMonth'] = el; }}
+          value={{ value: this.props.formValues['5_dischargeMonth'] }}
+          onValueChange={(update) => { this.updateField('5_dischargeMonth', update.value); }}/>
       </fieldset>
     );
 
@@ -144,7 +147,7 @@ class FormQuestions extends React.Component {
       { label: 'No', value: '2' },
     ];
 
-    return this.renderQuestion('3_courtMartial', label, options);
+    return this.renderQuestion('6_courtMartial', label, options);
   }
 
   renderQuestionFour() {
@@ -157,7 +160,7 @@ class FormQuestions extends React.Component {
       { label: 'Marines', value: 'marines' },
     ];
 
-    return this.renderQuestion('4_branchOfService', label, options);
+    return this.renderQuestion('7_branchOfService', label, options);
   }
 
   renderQuestionFive() {
@@ -168,14 +171,14 @@ class FormQuestions extends React.Component {
     ];
 
     const questions = [
-      this.renderQuestion('5_prevApplication', label, options),
+      this.renderQuestion('8_prevApplication', label, options),
     ];
 
-    if (this.props.formValues['5_prevApplication'] === '1' && parseInt(this.props.formValues['1_reason'], 10) < 5) {
+    if (this.props.formValues['8_prevApplication'] === '1' && parseInt(this.props.formValues['1_reason'], 10) < 5) {
       const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
       let labelYear;
 
-      switch (this.props.formValues['5_prevApplication']) {
+      switch (this.props.formValues['8_prevApplication']) {
         case '1':
         case '2':
           labelYear = 2014;
@@ -196,11 +199,11 @@ class FormQuestions extends React.Component {
       ];
 
       questions.push(
-        this.renderQuestion('5_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions),
+        this.renderQuestion('9_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions),
       );
     }
 
-    if (this.props.formValues['5_prevApplication'] === '1' && this.props.formValues['5_prevApplicationYear'] && this.props.formValues['5_prevApplicationYear'].indexOf('after') > -1) {
+    if (this.props.formValues['8_prevApplication'] === '1' && this.props.formValues['9_prevApplicationYear'] && this.props.formValues['9_prevApplicationYear'].indexOf('after') > -1) {
       const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
 
       const prevApplicationTypeOptions = [
@@ -211,7 +214,7 @@ class FormQuestions extends React.Component {
       ];
 
       questions.push(
-        this.renderQuestion('5_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions),
+        this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions),
       );
     }
 
@@ -223,7 +226,7 @@ class FormQuestions extends React.Component {
   }
 
   renderAnswerReview() {
-    if (!this.props.formValues['5_prevApplication']) {
+    if (!this.props.formValues['8_prevApplication']) {
       return null;
     }
 
@@ -237,20 +240,20 @@ class FormQuestions extends React.Component {
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
               const value = this.props.formValues[k];
-              if (this.props.formValues['2_dischargeYear'] && k.indexOf('2') > -1) {
-                const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['2_dischargeMonth']; });
-                if (k === '2_dischargeYear' && dischargeMonth) { return null; }
+              if (this.props.formValues['4_dischargeYear'] && k.indexOf('2') > -1) {
+                const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['5_dischargeMonth']; });
+                if (k === '4_dischargeYear' && dischargeMonth) { return null; }
 
                 return (
                   <tr key={k}>
-                    <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {this.props.formValues['2_dischargeYear']}</p></td>
+                    <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {this.props.formValues['4_dischargeYear']}</p></td>
                     <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                   </tr>
                 );
-              } else if (this.props.formValues['4_branchOfService'] && k.indexOf('4') > -1) {
+              } else if (this.props.formValues['7_branchOfService'] && k.indexOf('4') > -1) {
                 return (
                   <tr key={k}>
-                    <td><p>I served in the {questionLabels[k][this.props.formValues['4_branchOfService']]}</p></td>
+                    <td><p>I served in the {questionLabels[k][this.props.formValues['7_branchOfService']]}</p></td>
                     <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                   </tr>
                 );

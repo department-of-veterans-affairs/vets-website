@@ -16,23 +16,23 @@ module.exports = {
       '7': 'My discharge is unjust or unfair punishment for other reasons.',
     },
     '1_dischargeType': {},
-    '1_intention': {},
-    '2_dischargeYear': {},
-    '2_dischargeMonth': {},
-    '3_courtMartial': {},
-    '4_branchOfService': {
+    '3_intention': {},
+    '4_dischargeYear': {},
+    '5_dischargeMonth': {},
+    '6_courtMartial': {},
+    '7_branchOfService': {
       army: 'Army',
       navy: 'Navy',
       airForce: 'Air Force',
       coastGuard: 'Coast Guard',
       marines: 'Marines',
     },
-    '5_prevApplication': {
+    '8_prevApplication': {
       '1': 'I have previously applied for a discharge upgrade for this period of service.',
       '2': 'I have not previously applied for a discharge upgrade for this period of service.',
     },
-    '5_prevApplicationYear': {},
-    '5_prevApplicationType': {},
+    '9_prevApplicationYear': {},
+    '10_prevApplicationType': {},
   }
   /* eslint-enable quote-props */
 };

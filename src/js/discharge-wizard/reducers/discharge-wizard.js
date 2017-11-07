@@ -3,16 +3,16 @@ import { DW_UPDATE_FIELD } from '../actions';
 
 const initialState = {
   '1_reason': null, // 1
-  '1_dischargeType': null, // 1a
-  '1_intention': null, // 1b
-  '2_dischargeYear': undefined, // 2
-  '2_dischargeMonth': undefined, // 2a
-  '3_courtMartial': null, // 3
-  '4_branchOfService': null, // 4
-  '5_prevApplication': null, // 5
-  '5_prevApplicationYear': null, // 5a
-  '5_prevApplicationType': null, // 5b
-  nextQuestion: '1_intention',
+  '2_dischargeType': null, // 1a
+  '3_intention': null, // 1b
+  '4_dischargeYear': undefined, // 2
+  '5_dischargeMonth': undefined, // 2a
+  '6_courtMartial': null, // 3
+  '7_branchOfService': null, // 4
+  '8_prevApplication': null, // 5
+  '9_prevApplicationYear': null, // 5a
+  '10_prevApplicationType': null, // 5b
+  questions: ['1_reason'],
 };
 
 function nextQuestion(currentQuestion, answer, state) {
@@ -20,42 +20,42 @@ function nextQuestion(currentQuestion, answer, state) {
   switch (currentQuestion) {
     case '1_reason':
       if (answer === '3') {
-        next = '1_dischargeType';
+        next = '2_dischargeType';
       } else if (answer === '5') {
-        next = '2_dischargeYear';
+        next = '4_dischargeYear';
       } else {
-        next = '1_intention';
+        next = '3_intention';
       }
       break;
     case '1_dischargeType':
-      next = '1_intention';
+      next = '3_intention';
       break;
-    case '1_intention':
-      next = '2_dischargeYear';
+    case '3_intention':
+      next = '4_dischargeYear';
       break;
-    case '2_dischargeYear':
+    case '4_dischargeYear':
       if (answer === `${(new Date()).getFullYear() - 15}`) {
-        next = '2_dischargeMonth';
+        next = '5_dischargeMonth';
       } else {
-        next = '3_courtMartial';
+        next = '6_courtMartial';
       }
       break;
-    case '3_courtMartial':
-      next = '4_branchOfService';
+    case '6_courtMartial':
+      next = '7_branchOfService';
       break;
-    case '4_branchOfService':
-      next = '5_prevApplication';
+    case '7_branchOfService':
+      next = '8_prevApplication';
       break;
-    case '5_prevApplication':
+    case '8_prevApplication':
       if (answer === '1' && parseInt(state['1_reason'], 10) < 5) {
-        next = '5_prevApplicationYear';
+        next = '9_prevApplicationYear';
       } else {
         next = null;
       }
       break;
-    case '5_prevApplicationYear':
+    case '9_prevApplicationYear':
       if (answer.indexOf('after') > -1) {
-        next = '5_prevApplicationType';
+        next = '10_prevApplicationType';
       } else {
         next = null;
       }
@@ -73,7 +73,7 @@ function form(state = initialState, action) {
       return {
         ...state,
         [action.key]: action.value,
-        nextQuestion: nextQuestion(action.key, action.value),
+        questions: state.questions.concat([nextQuestion(action.key, action.value)]),
       };
     default:
       return state;
