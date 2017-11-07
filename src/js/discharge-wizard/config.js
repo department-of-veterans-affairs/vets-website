@@ -15,7 +15,7 @@ module.exports = {
       '6': 'There is an error on my discharge paperwork for other reasons.',
       '7': 'My discharge is unjust or unfair punishment for other reasons.',
     },
-    '1_dischargeType': {},
+    '2_dischargeType': {},
     '3_intention': {},
     '4_dischargeYear': {},
     '5_dischargeMonth': {},
