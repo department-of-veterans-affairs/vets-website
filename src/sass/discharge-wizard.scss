@@ -1,3 +1,5 @@
+@import "shared-variables";
+
 .discharge-wizard {
   padding-bottom: 3em;
 
@@ -6,6 +8,10 @@
     padding: 0 1.5em;
     margin-top: 2em;
 
+    &.dischargeMonth, &.dischargeYear {
+      margin-top: 0;
+    }
+
     .legend-label {
       max-width: 100%;
     }
@@ -13,5 +19,17 @@
     label {
       max-width: 100%;
     }
+  }
+
+  .va-introtext {
+    p {
+      margin-top: 0;
+      color: $color-primary-darker;
+    }
+  }
+
+  .review-answers {
+    margin-top: 3em;
+    padding: 0 1.5em;
   }
 }
