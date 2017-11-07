@@ -54,7 +54,7 @@ function nextQuestion(currentQuestion, answer, state) {
       }
       break;
     case '9_prevApplicationYear':
-      if (answer.indexOf('after') > -1) {
+      if (answer === '2') {
         next = '10_prevApplicationType';
       } else {
         next = 'END';

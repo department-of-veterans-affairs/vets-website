@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
-import { branchOfService } from '../utils';
+import { branchOfService, board, formNumber } from '../utils';
 
 class GuidancePage extends React.Component {
   renderResultSummary() {
-    const fiveB = this.props.formValues['10_prevApplicationType'];
-    return `You need to complete Department of Defense (DoD) Form ${1111} and send it to the ${88888} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${fiveB === '3' ? ' for reconsideration' : ''}`;
+    const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
+    return `You need to complete Department of Defense (DoD) Form ${formNumber(formNumber)} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
   }
 
   render() {

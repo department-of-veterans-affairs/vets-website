@@ -202,8 +202,8 @@ class FormQuestions extends React.Component {
     }
 
     const prevApplicationYearOptions = [
-      { label: `${labelYear} or earlier`, value: `before_${labelYear}` },
-      { label: `After ${labelYear}`, value: `after_${labelYear}` },
+      { label: `${labelYear} or earlier`, value: '1' },
+      { label: `After ${labelYear}`, value: '2' },
     ];
 
     return this.renderQuestion('9_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions);
