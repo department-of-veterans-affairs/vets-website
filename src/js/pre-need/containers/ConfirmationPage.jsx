@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -16,29 +15,28 @@ const scrollToTop = () => {
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
   render() {
-    const time = this.props.form.submission.response.timestamp;
-
     return (
       <div>
-        <div className="usa-width-one-sixth medium-2 columns">
-          <i className="fa fa-check-circle hca-success-icon"></i>
-        </div>
-        <div className="usa-width-five-sixths medium-10 columns">
-          <h4 className="success-copy">You have successfully submitted your application for health care!</h4>
-        </div>
-        <div>
-          <p>We are processing your application. The Department of Veterans Affairs will contact you when we finish our review.</p>
-          <div className="success-alert-box">
-            <p className="success-copy">Form submitted: {moment(time).format('MMMM D, YYYY, h:mm a')}</p>
-          </div>
-          <p>Please print this page for your records.</p>
-          <p>If you have questions, call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>) and press 2, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
-        </div>
+        <h3 className="confirmation-page-title">Application received</h3>
+
+        <p>
+          You’ve successfully submitted your application for a pre-need eligibility determination for burial in a VA national cemetery. Please print or save this page for your records.
+        </p>
+        <p>
+          We usually process claims within <strong>90 days</strong>. We’ll let you know by mail or phone (if you provided your phone number) if we need more information.
+        </p>
+        <p>
+          <a href="/burials-and-memorials/pre-need/after-you-apply/">Learn more about what happens after you apply.</a>
+        </p>
+
+        <h4>Want to save a copy of your application for your records?</h4>
+
+        <button>Download now</button>
       </div>
     );
   }
