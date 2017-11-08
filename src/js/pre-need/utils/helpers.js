@@ -1,13 +1,18 @@
 import React from 'react';
-import { get, merge, set } from 'lodash/fp';
+import { get, merge } from 'lodash/fp';
 
+import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import { transformForSubmit } from '../../common/schemaform/helpers';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
+import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
+}
+
+export function isAuthorizedAgent(item) {
+  return get('application.applicant.applicantRelationshipToClaimant', item) === 'Authorized Agent/Rep';
 }
 
 export function requiresSponsorInfo(item) {
@@ -17,7 +22,7 @@ export function requiresSponsorInfo(item) {
 
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
-  return `${first} ${middle ? `${middle} ` : ''}${last}${suffix ? `, ${suffix}` : ''}`;
+  return (first || last) && `${first} ${middle ? `${middle} ` : ''}${last}${suffix ? `, ${suffix}` : ''}`;
 }
 
 export function claimantHeader({ formData }) {
@@ -28,56 +33,91 @@ export function claimantHeader({ formData }) {
 }
 
 export function transform(formConfig, form) {
-  const matchClaimant = name => a => formatName(a.claimant.name) === name;
-  const formCopy = Object.assign({}, form);
+  // Copy over sponsor data if the claimant is the veteran.
+  const populateSponsorData = (application) => {
+    return isVeteran({ application }) ?
+      merge(application, {
+        veteran: {
+          address: application.claimant.address,
+          currentName: application.claimant.name,
+          dateOfBirth: application.claimant.dateOfBirth,
+          ssn: application.claimant.ssn,
+          isDeceased: 'no',
+          serviceName: application.veteran.serviceName || application.claimant.name
+        }
+      }) : application;
+  };
 
-  formCopy.applications = formCopy.applications.map(application => {
-    // Fill in veteran info that veterans didn't need to enter separately.
-    if (isVeteran(application)) {
-      return merge('veteran', {
-        address: application.claimant.address,
-        currentName: application.claimant.name,
-        dateOfBirth: application.claimant.dateOfBirth,
-        ssn: application.claimant.ssn,
-        isDeceased: 'no'
-      }, application);
-    }
+  // Copy over preparer data if the claimant is the applicant.
+  const populatePreparerData = (application) => {
+    return !isAuthorizedAgent({ application }) ?
+      merge(application, {
+        applicant: {
+          applicantEmail: application.claimant.email,
+          applicantPhoneNumber: application.claimant.phoneNumber,
+          mailingAddress: application.claimant.address,
+          name: application.claimant.name
+        }
+      }) : application;
+  };
 
-    // Fill in veteran info in each application
-    // where the sponsor is another claimant.
-    const sponsorName = application['view:sponsor'];
-    if (sponsorName !== 'Other') {
-      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
-      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
-      return set('veteran', veteran, application);
-    }
+  const application = [
+    populateSponsorData,
+    populatePreparerData,
+  ].reduce((result, func) => func(result), form.data.application);
 
-    return application;
-  });
+  // const formCopy = set('application', application, Object.assign({}, form));
+  // const formData = transformForSubmit(formConfig, formCopy);
 
-  // Fill in applicant info in each application
-  // if the applicant is another claimant.
-  const applicantName = form['view:preparer'];
-  if (applicantName !== 'Other') {
-    const applicantApplication = form.applications.find(matchClaimant(applicantName));
-    const { address, email, name, phoneNumber } = applicantApplication.claimant;
-    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
-      applicantEmail: email,
-      applicantPhoneNumber: phoneNumber,
-      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
-      completingReason: '',
-      mailingAddress: address,
-      name
-    }, application));
-  }
+  return JSON.stringify({ application });
 
-  const formData = transformForSubmit(formConfig, formCopy);
-
-  return JSON.stringify({
-    preNeedClaim: {
-      form: formData
-    },
-  });
+  /* Transformation for multiple applicants.
+   *
+   *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
+   *
+   *  formCopy.applications = formCopy.applications.map(application => {
+   *    // Fill in veteran info that veterans didn't need to enter separately.
+   *    if (isVeteran(application)) {
+   *      return merge(application, {
+   *        veteran: {
+   *          address: application.claimant.address,
+   *          currentName: application.claimant.name,
+   *          dateOfBirth: application.claimant.dateOfBirth,
+   *          ssn: application.claimant.ssn,
+   *          isDeceased: 'no'
+   *        }
+   *      });
+   *    }
+   *
+   *    // Fill in veteran info in each application
+   *    // where the sponsor is another claimant.
+   *    const sponsorName = application['view:sponsor'];
+   *    if (sponsorName !== 'Other') {
+   *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
+   *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
+   *      return set('veteran', veteran, application);
+   *    }
+   *
+   *    return application;
+   *  });
+   *
+   *  // Fill in applicant info in each application
+   *  // if the applicant is another claimant.
+   *  const applicantName = form['view:preparer'];
+   *  if (applicantName !== 'Other') {
+   *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
+   *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
+   *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
+   *      applicantEmail: email,
+   *      applicantPhoneNumber: phoneNumber,
+   *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
+   *      completingReason: '',
+   *      mailingAddress: address,
+   *      name
+   *    }, application));
+   *  }
+   *
+   */
 }
 
 export const fullMaidenNameUI = merge(fullNameUI, {
@@ -177,6 +217,130 @@ export const veteranUI = {
         I: 'Death Related to Inactive Duty Training',
         X: 'Other'
       }
+    }
+  }
+};
+
+export const serviceRecordsUI = {
+  'ui:title': 'Service periods',
+  'ui:description': 'Please record all periods of service',
+  'ui:options': {
+    viewField: ServicePeriodView,
+  },
+  items: {
+    'ui:order': ['serviceBranch', '*'],
+    serviceBranch: {
+      'ui:title': 'Branch of service',
+      'ui:options': {
+        labels: {
+          AC: 'US ARMY AIR CORPS',
+          AF: 'US AIR FORCE',
+          AR: 'US ARMY',
+          CG: 'US COAST GUARD',
+          CV: 'CIVILIAN WAKE ISLAND NAS',
+          FP: 'CIVILIAN FERRY PILOT',
+          MM: 'US MERCHANT MARINE',
+          PH: 'US PUBLIC HEALTH SERVICE',
+          NN: 'NAVY NURSE CORPS',
+          WA: 'WOMEN\'S ARMY AUX CORPS',
+          WS: 'WOMEN\'S ARMY CORPS',
+          CF: 'ROYAL CANADIAN AIR FORCE',
+          RO: 'ROTC OF ARMY NAVY OR AF',
+          CA: 'US CITIZEN WHO SERVED W/ ALLIES',
+          WR: 'WOMEN\'S RESERVE OF NAVY,MC,CG',
+          CS: 'CIVILIAN W/STRATEGIC SVC (OSS)',
+          KC: 'QRTRMASTER CORPS KESWICK CREW',
+          CB: 'DEFENSE OF BATAAN',
+          CO: 'US ARMY TRANSPORT SERVICE',
+          CI: 'CIV ID FRIEND/FOE (IFF) TECH',
+          CC: 'AMERICAN FIELD SERVICE',
+          GS: 'CIV CREW OF USCGS VESSELS',
+          FT: 'AMERICAN VOL GRP FLYING TIGERS',
+          CE: 'ROYAL CANADIAN CORPS SIGNAL',
+          C2: 'CIV AIR TRANSPORT CMD (UNITED)',
+          C3: 'CIV AIR TRANSPORT CMD (TWA)',
+          C4: 'CIV AIR TRANSPORT CMD (VULTEE)',
+          C5: 'CIV AIR TRANSPRT CMD(AMERICAN)',
+          C7: 'CIV AIR TRANSPORT COMMAND (NORTHWEST)',
+          CD: 'US NAVY TRANSPORT SERVICE',
+          NM: 'NON-MILITARY CIVILIAN',
+          AL: 'ALLIED FORCES',
+          AA: 'US ARMY AIR FORCES',
+          AT: 'US ARMY AIR FORCES (ATC)',
+          GP: 'GUAM COMBAT PATROL',
+          MC: 'US MARINE CORPS',
+          NO: 'NATIONAL OCEAN/ATMOSPHER ADMIN',
+          PS: 'REGULAR PHILIPPINE SCOUTS',
+          CM: 'CADET OR MIDSHIPMAN',
+          WP: 'WOMEN AIR FORCE SERVICE PILOTS',
+          GU: 'WAKE ISLAND DEFENDERS-GUAM',
+          MO: 'MERCHANT SN IN OPER MULBERRY',
+          FS: 'AMERICAN FIELD SERVICE',
+          ES: 'AMERICAN VOLUNTEER GUARD',
+          FF: 'FOREIGN FORCES',
+          GC: 'US COAST & GEODETIC SURVEY',
+          PA: 'PHILIPPINE ARMY',
+          AG: 'US AIR NATIONAL GUARD',
+          NG: 'US ARMY NATIONAL GUARD',
+          PG: 'PHILIPPINE GUERILLA',
+          XA: 'US NAVY RESERVE',
+          XR: 'US ARMY RESERVE',
+          XF: 'US AIR FORCE RESERVE',
+          XC: 'US MARINE CORP RESERVE',
+          XG: 'COAST GUARD RESERVE'
+        }
+      }
+    },
+    dateRange: dateRangeUI(
+      'Start of service period',
+      'End of service period',
+      'End of service must be after start of service'
+    ),
+    dischargeType: {
+      'ui:title': 'Discharge character of service',
+      'ui:options': {
+        labels: {
+          1: 'Honorable',
+          2: 'General',
+          3: 'Entry Level Separation/Uncharacterized',
+          4: 'Other Than Honorable',
+          5: 'Bad Conduct',
+          6: 'Dishonorable',
+          7: 'Other'
+        }
+      }
+    },
+    highestRank: {
+      'ui:title': 'Highest rank attained'
+    },
+    nationalGuardState: {
+      'ui:title': 'State (for National Guard Service only)',
+      'ui:options': {
+        hideIf: (formData, index) => !(['AG', 'NG'].includes(formData.application.veteran.serviceRecords[index].serviceBranch))
+      }
+    }
+  }
+};
+
+export const militaryNameUI = {
+  application: {
+    veteran: {
+      'view:hasServiceName': {
+        'ui:title': 'Did you serve under another name?',
+        'ui:widget': 'yesNo'
+      },
+      serviceName: merge(fullMaidenNameUI, {
+        'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+        'ui:options': {
+          expandUnder: 'view:hasServiceName'
+        },
+        first: {
+          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+        },
+        last: {
+          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+        }
+      })
     }
   }
 };

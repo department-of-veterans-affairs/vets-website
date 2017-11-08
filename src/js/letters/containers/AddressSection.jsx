@@ -63,7 +63,7 @@ export class AddressSection extends React.Component {
     if (Object.keys(this.state.editableAddress).length > 0) {
       this.state.hasLoadedAddress = true;
       // If we start with an empty address, go straight to editing
-      this.state.isEditingAddress = isAddressEmpty(this.state.editableAddress);
+      this.state.isEditingAddress = (isAddressEmpty(this.state.editableAddress) && this.props.canUpdate);
     }
   }
 
