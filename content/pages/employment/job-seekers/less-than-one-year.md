@@ -42,7 +42,7 @@ relatedlinks:
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil), but you must have approval from your service branch to get credit. You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so [check documents related to your branch](https://dodtap.mil/index.html).
 - Review [military transcripts](/employment/job-seekers/military-transcripts/) and service records for accuracy.
 - Think about which industries and careers interest you, using [tools](/employment/job-seekers/interest-profiler/) such as o*Net and CareerScope.
-- Start developing a résumé by [translating military skills](/employment/job-seekers/skills-translator) into equivalent civilian skills. Import these using the [Resume Builder](/employment/job-seekers/create-resume).
+- Start developing a resume by [translating military skills](/employment/job-seekers/skills-translator) into equivalent civilian skills. Import these using the [Resume Builder](/employment/job-seekers/create-resume).
 - Clean up your personal social-media footprint and establish a presence on professional sites like LinkedIn.
 
 </div>
