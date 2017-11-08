@@ -144,10 +144,36 @@ class GuidancePage extends React.Component {
           </p>
           <ul>
             <li><strong>Military Record</strong>: The Board won’t have access to your military records, so you will need to submit any relevant documentation yourself. {militaryRecordInfo} {specificTypeInstruction && <p>Remember, you must prove that {specificTypeInstruction}. Submit any documents from this record which help support your case for a discharge upgrade.</p>}</li>
+            {this.renderMedicalRecordInfo()}
+            <li><strong>"Buddy Statements" or Other References From Service</strong>: On top of military and medical records, some Veterans submit statements from friends they knew while in the service, or other individuals with direct knowledge of your time in the military. The content of the letter is more important than who it comes from, as long as their opinion is credible and they know you well. Ask friends or others to write statements in support of your appeal and send them to you to include with your application.</li>
+            <li><strong>Testaments of Achievements Since Service</strong>: The Boards may be able to take into account positive steps you have taken in your life since your discharge. Specific guidance on this issue will be released soon, but, in the meantime, you may still want to include evidence of progress you’ve made. For example, if you were discharged for reasons related to alcohol or drugs, submit a certificates from a treatment program showing you’ve been drug free for an extended period of time. You can also submit letters from employers or leaders in your community attesting to your positive contributions to your community.</li>
           </ul>
         </div>
       </li>
     );
+  }
+
+  renderMedicalRecordInfo() {
+    if (['1', '2', '4'].indexOf(this.props.formValues['1_reason']) > -1) {
+      let requestQuestion;
+      if (parseInt(this.props.formValues['4_dischargeYear'], 10) >= 1992) {
+        requestQuestion = <a href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html">Find out how to request your military medical records.</a>;
+      } else {
+        requestQuestion = <span>Your <strong>military health records</strong> will be included with your VA medical records you request.</span>;
+      }
+
+      return (
+        <li>
+          <strong>Medical Records</strong>: In most cases, the Board won’t have easy access to your medical records, so you should submit any relevant documentation yourself as much as possible.
+          <ul>
+            <li>You can request your VA medical records by submitting <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345-fill.pdf">VA Form 10-5345</a> to your local VA Medical Center.</li>
+            <li>{requestQuestion}</li>
+            <li>You can also submit <strong>medical records from a private practice doctor</strong>—contact your doctor’s office to get the records you need.</li>
+          </ul>
+        </li>
+      );
+    }
+    return null;
   }
 
   render() {
