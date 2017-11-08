@@ -4,6 +4,7 @@ import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
 
 import { removeFormApi, saveFormApi } from './sip-api';
+import { sanitizeForm } from './helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
@@ -246,27 +247,33 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       let formData;
       let metadata;
       try {
-        // NOTE: This may change to be migrated in the back end before sent over
         const dataToMigrate = {
           formId,
           formData: resBody.formData,
           metadata: resBody.metadata
         };
+
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
+
+        dispatch(setInProgressForm({ formData, metadata }, prefill));
+
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-loaded`
+        });
+
+        return Promise.resolve();
       } catch (e) {
         // We don’t want to lose the stacktrace, but want to be able to search for migration errors
         // related to SiP
         Raven.captureException(e);
-        Raven.captureMessage('vets_sip_error_migration');
+        Raven.captureMessage('vets_sip_error_migration', {
+          extra: {
+            formData: sanitizeForm(resBody.formData),
+            metadata: resBody.metadata
+          }
+        });
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
-      // Set the data in the redux store
-      dispatch(setInProgressForm({ formData, metadata }, prefill));
-      window.dataLayer.push({
-        event: `${trackingPrefix}sip-form-loaded`
-      });
-
-      return Promise.resolve();
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {

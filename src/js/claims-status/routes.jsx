@@ -1,17 +1,16 @@
 import React from 'react';
 import { Route, IndexRedirect, Redirect } from 'react-router';
 
-import YourClaimsPage from './containers/YourClaimsPage.jsx';
-import ClaimPage from './containers/ClaimPage.jsx';
-import ClaimStatusPage from './containers/ClaimStatusPage.jsx';
-import AppealStatusPage from './containers/AppealStatusPage.jsx';
-import AppealLearnMorePage from './components/AppealLearnMorePage.jsx';
-import FilesPage from './containers/FilesPage.jsx';
-import DetailsPage from './containers/DetailsPage.jsx';
-import AskVAPage from './containers/AskVAPage.jsx';
-import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
-import AdditionalEvidencePage from './containers/AdditionalEvidencePage.jsx';
-import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
+import YourClaimsPage from './containers/YourClaimsPage';
+import ClaimPage from './containers/ClaimPage';
+import ClaimStatusPage from './containers/ClaimStatusPage';
+import AppealStatusPage from './containers/AppealStatusPage';
+import FilesPage from './containers/FilesPage';
+import DetailsPage from './containers/DetailsPage';
+import AskVAPage from './containers/AskVAPage';
+import DocumentRequestPage from './containers/DocumentRequestPage';
+import AdditionalEvidencePage from './containers/AdditionalEvidencePage';
+import ClaimEstimationPage from './containers/ClaimEstimationPage';
 import AppealLayout from './components/AppealLayout';
 
 const routes = [
@@ -36,10 +35,6 @@ const routes = [
       component={AppealStatusPage}
       key=":id/status"
       path=":id/status"/>,
-    <Route
-      component={AppealLearnMorePage}
-      key="/appeals/learn-more"
-      path="/appeals/learn-more"/>,
   </Route>,
   <Route
     component={ClaimPage}

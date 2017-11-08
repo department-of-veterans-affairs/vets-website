@@ -108,14 +108,14 @@ describe('<AddressSection>', () => {
 
   it('should render an edit button if user is allowed to edit address', () => {
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...defaultProps}/>);
-    const editButton = ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button');
+    const editButton = ReactTestUtils.findRenderedDOMComponentWithClass(component, 'usa-button-secondary');
     expect(editButton).to.not.be.empty;
   });
 
   it('should not render an edit button if user not allowed to edit address', () => {
     const cannotEditProps = { ...defaultProps, canUpdate: false };
     const component = ReactTestUtils.renderIntoDocument(<AddressSection {...cannotEditProps}/>);
-    expect(() => ReactTestUtils.findRenderedDOMComponentWithTag(component, 'button')).to.throw();
+    expect(() => ReactTestUtils.findRenderedDOMComponentWithClass(component, 'usa-button-secondary')).to.throw();
   });
 
   it('should expand address fields when Edit button is clicked', () => {
@@ -261,7 +261,7 @@ describe('<AddressSection>', () => {
   // Not sure how to test this bit yet...
   // it('should scroll to first error', () => {});
 
-  it('should start in the editing state if address is empty', () => {
+  it('should start in the editing state if address is empty and user canUpdate', () => {
     const props = cloneDeep(defaultProps);
     props.savedAddress = {
       addressOne: '',
@@ -276,6 +276,30 @@ describe('<AddressSection>', () => {
 
     const instance = tree.getMountedInstance();
     expect(instance.state.isEditingAddress).to.be.true;
+  });
+
+  it('should not start editing if address is empty but user !canUpdate', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress = {
+      addressOne: '',
+      addressTwo: '',
+      addressThree: '',
+      city: '',
+      countryName: '',
+      stateCode: '',
+      type: ADDRESS_TYPES.domestic
+    };
+    props.canUpdate = false;
+
+    const tree = SkinDeep.shallowRender(<AddressSection {...props}/>);
+    const instance = tree.getMountedInstance();
+    expect(instance.state.isEditingAddress).to.be.false;
+  });
+
+  it('should render an address help button', () => {
+    const tree = SkinDeep.shallowRender(<AddressSection {...defaultProps}/>);
+    const helpButton = tree.dive(['AddressContent']).everySubTree('button')[0];
+    expect(helpButton.text()).to.contain('What is this?');
   });
 
   describe('validation', () => {

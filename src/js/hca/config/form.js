@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
@@ -8,6 +7,8 @@ import {
   genders,
   maritalStatuses
 } from '../../common/utils/options-for-select';
+
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -43,7 +44,6 @@ import { schema as addressSchema, uiSchema as addressUI } from '../../common/sch
 
 import { createDependentSchema, uiSchema as dependentUI, createDependentIncomeSchema, dependentIncomeUiSchema } from '../definitions/dependent';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import dateUI from '../../common/schemaform/definitions/date';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
@@ -52,6 +52,10 @@ import { validateServiceDates, validateMarriageDate } from '../validation';
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
+const emptyObjectSchema = {
+  type: 'object',
+  properties: {}
+};
 
 const {
   mothersMaidenName,
@@ -155,6 +159,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
+            'ui:description': applicantDescription,
             veteranFullName: _.merge(fullNameUI, {
               last: {
                 'ui:errorMessages': {
@@ -366,15 +371,12 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDateUI('Start of service period'),
-            lastDischargeDate: dateUI('Date of discharge'),
+            lastEntryDate: currentOrPastDateUI('Service start date'),
+            lastDischargeDate: currentOrPastDateUI('Service end date'),
             dischargeType: {
-              'ui:title': 'Character of discharge',
-              // TODO: Use a constant instead of a magic string
-              'ui:required': (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
+              'ui:title': 'Character of service',
               'ui:options': {
-                labels: dischargeTypeLabels,
-                hideIf: (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
+                labels: dischargeTypeLabels
               }
             },
             'ui:validations': [
@@ -392,7 +394,8 @@ const formConfig = {
             required: [
               'lastServiceBranch',
               'lastEntryDate',
-              'lastDischargeDate'
+              'lastDischargeDate',
+              'dischargeType'
             ],
           }
         },
@@ -503,10 +506,7 @@ const formConfig = {
             required: ['discloseFinancialInformation'],
             properties: {
               discloseFinancialInformation,
-              'view:noDiscloseWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:noDiscloseWarning': emptyObjectSchema
             }
           }
         },
@@ -521,7 +521,7 @@ const formConfig = {
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s social security number',
+              'ui:title': 'Spouse’s Social Security number',
             }),
             spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
@@ -682,12 +682,24 @@ const formConfig = {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
             'ui:description': deductibleExpensesDescription,
             deductibleMedicalExpenses: currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.'),
-            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
-            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
-            'view:expensesIncomeWarning': {
+            'view:expensesIncomeWarning1': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: expensesLessThanIncome
+                hideIf: expensesLessThanIncome('deductibleMedicalExpenses')
+              }
+            },
+            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
+            'view:expensesIncomeWarning2': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome('deductibleFuneralExpenses')
+              }
+            },
+            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
+            'view:expensesIncomeWarning3': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome('deductibleEducationExpenses')
               }
             }
           },
@@ -696,12 +708,11 @@ const formConfig = {
             required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
             properties: {
               deductibleMedicalExpenses,
+              'view:expensesIncomeWarning1': emptyObjectSchema,
               deductibleFuneralExpenses,
+              'view:expensesIncomeWarning2': emptyObjectSchema,
               deductibleEducationExpenses,
-              'view:expensesIncomeWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:expensesIncomeWarning3': emptyObjectSchema
             }
           }
         }
@@ -755,6 +766,7 @@ const formConfig = {
             },
             providers: {
               'ui:options': {
+                itemName: 'Insurance Policy',
                 expandUnder: 'isCoveredByHealthInsurance',
                 viewField: InsuranceProviderView
               },
@@ -819,7 +831,7 @@ const formConfig = {
                 }
               },
               vaMedicalFacility: {
-                'ui:title': 'Center/clinic',
+                'ui:title': 'Center or clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
                   updateSchema: (form) => {
@@ -864,10 +876,7 @@ const formConfig = {
                   })
                 }
               },
-              'view:locator': {
-                type: 'object',
-                properties: {}
-              },
+              'view:locator': emptyObjectSchema,
               wantsInitialVaContact
             }
           }
