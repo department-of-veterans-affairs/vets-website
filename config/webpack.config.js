@@ -15,19 +15,20 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const entryFiles = {
-  'claims-status': './src/js/claims-status/claims-status-entry.jsx',
   '1990-edu-benefits': './src/js/edu-benefits/1990/edu-benefits-entry.jsx',
   '1990e-edu-benefits': './src/js/edu-benefits/1990e/edu-benefits-entry.jsx',
   '1990n-edu-benefits': './src/js/edu-benefits/1990n/edu-benefits-entry.jsx',
   '1995-edu-benefits': './src/js/edu-benefits/1995/edu-benefits-entry.jsx',
   '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
   '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
+  'claims-status': './src/js/claims-status/claims-status-entry.jsx',
+  'discharge-wizard': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
+  'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
   'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-  'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
   'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
   auth: './src/js/auth/auth-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
