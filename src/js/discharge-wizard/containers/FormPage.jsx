@@ -8,7 +8,7 @@ class FormPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Upgrading Your Discharge Status: What to know</h1>
+        <h1>Guidance on Upgrading Your Discharge</h1>
         <div className="medium-8">
           <FormQuestions formValues={this.props.formValues} updateField={this.props.updateField}/>
         </div>
