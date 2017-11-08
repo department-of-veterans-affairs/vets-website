@@ -12,9 +12,9 @@ display_title: Request Discharge Updates and Corrections
   </nav>
   <div class="row">
     <article class="usa-content columns">
-      <h1>Upgrading Your Discharge Status: What to know</h1>
+      <h1>Guidance on Upgrading Your Discharge</h1>
       <div class="va-introtext">
-        <p>Applying for an upgrade to your discharge status may seem like a complicated process, but many cases are straightforward. If you’re able to make a strong case in your application, it can be worth the effort. Upgrading your discharge status may result in increased eligibility for VA benefits and services.</p>
+        <p>Answer a few questions to get advice specific to your discharge situation. You will then get guidance on how to make the strongest possible case when upgrading your status.</p>
       </div>
       <div class="main home signup" role="main">
         <div class="section main-menu">
@@ -22,25 +22,19 @@ display_title: Request Discharge Updates and Corrections
             <div class="small-12 columns">
               <div>
                 <p>
-                  Reading the guidance on this page will help you understand what information to include for a strong application. Depending on the complexity of your case, you may consider finding someone to help you put it together (for example a lawyer or <a href="https://www.benefits.va.gov/vso/varo.asp">Veteran Service Organization</a>).
-                </p>
-                <p>
-                  Also, the Department of Defense (DoD) has specific guidance to carefully consider discharges connected to:
+                  Note that the DoD especially encourages you to apply for an upgrade if your discharge was connected to any of these categories:
                 </p>
                 <ul>
                   <li>Mental health conditions, including post-traumatic stress disorder (PTSD) </li>
                   <li>Traumatic brain injury (TBI)</li>
                   <li>Sexual assault or harassment during military service</li>
-                  <li>Homosexual conduct (i.e., Don’t Ask Don’t Tell, and its predecessor policies)</li>
+                  <li>Sexual orientation (i.e., Don’t Ask Don’t Tell, and its predecessor policies)</li>
                 </ul>
                 <p>
-                  Answer a few questions to get advice specific to your discharge situation. The information you enter is completely confidential.
+                  The information you enter is completely confidential.
                 </p>
                 <p>
                   <a class="usa-button-primary va-button" href="/discharge-wizard">Get Started »</a>
-                </p>
-                <p>
-                  Note: Even without changing your discharge status, you may be eligible to receive many VA benefits. Veterans applying for a change in their discharge status can also apply for VA benefits while they wait. <a href="#">Learn more about the Character of Discharge or Character of Service Determination process.</a>
                 </p>
               </div>
             </div>
