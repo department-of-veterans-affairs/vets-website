@@ -86,12 +86,13 @@ class FormQuestions extends React.Component {
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const dischargeYear = this.props.formValues[key];
-    const yearOptions = range(16).map(i => {
-      const year = (new Date()).getFullYear() - i;
+    const currentYear = (new Date()).getFullYear();
+    const yearOptions = range(currentYear - 1992).map(i => {
+      const year = currentYear - i;
       return { label: year.toString(), value: year.toString() };
     });
 
-    yearOptions.push({ label: 'Before 2002', value: 'before_2002' });
+    yearOptions.push({ label: 'Before 1992', value: '1991' });
 
     const label = (
       <legend className="legend-label">
