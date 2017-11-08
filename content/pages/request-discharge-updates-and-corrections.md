@@ -89,7 +89,7 @@ display_title: Request Discharge Updates and Corrections
                         <div class="va-alert usa-alert usa-alert-warning">
                           <div class="va-alert-body usa-alert-body">
                             <div class="usa-alert-text usa-alert-heading">
-                              <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the Character of Discharge or Character of Service Determination process.</p>
+                              <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>
                             </div>
                           </div>
                           <div class="cf"></div>
@@ -128,15 +128,6 @@ display_title: Request Discharge Updates and Corrections
   var openAccordion = function(id) {
     document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);
     document.getElementById(id).setAttribute('aria-hidden', false);
-  }
-
-  switch(window.location.hash) {
-    case '#why-verify':
-      openAccordion('dbq3');
-      break;
-    case '#what-is-idme':
-      openAccordion('dbq7');
-      break;
   }
 })();
 </script>
