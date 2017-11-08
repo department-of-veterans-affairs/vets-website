@@ -20,7 +20,7 @@ export const board = (formValues) => {
   const prevAppType = ['1', '4'].indexOf(formValues['10_prevApplicationType']) > -1;
   const noPrevApp = formValues['8_prevApplication'] === '2';
   const preAppDateBefore = formValues['9_prevApplicationYear'] === '1';
-  const courtMartial = formValues['6_courtMartial'] === '2';
+  const courtMartial = formValues['6_courtMartial'] === '1';
   const transgender = formValues['1_reason'] === '5';
   const intention = formValues['3_intention'] === '1';
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
