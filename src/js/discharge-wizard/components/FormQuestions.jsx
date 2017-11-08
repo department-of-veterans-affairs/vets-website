@@ -227,9 +227,7 @@ class FormQuestions extends React.Component {
   }
 
   renderAnswerReview() {
-    if (!this.props.formValues['8_prevApplication']) {
-      return null;
-    }
+    if (this.props.formValues.questions.slice(-1)[0] !== 'END') { return null; }
 
     return (
       <div className="review-answers">
