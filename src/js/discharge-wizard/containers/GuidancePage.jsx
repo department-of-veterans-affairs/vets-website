@@ -176,6 +176,39 @@ class GuidancePage extends React.Component {
     return null;
   }
 
+  renderStepThree() {
+    const noPrevApp = this.props.formValues['8_prevApplication'] === '2';
+    const prevAppType = this.props.formValues['10_prevApplicationType'];
+    const prevAppYear = this.props.formValues['9_prevApplicationYear'];
+    const oldDischarge = (new Date()).getFullYear() - parseInt(this.props.formValues['4_dischargeYear'], 10) >= 15;
+
+    const boardToSubmit = board(this.props.formValues);
+    let boardExplanation;
+
+    if (prevAppType === '2') {
+      boardExplanation = <p>Because your application was denied by the DRB on a Personal Appearance review, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])} to appeal that decision.</p>;
+    } else if (prevAppType === '3') {
+      boardExplanation = <p>Because you previously applied to the {boardToSubmit.abbr}, you must re-apply to the {boardToSubmit.abbr} for reconsideration.</p>;
+    } else if ((noPrevApp || (['1', '4'].indexOf(prevAppType) > -1) || prevAppYear === '1') && oldDischarge) {
+      boardExplanation = <p>Because your discharge was over 15 years ago, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])}.</p>;
+    } else if (this.props.formValues['6_courtMartial'] === '1') {
+      boardExplanation = <p>Because your discharge was the result of a General Court-Martial, you must apply to the  {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])}.</p>;
+    } else if (this.props.formValues['1_reason'] === '5' || this.props.formValues['3_intention'] === '1') {
+      boardExplanation = <p>Because you are seeking to change information other than your discharge status, re-enlistment code, and narrative reason for discharge, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])}.</p>;
+    } else if (boardToSubmit.abbr === 'DRB') {
+      boardExplanation = <p>Given the details of your request, you must apply to the DRB for the {branchOfService(this.props.formValues['7_branchOfService'])}. {prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''} The DRB is a panel of commissioned officers, or a combination of senior NCOs and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time, you must apply to a different board.</p>;
+    }
+
+    return (
+      <li className="list-group-item">
+        <div>
+          <h4>Mail your completed form and all supporting materials</h4>
+          {boardExplanation}
+        </div>
+      </li>
+    );
+  }
+
   render() {
     return (
       <div>
