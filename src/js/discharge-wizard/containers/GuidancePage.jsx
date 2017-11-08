@@ -183,7 +183,10 @@ class GuidancePage extends React.Component {
     const oldDischarge = (new Date()).getFullYear() - parseInt(this.props.formValues['4_dischargeYear'], 10) >= 15;
 
     const boardToSubmit = board(this.props.formValues);
+    const formNum = formNumber(this.props.formValues);
+
     let boardExplanation;
+    let onlineSubmissionMsg;
 
     if (prevAppType === '2') {
       boardExplanation = <p>Because your application was denied by the DRB on a Personal Appearance review, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])} to appeal that decision.</p>;
@@ -199,11 +202,56 @@ class GuidancePage extends React.Component {
       boardExplanation = <p>Given the details of your request, you must apply to the DRB for the {branchOfService(this.props.formValues['7_branchOfService'])}. {prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''} The DRB is a panel of commissioned officers, or a combination of senior NCOs and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time, you must apply to a different board.</p>;
     }
 
+    if (boardToSubmit.abbr === 'DRB' && this.props.formValues['7_branchOfService'] === 'army') {
+      onlineSubmissionMsg = <p>You can also submit this information online at <a href="http://actsonline.army.mil/">ACTSOnline</a>. </p>;
+    } else {
+      onlineSubmissionMsg = <p>Unfortunately, there isn’t a way to submit this form online.</p>;
+    }
+
     return (
       <li className="list-group-item">
         <div>
           <h4>Mail your completed form and all supporting materials</h4>
           {boardExplanation}
+          {prevAppYear === '1' ? <p>Because your last application was made prior to the release of DoD guidance related to discharges like yours, DoD will effectively consider your application as a new application. Your previous application may be consulted for evidence, but usual rules about how to appeal previous decisions do not apply.</p> : null}
+          <p>
+            Mail your completed form and all supporting materials to the {boardToSubmit.abbr} at:
+          </p>
+          {onlineSubmissionMsg}
+          <a href="#" className="usa-button-primary va-button">Download Form {formNum}</a>
+          <h5>What happens after I send in my completed form and supporting materials?</h5>
+          <p>Usually, it takes several months for the Board to review your application. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
+          <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
+          <p>If your appeal results in raising your discharge status to honorable, you will be immediately eligible for all VA benefits and services. In the meantime, you may still apply for VA eligibility by <a href="#">requesting a Character of Discharge review</a>.</p>
+        </div>
+      </li>
+    );
+  }
+
+  renderStepFour() {
+    return (
+      <li className="list-group-item">
+        <div>
+          <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the Character of Discharge or Character of Service Determination process.</p>
+          <p>If you have a discharge that is less than honorable or general, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
+          <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you’ve completed an drug rehabilitation program.</p>
+          <p>As with applying for a discharge upgrade, you may consider finding someone to advocate on your behalf (such as a lawyer or VSO) in collecting and submitting this evidence, depending on the complexity of your case.</p>
+          <p>Many veterans with less than honorable discharges pursue both methods: a VA characterization of discharge review, and a DoD discharge upgrade. There is no reason not to pursue both at the same time</p>
+          <p>If you experienced sexual assault or harassment while in the military or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify for VA health benefits without a VA characterization of discharge review or a discharge upgrade. Learn more about:
+            <ul>
+              <li><a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
+              <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
+              <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
+            </ul>
+          </p>
+          <h5>Additional Resources</h5>
+          <ul>
+            <li><a href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>
+            <li><a href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Navy Discharge Review Board</a></li>
+            <li><a href="#">BCMR</a></li>
+            <li><a href="#">BCNR</a></li>
+            <li><a href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">VA Guidance on COD Review</a></li>
+          </ul>
         </div>
       </li>
     );
@@ -228,6 +276,8 @@ class GuidancePage extends React.Component {
             {this.renderOptionalStep()}
             {this.renderStepOne()}
             {this.renderStepTwo()}
+            {this.renderStepThree()}
+            {this.renderStepFour()}
           </ul>
         </div>
       </div>
