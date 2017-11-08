@@ -37,7 +37,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And, we can connect you with Department of Labor resources for more career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
+We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And, we can connect you with Department of Labor resources for more career advice, help building your resume, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
 
 </div>
 
