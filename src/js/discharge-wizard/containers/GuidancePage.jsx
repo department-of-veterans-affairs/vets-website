@@ -100,8 +100,51 @@ class GuidancePage extends React.Component {
               <h4>Need Help?</h4>
               <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a VSO, search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations.</p>
             </div>}
-            isVisible={this.props.formValues['10_prevApplicationType'] === '4'}
+            isVisible
             status="warning"/>
+        </div>
+      </li>
+    );
+  }
+
+  renderStepTwo() {
+    const boardToSubmit = board(this.props.formValues);
+    let militaryRecordInfo;
+    if (parseInt(this.props.formValues['4_dischargeYear'], 10) >= 1997) {
+      militaryRecordInfo = <p>You can <a href="https://www.dpris.dod.mil/veteranaccess.html">retrieve your complete military personnel record</a> (your Official Military Personnel File, or OMPF) online</p>;
+    } else {
+      militaryRecordInfo = <p>You can make a <a href="https://www.archives.gov/veterans/military-service-records">request online or by mail to receive your complete military personnel record</a> (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.</p>;
+    }
+
+    let specificTypeInstruction;
+    switch (this.props.formValues['1_reason']) {
+      case '1':
+        specificTypeInstruction = 'you suffered from symptoms of PTSD or mental health conditions while in the service.';
+        break;
+      case '2':
+        specificTypeInstruction = 'you suffered from symptoms of TBI while in the service.';
+        break;
+      case '3':
+        if (this.props.formValues['2_dischargeType'] === '2') {
+          specificTypeInstruction = 'your discharge status was due only to your sexual orientation and not other bad conduct.';
+        }
+        break;
+      case '4':
+        specificTypeInstruction = 'the conduct that led to your discharge stemmed from military sexual assault and not other factors.';
+        break;
+      default:
+    }
+
+    return (
+      <li className="list-group-item">
+        <div>
+          <h4>Add supporting information</h4>
+          <p>
+            To improve your chances of success, also include as many of the following documents as you can. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to assist in helping you collect evidence <strong>IF</strong> you can demonstrate you reasonably attempted to obtain your records but could not.</span> : null}
+          </p>
+          <ul>
+            <li><strong>Military Record</strong>: The Board won’t have access to your military records, so you will need to submit any relevant documentation yourself. {militaryRecordInfo} {specificTypeInstruction && <p>Remember, you must prove that {specificTypeInstruction}. Submit any documents from this record which help support your case for a discharge upgrade.</p>}</li>
+          </ul>
         </div>
       </li>
     );
@@ -125,6 +168,7 @@ class GuidancePage extends React.Component {
           <ul className="vertical-list-group more-bottom-cushion">
             {this.renderOptionalStep()}
             {this.renderStepOne()}
+            {this.renderStepTwo()}
           </ul>
         </div>
       </div>
