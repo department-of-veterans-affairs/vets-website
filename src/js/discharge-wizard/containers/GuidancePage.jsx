@@ -3,13 +3,13 @@ import React from 'react';
 
 import AlertBox from '../../common/components/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
-import { branchOfService, board, formNumber, venueAddress } from '../utils';
+import { branchOfService, board, formData, venueAddress } from '../utils';
 import { venueWarning } from '../config';
 
 class GuidancePage extends React.Component {
   renderResultSummary() {
     const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
-    return `You need to complete Department of Defense (DoD) Form ${formNumber(this.props.formValues)} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
+    return `You need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
   }
 
   renderOptionalStep() {
@@ -78,13 +78,13 @@ class GuidancePage extends React.Component {
       return null;
     };
 
-    const formNum = formNumber(this.props.formValues);
+    const form = formData(this.props.formValues);
     return (
       <li className="list-group-item">
         <div>
-          <h4>Download and fill out DoD Form {formNum}</h4>
+          <h4>Download and fill out DoD Form {form.num}</h4>
           <p>
-            Important tips for completing Form {formNum}:
+            Important tips for completing Form {form.num}:
           </p>
           <ul>
             <li>Pay special attention to item 6, which asks for the reason for your change. Most Veterans attach additional pages to answer this question. {strongCaseTips()}</li>
@@ -94,7 +94,7 @@ class GuidancePage extends React.Component {
             {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you MAY have more success with a Personal Appearance Review, but know that you will not be reimbursed for your travel costs. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
             {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] === '1' && <li>The DRB allows you to request either a Documentary Review or a Personal Appearance Review. Because your application was already denied during a Documentary Review, you must apply for a Personal Appearance Review.</li>}
           </ul>
-          <a href="#" className="usa-button-primary va-button">Download Form {formNum}</a>
+          <a href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
               <h4>Need Help?</h4>
@@ -183,7 +183,7 @@ class GuidancePage extends React.Component {
     const oldDischarge = (new Date()).getFullYear() - parseInt(this.props.formValues['4_dischargeYear'], 10) >= 15;
 
     const boardToSubmit = board(this.props.formValues);
-    const formNum = formNumber(this.props.formValues);
+    const form = formData(this.props.formValues);
 
     let boardExplanation;
     let onlineSubmissionMsg;
@@ -219,7 +219,7 @@ class GuidancePage extends React.Component {
           </p>
           {venueAddress(this.props.formValues)}
           {onlineSubmissionMsg}
-          <a href="#" className="usa-button-primary va-button">Download Form {formNum}</a>
+          <a href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <h5>What happens after I send in my completed form and supporting materials?</h5>
           <p>Usually, it takes several months for the Board to review your application. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
           <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>

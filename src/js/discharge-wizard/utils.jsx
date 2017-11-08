@@ -127,10 +127,16 @@ export const venueAddress = (formValues) => {
   }
 };
 
-export const formNumber = (formValues) => {
+export const formData = (formValues) => {
   const boardData = board(formValues);
   if (boardData && boardData.abbr === 'DRB') {
-    return 293;
+    return {
+      num: 293,
+      link: 'http://arba.army.pentagon.mil/documents/dd0293.pdf',
+    };
   }
-  return 149;
+  return {
+    num: 149,
+    link: 'http://arba.army.pentagon.mil/documents/dd0149.pdf',
+  };
 };
