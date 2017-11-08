@@ -28,20 +28,21 @@ const mappedIds = [
   'definitions'
 ];
 
+const configs = [
+  fullSchema1010ez,
+  fullSchema527EZ,
+  fullSchema530,
+  fullSchema1990,
+  fullSchema1990e,
+  fullSchema1990n,
+  fullSchema1995,
+  fullSchema5490,
+  fullSchema5495,
+  fullSchema10007
+];
+
 describe('form migrations:', () => {
   it('should check all forms', () => {
-    const configs = [
-      fullSchema1010ez,
-      fullSchema527EZ,
-      fullSchema530,
-      fullSchema1990,
-      fullSchema1990e,
-      fullSchema1990n,
-      fullSchema1995,
-      fullSchema5490,
-      fullSchema5495,
-      fullSchema10007
-    ];
     const allFormIds = Object.keys(schemas);
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
@@ -51,18 +52,6 @@ describe('form migrations:', () => {
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
   it('should have a length equal to the version number', () => {
-    const configs = [
-      fullSchema1010ez,
-      fullSchema1990,
-      fullSchema1990e,
-      fullSchema1990n,
-      fullSchema1995,
-      fullSchema5490,
-      fullSchema5495,
-      fullSchema527EZ,
-      fullSchema530,
-      fullSchema10007
-    ];
     configs.forEach(form => {
       if (form.migrations || form.version > 0) {
         expect(form.migrations.length).to.equal(form.version);
