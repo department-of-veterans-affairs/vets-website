@@ -9,7 +9,7 @@ relatedlinks:
     - url: /employment/job-seekers/search-jobs
       title: Job Search
       description: Search the Veterans Job Bank to view current positions.
-    - url: /employment/employers/post-a-job/
+    - url: https://www.dol.gov/veterans/hireaveteran/
       title: Post a Job
       description: Post jobs available for Veterans, transitioning Servicemembers, and their families.
 ---
@@ -26,7 +26,7 @@ In addition to the services listed above, VR&E provides employers with other ben
 
 Employers participating in an on-the-job training (OJT) program can hire a Veteran at the apprenticeship wage and VA will supplement that wage with GI Bill payments. The training often results in permanent, full-time employment and provides employers with a well-trained Veteran employee.  
 
-[Apprenticeship](/employment/employers/apprenticeship/) programs allow a Veteran to enter into a training contract for a specific period of time with an employer or union, and then at the end of the training period, the Veteran gains job certification or journeyman status.
+[Apprenticeship](https://www.dol.gov/apprenticeship/) programs allow a Veteran to enter into a training contract for a specific period of time with an employer or union, and then at the end of the training period, the Veteran gains job certification or journeyman status.
 
 Federal, state, or local government offices can set up a Non-paid Work Experience (NPWE) program to provide Veterans with internship opportunities. A [VR&E Employment Coordinator](http://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xls) can assist you if you are interested in setting up a NPWE program.
 
