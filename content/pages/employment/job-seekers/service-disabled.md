@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: topic-landing
-title: Employment Support for Veterans With Service-Connected Disabilities
-display_title: Support for Veterans With Service-Connected Disabilities
+title: Employment Support for Veterans with Service-Connected Disabilities
+display_title: Support for Veterans with Service-Connected Disabilities
 concurrence: complete
 relatedlinks:
   - heading: Resources for Job Seekers
