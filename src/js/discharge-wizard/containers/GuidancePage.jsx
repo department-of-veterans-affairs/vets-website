@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React from 'react';
+import moment from 'moment';
 
 import AlertBox from '../../common/components/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
@@ -186,7 +187,9 @@ class GuidancePage extends React.Component {
     const noPrevApp = this.props.formValues['8_prevApplication'] === '2';
     const prevAppType = this.props.formValues['10_prevApplicationType'];
     const prevAppYear = this.props.formValues['9_prevApplicationYear'];
-    const oldDischarge = (new Date()).getFullYear() - parseInt(this.props.formValues['4_dischargeYear'], 10) >= 15;
+    const dischargeYear = this.props.formValues['4_dischargeYear'];
+    const dischargeMonth = this.props.formValues['5_dischargeMonth'] || 1;
+    const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) > 15;
 
     const boardToSubmit = board(this.props.formValues);
 
