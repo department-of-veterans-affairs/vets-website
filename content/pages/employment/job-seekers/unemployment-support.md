@@ -10,9 +10,9 @@ relatedlinks:
       title: Military Skills Translator
       description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
     - url: /employment/job-seekers/create-resume
-      title: Résumé Builder
-      description: Use this tool to build a civilian or federal résumé.
-    - url: /employment/job-seekers/search-jobs
+      title: Resume Builder
+      description: Use this tool to build a civilian or federal resume.
+    - url: https://www.careeronestop.org/JobSearch/job-search.aspx
       title: Job Search
       description: Search the Veterans Job Bank to find the right position for you.   
 ---
