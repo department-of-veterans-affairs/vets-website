@@ -79,6 +79,10 @@
     border-left: 0;
     padding-left: calc(2em + 8px);
   }
+
+  h5 {
+    clear: none;
+  }
 }
 
 .list-one:before {content: "1";}

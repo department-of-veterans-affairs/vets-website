@@ -9,11 +9,11 @@
 // Typography
 //===================================
 // These variables override values set in either
-// ~uswds/src/stylesheets/core/defaults" or 
+// ~uswds/src/stylesheets/core/defaults" or
 // ~uswds/src/stylesheets/core/variables"
 
 $base-font-size:      rem(16px);
-$font-serif:          "Roboto Slab", serif;
+// $font-serif:          "Roboto Slab", serif;
 
 //===================================
 // Magic Numbers
@@ -65,7 +65,7 @@ $color-white-alpha70:        rgba(255,255,255,.7);
 $color-sidebar-nav-bg:   rgba($color-black, 0.25);
 
 //===================================
-// Deprecated Colors; 
+// Deprecated Colors;
 // Please avoid using.
 //===================================
 

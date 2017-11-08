@@ -11,7 +11,7 @@ html {
 body {
   background: $color-white;
   color: $color-gray-dark;
-  font-family: $font-sans;
+  // font-family: $font-sans;
   font-size: $base-font-size;
 
   &.modal-open {
@@ -279,41 +279,53 @@ hr {
 }
 
 // Headings
-h1, h2 {
-  font-family: $font-sans;
-}
+// h1, h2 {
+//   font-family: $font-sans;
+// }
 
-h1:first-child {
+// h1:first-child {
+//   margin-top: 0;
+// }
+
+// h2, h3, h4, h5, h6 {
+//   margin: 0;
+//   padding: 0 0 .5em 0;
+// }
+
+// h2 {
+//   @include heading-2;
+// }
+
+// h3, h4, h5, h6 {
+//   color: $color-primary-darkest;
+// }
+
+// h3 {
+//   @include heading-3;
+// }
+
+// h4 {
+//   @include heading-4;
+// }
+
+// h5 {
+//   @include heading-5;
+// }
+
+// h6 {
+//   @include heading-6;
+// }
+
+// h1, h2, h3, h4, h5, h6 {
+//   font-family: $font-sans;
+// }
+
+// p {
+//   margin: 0 0 1rem;
+// }
+
+article > h1 {
   margin-top: 0;
-}
-
-h2, h3, h4, h5, h6 {
-  margin: 0;
-  padding: 0 0 .5em 0;
-}
-
-h2 {
-  @include heading-2;
-}
-
-h3, h4, h5, h6 {
-  color: $color-primary-darkest;
-}
-
-h3 {
-  @include heading-3;
-}
-
-h4 {
-  @include heading-4;
-}
-
-h5 {
-  @include heading-5;
-}
-
-h6 {
-  @include heading-6;
 }
 
 .text-center {
@@ -331,7 +343,7 @@ h6 {
 
 .va-facloc-tagline {
   color: $color-white;
-  font-family: $font-sans;
+  // font-family: $font-sans;
   margin: .5em 0 1em 0 !important;
 }
 
@@ -364,10 +376,10 @@ h6 {
   }
 }
 
-.va-introtext {
-  letter-spacing: normal;
-  font-size: 1.25em;
-}
+// .va-introtext {
+//   letter-spacing: normal;
+//   font-size: 1.25em;
+// }
 
 .secondary {
   p:nth-child(1),
@@ -403,7 +415,11 @@ h6 {
   }
 
   h3 {
+    margin-top: 0;
     font-size: 1.65em;
+  }
+  h4 {
+    margin-top: 0;
   }
   ul {
     margin: 0 0 .5em 1.5em;
@@ -942,6 +958,7 @@ li {
   }
 
   .number {
+    font-family: $font-serif;
     font-size: 2em;
     font-weight: 700;
     float: left;
@@ -1454,4 +1471,8 @@ p.info-message {
 
 .fieldset-input {
   margin-top: 3rem;
+}
+
+[itemprop=acceptedAnswer] {
+  // margin-bottom: 3em;
 }
