@@ -92,7 +92,7 @@ export function getAppealsV2() {
     //  to get from the api.
     // NOTE: This shape may change once we know what the api will be returning for sure. This
     //  is just an example of what evss(?) is returning to the api.
-    return Promise.resolve(() => ({
+    return Promise.resolve({
       data: [
         {
           id: '7387389', // Apparently this is a string...
@@ -147,7 +147,7 @@ export function getAppealsV2() {
           }
         }
       ]
-    }))
+    })
       .then((response) => dispatch(fetchAppealsSuccess(response)))
       .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE }));
   };
