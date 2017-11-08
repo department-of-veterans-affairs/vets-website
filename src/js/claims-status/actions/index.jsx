@@ -148,7 +148,7 @@ export function getAppealsV2() {
         }
       ]
     }))
-      .then((data) => dispatch(fetchAppealsSuccess(data)))
+      .then((response) => dispatch(fetchAppealsSuccess(response)))
       .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE }));
   };
 }
