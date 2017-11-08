@@ -107,7 +107,11 @@ class FormApp extends React.Component {
       && status !== this.props.loadedStatus
       && !window.location.pathname.endsWith('/error')
     ) {
-      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
+      let action = 'push';
+      if (window.location.pathname.endsWith('resume')) {
+        action = 'replace';
+      }
+      newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
     } else if (newProps.savedStatus !== this.props.savedStatus &&
       newProps.savedStatus === SAVE_STATUSES.success) {
       newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);

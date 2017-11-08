@@ -22,7 +22,7 @@ majorlinks:
       description: Find out if you qualify for a VA home loan. If you have a service-connected disability, find out if you qualify for a housing grant to help you live more independently.
     - url: /employment/
       title: Careers and Employment
-      description: Get help building your career skills and finding a job.
+      description: Find out if you're eligible for vocational rehabilitation and employment (VR&E) services, get support for your Veteran-owned small business, and access other resources to help build your career skills and find a job.
     - url: /life-insurance/
       title: Life Insurance
       description: Explore VA life insurance options, manage your policy online, and file claims.

@@ -18,7 +18,7 @@ import {
   transform,
   dischargeTypeLabels,
   lastServiceBranchLabels,
-  FacilityHelp,
+  facilityHelp,
   medicaidDescription,
   medicalCentersByState,
   medicalCenterLabels,
@@ -852,7 +852,7 @@ const formConfig = {
               }
             },
             'view:locator': {
-              'ui:description': FacilityHelp
+              'ui:description': facilityHelp
             },
             wantsInitialVaContact: {
               'ui:title': 'Do you want VA to contact you to schedule your first appointment?',
