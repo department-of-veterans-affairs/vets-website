@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Loan Options
-concurrence: 
+concurrence:
 children: housingVALoans
 order: 1
 majorlinks:
@@ -22,7 +22,7 @@ majorlinks:
       description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 We offer several home loan options to help you buy, build, or improve a home or refinance your current home loan—including a VA direct loan and 3 VA-backed loans. Learn how these different home loans work, and find out if you can get a loan that meets your needs.
 
@@ -32,7 +32,7 @@ We offer several home loan options to help you buy, build, or improve a home or 
 
 ### How does a VA direct home loan work?
 
-With a VA direct home loan, we serve as your mortgage lender. This means you’ll work directly with us to apply for and manage your loan. The Native American Direct Loan (NADL) program often has better terms than a home loan from a private lender (a private bank, mortgage company, or credit union). [Find out if you qualify for a NADL](/housing-assistance/home-loans/loan-options/nadl/). 
+With a VA direct home loan, we serve as your mortgage lender. This means you’ll work directly with us to apply for and manage your loan. The Native American Direct Loan (NADL) program often has better terms than a home loan from a private lender (a private bank, mortgage company, or credit union). [Find out if you qualify for a NADL](/housing-assistance/home-loans/loan-options/nadl/).
 
 <br>
 

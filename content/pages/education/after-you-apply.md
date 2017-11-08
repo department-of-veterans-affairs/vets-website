@@ -8,9 +8,9 @@ collection: education
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits. 
+Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits.
 
 </div>
 

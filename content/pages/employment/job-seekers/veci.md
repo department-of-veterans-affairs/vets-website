@@ -17,7 +17,7 @@ relatedlinks:
       description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Representatives from the Veterans Economic Community Initiative (VECI) are available in 25 cities.
 

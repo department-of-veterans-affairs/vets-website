@@ -18,11 +18,11 @@ majorlinks:
     - url: /education/work-learn/non-traditional/independent-distance-learning/
       title: Independent and Distance Learning
       description: "You can use the GI Bill for independent and distance learning online."
-   
+
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-If college programs aren’t for you, you may be able to use your GI Bill benefit to help pay for other types of education. Get more information about non-traditional educational options below. 
+If college programs aren’t for you, you may be able to use your GI Bill benefit to help pay for other types of education. Get more information about non-traditional educational options below.
 
 </div>

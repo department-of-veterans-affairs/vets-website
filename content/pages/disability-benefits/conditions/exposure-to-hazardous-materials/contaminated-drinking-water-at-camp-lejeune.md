@@ -5,7 +5,7 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and development of certain diseases later on. If you have qualifying service at Camp Lejeune and a current diagnosis of one of the conditions listed below, you may be able to get disability benefits.
 
@@ -87,7 +87,7 @@ You’ll need to apply for benefits:
 
 -	[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/App/StepApplicant), **or**
 
-- [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
+- [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068).
 <br>
 Fax it to 1-512-460-5536, or mail it to:
 
@@ -106,7 +106,7 @@ When you apply, please provide:
 
 - Medical records that show you have one of the 15 conditions listed above, **and**
 
-- [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
+- [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.
 
 <div class="feature" markdown="1">
 

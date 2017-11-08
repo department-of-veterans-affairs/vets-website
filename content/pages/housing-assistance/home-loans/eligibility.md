@@ -2,14 +2,14 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Eligibility
-concurrence: 
+concurrence:
 order: 2
 relatedlinks:
   - heading: Loan Options
     links:
     - url: /housing-assistance/home-loans/loan-options/purchase-loan/
       title: Purchase Loan
-      description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private lender loan. 
+      description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private lender loan.
     - url: /housing-assistance/home-loans/loan-options/nadl/
       title: Native American Direct Loan (NADL) Program
       description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
@@ -18,10 +18,10 @@ relatedlinks:
       description: Have an existing VA home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
     - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
-      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan. 
+      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 To get a VA direct or VA-backed home loan, you’ll need a Certificate of Eligibility (COE) to show your lender that you qualify for this benefit based on your service history and duty status. Find out if you can get a COE. Keep in mind that you’ll also need to meet your lender’s credit and income requirements to get a loan.
 
@@ -41,8 +41,8 @@ You may be able to get a COE if you were discharged under conditions other than 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-vets">Service requirements for Veterans and Servicemembers on active duty</button>
 <div id="va-loan-eligibility-vets" class="usa-accordion-content">
 
-| When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
-| --- | --- | 
+| When did you serve? | You meet the minimum active-duty service requirement if you served for: |
+| --- | --- |
 | Between September 16, 1940, and July 25, 1947 (WWII) | 90 total days |
 | Between July 26, 1947, and June 26, 1950 (post-WWII period) | 181 continuous days |
 | Between June 27, 1950, and January 31, 1955 (Korean War) | 90 total days |
@@ -59,8 +59,8 @@ You may be able to get a COE if you were discharged under conditions other than 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-guard">Service requirements for National Guard and Reserve members</button>
 <div id="va-loan-eligibility-guard" class="usa-accordion-content">
 
-| When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
-| --- | --- | 
+| When did you serve? | You meet the minimum active-duty service requirement if you served for: |
+| --- | --- |
 | Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
 | Any time period | 6 creditable years in the Selected Reserve or National Guard, and you:<ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
 
@@ -89,7 +89,7 @@ You may still be able to get a COE if you were discharged due to:
 
 <br>
 
-### Can I get a COE as the spouse of a Veteran? 
+### Can I get a COE as the spouse of a Veteran?
 
 You may be able to get a COE if you’re the spouse of a Veteran who:
 
@@ -103,7 +103,7 @@ You may be able to get a COE if you’re the spouse of a Veteran who:
 
 <br>
 
-### Can I get a COE in any other situations? 
+### Can I get a COE in any other situations?
 
 You may be able to get a COE if you:
 
@@ -127,7 +127,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 
 To request an entitlement restoration, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and send it to the VA regional loan center for your state. <br>
 [Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br>
-[Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
+[Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp).
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

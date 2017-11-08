@@ -23,7 +23,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you qualify for VA dental care benefits, you may be able to get some or all of your dental care through VA. Find out how to get VA dental care or how to buy dental insurance if you don’t qualify.
 

@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Servicemembers’ Group Life Insurance (SGLI)
 display_title: Servicemembers’ Group (SGLI)
-concurrence: 
+concurrence:
 order: 1
 relatedlinks:
   - heading: More information about your benefits
@@ -16,7 +16,7 @@ relatedlinks:
       description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re a Servicemember who meets certain criteria, we’ll automatically sign you up for low-cost term life insurance coverage called Servicemembers’ Group Life Insurance (SGLI). Find out if you qualify—and how to manage your coverage.
 
@@ -24,9 +24,9 @@ If you’re a Servicemember who meets certain criteria, we’ll automatically si
 
 <div class="feature">
 
-### Can I get SGLI? 
+### Can I get SGLI?
 
-You may be able to get full-time SGLI coverage if you’re: 
+You may be able to get full-time SGLI coverage if you’re:
 
 - An active-duty member of the Army, Navy, Air Force, Marines, or Coast Guard, **or**
 - A commissioned member of the National Oceanic and Atmospheric Administration (NOAA) or the U.S. Public Health Service (USPHS), **or**
@@ -44,7 +44,7 @@ You may also be able to get full-time SGLI coverage if you’re in nonpay status
 
 <br>
 
-#### Who’s covered? 
+#### Who’s covered?
 
 Servicemembers
 
@@ -67,41 +67,41 @@ If you qualify for SGLI, we’ll automatically sign you up through your service 
 
 <br>
 
-### Can I make changes to my benefits? 
+### Can I make changes to my benefits?
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
-To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage: 
+To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage:
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES),** submit your changes online. To access SOES:
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">
-  
+
   [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
-  
+
   </li>
-  
+
   <li class="process-step list-two">
-  
+
   Sign in.
-  
+
   </li>
-  
+
   <li class="process-step list-three">
-  
+
   Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
-  
+
   </li>
-  
+
   <li class="process-step list-four">
-  
+
   Check your coverage and beneficiary info and make any needed updates.
-  
+
  </li>
  </ol>
 
-You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES. 
+You can log in with your CAC or DS Logon using Internet Explorer as soon as you receive notice that you can start using SOES.
 
 <br>
 
@@ -131,7 +131,7 @@ These are the SGLI premium rates effective July 1, 2014:
 
 <br>
 
-### How do I convert my SGLI when I leave the military? 
+### How do I convert my SGLI when I leave the military?
 When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Learn how to convert your SGLI coverage to an individual policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
@@ -140,7 +140,7 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 
 <span id="extension"></span>
 
-### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
+### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military?
 You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and:
 
 - You’re totally disabled at the time of your discharge and unable to work, **or**
@@ -157,9 +157,9 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 
 <br>
 
-### How do I apply for SGLI Disability Extension? 
+### How do I apply for SGLI Disability Extension?
 
-You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
+You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE).
 
 To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. [Download the SGLI Disability Extension Application](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8715_ed2017-09.pdf).
 

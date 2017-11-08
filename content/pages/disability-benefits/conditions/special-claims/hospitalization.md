@@ -7,7 +7,7 @@ template: detail-page
 order: 6
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Did you spend time in a VA hospital or a VA-approved hospital for a disability related to your military service (called a service-connected disability)? If you did, you may be able to get added disability compensation or benefits with a temporary 100% disability rating for the time you spent in the hospital. Find out if you can get this benefit.
 
@@ -37,6 +37,6 @@ Veterans
 
 You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
-**Note:** If you weren’t in a VA hospital, when filing your claim you’ll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
+**Note:** If you weren’t in a VA hospital, when filing your claim you’ll need to give us your hospital discharge summary showing the length and cause of your hospital stay.
 
 **Example:** A Veteran with a 40% service-connected disability rating for diabetes had to stay in a VA hospital after going into a diabetic coma. He needed to stay in the hospital for 25 days due to the coma and related infections. We temporarily raised his rating to 100% during his hospital stay. After he got out of the hospital, his disability rating went back to 40%.

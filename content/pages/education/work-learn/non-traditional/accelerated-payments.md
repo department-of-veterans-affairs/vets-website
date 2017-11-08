@@ -6,7 +6,7 @@ display_title: High-Technology Programs
 concurrence: incomplete
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Are you enrolled in a high-tech program with the goal of working in a high-tech industry? You may be able to get a lump-sum payment to cover the higher per-month costs for these courses of study. Find out if you can get this benefit.
 
@@ -21,7 +21,7 @@ You can get this benefit if you’re an active-duty GI Bill recipient, in which 
 -	Your tuition and fees are more than 200% of the monthly amount of educational assistance you would otherwise qualify to get during the certified enrollment period.
 <br />
 
-**Exception:** 
+**Exception:**
 You can’t get this benefit under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
 
 <br/>
@@ -33,14 +33,14 @@ Veterans
 
 ### What benefits can I get?
 
-Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs. We issue an accelerated payment to you instead of the monthly benefits you would otherwise get. 
+Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs. We issue an accelerated payment to you instead of the monthly benefits you would otherwise get.
 
 
 -----
 
 ### How do I get this benefit?
 
-Ask your school to include your request for accelerated payment when it turns in your enrollment information to us. 
+Ask your school to include your request for accelerated payment when it turns in your enrollment information to us.
 
 You must be enrolled in one of these categories:
 

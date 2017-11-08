@@ -23,7 +23,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. Learn more about where you’ll get care.
 

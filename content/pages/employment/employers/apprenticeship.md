@@ -5,7 +5,7 @@ title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Employers can set up an apprenticeship program that is approved for the GI Bill.
 

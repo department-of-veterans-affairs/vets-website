@@ -20,7 +20,7 @@ relatedlinks:
       description: Ready to apply? Get started now.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served during the Korean War—anytime between June 25, 1950, and July 27, 1953—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 

@@ -24,7 +24,7 @@ relatedlinks:
 ---
 
 <div itemscope itemtype ="http://schema.org/HowTo">
-<div class="va-introtext" itemprop="description">
+<div class="usa-font-lead" itemprop="description">
 
 There are many ways for Veterans to make health care appointments.
 </div>

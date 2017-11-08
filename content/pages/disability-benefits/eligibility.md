@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits Eligibility 
+title: Disability Benefits Eligibility
 display_title: Eligibility
 order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
@@ -17,7 +17,7 @@ majorlinks:
       description: Find out why some chronic (long-lasting) illnesses, or illnesses caused by contact with toxic chemicals or other hazardous materials, may qualify you for disability benefits.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
 
@@ -34,7 +34,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 ### Who’s covered?
 
-- Veterans 
+- Veterans
 - Qualified dependents
 
 </div>
@@ -48,9 +48,9 @@ You may be able to get disability benefits if you have a current illness or inju
 [Learn about the application process](/disability-benefits/apply/).
 
 
-### What conditions are covered by these benefits? 
+### What conditions are covered by these benefits?
 
-You may be able to get benefits for conditions such as: 
+You may be able to get benefits for conditions such as:
 
 - Chronic (long-lasting) back pain resulting in a current diagnosed back disability
 - Breathing problems resulting from a current lung condition or lung disease

@@ -7,7 +7,7 @@ template: detail-page
 order: 2
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re a Servicemember with a disability, the Benefits Delivery at Discharge (BDD) program can help you get your VA benefits sooner. Through this program, you can start your claim for disability benefits 90 to 180 days before:
 

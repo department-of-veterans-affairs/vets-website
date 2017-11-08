@@ -9,7 +9,7 @@ template: detail-page
 order: 9
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you recently ended your active military service and you have a disability related to your service (called a service-connected disability), you may be able to get temporary disability compensation or benefits right away.
 

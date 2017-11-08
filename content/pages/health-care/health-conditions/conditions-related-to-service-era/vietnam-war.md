@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Vietnam War
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 order: 5
@@ -20,7 +20,7 @@ relatedlinks:
       description: Ready to apply? Get started now.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served during the Vietnam War—anytime between November 1, 1965, and April 30, 1975—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
@@ -58,7 +58,7 @@ Ask your local VA environmental health coordinator about getting a free Agent Or
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service.
 <br>
 [See if you qualify for disability benefits due to conditions related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 <br>

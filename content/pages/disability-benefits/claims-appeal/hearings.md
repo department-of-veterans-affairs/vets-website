@@ -6,7 +6,7 @@ plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 1
 ---
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Hearings are an optional part of the appeals process. They may add time to your appeal, but if you feel that you need to speak to a Veterans Law Judge (VLJ) about your appeal, the added time may be worthwhile.
 

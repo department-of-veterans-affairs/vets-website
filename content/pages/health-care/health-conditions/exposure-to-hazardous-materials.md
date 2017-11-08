@@ -23,7 +23,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Veterans may come in contact with a range of toxic chemicals or other hazardous materials during military service that may cause health problems. Learn more about specific health concerns.
 

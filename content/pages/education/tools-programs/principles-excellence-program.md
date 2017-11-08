@@ -7,7 +7,7 @@ concurrence: incomplete
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines. Learn about these guidelines.
 </div>
 

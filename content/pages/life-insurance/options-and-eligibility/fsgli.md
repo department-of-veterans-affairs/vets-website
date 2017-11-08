@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Family Servicemembers’ Group Life Insurance (FSGLI)
 display_title: Family Servicemembers’ Group (FSGLI)
-concurrence: 
+concurrence:
 order: 2
 relatedlinks:
   - heading: More information about your benefits
@@ -16,7 +16,7 @@ relatedlinks:
       description: If you or your spouse become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Are you the spouse or dependent child of a Servicemember who’s covered under Servicemembers’ Group Life Insurance (SGLI)? If you are, you may qualify for term life insurance coverage through Family Servicemembers’ Group Life Insurance (FSGLI). Find out if you qualify—and how to manage your coverage.
 
@@ -26,7 +26,7 @@ Are you the spouse or dependent child of a Servicemember who’s covered under S
 
 <br>
 
-### Can I get FSGLI? 
+### Can I get FSGLI?
 
 You may be able to get FSGLI if you’re the spouse or dependent child of:
 
@@ -48,7 +48,7 @@ You may qualify to get FSGLI as the spouse of someone with SGLI coverage no matt
 
 ### What kind of life insurance benefits can I get with FSGLI?
 
-Up to a maximum of $100,000 of coverage for you as a spouse, not to exceed your Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
+Up to a maximum of $100,000 of coverage for you as a spouse, not to exceed your Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage.
 
 <br>
 
@@ -67,24 +67,24 @@ We won’t automatically cover you. You’ll need to sign up through your Servic
 <ol class="process" markdown="1">
 
   <li class="process-step list-one">
-  
+
   [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
-  
+
   </li>
-  
+
   <li class="process-step list-two">
-  
+
   Sign in.
-  
+
   </li>
   <li class="process-step list-three">
-  
+
   Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to sign up.
-  
+
   </li>
 </ol>
 
-Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
+Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES.
 
 **If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
 
@@ -100,8 +100,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-under-35">Under 35 years</button>
 <div id="age-under-35" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $5.00 |
 | $90,000 | $4.50 |
 | $80,000 | $4.00 |
@@ -119,8 +119,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-35-39">35 - 39 years</button>
 <div id="age-35-39" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $6.50 |
 | $90,000  | $5.85 |
 | $80,000  | $5.20 |
@@ -138,8 +138,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-40-44">40 - 44 years</button>
 <div id="age-40-44" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $8.50 |
 | $90,000  | $7.65 |
 | $80,000  | $6.80 |
@@ -157,8 +157,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-45-49">45 – 49 years</button>
 <div id="age-45-49" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $13.00 |
 | $90,000  | $11.70 |
 | $80,000  | $10.40 |
@@ -176,8 +176,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-50-54">50 – 54 years</button>
 <div id="age-50-54" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $25.00 |
 | $90,000  | $22.50 |
 | $80,000  | $20.00 |
@@ -195,8 +195,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-55-59">55 – 59 years</button>
 <div id="age-55-59" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $37.00 |
 | $90,000  | $33.30 |
 | $80,000  | $29.60 |
@@ -214,8 +214,8 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-60-older">60 years and older</button>
 <div id="age-60-older" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $100,000 | $50.00 |
 | $90,000  | $45.00 |
 | $80,000  | $40.00 |
@@ -232,11 +232,11 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 </ul>
 </div>
 
-If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
+If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums.
 
 <br>
 
-### Can my Servicemember make changes to my coverage? 
+### Can my Servicemember make changes to my coverage?
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
@@ -245,30 +245,30 @@ Yes. If you have spousal coverage and you want to reduce, turn down, or cancel i
 <ol class="process" markdown="1">
 
   <li class="process-step list-one">
-  
+
   [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
-  
+
   </li>
-  
+
   <li class="process-step list-two">
-  
+
   Sign in.
-  
+
   </li>
   <li class="process-step list-three">
-  
+
   Go to Benefits, Life Insurance SOES- SGLI Online Enrollment System to update.
-  
+
   </li>
-  
+
   <li class="process-step list-four">
-  
+
   Check their coverage and beneficiary info and make any needed updates.
-  
+
   </li>
  </ol>
 
-Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
+Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES.
 
 **If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
 [Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
@@ -279,21 +279,21 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 
 <br>
 
-### How much will my Servicemember pay for dependent coverage? 
+### How much will my Servicemember pay for dependent coverage?
 
 Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
 - Is a full-time student, **or**
-- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+- Becomes permanently and totally disabled—before turning 18—and can’t support themselves
 
 <br>
 
-### Can my Servicemember get extended coverage for our dependent child? 
+### Can my Servicemember get extended coverage for our dependent child?
 
 Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student between 18 and 22 years old, we may extend the coverage. Or, if the child becomes permanently and totally disabled before turning 18 and is no longer able to support themselves, we may extend the coverage—in some cases indefinitely.
 
 <br>
 
-### How do I convert a spousal FSGLI policy to an individual insurance policy? 
+### How do I convert a spousal FSGLI policy to an individual insurance policy?
 
 You have the option to convert spousal FSGLI coverage to a permanent, individual insurance policy (such as whole life) within 120 days from the date of your Servicemember’s:
 

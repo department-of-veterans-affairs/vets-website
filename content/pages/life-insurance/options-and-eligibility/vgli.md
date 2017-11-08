@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Veterans’ Group Life Insurance (VGLI)
 display_title: Veterans’ Group (VGLI)
-concurrence: 
+concurrence:
 order: 4
 relatedlinks:
   - heading: More information about your benefits
@@ -16,15 +16,15 @@ relatedlinks:
       description: If you become totally disabled or terminally ill, find out if you can get certain benefits.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military for as long as you continue to pay the premiums. Find out if you qualify—and how to manage your coverage.
 
-</div> 
+</div>
 
 <div class="feature">
 
-### Can I get VGLI? 
+### Can I get VGLI?
 
 You may be able to get VGLI if:
 
@@ -63,7 +63,7 @@ Apply in 1 of 3 ways:
 - [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
 - Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. [Download the Application for Veterans’ Group Life Insurance](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
-Fax the form to 1-800-236-6142, or mail it to: 
+Fax the form to 1-800-236-6142, or mail it to:
 
 <p class="va-address-block">
   OSGLI<br>
@@ -73,7 +73,7 @@ Fax the form to 1-800-236-6142, or mail it to:
 
 <br>
 
-### How much will I pay for these benefits? 
+### How much will I pay for these benefits?
 
 VGLI premium rates are based on your age and the amount of insurance coverage you want. Choose your age to find monthly premium rates as of July 1, 2014.
 
@@ -83,8 +83,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-29-below">Age 29 and below</button>
 <div id="age-29-below" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $32.00 |
 | $390,000 | $31.20 |
 | $380,000 | $30.40 |
@@ -132,8 +132,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-30-34">Age 30 - 34</button>
 <div id="vgli-age-30-34" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $40.00 |
 | $390,000 | $39.00 |
 | $380,000 | $38.00 |
@@ -181,8 +181,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-35-39">Age 35 - 39</button>
 <div id="vgli-age-35-39" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $52.00 |
 | $390,000 | $50.70 |
 | $380,000 | $49.40 |
@@ -230,8 +230,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-40-44">Age 40 - 44</button>
 <div id="vgli-age-40-44" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $68.00 |
 | $390,000 | $66.30 |
 | $380,000 | $64.60 |
@@ -279,8 +279,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-45-49">Age 45 - 49</button>
 <div id="vgli-age-45-49" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $88.00 |
 | $390,000 | $85.80 |
 | $380,000 | $83.60 |
@@ -328,8 +328,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-50-54">Age 50 - 54</button>
 <div id="vgli-age-50-54" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $144.00 |
 | $390,000 | $140.40 |
 | $380,000 | $136.80 |
@@ -377,8 +377,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-55-59">Age 55 - 59</button>
 <div id="vgli-age-55-59" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $268.00 |
 | $390,000 | $261.30 |
 | $380,000 | $254.60 |
@@ -426,8 +426,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-60-64">Age 60 - 64</button>
 <div id="vgli-age-60-64" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $432.00 |
 | $390,000 | $421.20 |
 | $380,000 | $410.40 |
@@ -475,8 +475,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-65-69">Age 65 - 69</button>
 <div id="vgli-age-65-69" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $600.00 |
 | $390,000 | $585.00 |
 | $380,000 | $570.00 |
@@ -524,8 +524,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-70-74">Age 70 - 74</button>
 <div id="vgli-age-70-74" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $920.00 |
 | $390,000 | $897.00 |
 | $380,000 | $874.00 |
@@ -573,8 +573,8 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-75-over">Age 75 and over</button>
 <div id="vgli-age-75-over" class="usa-accordion-content">
 
-| Coverage amount | Monthly premium rate | 
-| --- | --- | 
+| Coverage amount | Monthly premium rate |
+| --- | --- |
 | $400,000 | $1,840.00 |
 | $390,000 | $1,794.00 |
 | $380,000 | $1,748.00 |
@@ -627,7 +627,7 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 <br>
 
-### Can I convert my VGLI policy into a commercial policy? 
+### Can I convert my VGLI policy into a commercial policy?
 
 Yes. You can convert your policy into a commercial (civilian) policy at any time. You’ll be able to convert at standard premium rates, without having to provide proof that you’re in good health.
 
@@ -636,21 +636,21 @@ To convert your VGLI policy:
 <ol class="process" markdown="1">
 
   <li class="process-step list-one">
-  
+
   Choose your new insurance company. [View our list of companies that take part in this program]( http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2016-06.pdf).
-  
+
   </li>
-  
+
   <li class="process-step list-two">
-  
+
   Apply at the local sales office of your chosen company.
-  
+
   </li>
-  
+
   <li class="process-step list-three">
-  
+
   Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Conversion Notice) and give the letter to the agent who takes your application.
-  
+
   </li>
 </ol>
 

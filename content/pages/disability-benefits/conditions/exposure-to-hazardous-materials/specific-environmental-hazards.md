@@ -5,7 +5,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you had contact with certain environmental hazards while serving in Iraq, Afghanistan, and other areas, you may have illnesses or other conditions believed to be caused by these toxic chemicals in the air, water, or soil. Find out if you can get disability compensation or benefits.
 

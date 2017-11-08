@@ -7,7 +7,7 @@ concurrence: complete
 lastupdate: 2017-06-28
 order: 1
 children: healthCareServiceRelated
-majorlinks: 
+majorlinks:
   - heading:
     links:
     - url: /health-care/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/
@@ -33,7 +33,7 @@ majorlinks:
       description: September 1, 1939—September 2, 1945
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Certain health concerns may be more likely to affect Veterans who served in a specific time and place. Find out which health concerns you should be aware of depending on when and where you served.
 

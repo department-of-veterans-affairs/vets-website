@@ -7,7 +7,7 @@ plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act
 order: 1
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If your parent or spouse was an active-duty Servicemember who died in the line of duty on or after September 11, 2001, you may qualify for the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship). Find out if you can get benefits through this scholarship.
 
@@ -55,7 +55,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 ##### Choose a school
 
 - The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- You should contact your school’s certifying official to make sure your program is approved for VA benefits.  
+- You should contact your school’s certifying official to make sure your program is approved for VA benefits.
 
 </li>
 

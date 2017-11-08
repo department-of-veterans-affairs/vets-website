@@ -36,7 +36,7 @@ majorlinks:
 
 **In partnership with the [United States Department of Labor](https://www.dol.gov/vets/)**
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 We can support you in all stages of your job search. We’ve teamed up with the Department of Labor to give you career advice, help building your resume, and access to employers who want to hire Veterans and military spouses.
 
@@ -56,7 +56,7 @@ We can support you in all stages of your job search. We’ve teamed up with the 
           <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
           <li><a href='http://www.va.gov/homeless/cec-contacts.asp'>Get job-placement help from a Community Employment Coordinator (CEC)</a>.</li>
         </ul>
-<br>     
+<br>
 <p>We can also connect you with other non-VA resources in your community.</p>
 <br>
         <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>

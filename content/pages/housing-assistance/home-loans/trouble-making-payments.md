@@ -6,7 +6,7 @@ concurrence:
 order: 4
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you fall far behind on your mortgage payments, your mortgage servicer (the company that handles collecting the money for your lender) can take your house to cover the money owed. This process is called foreclosure. Find out how we can help you avoid foreclosure and keep your house.
 

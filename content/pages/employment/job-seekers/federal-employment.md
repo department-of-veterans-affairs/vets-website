@@ -5,7 +5,7 @@ title: Federal Employment
 concurrence: incomplete
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Federal jobs, including those at VA, offer outstanding opportunities to Veterans and their spouses. Skills learned in the military are easily transferrable to many positions, and by working for a federal agency, you can continue to serve your country. In addition, your military service counts toward a civilian pension.
 

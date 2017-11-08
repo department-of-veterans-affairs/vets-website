@@ -17,7 +17,7 @@ majorlinks:
       description: Are you stationed overseas?
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you have a disability and you’re currently in predischarge status, you can file a claim for disability benefits 90 to 180 days before any of these changes to your status:
 

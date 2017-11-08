@@ -17,7 +17,7 @@ relatedlinks:
       description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 As you navigate the civilian marketplace, you may encounter challenges. The Veterans Employment Center can help.
 

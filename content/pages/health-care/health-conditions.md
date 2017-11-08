@@ -23,7 +23,7 @@ relatedlinks:
     description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 At VA, we offer many services and programs for Veterans with specific needs—like women Veterans, Veterans with mental health problems, and elderly or disabled Veterans. We cover the cost of many of these services under the VA health care program. You may be able to get help paying for other services—like dental care—if you qualify for them as an added benefit. Find out how to access services for your specific needs.
 

@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: Gulf War Illness from Service in Afghanistan
-concurrence: 
-source: 
-plainlanguage: 
+concurrence:
+source:
+plainlanguage:
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served in Afghanistan, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
@@ -32,11 +32,11 @@ You must have been discharged under conditions other than dishonorable and have 
 -	Campylobacter jejuni
 -	Coxiella burnetii (Q fever)
 -	Malaria*
--	Mycobacterium tuberculosis* 
+-	Mycobacterium tuberculosis*
 -	Nontyphoid Salmonella
 -	Shigella
--	Visceral leishmaniasis* 
-- West Nile Virus 
+-	Visceral leishmaniasis*
+- West Nile Virus
 
 *Indicates that there are exceptions to how we decide if these illnesses qualify you for benefits and these conditions may be covered even after a year has passed.
 

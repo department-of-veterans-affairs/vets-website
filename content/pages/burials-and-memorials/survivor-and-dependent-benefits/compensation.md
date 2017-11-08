@@ -6,9 +6,9 @@ display_title: Compensation
 order: 2
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-If you’re the survivor or parent of a Servicemember who died in the line of duty, or the survivor or parent of a Veteran who died from a service-related injury or illness, you may be able to get a tax-free monetary benefit called Dependency and Indemnity Compensation (DIC). Find out if you can get compensation. 
+If you’re the survivor or parent of a Servicemember who died in the line of duty, or the survivor or parent of a Veteran who died from a service-related injury or illness, you may be able to get a tax-free monetary benefit called Dependency and Indemnity Compensation (DIC). Find out if you can get compensation.
 
 </div>
 
@@ -37,7 +37,7 @@ If you’re a surviving child, you can get compensation if you aren’t married 
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
-- The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling: 
+- The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling:
   - For at least 10 years before their death, **or**
   - Since the Veteran’s release from active duty and for at least 5 years immediately before their death, **or**
   - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
@@ -52,9 +52,9 @@ Tax-free monetary benefits
 
 </div>
 
-### As a surviving spouse or child, how do I get compensation? 
+### As a surviving spouse or child, how do I get compensation?
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
 
 You can apply for this benefit in 1 of 3 ways:
 
@@ -67,11 +67,11 @@ You can apply for this benefit in 1 of 3 ways:
 
 ### As a surviving parent, can I get compensation?
 
-You may be able to get compensation as a surviving parent if: 
+You may be able to get compensation as a surviving parent if:
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
-- Your income is below a certain amount. [View the parents DIC rate table]( http://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
+- Your income is below a certain amount. [View the parents DIC rate table]( http://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
 
-### As a surviving parent, how do I get compensation? 
+### As a surviving parent, how do I get compensation?
 
 You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). [Download VA Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 

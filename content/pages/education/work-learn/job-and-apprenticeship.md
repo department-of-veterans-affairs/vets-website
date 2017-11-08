@@ -9,7 +9,7 @@ order: 2
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
-<div itemprop="description" class="va-introtext">
+<div itemprop="description" class="usa-font-lead">
 
 You can get help paying for books, supplies, and housing while you’re learning a trade or skill through on-the-job training (OJT) or apprenticeships. Find out how to get education benefits.
 
@@ -37,7 +37,7 @@ You can get benefits if you qualify for the GI Bill, and:
 
 Veterans
 
-**Exception:** 
+**Exception:**
 You can’t get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
 
 </div>
@@ -63,7 +63,7 @@ You can’t get OJT if you’re an active-duty Servicemember or a spouse using a
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
+You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities).
 
 You’ll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you’ll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you’ll get a job certification or journeyman status.
 

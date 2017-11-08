@@ -20,10 +20,10 @@ relatedlinks:
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /disability-benefits/
       title: Disability Benefits
-      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.  
+      description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 At VA, we take a team approach to health care—with you at the center. Research shows this kind of approach leads to better quality care, more satisfied patients, and fewer hospital visits. Find out who will care for you when you become part of the VA health care program.
 

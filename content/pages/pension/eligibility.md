@@ -12,7 +12,7 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth are within certain limits, you may qualify for monthly payments through our Veterans Pension program. Find out if you can get this benefit.
 

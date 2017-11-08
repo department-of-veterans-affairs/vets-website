@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
-title: Title 38 U.S.C. 1151 Claims 
+title: Title 38 U.S.C. 1151 Claims
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 8
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you suffered an added disability while getting VA medical care or taking part in a VA program designed to help you find, get, or keep a job, you may be able to get compensation.
 
@@ -23,16 +23,16 @@ You can get compensation from VA if you have an added disability or an injury or
   - A VA health exam, **or**
   - A VA vocational rehabilitation course (under 38 U.S.C. Chapter 31), **or**
   - VA compensated work therapy (CWT)(under 38 U.S.C. 1718)
- 
+
 And the added disability wasn’t a reasonably expected result or complication of treatment.
-  
+
 ### Who’s covered?
 Veterans
 </div>
 
 ### What kind of benefits can I get?
 
-Compensation 
+Compensation
 
 -----
 

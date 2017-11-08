@@ -5,9 +5,9 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Want to start a business? We offer entrepreneurship training through the Small Business Administration. Find out how you can use your GI Bill benefits or our other educational assistance programs for training to become a business owner or entrepreneur. 
+Want to start a business? We offer entrepreneurship training through the Small Business Administration. Find out how you can use your GI Bill benefits or our other educational assistance programs for training to become a business owner or entrepreneur.
 
 </div>
 
@@ -26,7 +26,7 @@ You can get this training if you qualify for any of these programs:
 
 </div>
 
-### How do I get this training? 
+### How do I get this training?
 
 [Contact your local VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp).
 

@@ -7,7 +7,7 @@ template: detail-page
 order: 5
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Were you part of testing or storing Agent Orange on bases in the United States or elsewhere? Agent Orange is a toxic chemical the U.S. military used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
@@ -54,4 +54,4 @@ Want to connect with a trained professional who can help you with VA-related cla
 
 Want to figure out where you may have come into contact with Agent Orange? See all the dates and locations of herbicide tests and storage:
 - [In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
-- [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp) 
+- [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)

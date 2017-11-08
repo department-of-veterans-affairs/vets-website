@@ -49,7 +49,7 @@ describe('<StatusPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<StatusPage store={store} {...props}/>);
-    expect(tree.subTree('.va-introtext')).to.be.false;
+    expect(tree.subTree('.usa-font-lead')).to.be.false;
     expect(tree.subTree('.usa-button-primary')).to.be.false;
   });
 });

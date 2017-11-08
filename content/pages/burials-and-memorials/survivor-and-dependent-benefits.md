@@ -29,7 +29,7 @@ relatedlinks:
 
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits and help paying for the deceased's funeral service.
 

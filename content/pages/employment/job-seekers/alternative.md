@@ -4,7 +4,7 @@ template: topic-landing
 title: Alternative Ways to Start Your Career
 concurrence: complete
 relatedlinks:
-  - heading: 
+  - heading:
     links:
     - url: /education/work-learn/workstudy/
       title: Work Study
@@ -40,13 +40,13 @@ relatedlinks:
       description: Learn about employers who’ve committed to hiring Veterans and military family members.
     - url: /employment/job-seekers/create-resume
       title: Résumé Builder
-      description: Use this tool to build a civilian or federal résumé.      
+      description: Use this tool to build a civilian or federal résumé.
     - url: /employment/job-seekers/search-jobs
       title: Job Search
       description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 There are many ways for you to launch your civilian career and continue your education at the same time, and many options other than traditional education programs.
 

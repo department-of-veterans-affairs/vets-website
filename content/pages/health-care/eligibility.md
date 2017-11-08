@@ -14,7 +14,7 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served in the active military, naval, or air service and separated under conditions other than dishonorable, you may qualify for VA health care benefits. Find out if you can get VA health care.
 

@@ -7,7 +7,7 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 order: 10
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Does your college tuition cost more than what’s covered by the Tuition Assistance (TA) program? Find out if you can get more money to help pay for school through the Tuition Assistance Top-Up program.
 
@@ -33,7 +33,7 @@ You can get more tuition funding to cover the difference between the full cost o
 
 ### How do I get these benefits?
 
-You’ll need to apply. [Apply for benefits](/education/apply/). 
+You’ll need to apply. [Apply for benefits](/education/apply/).
 
 If you’re using the Montgomery GI Bill, you’ll get the difference between the DOD payment and the total cost of the course. If you’re using the Post-9/11 GI Bill, we’ll pay back your school the difference between the DOD payment and the authorized (approved) maximum tuition and fees.
 

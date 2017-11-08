@@ -21,10 +21,10 @@ majorlinks:
       description: Learn about the guidelines for schools that get federal funding through programs such as the GI Bill.
     - url: /education/tools-programs/locate-a-school/
       title: Locate a School
-      description: Find out which schools you can use your VA education benefits at before you apply. 
+      description: Find out which schools you can use your VA education benefits at before you apply.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Figuring out how to shift from military to civilian life can be hard. We offer tools and counseling programs to help you make the most of your options. Find out how we can help.
 

@@ -7,16 +7,16 @@ concurrence: incomplete
 order: 11
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you take part in the $600 Montgomery GI Bill Buy-Up program, you’ll get more money each month through your GI Bill monthly payments. Find out how it works.
 
 </div>
 
-### How do I get this benefit? 
+### How do I get this benefit?
 
-- Decide how much extra you want to contribute. With a $600 contribution, you can get up to $5,400 more in GI Bill benefits. [View the rate table](http://www.benefits.va.gov/gibill/resources/benefits_resources/rates/600_buyup.asp). 
+- Decide how much extra you want to contribute. With a $600 contribution, you can get up to $5,400 more in GI Bill benefits. [View the rate table](http://www.benefits.va.gov/gibill/resources/benefits_resources/rates/600_buyup.asp).
 - Fill out a form called Montgomery GI Bill Act of 1984 Basic Enrollment (DD Form 2366) and take it to your payroll or personnel office. [Get DD Form 2366](http://www.dtic.mil/whs/directives/forms/eforms/dd2366-1.pdf).
-- Keep copies of the form and any other paperwork that shows you made the payment. 
+- Keep copies of the form and any other paperwork that shows you made the payment.
 
 **Note:** This program can’t be used with the Post 9/11 GI Bill.
