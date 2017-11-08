@@ -80,7 +80,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Search online job banks
 
-- Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
+- Search the [Veterans Employment Center](https://www.careeronestop.org/JobSearch/job-search.aspx) for job openings.
 - Search for connections and job listings on [LinkedIn&trade;](https://veterans.linkedin.com/) as well as other online job boards.
 </li>
 
