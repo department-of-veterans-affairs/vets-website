@@ -1,3 +1,4 @@
+import React from 'react';
 import { questionLabels } from './config';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
@@ -40,6 +41,90 @@ export const board = (formValues) => {
     return boardObj;
   }
   return null;
+};
+
+export const venueAddress = (formValues) => {
+  const boardData = board(formValues);
+  if (boardData && boardData.abbr === 'DRB') {
+    switch (formValues['7_branchOfService']) {
+      case 'army':
+        return (
+          <p className="va-address-block">
+            Army Review Boards Agency<br/>
+            251 18th Street South<br/>
+            Suite 385<br/>
+            Arlington, VA 22202-3531<br/>
+          </p>
+        );
+      case 'airForce':
+        return (
+          <p className="va-address-block">
+            Air Force Review Boards Agency<br/>
+            SAF/MRBR<br/>
+            550-C Street West, Suite 40<br/>
+            Randolph AFB, TX 78150-4742<br/>
+          </p>
+        );
+      case 'coastGuard':
+        return (
+          <p className="va-address-block">
+            Commandant (CG-133)<br/>
+            Attn: Office of Military Personnel<br/>
+            US Coast Guard Stop 7907<br/>
+            2703 Martin Luther King, Jr. Ave., S.E.<br/>
+            Washington, DC 20593-7907<br/>
+          </p>
+        );
+      default: // Navy or Marines
+        return (
+          <p className="va-address-block">
+            Secretary of the Navy Council of Review Boards<br/>
+            ATTN: Naval Discharge Review Board<br/>
+            720 Kennon Ave S.E., Suite 309<br/>
+            Washington Navy Yard, DC 20374-5023<br/>
+          </p>
+        );
+    }
+  } else {
+    switch (formValues['7_branchOfService']) {
+      case 'army':
+        return (
+          <p className="va-address-block">
+            Army Review Boards Agency<br/>
+            251 18th Street South<br/>
+            Suite 385<br/>
+            Arlington, VA 22202-3531<br/>
+          </p>
+        );
+      case 'airForce':
+        return (
+          <p className="va-address-block">
+            Board for Correction of Air Force Records<br/>
+            SAF/MRBR<br/>
+            550-C Street West, Suite 40<br/>
+            Randolph AFB, TX 78150-4742<br/>
+          </p>
+        );
+      case 'coastGuard':
+        return (
+          <p className="va-address-block">
+            Department of Homeland Security<br/>
+            Office of the General Counsel<br/>
+            Board for Correction of Military Records<br/>
+            245 Murray Lane, Stop 0485<br/>
+            Washington, DC 20528-0485<br/>
+          </p>
+        );
+      default: // Navy or Marines
+        return (
+          <p className="va-address-block">
+            Board for Correction of Naval Records (BCNR)<br/>
+            701 S. Courthouse Road, Suite 1001<br/>
+            Arlington, VA 22204-2490<br/>
+          </p>
+        );
+    }
+  }
 };
 
 export const formNumber = (formValues) => {

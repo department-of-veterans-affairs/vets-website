@@ -3,7 +3,7 @@ import React from 'react';
 
 import AlertBox from '../../common/components/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
-import { branchOfService, board, formNumber } from '../utils';
+import { branchOfService, board, formNumber, venueAddress } from '../utils';
 import { venueWarning } from '../config';
 
 class GuidancePage extends React.Component {
@@ -217,6 +217,7 @@ class GuidancePage extends React.Component {
           <p>
             Mail your completed form and all supporting materials to the {boardToSubmit.abbr} at:
           </p>
+          {venueAddress(this.props.formValues)}
           {onlineSubmissionMsg}
           <a href="#" className="usa-button-primary va-button">Download Form {formNum}</a>
           <h5>What happens after I send in my completed form and supporting materials?</h5>
