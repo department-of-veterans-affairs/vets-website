@@ -26,7 +26,7 @@ export const board = (formValues) => {
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
 
   let boardObj;
-  if (['1', '3', '4'].indexOf(formValues['10_prevApplicationType']) > -1) {
+  if (['1', '3', '4'].indexOf(formValues['7_branchOfService']) > -1) {
     boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
   }
   boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
