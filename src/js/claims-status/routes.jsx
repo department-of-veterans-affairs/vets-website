@@ -12,6 +12,7 @@ import DocumentRequestPage from './containers/DocumentRequestPage';
 import AdditionalEvidencePage from './containers/AdditionalEvidencePage';
 import ClaimEstimationPage from './containers/ClaimEstimationPage';
 import AppealLayout from './components/AppealLayout';
+import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
 
 const routes = [
   <Redirect
@@ -35,6 +36,15 @@ const routes = [
       component={AppealStatusPage}
       key=":id/status"
       path=":id/status"/>,
+  </Route>,
+  <Route
+    component={AppealLayout}
+    key="/appeals-v2"
+    path="/appeals-v2">
+    <Route
+      component={AppealsV2StatusPage}
+      key=":id/status"
+      path=":id/status"/>
   </Route>,
   <Route
     component={ClaimPage}
