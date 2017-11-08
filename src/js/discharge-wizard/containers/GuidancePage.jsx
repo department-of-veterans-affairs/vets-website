@@ -19,14 +19,12 @@ class GuidancePage extends React.Component {
 
     if (validReason && validYear) {
       return (
-        <li className="list-group-item">
-          <div>
-            <h4>(Optional): Apply to the Physical Disability Board of Review (PDBR)</h4>
-            <p>
-              The Department of Defense (DoD) created the Physical Disability Board of Review (PDBR) specifically to review appeals about low disability ratings for Veterans discharged between 2001 and 2009.  Many Veterans discharged during this time period were inaccurately given lower disability ratings than they deserved, especially if they suffered from TBI, PTSD, or mental health conditions. If you were discharged in this period and previously received a disability rating for PTSD which you feel is too low, you are eligible to apply to the PDBR for review. The PDBR does not issue discharge status upgrades—but if the PDBR finds that your disability rating was unjustly low, this may help you make your case to upgrade your discharge status. Many Veterans in this situation choose to <a href="http://www.health.mil/PDBR">make a PDBR application</a> before applying for a discharge upgrade. <a href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process">Apply for a PBDR review</a>.
-            </p>
-          </div>
-        </li>
+        <div className="feature">
+          <h4>(Optional): Apply to the Physical Disability Board of Review (PDBR)</h4>
+          <p>
+            The Department of Defense (DoD) created the Physical Disability Board of Review (PDBR) specifically to review appeals about low disability ratings for Veterans discharged between 2001 and 2009.  Many Veterans discharged during this time period were inaccurately given lower disability ratings than they deserved, especially if they suffered from TBI, PTSD, or mental health conditions. If you were discharged in this period and previously received a disability rating for PTSD which you feel is too low, you are eligible to apply to the PDBR for review. The PDBR does not issue discharge status upgrades—but if the PDBR finds that your disability rating was unjustly low, this may help you make your case to upgrade your discharge status. Many Veterans in this situation choose to <a href="http://www.health.mil/PDBR">make a PDBR application</a> before applying for a discharge upgrade. <a href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process">Apply for a PBDR review</a>.
+          </p>
+        </div>
       );
     }
     return null;
@@ -274,8 +272,8 @@ class GuidancePage extends React.Component {
             content={venueWarning}
             isVisible={this.props.formValues['10_prevApplicationType'] === '4'}
             status="warning"/>
-          <ul className="vertical-list-group more-bottom-cushion">
-            {this.renderOptionalStep()}
+          {this.renderOptionalStep()}
+          <ul className="vertical-list-group more-bottom-cushion numbered">
             {this.renderStepOne()}
             {this.renderStepTwo()}
             {this.renderStepThree()}
