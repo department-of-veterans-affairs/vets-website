@@ -92,7 +92,6 @@ display_title: Request Discharge Updates and Corrections
                               <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>
                             </div>
                           </div>
-                          <div class="cf"></div>
                         </div>
                         <p>If you have a discharge that is less than honorable or general, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
                         <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you’ve completed an drug rehabilitation program.</p>
