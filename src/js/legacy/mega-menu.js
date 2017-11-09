@@ -26,12 +26,6 @@ class MegaMenu {
 
     menus.forEach((menu) => {
       menu.addEventListener('click', this.toggleMenu);
-
-      const dropdown = this.getMenu(menu.getAttribute('aria-controls'));
-
-      if (dropdown) {
-        dropdown.addEventListener('click', (event) => event.stopPropagation());
-      }
     });
 
     submenus.forEach((submenu) => {
@@ -44,7 +38,8 @@ class MegaMenu {
 
     this.openControl.addEventListener('click', this.showMenu);
     this.closeControl.addEventListener('click', this.hideMenu);
-
+    this.menu.addEventListener('click', (event) => event.stopPropagation());
+    
     document.addEventListener('click', this.handleDocumentClick);
     window.addEventListener('resize', this.resetMenu);
   }

@@ -11,117 +11,102 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.title('Education Benefits Application Process: Vets.gov')
       .waitForElementVisible('.wizard-container', Timeouts.normal)
       .click('.wizard-button')
-      .waitForElementVisible('[data-question="create-or-update"]', Timeouts.normal)
-      .expect.element('[data-question="create-or-update"]').to.have.css('display').equals('block');
+      .waitForElementVisible('label[for="newBenefit-0"]', Timeouts.normal)
+      .axeCheck('.main');
 
     // Create a new application
     client
-      .click('#new-application')
-      .waitForElementVisible('[data-question="create"]', Timeouts.normal)
-      .expect.element('[data-question="create"]').to.have.css('display').equals('block');
-
+      .click('input[id="newBenefit-0"]')
+      .waitForElementVisible('label[for="serviceBenefitBasedOn-0"]', Timeouts.normal)
     // Select veteran
-    client
-      .click('#is-veteran')
-      .waitForElementVisible('[data-question="national-call-to-service"]', Timeouts.normal)
-      .expect.element('[data-question="national-call-to-service"]').to.have.css('display').equals('block');
-
+      .click('input[id="serviceBenefitBasedOn-0"]')
+      .waitForElementVisible('label[for="nationalCallToService-0"]', Timeouts.normal)
     // Select national call to service
-    client
-      .click('#is-ncts')
-      .waitForElementVisible('#apply-now-button', Timeouts.normal)
-      .expect.element('#apply-now-button').to.have.css('display').equals('block');
+      .click('#nationalCallToService-0')
+      .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990N/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990N');
 
     client
-      .expect.element('#ncts-warning').to.have.css('display').equals('block');
+      .expect.element('.usa-alert-warning').to.be.present;
 
     // Select non-veteran
     client
-      .click('#is-not-veteran')
-      .expect.element('#apply-now-button').to.have.css('display').equals('none');
+      .click('#serviceBenefitBasedOn-1')
+      .expect.element('#apply-now-link').not.to.be.present;
 
     client
-      .expect.element('#ncts-warning').to.have.css('display').equals('none');
+      .expect.element('.usa-alert-warning').not.to.be.present;
 
     client
-      .waitForElementVisible('[data-question="create-dependent"]', Timeouts.normal)
-      .expect.element('[data-question="create-dependent"]').to.have.css('display').equals('block');
+      .waitForElementVisible('label[for="sponsorDeceasedDisabledMIA-0"]', Timeouts.normal);
 
     // Select dependent
     client
-      .click('#create-dependent')
-      .waitForElementVisible('#apply-now-button', Timeouts.normal)
-      .expect.element('#apply-now-button').to.have.css('display').equals('block');
+      .click('#sponsorDeceasedDisabledMIA-0')
+      .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5490/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5490');
 
     // Select non-dependent
     client
-      .click('#create-non-dependent')
-      .expect.element('#apply-now-button').to.have.css('display').equals('none');
+      .click('#sponsorDeceasedDisabledMIA-1')
+      .expect.element('#apply-now-link').not.to.be.present;
 
     client
-      .waitForElementVisible('[data-question="create-transfer"]', Timeouts.normal)
-      .expect.element('[data-question="create-transfer"]').to.have.css('display').equals('block');
+      .waitForElementVisible('label[for="sponsorTransferredBenefits-0"]', Timeouts.normal);
 
     // Select transfer
     client
-      .click('#create-transfer')
-      .waitForElementVisible('#apply-now-button', Timeouts.normal)
-      .expect.element('#apply-now-button').to.have.css('display').equals('block');
+      .click('#sponsorTransferredBenefits-0')
+      .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990E/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990E');
 
     // Select non-transfer
     client
-      .click('#create-non-transfer')
-      .waitForElementVisible('#apply-now-button', Timeouts.normal)
-      .expect.element('#apply-now-button').to.have.css('display').equals('block');
+      .click('#sponsorTransferredBenefits-1')
+      .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#transfer-warning').to.have.css('display').equals('block');
+      .expect.element('.usa-alert-warning').to.be.present;
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990E/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1990E');
 
     // Update an existing application
     client
-      .click('#existing-application')
-      .expect.element('#apply-now-button').to.have.css('display').equals('none');
+      .click('#newBenefit-1')
+      .expect.element('#apply-now-link').not.to.be.present;
 
     client
-      .waitForElementVisible('div[data-question="update"]', Timeouts.normal)
-      .expect.element('div[data-question="update"]').to.have.css('display').equals('block');
+      .waitForElementVisible('label[for="transferredEduBenefits-0"]', Timeouts.normal);
 
     // Select dependent
     client
-      .click('#update-dependent')
-      .waitForElementVisible('#apply-now-button', Timeouts.normal)
-      .expect.element('#apply-now-button').to.have.css('display').equals('block');
+      .click('#transferredEduBenefits-2')
+      .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#transfer-warning').to.have.css('display').equals('none');
+      .expect.element('.usa-alert-warning').not.to.be.present;
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5495/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/5495');
 
     // Select non-dependent
     client
-      .click('#update-non-dependent')
-      .waitForElementVisible('#apply-now-button', Timeouts.normal)
-      .expect.element('#apply-now-button').to.have.css('display').equals('block');
+      .click('#transferredEduBenefits-0')
+      .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
     client
-      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1995/introduction');
+      .expect.element('#apply-now-link').to.have.attribute('href').which.contains('/education/apply-for-education-benefits/application/1995');
 
     // Navigate to application
     client
-      .click('#apply-now-button')
+      .click('#apply-now-link')
       .pause(1000)
       .assert.urlContains('/education/apply-for-education-benefits/application/1995/introduction');
 

@@ -29,7 +29,7 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   componentWillMount() {
-    this.inputId = _.uniqueId('errorable-radio-buttons-');
+    this.inputId = this.props.id || _.uniqueId('errorable-radio-buttons-');
   }
 
   getMatchingSubSection(checked, optionValue) {
@@ -96,7 +96,7 @@ class ErrorableRadioButtons extends React.Component {
             autoComplete="false"
             checked={checked}
             id={`${this.inputId}-${index}`}
-            name={`${this.props.name}-${index}`}
+            name={this.props.name}
             type="radio"
             value={optionValue}
             onChange={this.handleChange}/>
@@ -128,25 +128,28 @@ class ErrorableRadioButtons extends React.Component {
     });
 
     return (
-      <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
-        <label
-          className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
-          htmlFor={this.inputId}>
+      <fieldset className={this.props.errorMessage ? 'fieldset-input usa-input-error' : 'fieldset-input'}>
+        <legend
+          className={this.props.errorMessage ? 'legend-label usa-input-error-label' : 'legend-label'}>
           {this.props.label}
           {requiredSpan}
-        </label>
+        </legend>
         {errorSpan}
         {optionElements}
         {toolTip}
-      </div>
+      </fieldset>
     );
   }
 }
 
 ErrorableRadioButtons.propTypes = {
   errorMessage: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   name: PropTypes.string,
+  id: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,

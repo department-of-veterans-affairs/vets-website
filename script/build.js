@@ -148,20 +148,6 @@ smith.use(collections({
       name: 'Survivor and Dependent Benefits'
     }
   },
-  disabilityBeta: {
-    pattern: 'disability-benefits-beta/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Disability Benefits'
-    }
-  },
-  disabilityBetaClaimsAppeal: {
-    pattern: 'disability-benefits-beta/claims-appeal/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Appeals'
-    }
-  },
   disability: {
     pattern: 'disability-benefits/*.md',
     sortBy: 'order',
@@ -397,6 +383,20 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Application Process'
+    }
+  },
+  vre: {
+    pattern: 'employment/vocational-rehab-and-employment/*md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Vocational Rehab &amp; Employment'
+    }
+  },
+  vreServiceDisabled: {
+    pattern: 'employment/vocational-rehab-and-employment/service-disabled/*md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Servicemember & Veteran Programs'
     }
   },
 }));

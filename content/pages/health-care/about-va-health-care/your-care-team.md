@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Your Care Team
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-07-06
 order: 1
@@ -88,24 +88,8 @@ If you decide you want to change to a different primary care doctor, you’ll ne
 
 #### How do I schedule an appointment?
 
-<br>
 
-##### By phone
-
-You can call the VA health facility where you receive care. [Find your VA health facility's phone number](/facilities).
-
-<br>
-
-##### Online
-
-You can also schedule non-urgent visits online. You'll just need a DS Logon account (used for eBenefits and milConnect) to access our online scheduling tool. [Schedule an appointment online](https://veteran.mobilehealth.va.gov/veteran-appointment-requests/).
-
-**Don't have a DS Logon account?** [Register now](https://myaccess.dmdc.osd.mil/identitymanagement/registration.do?execution=e4s1).
-
-Please keep in mind that your VA health care providers don't monitor this online tool:
-
-- **If you need urgent care**, please call <a href="tel:+9-1-1">911</a> or call the Veterans Crisis Hotline at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.
-- **If you need to speak to your doctor about an appointment that's coming up within the next 72 hours**, please call your VA health facility. [Find your VA health facility's phone number](/facilities).
+You can schedule VA health care appointments by phone or through our online scheduling tool. [Find out how to schedule VA appointments by phone or online](/health-care/schedule-an-appointment).
 
 <br>
 
@@ -121,15 +105,14 @@ Your health care team will have a plan in place if your primary care provider is
 
 #### Can I see a local community care provider, paid for by VA?
 
-It depends. We may pay for you to receive care through the VA community care network if: 
+It depends. We may pay for you to receive care through the VA community care network if:
 - We can’t provide the services you need, **or**
 - We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
 - You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
 - You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
 - You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-VA community care providers must meet our strict quality standards and be approved by us before they can provide care for you. 
+VA community care providers must meet our strict quality standards and be approved by us before they can provide care for you.
 
 [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp). <br>
-[Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/). 
-
+[Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/).

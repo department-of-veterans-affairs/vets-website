@@ -39,7 +39,7 @@ class ConfirmationPage extends React.Component {
     const name = form.data.veteranFullName;
 
     const docExplanation = this.state.isExpanded
-      ? (<div className="usa-accordion-content">
+      ? (<div className="usa-accordion-content" aria-hidden="false">
         <p>In the future, you might need a copy of your DD 2863 (National Call to Service (NCS) Election of Options).</p>
         <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">GI Bill site</a>.</p>
       </div>)
@@ -94,7 +94,7 @@ class ConfirmationPage extends React.Component {
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
           <p className="confirmation-guidance-message"><a href="/education/after-you-apply">Find out what happens after you apply</a>.</p>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:888-442-4551">1-888-442-4551</a> (1-888-GI-BILL-1), Monday - Friday, 8:00 a.m. - 7:00 p.m. (ET).</p>
+          <p className="confirmation-guidance-message">If you have questions, call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET).</p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">

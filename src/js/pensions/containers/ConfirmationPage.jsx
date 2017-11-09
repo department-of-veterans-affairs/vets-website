@@ -70,8 +70,8 @@ class ConfirmationPage extends React.Component {
             <li>
               <strong>Pension Management Center</strong><br/>
               <span>{pmcName}</span><br/>
-              <span>Phone: <a href="tel:+1-800-827-1000">1-800-827-1000</a></span><br/>
-              <span>Fax: <a href="tel:+1-844-655-1604">1-844-655-1604</a></span>
+              <span>Phone: <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET)</span><br/>
+              <span>Fax: 1-844-655-1604</span>
             </li>
             <li>
               <span>If you have several documents to send in, you can mail them to:</span>
@@ -85,7 +85,7 @@ class ConfirmationPage extends React.Component {
         </div>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday - Friday, 8:00 a.m. - 9:00 p.m. (ET). Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial <a href="tel:711">711</a>.</p>
+          <p className="confirmation-guidance-message">If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET). Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial <a href="tel:711">711</a>.</p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">

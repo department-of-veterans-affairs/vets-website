@@ -2,11 +2,15 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Education Benefits Eligibility 
-includes_edu_wizard: true
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 1
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 description: Get help paying for college or other training. Find out if you qualify for VA education benefits through the GI Bill and other educational assistance programs.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
@@ -63,6 +67,9 @@ You may be able to get help paying for school tuition, testing fees, and advance
 [Learn more about advanced training and certifications](/education/advanced-training-and-certifications/).
 
 [Learn about other educational assistance programs](/education/other-educational-assistance-programs/).
+
+If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required. [Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
+
 </div>
 </div><div markdown="0"><br></div>
 
@@ -74,13 +81,12 @@ In some cases, the dependent or surviving spouse and children of a Veteran can g
 
 Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> [Learn more about transferring benefits](/education/gi-bill/transfer/).
 
+If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. [Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
+
 </div>
 </div>
 
-### Ready to apply?
-
-<div class="wizard-anchor">
-</div>
+<div id="react-applicationStatus"></div>
 
 [Learn about the application process](/education/apply).
 

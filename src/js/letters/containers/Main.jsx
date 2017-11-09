@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
+import { systemDownMessage } from '../../common/utils/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
-
-// import { getAddressSuccessAction } from '../utils/helpers';
+import { recordsNotFound } from '../utils/helpers';
 
 import {
   getBenefitSummaryOptions,
@@ -30,8 +29,6 @@ export class Main extends React.Component {
     this.props.getLetterList();
     this.props.getMailingAddress();
     this.props.getBenefitSummaryOptions();
-    // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
-    // this.props.getAddressSuccessAction();
     this.props.getAddressCountries();
     this.props.getAddressStates();
   }
@@ -41,6 +38,11 @@ export class Main extends React.Component {
     // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
     if (lettersAvailability === awaitingResponse || addressAvailability === awaitingResponse) {
       return awaitingResponse;
+    }
+
+    // If address isn't available, take the whole system down
+    if (addressAvailability === unavailable) {
+      return backendServiceError;
     }
 
     return lettersAvailability;
@@ -60,7 +62,7 @@ export class Main extends React.Component {
         appContent = systemDownMessage;
         break;
       case backendAuthenticationError:
-        appContent = unableToFindRecordWarning;
+        appContent = recordsNotFound;
         break;
       case invalidAddressProperty:
         appContent = systemDownMessage;
@@ -75,8 +77,8 @@ export class Main extends React.Component {
               <div className="usa-alert-body">
                 <h4 className="usa-alert-heading">Letters Unavailable</h4>
                 <p className="usa-alert-text">
-                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">
-                  1-855-574-7286</a> between Monday-Friday 8:00 a.m. - 8:00 p.m. (ET).
+                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">1-855-574-7286</a>,
+                  TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
                 </p>
               </div>
             </div>
@@ -117,8 +119,6 @@ const mapDispatchToProps = {
   getMailingAddress,
   getAddressCountries,
   getAddressStates,
-  // FOR TESTING PURPOSES ONLY; DO NOT LET THIS INTO PRODUCTION
-  // getAddressSuccessAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

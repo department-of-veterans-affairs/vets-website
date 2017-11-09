@@ -265,7 +265,7 @@ function initSaveInProgressMock(url, client) {
     path: '/v0/in_progress_forms/1010ez',
     verb: 'get',
     value: {
-      form_data: {
+      formData: {
         privacyAgreementAccepted: false,
         veteranSocialSecurityNumber: '123445544',
         veteranFullName: {

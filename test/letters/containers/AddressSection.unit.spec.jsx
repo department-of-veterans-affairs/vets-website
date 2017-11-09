@@ -106,14 +106,14 @@ describe('<AddressSection>', () => {
 
   it('should render an edit button if user is allowed to edit address', () => {
     const component = shallow(<AddressSection {...defaultProps}/>);
-    const editButton = component.find('button');
+    const editButton = component.find('.usa-button-secondary');
     expect(editButton).to.have.lengthOf(1);
   });
 
   it('should not render an edit button if user not allowed to edit address', () => {
     const cannotEditProps = { ...defaultProps, canUpdate: false };
     const component = shallow(<AddressSection {...cannotEditProps}/>);
-    expect(component.find('button')).to.have.lengthOf(0);
+    expect(component.find('usa-button-secondary')).to.have.lengthOf(0);
   });
 
   it('should expand address fields when Edit button is clicked', () => {
@@ -123,7 +123,7 @@ describe('<AddressSection>', () => {
     expect(tree.find('select')).to.have.lengthOf(0);
 
     // Poke the edit button
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
     expect(tree.find('select')).to.have.lengthOf(2);
   });
 
@@ -134,7 +134,7 @@ describe('<AddressSection>', () => {
 
     expect(tree.find('select')).to.have.lengthOf(0);
 
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
     // We could just check the internal state to see if we're editing, too
     expect(tree.find('select')).to.have.lengthOf(2);
 
@@ -149,11 +149,11 @@ describe('<AddressSection>', () => {
 
     expect(tree.find('select')).to.have.lengthOf(0);
 
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
     expect(tree.find('select')).to.have.lengthOf(2);
 
     // Click the cancel button
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
     expect(tree.find('select')).to.have.lengthOf(0);
   });
 
@@ -163,7 +163,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...props}/>);
 
     // Start editing
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
     expect(tree.find('.usa-alert-heading').text()).to.contain('Address update unavailable');
   });
 
@@ -173,7 +173,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...props}/>);
 
     expect(tree.state('editableAddress')).to.equal(props.savedAddress);
-    tree.find('.usa-button-outline').simulate('click');
+    tree.find('.usa-button-secondary').simulate('click');
 
     // Edit the street address
     const newAddress = '123 Main St';
@@ -186,10 +186,10 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
 
     // Try to save
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
     expect(saveSpy.called).to.be.false;
   });
 
@@ -198,7 +198,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
 
     // Clear out country to get a validation error
     tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
@@ -212,7 +212,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
 
     // Clear out country to get a validation error
     tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
@@ -223,7 +223,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
 
     // Sanity check; make sure the type is what we expect before we change it
     // NOTE: We're checking that it's domestic specifically just so we make absolutely sure
@@ -244,7 +244,7 @@ describe('<AddressSection>', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Start editing
-    tree.find('button.usa-button-outline').simulate('click');
+    tree.find('button.usa-button-secondary').simulate('click');
 
     // Sanity check; make sure the type is what we expect before we change it
     expect(tree.state('editableAddress').stateCode).to.not.equal('');
@@ -257,7 +257,7 @@ describe('<AddressSection>', () => {
   // Not sure how to test this bit yet...
   // it('should scroll to first error', () => {});
 
-  it('should start in the editing state if address is empty', () => {
+  it('should start in the editing state if address is empty and user canUpdate', () => {
     const props = cloneDeep(defaultProps);
     props.savedAddress = {
       addressOne: '',
@@ -273,6 +273,28 @@ describe('<AddressSection>', () => {
     expect(tree.state('isEditingAddress')).to.be.true;
   });
 
+  it('should not start editing if address is empty but user !canUpdate', () => {
+    const props = cloneDeep(defaultProps);
+    props.savedAddress = {
+      addressOne: '',
+      addressTwo: '',
+      addressThree: '',
+      city: '',
+      countryName: '',
+      stateCode: '',
+      type: ADDRESS_TYPES.domestic
+    };
+    props.canUpdate = false;
+
+    const component = shallow(<AddressSection {...props}/>);
+    expect(component.state('isEditingAddress')).to.be.false;
+  });
+
+  it('should render an address help button', () => {
+    const tree = mount(<AddressSection {...defaultProps}/>);
+    expect(tree.find('.address-help-btn').exists()).to.be.true;
+  });
+
   describe('validation', () => {
     // Spy on all the validation functions!
     beforeEach(spyOnValidators);
@@ -284,7 +306,7 @@ describe('<AddressSection>', () => {
       const tree = mount(<AddressSection {...defaultProps}/>);
 
       // Start editing
-      tree.find('button.usa-button-outline').simulate('click');
+      tree.find('button.usa-button-secondary').simulate('click');
 
       // Change the city and blur for the validation to run
       tree.find('input[name="city"]').simulate('change', { target: { value: 'Elsweyre' } });
@@ -297,7 +319,7 @@ describe('<AddressSection>', () => {
       const tree = mount(<AddressSection {...defaultProps}/>);
 
       // Start editing
-      tree.find('button.usa-button-outline').simulate('click');
+      tree.find('button.usa-button-secondary').simulate('click');
 
       // Change the city and blur for the validation to run
       tree.find('input[name="city"]').simulate('change', { target: { value: '' } });
@@ -312,7 +334,7 @@ describe('<AddressSection>', () => {
       const tree = mount(<AddressSection {...defaultProps}/>);
 
       // Start editing
-      tree.find('button.usa-button-outline').simulate('click');
+      tree.find('button.usa-button-secondary').simulate('click');
 
       const fieldsToModify = ['city', 'addressOne'];
       fieldsToModify.forEach(field => {
@@ -335,7 +357,7 @@ describe('<AddressSection>', () => {
       const tree = mount(<AddressSection {...defaultProps}/>);
 
       // Start editing
-      tree.find('.usa-button-outline').simulate('click');
+      tree.find('.usa-button-secondary').simulate('click');
 
       // Sanity check - Start with no errors
       expect(tree.find('.usa-input-error')).to.have.lengthOf(0);

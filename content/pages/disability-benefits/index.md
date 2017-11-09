@@ -6,7 +6,7 @@ source: http://www.benefits.va.gov/compensation/
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: level2-index
 majorlinks:
-  - heading:
+  - heading: Apply for Disability Benefits
     links:
     - url: /disability-benefits/eligibility/
       title: Eligibility
@@ -23,6 +23,14 @@ majorlinks:
     - url: /disability-benefits/claims-appeal/
       title: Appeals Process
       description: Find out what to do if you disagree with your disability rating decision.
+  - heading: More VA Benefits
+    links:
+    - url: /employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+    - url: /housing-assistance/adaptive-housing-grants/
+      title: Adaptive Housing Grants
+      description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.
 ---
 
 <div class="va-introtext">

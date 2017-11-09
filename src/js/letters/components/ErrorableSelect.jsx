@@ -91,7 +91,10 @@ ErrorableSelect.propTypes = {
   errorMessage: PropTypes.string,
   name: PropTypes.string,
   autocomplete: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,

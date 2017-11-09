@@ -68,7 +68,7 @@ class FilesPage extends React.Component {
           <div className="submitted-files-list">
             <h2 className="claim-file-border">Documents filed</h2>
             {documentsTurnedIn.length === 0
-              ? <div className="no-documents-turned-in"><p>You haven’t turned in any documents to VA.</p></div>
+              ? <div><p>You haven’t turned in any documents to VA.</p></div>
               : null}
 
             {documentsTurnedIn

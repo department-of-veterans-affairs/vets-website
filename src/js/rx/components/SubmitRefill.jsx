@@ -4,10 +4,10 @@ import classNames from 'classnames';
 
 class SubmitRefill extends React.Component {
   render() {
-    // Using !== so that it will default to usa-button-outline even if
+    // Using !== so that it will default to usa-button-secondary even if
     // no `mode` property is defined.
     const classList = classNames({
-      'usa-button-outline': this.props.mode !== 'compact',
+      'usa-button-secondary': this.props.mode !== 'compact',
       'usa-button-unstyled': this.props.mode === 'compact',
     }, this.props.cssClass);
 
