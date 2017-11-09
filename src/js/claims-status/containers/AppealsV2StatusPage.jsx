@@ -24,7 +24,7 @@ class AppealsV2StatusPage extends React.Component {
   }
 
   render() {
-    const events = this.props.appeal ? this.props.appeal.events : [];
+    const events = this.props.appeal ? this.props.appeal.attributes.events : [];
     return (
       <div>
         <Timeline events={events}/>

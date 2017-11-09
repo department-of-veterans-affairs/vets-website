@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 /**
  * Timeline is in charge of the past events and current status.
@@ -13,7 +14,7 @@ class Timeline extends React.Component {
     };
   }
 
-  getPastEvents() {
+  getPastEvents = () => {
     return this.props.events.map((event, index) => (
       <li key={index}>
         <h3>{event.title}</h3>
@@ -31,7 +32,7 @@ class Timeline extends React.Component {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
     eventList.push(
       <li key={eventList.length} className="list-group-item">
-        <h4><a href="#" onClick={this.toggleExpanded}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</a></h4>
+        <h4><Link onClick={this.toggleExpanded}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</Link></h4>
         <span>Date range here</span>
       </li>
     );
