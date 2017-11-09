@@ -185,22 +185,13 @@ class FormQuestions extends React.Component {
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
-    let labelYear;
 
-    switch (this.props.formValues['8_prevApplication']) {
-      case '1':
-      case '2':
-        labelYear = 2014;
-        break;
-      case '3':
-        labelYear = 2011;
-        break;
-      case '4':
-        labelYear = 2017;
-        break;
-      default:
-        break;
-    }
+    const labelYear = {
+      1: 2014,
+      2: 2014,
+      3: 2011,
+      4: 2017,
+    }[this.props.formValues['1_reason']];
 
     const prevApplicationYearOptions = [
       { label: `${labelYear} or earlier`, value: '1' },
