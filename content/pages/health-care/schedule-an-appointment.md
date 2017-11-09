@@ -65,7 +65,7 @@ With your online status, you'll also be able to:
 - Cancel appointments
 
 <div>
-  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4#main">Schedule a VA Appointment Online</a>
+  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/#main">Schedule a VA Appointment Online</a>
 </div>
 
 <br>
