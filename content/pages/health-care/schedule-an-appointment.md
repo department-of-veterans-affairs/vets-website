@@ -62,9 +62,9 @@ You can call the VA health facility where you want to receive care. This is usu
 
 <div itemprop="itemListElement">
 
-You can now schedule some of your appointments online. We hope to add more VA facilities and types of appointments to our scheduling tool in the future.
+If you have VA health care benefits, you can now schedule some of your VA primary care appointments online. We hope to add more VA facilities and types of appointments to our scheduling tool in the future.
 
-If you have VA health care benefits, you can schedule your VA primary care appointments online if **both of these are true**:
+**To schedule, both of these must be true for you**:
 
 - You're scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
 - You've had an appointment at that VA medical facility within the last 2 years
