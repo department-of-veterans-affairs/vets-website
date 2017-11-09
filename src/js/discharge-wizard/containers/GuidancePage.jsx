@@ -14,6 +14,7 @@ class GuidancePage extends React.Component {
     script.async = true;
     script.src = 'https://standards.usa.gov/assets/js/vendor/uswds.min.js';
     document.getElementsByTagName('head')[0].appendChild(script);
+    window.scrollTo(0, 0);
   }
 
   renderResultSummary() {
