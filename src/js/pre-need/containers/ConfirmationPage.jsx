@@ -65,9 +65,9 @@ class ConfirmationPage extends React.Component {
         <h4>Do you have more documents you need to submit?</h4>
         <p className="mail-or-fax-message">To mail or fax additional documents:</p>
         <ol className="mail-or-fax-steps">
-          <li>Make copies of the documents.</li>
-          <li>Make sure you write your name and confirmation number on every page.</li>
-          <li>Mail or fax them to:
+          <li className="mail-or-fax-step">Make copies of the documents.</li>
+          <li className="mail-or-fax-step">Make sure you write your name and confirmation number on every page.</li>
+          <li className="mail-or-fax-step">Mail or fax them to:
             <div className="mail-fax-address">
               <div>National Cemetery Scheduling Office</div>
               <div>P.O. Box 510543</div>
