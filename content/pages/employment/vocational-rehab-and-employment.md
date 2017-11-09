@@ -24,7 +24,7 @@ majorlinks:
     - url: /employment/vocational-rehab-and-employment/family-members/
       title: Dependent Family Members
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
-  - heading: Additional Resources
+  - heading: More Helpful Resources
     links:
     - url: /employment/vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
