@@ -22,21 +22,29 @@ export default class AutosuggestWidget extends React.Component {
   }
 
   componentDidMount() {
-    const uiOptions = this.props.uiSchema['ui:options'];
-    uiOptions.getOptions().then(options => {
-      this.setState({ options, suggestions: getSuggestions(options, this.state.input) });
-    });
+    if (!this.props.formContext.reviewMode) {
+      const uiOptions = this.props.uiSchema['ui:options'];
+      uiOptions.getOptions().then(options => {
+        if (!this.unmounted) {
+          this.setState({ options, suggestions: getSuggestions(options, this.state.input) });
+        }
+      });
+    }
   }
 
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      input: value,
-      suggestions: getSuggestions(this.state.options, value)
-    });
+  componentWillUnmount() {
+    this.unmounted = true;
   }
 
   onChange = (event, { newValue }) => {
     this.setState({ input: newValue });
+  }
+
+  handleSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      input: value,
+      suggestions: getSuggestions(this.state.options, value)
+    });
   }
 
   handleSuggestionSelected = (event, { suggestion }) => {
@@ -47,11 +55,6 @@ export default class AutosuggestWidget extends React.Component {
       this.props.onChange();
     }
     this.setState({ input: suggestion.label });
-  }
-
-  shouldRenderSuggestions(searchTerm) {
-    const checkLength = searchTerm.trim().length > 2;
-    return checkLength;
   }
 
   handleBlur = (event, { focusedSuggestion }) => {
@@ -67,6 +70,15 @@ export default class AutosuggestWidget extends React.Component {
     this.props.onBlur(this.props.id);
   }
 
+  handleSuggestionsClearRequested = () => {
+    this.setState({ suggestions: [] });
+  }
+
+  shouldRenderSuggestions(searchTerm) {
+    const checkLength = searchTerm.trim().length > 2;
+    return checkLength;
+  }
+
   renderSuggestion(suggestion) {
     return <div>{suggestion.label}</div>;
   }
@@ -76,16 +88,21 @@ export default class AutosuggestWidget extends React.Component {
     const id = idSchema.$id;
 
     if (formContext.reviewMode) {
-      return <span>{formData.value}</span>;
+      return (
+        <div className="review-row">
+          <dt>{this.props.uiSchema['ui:title']}</dt>
+          <dd><span>{formData.label}</span></dd>
+        </div>
+      );
     }
 
     return (
       <Autosuggest
         getSuggestionValue={suggestion => suggestion.label}
         highlightFirstSuggestion
-        onSuggestionsClearRequested={() => this.setState({ suggestions: [] })}
+        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
         onSuggestionSelected={this.handleSuggestionSelected}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         renderSuggestion={this.renderSuggestion}
         shouldRenderSuggestions={this.shouldRenderSuggestions}
         suggestions={this.state.suggestions}

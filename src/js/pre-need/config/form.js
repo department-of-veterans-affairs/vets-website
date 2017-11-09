@@ -12,7 +12,6 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 
 import applicantDescription from '../../common/schemaform/ApplicantDescription';
 
-import { getCemeteries } from '../helpers';
 import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -29,7 +28,8 @@ import {
   ssnDashesUI,
   veteranUI,
   serviceRecordsUI,
-  militaryNameUI
+  militaryNameUI,
+  getCemeteries
 } from '../utils/helpers';
 
 

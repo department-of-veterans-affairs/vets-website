@@ -522,6 +522,7 @@ ul.react-autosuggest__suggestions-list {
 
 li.react-autosuggest__suggestion {
   padding: .5rem 1rem;
+  list-style-type: none;
 
   &--focused {
     background-color: $color-primary-alt-light;
