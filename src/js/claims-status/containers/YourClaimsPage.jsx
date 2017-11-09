@@ -51,7 +51,7 @@ class YourClaimsPage extends React.Component {
     }
 
     if (this.props.canAccessAppeals) {
-      if (__BUILDTYPE__ !== 'production') {
+      if (__BUILDTYPE__ === 'development') {
         // Fetch against the new endpoint
         this.props.getAppealsV2();
       } else {
