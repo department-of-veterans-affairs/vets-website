@@ -19,11 +19,11 @@ export default function appealsReducer(state = initialState, action) {
       return _.merge(state, {
         appealsLoading: false,
         available: true,
-        appeals: action.appeals
       });
     case SET_APPEALS:
       return _.set('available', true, state);
     case SET_APPEALS_UNAVAILABLE:
+      // Maybe should set appealsLoading to false here too
       return _.set('available', false, state);
     default:
       return state;
