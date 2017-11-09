@@ -24,7 +24,7 @@ We'll look for evidence of:
 
 ### What documents will I need when I file my claim?
 
-We require certain documents to support all claims for disability benefits. You'll need to provide:
+We require certain documents to support all claims for disability benefits. You'll need to provide or give us permission to gather:
 
 -	Your DD214 or other separation documents
 -	Service treatment records
