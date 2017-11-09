@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getAppealsV2 } from '../actions/index.jsx';
 
-import History from '../components/appeals-v2/History';
+import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
 import Alerts from '../components/appeals-v2/Alerts';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
@@ -27,7 +27,7 @@ class AppealsV2StatusPage extends React.Component {
     const events = this.props.appeal ? this.props.appeal.events : [];
     return (
       <div>
-        <History events={events}/>
+        <Timeline events={events}/>
         <CurrentStatus/>
         <Alerts/>
         <WhatsNext/>
