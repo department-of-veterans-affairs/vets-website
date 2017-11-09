@@ -246,8 +246,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setFetchFormStatus,
-  fetchInProgressForm,
-  dispatch: x => x
+  fetchInProgressForm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
