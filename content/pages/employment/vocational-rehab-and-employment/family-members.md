@@ -44,7 +44,8 @@ You can get educational and vocational counseling, plus help with:
 - Planning the best use of your VA benefits
 
 <br>
-**Note:** In certain cases—like if you have certain birth defects or if you're the dependent of a Veteran who died or is permanently disabled as the result of active service—you may be able to get other education and employment benefits and services for dependents. 
+
+**Note:** In certain cases—like if you're the child of a Vietnam or Korean War Veteran and have certain birth defects, or if you're the dependent child or spouse of a Veteran who has died or is permanently and totally disabled as the result of active service—you may be able to get other education and employment benefits and services for dependents. 
 
 [Learn about other benefits and services for dependents](#dependents-services).
 
