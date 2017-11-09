@@ -24,22 +24,18 @@ Find out when you can first file a claim for service-connected benefits—and wh
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original claim—File a claim while on active duty.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original claim—File your first claim for disability benefits.</button>
 <div id="claim-active-duty" class="usa-accordion-content">
 
-You can file a claim up to 180 days before leaving the service. We refer to this first claim as your original claim.
+**You can file an original claim up to 180 days before leaving the service:**
 
 - **If you have 90-180 days left on active duty**, you may be able to file a predischarge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner. [Find out how to file a predischarge claim](/disability-benefits/apply/predischarge-claim).
 
 - **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about standard and fully developed claims](/disability-benefits/apply/evidence/).
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-after-separation">Postservice claim—File a claim for a disability that appears after discharge.</button>
-<div id="claim-after-separation" class="usa-accordion-content">
+**You can also file an original claim for a disability that appears after discharge:** 
 
-There's no time limit on filing a disability claim. But you should know that the process may become more complex the longer you wait.
+This is called a postservice claim. There's no time limit on filing a postservice claim. But you should know that the process may become more complex the longer you wait.
 
 Learn more about disabilities that may be related to your active-duty service, but may not appear until after you've left the military:</br>
   - [Disabilities that appear within 1 year after discharge](/disability-benefits/eligibility/one-year/)</br>
@@ -81,13 +77,15 @@ For example, you might file a reopened claim if you were treated for pain in you
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-more-benefits">New Claim—File a claim for added benefits for an existing service-connected disability.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-more-benefits">New Claim—File a claim for added benefits or other benefit requests related to an existing service-connected disability.</button>
 <div id="claim-more-benefits" class="usa-accordion-content">
 
 You can file a new claim to request:
 - More financial support
 - Special monthly payments
 - A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability). [Learn more about Individual Unemployability](https://www.vets.gov/disability-benefits/conditions/special-claims/individual-unemployability/).
+
+Our decision on your new claim will be based only on new evidence (like a doctor's report or medical test results) that you give us to support your claim. We won't consider any evidence you may have given us related to past claims. 
 
 [Apply for disability benefits](/disability-benefits/apply/).
 
