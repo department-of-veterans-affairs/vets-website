@@ -12,8 +12,18 @@
 // ~uswds/src/stylesheets/core/defaults" or
 // ~uswds/src/stylesheets/core/variables"
 
+@font-face {
+  font-family: "Bitter";
+  src: url(assets/fonts/Bitter-Regular.ttf) format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 $base-font-size:      rem(16px);
 // $font-serif:          "Roboto Slab", serif;
+
+$font-serif:          'Bitter', $georgia !default;
 
 //===================================
 // Magic Numbers
