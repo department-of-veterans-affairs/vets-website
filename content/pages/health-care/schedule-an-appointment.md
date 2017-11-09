@@ -64,16 +64,16 @@ You can call the VA health facility where you want to receive care. This is usu
 
 You can now schedule some of your appointments online. We hope to add more VA facilities and types of appointments to our scheduling tool in the future.
 
-If you have VA health care benefits, you can schedule your VA primary care appointments online if you:
+If you have VA health care benefits, you can schedule your VA primary care appointments online if **both of these are true**:
 
-- Are scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
-- Have had an appointment at that VA medical facility within the last 2 years, **and**
+- You're scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
+- You've had an appointment at that VA medical facility within the last 2 years
 
 **You must also have one of these 2 types of accounts:**
-- My HealtheVet Premium account 
+- My HealtheVet Premium account <br>
+[Upgrade your MyHealtheVet account to premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
 - DS Logon Premium account (used for eBenefits and milConnect) <br>
-[Upgrade your MyHealtheVet account to premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication).
-[Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon).
+[Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon)
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
