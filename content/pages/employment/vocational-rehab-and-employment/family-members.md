@@ -45,7 +45,7 @@ You can get educational and vocational counseling, plus help with:
 
 <br>
 
-**Note:** In certain cases—like if you're the child of a Vietnam or Korean War Veteran and have certain birth defects, or if you're the dependent child or spouse of a Veteran who has died or is permanently and totally disabled as the result of active service—you may be able to get other education and employment benefits and services for dependents. 
+**Note:** In certain cases, you may be able to get other education and employment benefits and services for dependents. For example, you may qualify if you’re the child of a Vietnam or Korean War Veteran and have certain birth defects, or if you’re the dependent child or spouse of a Veteran who has died or is permanently and totally disabled as the result of active service. 
 
 [Learn about other benefits and services for dependents](#dependents-services).
 
