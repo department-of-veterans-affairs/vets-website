@@ -14,7 +14,7 @@ relatedlinks:
       title: Application Process
       description: Find out how to apply for VR&amp;E benefits and services as a Servicemember or Veteran.
     - url: /employment/vocational-rehab-and-employment/family-members/
-      title: Family Members
+      title: Dependent Family Members
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
 
