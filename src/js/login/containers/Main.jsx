@@ -42,9 +42,9 @@ class Main extends React.Component {
 
     // If there is a window.opener, then this window was spawned by another instance of the website as the auth app.
     // In this case, we don't need to actually login, because that data will be passed to the parent window and done there instead.
-    if (!window.opener){
+    if (!window.opener) {
       window.onload = () => {
-        this.loginUrlRequest.then(this.checkTokenStatus)
+        this.loginUrlRequest.then(this.checkTokenStatus);
       };
     }
   }
