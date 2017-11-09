@@ -8,19 +8,19 @@ relatedlinks:
     links: 
     - url: /education/gi-bill/survivors-dependent-assistance/dependents-education/
       title: Survivors' and Dependents' Educational Assistance (DEA) services
-      description: Find out if you're eligible for DEA (also called Chapter 35) services.  
+      description: If you're the child or spouse of a Veteran who has died, is permanently and totally disabled, or is missing in action or was captured or interned in the line of duty, find out if you're eligible for DEA (also called Chapter 35) services.  
     - url: /employment/vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
       description: Find out if our counselors can help you transition from military to college life.
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
       title: Birth Defects (Spina Bifida)
-      description: If you're the child of a Vietnam or Korean War Veteran and you have spina bifida or certain other birth defects, find out if you're eligible for benefits like disability compensation (payments), health care, and job training.
+      description: If you're the child of a Vietnam or Korean War Veteran and you have spina bifida or certain other birth defects, find out if you're eligible for benefits like disability compensation (payments), health care, and job training (also called Chapter 18).
     
 ---
 
 <div class="va-introtext">
 
-As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're entitled to certain benefits and services.
+As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're entitled to certain benefits and services through VR&E or through other programs.
 
 </div>
 
@@ -42,6 +42,12 @@ You can get educational and vocational counseling, plus help with:
 - Exploring your abilities and interests
 - Mapping out a path to employment
 - Planning the best use of your VA benefits
+
+#### More VA education and employment benefits and services for dependents
+
+In certain cases—like if you have certain birth defects or if you're the dependent of a Veteran who died or is permanently disabled as the result of active service—you may be able to get other education and employment benefits and services for dependents.
+
+[Learn about other benefits and services for dependents](#dependents-services).
 
 <hr>
 
@@ -89,3 +95,4 @@ If you're eligible, we'll invite you to meet with a Vocational Rehabilitation Co
 
 **Note:** If the Servicemember or Veteran in your family isn’t yet using VR&E benefits and services, they may also apply online through eBenefits.
 
+<span id="dependents-services">
