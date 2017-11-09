@@ -26,13 +26,25 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-There are many ways for Veterans to make health care appointments.
+If you're a Veteran with VA health care benefits, there are many ways for you to make health care appointments. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
-<ul>
-<li>If you don’t have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a></li>
-<li>If you’re having a medical emergency, please call <a href='tel:+1-911'>911</a> or call the Veterans Crisis Line at <a href='tel:+1-800-273-8255'>1-800-273-8255</a>, then press 1.</li>
-</ul>
+<div class="usa-alert usa-alert-warning va-alert">
+  <div class="usa-alert-body">
+	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner">
+	    <ul>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+		  <li>Call <a href="tel:911">911</a>.</li>
+		  <li>Go to the nearest emergency room.</li>
+		</ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
