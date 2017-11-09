@@ -18,9 +18,11 @@ import {
   transform,
   dischargeTypeLabels,
   lastServiceBranchLabels,
-  FacilityHelp,
+  facilityHelp,
+  medicaidDescription,
   medicalCentersByState,
   medicalCenterLabels,
+  medicarePartADescription,
   financialDisclosureText,
   incomeDescription,
   disclosureWarning,
@@ -728,13 +730,13 @@ const formConfig = {
           uiSchema: {
             isMedicaidEligible: {
               'ui:title': 'Are you eligible for Medicaid?',
+              'ui:description': medicaidDescription,
               'ui:widget': 'yesNo',
-              'ui:help': 'Medicaid is a United States health program for eligible individuals and families with low income and few resources.'
             },
             isEnrolledMedicarePartA: {
               'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
+              'ui:description': medicarePartADescription,
               'ui:widget': 'yesNo',
-              'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
             },
             medicarePartAEffectiveDate: _.merge(
               currentOrPastDateUI('What is your Medicare Part A effective date?'), {
@@ -850,7 +852,7 @@ const formConfig = {
               }
             },
             'view:locator': {
-              'ui:description': FacilityHelp
+              'ui:description': facilityHelp
             },
             wantsInitialVaContact: {
               'ui:title': 'Do you want VA to contact you to schedule your first appointment?',

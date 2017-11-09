@@ -12,9 +12,9 @@ display_title: Request Discharge Updates and Corrections
   </nav>
   <div class="row">
     <article class="usa-content columns">
-      <h1>Upgrading Your Discharge Status: What to know</h1>
+      <h1>Guidance on Upgrading Your Discharge</h1>
       <div class="va-introtext">
-        <p>Applying for an upgrade to your discharge status may seem like a complicated process, but many cases are straightforward. If you’re able to make a strong case in your application, it can be worth the effort. Upgrading your discharge status may result in increased eligibility for VA benefits and services.</p>
+        <p>Answer a few questions to get advice specific to your discharge situation. You will then get guidance on how to make the strongest possible case when upgrading your status.</p>
       </div>
       <div class="main home signup" role="main">
         <div class="section main-menu">
@@ -22,25 +22,19 @@ display_title: Request Discharge Updates and Corrections
             <div class="small-12 columns">
               <div>
                 <p>
-                  Reading the guidance on this page will help you understand what information to include for a strong application. Depending on the complexity of your case, you may consider finding someone to help you put it together (for example a lawyer or <a href="https://www.benefits.va.gov/vso/varo.asp">Veteran Service Organization</a>).
-                </p>
-                <p>
-                  Also, the Department of Defense (DoD) has specific guidance to carefully consider discharges connected to:
+                  Note that the DoD especially encourages you to apply for an upgrade if your discharge was connected to any of these categories:
                 </p>
                 <ul>
                   <li>Mental health conditions, including post-traumatic stress disorder (PTSD) </li>
                   <li>Traumatic brain injury (TBI)</li>
                   <li>Sexual assault or harassment during military service</li>
-                  <li>Homosexual conduct (i.e., Don’t Ask Don’t Tell, and its predecessor policies)</li>
+                  <li>Sexual orientation (i.e., Don’t Ask Don’t Tell, and its predecessor policies)</li>
                 </ul>
                 <p>
-                  Answer a few questions to get advice specific to your discharge situation. The information you enter is completely confidential.
+                  The information you enter is completely confidential.
                 </p>
                 <p>
                   <a class="usa-button-primary va-button" href="/discharge-wizard">Get Started »</a>
-                </p>
-                <p>
-                  Note: Even without changing your discharge status, you may be eligible to receive many VA benefits. Veterans applying for a change in their discharge status can also apply for VA benefits while they wait. <a href="#">Learn more about the Character of Discharge or Character of Service Determination process.</a>
                 </p>
               </div>
             </div>
@@ -83,8 +77,37 @@ display_title: Request Discharge Updates and Corrections
                     <div id="dbq3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If the Department of Defense determined you served honorably in one period of service, you may use that honorable characterization to establish eligibility for VA benefits. You earned your benefits during the period in which you served honorably.</p>
-                        <p>This is true even if you didn’t receive an actual discharge at the end of the first period. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive a ‘Honorable’ DD-214. However, this eligibility determination may not be automatic. If you believe there is a period of service that entitles you to benefits, but which is not reflected on a DD-214, you will likely need to ask the VA to do a Character of Service Determination. (See below.)</p>
+                        <p>This is true even if you didn’t receive an actual discharge at the end of the first period. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive a ‘Honorable’ DD-214. However, this eligibility determination may not be automatic. If you believe there is a period of service that entitles you to benefits, but which is not reflected on a DD-214, you will likely need to ask the VA to do a Character of Service Determination.</p>
                         <p>The only exception is for service-connected disability compensation. You’re only eligible to earn disability compensation for disabilities you suffered during a period of honorable service. You can’t use an honorable discharge from one period of service to establish eligibility for a service-connected disability from a different period.</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4" itemprop="name">Can I apply for VA benefits in the meantime?</button>
+                    <div id="dbq4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <div class="va-alert usa-alert usa-alert-warning">
+                          <div class="va-alert-body usa-alert-body">
+                            <div class="usa-alert-text usa-alert-heading">
+                              <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>
+                            </div>
+                          </div>
+                          <div class="cf"></div>
+                        </div>
+                        <p>If you have a discharge that is less than honorable or general, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
+                        <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you’ve completed an drug rehabilitation program.</p>
+                        <p>As with applying for a discharge upgrade, you may consider finding someone to advocate on your behalf (such as a lawyer or VSO) in collecting and submitting this evidence, depending on the complexity of your case.</p>
+                        <p>Many veterans with less than honorable discharges pursue both methods: a VA characterization of discharge review, and a DoD discharge upgrade. There is no reason not to pursue both at the same time</p>
+                        <p>If you experienced sexual assault or harassment while in the military or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify for VA health benefits without a VA characterization of discharge review or a discharge upgrade.
+                        </p>
+                        <p>
+                          Learn more about:
+                          <ul>
+                            <li><a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
+                            <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
+                            <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
+                          </ul>
+                        </p>
                       </div>
                     </div>
                   </li>
@@ -105,15 +128,6 @@ display_title: Request Discharge Updates and Corrections
   var openAccordion = function(id) {
     document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);
     document.getElementById(id).setAttribute('aria-hidden', false);
-  }
-
-  switch(window.location.hash) {
-    case '#why-verify':
-      openAccordion('dbq3');
-      break;
-    case '#what-is-idme':
-      openAccordion('dbq7');
-      break;
   }
 })();
 </script>

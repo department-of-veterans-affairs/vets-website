@@ -38,7 +38,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - ##### Are you already in the workforce?
 
-  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](/education/gi-bill/).
+  Search for a [new career](https://www.careeronestop.org/JobSearch/job-search.aspx) or consider [additional education](/education/gi-bill/).
 
 </div>
 
@@ -61,9 +61,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <li class="process-step list-three" markdown="1">
 
-##### Build a résumé<br>
+##### Build a resume<br>
 
-- Build your [résumé](/employment/job-seekers/create-resume).
+- Build your [resume](/employment/job-seekers/create-resume).
 - Get a free [LinkedIn&trade; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 </li>
 
@@ -71,7 +71,6 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Research employers in your area and network
 
-- Many employers have made [commitments](/employment/commitments) to hire Veterans and military spouses.
 - Consider a job with the [federal government](/employment/job-seekers/federal-employment).
 - Review job boards, search job banks, and research openings at companies that interest you.
 - Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They might know of specific openings or might be able to introduce you to people at companies you’ve targeted.
@@ -81,7 +80,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Search online job banks
 
-- Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
+- Search the [Veterans Employment Center](https://www.careeronestop.org/JobSearch/job-search.aspx) for job openings.
 - Search for connections and job listings on [LinkedIn&trade;](https://veterans.linkedin.com/) as well as other online job boards.
 </li>
 
@@ -107,15 +106,15 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 ### Get personalized help if you need it
 
 - Government and private resources offer [one-on-one assistance](https://www.dol.gov/veterans/findajob/).
-- Qualified service-disabled Veterans can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp).
+- Qualified Veterans with service-connected disabilities can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp).
 - [American Job Centers](http://www.careeronestop.org/ReEmployment/Veterans/JobSearchHelp/ChangeCareers/one-stop-career-centers.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
 
 <br>
 
 ### Take a different approach to starting your career
 
-- Start or grow [your own business](/employment/job-seekers/start/).
-- Evaluate [non-traditional programs](/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
+- If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business. [Register your business now](/employment/job-seekers/register-your-business/).
+- If you need more training or job experience, consider non-traditional programs like apprenticeships, work study, and on-the-job training. [Explore non-traditional programs](/education/work-learn/job-and-apprenticeship/).
 
 <br>
 

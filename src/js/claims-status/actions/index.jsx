@@ -6,6 +6,8 @@ export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
+export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -71,6 +73,83 @@ export function getAppeals(filter) {
       },
       () => dispatch({ type: SET_APPEALS_UNAVAILABLE })
     );
+  };
+}
+
+export function fetchAppealsSuccess(response) {
+  return {
+    type: FETCH_APPEALS_SUCCESS,
+    // filter: filter, // No idea why this would be needed, but it's in the old version
+    appeals: response.data
+  };
+}
+
+export function getAppealsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_APPEALS_PENDING });
+
+    // Fake the fetch by just returning a resolved promice with the object shape we expect
+    //  to get from the api.
+    // NOTE: This shape may change once we know what the api will be returning for sure. This
+    //  is just an example of what evss(?) is returning to the api.
+    return Promise.resolve({
+      data: [
+        {
+          id: '7387389', // Apparently this is a string...
+          type: 'appealSeries',
+          attributes: {
+            active: true,
+            incompleteHistory: false,
+            aoj: 'vba',
+            programArea: 'compensation',
+            description: 'Service connection for tinnitus, hearing loss, and two more',
+            type: 'original',
+            aod: false,
+            location: 'aoj',
+            status: {
+              type: 'tbd', // Need to get a real status type
+              details: {}
+            },
+            docket: {
+              front: false,
+              total: 206900,
+              ahead: 109203,
+              ready: 22109,
+              eta: '2019-08-31'
+            },
+            issues: [
+              {
+                active: true,
+                description: 'Service connection for tinnitus',
+                lastAction: 'field_grant',
+                date: '2016-05-30'
+              }
+            ],
+            alerts: [
+              {
+                type: 'tbd', // Need to get a real status type
+                details: {}
+              }
+            ],
+            events: [
+              {
+                type: 'claim',
+                date: '2016-05-30',
+                details: {}
+              }
+            ],
+            evidence: [
+              {
+                description: 'Service treatment records',
+                date: '2017-09-30'
+              }
+            ]
+          }
+        }
+      ]
+    })
+      .then((response) => dispatch(fetchAppealsSuccess(response)))
+      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE }));
   };
 }
 

@@ -20,16 +20,16 @@ export const board = (formValues) => {
   const prevAppType = ['1', '4'].indexOf(formValues['10_prevApplicationType']) > -1;
   const noPrevApp = formValues['8_prevApplication'] === '2';
   const preAppDateBefore = formValues['9_prevApplicationYear'] === '1';
-  const courtMartial = formValues['6_courtMartial'] === '2';
+  const courtMartial = formValues['6_courtMartial'] === '1';
   const transgender = formValues['1_reason'] === '5';
   const intention = formValues['3_intention'] === '1';
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
 
   let boardObj;
-  if (['1', '3', '4'].indexOf(formValues['10_prevApplicationType']) > -1) {
-    boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
+  if (['army', 'airForce', 'coastGuard'].indexOf(formValues['7_branchOfService']) > -1) {
+    boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
   }
-  boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
+  boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
 
 
   if (noPrevApp || preAppDateBefore || prevAppType) {
@@ -127,10 +127,16 @@ export const venueAddress = (formValues) => {
   }
 };
 
-export const formNumber = (formValues) => {
+export const formData = (formValues) => {
   const boardData = board(formValues);
   if (boardData && boardData.abbr === 'DRB') {
-    return 293;
+    return {
+      num: 293,
+      link: 'http://arba.army.pentagon.mil/documents/dd0293.pdf',
+    };
   }
-  return 149;
+  return {
+    num: 149,
+    link: 'http://arba.army.pentagon.mil/documents/dd0149.pdf',
+  };
 };
