@@ -82,6 +82,10 @@ class FormApp extends React.Component {
     if (!this.props.profileIsLoading && this.shouldRedirectOrLoad) {
       this.redirectOrLoad(this.props);
     }
+
+    if (this.props.onMount) {
+      this.props.onMount(this.props.dispatch);
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -242,7 +246,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setFetchFormStatus,
-  fetchInProgressForm
+  fetchInProgressForm,
+  dispatch: x => x
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));

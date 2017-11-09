@@ -8,11 +8,20 @@ export const SET_DATA = 'SET_DATA';
 export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
+export const UPDATE_SCHEMA = 'UPDATE_SCHEMA';
 
 export function setData(data) {
   return {
     type: SET_DATA,
     data
+  };
+}
+
+export function updateSchema(schema, page) {
+  return {
+    type: UPDATE_SCHEMA,
+    page,
+    schema
   };
 }
 

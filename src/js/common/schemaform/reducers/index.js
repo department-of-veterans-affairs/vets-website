@@ -16,7 +16,8 @@ import { SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
-  SET_SUBMITTED
+  SET_SUBMITTED,
+  UPDATE_SCHEMA
 } from '../actions';
 
 import {
@@ -133,6 +134,11 @@ export default function createSchemaFormReducer(formConfig) {
     switch (action.type) {
       case SET_DATA: {
         const newState = _.set('data', action.data, state);
+
+        return recalculateSchemaAndData(newState);
+      }
+      case UPDATE_SCHEMA: {
+        const newState = _.set(['pages', action.page, 'schema'], action.schema, state);
 
         return recalculateSchemaAndData(newState);
       }
