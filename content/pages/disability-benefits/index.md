@@ -23,7 +23,7 @@ majorlinks:
     - url: /disability-benefits/claims-appeal/
       title: Appeals Process
       description: Find out what to do if you disagree with your disability rating decision.
-  - heading: Additional Benefits
+  - heading: More VA Benefits
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
