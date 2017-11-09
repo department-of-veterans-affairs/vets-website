@@ -10,7 +10,7 @@ module.exports = {
     '1_reason': {
       '1': 'I suffered from an undiagnosed, misdiagnosed, or untreated mental health condition including posttraumatic stress disorder (PTSD) in the service, and was discharged for reasons related to this condition.',
       '2': 'I suffered from an undiagnosed, misdiagnosed, or untreated Traumatic Brain Injury (TBI) in the service, and was discharged for reasons related to this condition.',
-      '3': 'I was discharged due to homosexual conduct under Don’t Ask Don’t Tell (DADT) or preceding policies.',
+      '3': 'I was discharged due to sexual orientation under Don’t Ask Don’t Tell (DADT) or preceding policies.',
       '4': 'I was the victim of sexual assault or harassment in the service, and was discharged for reasons related to this incident.',
       '5': 'I am transgender, and my discharge shows my birth name instead of my current name.',
       '6': 'There is an error on my discharge paperwork for other reasons.',

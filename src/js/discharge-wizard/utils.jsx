@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { questionLabels } from './config';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
@@ -24,16 +25,17 @@ export const board = (formValues) => {
   const transgender = formValues['1_reason'] === '5';
   const intention = formValues['3_intention'] === '1';
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
+  const dischargeYear = formValues['4_dischargeYear'];
+  const dischargeMonth = formValues['5_dischargeMonth'] || 1;
+  const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
 
-  let boardObj;
-  if (['1', '3', '4'].indexOf(formValues['7_branchOfService']) > -1) {
-    boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
+  let boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
+  if (['army', 'airForce', 'coastGuard'].indexOf(formValues['7_branchOfService']) > -1) {
+    boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
   }
-  boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
-
 
   if (noPrevApp || preAppDateBefore || prevAppType) {
-    if (courtMartial || transgender || intention) {
+    if (courtMartial || transgender || intention || oldDischarge) {
       return boardObj;
     }
     return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
@@ -127,10 +129,16 @@ export const venueAddress = (formValues) => {
   }
 };
 
-export const formNumber = (formValues) => {
+export const formData = (formValues) => {
   const boardData = board(formValues);
   if (boardData && boardData.abbr === 'DRB') {
-    return 293;
+    return {
+      num: 293,
+      link: 'http://arba.army.pentagon.mil/documents/dd0293.pdf',
+    };
   }
-  return 149;
+  return {
+    num: 149,
+    link: 'http://arba.army.pentagon.mil/documents/dd0149.pdf',
+  };
 };

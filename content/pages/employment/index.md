@@ -17,10 +17,10 @@ majorlinks:
       description: Post jobs and learn about hiring qualified Veterans.
   - heading: Ways to Start a Career
     links:
-    - url: https://www.benefits.va.gov/vocrehab/
+    - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services like help with exploring employment options and getting more training if required. 
-    - url: /employment/job-seekers/register-your-business
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services like help with exploring employment options and getting more training if required.
+    - url: /employment/job-seekers/register-your-business/
       title: Register Your Veteran-Owned Small Business
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
   - heading: Other Resources
@@ -37,7 +37,7 @@ majorlinks:
 
 <div class="usa-font-lead">
 
-We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And, we can connect you with Department of Labor resources for more career advice, help building your resume, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
+We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And, we can connect you with Department of Labor resources for more career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
 
 </div>
 
