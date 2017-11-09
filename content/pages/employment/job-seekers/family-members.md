@@ -46,7 +46,7 @@ Yes, if:
 - Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition Assistance Program (TAP) Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](https://www.dol.gov/vets/), or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
 
 #### Start your own business
-If entrepreneurship interests you, learn about everything from start-up costs to business, accounting, and financial assistance with three programs: [SCORE](https://www.score.org/topics/veteran_guards_reservists ), the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), and [Entrepreneurship Boot Camp](https://myseco.militaryonesource.mil/Portal/Content/View/2622).
+If entrepreneurship interests you, learn about everything from start-up costs to business, accounting, and financial assistance with three programs: [SCORE](https://www.score.org), the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), and [Entrepreneurship Boot Camp](https://myseco.militaryonesource.mil/Portal/Content/View/2622).
 
 -----
 
