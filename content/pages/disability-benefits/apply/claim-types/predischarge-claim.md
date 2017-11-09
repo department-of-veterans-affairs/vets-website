@@ -35,5 +35,3 @@ If you have a disability and you’re currently in predischarge status, you can 
 - Release from National Guard duty
 
 Filing your claim as you get ready to leave the military may speed up the claim decision process. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
-
-</div>
