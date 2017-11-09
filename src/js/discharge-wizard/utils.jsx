@@ -25,12 +25,10 @@ export const board = (formValues) => {
   const intention = formValues['3_intention'] === '1';
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
 
-  let boardObj;
+  let boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
   if (['army', 'airForce', 'coastGuard'].indexOf(formValues['7_branchOfService']) > -1) {
     boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
   }
-  boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
-
 
   if (noPrevApp || preAppDateBefore || prevAppType) {
     if (courtMartial || transgender || intention) {
