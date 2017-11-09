@@ -24,9 +24,10 @@ class AppealsV2StatusPage extends React.Component {
   }
 
   render() {
+    const events = this.props.appeal ? this.props.appeal.events : [];
     return (
       <div>
-        <History/>
+        <History events={events}/>
         <CurrentStatus/>
         <Alerts/>
         <WhatsNext/>
@@ -39,7 +40,12 @@ class AppealsV2StatusPage extends React.Component {
 AppealsV2StatusPage.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  appeal: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    attributes: PropTypes.object.isRequired, // Can flesh this out later
+  })
 };
 
 function mapStateToProps(state, ownProps) {
@@ -50,7 +56,7 @@ function mapStateToProps(state, ownProps) {
   // append starting event for post-remand and post-cavc remand appeals
   // NOTE: This is business logic pulled from v1 that we don't fully understand yet.
   //  Also, having this logic in mapStateToProps is less than ideal; we want to
-  //  move it out when we know where it should live.
+  //  move it out when we know where it should live. Maybe just a helper.
   if (appeal && appeal.attributes.type !== 'original' && appeal.attributes.prior_decision_date) {
     appeal.attributes.events.unshift({
       type: appeal.attributes.type === 'post_cavc_remand' ? 'cavc_decision' : 'bva_remand',
