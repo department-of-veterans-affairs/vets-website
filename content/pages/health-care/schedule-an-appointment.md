@@ -71,9 +71,9 @@ If you have VA health care benefits, you can now schedule some of your VA primar
 
 **You must also have one of these 2 types of accounts:**
 - My HealtheVet Premium account <br>
-[Upgrade your MyHealtheVet account to premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
+[Get a free MyHealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
 - DS Logon Premium account (used for eBenefits and milConnect) <br>
-[Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon)
+[Get a free DS Logon Premium account](https://mobile.va.gov/dslogon)
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
