@@ -25,9 +25,7 @@ export class AdditionalInformation extends React.Component {
       it.vetWebsiteLink && (
         <div>
           <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'tuitionPolicy')}>
-              Veterans tuition policy:
-            </a>
+            Veterans tuition policy:
           </strong>
           &nbsp;<a href={it.vetWebsiteLink} target="_blank">
             View policy

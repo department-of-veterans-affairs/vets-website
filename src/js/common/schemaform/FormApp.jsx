@@ -34,7 +34,21 @@ moment.updateLocale('en', {
       return 'a.m.';
     }
     return 'p.m.';
-  }
+  },
+  monthsShort: [
+    'Jan.',
+    'Feb.',
+    'Mar.',
+    'Apr.',
+    'May',
+    'June',
+    'July',
+    'Aug.',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Dec.'
+  ]
 });
 
 /*
@@ -51,8 +65,12 @@ class FormApp extends React.Component {
     //  saved form / prefill
     // If we're in production, we'll redirect if we start in the middle of a form
     // In development, we won't redirect unless we append the URL with `?redirect`
-    const devRedirect = __BUILDTYPE__ !== 'development' || this.props.currentLocation.search.includes('redirect');
-    if (isInProgress(this.props.currentLocation.pathname) && devRedirect) {
+    const { currentLocation } = this.props;
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const resumeForm = trimmedPathname.endsWith('resume');
+    const devRedirect = __BUILDTYPE__ !== 'development' || currentLocation.search.includes('redirect');
+    const goToStartPage = resumeForm || devRedirect;
+    if (isInProgress(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;
@@ -75,7 +93,9 @@ class FormApp extends React.Component {
     }
 
     const status = newProps.loadedStatus;
-    if (status === LOAD_STATUSES.success) {
+    if (status === LOAD_STATUSES.success && newProps.currentLocation && newProps.currentLocation.pathname.endsWith('resume')) {
+      newProps.router.replace(newProps.returnUrl);
+    } else if (status === LOAD_STATUSES.success) {
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
@@ -87,7 +107,11 @@ class FormApp extends React.Component {
       && status !== this.props.loadedStatus
       && !window.location.pathname.endsWith('/error')
     ) {
-      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}error`);
+      let action = 'push';
+      if (window.location.pathname.endsWith('resume')) {
+        action = 'replace';
+      }
+      newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
     } else if (newProps.savedStatus !== this.props.savedStatus &&
       newProps.savedStatus === SAVE_STATUSES.success) {
       newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);
@@ -110,11 +134,11 @@ class FormApp extends React.Component {
   }
 
   onbeforeunload = e => {
-    const { currentLocation } = this.props;
+    const { currentLocation, autoSavedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
 
     let message;
-    if (isInProgress(trimmedPathname)) {
+    if (autoSavedStatus !== SAVE_STATUSES.success && isInProgress(trimmedPathname)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -126,16 +150,16 @@ class FormApp extends React.Component {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
 
-    const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
 
+    const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
       const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
-      const isPrefill = props.prefillsAvailable.includes(currentForm);
+      const hasPrefillData = props.prefillsAvailable.includes(currentForm);
       const saveEnabled = !this.props.formConfig.disableSave;
-      if (saveEnabled && (isSaved || isPrefill)) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, isPrefill);
+      if (saveEnabled && (isSaved || hasPrefillData)) {
+        props.fetchInProgressForm(currentForm, props.formConfig.migrations, !isSaved && hasPrefillData);
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
@@ -153,17 +177,19 @@ class FormApp extends React.Component {
   }
 
   render() {
-    const { currentLocation, formConfig, children, formData } = this.props;
+    const { currentLocation, formConfig, children, formData, loadedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
     const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     const GetFormHelp = formConfig.getHelp;
     let content;
-
-    if (!formConfig.disableSave && this.props.loadedStatus === LOAD_STATUSES.pending) {
+    const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
+    if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
     } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
       content = <LoadingIndicator message="Saving your form..."/>;
+    } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
+      content = <LoadingIndicator message="Retrieving your profile information..."/>;
     } else if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
@@ -204,6 +230,7 @@ class FormApp extends React.Component {
 const mapStateToProps = (state) => ({
   loadedStatus: state.form.loadedStatus,
   savedStatus: state.form.savedStatus,
+  autoSavedStatus: state.form.autoSavedStatus,
   prefillStatus: state.form.prefillStatus,
   returnUrl: state.form.loadedData.metadata.returnUrl,
   formData: state.form.data,

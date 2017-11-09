@@ -48,10 +48,16 @@ class StatusPage extends React.Component {
         {introText}
         {printButton}
         <UserInfoSection enrollmentData={enrollmentData}/>
+        <h4>How can I see my Post-9/11 GI Bill benefit payments?</h4>
+        <div>
+          If you've received education benefit payments through this program, <a target="_blank"
+            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history">
+          you can see your payment history on eBenefits</a>.
+        </div>
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>Call 888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m. (ET)</div>
+          <div>Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET)</div>
         </div>
       </div>
     );

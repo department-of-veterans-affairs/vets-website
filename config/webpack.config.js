@@ -4,8 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
-const bourbon = require('bourbon').includePaths;
-const neat = require('bourbon-neat').includePaths;
+// const bourbon = require('bourbon').includePaths;
+// const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
 const _ = require('lodash');
@@ -15,23 +15,31 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const entryFiles = {
+  '1990-edu-benefits': './src/js/edu-benefits/1990/edu-benefits-entry.jsx',
+  '1990e-edu-benefits': './src/js/edu-benefits/1990e/edu-benefits-entry.jsx',
+  '1990n-edu-benefits': './src/js/edu-benefits/1990n/edu-benefits-entry.jsx',
+  '1995-edu-benefits': './src/js/edu-benefits/1995/edu-benefits-entry.jsx',
+  '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
+  '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
+  'claims-status': './src/js/claims-status/claims-status-entry.jsx',
+  'discharge-wizard': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
+  'health-records': './src/js/health-records/health-records-entry.jsx',
+  'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
+  'no-react': './src/js/no-react-entry.js',
+  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
+  'pre-need': './src/js/pre-need/pre-need-entry.jsx',
+  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+  'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
+  auth: './src/js/auth/auth-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
-  'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
-  'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
-  'health-records': './src/js/health-records/health-records-entry.jsx',
-  messaging: './src/js/messaging/messaging-entry.jsx',
-  rx: './src/js/rx/rx-entry.jsx',
-  'no-react': './src/js/no-react-entry.js',
-  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-  auth: './src/js/auth/auth-entry.jsx',
   letters: './src/js/letters/letters-entry.jsx',
+  messaging: './src/js/messaging/messaging-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
-  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
-  'health-beta': './src/js/health-beta/health-beta-entry.jsx',
-  'pre-need': './src/js/pre-need/pre-need-entry.jsx',
+  rx: './src/js/rx/rx-entry.jsx',
+  verify: './src/js/login/verify-entry.jsx',
   style: './src/sass/style.scss'
 };
 
@@ -111,8 +119,8 @@ const configGenerator = (options) => {
                 loader: 'sass-loader',
                 options: {
                   includePaths: [
-                    bourbon,
-                    neat,
+                    // bourbon,
+                    // neat,
                     '~/uswds/src/stylesheets&sourceMap'
                   ],
                   sourceMap: true,

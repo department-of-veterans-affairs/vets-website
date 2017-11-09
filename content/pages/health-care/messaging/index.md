@@ -1,5 +1,5 @@
 ---
-title: Send a Secure Message to Your Health Care Team
+title: Message Your Health Care Team
 layout: page-react.html
 entryname: messaging
 gatePage: true
@@ -12,8 +12,9 @@ includeBreadcrumbs: true
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
-        <h3>Please wait while we load the application for you.</h3>
-        <img src="/img/preloader-primary-darkest.gif" alt="Loading">
+        <div class="loading-indicator-container">
+          <div class="loading-indicator" role="progressbar" aria-valuetext="Please wait while we load the application for you." tabIndex="0"></div> Please wait while we load the application for you.
+        </div>
       </div>
     </div>
   </div>

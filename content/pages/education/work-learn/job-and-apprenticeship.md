@@ -8,37 +8,60 @@ plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 order: 2
 ---
 
-<div class="va-introtext">
+<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemprop="description" class="va-introtext">
 
 You can get help paying for books, supplies, and housing while you’re learning a trade or skill through on-the-job training (OJT) or apprenticeships. Find out how to get education benefits.
 
 </div>
 
-
 <div class="feature" markdown="1">
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">Can I get education benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
-### Can I get education benefits? 
 You can get benefits if you qualify for the GI Bill, and:
   -	You want to work in an industry or job that has OJT, like:
       -	Plumbing
       -	Hotel management
       -	Firefighting
+</div>
+</div>
+</div>
 
-### Who’s covered?
-Veterans<br />
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">Who’s covered?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Veterans
 
 **Exception:** 
 You can’t get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
+
+</div>
+</div>
+</div>
 </div>
 
-### What benefits can I get?
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">What benefits can I get?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 -	Money for books and supplies, up to $83 per month
 -	Money for housing, if you’re covered under the Post-9/11 GI Bill
+</div>
+</div>
+</div>
 
 -----
 
-### How do I get these benefits? 
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">How do I get these benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
 
@@ -63,3 +86,8 @@ You’ll get 100% of your applicable MHA during the first 6 months of training. 
 - 35% of the full-time GI Bill rate for the rest of the training period
 
 [Get more information about on-the-job and apprenticeship training programs](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
+
+</div>
+</div>
+</div>
+</div>

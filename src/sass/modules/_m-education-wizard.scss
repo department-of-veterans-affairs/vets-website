@@ -40,14 +40,6 @@
   }
 }
 
-// Handles the question toggling
-[data-state="closed"] {
-  left: -9999px;
-  opacity: 0;
-  position: absolute;
-  top: -9999px;
-}
-
-[data-state="open"] {
-  transition: opacity 700ms ease-in-out;
+.wizard-alert-heading {
+  padding: 0;
 }

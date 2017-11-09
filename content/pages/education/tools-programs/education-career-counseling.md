@@ -50,4 +50,4 @@ You’ll need to apply:
 3. Select “Vocational Rehabilitation and Employment Benefits.”
 4. Apply for “Educational and Career Counseling.”<br /><br />
 
-If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. Use [CareerScope](/education/tools-programs/careerscope/). 
+If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. [Learn more about CareerScope](/education/tools-programs/careerscope/). 

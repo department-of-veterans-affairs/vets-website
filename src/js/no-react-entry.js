@@ -1,25 +1,50 @@
 import createCommonStore from './common/store';
 import createLoginWidget from './login/login-entry';
+import createApplicationStatus from './common/components/createApplicationStatus';
+import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
 
-const wizardPages = new Set(['/education/apply/', '/education/eligibility/']);
+const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
+const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
+const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/', '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/']);
+const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
 
 // No-react styles.
-require('../sass/no-react.scss');
+import '../sass/no-react.scss';
 
-require('./common');
+import './common';
 
 // Used in the footer.
-require('./legacy/menu.js');
-require('./common/utils/sticky-action-box.js');
+import './legacy/menu.js';
 
 // New navigation menu
-require('./legacy/mega-menu.js');
+import './legacy/mega-menu.js';
 
 // New sidebar menu
-require('./legacy/sidebar-navigation.js');
+import './legacy/sidebar-navigation.js';
 
-if (wizardPages.has(location.pathname)) {
-  require('./edu-benefits/education-wizard.js');
+const store = createCommonStore();
+createLoginWidget(store);
+if (pensionPages.has(location.pathname)) {
+  createApplicationStatus(store, {
+    formId: '21P-527EZ',
+    applyLink: '/pension/apply/',
+    applyText: 'Apply for Veterans Pension Benefits'
+  });
 }
-
-createLoginWidget(createCommonStore());
+if (healthcarePages.has(location.pathname)) {
+  createApplicationStatus(store, {
+    formId: '1010ez',
+    additionalText: 'You can start your online application right now.',
+    applyLink: '/health-care/apply/',
+    applyText: 'Apply for Health Care Benefits'
+  });
+}
+if (eduPages.has(location.pathname)) {
+  createEducationApplicationStatus(store);
+}
+if (burialPages.has(location.pathname)) {
+  createApplicationStatus(store, {
+    formId: '21P-530',
+    applyText: 'Apply for Burial Benefits'
+  });
+}

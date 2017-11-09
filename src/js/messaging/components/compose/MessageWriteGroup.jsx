@@ -27,7 +27,7 @@ class MessageWriteGroup extends React.Component {
           files={this.props.files}
           onClose={this.props.onAttachmentsClose}/>
         <MessageSend
-          disabled={!this.props.messageText.value.length || this.props.disabled}
+          disabled={!this.props.messageText.value.length || this.props.sendingMessage || this.props.disabled}
           allowedMimeTypes={this.props.allowedMimeTypes}
           attachedFiles={this.props.files}
           maxFiles={this.props.maxFiles}
@@ -37,7 +37,8 @@ class MessageWriteGroup extends React.Component {
           onAttachmentsError={this.props.onAttachmentsError}
           onSave={this.props.onSave}
           onSend={this.props.onSend}
-          onDelete={this.props.onDelete}/>
+          onDelete={this.props.onDelete}
+          sendingMessage={this.props.sendingMessage}/>
       </div>
     );
   }
@@ -63,6 +64,7 @@ MessageWriteGroup.propTypes = {
   onSend: PropTypes.func,
   onTextChange: PropTypes.func,
   placeholder: PropTypes.string,
+  sendingMessage: PropTypes.bool
 };
 
 export default MessageWriteGroup;

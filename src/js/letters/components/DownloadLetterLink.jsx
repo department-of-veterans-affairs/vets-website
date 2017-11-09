@@ -4,17 +4,13 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { getLetterPdf } from '../actions/letters';
+import { DOWNLOAD_STATUSES } from '../utils/constants';
 
 export class DownloadLetterLink extends React.Component {
-  constructor(props) {
-    super(props);
-    this.downloadLetter = this.downloadLetter.bind(this);
-  }
-
   // Either download the pdf or open it in a new window, depending on the
   // browser. Needs to be manually tested on a variety of
   // vets.gov-supported platforms, particularly iOS/Safari
-  downloadLetter(e) {
+  downloadLetter = (e) => {
     e.preventDefault();
     window.dataLayer.push({
       event: 'letter-download',
@@ -29,12 +25,12 @@ export class DownloadLetterLink extends React.Component {
     let buttonDisabled;
     let message;
     switch (this.props.downloadStatus) {
-      case 'downloading':
+      case DOWNLOAD_STATUSES.downloading:
         buttonClasses = 'usa-button-disabled';
         buttonText = 'Downloading...';
         buttonDisabled = true;
         break;
-      case 'success':
+      case DOWNLOAD_STATUSES.success:
         buttonClasses = 'usa-button-primary va-button-primary';
         buttonText = 'Download Letter';
         buttonDisabled = false;
@@ -49,18 +45,19 @@ export class DownloadLetterLink extends React.Component {
           </div>
         );
         break;
-      case 'failure':
+      case DOWNLOAD_STATUSES.failure:
         buttonClasses = 'usa-button-primary va-button-primary';
         buttonText = 'Retry Download';
         buttonDisabled = false;
         message = (
           <div className="usa-alert usa-alert-error" role="alert">
             <div className="usa-alert-body">
-              <h2 className="usa-alert-heading">Your letter didn't download.</h2>
+              <h2 className="usa-alert-heading">Your letter didn’t download.</h2>
               <p className="usa-alert-text">
-                Your letter isn't available at this time. If you need help with
-                accessing your letter, please call <a href="tel: 855-574-7286">
-                855-574-7286</a>, Monday-Friday, 8 a.m. - 8 p.m. (ET).
+                Your letter isn’t available at this time. If you need help with
+                accessing your letter, please call <a href="tel:18555747286">
+                1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>,
+                Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
               </p>
             </div>
           </div>

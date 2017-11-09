@@ -1,6 +1,6 @@
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
-    <a class="sr-only" href="#feedback-tool">Give feedback on this page</a>
+    <a class="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
     <div class="row va-flex">
     <dl class="va-footer-linkgroup" id="footer-services">
       <dt class="va-footer-linkgroup-title">Services and Benefits</dt>
@@ -26,8 +26,8 @@
       <li><a href="/facilities/">Find nearby VA locations</a></dt>
       <li>Call the Vets.gov Help Desk<br>
       <a href="tel:18555747286">1-855-574-7286</a><br>
-      TTY:&nbsp;<a href="tel:18008294833">1-800-829-4833</a><br>
-Monday &#8211; Friday, 8:00 am &#8211; 8:00 pm (<abbr title="eastern time">ET</abbr>)</li>
+      TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br>
+Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</li>
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
     </ul>
   </div>
@@ -60,29 +60,33 @@ Monday &#8211; Friday, 8:00 am &#8211; 8:00 pm (<abbr title="eastern time">ET</a
     <div class="usa-grid">
       <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
         <span class="icon"></span>
-        <span class="text">Provide feedback on vets.gov</span>
+        <span class="text">Provide feedback on Vets.gov</span>
       </a>
     </div>
   </div>
 </footer>
-<!-- End mobile crisis line overlay. See desktop overlay at end of footer -->
-<div id="modal-crisisline" class="va-overlay" role="dialog">
-    <div class="va-crisis-panel">
-      <div class="va-overlay-body va-crisis-panel-body">
-        <h4 class="va-crisis-panel-body-title">Get help from Veterans Crisis Line</h4>
 
+<!-- End mobile crisis line overlay. See desktop overlay at end of footer -->
+<div id="modal-crisisline" class="va-overlay va-modal va-modal-large" role="alertdialog">
+    <div class="va-crisis-panel va-modal-inner">
+
+      <h3>Get help from Veterans Crisis Line</h3>
+
+      <button class="va-modal-close va-overlay-close" type="button">
+        <i class="fa fa-close va-overlay-close"></i>
+        <span class="usa-sr-only va-overlay-close">Close this modal</span>
+      </button>
+
+      <div class="va-overlay-body va-crisis-panel-body">
         <ul>
           <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
           <li><a href="sms:838255">Text to <b>838255</b></a></li>
-          <li><a href="https://www.veteranscrisisline.net/mobile/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
+          <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
         </ul>
 
         <p>If you are in crisis or having thoughts of suicide,
 visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
       </div>
-
-      <p><button type="button" class="va-overlay-close">Close</button></p>
-
     </div>
   </div>
 <!-- End mobile crisis line overlay -->
@@ -121,6 +125,15 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
-
+{% if widgets %}
+<script type="text/javascript">
+(function() {
+  var widgets = {{ widgets | json }};
+  var module = {};
+  {% include "src/js/common/utils/static-page-widgets.js" %}
+  mountWidgets(widgets);
+})();
+</script>
+{% endif %}
 </body>
 </html>

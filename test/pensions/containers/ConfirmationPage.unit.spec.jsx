@@ -35,6 +35,8 @@ describe('<ConfirmationPage>', () => {
     expect(tree.subTree('.confirmation-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Jane Doe');
     expect(tree.everySubTree('li')[2].text()).to.contain('Western Region');
-    expect(tree.everySubTree('p')[2].text()).to.contain('VA Regional Office');
+    expect(tree.everySubTree('p')[0].text()).to.contain('We process claims in the order we receive them');
+    expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.Please print this page for your records');
+    expect(tree.everySubTree('p')[3].text()).to.contain('VA Regional Office');
   });
 });

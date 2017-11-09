@@ -3,6 +3,12 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
+order: 1
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -30,13 +36,13 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - Died while getting VA care, either at a VA facility or at a facility contracted by VA, **or**
 - Died while traveling to approved VA care, **or**
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
-- Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
+- Died on or after October 9, 1996, while a patient at a VA-approved state nursing home
 
 VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There is no time limit to file for a service-connected burial, plot, or interment allowance.
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death to “under conditions other than dishonorable,” you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
 
 
 ### What kind of benefits can I get?
@@ -56,9 +62,9 @@ You may need a copy of:
 
 </div>
 
-### Ready to apply?
-
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for a Burial Allowance</a>
+<div id="react-applicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530/">Apply for Burial Benefits</a>
+</div>
 
 <div markdown="0"><br></div>
 
@@ -70,7 +76,7 @@ Apply by mail using the Application for Burial Benefits (VA Form 21P-530). [Down
 
 Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
-If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
+If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefits office.
 
 #### What are the burial allowance amounts for a service-connected death?
 
@@ -84,7 +90,9 @@ If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
-| If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $749 for a plot |
+| If the Veteran died on or after October 1, 2017 | We’ll pay a $300 burial allowance and $762 for a plot |
+| If the Veteran died on or after October 1, 2016 | We’ll pay a $300 burial allowance and $749 for a plot |
+| If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $747 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot |
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $300 burial allowance and $734 for a plot |
 
@@ -92,11 +100,13 @@ If you have questions, call <a href="tel:+18008271000">800-827-1000</a> (our TDD
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
-| If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $749 for a plot |
+| If the Veteran died on or after October 1, 2017 | We’ll pay a $762 burial allowance and $762 for a plot |
+| If the Veteran died on or after October 1, 2016 | We’ll pay a $749 burial allowance and $749 for a plot |
+| If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $747 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $745 burial allowance and $745 for a plot |
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $734 burial allowance and $734 for a plot |
 
 - We may also pay you back for some or all of the costs of moving the Veteran’s remains if they were hospitalized or in a VA-contracted nursing home at the time of death.
-- We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care
+- We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care.
 
-**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the deceased qualifies, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot.
+**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the deceased qualifies, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery.

@@ -2,7 +2,6 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
-import LoginModal from '../components/LoginModal';
 import { SAVE_STATUSES, saveErrors } from './save-load-actions';
 import { focusElement } from '../utils/helpers';
 
@@ -23,6 +22,8 @@ class SaveFormLink extends React.Component {
     this.state = {
       modalOpened: false
     };
+
+    this.loginAttemptInProgress = false;
   }
 
   componentDidMount() {
@@ -32,13 +33,17 @@ class SaveFormLink extends React.Component {
     }
   }
 
-  openLoginModal = () => {
-    // console.log('opening login modal');
-    this.setState({ modalOpened: true });
-  }
+  componentWillReceiveProps(newProps) {
+    const loginAttemptCompleted = this.props.user.login.showModal === true
+      && newProps.user.login.showModal === false
+      && this.loginAttemptInProgress;
 
-  closeLoginModal = () => {
-    this.setState({ modalOpened: false });
+    if (loginAttemptCompleted && newProps.user.login.currentlyLoggedIn) {
+      this.loginAttemptInProgress = false;
+      this.saveFormAfterLogin();
+    } else if (loginAttemptCompleted && !newProps.user.login.currentlyLoggedIn) {
+      this.loginAttemptInProgress = false;
+    }
   }
 
   handleSave() {
@@ -48,7 +53,7 @@ class SaveFormLink extends React.Component {
       data
     } = this.props.form;
     const returnUrl = this.props.locationPathname;
-    this.props.saveInProgressForm(formId, version, returnUrl, data);
+    this.props.saveAndRedirectToReturnUrl(formId, data, version, returnUrl);
   }
 
   saveFormAfterLogin = () => {
@@ -66,25 +71,25 @@ class SaveFormLink extends React.Component {
     }
   }
 
+  openLoginModal = () => {
+    this.loginAttemptInProgress = true;
+    this.props.toggleLoginModal(true);
+  }
+
   render() {
     const { savedStatus } = this.props.form;
 
-    // TODO: Remove LoginModal from here
+    const saveLinkMessage = this.props.user.login.currentlyLoggedIn
+      ? 'Finish this application later'
+      : 'Save and finish this application later';
+
     return (
       <div style={{ display: this.props.children ? 'inline' : null }}>
         <Element name="saveFormLinkTop"/>
-        <LoginModal
-          key={1}
-          title="Sign in to save your application"
-          onClose={this.closeLoginModal}
-          visible={this.state.modalOpened}
-          user={this.props.user}
-          onUpdateLoginUrl={this.props.onUpdateLoginUrl}
-          onLogin={this.saveFormAfterLogin}/>
         {saveErrors.has(savedStatus) &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.failure &&
-              'We’re sorry, but we’re having some issues and are working to fix them. If you’re on a secure and private computer, you can leave this page open and try again later. You won’t lose any of your information. If you’re on a public computer, please log off and try again later.'}
+              'We’re sorry. Something went wrong when saving your form. If you’re on a secure and private computer, you can leave this page open and try saving your form again in a few minutes. If you’re on a public computer, you can continue to fill out your form, but it won’t automatically save as you fill it out.'}
             {savedStatus === SAVE_STATUSES.clientFailure &&
               'We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet and try again.'}
             {savedStatus === SAVE_STATUSES.noAuth &&
@@ -92,7 +97,7 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || 'Save and finish later'}</button>}
+          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || saveLinkMessage}</button>}
       </div>
     );
   }
@@ -108,7 +113,7 @@ SaveFormLink.propTypes = {
     savedStatus: PropTypes.string.isRequired
   }).isRequired,
   user: PropTypes.object.isRequired,
-  onUpdateLoginUrl: PropTypes.func.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
 };
 
 export default SaveFormLink;

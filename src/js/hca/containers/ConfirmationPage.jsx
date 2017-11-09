@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -15,32 +14,45 @@ const scrollToTop = () => {
   });
 };
 
-class ConfirmationPage extends React.Component {
+export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }
 
   render() {
-    const time = _.get('form.submission.response.timestamp', this.props);
+    const { submission, data } = this.props.form;
+    const { response } = submission;
+    const name = data.veteranFullName;
 
     return (
       <div>
-        <div className="usa-width-one-sixth medium-2 columns">
-          <i className="fa fa-check-circle hca-success-icon"></i>
+        <h3 className="confirmation-page-title">Claim received</h3>
+        <p>We usually process claims within <strong>a week</strong>.</p>
+        <p>
+          We may contact you for more information or documents.<br/>
+          <i>Please print this page for your records.</i>
+        </p>
+        <div className="inset">
+          <h4>Health Care Benefit Claim <span className="additional">(Form 10-10EZ)</span></h4>
+          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+
+          {response && <ul className="claim-list">
+            <li>
+              <strong>Date received</strong><br/>
+              <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+            </li>
+            <li>
+              <strong>Confirmation number</strong><br/>
+              <span>{response.formSubmissionId}</span>
+            </li>
+          </ul>}
         </div>
-        <div className="usa-width-five-sixths medium-10 columns">
-          <h4 className="success-copy">You have successfully submitted your application for health care.</h4>
-        </div>
-        <div>
-          <p>We are processing your application. The Department of Veterans Affairs will contact you when we finish our review.</p>
-          {time &&
-            <div className="success-alert-box">
-              <p className="success-copy">Form submitted: {moment(time).format('MMMM D, YYYY, h:mm a')}</p>
-            </div>
-          }
-          <p>Please print this page for your records.</p>
-          <p>If you have questions, call 1-877-222-VETS (8387) and press 2.</p>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
+          <p className="confirmation-guidance-message"><a href="/health-care/after-you-apply">Find out what happens after you apply.</a></p>
+          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <p className="confirmation-guidance-message">If you have questions, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>) and press 2, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
         </div>
       </div>
     );
@@ -54,4 +66,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(ConfirmationPage);
-export { ConfirmationPage };

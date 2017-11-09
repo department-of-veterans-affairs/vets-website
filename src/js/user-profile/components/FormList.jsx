@@ -29,9 +29,10 @@ class FormList extends React.Component {
    const { savedForms: forms } = this.props;
    const verifiedSavedForms = forms.filter(isSIPEnabledForm);
    const hasVerifiedSavedForms = !!verifiedSavedForms.length;
+   const savedApplicationsHeader = forms.length > 1 ? 'Applications in process' : 'Application in process';
    return !hasVerifiedSavedForms ? null : (
      <div className="profile-section medium-12 columns">
-       <h4 className="section-header">Saved applications</h4>
+       <h4 className="section-header">{savedApplicationsHeader}</h4>
        {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}
        <Modal
          cssClass="va-modal-large"
@@ -42,12 +43,12 @@ class FormList extends React.Component {
          <p>If you delete this application, the information you entered will be lost.</p>
          <ProgressButton
            onButtonClick={this.removeForm}
-           buttonText="Yes, delete it"
+           buttonText="Yes, Delete It"
            buttonClass="usa-button-primary"/>
          <ProgressButton
            onButtonClick={this.toggleModal}
            buttonText="No, keep it"
-           buttonClass="usa-button-outline"/>
+           buttonClass="usa-button-secondary"/>
        </Modal>
      </div>
    );
@@ -55,7 +56,7 @@ class FormList extends React.Component {
 }
 
 FormList.propTypes = {
-  savedForms: PropTypes.array,
+  savedForms: PropTypes.array
 };
 
 export default FormList;

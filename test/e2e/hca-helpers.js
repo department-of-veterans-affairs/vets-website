@@ -75,16 +75,14 @@ function completeAdditionalInformation(client) {
     .click('input[name="root_campLejeune"]');
 }
 
-function completeVaBenefits(client) {
+function completeVaBenefits(client, data) {
   client
-    .click('input[name="root_compensableVaServiceConnectedYes"]')
-    .click('input[name="root_isVaServiceConnectedYes"]')
-    .click('input[name="root_receivesVaPensionYes"]');
+    .selectRadio('root_vaCompensationType', data.vaCompensationType);
 }
 
 function completeFinancialDisclosure(client) {
   client
-    .click('input[name="root_discloseFinancialInformationYes"]');
+    .click('input#root_discloseFinancialInformationYes');
 }
 
 function completeSpouseInformation(client, data) {
@@ -96,7 +94,7 @@ function completeSpouseInformation(client, data) {
     .fill('input[name="root_spouseFullName_last"]', data.spouseFullName.last)
     .selectDropdown('root_spouseFullName_suffix', data.spouseFullName.suffix)
     .fill('input[name="root_spouseSocialSecurityNumber"]', data.spouseSocialSecurityNumber)
-    .click('input[name="root_sameAddressNo"]');
+    .click('input#root_sameAddressNo');
 
   client.expect.element('label[for="root_view:spouseContactInformation_spouseAddress_country"]').to.be.visible.before(Timeouts.slow);
 
@@ -108,8 +106,8 @@ function completeSpouseInformation(client, data) {
     .selectDropdown('root_view:spouseContactInformation_spouseAddress_country', data['view:spouseContactInformation'].spouseAddress.country)
     .selectDropdown('root_view:spouseContactInformation_spouseAddress_state', data['view:spouseContactInformation'].spouseAddress.state)
     .fill('input[name="root_view:spouseContactInformation_spouseAddress_postalCode"]', data['view:spouseContactInformation'].spouseAddress.postalCode)
-    .click('input[name="root_cohabitedLastYearNo"]')
-    .click('input[name="root_provideSupportLastYearYes"]')
+    .click('input#root_cohabitedLastYearNo')
+    .click('input#root_provideSupportLastYearYes')
     .fill('input[name="root_view:spouseContactInformation_spousePhone"]', data['view:spouseContactInformation'].spousePhone);
 }
 
@@ -121,30 +119,30 @@ function completeAnnualIncomeInformation(client, data) {
     .setValue('input[name="root_view:spouseIncome_spouseGrossIncome"]', data['view:spouseIncome'].spouseGrossIncome)
     .setValue('input[name="root_view:spouseIncome_spouseNetIncome"]', data['view:spouseIncome'].spouseNetIncome)
     .setValue('input[name="root_view:spouseIncome_spouseOtherIncome"]', data['view:spouseIncome'].spouseOtherIncome)
-    .setValue('input[name="root_children_0_grossIncome"]', data.children[0].grossIncome)
-    .setValue('input[name="root_children_0_netIncome"]', data.children[0].netIncome)
-    .setValue('input[name="root_children_0_otherIncome"]', data.children[0].otherIncome);
+    .setValue('input[name="root_dependents_0_grossIncome"]', data.dependents[0].grossIncome)
+    .setValue('input[name="root_dependents_0_netIncome"]', data.dependents[0].netIncome)
+    .setValue('input[name="root_dependents_0_otherIncome"]', data.dependents[0].otherIncome);
 }
 
-function completeChildInformation(client, data) {
+function completeDependentInformation(client, data) {
   client
-    .click('input[name="root_view:reportChildrenYes"]');
+    .click('input#root_view\\:reportDependentsYes');
 
-  client.expect.element('label[for="root_children_0_childFullName_first"]').to.be.visible.before(Timeouts.normal);
+  client.expect.element('label[for="root_dependents_0_fullName_first"]').to.be.visible.before(Timeouts.normal);
   client
-    .selectDropdown('root_children_0_childRelation', data.children[0].childRelation)
-    .fillDate('root_children_0_childDateOfBirth', data.children[0].childDateOfBirth)
-    .fillDate('root_children_0_childBecameDependent', data.children[0].childBecameDependent)
-    .setValue('input[name="root_children_0_childFullName_first"]', data.children[0].childFullName.first)
-    .setValue('input[name="root_children_0_childFullName_middle"]', data.children[0].childFullName.middle)
-    .setValue('input[name="root_children_0_childFullName_last"]', data.children[0].childFullName.last)
-    .selectDropdown('root_children_0_childFullName_suffix', data.children[0].childFullName.suffix)
-    .setValue('input[name="root_children_0_childSocialSecurityNumber"]', data.children[0].childSocialSecurityNumber)
-    .setValue('input[name="root_children_0_childEducationExpenses"]', data.children[0].childEducationExpenses)
-    .click('input[name="root_children_0_childDisabledBefore18Yes"]')
-    .click('input[name="root_children_0_childAttendedSchoolLastYearYes"]')
-    .click('input[name="root_children_0_childCohabitedLastYearNo"]')
-    .click('input[name="root_children_0_childReceivedSupportLastYearYes"]');
+    .selectDropdown('root_dependents_0_dependentRelation', data.dependents[0].dependentRelation)
+    .fillDate('root_dependents_0_dateOfBirth', data.dependents[0].dateOfBirth)
+    .fillDate('root_dependents_0_becameDependent', data.dependents[0].becameDependent)
+    .setValue('input[name="root_dependents_0_fullName_first"]', data.dependents[0].fullName.first)
+    .setValue('input[name="root_dependents_0_fullName_middle"]', data.dependents[0].fullName.middle)
+    .setValue('input[name="root_dependents_0_fullName_last"]', data.dependents[0].fullName.last)
+    .selectDropdown('root_dependents_0_fullName_suffix', data.dependents[0].fullName.suffix)
+    .setValue('input[name="root_dependents_0_socialSecurityNumber"]', data.dependents[0].socialSecurityNumber)
+    .setValue('input[name="root_dependents_0_dependentEducationExpenses"]', data.dependents[0].dependentEducationExpenses)
+    .click('input#root_dependents_0_disabledBefore18Yes')
+    .click('input#root_dependents_0_attendedSchoolLastYearYes')
+    .click('input#root_dependents_0_cohabitedLastYearNo')
+    .click('input#root_dependents_0_receivedSupportLastYearYes');
 }
 
 function completeDeductibleExpenses(client, data) {
@@ -157,14 +155,14 @@ function completeDeductibleExpenses(client, data) {
 
 function completeMedicareAndMedicaid(client, data) {
   client
-    .click('input[name="root_isMedicaidEligibleYes"]')
-    .click('input[name="root_isEnrolledMedicarePartAYes"]')
+    .click('input#root_isMedicaidEligibleYes')
+    .click('input#root_isEnrolledMedicarePartAYes')
     .fillDate('root_medicarePartAEffectiveDate', data.medicarePartAEffectiveDate);
 }
 
 function completeInsuranceInformation(client, data) {
   client
-    .click('input[name="root_isCoveredByHealthInsuranceYes"]')
+    .click('input#root_isCoveredByHealthInsuranceYes')
     .setValue('input[name="root_providers_0_insuranceName"]', data.providers[0].insuranceName)
     .setValue('input[name="root_providers_0_insurancePolicyHolderName"]', data.providers[0].insurancePolicyHolderName)
     .setValue('input[name="root_providers_0_insurancePolicyNumber"]', data.providers[0].insurancePolicyNumber)
@@ -176,7 +174,7 @@ function completeVaInsuranceInformation(client, data) {
     .selectDropdown('root_view:preferredFacility_view:facilityState', data['view:preferredFacility']['view:facilityState'])
     .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
     .click('input[name="root_isEssentialAcaCoverage"]')
-    .click('input[name="root_wantsInitialVaContactYes"]');
+    .click('input#root_wantsInitialVaContactYes');
 }
 
 function initApplicationSubmitMock() {
@@ -236,6 +234,10 @@ function initSaveInProgressMock(url, client) {
             gender: 'F',
             birth_date: '1985-01-01',
           },
+          veteran_status: {
+            is_veteran: true,
+            status: 'OK',
+          },
           in_progress_forms: [{
             form: '1010ez',
             last_updated: 1501608808,
@@ -263,7 +265,7 @@ function initSaveInProgressMock(url, client) {
     path: '/v0/in_progress_forms/1010ez',
     verb: 'get',
     value: {
-      form_data: {
+      formData: {
         privacyAgreementAccepted: false,
         veteranSocialSecurityNumber: '123445544',
         veteranFullName: {
@@ -330,7 +332,7 @@ module.exports = {
   completeVaBenefits,
   completeFinancialDisclosure,
   completeSpouseInformation,
-  completeChildInformation,
+  completeDependentInformation,
   completeAnnualIncomeInformation,
   completeDeductibleExpenses,
   completeMedicareAndMedicaid,

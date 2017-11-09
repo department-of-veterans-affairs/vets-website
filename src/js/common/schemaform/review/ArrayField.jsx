@@ -175,7 +175,9 @@ class ArrayField extends React.Component {
 
     // TODO: Make this better; it’s super hacky for now.
     const itemCountLocked = this.isLocked();
-    const items = itemCountLocked ? this.props.arrayData : this.state.items;
+    // Make sure we default to an empty array if the item count is locked and no
+    //  arrayData is passed (mysteriously)
+    const items = itemCountLocked ? (this.props.arrayData || []) : this.state.items;
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
 
     return (
@@ -213,6 +215,7 @@ class ArrayField extends React.Component {
                         title={pageTitle}
                         hideTitle
                         name={fieldName}
+                        onBlur={this.props.onBlur}
                         onChange={(data) => this.handleSetData(index, data)}
                         onEdit={() => this.handleEdit(index, !isEditing)}
                         onSubmit={() => this.handleSave(index)}>
@@ -221,7 +224,7 @@ class ArrayField extends React.Component {
                             <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            {showReviewButton && <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
+                            {showReviewButton && <button type="button" className="usa-button-secondary float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
                           </div>
                         </div>
                       </SchemaForm>

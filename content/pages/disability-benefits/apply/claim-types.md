@@ -35,7 +35,7 @@ majorlinks:
       description: If your disability was caused by an injury or illness you got while in the line of duty, file an in-service claim.
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
-      description: If you have a disability and you’re currently in predischarge status, file a predischarge disability claim up to 180 days before you leave the military.
+      description: If you have a disability and you’re currently in predischarge status, file a predischarge disability claim 90 to 180 days before you leave the military.
     - url: /disability-benefits/apply/claim-types/post-service/
       title: Postservice Claim
       description: If you have a disability related to military service that didn’t appear until after you ended your service, file a postservice claim.

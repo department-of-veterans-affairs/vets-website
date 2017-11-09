@@ -104,7 +104,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
     if (this.state.open) {
       pageContent = (
-        <div className="usa-accordion-content schemaform-chapter-accordion-content">
+        <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
           {ChapterDescription &&
             <ChapterDescription
               viewedPages={viewedPages}
@@ -158,6 +158,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     hideHeaderRow={page.hideHeaderRow}
                     hideTitle={expandedPages.length === 1}
                     pagePerItemIndex={page.index}
+                    onBlur={this.props.onBlur}
                     onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
                     onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
                     onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
@@ -166,7 +167,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
                       submitButton
-                      buttonText="Update page"
+                      buttonText="Update Page"
                       buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
                 {arrayFields.map(arrayField => (
@@ -177,6 +178,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       arrayData={_.get(arrayField.path, form.data)}
                       formData={form.data}
                       pageConfig={page}
+                      onBlur={this.props.onBlur}
                       schema={arrayField.schema}
                       uiSchema={arrayField.uiSchema}
                       setData={this.props.setData}

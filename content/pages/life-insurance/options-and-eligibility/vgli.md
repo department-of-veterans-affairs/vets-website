@@ -63,7 +63,7 @@ Apply in 1 of 3 ways:
 - [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
 - Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. [Download the Application for Veterans’ Group Life Insurance](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
-Fax the form to 800-236-6142, or mail it to: 
+Fax the form to 1-800-236-6142, or mail it to: 
 
 <p class="va-address-block">
   OSGLI<br>

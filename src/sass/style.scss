@@ -28,7 +28,6 @@
 
 @import "~uswds/src/stylesheets/core/defaults";
 @import "~uswds/src/stylesheets/core/base";
-@import "~uswds/src/stylesheets/core/grid-settings";
 @import "~uswds/src/stylesheets/core/variables";
 
 // A VA partial. Here so that we can override the
@@ -79,6 +78,8 @@
 @import "modules/m-nav-sidebar";
 @import "modules/m-overlay";
 @import "modules/m-education-wizard";
+@import "modules/m-applications";
+@import "modules/m-additional-info";
 
 // ----- VA SHAME ---- //
 

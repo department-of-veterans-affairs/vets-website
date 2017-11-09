@@ -9,10 +9,8 @@
   position: relative;
   text-align: center;
   width: 100%;
-
-  > * {
-    display: inline-block;
-  }
+  display: flex;
+  justify-content: center;
 
   &-prev {
     @media (max-width: $medium-screen) {
@@ -47,7 +45,6 @@
   &-prev,
   &-next {
     position: relative;
-    top: -1rem;
 
     &:hover,
     &:focus {
@@ -60,8 +57,8 @@
   }
 
   &-inner {
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
 
     @media (max-width: $medium-screen) {
       width: 20rem;

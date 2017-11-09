@@ -57,6 +57,9 @@ describe('<ConfirmationPage>', () => {
     expect(tree.subTree('.claim-list').text()).to.include('Transportation');
     expect(tree.subTree('.claim-list').text()).to.include('Death certificate: 1 file');
     expect(tree.subTree('.claim-list').text()).to.include('Transportation documentation: 2 files');
+    expect(tree.everySubTree('p')[0].text()).to.contain('We process claims in the order we receive them');
+    expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.Please print this page for your records');
+    expect(tree.everySubTree('p')[8].text()).to.contain('VA Regional Office');
   });
   it('should render', () => {
     const form = {

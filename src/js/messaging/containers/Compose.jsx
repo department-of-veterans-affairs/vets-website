@@ -153,6 +153,7 @@ export class Compose extends React.Component {
           onSaveMessage={this.saveDraftIfNoAttachments}
           onSendMessage={this.sendMessage}
           onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
+          sendingMessage={this.props.loading.sendingMessage}
           toggleConfirmDelete={this.props.toggleConfirmDelete}/>
         <NoticeBox/>
         <ModalConfirmDelete

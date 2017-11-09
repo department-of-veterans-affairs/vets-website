@@ -1,6 +1,6 @@
 function completeMilitaryService(client) {
   client
-    .click('input[name="root_view:hasServiceBefore1978Yes"]');
+    .click('input#root_view\\:hasServiceBefore1978Yes');
 }
 
 function completeNewSchool(client, data) {
@@ -22,8 +22,8 @@ function completeNewSchool(client, data) {
     .clearValue('input[name="root_newSchoolAddress_postalCode"]')
     .setValue('input[name="root_newSchoolAddress_postalCode"]', data.newSchoolAddress.postalCode)
     .setValue('textarea[id="root_educationObjective"]', data.educationObjective)
-    .click('input[name=root_nonVaAssistanceYes]')
-    .click('input[name=root_civilianBenefitsAssistanceNo]');
+    .click('input#root_nonVaAssistanceYes')
+    .click('input#root_civilianBenefitsAssistanceNo');
 }
 
 function completeOldSchool(client, data) {
@@ -54,9 +54,9 @@ function completeOldSchool(client, data) {
 
 function completeDependents(client) {
   client
-    .click('input[name="root_serviceBefore1977_marriedYes"]')
-    .click('input[name="root_serviceBefore1977_haveDependentsYes"]')
-    .click('input[name="root_serviceBefore1977_parentDependentYes"]');
+    .click('input#root_serviceBefore1977_marriedYes')
+    .click('input#root_serviceBefore1977_haveDependentsYes')
+    .click('input#root_serviceBefore1977_parentDependentYes');
 }
 
 module.exports = {

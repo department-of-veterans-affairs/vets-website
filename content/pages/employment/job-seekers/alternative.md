@@ -9,7 +9,7 @@ relatedlinks:
     - url: /education/work-learn/workstudy/
       title: Work Study
       description: This program allows you to use your GI Bill for higher education while working for VA.
-    - url: /education/work-learn/job-and-apprenticeship/
+    - url: https://www.dol.gov/apprenticeship/
       title: On-the-Job Training and Apprenticeships
       description: VA makes GI Bill payments to employers while you learn a vocational trade through a certification course or union training. During this time, you may receive military housing allowance benefits.
     - url: /education/work-learn/non-college-degree-program/
@@ -35,13 +35,10 @@ relatedlinks:
     - url: /employment/job-seekers/skills-translator
       title: Military Skills Translator
       description: Use this tool to convert your military experience into civilian language that hiring managers can easily understand.
-    - url: /employment/commitments
-      title: Commitments
-      description: Learn about employers who’ve committed to hiring Veterans and military family members.
     - url: /employment/job-seekers/create-resume
-      title: Résumé Builder
-      description: Use this tool to build a civilian or federal résumé.      
-    - url: /employment/job-seekers/search-jobs
+      title: Resume Builder
+      description: Use this tool to build a civilian or federal resume.      
+    - url: https://www.careeronestop.org/JobSearch/job-search.aspx
       title: Job Search
       description: Search the Veterans Job Bank to find the right position for you.
 ---

@@ -106,7 +106,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 <br>
 
 **If your branch of service hasn’t yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit’s personnel officer. <br>
-[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
+[Download the Servicemembers' Group Life Insurance Election and Certificate](https://www.benefits.va.gov/insurance/forms/SGLV_8286_ed2017-10.pdf).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 
@@ -161,7 +161,7 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
-To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. [Download the SGLI Disability Extension Application](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
+To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. [Download the SGLI Disability Extension Application](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8715_ed2017-09.pdf).
 
 If you get approved, you’ll receive a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 

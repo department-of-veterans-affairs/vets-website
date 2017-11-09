@@ -46,26 +46,24 @@ class FormStartControls extends React.Component {
   }
 
   render() {
-    const { startOver } = this.props.messages || {};
 
     if (this.props.formSaved) {
       return (
         <div>
           <ProgressButton
             onButtonClick={this.handleLoadForm}
-            buttonText="Continue with Application"
+            buttonText="Continue Your Application"
             buttonClass="usa-button-primary no-text-transform"/>
           {!this.props.resumeOnly && <ProgressButton
             onButtonClick={this.toggleModal}
-            buttonText="Start over"
-            buttonClass="usa-button-outline"
-            afterText="»"/>}
+            buttonText="Start Over"
+            buttonClass="usa-button-secondary"/>}
           <Modal
             cssClass="va-modal-large"
             id="start-over-modal"
             onClose={this.toggleModal}
             visible={this.state.modalOpen}>
-            <h4>{startOver || 'Starting over would erase your in progress form.'}</h4>
+            <h4>Starting over would delete your in progress form.</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
@@ -74,7 +72,7 @@ class FormStartControls extends React.Component {
             <ProgressButton
               onButtonClick={this.toggleModal}
               buttonText="Cancel"
-              buttonClass="usa-button-outline"/>
+              buttonClass="usa-button-secondary"/>
           </Modal>
         </div>
       );
@@ -84,7 +82,7 @@ class FormStartControls extends React.Component {
       <div>
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
-          buttonText="Get Started"
+          buttonText={this.props.startText || 'Get Started'}
           buttonClass="usa-button-primary"
           afterText="»"/>
       </div>
@@ -94,7 +92,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
-  migrations: PropTypes.array.isRequired,
+  migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
@@ -102,6 +100,7 @@ FormStartControls.propTypes = {
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
   startPage: PropTypes.string.isRequired,
+  startText: PropTypes.string,
   resumeOnly: PropTypes.bool
 };
 

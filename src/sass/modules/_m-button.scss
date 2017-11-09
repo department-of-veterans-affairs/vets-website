@@ -9,7 +9,7 @@ button,
 [type="image"] {
   background-color: $color-primary;
 
-  &.usa-button-outline {
+  &.usa-button-secondary {
     background: transparent;
   }
 }
@@ -25,7 +25,14 @@ button,
   }
 }
 
-.usa-button-outline-exit {
+// @todo Remove this once the USWDS upgrade is complete.
+.usa-accordion {
+  .usa-button-secondary:focus {
+    box-shadow: inset 0 0 0 2px $color-primary-darkest, 0 0 3px $color-focus, 0 0 7px $color-focus;
+  }
+}
+
+.usa-button-secondary-exit {
   &::after {
     background-image: url(/img/icons/exit-icon-primary.png);
     background-size: 1em auto;

@@ -26,12 +26,6 @@ class MegaMenu {
 
     menus.forEach((menu) => {
       menu.addEventListener('click', this.toggleMenu);
-
-      const dropdown = this.getMenu(menu.getAttribute('aria-controls'));
-
-      if (dropdown) {
-        dropdown.addEventListener('click', (event) => event.stopPropagation());
-      }
     });
 
     submenus.forEach((submenu) => {
@@ -44,7 +38,8 @@ class MegaMenu {
 
     this.openControl.addEventListener('click', this.showMenu);
     this.closeControl.addEventListener('click', this.hideMenu);
-
+    this.menu.addEventListener('click', (event) => event.stopPropagation());
+    
     document.addEventListener('click', this.handleDocumentClick);
     window.addEventListener('resize', this.resetMenu);
   }
@@ -67,11 +62,13 @@ class MegaMenu {
 
   closeMenu(event) {
     const target = event.target;
-    const menu = target.getAttribute('aria-controls');
+    const dropdown = this.getMenu(target.getAttribute('aria-controls'));
 
     event.stopPropagation();
     target.setAttribute('aria-expanded', false);
-    this.getMenu(target.getAttribute('aria-controls')).setAttribute('hidden','hidden');
+    dropdown.setAttribute('hidden', 'hidden');
+    
+    this.menu.classList.remove('vetnav--submenu-expanded');
   }
 
   getMenu(idName) {
@@ -133,6 +130,8 @@ class MegaMenu {
 
     showCurrent.removeAttribute('hidden');
     event.target.setAttribute('aria-expanded', true);
+    
+    this.menu.classList.add('vetnav--submenu-expanded');
   }
 
   resetMenu() {
@@ -157,6 +156,7 @@ class MegaMenu {
     this.closeControl.setAttribute('hidden','hidden');
     this.menu.setAttribute('hidden','hidden');
     this.openControl.removeAttribute('hidden');
+    this.menu.classList.remove('vetnav--submenu-expanded');
   }
 }
 

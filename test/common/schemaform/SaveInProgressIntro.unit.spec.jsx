@@ -13,7 +13,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   }];
   const fetchInProgressForm = () => {};
   const removeInProgressForm = () => {};
-  const updateLogInUrl = () => {};
+  const toggleLoginModal = () => {};
 
   it('should render in progress message', () => {
     const user = {
@@ -24,7 +24,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: []
       },
       login: {
-        currentlyLoggedIn: true
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl'
+        }
       }
     };
 
@@ -35,11 +38,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        updateLogInUrl={updateLogInUrl}/>
+        toggleLoginModal={toggleLoginModal}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('In progress');
-    expect(tree.subTree('.usa-alert').text()).to.contain('will expire in');
+    expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
@@ -64,7 +67,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        updateLogInUrl={updateLogInUrl}/>
+        toggleLoginModal={toggleLoginModal}/>
     );
 
     expect(tree.subTree('withRouter(FormStartControls)').props.prefillAvailable).to.be.true;
@@ -78,7 +81,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: []
       },
       login: {
-        currentlyLoggedIn: false
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl'
+        }
       }
     };
 
@@ -89,10 +95,42 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        updateLogInUrl={updateLogInUrl}/>
+        toggleLoginModal={toggleLoginModal}/>
     );
 
-    expect(tree.subTree('SignInLink')).not.to.be.false;
+    expect(tree.subTree('.va-button-link')).not.to.be.false;
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+  });
+  it('should render prefill Notification when prefill enabled and not signed in', () => {
+    const prefillEnabled = true;
+    const user = {
+      profile: {
+        savedForms: [
+          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+        ],
+        prefillsAvailable: []
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl'
+        }
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <SaveInProgressIntro
+        pageList={pageList}
+        prefillEnabled={prefillEnabled}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}/>
+    );
+
+    expect(tree.subTree('.usa-alert').text()).to.contain('Note: If you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.');
+    expect(tree.subTree('.va-button-link')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
@@ -114,10 +152,35 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        updateLogInUrl={updateLogInUrl}/>
+        toggleLoginModal={toggleLoginModal}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+  });
+
+  it('should render prefill notification if signed in with no saved form and prefill available', () => {
+    const user = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: ['1010ez']
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <SaveInProgressIntro
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}/>
+    );
+
+    expect(tree.subTree('.usa-alert').text()).to.contain('Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 
@@ -142,7 +205,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        updateLogInUrl={updateLogInUrl}/>
+        toggleLoginModal={toggleLoginModal}/>
     );
 
     expect(tree.subTree('LoadingIndicator')).not.to.be.false;
@@ -168,7 +231,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        updateLogInUrl={updateLogInUrl}/>
+        toggleLoginModal={toggleLoginModal}/>
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');

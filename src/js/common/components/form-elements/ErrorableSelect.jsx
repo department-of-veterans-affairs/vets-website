@@ -85,14 +85,14 @@ class ErrorableSelect extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
         <label
-          className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
+          className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : this.props.labelClass}
           htmlFor={this.selectId}>
           {this.props.label}
           {requiredSpan}
         </label>
         {errorSpan}
         <select
-          className={this.props.additionalClass}
+          className={this.props.selectClass || this.props.additionalClass}
           aria-describedby={errorSpanId}
           id={this.selectId}
           name={this.props.name}
@@ -112,7 +112,10 @@ ErrorableSelect.propTypes = {
   errorMessage: PropTypes.string,
   name: PropTypes.string,
   autocomplete: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,

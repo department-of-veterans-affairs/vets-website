@@ -7,13 +7,19 @@ import Scroll from 'react-scroll';
 
 import SchemaForm from './SchemaForm';
 import SaveFormLink from './SaveFormLink';
+import SaveStatus from './SaveStatus';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { focusElement, getActivePages } from '../utils/helpers';
 import { expandArrayPages } from './helpers';
 import { setData, uploadFile } from './actions';
-import { PREFILL_STATUSES, saveErrors, saveInProgressForm } from './save-load-actions';
+import {
+  PREFILL_STATUSES,
+  saveErrors,
+  autoSaveForm,
+  saveAndRedirectToReturnUrl
+} from './save-load-actions';
 
-import { updateLogInUrl } from '../../login/actions';
+import { toggleLoginModal } from '../../login/actions';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
@@ -41,9 +47,11 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.autoSave = this.autoSave.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
+    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
   }
 
   componentDidMount() {
@@ -69,6 +77,7 @@ class FormPage extends React.Component {
       newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
     }
     this.props.setData(newData);
+    this.debouncedAutoSave();
   }
 
   onSubmit({ formData }) {
@@ -102,6 +111,17 @@ class FormPage extends React.Component {
     return { pages: expandedPageList, pageIndex };
   }
 
+  autoSave() {
+    const { form, user } = this.props;
+    if (!form.disableSave && user.login.currentlyLoggedIn) {
+      const data = form.data;
+      const { formId, version } = form;
+      const returnUrl = this.props.location.pathname;
+
+      this.props.autoSaveForm(formId, data, version, returnUrl);
+    }
+  }
+
   goBack() {
     const { pages, pageIndex } = this.getEligiblePages();
     // if we found the current page, go to previous one
@@ -111,14 +131,12 @@ class FormPage extends React.Component {
   }
 
   render() {
-    const { route, params, form } = this.props;
+    const { route, params, form, user } = this.props;
     let {
       schema,
       uiSchema
     } = form.pages[route.pageConfig.pageKey];
-
     let data = form.data;
-
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
@@ -143,14 +161,14 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 usa-width-five-twelfths medium-5 columns">
+            <div className="small-6 medium-5 columns">
               <ProgressButton
                 onButtonClick={this.goBack}
                 buttonText="Back"
-                buttonClass="usa-button-outline"
+                buttonClass="usa-button-secondary"
                 beforeText="«"/>
             </div>
-            <div className="small-6 usa-width-five-twelfths medium-5 end columns">
+            <div className="small-6 medium-5 end columns">
               <ProgressButton
                 submitButton
                 buttonText="Continue"
@@ -158,16 +176,18 @@ class FormPage extends React.Component {
                 afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && <div className="row">
-            <div className="small-12 columns">
-              <SaveFormLink
-                locationPathname={this.props.location.pathname}
-                form={form}
-                user={this.props.user}
-                saveInProgressForm={this.props.saveInProgressForm}
-                onUpdateLoginUrl={this.props.updateLogInUrl}/>
-            </div>
-          </div>}
+          {!form.disableSave && <SaveStatus
+            isLoggedIn={user.login.currentlyLoggedIn}
+            showLoginModal={user.login.showModal}
+            toggleLoginModal={this.props.toggleLoginModal}
+            form={form}>
+          </SaveStatus>}
+          {!form.disableSave && <SaveFormLink
+            locationPathname={this.props.location.pathname}
+            form={form}
+            user={this.props.user}
+            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+            toggleLoginModal={this.props.toggleLoginModal}/>}
         </SchemaForm>
       </div>
     );
@@ -183,8 +203,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setData,
-  saveInProgressForm,
-  updateLogInUrl,
+  saveAndRedirectToReturnUrl,
+  autoSaveForm,
+  toggleLoginModal,
   uploadFile
 };
 

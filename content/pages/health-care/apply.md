@@ -7,6 +7,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
 order: 3
+description: Applying for VA health care benefits is easy. Find out which documents you’ll need, and start your online application today.
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -22,7 +28,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 <div itemprop="text">
 
 - If you haven’t done so already, check to see if you qualify. [Check your eligibility](/health-care/eligibility/).
-- Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ). 
+- Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
 </div>
 </div>
@@ -48,30 +54,20 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET). 
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm). 
+Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
 </div>
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
-<h3 itemprop="name">Ready to apply?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-You can start your online application right now.
-
-<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
-
+<div id="react-applicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
-</div>
-</div>
-
 
 <div class="feature">
 
@@ -96,7 +92,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 
 ##### By phone
 
-Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>) to get help with your application.
 
 ##### By mail
 
@@ -126,7 +122,7 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-[Find out what to expect after you send in your application](/health-care/after-you-apply/).
+[Find out what happens after you apply](/health-care/after-you-apply/).
 
 If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. [Check the status of your claim](/track-claims/).
 
@@ -141,7 +137,7 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
-<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18772228387">877-222-8387</a>.</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
 </div>
 
 </div>

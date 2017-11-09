@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import AdditionalInfo from '../common/components/AdditionalInfo';
 
 import {
   stringifyFormReplacer,
@@ -38,14 +39,14 @@ export function transform(formConfig, form) {
   const withoutInactivePages = filterInactivePages(inactivePages, updatedForm);
   let withoutViewFields = filterViewFields(withoutInactivePages);
 
-  // add back children here, because it could have been removed in filterViewFields
-  if (!withoutViewFields.children) {
-    withoutViewFields = _.set('children', [], withoutViewFields);
+  // add back dependents here, because it could have been removed in filterViewFields
+  if (!withoutViewFields.dependents) {
+    withoutViewFields = _.set('dependents', [], withoutViewFields);
   }
 
   const formData = JSON.stringify(withoutViewFields, (key, value) => {
-    // Don’t let children be removed in the normal empty object clean up
-    if (key === 'children') {
+    // Don’t let dependents be removed in the normal empty object clean up
+    if (key === 'dependents') {
       return value;
     }
 
@@ -57,9 +58,15 @@ export function transform(formConfig, form) {
   });
 }
 
-export function FacilityHelp() {
-  return <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>;
-}
+export const facilityHelp = (
+  <div>
+    <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>
+    <br/>
+    If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank">Learn more about the Foreign Medical Program</a>.
+    <br/>
+    <p>You can also visit <a href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp" target="_blank">Veterans Living Abroad</a>.</p>
+  </div>
+);
 
 // Turns the facility list for each state into an array of strings
 export const medicalCentersByState = _.mapValues((val) => {
@@ -145,8 +152,8 @@ export const financialDisclosureText = (
 
 export const incomeDescription = (
   <div>
-    <p>Please fill this out to the best of your knowledge. Provide the previous calendar year’s gross annual income for you, your spouse, and your dependent children.</p>
-    <p><strong>Gross annual income:</strong> This is from employment only, and doesn’t include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your child’s income information if it could have been used to pay your household expenses.</p>
+    <p>Please fill this section out to the best of your knowledge. Provide the previous calendar year’s gross annual income for you, your spouse, and your dependents.</p>
+    <p><strong>Gross annual income:</strong> This income is from employment only, and doesn’t include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your dependent’s income information if it could have been used to pay your household expenses.</p>
     <p><strong>Net income:</strong> This is the income from your farm, ranch, property, or business.</p>
     <p><strong>Other income:</strong> This includes retirement and pension income; Social Security Retirement and Social Security Disability income; compensation benefits such as VA disability, unemployment, Workers, and black lung; cash gifts; interest and dividends, including tax exempt earnings and distributions from Individual Retirement Accounts (IRAs) or annuities.</p>
   </div>
@@ -160,6 +167,102 @@ export const disclosureWarning = (
   </div>
 );
 
-export const resumeMessage = (
-  <p>To continue with your saved application when you come back, go to <a href="/health-care/apply/application">Health Care Application Process</a> or add this page to your web browser's bookmark list.</p>
+export const expensesGreaterThanIncomeWarning = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h2 className="usa-alert-heading">Your expenses are higher than or equal to your income.</h2>
+      <p className="usa-alert-text">You can stop entering your expenses. We’ll automatically adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
+    </div>
+  </div>
+);
+
+export function expensesLessThanIncome(fieldShownUnder) {
+  const fields = ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'];
+  return (formData) => {
+    const {
+      veteranGrossIncome = 0,
+      veteranNetIncome = 0,
+      veteranOtherIncome = 0,
+      dependents = []
+    } = formData;
+
+    const {
+      spouseGrossIncome = 0,
+      spouseNetIncome = 0,
+      spouseOtherIncome = 0
+    } = formData['view:spouseIncome'] || {};
+
+    const vetSpouseIncome =
+      veteranGrossIncome +
+      veteranNetIncome +
+      veteranOtherIncome +
+      spouseGrossIncome +
+      spouseNetIncome +
+      spouseOtherIncome;
+
+    const income = dependents.reduce((sum, dependent) => {
+      const {
+        grossIncome = 0,
+        netIncome = 0,
+        otherIncome = 0,
+      } = dependent;
+
+      return grossIncome + netIncome + otherIncome + sum;
+    }, vetSpouseIncome);
+
+    const {
+      deductibleMedicalExpenses = 0,
+      deductibleFuneralExpenses = 0,
+      deductibleEducationExpenses = 0,
+    } = formData;
+
+    const expenses =
+      deductibleMedicalExpenses +
+      deductibleEducationExpenses +
+      deductibleFuneralExpenses;
+
+    const hideBasedOnValues = income > expenses;
+
+    // If we're not going to hide based on values entered,
+    // then we need to make sure the current field is the last non-empty field
+    if (!hideBasedOnValues) {
+      const nonEmptyFields = fields.filter(field => formData[field]);
+      if (!nonEmptyFields.length || nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return true;
+  };
+}
+
+export const deductibleExpensesDescription = (
+  <div>
+    Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we'll automatically adjust them to be equal to your income. This won't affect your application or benefits.
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const medicaidDescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about Medicaid.">
+        Medicaid is a government health program for eligible low-income individuals and families and people with disabilities.
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const medicarePartADescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
+        Medicare is a federal health insurance program providing coverage for people who are 65 years or older or who meet who meet special criteria. Part A insurance covers hospital care, skilled nursing and nursing home care, hospice, and home health services.
+      </AdditionalInfo>
+    </div>
+  </div>
 );
