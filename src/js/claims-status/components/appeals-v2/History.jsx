@@ -26,7 +26,7 @@ class History extends React.Component {
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
     eventList.push(
-      <li key={eventList.length}>
+      <li key={eventList.length} className="list-group-item">
         <h4><a href="#" onClick={this.toggleExpanded}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</a></h4>
         <span>Date range here</span>
       </li>
@@ -34,7 +34,7 @@ class History extends React.Component {
 
     return (
       // May not want this as an ol...
-      <ul>{eventList}</ul>
+      <ul className="vertical-list-group">{eventList}</ul>
     );
   }
 }

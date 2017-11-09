@@ -48,10 +48,10 @@ AppealsV2StatusPage.propTypes = {
   })
 };
 
-function mapStateToProps(state, ownProps) {
+function isolateAppeal(state, id) {
   const claimsState = state.disability.status;
-  const { appeals, loading } = claimsState.claims;
-  const appeal = appeals.find(a => a.id === ownProps.params.id);
+  const { appeals } = claimsState.claims;
+  const appeal = appeals.find(a => a.id === id);
 
   // append starting event for post-remand and post-cavc remand appeals
   // NOTE: This is business logic pulled from v1 that we don't fully understand yet.
@@ -64,7 +64,14 @@ function mapStateToProps(state, ownProps) {
     });
   }
 
-  return { appeal, loading };
+  return appeal;
+}
+
+function mapStateToProps(state, ownProps) {
+  return {
+    appeal: isolateAppeal(state, ownProps.params.id),
+    loading: state.loading
+  };
 }
 
 const mapDispatchToProps = {

@@ -84,6 +84,7 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
+// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
