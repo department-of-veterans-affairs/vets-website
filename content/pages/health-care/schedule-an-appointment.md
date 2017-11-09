@@ -46,6 +46,8 @@ If you're a Veteran with VA health care benefits, there are many ways for you to
   </div>
 </div>
 
+<br>
+
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 
@@ -62,15 +64,20 @@ You can call the VA health facility where you want to receive care. This is usu
 
 You can now schedule some of your appointments online. We hope to add more VA facilities and types of appointments to our scheduling tool in the future.
 
-<div>
-  <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
-</div>
-
 If you have VA health care benefits, you can schedule your VA primary care appointments online if you:
 
 - Are scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
 - Have had an appointment at that VA medical facility within the last 2 years, **and**
-- Have a [My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication) or [DS Logon Premium account](https://mobile.va.gov/dslogon) (used for eBenefits and milConnect)
+
+**You must also have one of these 2 types of accounts:**
+- My HealtheVet Premium account 
+- DS Logon Premium account (used for eBenefits and milConnect) <br>
+[Upgrade your MyHealtheVet account to premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication).
+[Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon).
+
+<div>
+  <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
+</div>
 
 With your online status, you'll also be able to:
 
@@ -79,12 +86,6 @@ With your online status, you'll also be able to:
 - Get notifications about appointments
 - Cancel appointments
 
-<br>
-
-##### Upgrade your existing accounts
-
-- [Upgrade your MyHealtheVet account to premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication).
-- [Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon).
 </div>
 
 <h4 itemprop="name">How to schedule through secure messaging</h4>
