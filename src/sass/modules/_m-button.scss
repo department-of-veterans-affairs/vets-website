@@ -8,11 +8,14 @@ button,
 [type="reset"],
 [type="image"] {
   background-color: $color-primary;
-  color: $color-white !important;
 
   &.usa-button-secondary {
     background: transparent;
   }
+}
+
+.usa-button-primary {
+  color: $color-white !important;
 }
 
 .usa-button-primary {
