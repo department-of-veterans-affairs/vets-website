@@ -217,8 +217,11 @@ class FormQuestions extends React.Component {
     return this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions);
   }
 
+  // TODO: Refactor this display logic for clarity, use a reusable pattern for display
+  // and move labels into config file
   renderAnswerReview() {
     if (this.props.formValues.questions.slice(-1)[0] !== 'END') { return null; }
+    const dischargeYear = this.props.formValues['4_dischargeYear'];
 
     return (
       <div className="review-answers">
@@ -237,7 +240,7 @@ class FormQuestions extends React.Component {
 
                 return (
                   <tr key={k}>
-                    <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {this.props.formValues['4_dischargeYear']}</p></td>
+                    <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {dischargeYear === '1991' ? 'Before 1992' : dischargeYear}</p></td>
                     <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                   </tr>
                 );
