@@ -19,11 +19,25 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Bitter";
+  src: url(assets/fonts/Bitter-Bold.ttf) format("ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bitter";
+  src: url(assets/fonts/Bitter-Italic.ttf) format("ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+
 
 $base-font-size:      rem(16px);
 // $font-serif:          "Roboto Slab", serif;
 
-$font-serif:          'Bitter', $georgia !default;
+$font-serif:          'Bitter', $georgia;
 
 //===================================
 // Magic Numbers
