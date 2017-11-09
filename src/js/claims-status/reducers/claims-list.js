@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
-  FETCH_APPEALS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions/index.jsx';
+  FETCH_APPEALS, FETCH_APPEALS_SUCCESS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
@@ -104,6 +104,8 @@ export default function claimsReducer(state = initialState, action) {
         claimsLoading: false,
       });
     }
+    case FETCH_APPEALS_SUCCESS:
+      return _.set('appeals', action.appeals, state);
     case SET_APPEALS: {
       const visibleAppeals = sortList(filterList(action.appeals, action.filter), state.sortProperty);
       const visibleList = sortList(filterList(state.claims, action.filter).concat(visibleAppeals), state.sortProperty);
