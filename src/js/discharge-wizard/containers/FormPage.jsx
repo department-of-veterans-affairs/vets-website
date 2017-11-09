@@ -5,6 +5,10 @@ import { updateField } from '../actions';
 import FormQuestions from '../components/FormQuestions';
 
 class FormPage extends React.Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   render() {
     return (
       <div>

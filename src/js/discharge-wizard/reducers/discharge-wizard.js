@@ -50,8 +50,12 @@ function nextQuestion(currentQuestion, answer, state) {
       next = '8_prevApplication';
       break;
     case '8_prevApplication':
-      if (answer === '1' && parseInt(state['1_reason'], 10) < 5) {
-        next = '9_prevApplicationYear';
+      if (answer === '1') {
+        if (parseInt(state['1_reason'], 10) < 5) {
+          next = '9_prevApplicationYear';
+        } else {
+          next = '10_prevApplicationType';
+        }
       } else {
         next = 'END';
       }
