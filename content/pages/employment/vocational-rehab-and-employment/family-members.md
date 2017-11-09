@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're entitled to certain benefits and services through VR&E or through other programs.
+As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're entitled to certain benefits and services through VR&E or through other VA programs.
 
 </div>
 
@@ -43,8 +43,9 @@ You can get educational and vocational counseling, plus help with:
 - Mapping out a path to employment
 - Planning the best use of your VA benefits
 
-#### More VA education and employment benefits and services for dependents
+<br>
 
+#### More VA education and employment benefits and services for dependents
 In certain cases—like if you have certain birth defects or if you're the dependent of a Veteran who died or is permanently disabled as the result of active service—you may be able to get other education and employment benefits and services for dependents.
 
 [Learn about other benefits and services for dependents](#dependents-services).
