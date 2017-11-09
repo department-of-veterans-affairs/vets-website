@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits Eligibility 
+title: Disability Benefits Eligibility
 display_title: Eligibility
 order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
@@ -15,6 +15,15 @@ majorlinks:
     - url: /disability-benefits/eligibility/presumed-disability/
       title: Presumed Disability
       description: Find out why some chronic (long-lasting) illnesses, or illnesses caused by contact with toxic chemicals or other hazardous materials, may qualify you for disability benefits.
+relatedlinks:
+  - heading: Vocational Rehabilitation and Employment (VR&E)
+    links:
+    - url: /employment/vocational-rehab-and-employment/eligibility/
+      title: VR&E Eligibility
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+    - url: /employment/vocational-rehab-and-employment/ides/
+      title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
+      description: If you've been referred to IDES to determine if you're medically unfit for duty due to a service-connected disability, find out how to access VR&E services as quickly as possible.
 ---
 
 <div class="va-introtext">
@@ -34,7 +43,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 ### Who’s covered?
 
-- Veterans 
+- Veterans
 - Qualified dependents
 
 </div>
@@ -48,9 +57,9 @@ You may be able to get disability benefits if you have a current illness or inju
 [Learn about the application process](/disability-benefits/apply/).
 
 
-### What conditions are covered by these benefits? 
+### What conditions are covered by these benefits?
 
-You may be able to get benefits for conditions such as: 
+You may be able to get benefits for conditions such as:
 
 - Chronic (long-lasting) back pain resulting in a current diagnosed back disability
 - Breathing problems resulting from a current lung condition or lung disease

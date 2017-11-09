@@ -248,3 +248,21 @@ export const deductibleExpensesDescription = (
     </div>
   </div>
 );
+export const medicaidDescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about Medicaid.">
+        Medicaid is a government health program for eligible low-income individuals and families and people with disabilities.
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const medicarePartADescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
+        Medicare is a federal health insurance program providing coverage for people who are 65 years or older or who meet who meet special criteria. Part A insurance covers hospital care, skilled nursing and nursing home care, hospice, and home health services.
+      </AdditionalInfo>
+    </div>
+  </div>
+);

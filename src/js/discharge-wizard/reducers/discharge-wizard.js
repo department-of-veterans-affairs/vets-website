@@ -50,8 +50,12 @@ function nextQuestion(currentQuestion, answer, state) {
       next = '8_prevApplication';
       break;
     case '8_prevApplication':
-      if (answer === '1' && parseInt(state['1_reason'], 10) < 5) {
-        next = '9_prevApplicationYear';
+      if (answer === '1') {
+        if (parseInt(state['1_reason'], 10) < 5) {
+          next = '9_prevApplicationYear';
+        } else {
+          next = '10_prevApplicationType';
+        }
       } else {
         next = 'END';
       }
@@ -76,7 +80,11 @@ function form(state = initialState, action) {
         return {
           ...state,
           [action.key]: action.value,
-          questions: state.questions.concat([nextQuestion(action.key, action.value, state)]),
+          questions: state.questions.filter(e => {
+            const num = e.split('_')[0];
+            const nextNum = action.key.split('_')[0];
+            return parseInt(num, 10) <= parseInt(nextNum, 10);
+          }).concat([nextQuestion(action.key, action.value, state)]),
         };
       }
       return {
@@ -84,7 +92,7 @@ function form(state = initialState, action) {
         ...Object.keys(initialState).reduce((a, k) => {
           const num = k.split('_')[0];
           const nextNum = action.key.split('_')[0];
-          if (num > nextNum) {
+          if (parseInt(num, 10) > parseInt(nextNum, 10)) {
             return _.set(a, k, initialState[k]);
           }
           return a;
