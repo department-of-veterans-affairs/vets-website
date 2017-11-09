@@ -51,7 +51,7 @@ class ConfirmationPage extends React.Component {
           <h4>Burial Pre-Need Claim <span className="additional">(Form 40-10007)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
-          <ul className="claim-list">
+          {response.trackingNumber && <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
               <span>{response.trackingNumber}</span>
@@ -60,7 +60,7 @@ class ConfirmationPage extends React.Component {
               <strong>Date received</strong><br/>
               <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY')}</span>
             </li>
-          </ul>
+          </ul>}
         </div>
         <h4>Do you have more documents you need to submit?</h4>
         <p className="mail-or-fax-message">To mail or fax additional documents:</p>
@@ -83,7 +83,7 @@ class ConfirmationPage extends React.Component {
           <div>
             <p className="confirmation-guidance-message">If you have questions please call:</p>
             <p className="help-phone-number">
-              1-877-222-VETS <a className="help-phone-number-link" href="tel:+1-877-222-8387">(1-877-222-8387)</a><br/>
+              1-877-222-VETS (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
               Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
             </p>
           </div>
