@@ -15,19 +15,10 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
 
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
-  }
-
-  toggleExpanded = (e) => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
   }
 
   render() {
@@ -37,7 +28,6 @@ class ConfirmationPage extends React.Component {
       : {};
     const name = form.data.application.claimant.name;
     const submittedAt = moment(form.submission.timestamp);
-    const offset = submittedAt.isDST() ? '-0500' : '-0600';
 
     return (
       <div>
@@ -58,7 +48,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY')}</span>
+              <span>{submittedAt.format('MMM D, YYYY')}</span>
             </li>
           </ul>}
         </div>
