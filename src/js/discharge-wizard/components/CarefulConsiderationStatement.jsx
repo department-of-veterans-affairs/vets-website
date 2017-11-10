@@ -18,7 +18,7 @@ const CarefulConsiderationStatement = (props) => {
       if (props.dischargeType === '2') {
         return (
           <p>
-            Because you answered that your discharge was due to "homosexual conduct" under Don't Ask Don't Tell or its predecessor policies, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of this reason. Note: You must prove that your discharge was <strong>only</strong> due to homosexual conduct, and not due to other behavior.
+            Because you answered that your discharge was due to "sexual orientation" under Don't Ask Don't Tell or its predecessor policies, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of this reason. Note: You must prove that your discharge was <strong>only</strong> due to sexual orientation, and not due to other behavior.
           </p>
         );
       } else if (props.dischargeType === '1') {
