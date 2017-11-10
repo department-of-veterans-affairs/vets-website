@@ -68,7 +68,7 @@ class GuidancePage extends React.Component {
             <span>For discharges related to {reasons[questionOneResponse].name}, be sure to answer the following questions to make the strongest case:</span>
             <ul>
               <li>
-                Did you have a {reasons[questionOneResponse].type} that may explain or contribute to the discharge?
+                Did you have {reasons[questionOneResponse].type === 'experience' ? 'an' : 'a'} {reasons[questionOneResponse].type} that may explain or contribute to the discharge?
               </li>
               <li>
                 Did that {reasons[questionOneResponse].type} {questionOneResponse === '4' ? 'happen' : 'exist'} during your military service?
@@ -119,7 +119,7 @@ class GuidancePage extends React.Component {
     const boardToSubmit = board(this.props.formValues);
     let militaryRecordInfo;
     if (parseInt(this.props.formValues['4_dischargeYear'], 10) >= 1997) {
-      militaryRecordInfo = <p>You can <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">retrieve your complete military personnel record</a> (your Official Military Personnel File, or OMPF) online</p>;
+      militaryRecordInfo = <p>You can <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">retrieve your complete military personnel record</a> (your Official Military Personnel File, or OMPF) online.</p>;
     } else {
       militaryRecordInfo = <p>You can make a <a target="_blank" href="https://www.archives.gov/veterans/military-service-records">request online or by mail to receive your complete military personnel record</a> (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.</p>;
     }
@@ -127,18 +127,18 @@ class GuidancePage extends React.Component {
     let specificTypeInstruction;
     switch (this.props.formValues['1_reason']) {
       case '1':
-        specificTypeInstruction = 'you suffered from symptoms of PTSD or mental health conditions while in the service.';
+        specificTypeInstruction = 'you suffered from symptoms of PTSD or mental health conditions while in the service';
         break;
       case '2':
-        specificTypeInstruction = 'you suffered from symptoms of TBI while in the service.';
+        specificTypeInstruction = 'you suffered from symptoms of TBI while in the service';
         break;
       case '3':
         if (this.props.formValues['2_dischargeType'] === '2') {
-          specificTypeInstruction = 'your discharge status was due only to your sexual orientation and not other bad conduct.';
+          specificTypeInstruction = 'your discharge status was due only to your sexual orientation and not other bad conduct';
         }
         break;
       case '4':
-        specificTypeInstruction = 'the conduct that led to your discharge stemmed from military sexual assault and not other factors.';
+        specificTypeInstruction = 'the conduct that led to your discharge stemmed from military sexual assault and not other factors';
         break;
       default:
     }

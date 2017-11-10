@@ -74,17 +74,19 @@ function nextQuestion(currentQuestion, answer, state) {
 }
 
 function form(state = initialState, action) {
+  const isPastOrCurrentStep = (e) => {
+    const num = e.split('_')[0];
+    const nextNum = action.key.split('_')[0];
+    return parseInt(num, 10) <= parseInt(nextNum, 10);
+  };
+
   switch (action.type) {
     case DW_UPDATE_FIELD:
       if (nextQuestion(action.key, action.value, state) === 'END') {
         return {
           ...state,
           [action.key]: action.value,
-          questions: state.questions.filter(e => {
-            const num = e.split('_')[0];
-            const nextNum = action.key.split('_')[0];
-            return parseInt(num, 10) <= parseInt(nextNum, 10);
-          }).concat([nextQuestion(action.key, action.value, state)]),
+          questions: state.questions.filter(isPastOrCurrentStep).concat([nextQuestion(action.key, action.value, state)]),
         };
       }
       return {
@@ -98,11 +100,7 @@ function form(state = initialState, action) {
           return a;
         }, {}),
         [action.key]: action.value,
-        questions: state.questions.filter(e => {
-          const num = e.split('_')[0];
-          const nextNum = action.key.split('_')[0];
-          return parseInt(num, 10) <= parseInt(nextNum, 10);
-        }).concat([nextQuestion(action.key, action.value, state)]),
+        questions: state.questions.filter(isPastOrCurrentStep).concat([nextQuestion(action.key, action.value, state)]),
       };
     default:
       return state;
