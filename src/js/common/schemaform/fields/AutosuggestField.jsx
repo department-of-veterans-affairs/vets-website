@@ -38,6 +38,9 @@ export default class AutosuggestWidget extends React.Component {
 
   onChange = (event, { newValue }) => {
     this.setState({ input: newValue });
+    if (!newValue) {
+      this.props.onChange();
+    }
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
