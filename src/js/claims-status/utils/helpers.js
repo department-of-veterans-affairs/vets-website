@@ -245,7 +245,7 @@ export function getClaimType(claim) {
 }
 
 // TO DO: Replace made up properties and content with real versions once finalized.
-export const STATUS_CONTENT = {
+export const STATUS_TYPES = {
   nod: 'nod',
   awaitingHearingDate: 'awaiting_hearing_date',
   bvaDecision: 'bva_decision',
@@ -263,7 +263,7 @@ export const STATUS_CONTENT = {
  * @returns {Contents}
  */
 export function getStatusContents(type, details) {
-  const { nod, awaitingHearingDate, bvaDecision } = STATUS_CONTENT;
+  const { nod, awaitingHearingDate, bvaDecision } = STATUS_TYPES;
 
   const contents = {};
   if (type === nod) {
