@@ -17,7 +17,7 @@ import {
   makeAuthRequest,
   getClaimType,
   getStatusContents,
-  STATUS_CONTENT,
+  STATUS_TYPES,
 } from '../../../src/js/claims-status/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -451,9 +451,9 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('getStatusContents', () => {
+  describe.only('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
-      const type = STATUS_CONTENT.nod;
+      const type = STATUS_TYPES.nod;
       const details = { regionalOffice: 'Chicago Regional Office' };
       const contents = getStatusContents(type, details);
       expect(contents.title).to.equal('The Chicago Regional Office is reviewing your appeal');
