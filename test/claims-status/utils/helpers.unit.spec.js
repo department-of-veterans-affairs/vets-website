@@ -451,7 +451,7 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe.only('getStatusContents', () => {
+  describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
       const type = STATUS_TYPES.nod;
       const details = { regionalOffice: 'Chicago Regional Office' };
