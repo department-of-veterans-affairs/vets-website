@@ -16,7 +16,7 @@ class Timeline extends React.Component {
 
   getPastEvents = () => {
     return this.props.events.map((event, index) => (
-      <li key={index}>
+      <li key={index} role="presentation" className="process-step section-complete">
         <h3>{event.title}</h3>
         <span>{event.date}</span> {/* Need to format */}
         <p>description here</p>
@@ -31,7 +31,7 @@ class Timeline extends React.Component {
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
     eventList.push(
-      <li key={eventList.length} className="list-group-item">
+      <li key={eventList.length} className="process-step section-expand">
         <h4><Link onClick={this.toggleExpanded}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</Link></h4>
         <span>Date range here</span>
       </li>
@@ -39,7 +39,7 @@ class Timeline extends React.Component {
 
     return (
       // May not want this as an ol...
-      <ul className="vertical-list-group">{eventList}</ul>
+      <ol className="process form-process appeal-timeline">{eventList}</ol>
     );
   }
 }

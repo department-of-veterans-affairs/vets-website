@@ -602,6 +602,31 @@ h1:focus {
   }
 }
 
+// Slimmed version of .claim-timeline with appeals-specific stuff
+// To be used in conjunction with .process .form-process
+.appeal-timeline {
+  padding-top: 0;
+
+  // Child <li>s are expected to have .process-step as well as a .section-*
+  li:before {
+    background: $color-green;
+  }
+
+  .section-expand:before {
+    content: "\2719\FE0E"; // Seems a bit too fat
+    // U+2795 = heavy plus sign....but....didn't seem to work
+  }
+
+  .section-complete:before {
+    content: "\2713\fe0e";
+
+    // Why the change? This one looks better anyhow...
+    @include media($medium-large-screen) {
+      content: "\2714\fe0e";
+    }
+  }
+}
+
 .claim-timeline-icon {
   float: right;
   margin-top: 6px;
