@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 /**
  * Timeline is in charge of the past events and current status.
@@ -33,8 +32,11 @@ class Timeline extends React.Component {
     const expanderClassName = this.state.expanded ? 'section-expanded' : 'section-unexpanded';
     eventList.push(
       <li key={eventList.length} className={`process-step ${expanderClassName}`}>
-        <h4><Link onClick={this.toggleExpanded}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</Link></h4>
-        <span>Date range here</span>
+        {/* Giving this a margin top to help center the text to the li bullet */}
+        <button onClick={this.toggleExpanded} className="va-button-link" style={{ marginTop: '-5px' }}>
+          <h4>{this.state.expanded ? 'Hide past events' : 'Show past events'}</h4>
+        </button>
+        <div>Date range here</div>
       </li>
     );
 
