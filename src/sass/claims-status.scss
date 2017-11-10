@@ -617,6 +617,7 @@ h1:focus {
     // U+2795 = heavy plus sign....but....didn't seem to work
   }
 
+  // These are also not quite right; may need to use an actual icon; not sure
   .section-complete:before {
     content: "\2713\fe0e";
 
