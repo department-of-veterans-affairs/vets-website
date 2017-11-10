@@ -7,7 +7,7 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
 import { questionLabels } from '../config';
-import { shouldShowQuestion } from '../utils';
+import { shouldShowQuestion, elementTopOffset } from '../utils';
 
 class FormQuestions extends React.Component {
   updateField(name, value) {
@@ -17,7 +17,7 @@ class FormQuestions extends React.Component {
 
   handleScrollTo = (e) => {
     e.preventDefault();
-    window.scrollTo(this[e.target.name].offsetTop, 0);
+    window.scrollTo(0, elementTopOffset(this[e.target.name]));
   }
 
   renderQuestion(name, label, options) {
@@ -36,7 +36,11 @@ class FormQuestions extends React.Component {
       }
     };
 
-    return <ErrorableRadioButtons {...radioButtonProps} ref={(el) => { this[name] = el; }}/>;
+    return (
+      <div ref={(el) => { this[name] = el; }}>
+        <ErrorableRadioButtons {...radioButtonProps}/>
+      </div>
+    );
   }
 
   renderQuestionOne() {
@@ -101,13 +105,12 @@ class FormQuestions extends React.Component {
     );
 
     return (
-      <fieldset className="fieldset-input dischargeYear" key="dischargeYear">
+      <fieldset className="fieldset-input dischargeYear" key="dischargeYear" ref={(el) => { this[key] = el; }}>
         <ErrorableSelect
           autocomplete="false"
           label={label}
           name={key}
           options={yearOptions}
-          ref={(el) => { this[key] = el; }}
           value={{ value: dischargeYear }}
           onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
@@ -125,13 +128,12 @@ class FormQuestions extends React.Component {
     );
 
     return (
-      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth">
+      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ef={(el) => { this[key] = el; }}>
         <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
           name={key}
           options={months}
-          ref={(el) => { this[key] = el; }}
           value={{ value: this.props.formValues[key] }}
           onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
