@@ -23,7 +23,7 @@ export const benefitsLabels = {
   chapter30: <p>Montgomery GI Bill (MGIB-AD, Chapter 30)<br/>
     <AdditionalInfo triggerText="Learn more.">
        If you served at least 2 years on active duty, you may qualify for MGIB-AD benefits—like money for tuition or training. <a href="/education/gi-bill/montgomery-active-duty/" target="_blank">Find out if you’re eligible for the MGIB-AD program.</a>
-   </AdditionalInfo>
+    </AdditionalInfo>
   </p>,
   chapter1606: <p>Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)<br/>
     <AdditionalInfo triggerText="Learn more.">
@@ -49,8 +49,16 @@ export const benefitsLabels = {
 
 // The links and labels are different from the above
 export const survivorBenefitsLabels = {
-  chapter35: <p>Survivors’ and Dependents’ Educational Assistance<br/>(DEA, Chapter 35)<br/><a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Learn more</a></p>,
-  chapter33: <p>The Fry Scholarship (Chapter 33)<br/><a href="/education/gi-bill/survivors-dependent-assistance/fry-scholarship/" target="_blank">Learn more</a></p>,
+  chapter35: <p>Survivors’ and Dependents’ Educational Assistance<br/>(DEA, Chapter 35)<br/>
+    <AdditionalInfo triggerText="Learn more.">
+      If you’re the child or spouse of a Veteran who has died or is disabled, you can get help paying for school or job training. <a href="/education/gi-bill/survivors-dependent-assistance/fry-scholarship/" target="_blank">Find out if you can get benefits under the DEA program.</a>
+    </AdditionalInfo>
+  </p>,
+  chapter33: <p>The Fry Scholarship (Chapter 33)<br/>
+    <AdditionalInfo triggerText="Learn more.">
+      If you’re the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001, you may be able to get benefits under the Fry Scholarship. <a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Find out if you can get benefits under this scholarship.</a>
+    </AdditionalInfo>
+  </p>,
 };
 
 export const preferredContactMethodLabels = {
