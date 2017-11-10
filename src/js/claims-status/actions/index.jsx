@@ -107,8 +107,10 @@ export function getAppealsV2() {
             aod: false,
             location: 'aoj',
             status: {
-              type: 'tbd', // Need to get a real status type
-              details: {}
+              type: 'nod', // This may or may not be a real status type
+              details: { // Don't actually know what's in here
+                regionalOffice: 'Chicago Regional Office'
+              }
             },
             docket: {
               front: false,
