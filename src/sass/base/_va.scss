@@ -123,6 +123,8 @@ a {
 }
 
 // ====== Headings
+
+// H1 should only be used once at the top-level, so we can safely remove the margin-top.
 h1 {
   margin-top: 0;
 }
