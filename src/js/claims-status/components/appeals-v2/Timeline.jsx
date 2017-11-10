@@ -34,7 +34,7 @@ class Timeline extends React.Component {
       <li key={eventList.length} className={`process-step ${expanderClassName}`}>
         {/* Giving this a margin top to help center the text to the li bullet */}
         <button onClick={this.toggleExpanded} className="va-button-link" style={{ marginTop: '-5px' }}>
-          <h4>{this.state.expanded ? 'Hide past events' : 'Show past events'}</h4>
+          <h4 style={{ color: 'inherit' }}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</h4>
         </button>
         <div>Date range here</div>
       </li>
