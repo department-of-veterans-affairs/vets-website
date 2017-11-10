@@ -18,7 +18,7 @@ class Timeline extends React.Component {
   getPastEvents = () => {
     return this.props.events.map((event, index) => (
       <li key={index} role="presentation" className="process-step section-complete">
-        <h3>{event.title}</h3>
+        <h3>{event.title || 'Title here'}</h3>
         <span>{event.date}</span> {/* Need to format */}
         <p>description here</p>
       </li>
@@ -37,7 +37,7 @@ class Timeline extends React.Component {
     eventList.push(
       <li key={eventList.length} className={`process-step ${expanderClassName}`}>
         {/* Giving this a margin top to help center the text to the li bullet */}
-        <button onClick={this.toggleExpanded} className="va-button-link" style={{ marginTop: '-5px' }}>
+        <button onClick={this.toggleExpanded} className="va-button-link">
           <h4 style={{ color: 'inherit' }}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</h4>
         </button>
         <div>Date range here</div>

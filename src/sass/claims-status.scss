@@ -607,14 +607,22 @@ h1:focus {
 .appeal-timeline {
   padding-top: 0;
 
-  // Child <li>s are expected to have .process-step as well as a .section-*
-  li:before {
-    background: $color-green;
+  li {
+    // Child <li>s are expected to have .process-step as well as a .section-*
+    &:before {
+      background: $color-green;
+    }
+
+    // Move up the headers to align with the bullet point better
+    h3, h4 {
+      padding-top: 0px;
+    }
   }
 
   .section-complete:before {
     font-family: FontAwesome;
     content: "\f00c";
+    margin-top: 5px; // Aligns the check bullets to their headers better
   }
 
   .section-unexpanded:before {

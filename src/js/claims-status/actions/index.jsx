@@ -139,6 +139,11 @@ export function getAppealsV2() {
                 type: 'claim',
                 date: '2016-05-30',
                 details: {}
+              },
+              {
+                type: 'foo',
+                date: '2016-10-10',
+                details: {}
               }
             ],
             evidence: [
