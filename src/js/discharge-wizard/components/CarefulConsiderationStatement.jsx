@@ -11,7 +11,7 @@ const CarefulConsiderationStatement = (props) => {
     case '2':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TB. Learn more about the DoD guidelines for reviewing cases related to TBI.
+          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI. Learn more about the DoD guidelines for reviewing cases related to TBI.
         </p>
       );
     case '3':

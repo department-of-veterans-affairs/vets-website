@@ -68,7 +68,7 @@ class GuidancePage extends React.Component {
             <span>For discharges related to {reasons[questionOneResponse].name}, be sure to answer the following questions to make the strongest case:</span>
             <ul>
               <li>
-                Did you have a {reasons[questionOneResponse].type} that may explain or contribute to the discharge?
+                Did you have {reasons[questionOneResponse].type === 'experience' ? 'an' : 'a'} {reasons[questionOneResponse].type} that may explain or contribute to the discharge?
               </li>
               <li>
                 Did that {reasons[questionOneResponse].type} {questionOneResponse === '4' ? 'happen' : 'exist'} during your military service?
