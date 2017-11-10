@@ -30,8 +30,9 @@ class Timeline extends React.Component {
 
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
+    const expanderClassName = this.state.expanded ? 'section-expanded' : 'section-unexpanded';
     eventList.push(
-      <li key={eventList.length} className="process-step section-expand">
+      <li key={eventList.length} className={`process-step ${expanderClassName}`}>
         <h4><Link onClick={this.toggleExpanded}>{this.state.expanded ? 'Hide past events' : 'Show past events'}</Link></h4>
         <span>Date range here</span>
       </li>

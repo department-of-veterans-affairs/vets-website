@@ -612,19 +612,20 @@ h1:focus {
     background: $color-green;
   }
 
-  .section-expand:before {
-    content: "\2719\FE0E"; // Seems a bit too fat
-    // U+2795 = heavy plus sign....but....didn't seem to work
+  .section-unexpanded:before {
+    font-family: FontAwesome;
+    content: "\f067";
+  }
+
+  .section-expanded:before {
+    font-family: FontAwesome;
+    content: "\f068";
   }
 
   // These are also not quite right; may need to use an actual icon; not sure
   .section-complete:before {
-    content: "\2713\fe0e";
-
-    // Why the change? This one looks better anyhow...
-    @include media($medium-large-screen) {
-      content: "\2714\fe0e";
-    }
+    font-family: FontAwesome;
+    content: "\f00c";
   }
 }
 
