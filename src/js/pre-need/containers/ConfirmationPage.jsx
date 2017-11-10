@@ -70,7 +70,7 @@ class ConfirmationPage extends React.Component {
           <li className="mail-or-fax-step">Mail or fax them to:
             <div className="mail-fax-address">
               <div>National Cemetery Scheduling Office</div>
-              <div>P.O. Box 510543</div>
+              <div>PO Box 510543</div>
               <div>St. Louis, MO 63151</div>
             </div>
             <p>Fax (toll-free): 1-855-840-8299</p>
@@ -78,13 +78,12 @@ class ConfirmationPage extends React.Component {
         </ol>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
-          <a className="confirmation-guidance-message" href="/burials-and-memorials/pre-need/after-you-apply/">Find out what happens after you apply</a>
-          <h4 className="confirmation-guidance-heading">Need Help?</h4>
+          <a className="confirmation-guidance-message" href="/burials-and-memorials/pre-need/after-you-apply/">Find out what happens after you apply.</a>
+          <h4 className="confirmation-guidance-heading">Need help?</h4>
           <div>
             <p className="confirmation-guidance-message">If you have questions please call:</p>
             <p className="help-phone-number">
-              1-877-222-VETS (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
-              Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+              1-877-222-VETS (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
             </p>
           </div>
         </div>
