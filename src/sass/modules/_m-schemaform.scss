@@ -17,6 +17,10 @@ legend {
   }
 }
 
+input[name="root_benefit"] { 
+  width: 4rem;
+}
+
 // Overriding a way too broad style in the base va sass
 .form-review-panel {
   ul li p {
