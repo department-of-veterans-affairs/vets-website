@@ -226,42 +226,16 @@ class FormQuestions extends React.Component {
         <table className="usa-table-borderless">
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
-              const value = this.props.formValues[k];
               if (k === 'questions') { return null; }
 
-              const reviewLabel = answerReview(k, this.props.formValues) || questionLabels[k][value];
+              const reviewLabel = answerReview(k, this.props.formValues);
 
-              return (reviewLabel &&
+              return (reviewLabel && shouldShowQuestion(k, this.props.formValues.questions) &&
                 <tr key={k}>
                   <td><p>{reviewLabel}</p></td>
                   <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
                 </tr>
               );
-              // if (k === '4_dischargeYear') {
-              //   const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['5_dischargeMonth']; });
-              //
-              //   return (
-              //     <tr key={k}>
-              //       <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {dischargeYear === '1991' ? 'Before 1992' : dischargeYear}</p></td>
-              //       <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-              //     </tr>
-              //   );
-              // } else if (k === '7_branchOfService') {
-              //   return (
-              //     <tr key={k}>
-              //       <td><p>I served in the {questionLabels[k][this.props.formValues['7_branchOfService']]}</p></td>
-              //       <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-              //     </tr>
-              //   );
-              // } else if (value && questionLabels[k][value]) {
-              //   return (
-              //     <tr key={k}>
-              //       <td><p>{questionLabels[k][value]}</p></td>
-              //       <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-              //     </tr>
-              //   );
-              // }
-              // return null;
             })}
           </tbody>
         </table>

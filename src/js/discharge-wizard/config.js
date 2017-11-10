@@ -66,20 +66,23 @@ export const answerReview = (key, formValues) => {
   const dischargeYearLabel = prevApplicationYearCutoff[formValues['1_reason']];
 
   switch (key) {
-    // case '1_reason':
-    //   return questionLabels[key][ans];
-    // case '2_dischargeType':
-    //   return questionLabels[key][ans];
-    // case '3_intention':
-    //   return questionLabels[key][ans];
+    case '1_reason':
+      return questionLabels[key][ans];
+    case '2_dischargeType':
+      return questionLabels[key][ans];
+    case '3_intention':
+      return questionLabels[key][ans];
     case '4_dischargeYear':
-      return `I was discharged in ${formValues['5_dischargeMonth'] || ''} ${ans === '1991' ? 'before 1991' : ans}`;
+      if (ans === '1991' && !formValues['5_dischargeMonth']) {
+        return 'I was discharged before 1991';
+      }
+      return `I was discharged in ${formValues['5_dischargeMonth'] || ''} ${questionLabels[key][ans]}`;
     case '6_courtMartial':
       return questionLabels[key][ans];
     case '7_branchOfService':
       return `I served in the ${questionLabels[key][ans]}`;
-    // case '8_prevApplication':
-    //   return questionLabels[key][ans];
+    case '8_prevApplication':
+      return questionLabels[key][ans];
     case '9_prevApplicationYear':
       return `I made my previous application ${ans === '1' ? `${dischargeYearLabel} or earlier` : `after ${dischargeYearLabel}`}`;
     case '10_prevApplicationType':
