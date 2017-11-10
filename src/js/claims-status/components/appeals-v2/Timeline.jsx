@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CurrentStatus from './CurrentStatus';
+
 /**
  * Timeline is in charge of the past events and current status.
  * TODO: Add the current status
@@ -29,6 +31,8 @@ class Timeline extends React.Component {
 
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
+
+    // Add the expander
     const expanderClassName = this.state.expanded ? 'section-expanded' : 'section-unexpanded';
     eventList.push(
       <li key={eventList.length} className={`process-step ${expanderClassName}`}>
@@ -39,6 +43,10 @@ class Timeline extends React.Component {
         <div>Date range here</div>
       </li>
     );
+
+    // Add the current status
+    const { title, description } = this.props.currentStatus;
+    eventList.push(<CurrentStatus key={eventList.length} title={title} description={description}/>);
 
     return (
       // May not want this as an ol...
@@ -52,7 +60,11 @@ Timeline.propTypes = {
     type: PropTypes.string,
     date: PropTypes.string,
     details: PropTypes.object
-  }))
+  })),
+  currentStatus: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default Timeline;

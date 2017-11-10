@@ -612,6 +612,11 @@ h1:focus {
     background: $color-green;
   }
 
+  .section-complete:before {
+    font-family: FontAwesome;
+    content: "\f00c";
+  }
+
   .section-unexpanded:before {
     font-family: FontAwesome;
     content: "\f067";
@@ -622,10 +627,8 @@ h1:focus {
     content: "\f068";
   }
 
-  // These are also not quite right; may need to use an actual icon; not sure
-  .section-complete:before {
-    font-family: FontAwesome;
-    content: "\f00c";
+  .section-current:before {
+    // Not sure what to fill this with quite yet
   }
 }
 
