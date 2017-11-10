@@ -15,7 +15,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
+Wherever you are in the transition process, the Veterans Employment Center provides career advice, resume-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
 
 </div>
 
@@ -80,7 +80,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Search online job banks
 
-- Search the [Veterans Employment Center](https://www.careeronestop.org/JobSearch/job-search.aspx) for job openings.
+- [Research jobs on careeronestop.org](https://www.careeronestop.org/JobSearch/job-search.aspx), sponsored by the U.S. Department of Labor.
 - Search for connections and job listings on [LinkedIn&trade;](https://veterans.linkedin.com/) as well as other online job boards.
 </li>
 
