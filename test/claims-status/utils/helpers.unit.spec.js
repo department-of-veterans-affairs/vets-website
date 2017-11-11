@@ -15,7 +15,9 @@ import {
   isClaimComplete,
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
-  getClaimType
+  getClaimType,
+  getStatusContents,
+  STATUS_TYPES,
 } from '../../../src/js/claims-status/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -446,6 +448,22 @@ describe('Disability benefits helpers: ', () => {
       };
 
       makeAuthRequest('/testing', null, dispatch, onSuccess, onError);
+    });
+  });
+
+  describe('getStatusContents', () => {
+    it('returns an object with correct title & description', () => {
+      const type = STATUS_TYPES.nod;
+      const details = { regionalOffice: 'Chicago Regional Office' };
+      const contents = getStatusContents(type, details);
+      expect(contents.title).to.equal('The Chicago Regional Office is reviewing your appeal');
+    });
+
+    it('returns sane object when given unknown type', () => {
+      const type = 123;
+      const contents = getStatusContents(type);
+      expect(contents.title).to.equal('Current Status Unknown');
+      expect(contents.description).to.equal('Your current appeal status is unknown at this time');
     });
   });
 });
