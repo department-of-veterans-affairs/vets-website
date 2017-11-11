@@ -635,8 +635,22 @@ h1:focus {
     content: "\f068";
   }
 
-  .section-current:before {
-    // Not sure what to fill this with quite yet
+  .section-current {
+    h3 {
+      // Pull the whole content up so the bullet border starts to cover the previous li's
+      //  left border
+      margin-top: -7px;
+    }
+
+    &:before {
+      // \2022 = unicode code point for bullet, then just color it green like the background
+      //  to make it "disappear"
+      content: "\2022";
+      color: $color-green;
+      font-size: 1em;
+      margin-left: -3.25em;
+      margin-top: 9px; // Pull the bullet down to align it better
+    }
   }
 }
 
