@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import moment from 'moment';
+
 import CurrentStatus from './CurrentStatus';
 
 /**
  * Timeline is in charge of the past events and current status.
- * TODO: Add the current status
  */
 class Timeline extends React.Component {
   constructor(props) {
@@ -16,10 +17,11 @@ class Timeline extends React.Component {
   }
 
   getPastEvents = () => {
+    // TODO: Get the li className based on the event type
     return this.props.events.map((event, index) => (
       <li key={index} role="presentation" className="process-step section-complete">
         <h3>{event.title || 'Title here'}</h3>
-        <span className="appeal-event-date">{event.date}</span> {/* Need to format */}
+        <span className="appeal-event-date">on {moment(event.date, 'YYYY-MM-DD').format('MMMM d, YYYY')}</span>
         <p>description here</p>
       </li>
     ));
