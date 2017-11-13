@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
-import { getEventContent } from '../../utils/appeal-helpers';
+import { getEventContent } from '../../utils/appeals-v2-helpers';
 import CurrentStatus from './CurrentStatus';
 
 /**
@@ -36,6 +36,7 @@ class Timeline extends React.Component {
 
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
+    const dateRange = this.props.events[0] ? `${moment(this.props.events[0].date, 'YYYY-MM-DD').format('MMMM d, YYYY')} - ${moment(this.props.events[this.props.events.length - 1].date, 'YYYY-MM-DD').format('MMMM d, YYYY')}` : '';
 
     // Add the expander
     const expanderClassName = this.state.expanded ? 'section-expanded' : 'section-unexpanded';
@@ -45,7 +46,7 @@ class Timeline extends React.Component {
         <button onClick={this.toggleExpanded} className="va-button-link">
           <h4 style={{ color: 'inherit' }}>{this.state.expanded ? 'Hide past events' : 'See past events'}</h4>
         </button>
-        <div className="appeal-event-date">Date range here</div>
+        <div className="appeal-event-date">{dateRange}</div>
       </li>
     );
 
