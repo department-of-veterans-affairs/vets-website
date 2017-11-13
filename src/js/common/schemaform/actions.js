@@ -170,9 +170,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
       setData(_.set(filePath, { name: file.name, uploading: true }, getState().form.data))
     );
 
-    const payload = new FormData();
-    payload.append('file', file);
-    payload.append('form_id', getState().form.formId);
+    const payload = uiOptions.createPayload(file, getState().form.formId);
 
     return new Promise((resolve) => {
       const req = new XMLHttpRequest();
