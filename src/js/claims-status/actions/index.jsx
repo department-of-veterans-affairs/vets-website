@@ -141,8 +141,8 @@ export function getAppealsV2() {
                 details: {}
               },
               {
-                type: 'foo',
-                date: '2016-10-10',
+                type: 'nod',
+                date: '2016-06-10',
                 details: {}
               }
             ],
