@@ -51,6 +51,13 @@ span.sidelines {
   .va-modal-inner {
     max-width: 62.5em;
     width: 95vw;
+
+    .alert-banner {
+      margin-bottom: 2em;
+      .usa-alert {
+        margin-top: 0em;
+      }
+    }
   }
 
   .login {
