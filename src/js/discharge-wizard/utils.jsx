@@ -142,3 +142,9 @@ export const formData = (formValues) => {
     link: 'http://arba.army.pentagon.mil/documents/dd0149.pdf',
   };
 };
+
+export const elementTopOffset = (el) => {
+  const rect = el.getBoundingClientRect();
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  return rect.top + scrollTop;
+};
