@@ -51,25 +51,25 @@ If you're a Veteran with VA health care benefits, there are many ways for you to
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 
-<h4 itemprop="name">How to schedule by phone</h4>
+<h4 itemprop="name">How do I schedule by phone?</h4>
 
 <div itemprop="itemListElement">
 
 You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
 </div>
 
-<h4 itemprop="name">How to schedule online</h4>
+<h4 itemprop="name">Can I schedule online?</h4>
 
 <div itemprop="itemListElement">
 
-If you have VA health care benefits, you can now schedule some of your VA primary care appointments online. We hope to add more VA facilities and types of appointments to our scheduling tool in the future.
+VA now offers online appointment scheduling for some appointments. We hope to expand the number of VA facilities and types of appointments in the future.
 
-**To schedule online, both of these must be true for you**:
+If you have VA health care benefits, you can schedule a VA primary care appointment—and at some facilities, a specialty appointment—online if:
 
 - You're scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
 - You've had an appointment at that VA medical facility within the last 2 years
 
-**You must also have one of these 2 types of accounts:**
+**You must also have one of these types of accounts:**
 - My HealtheVet Premium account <br>
 [Get a free MyHealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
 - DS Logon Premium account (used for eBenefits and milConnect) <br>
@@ -88,7 +88,7 @@ With your online status, you'll also be able to:
 
 </div>
 
-<h4 itemprop="name">How to schedule through secure messaging</h4>
+<h4 itemprop="name">How do I schedule through secure messaging?</h4>
 
 <div itemprop="itemListElement">
 
