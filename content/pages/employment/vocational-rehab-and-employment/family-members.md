@@ -7,16 +7,14 @@ relatedlinks:
   - heading: More information about VA education and employment benefits and services for dependents
     links: 
     - url: /education/gi-bill/survivors-dependent-assistance/dependents-education/
-      title: Chapter 35: Survivors' and Dependents' Educational Assistance (DEA)
+      title: Chapter 35—Survivors' and Dependents' Educational Assistance (DEA)
       description: If you're the child or spouse of a Veteran who has died, is permanently and totally disabled, or is missing in action or was captured or interned in the line of duty, find out if you're eligible for DEA (also called Chapter 35) services.  
     - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
-      title: Chapter 18: Birth Defects (Spina Bifida)
+      title: Chapter 18—Birth Defects (Spina Bifida)
       description: If you're the child of a Vietnam or Korean War Veteran and you have spina bifida or certain other birth defects, find out if you're eligible for benefits like disability compensation (payments), health care, and job training (also called Chapter 18).
     - url: /employment/vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
-      description: Find out if our counselors can help you transition from military to college life.
-    
-    
+      description: Find out if our counselors can help you transition from military to college life.       
 ---
 
 <div class="va-introtext">
