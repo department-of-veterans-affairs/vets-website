@@ -360,7 +360,7 @@ export const militaryNameUI = {
 };
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneed/cemeteries`, {
+  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
     headers: {
       'X-Key-Inflection': 'camel'
     },
