@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits Eligibility 
+title: Disability Benefits Eligibility
 display_title: Eligibility
 order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
@@ -40,7 +40,7 @@ If you have a disability that's been diagnosed by a doctor and that we consider 
 
 ### Who’s covered?
 
-- Veterans 
+- Veterans
 - Qualified dependents
 
 </div>
@@ -54,9 +54,9 @@ If you have a disability that's been diagnosed by a doctor and that we consider 
 [Learn about the application process](/disability-benefits/apply/).
 
 
-### What conditions are covered by these benefits? 
+### What conditions are covered by these benefits?
 
-You may be able to get benefits for conditions such as: 
+You may be able to get benefits for conditions such as:
 
 - Chronic (long-lasting) back pain resulting in a current diagnosed back disability
 - Breathing problems resulting from a current lung condition or lung disease

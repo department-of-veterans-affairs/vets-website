@@ -15,6 +15,7 @@ button,
 }
 
 .usa-button-primary {
+  color: $color-white !important;
   &:hover {
     // background-color: $color-primary-darker;
   }

@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Vision Care
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 children: healthCareCoverageVision

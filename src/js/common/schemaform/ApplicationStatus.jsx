@@ -74,7 +74,7 @@ export class ApplicationStatus extends React.Component {
     }
 
     let savedForm;
-    let formId;
+    let { formId } = this.props;
     let multipleForms = false;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) => formIds.has(form));
@@ -85,7 +85,6 @@ export class ApplicationStatus extends React.Component {
       }
     } else {
       savedForm = profile.savedForms.find(({ form }) => form === this.props.formId);
-      formId = savedForm ? savedForm.form : null;
     }
 
     if (login.currentlyLoggedIn && savedForm) {

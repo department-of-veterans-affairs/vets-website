@@ -8,10 +8,10 @@ template: detail-page
 
 <div class="va-introtext">
 
-Need help with your GI Bill claim? Call <span class="tel">1-888-442-4551</span> (888-GI-BILL-1) from 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday. 
+Need help with your GI Bill claim? Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-You can also contact your VA Regional Processing Office (RPO) directly. 
-There are 4 RPOs in the United States. Here are the locations and the states that each RPO serves. 
+You can also contact your VA Regional Processing Office (RPO) directly.
+There are 4 RPOs in the United States. Here are the locations and the states that each RPO serves.
 
 </div>
 
@@ -21,7 +21,7 @@ Georgia, North Carolina, Puerto Rico, U.S. Virgin Islands
 </p>
 <p>P.O. Box 100022<br>
 Decatur, GA 30031-7022<br>
-800-827-1000
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 <p>Office location:<br>
@@ -35,7 +35,7 @@ Decatur, GA 30033<br>
 Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, Virginia, foreign schools
 <p>P.O. Box 4616<br>
 Buffalo, NY 14240-4616<br>
-800-827-1000
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 <p>Office location:<br>
@@ -49,7 +49,7 @@ Alabama, Alaska, Arizona, Arkansas, California, Florida, Hawaii, Idaho, Louisian
 </p>
 <p>P.O. Box 8888<br>
 Muskogee, OK 74402-8888<br>
-800-827-1000
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 <p>Office location:<br>
@@ -63,7 +63,7 @@ Colorado, Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Minnesota, Missou
 </p>
 <p>P.O. Box 66830<br>
 St. Louis, MO 63166-6830<br>
-800-827-1000
+<a href="tel:+1-800-827-1000">1-800-827-1000</a>
 </p>
 
 

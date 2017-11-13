@@ -6,6 +6,12 @@ display_title: Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
 order: 2
+relatedlinks:
+  - heading: Other VA benefits you may want to explore
+    links:
+    - url: /employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -49,13 +55,13 @@ Go to a VA regional office and have a VA employee help you. [Find a regional off
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 #### By mail
-Call <a href="tel:+18884424551">1-888-442-4551</a> (1-888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
+Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>), to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### What happens after I apply?
 
 [Find out what happens after you apply](/education/after-you-apply).
 
-You can’t make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">1-888-442-4551</a> (1-888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
+You can’t make changes to your application, but if you have questions about education benefits, please call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 If we’ve asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
 

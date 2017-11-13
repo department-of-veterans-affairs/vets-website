@@ -13,7 +13,7 @@ relatedlinks:
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
       title: Burial Allowances and Survivor Compensation
-      description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.  
+      description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.
 ---
 
 <div class="va-introtext">
@@ -83,7 +83,7 @@ You'll need to tell us:
 
  - The cemetery where you'd prefer the deceased to be buried <br />
  [Find a VA national cemetery](/facilities/).<br />
- [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).   
+ [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
  - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
@@ -107,7 +107,7 @@ The funeral director you’ve chosen can help you with these steps too:
 
 ### Can I get information about the Burial at Sea program?
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>. <br> 
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>, Monday through Friday, 8:30 a.m. to 5:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
 [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 <br>

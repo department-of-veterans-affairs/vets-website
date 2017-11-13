@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
+import { isEqual } from 'lodash';
 
-import { apiRequest } from '../utils/helpers.jsx';
+import { apiRequest, stripEmpties, toGenericAddress } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -82,17 +83,8 @@ export function getMailingAddress() {
       // on fetch success
       (response) => {
         const responseCopy = Object.assign({}, response);
-        const addressCopy = Object.assign({}, response.data.attributes.address);
-        // Translate military-only fields into generic ones; we'll translate
-        // them back later if necessary
-        if (addressCopy.type === ADDRESS_TYPES.military) {
-          addressCopy.city = addressCopy.militaryPostOfficeTypeCode;
-          addressCopy.stateCode = addressCopy.militaryStateCode;
-          addressCopy.countryName = 'USA';
-          delete addressCopy.militaryPostOfficeTypeCode;
-          delete addressCopy.militaryStateCode;
-        }
-        responseCopy.data.attributes.address = addressCopy;
+        // translate military address properties to generic properties for use in front end
+        responseCopy.data.attributes.address = toGenericAddress(response.data.attributes.address);
         return dispatch({
           type: GET_ADDRESS_SUCCESS,
           data: responseCopy
@@ -152,7 +144,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
     const downloadSupported = typeof save.download !== 'undefined';
     let downloadWindow;
 
-    if (!downloadSupported) {
+    if (!downloadSupported && !isIE) {
       // Instead of giving the file a readable name and downloading
       // it directly, open it in a new window with an ugly hash URL
       // NOTE: We're opening the window here because Safari won't open
@@ -236,13 +228,19 @@ export function saveAddress(address) {
   };
   window.dataLayer.push({ event: 'letter-update-address-submit' });
   return (dispatch) => {
-    // TODO: Show a spinner or some kind of indication we're waiting on this to return
     dispatch(saveAddressPending());
-
     return apiRequest(
       '/v0/address',
       settings,
-      () => dispatch(saveAddressSuccess(address)),
+      (response) => {
+        // translate military address properties back to front end address
+        const responseAddress = toGenericAddress(response.data.attributes.address);
+        if (!isEqual(stripEmpties(address), stripEmpties(responseAddress))) {
+          const mismatchError = new Error('letters-address-update addresses don\'t match');
+          Raven.captureException(mismatchError);
+        }
+        return dispatch(saveAddressSuccess(responseAddress));
+      },
       () => dispatch(saveAddressFailure())
     );
   };

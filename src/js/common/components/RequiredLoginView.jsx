@@ -63,7 +63,7 @@ class RequiredLoginView extends React.Component {
         } else if (this.props.userProfile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
           // If va_profile is "not found", show message that we cannot find the user
           // in our system.
-          return <SystemDownView messageLine1="We couldn’t find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET)."/>;
+          return <SystemDownView messageLine1="We couldn’t find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>;
         }
 
         // If va_profile has any other value, continue on to check if this user can

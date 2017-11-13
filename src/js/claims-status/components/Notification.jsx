@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 export default function Notification({ title, body, onClose, type }) {
-  const classes = classNames('usa-alert', 'claims-alert', 'claims-alert-status', 'claims-notification', {
+  const classes = classNames('usa-alert', 'claims-alert', 'claims-alert-status', {
     'usa-alert-success': type === 'success',
     'usa-alert-error': type === 'error'
   });
