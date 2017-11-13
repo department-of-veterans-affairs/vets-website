@@ -34,8 +34,8 @@ export function claimantHeader({ formData }) {
 }
 
 export function transform(formConfig, form) {
-  // Rename CurrentlyHasBuried data
-  const currentlyBuriedData = (application) => {
+  // Rename hasCurrentlyBuried data
+  const hasCurrentlyBuriedData = (application) => {
     if (isVeteran({ application })) {
       /* eslint-disable no-param-reassign */
       application.hasCurrentlyBuried = application.veteranHasBuried;
@@ -86,7 +86,7 @@ export function transform(formConfig, form) {
   };
 
   const application = [
-    currentlyBuriedData,
+    hasCurrentlyBuriedData,
     populateSponsorData,
     populatePreparerData,
     populateVeteranData,
