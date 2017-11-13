@@ -21,6 +21,12 @@ majorlinks:
     - url: /disability-benefits/apply/help/
       title: Get Help Filing a Claim
       description: Find out how to work with a trained professional called an accredited representative to file your claim.
+relatedlinks:
+  - heading: Other VA benefits you may want to explore
+    links:
+    - url: /employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
 
 <div class="va-introtext">

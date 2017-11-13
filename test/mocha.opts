@@ -1,4 +1,5 @@
 --require test/util/mocha-setup.js
+--require test/util/enzyme-setup.js
 --compilers js:babel-register,jsx:babel-register
 --prof
 --reporter dot
