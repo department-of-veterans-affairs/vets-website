@@ -82,10 +82,6 @@ class FormApp extends React.Component {
     if (!this.props.profileIsLoading && this.shouldRedirectOrLoad) {
       this.redirectOrLoad(this.props);
     }
-
-    if (this.props.onMount) {
-      this.props.onMount(this.props.dispatch);
-    }
   }
 
   componentWillReceiveProps(newProps) {
