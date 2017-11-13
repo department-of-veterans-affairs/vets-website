@@ -216,6 +216,11 @@ hr {
   border: 1px solid $color-gray-light;
 }
 
+// Default table width to being 100%
+table {
+  width: 100%;
+}
+
 // Utility classes
 // TODO(css): Move these into a partial once there are enough
 .va-util-rel,
