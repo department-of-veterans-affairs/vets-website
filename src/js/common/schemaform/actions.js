@@ -179,15 +179,11 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
       req.addEventListener('load', () => {
         if (req.status >= 200 && req.status < 300) {
           const body = 'response' in req ? req.response : req.responseText;
-          const fileInfo = JSON.parse(body);
+          const fileData = uiOptions.parseResponse(JSON.parse(body), file);
           dispatch(
-            setData(_.set(filePath, {
-              name: fileInfo.data.attributes.name,
-              size: fileInfo.data.attributes.size,
-              confirmationCode: fileInfo.data.attributes.confirmationCode
-            }, getState().form.data))
+            setData(_.set(filePath, fileData, getState().form.data))
           );
-          resolve(fileInfo);
+          resolve(fileData);
         } else {
           dispatch(
             setData(_.set(filePath, {
