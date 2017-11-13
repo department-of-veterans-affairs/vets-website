@@ -461,10 +461,25 @@ const formConfig = {
                   )
                 }
               },
-              hasCurrentlyBuried: {
+              veteranHasBuried: {
                 'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
+                'ui:required': formData => isVeteran(formData),
                 'ui:widget': 'radio',
                 'ui:options': {
+                  hideIf: (formData) => !isVeteran(formData),
+                  labels: {
+                    1: 'Yes',
+                    2: 'No',
+                    3: 'I don\'t know',
+                  }
+                }
+              },
+              sponsorHasBuried: {
+                'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your sponsor’s eligibility?',
+                'ui:required': formData => !isVeteran(formData),
+                'ui:widget': 'radio',
+                'ui:options': {
+                  hideIf: (formData) => isVeteran(formData),
                   labels: {
                     1: 'Yes',
                     2: 'No',
@@ -497,7 +512,6 @@ const formConfig = {
             properties: {
               application: {
                 type: 'object',
-                required: ['hasCurrentlyBuried'],
                 properties: {
                   claimant: {
                     type: 'object',
@@ -512,7 +526,8 @@ const formConfig = {
                       }
                     }
                   },
-                  hasCurrentlyBuried,
+                  veteranHasBuried: hasCurrentlyBuried,
+                  sponsorHasBuried: hasCurrentlyBuried,
                   currentlyBuriedPersons: {
                     type: 'array',
                     items: {
