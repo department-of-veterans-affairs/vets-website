@@ -19,7 +19,7 @@ class Timeline extends React.Component {
     return this.props.events.map((event, index) => (
       <li key={index} role="presentation" className="process-step section-complete">
         <h3>{event.title || 'Title here'}</h3>
-        <span>{event.date}</span> {/* Need to format */}
+        <span className="appeal-event-date">{event.date}</span> {/* Need to format */}
         <p>description here</p>
       </li>
     ));
@@ -40,7 +40,7 @@ class Timeline extends React.Component {
         <button onClick={this.toggleExpanded} className="va-button-link">
           <h4 style={{ color: 'inherit' }}>{this.state.expanded ? 'Hide past events' : 'See past events'}</h4>
         </button>
-        <div>Date range here</div>
+        <div className="appeal-event-date">Date range here</div>
       </li>
     );
 

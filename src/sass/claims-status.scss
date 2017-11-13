@@ -623,6 +623,10 @@ h1:focus {
   .process-step {
     border-left: 5px solid #d6d7d9; // Should probably make this a variable...
     margin-left: -2.65em;
+
+    &:before {
+      margin-left: -2.65em;
+    }
   }
 
   .section-complete:before {
@@ -661,6 +665,10 @@ h1:focus {
       margin-left: -3.85em;
       margin-top: 11px; // Pull the bullet down to align it better
     }
+  }
+
+  .appeal-event-date {
+    color: $color-gray-light;
   }
 }
 
