@@ -5,25 +5,18 @@
 // Also see l-playbook for a variation of these styles.
 //======================================
 
+@import "~uswds/src/stylesheets/core/utilities";
+
 .process {
   list-style: none;
   padding: 1em 0;
   position: relative;
 
-  h2, h3, h4 {
-    padding: .2em 0 0 0;
-  }
-
-  h5 {
-    font-size: 1.3em;
-    margin: 0;
-    padding: 0 0 .5em 0;
-  }
-
-  h6 {
-    font-size: 1.1em;
-    margin: 0;
-    padding: 0;
+  h2, h3, h4, h5 {
+    margin-top: 0;
+    font-size: $h4-font-size;
+    clear: none;
+    padding-top: 0.3em;
   }
 
   // Exception for when the paragraph is the
@@ -79,6 +72,7 @@
     border-left: 0;
     padding-left: calc(2em + 8px);
   }
+
 }
 
 .list-one:before {content: "1";}

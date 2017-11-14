@@ -3,6 +3,11 @@
 //====================================
 
 .va-sidebarnav {
+
+  h4 {
+    margin-top: 0;
+  }
+
   li {
     border-top-color: $color-gray-lighter;
    a {
