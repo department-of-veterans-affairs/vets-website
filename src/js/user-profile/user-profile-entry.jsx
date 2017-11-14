@@ -10,11 +10,10 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import createCommonStore, { renderCommonComponents } from '../common/store';
 
 const commonStore = createCommonStore();
-createLoginWidget(commonStore);
+renderCommonComponents(commonStore);
 
 function init() {
   ReactDOM.render((

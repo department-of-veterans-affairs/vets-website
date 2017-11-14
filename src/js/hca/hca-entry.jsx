@@ -9,12 +9,11 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import route from './routes';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import createCommonStore, { renderCommonComponents } from '../common/store';
 import reducer from './reducer';
 
 const store = createCommonStore(reducer);
-createLoginWidget(store);
+renderCommonComponents(store);
 
 const folderName = window.location.pathname.indexOf('health-care/') >= 0
   ? 'health-care'
