@@ -349,10 +349,15 @@ article > h1 {
   }
 }
 
-// .va-introtext {
-//   letter-spacing: normal;
-//   font-size: 1.25em;
-// }
+// This is a copy of USWDS's .usa-font-lead style
+// https://github.com/18F/web-design-standards/blob/develop/src/stylesheets/elements/_typography.scss#L164
+.va-introtext {
+  font-family: $font-serif;
+  font-size: $lead-font-size;
+  font-weight: $font-normal;
+  line-height: $lead-line-height;
+  max-width: $lead-max-width;
+}
 
 .secondary {
   p:nth-child(1),
