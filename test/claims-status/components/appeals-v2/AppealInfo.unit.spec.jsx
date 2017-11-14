@@ -10,7 +10,7 @@ const defaultProps = {
   route: { path: `${appealIdParam}` },
 };
 
-describe.only('<AppealInfo/>', () => {
+describe('<AppealInfo/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');

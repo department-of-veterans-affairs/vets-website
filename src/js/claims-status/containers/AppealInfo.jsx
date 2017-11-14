@@ -21,7 +21,6 @@ export const AppealInfo = (props) => {
   const activeTabContent = setActiveTab(currentPath, PATHS, appealId);
   return (
     <div>
-      I'm the AppealInfo container!
       <AppealsV2TabNav appealId={appealId}/>
       {activeTabContent}
     </div>
