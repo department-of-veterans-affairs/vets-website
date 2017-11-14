@@ -97,3 +97,12 @@ If you have a Vets.gov account or a My HealtheVet Premium account, you can send 
 
 </div> <!-- closes overall FAQ -->
 <br>
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
