@@ -86,8 +86,7 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 
 <div itemprop="itemListElement">
 
-If you have a Vets.gov account or a My HealtheVet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. <br>
-Send a secure message or sign up now through:
+If you have a Vets.gov account or a My HealtheVet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. Send a secure message or sign up now through:
 - [Vets.gov](/?next=%2Fhealth-care%2Fmessaging), **or** <br>
 - [My HealtheVet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
