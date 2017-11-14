@@ -1,0 +1,21 @@
+import React from 'react';
+import { shallow, mount } from 'enzyme';
+import { expect } from 'chai';
+import { AppealsV2TabNav } from '../../../../src/js/claims-status/components/appeals-v2/AppealsV2TabNav';
+
+describe.only('<AppealsV2TabNav/>', () => {
+  it('should render', () => {
+    const wrapper = shallow(<AppealsV2TabNav/>);
+    expect(wrapper.type()).to.equal('div');
+  });
+
+  it('should render 2 tabs: Status and Detail', () => {
+    const wrapper = mount(<AppealsV2TabNav/>);
+    const tabs = wrapper.find('li.claims-status-tabs-item');
+    const statusTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Status');
+    const detailTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Detail');
+    expect(tabs.length).to.equal(2);
+    expect(statusTab.length).to.equal(1);
+    expect(detailTab.length).to.equal(1);
+  });
+});
