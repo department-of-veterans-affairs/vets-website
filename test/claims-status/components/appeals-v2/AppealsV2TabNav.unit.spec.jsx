@@ -3,10 +3,10 @@ import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { AppealsV2TabNav } from '../../../../src/js/claims-status/components/appeals-v2/AppealsV2TabNav';
 
-describe.only('<AppealsV2TabNav/>', () => {
+describe('<AppealsV2TabNav/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealsV2TabNav/>);
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.type()).to.equal('ul');
   });
 
   it('should render 2 tabs: Status and Detail', () => {
