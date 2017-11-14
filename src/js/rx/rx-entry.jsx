@@ -10,11 +10,10 @@ import { Provider } from 'react-redux';
 import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import createCommonStore, { renderCommonComponents } from '../common/store';
 
 const store = createCommonStore(reducer);
-createLoginWidget(store);
+renderCommonComponents(store);
 
 const history = useRouterHistory(createHistory)({
   basename: '/health-care/prescriptions'

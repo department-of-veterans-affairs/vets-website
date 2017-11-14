@@ -9,12 +9,11 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import route from './routes';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import createCommonStore, { renderCommonComponents } from '../common/store';
 import reducer from './reducer';
 
 const store = createCommonStore(reducer);
-createLoginWidget(store);
+renderCommonComponents(store);
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/burials-and-memorials/application/530'

@@ -6,15 +6,14 @@ import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 
-import createCommonStore from '../common/store';
+import createCommonStore, { renderCommonComponents } from '../common/store';
 import initReact from '../common/init-react';
 
-import createLoginWidget from './login-entry';
 import reducer from './reducers/login';
 import Main from './containers/Main';
 
 const store = createCommonStore(reducer);
-createLoginWidget(store);
+renderCommonComponents(store);
 
 function init() {
   ReactDOM.render((
