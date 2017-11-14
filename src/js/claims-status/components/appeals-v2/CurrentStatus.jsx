@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CurrentStatus = ({ title, description }) => (
-  <div>
+  <li className="process-step section-current">
     <h3>Current Status</h3>
     <h4>{title}</h4>
     <p>{description}</p>
-  </div>
+  </li>
 );
 
 CurrentStatus.PropTypes = {
+  key: PropTypes.number,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
 };
