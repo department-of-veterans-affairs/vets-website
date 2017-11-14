@@ -71,7 +71,7 @@ class ConfirmationPage extends React.Component {
           <a className="confirmation-guidance-message" href="/burials-and-memorials/pre-need/after-you-apply/">Find out what happens after you apply.</a>
           <h4 className="confirmation-guidance-heading">Need help?</h4>
           <div>
-            <p className="confirmation-guidance-message">If you have questions please call: 1-877-222-VETS (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+            <p className="confirmation-guidance-message">If you have questions, please call 1-877-222-VETS (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
             </p>
           </div>
         </div>
