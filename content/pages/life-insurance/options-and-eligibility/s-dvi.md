@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Service-Disabled Veterans Life Insurance (S-DVI)
 display_title: Service-Disabled Veterans (S-DVI)
-concurrence: 
+concurrence:
 order: 5
 relatedlinks:
   - heading: More information about your benefits
@@ -13,7 +13,7 @@ relatedlinks:
       description: Already have VA life insurance? Manage your policy online.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you have a disability that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
 
@@ -21,7 +21,7 @@ If you have a disability that we’ve concluded was caused—or made worse—by 
 
 <div class="feature">
 
-### Can I apply for S-DVI? 
+### Can I apply for S-DVI?
 
 You can apply for S-DVI if you meet these 4 criteria:
 
@@ -34,7 +34,7 @@ You can apply for S-DVI if you meet these 4 criteria:
 
 <br>
 
-### Can I get more life insurance coverage if I need it? 
+### Can I get more life insurance coverage if I need it?
 
 If you carry the basic S-DVI coverage and become totally disabled and unable to work, you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
 
@@ -68,15 +68,15 @@ You’ll need to apply for benefits in 1 of 2 ways:
  - [Apply for basic S-DVI online](https://www.insurance.va.gov/portal/), **or**
 
  - Fill out an Application for Service-Disabled Veterans Life Insurance (VA Form 29-4364). [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
- 
- Fax it to 1-888-748-5822, or mail it to: 
+
+ Fax it to 1-888-748-5822, or mail it to:
 
 <p class="va-address-block">
   Department of Veterans Affairs<br>
   Regional Office and Insurance Center (RH)<br>
   PO Box 7208<br>
   Philadelphia, PA 19101<br>
-</p> 
+</p>
 
 If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file an Application for Supplemental Service-Disabled Veterans Insurance (VA Form 29-0188) or send a letter requesting this insurance over your signature. You must apply for the coverage within one year from the date you receive notice of the grant of waiver of premiums.
 
@@ -96,7 +96,7 @@ See the premium rates and a description of the plan options. <br>
 
 <br>
 
-### Can I get a waiver so I don’t have to pay the premiums? 
+### Can I get a waiver so I don’t have to pay the premiums?
 
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill#waiver).
 
@@ -112,7 +112,7 @@ You must pay your premiums for Supplemental S-DVI.
 
 ### Veterans’ Mortgage Life Insurance (VMLI)
 
-If you have a severe service-connected disability that we’ve concluded was caused—or made worse—by your service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs. 
+If you have a severe service-connected disability that we’ve concluded was caused—or made worse—by your service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs.
 
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
 [Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>

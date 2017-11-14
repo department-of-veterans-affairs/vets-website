@@ -16,7 +16,7 @@ relatedlinks:
       description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 When a Servicemember or Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. Find out  what to do if your family member has just died.
 

@@ -23,7 +23,7 @@ class StatusPage extends React.Component {
     if (enrollmentData.veteranIsEligible) {
       window.dataLayer.push({ event: 'post911-status-info-shown' });
       introText = (
-        <div className="va-introtext">
+        <div className="usa-font-lead">
           <p>
             The information on this page is the same information that’s in your
             Certificate of Eligibility (COE) letter for Post-9/11 GI Bill

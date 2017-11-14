@@ -23,9 +23,9 @@ relatedlinks:
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Find out what happens to your claim after you apply for disability benefits. 
+Find out what happens to your claim after you apply for disability benefits.
 
 </div>
 
@@ -83,7 +83,7 @@ If we need more evidence during the review, your claim may return to this step m
 
 </li>
 
-<li class="process-step list-four"> 
+<li class="process-step list-four">
 
 #### Preparation for Notification
 

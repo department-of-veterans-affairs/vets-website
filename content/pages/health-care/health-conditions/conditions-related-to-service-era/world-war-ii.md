@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: World War II
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 order: 7
@@ -20,7 +20,7 @@ relatedlinks:
       description: Ready to apply? Get started now.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served during World War II—anytime between September 1, 1939, and September 2, 1945—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
@@ -36,7 +36,7 @@ You may be at risk of illnesses or injuries caused by:
 - **[Ionizing Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 - **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness, in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served during the Battle of the Bulge, conducted from December 1944 through January 1945 under conditions of extreme cold.
-- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless, poisonous gas used during combat in World Wars I and II 
+- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless, poisonous gas used during combat in World Wars I and II
 
 </div>
 

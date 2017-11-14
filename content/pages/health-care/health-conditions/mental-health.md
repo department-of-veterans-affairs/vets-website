@@ -9,7 +9,7 @@ order: 2
 children: healthCareMentalHealth
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you qualify for VA health care, you can get high-quality mental health services as part of your benefits. You may also be able to get care for certain mental health problems even if you don’t have VA health care. Find out how to access our mental health services.
 

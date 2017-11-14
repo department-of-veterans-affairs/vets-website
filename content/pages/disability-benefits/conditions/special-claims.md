@@ -17,7 +17,7 @@ majorlinks:
       description: If your clothing’s been damaged by your prosthetic or orthopedic device—or by medicine you’re taking for a skin condition—find out if you can get money to help buy new clothes.
     - url: /disability-benefits/conditions/special-claims/convalescence/
       title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
-      description: If you’re recovering from surgery or other treatment that’s left you unable to move, find out if you can get temporary disability payments or other benefits. 
+      description: If you’re recovering from surgery or other treatment that’s left you unable to move, find out if you can get temporary disability payments or other benefits.
     - url: /disability-benefits/conditions/special-claims/dentistry/
       title: Dental Care
       description: If you’re a Veteran, find out if you can get dental care through VA.
@@ -35,7 +35,7 @@ majorlinks:
       description: If you recently ended your active military service and you have a service-connected disability, find out if you can get temporary disability payments or other benefits right away.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Do you have a disability that isn’t listed on this site as being linked to military service? You may still be able to get disability compensation (payments) or other benefits. If you’re a Veteran with a disability we’ve concluded is the result of an illness or injury caused—or made worse by—your active-duty service (called a service-connected disability), you may be able to get special compensation to help with disabilities like the ones listed below.
 

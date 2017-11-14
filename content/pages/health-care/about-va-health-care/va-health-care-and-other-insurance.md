@@ -23,7 +23,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. Learn more about how VA works with other health insurance.
 

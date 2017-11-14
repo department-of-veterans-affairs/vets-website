@@ -6,7 +6,7 @@ order: 1
 concurrence: incomplete
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 To honor the military service of a deceased Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 

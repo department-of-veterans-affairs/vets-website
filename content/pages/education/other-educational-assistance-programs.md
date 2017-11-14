@@ -10,7 +10,7 @@ order: 8
 majorlinks:
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re a Guardsman, Reservist, or Veteran who doesn’t qualify for the Post-9/11 GI Bill, you can apply for education benefits through these other programs:
 

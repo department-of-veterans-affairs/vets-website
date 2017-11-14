@@ -2,13 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Purchase Loan
-concurrence: 
+concurrence:
 order: 1
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Lenders offer competitive interest rates on VA-backed purchase loans. This can help you buy a home—especially if you don’t want to make a down payment. Find out if you can get this loan—and how to apply. 
+Lenders offer competitive interest rates on VA-backed purchase loans. This can help you buy a home—especially if you don’t want to make a down payment. Find out if you can get this loan—and how to apply.
 
 </div>
 
@@ -74,7 +74,7 @@ Buying a home is a complex process, and getting a VA-backed home loan is only on
 
 ##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
 
-You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
+You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit.
 <br>
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br>
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
@@ -85,7 +85,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 ##### Look at your current finances.
 
-Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
+Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/).
 
 </li>
 
@@ -93,7 +93,7 @@ Go over your credit profile, income, expenses, and monthly budget to make sure y
 
 ##### Choose a lender.
 
-You’ll go through a private bank, mortgage company, or credit union—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
+You’ll go through a private bank, mortgage company, or credit union—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs.
 
 </li>
 
@@ -123,7 +123,7 @@ Once you’ve found the house you want to buy:
 
 ##### Work with your agent to put together and sign a purchase agreement.
 
-Be sure the sales contract includes the “VA Escape Clause.” This provides an option to void the contract if the property doesn’t appraise for the contract price. 
+Be sure the sales contract includes the “VA Escape Clause.” This provides an option to void the contract if the property doesn’t appraise for the contract price.
 
 </li>
 
@@ -131,7 +131,7 @@ Be sure the sales contract includes the “VA Escape Clause.” This provides an
 
 ##### Have the house inspected and appraised.
 
-We strongly recommend that you get an inspection to check for any major defects before you purchase your home. A VA-approved appraiser will also appraise the house to make sure it meets basic property condition requirements, and will provide an opinion of value on the house. Please be aware that an appraisal isn’t the same as an inspection. 
+We strongly recommend that you get an inspection to check for any major defects before you purchase your home. A VA-approved appraiser will also appraise the house to make sure it meets basic property condition requirements, and will provide an opinion of value on the house. Please be aware that an appraisal isn’t the same as an inspection.
 
 </li>
 
@@ -155,7 +155,7 @@ Your closing may be held at a title company, escrow office, or attorney’s offi
 
 ##### Move in.
 
-After closing, you’re ready to move into your new home. Congratulations!  
+After closing, you’re ready to move into your new home. Congratulations!
 
 </li>
 </ol>
@@ -170,4 +170,4 @@ After closing, you’re ready to move into your new home. Congratulations!
 
 [Watch a video about VA home loans and how to apply](https://www.youtube.com/watch?v=h3gR_BmMP7A).
 
-[Watch a video about the cost of home ownership](https://www.youtube.com/watch?v=vYr5QVwL1Ow). 
+[Watch a video about the cost of home ownership](https://www.youtube.com/watch?v=vYr5QVwL1Ow).

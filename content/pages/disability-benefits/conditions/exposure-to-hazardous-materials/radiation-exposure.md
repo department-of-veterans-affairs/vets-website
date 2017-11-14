@@ -1,16 +1,16 @@
 ---
 layout: page-breadcrumbs.html
-title: Radiation Exposure 
+title: Radiation Exposure
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Find out if you can get disability compensation or benefits for illnesses—including some cancers—believed to be caused by contact with radiation during military service. 
+Find out if you can get disability compensation or benefits for illnesses—including some cancers—believed to be caused by contact with radiation during military service.
 
-[Learn about radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
+[Learn about radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
 
 </div>
 

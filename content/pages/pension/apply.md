@@ -12,7 +12,7 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 You can apply online, in person, or by mail for a Veterans pension. Follow these steps to apply for this tax-free benefit.
 

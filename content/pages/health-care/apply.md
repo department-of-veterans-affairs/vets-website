@@ -16,7 +16,7 @@ widgets:
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
-<div itemprop="description" class="va-introtext">
+<div itemprop="description" class="usa-font-lead">
 
 Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
 

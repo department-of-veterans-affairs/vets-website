@@ -17,7 +17,7 @@ relatedlinks:
       description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies.
 

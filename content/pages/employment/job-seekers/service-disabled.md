@@ -18,7 +18,7 @@ relatedlinks:
       description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 As a Veteran with a service-connected disability, there are many ways for you to pursue your personal and professional goals through both government and private-sector employment.
 

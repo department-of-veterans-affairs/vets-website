@@ -7,7 +7,7 @@ template: detail-page
 order: 2
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you had regular security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may have had contact with Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
 
@@ -17,7 +17,7 @@ If you had regular security duty on the fenced-in perimeters of a U.S. military 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have an illness believed to be caused by Agent Orange and you served perimeter duty: 
+You may be able to get disability benefits if you have an illness believed to be caused by Agent Orange and you served perimeter duty:
 - On RTAF bases in Thailand (including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang), **or**
 - While stationed on a U.S. Army installation in Thailand
 
@@ -35,7 +35,7 @@ You may be able to get disability benefits if you have an illness believed to be
 -----
 
 ### How do I get these benefits?
-You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military. 
+You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military.
 
 To prove that you had contact with Agent Orange during your Thailand service, you’ll need to send us supporting documents that show you had regular perimeter security duty, such as:
 - Daily work duty logs, **or**

@@ -22,7 +22,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re a blind or low vision Veteran or active-duty Servicemember, you may be able to get advanced vision care and rehabilitation services through VA to help you live an independent life.
 

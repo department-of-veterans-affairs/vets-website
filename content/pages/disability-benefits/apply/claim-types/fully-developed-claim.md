@@ -7,9 +7,9 @@ template: detail-page
 order: 2
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. 
+You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim.
 
 </div>
 

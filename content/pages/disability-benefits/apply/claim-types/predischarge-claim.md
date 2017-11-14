@@ -23,7 +23,7 @@ relatedlinks:
        description: Find out how you can access vocational rehabilitation and employment services as soon as possible through IDES.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you have a disability and you’re currently in predischarge status, you can file a claim for disability benefits 90 to 180 days before any of these changes to your status:
 

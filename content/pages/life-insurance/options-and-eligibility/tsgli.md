@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Traumatic Injury Protection Life Insurance (TSGLI)
 display_title: Traumatic Injury Protection (TSGLI)
-concurrence: 
+concurrence:
 order: 3
 relatedlinks:
   - heading: More information about your benefits
@@ -13,7 +13,7 @@ relatedlinks:
       description: Already have VA life insurance? Manage your policy online.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Did you suffer a traumatic injury while serving in the military? Our Servicemembers’ Group Life Insurance Traumatic Injury Protection (TSGLI) may help you with short-term financial support while you recover. Find out if you qualify—and how to manage your coverage.
 
@@ -21,7 +21,7 @@ Did you suffer a traumatic injury while serving in the military? Our Servicememb
 
 <div class="feature">
 
-### Can I get TSGLI? 
+### Can I get TSGLI?
 
 You may be able to get TSGLI if you were insured by SGLI when you experienced a traumatic injury and you:
 
@@ -33,7 +33,7 @@ You may be able to get TSGLI if you were insured by SGLI when you experienced a 
 
 <br>
 
-#### Are any injuries excluded from TSGLI? 
+#### Are any injuries excluded from TSGLI?
 
 Yes. To qualify for TSGLI, your injury can’t:
 
@@ -51,9 +51,9 @@ Yes. To qualify for TSGLI, your injury can’t:
 
 You may be able to get retroactive TSGLI (meaning that it takes effect starting from a date in the past) if you were injured between October 7, 2001, and November 30, 2005, and you meet all of the TSGLI qualifications listed above.
 
-You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your SGLI coverage was in effect when you got injured. 
+You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your SGLI coverage was in effect when you got injured.
 
-**Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](http://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
+**Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](http://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp).
 
 <br>
 
@@ -87,11 +87,11 @@ First, look at the denial letter you received from your branch of service. Your 
 
 If your letter says to complete this form, fill it out and submit it to your branch of service.
 
-[Download the TSGLI Appeal Request Form](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
+[Download the TSGLI Appeal Request Form](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf).
 
 <br>
 
-### How much will I pay for these benefits? 
+### How much will I pay for these benefits?
 
 If you have SGLI coverage, your SGLI premium (which is automatically deducted from your base pay) includes a $1-per-month flat-rate premium for TSGLI. This is all you’ll pay for this benefit.
 

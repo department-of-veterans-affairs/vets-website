@@ -11,7 +11,7 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re the legally recognized spouse or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. We may also help with transportation costs. Find out how to get allowances.
 

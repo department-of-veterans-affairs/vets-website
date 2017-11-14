@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Education Benefits Eligibility 
+title: Education Benefits Eligibility
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
@@ -14,7 +14,7 @@ widgets:
 description: Get help paying for college or other training. Find out if you qualify for VA education benefits through the GI Bill and other educational assistance programs.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
-<div class="va-introtext" itemprop="description" >
+<div class="usa-font-lead" itemprop="description" >
 
 If you’re an active-duty Servicemember or Veteran, a member of the National Guard or Reserves, or a qualified survivor or dependent, you may be able to get help from VA to pay your tuition, pick out a school, choose a career, and more. Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
 
@@ -61,7 +61,7 @@ You can get benefits through MGIB-SR if you’re a member of the Army, Navy, Air
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name"> Can I get VA education benefits through other programs?</h3>
 <div itemprop="itemListElement">
-You may be able to get help paying for school tuition, testing fees, and advanced licensing and certifications through other VA educational assistance programs. You may also be able to get entrepreneurship training to help start or improve a small business. 
+You may be able to get help paying for school tuition, testing fees, and advanced licensing and certifications through other VA educational assistance programs. You may also be able to get entrepreneurship training to help start or improve a small business.
 
 
 [Learn more about advanced training and certifications](/education/advanced-training-and-certifications/).

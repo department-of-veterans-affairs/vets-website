@@ -7,7 +7,7 @@ plainlanguage: 12-12-16 certified in compliance with the Plain Writing Act
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 You can continue your education by using part of your military pay to help cover the cost of school. Find out if you can get benefits through the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
 
@@ -32,7 +32,7 @@ Money for tuition
 
 ### How do I get this benefit?
 
-You’ll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
+You’ll need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
 
 You can use VEAP benefits for these programs:
 

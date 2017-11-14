@@ -6,7 +6,7 @@ concurrence: complete
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out if you qualify for this benefit.
 
@@ -17,7 +17,7 @@ If you had to take a test when you applied to a college or for a training course
 
 ### Can I get paid back for testing fees?
 
-We’ll pay you back for the cost of exam and testing fees if you’re a Veteran or Servicemember and you qualify for the GI Bill. 
+We’ll pay you back for the cost of exam and testing fees if you’re a Veteran or Servicemember and you qualify for the GI Bill.
 
 ### Who’s covered?
 
@@ -25,7 +25,7 @@ We’ll pay you back for the cost of exam and testing fees if you’re a Veteran
 - Servicemembers
 </div>
 
-### What kind of benefits can I get? 
+### What kind of benefits can I get?
 
 Payment for testing fees, including:
 

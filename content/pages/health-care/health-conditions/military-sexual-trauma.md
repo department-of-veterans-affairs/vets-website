@@ -23,7 +23,7 @@ relatedlinks:
       description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Military sexual trauma (MST) refers to sexual assault or repeated, threatening sexual harassment that happened while a Veteran was in the military. This can happen to both women and men. If you were involved in any sexual act against your will during your time in the military, you may have experienced MST. Find out how to access our free services that can help you recover.
 

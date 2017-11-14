@@ -223,7 +223,7 @@ class FormQuestions extends React.Component {
         <div className="va-introtext">
           <p>If any information below is incorrect, update your answers to get the best guidance for your discharge situation.</p>
         </div>
-        <table className="usa-table-borderless">
+        <table>
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
               if (k === 'questions') { return null; }

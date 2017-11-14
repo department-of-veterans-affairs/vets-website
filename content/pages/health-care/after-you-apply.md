@@ -9,7 +9,7 @@ order: 4
 lastupdate: 2017-08-28
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application has been approved. Find out when to expect your letter—and what to do next.
 

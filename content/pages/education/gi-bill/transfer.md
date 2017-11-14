@@ -10,7 +10,7 @@ order: 4
 
 
 <div itemscope itemtype="http://schema.org/FAQPage">
-<div itemprop="description" class="va-introtext">
+<div itemprop="description" class="usa-font-lead">
 
 Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to your spouse or dependent children.
 

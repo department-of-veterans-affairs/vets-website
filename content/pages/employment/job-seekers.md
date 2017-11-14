@@ -13,7 +13,7 @@ relatedlinks:
       description: Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Wherever you are in the transition process, the Veterans Employment Center provides career advice, resume-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
 

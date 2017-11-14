@@ -7,9 +7,9 @@ concurrence: incomplete
 order: 1
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-If you’re leaving active service soon, find out how to get free educational and career counseling. 
+If you’re leaving active service soon, find out how to get free educational and career counseling.
 
 </div>
 
@@ -19,21 +19,21 @@ If you’re leaving active service soon, find out how to get free educational an
 
 You can get these services if you’ll be discharged from active duty within 6 months or:
 -	You were discharged from active duty not more than 1 year ago under conditions other than dishonorable, **and**
--	You qualify as a Veteran for educational assistance under a VA educational program. 
+-	You qualify as a Veteran for educational assistance under a VA educational program.
 
 **Note:** Dependents who qualify for educational assistance may get these services under the following programs:
 - [Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
 - [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/)
 - [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/)
 
-### Who’s covered? 
+### Who’s covered?
 
 - Veterans
-- Qualified dependents 
+- Qualified dependents
 
 </div>
 
-### What benefits can I get? 
+### What benefits can I get?
 
 -	Counseling to help you decide which civilian or military jobs you want
 -	Educational and career counseling to help you find a training program or job
@@ -41,7 +41,7 @@ You can get these services if you’ll be discharged from active duty within 6 m
 
 -----
 
-### How do I get these benefits? 
+### How do I get these benefits?
 
 You’ll need to apply:
 
@@ -50,4 +50,4 @@ You’ll need to apply:
 3. Select “Vocational Rehabilitation and Employment Benefits.”
 4. Apply for “Educational and Career Counseling.”<br /><br />
 
-If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. [Learn more about CareerScope](/education/tools-programs/careerscope/). 
+If you qualify, we’ll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. [Learn more about CareerScope](/education/tools-programs/careerscope/).

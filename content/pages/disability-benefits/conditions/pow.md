@@ -9,7 +9,7 @@ template: detail-page
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Are you a former POW now living with a disability? Find out if you can get disability compensation or benefits.
 
@@ -40,8 +40,8 @@ These benefits cover conditions that we believe were caused by time spent as a P
 -	Hypertensive vascular disease, including hypertensive heart disease, and related problems (such as a stroke, blood clots, or other serious issues)
 
 **Conditions that affect your mind, including:**
--	A neuropsychiatric condition 
--	Psychosis 
+-	A neuropsychiatric condition
+-	Psychosis
 -	Dysthymic disorder
 -	Any of the anxiety states (such as PTSD)
 
@@ -51,18 +51,18 @@ These benefits cover conditions that we believe were caused by time spent as a P
 
 **Conditions that affect your body, including:**
 -	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis required)
--	Helminthiasis 
+-	Helminthiasis
 -	Peripheral neuropathy, except where directly related to an illness caused by an infection
--	Peptic ulcer disease 
--	Chronic dysentery 
--	Irritable bowel syndrome 
--	Cirrhosis of the liver 
+-	Peptic ulcer disease
+-	Chronic dysentery
+-	Irritable bowel syndrome
+-	Cirrhosis of the liver
 
 **Any nutritional deficiency, including:**
--	Avitaminosis 
--	Beriberi, including beriberi heart disease 
+-	Avitaminosis
+-	Beriberi, including beriberi heart disease
 -	Malnutrition, including optic atrophy connected to malnutrition
--	Pellagra 
+-	Pellagra
 <br>
 
 ### Who’s covered?

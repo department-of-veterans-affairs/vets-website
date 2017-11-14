@@ -14,11 +14,11 @@ relatedlinks:
       description: Use this tool to build a civilian or federal resume.
     - url: https://www.careeronestop.org/JobSearch/job-search.aspx
       title: Job Search
-      description: Search the Veterans Job Bank to find the right position for you.   
+      description: Search the Veterans Job Bank to find the right position for you.
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
-<div itemprop="description" class="va-introtext">
+<div itemprop="description" class="usa-font-lead">
 
 If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 

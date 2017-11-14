@@ -6,7 +6,7 @@ template: detail-page
 order: 6
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Sometimes, a disability related to your military service (called service connected) can cause another disability—or make worse a disability that you already have. Even if this other disability isn’t service connected, you can file a secondary claim for added disability benefits. [File a claim now](/disability-benefits/apply/).
 

@@ -9,9 +9,9 @@ template: detail-page
 order: 4
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Are you recovering from surgery or a disability related to your military service that’s left you unable to move? You may be able to get a temporary 100% disability rating and disability compensation or benefits if you have this kind of immobilizing  disability. Find out if you can get this benefit. 
+Are you recovering from surgery or a disability related to your military service that’s left you unable to move? You may be able to get a temporary 100% disability rating and disability compensation or benefits if you have this kind of immobilizing  disability. Find out if you can get this benefit.
 
 </div>
 
@@ -30,7 +30,7 @@ You may be able to get disability benefits if you’ve had a surgery or other tr
       - Being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
       - Being unable to leave your house (known as house confinement)
       - Being required to use a wheelchair or crutches
- 
+
 **If you didn’t have surgery**, you may still be able to get disability benefits if you had 1 or more major joints immobilized by a cast.
 
 
@@ -45,7 +45,7 @@ Veterans
 
 -	Health care
 - Added compensation (payments) while you recover
--	A temporary 100% disability rating 
+-	A temporary 100% disability rating
 
 -----
 

@@ -23,7 +23,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 As a woman Veteran, you’re part of the fastest-growing group within our Veteran population. And we’re dedicated to meeting your health care needs. If you qualify for VA health care, you can get access to high-quality women’s health services as part of your benefits. Find out more about how to access these services below.
 

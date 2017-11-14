@@ -15,10 +15,10 @@ relatedlinks:
       description: Use this tool to build a civilian or federal resume.
     - url: https://www.careeronestop.org/JobSearch/job-search.aspx
       title: Job Search
-      description: Search the Veterans Job Bank to find the right position for you.   
+      description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 The Veterans Employment Center can help spouses and other family members access valuable career resources.
 
@@ -27,7 +27,7 @@ The Veterans Employment Center can help spouses and other family members access 
 Through the Department of Defense’s [Spouse Education Career Opportunities](https://myseco.militaryonesource.mil/Portal/) (SECO) program, spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors. SECO also partners with the [Military Spouse Employment Partnership](https://msepjobs.militaryonesource.mil/msep/) (MSEP) and [My Career Advancement Account](https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/Program_Overview/MyCAA-Helping-Spouses-Reach-Career-Goals.pdf) (MyCAA) scholarship program. These organizations and others (such as [Blue Star Families](https://www.bluestarfam.org/)) offer assistance for spouses interested in the following:
 
 - Connecting with employers committed to hiring military spouses.
-- Pursuing additional education and/or training.  
+- Pursuing additional education and/or training.
 
 <div class="feature" markdown="1">
 
@@ -53,5 +53,5 @@ If entrepreneurship interests you, learn about everything from start-up costs to
 ### How it works
 Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you are unsure of your DS Logon, visit [My Access Center](https://myaccess.dmdc.osd.mil/identitymanagement/help.do?execution=e1s1).
 
-- Request a logon account.  
+- Request a logon account.
 - Register on the SECO site.

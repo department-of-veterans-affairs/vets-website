@@ -2,28 +2,28 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Apply for Your COE
-concurrence: 
+concurrence:
 order: 3
 relatedlinks:
   - heading: Loan Options
     links:
     - url: /housing-assistance/home-loans/loan-options/purchase-loan/
-      title: Purchase Loan 
-      description: Find out how to get a VA-backed purchase loan to buy a home. 
+      title: Purchase Loan
+      description: Find out how to get a VA-backed purchase loan to buy a home.
     - url: /housing-assistance/home-loans/loan-options/nadl/
-      title: Native American Direct Loan (NADL) 
-      description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land. 
+      title: Native American Direct Loan (NADL)
+      description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land.
     - url: /housing-assistance/home-loans/loan-options/irrrl/
-      title: Interest Rate Reduction Refinance Loan (IRRRL) 
-      description: Find out how to get an IRRRL loan to refinance an existing loan. 
+      title: Interest Rate Reduction Refinance Loan (IRRRL)
+      description: Find out how to get an IRRRL loan to refinance an existing loan.
     - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
-      description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs. 
+      description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-The first step in getting a VA direct or VA-backed home loan is to apply for a Certificate of Eligibility (COE). This confirms for your lender that you qualify for the VA home loan benefit. Find out how to apply for a COE. Then, choose your loan type and learn about the rest of the loan application process. 
+The first step in getting a VA direct or VA-backed home loan is to apply for a Certificate of Eligibility (COE). This confirms for your lender that you qualify for the VA home loan benefit. Find out how to apply for a COE. Then, choose your loan type and learn about the rest of the loan application process.
 
 </div>
 
@@ -118,13 +118,13 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 - **If you’re not receiving DIC benefits,** you’ll need to fill out and send an Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child (VA Form 21-534), **and**
   - A copy of your marriage license, **and**
   - The Veteran’s death certificate
-  
+
   <br>
  [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).
- 
- <br> 
- 
- [Find out if you qualify for home loan benefits](/housing-assistance/home-loans/eligibility/). <br /> 
+
+ <br>
+
+ [Find out if you qualify for home loan benefits](/housing-assistance/home-loans/eligibility/). <br />
  [Get military service records online](http://www.archives.gov/veterans/military-service-records/).
 
 </div>

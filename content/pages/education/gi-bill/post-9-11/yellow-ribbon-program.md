@@ -6,7 +6,7 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
@@ -18,7 +18,7 @@ The Yellow Ribbon Program can help you pay for higher out-of-state, private, or 
 
 You can get this benefit if:
 - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
-- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us. 
+- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us.
 
 You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
 [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
@@ -27,7 +27,7 @@ You may be able to get this benefit if you’re the dependent of a Veteran who q
 ### Who’s covered?
 
 - Veterans
-- Qualified dependents 
+- Qualified dependents
 
 </div>
 

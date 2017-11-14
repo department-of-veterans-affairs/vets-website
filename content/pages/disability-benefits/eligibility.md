@@ -26,7 +26,7 @@ relatedlinks:
       description: If you've been referred to IDES to determine if you're medically unfit for duty due to a service-connected disability, find out how to access VR&E services as quickly as possible.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
 

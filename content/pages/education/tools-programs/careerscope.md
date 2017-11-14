@@ -7,7 +7,7 @@ concurrence: incomplete
 order: 2
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 In addition to getting career counseling, you may be able to use CareerScope, a tool that measures your interests and skill levels and helps you figure out the best career path when you move into civilian life. It recommends careers you may enjoy and jobs in which you’re likely to do well. The tool also recommends courses or training programs that can help you go after those careers. Find out if you qualify to use CareerScope.
 
@@ -27,5 +27,5 @@ You can access our education and training resources:
 [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
 - Learn about what to consider when choosing a school. <br>
-[Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp). 
+[Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp).
 

@@ -15,9 +15,9 @@ relatedlinks:
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits. 
+Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits.
 
 </div>
 

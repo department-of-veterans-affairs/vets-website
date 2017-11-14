@@ -23,7 +23,7 @@ relatedlinks:
       description: Learn more about VA services to help support Veterans at risk of suicide and their families.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Whether you just returned from a deployment or have been home for 40 years, it’s never too late to get help for posttraumatic stress disorder (PTSD). Getting counseling or treatment can help you manage your symptoms and keep them from getting worse.
 

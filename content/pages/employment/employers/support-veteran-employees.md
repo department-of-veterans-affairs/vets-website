@@ -14,7 +14,7 @@ relatedlinks:
       description: Post jobs available for Veterans, transitioning Servicemembers, and their families.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Veterans are civic assets who can draw on their experiences to improve your business. When a Servicemember first joins a private-sector company, there may be a transition period for both the Veteran and the company. This [web-based tutorial](http://www.va.gov/VETSINWORKPLACE/training/EAP/default.htm) provides tips on how you can support Veterans, Reservists, and National Guardsmen in your workplace.
 

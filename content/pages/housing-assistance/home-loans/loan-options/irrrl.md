@@ -3,11 +3,11 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Interest Rate Reduction Refinance Loan (IRRRL)
 display_title: Interest Rate Reduction Refinance Loan
-concurrence: 
+concurrence:
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Refinancing lets you replace your current loan with a new one under different terms. If you have an existing VA-backed home loan and you want to refinance to reduce your monthly mortgage payments—or make your payments more stable—an Interest Rate Reduction Refinance Loan (IRRRL) may be right for you. Find out if you can get an IRRRL and how to apply.
 
@@ -23,7 +23,7 @@ You may be able to get an IRRRL if you:
 -	Are using the IRRRL to refinance your existing VA-backed home loan, **and**
 -	Can certify that you currently live in or used to live in the home covered by the loan
 
-**Note:** If you have a second mortgage on the home, the holder must agree to make your new VA-backed loan the first mortgage.  
+**Note:** If you have a second mortgage on the home, the holder must agree to make your new VA-backed loan the first mortgage.
 
 </div>
 
@@ -40,7 +40,7 @@ On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conform
 
 You’ll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. <br>
 [Visit the Consumer Financial Protection Bureau for more information](https://www.consumerfinance.gov/owning-a-home/). <br />
-[Download the Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+[Download the Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf).
 
 <br>
 

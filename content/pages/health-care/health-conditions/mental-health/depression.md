@@ -23,7 +23,7 @@ relatedlinks:
       description: Learn more about VA services to help support Veterans at risk of suicide and their families.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Depression is a serious illness, but this common mental health problem is also highly treatable. Find out how to access depression health services through VA.
 

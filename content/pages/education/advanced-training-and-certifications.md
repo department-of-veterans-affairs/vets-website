@@ -24,7 +24,7 @@ majorlinks:
       description: If you took a test when you applied to a college or a training course, find out if you can get paid back for the cost of the test.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 You can use the GI Bill to help pay for more than just college. Start or advance your career as a skilled worker or professional—like a certified mechanic, medical technician, attorney, therapist, or website developer. Find out how we can help you pay for advanced training or certification (proof that you’ve fulfilled training requirements) in a range of professions.
 

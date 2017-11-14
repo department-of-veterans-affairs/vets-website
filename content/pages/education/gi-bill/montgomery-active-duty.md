@@ -7,7 +7,7 @@ concurrence: incomplete
 order: 5
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served at least 2 years on active duty, you may qualify for the Montgomery GI Bill Active Duty (MGIB-AD) program. Find out if you qualify.
 

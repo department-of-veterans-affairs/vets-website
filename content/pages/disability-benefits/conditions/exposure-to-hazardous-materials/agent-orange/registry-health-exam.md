@@ -8,7 +8,7 @@ template: detail-page
 order: 10
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you think you had contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War, or other herbicides while serving in the military, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to illnesses that may be related to contact with herbicides. By being part of this registry, you’re also helping your fellow Veterans by giving us information so we can better understand and serve those affected by Agent Orange–related illnesses.
 
@@ -19,13 +19,13 @@ If you think you had contact with Agent Orange, a toxic chemical used to clear t
 ### Can I get an Agent Orange Registry health exam?
 
 You can get an Agent Orange Registry health exam if you served in Vietnam between 1962 and 1975 for any length of time, or if you served in any of these ways:
-  - On smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”), **or** 
+  - On smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”), **or**
   - In Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971, **or**
   - In Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975, **or**
   - In Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975, **or**
   - In Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter, **or**
   - In other locations, but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
- 
+
  [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp). <br>
  [Learn about herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
 
@@ -63,4 +63,4 @@ Please note that:
 Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp)
 
 ### Get more information
-[Learn more about the Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 
+[Learn more about the Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp).

@@ -7,20 +7,20 @@ template: detail-page
 children: disabilityClaimTypes
 order: 2
 majorlinks:
-  - heading: 
+  - heading:
     links:
     - url: /disability-benefits/apply/claim-types/standard-claim/
-      title: Standard Claim 
+      title: Standard Claim
       description: If you’d like us to help you gather evidence to support your disability benefits claim, file a standard claim.
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: Fully Developed Claim 
+      title: Fully Developed Claim
       description: If you’d like to get a faster decision on your disability benefits claim, use the Fully Developed Claims program and send in all evidence you have when you file your claim.
     - url: /disability-benefits/apply/claim-types/original-claim/
-      title: Original Claim 
-      description: If you have a disability and you’re within 180 days of ending military service, you can file your first claim—known as the original claim. 
+      title: Original Claim
+      description: If you have a disability and you’re within 180 days of ending military service, you can file your first claim—known as the original claim.
     - url: /disability-benefits/apply/claim-types/reopened-claim/
       title: Reopened Claim
-      description: If you had a disability claim that was denied in the past, file a reopened claim to get a new decision. 
+      description: If you had a disability claim that was denied in the past, file a reopened claim to get a new decision.
     - url: /disability-benefits/apply/claim-types/new-claim/
       title: New Claim
       description: If you already get disability benefits—but think you may qualify for more—file a new claim.
@@ -41,7 +41,7 @@ majorlinks:
       description: If you have a disability related to military service that didn’t appear until after you ended your service, file a postservice claim.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Disability claims can be based on disabilities that:
 

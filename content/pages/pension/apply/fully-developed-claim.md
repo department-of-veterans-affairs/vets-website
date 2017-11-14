@@ -6,7 +6,7 @@ concurrence:
 order: 2
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there’s no risk to your taking part in it. Just send in all your evidence, or supporting documents, when you file your claim. Participation in the FDC program is optional and won’t affect your benefits.
 
@@ -24,7 +24,7 @@ Find out how you can participate in the FDC program.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="need-to-do">What do I need to do?</button>
 <div id="need-to-do" class="usa-accordion-content">
 
-#### FDC Program 
+#### FDC Program
 
 When turning in your claim under the FDC program, you must send us all the supporting documents you have and provide information about supporting documents that you don’t have.
 Submit your claim according to FDC Criteria:
@@ -110,7 +110,7 @@ With the standard claim process, we’ll:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="when-to-send">When should I turn in my evidence?</button>
 <div id="when-to-send" class="usa-accordion-content">
 
-#### FDC Program 
+#### FDC Program
 
 You’ll need to turn in the information and evidence at the same time as you file your claim.
 <div class="usa-alert usa-alert-warning no-background-image">

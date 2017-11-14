@@ -17,7 +17,7 @@ relatedlinks:
       description: Search the Veterans Job Bank to find the right position for you.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 You can use tools like [O&#42;Net Interest Profiler](http://www.mynextmove.org/explore/ip) to identify the kind of work you enjoy. After taking the short questionnaire, use the results (called an O&#42;Net code) in [targeted job-search engines](http://jobcenter.usa.gov/find-a-job) that may ultimately help you identify a career that fits with the kind of work you enjoy.
 

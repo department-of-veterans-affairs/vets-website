@@ -8,7 +8,7 @@ template: detail-page
 children: disabilityClaimsAppeal
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 You have the right to appeal any benefits decision made by the Veterans Benefits Administration (VBA). The VA appeals process is set in law and is different from other judicial appeals processes. Find out how to file an appeal.
 </div>
 

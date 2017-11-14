@@ -6,7 +6,7 @@ concurrence: ""
 order: 6
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 We have 3 regional pension management centers. Look at the lists below to find the center that serves your state, territory, or foreign country. Then, mail or fax your pension application to the address for that center.
 

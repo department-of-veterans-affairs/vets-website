@@ -1,12 +1,12 @@
 ---
 layout: page-breadcrumbs.html
-title: Evidence 
+title: Evidence
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 When you file a claim for disability benefits, you’ll need to gather all related evidence (supporting documents like a doctor’s report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we’ll need your permission to get others. [File a claim now](/disability-benefits/apply/).
 

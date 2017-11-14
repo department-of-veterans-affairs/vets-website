@@ -23,7 +23,7 @@ relatedlinks:
       description: Learn more about VA health services to help support Veterans with depression.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re a Veteran in a mental health crisis and you’re thinking about hurting yourself—or you know a Veteran who’s considering this—act now. You’re not alone, and you can get help.
 

@@ -20,7 +20,7 @@ relatedlinks:
       description: Learn more about VA services to help support Veterans at risk of suicide and their families.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’re struggling with substance use problems, you’re not alone. Many Veterans have problems with the use of alcohol, tobacco, street drugs, and prescription medicines. We’re here to help. Find out how to get support for substance use problems through VA.
 

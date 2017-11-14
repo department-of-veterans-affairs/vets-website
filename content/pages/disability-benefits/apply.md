@@ -10,11 +10,11 @@ majorlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/claim-types/
-      title: Types of Disability Claims 
-      description: Learn about standard claims, reopened claims, secondary claims, and more. 
+      title: Types of Disability Claims
+      description: Learn about standard claims, reopened claims, secondary claims, and more.
     - url: /disability-benefits/apply/evidence/
       title: Evidence (Supporting Documents)
-      description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
+      description: Find out which supporting documents you’ll need to give us so we can decide your claim.
     - url: /disability-benefits/apply/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
@@ -29,9 +29,9 @@ relatedlinks:
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply.
 
 </div>
 
@@ -49,7 +49,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 For the first disability claim you file, please provide:
 
-- Discharge papers (DD214 or other separation documents) 
+- Discharge papers (DD214 or other separation documents)
 - Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
 
 For all disability claims, please provide:

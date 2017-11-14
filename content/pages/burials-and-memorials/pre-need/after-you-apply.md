@@ -18,7 +18,7 @@ relatedlinks:
       description:
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Find out what happens after you apply for a pre-need eligibility determination for burial in a VA national cemetery.
 

@@ -24,7 +24,7 @@ majorlinks:
       description: Get help with needs like special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Do you have illnesses or injuries that started—or got worse—while you were serving in the military?  Find out if you can  get disability compensation or benefits.
 
@@ -35,7 +35,7 @@ Do you have illnesses or injuries that started—or got worse—while you were s
 ### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
-- You got sick or injured while serving in the military and can link your condition to this illness or injury, 
+- You got sick or injured while serving in the military and can link your condition to this illness or injury,
  **or**
 - You had an illness or injury before you joined the military, and serving made it worse
 
@@ -72,7 +72,7 @@ You may be able to get benefits for conditions such as:
 You may also be able to get benefits for:
 
 - Traumatic brain injury (TBI)
-- Posttraumatic stress disorder (PTSD) 
+- Posttraumatic stress disorder (PTSD)
 - Depression
 - Anxiety
 

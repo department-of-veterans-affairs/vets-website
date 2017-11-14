@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Cold War Era
-display_title: 
+display_title:
 concurrence: complete
 lastupdate: 2017-06-28
 order: 4
@@ -20,7 +20,7 @@ relatedlinks:
       description: Ready to apply? Get started now.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you served during the Cold War era—anytime between 1945 and 1991—you may be at risk of certain health conditions. Learn about these conditions and what to do next to take care of your health.
 
@@ -32,8 +32,8 @@ If you served during the Cold War era—anytime between 1945 and 1991—you may 
 
 You may be at risk of illnesses or injuries caused by contact with:
 
-- **[Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests 
-- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless poisonous gas used in military tests in the 1940s 
+- **[Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests
+- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless poisonous gas used in military tests in the 1940s
 - **[Herbicides](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/):** Agent Orange and other herbicides used in Vietnam and tested or stored in other locations
 - **[Occupational (job-related) hazards](https://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 - **[Noise](https://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
@@ -55,7 +55,7 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp). 
+Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
 
 </li>
 
@@ -67,7 +67,7 @@ Ask your local VA environmental health coordinator about getting a free Ionizing
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [See if you qualify for disability benefits due to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
 </li>
 </ol>

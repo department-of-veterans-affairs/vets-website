@@ -30,7 +30,7 @@ majorlinks:
       description: Between January 9, 1962, and May 7, 1975
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 The U.S. military used Agent Orange to clear plants and trees during the Vietnam War. If you served in or near Vietnam during the Vietnam Era—or in certain related jobs—you may have had contact with this toxic chemical. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 

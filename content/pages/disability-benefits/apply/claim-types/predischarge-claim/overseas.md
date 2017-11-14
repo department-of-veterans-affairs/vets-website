@@ -9,9 +9,9 @@ template: detail-page
 order: 3
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
-You can file a disability claim while you’re stationed overseas. 
+You can file a disability claim while you’re stationed overseas.
 
 </div>
 

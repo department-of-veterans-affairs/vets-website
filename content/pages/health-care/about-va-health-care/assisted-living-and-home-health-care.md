@@ -23,7 +23,7 @@ relatedlinks:
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. Find out how to access these long-term care services.
 

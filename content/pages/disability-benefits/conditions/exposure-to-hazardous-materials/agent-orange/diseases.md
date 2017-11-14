@@ -6,7 +6,7 @@ template: detail-page
 order: 8
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 We believe that contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War, likely causes several illnesses. Find out if you can get disability compensation or benefits if you had contact with Agent Orange while serving in the military and now have 1 or more of the illnesses listed below.
 
@@ -27,7 +27,7 @@ We believe that contact with Agent Orange, a toxic chemical used to clear trees 
 ### Other illnesses believed to be caused by contact with Agent Orange
 
 - **[AL Amyloidosis](http://www.publichealth.va.gov/exposures/agentorange/conditions/al_amyloidosis.asp):** A rare illness that happens when an abnormal protein (called amyloid) builds up in your body’s tissues, nerves, or organs (like your heart, kidneys, or liver) and causes damage over time
-- **[Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp) (or other types of acneform disease like it):** A skin condition that happens soon after contact with chemicals and looks like acne often seen in teenagers. Under our rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides. 
+- **[Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp) (or other types of acneform disease like it):** A skin condition that happens soon after contact with chemicals and looks like acne often seen in teenagers. Under our rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
 - **[Diabetes Mellitus Type 2](http://www.publichealth.va.gov/exposures/agentorange/conditions/diabetes.asp):** An illness that happens when your body is unable to properly use insulin (a hormone that turns blood glucose, or sugar, into energy), leading to high blood sugar levels
 - **[Ischemic Heart Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/ischemicheartdisease.asp):** A type of heart disease that happens when your heart doesn’t get enough blood (and the oxygen the blood carries). It often causes chest pain or discomfort.
 - **[Parkinson’s Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/parkinsonsdisease.asp):** An illness of the nervous system (the network of nerves and fibers that send messages between your brain and spinal cord and other areas of your body) that affects your muscles and movement—and gets worse over time

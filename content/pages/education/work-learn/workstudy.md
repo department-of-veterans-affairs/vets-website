@@ -6,7 +6,7 @@ concurrence: incomplete
 order: 1
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 Find out if you can earn money while you go to school through our work-study program if you’re a full-time or three-quarter-time college, vocational, or professional student using VA education benefits.
 
@@ -20,7 +20,7 @@ You can be a part of VA’s work-study program if you’re enrolled at least thr
 
   - There’s an open job either at a nearby VA facility or in a VA-related role at your school, **and**
   - You can finish the work-study contract while you still qualify for education benefits, **and**
-  - You’re using one of these VA education benefits: 
+  - You’re using one of these VA education benefits:
 
     - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [family members using transferred benefits](/education/gi-bill/transfer/))
     - Montgomery GI Bill [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
@@ -34,18 +34,18 @@ You can be a part of VA’s work-study program if you’re enrolled at least thr
 ### Who’s covered?
 
 - Veterans
-- Qualified dependents using education benefits 
+- Qualified dependents using education benefits
 </div>
 
-### What kind of benefits can I get? 
+### What kind of benefits can I get?
 
 You can get a paid for a part-time job while you study.
 
 -----
 
-### How do I get these benefits? 
+### How do I get these benefits?
 
-You’ll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). [Download VA Form 22-8691](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
+You’ll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). [Download VA Form 22-8691](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf).
 
 Get in touch with the regional processing office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 

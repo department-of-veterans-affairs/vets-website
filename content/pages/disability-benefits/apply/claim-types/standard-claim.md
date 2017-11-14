@@ -7,7 +7,7 @@ concurrence: complete
 order: 1
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you’d like us to help you gather evidence (supporting documents like a doctor’s report and medical test results) to support your disability benefits claim, please file a standard claim. [File a claim now](/disability-benefits/apply/).
 

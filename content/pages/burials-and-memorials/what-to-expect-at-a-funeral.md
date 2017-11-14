@@ -6,7 +6,7 @@ collection: burials
 order: 6
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 We carry out memorial services at national cemeteries with dignity and respect. Find out what happens at a memorial service.
 

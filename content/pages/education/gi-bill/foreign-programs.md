@@ -7,7 +7,7 @@ concurrence: incomplete
 order: 1
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
 

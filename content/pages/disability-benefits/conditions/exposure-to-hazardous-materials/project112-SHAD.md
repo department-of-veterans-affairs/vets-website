@@ -6,7 +6,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: detail-page
 ---
 
-<div class="va-introtext">
+<div class="usa-font-lead">
 
 If you were part of chemical and biological warfare testing for Projects 112 or Shipboard Hazard and Defense (SHAD) from 1962 to 1974, you may be at risk for illnesses believed to be caused by the testing. Find out if you can get disability compensation or benefits.
 
