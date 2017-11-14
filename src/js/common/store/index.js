@@ -12,7 +12,7 @@ export const commonReducer = {
   })
 };
 
-export function renderCommonComponents(commonStore){
+export function renderCommonComponents(commonStore) {
   createLoginWidget(commonStore);
 }
 
