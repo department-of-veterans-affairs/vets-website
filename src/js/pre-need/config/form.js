@@ -458,25 +458,18 @@ const formConfig = {
                   'ui:description': desiredCemeteryNote
                 }
               },
-              veteranHasBuried: {
-                'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
-                'ui:required': formData => isVeteran(formData),
+              hasCurrentlyBuried: {
+                'ui:title': 'Is there anyone currently buried in a VA national cemetery under your eligibility?',
                 'ui:widget': 'radio',
                 'ui:options': {
-                  hideIf: (formData) => !isVeteran(formData),
-                  labels: {
-                    1: 'Yes',
-                    2: 'No',
-                    3: 'I don\'t know',
-                  }
-                }
-              },
-              sponsorHasBuried: {
-                'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your sponsor’s eligibility?',
-                'ui:required': formData => !isVeteran(formData),
-                'ui:widget': 'radio',
-                'ui:options': {
-                  hideIf: (formData) => isVeteran(formData),
+                  updateSchema: (formData, schema, uiSchema) => {
+                    if (!isVeteran(formData)) {
+                      /* eslint-disable no-param-reassign */
+                      uiSchema['ui:title'] = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+                      /* eslint-enable no-param-reassign */
+                    }
+                    return schema;
+                  },
                   labels: {
                     1: 'Yes',
                     2: 'No',
@@ -509,6 +502,7 @@ const formConfig = {
             properties: {
               application: {
                 type: 'object',
+                required: ['hasCurrentlyBuried'],
                 properties: {
                   claimant: {
                     type: 'object',
@@ -523,8 +517,7 @@ const formConfig = {
                       }
                     }
                   },
-                  veteranHasBuried: hasCurrentlyBuried,
-                  sponsorHasBuried: hasCurrentlyBuried,
+                  hasCurrentlyBuried,
                   currentlyBuriedPersons: {
                     type: 'array',
                     items: {
