@@ -42,7 +42,7 @@ Depending on your needs and goals, services may include:
 -	On the Job Training (OJT), apprenticeships, and non-paid work experiences
 -	Post-secondary training at a college, vocational, technical, or business school
 -	Supportive rehabilitation services including case management, counseling, and medical referrals
--	Independent-living services if you're unable to work due to the severity of your disabilities
+-	Independent living services if you're unable to work due to the severity of your disabilities
 
 <hr>
 

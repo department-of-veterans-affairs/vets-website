@@ -74,8 +74,8 @@ export default function FieldTemplate(props) {
   const useFieldsetLegend = (isFieldGroup || !!showFieldLabel) && !useLabelElement;
 
   const labelElement = useFieldsetLegend
-    ? <legend className={labelClassNames}>{label}{requiredSpan}</legend>
-    : <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>;
+    ? <legend id={`${id}-label`} className={labelClassNames}>{label}{requiredSpan}</legend>
+    : <label id={`${id}-label`} className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>;
 
   const content = (
     <div className={errorClass}>
