@@ -71,9 +71,9 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 
 **To schedule online, you must have one of these free accounts:**
 - My HealtheVet Premium account <br>
-[Get a free MyHealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication) <br>
+[Get a free My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
 - DS Logon Premium account (used for eBenefits and milConnect) <br>
-[Get a free DS Logon Premium account](https://mobile.va.gov/dslogon)
+[Get a free DS Logon Premium account](https://mobile.va.gov/dslogon).
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments">Schedule a VA Appointment Online</a>
@@ -91,7 +91,7 @@ If you have a Vets.gov account or a My HealtheVet Premium account, you can send 
 - [My HealtheVet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
 **Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
-[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/veterans.asp)
+[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/veterans.asp).
 
 </div>
 
