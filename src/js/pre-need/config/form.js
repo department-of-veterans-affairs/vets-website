@@ -61,7 +61,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetery',
+  title: 'Apply online for pre-need determination of eligibility in a VA national cemetery',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -452,7 +452,7 @@ const formConfig = {
             application: {
               claimant: {
                 'view:desiredCemetery': {
-                  'ui:title': 'Which VA National Cemetery would you prefer to be buried in?'
+                  'ui:title': 'Which VA national cemetery would you prefer to be buried in?'
                 },
                 'view:desiredCemeteryNote': {
                   'ui:description': desiredCemeteryNote
@@ -488,7 +488,7 @@ const formConfig = {
                     'ui:title': 'Name of deceased'
                   }),
                   'view:cemeteryNumber': {
-                    'ui:title': 'VA National Cemetery where they\'re buried'
+                    'ui:title': 'VA national cemetery where they\'re buried'
                     // TODO: Create widget with validation message...
                     // It should map hundreds of cemetery numbers to names.
                     // 'ui:widget': CemeteryNumberWidget
