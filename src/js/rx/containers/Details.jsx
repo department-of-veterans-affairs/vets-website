@@ -80,7 +80,7 @@ export class Details extends React.Component {
     return (
       <div id="rx-info">
         <TableVerticalHeader
-          className="usa-table-borderless rx-table"
+          className="rx-table"
           data={data}/>
         {refillButton}
       </div>
