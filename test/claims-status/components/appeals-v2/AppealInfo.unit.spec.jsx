@@ -22,17 +22,15 @@ describe.only('<AppealInfo/>', () => {
     expect(tabNavs.length).to.equal(1);
   });
 
-  it('should default to rendering status', () => {
+  it('should default to rendering the status tab', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps}/>);
-    expect(wrapper.find('AppealsV2StatusPage').length).to.equal(1);
+    expect(wrapper.find('Connect(AppealsV2StatusPage)').length).to.equal(1);
     expect(wrapper.find('AppealsV2DetailPage').length).to.equal(0);
   });
 
   it('should have access to the appeal id in route params', () => {
-    window.history.pushState({}, '', `track-claims/appeals-v2/${appealIdParam}/status`);
     const wrapper = shallow(<AppealInfo {...defaultProps}/>);
-    const appealId = wrapper.state('params.id');
+    const appealId = wrapper.instance().props.params.id;
     expect(appealId).to.equal(appealIdParam);
-    window.history.back();
   });
 });

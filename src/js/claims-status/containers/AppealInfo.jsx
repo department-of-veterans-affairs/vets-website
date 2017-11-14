@@ -6,29 +6,27 @@ import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 
 const PATHS = { status: 'status', detail: 'detail' };
 
-const getActiveTab = (currentPath, pathOptions = { status: '', detail: '' }, appealId) => {
-  if (currentPath.includes(pathOptions.status)) {
+const setActiveTab = (currentPath, paths = { status: '', detail: '' }, appealId) => {
+  if (currentPath.includes(paths.status)) {
     return <AppealsV2StatusPage appealId={appealId}/>;
-  } else if (currentPath.includes(pathOptions.detail)) {
+  } else if (currentPath.includes(paths.detail)) {
     return <AppealsV2DetailPage appealId={appealId}/>;
   }
   return <AppealsV2StatusPage appealId={appealId}/>;
 };
 
-export class AppealInfo extends React.Component {
-  render() {
-    const appealId = this.props.params.id;
-    const currentPath = this.props.route.path;
-    const activeTabContent = getActiveTab(currentPath, PATHS, appealId);
-    return (
-      <div>
-        I'm the AppealInfo container!
-        <AppealsV2TabNav appealId={appealId}/>
-        {activeTabContent}
-      </div>
-    );
-  }
-}
+export const AppealInfo = (props) => {
+  const appealId = props.params.id;
+  const currentPath = props.route.path;
+  const activeTabContent = setActiveTab(currentPath, PATHS, appealId);
+  return (
+    <div>
+      I'm the AppealInfo container!
+      <AppealsV2TabNav appealId={appealId}/>
+      {activeTabContent}
+    </div>
+  );
+};
 
 AppealInfo.PropTypes = {
   params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
