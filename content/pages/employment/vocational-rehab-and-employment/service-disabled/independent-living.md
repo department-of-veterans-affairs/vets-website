@@ -35,7 +35,7 @@ You may be eligible for independent living services if you’re a Servicemember 
 
 - You have a serious employment handicap (SEH), **and**
 - Your disabilities prevent you from looking for or returning to work, **and**
-- Your Vocational Rehabilitation Counselor (VRC) refers you after you enroll in the VR&amp;E program
+- You're in need of services to live as independently as possible
 
 **Please note:** Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 <br>
