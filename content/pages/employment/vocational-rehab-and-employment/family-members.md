@@ -31,7 +31,7 @@ You may be eligible for educational and vocational counseling if you're:
 
 - The dependent of a Veteran, **and**
 - Eligible for a VA education benefit, including:
-  - [The Post-9/11 GI Bill (Chapter 30)](/education/gi-bill/post-9-11/)
+  - [The Post-9/11 GI Bill (Chapter 33)](/education/gi-bill/post-9-11/)
   - [The Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)](/education/gi-bill/montgomery-active-duty/)
   - [The Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)](/education/gi-bill/montgomery-selected-reserve/)
   - [Reserve Education Assistance Program (REAP, Chapter 1607)](/education/other-educational-assistance-programs/reap/)
