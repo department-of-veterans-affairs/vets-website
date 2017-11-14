@@ -19,7 +19,7 @@ import EligibleBuriedView from '../components/EligibleBuriedView';
 import {
   GetFormHelp,
   isVeteran,
-  desiredCemetaryNote,
+  desiredCemeteryNote,
   isAuthorizedAgent,
   formatName,
   transform,
@@ -455,7 +455,7 @@ const formConfig = {
                   'ui:title': 'Which VA National Cemetery would you prefer to be buried in?'
                 },
                 'view:desiredCemeteryNote': {
-                  'ui:description': desiredCemetaryNote
+                  'ui:description': desiredCemeteryNote
                 }
               },
               veteranHasBuried: {

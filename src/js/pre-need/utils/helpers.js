@@ -370,7 +370,7 @@ export const militaryNameUI = {
   }
 };
 
-export const desiredCemetaryNote = (
+export const desiredCemeteryNote = (
   <div className="usa-alert usa-alert-info no-background-image">
     <strong>Please note:</strong> This doesn't guarantee you'll be buried in your preferred cemetery. We'll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
   </div>
