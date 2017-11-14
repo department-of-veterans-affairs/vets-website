@@ -21,6 +21,12 @@ majorlinks:
     - url: /disability-benefits/apply/help/
       title: Get Help Filing a Claim
       description: Find out how to work with a trained professional called an accredited representative to file your claim.
+relatedlinks:
+  - heading: Other VA benefits you may want to explore
+    links:
+    - url: /employment/vocational-rehab-and-employment/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
 
 <div class="va-introtext">
@@ -81,8 +87,8 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">103.2 days</span>
-<span class="description">Average number of days to complete disability-related claims in September 2017</span>
+<span class="number">92.6 days</span>
+<span class="description">Average number of days to complete disability-related claims in October 2017</span>
 </div>
 
 <div markdown="0"><br></div>

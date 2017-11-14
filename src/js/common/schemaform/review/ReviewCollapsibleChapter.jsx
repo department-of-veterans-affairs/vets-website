@@ -104,7 +104,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
     if (this.state.open) {
       pageContent = (
-        <div className="usa-accordion-content schemaform-chapter-accordion-content">
+        <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
           {ChapterDescription &&
             <ChapterDescription
               viewedPages={viewedPages}

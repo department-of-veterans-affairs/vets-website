@@ -161,7 +161,9 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
  * a user can’t see.
  */
 export function removeHiddenData(schema, data) {
-  if (isHiddenField(schema) || typeof data === 'undefined') {
+  // null is necessary here because Rails 4 will convert empty arrays to null
+  // In the forms, there's no difference between an empty array and null or undefined
+  if (isHiddenField(schema) || typeof data === 'undefined' || data === null) {
     return undefined;
   }
 

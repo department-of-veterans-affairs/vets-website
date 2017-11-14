@@ -13,7 +13,7 @@ If you’re a Servicemember with a disability, the Benefits Delivery at Discharg
 
 </div>
 
-- Separation 
+- Separation
 - Retirement
 - Release from active duty
 - Demobilization
@@ -37,10 +37,10 @@ Compensation (monthly payments)
 
 -----
 
-### How do I get these disability benefits? 
+### How do I get these disability benefits?
 
 You’ll need to apply for benefits. When you apply, you’ll have to turn in your service treatment records. You’ll also need to finish all phases of the VA/DOD medical separation examination processes before your release from the military. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
 
 ### Get more information
-If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll free at <a href="tel:+18008271000">1-800-827-1000</a>.
+If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll free at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).

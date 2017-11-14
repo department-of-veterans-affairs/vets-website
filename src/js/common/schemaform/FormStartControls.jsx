@@ -57,7 +57,7 @@ class FormStartControls extends React.Component {
           {!this.props.resumeOnly && <ProgressButton
             onButtonClick={this.toggleModal}
             buttonText="Start Over"
-            buttonClass="usa-button-outline"/>}
+            buttonClass="usa-button-secondary"/>}
           <Modal
             cssClass="va-modal-large"
             id="start-over-modal"
@@ -72,7 +72,7 @@ class FormStartControls extends React.Component {
             <ProgressButton
               onButtonClick={this.toggleModal}
               buttonText="Cancel"
-              buttonClass="usa-button-outline"/>
+              buttonClass="usa-button-secondary"/>
           </Modal>
         </div>
       );

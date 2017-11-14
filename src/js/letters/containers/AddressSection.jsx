@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import { scrollToFirstError } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
 
 import {
+  addressModalContent,
+  addressUpdateUnavailable,
   getStateName,
   getZipCode,
-  isDomesticAddress,
-  isMilitaryAddress,
-  isInternationalAddress,
-  addressUpdateUnavailable,
   inferAddressType,
+  isDomesticAddress,
+  isInternationalAddress,
+  isMilitaryAddress,
   resetDisallowedAddressFields
 } from '../utils/helpers';
 import { saveAddress } from '../actions/letters';
@@ -25,6 +28,16 @@ import {
   countryValidations,
   cityValidations
 } from '../utils/validations';
+
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('addressScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  });
+};
 
 // The address is empty if every field except type is falsey.
 // NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
@@ -41,6 +54,7 @@ export class AddressSection extends React.Component {
       errorMessages: {},
       fieldsToValidate: {},
       editableAddress: props.savedAddress || {},
+      addressHelpVisible: false,
     };
 
     // On the off chance that savedAddress is available in constructor, ensure
@@ -49,10 +63,9 @@ export class AddressSection extends React.Component {
     if (Object.keys(this.state.editableAddress).length > 0) {
       this.state.hasLoadedAddress = true;
       // If we start with an empty address, go straight to editing
-      this.state.isEditingAddress = isAddressEmpty(this.state.editableAddress);
+      this.state.isEditingAddress = (isAddressEmpty(this.state.editableAddress) && this.props.canUpdate);
     }
   }
-
 
   /* editableAddress is initialized from redux store in the constructor
    * but the prop it initializes from is not available at time of mounting, which means users
@@ -152,6 +165,7 @@ export class AddressSection extends React.Component {
       errorMessages: {}
     });
     this.props.saveAddress(this.state.editableAddress);
+    scrollToTop();
   }
 
   handleCancel = () => {
@@ -162,11 +176,13 @@ export class AddressSection extends React.Component {
       fieldsToValidate: {},
       editableAddress: this.props.savedAddress
     });
+    scrollToTop();
   }
 
   startEditing = () => {
     window.dataLayer.push({ event: 'letter-update-address-started' });
     this.setState({ isEditingAddress: true });
+    scrollToTop();
   }
 
   dirtyInput = (fieldName) => {
@@ -223,6 +239,9 @@ export class AddressSection extends React.Component {
     });
   }
 
+  closeAddressHelp = () => this.setState({ addressHelpVisible: false });
+
+  openAddressHelp = () => this.setState({ addressHelpVisible: true });
 
   render() {
     const address = this.props.savedAddress || {};
@@ -256,6 +275,7 @@ export class AddressSection extends React.Component {
     if (this.state.isEditingAddress) {
       addressFields = (
         <div>
+          <h5>Edit Address</h5>
           <Address
             onInput={this.handleChange}
             onBlur={this.dirtyInput}
@@ -265,7 +285,7 @@ export class AddressSection extends React.Component {
             states={this.props.states}
             required/>
           <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
-          <button className="usa-button-outline" onClick={this.handleCancel}>Cancel</button>
+          <button className="usa-button-secondary" onClick={this.handleCancel}>Cancel</button>
         </div>
       );
     } else if (this.props.savePending) {
@@ -277,12 +297,20 @@ export class AddressSection extends React.Component {
     } else {
       addressFields = (
         <div>
+          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
+          <button className="address-help-btn" onClick={this.openAddressHelp}>What is this?</button>
           {this.props.canUpdate &&
-            <button className="usa-button-outline" onClick={this.startEditing}>Edit</button>
+            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit</button>
           }
+          <Modal
+            title="Address usage"
+            onClose={this.closeAddressHelp}
+            visible={this.state.addressHelpVisible}
+            id="address-help"
+            contents={addressModalContent}/>
         </div>
       );
     }
@@ -300,14 +328,20 @@ export class AddressSection extends React.Component {
       addressContent = (
         <AddressContent
           saveError={this.props.saveAddressError}
-          name={(this.props.recipientName || '').toLowerCase()}
           addressObject={addressContentLines}>
           {addressFields}
         </AddressContent>
       );
     }
 
-    return <div>{addressContent}</div>;
+    return (
+      <div>
+        <Element name="addressScrollElement"/>
+        <div aria-live="polite" aria-relevant="additions">
+          {addressContent}
+        </div>
+      </div>
+    );
   }
 }
 

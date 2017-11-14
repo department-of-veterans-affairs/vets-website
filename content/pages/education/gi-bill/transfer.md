@@ -130,18 +130,18 @@ Once you leave active duty, you can still provide a future effective date that t
   - Army Active-Duty Enlisted  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
   - Army National Guard  [Email](mailto:ng.robinson.ngb-arng-pec.mbx.arng-hrm-o-gi-bill-ch33@mail.mil)
   - Army Reserve (Enlisted and Officer)  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-  - Navy Active-Duty Personnel  1-866-U-ASK-NPC (866-827-5672)/DSN 882-5672
-  - Navy Reserve  1-800-621-8853, Fax: 1-757-444-7597/7598  [Email](mailto:cnrfc_post911gibill@navy.mil)
+  - Navy Active-Duty Personnel  1-866-U-ASK-NPC (<a href="tel:+18668275672">1-866-827-5672</a>) or DSN 882-5672
+  - Navy Reserve  <a href="tel:+18006218853">1-800-621-8853</a>, Fax: 1-757-444-7597/7598  [Email](mailto:cnrfc_post911gibill@navy.mil)
   - Marine Corps Active-Duty Officer  [Email](mailto:Angelo.Valadez@usmc.mil)
   - Marine Corps Active-Duty Enlisted  [Email](mailto:Michael.A.Peck@usmc.mil)
   - Marine Corps Reserve  [Email](mailto:smb_manpower.cmt@usmc.mil)
-  - Air Force Active Duty  1-800-525-0102 or 1-210-565-5000 or DSN 665-5000
+  - Air Force Active Duty  <a href="tel:+18005250102">1-800-525-0102</a> or <a href="tel:12105655000">1-210-565-5000</a> or DSN 665-5000
   - Air National Guard  (Contact unit retention manager)
   - Air Force Reserve  [Email](mailto:julia.williamson@us.af.mil)
   - Coast Guard Active Duty  [Email](mailto:reidus.stokes@uscg.mil)
   - Coast Guard Reserve  [Email](mailto:reserveVAeducation@uscg.mil)
-  - NOAA  [Email](mailto:Gregory.Raymond@noaa.gov) or 1-301-713-7728
-  - PHS  [Email](mailto:OCCOHelpdesk@hhs.gov) or 1-240-453-6130
+  - NOAA  [Email](mailto:Gregory.Raymond@noaa.gov) or <a href="tel:13017137728">1-301-713-7728</a>
+  - PHS  [Email](mailto:OCCOHelpdesk@hhs.gov) or <a href="tel:12404536130">1-240-453-6130</a>
 
 </div>
 </div>

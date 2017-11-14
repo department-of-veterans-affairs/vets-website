@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import { focusElement } from '../../common/utils/helpers';
+
 import ErrorableSelect from './ErrorableSelect';
 import ErrorableTextInput from './ErrorableTextInput';
 import { STATE_CODE_TO_NAME, MILITARY_CITIES } from '../utils/constants';
@@ -15,6 +17,10 @@ import { militaryStateNames } from '../utils/helpers';
 class Address extends React.Component {
   componentWillMount() {
     this.id = _.uniqueId('address-input-');
+  }
+
+  componentDidMount() {
+    focusElement('h5');
   }
 
   getAdjustedStateNames = () => {

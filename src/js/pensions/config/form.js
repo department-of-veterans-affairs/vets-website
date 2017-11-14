@@ -7,6 +7,8 @@ import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import {
   transform,
   employmentDescription,
@@ -16,7 +18,6 @@ import {
   fileHelp,
   directDepositWarning,
   isMarried,
-  applicantDescription,
   uploadMessage,
   dependentsMinItem,
   wartimeWarning,
@@ -256,6 +257,7 @@ const formConfig = {
             'ui:title': 'Service periods',
             servicePeriods: {
               'ui:options': {
+                itemName: 'Service Period',
                 viewField: ServicePeriodView,
                 reviewTitle: 'Service periods'
               },
@@ -264,8 +266,8 @@ const formConfig = {
                   'ui:title': 'Branch of service'
                 },
                 activeServiceDateRange: dateRangeUI(
-                  'Date entered active service',
-                  'Date left active service',
+                  'Service start date',
+                  'Service end date',
                   'Date entered service must be before date left service'
                 ),
                 'ui:validations': [
@@ -335,6 +337,7 @@ const formConfig = {
             },
             previousNames: {
               'ui:options': {
+                itemName: 'Name',
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField,
                 reviewTitle: 'Previous names'
@@ -964,6 +967,7 @@ const formConfig = {
             },
             dependents: {
               'ui:options': {
+                itemName: 'Dependent',
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
               },

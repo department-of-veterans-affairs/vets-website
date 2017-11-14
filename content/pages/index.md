@@ -22,7 +22,7 @@ majorlinks:
       description: Find out if you qualify for a VA home loan. If you have a service-connected disability, find out if you qualify for a housing grant to help you live more independently.
     - url: /employment/
       title: Careers and Employment
-      description: Get help building your career skills and finding a job.
+      description: Find out if you're eligible for Vocational Rehabilitation and Employment (VR&E) services, get support for your Veteran-owned small business, and access other resources to help build your career skills and find a job.
     - url: /life-insurance/
       title: Life Insurance
       description: Explore VA life insurance options, manage your policy online, and file claims.
@@ -44,15 +44,15 @@ you’ve earned.</div>
 <div class="popular-container usa-grid-full">
 <h3>Get started with Vets.gov</h3>
 <div class="popular-container-links">
-  <a href="/health-care/apply/" class="usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-healthcare' });">
+  <a href="/health-care/apply/" class="usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-healthcare' });">
     Apply for health care
   </a>
 
-  <a href="/education/apply/" class="usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-education' });">
+  <a href="/education/apply/" class="usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-education' });">
     Apply for education benefits
   </a>
 
-  <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-outline" onClick="window.dataLayer.push({ event: 'nav-main-vcl' });">
+  <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-vcl' });">
     In crisis? Get help now
   </button>
 </div>

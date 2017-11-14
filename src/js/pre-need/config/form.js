@@ -6,27 +6,30 @@ import fullSchemaPreNeed from './schema.json';
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
-import fileUploadUI from '../../common/schemaform/definitions/file';
+// import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
-import { validateMatch } from '../../common/schemaform/validation';
-import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
+
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
+import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ClaimantView from '../components/ClaimantView';
 import EligibleBuriedView from '../components/EligibleBuriedView';
-import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
+// import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import {
   GetFormHelp,
-  claimantHeader,
-  formatName,
   isVeteran,
-  requiresSponsorInfo,
+  isAuthorizedAgent,
+  formatName,
   transform,
   fullMaidenNameUI,
   ssnDashesUI,
-  veteranUI
+  veteranUI,
+  serviceRecordsUI,
+  militaryNameUI,
+  getCemeteries
 } from '../utils/helpers';
 
 
@@ -35,9 +38,9 @@ const {
   veteran,
   applicant,
   hasCurrentlyBuried,
-  currentlyBuriedPersons,
-  attachments
-} = fullSchemaPreNeed.properties.applications.items.properties;
+  // currentlyBuriedPersons,
+  // attachments
+} = fullSchemaPreNeed.properties.application.properties;
 
 const {
   fullName,
@@ -53,7 +56,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/preneed',
+  submitUrl: '/v0/preneeds/burial_forms',
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
@@ -80,71 +83,54 @@ const formConfig = {
       pages: {
         applicantInformation1: {
           title: 'Applicant information',
-          path: 'applicant-information-1',
+          path: 'applicant-information',
           uiSchema: {
-            applications: {
-              'ui:options': {
-                viewField: ClaimantView,
-              },
-              items: {
-                claimant: {
-                  name: fullMaidenNameUI,
-                  ssn: ssnDashesUI,
-                  dateOfBirth: currentOrPastDateUI('Date of birth'),
-                  relationshipToVet: {
-                    'ui:title': 'Relationship to Servicemember',
-                    'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: {
-                        1: 'I am the Servicemember/Veteran',
-                        2: 'Spouse or surviving spouse',
-                        3: 'Unmarried adult child',
-                        4: 'Other'
-                      },
-                      nestedContent: {
-                        1: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>,
-                        2: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information.</div>,
-                        3: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information. You'll also need to provide supporting documents with information about your disability.</div>,
-                      }
-                    }
-                  },
-                  /*
-                  'view:other': {
-                    'ui:title': 'Please specify',
-                    'ui:required': (form) => get(form, 'relationship.type') === '4',
-                    'ui:options': {
-                      hideIf: (form) => get(form, 'relationship.type') !== '4'
+            'ui:description': applicantDescription,
+            application: {
+              claimant: {
+                name: fullMaidenNameUI,
+                ssn: ssnDashesUI,
+                dateOfBirth: currentOrPastDateUI('Date of birth'),
+                relationshipToVet: {
+                  'ui:title': 'Relationship to Servicemember',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      1: 'I am the Servicemember/Veteran',
+                      2: 'Spouse or surviving spouse',
+                      3: 'Unmarried adult child',
+                      4: 'Other'
+                    },
+                    nestedContent: {
+                      1: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>,
+                      2: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information.</div>,
+                      3: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information. You'll also need to provide supporting documents with information about your disability.</div>,
                     }
                   }
-                  */
-                }
+                },
               }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    claimant: {
-                      type: 'object',
-                      required: [
-                        'name',
-                        'ssn',
-                        'dateOfBirth',
-                        'relationshipToVet'
-                      ],
-                      properties: _.pick([
-                        'name',
-                        'ssn',
-                        'dateOfBirth',
-                        'relationshipToVet'
-                      ], claimant.properties)
-                    }
+              application: {
+                type: 'object',
+                properties: {
+                  claimant: {
+                    type: 'object',
+                    required: [
+                      'name',
+                      'ssn',
+                      'dateOfBirth',
+                      'relationshipToVet'
+                    ],
+                    properties: _.pick([
+                      'name',
+                      'ssn',
+                      'dateOfBirth',
+                      'relationshipToVet'
+                    ], claimant.properties)
                   }
                 }
               }
@@ -152,45 +138,36 @@ const formConfig = {
           }
         },
         applicantInformation2: {
-          title: item => formatName(item.claimant.name),
-          path: 'applicant-information-2/:index',
-          showPagePerItem: true,
-          arrayPath: 'applications',
-          itemFilter: isVeteran,
+          path: 'veteran-applicant-information',
+          depends: isVeteran,
           uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                veteran: veteranUI
-              }
+            application: {
+              veteran: veteranUI
             }
           },
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    veteran: {
-                      type: 'object',
-                      required: [
-                        'gender',
-                        'maritalStatus',
-                        'militaryStatus'
-                      ],
-                      properties: _.pick([
-                        'militaryServiceNumber',
-                        'vaClaimNumber',
-                        'placeOfBirth',
-                        'gender',
-                        'maritalStatus',
-                        'militaryStatus'
-                      ], _.set('militaryStatus.enum', [
-                        'V', 'R', 'A', 'E', 'S', 'O', 'X'
-                      ], veteran.properties))
-                    }
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: [
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus'
+                    ],
+                    properties: _.pick([
+                      'militaryServiceNumber',
+                      'vaClaimNumber',
+                      'placeOfBirth',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus'
+                    ], _.set('militaryStatus.enum', [
+                      'V', 'R', 'A', 'E', 'S', 'O', 'X'
+                    ], veteran.properties))
                   }
                 }
               }
@@ -202,162 +179,106 @@ const formConfig = {
     sponsorInformation: {
       title: 'Sponsor Information',
       pages: {
-        sponsorInformation1: {
-          title: item => formatName(item.claimant.name),
-          path: 'sponsor-information-1/:index',
-          showPagePerItem: true,
-          arrayPath: 'applications',
-          depends: formData => formData.applications && formData.applications.some(isVeteran),
-          itemFilter: item => !isVeteran(item),
+        sponsorInformation: {
+          path: 'sponsor-information',
+          depends: (formData) => !isVeteran(formData),
           uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                'view:sponsor': {
-                  'ui:title': 'Who is your Sponsor?',
+            'ui:description': applicantDescription,
+            application: {
+              veteran: _.merge(veteranUI, {
+                currentName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Sponsor\'s first name'
+                  },
+                  last: {
+                    'ui:title': 'Sponsor\'s last name'
+                  },
+                  middle: {
+                    'ui:title': 'Sponsor\'s middle name'
+                  },
+                  suffix: {
+                    'ui:title': 'Sponsor\'s suffix'
+                  },
+                  maiden: {
+                    'ui:title': 'Sponsor\'s maiden name'
+                  }
+                }),
+                militaryServiceNumber: {
+                  'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
+                },
+                vaClaimNumber: {
+                  'ui:title': 'Sponsor\'s VA claim number (if known)'
+                },
+                ssn: {
+                  ...ssnDashesUI,
+                  'ui:title': 'Sponsor\'s social security number'
+                },
+                dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
+                placeOfBirth: {
+                  'ui:title': 'Sponsor\'s place of birth'
+                },
+                gender: {
+                  'ui:title': 'Sponsor\'s gender'
+                },
+                maritalStatus: {
+                  'ui:title': 'Sponsor\'s marital status'
+                },
+                militaryStatus: {
+                  'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
+                  'ui:options': {
+                    nestedContent: {
+                      X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
+                    }
+                  }
+                },
+                isDeceased: {
+                  'ui:title': 'Has the sponsor died?',
                   'ui:widget': 'radio',
                   'ui:options': {
-                    updateSchema: form => {
-                      const veterans = form.applications ?
-                        form.applications.filter(isVeteran).map(
-                          a => formatName(a.claimant.name)
-                        ) : [];
-                      return {
-                        'enum': [...veterans, 'Other'],
-                        enumNames: [...veterans, 'Other']
-                      };
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No',
+                      unsure: 'I don\'t know'
                     }
                   }
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    'view:sponsor': {
-                      type: 'string'
-                    }
+                },
+                dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
+                  'ui:options': {
+                    expandUnder: 'isDeceased',
+                    expandUnderCondition: 'yes'
                   }
-                }
-              }
-            }
-          }
-        },
-        sponsorInformation2: {
-          title: item => formatName(item.claimant.name),
-          path: 'sponsor-information-2/:index',
-          showPagePerItem: true,
-          arrayPath: 'applications',
-          itemFilter: item => !isVeteran(item) && requiresSponsorInfo(item),
-          uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                'ui:description': <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>,
-                veteran: _.merge(veteranUI, {
-                  currentName: _.merge(fullNameUI, {
-                    first: {
-                      'ui:title': 'Sponsor\'s first name'
-                    },
-                    last: {
-                      'ui:title': 'Sponsor\'s last name'
-                    },
-                    middle: {
-                      'ui:title': 'Sponsor\'s middle name'
-                    },
-                    suffix: {
-                      'ui:title': 'Sponsor\'s suffix'
-                    },
-                    maiden: {
-                      'ui:title': 'Sponsor\'s maiden name'
-                    }
-                  }),
-                  militaryServiceNumber: {
-                    'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
-                  },
-                  vaClaimNumber: {
-                    'ui:title': 'Sponsor\'s VA claim number (if known)'
-                  },
-                  ssn: {
-                    ...ssnDashesUI,
-                    'ui:title': 'Sponsor\'s social security number'
-                  },
-                  dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
-                  placeOfBirth: {
-                    'ui:title': 'Sponsor\'s place of birth'
-                  },
-                  gender: {
-                    'ui:title': 'Sponsor\'s gender'
-                  },
-                  maritalStatus: {
-                    'ui:title': 'Sponsor\'s marital status'
-                  },
-                  militaryStatus: {
-                    'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
-                    'ui:options': {
-                      nestedContent: {
-                        X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
-                      }
-                    }
-                  },
-                  isDeceased: {
-                    'ui:title': 'Has the sponsor died?',
-                    'ui:widget': 'radio',
-                    'ui:options': {
-                      labels: {
-                        yes: 'Yes',
-                        no: 'No',
-                        unsure: 'I don\'t know'
-                      }
-                    }
-                  },
-                  dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
-                    'ui:options': {
-                      expandUnder: 'isDeceased',
-                      expandUnderCondition: 'yes'
-                    }
-                  })
                 })
-              }
+              })
             }
           },
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    veteran: {
-                      type: 'object',
-                      required: [
-                        'ssn',
-                        'gender',
-                        'maritalStatus',
-                        'militaryStatus',
-                        'isDeceased'
-                      ],
-                      properties: _.pick([
-                        'currentName',
-                        'ssn',
-                        'dateOfBirth',
-                        'militaryServiceNumber',
-                        'vaClaimNumber',
-                        'placeOfBirth',
-                        'gender',
-                        'maritalStatus',
-                        'militaryStatus',
-                        'isDeceased',
-                        'dateOfDeath',
-                      ], veteran.properties)
-                    }
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: [
+                      'ssn',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                      'isDeceased'
+                    ],
+                    properties: _.pick([
+                      'currentName',
+                      'ssn',
+                      'dateOfBirth',
+                      'militaryServiceNumber',
+                      'vaClaimNumber',
+                      'placeOfBirth',
+                      'gender',
+                      'maritalStatus',
+                      'militaryStatus',
+                      'isDeceased',
+                      'dateOfDeath',
+                    ], veteran.properties)
                   }
                 }
               }
@@ -369,88 +290,152 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        militaryHistory: {
-          title: item => formatName(item.claimant.name),
-          path: 'military-history/:index',
-          showPagePerItem: true,
-          arrayPath: 'applications',
-          itemFilter: requiresSponsorInfo,
+        // Two sets of military history pages dependent on
+        // whether the applicant is the veteran or not.
+        // If not, "Sponsor's" precedes all the field labels.
+        applicantMilitaryHistory: {
+          path: 'applicant-military-history',
+          depends: isVeteran,
           uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                veteran: {
-                  'ui:order': [
-                    'serviceRecords',
-                    'view:hasServiceName',
-                    'serviceName'
-                  ],
-                  serviceRecords: {
-                    'ui:title': 'Service periods',
-                    'ui:description': 'Please record all periods of service',
-                    'ui:options': {
-                      viewField: ServicePeriodView
-                    },
-                    items: {
-                      'ui:order': ['serviceBranch', '*'],
-                      serviceBranch: {
-                        'ui:title': 'Branch of service'
-                      },
-                      dateRange: dateRangeUI(
-                        'Start of service period',
-                        'End of service period',
-                        'End of service must be after start of service'
-                      ),
-                      dischargeType: {
-                        'ui:title': 'Discharge character of service',
-                        'ui:options': {
-                          labels: {
-                            1: 'Honorable',
-                            2: 'General',
-                            3: 'Entry Level Separation/Uncharacterized',
-                            4: 'Other Than Honorable',
-                            5: 'Bad Conduct',
-                            6: 'Dishonorable',
-                            7: 'Other'
-                          }
-                        }
-                      },
-                      highestRank: {
-                        'ui:title': 'Highest rank attained'
-                      }
-                    }
-                  },
-                  'view:hasServiceName': {
-                    'ui:title': 'Used a different name during service?',
-                    'ui:widget': 'yesNo'
-                  },
-                  serviceName: _.merge(fullNameUI, {
-                    'ui:options': {
-                      expandUnder: 'view:hasServiceName'
-                    }
-                  })
-                }
+            application: {
+              veteran: {
+                serviceRecords: serviceRecordsUI
               }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    veteran: {
-                      type: 'object',
-                      properties: {
-                        serviceRecords: veteran.properties.serviceRecords,
-                        // TODO: Make fields required when expanded and not required when not.
-                        serviceName: _.omit('required', fullName),
-                        'view:hasServiceName': {
-                          type: 'boolean'
-                        }
-                      }
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    properties: {
+                      serviceRecords: veteran.properties.serviceRecords
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        applicantMilitaryName: {
+          path: 'applicant-military-name',
+          depends: isVeteran,
+          uiSchema: militaryNameUI,
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: ['view:hasServiceName'],
+                    properties: {
+                      'view:hasServiceName': {
+                        type: 'boolean'
+                      },
+                      serviceName: _.omit('required', fullName),
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        sponsorMilitaryHistory: {
+          path: 'sponsor-military-history',
+          depends: (formData) => !isVeteran(formData),
+          uiSchema: {
+            application: {
+              veteran: {
+                serviceRecords: _.merge(serviceRecordsUI, {
+                  'ui:title': 'Sponsor\'s service periods',
+                  items: {
+                    serviceBranch: {
+                      'ui:title': 'Sponsor\'s branch of service'
+                    },
+                    dateRange: dateRangeUI(
+                      'Start of sponsor\'s service period',
+                      'End of sponsor\'s service period',
+                      'End of service must be after start of service'
+                    ),
+                    dischargeType: {
+                      'ui:title': 'Sponsor\'s discharge character of service',
+                    },
+                    highestRank: {
+                      'ui:title': 'Sponsor\'s highest rank attained'
+                    },
+                    nationalGuardState: {
+                      'ui:title': 'Sponsor\'s state (for National Guard Service only)',
+                    }
+                  }
+                })
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    properties: {
+                      serviceRecords: veteran.properties.serviceRecords
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        sponsorMilitaryName: {
+          path: 'sponsor-military-name',
+          depends: (formData) => !isVeteran(formData),
+          uiSchema: _.merge(militaryNameUI, {
+            application: {
+              veteran: {
+                'view:hasServiceName': {
+                  'ui:title': 'Did your sponsor serve under another name?'
+                },
+                serviceName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Sponsor\'s first name'
+                  },
+                  last: {
+                    'ui:title': 'Sponsor\'s last name'
+                  },
+                  middle: {
+                    'ui:title': 'Sponsor\'s middle name'
+                  },
+                  suffix: {
+                    'ui:title': 'Sponsor\'s suffix'
+                  },
+                  maiden: {
+                    'ui:title': 'Sponsor\'s maiden name'
+                  }
+                }),
+              }
+            },
+          }),
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: ['view:hasServiceName'],
+                    properties: {
+                      'view:hasServiceName': {
+                        type: 'boolean'
+                      },
+                      serviceName: _.omit('required', fullName),
                     }
                   }
                 }
@@ -464,44 +449,48 @@ const formConfig = {
       title: 'Burial Benefits',
       pages: {
         burialBenefits: {
-          title: item => formatName(item.claimant.name),
-          path: 'burial-benefits/:index',
-          showPagePerItem: true,
-          arrayPath: 'applications',
-          itemFilter: requiresSponsorInfo,
+          path: 'burial-benefits',
           uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                claimant: {
-                  desiredCemetery: {
-                    'ui:title': 'Your desired VA National Cemetery'
+            application: {
+              claimant: {
+                desiredCemetery: autosuggest.uiSchema(
+                  'Which VA National Cemetery would you prefer to be buried in?',
+                  getCemeteries
+                ),
+                'view:desiredCemeteryNote': {
+                  'ui:description': (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      <strong>Please note:</strong> This doesn't guarantee you'll be buried in your preferred cemetery. We'll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
+                    </div>
+                  )
+                }
+              },
+              hasCurrentlyBuried: {
+                'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: {
+                    1: 'Yes',
+                    2: 'No',
+                    3: 'I don\'t know',
                   }
+                }
+              },
+              currentlyBuriedPersons: {
+                'ui:options': {
+                  viewField: EligibleBuriedView,
+                  expandUnder: 'hasCurrentlyBuried',
+                  expandUnderCondition: '1'
                 },
-                hasCurrentlyBuried: {
-                  'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      1: 'Yes',
-                      2: 'No',
-                      3: 'I don\'t know',
-                    }
-                  }
-                },
-                currentlyBuriedPersons: {
-                  'ui:options': {
-                    viewField: EligibleBuriedView,
-                    expandUnder: 'hasCurrentlyBuried',
-                    expandUnderCondition: '1'
-                  },
-                  items: {
-                    name: {
-                      'ui:title': 'Name of deceased'
-                    },
-                    cemeteryNumber: {
-                      'ui:title': 'VA National Cemetery where they are buried'
-                    }
+                items: {
+                  name: _.merge(fullMaidenNameUI, {
+                    'ui:title': 'Name of deceased'
+                  }),
+                  'view:cemeteryNumber': {
+                    'ui:title': 'VA National Cemetery where they\'re buried'
+                    // TODO: Create widget with validation message...
+                    // It should map hundreds of cemetery numbers to names.
+                    // 'ui:widget': CemeteryNumberWidget
                   }
                 }
               }
@@ -510,19 +499,32 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    claimant: {
-                      type: 'object',
-                      properties: {
-                        desiredCemetery: claimant.properties.desiredCemetery
+              application: {
+                type: 'object',
+                required: ['hasCurrentlyBuried'],
+                properties: {
+                  claimant: {
+                    type: 'object',
+                    properties: {
+                      desiredCemetery: autosuggest.schema,
+                      'view:desiredCemeteryNote': {
+                        type: 'object',
+                        properties: {}
                       }
-                    },
-                    hasCurrentlyBuried,
-                    currentlyBuriedPersons
+                    }
+                  },
+                  hasCurrentlyBuried,
+                  currentlyBuriedPersons: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      required: ['name'],
+                      properties: {
+                        name: fullName,
+
+                        'view:cemeteryNumber': { type: 'string' }
+                      }
+                    }
                   }
                 }
               }
@@ -531,36 +533,26 @@ const formConfig = {
         }
       }
     },
+    /*
     supportingDocuments: {
       title: 'Supporting documents',
       pages: {
         supportingDocuments: {
-          title: item => formatName(item.claimant.name),
-          path: 'supporting-documents/:index',
+          path: 'supporting-documents',
           editModeOnReviewPage: true,
-          showPagePerItem: true,
-          arrayPath: 'applications',
           uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                'ui:description': SupportingDocumentsDescription,
-                attachments: _.merge(fileUploadUI('Select files to upload'), {
-                  endpoint: ''
-                })
-              }
+            'ui:description': SupportingDocumentsDescription,
+            application: {
+              attachments: fileUploadUI('Select files to upload')
             }
           },
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    attachments
-                  }
+              application: {
+                type: 'object',
+                properties: {
+                  attachments
                 }
               }
             }
@@ -568,44 +560,28 @@ const formConfig = {
         }
       }
     },
+    */
     contactInformation: {
       title: 'Contact Information',
       pages: {
-        contactInformation: {
-          title: item => formatName(item.claimant.name),
-          path: 'contact-information/:index',
-          showPagePerItem: true,
-          arrayPath: 'applications',
+        applicantContactInformation: {
+          title: 'Applicant\'s contact information',
+          path: 'applicant-contact-information',
           uiSchema: {
-            applications: {
-              items: {
-                'ui:title': claimantHeader,
-                claimant: {
-                  address: address.uiSchema(),
-                  'view:otherContactInfo': {
-                    'ui:title': 'Other contact information',
-                    'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
-                    'ui:validations': [
-                      validateMatch('email', 'view:confirmEmail')
-                    ],
-                    phoneNumber: phoneUI('Primary telephone number'),
-                    email: {
-                      'ui:title': 'Email address'
-                    },
-                    'view:confirmEmail': {
-                      'ui:title': 'Re-enter email address',
-                      'ui:options': {
-                        hideOnReview: true
-                      }
-                    }
-                  }
+            application: {
+              claimant: {
+                address: address.uiSchema('Applicant\'s mailing address'),
+                'view:contactInfoDescription': {
+                  'ui:description': (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      <p>We may contact you by phone if we need more information about your application.</p>
+                      <p>You can also provide your email address to receive updates about new openings in VA National Cemeteries or other burial benefits.</p>
+                    </div>
+                  ),
                 },
-                veteran: {
-                  address: _.merge(address.uiSchema('Sponsor address'), {
-                    'ui:options': {
-                      hideIf: (formData, index) => isVeteran(formData.applications[index])
-                    }
-                  })
+                phoneNumber: phoneUI('Primary telephone number'),
+                email: {
+                  'ui:title': 'Email address'
                 }
               }
             }
@@ -613,103 +589,141 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              applications: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    claimant: {
-                      type: 'object',
-                      properties: {
-                        address: address.schema(fullSchemaPreNeed),
-                        'view:otherContactInfo': {
-                          type: 'object',
-                          properties: {
-                            phoneNumber: claimant.properties.phoneNumber,
-                            email: claimant.properties.email,
-                            'view:confirmEmail': {
-                              type: 'string',
-                              format: 'email'
-                            },
-                          }
-                        }
-                      }
-                    },
-                    veteran: {
-                      type: 'object',
-                      properties: {
-                        address: address.schema(fullSchemaPreNeed)
-                      }
+              application: {
+                type: 'object',
+                properties: {
+                  claimant: {
+                    type: 'object',
+                    required: [
+                      'phoneNumber',
+                      'email'
+                    ],
+                    properties: {
+                      address: address.schema(fullSchemaPreNeed, true),
+                      'view:contactInfoDescription': {
+                        type: 'object',
+                        properties: {}
+                      },
+                      phoneNumber: claimant.properties.phoneNumber,
+                      email: claimant.properties.email
                     }
                   }
                 }
               }
             }
           }
-        }
-      }
-    },
-    certification: {
-      title: 'Certification',
-      pages: {
-        certification: {
-          title: 'Certification',
-          path: 'certification',
+        },
+        sponsorMailingAddress: {
+          title: 'Sponsor\'s mailing address',
+          path: 'sponsor-mailing-address',
+          depends: (formData) => !isVeteran(formData),
           uiSchema: {
-            'view:preparer': {
-              'ui:title': 'Who is filling out this form?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                updateSchema: form => {
-                  const claimants = form.applications ?
-                    form.applications.map(
-                      a => formatName(a.claimant.name)
-                    ) : [];
-                  return {
-                    'enum': [...claimants, 'Other'],
-                    enumNames: [...claimants, 'Other']
-                  };
-                }
-              }
-            },
-            applicant: {
-              'ui:options': {
-                expandUnder: 'view:preparer',
-                expandUnderCondition: 'Other'
-              },
-              name: _.merge(fullNameUI, {
-                'ui:title': 'Preparer information',
-                suffix: {
-                  'ui:options': {
-                    hideIf: () => true
-                  }
-                }
-              }),
-              mailingAddress: address.uiSchema('Mailing address'),
-              'view:contactInfo': {
-                'ui:title': 'Contact information',
-                applicantPhoneNumber: phoneUI('Primary telephone number')
+            application: {
+              veteran: {
+                address: address.uiSchema('Sponsor\'s address')
               }
             }
           },
           schema: {
             type: 'object',
-            required: ['view:preparer'],
             properties: {
-              'view:preparer': {
-                type: 'string'
-              },
-              applicant: {
+              application: {
                 type: 'object',
                 properties: {
-                  // TODO: Make fields required when expanded and not required when not.
-                  name: _.omit('required', fullName),
-                  mailingAddress: address.schema(fullSchemaPreNeed, /* true */),
-                  'view:contactInfo': {
+                  veteran: {
                     type: 'object',
-                    // required: ['applicantPhoneNumber'],
                     properties: {
-                      applicantPhoneNumber: applicant.properties.applicantPhoneNumber
+                      address: address.schema(fullSchemaPreNeed)
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        preparer: {
+          title: 'Preparer',
+          path: 'preparer',
+          uiSchema: {
+            application: {
+              applicant: {
+                applicantRelationshipToClaimant: {
+                  'ui:title': 'Who is filling out this application?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    updateSchema: (formData) => {
+                      const applicantName = formatName(formData.application.claimant.name);
+                      return {
+                        'enum': ['Self', 'Authorized Agent/Rep'],
+                        enumNames: [applicantName || 'Myself', 'Someone else']
+                      };
+                    },
+                    nestedContent: {
+                      'Authorized Agent/Rep': (
+                        <div className="usa-alert usa-alert-info no-background-image">
+                          <p>A preparer may sign for an individual who's:</p>
+                          <ul>
+                            <li>Under 18 years of age, <strong>or</strong></li>
+                            <li>Is mentally incompetent, <strong>or</strong></li>
+                            <li>Is physically unable to sign the application</li>
+                          </ul>
+                          <p>If you're the preparer of this application, please provide your contact information.</p>
+                        </div>
+                      )
+                    }
+                  }
+                },
+                'view:applicantInfo': {
+                  'ui:options': {
+                    expandUnder: 'applicantRelationshipToClaimant',
+                    expandUnderCondition: 'Authorized Agent/Rep'
+                  },
+                  name: _.merge(fullMaidenNameUI, {
+                    'ui:title': 'Preparer information',
+                    first: { 'ui:required': isAuthorizedAgent },
+                    last: { 'ui:required': isAuthorizedAgent }
+                  }),
+                  mailingAddress: _.merge(address.uiSchema('Mailing address'), {
+                    country: { 'ui:required': isAuthorizedAgent },
+                    street: { 'ui:required': isAuthorizedAgent },
+                    city: { 'ui:required': isAuthorizedAgent },
+                    state: { 'ui:required': isAuthorizedAgent },
+                    postalCode: { 'ui:required': isAuthorizedAgent },
+                  }),
+                  'view:contactInfo': {
+                    'ui:title': 'Contact information',
+                    applicantPhoneNumber: _.merge(phoneUI('Primary telephone number'), {
+                      'ui:required': isAuthorizedAgent
+                    })
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    required: ['applicantRelationshipToClaimant'],
+                    properties: {
+                      applicantRelationshipToClaimant: applicant.properties.applicantRelationshipToClaimant,
+                      'view:applicantInfo': {
+                        type: 'object',
+                        properties: {
+                          name: _.omit('required', fullName),
+                          mailingAddress: address.schema(fullSchemaPreNeed),
+                          'view:contactInfo': {
+                            type: 'object',
+                            properties: {
+                              applicantPhoneNumber: applicant.properties.applicantPhoneNumber
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
