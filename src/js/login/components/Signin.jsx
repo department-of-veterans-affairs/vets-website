@@ -48,7 +48,7 @@ class Signin extends React.Component {
   renderLogonWarning() {
     const content = (
       <div>
-        <h5>Maintenance work will be happening on DS Logon between 6:30 p.m. - 7:30 p.m.</h5>
+        <h5>Maintenance work will be happening on DS Logon between 6:30 p.m. - 7:30 p.m. PST.</h5>
         <p>
           If you have trouble signing in with your account, please check back soon.
         </p>
