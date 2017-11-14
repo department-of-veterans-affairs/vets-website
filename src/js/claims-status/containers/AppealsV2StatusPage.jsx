@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getAppealsV2 } from '../actions/index.jsx';
 import { getStatusContents } from '../utils/appeals-v2-helpers';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Timeline from '../components/appeals-v2/Timeline';
 import Alerts from '../components/appeals-v2/Alerts';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
@@ -24,6 +25,9 @@ class AppealsV2StatusPage extends React.Component {
   }
 
   render() {
+    if (this.props.appealsLoading) {
+      return <LoadingIndicator message="Please wait while we load your appeal..."/>;
+    }
     const { events, status } = this.props.appeal.attributes;
     const { type, details } = status;
     const currentStatus = getStatusContents(type, details);
@@ -85,7 +89,7 @@ function isolateAppeal(state, id) {
 function mapStateToProps(state, ownProps) {
   return {
     appeal: isolateAppeal(state, ownProps.params.id),
-    loading: state.loading
+    appealsLoading: state.disability.status.appeals.appealsLoading
   };
 }
 
