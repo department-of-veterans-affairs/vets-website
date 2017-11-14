@@ -6,6 +6,10 @@ import moment from 'moment';
 import { getEventContent } from '../../utils/appeals-v2-helpers';
 import CurrentStatus from './CurrentStatus';
 
+function formatDate(date) {
+  return moment(date, 'YYYY-MM-DD').format('MMMM d, YYYY');
+}
+
 /**
  * Timeline is in charge of the past events and current status.
  */
@@ -23,7 +27,7 @@ class Timeline extends React.Component {
       return (
         <li key={index} role="presentation" className={`process-step ${liClass}`}>
           <h3>{title || 'Title here'}</h3>
-          <span className="appeal-event-date">on {moment(event.date, 'YYYY-MM-DD').format('MMMM d, YYYY')}</span>
+          <span className="appeal-event-date">on {formatDate(event.date)}</span>
           <p>{description}</p>
         </li>
       );
@@ -31,12 +35,12 @@ class Timeline extends React.Component {
   }
 
   toggleExpanded = () => {
-    this.setState({ expanded: !this.state.expanded });
+    this.setState((prevState) => ({ expanded: !prevState.expanded }));
   }
 
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
-    const dateRange = this.props.events[0] ? `${moment(this.props.events[0].date, 'YYYY-MM-DD').format('MMMM d, YYYY')} - ${moment(this.props.events[this.props.events.length - 1].date, 'YYYY-MM-DD').format('MMMM d, YYYY')}` : '';
+    const dateRange = this.props.events[0] ? `${formatDate(this.props.events[0].date)} - ${formatDate(this.props.events[this.props.events.length - 1].date)}` : '';
 
     // Add the expander
     const expanderClassName = this.state.expanded ? 'section-expanded' : 'section-unexpanded';
