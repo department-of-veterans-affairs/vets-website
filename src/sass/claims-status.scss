@@ -602,6 +602,76 @@ h1:focus {
   }
 }
 
+// Slimmed version of .claim-timeline with appeals-specific stuff
+// To be used in conjunction with .process .form-process
+.appeal-timeline {
+  padding-top: 0;
+
+  li {
+    &:before {
+      background: $color-green;
+      border-radius: 50%;
+    }
+
+    // Move up the headers to align with the bullet point better
+    h3, h4 {
+      padding-top: 0px;
+    }
+  }
+
+  // Child <li>s are expected to have .process-step as well as a .section-*
+  .process-step {
+    border-left: 5px solid #d6d7d9; // Should probably make this a variable...
+    margin-left: -2.65em;
+
+    &:before {
+      margin-left: -2.65em;
+    }
+  }
+
+  .section-complete:before {
+    font-family: FontAwesome;
+    content: "\f00c";
+    margin-top: 5px; // Aligns the check bullets to their headers better
+  }
+
+  .section-unexpanded:before {
+    font-family: FontAwesome;
+    content: "\f067";
+  }
+
+  .section-expanded:before {
+    font-family: FontAwesome;
+    content: "\f068";
+  }
+
+  .section-current {
+    // Align the bullet horizontally
+    padding-left: calc(2em + 2px);
+
+    h3 {
+      // Pull the whole content up so the bullet border starts to cover the previous li's
+      //  left border
+      // margin-top: -7px;
+    }
+
+    &:before {
+      // \2022 = unicode code point for bullet, then just color it green like the background
+      //  to make it "disappear"
+      content: "\2022";
+      color: $color-green;
+      font-size: 0.8em;
+      line-height: 1.4em;
+      margin-left: -3.85em;
+      margin-top: 11px; // Pull the bullet down to align it better
+    }
+  }
+
+  .appeal-event-date {
+    color: $color-gray-light;
+  }
+}
+
 .claim-timeline-icon {
   float: right;
   margin-top: 6px;
