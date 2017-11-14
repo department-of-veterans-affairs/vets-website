@@ -34,22 +34,15 @@ export function claimantHeader({ formData }) {
 }
 
 export function transform(formConfig, form) {
-  // Rename hasCurrentlyBuried data
-  const hasCurrentlyBuriedData = (application) => {
-    if (isVeteran({ application })) {
-      /* eslint-disable no-param-reassign */
-      application.hasCurrentlyBuried = application.veteranHasBuried;
-      delete application.veteranHasBuried;
-    } else {
-      application.hasCurrentlyBuried = application.sponsorHasBuried;
-      delete application.sponsorHasBuried;
-      /* eslint-enable no-param-reassign */
-    }
-    return application;
-  };
 
   // Copy over sponsor data if the claimant is the veteran.
   const populateSponsorData = (application) => {
+    /* eslint-disable no-param-reassign */
+    if (application.sponsorHasBuried) {
+      application.hasCurrentlyBuried = application.sponsorHasBuried;
+      delete application.sponsorHasBuried;
+    }
+    /* eslint-enable no-param-reassign */
     return isVeteran({ application }) ?
       merge(application, {
         veteran: {
@@ -78,6 +71,12 @@ export function transform(formConfig, form) {
 
   // Copy over veteran data if a sponsor is filling out the form
   const populateVeteranData = (application) => {
+    /* eslint-disable no-param-reassign */
+    if (application.veteranHasBuried) {
+      application.hasCurrentlyBuried = application.veteranHasBuried;
+      delete application.veteranHasBuried;
+    }
+    /* eslint-enable no-param-reassign */
     return merge(application, {
       veteran: {
         serviceName: application.veteran.serviceName || application.veteran.currentName
@@ -86,7 +85,6 @@ export function transform(formConfig, form) {
   };
 
   const application = [
-    hasCurrentlyBuriedData,
     populateSponsorData,
     populatePreparerData,
     populateVeteranData,

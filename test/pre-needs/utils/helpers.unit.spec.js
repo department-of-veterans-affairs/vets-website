@@ -18,13 +18,11 @@ describe('Preneed helpers', () => {
     });
 
     it('should rename veteranHasBuried data', () => {
-      const hasCurrentlyBuried = '1';
+      const hasCurrentlyBuried = '0';
       const data = JSON.parse(transform({}, {
         data: {
           application: {
-            claimant: {
-              relationshipToVet: '1'
-            },
+            claimant: {},
             veteran: {},
             veteranHasBuried: hasCurrentlyBuried
           }
@@ -34,7 +32,7 @@ describe('Preneed helpers', () => {
       expect(data.application.hasCurrentlyBuried).to.equal(hasCurrentlyBuried);
     });
 
-    it('should populate sponsorHasCurrentlyBuried data', () => {
+    it('should rename sponsorHasCurrentlyBuried data', () => {
       const hasCurrentlyBuried = '1';
       const data = JSON.parse(transform({}, {
         data: {
