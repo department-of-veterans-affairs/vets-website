@@ -17,36 +17,6 @@ describe('Preneed helpers', () => {
       expect(data.application['view:testing']).to.be.undefined;
     });
 
-    it('should rename veteranHasBuried data', () => {
-      const hasCurrentlyBuried = '0';
-      const data = JSON.parse(transform({}, {
-        data: {
-          application: {
-            claimant: {},
-            veteran: {},
-            veteranHasBuried: hasCurrentlyBuried
-          }
-        }
-      }));
-
-      expect(data.application.hasCurrentlyBuried).to.equal(hasCurrentlyBuried);
-    });
-
-    it('should rename sponsorHasCurrentlyBuried data', () => {
-      const hasCurrentlyBuried = '1';
-      const data = JSON.parse(transform({}, {
-        data: {
-          application: {
-            claimant: {},
-            veteran: {},
-            sponsorHasBuried: hasCurrentlyBuried
-          }
-        }
-      }));
-
-      expect(data.application.hasCurrentlyBuried).to.equal(hasCurrentlyBuried);
-    });
-
     it('should populate service name', () => {
       const data = JSON.parse(transform({}, {
         data: {
