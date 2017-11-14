@@ -59,8 +59,10 @@ class Timeline extends React.Component {
     eventList.push(<CurrentStatus key={eventList.length} title={title} description={description}/>);
 
     return (
-      // May not want this as an ol...
-      <ol className="process form-process appeal-timeline">{eventList}</ol>
+      <div>
+        <ol className="process form-process appeal-timeline">{eventList}</ol>
+        <div className="down-arrow"/>
+      </div>
     );
   }
 }

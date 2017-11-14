@@ -649,6 +649,9 @@ h1:focus {
     // Align the bullet horizontally
     padding-left: calc(2em + 2px);
 
+    // Make sure the arrowhead lines up better
+    padding-bottom: 0px;
+
     h3 {
       // Pull the whole content up so the bullet border starts to cover the previous li's
       //  left border
@@ -669,6 +672,15 @@ h1:focus {
 
   .appeal-event-date {
     color: $color-gray-light;
+  }
+
+  & + .down-arrow {
+    width: 0px;
+    border-left: 0.6em solid transparent;
+    border-right: 0.6em solid transparent;
+    border-top: 1.2em solid #d6d7d9;
+    margin-top: -32px;
+    margin-left: 0.8em;
   }
 }
 
