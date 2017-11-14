@@ -1591,9 +1591,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
-            files: fileUploadUI('', {
-              hideLabelText: true,
-            }),
+            files: fileUploadUI(''),
             'view:uploadMessage': {
               'ui:description': uploadMessage
             }
