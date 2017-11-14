@@ -15,9 +15,9 @@ import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 // TODO(crew): Romove before this goes to production.
 const initialState = {
   userFullName: {
-    first: 'Sam',
+    first: null,
     middle: null,
-    last: 'Gordon',
+    last: null,
     suffix: null,
   },
   email: null,

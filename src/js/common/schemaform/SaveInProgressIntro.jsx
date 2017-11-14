@@ -14,7 +14,7 @@ export default class SaveInProgressIntro extends React.Component {
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
     const prefillEnabled = this.props.prefillEnabled;
-    if (true) {
+    if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)

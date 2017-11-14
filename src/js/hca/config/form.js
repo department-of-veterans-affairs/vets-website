@@ -151,16 +151,7 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
-          initialData: {
-            veteranFullName: {
-              first: 'Sam',
-              last: 'Gordon'
-            },
-            dischargeType: 'honorable',
-            lastDischargeDate: '2000-01-02',
-            lastEntryDate: '1991-02-03',
-            lastServiceBranch: 'army'
-          },
+          initialData: {},
           uiSchema: {
             veteranFullName: _.merge(fullNameUI, {
               last: {
@@ -187,10 +178,7 @@ const formConfig = {
         birthInformation: {
           path: 'veteran-information/birth-information',
           title: 'Veteran information',
-          initialData: {
-            veteranDateOfBirth: '1971-12-12',
-            veteranSocialSecurityNumber: '342342342'
-          },
+          initialData: {},
           uiSchema: {
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             veteranSocialSecurityNumber: ssnUI,
