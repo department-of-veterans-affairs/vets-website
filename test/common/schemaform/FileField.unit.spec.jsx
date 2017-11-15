@@ -19,10 +19,21 @@ describe('Schemaform <FileField>', () => {
     const idSchema = {
       $id: 'field'
     };
-    const schema = {};
+    const schema = {
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
+    };
     const uiSchema = fileUploadUI('Files');
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
     const tree = SkinDeep.shallowRender(
       <FileField
+        registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
@@ -37,7 +48,12 @@ describe('Schemaform <FileField>', () => {
     const idSchema = {
       $id: 'field'
     };
-    const schema = {};
+    const schema = {
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
+    };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
@@ -45,8 +61,14 @@ describe('Schemaform <FileField>', () => {
         name: 'Test file name'
       }
     ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
     const tree = SkinDeep.shallowRender(
       <FileField
+        registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
@@ -57,22 +79,32 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.subTree('li').text()).to.contain('Test file name');
-    expect(tree.subTree('.usa-button-secondary').text()).to.contain('Edit');
   });
 
   it('should render uploading', () => {
     const idSchema = {
       $id: 'field'
     };
-    const schema = {};
+    const schema = {
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
+    };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         uploading: true
       }
     ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
     const tree = SkinDeep.shallowRender(
       <FileField
+        registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
@@ -90,15 +122,26 @@ describe('Schemaform <FileField>', () => {
     const idSchema = {
       $id: 'field'
     };
-    const schema = {};
+    const schema = {
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
+    };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
         uploading: true
       }
     ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
     const tree = SkinDeep.shallowRender(
       <FileField
+        registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
@@ -118,7 +161,12 @@ describe('Schemaform <FileField>', () => {
     const idSchema = {
       $id: 'field'
     };
-    const schema = {};
+    const schema = {
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
+    };
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
@@ -132,8 +180,14 @@ describe('Schemaform <FileField>', () => {
         ]
       }
     };
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
     const tree = SkinDeep.shallowRender(
       <FileField
+        registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
@@ -152,7 +206,11 @@ describe('Schemaform <FileField>', () => {
       $id: 'field'
     };
     const schema = {
-      maxItems: 1
+      maxItems: 1,
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
     };
     const uiSchema = fileUploadUI('Files');
     const formData = [
@@ -161,8 +219,14 @@ describe('Schemaform <FileField>', () => {
         name: 'Test file name'
       }
     ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
     const tree = SkinDeep.shallowRender(
       <FileField
+        registry={registry}
         schema={schema}
         uiSchema={uiSchema}
         idSchema={idSchema}
@@ -173,38 +237,6 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.everySubTree('label')).to.be.empty;
-  });
-  it('should show edit state', () => {
-    const uiSchema = fileUploadUI('Files');
-    const schema = {
-      type: 'object',
-      properties: {
-        fileField: fileSchema
-      }
-    };
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          fileField: [
-            {
-              confirmationCode: 'asdfasfd'
-            }
-          ]
-        }}
-        uiSchema={{
-          fileField: uiSchema
-        }}/>
-    );
-    const formDOM = getFormDOM(form);
-
-    formDOM.click('button.usa-button-secondary');
-
-    const buttons = formDOM.querySelectorAll('.usa-button');
-    expect(buttons.length).to.equal(2);
-    expect(buttons[0].textContent).to.equal('Replace');
-    expect(buttons[1].textContent).to.equal('Cancel');
-    expect(formDOM.querySelector('.va-growable-background a').textContent).to.equal('Delete file');
   });
 
   it('should delete file', () => {
@@ -233,8 +265,7 @@ describe('Schemaform <FileField>', () => {
 
     expect(formDOM.querySelectorAll('li')).not.to.be.empty;
 
-    formDOM.click('button.usa-button-secondary');
-    formDOM.click('.va-growable-background a');
+    formDOM.click('.va-growable-background button');
 
     expect(formDOM.querySelectorAll('li')).to.be.empty;
   });

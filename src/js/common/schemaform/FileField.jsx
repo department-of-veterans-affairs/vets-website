@@ -132,13 +132,13 @@ export default class FileField extends React.Component {
                         readonly={this.props.readonly}/>
                     </div>}
                   {!file.uploading && hasErrors && <span className="usa-input-error-message">{errors[0]}</span>}
-                  <div>
+                  {!file.uploading && <div>
                     <button className="va-button-link" onClick={() => {
                       this.removeFile(index);
                     }}>
                       Delete file
                     </button>
-                  </div>
+                  </div>}
                 </li>
               );
             })}
