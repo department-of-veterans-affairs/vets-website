@@ -211,7 +211,7 @@ class ObjectField extends React.Component {
             {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
-          {process.env.BRANCH_NAME != 'production' && uiOptions.showPrefillMessage && <PrefillMessage message={prefillMessage}/>}
+          {process.env.BRANCH_NAME !== 'production' && uiOptions.showPrefillMessage && <PrefillMessage message={prefillMessage}/>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;
