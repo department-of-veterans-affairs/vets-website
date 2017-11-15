@@ -343,7 +343,7 @@ export const militaryNameUI = {
         'ui:title': 'Did you serve under another name?',
         'ui:widget': 'yesNo'
       },
-      serviceName: merge(fullMaidenNameUI, {
+      serviceName: merge(fullNameUI, {
         'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
         'ui:options': {
           expandUnder: 'view:hasServiceName'

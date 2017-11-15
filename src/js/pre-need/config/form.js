@@ -338,7 +338,7 @@ const formConfig = {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      serviceName: _.omit('required', fullName),
+                      serviceName: _.omit(['required', 'properties.maiden'], fullName),
                     }
                   }
                 }
@@ -415,9 +415,6 @@ const formConfig = {
                   },
                   suffix: {
                     'ui:title': 'Sponsor\'s suffix'
-                  },
-                  maiden: {
-                    'ui:title': 'Sponsor\'s maiden name'
                   }
                 }),
               }
@@ -436,7 +433,7 @@ const formConfig = {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      serviceName: _.omit('required', fullName),
+                      serviceName: _.omit(['required', 'properties.maiden'], fullName),
                     }
                   }
                 }
@@ -484,7 +481,7 @@ const formConfig = {
                   expandUnderCondition: '1'
                 },
                 items: {
-                  name: _.merge(fullMaidenNameUI, {
+                  name: _.merge(fullNameUI, {
                     'ui:title': 'Name of deceased'
                   }),
                   'view:cemeteryNumber': {
@@ -521,7 +518,7 @@ const formConfig = {
                       type: 'object',
                       required: ['name'],
                       properties: {
-                        name: fullName,
+                        name: _.omit('properties.maiden', fullName),
 
                         'view:cemeteryNumber': { type: 'string' }
                       }
@@ -675,7 +672,7 @@ const formConfig = {
                     expandUnder: 'applicantRelationshipToClaimant',
                     expandUnderCondition: 'Authorized Agent/Rep'
                   },
-                  name: _.merge(fullMaidenNameUI, {
+                  name: _.merge(fullNameUI, {
                     'ui:title': 'Preparer information',
                     first: { 'ui:required': isAuthorizedAgent },
                     last: { 'ui:required': isAuthorizedAgent }
