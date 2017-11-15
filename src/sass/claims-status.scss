@@ -608,6 +608,12 @@ h1:focus {
   padding-top: 0;
 
   li {
+    // Pull the first bullet point up just a hair to cover the top of the line
+    //  for when the viewport is small.
+    &:first-child:before {
+      margin-top: 4px;
+    }
+
     &:before {
       background: $color-green;
       border-radius: 50%;
@@ -623,6 +629,7 @@ h1:focus {
   .process-step {
     border-left: 5px solid $color-gray-lighter;
     margin-left: -2.65em;
+    padding-bottom: 1em;
 
     &:before {
       margin-left: -2.65em;
@@ -649,6 +656,9 @@ h1:focus {
     // Align the bullet horizontally
     padding-left: calc(2em + 2px);
 
+    // Make sure the arrowhead lines up better
+    padding-bottom: 0px;
+
     h3 {
       // Pull the whole content up so the bullet border starts to cover the previous li's
       //  left border
@@ -668,7 +678,21 @@ h1:focus {
   }
 
   .appeal-event-date {
-    color: $color-gray-light;
+    color: $color-gray-medium;
+  }
+
+  & + .down-arrow {
+    width: 0px;
+    border-left: 0.6em solid transparent;
+    border-right: 0.6em solid transparent;
+    border-top: 1.2em solid $color-gray-lighter;
+    margin-top: -32px;
+    margin-left: 0.8em;
+  }
+
+  .separator {
+    margin: 0.8em 2em 0 -0.7em;
+    border-top: 1px solid $color-gray-lighter;
   }
 }
 
