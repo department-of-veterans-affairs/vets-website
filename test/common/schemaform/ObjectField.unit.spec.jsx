@@ -317,7 +317,7 @@ describe('Schemaform: ObjectField', () => {
         uiSchema={uiSchema}
         idSchema={{}}
         onChange={onChange}
-        formContext={{ prefilled: true }}
+        formContext={{ prefilled: false }}
         onBlur={onBlur}/>
     );
 

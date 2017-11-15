@@ -54,6 +54,7 @@ class ObjectField extends React.Component {
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
+    this.showPrefill = this.showPrefill.bind(this);
     this.SchemaField = pureWithDeepEquals(this.props.registry.fields.SchemaField);
     this.orderedProperties = this.orderAndFilterProperties(props.schema, props.uiSchema);
   }
@@ -115,6 +116,15 @@ class ObjectField extends React.Component {
     }, filteredProperties);
 
     return _.values(groupedProperties);
+  }
+
+  showPrefill(uiOptions, formContext) {
+    const isProduction = process.env.__BUILDTYPE__ === 'production';
+    const atMilitaryServiceInfo = formContext.pageTitle === 'Service Periods';
+    if (isProduction || !atMilitaryServiceInfo) {
+      return uiOptions.showPrefillMessage && formContext.prefilled;
+    }
+    return uiOptions.showPrefillMessage;
   }
 
   isRequired(name) {
@@ -211,7 +221,7 @@ class ObjectField extends React.Component {
             {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
-          {process.env.BRANCH_NAME !== 'production' && uiOptions.showPrefillMessage && <PrefillMessage message={prefillMessage}/>}
+          {this.showPrefill(uiOptions, formContext) && <PrefillMessage message={prefillMessage}/>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;
