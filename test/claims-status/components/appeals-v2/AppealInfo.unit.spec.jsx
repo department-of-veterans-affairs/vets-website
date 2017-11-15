@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { merge } from 'lodash';
 import AppealInfo from '../../../../src/js/claims-status/containers/AppealInfo';
 
 const appealIdParam = '7387389';
 
 const defaultProps = {
   params: { id: appealIdParam },
-  route: { path: `${appealIdParam}` },
 };
 
 describe('<AppealInfo/>', () => {
@@ -22,10 +22,11 @@ describe('<AppealInfo/>', () => {
     expect(tabNavs.length).to.equal(1);
   });
 
-  it('should default to rendering the status tab', () => {
-    const wrapper = shallow(<AppealInfo {...defaultProps}/>);
-    expect(wrapper.find('Connect(AppealsV2StatusPage)').length).to.equal(1);
-    expect(wrapper.find('AppealsV2DetailPage').length).to.equal(0);
+  it('should render its children', () => {
+    const children = (<span className="test">Child Goes Here</span>);
+    const props = merge({}, { children }, defaultProps);
+    const wrapper = shallow(<AppealInfo {...props}/>);
+    expect(wrapper.find('span.test').length).to.equal(1);
   });
 
   it('should have access to the appeal id in route params', () => {

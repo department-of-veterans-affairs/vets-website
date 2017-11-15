@@ -53,7 +53,7 @@ AppealsV2StatusPage.defaultProps = {
 };
 
 AppealsV2StatusPage.propTypes = {
-  appealId: PropTypes.string.isRequired,
+  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
   appeal: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -82,7 +82,7 @@ function isolateAppeal(state, id) {
 
 function mapStateToProps(state, ownProps) {
   return {
-    appeal: isolateAppeal(state, ownProps.appealId),
+    appeal: isolateAppeal(state, ownProps.params.id),
     loading: state.loading
   };
 }
