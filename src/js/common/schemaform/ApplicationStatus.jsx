@@ -136,15 +136,13 @@ export class ApplicationStatus extends React.Component {
       return applyRender();
     } else if (showApplyButton) {
       return (
-        <div itemScope itemType="http://schema.org/Question">
+        <div itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
           <h3 itemProp="name">Ready to apply?</h3>
-          <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
-            <div itemProp="text">
-              {this.props.additionalText && <p>{this.props.additionalText}</p>}
-              <div className="sip-application-status">
-                <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
-                {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
-              </div>
+          <div itemProp="itemListElement">
+            {this.props.additionalText && <p>{this.props.additionalText}</p>}
+            <div className="sip-application-status">
+              <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
             </div>
           </div>
         </div>

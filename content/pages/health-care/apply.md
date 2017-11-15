@@ -15,31 +15,28 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
-<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemscope itemtype ="http://schema.org/HowTo">
 <div itemprop="description" class="va-introtext">
 
 Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
 
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">Prepare</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 - If you haven’t done so already, check to see if you qualify. [Check your eligibility](/health-care/eligibility/).
 - Gather the documents listed below that you’ll need to fill out an Application for Health Benefits (VA Form 10-10EZ).
 
 </div>
 </div>
-</div>
 
 <div class="feature" markdown=“1”>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">What documents and information do I need to apply?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 - Your most recent tax return
 - Social Security numbers for yourself and your qualified dependents
@@ -47,12 +44,10 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 </div>
 </div>
-</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">What if I need help filling out my application?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
@@ -63,7 +58,6 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 </div>
 </div>
 </div>
-</div>
 
 <div id="react-applicationStatus">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
@@ -71,10 +65,9 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <div class="feature">
 
-<div itemscope itemtype="http://schema.org/Question">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">Are you a caregiver of a post-9/11 Veteran or Servicemember?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
 
@@ -83,12 +76,10 @@ You may qualify for VA health care and other benefits. View the Application for 
 </div>
 </div>
 </div>
-</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">Other ways to apply</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 ##### By phone
 
@@ -114,13 +105,11 @@ Go to your nearest VA medical center or clinic. Bring an Application for Health 
 
 </div>
 </div>
-</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h3 itemprop="name">What happens after I apply?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 [Find out what happens after you apply](/health-care/after-you-apply/).
 
@@ -128,31 +117,26 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 
 </div>
 </div>
-</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">How long does it take VA to make a decision?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
 <span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
-</div>
 
 </div>
 </div>
 </div>
 
 
-<div itemscope itemtype="http://schema.org/Question">
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h3 itemprop="name">How do I update my information if I’m already signed up?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="itemListElement">
 
 To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
-</div>
 </div>
 </div>
 </div>

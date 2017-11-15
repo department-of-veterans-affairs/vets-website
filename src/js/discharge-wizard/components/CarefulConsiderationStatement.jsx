@@ -11,14 +11,14 @@ const CarefulConsiderationStatement = (props) => {
     case '2':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TB. Learn more about the DoD guidelines for reviewing cases related to TBI.
+          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI. Learn more about the DoD guidelines for reviewing cases related to TBI.
         </p>
       );
     case '3':
       if (props.dischargeType === '2') {
         return (
           <p>
-            Because you answered that your discharge was due to "sexual orientation" under Don't Ask Don't Tell or its predecessor policies, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of this reason. Note: You must prove that your discharge was <strong>only</strong> due to sexual orientation, and not due to other behavior.
+            Because you answered that your discharge was due to sexual orientation under Don't Ask Don't Tell or its predecessor policies, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of this reason. Note: You must prove that your discharge was <strong>only</strong> due to sexual orientation, and not due to other behavior.
           </p>
         );
       } else if (props.dischargeType === '1') {

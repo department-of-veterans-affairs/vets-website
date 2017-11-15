@@ -84,6 +84,7 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
+// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
@@ -107,8 +108,10 @@ export function getAppealsV2() {
             aod: false,
             location: 'aoj',
             status: {
-              type: 'tbd', // Need to get a real status type
-              details: {}
+              type: 'nod', // This may or may not be a real status type
+              details: { // Don't actually know what's in here
+                regionalOffice: 'Chicago Regional Office'
+              }
             },
             docket: {
               front: false,
@@ -135,6 +138,11 @@ export function getAppealsV2() {
               {
                 type: 'claim',
                 date: '2016-05-30',
+                details: {}
+              },
+              {
+                type: 'nod',
+                date: '2016-06-10',
                 details: {}
               }
             ],
