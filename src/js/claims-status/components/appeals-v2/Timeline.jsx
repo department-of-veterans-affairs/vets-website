@@ -29,6 +29,7 @@ class Timeline extends React.Component {
           <h3>{title || 'Title here'}</h3>
           <span className="appeal-event-date">on {formatDate(event.date)}</span>
           <p>{description}</p>
+          <div className="separator"/>
         </li>
       );
     });
@@ -51,6 +52,8 @@ class Timeline extends React.Component {
           <h4 style={{ color: 'inherit' }}>{this.state.expanded ? 'Hide past events' : 'See past events'}</h4>
         </button>
         <div className="appeal-event-date">{dateRange}</div>
+        <br/>
+        <div className="separator"/>
       </li>
     );
 
