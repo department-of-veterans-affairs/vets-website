@@ -26,7 +26,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-If you're a Veteran with VA health care benefits, there are many ways for you to make health care appointments. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
+If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
 <div class="usa-alert usa-alert-warning va-alert">
@@ -62,7 +62,7 @@ You can call the VA health facility where you want to receive care. This is usu
 
 <div itemprop="itemListElement">
 
-VA now offers online appointment scheduling for some appointments. We hope to expand the number of VA facilities and types of appointments in the future.
+VA now offers online scheduling for some appointments and facilities. We hope to expand the number of VA facilities and types of appointments in the future.
 
 If you have VA health care benefits, you can schedule a VA primary care appointment online if:
 
