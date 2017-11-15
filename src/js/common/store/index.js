@@ -4,13 +4,15 @@ import thunk from 'redux-thunk';
 import createLoginWidget from '../../login/login-entry';
 import createFeedbackWidget from '../../feedback/feedback-entry';
 import login from '../../login/reducers/login';
+import feedback from '../../feedback/reducers';
 import profile from '../../user-profile/reducers/profile';
 
 export const commonReducer = {
   user: combineReducers({
     login,
     profile
-  })
+  }),
+  feedback
 };
 
 export function renderCommonComponents(commonStore) {

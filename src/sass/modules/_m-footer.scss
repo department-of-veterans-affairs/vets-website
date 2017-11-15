@@ -20,12 +20,40 @@
 }
 
 .feedback-widget {
+  padding: 1.5em 0;
   background-color: $color-gray-lightest;
   color: $color-gray-dark;
 
-  @include media($medium-large-screen) {
+  .row {
+    padding: 0 0.9375rem;;
+  }
+
+  .feedback-widget-title {
+    margin: 0 0 0.5em 0;
+  }
+
+  .feedback-button {
+    width: auto;
+    margin-top: 1em;
+  }
+
+  .feedback-widget-need-help {
+    order: 1;
+    flex: 0 1 33%;
+  }
+
+  .feedback-widget-form {
+    order: 0;
+    flex: 0 0 50%;
+  }
+
+  .feedback-widget-intro {
+    margin: 0;
+  }
+
+  @include media($large-screen) {
     .feedback-button {
-      margin-top: 36px;
+      margin: -19px 0 0;
     }
   }
 }
