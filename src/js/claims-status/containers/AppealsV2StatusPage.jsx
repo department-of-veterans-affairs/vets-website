@@ -53,9 +53,7 @@ AppealsV2StatusPage.defaultProps = {
 };
 
 AppealsV2StatusPage.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string.isRequired
-  }).isRequired,
+  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
   appeal: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
