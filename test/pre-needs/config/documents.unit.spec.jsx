@@ -40,6 +40,30 @@ describe('Pre-need attachments', () => {
     expect(onSubmit.called).to.be.true;
   });
 
+  it('should not submit without attachment id', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          application: {
+            preneedAttachments: [{
+              confirmationCode: 'testing'
+            }]
+          }
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -47,9 +71,11 @@ describe('Pre-need attachments', () => {
         schema={schema}
         data={{
           application: {
-            files: [{
+            preneedAttachments: [{
+              attachmentId: '1',
               confirmationCode: 'testing'
             }, {
+              attachmentId: '1',
               confirmationCode: 'testing2'
             }]
           }
