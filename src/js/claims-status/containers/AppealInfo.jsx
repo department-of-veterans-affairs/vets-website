@@ -6,9 +6,11 @@ const AppealInfo = ({ params, children }) => {
   const appealId = params.id;
   return (
     <div className="row">
-      <AppealsV2TabNav appealId={appealId}/>
-      <br/>
-      {children}
+      <div className="medium-8 columns">
+        <AppealsV2TabNav appealId={appealId}/>
+        <div className="va-tab-content va-appeals-content">{children}</div>
+      </div>
+      {/* This assumes the Need Help sidebar doesn't change for either page */}
     </div>
   );
 };
