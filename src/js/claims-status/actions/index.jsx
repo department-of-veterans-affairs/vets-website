@@ -84,6 +84,7 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
+// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
@@ -137,6 +138,11 @@ export function getAppealsV2() {
               {
                 type: 'claim',
                 date: '2016-05-30',
+                details: {}
+              },
+              {
+                type: 'nod',
+                date: '2016-06-10',
                 details: {}
               }
             ],

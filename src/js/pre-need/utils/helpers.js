@@ -1,5 +1,6 @@
 import React from 'react';
 import { get, merge } from 'lodash/fp';
+import Raven from 'raven-js';
 
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -7,6 +8,7 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
+import environment from '../../common/helpers/environment.js';
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
@@ -356,3 +358,33 @@ export const militaryNameUI = {
     }
   }
 };
+
+export function getCemeteries() {
+  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+    headers: {
+      'X-Key-Inflection': 'camel'
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      return Promise.reject(res);
+    }
+
+    return res.json();
+  }).then(res => {
+    const options = res.data.map(item => ({
+      label: item.attributes.name,
+      id: item.id
+    }));
+
+    return options;
+  }).catch(res => {
+    if (res instanceof Error) {
+      Raven.captureException(res);
+      Raven.captureMessage('vets_preneed_cemeteries_error');
+    }
+
+    // May change this to a reject later, depending on how we want
+    // to surface errors in autosuggest field
+    return Promise.resolve([]);
+  });
+}
