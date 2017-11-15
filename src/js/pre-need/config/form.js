@@ -105,6 +105,7 @@ const formConfig = {
                       1: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>,
                       2: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information.</div>,
                       3: <div className="usa-alert usa-alert-info no-background-image">You're applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information. You'll also need to provide supporting documents with information about your disability.</div>,
+                      4: <div className="usa-alert usa-alert-info no-background-image">You're applying as a <strong>relation</strong> of the Servicemember or Veteran who's sponsoring this application. First, we'll ask for your information as the applicant. Then, we'll ask for your sponsor's information.</div>,
                     }
                   }
                 },
