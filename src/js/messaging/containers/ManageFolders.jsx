@@ -35,7 +35,7 @@ export class ManageFolders extends React.Component {
 
     return (
       <div className="va-tab-content">
-        <table className="va-table-list">
+        <table className="usa-table-borderless va-table-list">
           <thead>
             <tr>
               <th>Folder name</th>
