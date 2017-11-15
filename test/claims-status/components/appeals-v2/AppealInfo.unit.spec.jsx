@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { AppealInfo } from '../../../../src/js/claims-status/containers/AppealInfo';
+import AppealInfo from '../../../../src/js/claims-status/containers/AppealInfo';
 
 const appealIdParam = '7387389';
 

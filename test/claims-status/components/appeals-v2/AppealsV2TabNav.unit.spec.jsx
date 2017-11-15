@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-import { AppealsV2TabNav } from '../../../../src/js/claims-status/components/appeals-v2/AppealsV2TabNav';
+import AppealsV2TabNav from '../../../../src/js/claims-status/components/appeals-v2/AppealsV2TabNav';
 
 const defaultProps = {
   appealId: '123456',

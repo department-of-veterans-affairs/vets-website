@@ -15,9 +15,9 @@ const setActiveTab = (currentPath, paths = { status: '', detail: '' }, appealId)
   return <AppealsV2StatusPage appealId={appealId}/>;
 };
 
-export const AppealInfo = (props) => {
-  const appealId = props.params.id;
-  const currentPath = props.route.path;
+const AppealInfo = ({ params, route }) => {
+  const appealId = params.id;
+  const currentPath = route.path;
   const activeTabContent = setActiveTab(currentPath, PATHS, appealId);
   return (
     <div>
