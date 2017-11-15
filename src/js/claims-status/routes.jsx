@@ -55,11 +55,6 @@ const routes = [
       component={AppealInfo}
       key=":id/detail"
       path=":id/detail"/>
-    {/* New Routing End */}
-    {/* <Route
-      component={AppealsV2StatusPage}
-      key=":id/status"
-      path=":id/status"/> */}
   </Route>,
   <Route
     component={ClaimPage}

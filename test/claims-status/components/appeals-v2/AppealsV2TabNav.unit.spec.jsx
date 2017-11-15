@@ -3,14 +3,18 @@ import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { AppealsV2TabNav } from '../../../../src/js/claims-status/components/appeals-v2/AppealsV2TabNav';
 
+const defaultProps = {
+  appealId: '123456',
+};
+
 describe('<AppealsV2TabNav/>', () => {
   it('should render', () => {
-    const wrapper = shallow(<AppealsV2TabNav/>);
+    const wrapper = shallow(<AppealsV2TabNav {...defaultProps}/>);
     expect(wrapper.type()).to.equal('ul');
   });
 
   it('should render 2 tabs: Status and Detail', () => {
-    const wrapper = mount(<AppealsV2TabNav/>);
+    const wrapper = mount(<AppealsV2TabNav {...defaultProps}/>);
     const tabs = wrapper.find('li.claims-status-tabs-item');
     const statusTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Status');
     const detailTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Detail');
