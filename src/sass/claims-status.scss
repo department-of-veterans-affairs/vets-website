@@ -621,7 +621,7 @@ h1:focus {
 
   // Child <li>s are expected to have .process-step as well as a .section-*
   .process-step {
-    border-left: 5px solid #d6d7d9; // Should probably make this a variable...
+    border-left: 5px solid $color-gray-lighter; // Should probably make this a variable...
     margin-left: -2.65em;
 
     &:before {
