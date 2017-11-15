@@ -22,9 +22,15 @@
 .feedback-widget {
   background-color: $color-gray-lightest;
   color: $color-gray-dark;
+
+  @include media($medium-large-screen) {
+    .feedback-button {
+      margin-top: 36px;
+    }
+  }
 }
 
-  .footer-inner {
+.footer-inner {
   padding: 2rem 1rem 0;
 }
 
