@@ -5,7 +5,7 @@ import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 const AppealInfo = ({ params, children }) => {
   const appealId = params.id;
   return (
-    <div>
+    <div className="row">
       <AppealsV2TabNav appealId={appealId}/>
       {children}
     </div>
