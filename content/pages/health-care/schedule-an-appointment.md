@@ -70,8 +70,8 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 - You've had an appointment at that VA medical facility within the last 2 years
 
 **To schedule online, you must have one of these free accounts:**
-- My HealtheVet Premium account <br>
-[Get a free My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
+- My Health*e*Vet Premium account <br>
+[Get a free My Health*e*Vet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
 - DS Logon Premium account (used for eBenefits and milConnect) <br>
 [Get a free DS Logon Premium account](https://mobile.va.gov/dslogon).
 
@@ -86,9 +86,9 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 
 <div itemprop="itemListElement">
 
-If you have a Vets.gov account or a My HealtheVet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. Send a secure message or sign up now through:
+If you have a Vets.gov account or a My Health*e*Vet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. Send a secure message or sign up now through:
 - [Vets.gov](/?next=%2Fhealth-care%2Fmessaging), **or** <br>
-- [My HealtheVet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
+- [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
 **Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
 [Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/veterans.asp).
