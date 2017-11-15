@@ -7,6 +7,7 @@ const AppealInfo = ({ params, children }) => {
   return (
     <div className="row">
       <AppealsV2TabNav appealId={appealId}/>
+      <br/>
       {children}
     </div>
   );
