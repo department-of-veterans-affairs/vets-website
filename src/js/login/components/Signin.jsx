@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
+import AlertBox from '../../common/components/AlertBox';
 
 class Signin extends React.Component {
   constructor(props) {
@@ -44,6 +45,25 @@ class Signin extends React.Component {
     this.props.handleSignup();
   }
 
+  renderLogonWarning() {
+    const content = (
+      <div>
+        <h5>Maintenance work will be happening on DS Logon between 6:30 p.m. - 7:30 p.m. PST.</h5>
+        <p>
+          If you have trouble signing in with your account, please check back soon.
+        </p>
+      </div>
+    );
+
+    return (
+      <div className="row alert-banner">
+        <div className="columns small-12">
+          <AlertBox status="warning" isVisible content={content}/>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const enableMHVLogin = new URLSearchParams(window.location.search).get('mhvbeta');
 
@@ -64,6 +84,7 @@ class Signin extends React.Component {
               <h1>Sign in to Vets.gov</h1>
             </div>
           </div>
+          {this.renderLogonWarning()}
           <div className="row hide-for-medium-up mobile-explanation">
             <div className="columns small-12">
               <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
