@@ -685,14 +685,14 @@ h1:focus {
     width: 0px;
     border-left: 0.6em solid transparent;
     border-right: 0.6em solid transparent;
-    border-top: 1.2em solid #d6d7d9;
+    border-top: 1.2em solid $color-gray-lighter;
     margin-top: -32px;
     margin-left: 0.8em;
   }
 
   .separator {
     margin: 0.8em 2em 0 -0.7em;
-    border-top: 1px solid #d6d7d9;
+    border-top: 1px solid $color-gray-lighter;
   }
 }
 
