@@ -358,9 +358,9 @@ const formConfig = {
                       'ui:title': 'Sponsor’s branch of service'
                     },
                     dateRange: dateRangeUI(
-                      'Start of sponsor’s service period',
-                      'End of sponsor’s service period',
-                      'End of service must be after start of service'
+                      'Sponsor’s service start date',
+                      'Sponsor’s service end date',
+                      'Service start date must be before end date'
                     ),
                     dischargeType: {
                       'ui:title': 'Sponsor’s discharge character of service',

@@ -240,7 +240,7 @@ export const serviceRecordsUI = {
   'ui:description': 'Please record all periods of service',
   'ui:options': {
     viewField: ServicePeriodView,
-    addAnotherLabel: 'Add Another Service Period'
+    itemName: 'Service Period'
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
