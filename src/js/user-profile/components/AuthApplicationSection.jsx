@@ -18,6 +18,7 @@ class AuthApplicationSection extends React.Component {
           <p><a href="/health-care/health-records">Get your VA health records</a></p>
           <p><a href="/track-claims">Check your claim and appeal status</a></p>
           <p><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>
+          <p><a href="/letters">Download your VA letters and documents</a></p>
           {idCardAvailable && <p><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>}
         </div>
       );
