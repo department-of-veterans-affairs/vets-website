@@ -700,6 +700,17 @@ h1:focus {
   padding-top: 1em;
 }
 
+.appeals-tabs-item {
+  flex: 1 1 0px;
+  text-align: center;
+
+  > .va-tab-trigger {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .claim-timeline-icon {
   float: right;
   margin-top: 6px;
