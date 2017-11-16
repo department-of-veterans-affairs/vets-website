@@ -1,4 +1,5 @@
-import createCommonStore from './store'
+import createLoginWidget from '../login/login-entry';
+import createCommonStore from './store';
 
 export function renderCommonComponents(commonStore) {
   createLoginWidget(commonStore);
