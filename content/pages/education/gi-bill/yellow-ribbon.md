@@ -29,7 +29,6 @@ You may be able to get this benefit if you’re the dependent of a Veteran who q
 
 
 </div>
-</div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
@@ -39,6 +38,8 @@ You may be able to get this benefit if you’re the dependent of a Veteran who q
 - Veterans
 - Qualified dependents
 
+</div>
+</div>
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
