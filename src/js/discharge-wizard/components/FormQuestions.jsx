@@ -6,8 +6,8 @@ import { Link } from 'react-router';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
-import { questionLabels } from '../config';
-import { shouldShowQuestion } from '../utils';
+import { questionLabels, prevApplicationYearCutoff, answerReview } from '../config';
+import { shouldShowQuestion, elementTopOffset } from '../utils';
 
 class FormQuestions extends React.Component {
   updateField(name, value) {
@@ -17,7 +17,7 @@ class FormQuestions extends React.Component {
 
   handleScrollTo = (e) => {
     e.preventDefault();
-    window.scrollTo(this[e.target.name].offsetTop, 0);
+    window.scrollTo(0, elementTopOffset(this[e.target.name]));
   }
 
   renderQuestion(name, label, options) {
@@ -36,7 +36,11 @@ class FormQuestions extends React.Component {
       }
     };
 
-    return <ErrorableRadioButtons {...radioButtonProps} ref={(el) => { this[name] = el; }}/>;
+    return (
+      <div ref={(el) => { this[name] = el; }}>
+        <ErrorableRadioButtons {...radioButtonProps}/>
+      </div>
+    );
   }
 
   renderQuestionOne() {
@@ -56,27 +60,25 @@ class FormQuestions extends React.Component {
   }
 
   renderQuestionOneA() {
-    // if (this.props.formValues['1_reason'] !== '3') { return null; }
     const key = '2_dischargeType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Which of the following categories best describes you?</h4>;
     const options = [
-      { label: 'My discharge is Honorable or General Under Honorable Conditions, and I only want my narrative reason for discharge or enlistment code changed.', value: '1' },
-      { label: 'My discharge status is not under honorable conditions.', value: '2' },
+      { label: questionLabels[key][1], value: '1' },
+      { label: questionLabels[key][2], value: '2' },
     ];
     return this.renderQuestion(key, label, options);
   }
 
   renderQuestionOneB() {
-    // if (!this.props.formValues['1_reason'] || this.props.formValues['1_reason'] === '5') { return null; }
     const key = '3_intention';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Do you want to change any portion of your record other than discharge status, re-enlistment code, and narrative reason for discharge? (For example, your name or remarks.)</h4>;
     const options = [
-      { label: 'Yes, I want to change other information on my record, like my name or remarks.', value: '1' },
-      { label: 'No, I only want to change my discharge status, re-enlistment code, and/or narrative reason for discharge.', value: '2' },
+      { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
+      { label: `No, ${questionLabels[key][2]}`, value: '2' },
     ];
     return this.renderQuestion('3_intention', label, options);
   }
@@ -101,13 +103,12 @@ class FormQuestions extends React.Component {
     );
 
     return (
-      <fieldset className="fieldset-input dischargeYear" key="dischargeYear">
+      <fieldset className="fieldset-input dischargeYear" key="dischargeYear" ref={(el) => { this[key] = el; }}>
         <ErrorableSelect
           autocomplete="false"
           label={label}
           name={key}
           options={yearOptions}
-          ref={(el) => { this[key] = el; }}
           value={{ value: dischargeYear }}
           onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
@@ -125,13 +126,12 @@ class FormQuestions extends React.Component {
     );
 
     return (
-      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth">
+      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ef={(el) => { this[key] = el; }}>
         <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
           name={key}
           options={months}
-          ref={(el) => { this[key] = el; }}
           value={{ value: this.props.formValues[key] }}
           onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
@@ -186,12 +186,7 @@ class FormQuestions extends React.Component {
 
     const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
 
-    const labelYear = {
-      1: 2014,
-      2: 2014,
-      3: 2011,
-      4: 2017,
-    }[this.props.formValues['1_reason']];
+    const labelYear = prevApplicationYearCutoff[this.props.formValues['1_reason']];
 
     const prevApplicationYearOptions = [
       { label: `${labelYear} or earlier`, value: '1' },
@@ -221,7 +216,6 @@ class FormQuestions extends React.Component {
   // and move labels into config file
   renderAnswerReview() {
     if (this.props.formValues.questions.slice(-1)[0] !== 'END') { return null; }
-    const dischargeYear = this.props.formValues['4_dischargeYear'];
 
     return (
       <div className="review-answers">
@@ -232,34 +226,16 @@ class FormQuestions extends React.Component {
         <table className="usa-table-borderless">
           <tbody>
             {Object.keys(this.props.formValues).map(k => {
-              const value = this.props.formValues[k];
-              if (Array.isArray(value)) { return null; }
+              if (k === 'questions') { return null; }
 
-              if (k === '4_dischargeYear') {
-                const dischargeMonth = months.find(e => { return e.value.toString() === this.props.formValues['5_dischargeMonth']; });
+              const reviewLabel = answerReview(k, this.props.formValues);
 
-                return (
-                  <tr key={k}>
-                    <td><p>I was discharged in {dischargeMonth && dischargeMonth.label} {dischargeYear === '1991' ? 'Before 1992' : dischargeYear}</p></td>
-                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-                  </tr>
-                );
-              } else if (k === '7_branchOfService') {
-                return (
-                  <tr key={k}>
-                    <td><p>I served in the {questionLabels[k][this.props.formValues['7_branchOfService']]}</p></td>
-                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-                  </tr>
-                );
-              } else if (value && questionLabels[k][value]) {
-                return (
-                  <tr key={k}>
-                    <td><p>{questionLabels[k][value]}</p></td>
-                    <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
-                  </tr>
-                );
-              }
-              return null;
+              return (reviewLabel && shouldShowQuestion(k, this.props.formValues.questions) &&
+                <tr key={k}>
+                  <td><p>{reviewLabel}</p></td>
+                  <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                </tr>
+              );
             })}
           </tbody>
         </table>

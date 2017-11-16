@@ -36,7 +36,7 @@ describe('Pre-need attachments', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-input-error')).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
 

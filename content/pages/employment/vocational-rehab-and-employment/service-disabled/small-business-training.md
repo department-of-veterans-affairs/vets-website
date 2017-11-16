@@ -50,8 +50,6 @@ You may be eligible for these benefits if you’re a Servicemember or Veteran wi
 - Training in small-business operations, marketing, and finances
 - Guidance in getting the right resources to implement your business plan
 
-We may also provide minimum stocks, essential equipment, and business license fees for those with the most significant disabilities where self-employment is the only employment option.
-
 After you develop your business plan, we’ll review it and evaluate whether self-employment and the proposed business are viable options.
 
 <hr>

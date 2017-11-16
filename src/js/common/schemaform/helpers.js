@@ -245,6 +245,10 @@ export function stringifyFormReplacer(key, value) {
     if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
       return undefined;
     }
+    // autosuggest widgets save value and label info, but we should just return the value
+    if (value.widget === 'autosuggest') {
+      return value.id;
+    }
   }
 
   // Clean up empty objects in arrays
