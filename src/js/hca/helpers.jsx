@@ -243,7 +243,7 @@ export const deductibleExpensesDescription = (
     Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
-        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we'll automatically adjust them to be equal to your income. This won't affect your application or benefits.
+        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we’ll adjust them to be equal to your income. This won’t affect your application or benefits.
       </AdditionalInfo>
     </div>
   </div>
