@@ -22,14 +22,18 @@ relatedlinks:
     title: Disability Benefits
     description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
-
-<div class="va-introtext">
+<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemprop="description" class="va-introtext">
 
 At VA, we offer many services and programs for Veterans with specific needs—like women Veterans, Veterans with mental health problems, and elderly or disabled Veterans. We cover the cost of many of these services under the VA health care program. You may be able to get help paying for other services—like dental care—if you qualify for them as an added benefit. Find out how to access services for your specific needs.
 
 </div>
 
-### Access services for:
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Access services for:</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - [Conditions related to when and where you served](/health-care/health-conditions/conditions-related-to-service-era/)
 
@@ -59,19 +63,40 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
 
+</div>
+</div>
+</div>
+
 ------
 
-#### What if I need help understanding my benefits or accessing services?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">What if I need help understanding my benefits or accessing services?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
 If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
+</div>
+</div>
+</div>
 <br>
 
-#### Can I manage my VA health and benefits online?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">Can I manage my VA health and benefits online?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online through Vets.gov: <br>
 [Refill your prescriptions](/health-care/prescriptions/). <br>
 [Send a message to your VA health care provider](/health-care/messaging/). <br>
 [Check the status of a disability or pension claim](/track-claims/).
+
+</div>
+</div>
+</div>
+</div>
