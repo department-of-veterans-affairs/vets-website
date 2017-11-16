@@ -14,13 +14,13 @@ import { reportTypes as reportTypesConfig } from '../config';
 import {
   changeDateOption,
   getEligibleClasses,
+  initializeResources,
+  openModal,
   resetForm,
   setDate,
   toggleAllReports,
   toggleReportType
-} from '../actions/form';
-import { openModal } from '../actions/modal';
-import { initialAppRefresh } from '../actions/refresh';
+} from '../actions';
 import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
@@ -41,13 +41,7 @@ export class Main extends React.Component {
 
   componentDidMount() {
     this.props.resetForm();
-    // kick off initial PHR refresh process
-    if (!this.props.refreshing) {
-      this.props.initialAppRefresh();
-    }
-    if (!this.props.loading) {
-      this.props.getEligibleClasses();
-    }
+    this.props.initializeResources();
   }
 
   handleStartDateChange(startDate) {
@@ -351,7 +345,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   changeDateOption,
   getEligibleClasses,
-  initialAppRefresh,
+  initializeResources,
   openModal,
   resetForm,
   setDate,

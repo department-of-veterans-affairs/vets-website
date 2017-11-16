@@ -68,7 +68,7 @@ export function getEligibleClasses() {
   return (dispatch) => {
     dispatch({ type: 'FETCHING_ELIGIBLE_CLASSES' });
 
-    apiRequest(
+    return apiRequest(
       '/eligible_data_classes',
       null,
       (response) => dispatch({
@@ -101,7 +101,7 @@ export function submitForm(formData) {
       })
     };
 
-    apiRequest(
+    return apiRequest(
       '/',
       settings,
       () => dispatch({ type: 'FORM_SUCCESS' }),
