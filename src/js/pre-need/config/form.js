@@ -29,7 +29,15 @@ import {
   veteranUI,
   serviceRecordsUI,
   militaryNameUI,
-  getCemeteries
+  getCemeteries,
+  contactInfoDescription,
+  authorizedAgentDescription,
+  veteranRelationshipDescription,
+  spouseRelationshipDescription,
+  childRelationshipDescription,
+  otherRelationshipDescription,
+  sponsorMilitaryStatusDescription,
+  desiredCemeteryNoteDescription
 } from '../utils/helpers';
 
 
@@ -102,10 +110,10 @@ const formConfig = {
                       4: 'Other'
                     },
                     nestedContent: {
-                      1: <div className="usa-alert usa-alert-info no-background-image">You‘re applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>,
-                      2: <div className="usa-alert usa-alert-info no-background-image">You‘re applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who‘s sponsoring this application. First, we‘ll ask for your information as the applicant. Then, we‘ll ask for your sponsor‘s information.</div>,
-                      3: <div className="usa-alert usa-alert-info no-background-image">You‘re applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who‘s sponsoring this application. First, we‘ll ask for your information as the applicant. Then, we‘ll ask for your sponsor‘s information. You‘ll also need to provide supporting documents with information about your disability.</div>,
-                      4: <div className="usa-alert usa-alert-info no-background-image">You‘re applying as a <strong>relation</strong> of the Servicemember or Veteran who‘s sponsoring this application. First, we‘ll ask for your information as the applicant. Then, we‘ll ask for your sponsor‘s information.</div>,
+                      1: veteranRelationshipDescription,
+                      2: spouseRelationshipDescription,
+                      3: childRelationshipDescription,
+                      4: otherRelationshipDescription
                     }
                   }
                 },
@@ -228,8 +236,7 @@ const formConfig = {
                   'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
                   'ui:options': {
                     nestedContent: {
-                      X: <div className="usa-alert usa-alert-info no-background-image">If you‘re not sure what your sponsor‘s status is—or if it isn‘t listed here—don‘t worry. You can upload supporting documents showing your sponsor‘s service history later in this application.</div>
-                    }
+                      X: sponsorMilitaryStatusDescription                    }
                   }
                 },
                 isDeceased: {
@@ -456,11 +463,7 @@ const formConfig = {
                   getCemeteries
                 ),
                 'view:desiredCemeteryNote': {
-                  'ui:description': (
-                    <div className="usa-alert usa-alert-info no-background-image">
-                      <strong>Please note:</strong> This doesn‘t guarantee you‘ll be buried in your preferred cemetery. We‘ll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
-                    </div>
-                  )
+                  'ui:description': desiredCemeteryNoteDescription
                 }
               },
               hasCurrentlyBuried: {
@@ -570,12 +573,7 @@ const formConfig = {
               claimant: {
                 address: address.uiSchema('Applicant\'s mailing address'),
                 'view:contactInfoDescription': {
-                  'ui:description': (
-                    <div className="usa-alert usa-alert-info no-background-image">
-                      <p>We may contact you by phone if we need more information about your application.</p>
-                      <p>You can also provide your email address to receive updates about new openings in VA National Cemeteries or other burial benefits.</p>
-                    </div>
-                  ),
+                  'ui:description': contactInfoDescription
                 },
                 phoneNumber: phoneUI('Primary telephone number'),
                 email: {
@@ -653,17 +651,7 @@ const formConfig = {
                       };
                     },
                     nestedContent: {
-                      'Authorized Agent/Rep': (
-                        <div className="usa-alert usa-alert-info no-background-image">
-                          <p>A preparer may sign for an individual who‘s:</p>
-                          <ul>
-                            <li>Under 18 years of age, <strong>or</strong></li>
-                            <li>Is mentally incompetent, <strong>or</strong></li>
-                            <li>Is physically unable to sign the application</li>
-                          </ul>
-                          <p>If you‘re the preparer of this application, please provide your contact information.</p>
-                        </div>
-                      )
+                      'Authorized Agent/Rep': authorizedAgentDescription
                     }
                   }
                 },
