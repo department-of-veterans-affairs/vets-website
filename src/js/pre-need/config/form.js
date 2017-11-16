@@ -576,7 +576,10 @@ const formConfig = {
                 },
                 phoneNumber: phoneUI('Primary telephone number'),
                 email: {
-                  'ui:title': 'Email address'
+                  'ui:title': 'Email address',
+                  'ui:errorMessages': {
+                    pattern: 'Please put your email in this format x@x.xxx'
+                  }
                 }
               }
             }
