@@ -119,12 +119,12 @@ class ObjectField extends React.Component {
   }
 
   showPrefill(uiOptions, formContext) {
-    const isProduction = process.env.__BUILDTYPE__ === 'production';
+    const isProduction = __BUILDTYPE__ === 'production';
     const atMilitaryServiceInfo = formContext.pageTitle === 'Service Periods';
     if (isProduction || !atMilitaryServiceInfo) {
-      return uiOptions.showPrefillMessage && formContext.prefilled;
+      return !!uiOptions.showPrefillMessage && formContext.prefilled;
     }
-    return uiOptions.showPrefillMessage;
+    return !!uiOptions.showPrefillMessage;
   }
 
   isRequired(name) {
