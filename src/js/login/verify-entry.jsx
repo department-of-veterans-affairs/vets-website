@@ -6,14 +6,13 @@ import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 import initReact from '../common/init-react';
 
 import reducer from './reducers/login';
 import Main from './containers/Main';
 
-const store = createCommonStore(reducer);
-renderCommonComponents(store);
+const store = initCommon(reducer);
 
 function init() {
   ReactDOM.render((

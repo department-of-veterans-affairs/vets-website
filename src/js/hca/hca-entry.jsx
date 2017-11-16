@@ -9,11 +9,10 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import route from './routes';
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 import reducer from './reducer';
 
-const store = createCommonStore(reducer);
-renderCommonComponents(store);
+const store = initCommon(reducer);
 
 const folderName = window.location.pathname.indexOf('health-care/') >= 0
   ? 'health-care'

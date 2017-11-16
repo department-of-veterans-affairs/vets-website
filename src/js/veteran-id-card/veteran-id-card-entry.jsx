@@ -11,10 +11,9 @@ import { Provider } from 'react-redux';
 import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 
-const commonStore = createCommonStore(reducer);
-renderCommonComponents(commonStore);
+const commonStore = initCommon(reducer);
 
 function init() {
   ReactDOM.render((

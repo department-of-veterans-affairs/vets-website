@@ -12,7 +12,7 @@ import routes from './routes';
 import { store } from './store';
 import { updateRoute } from './actions';
 
-import { renderCommonComponents } from '../common/store';
+import { renderCommonComponents } from '../common/init-common';
 
 renderCommonComponents(store);
 

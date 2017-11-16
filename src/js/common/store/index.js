@@ -12,10 +12,6 @@ export const commonReducer = {
   })
 };
 
-export function renderCommonComponents(commonStore) {
-  createLoginWidget(commonStore);
-}
-
 export default function createCommonStore(appReducer = {}) {
   const reducer = _.assign(appReducer, commonReducer);
   const useDevTools = __BUILDTYPE__ === 'development' && window.devToolsExtension;
