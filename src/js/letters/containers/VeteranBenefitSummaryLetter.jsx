@@ -83,7 +83,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     });
 
     const vaBenefitInformation = (
-      <table className="usa-table-borderless" id="benefitInfoTable">
+      <table id="benefitInfoTable">
         <thead>
           <tr>
             <th scope="col">Include</th>
@@ -120,7 +120,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
               Include military service information
             </label>
           </div>
-          <table className="usa-table-borderless" id="militaryServiceTable">
+          <table id="militaryServiceTable">
             <thead>
               <tr>
                 <th scope="col">Branch of service</th>

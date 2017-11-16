@@ -28,7 +28,7 @@ class ErrorView extends React.Component {
 
     const content = (
       <div>
-        <h4>{title}</h4>
+        <h4 className="usa-alert-heading">{title}</h4>
         <div>
           {detail}
         </div>
