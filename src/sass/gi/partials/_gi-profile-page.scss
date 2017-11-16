@@ -4,6 +4,10 @@
     font-size: 1.35em;
   }
 
+  .usa-accordion {
+    margin-top: 1em;
+  }
+
   .link-header {
     h3, h5 {
       display: inline-block;
@@ -134,12 +138,6 @@
 
       th:first-child {
         width: 60%;
-      }
-
-      tr:last-child {
-        th, td {
-          border-bottom: 0;
-        }
       }
     }
 

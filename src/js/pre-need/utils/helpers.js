@@ -14,6 +14,14 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
 
+export function isSpouse(item) {
+  return get('application.claimant.relationshipToVet', item) === '2';
+}
+
+export function isUnmarriedChild(item) {
+  return get('application.claimant.relationshipToVet', item) === '3';
+}
+
 export function isAuthorizedAgent(item) {
   return get('application.applicant.applicantRelationshipToClaimant', item) === 'Authorized Agent/Rep';
 }
