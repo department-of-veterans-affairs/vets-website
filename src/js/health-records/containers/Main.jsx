@@ -10,13 +10,14 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import ErrorView from '../components/ErrorView';
-import { reportTypes } from '../config';
+import { reportTypes as reportTypesConfig } from '../config';
 import {
   changeDateOption,
+  getEligibleClasses,
+  resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType,
-  resetForm,
+  toggleReportType
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 import { initialAppRefresh } from '../actions/refresh';
@@ -41,8 +42,11 @@ export class Main extends React.Component {
   componentDidMount() {
     this.props.resetForm();
     // kick off initial PHR refresh process
-    if (!this.props.loading) {
+    if (!this.props.refreshing) {
       this.props.initialAppRefresh();
+    }
+    if (!this.props.loading) {
+      this.props.getEligibleClasses();
     }
   }
 
@@ -108,27 +112,34 @@ export class Main extends React.Component {
   }
 
   renderInformationTypes() {
-    return Object.keys(reportTypes).map(k => {
-      const rt = reportTypes[k];
-      return (
+    const { reportTypes } = this.props.form;
+    return Object.keys(reportTypesConfig).map(k => {
+      const section = reportTypesConfig[k];
+      const possibleTypes = section.children.map(c => c.value);
+      const availableTypes = _.intersection(Object.keys(reportTypes), possibleTypes);
+
+      const shouldRenderType = c => availableTypes.includes(c.value);
+      const checkboxes = section.children.filter(shouldRenderType).map(c => {
+        const reportTypeOnChange = (checked) => {
+          this.props.toggleReportType(c.value, checked);
+        };
+        return (
+          <div key={c.value}>
+            <ErrorableCheckbox
+              name={c.value}
+              label={this.renderReportCheckBoxLabel(c)}
+              checked={this.props.form.reportTypes[c.value]}
+              onValueChange={reportTypeOnChange}/>
+          </div>
+        );
+      });
+
+      return checkboxes.length ? (
         <div key={k} className="info-type-section">
-          <h5>{rt.title}</h5>
-          {rt.children.map(c => {
-            const reportTypeOnChange = (checked) => {
-              this.props.toggleReportType(c.value, checked);
-            };
-            return (
-              <div key={c.value}>
-                <ErrorableCheckbox
-                  name={c.value}
-                  label={this.renderReportCheckBoxLabel(c)}
-                  checked={this.props.form.reportTypes[c.value]}
-                  onValueChange={reportTypeOnChange}/>
-              </div>
-            );
-          })}
+          <h5>{section.title}</h5>
+          {checkboxes}
         </div>
-      );
+      ) : null;
     });
   }
 
@@ -282,7 +293,7 @@ export class Main extends React.Component {
     const noValuesChecked = !checkedCount;
     const hasCustomDateErrors = this.state.startDateError || this.state.endDateError;
 
-    if (this.props.loading) {
+    if (this.props.loading || this.props.refreshing) {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
@@ -331,19 +342,21 @@ const mapStateToProps = (state) => {
 
   return {
     form: hrState.form,
-    loading: hrState.refresh.loading,
-    errors: hrState.refresh.errors,
+    loading: hrState.form.loading,
+    refreshing: hrState.refresh.loading,
+    errors: [...hrState.form.errors, ...hrState.refresh.errors]
   };
 };
 
 const mapDispatchToProps = {
   changeDateOption,
+  getEligibleClasses,
   initialAppRefresh,
   openModal,
+  resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType,
-  resetForm,
+  toggleReportType
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

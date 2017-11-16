@@ -8,6 +8,7 @@ const initialState = {
     start: null,
     end: moment(),
   },
+  errors: [],
   loading: false,
   reportTypes: {},
   ready: false,
@@ -24,7 +25,7 @@ const initializeReportTypes = (eligibleClasses) => {
 export default function form(state = initialState, action) {
   switch (action.type) {
     case 'FETCHING_ELIGIBLE_CLASSES':
-      return { ...state, loading: true };
+      return { ...state, loading: true, errors: [] };
     case 'FETCH_ELIGIBLE_CLASSES_FAILURE':
       return { ...state, loading: false, errors: action.errors };
     case 'FETCH_ELIGIBLE_CLASSES_SUCCESS':
