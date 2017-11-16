@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from './schema.json';
@@ -40,7 +39,6 @@ import {
   desiredCemeteryNoteDescription
 } from '../utils/helpers';
 
-
 const {
   claimant,
   veteran,
@@ -61,6 +59,8 @@ const {
   files,
   vaFileNumber
 } = fullSchemaPreNeed.definitions;
+
+const nonRequiredFullName = _.omit('required', fullName);
 
 const formConfig = {
   urlPrefix: '/',
@@ -345,7 +345,7 @@ const formConfig = {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      serviceName: _.omit(['required', 'properties.maiden'], fullName),
+                      serviceName: nonRequiredFullName
                     }
                   }
                 }
@@ -440,7 +440,7 @@ const formConfig = {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      serviceName: _.omit(['required', 'properties.maiden'], fullName),
+                      serviceName: nonRequiredFullName
                     }
                   }
                 }
@@ -521,8 +521,7 @@ const formConfig = {
                       type: 'object',
                       required: ['name'],
                       properties: {
-                        name: _.omit('properties.maiden', fullName),
-
+                        name: fullName,
                         'view:cemeteryNumber': { type: 'string' }
                       }
                     }
@@ -696,7 +695,10 @@ const formConfig = {
                       'view:applicantInfo': {
                         type: 'object',
                         properties: {
-                          name: _.omit('required', fullName),
+                          name: _.merge(_.omit('required', fullName), {
+                            type: 'string',
+                            maxLength: 15
+                          }),
                           mailingAddress: address.schema(fullSchemaPreNeed),
                           'view:contactInfo': {
                             type: 'object',
