@@ -263,7 +263,6 @@ export const veteranUI = {
   },
   militaryStatus: {
     'ui:title': 'Current military status (You can add more service history information later in this application.)',
-    'ui:widget': 'radio',
     'ui:options': {
       labels: {
         V: 'Veteran',
