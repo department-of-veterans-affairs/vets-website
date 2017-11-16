@@ -171,7 +171,7 @@ export const expensesGreaterThanIncomeWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
       <h2 className="usa-alert-heading">Your expenses are higher than or equal to your income.</h2>
-      <p className="usa-alert-text">You can stop entering your expenses. We’ll automatically adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
+      <p className="usa-alert-text">You can stop entering your expenses. We’ll adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
     </div>
   </div>
 );
