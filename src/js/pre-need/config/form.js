@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 
-import fullSchemaPreNeed from './schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
