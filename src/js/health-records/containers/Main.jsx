@@ -291,6 +291,17 @@ export class Main extends React.Component {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
+    if (!Object.keys(selections).length) {
+      return (
+        <ErrorView errors={this.props.errors}>
+          <p>
+            The application failed to load your available health record types.
+            Click <a onClick={this.props.getEligibleClasses}>here</a> to try again.
+          </p>
+        </ErrorView>
+      );
+    }
+
     return (
       <ErrorView errors={this.props.errors}>
         <div>
