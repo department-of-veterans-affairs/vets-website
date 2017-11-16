@@ -12,6 +12,8 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 
 import applicantDescription from '../../common/schemaform/ApplicantDescription';
 
+import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
@@ -26,7 +28,8 @@ import {
   ssnDashesUI,
   veteranUI,
   serviceRecordsUI,
-  militaryNameUI
+  militaryNameUI,
+  getCemeteries
 } from '../utils/helpers';
 
 
@@ -450,9 +453,10 @@ const formConfig = {
           uiSchema: {
             application: {
               claimant: {
-                'view:desiredCemetery': {
-                  'ui:title': 'Which VA National Cemetery would you prefer to be buried in?'
-                },
+                desiredCemetery: autosuggest.uiSchema(
+                  'Which VA National Cemetery would you prefer to be buried in?',
+                  getCemeteries
+                ),
                 'view:desiredCemeteryNote': {
                   'ui:description': (
                     <div className="usa-alert usa-alert-info no-background-image">
@@ -502,10 +506,7 @@ const formConfig = {
                   claimant: {
                     type: 'object',
                     properties: {
-                      // TODO: Cemetery numbers should technically be 3-digit
-                      // strings. However, they're not required by EOAS and
-                      // can be sent as nil values for now.
-                      'view:desiredCemetery': { type: 'string' },
+                      desiredCemetery: autosuggest.schema,
                       'view:desiredCemeteryNote': {
                         type: 'object',
                         properties: {}
