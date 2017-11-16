@@ -13,7 +13,7 @@ export default function SupportingDocumentsDescription(props) {
     desc = (
       <div>
         <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
-        <p>You’ll need to upload supporting documents showing:</p>
+        <p>You’ll need to also provide supporting documents showing:</p>
         <ul>
           <li>Medical evidence of a disability</li>
           <li>Start date of a disability</li>

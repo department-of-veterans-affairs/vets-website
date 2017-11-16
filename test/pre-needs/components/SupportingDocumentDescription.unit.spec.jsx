@@ -26,7 +26,7 @@ describe('<SupportingDocumentsDescription>', () => {
 
     tree.find('button').first().simulate('click');
 
-    expect(tree.find('.additional-info-content').text()).to.contain('If you have your DD214');
+    expect(tree.find('.additional-info-content').text()).to.contain('your DD214');
   });
   it('should render sponsor text', () => {
     const tree = mount(
@@ -42,7 +42,7 @@ describe('<SupportingDocumentsDescription>', () => {
 
     tree.find('button').first().simulate('click');
 
-    expect(tree.find('.additional-info-content').text()).to.contain('If you have your sponsor');
+    expect(tree.find('.additional-info-content').text()).to.contain('sponsor’s DD214');
   });
   it('should render child text', () => {
     const tree = mount(
@@ -58,7 +58,7 @@ describe('<SupportingDocumentsDescription>', () => {
 
     tree.find('button').first().simulate('click');
 
-    expect(tree.find('.additional-info-content').text()).to.contain('If you have your sponsor');
+    expect(tree.find('.additional-info-content').text()).to.contain('sponsor’s DD214');
     expect(tree.find('.additional-info-content').text()).to.contain('need to provide supporting documents');
   });
 });
