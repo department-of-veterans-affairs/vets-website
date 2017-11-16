@@ -285,7 +285,7 @@ You won't pay anything for dependent coverage until your child is 18 years old.
 
 We may also offer you extended coverage if your child:
 - Is a full-time student between 18 and 22 years old, **or**
-- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+- Becomes permanently and totally disabled before turning 18 years old, and can’t support themselves 
 
 <br>
 
