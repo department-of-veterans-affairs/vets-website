@@ -29,33 +29,30 @@ function isolateAppeal(state, id) {
   return appeal;
 }
 
-export class AppealInfo extends React.Component {
-  render() {
-    const { params, children } = this.props;
-    const appealId = params.id;
-    const firstClaim = this.props.appeal ? this.props.appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim) : null;
-    const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
-    return (
-      <div>
-        <div className="row">
-          <Breadcrumbs>
-            <li><Link to="your-claims">Your Claims and Appeals</Link></li>
-            {/* Note: The space before the date is in appealDate to ensure we don't have a trailing space if there is no firstClaim */}
-            <li><strong>Appeal of Claim Decision{appealDate}</strong></li>
-          </Breadcrumbs>
-        </div>
-        <div className="row">
-          <div className="medium-8 columns">
-            <AppealsV2TabNav appealId={appealId}/>
-            <div className="va-tab-content va-appeals-content">
-              {React.Children.map(children, child => React.cloneElement(child, { appeal: this.props.appeal }))}
-            </div>
-          </div>
-          {/* This assumes the Need Help sidebar doesn't change for either page */}
-        </div>
+export function AppealInfo({ params, appeal, children }) {
+  const appealId = params.id;
+  const firstClaim = appeal ? appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim) : null;
+  const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
+  return (
+    <div>
+      <div className="row">
+        <Breadcrumbs>
+          <li><Link to="your-claims">Your Claims and Appeals</Link></li>
+          {/* Note: The space before the date is in appealDate to ensure we don't have a trailing space if there is no firstClaim */}
+          <li><strong>Appeal of Claim Decision{appealDate}</strong></li>
+        </Breadcrumbs>
       </div>
-    );
-  }
+      <div className="row">
+        <div className="medium-8 columns">
+          <AppealsV2TabNav appealId={appealId}/>
+          <div className="va-tab-content va-appeals-content">
+            {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
+          </div>
+        </div>
+        {/* This assumes the Need Help sidebar doesn't change for either page */}
+      </div>
+    </div>
+  );
 }
 
 AppealInfo.propTypes = {
