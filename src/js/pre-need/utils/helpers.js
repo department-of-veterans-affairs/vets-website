@@ -1,5 +1,5 @@
 import React from 'react';
-import { get, merge } from 'lodash/fp';
+import { get, omit, merge } from 'lodash/fp';
 import Raven from 'raven-js';
 
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -9,6 +9,8 @@ import TextWidget from '../../common/schemaform/widgets/TextWidget';
 import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
 import environment from '../../common/helpers/environment.js';
+
+export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
   <div className="usa-alert usa-alert-info no-background-image">
@@ -395,17 +397,10 @@ export const militaryNameUI = {
         'ui:title': 'Did you serve under another name?',
         'ui:widget': 'yesNo'
       },
-      serviceName: merge(fullNameUI, {
-        'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+      serviceName: merge(nonRequiredFullNameUI, {
         'ui:options': {
           expandUnder: 'view:hasServiceName'
         },
-        first: {
-          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
-        },
-        last: {
-          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
-        }
       })
     }
   }

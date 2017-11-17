@@ -37,7 +37,8 @@ import {
   childRelationshipDescription,
   otherRelationshipDescription,
   sponsorMilitaryStatusDescription,
-  desiredCemeteryNoteDescription
+  desiredCemeteryNoteDescription,
+  nonRequiredFullNameUI
 } from '../utils/helpers';
 
 const {
@@ -708,10 +709,8 @@ const formConfig = {
                     expandUnder: 'applicantRelationshipToClaimant',
                     expandUnderCondition: 'Authorized Agent/Rep'
                   },
-                  name: _.merge(fullNameUI, {
-                    'ui:title': 'Preparer information',
-                    first: { 'ui:required': isAuthorizedAgent },
-                    last: { 'ui:required': isAuthorizedAgent }
+                  name: _.merge(nonRequiredFullNameUI, {
+                    'ui:title': 'Preparer information'
                   }),
                   mailingAddress: _.merge(address.uiSchema('Mailing address'), {
                     country: { 'ui:required': isAuthorizedAgent },
