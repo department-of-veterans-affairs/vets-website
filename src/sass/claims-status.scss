@@ -93,6 +93,7 @@
 
 .claim-list-item-header {
   color: $color-primary;
+  margin-top: 0;
 }
 
 .claim-list-item:hover .claim-list-item-header {
@@ -117,12 +118,6 @@
     & + p {
       margin-top: 0;
     }
-  }
-}
-
-.va-modal-body {
-  h3 {
-    margin-top: 0;
   }
 }
 
@@ -552,6 +547,7 @@ h1:focus {
 
 .claims-alert-header {
   padding-bottom: 0 !important;
+  margin-top: 0;
 }
 
 .claim-title {

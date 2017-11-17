@@ -40,24 +40,19 @@ const routes = [
       path=":id/status"/>,
   </Route>,
   <Route
-    component={AppealLayout}
-    key="/appeals-v2"
-    path="/appeals-v2">
+    component={AppealInfo}
+    key="/appeals-v2/:id"
+    path="/appeals-v2/:id">
+    <IndexRedirect
+      to="status"/>
     <Route
-      component={AppealInfo}
-      key=":id"
-      path=":id">
-      <IndexRedirect
-        to="status"/>
-      <Route
-        component={AppealsV2StatusPage}
-        key="status"
-        path="status"/>
-      <Route
-        component={AppealsV2DetailPage}
-        key="detail"
-        path="detail"/>
-    </Route>
+      component={AppealsV2StatusPage}
+      key="status"
+      path="status"/>
+    <Route
+      component={AppealsV2DetailPage}
+      key="detail"
+      path="detail"/>
   </Route>,
   <Route
     component={ClaimPage}

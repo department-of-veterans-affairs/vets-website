@@ -28,16 +28,19 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 ### If I'm a Veteran, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
-- Have a 20% or higher disability rating, **and**
-- Separated from the military or received a service-connected disability rating from VA within the past 12 years
+You may be eligible for VR&E benefits and services if you’re a Veteran, and you:
 
-You may also be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
-- Have a Serious Employment Handicap (SEH) due to significant impairments of your ability to prepare for, obtain, or retain employment, **and**
-- Have a 10% disability rating, **or**
-- Are beyond the 12-year basic period of eligibility
+- Have received a discharge that is other than dishonorable, **and**
+- Have a service-connected disability rating of at least 10% from VA, **and**
+- [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
 
-**Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active-duty service.
+**Basic period of eligibility**
+
+Your basic period of eligibility ends 12 years from the date you received notice of your:
+- Date of separation from active military service, **or**
+- First VA service-connected disability rating
+
+**Note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) determines that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 <br>
 

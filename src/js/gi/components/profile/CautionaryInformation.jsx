@@ -108,7 +108,7 @@ export class CautionaryInformation extends React.Component {
 
         {!!it.complaints.mainCampusRollUp && (<div>
           <div className="table">
-            <table className="all-complaints usa-table-borderless">
+            <table className="all-complaints">
               <thead>
                 <tr>
                   <th></th>
@@ -123,7 +123,7 @@ export class CautionaryInformation extends React.Component {
                   allCampuses={allComplaints.allCampuses}/>
               </tbody>
             </table>
-            <table className="complaints-by-type usa-table-borderless">
+            <table className="complaints-by-type">
               <thead>
                 <tr>
                   <th>Complaints by type <span>(Each complaint can have multiple types)</span></th>

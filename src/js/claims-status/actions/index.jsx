@@ -1,6 +1,6 @@
 import React from 'react';
 import environment from '../../common/helpers/environment';
-import { makeAuthRequest } from '../utils/helpers';
+import { makeAuthRequest, mockData } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
@@ -91,71 +91,7 @@ export function getAppealsV2() {
 
     // Fake the fetch by just returning a resolved promice with the object shape we expect
     //  to get from the api.
-    // NOTE: This shape may change once we know what the api will be returning for sure. This
-    //  is just an example of what evss(?) is returning to the api.
-    return Promise.resolve({
-      data: [
-        {
-          id: '7387389', // Apparently this is a string...
-          type: 'appealSeries',
-          attributes: {
-            active: true,
-            incompleteHistory: false,
-            aoj: 'vba',
-            programArea: 'compensation',
-            description: 'Service connection for tinnitus, hearing loss, and two more',
-            type: 'original',
-            aod: false,
-            location: 'aoj',
-            status: {
-              type: 'nod', // This may or may not be a real status type
-              details: { // Don't actually know what's in here
-                regionalOffice: 'Chicago Regional Office'
-              }
-            },
-            docket: {
-              front: false,
-              total: 206900,
-              ahead: 109203,
-              ready: 22109,
-              eta: '2019-08-31'
-            },
-            issues: [
-              {
-                active: true,
-                description: 'Service connection for tinnitus',
-                lastAction: 'field_grant',
-                date: '2016-05-30'
-              }
-            ],
-            alerts: [
-              {
-                type: 'tbd', // Need to get a real status type
-                details: {}
-              }
-            ],
-            events: [
-              {
-                type: 'claim',
-                date: '2016-05-30',
-                details: {}
-              },
-              {
-                type: 'nod',
-                date: '2016-06-10',
-                details: {}
-              }
-            ],
-            evidence: [
-              {
-                description: 'Service treatment records',
-                date: '2017-09-30'
-              }
-            ]
-          }
-        }
-      ]
-    })
+    return Promise.resolve(mockData)
       .then((response) => dispatch(fetchAppealsSuccess(response)))
       .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE }));
   };

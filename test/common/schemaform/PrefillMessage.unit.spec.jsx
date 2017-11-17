@@ -6,10 +6,11 @@ import PrefillMessage from '../../../src/js/common/schemaform/PrefillMessage';
 
 describe('Schemaform <PrefillMessage>', () => {
   it('should render', () => {
+    const prefillMessage = 'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below.';
     const tree = SkinDeep.shallowRender(
-      <PrefillMessage/>
+      <PrefillMessage message={prefillMessage}/>
     );
 
-    expect(tree.text()).to.contain('pre-filled some fields');
+    expect(tree.text()).to.contain('prefilled some of your information');
   });
 });
