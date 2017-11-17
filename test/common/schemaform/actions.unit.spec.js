@@ -417,6 +417,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'Bad Request'
               }
             ]
@@ -466,6 +467,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'Network request failed'
               }
             ]
