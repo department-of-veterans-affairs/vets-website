@@ -291,9 +291,7 @@ const formConfig = {
                       'militaryStatus',
                       'isDeceased',
                       'dateOfDeath',
-                    ], _.set('militaryStatus.enum', [
-                      'A', 'I', 'D', 'S', 'R', 'E', 'O', 'V', 'X'
-                    ], veteran.properties))
+                    ], veteran.properties)
                   }
                 }
               }
