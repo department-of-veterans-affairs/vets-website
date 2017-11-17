@@ -19,7 +19,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a disability that was caused—or made worse—by your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
+If you have a disability that was caused—or made worse—by your active-duty service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
 
 </div>
 
