@@ -325,7 +325,9 @@ describe('Schemaform actions:', () => {
         {
           endpoint: '/v0/endpoint',
           fileTypes: ['JPG'],
-          maxSize: 5
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
         }
       );
       const dispatch = sinon.spy();
@@ -383,7 +385,9 @@ describe('Schemaform actions:', () => {
         ['fileField', 0],
         {
           fileTypes: ['jpg'],
-          maxSize: 5
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
         }
       );
       const dispatch = sinon.spy();
@@ -430,7 +434,9 @@ describe('Schemaform actions:', () => {
         ['fileField', 0],
         {
           fileTypes: ['jpg'],
-          maxSize: 5
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
         }
       );
       const dispatch = sinon.spy();

@@ -123,7 +123,7 @@ class ObjectField extends React.Component {
             <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
             <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
           </div>}
-          <dl className="review usa-table-borderless">
+          <dl className="review">
             {renderedProperties}
           </dl>
         </div>
