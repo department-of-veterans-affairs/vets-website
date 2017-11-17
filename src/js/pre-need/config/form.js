@@ -236,7 +236,8 @@ const formConfig = {
                   'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
                   'ui:options': {
                     nestedContent: {
-                      X: sponsorMilitaryStatusDescription                    }
+                      X: sponsorMilitaryStatusDescription
+                    }
                   }
                 },
                 isDeceased: {
@@ -440,7 +441,7 @@ const formConfig = {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      serviceName: nonRequiredFullName
+                      serviceName: _.omit('required', veteran.currentName)
                     }
                   }
                 }
@@ -698,10 +699,7 @@ const formConfig = {
                       'view:applicantInfo': {
                         type: 'object',
                         properties: {
-                          name: _.merge(_.omit('required', fullName), {
-                            type: 'string',
-                            maxLength: 15
-                          }),
+                          name: nonRequiredFullName,
                           mailingAddress: address.schema(fullSchemaPreNeed),
                           'view:contactInfo': {
                             type: 'object',
