@@ -190,6 +190,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
         } else {
           dispatch(
             setData(_.set(filePath, {
+              name: file.name,
               errorMessage: req.statusText
             }, getState().form.data))
           );
@@ -202,6 +203,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
         const errorMessage = 'Network request failed';
         dispatch(
           setData(_.set(filePath, {
+            name: file.name,
             errorMessage
           }, getState().form.data))
         );
@@ -216,6 +218,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
       req.addEventListener('abort', () => {
         dispatch(
           setData(_.set(filePath, {
+            name: file.name,
             errorMessage: 'Upload aborted'
           }, getState().form.data))
         );

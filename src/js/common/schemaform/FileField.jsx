@@ -133,7 +133,7 @@ export default class FileField extends React.Component {
                     </div>}
                   {!file.uploading && hasErrors && <span className="usa-input-error-message">{errors[0]}</span>}
                   {!file.uploading && <div>
-                    <button className="va-button-link" onClick={() => {
+                    <button type="button" className="va-button-link" onClick={() => {
                       this.removeFile(index);
                     }}>
                       Delete file
@@ -148,6 +148,11 @@ export default class FileField extends React.Component {
           <div>
             <label
               role="button"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  document.getElementById(idSchema.$id).click();
+                }
+              }}
               tabIndex="0"
               id={`${idSchema.$id}_add_label`}
               htmlFor={idSchema.$id}
