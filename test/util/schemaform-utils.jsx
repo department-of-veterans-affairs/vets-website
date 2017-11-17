@@ -221,3 +221,17 @@ export function getFormDOM(form) {
 
   return formDOM;
 }
+
+export function fillData(form, id, value) {
+  form.find(`#${id}`).simulate('change', {
+    target: {
+      value
+    }
+  });
+}
+
+export function selectRadio(form, fieldName, value) {
+  form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
+    target: { value }
+  });
+}
