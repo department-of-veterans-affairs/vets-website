@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import moment from 'moment';
+
 import Breadcrumbs from '../components/Breadcrumbs';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 
@@ -29,11 +31,14 @@ class AppealInfo extends React.Component {
   render() {
     const { params, children } = this.props;
     const appealId = params.id;
+    // TODO: Make sure this is where we should get the date from
+    const appealDate = this.props.appeal ? moment(this.props.appeal.attributes.events[0].date, 'YYYY-MM-DD').format('MMMM YYYY') : '';
     return (
       <div>
         <div className="row">
           <Breadcrumbs>
             <li><Link to="your-claims">Your Claims and Appeals</Link></li>
+            <li><strong>Appeal of {appealDate} Claim Decision</strong></li>
           </Breadcrumbs>
         </div>
         <div className="row">
