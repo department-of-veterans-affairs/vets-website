@@ -9,9 +9,7 @@ import ProgressBar from '../components/ProgressBar';
 export default class FileField extends React.Component {
   constructor(props) {
     super(props);
-    const files = this.props.formData || [];
     this.state = {
-      editing: files.map(() => false),
       progress: 0
     };
   }
@@ -20,19 +18,7 @@ export default class FileField extends React.Component {
     const newFiles = newProps.formData || [];
     const files = this.props.formData || [];
     if (newFiles.length !== files.length) {
-      this.setState({
-        editing: newFiles.map(() => false)
-      });
       focusElement(`#${newProps.idSchema.$id}_add_label`);
-    } else {
-      const editing = this.state.editing.map((isEditing, i) => {
-        if (newFiles[i].uploading !== files[i].uploading) {
-          return false;
-        }
-
-        return isEditing;
-      });
-      this.setState({ editing });
     }
 
     const isUploading = newFiles.some(file => file.uploading);
@@ -55,22 +41,24 @@ export default class FileField extends React.Component {
         filePath,
         this.props.uiSchema['ui:options'],
         this.updateProgress
-      ).then(() => {
+      ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
-        this.props.onBlur(this.props.idSchema.$id);
+        this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
       });
+    }
+  }
+
+  onAttachmentIdChange = (index, value) => {
+    if (!value) {
+      this.props.onChange(_.unset([index, 'attachmentId'], this.props.formData));
+    } else {
+      this.props.onChange(_.set([index, 'attachmentId'], value, this.props.formData));
     }
   }
 
   updateProgress = (progress) => {
     this.setState({ progress });
-  }
-
-  editFile = (index, isEditing = true) => {
-    this.setState({ editing: _.set(index, isEditing, this.state.editing) }, () => {
-      focusElement(`#${this.props.idSchema.$id}_file_${index}`);
-    });
   }
 
   removeFile = (index) => {
@@ -88,15 +76,19 @@ export default class FileField extends React.Component {
       idSchema,
       formData,
       schema,
-      formContext
+      formContext,
+      onBlur
     } = this.props;
 
     const uiOptions = uiSchema['ui:options'];
     const files = formData || [];
     const maxItems = schema.maxItems || Infinity;
+    const SchemaField = this.props.registry.fields.SchemaField;
+    const attachmentIdRequired = schema.additionalItems.required
+      ? schema.additionalItems.required.includes('attachmentId')
+      : false;
 
     const isUploading = files.some(file => file.uploading);
-    const isEditing = this.state.editing.some(editing => editing);
 
     return (
       <div className={formContext.reviewMode ? 'schemaform-file-upload-review' : undefined}>
@@ -104,10 +96,15 @@ export default class FileField extends React.Component {
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
               const errors = _.get([index, '__errors'], errorSchema) || [];
-              const editingOrErrors = this.state.editing[index] || errors.length > 0;
+              const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
-                'schemaform-file-item-edit': editingOrErrors
+                'schemaform-file-error usa-input-error': hasErrors && !file.uploading
               });
+              const itemSchema = schema.items[index];
+              const attachmentIdSchema = {
+                $id: `${idSchema.$id}_${index}_atachmentId`
+              };
+              const attachmentIdErrors = _.get([index, 'attachmentId'], errorSchema);
 
               return (
                 <li key={index} id={`${idSchema.$id}_file_${index}`} className={itemClasses}>
@@ -117,57 +114,45 @@ export default class FileField extends React.Component {
                       <ProgressBar percent={this.state.progress}/>
                     </div>
                   }
-                  {file.confirmationCode && <span>{file.name}</span>}
-                  {!file.uploading && !!errors.length && <span>{errors[0]}</span>}
-                  {!file.uploading && !editingOrErrors &&
-                    <div className="schemaform-file-list-buttons">
-                      <button
-                        onClick={() => this.editFile(index)}
-                        className="usa-button usa-button-secondary schemaform-file-remove-button"
-                        type="button">
-                        Edit
-                      </button>
-                    </div>
-                  }
-                  {editingOrErrors && <div className="schemaform-file-list-buttons-editing">
-                    <label
-                      role="button"
-                      tabIndex="0"
-                      htmlFor={idSchema.$id}
-                      className="usa-button schemaform-upload-label">
-                      Replace
-                    </label>
-                    <input
-                      type="file"
-                      accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                      style={{ display: 'none' }}
-                      id={idSchema.$id}
-                      name={idSchema.$id}
-                      onChange={(e) => this.onAddFile(e, index)}/>
-                    {errors.length === 0 &&
-                      <button
-                        onClick={() => this.editFile(index, false)}
-                        className="usa-button usa-button-secondary schemaform-file-remove-button"
-                        type="button">
-                        Cancel
-                      </button>
-                    }
+                  <span>{file.name}</span>
+                  {!hasErrors && itemSchema.properties.attachmentId &&
+                    <div className="schemaform-file-attachment">
+                      <SchemaField
+                        name="attachmentId"
+                        required={attachmentIdRequired}
+                        schema={itemSchema.properties.attachmentId}
+                        uiSchema={uiOptions.attachmentSchema}
+                        errorSchema={attachmentIdErrors}
+                        idSchema={attachmentIdSchema}
+                        formData={formData[index].attachmentId}
+                        onChange={(value) => this.onAttachmentIdChange(index, value)}
+                        onBlur={onBlur}
+                        registry={this.props.registry}
+                        disabled={this.props.disabled}
+                        readonly={this.props.readonly}/>
+                    </div>}
+                  {!file.uploading && hasErrors && <span className="usa-input-error-message">{errors[0]}</span>}
+                  {!file.uploading && <div>
+                    <button type="button" className="va-button-link" onClick={() => {
+                      this.removeFile(index);
+                    }}>
+                      Delete file
+                    </button>
                   </div>}
-                  {editingOrErrors && <a href onClick={(e) => {
-                    e.preventDefault();
-                    this.removeFile(index);
-                  }}>
-                    Delete file
-                  </a>}
                 </li>
               );
             })}
           </ul>
         }
-        {(maxItems === null || files.length < maxItems) && !isUploading && !isEditing &&
+        {(maxItems === null || files.length < maxItems) && !isUploading &&
           <div>
             <label
               role="button"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  document.getElementById(idSchema.$id).click();
+                }
+              }}
               tabIndex="0"
               id={`${idSchema.$id}_add_label`}
               htmlFor={idSchema.$id}

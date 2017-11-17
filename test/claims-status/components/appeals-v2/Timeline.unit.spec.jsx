@@ -28,7 +28,7 @@ const defaultProps = {
 describe('<Timeline/>', () => {
   it('should render', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
-    expect(wrapper.type()).to.equal('ol');
+    expect(wrapper.type()).to.equal('div');
   });
 
   it('should expand and collapse past history events', () => {

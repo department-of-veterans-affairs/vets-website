@@ -81,7 +81,7 @@ describe('Burials document upload', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-alert')).to.be.empty;
   });
 
   it('should not submit empty form', () => {

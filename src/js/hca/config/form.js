@@ -202,6 +202,9 @@ const formConfig = {
                   labels: stateLabels
                 }
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {
@@ -380,6 +383,10 @@ const formConfig = {
               'ui:options': {
                 labels: dischargeTypeLabels
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true,
+              prefillMessage: 'military'
             },
             'ui:validations': [
               validateServiceDates

@@ -186,7 +186,7 @@
     "svg-url-loader": "^1.1.0",
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
-    "uswds": "^1.4.1",
+    "uswds": "^1.4.2",
     "webpack": "^2.4.1",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-md5-hash": "0.0.5",

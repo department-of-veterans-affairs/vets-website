@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function PrefillMessage() {
+export default function PrefillMessage(props) {
   return (
     <div className="usa-alert usa-alert-info no-background-image schemaform-prefill-message">
-      We have pre-filled some fields with information from your account.
+      {props.message}
     </div>
   );
 }

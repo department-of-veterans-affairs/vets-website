@@ -9379,9 +9379,9 @@ user-home@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
-uswds@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.1.tgz#5cc613d16f71f79eef36056d5172351eb9d32dfb"
+uswds@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.2.tgz#a64617a83d79deff20503cc5b879072e547a3c29"
   dependencies:
     "@types/node" "^8.0.14"
     array-filter "^1.0.0"
