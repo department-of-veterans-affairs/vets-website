@@ -602,6 +602,13 @@ h1:focus {
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
   padding-top: 0;
+  padding-left: 0;
+
+  // To get all the li's to flow together, remove the top margin of the titles
+  h2, h3, h4, h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 
   li {
     // Pull the first bullet point up just a hair to cover the top of the line
@@ -617,7 +624,7 @@ h1:focus {
 
     // Move up the headers to align with the bullet point better
     h3, h4 {
-      padding-top: 0px;
+      padding-top: 0.4em;
     }
   }
 
