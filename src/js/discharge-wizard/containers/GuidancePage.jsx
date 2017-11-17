@@ -272,7 +272,7 @@ class GuidancePage extends React.Component {
           <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
           <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
           {this.props.formValues['7_branchOfService'] === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
-          {this.props.formValues['7_branchOfService'] === 'navy' && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Navy Discharge Review Board</a></li>}
+          {['navy', 'marines'].includes(this.props.formValues['7_branchOfService']) && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Navy Discharge Review Board</a></li>}
           <li><a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">VA Guidance on COD Review</a></li>
         </ul>
       </div>
