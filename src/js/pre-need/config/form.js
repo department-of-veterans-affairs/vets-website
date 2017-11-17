@@ -175,7 +175,7 @@ const formConfig = {
                       'maritalStatus',
                       'militaryStatus'
                     ], _.set('militaryStatus.enum', [
-                      'A', 'R', 'S', 'V', 'X', 'E', 'O'
+                      'A', 'S', 'R', 'E', 'O', 'V', 'X'
                     ], veteran.properties))
                   }
                 }
@@ -287,7 +287,9 @@ const formConfig = {
                       'militaryStatus',
                       'isDeceased',
                       'dateOfDeath',
-                    ], veteran.properties)
+                    ], _.set('militaryStatus.enum', [
+                      'A', 'I', 'D', 'S', 'R', 'E', 'O', 'V', 'X'
+                    ], veteran.properties))
                   }
                 }
               }
@@ -441,7 +443,7 @@ const formConfig = {
                       'view:hasServiceName': {
                         type: 'boolean'
                       },
-                      serviceName: _.omit('required', veteran.currentName)
+                      serviceName: nonRequiredFullName
                     }
                   }
                 }

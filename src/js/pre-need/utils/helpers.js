@@ -265,14 +265,14 @@ export const veteranUI = {
     'ui:title': 'Current military status (You can add more service history information later in this application.)',
     'ui:options': {
       labels: {
-        V: 'Veteran',
-        R: 'Retired',
         A: 'Active Duty',
-        E: 'Retired Active Duty',
+        I: 'Death Related to Inactive Duty Training',
         D: 'Died on Active Duty',
         S: 'Reserve/National Guard',
+        R: 'Retired',
+        E: 'Retired Active Duty',
         O: 'Retired Reserve/National Guard',
-        I: 'Death Related to Inactive Duty Training',
+        V: 'Veteran',
         X: 'Other'
       }
     }
