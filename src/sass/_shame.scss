@@ -250,6 +250,11 @@ form {
 
 .usa-alert {
   // min-height: 70px;
+
+  &.va-crisis-alert {
+    background-size:4.5rem;
+    padding-bottom:1.7rem;
+  }
 }
 
 .usa-alert-body {
