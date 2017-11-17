@@ -52,12 +52,12 @@ export const benefitsRelinquishedWarning = (
 
 export const benefitsDisclaimerSpouse = (
   <p>
-    IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (even if entitlement arises from separate events). <strong>You cannot retain eligibility for both programs simultaneously</strong>.
+    IMPORTANT: If you qualify for both the Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35) program and the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33), you need to pick one or the other. You must give up entitlement to the benefit that you’re not applying for. <strong>You can’t retain eligibility for both programs at the same time</strong>.
   </p>
 );
 
 export const benefitsDisclaimerChild = (
   <p>
-    IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (but only with regards to the entitlement arising from the same events). <strong>You cannot retain eligibility for both programs based on the same event</strong>.
+    IMPORTANT: If you qualify for both the Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35) program and the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship, Chapter 33), you need to pick one or the other. You must give up entitlement to the benefit that you’re not applying for (but only for the entitlement arising from the same event). <strong>You can't retain eligibility for both programs based on the same event</strong>.
   </p>
 );

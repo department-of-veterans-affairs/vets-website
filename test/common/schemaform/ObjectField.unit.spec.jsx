@@ -295,7 +295,7 @@ describe('Schemaform: ObjectField', () => {
 
     expect(onBlur.firstCall.args[0]).to.eql(['test']);
   });
-  it('should not show prefill message', () => {
+  it('should not show prefill message if form has not been prefilled', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
@@ -317,7 +317,57 @@ describe('Schemaform: ObjectField', () => {
         uiSchema={uiSchema}
         idSchema={{}}
         onChange={onChange}
+        formContext={{ prefilled: false }}
+        onBlur={onBlur}/>
+    );
+
+    expect(tree.subTree('PrefillMessage')).to.be.false;
+  });
+  it('should not show prefill message without a true value for showPrefillMessage', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        idSchema={{}}
+        onChange={onChange}
         formContext={{ prefilled: true }}
+        onBlur={onBlur}/>
+    );
+
+    expect(tree.subTree('PrefillMessage')).to.be.false;
+  });
+  it('should not show military prefill message', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:options': {
+        showPrefillMessage: true
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        onChange={onChange}
+        formContext={{ prefilled: true, pageTitle: 'Service Periods' }}
         onBlur={onBlur}/>
     );
 
