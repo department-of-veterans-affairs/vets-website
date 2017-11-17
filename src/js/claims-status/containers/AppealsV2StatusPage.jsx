@@ -61,28 +61,9 @@ AppealsV2StatusPage.propTypes = {
   })
 };
 
-function isolateAppeal(state, id) {
-  const claimsState = state.disability.status;
-  const { appeals } = claimsState.claims;
-  const appeal = appeals.find(a => a.id === id);
 
-  // append starting event for post-remand and post-cavc remand appeals
-  // NOTE: This is business logic pulled from v1 that we don't fully understand yet.
-  //  Also, having this logic in mapStateToProps is less than ideal; we want to
-  //  move it out when we know where it should live. Maybe just a helper.
-  if (appeal && appeal.attributes.type !== 'original' && appeal.attributes.prior_decision_date) {
-    appeal.attributes.events.unshift({
-      type: appeal.attributes.type === 'post_cavc_remand' ? 'cavc_decision' : 'bva_remand',
-      date: appeal.attributes.prior_decision_date,
-    });
-  }
-
-  return appeal;
-}
-
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    appeal: isolateAppeal(state, ownProps.params.id),
     loading: state.loading
   };
 }
