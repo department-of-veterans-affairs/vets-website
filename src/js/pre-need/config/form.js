@@ -39,7 +39,7 @@ const {
   veteran,
   applicant,
   hasCurrentlyBuried,
-  // currentlyBuriedPersons,
+  currentlyBuriedPersons,
   attachments
 } = fullSchemaPreNeed.properties.application.properties;
 
@@ -487,12 +487,10 @@ const formConfig = {
                   name: _.merge(fullMaidenNameUI, {
                     'ui:title': 'Name of deceased'
                   }),
-                  'view:cemeteryNumber': {
-                    'ui:title': 'VA National Cemetery where they\'re buried'
-                    // TODO: Create widget with validation message...
-                    // It should map hundreds of cemetery numbers to names.
-                    // 'ui:widget': CemeteryNumberWidget
-                  }
+                  cemeteryNumber: autosuggest.uiSchema(
+                    'VA National Cemetery where they\'re buried',
+                    getCemeteries
+                  )
                 }
               }
             }
@@ -515,18 +513,11 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      required: ['name'],
-                      properties: {
-                        name: fullName,
-
-                        'view:cemeteryNumber': { type: 'string' }
-                      }
-                    }
-                  }
+                  currentlyBuriedPersons: _.set(
+                    'items.properties.cemeteryNumber',
+                    autosuggest.schema,
+                    currentlyBuriedPersons
+                  )
                 }
               }
             }
