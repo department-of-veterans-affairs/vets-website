@@ -289,7 +289,7 @@ export const mockData = {
         ],
         events: [
           {
-            type: 'claim',
+            type: 'nod',
             date: '2016-05-30',
             details: {}
           },

@@ -8,6 +8,8 @@ import moment from 'moment';
 import Breadcrumbs from '../components/Breadcrumbs';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 
+import { EVENT_TYPES } from '../utils/appeals-v2-helpers';
+
 function isolateAppeal(state, id) {
   const claimsState = state.disability.status;
   const { appeals } = claimsState.claims;
@@ -31,14 +33,15 @@ export class AppealInfo extends React.Component {
   render() {
     const { params, children } = this.props;
     const appealId = params.id;
-    // TODO: Make sure this is where we should get the date from
-    const appealDate = this.props.appeal ? moment(this.props.appeal.attributes.events[0].date, 'YYYY-MM-DD').format('MMMM YYYY') : '';
+    const firstClaim = this.props.appeal ? this.props.appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim) : null;
+    const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
     return (
       <div>
         <div className="row">
           <Breadcrumbs>
             <li><Link to="your-claims">Your Claims and Appeals</Link></li>
-            <li><strong>Appeal of {appealDate} Claim Decision</strong></li>
+            {/* Note: The space before the date is in appealDate to ensure we don't have a trailing space if there is no firstClaim */}
+            <li><strong>Appeal of Claim Decision{appealDate}</strong></li>
           </Breadcrumbs>
         </div>
         <div className="row">
