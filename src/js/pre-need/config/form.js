@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from './schema.json';
-
+import EmailWidget from '../../common/schemaform/widgets/index.js';
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -580,8 +580,9 @@ const formConfig = {
                 phoneNumber: phoneUI('Primary telephone number'),
                 email: {
                   'ui:title': 'Email address',
+                  'ui:widget': EmailWidget,
                   'ui:errorMessages': {
-                    pattern: 'Please put your email in this format x@x.xxx'
+                    pattern: 'Please enter a valid email address'
                   }
                 }
               }
