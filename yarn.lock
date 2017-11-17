@@ -9379,9 +9379,9 @@ user-home@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
-uswds@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.1.tgz#5cc613d16f71f79eef36056d5172351eb9d32dfb"
+uswds@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.2.tgz#a64617a83d79deff20503cc5b879072e547a3c29"
   dependencies:
     "@types/node" "^8.0.14"
     array-filter "^1.0.0"
@@ -9444,9 +9444,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#49b199258daf9a3cd4cfc92fe59e68544c256f20":
-  version "3.7.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#49b199258daf9a3cd4cfc92fe59e68544c256f20"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#40132c65dbdad1318b1d59d177d29aa8737a6d31":
+  version "3.10.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#40132c65dbdad1318b1d59d177d29aa8737a6d31"
 
 vinyl-assign@^1.0.1:
   version "1.2.1"

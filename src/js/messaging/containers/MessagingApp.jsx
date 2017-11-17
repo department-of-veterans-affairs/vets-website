@@ -35,7 +35,7 @@ class MessagingApp extends React.Component {
     if (this.props.recipients && isEmpty(this.props.recipients) && !this.props.loading.recipients) {
       const alertContent = (
         <div>
-          <h4>Currently not assigned to a health care team</h4>
+          <h4 className="usa-alert-heading">Currently not assigned to a health care team</h4>
           <p>
             We’re sorry. It looks like you don’t have a VA health care team linked to your account in our system.
             To begin sending secure messages, please contact your health care team, and ask them to add you into the system.
