@@ -329,8 +329,7 @@ describe('Schemaform validations', () => {
         errorMessage: 'test'
       }]);
 
-      expect(errors[0].__errors[0]).to.equal('Error: test');
-      expect(errors.__errors).not.to.be.empty;
+      expect(errors[0].__errors[0]).to.equal('test');
     });
     it('should mark files without confirmation number as invalid', () => {
       const errors = {};

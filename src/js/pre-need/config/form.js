@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 
-import fullSchemaPreNeed from './schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import * as address from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
@@ -40,7 +40,7 @@ const {
   applicant,
   hasCurrentlyBuried,
   // currentlyBuriedPersons,
-  attachments
+  preneedAttachments
 } = fullSchemaPreNeed.properties.application.properties;
 
 const {
@@ -543,8 +543,10 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingDocumentsDescription,
             application: {
-              attachments: fileUploadUI('Select files to upload', {
+              preneedAttachments: fileUploadUI('Select files to upload', {
                 endpoint: '/v0/preneeds/preneed_attachments',
+                fileTypes: ['pdf'],
+                hideLabelText: true,
                 createPayload: (file) => {
                   const payload = new FormData();
                   payload.append('preneed_attachment[file_data]', file);
@@ -557,6 +559,9 @@ const formConfig = {
                     confirmationCode: response.data.attributes.guid
                   };
                 },
+                attachmentSchema: {
+                  'ui:title': 'What kind of document is this?'
+                }
               })
             }
           },
@@ -566,7 +571,30 @@ const formConfig = {
               application: {
                 type: 'object',
                 properties: {
-                  attachments
+                  preneedAttachments: _.merge(preneedAttachments, {
+                    items: {
+                      properties: {
+                        attachmentId: {
+                          'enum': [
+                            '1',
+                            '2',
+                            '3',
+                            // '4',
+                            '5',
+                            '6'
+                          ],
+                          enumNames: [
+                            'Discharge',
+                            'Marriage related',
+                            'Dependent related',
+                            // 'VA preneed form',
+                            'Letter',
+                            'Other'
+                          ]
+                        }
+                      }
+                    }
+                  })
                 }
               }
             }
