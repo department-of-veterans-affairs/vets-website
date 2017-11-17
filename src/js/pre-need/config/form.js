@@ -47,6 +47,8 @@ const {
   // attachments
 } = fullSchemaPreNeed.properties.application.properties;
 
+veteran.properties.serviceRecords.items.properties.serviceBranch.enum = ['AL', 'CC', 'FS', 'FT', 'ES', 'CM', 'C3', 'C2', 'C4', 'C7', 'C5', 'GS', 'CI', 'FP', 'CS', 'CV', 'XG', 'CB', 'FF', 'GP', 'MO', 'NO', 'NN', 'NM', 'PA', 'PG', 'KC', 'PS', 'RO', 'CF', 'CE', 'AF', 'XF', 'AG', 'AR', 'AC', 'AA', 'AT', 'NG', 'XR', 'CO', 'CA', 'GC', 'CG', 'XC', 'MC', 'MM', 'XA', 'CD', 'PH', 'GU', 'WP', 'WA', 'WS', 'WR'];
+
 const {
   fullName,
   ssn,
