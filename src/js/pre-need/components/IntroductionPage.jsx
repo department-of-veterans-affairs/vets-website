@@ -84,11 +84,12 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
-              <p>Complete the pre-need eligibility determination application.</p>
+              <p>Complete this pre-need eligibility determination form.</p>
+              <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
               <h5>VA Review</h5>
-              <p>We usually process claims within 30 days.</p>
+              <p>We usually process claims within 90 days.</p>
               <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
