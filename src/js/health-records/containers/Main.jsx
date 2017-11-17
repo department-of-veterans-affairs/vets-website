@@ -10,16 +10,17 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import ErrorView from '../components/ErrorView';
-import { reportTypes } from '../config';
+import { reportTypes as reportTypesConfig } from '../config';
 import {
   changeDateOption,
+  getEligibleClasses,
+  initializeResources,
+  openModal,
+  resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType,
-  resetForm,
-} from '../actions/form';
-import { openModal } from '../actions/modal';
-import { initialAppRefresh } from '../actions/refresh';
+  toggleReportType
+} from '../actions';
 import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
@@ -40,10 +41,7 @@ export class Main extends React.Component {
 
   componentDidMount() {
     this.props.resetForm();
-    // kick off initial PHR refresh process
-    if (!this.props.loading) {
-      this.props.initialAppRefresh();
-    }
+    this.props.initializeResources();
   }
 
   handleStartDateChange(startDate) {
@@ -108,27 +106,34 @@ export class Main extends React.Component {
   }
 
   renderInformationTypes() {
-    return Object.keys(reportTypes).map(k => {
-      const rt = reportTypes[k];
-      return (
+    const { reportTypes } = this.props.form;
+    return Object.keys(reportTypesConfig).map(k => {
+      const section = reportTypesConfig[k];
+      const possibleTypes = section.children.map(c => c.value);
+      const availableTypes = _.intersection(Object.keys(reportTypes), possibleTypes);
+
+      const shouldRenderType = c => availableTypes.includes(c.value);
+      const checkboxes = section.children.filter(shouldRenderType).map(c => {
+        const reportTypeOnChange = (checked) => {
+          this.props.toggleReportType(c.value, checked);
+        };
+        return (
+          <div key={c.value}>
+            <ErrorableCheckbox
+              name={c.value}
+              label={this.renderReportCheckBoxLabel(c)}
+              checked={this.props.form.reportTypes[c.value]}
+              onValueChange={reportTypeOnChange}/>
+          </div>
+        );
+      });
+
+      return checkboxes.length ? (
         <div key={k} className="info-type-section">
-          <h5>{rt.title}</h5>
-          {rt.children.map(c => {
-            const reportTypeOnChange = (checked) => {
-              this.props.toggleReportType(c.value, checked);
-            };
-            return (
-              <div key={c.value}>
-                <ErrorableCheckbox
-                  name={c.value}
-                  label={this.renderReportCheckBoxLabel(c)}
-                  checked={this.props.form.reportTypes[c.value]}
-                  onValueChange={reportTypeOnChange}/>
-              </div>
-            );
-          })}
+          <h5>{section.title}</h5>
+          {checkboxes}
         </div>
-      );
+      ) : null;
     });
   }
 
@@ -282,8 +287,19 @@ export class Main extends React.Component {
     const noValuesChecked = !checkedCount;
     const hasCustomDateErrors = this.state.startDateError || this.state.endDateError;
 
-    if (this.props.loading) {
+    if (this.props.loading || this.props.refreshing) {
       return <LoadingIndicator message="Loading your application..."/>;
+    }
+
+    if (!Object.keys(selections).length) {
+      return (
+        <ErrorView errors={this.props.errors}>
+          <p>
+            The application failed to load your available health record types.
+            Click <a onClick={this.props.getEligibleClasses}>here</a> to try again.
+          </p>
+        </ErrorView>
+      );
     }
 
     return (
@@ -331,19 +347,21 @@ const mapStateToProps = (state) => {
 
   return {
     form: hrState.form,
-    loading: hrState.refresh.loading,
-    errors: hrState.refresh.errors,
+    loading: hrState.form.loading,
+    refreshing: hrState.refresh.loading,
+    errors: [...hrState.form.errors, ...hrState.refresh.errors]
   };
 };
 
 const mapDispatchToProps = {
   changeDateOption,
-  initialAppRefresh,
+  getEligibleClasses,
+  initializeResources,
   openModal,
+  resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType,
-  resetForm,
+  toggleReportType
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

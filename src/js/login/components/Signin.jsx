@@ -103,7 +103,7 @@ class Signin extends React.Component {
             </div>
             <div className="columns usa-width-one-half medium-6">
               <div className="explanation-content">
-                <h2 className="hide-for-small">One site. A lifetime of benefits and services at your fingertips.</h2>
+                <div className="hide-for-small usa-font-lead">One site. A lifetime of benefits and services at your fingertips.</div>
                 <p>
                   You spoke. We listened. Vets.gov is the direct result of what you said you wanted most—one easy-to-use place to:
                 </p>
