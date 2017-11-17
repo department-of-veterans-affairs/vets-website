@@ -27,7 +27,7 @@ function isolateAppeal(state, id) {
   return appeal;
 }
 
-class AppealInfo extends React.Component {
+export class AppealInfo extends React.Component {
   render() {
     const { params, children } = this.props;
     const appealId = params.id;
