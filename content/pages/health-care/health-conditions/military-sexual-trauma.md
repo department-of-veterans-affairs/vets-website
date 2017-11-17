@@ -31,7 +31,7 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 
 <div class="usa-alert usa-alert-warning va-alert">
   <div class="usa-alert-body">
-	<h4>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	<h4 class="va-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner">
 	    <ul>
