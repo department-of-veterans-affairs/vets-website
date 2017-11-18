@@ -860,3 +860,26 @@ h1:focus {
 .claim-item-label {
   font-weight: bold;
 }
+
+.appeals-next-list {
+  list-style-type: none;
+    li {
+    &:before {
+      display: inline-block;
+      vertical-align: middle;
+      width: 1em;
+      height: 1em;
+      content: '';
+      border: 4px solid $color-gray-medium;
+      border-radius: 50%;
+      background: $color-gray-medium;
+      margin-left: -.6em;
+    }
+    h3 {
+      margin-left: 1.5em;
+      display: inline;
+      vertical-align: middle;
+    }
+  }
+}
+
