@@ -36,7 +36,6 @@ class FormQuestions extends React.Component {
       duration: 1000,
       smooth: true,
     });
-    // window.scrollTo(0, elementTopOffset(this[e.target.name]));
   }
 
   renderQuestion(name, label, options) {
