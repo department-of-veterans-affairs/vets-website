@@ -37,9 +37,9 @@ class FeedbackForm extends React.Component {
       return (
         <form className="feedback-form" onSubmit={this.onSubmit}>
           <h4 className="feedback-widget-title">Tell us what you think</h4>
-          <label htmlFor="feedback">What can we do to make Vets.gov better?</label>
           <div className="row va-flex">
             <div className="feedback-widget-form">
+              <label htmlFor="feedback">What can we do to make Vets.gov better?</label>
               <textarea name="feedback" value={this.state.feedback} onChange={this.feedbackChanged}/>
             </div>
             <div className="feedback-widget-need-help">

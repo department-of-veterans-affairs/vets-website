@@ -82,7 +82,7 @@
     margin-top: 1em;
   }
 
-  @include media($large-screen) {
+  @include media($medium-screen) {
     .feedback-button {
       margin: 10px 0 0;
     }
@@ -95,6 +95,7 @@
     .feedback-widget-need-help {
       order: 1;
       flex: 0 1 33%;
+      margin-top: 23.2px;
       .feedback-widget-need-help-inner {
         margin: 0;
       }
