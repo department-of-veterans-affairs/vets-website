@@ -87,7 +87,7 @@ You can work with a trained professional who can help you file a claim.  [Find a
 
 #### Apply in person
 
-[Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp).
+[Go to a regional benefit office](http://www.benefits.va.gov/benefits/offices.asp).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
