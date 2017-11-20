@@ -628,6 +628,11 @@ h1:focus {
       padding-top: 0.4em;
     }
 
+    h1, h2, h3, h4, h5 {
+      // Don't put the title on the next line down!
+      clear: none;
+    }
+
     button {
       margin-top: 0.1em;
     }
