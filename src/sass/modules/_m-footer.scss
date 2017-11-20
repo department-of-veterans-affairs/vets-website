@@ -34,26 +34,70 @@
 
   .feedback-button {
     width: auto;
-    margin-top: 1em;
-  }
-
-  .feedback-widget-need-help {
-    order: 1;
-    flex: 0 1 33%;
+    // margin-top: initial;
   }
 
   .feedback-widget-form {
+    order: 1;
+    flex: 0 0 100%;
+    // padding-right: 1em;
+  }
+
+  .feedback-widget-need-help {
     order: 0;
-    flex: 0 0 50%;
+    flex: 0 1 100%;
+    .feedback-widget-need-help-inner {
+      background-color: $color-aqua-lightest;
+      padding: 1em;
+      margin: 1em 0;
+      h3 {
+        margin-top: 0;
+      }
+    }
   }
 
   .feedback-widget-intro {
     margin: 0;
   }
 
+  label[for=feedback] {
+    margin-top: 0;
+  }
+
+  textarea[name=feedback]{
+    max-width: 100%;
+  }
+
+  label[for=should-send-response]{
+    margin: 1em 0;
+  }
+
+  label[for=email]{
+    margin-top: 0;
+  }
+
+  button[type=submit]{
+    width: 100%;
+    display: block;
+    margin-top: 1em;
+  }
+
   @include media($large-screen) {
     .feedback-button {
-      margin: -19px 0 0;
+      margin: 10px 0 0;
+    }
+    .feedback-widget-form {
+      order: 0;
+      flex: 0 0 67%;
+      padding-right: 1em;
+    }
+
+    .feedback-widget-need-help {
+      order: 1;
+      flex: 0 1 33%;
+      .feedback-widget-need-help-inner {
+        margin: 0;
+      }
     }
   }
 }
@@ -157,6 +201,7 @@
   flex-wrap: wrap;
   margin-top: 10rem;
   padding-left: 0.9375rem;
+  padding-bottom: 1em;
 
   @include media($medium-large-screen) {
     flex-wrap: nowrap;
