@@ -105,7 +105,7 @@ class GuidancePage extends React.Component {
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
-              <h4>Need Help?</h4>
+              <h4>Need help?</h4>
               <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a <a href="https://www.va.gov/vso/">VSO</a>, search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations.</p>
             </div>}
             isVisible

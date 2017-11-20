@@ -468,9 +468,19 @@ const formConfig = {
                 }
               },
               hasCurrentlyBuried: {
-                'ui:title': 'Is there anyone currently buried in a VA national cemetery under your eligibility?',
                 'ui:widget': 'radio',
                 'ui:options': {
+                  updateSchema: (formData) => {
+                    let title;
+                    if (isVeteran(formData)) {
+                    /* eslint-disable no-param-reassign */ 
+                      title = 'Is there anyone currently buried in a VA national cemetery under your eligibility?';
+                    } else {
+                      title = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+                    /* eslint-enable no-param-reassign */ 
+                    }
+                    return { title };
+                  },
                   labels: {
                     1: 'Yes',
                     2: 'No',
