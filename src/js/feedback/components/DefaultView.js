@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GiveUsFeedback({ feedbackButtonClicked }){
+function GiveUsFeedback({ feedbackButtonClicked }) {
   return (
     <div className="usa-grid-full">
       <div className="usa-width-one-half">
@@ -17,4 +17,8 @@ function GiveUsFeedback({ feedbackButtonClicked }){
   );
 }
 
-export default GiveUsFeedback
+GiveUsFeedback.propTypes = {
+  feedbackButtonClicked: PropTypes.func.isRequired
+};
+
+export default GiveUsFeedback;

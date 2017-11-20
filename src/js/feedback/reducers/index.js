@@ -1,4 +1,4 @@
-import {SEND_FEEDBACK, FEEDBACK_RECEIVED} from '../actions';
+import { SEND_FEEDBACK, FEEDBACK_RECEIVED } from '../actions';
 
 const initialState = {
   requestPending: false,

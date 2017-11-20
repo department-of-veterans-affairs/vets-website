@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { sendFeedback } from '../actions'
-import DefaultView from '../components/DefaultView'
-import FeedbackForm from '../components/FeedbackForm'
-import FeedbackSubmitted from '../components/FeedbackSubmitted'
+import { sendFeedback } from '../actions';
+import DefaultView from '../components/DefaultView';
+import FeedbackForm from '../components/FeedbackForm';
+import FeedbackSubmitted from '../components/FeedbackSubmitted';
 
 class Main extends React.Component {
 
-  constructor(){
+  constructor() {
     super();
     this.revealForm = this.revealForm.bind(this);
     this.state = { formIsVisible: false, requestPending: false };
   }
 
-  revealForm(){
+  revealForm() {
     this.setState({ formIsVisible: true });
   }
 
-  render(){
+  render() {
     let content = null;
 
     if (this.props.feedbackReceived) {
@@ -47,19 +47,19 @@ class Main extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     user: state.user,
     ...state.feedback
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
-    sendFeedback(values){
+    sendFeedback(values) {
       return dispatch(sendFeedback(values));
     }
-  }
+  };
 }
 
 Main.propTypes = {
@@ -67,8 +67,8 @@ Main.propTypes = {
   feedbackReceived: PropTypes.bool,
   shouldSendResponse: PropTypes.bool,
   sendFeedback: PropTypes.func.isRequired
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
-export { Main }
+export { Main };

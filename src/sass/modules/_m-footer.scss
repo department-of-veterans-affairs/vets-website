@@ -95,7 +95,7 @@
     .feedback-widget-need-help {
       order: 1;
       flex: 0 1 33%;
-      margin-top: 23.2px;
+      margin-top: 23.2px;  // the sum of the label height plus textarea margin-top
       .feedback-widget-need-help-inner {
         margin: 0;
       }
