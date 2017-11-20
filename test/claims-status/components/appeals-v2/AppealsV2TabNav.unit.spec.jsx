@@ -15,7 +15,7 @@ describe('<AppealsV2TabNav/>', () => {
 
   it('should render 2 tabs: Status and Detail', () => {
     const wrapper = mount(<AppealsV2TabNav {...defaultProps}/>);
-    const tabs = wrapper.find('li.claims-status-tabs-item');
+    const tabs = wrapper.find('li.appeals-tabs-item');
     const statusTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Status');
     const detailTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Detail');
     expect(tabs.length).to.equal(2);

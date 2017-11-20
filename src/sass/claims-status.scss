@@ -602,22 +602,34 @@ h1:focus {
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
   padding-top: 0;
+  padding-left: 0;
+
+  // To get all the li's to flow together, remove the top margin of the titles
+  h2, h3, h4, h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 
   li {
     // Pull the first bullet point up just a hair to cover the top of the line
     //  for when the viewport is small.
     &:first-child:before {
-      margin-top: 4px;
+      // margin-top: 4px;
     }
 
     &:before {
       background: $color-green;
       border-radius: 50%;
+      border-width: 4.001px;
     }
 
     // Move up the headers to align with the bullet point better
-    h3, h4 {
-      padding-top: 0px;
+    h3 {
+      padding-top: 0.4em;
+    }
+
+    button {
+      margin-top: 0.1em;
     }
   }
 
@@ -655,12 +667,6 @@ h1:focus {
     // Make sure the arrowhead lines up better
     padding-bottom: 0px;
 
-    h3 {
-      // Pull the whole content up so the bullet border starts to cover the previous li's
-      //  left border
-      // margin-top: -7px;
-    }
-
     &:before {
       // \2022 = unicode code point for bullet, then just color it green like the background
       //  to make it "disappear"
@@ -682,13 +688,28 @@ h1:focus {
     border-left: 0.6em solid transparent;
     border-right: 0.6em solid transparent;
     border-top: 1.2em solid $color-gray-lighter;
-    margin-top: -32px;
+    margin-top: -24px;
     margin-left: 0.8em;
   }
 
   .separator {
-    margin: 0.8em 2em 0 -0.7em;
+    margin: 0.8em 0 0 -0.7em;
     border-top: 1px solid $color-gray-lighter;
+  }
+}
+
+.va-appeals-content {
+  padding-top: 1em;
+}
+
+.appeals-tabs-item {
+  flex: 1 1 0px;
+  text-align: center;
+
+  > .va-tab-trigger {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
   }
 }
 

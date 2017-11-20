@@ -235,6 +235,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'File is too large to be uploaded'
               }
             ]
@@ -272,6 +273,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'File is too small to be uploaded'
               }
             ]
@@ -308,7 +310,8 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
-                errorMessage: 'File is not one of the allowed types'
+                errorMessage: 'File is not one of the allowed types',
+                name: 'jpg'
               }
             ]
           }
@@ -397,7 +400,7 @@ describe('Schemaform actions:', () => {
         }
       });
 
-      const promise = thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).catch(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
@@ -414,6 +417,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'Bad Request'
               }
             ]
@@ -446,7 +450,7 @@ describe('Schemaform actions:', () => {
         }
       });
 
-      const promise = thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).catch(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
@@ -463,6 +467,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'Network request failed'
               }
             ]

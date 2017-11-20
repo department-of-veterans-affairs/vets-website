@@ -16,6 +16,8 @@ We have 3 regional pension management centers. Look at the lists below to find t
 
 This office serves:
 
+<div class="usa-grid-full">
+
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Connecticut</li>
@@ -45,6 +47,8 @@ This office serves:
 </ul>
 </div>
 
+</div>
+
 To submit a pension application to this office, mail it to:
 
 <p class="va-address-block">
@@ -65,6 +69,7 @@ Or, fax it to 1-844-655-1604.
 
 This office serves:
 
+<div class="usa-grid-full">
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Alabama</li>
@@ -85,6 +90,8 @@ This office serves:
 <li>Tennessee</li>
 <li>Wisconsin</li>
 </ul>
+</div>
+
 </div>
 
 To submit a pension application to this office, mail it to:

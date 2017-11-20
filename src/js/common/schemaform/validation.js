@@ -343,12 +343,10 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
 }
 
 export function validateFileField(errors, fileList) {
-  let hasError = false;
   fileList.forEach((file, index) => {
     let error;
     if (file.errorMessage) {
-      hasError = true;
-      error = `Error: ${file.errorMessage}`;
+      error = file.errorMessage;
     } else if (file.uploading) {
       error = 'Uploading file...';
     } else if (!file.confirmationCode) {
@@ -370,10 +368,6 @@ export function validateFileField(errors, fileList) {
       errors[index].addError(error);
     }
   });
-
-  if (hasError) {
-    errors.addError('Please address the errors listed below');
-  }
 }
 
 export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {

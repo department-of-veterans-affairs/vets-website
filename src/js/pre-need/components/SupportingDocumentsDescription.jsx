@@ -63,6 +63,7 @@ export default function SupportingDocumentsDescription(props) {
           </li>
         </ol>
       </AdditionalInfo>
+      File types you can upload: PDF
     </div>
   );
 }
