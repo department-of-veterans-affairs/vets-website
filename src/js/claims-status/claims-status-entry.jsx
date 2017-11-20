@@ -10,14 +10,13 @@ import { Provider } from 'react-redux';
 
 import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
 import initReact from '../common/init-react';
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 import routes from './routes.jsx';
 import { setLastPage } from './actions/index.jsx';
 import { basename } from './utils/page';
 import reducer from './reducers';
 
-const store = createCommonStore(reducer);
-renderCommonComponents(store);
+const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
   basename

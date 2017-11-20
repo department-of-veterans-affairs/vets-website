@@ -10,10 +10,9 @@ import { Provider } from 'react-redux';
 import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 
-const store = createCommonStore(reducer);
-renderCommonComponents(store);
+const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
   basename: '/health-care/prescriptions'

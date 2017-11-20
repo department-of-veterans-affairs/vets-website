@@ -16,14 +16,17 @@ relatedlinks:
       title: Job Search
       description: Search the Veterans Job Bank to find the right position for you.
 ---
-
-<div class="va-introtext">
+<div itemscope itemtype ="http://schema.org/HowTo">
+<div class="va-introtext" itemprop="description">
 
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies.
 
 </div>
 
-### Being well prepared is critical to your success
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">Being well prepared is critical to your success</h3>
+<div itemprop="itemListElement">
 
 #### A few tips for you
 
@@ -34,7 +37,13 @@ Career fairs are an important first step in the search for employment. In-person
 - Bring business cards to encourage follow-up conversations with prospective employers.
 - For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
 
-### Find a career fair near you
+</div>
+</div>
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">Find a career fair near you</h3>
+<div itemprop="itemListElement">
 
 [Corporate Gray military-friendly job fairs](http://www.corporategray.com/jobfairs) take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
 
@@ -49,3 +58,7 @@ Career fairs are an important first step in the search for employment. In-person
 [Virtual Job Scout](https://www.virtualjobscout.org/), sponsored by the U.S. Chamber of Commerce Foundation’s Hiring Our Heroes, connects Veterans, transitioning Servicemembers, and military spouses with recruiters online.
 
 [Veteran Recruiting job fairs](http://veteranrecruiting.com/) are virtual events that give job seekers the opportunity to chat live with employers online. Employers are also available offline.
+
+</div>
+</div>
+</div>

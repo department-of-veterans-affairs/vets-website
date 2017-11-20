@@ -11,13 +11,11 @@ import { Provider } from 'react-redux';
 import initReact from '../common/init-react';
 import routes from './routes.jsx';
 import reducer from './reducers';
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 
 import Post911GIBStatusApp from './containers/Post911GIBStatusApp';
 
-const store = createCommonStore(reducer);
-
-renderCommonComponents(store);
+const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
   basename: '/education/gi-bill/post-9-11/ch-33-benefit'

@@ -10,10 +10,9 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import createCommonStore, { renderCommonComponents } from '../common/store';
+import initCommon from '../common/init-common';
 
-const commonStore = createCommonStore();
-renderCommonComponents(commonStore);
+const commonStore = initCommon();
 
 function init() {
   ReactDOM.render((

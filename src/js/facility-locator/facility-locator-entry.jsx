@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import routes from './routes';
 import { store } from './store';
-import { renderCommonComponents } from '../common/store';
+import { renderCommonComponents } from '../common/init-common';
 
 renderCommonComponents(store);
 
