@@ -93,7 +93,6 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('veteran-id-card/index.md');
 }
 smith.use(ignore(ignoreList));
 
