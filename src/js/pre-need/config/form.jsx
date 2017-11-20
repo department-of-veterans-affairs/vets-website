@@ -475,7 +475,7 @@ const formConfig = {
                       title = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
                     /* eslint-enable no-param-reassign */ 
                     }
-                    return title;
+                    return { title };
                   },
                   labels: {
                     1: 'Yes',
