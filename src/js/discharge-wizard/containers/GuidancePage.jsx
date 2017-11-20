@@ -19,7 +19,9 @@ class GuidancePage extends React.Component {
 
   handlePrint(e) {
     e.preventDefault();
-    window.print();
+    if (window.print) {
+      window.print();
+    }
   }
 
   renderResultSummary() {
