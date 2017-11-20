@@ -10,6 +10,12 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
 import environment from '../../common/helpers/environment.js';
 
+export const desiredCemeteryNote = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in your preferred cemetery. We’ll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
+  </div>
+);
+
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }

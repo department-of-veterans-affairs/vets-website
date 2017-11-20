@@ -22,6 +22,7 @@ import SupportingDocumentsDescription from '../components/SupportingDocumentsDes
 import {
   GetFormHelp,
   isVeteran,
+  desiredCemeteryNote,
   isAuthorizedAgent,
   formatName,
   transform,
@@ -459,17 +460,23 @@ const formConfig = {
                   getCemeteries
                 ),
                 'view:desiredCemeteryNote': {
-                  'ui:description': (
-                    <div className="usa-alert usa-alert-info no-background-image">
-                      <strong>Please note:</strong> This doesn't guarantee you'll be buried in your preferred cemetery. We'll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
-                    </div>
-                  )
+                  'ui:description': desiredCemeteryNote
                 }
               },
               hasCurrentlyBuried: {
-                'ui:title': 'Is there anyone currently buried in a VA national cemetery under your eligibility?',
                 'ui:widget': 'radio',
                 'ui:options': {
+                  updateSchema: (formData) => {
+                    let title;
+                    if (isVeteran(formData)) {
+                    /* eslint-disable no-param-reassign */ 
+                      title = 'Is there anyone currently buried in a VA national cemetery under your eligibility?';
+                    } else {
+                      title = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+                    /* eslint-enable no-param-reassign */ 
+                    }
+                    return { title };
+                  },
                   labels: {
                     1: 'Yes',
                     2: 'No',
