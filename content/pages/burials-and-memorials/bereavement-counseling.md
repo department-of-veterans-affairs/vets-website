@@ -9,26 +9,26 @@ relatedlinks:
   - heading: Other helpful information
     links:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs/
-      title: Handling Burial Costs (Allowances)
+      title: Burial Allowance Application Process
       description: Find out if you can get paid back for funeral and other burial costs.
     - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation/
       title: Compensation for Survivors and Dependents
       description: Find out if you can get tax-free monetary benefits.
     - url: /burials-and-memorials/burial-planning/
       title: Burial Planning
-      description: Find out how to plan for the future or what to do if your family member has just died.
+      description: Find out the steps you’ll need to take to arrange for a family member’s burial.
     - url: /burials-and-memorials/what-to-expect-at-a-funeral/
-      title: What to Expect at a Military Funeral
+      title: What to Expect at a Memorial Service
       description: Find out what will happen to help you prepare for this day.
     - url: /pension/survivors-pension/
       title: Survivors Pension
-      description: Find out if you can get monthly payments as an unmarried surviving spouse or unmarried child of a deceased Veteran with wartime service.
+      description: If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, find out if you can get monthly payments.
 
 ---
 
 <div class="va-introtext">
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country, you may qualify for bereavement counseling through VA. Bereavement counseling includes assistance and support for people going through emotional and psychological stress after the death of a loved one.
+If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country, you may qualify for bereavement counseling through VA. Bereavement counseling provides assistance and support for people going through emotional and psychological stress after the death of a loved one.
 
 </div>
 
@@ -40,8 +40,8 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died i
 
 You may qualify for bereavement counseling if you’re the surviving spouse, child, or parent of:
 - A Servicemember who died in the service of their country
-- A Reservist who died while on duty
-- A National Guardsman who died while on duty
+- A Reservist who died while on active duty
+- A National Guardsman who died while on active duty
 
 </div>
 
@@ -49,7 +49,7 @@ You may qualify for bereavement counseling if you’re the surviving spouse, chi
 
 ### What kinds of benefits can I get with bereavement counseling?
 
-Bereavement counseling includes a broad range of free transition services, like:
+Bereavement counseling provides a broad range of free transition services, like:
 
 - Outreach
 - Counseling
@@ -59,9 +59,9 @@ We provide these services at our community-based Vet Centers, or in your home or
 
  ### How do I get these benefits?
 
-To access our bereavement counseling services, contact our Readjustment Counseling Service staff:
+To access bereavement counseling services, contact our Readjustment Counseling Service staff:
 
-By phone: <a href='tel:+1-202-461-6530'>202-461-6530</a> or<br>
+By phone: <a href='tel:+1-202-461-6530'>1-202-461-6530</a>, **or**<br>
 By email: <a href='mailto:vetcenter.bereavement@va.gov'>vetcenter.bereavement@va.gov</a>
 
-Our staff will help you contact your nearest Vet Center to arrange for counseling services at the Center, in your home, or in another comfortable location.
+Our staff will help you contact your nearest Vet Center to arrange for counseling services there, in your home, or in another comfortable location.
