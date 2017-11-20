@@ -1,20 +1,17 @@
-export const UPDATE_FEEDBACK_STATE = 'UPDATE_FEEDBACK_STATE';
-export const FEEDBACK_STATES = {
-  OPEN: 'OPEN',
-  PENDING: 'PENDING',
-  SUBMITTED: 'SUBMITTED'
-};
+export const SEND_FEEDBACK = 'SEND_FEEDBACK';
+export const FEEDBACK_RECEIVED = 'FEEDBACK_RECEIVED'
 
-export function showFeedbackForm(){
-  return {
-    type: UPDATE_FEEDBACK_STATE,
-    value: FEEDBACK_STATES.OPEN
-  };
-}
+export function sendFeedback(values){
+  return (dispatch) => {
 
-export function submitFeedbackForm(){
-  return {
-    type: UPDATE_FEEDBACK_STATE,
-    value: FEEDBACK_STATES.SUBMITTED
-  };
+    const sendFeedbackAction = { type: SEND_FEEDBACK, values };
+    const feedbackReceivedAction = { type: FEEDBACK_RECEIVED }
+
+    // @todo Send a network request once we know the endpoint
+    dispatch(sendFeedbackAction);
+
+    return new Promise((resolve) => {
+      setTimeout(() => dispatch(feedbackReceivedAction), 2000)
+    })
+  }
 }

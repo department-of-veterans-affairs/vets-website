@@ -1,26 +1,25 @@
-import {FEEDBACK_STATES, UPDATE_FEEDBACK_STATE} from '../actions';
+import {SEND_FEEDBACK, FEEDBACK_RECEIVED} from '../actions';
 
 const initialState = {
-  isOpen: false,
-  shouldSendResponse: false,
-  isSubmitted: false
-}
-
-function expandFeedbackState(state, action){
-  const {value, formValues} = action;
-
-  switch (action.value) {
-    case FEEDBACK_STATES.OPEN:
-      return { isOpen: true };
-    case FEEDBACK_STATES.SUBMITTED:
-      return { isSubmitted: true, shouldSendResponse: false }
-  }
-}
+  requestPending: false,
+  feedbackReceived: false,
+  shouldSendResponse: false
+};
 
 function feedbackReducer(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_FEEDBACK_STATE:
-      return expandFeedbackState(state, action);
+    case SEND_FEEDBACK:
+      return {
+        requestPending: true,
+        feedbackReceived: false,
+        shouldSendResponse: action.values.shouldSendResponse
+      };
+    case FEEDBACK_RECEIVED:
+      return {
+        requestPending: false,
+        feedbackReceived: true,
+        shouldSendResponse: state.shouldSendResponse
+      };
     default:
       return state;
   }
