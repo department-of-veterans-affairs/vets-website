@@ -2,22 +2,40 @@ import React from 'react';
 import { range } from 'lodash';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import Scroll from 'react-scroll';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
 import { questionLabels, prevApplicationYearCutoff, answerReview } from '../config';
-import { shouldShowQuestion, elementTopOffset } from '../utils';
+import { shouldShowQuestion } from '../utils';
+
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
 
 class FormQuestions extends React.Component {
+  componentDidMount() {
+    Scroll.animateScroll.scrollToTop();
+  }
+
   updateField(name, value) {
     this.props.updateField(name, value);
     this.forceUpdate();
+    setTimeout(() => {
+      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], {
+        duration: 1000,
+        smooth: true,
+      });
+    }, 100);
   }
 
   handleScrollTo = (e) => {
     e.preventDefault();
-    window.scrollTo(0, elementTopOffset(this[e.target.name]));
+
+    scroller.scrollTo(e.target.name, {
+      duration: 1000,
+      smooth: true,
+    });
   }
 
   renderQuestion(name, label, options) {
@@ -38,6 +56,7 @@ class FormQuestions extends React.Component {
 
     return (
       <div ref={(el) => { this[name] = el; }}>
+        <Element name={name}/>
         <ErrorableRadioButtons {...radioButtonProps}/>
       </div>
     );
@@ -212,13 +231,12 @@ class FormQuestions extends React.Component {
     return this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions);
   }
 
-  // TODO: Refactor this display logic for clarity, use a reusable pattern for display
-  // and move labels into config file
   renderAnswerReview() {
     if (this.props.formValues.questions.slice(-1)[0] !== 'END') { return null; }
 
     return (
       <div className="review-answers">
+        <Element name="END"/>
         <h4>Review your answers</h4>
         <div className="va-introtext">
           <p>If any information below is incorrect, update your answers to get the best guidance for your discharge situation.</p>
