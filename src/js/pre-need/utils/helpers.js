@@ -322,7 +322,7 @@ export const serviceRecordsUI = {
           CB: 'DEFENSE OF BATAAN',
           CO: 'US ARMY TRANSPORT SERVICE',
           CI: 'CIV ID FRIEND/FOE (IFF) TECH',
-          CC: 'AMERICAN FIELD SERVICE',
+          CC: 'US CIV OF AFS WWII',
           GS: 'CIV CREW OF USCGS VESSELS',
           FT: 'AMERICAN VOL GRP FLYING TIGERS',
           CE: 'ROYAL CANADIAN CORPS SIGNAL',
