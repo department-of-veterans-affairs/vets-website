@@ -64,7 +64,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA National Cemetery',
+  title: 'Apply online for pre-need determination of eligibility in a VA national cemetery',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -189,43 +189,43 @@ const formConfig = {
               veteran: _.merge(veteranUI, {
                 currentName: _.merge(fullNameUI, {
                   first: {
-                    'ui:title': 'Sponsor\'s first name'
+                    'ui:title': 'Sponsor’s first name'
                   },
                   last: {
-                    'ui:title': 'Sponsor\'s last name'
+                    'ui:title': 'Sponsor’s last name'
                   },
                   middle: {
-                    'ui:title': 'Sponsor\'s middle name'
+                    'ui:title': 'Sponsor’s middle name'
                   },
                   suffix: {
-                    'ui:title': 'Sponsor\'s suffix'
+                    'ui:title': 'Sponsor’s suffix'
                   },
                   maiden: {
-                    'ui:title': 'Sponsor\'s maiden name'
+                    'ui:title': 'Sponsor’s maiden name'
                   }
                 }),
                 militaryServiceNumber: {
-                  'ui:title': 'Sponsor\'s Military Service number (if they have one that\'s different than their Social Security number)'
+                  'ui:title': 'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)'
                 },
                 vaClaimNumber: {
-                  'ui:title': 'Sponsor\'s VA claim number (if known)'
+                  'ui:title': 'Sponsor’s VA claim number (if known)'
                 },
                 ssn: {
                   ...ssnDashesUI,
-                  'ui:title': 'Sponsor\'s social security number'
+                  'ui:title': 'Sponsor’s social security number'
                 },
-                dateOfBirth: currentOrPastDateUI('Sponsor\'s date of birth'),
+                dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
                 placeOfBirth: {
-                  'ui:title': 'Sponsor\'s place of birth'
+                  'ui:title': 'Sponsor’s place of birth'
                 },
                 gender: {
-                  'ui:title': 'Sponsor\'s gender'
+                  'ui:title': 'Sponsor’s gender'
                 },
                 maritalStatus: {
-                  'ui:title': 'Sponsor\'s marital status'
+                  'ui:title': 'Sponsor’s marital status'
                 },
                 militaryStatus: {
-                  'ui:title': 'Sponsor\'s current military status (You can add more service history information later in this application)',
+                  'ui:title': 'Sponsor’s current military status (You can add more service history information later in this application)',
                   'ui:options': {
                     nestedContent: {
                       X: <div className="usa-alert usa-alert-info no-background-image">If you're not sure what your sponsor's status is—or if it isn't listed here—don't worry. You can upload supporting documents showing your sponsor's service history later in this application.</div>
@@ -239,11 +239,11 @@ const formConfig = {
                     labels: {
                       yes: 'Yes',
                       no: 'No',
-                      unsure: 'I don\'t know'
+                      unsure: 'I don’t know'
                     }
                   }
                 },
-                dateOfDeath: _.merge(currentOrPastDateUI('Sponsor\'s date of death'), {
+                dateOfDeath: _.merge(currentOrPastDateUI('Sponsor’s date of death'), {
                   'ui:options': {
                     expandUnder: 'isDeceased',
                     expandUnderCondition: 'yes'
@@ -353,24 +353,24 @@ const formConfig = {
             application: {
               veteran: {
                 serviceRecords: _.merge(serviceRecordsUI, {
-                  'ui:title': 'Sponsor\'s service periods',
+                  'ui:title': 'Sponsor’s service periods',
                   items: {
                     serviceBranch: {
-                      'ui:title': 'Sponsor\'s branch of service'
+                      'ui:title': 'Sponsor’s branch of service'
                     },
                     dateRange: dateRangeUI(
-                      'Start of sponsor\'s service period',
-                      'End of sponsor\'s service period',
-                      'End of service must be after start of service'
+                      'Sponsor’s service start date',
+                      'Sponsor’s service end date',
+                      'Service start date must be before end date'
                     ),
                     dischargeType: {
-                      'ui:title': 'Sponsor\'s discharge character of service',
+                      'ui:title': 'Sponsor’s discharge character of service',
                     },
                     highestRank: {
-                      'ui:title': 'Sponsor\'s highest rank attained'
+                      'ui:title': 'Sponsor’s highest rank attained'
                     },
                     nationalGuardState: {
-                      'ui:title': 'Sponsor\'s state (for National Guard Service only)',
+                      'ui:title': 'Sponsor’s state (for National Guard Service only)',
                     }
                   }
                 })
@@ -405,19 +405,19 @@ const formConfig = {
                 },
                 serviceName: _.merge(fullNameUI, {
                   first: {
-                    'ui:title': 'Sponsor\'s first name'
+                    'ui:title': 'Sponsor’s first name'
                   },
                   last: {
-                    'ui:title': 'Sponsor\'s last name'
+                    'ui:title': 'Sponsor’s last name'
                   },
                   middle: {
-                    'ui:title': 'Sponsor\'s middle name'
+                    'ui:title': 'Sponsor’s middle name'
                   },
                   suffix: {
-                    'ui:title': 'Sponsor\'s suffix'
+                    'ui:title': 'Sponsor’s suffix'
                   },
                   maiden: {
-                    'ui:title': 'Sponsor\'s maiden name'
+                    'ui:title': 'Sponsor’s maiden name'
                   }
                 }),
               }
@@ -455,7 +455,7 @@ const formConfig = {
             application: {
               claimant: {
                 desiredCemetery: autosuggest.uiSchema(
-                  'Which VA National Cemetery would you prefer to be buried in?',
+                  'Which VA national cemetery would you prefer to be buried in?',
                   getCemeteries
                 ),
                 'view:desiredCemeteryNote': {
@@ -467,13 +467,13 @@ const formConfig = {
                 }
               },
               hasCurrentlyBuried: {
-                'ui:title': 'Is there anyone currently buried in a VA National Cemetery under your eligibility?',
+                'ui:title': 'Is there anyone currently buried in a VA national cemetery under your eligibility?',
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
                     1: 'Yes',
                     2: 'No',
-                    3: 'I don\'t know',
+                    3: 'I don’t know',
                   }
                 }
               },
@@ -488,7 +488,7 @@ const formConfig = {
                     'ui:title': 'Name of deceased'
                   }),
                   'view:cemeteryNumber': {
-                    'ui:title': 'VA National Cemetery where they\'re buried'
+                    'ui:title': 'VA national cemetery where they’re buried'
                     // TODO: Create widget with validation message...
                     // It should map hundreds of cemetery numbers to names.
                     // 'ui:widget': CemeteryNumberWidget
@@ -606,17 +606,17 @@ const formConfig = {
       title: 'Contact Information',
       pages: {
         applicantContactInformation: {
-          title: 'Applicant\'s contact information',
+          title: 'Applicant’s contact information',
           path: 'applicant-contact-information',
           uiSchema: {
             application: {
               claimant: {
-                address: address.uiSchema('Applicant\'s mailing address'),
+                address: address.uiSchema('Applicant’s mailing address'),
                 'view:contactInfoDescription': {
                   'ui:description': (
                     <div className="usa-alert usa-alert-info no-background-image">
                       <p>We may contact you by phone if we need more information about your application.</p>
-                      <p>You can also provide your email address to receive updates about new openings in VA National Cemeteries or other burial benefits.</p>
+                      <p>You can also provide your email address to receive updates about new openings in VA national cemeteries or other burial benefits.</p>
                     </div>
                   ),
                 },
@@ -655,13 +655,13 @@ const formConfig = {
           }
         },
         sponsorMailingAddress: {
-          title: 'Sponsor\'s mailing address',
+          title: 'Sponsor’s mailing address',
           path: 'sponsor-mailing-address',
           depends: (formData) => !isVeteran(formData),
           uiSchema: {
             application: {
               veteran: {
-                address: address.uiSchema('Sponsor\'s address')
+                address: address.uiSchema('Sponsor’s address')
               }
             }
           },
