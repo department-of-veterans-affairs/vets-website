@@ -1,5 +1,4 @@
-import createCommonStore from './common/store';
-import createLoginWidget from './login/login-entry';
+import initCommon from './common/init-common';
 import createApplicationStatus from './common/components/createApplicationStatus';
 import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
 
@@ -22,8 +21,8 @@ import './legacy/mega-menu.js';
 // New sidebar menu
 import './legacy/sidebar-navigation.js';
 
-const store = createCommonStore();
-createLoginWidget(store);
+const store = initCommon();
+
 if (pensionPages.has(location.pathname)) {
   createApplicationStatus(store, {
     formId: '21P-527EZ',
