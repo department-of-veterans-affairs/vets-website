@@ -17,6 +17,11 @@ class GuidancePage extends React.Component {
     window.scrollTo(0, 0);
   }
 
+  handlePrint(e) {
+    e.preventDefault();
+    window.print();
+  }
+
   renderResultSummary() {
     const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
     return `You need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
@@ -228,6 +233,7 @@ class GuidancePage extends React.Component {
           </p>
           {venueAddress(this.props.formValues)}
           {onlineSubmissionMsg}
+          <a href="#" onClick={this.handlePrint}>Print this page</a>
         </div>
       </li>
     );
