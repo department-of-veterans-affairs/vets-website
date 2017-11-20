@@ -62,7 +62,7 @@ class Timeline extends React.Component {
 
     return (
       <div>
-        <ol className="process form-process appeal-timeline">{eventList}</ol>
+        <ol className="form-process appeal-timeline">{eventList}</ol>
         <div className="down-arrow"/>
       </div>
     );

@@ -2,6 +2,7 @@
 title: Your Vets.gov Account
 layout: page-react.html
 entryname: health-beta
+private: true
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">

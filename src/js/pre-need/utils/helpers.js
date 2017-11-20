@@ -15,7 +15,7 @@ export const nonRequiredFullNameUI = omit('required', fullNameUI);
 export const contactInfoDescription = (
   <div className="usa-alert usa-alert-info no-background-image">
     <p>We may contact you by phone if we need more information about your application.</p>
-    <p>You can also provide your email address to receive updates about new openings in VA National Cemeteries or other burial benefits.</p>
+    <p>You can also provide your email address to receive updates about new openings in VA national cemeteries or other burial benefits.</p>
   </div>
 );
 
@@ -294,6 +294,7 @@ export const serviceRecordsUI = {
   'ui:description': 'Please record all periods of service',
   'ui:options': {
     viewField: ServicePeriodView,
+    itemName: 'Service Period'
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
@@ -360,9 +361,9 @@ export const serviceRecordsUI = {
       }
     },
     dateRange: dateRangeUI(
-      'Start of service period',
-      'End of service period',
-      'End of service must be after start of service'
+      'Service start date',
+      'Service end date',
+      'Service start date must be after end date'
     ),
     dischargeType: {
       'ui:title': 'Discharge character of service',
