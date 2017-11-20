@@ -176,9 +176,7 @@ const formConfig = {
                       'gender',
                       'maritalStatus',
                       'militaryStatus'
-                    ], _.set('militaryStatus.enum', [
-                      'A', 'S', 'R', 'E', 'O', 'V', 'X'
-                    ], veteran.properties))
+                    ], veteran.properties)
                   }
                 }
               }
