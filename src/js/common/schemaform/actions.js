@@ -137,6 +137,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
     if (file.size > uiOptions.maxSize) {
       dispatch(
         setData(_.set(filePath, {
+          name: file.name,
           errorMessage: 'File is too large to be uploaded'
         }, getState().form.data))
       );
@@ -147,6 +148,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
     if (file.size < uiOptions.minSize) {
       dispatch(
         setData(_.set(filePath, {
+          name: file.name,
           errorMessage: 'File is too small to be uploaded'
         }, getState().form.data))
       );
@@ -159,6 +161,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
     if (!uiOptions.fileTypes.some(fileType => file.name.toLowerCase().endsWith(fileType.toLowerCase()))) {
       dispatch(
         setData(_.set(filePath, {
+          name: file.name,
           errorMessage: 'File is not one of the allowed types'
         }, getState().form.data))
       );
@@ -172,7 +175,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
 
     const payload = uiOptions.createPayload(file, getState().form.formId);
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
 
       req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
@@ -187,11 +190,12 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
         } else {
           dispatch(
             setData(_.set(filePath, {
+              name: file.name,
               errorMessage: req.statusText
             }, getState().form.data))
           );
           Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
-          resolve();
+          reject();
         }
       });
 
@@ -199,6 +203,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
         const errorMessage = 'Network request failed';
         dispatch(
           setData(_.set(filePath, {
+            name: file.name,
             errorMessage
           }, getState().form.data))
         );
@@ -207,17 +212,18 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
             statusText: req.statusText
           }
         });
-        resolve();
+        reject();
       });
 
       req.addEventListener('abort', () => {
         dispatch(
           setData(_.set(filePath, {
+            name: file.name,
             errorMessage: 'Upload aborted'
           }, getState().form.data))
         );
         Raven.captureMessage('vets_upload_error: Upload aborted');
-        resolve();
+        reject();
       });
 
       req.upload.addEventListener('progress', (evt) => {

@@ -4,7 +4,7 @@ class AskVAQuestions extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="help-heading">Need Help?</h2>
+        <h2 className="help-heading">Need help?</h2>
         <p className="help-talk">Call Veterans Affairs Benefits and Services:</p>
         <p className="help-phone-number">
           <a className="help-phone-number-link" href="tel:+1-800-827-1000">1-800-827-1000</a><br/>

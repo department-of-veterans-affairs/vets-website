@@ -1592,7 +1592,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
-              hideLabelText: true,
+              hideLabelText: true
             }),
             'view:uploadMessage': {
               'ui:description': uploadMessage

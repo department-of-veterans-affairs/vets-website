@@ -29,9 +29,9 @@ relatedlinks:
 If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert">
+<div class="usa-alert usa-alert-warning va-alert va-crisis-alert">
   <div class="usa-alert-body">
-	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<h4>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner">
 	    <ul>

@@ -10,6 +10,12 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
 import environment from '../../common/helpers/environment.js';
 
+export const desiredCemeteryNote = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in your preferred cemetery. We’ll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
+  </div>
+);
+
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
@@ -248,6 +254,7 @@ export const serviceRecordsUI = {
   'ui:description': 'Please record all periods of service',
   'ui:options': {
     viewField: ServicePeriodView,
+    itemName: 'Service Period'
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
@@ -314,9 +321,9 @@ export const serviceRecordsUI = {
       }
     },
     dateRange: dateRangeUI(
-      'Start of service period',
-      'End of service period',
-      'End of service must be after start of service'
+      'Service start date',
+      'Service end date',
+      'Service start date must be after end date'
     ),
     dischargeType: {
       'ui:title': 'Discharge character of service',

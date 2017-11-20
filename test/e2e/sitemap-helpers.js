@@ -5,7 +5,7 @@ const Timeouts = require('./timeouts.js');
 
 const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-const BUILD_BASE_URL = 'http://www.vets.gov';
+const BUILD_BASE_URL = 'https://www.vets.gov';
 
 function sitemapURLs(callback) {
   fetch(SITEMAP_URL)
