@@ -4,7 +4,7 @@ export function initialAppRefresh() {
   return (dispatch) => {
     dispatch({ type: 'INITIAL_LOADING' });
 
-    apiRequest(
+    return apiRequest(
       '/health_records/refresh',
       null,
       () => dispatch({
@@ -19,7 +19,7 @@ export function initialAppRefresh() {
 
 export function checkRefreshStatus() {
   return (dispatch) => {
-    apiRequest('/health_records/refresh',
+    return apiRequest('/health_records/refresh',
       null,
       (response) => {
         return dispatch({

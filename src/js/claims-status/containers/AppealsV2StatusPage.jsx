@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getAppealsV2 } from '../actions/index.jsx';
 import { getStatusContents } from '../utils/appeals-v2-helpers';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Timeline from '../components/appeals-v2/Timeline';
 import Alerts from '../components/appeals-v2/Alerts';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
@@ -24,6 +25,9 @@ class AppealsV2StatusPage extends React.Component {
   }
 
   render() {
+    if (this.props.appealsLoading) {
+      return <LoadingIndicator message="Please wait while we load your appeal..."/>;
+    }
     const { events, status } = this.props.appeal.attributes;
     const { type, details } = status;
     const currentStatus = getStatusContents(type, details);
@@ -53,9 +57,7 @@ AppealsV2StatusPage.defaultProps = {
 };
 
 AppealsV2StatusPage.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string.isRequired
-  }).isRequired,
+  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
   appeal: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -63,29 +65,10 @@ AppealsV2StatusPage.propTypes = {
   })
 };
 
-function isolateAppeal(state, id) {
-  const claimsState = state.disability.status;
-  const { appeals } = claimsState.claims;
-  const appeal = appeals.find(a => a.id === id);
 
-  // append starting event for post-remand and post-cavc remand appeals
-  // NOTE: This is business logic pulled from v1 that we don't fully understand yet.
-  //  Also, having this logic in mapStateToProps is less than ideal; we want to
-  //  move it out when we know where it should live. Maybe just a helper.
-  if (appeal && appeal.attributes.type !== 'original' && appeal.attributes.prior_decision_date) {
-    appeal.attributes.events.unshift({
-      type: appeal.attributes.type === 'post_cavc_remand' ? 'cavc_decision' : 'bva_remand',
-      date: appeal.attributes.prior_decision_date,
-    });
-  }
-
-  return appeal;
-}
-
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    appeal: isolateAppeal(state, ownProps.params.id),
-    loading: state.loading
+    appealsLoading: state.disability.status.appeals.appealsLoading
   };
 }
 

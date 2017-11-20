@@ -28,8 +28,8 @@ relatedlinks:
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
-
-<div class="va-introtext">
+<div itemscope itemtype ="http://schema.org/HowTo">
+<div class="va-introtext" itemprop="description">
 
 You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
 
@@ -43,9 +43,10 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 <div markdown="0"><br></div>
 
-<div class="feature" markdown="1">
+<div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-#### What documents do I need to apply?
+<h4 itemprop="name">What documents do I need to apply?</h4>
+<div itemprop="itemListElement">
 
 For the first disability claim you file, please provide:
 
@@ -58,25 +59,40 @@ For all disability claims, please provide:
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
 
 </div>
+</div>
 
 
-### Ready to apply?
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h4 itemprop="name">Ready to apply?</h4>
+<div itemprop="itemListElement">
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
+</div>
+</div>
 <div markdown="0"><br></div>
 
-### Other ways to apply
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">Other ways to apply</h3>
+<div itemprop="itemListElement">
 
 #### Work with a trained professional
 
 You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
+</div>
+</div>
+
 #### Apply in person
 
 [Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp).
 
-### What happens after I apply?
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">What happens after I apply?</h3>
+<div itemprop="itemListElement">
 
 [Find out what happens after you apply](/disability-benefits/after-you-apply).
 
@@ -89,6 +105,8 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 <div class="card information" markdown="0">
 <span class="number">92.6 days</span>
 <span class="description">Average number of days to complete disability-related claims in October 2017</span>
+</div>
+</div>
 </div>
 
 <div markdown="0"><br></div>

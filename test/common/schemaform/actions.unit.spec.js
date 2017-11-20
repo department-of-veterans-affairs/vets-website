@@ -235,6 +235,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'File is too large to be uploaded'
               }
             ]
@@ -272,6 +273,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'File is too small to be uploaded'
               }
             ]
@@ -308,7 +310,8 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
-                errorMessage: 'File is not one of the allowed types'
+                errorMessage: 'File is not one of the allowed types',
+                name: 'jpg'
               }
             ]
           }
@@ -325,7 +328,9 @@ describe('Schemaform actions:', () => {
         {
           endpoint: '/v0/endpoint',
           fileTypes: ['JPG'],
-          maxSize: 5
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
         }
       );
       const dispatch = sinon.spy();
@@ -383,7 +388,9 @@ describe('Schemaform actions:', () => {
         ['fileField', 0],
         {
           fileTypes: ['jpg'],
-          maxSize: 5
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
         }
       );
       const dispatch = sinon.spy();
@@ -393,7 +400,7 @@ describe('Schemaform actions:', () => {
         }
       });
 
-      const promise = thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).catch(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
@@ -410,6 +417,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'Bad Request'
               }
             ]
@@ -430,7 +438,9 @@ describe('Schemaform actions:', () => {
         ['fileField', 0],
         {
           fileTypes: ['jpg'],
-          maxSize: 5
+          maxSize: 5,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes
         }
       );
       const dispatch = sinon.spy();
@@ -440,7 +450,7 @@ describe('Schemaform actions:', () => {
         }
       });
 
-      const promise = thunk(dispatch, getState).then(() => {
+      const promise = thunk(dispatch, getState).catch(() => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DATA,
           data: {
@@ -457,6 +467,7 @@ describe('Schemaform actions:', () => {
           data: {
             fileField: [
               {
+                name: 'jpg',
                 errorMessage: 'Network request failed'
               }
             ]

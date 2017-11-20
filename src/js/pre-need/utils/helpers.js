@@ -20,6 +20,14 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
 
+export function isSpouse(item) {
+  return get('application.claimant.relationshipToVet', item) === '2';
+}
+
+export function isUnmarriedChild(item) {
+  return get('application.claimant.relationshipToVet', item) === '3';
+}
+
 export function isAuthorizedAgent(item) {
   return get('application.applicant.applicantRelationshipToClaimant', item) === 'Authorized Agent/Rep';
 }
@@ -246,6 +254,7 @@ export const serviceRecordsUI = {
   'ui:description': 'Please record all periods of service',
   'ui:options': {
     viewField: ServicePeriodView,
+    itemName: 'Service Period'
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
@@ -312,9 +321,9 @@ export const serviceRecordsUI = {
       }
     },
     dateRange: dateRangeUI(
-      'Start of service period',
-      'End of service period',
-      'End of service must be after start of service'
+      'Service start date',
+      'Service end date',
+      'Service start date must be after end date'
     ),
     dischargeType: {
       'ui:title': 'Discharge character of service',

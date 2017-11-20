@@ -570,10 +570,9 @@ smith.use(layouts({
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
-  hostname: 'http://www.vets.gov',
+  hostname: 'https://www.vets.gov',
   omitIndex: true
 }));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({
