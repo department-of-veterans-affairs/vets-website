@@ -2,6 +2,7 @@
 layout: page.html
 title: Maintenance
 permalink: false
+private: true
 ---
 
 <!-- Maintenance Page Start -->
@@ -26,5 +27,5 @@ permalink: false
 
 
 
- 
+
 
