@@ -343,7 +343,7 @@ const formConfig = {
             'view:emailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
+                pattern: 'Please enter a valid email address'
               }
             },
             homePhone: phoneUI('Home telephone number'),

@@ -1,5 +1,5 @@
 import React from 'react';
-import { get, merge } from 'lodash/fp';
+import { get, omit, merge } from 'lodash/fp';
 import Raven from 'raven-js';
 
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
@@ -10,7 +10,48 @@ import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
 import environment from '../../common/helpers/environment.js';
 
-export const desiredCemeteryNote = (
+export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
+export const contactInfoDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <p>We may contact you by phone if we need more information about your application.</p>
+    <p>You can also provide your email address to receive updates about new openings in VA national cemeteries or other burial benefits.</p>
+  </div>
+);
+
+export const authorizedAgentDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <p>A preparer may sign for an individual who’s:</p>
+    <ul>
+      <li>Under 18 years of age, <strong>or</strong></li>
+      <li>Is mentally incompetent, <strong>or</strong></li>
+      <li>Is physically unable to sign the application</li>
+    </ul>
+    <p>If you’re the preparer of this application, please provide your contact information.</p>
+  </div>
+);
+
+export const veteranRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>
+);
+
+export const spouseRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+);
+
+export const childRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information. You’ll also need to provide supporting documents with information about your disability.</div>
+);
+
+export const otherRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+);
+
+export const sponsorMilitaryStatusDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">If you’re not sure what your sponsor’s status is—or if it isn’t listed here—don’t worry. You can upload supporting documents showing your sponsor’s service history later in this application.</div>
+);
+
+export const desiredCemeteryNoteDescription = (
   <div className="usa-alert usa-alert-info no-background-image">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in your preferred cemetery. We’ll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
   </div>
@@ -232,17 +273,16 @@ export const veteranUI = {
   },
   militaryStatus: {
     'ui:title': 'Current military status (You can add more service history information later in this application.)',
-    'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        V: 'Veteran',
-        R: 'Retired',
         A: 'Active Duty',
-        E: 'Retired Active Duty',
+        I: 'Death Related to Inactive Duty Training',
         D: 'Died on Active Duty',
         S: 'Reserve/National Guard',
+        R: 'Retired',
+        E: 'Retired Active Duty',
         O: 'Retired Reserve/National Guard',
-        I: 'Death Related to Inactive Duty Training',
+        V: 'Veteran',
         X: 'Other'
       }
     }
@@ -282,7 +322,7 @@ export const serviceRecordsUI = {
           CB: 'DEFENSE OF BATAAN',
           CO: 'US ARMY TRANSPORT SERVICE',
           CI: 'CIV ID FRIEND/FOE (IFF) TECH',
-          CC: 'AMERICAN FIELD SERVICE',
+          CC: 'US CIV OF AFS WWII',
           GS: 'CIV CREW OF USCGS VESSELS',
           FT: 'AMERICAN VOL GRP FLYING TIGERS',
           CE: 'ROYAL CANADIAN CORPS SIGNAL',
@@ -358,17 +398,10 @@ export const militaryNameUI = {
         'ui:title': 'Did you serve under another name?',
         'ui:widget': 'yesNo'
       },
-      serviceName: merge(fullMaidenNameUI, {
-        'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+      serviceName: merge(nonRequiredFullNameUI, {
         'ui:options': {
           expandUnder: 'view:hasServiceName'
         },
-        first: {
-          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
-        },
-        last: {
-          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
-        }
       })
     }
   }
