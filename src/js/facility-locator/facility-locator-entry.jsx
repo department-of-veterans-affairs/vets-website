@@ -9,9 +9,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import routes from './routes';
 import { store } from './store';
-import createLoginWidget from '../login/login-entry';
+import { renderCommonComponents } from '../common/init-common';
 
-createLoginWidget(store);
+renderCommonComponents(store);
 
 const history = useRouterHistory(createHistory)({
   basename: '/facilities'

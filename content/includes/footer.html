@@ -106,9 +106,9 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 {% else %}
   <!-- Google Tag Manager -->
   <script>
-    dataLayer = [{
-      'environment': '{{ buildtype }}'
-    }];
+    // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ environment: '{{ buildtype }}' });
     // We want to know if we are being iframed
     if ( self !== top ) {
       window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});

@@ -91,9 +91,9 @@ export function getAppealsV2() {
 
     // Fake the fetch by just returning a resolved promice with the object shape we expect
     //  to get from the api.
-    return Promise.resolve(mockData)
+    return setTimeout(() => Promise.resolve(mockData)
       .then((response) => dispatch(fetchAppealsSuccess(response)))
-      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE }));
+      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE })), 4000);
   };
 }
 
