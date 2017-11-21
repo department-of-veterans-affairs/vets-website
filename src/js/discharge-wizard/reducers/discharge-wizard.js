@@ -89,6 +89,7 @@ function form(state = initialState, action) {
       }
       return {
         ...state,
+        // reset answers for subsequent questions
         ...Object.keys(initialState).reduce((a, k) => {
           const num = k.split('_')[0];
           const nextNum = action.key.split('_')[0];
