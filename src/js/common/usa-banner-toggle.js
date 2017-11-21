@@ -10,11 +10,11 @@ function initBanner() {
   const govBanner = document.querySelector('#gov-banner');
 
   toggleButton.addEventListener('mouseup', () => {
-    const isExpanded = govBanner.getAttribute('aria-hidden') === 'true';
+    const shouldExpand = govBanner.getAttribute('aria-hidden') === 'true';
 
-    usaHeader.classList.toggle('usa-banner-header-expanded', isExpanded);
-    toggleButton.setAttribute('aria-expanded', isExpanded);
-    govBanner.setAttribute('aria-hidden', !isExpanded);
+    usaHeader.classList.toggle('usa-banner-header-expanded', shouldExpand);
+    toggleButton.setAttribute('aria-expanded', shouldExpand);
+    govBanner.setAttribute('aria-hidden', !shouldExpand);
   });
 }
 
