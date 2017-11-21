@@ -499,7 +499,7 @@ const formConfig = {
                     'ui:title': 'Name of deceased'
                   }),
                   cemeteryNumber: autosuggest.uiSchema(
-                    'VA National Cemetery where they’re buried',
+                    'VA national cemetery where they’re buried',
                     getCemeteries
                   )
                 }
