@@ -76,7 +76,7 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.acceptTerms,
+      errorCodes.access,
       errorCodes.registration,
       errorCodes.prescriptions,
       errorCodes.accountcreation,

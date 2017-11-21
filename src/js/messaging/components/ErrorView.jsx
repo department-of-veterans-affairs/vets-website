@@ -60,7 +60,7 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.accountcreation,
+      errorCodes.access,
     );
 
     // don’t block application if no errors, or errors not in the list above
