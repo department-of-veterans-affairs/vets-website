@@ -1,5 +1,3 @@
-import { STATUS_CODES } from "http";
-
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   nod: 'nod',
