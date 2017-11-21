@@ -15,12 +15,12 @@ The Affordable Care Act (ACA)—also known as the health care law—was created 
 
 <div class="feature" markdown=“1”>
 
-### How does the ACA affect me? 
+### What does the ACA mean for me?
 
 Under this law, if you’re a U.S. taxpayer, you and your family members must: 
 
-- Have health coverage that meets a minimum standard (called the “minimum essential coverage” requirement), **or**  
-- Qualify for an exemption, **or** 
+- Have health coverage that meets a minimum standard (called the “minimum essential coverage” requirement), **or**
+- Qualify for an exemption, **or**
 - Pay a fee when filing your taxes if you have affordable health coverage options but choose not to buy health insurance. This fee is known as an “individual shared responsibility payment.” It’s also sometimes called the “penalty,” “fine,” or “individual mandate.”
 
 [Find out how much you may have to pay for not having health insurance](https://www.healthcare.gov/fees/fee-for-not-being-covered/).<br>
@@ -43,7 +43,7 @@ If you’re covered under one of these programs, you don’t need to do anything
 </div>
 
 ### Does the ACA change my VA health benefits?
- No. The health care law doesn’t change your VA health benefits or your out-of-pocket costs. 
+No. The health care law doesn’t change your VA health benefits or your out-of-pocket costs. 
 
 ### If I’m not signed up for a VA or Department of Defense health care program, how do I get health coverage to meet the requirement?
 If you’re not signed up for a health care program—and you don’t meet the health care law coverage standards—you’ll need to use the Health Insurance Marketplace to get coverage.
