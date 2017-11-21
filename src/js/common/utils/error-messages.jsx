@@ -34,20 +34,17 @@ export const mhvAccessError = (
           </p>
           <ol>
             <li>
-              <strong>Have you never received care at a VA facility?</strong>
-              Only VA patients can use this tool.
+              <strong>Have you never received care at a VA facility?</strong> Only VA patients can use this tool.
             </li>
             <li>
-              <strong>Do you need a different My Health<em>e</em>Vet account type?</strong>
-              You may need a higher level of access to use this tool.
+              <strong>Do you need a different My Health<em>e</em>Vet account type?</strong> You may need a higher level of access to use this tool.
               <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication" target="_blank">
                 Learn about the different account types on the My Health<em>e</em>Vet website.
                 Go to My Health<em>e</em>Vet to learn about account types
               </a>
             </li>
             <li>
-              <strong>Did you forget to accept My Health<em>e</em>Vet's terms and conditions?</strong>
-              You need to log in to My Health<em>e</em>Vet and accept their terms and conditions.
+              <strong>Did you forget to accept My Health<em>e</em>Vet's terms and conditions?</strong> You need to log in to My Health<em>e</em>Vet and accept their terms and conditions.
             </li>
           </ol>
           <p>
