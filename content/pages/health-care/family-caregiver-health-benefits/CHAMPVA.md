@@ -53,7 +53,7 @@ Yes. There are some other factors that may affect whether you or other family me
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse">A surviving spouse who’s currently remarried</button>
       <div id="spouse" class="usa-accordion-content">
-        <p>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage. If you remarry on or after your 55th birthday, you can keep your CHAMPVA benefits. </p>
+        <p>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage. If you remarry on or after your 55th birthday, you can keep your CHAMPVA benefits.</p>
       </div>
     </li>
     <li>
@@ -92,10 +92,7 @@ Yes. There are some other factors that may affect whether you or other family me
             - Are otherwise eligible for CHAMPVA
           - **If you’re age 65 or over**, you’re eligible for CHAMPVA if you’re eligible for Medicare. If you turned 65 before June 5, 2001, and you’re entitled to either Medicare Part A or B, you’ll also need to enroll in Medicare Part B to be eligible for CHAMPVA.
 <br>
-          [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf)
-         
-          <br>
-      </div>
+          [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf)       </div>
     </li>
   </ul>
 </div>
