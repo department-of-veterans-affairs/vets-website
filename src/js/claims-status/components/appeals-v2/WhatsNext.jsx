@@ -33,7 +33,8 @@ WhatsNext.propTypes = {
   nextEvents: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    cardNumber: PropTypes.string.isRequired
+    cardNumber: PropTypes.string.isRequired,
+    cardDescription: PropTypes.string.isRequired
   })).isRequired
 };
 

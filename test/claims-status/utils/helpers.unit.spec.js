@@ -471,15 +471,15 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('getNextEvents', () => {
+  describe.only('getNextEvents', () => {
     it('returns an array of next event objects', () => {
       const type = STATUS_TYPES.nod;
       const nextEvents = getNextEvents(type);
       expect(nextEvents.length).to.equal(2);
       const firstEvent = nextEvents[0];
       const secondEvent = nextEvents[1];
-      expect(Object.keys(firstEvent).length).to.equal(3);
-      expect(Object.keys(secondEvent).length).to.equal(3);
+      expect(Object.keys(firstEvent).length).to.equal(4);
+      expect(Object.keys(secondEvent).length).to.equal(4);
     });
   });
 });
