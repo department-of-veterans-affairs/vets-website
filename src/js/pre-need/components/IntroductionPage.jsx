@@ -24,44 +24,45 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply online for pre-need determination of eligibility in a VA National Cemetery"/>
+        <FormTitle title="Apply for pre-need eligibility determination"/>
         <p>
-          Equal to VA Form 40-10007
+          Equal to VA Form 40-10007 (Application for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery)
         </p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <h5>Prepare</h5>
-              <h6>You'll need:</h6>
+              <h6>To fill out this application, you’ll need:</h6>
               <ul>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be buried. <a href="/facilities/">Find a VA national cemetery</a>.
                 </li>
                 <li>
-                  Information about your service history or the service history of the Servicemember or Veteran who’s sponsoring your application. This includes your (or your sponsor’s):
+                  Service history or the service history of the Servicemember or Veteran who’s sponsoring your application. This includes your or your sponsor’s:
                   <ul>
                     <li>Social Security number (and Military Service Number if it’s different than the Social Security number)</li>
                     <li>VA claim number (if you know it)</li>
                     <li>Date and place of birth</li>
                     <li>Date of death (if the Servicemember or Veteran has died)</li>
-                    <li>Military status and history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)</li>
+                    <li>Military status and history</li>
                   </ul>
                 </li>
               </ul>
               <h6>You’ll need to upload:</h6>
-              <ul><li>A copy of your (or your sponsor’s) DD214 or other separation documents</li></ul>
+              <ul><li>A copy of your or your sponsor’s DD214 or other separation documents</li></ul>
               <h6>Additional information and documents needed for certain applicants:</h6>
               <ul>
                 <li>
-                  <strong>If you’re applying as the legally married spouse or surviving spouse or the unmarried adult child of a Servicemember or Veteran</strong>, you’ll need your personal information (including Social Security number and date of birth)
+                  <strong>If you’re applying as the legally married spouse or surviving spouse or the unmarried adult child of a Servicemember or Veteran</strong>, you’ll need your personal information (including Social Security number and date of birth).
                 </li>
+                <br/>
                 <li>
                   <strong>If you’re applying on behalf of someone else</strong>, you’ll need to upload supporting documents or an affidavit (a written statement of facts confirmed by an oath or affirmation) showing that you’re:
                   <ul>
                     <li>The applicant’s court-appointed representative, <strong>or</strong></li>
                     <li>The applicant’s caregiver (including a spouse or other relative), <strong>or</strong></li>
                     <li>An attorney or agent acting on behalf of the applicant under a durable power of attorney, <strong>or</strong></li>
-                    <li>The manager or principal officer of an institution in which the applicant is being care for</li>
+                    <li>The manager or principal officer of an institution in which the applicant is being cared for</li>
                   </ul>
                 </li>
                 <li>
@@ -74,7 +75,7 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you fill out the claim.
+                <strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help">Find an accredited representative.</a>
               </p>
               <AlertBox
                 content={infoBoxContent}
@@ -83,13 +84,13 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
-              <p>Complete the pre-need eligibility determination application.</p>
+              <p>Complete this pre-need eligibility determination form.</p>
+              <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
-              <h5>VA Review and Decision</h5>
-              <h6>How long does it take VA to make a decision?</h6>
-              <p>We usually process claims within 30 days.</p>
-              <p>We will contact you if we need more information.</p>
+              <h5>VA Review</h5>
+              <p>We usually process claims within 90 days.</p>
+              <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
               <h5>Decision</h5>
@@ -101,7 +102,7 @@ class IntroductionPage extends React.Component {
           <div className="end columns">
             <ProgressButton
               onButtonClick={this.goForward}
-              buttonText="Get Started"
+              buttonText="Start the Pre-Need Application"
               buttonClass="usa-button-primary"
               afterText="»"/>
           </div>
