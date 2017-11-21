@@ -213,4 +213,10 @@ node('vetsgov-general-purpose') {
       throw error
     }
   }
+  
+  post {
+        always {
+            deleteDir() /* clean up our workspace */
+        }
+  }
 }
