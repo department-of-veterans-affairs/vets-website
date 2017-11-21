@@ -6,7 +6,43 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData, selectRadio } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pre-need/config/form';
 
+let fetchMock;
+let oldFetch;
+
+const mockFetch = () => {
+  global.sessionStorage = { userToken: '1234' };
+  oldFetch = global.fetch;
+  fetchMock = sinon.stub();
+  global.fetch = fetchMock;
+  fetchMock.returns({
+    then: (fn) => fn({
+      ok: true,
+      json: () => Promise.resolve({
+        data: [
+          {
+            id: 915,
+            type: 'preneeds_cemeteries',
+            attributes: {
+              // eslint-disable-next-line camelcase
+              cemetery_id: '915',
+              name: 'ABRAHAM LINCOLN NATIONAL CEMETERY',
+              // eslint-disable-next-line camelcase
+              cemetery_type: 'N',
+              num: '915'
+            }
+          }
+        ]
+      })
+    })
+  });
+};
+
+const unMockFetch = () => {
+  global.fetch = oldFetch;
+};
+
 describe('Pre-need burial benefits', () => {
+  beforeEach(mockFetch);
   const { schema, uiSchema } = formConfig.chapters.burialBenefits.pages.burialBenefits;
 
   it('should render', () => {
@@ -56,6 +92,34 @@ describe('Pre-need burial benefits', () => {
     expect(onSubmit.called).to.be.true;
   });
 
+  it('should fill in desired cemetery', (done) => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    const cemeteryField = form.find('input#root_application_claimant_desiredCemetery');
+    cemeteryField
+      .simulate('focus')
+      .simulate('change', { target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' } });
+
+    setTimeout(() => {
+      cemeteryField
+        .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
+        .simulate('blur');
+
+      // have to pull this again, doesn't work if we use cemeteryField
+      expect(form.find('input#root_application_claimant_desiredCemetery')
+        .props().value).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
+
+      done();
+    });
+  });
+
   it('should add another currently buried person', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -79,4 +143,5 @@ describe('Pre-need burial benefits', () => {
 
     expect(onSubmit.called).to.be.true;
   });
+  afterEach(unMockFetch);
 });
