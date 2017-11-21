@@ -85,6 +85,19 @@ You can work with a trained professional who can help you file a claim.  [Find a
 </div>
 </div>
 
+#### Apply by mail
+
+[Download an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+
+Print the form, fill it out, and send it to this address:
+
+<p class="va-address-block">
+Department of Veterans Affairs<br>
+Claims Intake Center<br>
+PO Box 4444<br>
+Janesville, WI 53547-4444<br>
+</p>
+
 #### Apply in person
 
 [Go to a regional benefits office](http://www.benefits.va.gov/benefits/offices.asp).
