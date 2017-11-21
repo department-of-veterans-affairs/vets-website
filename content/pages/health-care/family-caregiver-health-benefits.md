@@ -42,12 +42,12 @@ If you now have one of the related conditions, you may qualify for health care b
 
 ### The Spina Bifida Health Care Benefits Program
 
-If you’re the biological child of a Korean or Vietnam Veteran and you’ve been diagnosed with spina bifida, you may qualify for disability benefits, including health care benefits. [Find out if you qualify and how to apply](https://www.va.gov/COMMUNITYCARE/programs/dependents/spinabifida/index.asp).
+If you’re the biological child of a Korean or Vietnam War Veteran and you’ve been diagnosed with spina bifida, you may qualify for disability benefits, including health care benefits. [Find out if you qualify and how to apply](https://www.va.gov/COMMUNITYCARE/programs/dependents/spinabifida/index.asp).
 
 <br>
 
 ### The Children of Women Vietnam Veterans Health Care Benefits Program
-If you’re the biological child of a woman Vietnam Veteran and you’ve been diagnosed with certain birth defects, you may qualify for VA health care benefits. These benefits may help pay for services needed to treat your covered birth defect and related medical conditions. [Find out if you qualify and how to apply](https://www.va.gov/COMMUNITYCARE/programs/dependents/cwvv/index.asp).
+If you’re the biological child of a woman Vietnam War Veteran and you’ve been diagnosed with certain birth defects, you may qualify for VA health care benefits. These benefits may help pay for services needed to treat your covered birth defect and related medical conditions. [Find out if you qualify and how to apply](https://www.va.gov/COMMUNITYCARE/programs/dependents/cwvv/index.asp).
 
 <br>
 
