@@ -49,13 +49,13 @@ You may qualify for bereavement counseling if you’re the surviving spouse, chi
 
 ### What kinds of benefits can I get with bereavement counseling?
 
-Bereavement counseling provides a broad range of free transition services, like:
+Bereavement counseling provides a range of free transition services, like:
 
 - Outreach
 - Counseling
 - Referrals
 
-We provide these services at our community-based Vet Centers, or in your home or other location where you feel most comfortable.
+We provide these services at our community-based Vet Centers, in your home, or in another location where you feel most comfortable.
 
 ### How do I get these benefits?
 
@@ -64,4 +64,4 @@ To access bereavement counseling services, contact our Readjustment Counseling S
 By phone: <a href='tel:+1-202-461-6530'>1-202-461-6530</a>, **or**<br>
 By email: <a href='mailto:vetcenter.bereavement@va.gov'>vetcenter.bereavement@va.gov</a>
 
-Our staff will help you contact your nearest Vet Center to arrange for counseling services there, in your home, or in another comfortable location.
+Our staff will help you contact your nearest Vet Center to arrange for counseling services.
