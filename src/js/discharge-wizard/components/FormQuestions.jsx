@@ -62,7 +62,7 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionOne() {
+  renderQuestionThree() {
     const key = '4_reason';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
@@ -81,7 +81,7 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionOneA() {
+  renderQuestionThreeA() {
     const key = '5_dischargeType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
@@ -93,7 +93,7 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionOneB() {
+  renderQuestionThreeB() {
     const key = '6_intention';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
@@ -126,6 +126,7 @@ class FormQuestions extends React.Component {
 
     return (
       <fieldset className="fieldset-input dischargeYear" key="dischargeYear" ref={(el) => { this[key] = el; }}>
+        <Element name={key}/>
         <ErrorableSelect
           autocomplete="false"
           label={label}
@@ -149,6 +150,7 @@ class FormQuestions extends React.Component {
 
     return (
       <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ref={(el) => { this[key] = el; }}>
+        <Element name={key}/>
         <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
@@ -160,7 +162,7 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionThree() {
+  renderQuestionFour() {
     const key = '7_courtMartial';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
@@ -173,7 +175,7 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionFour() {
+  renderQuestionOne() {
     const key = '1_branchOfService';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
@@ -271,11 +273,11 @@ class FormQuestions extends React.Component {
     return (
       <div>
         {this.renderQuestionOne()}
-        {this.renderQuestionOneA()}
-        {this.renderQuestionOneB()}
         {this.renderQuestionTwo()}
         {this.renderQuestionTwoB()}
         {this.renderQuestionThree()}
+        {this.renderQuestionThreeA()}
+        {this.renderQuestionThreeB()}
         {this.renderQuestionFour()}
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}
