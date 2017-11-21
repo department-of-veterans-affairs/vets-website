@@ -60,7 +60,6 @@ describe('<ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[0].text()).to.contain('We process claims in the order we receive them');
     expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.Please print this page for your records');
     expect(tree.everySubTree('p')[8].text()).to.contain('VA Regional Office');
-    expect(tree.subTree('.confirmation-guidance-message').text()).to.contain('If you have questions, call 1-800-827-1000, Monday - Friday, 8:00 a.m. - 9:00 p.m. (ET). Please have your Social Security number or VA file number ready. For Telecommunication Relay Services, dial 711.');
   });
   it('should render', () => {
     const form = {

@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Management Centers
-concurrence: "" 
+concurrence: ""
 order: 6
 ---
 
@@ -15,6 +15,8 @@ We have 3 regional pension management centers. Look at the lists below to find t
 ### VA Philadelphia Pension Management Center
 
 This office serves:
+
+<div class="usa-grid-full">
 
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
@@ -45,6 +47,8 @@ This office serves:
 </ul>
 </div>
 
+</div>
+
 To submit a pension application to this office, mail it to:
 
 <p class="va-address-block">
@@ -55,9 +59,9 @@ To submit a pension application to this office, mail it to:
   Janesville, WI  53547-5206
 </p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
+Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
+[Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/).
 
 <br>
 
@@ -65,6 +69,7 @@ Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
 
 This office serves:
 
+<div class="usa-grid-full">
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Alabama</li>
@@ -87,6 +92,8 @@ This office serves:
 </ul>
 </div>
 
+</div>
+
 To submit a pension application to this office, mail it to:
 
 <p class="va-address-block">
@@ -97,9 +104,9 @@ To submit a pension application to this office, mail it to:
   Janesville, WI 53547-5192<br>
 </p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
+Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
+[Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/).
 
 <br>
 
@@ -156,6 +163,6 @@ To submit a pension application to this office, mail it to:
   Janesville, WI 53547-5365<br>
 </p>
 
-Or, fax it to <a href="tel:+1-844-655-1604">1-844-655-1604</a>.
+Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/). 
+[Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/).

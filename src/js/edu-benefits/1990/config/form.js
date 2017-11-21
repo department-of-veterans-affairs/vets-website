@@ -4,6 +4,7 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import contactInformationPage from '../../pages/contactInformation';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import GetFormHelp from '../../components/GetFormHelp';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
@@ -100,6 +101,7 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

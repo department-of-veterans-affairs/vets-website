@@ -15,6 +15,12 @@ majorlinks:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/overseas
       title: Go to an Intake Site in Korea or Germany
       description: Are you stationed overseas?
+relatedlinks:
+   - heading: Other information you may be interested in exploring
+     links:
+     - url: /employment/vocational-rehab-and-employment/ides/
+       title: Accessing VR&E Through the Integrated Disability Evaluation System (IDES)
+       description: Find out how you can access vocational rehabilitation and employment services as soon as possible through IDES.
 ---
 
 <div class="va-introtext">

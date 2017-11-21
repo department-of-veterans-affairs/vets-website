@@ -74,17 +74,33 @@ const address = {
     }
   }
 };
-
 const newAddress = {
-  addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
-  addressOne: '57 COLUMBUS STRASSA',
-  addressThree: '',
-  addressTwo: 'BEN FRANKLIN VILLAGE',
-  city: 'Chicago',
-  state: 'IL',
-  type: 'DOMESTIC',
-  zipCode: '60602',
-  zipSuffix: ''
+  data: {
+    attributes: {
+      address: {
+        addressEffectiveDate: '2012-04-03T04:00:00.000+00:00',
+        addressOne: '57 COLUMBUS STRASSA',
+        addressThree: '',
+        addressTwo: 'BEN FRANKLIN VILLAGE',
+        city: 'Chicago',
+        stateCode: 'IL',
+        type: 'DOMESTIC',
+        zipCode: '60602',
+        zipSuffix: ''
+      },
+      controlInformation: {
+        canUpdate: true,
+        corpAvailIndicator: true,
+        corpRecFoundIndicator: true,
+        hasNoBdnPaymentsIndicator: true,
+        indentityIndicator: true,
+        indexIndicator: true,
+        isCompetentIndicator: true,
+        noFiduciaryAssignedIndicator: true,
+        notDeceasedIndicator: true
+      }
+    }
+  }
 };
 
 const countries = {

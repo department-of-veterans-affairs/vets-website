@@ -19,6 +19,7 @@
     padding: 0.5rem 0;
 
     h1:first-child {
+      margin-top: 0;
       padding: 0 0 0 1.5rem;
     }
   }
@@ -294,6 +295,10 @@
 
     select:disabled {
       background: $color-gray-lightest;
+    }
+
+    input[type=submit] {
+      margin-top: 2.5rem;
     }
 
     .facility-dropdown-wrapper {

@@ -318,7 +318,7 @@ const runTest = E2eHelpers.createE2eTest(
       // https://github.com/nightwatchjs/nightwatch/issues/890
       client
         .setValue('input#root_files', require('path').resolve(`${__dirname}/test.png`));
-      client.waitForElementVisible('.schemaform-file-remove-button', Timeouts.slow);
+      client.waitForElementVisible('.va-button-link', Timeouts.slow);
     }
 
     client.axeCheck('.main')

@@ -15,6 +15,14 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
   return true;
 };
 
+const specialCharacterValidator = (input) => {
+  if (/[^A-Za-z0-9 #%&'()+,./:@]/.test(input)) {
+    return "Please only use letters, numbers, and the special characters #%&'()+,./:@";
+  }
+
+  return true;
+};
+
 
 /**
  * The signature of all validation functions is always the following
@@ -27,7 +35,8 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
  *                               if an error message is returned)
  */
 export const addressOneValidations = [
-  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a street address')
+  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a street address'),
+  specialCharacterValidator
 ];
 
 export const postalCodeValidations = [

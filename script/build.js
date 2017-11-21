@@ -93,7 +93,6 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('veteran-id-card/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -146,20 +145,6 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'Survivor and Dependent Benefits'
-    }
-  },
-  disabilityBeta: {
-    pattern: 'disability-benefits-beta/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Disability Benefits'
-    }
-  },
-  disabilityBetaClaimsAppeal: {
-    pattern: 'disability-benefits-beta/claims-appeal/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Appeals'
     }
   },
   disability: {
@@ -406,6 +391,20 @@ smith.use(collections({
       name: 'Application Process'
     }
   },
+  vre: {
+    pattern: 'employment/vocational-rehab-and-employment/*md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Vocational Rehab &amp; Employment'
+    }
+  },
+  vreServiceDisabled: {
+    pattern: 'employment/vocational-rehab-and-employment/service-disabled/*md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Servicemember & Veteran Programs'
+    }
+  },
 }));
 
 smith.use(dateInFilename(true));
@@ -577,10 +576,9 @@ smith.use(layouts({
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
-  hostname: 'http://www.vets.gov',
+  hostname: 'https://www.vets.gov',
   omitIndex: true
 }));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({

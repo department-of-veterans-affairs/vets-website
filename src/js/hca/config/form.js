@@ -8,6 +8,8 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
@@ -16,9 +18,11 @@ import {
   transform,
   dischargeTypeLabels,
   lastServiceBranchLabels,
-  FacilityHelp,
+  facilityHelp,
+  medicaidDescription,
   medicalCentersByState,
   medicalCenterLabels,
+  medicarePartADescription,
   financialDisclosureText,
   incomeDescription,
   disclosureWarning,
@@ -50,6 +54,10 @@ import { validateServiceDates, validateMarriageDate } from '../validation';
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
+const emptyObjectSchema = {
+  type: 'object',
+  properties: {}
+};
 
 const {
   mothersMaidenName,
@@ -153,6 +161,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
+            'ui:description': applicantDescription,
             veteranFullName: _.merge(fullNameUI, {
               last: {
                 'ui:errorMessages': {
@@ -193,6 +202,9 @@ const formConfig = {
                   labels: stateLabels
                 }
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true
             }
           },
           schema: {
@@ -331,7 +343,7 @@ const formConfig = {
             'view:emailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
+                pattern: 'Please enter a valid email address'
               }
             },
             homePhone: phoneUI('Home telephone number'),
@@ -364,13 +376,17 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDateUI('Start of service period'),
-            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
+            lastEntryDate: currentOrPastDateUI('Service start date'),
+            lastDischargeDate: currentOrPastDateUI('Service end date'),
             dischargeType: {
-              'ui:title': 'Character of discharge',
+              'ui:title': 'Character of service',
               'ui:options': {
                 labels: dischargeTypeLabels
               }
+            },
+            'ui:options': {
+              showPrefillMessage: true,
+              prefillMessage: 'military'
             },
             'ui:validations': [
               validateServiceDates
@@ -499,10 +515,7 @@ const formConfig = {
             required: ['discloseFinancialInformation'],
             properties: {
               discloseFinancialInformation,
-              'view:noDiscloseWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:noDiscloseWarning': emptyObjectSchema
             }
           }
         },
@@ -517,7 +530,7 @@ const formConfig = {
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Spouse’s social security number',
+              'ui:title': 'Spouse’s Social Security number',
             }),
             spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
@@ -678,12 +691,24 @@ const formConfig = {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
             'ui:description': deductibleExpensesDescription,
             deductibleMedicalExpenses: currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.'),
-            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
-            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
-            'view:expensesIncomeWarning': {
+            'view:expensesIncomeWarning1': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: expensesLessThanIncome
+                hideIf: expensesLessThanIncome('deductibleMedicalExpenses')
+              }
+            },
+            deductibleFuneralExpenses: currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'),
+            'view:expensesIncomeWarning2': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome('deductibleFuneralExpenses')
+              }
+            },
+            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
+            'view:expensesIncomeWarning3': {
+              'ui:description': expensesGreaterThanIncomeWarning,
+              'ui:options': {
+                hideIf: expensesLessThanIncome('deductibleEducationExpenses')
               }
             }
           },
@@ -692,12 +717,11 @@ const formConfig = {
             required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
             properties: {
               deductibleMedicalExpenses,
+              'view:expensesIncomeWarning1': emptyObjectSchema,
               deductibleFuneralExpenses,
+              'view:expensesIncomeWarning2': emptyObjectSchema,
               deductibleEducationExpenses,
-              'view:expensesIncomeWarning': {
-                type: 'object',
-                properties: {}
-              }
+              'view:expensesIncomeWarning3': emptyObjectSchema
             }
           }
         }
@@ -713,13 +737,13 @@ const formConfig = {
           uiSchema: {
             isMedicaidEligible: {
               'ui:title': 'Are you eligible for Medicaid?',
+              'ui:description': medicaidDescription,
               'ui:widget': 'yesNo',
-              'ui:help': 'Medicaid is a United States health program for eligible individuals and families with low income and few resources.'
             },
             isEnrolledMedicarePartA: {
               'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
+              'ui:description': medicarePartADescription,
               'ui:widget': 'yesNo',
-              'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
             },
             medicarePartAEffectiveDate: _.merge(
               currentOrPastDateUI('What is your Medicare Part A effective date?'), {
@@ -751,6 +775,7 @@ const formConfig = {
             },
             providers: {
               'ui:options': {
+                itemName: 'Insurance Policy',
                 expandUnder: 'isCoveredByHealthInsurance',
                 viewField: InsuranceProviderView
               },
@@ -815,7 +840,7 @@ const formConfig = {
                 }
               },
               vaMedicalFacility: {
-                'ui:title': 'Center/clinic',
+                'ui:title': 'Center or clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
                   updateSchema: (form) => {
@@ -834,7 +859,7 @@ const formConfig = {
               }
             },
             'view:locator': {
-              'ui:description': FacilityHelp
+              'ui:description': facilityHelp
             },
             wantsInitialVaContact: {
               'ui:title': 'Do you want VA to contact you to schedule your first appointment?',
@@ -860,10 +885,7 @@ const formConfig = {
                   })
                 }
               },
-              'view:locator': {
-                type: 'object',
-                properties: {}
-              },
+              'view:locator': emptyObjectSchema,
               wantsInitialVaContact
             }
           }

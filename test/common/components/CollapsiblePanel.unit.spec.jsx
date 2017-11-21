@@ -11,7 +11,7 @@ describe('<CollapsiblePanel>', () => {
         panelName={'Test panel'}/>
     );
 
-    expect(tree.subTree('.usa-button-unstyled').text()).to.contain('Test panel');
+    expect(tree.subTree('.usa-accordion-button').text()).to.contain('Test panel');
   });
 
   it('should handle toggling chapter', () => {

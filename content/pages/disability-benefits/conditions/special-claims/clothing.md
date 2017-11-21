@@ -9,7 +9,7 @@ order: 3
 
 <div class="va-introtext">
 
-Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If it has, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit. 
+Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If it has, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit.
 
 </div>
 
@@ -38,16 +38,16 @@ Veterans
 
 You’ll need to apply for benefits.
 
-To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if: 
+To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if:
 - You have more than one prosthetic or orthopedic device, **or**
-- You have more than one skin medicine, **and/or** 
+- You have more than one skin medicine, **and/or**
 - Your device or skin medicine affects more than one type of clothing.
 
-[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp). 
+[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
 
 To apply, fill out an Application for Annual Clothing Allowance (VA Form 10-8678), and give it to the prosthetic representative at your local VA medical center. [Download VA Form 10-8678](http://www.va.gov/vaforms/medical/pdf/10-8678-fill.pdf).
 
-Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/). 
+Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/).
 
-For more information, call us at <a href="tel:+18008271000">1-800-827-1000</a>. We collect applications throughout the year and hold them until the August 1 closing date.
+For more information, call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). We collect applications throughout the year and hold them until the August 1 closing date.

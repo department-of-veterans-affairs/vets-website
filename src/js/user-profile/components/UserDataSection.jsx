@@ -93,11 +93,11 @@ class UserDataSection extends React.Component {
     const content = (
       <div className="mfa-message">
         <div className="medium-8 column">
-          <h2>Add extra security to your account</h2>
+          <h4 className="usa-alert-heading">Add extra security to your account</h4>
           <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
         </div>
         <div className="medium-4 column">
-          <button className="usa-button usa-button-outline" onClick={this.handleMultifactorRequest}>Add security step</button>
+          <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
         </div>
       </div>
     );
