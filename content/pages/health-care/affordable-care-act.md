@@ -68,4 +68,4 @@ You may qualify for an exemption for a number of reasons, like:
 - Health coverage or financial status
 - Membership in some groups
 
-[Learn more about exemptions](https://www.healthcare.gov/health-coverage-exemptions/forms-how-to-apply/).
+[Learn more about exemptions](https://www.healthcare.gov/health-coverage-exemptions/exemptions-from-the-fee/).
