@@ -158,7 +158,7 @@ export function getFormDOM(form) {
     return element;
   };
 
-  formDOM.fillData = function fillData(id, value) {
+  formDOM.fillData = function fillDataFn(id, value) {
     ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
         value
@@ -196,7 +196,7 @@ export function getFormDOM(form) {
     });
   };
 
-  formDOM.selectRadio = function selectRadio(fieldName, value) {
+  formDOM.selectRadio = function selectRadioFn(fieldName, value) {
     ReactTestUtils.Simulate.change(this.getElement(`input[name*="${fieldName}"][value="${value}"]`), {
       target: { value }
     });
@@ -220,4 +220,18 @@ export function getFormDOM(form) {
   };
 
   return formDOM;
+}
+
+export function fillData(form, selector, value) {
+  form.find(selector).simulate('change', {
+    target: {
+      value
+    }
+  });
+}
+
+export function selectRadio(form, fieldName, value) {
+  form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
+    target: { value }
+  });
 }
