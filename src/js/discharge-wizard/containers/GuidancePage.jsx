@@ -17,6 +17,13 @@ class GuidancePage extends React.Component {
     window.scrollTo(0, 0);
   }
 
+  handlePrint(e) {
+    e.preventDefault();
+    if (window.print) {
+      window.print();
+    }
+  }
+
   renderResultSummary() {
     const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
     return `You need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
@@ -99,7 +106,7 @@ class GuidancePage extends React.Component {
             {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you are applying for reconsideration of a previous application, you will need to enter the previous application number in Item 6b. Note that you are generally only eligible for reconsideration if you have new evidence to present, which was not available at the time of your last application. Make sure you clarify exactly what that new evidence entails.</li>}
             {boardToSubmit.abbr !== 'DRB' && <li>Item 8 asks for your date of “discovery” of the injustice. If this date isn’t in the last 3 years, you’ll need to argue that the Board should hear your case anyway. This is not a strict date, so don’t let the 3-year rule keep you from applying if you have a strong case. You may note your recent discovery of new evidence about your claim or recent policy changes (like careful consideration for PTSD, TBI, or military sexual assault or harassment.</li>}
             {boardToSubmit.abbr !== 'DRB' && <li>Item 10 asks if you are willing to appear in-person before the Board. The Board rarely asks Veterans to appear in person, but indicating that you’re willing to do so may help show how serious you are about your case.</li>}
-            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you MAY have more success with a Personal Appearance Review, but know that you will not be reimbursed for your travel costs. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
+            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you <strong>may</strong> have more success with a Personal Appearance Review, but know that you will not be reimbursed for your travel costs. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
             {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] === '1' && <li>The DRB allows you to request either a Documentary Review or a Personal Appearance Review. Because your application was already denied during a Documentary Review, you must apply for a Personal Appearance Review.</li>}
           </ul>
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
@@ -148,7 +155,7 @@ class GuidancePage extends React.Component {
         <div>
           <h4>Add supporting information</h4>
           <p>
-            To improve your chances of success, also include as many of the following documents as you can. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to assist in helping you collect evidence <strong>IF</strong> you can demonstrate you reasonably attempted to obtain your records but could not.</span> : null}
+            To improve your chances of success, also include as many of the following documents as you can. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to assist in helping you collect evidence <strong>if</strong> you can demonstrate you reasonably attempted to obtain your records but could not.</span> : null}
           </p>
           <ul>
             <li><strong>Military Record</strong>: The Board won’t have access to your military records, so you will need to submit any relevant documentation yourself. {militaryRecordInfo} {specificTypeInstruction && <p>Remember, you must prove that {specificTypeInstruction}. Submit any documents from this record which help support your case for a discharge upgrade.</p>}</li>
@@ -228,6 +235,7 @@ class GuidancePage extends React.Component {
           </p>
           {venueAddress(this.props.formValues)}
           {onlineSubmissionMsg}
+          <a href="#" onClick={this.handlePrint}>Print this page</a>
         </div>
       </li>
     );
