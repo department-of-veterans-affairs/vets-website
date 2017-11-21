@@ -17,7 +17,7 @@ If you’re a family member caring for a Veteran with disabilities, we want to s
 ### Can I get benefits through the Program of Comprehensive Assistance to Family Caregivers?
 You’ll qualify for this program based on your Veteran’s qualifications. You may qualify if your Veteran:
 
-- Has a serious injury–including traumatic brain injury, psychological trauma, or other mental disorder–that was caused or made worse by their active-duty service on or after September 11, 2001, **and**
+- Has a serious injury—including traumatic brain injury, psychological trauma, or other mental disorder—that was caused or made worse by their active-duty service on or after September 11, 2001, **and**
 - Needs personal care services because they can’t perform one or more activities of daily living, **and/or**
 - Needs supervision or protection based on symptoms or lasting neurological damage or injury
 
@@ -34,18 +34,18 @@ If you’re the primary caregiver, you may receive:
 - Caregiver education and training, including the required Caregiver Core Curriculum
 - A monthly stipend (payment) based on the Veteran's level of care
 - Travel, lodging, and subsistence (financial assistance) to attend required Caregiver Core Curriculum training and to travel as a medical attendant to the Veteran's health care appointments as needed
-- Access to health care insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)–if you don't already qualify for care or services under another health care plan. [Learn more about CHAMPVA](/health-care/family-caregiver-health-benefits/CHAMPVA/).
+- Access to health care insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)—if you don't already qualify for care or services under another health care plan. [Learn more about CHAMPVA](/health-care/family-caregiver-health-benefits/CHAMPVA/).
 - Mental health services and counseling to meet your unique needs. These services don’t include inpatient care or medicine.
 - Up to 30 days per year of respite care
 - Monitoring to ensure the Veteran's well-being and quality of care
 
 ### How do I get these benefits?
 
-You’ll need to apply for these benefits. To apply, fill out VA Form 10-10CG (Application for the Program of Comprehensive Assistance for Family Caregivers). You’ll need identification and health coverage information for both you and your Veteran—and you’ll both need to sign and date the form.
+You’ll need to apply for these benefits. To apply, fill out an Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG). You’ll need identification and health coverage information for both you and your Veteran—and you’ll both need to sign and date the form.
 
 [Download VA Form 10-10CG](/)
 
-Mail the form and any needed supporting documents to:
+Mail the form and any supporting documents to:
 
 <p class='va-address-block'>
 Program of Comprehensive Assistance for Family Caregivers<br>
