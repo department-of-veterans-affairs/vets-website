@@ -73,7 +73,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA national cemetery',
+  title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
   defaultDefinitions: {
