@@ -41,7 +41,7 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died i
 You may qualify for bereavement counseling if you’re the surviving spouse, child, or parent of:
 - A Servicemember who died in the service of their country
 - A Reservist who died while on active duty
-- A National Guardsman who died while on active duty
+- A National Guard Soldier who died while on active duty
 
 </div>
 
@@ -57,7 +57,7 @@ Bereavement counseling provides a broad range of free transition services, like:
 
 We provide these services at our community-based Vet Centers, or in your home or other location where you feel most comfortable.
 
- ### How do I get these benefits?
+### How do I get these benefits?
 
 To access bereavement counseling services, contact our Readjustment Counseling Service staff:
 
