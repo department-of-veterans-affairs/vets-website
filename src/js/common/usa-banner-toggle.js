@@ -9,17 +9,12 @@ function initBanner() {
   const usaHeader = document.querySelector('.usa-banner-header');
   const govBanner = document.querySelector('#gov-banner');
 
-  toggleButton.addEventListener('mouseup', (event) => {
+  toggleButton.addEventListener('mouseup', () => {
+    const isExpanded = govBanner.getAttribute('aria-hidden') === 'true';
 
-    let [ariaExpanded, ariaHidden] = ['true', 'false'];
-
-    if (govBanner.getAttribute('aria-hidden') == 'false') {
-      [ariaExpanded, ariaHidden] = [ariaHidden, ariaExpanded];
-    }
-
-    toggleButton.setAttribute('aria-expanded', ariaExpanded);
-    govBanner.setAttribute('aria-hidden', ariaHidden);
-    usaHeader.classList.toggle('usa-banner-header-expanded', ariaExpanded == 'true');
+    usaHeader.classList.toggle('usa-banner-header-expanded', isExpanded);
+    toggleButton.setAttribute('aria-expanded', isExpanded);
+    govBanner.setAttribute('aria-hidden', !isExpanded);
   });
 }
 
