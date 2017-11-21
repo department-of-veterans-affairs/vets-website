@@ -15,22 +15,22 @@ Are you the current or surviving spouse or child of a Veteran with disabilities?
 
 <div class="feature" markdown=“1”>
 
-### Can I get health care through CHAMPVA? 
+### Can I get health care through CHAMPVA?
 
 You may qualify for CHAMPVA if you don’t qualify for TRICARE and <br>
-**one of these describes you:** 
+**one of these describes you:**
 - The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional office, **OR**
 - The surviving spouse or child of a Veteran who died from a VA-rated service-connected disability, **OR**
 - The surviving spouse or child of a Veteran who was at the time death rated permanently and totally disabled from a service-connected disability, **OR**
-- The surviving spouse or child of a Servicemember who died in the line of duty, not due to misconduct (in most of these cases, family members qualify for TRICARE, not CHAMPVA) .
+- The surviving spouse or child of a Servicemember who died in the line of duty, not due to misconduct (in most of these cases, family members qualify for TRICARE, not CHAMPVA).
 
-A service-connected disability is a disability that we’ve concluded was caused—or made worse—by the Veteran’s active-duty service. A permanent disability is one that's not expected to improve. 
+A service-connected disability is a disability that we’ve concluded was caused—or made worse—by the Veteran’s active-duty service. A permanent disability is one that's not expected to improve.
 
 **Note:** A Veteran who’s the qualifying CHAMPVA sponsor for their family may also qualify for the VA health care program based on their own Veteran status. If 2 spouses are both Veterans who qualify as CHAMPVA sponsors for their family, they both may now qualify for CHAMPVA benefits. Each time they need medical care, they may choose to get care through the VA health care program or using their CHAMPVA coverage.
 
 </div>
 
-### What else might affect whether I can get CHAMPVA benefits for myself or a family member? 
+### What else might affect whether I can get CHAMPVA benefits for myself or a family member?
 
 Yes. There are some other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more: 
 
@@ -51,7 +51,7 @@ Yes. There are some other factors that may affect whether you or other family me
       </div>
     </li>
     <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse"> A surviving spouse who’s currently remarried</button>
+      <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse">A surviving spouse who’s currently remarried</button>
       <div id="spouse" class="usa-accordion-content">
         <p>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage. If you remarry on or after your 55th birthday, you can keep your CHAMPVA benefits. </p>
       </div>
@@ -80,17 +80,21 @@ Yes. There are some other factors that may affect whether you or other family me
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="caregiver">A primary family caregiver of a Veteran with injuries and/or disabilities </button>
       <div id="caregiver" class="usa-accordion-content">
         <p>If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
-        <p><a href='/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers'>Find out if you qualify for this program and how to apply</a> . </p>
+        <p><a href='/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
     </li>
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="champva">A CHAMPVA beneficiary who’s 65 years old or older—or who qualifies for Medicare at any age</button>
       <div id="champva" class="usa-accordion-content">
-        <p>CHAMPVA is always the second payer to Medicare. If you qualify for Medicare—at any age and for any reason—you must carry both Medicare Part A and Part B coverage. Even if you’re not entitled to Medicare Part A, you’ll need to buy and keep Medicare Part B coverage, or you’ll lose your CHAMPVA benefits.</p>
-        <p>You don’t need to sign up for Medicare Part D to qualify for CHAMPVA.</p>
-        <p>Did you turn 65 on or after June 5, 2001? You must be enrolled in Medicare Part A and Part B to remain qualified for CHAMPVA.</p>
-        <p>Did you turn 65 before June 5, 2001? If you were otherwise qualified for CHAMPVA, and were entitled to Medicare Part A coverage, you may qualify for CHAMPVA without having to have Medicare Part B coverage. </p>
-        <p>If you have Medicare Part A and Part B, you must keep Part A and Part B to qualify for CHAMPVA.</p> <br>
+        <p>CHAMPVA is always the second payer to Medicare. Here are some requirements you need to know:
+          - **If you’re under age 65**, you’re eligible for CHAMPVA **if you**:
+            - Have both Medicare Parts A and B, **AND**
+            - Are otherwise eligible for CHAMPVA
+          - **If you’re age 65 or over**, you’re eligible for CHAMPVA if you’re eligible for Medicare. If you turned 65 before June 5, 2001, and you’re entitled to either Medicare Part A or B, you’ll also need to enroll in Medicare Part B to be eligible for CHAMPVA.
+<br>
+          [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf)
+         
+          <br>
       </div>
     </li>
   </ul>
