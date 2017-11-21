@@ -898,11 +898,9 @@ h1:focus {
     }
     
     .sidelines {
-    //   // line up the horizontal divider with the li::before 'bullets'
-      left: -.6em;
-      right: -.75em;
-    //   // margin-right: 1em;
-    //   // padding-right: .75em;
+    // line up the horizontal divider with the li::before 'bullets'
+      margin-left: -.6em;
+      width: 102%;
     }
   }
 }
