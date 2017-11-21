@@ -143,5 +143,35 @@ describe('Pre-need burial benefits', () => {
 
     expect(onSubmit.called).to.be.true;
   });
+
+  it('should fill cemetery for currently buried person', (done) => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
+
+    const cemeteryField = form.find('input#root_application_currentlyBuriedPersons_0_cemeteryNumber');
+    cemeteryField
+      .simulate('focus')
+      .simulate('change', { target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' } });
+
+    setTimeout(() => {
+      cemeteryField
+        .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
+        .simulate('blur');
+
+      // have to pull this again, doesn't work if we use cemeteryField
+      expect(form.find('input#root_application_currentlyBuriedPersons_0_cemeteryNumber')
+        .props().value).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
+
+      done();
+    });
+  });
   afterEach(unMockFetch);
 });
