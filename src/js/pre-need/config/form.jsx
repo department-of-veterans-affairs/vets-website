@@ -91,7 +91,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation1: {
+        applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
           uiSchema: {
@@ -148,7 +148,7 @@ const formConfig = {
             }
           }
         },
-        applicantInformation2: {
+        veteranInformation: {
           path: 'veteran-applicant-information',
           depends: isVeteran,
           uiSchema: {
