@@ -15,8 +15,7 @@ export class ApplicationStatus extends React.Component {
     super(props);
     this.state = {
       modalOpen: false,
-      loading: false,
-      timedOut: false
+      loading: false
     };
 
     moment.updateLocale('en', {
