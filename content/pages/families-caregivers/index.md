@@ -9,7 +9,7 @@ showactionbar: false
 
 <div class="va-introtext">
 
-As the family member of a Servicemember or Veteran, you may qualify for certain benefits, like health care, VA-backed home loans, life insurance, or money to help paying for college. If you’re a caregiver for a Veteran with disabilities, you may also qualify for support designed to help you better care for the Veteran—and for yourself. Find out which benefits you may qualify for and how to access them.
+As the family member of a Servicemember or Veteran, you may qualify for certain benefits, like health care, VA-backed home loans, life insurance, or money to help pay for college. If you’re a caregiver for a Veteran with disabilities, you may also qualify for support to help you better care for the Veteran—and for yourself. Find out which benefits you may qualify for and how to access them.
 
 </div>
 
@@ -94,9 +94,9 @@ Benefits may include educational and vocational (job) counseling, plus help with
 
 If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-and-eligibility/fsgli/).
 
-If you have FSGLI coverage, you can also get free, professional financial planning and online will preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
+If you have FSGLI coverage, you can also get free, professional financial planning and online will-preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
 
-If you or your Servicemember or Veteran is facing a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you're sick with an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
+If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
 
 **Looking for life insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about life insurance benefits for Servicemembers and Veterans](/life-insurance/).
@@ -108,7 +108,7 @@ If you or your Servicemember or Veteran is facing a terminal illness, you may be
 
 If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, you may be able to get monthly pension payments. [Find out if you qualify for a Survivors Pension and how to apply](/pension/survivors-pension/).
 
-If you need help with your daily activities—or you’re housebound—you may also qualify for Aid and Attendance or Housebound allowances. This extra money will be added to your monthly pension payments [Find out if you qualify for Aid and Attendance or Housebound allowances](/pension/aid-attendance-housebound/).
+If you need help with your daily activities—or you’re housebound—you may also qualify for Aid and Attendance or Housebound allowances. This extra money will be added to your monthly pension payments. [Find out if you qualify for Aid and Attendance or Housebound allowances](/pension/aid-attendance-housebound/).
 
 **Looking for pension information on behalf of a Veteran?**<br>
 [Learn about the Veterans Pension program](/pension/).
@@ -125,9 +125,9 @@ If a Servicemember or Veteran in your family dies, we’re here to help you thro
 [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). <br>
 
 #### Survivor and Dependent Benefits
-If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral service. [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
+If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died in the service of their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
+If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
 <br>
 
 <span id="housing-assistance">
