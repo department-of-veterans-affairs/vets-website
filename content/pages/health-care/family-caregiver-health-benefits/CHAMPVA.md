@@ -17,7 +17,8 @@ Are you the current or surviving spouse or child of a Veteran with disabilities?
 
 ### Can I get health care through CHAMPVA? 
 
-You may qualify for CHAMPVA if you don’t qualify for TRICARE and **one of these describes you:** 
+You may qualify for CHAMPVA if you don’t qualify for TRICARE and <br>
+**one of these describes you:** 
 - The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional office, **OR**
 - The surviving spouse or child of a Veteran who died from a VA-rated service-connected disability, **OR**
 - The surviving spouse or child of a Veteran who was at the time death rated permanently and totally disabled from a service-connected disability, **OR**
