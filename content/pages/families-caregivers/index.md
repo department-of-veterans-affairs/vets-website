@@ -41,7 +41,7 @@ If you’re the spouse, surviving spouse, or dependent child of—or a family me
 If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits. And if your Veteran qualifies for the Post-9/11 GI Bill but doesn’t use all their benefits, they may be able to transfer up to 36 months of those unused benefits to you.
 Find out if you qualify for:
 
-- [Survivors’ and Dependents’ Assistance 
+- [Survivors’ and Dependents’ Assistance
 (education and training opportunities, plus help paying for school)](/education/gi-bill/survivors-dependent-assistance/)<br>
 - [Free educational and career counseling services](/education/tools-programs/)<br>
 - [Work study (a part-time job while you're in school)](/education/work-learn/workstudy/)<br>
@@ -71,7 +71,7 @@ If you’re the current or surviving spouse of a Servicemember or Veteran, you m
 [Learn about career and employment benefits for Servicemembers and Veterans](/employment/).
 
 <span id="voc-rehab">
-  
+
 ### Vocational Rehabilitation and Employment (VR&E)
 
 If you’re the spouse or child of a Servicemember or Veteran with disabilities, you may qualify for Vocational Rehabilitation and Employment (VR&E) benefits. These benefits can help you return to work or school while you continue to care for your family member.
@@ -82,10 +82,10 @@ Benefits may include educational and vocational (job) counseling, plus help with
 - Mapping out a career path
 - Planning the best use of your VA benefits
 
-[Find out if you qualify for counseling and how to apply](/vocational-rehab-and-employment/family-members/).
+[Find out if you qualify for counseling and how to apply](/employment/vocational-rehab-and-employment/family-members/).
 
 **Looking for VR&E information on behalf of a Servicemember or Veteran?**<br>
-[Learn about VR&E benefits for Servicemembers and Veterans](/vocational-rehab-and-employment/).
+[Learn about VR&E benefits for Servicemembers and Veterans](/employment/vocational-rehab-and-employment/).
 <!-- should be /vocational-rehab-and-employment/ -->
 
 <span id="life-insurance">
@@ -115,7 +115,7 @@ If you need help with your daily activities—or you’re housebound—you may a
 <br>
 
 <span id="burials">
-  
+
 ### Burials and Memorials
 
 If a Servicemember or Veteran in your family dies, we’re here to help you through the process of planning their burial and memorial.
@@ -131,7 +131,7 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died i
 <br>
 
 <span id="housing-assistance">
-  
+
 ### Housing Assistance
 
 If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
