@@ -55,7 +55,7 @@ Bereavement counseling provides a range of free transition services, like:
 - Counseling
 - Referrals
 
-We provide these services at our community-based Vet Centers, in your home, or in another location where you feel most comfortable.
+We provide these services at our community-based Vet Centers, or in your home or another location where you feel most comfortable.
 
 ### How do I get these benefits?
 
