@@ -20,6 +20,7 @@ import {
 
 import {
   getStatusContents,
+  getNextEvents,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -467,6 +468,18 @@ describe('Disability benefits helpers: ', () => {
       const contents = getStatusContents(type);
       expect(contents.title).to.equal('Current Status Unknown');
       expect(contents.description).to.equal('Your current appeal status is unknown at this time');
+    });
+  });
+
+  describe('getNextEvents', () => {
+    it('returns an array of next event objects', () => {
+      const type = STATUS_TYPES.nod;
+      const nextEvents = getNextEvents(type);
+      expect(nextEvents.length).to.equal(2);
+      const firstEvent = nextEvents[0];
+      const secondEvent = nextEvents[1];
+      expect(Object.keys(firstEvent).length).to.equal(3);
+      expect(Object.keys(secondEvent).length).to.equal(3);
     });
   });
 });

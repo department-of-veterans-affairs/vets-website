@@ -1,3 +1,5 @@
+import { STATUS_CODES } from "http";
+
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   nod: 'nod',
@@ -190,6 +192,50 @@ export function getEventContent(event) {
         description: 'Not sure what happened here...weird.',
         liClass: 'section-complete'
       };
+  }
+}
+
+export function getNextEvents(currentStatus) {
+  switch (currentStatus) {
+    case STATUS_TYPES.nod:
+      return [
+        {
+          title: 'Additional evidence',
+          description: `VBA must reveiw any additional evidence you submit prios to certifying
+          your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
+          to grant your appeal, but if not, they will need to produce an additional
+          Statement of the Case.`,
+          cardNumber: '11 months'
+        }, {
+          title: 'Appeal certified to the Board',
+          description: 'Your appeal will be sent to the Board of Veterans’ Appeals in Washington, D.C.',
+          cardNumber: '2 months'
+        }
+      ];
+    case STATUS_TYPES.awaitingHearingDate:
+      return [
+        {
+          title: 'Awaiting hearing date',
+          description: 'VBA is in the process of scheduling your hearing date',
+          cardNumber: '2 months'
+        }
+      ];
+    case STATUS_TYPES.bvaDecision:
+      return [
+        {
+          title: 'Board decision reached',
+          descirption: 'Your appeal decision is being sent to your mailing address',
+          cardNumber: '2 weeks'
+        }
+      ];
+    default:
+      return [
+        {
+          title: 'Unknown event',
+          description: 'We could not find the next event in your appeal',
+          cardNumber: 'Unknown'
+        }
+      ];
   }
 }
 

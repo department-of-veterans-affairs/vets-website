@@ -864,17 +864,17 @@ h1:focus {
 .appeals-next-list {
   list-style-type: none;
     li {
-    &:before {
-      display: inline-block;
-      vertical-align: middle;
-      width: 1em;
-      height: 1em;
-      content: '';
-      border: 4px solid $color-gray-medium;
-      border-radius: 50%;
-      background: $color-gray-medium;
-      margin-left: -.6em;
-    }
+      &:before { // styles the bullets to mimic bullets in Timeline
+        display: inline-block;
+        vertical-align: middle;
+        width: 1em;
+        height: 1em;
+        content: '';
+        border: 4px solid $color-gray-medium;
+        border-radius: 50%;
+        background: $color-gray-medium;
+        margin-left: -.6em;
+      }
 
     h3 {
       margin-left: 1.5em;
@@ -886,9 +886,23 @@ h1:focus {
       margin-left: 2.1em;
     }
 
-    div {
+    .card {
       margin-left: 2.1em;
+
+      .number {
+        &:before {
+          font-family: FontAwesome;
+          content: "\f017 "; // space added at end to keep kerning consistent
+        }
+      }
+    }
+    
+    .sidelines {
+    //   // line up the horizontal divider with the li::before 'bullets'
+      left: -.6em;
+      right: -.75em;
+    //   // margin-right: 1em;
+    //   // padding-right: .75em;
     }
   }
 }
-

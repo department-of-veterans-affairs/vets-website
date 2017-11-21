@@ -4,9 +4,30 @@ import { expect } from 'chai';
 
 import WhatsNext from '../../../../src/js/claims-status/components/appeals-v2/WhatsNext';
 
-describe.only('<WhatsNext/>', () => {
+const defaultProps = [
+  {
+    title: 'Additional evidence',
+    description: `VBA must reveiw any additional evidence you submit prios to certifying
+    your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
+    to grant your appeal, but if not, they will need to produce an additional
+    Statement of the Case.`,
+    cardNumber: '11 months'
+  }, {
+    title: 'Appeal certified to the Board',
+    description: 'Your appeal will be sent to the Board of Veterans’ Appeals in Washington, D.C.',
+    cardNumber: '2 months'
+  }
+];
+
+describe('<WhatsNext/>', () => {
   it('renders', () => {
     const wrapper = shallow(<WhatsNext/>);
     expect(wrapper.type()).to.equal('div');
+  });
+
+  it('renders a list of all next statuses for a given currentStatus', () => {
+    const wrapper = shallow(<WhatsNext {...defaultProps}/>);
+    const nextEventList = wrapper.find('.appeals-next-list > li');
+    expect(nextEventList.length).to.equal(2);
   });
 });
