@@ -12,6 +12,7 @@ class WhatsNext extends React.Component {
           title={event.title}
           description={event.description}
           cardNumber={event.cardNumber}
+          cardDescription={event.cardDescription}
           // show a separator after all events except the last one
           showSeparator={(index !== nextEvents.length - 1)}/>
       );
