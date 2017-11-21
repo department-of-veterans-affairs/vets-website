@@ -16,7 +16,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 
 ### TRICARE
 
-If you’re the family member of an active-duty, retired, or deceased Servicemember, National Guardsman, Reservist, or Medal of Honor recipient, you may qualify for the TRICARE program.
+If you’re the family member of an active-duty, retired, or deceased Servicemember, National Guard Soldier, Reservist, or Medal of Honor recipient, you may qualify for the TRICARE program.
 
 TRICARE is the health care program for uniformed Servicemembers and their families around the world. It provides comprehensive coverage, including health plans, prescription medicines, dental plans, and programs for people with special needs. The Department of Defense’s Defense Health Agency manages this program. [Find out if you qualify for TRICARE and how to apply](https://www.tricare.mil/).
 
@@ -24,7 +24,7 @@ TRICARE is the health care program for uniformed Servicemembers and their famili
 
 ### The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)
 
-If you’re the current or surviving spouse or child of a Veteran with disabilities or a Veteran who has died, and you don’t qualify for TRICARE, you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share the cost of some of your health care services and supplies. [Find out if you qualify for CHAMPVA and how to apply](/health-care/family-caregiver-health-benefits/CHAMPVA/).
+If you’re the current or surviving spouse or child of a Veteran with disabilities or a Veteran who has died, and you don’t qualify for TRICARE, you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we cover the cost of some of your health care services and supplies. This is called cost sharing. [Find out if you qualify for CHAMPVA and how to apply](/health-care/family-caregiver-health-benefits/CHAMPVA/).
 
 <br>
 
