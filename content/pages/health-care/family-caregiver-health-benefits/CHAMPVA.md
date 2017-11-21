@@ -35,7 +35,7 @@ A service-connected disability is a disability that we’ve concluded was caused
 
 ### What else might affect whether I can get CHAMPVA benefits for myself or a family member?
 
-Yes. There are some other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more: 
+There are other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more: 
 
 <div class="usa-accordion">
   <ul class="usa-unstyled-list">
@@ -49,8 +49,8 @@ Yes. There are some other factors that may affect whether you or other family me
         </ul>
         <br>
         <p>Medical claims can’t be paid until you sign your baby up under CHAMPVA, so please get them a Social Security number and set their status as a dependent as soon as possible.</p>
-        <a href='https://secure.ssa.gov/ICON/main.jsp'>Find a Social Security office near you</a><br>
-        <a href='http://www.benefits.va.gov/benefits/offices.asp'>Find your VA regional office</a><br>
+        <a href='https://secure.ssa.gov/ICON/main.jsp'>Find a Social Security office near you.</a><br>
+        <a href='http://www.benefits.va.gov/benefits/offices.asp'>Find your VA regional office.</a><br>
       </div>
     </li>
     <li>
@@ -76,7 +76,7 @@ Yes. There are some other factors that may affect whether you or other family me
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="stepchild">A Veteran's stepchild who leaves the Veteran’s household</button>
       <div id="stepchild" class="usa-accordion-content">
-        If you were covered under CHAMPVA as the stepchild of a Veteran, and you leave the Veteran's household because of divorce or remarriage, you no longer qualify for CHAMPVA.
+        If you were covered under CHAMPVA as the stepchild of a Veteran, and you leave the Veteran's household because of a divorce or remarriage, you no longer qualify for CHAMPVA.
       </div>
     </li>
     <li>
@@ -89,11 +89,11 @@ Yes. There are some other factors that may affect whether you or other family me
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="champva">A CHAMPVA beneficiary who’s 65 years old or older—or who qualifies for Medicare at any age</button>
       <div id="champva" class="usa-accordion-content">
-        <p>CHAMPVA is always the second payer to Medicare. Here are some requirements you need to know:
-          - **If you’re under age 65**, you’re eligible for CHAMPVA **if you**:
-            - Have both Medicare Parts A and B, **AND**
+        <p>CHAMPVA is always the second payer to Medicare. Here are some requirements you need to know:</p>
+          **If you’re under age 65, you’re eligible for CHAMPVA if you:**
+            - Have both Medicare Parts A and B, **and**
             - Are otherwise eligible for CHAMPVA
-          - **If you’re age 65 or over**, you’re eligible for CHAMPVA if you’re eligible for Medicare. If you turned 65 before June 5, 2001, and you’re entitled to either Medicare Part A or B, you’ll also need to enroll in Medicare Part B to be eligible for CHAMPVA.
+          **If you’re age 65 or over, you’re eligible for CHAMPVA if you’re eligible for Medicare. If you turned 65 before June 5, 2001, and you’re entitled to either Medicare Part A or B, you’ll also need to enroll in Medicare Part B to be eligible for CHAMPVA.**
 <br>
           [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf)       </div>
     </li>
@@ -106,7 +106,7 @@ Yes. There are some other factors that may affect whether you or other family me
 
 With CHAMPVA, you’ll be covered for services and supplies when we determine they are medically necessary and were received from an authorized provider.
 
-Covered services include:
+**Covered services include:**
 - Ambulance service
 - Ambulatory surgery
 - Durable medical equipment (DME)
@@ -139,7 +139,7 @@ You’ll need to apply for these benefits. To apply, submit:
 
 To speed up the processing of your application, you can also send copies (*not* originals) of:
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
-- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a WWII or Korea Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
+- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korea Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
   - Each child’s birth certificate or adoption papers
   -  School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
@@ -153,7 +153,8 @@ Mail your application to:
 <p class='va-address-block'>
 VHA Office of Community Care <br>
 CHAMPVA Eligibility <br>
-PO Box 469028 Denver, CO 80246-9028
+PO Box 469028 <br>
+Denver, CO 80246-9028
 </p>
 
 Or, fax it to: 1-303-331-7809
