@@ -43,8 +43,8 @@ We can support you in all stages of your job search—from returning to work wit
 
 <div class="va-alert usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-    <h5 class="va-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.
-    </h5>
+    <h4 class="va-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.
+    </h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner">
       <br>

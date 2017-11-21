@@ -287,20 +287,7 @@ fieldset.schemaform-field-template {
   list-style: none;
   padding-left: 0;
   > li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  > .schemaform-file-item-edit {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.schemaform-file-list-buttons-editing {
-  display: flex;
-  > .schemaform-file-remove-button {
-    width: inherit;
+    list-style: none;
   }
 }
 
@@ -308,8 +295,27 @@ fieldset.schemaform-field-template {
   margin-top: 0.5em;
 }
 
-.schemaform-file-upload .schemaform-label {
+.schemaform-file-upload > div > .schemaform-label {
   font-weight: bold;
+}
+
+.schemaform-file-error.usa-input-error {
+  // border size is 4px
+  right: 4px;
+  width: calc(100% + 4px);
+  margin-top: inherit;
+}
+
+legend.schemaform-label.schemaform-file-label {
+  font-weight: bold;
+}
+
+.schemaform-file-attachment {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  .usa-input-error {
+    margin-top: 0;
+  }
 }
 
 .schemaform-file-list-buttons-editing > .usa-button {

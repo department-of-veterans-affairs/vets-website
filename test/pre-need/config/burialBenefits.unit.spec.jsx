@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData, selectRadio } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pre-need/config/form';
 
-describe.only('Pre-need burial benefits', () => {
+describe('Pre-need burial benefits', () => {
   const { schema, uiSchema } = formConfig.chapters.burialBenefits.pages.burialBenefits;
 
   it('should render', () => {
@@ -46,10 +46,34 @@ describe.only('Pre-need burial benefits', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
+    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
 
-    selectRadio(form, 'root_application_hasCurrentlyBuried', 'Y');
-    fillData(form, 'root_application_currentlyBuriedPersons_name_first', 'test');
-    fillData(form, 'root_application_currentlyBuriedPersons_name_last', 'test2');
+    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_first', 'test');
+    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_last', 'test2');
+
+    form.find('form').simulate('submit');
+
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('should add another currently buried person', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
+
+    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_first', 'test');
+    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_last', 'test2');
+
+    form.find('.va-growable-add-btn').simulate('click');
+
+    fillData(form, 'input#root_application_currentlyBuriedPersons_1_name_first', 'test');
+    fillData(form, 'input#root_application_currentlyBuriedPersons_1_name_last', 'test2');
 
     form.find('form').simulate('submit');
 
