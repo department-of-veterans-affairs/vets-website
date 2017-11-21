@@ -30,7 +30,6 @@ class AppealsV2StatusPage extends React.Component {
     }
     const { events, status } = this.props.appeal.attributes;
     const { type, details } = status;
-    console.log(type, details);
     const currentStatus = getStatusContents(type, details);
     const nextEvents = getNextEvents(type);
     return (
