@@ -87,7 +87,7 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 
 ##### By mail
 
-[Download an Application for Health Benefits (VA Form 10-10EZ)](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
