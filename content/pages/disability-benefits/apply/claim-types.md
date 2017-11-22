@@ -9,7 +9,7 @@ order: 2
 relatedlinks:
   - heading:
     links:
-    - url: /disability-benefits/apply/predischarge-claim/
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
       description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
     - url:
