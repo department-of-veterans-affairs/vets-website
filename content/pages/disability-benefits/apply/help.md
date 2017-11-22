@@ -14,7 +14,7 @@ relatedlinks:
       - url: /disability-benefits/apply/
         title: How do I file a claim?
         description: ""
-      - url: /disability-benefits/apply/predischarge-claim/
+      - url: /disability-benefits/apply/claim-types/predischarge-claim/
         title: How do I file while on active duty?
         description: ""
       - url: /disability-benefits/eligibility/one-year/
