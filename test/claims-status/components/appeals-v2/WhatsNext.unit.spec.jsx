@@ -12,12 +12,12 @@ const defaultProps = {
       your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
       to grant your appeal, but if not, they will need to produce an additional
       Statement of the Case.`,
-      cardNumber: '11 months',
+      durationText: '11 months',
       cardDescription: 'Test description contents',
     }, {
       title: 'Appeal certified to the Board',
       description: 'Your appeal will be sent to the Board of Veterans’ Appeals in Washington, D.C.',
-      cardNumber: '2 months',
+      durationText: '2 months',
       cardDescription: 'Test description contents'
     }
   ]
@@ -32,6 +32,6 @@ describe('<WhatsNext/>', () => {
   it('renders a list of all next events for a given currentStatus', () => {
     const wrapper = shallow(<WhatsNext {...defaultProps}/>);
     const nextEventList = wrapper.find('NextEvent');
-    expect(nextEventList.length).to.equal(2);
+    expect(nextEventList.length).to.equal(defaultProps.nextEvents.length);
   });
 });

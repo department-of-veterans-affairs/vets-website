@@ -11,7 +11,7 @@ class WhatsNext extends React.Component {
           key={event.title}
           title={event.title}
           description={event.description}
-          cardNumber={event.cardNumber}
+          durationText={event.cardNumber}
           cardDescription={event.cardDescription}
           // show a separator after all events except the last one
           showSeparator={(index !== nextEvents.length - 1)}/>
@@ -33,7 +33,7 @@ WhatsNext.propTypes = {
   nextEvents: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    cardNumber: PropTypes.string.isRequired,
+    durationText: PropTypes.string.isRequired,
     cardDescription: PropTypes.string.isRequired
   })).isRequired
 };

@@ -9,7 +9,7 @@ const defaultProps = {
   your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
   to grant your appeal, but if not, they will need to produce an additional
   Statement of the Case.`,
-  cardNumber: '11 months',
+  durationText: '11 months',
   cardDescription: 'Test description',
   showSeparator: true
 };

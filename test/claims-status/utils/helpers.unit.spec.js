@@ -471,13 +471,15 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe.only('getNextEvents', () => {
+  describe('getNextEvents', () => {
     it('returns an array of next event objects', () => {
       const type = STATUS_TYPES.nod;
+      // 'nod' status has 2 nextEvents in the array
       const nextEvents = getNextEvents(type);
       expect(nextEvents.length).to.equal(2);
       const firstEvent = nextEvents[0];
       const secondEvent = nextEvents[1];
+      // each of the 2 'nod' nextEvents has 4 properties
       expect(Object.keys(firstEvent).length).to.equal(4);
       expect(Object.keys(secondEvent).length).to.equal(4);
     });

@@ -863,18 +863,19 @@ h1:focus {
 
 .appeals-next-list {
   list-style-type: none;
-    li {
-      &:before { // styles the bullets to mimic bullets in Timeline
-        display: inline-block;
-        vertical-align: middle;
-        width: 1em;
-        height: 1em;
-        content: '';
-        border: 4px solid $color-gray-medium;
-        border-radius: 50%;
-        background: $color-gray-medium;
-        margin-left: -.6em;
-      }
+
+  li {
+    &:before { // styles the bullets to mimic bullets in Timeline
+      display: inline-block;
+      vertical-align: middle;
+      width: 1em;
+      height: 1em;
+      content: "";
+      border: 4px solid $color-gray-medium;
+      border-radius: 50%;
+      background: $color-gray-medium;
+      margin-left: -.6em;
+    }
 
     h3 {
       margin-left: 1.5em;
@@ -896,7 +897,7 @@ h1:focus {
         }
       }
     }
-    
+
     .sidelines {
     // line up the horizontal divider with the li::before 'bullets'
       margin-left: -.6em;

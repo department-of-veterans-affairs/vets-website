@@ -193,6 +193,10 @@ export function getEventContent(event) {
   }
 }
 
+/**
+ * @param {string} currentStatus an appeal's current status, one of STATUS_TYPES
+ * @returns {array} of objects that each contain text details of a next event
+ */
 export function getNextEvents(currentStatus) {
   switch (currentStatus) {
     case STATUS_TYPES.nod:
@@ -203,12 +207,12 @@ export function getNextEvents(currentStatus) {
           your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
           to grant your appeal, but if not, they will need to produce an additional
           Statement of the Case.`,
-          cardNumber: '11 months',
+          durationText: '11 months',
           cardDescription: 'The Oakland regional office takes about 11 months to produce additional Statements of the Case.'
         }, {
           title: 'Appeal certified to the Board',
           description: 'Your appeal will be sent to the Board of Veterans’ Appeals in Washington, D.C.',
-          cardNumber: '2 months',
+          durationText: '2 months',
           cardDescription: 'The Oakland regional office takes about 2 months to certify your appeal to the Board.'
         }
       ];
@@ -217,7 +221,7 @@ export function getNextEvents(currentStatus) {
         {
           title: 'Awaiting hearing date',
           description: 'VBA is in the process of scheduling your hearing date',
-          cardNumber: '2 months',
+          durationText: '2 months',
           cardDescription: 'The Oakland regional office takes about 2 months to schedule a hearing date.'
         }
       ];
@@ -226,7 +230,7 @@ export function getNextEvents(currentStatus) {
         {
           title: 'Board decision reached',
           descirption: 'Your appeal decision is being sent to your mailing address',
-          cardNumber: '2 weeks',
+          durationText: '2 weeks',
           cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
         }
       ];
@@ -235,7 +239,7 @@ export function getNextEvents(currentStatus) {
         {
           title: 'Unknown event',
           description: 'We could not find the next event in your appeal',
-          cardNumber: 'Unknown',
+          durationText: 'Unknown',
           cardDescription: 'No description found'
         }
       ];
