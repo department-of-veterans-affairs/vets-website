@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import FormTitle from '../../common/schemaform/FormTitle';
@@ -7,13 +8,8 @@ import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
-  constructor() {
-    super();
-    this.navigateToPrint = this.navigateToPrint.bind(this);
-  }
-
-  navigateToPrint() {
-    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  navigateToPrint = () => {
+    this.props.router.push('/print');
   }
 
   render() {
@@ -70,4 +66,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(StatusPage);
+export default withRouter(connect(mapStateToProps)(StatusPage));
