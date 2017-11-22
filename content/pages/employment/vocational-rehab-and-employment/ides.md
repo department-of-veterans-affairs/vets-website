@@ -7,7 +7,7 @@ order: 4
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links: 
-    - url: /disability-benefits/apply/predischarge-claim/
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Disability Benefits Predischarge Claim
       description: Find out how to file a disability claim as you're getting ready to leave the military to speed up the decision process.
     - url: /health-care/apply/
