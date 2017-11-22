@@ -7,6 +7,8 @@ import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
+import applicantDescription from '../../common/schemaform/ApplicantDescription';
+
 import {
   transform,
   employmentDescription,
@@ -16,7 +18,6 @@ import {
   fileHelp,
   directDepositWarning,
   isMarried,
-  applicantDescription,
   uploadMessage,
   dependentsMinItem,
   wartimeWarning,
@@ -59,6 +60,9 @@ import createNonRequiredFullName from '../../common/schemaform/definitions/nonRe
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
+
+import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
+import migrations from '../migrations';
 
 const {
   nationalGuardActivation,
@@ -178,7 +182,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',
-  version: 0,
+  version: 1,
+  migrations,
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
@@ -251,6 +257,7 @@ const formConfig = {
             'ui:title': 'Service periods',
             servicePeriods: {
               'ui:options': {
+                itemName: 'Service Period',
                 viewField: ServicePeriodView,
                 reviewTitle: 'Service periods'
               },
@@ -259,10 +266,13 @@ const formConfig = {
                   'ui:title': 'Branch of service'
                 },
                 activeServiceDateRange: dateRangeUI(
-                  'Date entered active service',
-                  'Date left active service',
+                  'Service start date',
+                  'Service end date',
                   'Date entered service must be before date left service'
-                )
+                ),
+                'ui:validations': [
+                  validateServiceBirthDates
+                ]
               }
             },
             'view:wartimeWarning': (() => {
@@ -327,6 +337,7 @@ const formConfig = {
             },
             previousNames: {
               'ui:options': {
+                itemName: 'Name',
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField,
                 reviewTitle: 'Previous names'
@@ -694,7 +705,10 @@ const formConfig = {
                     'ui:required': (...args) => !isCurrentMarriage(...args)
                   },
                   dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
-                    'ui:required': (...args) => !isCurrentMarriage(...args)
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
+                    'ui:validations': [
+                      validateAfterMarriageDate
+                    ]
                   }),
                   locationOfSeparation: {
                     'ui:title': 'Place marriage ended (city and state or foreign country)',
@@ -899,7 +913,11 @@ const formConfig = {
                   'ui:title': 'Why did the marriage end?',
                   'ui:widget': 'radio'
                 },
-                dateOfSeparation: currentOrPastDateUI('Date marriage ended'),
+                dateOfSeparation: _.assign(currentOrPastDateUI('Date marriage ended'), {
+                  'ui:validations': [
+                    validateAfterMarriageDate
+                  ]
+                }),
                 locationOfSeparation: {
                   'ui:title': 'Place marriage ended (city and state or foreign country)',
                 }
@@ -949,6 +967,7 @@ const formConfig = {
             },
             dependents: {
               'ui:options': {
+                itemName: 'Dependent',
                 expandUnder: 'view:hasDependents',
                 viewField: DependentField
               },
@@ -1573,7 +1592,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
-              hideLabelText: true,
+              hideLabelText: true
             }),
             'view:uploadMessage': {
               'ui:description': uploadMessage

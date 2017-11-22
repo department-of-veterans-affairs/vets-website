@@ -18,7 +18,7 @@ export default class CollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`collapsible-panel-${this.id}-scroll-element`, {
+    scroller.scrollTo(`collapsible-panel-${this.id}-scroll-element`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -39,7 +39,7 @@ export default class CollapsiblePanel extends React.Component {
 
     if (this.state.open) {
       pageContent = (
-        <div className="usa-accordion-content">
+        <div className="usa-accordion-content" aria-hidden="false">
           {this.props.children}
         </div>
       );
@@ -50,7 +50,7 @@ export default class CollapsiblePanel extends React.Component {
         <Element name={`collapsible-panel-${this.id}-scroll-element`}/>
         <div className="accordion-header clearfix">
           <button
-            className="usa-button-unstyled"
+            className="usa-accordion-button usa-button-unstyled"
             aria-expanded={this.state.open ? 'true' : 'false'}
             aria-controls={`collapsible-${this.id}`}
             onClick={this.toggleChapter}>

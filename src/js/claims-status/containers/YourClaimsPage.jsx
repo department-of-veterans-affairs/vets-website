@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import { getAppeals, getAppealsV2, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -51,10 +51,15 @@ class YourClaimsPage extends React.Component {
     }
 
     if (this.props.canAccessAppeals) {
-      this.props.getAppeals(this.getFilter(this.props));
+      if (__BUILDTYPE__ === 'development') {
+        // Fetch against the new endpoint
+        this.props.getAppealsV2();
+      } else {
+        this.props.getAppeals(this.getFilter(this.props));
+      }
     }
 
-    if (this.props.loading) {
+    if (this.props.claimsLoading && this.props.appealsLoading) {
       scrollToTop();
     } else {
       setUpPage();
@@ -90,9 +95,9 @@ class YourClaimsPage extends React.Component {
   }
 
   renderErrorMessages() {
-    const { loading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
+    const { claimsLoading, appealsLoading, appealsAvailable, canAccessAppeals, canAccessClaims, claimsAvailable, claimsAuthorized } = this.props;
 
-    if (loading) {
+    if (claimsLoading && appealsLoading) {
       return null;
     }
 
@@ -118,7 +123,19 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { unfilteredAppeals, unfilteredClaims, list, pages, page, loading, show30DayNotice, route, synced } = this.props;
+    const {
+      unfilteredAppeals,
+      unfilteredClaims,
+      list,
+      pages,
+      page,
+      claimsLoading,
+      appealsLoading,
+      show30DayNotice,
+      route,
+      synced
+    } = this.props;
+
     const tabs = [
       'OpenClaims',
       'ClosedClaims'
@@ -126,19 +143,29 @@ class YourClaimsPage extends React.Component {
 
     let content;
     let innerContent;
+    const bothRequestsLoaded = !claimsLoading && !appealsLoading;
+    const bothRequestsLoading = claimsLoading && appealsLoading;
+    const atLeastOneRequestLoading = claimsLoading || appealsLoading;
+    const emptyList = !list || !list.length;
 
-    if (loading) {
-      content = <LoadingIndicator message="Loading a list of your claims and appeals..." setFocus/>;
+    if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+      content = <LoadingIndicator message="Loading your claims and appeals..." setFocus/>;
     } else {
-      if (list.length > 0) {
+      if (!emptyList) {
         innerContent = (<div>
           {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims.concat(unfilteredAppeals)} onClose={this.props.hide30DayNotice}/>}
           <div className="claim-list">
+            {atLeastOneRequestLoading &&
+              <div>
+                <LoadingIndicator message="Loading your claims and appeals..."/>
+                <br/>
+              </div>
+            }
             {list.map(claim => this.renderListItem(claim))}
             <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
           </div>
         </div>);
-      } else if (!this.props.canAccessClaims) {
+      } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
         innerContent = <NoClaims/>;
       }
 
@@ -158,6 +185,8 @@ class YourClaimsPage extends React.Component {
                   <div className="claims-list-sort">
                     <ErrorableSelect
                       label="Sort by"
+                      labelClass="claims-list-sort-label"
+                      selectClass="claims-list-sort-select"
                       includeBlankOption={false}
                       options={sortOptions}
                       value={{ value: this.props.sortProperty }}
@@ -173,19 +202,19 @@ class YourClaimsPage extends React.Component {
     }
 
     return (
-      <div className="your-claims">
+      <div className="claims-container">
         <Breadcrumbs/>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1>Your Claims and Appeals</h1>
+                <h1 className="claims-container-title">Your Claims and Appeals</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}
               </div>
               <div className="small-12 columns">
-                {!loading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
+                {!claimsLoading && !synced && <ClaimSyncWarning olderVersion={list.length}/>}
               </div>
             </div>
             <p>
@@ -226,7 +255,8 @@ function mapStateToProps(state) {
     appealsAvailable: claimsState.appeals.available,
     claimsAuthorized: claimsState.claimSync.authorized,
     claimsAvailable: claimsState.claimSync.available,
-    loading: claimsRoot.loading,
+    claimsLoading: claimsRoot.claimsLoading,
+    appealsLoading: claimsRoot.appealsLoading,
     list: claimsRoot.visibleRows,
     unfilteredClaims: claimsRoot.claims,
     unfilteredAppeals: claimsRoot.appeals,
@@ -243,6 +273,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAppeals,
+  getAppealsV2,
   getClaims,
   filterClaims,
   changePage,

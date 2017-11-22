@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 
+import AlertBox from '../../common/components/AlertBox';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 class Verify extends React.Component {
@@ -64,6 +65,11 @@ class Verify extends React.Component {
   }
 
   render() {
+    const signinMethod = {
+      dslogon: 'DS Logon',
+      myhealthevet: 'My HealtheVet'
+    };
+
     return (
       <main className="verify">
         <div className="container">
@@ -74,6 +80,10 @@ class Verify extends React.Component {
           </div>
           <div className="row">
             <div className="columns small-12">
+              <AlertBox
+                content={`You signed in with ${signinMethod[this.props.profile.authnContext] || 'ID.me'}`}
+                isVisible
+                status="success"/>
               <p>
                 We'll need to verify your identity so that you can securely access and manage your benefits.<br/>
                 <a href="/faq#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
@@ -90,8 +100,8 @@ class Verify extends React.Component {
                 <h4>Having trouble verifying your identity?</h4>
                 <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).<br/>
-                  We're here Monday – Friday, 8:00am – 8:00pm (ET).
+                  Call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
+                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
                 </p>
               </div>
             </div>

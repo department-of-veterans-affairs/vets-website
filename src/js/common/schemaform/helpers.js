@@ -129,6 +129,10 @@ export function createRoutes(formConfig) {
     {
       path: 'confirmation',
       component: formConfig.confirmation
+    },
+    {
+      path: '*',
+      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/')
     }
   ]);
 }
@@ -240,6 +244,10 @@ export function stringifyFormReplacer(key, value) {
     const fields = Object.keys(value);
     if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
       return undefined;
+    }
+    // autosuggest widgets save value and label info, but we should just return the value
+    if (value.widget === 'autosuggest') {
+      return value.id;
     }
   }
 

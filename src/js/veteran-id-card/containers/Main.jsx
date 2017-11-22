@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { has, head } from 'lodash';
-import { initiateIdRequest } from '../actions';
+import { initiateIdRequest, timeoutRedirect } from '../actions';
 import { messages } from '../config';
 import AlertBox from '../../common/components/AlertBox';
 
@@ -17,6 +17,7 @@ class Main extends React.Component {
   componentDidUpdate() {
     if (this.props.vicUrl) {
       document.getElementById('vicForm').submit();
+      setTimeout(this.props.timeoutRedirect, 10000);
     }
   }
 
@@ -40,7 +41,7 @@ class Main extends React.Component {
   }
 
   renderButton() {
-    if (this.props.fetching || this.props.vicUrl) {
+    if ((this.props.fetching || this.props.vicUrl) && !this.props.vicError) {
       return (
         <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit} disabled="true">
           Redirecting...
@@ -49,8 +50,25 @@ class Main extends React.Component {
     }
     return (
       <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
-        Apply for a Veteran ID card<span className="exit-icon">&nbsp;</span>
+        Request your Veteran ID card<span className="exit-icon">&nbsp;</span>
       </button>
+    );
+  }
+
+  renderVicError() {
+    const content = (
+      <div>
+        <h4>We're sorry. Something went wrong when loading the page.</h4>
+        <div>
+          <p>Please refresh the page or try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
+        </div>
+      </div>
+    );
+    return (
+      <AlertBox
+        content={content}
+        isVisible
+        status="error"/>
     );
   }
 
@@ -84,13 +102,23 @@ class Main extends React.Component {
     const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 vet-id-card">
-          <h1>Request a Veteran ID Card</h1>
-          <p>If you’re a Veteran and you don’t already have a Veterans Health Identification Card (VHIC) or a retirement card issued by the Department of Defense (DoD), you can request a printed Veteran ID Card.</p>
-          <p>This card gives you an easy way to show proof of your service so you can access discounted goods and services offered to Veterans.</p>
-          <h3>Ready to apply?</h3>
+          <h1>Printed Veteran ID Card</h1>
+          <p>You can use your printed Veteran ID Card (VIC) instead of your DD214 to get discounts on goods and services offered to Veterans. You can also use other identification cards for this purpose. Find out if you need a VIC or if you already have what you need.</p>
+          <h3>Should I request a printed Veteran ID card?</h3>
+          <p>You <b>do not</b> need to request this card if you have one of these:</p>
+          <ul>
+            <li>Veterans Health Identification Card (VHIC), <b>or</b></li>
+            <li>Department of Defense (DoD) Identification Card (Common Access Card (CAC) or Uniformed Services ID Card, <b>or</b></li>
+            <li>State-issued ID (Driver’s license) with a Veteran designation or a state-issued Veteran ID Card.
+Check with your state to see if they issue a Veteran ID Card.</li>
+          </ul>
+          <p>You can use any of these cards to get the same discounts. If you already have one of them, you don’t need a VIC, but you can still apply for it if you’d like.</p>
+          <p>If you don’t have one of these cards, you should request a Veteran ID Card.</p>
+          <h3>Ready to request or want to check the status of your application?</h3>
           <div>
             {this.renderButton()}
             <div>{message}</div>
+            {this.props.vicError && this.renderVicError()}
           </div>
           {this.renderVicForm()}
         </div>
@@ -121,6 +149,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   initiateIdRequest,
+  timeoutRedirect,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

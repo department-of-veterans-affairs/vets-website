@@ -23,7 +23,7 @@ import {
   getClaimDetail,
   setFieldsDirty,
   clearNotification
-} from '../actions';
+} from '../actions/index.jsx';
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
@@ -46,6 +46,9 @@ class DocumentRequestPage extends React.Component {
     }
   }
   componentWillReceiveProps(props) {
+    if (!props.loading && !props.trackedItem) {
+      this.props.router.replace(`/your-claims/${this.props.params.id}/status`);
+    }
     if (props.uploadComplete) {
       this.goToFilesPage();
     }

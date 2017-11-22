@@ -1,4 +1,6 @@
 import 'core-js';
+import '../../sass/facility-locator.scss';
+
 import { createHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory } from 'react-router';
@@ -7,11 +9,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import routes from './routes';
 import { store } from './store';
-import createLoginWidget from '../login/login-entry';
+import { renderCommonComponents } from '../common/init-common';
 
-require('../../sass/facility-locator.scss');
-
-createLoginWidget(store);
+renderCommonComponents(store);
 
 const history = useRouterHistory(createHistory)({
   basename: '/facilities'

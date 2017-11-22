@@ -55,7 +55,7 @@ describe('<SaveInProgressErrorPage>', () => {
     const findDOM = findDOMNode(tree);
 
     expect(findDOM.querySelector('.usa-alert').textContent).to.contain('You have been signed out.');
-    expect(findDOM.querySelector('.usa-button-outline').textContent).to.contain('Back');
+    expect(findDOM.querySelector('.usa-button-secondary').textContent).to.contain('Back');
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Sign in');
   });
   it('should render the unrecoverable failure error', () => {
@@ -70,7 +70,7 @@ describe('<SaveInProgressErrorPage>', () => {
     );
     const findDOM = findDOMNode(tree);
 
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry, but something went wrong.');
+    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry. Something went wrong when we tried to find your application');
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Back');
   });
   it('should render the recoverable failure error', () => {
@@ -85,9 +85,9 @@ describe('<SaveInProgressErrorPage>', () => {
     );
     const findDOM = findDOMNode(tree);
 
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry, but something went wrong.');
-    expect(findDOM.querySelector('.usa-button-outline').textContent).to.contain('Back');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Resume previous application');
+    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry. We’re having some server issues');
+    expect(findDOM.querySelector('.usa-button-secondary').textContent).to.contain('Back');
+    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Continue Your Application');
   });
   it('should go back', () => {
     const fetchFormStatusSpy = sinon.spy();
@@ -102,7 +102,7 @@ describe('<SaveInProgressErrorPage>', () => {
         loadedStatus={LOAD_STATUSES.noAuth}/>
     );
     const findDOM = findDOMNode(tree);
-    const button = findDOM.querySelector('.usa-button-outline');
+    const button = findDOM.querySelector('.usa-button-secondary');
     ReactTestUtils.Simulate.click(button);
     expect(router.goBack.called).to.be.true;
     expect(fetchFormStatusSpy.calledWith(LOAD_STATUSES.notAttempted));

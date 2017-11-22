@@ -18,11 +18,15 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Apply for health care benefits"/>
         <p>Equal to VA Form 10-10EZ (Application for Health Benefits).</p>
         <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          resumeOnly
+          startText="Start the Health Care Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}>
+          Please complete the 10-10EZ form to apply for health care benefits.
+        </SaveInProgressIntro>
+        <h4>Follow the steps below to apply for health care benefits.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -52,7 +56,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
-              <p>We process health care claims within a week. If more than a week has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call us at <a href="tel:18772228387">1-877-222-8387</a>.</p>
+              <p>We process health care claims within a week. If more than a week has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call us at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>).</p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
@@ -61,12 +65,12 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
+          startText="Start the Health Care Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 10-10EZ form to apply for health care benefits.
-        </SaveInProgressIntro>
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018"/>
         </div>

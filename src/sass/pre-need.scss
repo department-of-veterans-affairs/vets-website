@@ -13,6 +13,9 @@
       margin-top: 0;
     }
   }
+  .form-expanding-group {
+    margin-bottom: 1em;
+  }
 }
 
 .usa-alert {
@@ -22,13 +25,23 @@
   }
 }
 
+.schemaform-radio-indent {
+  margin: 0;
+}
+
+.mail-or-fax-message,
 .mail-or-fax-steps {
   margin-bottom: 1rem;
-  padding: 0 0 0 1rem;
+  margin-top: 0;
+}
 
-  li {
-    padding-left: 1rem;
-  }
+.mail-or-fax-steps {
+  padding: 0 0 0 1rem;
+}
+
+.mail-or-fax-step {
+  margin-bottom: 0.75rem;
+  padding-left: 1rem;
 }
 
 .mail-fax-address {

@@ -10,7 +10,7 @@ export const formBenefits = {
   '22-1995': 'education benefits',
   '22-5490': 'education benefits',
   '22-5495': 'education benefits',
-  '40-10007': 'pre-need determination of eligibility in a VA National Cemetery'
+  '40-10007': 'pre-need determination of eligibility in a VA national cemetery'
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -32,8 +32,8 @@ export const formLinks = {
   '21P-530': '/burials-and-memorials/application/530/',
   '1010ez': '/health-care/apply/application/',
   '22-1990': '/education/apply-for-education-benefits/application/1990/',
-  '22-1990E': '/education/apply-for-education-benefits/application/1990e/',
-  '22-1990N': '/education/apply-for-education-benefits/application/1990n/',
+  '22-1990E': '/education/apply-for-education-benefits/application/1990E/',
+  '22-1990N': '/education/apply-for-education-benefits/application/1990N/',
   '22-1995': '/education/apply-for-education-benefits/application/1995/',
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
   '22-5495': '/education/apply-for-education-benefits/application/5495/',

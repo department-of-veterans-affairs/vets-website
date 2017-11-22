@@ -102,7 +102,7 @@ class AcceptTermsPrompt extends React.Component {
           </div>
           <div>
             {submitButton}
-            <button className="usa-button usa-button-outline" onClick={this.onCancel}>Cancel</button>
+            <button className="usa-button usa-button-secondary" onClick={this.onCancel}>Cancel</button>
           </div>
         </div>
       </div>

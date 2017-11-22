@@ -18,13 +18,14 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('a.claim-list-item:first-child')
       .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.claim-title', Timeouts.slow);
+      .waitForElementVisible('.claim-title', Timeouts.slow)
+      .axeCheck('.main');
 
     // redirect to status tab
     client.assert.urlContains('/your-claims/11/status');
 
     client
-      .expect.element('.claim-completion-estimation').text.to.contain('We estimated your claim would be completed by now');
+      .expect.element('.claim-completion-desc').text.to.contain('We estimated your claim would be completed by now');
 
     client.end();
   }

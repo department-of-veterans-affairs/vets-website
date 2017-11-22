@@ -1,3 +1,6 @@
+import '../common';
+import '../../sass/pensions.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
@@ -6,15 +9,10 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import route from './routes';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initCommon from '../common/init-common';
 import reducer from './reducer';
 
-require('../common');
-require('../../sass/pensions.scss');
-
-const store = createCommonStore(reducer);
-createLoginWidget(store);
+const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/pension/application/527EZ'

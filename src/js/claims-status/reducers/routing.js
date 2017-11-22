@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { SET_LAST_PAGE } from '../actions/index';
+import { SET_LAST_PAGE } from '../actions/index.jsx';
 
 const initialState = {
   lastPage: null,

@@ -1,4 +1,5 @@
-require('../common');  // common javascript.
+import '../common';
+import '../../sass/gi/gi.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,11 +11,10 @@ import initReact from '../common/init-react';
 import routes from './routes';
 import { store } from './store';
 import { updateRoute } from './actions';
-import createLoginWidget from '../login/login-entry';
 
-require('../../sass/gi/gi.scss');
+import { renderCommonComponents } from '../common/init-common';
 
-createLoginWidget(store);
+renderCommonComponents(store);
 
 const history = useRouterHistory(createHistory)({
   basename: '/gi-bill-comparison-tool'

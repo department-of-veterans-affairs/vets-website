@@ -1,4 +1,7 @@
 import 'core-js';
+import '../common';
+import '../../sass/veteran-id-card.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -8,14 +11,9 @@ import { Provider } from 'react-redux';
 import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initCommon from '../common/init-common';
 
-require('../common');  // Bring in the common javascript.
-require('../../sass/veteran-id-card.scss');
-
-const commonStore = createCommonStore(reducer);
-createLoginWidget(commonStore);
+const commonStore = initCommon(reducer);
 
 function init() {
   ReactDOM.render((

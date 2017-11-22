@@ -106,7 +106,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 <br>
 
 **If your branch of service hasn’t yet started using SOES,** fill out the Servicemembers' Group Life Insurance Election and Certificate and give it to your unit’s personnel officer. <br>
-[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
+[Download the Servicemembers' Group Life Insurance Election and Certificate](https://www.benefits.va.gov/insurance/forms/SGLV_8286_ed2017-10.pdf).
 <br>
 [Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
 

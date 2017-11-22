@@ -4,6 +4,11 @@ template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
 order: 1
+widgets:
+  - root: react-applicationStatus
+    timeout: 20
+    loadingMessage: Checking your application status.
+    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
@@ -57,9 +62,9 @@ You may need a copy of:
 
 </div>
 
-### Ready to apply?
-
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for a Burial Allowance</a>
+<div id="react-applicationStatus">
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530/">Apply for Burial Benefits</a>
+</div>
 
 <div markdown="0"><br></div>
 
@@ -71,7 +76,7 @@ Apply by mail using the Application for Burial Benefits (VA Form 21P-530). [Down
 
 Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
-If you have questions, call <a href="tel:+18008271000">1-800-827-1000</a> (our TDD number for the hearing-impaired is 711) or call your regional benefits office.
+If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefits office.
 
 #### What are the burial allowance amounts for a service-connected death?
 
@@ -95,8 +100,8 @@ If you have questions, call <a href="tel:+18008271000">1-800-827-1000</a> (our T
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
-| If the Veteran died on or after October 1, 2017 | We’ll pay a $747 burial allowance and $762 for a plot |
-| If the Veteran died on or after October 1, 2016 | We’ll pay a $747 burial allowance and $749 for a plot |
+| If the Veteran died on or after October 1, 2017 | We’ll pay a $762 burial allowance and $762 for a plot |
+| If the Veteran died on or after October 1, 2016 | We’ll pay a $749 burial allowance and $749 for a plot |
 | If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $747 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $745 burial allowance and $745 for a plot |
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $734 burial allowance and $734 for a plot |

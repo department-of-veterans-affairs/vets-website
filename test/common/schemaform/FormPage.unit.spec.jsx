@@ -243,9 +243,13 @@ describe('Schemaform <FormPage>', () => {
     });
     it('change', () => {
       const newData = {};
-      tree.getMountedInstance().onChange(newData);
+      const autoSave = sinon.spy();
+      const instance = tree.getMountedInstance();
+      instance.debouncedAutoSave = autoSave;
+      instance.onChange(newData);
 
       expect(setData.calledWith('testPage', newData));
+      expect(autoSave.called).to.be.true;
     });
     it('submit', () => {
       tree.getMountedInstance().onSubmit({});

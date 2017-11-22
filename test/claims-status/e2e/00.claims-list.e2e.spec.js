@@ -12,23 +12,23 @@ module.exports = E2eHelpers.createE2eTest(
     // Claim is visible
     LoginHelpers.logIn(token, client, '/track-claims', 3)
       .assert.title('Track Claims: Vets.gov')
-      .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+      .waitForElementVisible('a.claim-list-item', Timeouts.slow)
+      .axeCheck('.main');
 
     // Combined claim link
-    // TODO(crew): Ask someone to find out why this isn't working
-    // client
-    //   .click('a.claims-combined')
-    //   .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
-    // client
-    //   .expect.element('.claims-status-upload-header').text.to.equal('Claim status update');
-    // client
-    //   .click('.va-modal-body .usa-button')
-    //   .waitForElementNotPresent('.claims-status-upload-header', Timeouts.normal);
+    client
+      .click('a.claims-combined')
+      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
+    client
+      .expect.element('.claims-status-upload-header').text.to.equal('A note about consolidated claims');
+    client
+      .click('.va-modal-close')
+      .waitForElementNotPresent('.claims-status-upload-header', Timeouts.normal);
 
     // Verify text on page
     client
       .expect
-      .element('.your-claims h1')
+      .element('.claims-container h1')
       .text.to.equal('Your Claims and Appeals');
 
     client

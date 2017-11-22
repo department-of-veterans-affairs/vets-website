@@ -77,38 +77,58 @@ describe('Schemaform save / load actions:', () => {
   describe('migrateFormData', () => {
     it('should return migrated data', () => {
       const data = {
-        field: 'stuff'
+        formData: {
+          field: 'stuff'
+        },
+        metadata: {
+          version: 0,
+        }
       };
       const migrations = [
         (savedData) => {
-          savedData.field = savedData.field.toUpperCase(); // eslint-disable-line no-param-reassign
+          savedData.formData.field = savedData.formData.field.toUpperCase(); // eslint-disable-line no-param-reassign
           return savedData;
         }
       ];
-      const migratedData = migrateFormData(data, 0, migrations);
+      const migratedData = migrateFormData(data, migrations);
 
       expect(migratedData).to.eql({
-        field: 'STUFF'
+        formData: {
+          field: 'STUFF'
+        },
+        metadata: {
+          version: 0
+        }
       });
     });
     it('should migrate multiple times', () => {
       const data = {
-        field: 'stuff'
+        formData: {
+          field: 'stuff'
+        },
+        metadata: {
+          version: 0,
+        }
       };
       const migrations = [
         (savedData) => {
-          savedData.field = savedData.field.toUpperCase(); // eslint-disable-line no-param-reassign
+          savedData.formData.field = savedData.formData.field.toUpperCase(); // eslint-disable-line no-param-reassign
           return savedData;
         },
         (savedData) => {
-          savedData.field = `${savedData.field} to do`; // eslint-disable-line no-param-reassign
+          savedData.formData.field = `${savedData.formData.field} to do`; // eslint-disable-line no-param-reassign
           return savedData;
         }
       ];
-      const migratedData = migrateFormData(data, 0, migrations);
+      const migratedData = migrateFormData(data, migrations);
 
       expect(migratedData).to.eql({
-        field: 'STUFF to do'
+        formData: {
+          field: 'STUFF to do'
+        },
+        metadata: {
+          version: 0
+        }
       });
     });
   });
@@ -259,7 +279,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(Promise.resolve({
         ok: true,
         json: () => ({
-          form_data: { field: 'foo' }, // eslint-disable-line camelcase
+          formData: { field: 'foo' }, // eslint-disable-line camelcase
           metadata: {
             version: 0
           }
@@ -357,7 +377,7 @@ describe('Schemaform save / load actions:', () => {
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
-        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.failure))).to.be.true;
+        expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.clientFailure))).to.be.true;
       });
     });
     describe('prefill', () => {

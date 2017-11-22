@@ -1,3 +1,6 @@
+import '../common';
+import '../../sass/health-records/health-records.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, useRouterHistory } from 'react-router';
@@ -7,14 +10,9 @@ import { createHistory } from 'history';
 import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initCommon from '../common/init-common';
 
-require('../common');  // common javascript.
-require('../../sass/health-records/health-records.scss');
-
-const store = createCommonStore(reducer);
-createLoginWidget(store);
+const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
   basename: '/health-care/health-records'

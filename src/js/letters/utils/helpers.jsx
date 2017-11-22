@@ -22,19 +22,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   return commonApiClient(requestUrl, optionalSettings, success, error);
 }
 
-export const invalidAddressProperty = (
-  <div id="invalidAddress">
-    <div className="usa-alert usa-alert-error">
-      <div className="usa-alert-body">
-        <h2 className="usa-alert-heading">Address unavailable</h2>
-        <p className="usa-alert-text">
-          We’re encountering an error with your address information. This is not required for your letters, but if you’d like to see the address we have on file, or to update it, please visit <a href="/" target="_blank">this link</a>.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
 export const addressUpdateUnavailable = (
   <div>
     <div className="usa-alert usa-alert-warning">
@@ -52,6 +39,43 @@ export const addressUpdateUnavailable = (
         </p>
       </div>
     </div>
+  </div>
+);
+
+export const addressModalContent = (
+  <div>
+    <p>Changing your address here will affect the address that shows on
+    your letters, as well as the location we mail your disability
+    compensation and pension information.</p>
+    <p>If you want to change your address for other VA benefits, such as
+    life insurance, education, and health care, you’ll need to update
+    it separately with each department.
+    </p>
+    <a
+      href="https://iris.custhelp.com/app/answers/detail/a_id/3045/~change-of-address"
+      target="_blank">Learn how to update your address for all VA departments
+    </a>
+  </div>
+);
+
+export const recordsNotFound = (
+  <div id="records-not-found">
+    <header>
+      <h1>We couldn’t find your VA letters or documents</h1>
+    </header>
+    <div className="usa-alert usa-alert-warning">
+      <div className="usa-alert-body">
+        <p className="usa-alert-heading">
+          <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/download-letters">
+          If you’re a dependent, please go to eBenefits to look for your letters.</a>
+        </p>
+      </div>
+    </div>
+    <h2>Need help?</h2>
+    <hr className="divider"/>
+    <p>If you have questions or need help looking up your VA letters and documents, please call <a
+      className="letters-phone-nowrap" href="tel:1-800-827-1000">
+      1-800-827-1000</a> from 8:00 a.m. to 7:00 pm (ET).</p>
   </div>
 );
 
@@ -74,12 +98,12 @@ const serviceVerificationLetterContent = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
         <p className="usa-alert-text">
-          You can now use the Service Verification and Benefit Summary Letter in place of your Service Verification Letter.
+          You can now use your Benefit Summary letter instead of this Service Verification letter.
         </p>
       </div>
     </div>
     <p>
-      This letter shows your branch of service, date entered on active duty, and date discharged from active duty.
+      This letter shows your branch of service, the date you started active duty, and the date you were discharged from active duty.
     </p>
   </div>
 );
@@ -92,15 +116,26 @@ const commissaryLetterContent = (
   </div>
 );
 
+// Benefit Summary Letter Help Instructions
+export const bslHelpInstructions = (
+  <div>
+    <p>
+      If your service period or disability status information is incorrect, please send us
+      a message through VA’s <a target="_blank" href="https://iris.custhelp.com/app/ask">
+      Inquiry Routing & Information System (IRIS)</a>. VA will respond within 5 business days.
+    </p>
+  </div>
+);
+
 // Map values returned by vets-api to display text.
 export const letterContent = {
   commissary: commissaryLetterContent,
   proof_of_service: 'This card shows that you served honorably in the Armed Forces. This card might be useful as proof of status to receive discounts at certain stores or restaurants.',
   medicare_partd: 'You will need this letter as proof that you qualify for Medicare Part D prescription drug coverage.',
-  minimum_essential_coverage: 'This letter shows that you have Minimum Essential Coverage (MEC). MEC means that your health plan meets the requirements for health insurance under the Affordable Care Act (ACA). You may also need this letter when you change health insurance plans to show what days you were covered by the plan.',
+  minimum_essential_coverage: <div>This letter indicates that you have Minimum Essential Coverage (MEC) as provided by VA. MEC means that your health care plan meets the health insurance requirements under the Affordable Care Act (ACA). To prove that you’re enrolled in the VA health care system, you must have IRS Form 1095-B from VA to show what months you were covered by a VA health care plan. If you’ve lost your IRS Form 1095-B, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) to request another copy.</div>,
   service_verification: serviceVerificationLetterContent,
   civil_service: 'This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
-  benefit_summary: 'This letter can be customized and used for many things, including to verify income and apply for housing assistance, civil service preference jobs, and state or local property or car tax relief.',
+  benefit_summary: 'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
   benefit_verification: 'This letter shows the benefits you’re receiving from VA. The letter also shows your benefit gross amount (the amount before anything is taken out) and net amount (the amount after deductions are taken out), your benefit effective date, and your disability rating.'
 };
 
@@ -328,3 +363,38 @@ export function resetDisallowedAddressFields(address) {
 
   return newAddress;
 }
+
+/**
+ * Traverses a single-level object and removes its zero-length own-enumerable properties
+ * @param {Object} input an object with no nested properties
+ * @returns a cloned object with no empty properties
+ */
+export const stripEmpties = (input) => {
+  const newObject = { ...input };
+  const deleteProperty = (key) => (delete newObject[key]);
+  const isEmpty = (key) => (input[key].length === 0);
+  Object.keys(input)
+    .filter(isEmpty)
+    .forEach(deleteProperty);
+  return newObject;
+};
+
+/**
+ * Takes an address object as returned from vets-api and translates its properties to
+ * generic properties that are consumed by the front end
+ * @param {Object} address an address object as formatted by vets-api
+ * @returns {Object} shallow clone of address with military properties swapped for generics
+ */
+export const toGenericAddress = (address) => {
+  const genericAddress = { ...address };
+  delete genericAddress.addressEffectiveDate;
+  if (address.type !== ADDRESS_TYPES.military) {
+    return genericAddress;
+  }
+  genericAddress.city = genericAddress.militaryPostOfficeTypeCode;
+  genericAddress.stateCode = genericAddress.militaryStateCode;
+  genericAddress.countryName = 'USA';
+  delete genericAddress.militaryPostOfficeTypeCode;
+  delete genericAddress.militaryStateCode;
+  return genericAddress;
+};

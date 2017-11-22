@@ -6,6 +6,7 @@ import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { gaClientId } from '../../common/utils/helpers';
 import { updateLoggedInStatus } from '../../login/actions';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -37,6 +38,8 @@ class AuthApp extends React.Component {
     const parent = window.opener;
     parent.sessionStorage.removeItem('userToken');
     parent.sessionStorage.setItem('userToken', token);
+    parent.sessionStorage.removeItem('entryTime');
+    parent.sessionStorage.setItem('entryTime', new Date());
     parent.postMessage(token, environment.BASE_URL);
 
     // This will trigger a browser reload if the user is using IE or Edge.
@@ -61,8 +64,11 @@ class AuthApp extends React.Component {
     const loginMethod = userData.authnContext || 'idme';
     window.dataLayer.push({ event: `login-success-${loginMethod}` });
 
+    // If LOA highest is not 3, skip identity proofing
+    // If LOA current == highest (3), skip identity proofing
+    // If LOA current < highest, attempt to identity proof
     if (userData.loa.highest === 3) {
-      if ((userData.loa.current === 3 && sessionStorage.mfa_start) || userData.authnContext) {
+      if (userData.loa.current === 3) {
         this.setMyToken(myToken);
       } else {
         const redirect = ({ identityProofUrl }) => {
@@ -72,7 +78,6 @@ class AuthApp extends React.Component {
           );
         };
 
-        sessionStorage.setItem('mfa_start', true);
         apiRequest('/sessions/identity_proof', this.authSettings, redirect, this.setError);
       }
     } else {
@@ -86,19 +91,13 @@ class AuthApp extends React.Component {
     if (this.state.error) {
       view = (
         <div>
-          <h3>We are sorry that we could not successfully log you in.</h3>
-          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We’re open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
+          <h3>We're sorry that we couldn't successfully log you in.</h3>
+          <h3>Please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</h3>
           <button onClick={window.close}>Close</button>
         </div>
       );
     } else {
-      view = (
-        <div className="overlay">
-          <div className="overlay-content">
-            <h3>Signing in to Vets.gov...</h3>
-          </div>
-        </div>
-      );
+      view = <LoadingIndicator message="Signing in to Vets.gov..."/>;
     }
 
     return (

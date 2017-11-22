@@ -19,6 +19,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
   handleChange(domEvent) {
     window.dataLayer.push({
+      // For Google Analytics
       event: 'letter-benefit-option-clicked',
       'letter-benefit-option': domEvent.target.id,
       'letter-benefit-option-status': domEvent.target.checked ? 'checked' : 'unchecked'
@@ -45,7 +46,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
-    let vaBenefitInformation;
     const vaBenefitInfoRows = [];
 
     Object.keys(benefitInfo).forEach(key => {
@@ -82,25 +82,69 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       }
     });
 
+    const vaBenefitInformation = (
+      <table id="benefitInfoTable">
+        <thead>
+          <tr>
+            <th scope="col">Include</th>
+            <th scope="col">Statement</th>
+          </tr>
+        </thead>
+        <tbody>
+          {vaBenefitInfoRows}
+        </tbody>
+      </table>
+    );
+
+    let benefitSummaryContent;
     if (this.props.optionsAvailable) {
-      vaBenefitInformation = (
-        <table className="usa-table-borderless" id="benefitInfoTable">
-          <thead>
-            <tr>
-              <th scope="col">Include</th>
-              <th scope="col">Statement</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vaBenefitInfoRows}
-          </tbody>
-        </table>
+      benefitSummaryContent = (
+        <div>
+          <h4>Choose the information you want to include.</h4>
+          <h2>Military service information</h2>
+          <p>
+            Our records show the 3 most recent service periods. There may be additional service periods not shown here.
+          </p>
+          <div className="form-checkbox">
+            <input
+              autoComplete="false"
+              checked={requestOptions.militaryService}
+              id="militaryService"
+              name="militaryService"
+              type="checkbox"
+              onChange={this.handleChange}/>
+            <label
+              className="schemaform-label"
+              name="militaryService-label"
+              htmlFor="militaryService">
+              Include military service information
+            </label>
+          </div>
+          <table id="militaryServiceTable">
+            <thead>
+              <tr>
+                <th scope="col">Branch of service</th>
+                <th scope="col">Discharge type</th>
+                <th scope="col">Active duty start</th>
+                <th scope="col">Separation date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {militaryServiceRows}
+            </tbody>
+          </table>
+          <h2>VA benefit and disability information</h2>
+          <p>
+            Please choose what information you want to include in your letter.
+          </p>
+          {vaBenefitInformation}
+        </div>
       );
     } else {
-      vaBenefitInformation = (
+      benefitSummaryContent = (
         <div className="feature">
           <h4>Your VA Benefit Summary letter is currently unavailable</h4>
-          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</div>
+          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</div>
         </div>
       );
     }
@@ -108,46 +152,9 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter is for disabled Veterans. It gives a summary of VA benefits that are available to them, such as housing assistance, civil service preference, and state or local property or car tax relief.
+          This letter shows your service history and some VA benefits information. You can customize this letter and use it for many things, including to apply for housing assistance, civil service jobs, and state or local property and car tax relief.
         </p>
-        <h2>Choose the information you want to include.</h2>
-        <h2>Military service information</h2>
-        <p>
-          Our records show the 3 most recent service periods. There may be additional service periods not shown here.
-        </p>
-        <div className="form-checkbox">
-          <input
-            autoComplete="false"
-            checked={requestOptions.militaryService}
-            id="militaryService"
-            name="militaryService"
-            type="checkbox"
-            onChange={this.handleChange}/>
-          <label
-            className="schemaform-label"
-            name="militaryService-label"
-            htmlFor="militaryService">
-            Include military service information
-          </label>
-        </div>
-        <table className="usa-table-borderless" id="militaryServiceTable">
-          <thead>
-            <tr>
-              <th scope="col">Branch of service</th>
-              <th scope="col">Discharge type</th>
-              <th scope="col">Active duty start</th>
-              <th scope="col">Separation date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {militaryServiceRows}
-          </tbody>
-        </table>
-        <h2>VA benefit and disability information</h2>
-        <p>
-          Please choose what information you want to include in your letter.
-        </p>
-        {vaBenefitInformation}
+        {benefitSummaryContent}
       </div>
     );
   }

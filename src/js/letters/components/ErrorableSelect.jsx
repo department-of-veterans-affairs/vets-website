@@ -20,16 +20,11 @@ import _ from 'lodash';
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableSelect extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-  }
-
   componentWillMount() {
     this.selectId = _.uniqueId('errorable-select-');
   }
 
-  handleChange(domEvent) {
+  handleChange = (domEvent) => {
     this.props.onValueChange(domEvent.target.value);
   }
 
@@ -82,7 +77,7 @@ class ErrorableSelect extends React.Component {
           id={this.selectId}
           name={this.props.name}
           autoComplete={this.props.autocomplete}
-          value={selectedValue}
+          value={selectedValue || ''}
           onChange={this.handleChange}>
           {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
           {optionElements}
@@ -96,7 +91,10 @@ ErrorableSelect.propTypes = {
   errorMessage: PropTypes.string,
   name: PropTypes.string,
   autocomplete: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,
@@ -109,7 +107,7 @@ ErrorableSelect.propTypes = {
     ])).isRequired,
   required: PropTypes.bool,
   includeBlankOption: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onValueChange: PropTypes.func.isRequired,
   additionalClass: PropTypes.string,
   emptyDescription: PropTypes.string

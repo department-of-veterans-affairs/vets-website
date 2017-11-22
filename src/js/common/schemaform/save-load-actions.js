@@ -4,6 +4,7 @@ import 'isomorphic-fetch';
 import { logOut } from '../../login/actions';
 
 import { removeFormApi, saveFormApi } from './sip-api';
+import { sanitizeForm } from './helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
@@ -104,7 +105,7 @@ export function setPrefillComplete() {
  * @return {Object}               The modified formData which should work with
  *                                 the current version of the form.
  */
-export function migrateFormData(savedData, savedVersion, migrations) {
+export function migrateFormData(savedData, migrations) {
   // migrations is an array that looks like this:
   // [
   //   (savedData) => {
@@ -125,6 +126,7 @@ export function migrateFormData(savedData, savedVersion, migrations) {
   }
 
   let savedDataCopy = Object.assign({}, savedData);
+  let savedVersion = savedData.metadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
     savedVersion++; // eslint-disable-line no-param-reassign
@@ -209,10 +211,9 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
-      // TODO: These headers should work, but trigger an api error right now
       headers: {
         'Content-Type': 'application/json',
-        // 'X-Key-Inflection': 'camel',
+        'X-Key-Inflection': 'camel',
         Authorization: `Token token=${userToken}`
       },
     }).then((res) => {
@@ -244,23 +245,35 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
       // If we’ve made it this far, we’ve got valid form
 
       let formData;
+      let metadata;
       try {
-        // NOTE: This may change to be migrated in the back end before sent over
-        formData = migrateFormData(resBody.form_data, resBody.metadata.version, migrations);
+        const dataToMigrate = {
+          formId,
+          formData: resBody.formData,
+          metadata: resBody.metadata
+        };
+
+        ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
+
+        dispatch(setInProgressForm({ formData, metadata }, prefill));
+
+        window.dataLayer.push({
+          event: `${trackingPrefix}sip-form-loaded`
+        });
+
+        return Promise.resolve();
       } catch (e) {
         // We don’t want to lose the stacktrace, but want to be able to search for migration errors
         // related to SiP
         Raven.captureException(e);
-        Raven.captureMessage('vets_sip_error_migration');
+        Raven.captureMessage('vets_sip_error_migration', {
+          extra: {
+            formData: sanitizeForm(resBody.formData),
+            metadata: resBody.metadata
+          }
+        });
         return Promise.reject(LOAD_STATUSES.invalidData);
       }
-      // Set the data in the redux store
-      dispatch(setInProgressForm({ formData, metadata: resBody.metadata }, prefill));
-      window.dataLayer.push({
-        event: `${trackingPrefix}sip-form-loaded`
-      });
-
-      return Promise.resolve();
     }).catch((status) => {
       let loadedStatus = status;
       if (status instanceof SyntaxError) {
@@ -271,7 +284,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
         // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
         Raven.captureException(status);
         Raven.captureMessage('vets_sip_error_fetch');
-        loadedStatus = LOAD_STATUSES.failure;
+        loadedStatus = LOAD_STATUSES.clientFailure;
       }
 
       // If prefilling went wrong for a non-auth reason, it probably means that

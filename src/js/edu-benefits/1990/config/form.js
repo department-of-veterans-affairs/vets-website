@@ -4,6 +4,7 @@ import moment from 'moment';
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import contactInformationPage from '../../pages/contactInformation';
 import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import GetFormHelp from '../../components/GetFormHelp';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import { schema as addressSchema, uiSchema as addressUI } from '../../../common/schemaform/definitions/address';
@@ -34,6 +35,8 @@ import {
   directDepositDescription,
   reserveKickerWarning
 } from '../helpers';
+
+import { urlMigration } from '../../config/migrations';
 
 import {
   hasServiceBefore1977
@@ -75,11 +78,12 @@ const {
 } = fullSchema1990.definitions;
 
 const formConfig = {
-  urlPrefix: '/1990/',
+  urlPrefix: '/',
   submitUrl: '/v0/education_benefits_claims/1990',
   trackingPrefix: 'edu-',
   formId: '22-1990',
-  version: 0,
+  version: 1,
+  migrations: [urlMigration('/1990')],
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth: 'Please sign in again to resume your application for education benefits.'
@@ -97,6 +101,7 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

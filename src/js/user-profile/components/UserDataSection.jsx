@@ -93,11 +93,11 @@ class UserDataSection extends React.Component {
     const content = (
       <div className="mfa-message">
         <div className="medium-8 column">
-          <h2>Add extra security to your account</h2>
+          <h4 className="usa-alert-heading">Add extra security to your account</h4>
           <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
         </div>
         <div className="medium-4 column">
-          <button className="usa-button usa-button-outline" onClick={this.handleMultifactorRequest}>Add security step</button>
+          <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
         </div>
       </div>
     );
@@ -147,7 +147,9 @@ class UserDataSection extends React.Component {
         <div className="info-container">
           {content}
           <p><span className="label">Email address:</span> {email}</p>
-          <p><a href="https://wallet.id.me/settings" target="_blank">Manage your account</a></p>
+          <p>Want to change your email, password, or other account settings?<br/>
+            <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
+          </p>
           {this.renderTermsLink()}
         </div>
         <Modal

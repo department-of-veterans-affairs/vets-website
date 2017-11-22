@@ -45,6 +45,8 @@ class Signin extends React.Component {
   }
 
   render() {
+    const enableMHVLogin = new URLSearchParams(window.location.search).get('mhvbeta');
+
     return (
       <main className="login">
         <div className="row">
@@ -81,13 +83,16 @@ class Signin extends React.Component {
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
                       <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
+                    {enableMHVLogin && <button className="mhv" onClick={this.handleLogin('mhv')}>
+                      <img alt="MyHealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with MyHealtheVet</strong>
+                    </button>}
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>
                     <span className="sidelines">OR</span>
                     <div className="alternate-signin">
                       <h5>Don't have those accounts?</h5>
-                      <button className="idme-create usa-button usa-button-outline" onClick={this.handleSignup}>
+                      <button className="idme-create usa-button usa-button-secondary" onClick={this.handleSignup}>
                         <img alt="ID.me" src="/img/signin/idme-icon-dark.svg"/><strong> Create an ID.me account</strong>
                       </button>
                       <p>Use your email, Google, or Facebook</p>
@@ -98,7 +103,7 @@ class Signin extends React.Component {
             </div>
             <div className="columns usa-width-one-half medium-6">
               <div className="explanation-content">
-                <h2 className="hide-for-small">One site. A lifetime of benefits and services at your fingertips.</h2>
+                <div className="hide-for-small usa-font-lead">One site. A lifetime of benefits and services at your fingertips.</div>
                 <p>
                   You spoke. We listened. Vets.gov is the direct result of what you said you wanted most—one easy-to-use place to:
                 </p>
@@ -122,8 +127,8 @@ class Signin extends React.Component {
                 <h4>Having trouble signing in?</h4>
                 <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).<br/>
-                  We're here Monday – Friday, 8:00am – 8:00pm (ET).
+                Call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
+                Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
                 </p>
               </div>
               <hr/>
