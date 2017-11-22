@@ -78,16 +78,16 @@ For all disability claims, please provide:
 <h3 itemprop="name">Other ways to apply</h3>
 <div itemprop="itemListElement">
 
-#### Work with a trained professional
+#### With the help of a trained professional
 
 You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
 
-#### Apply by mail
+#### By mail
 
-[Download an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -98,7 +98,7 @@ PO Box 4444<br>
 Janesville, WI 53547-4444<br>
 </p>
 
-#### Apply in person
+#### In person
 
 [Go to a regional benefits office](http://www.benefits.va.gov/benefits/offices.asp).
 
