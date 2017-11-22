@@ -12,7 +12,6 @@ order: 9
 The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
 </div>
-<div itemprop="itemList">
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
