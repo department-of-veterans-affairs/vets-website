@@ -215,11 +215,11 @@ table {
   clear: both;
   margin: 0;
   padding: 0;
-  min-height: 147.19px;
+  min-height: 167.19px;
 
   @include media($medium-screen) {
     position: relative;
-    min-height: 168.5px;
+    min-height: 159px;
   }
 
 .login-container {
