@@ -65,8 +65,9 @@ export default class FileField extends React.Component {
     const newFileList = this.props.formData.filter((file, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
+    } else {
+      this.props.onChange(newFileList);
     }
-    this.props.onChange(newFileList);
   }
 
   render() {
