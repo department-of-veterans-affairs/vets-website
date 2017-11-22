@@ -44,7 +44,6 @@ There are other factors that may affect whether you or other family members qual
           <li>Get a Social Security number for your baby by applying at the nearest Social Security Administration office, <b>and</b></li>
           <li>Set up the baby’s status as a dependent of the Veteran sponsor by contacting your local VA regional benefit office.</li>
         </ul>
-        <br>
         <p>Medical claims can’t be paid until you sign your baby up under CHAMPVA, so please get them a Social Security number and set their status as a dependent as soon as possible.</p>
         <a href='https://secure.ssa.gov/ICON/main.jsp'>Find a Social Security office near you.</a><br>
         <a href='http://www.benefits.va.gov/benefits/offices.asp'>Find your VA regional office.</a><br>
