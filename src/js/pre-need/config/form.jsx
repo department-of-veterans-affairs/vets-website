@@ -218,10 +218,8 @@ const formConfig = {
                 },
                 vaClaimNumber: {
                   'ui:title': 'Sponsor’s VA claim number (if known)',
-                  'ui:options': {
-                    errorMessages: {
-                      pattern: 'Please enter a valid 7 to 9 digit claim number'
-                    }
+                  'ui:errorMessages': {
+                    pattern: 'Your VA claim number must be between 7 to 9 digits'
                   }
                 },
                 ssn: {
