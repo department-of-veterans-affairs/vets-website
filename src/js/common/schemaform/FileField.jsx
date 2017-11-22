@@ -114,7 +114,7 @@ export default class FileField extends React.Component {
                       <ProgressBar percent={this.state.progress}/>
                     </div>
                   }
-                  <span>{file.name}</span>
+                  {!file.uploading && <span>{file.name}</span>}
                   {!hasErrors && itemSchema.properties.attachmentId &&
                     <div className="schemaform-file-attachment">
                       <SchemaField
