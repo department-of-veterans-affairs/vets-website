@@ -46,7 +46,7 @@ const {
   veteran,
   applicant,
   hasCurrentlyBuried,
-  // currentlyBuriedPersons,
+  currentlyBuriedPersons,
   preneedAttachments
 } = fullSchemaPreNeed.properties.application.properties;
 
@@ -73,7 +73,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA national cemetery',
+  title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -91,7 +91,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation1: {
+        applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
           uiSchema: {
@@ -148,7 +148,7 @@ const formConfig = {
             }
           }
         },
-        applicantInformation2: {
+        veteranInformation: {
           path: 'veteran-applicant-information',
           depends: isVeteran,
           uiSchema: {
@@ -498,12 +498,10 @@ const formConfig = {
                   name: _.merge(fullNameUI, {
                     'ui:title': 'Name of deceased'
                   }),
-                  'view:cemeteryNumber': {
-                    'ui:title': 'VA national cemetery where they’re buried'
-                    // TODO: Create widget with validation message...
-                    // It should map hundreds of cemetery numbers to names.
-                    // 'ui:widget': CemeteryNumberWidget
-                  }
+                  cemeteryNumber: autosuggest.uiSchema(
+                    'VA national cemetery where they’re buried',
+                    getCemeteries
+                  )
                 }
               }
             }
@@ -526,17 +524,11 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      required: ['name'],
-                      properties: {
-                        name: fullName,
-                        'view:cemeteryNumber': { type: 'string' }
-                      }
-                    }
-                  }
+                  currentlyBuriedPersons: _.set(
+                    'items.properties.cemeteryNumber',
+                    autosuggest.schema,
+                    currentlyBuriedPersons
+                  )
                 }
               }
             }
