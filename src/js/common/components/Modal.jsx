@@ -60,7 +60,7 @@ class Modal extends React.Component {
     document.body.classList.remove('modal-open');
   }
 
-  handleDocumentKeyUp(event){
+  handleDocumentKeyUp(event) {
     if (event.keyCode === ESCAPE_KEY) {
       this.handleClose(event);
     }
