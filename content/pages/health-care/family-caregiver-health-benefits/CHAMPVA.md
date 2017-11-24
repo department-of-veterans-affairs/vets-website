@@ -95,6 +95,10 @@ There are other factors that may affect whether you or other family members qual
 <br>
 [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf).       </div>
 
+</li>
+</ul>
+</div>
+
 <br>
 
 ### What benefits do I get with CHAMPVA?
@@ -129,8 +133,8 @@ You’ll need to apply for these benefits. To apply, submit:
 - [VA Form 10-10d (Application for CHAMPVA Benefits)]( https://www.va.gov/vaforms/medical/pdf/vha-10-10d-fill.pdf), **and** 
 - [VA Form 10-7959c (Other Health Insurance [OHI] Certification)](http://www.va.gov/vaforms/form_detail.asp?FormNo=7959c), **and**
  - Documents related to your Medicare status: 
-  - **If you qualify for Medicare for any reason**, you’ll need to submit a copy of your Medicare card. 
-  - **If you’re 65 years old or older and don't qualify for Medicare**, you’ll need to send us documentation from the Social Security Administration that confirms you don't qualify for Medicare benefits under anyone’s Social Security number.
+  - **If you qualify for Medicare for any reason,** you’ll need to submit a copy of your Medicare card. 
+  - **If you’re 65 years old or older and don't qualify for Medicare,** you’ll need to send us documentation from the Social Security Administration that confirms you don't qualify for Medicare benefits under anyone’s Social Security number.
 
 To speed up the processing of your application, you can also send copies (*not* originals) of:
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
