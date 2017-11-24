@@ -274,6 +274,7 @@ export function getAlertContent(alert) {
           representative, the ${details.representative}, to complete an
           informal hearing presentation (IHP). Please contact your
           representative for more information.`,
+        cssClass: 'usa-alert-warning',
         type,
         date
       };
@@ -281,6 +282,7 @@ export function getAlertContent(alert) {
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
         description: '',
+        cssClass: 'usa-alert-info',
         type,
         date
       };
@@ -300,6 +302,7 @@ export function getAlertContent(alert) {
             </li>
           </ul>
         ),
+        cssClass: 'usa-alert-info',
         type,
         date
       };

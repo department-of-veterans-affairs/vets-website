@@ -283,8 +283,18 @@ export const mockData = {
         ],
         alerts: [
           {
-            type: 'tbd', // Need to get a real status type
-            details: {}
+            type: 'warning',
+            date: '09-21-2017',
+            details: {
+              type: 'waiting_on_action'
+            }
+          }, {
+            type: 'warning',
+            date: '09-21-2017',
+            details: {
+              type: 'hearing_scheduled',
+              date: 'March 5th, 2018'
+            }
           }
         ],
         events: [

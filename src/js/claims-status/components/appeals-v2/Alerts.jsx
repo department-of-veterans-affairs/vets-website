@@ -1,31 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getAlertContent } from '../../utils/appeals-v2-helpers';
 
-const Alerts = ({ alerts }) => {
-  const alertsList = alerts.map((alert, index) => {
-    const { type, date, details } = alert;
-    const key = `${type}-${index}`;
+const Alerts = (props) => {
+  const alertsList = props.alerts.map((alert, index) => {
+    const key = `${alert.type}-${index}`;
+    const { title, description, cssClass } = getAlertContent(alert);
     return (
-      <div key={key} className="usa-alert usa-alert-warning">
-        <div className="usa-alert-body">
-          <h3 className="usa-alert-heading">{details.title}</h3>
-          <p className="usa-alert-text">{date} - {details.description}</p>
+      <li key={key}>
+        <div className={`usa-alert ${cssClass}`}>
+          <div className="usa-alert-body">
+            <h3 className="usa-alert-heading">{title}</h3>
+            <p className="usa-alert-text">{description}</p>
+          </div>
         </div>
-      </div>
+      </li>
     );
   });
 
   return (
-    <div>
-
-    </div>
+    <ul className="alerts-list">
+      {alertsList}
+    </ul>
   );
 };
 
 Alerts.propTypes = {
   alerts: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
+    date: PropTypes.string,
     details: PropTypes.string
   })).isRequired
 };

@@ -28,14 +28,14 @@ class AppealsV2StatusPage extends React.Component {
     if (this.props.appealsLoading) {
       return <LoadingIndicator message="Please wait while we load your appeal..."/>;
     }
-    const { events, status } = this.props.appeal.attributes;
+    const { events, alerts, status } = this.props.appeal.attributes;
     const { type, details } = status;
     const currentStatus = getStatusContents(type, details);
     const nextEvents = getNextEvents(type);
     return (
       <div>
         <Timeline events={events} currentStatus={currentStatus}/>
-        <Alerts/>
+        <Alerts alerts={alerts}/>
         <WhatsNext nextEvents={nextEvents}/>
         <Docket/>
       </div>
@@ -49,9 +49,10 @@ AppealsV2StatusPage.defaultProps = {
     type: '',
     attributes: {
       events: [],
+      alerts: [],
       status: {
         type: '',
-        details: {}
+        details: {},
       }
     }
   }
