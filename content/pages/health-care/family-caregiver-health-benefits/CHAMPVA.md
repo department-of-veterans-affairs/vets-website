@@ -93,7 +93,7 @@ There are other factors that may affect whether you or other family members qual
           </ul>
         <p><b>If you’re 65 years old or older, you’re eligible for CHAMPVA if you’re eligible for Medicare.</b> If you turned 65 before June 5, 2001, and you’re entitled to either Medicare Part A or B, you’ll also need to enroll in Medicare Part B to be eligible for CHAMPVA.</p>
 <br>
-          [Download a fact sheet on Medicare and CHAMPVA(https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf).       </div>
+          [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf).       </div>
     </li>
   </ul>
 </div>
