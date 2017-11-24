@@ -22,7 +22,7 @@ const defaultProps = {
   ]
 };
 
-describe.only('<Alerts/>', () => {
+describe('<Alerts/>', () => {
   it('renders', () => {
     const wrapper = shallow(<Alerts {...defaultProps}/>);
     expect(wrapper.type()).to.equal('ul');

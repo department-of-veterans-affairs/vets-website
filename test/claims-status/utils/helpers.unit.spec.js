@@ -486,7 +486,7 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe.only('getAlertContent', () => {
+  describe('getAlertContent', () => {
     it('returns an object with title, desc, type, and date', () => {
       const alert = {
         type: 'warning',
