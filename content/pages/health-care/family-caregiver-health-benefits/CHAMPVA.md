@@ -93,10 +93,7 @@ There are other factors that may affect whether you or other family members qual
           </ul>
         <p><b>If you’re 65 years old or older,</b> you’re eligible for CHAMPVA if you’re eligible for Medicare. If you turned 65 before June 5, 2001, and you’re entitled to either Medicare Part A or B, you’ll also need to enroll in Medicare Part B to be eligible for CHAMPVA.</p>
 <br>
-          [Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf).       </div>
-    </li>
-  </ul>
-</div>
+[Download a fact sheet on Medicare and CHAMPVA](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-12.pdf).       </div>
 
 <br>
 
@@ -137,7 +134,7 @@ You’ll need to apply for these benefits. To apply, submit:
 
 To speed up the processing of your application, you can also send copies (*not* originals) of:
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
-- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korea Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
+- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
   - Each child’s birth certificate or adoption papers
   -  School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
