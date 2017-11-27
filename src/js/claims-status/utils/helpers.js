@@ -283,18 +283,21 @@ export const mockData = {
         ],
         alerts: [
           {
-            type: 'warning',
+            type: 'waiting_on_action',
             date: '09-21-2017',
             details: {
-              type: 'waiting_on_action'
+              representative: 'Mr. Spock'
             }
           }, {
-            type: 'warning',
+            type: 'hearing_scheduled',
             date: '09-21-2017',
             details: {
-              type: 'hearing_scheduled',
               date: 'March 5th, 2018'
             }
+          }, {
+            type: 'bva_decision_pending',
+            date: '09-30-2020',
+            details: {}
           }
         ],
         events: [

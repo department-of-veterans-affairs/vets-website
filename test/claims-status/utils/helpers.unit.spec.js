@@ -489,10 +489,10 @@ describe('Disability benefits helpers: ', () => {
   describe('getAlertContent', () => {
     it('returns an object with title, desc, type, and date', () => {
       const alert = {
-        type: 'warning',
+        type: 'waiting_on_action',
         date: '09-21-2017',
         details: {
-          type: 'waiting_on_action'
+          representative: 'Mr. Spock'
         }
       };
 

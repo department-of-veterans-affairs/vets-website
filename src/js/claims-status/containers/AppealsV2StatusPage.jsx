@@ -52,7 +52,7 @@ AppealsV2StatusPage.defaultProps = {
       alerts: [],
       status: {
         type: '',
-        details: {},
+        details: {}
       }
     }
   }
