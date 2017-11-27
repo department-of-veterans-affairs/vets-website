@@ -908,4 +908,8 @@ h1:focus {
 
 .alerts-list {
   list-style: none;
+
+  li {
+    margin-left: -.4em;
+  }
 }
