@@ -62,24 +62,27 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionOne() {
+  renderQuestionThree() {
+    const key = '4_reason';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
     const options = [
-      { label: questionLabels['1_reason']['1'], value: '1' },
-      { label: questionLabels['1_reason']['2'], value: '2' },
-      { label: questionLabels['1_reason']['3'], value: '3' },
-      { label: questionLabels['1_reason']['4'], value: '4' },
-      { label: questionLabels['1_reason']['5'], value: '5' },
-      { label: questionLabels['1_reason']['6'], value: '6' },
-      { label: questionLabels['1_reason']['7'], value: '7' },
+      { label: questionLabels[key]['1'], value: '1' },
+      { label: questionLabels[key]['2'], value: '2' },
+      { label: questionLabels[key]['3'], value: '3' },
+      { label: questionLabels[key]['4'], value: '4' },
+      { label: questionLabels[key]['5'], value: '5' },
+      { label: questionLabels[key]['6'], value: '6' },
+      { label: questionLabels[key]['7'], value: '7' },
     ];
 
     const label = <h4>Which of the following best describes why you want to change your discharge paperwork?</h4>;
 
-    return this.renderQuestion('1_reason', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionOneA() {
-    const key = '2_dischargeType';
+  renderQuestionThreeA() {
+    const key = '5_dischargeType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Which of the following categories best describes you?</h4>;
@@ -90,8 +93,8 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionOneB() {
-    const key = '3_intention';
+  renderQuestionThreeB() {
+    const key = '6_intention';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Do you want to change any portion of your record other than discharge status, re-enlistment code, and narrative reason for discharge? (For example, your name or remarks.)</h4>;
@@ -99,11 +102,11 @@ class FormQuestions extends React.Component {
       { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
       { label: `No, ${questionLabels[key][2]}`, value: '2' },
     ];
-    return this.renderQuestion('3_intention', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionTwo() {
-    const key = '4_dischargeYear';
+    const key = '2_dischargeYear';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const dischargeYear = this.props.formValues[key];
@@ -123,6 +126,7 @@ class FormQuestions extends React.Component {
 
     return (
       <fieldset className="fieldset-input dischargeYear" key="dischargeYear" ref={(el) => { this[key] = el; }}>
+        <Element name={key}/>
         <ErrorableSelect
           autocomplete="false"
           label={label}
@@ -135,7 +139,7 @@ class FormQuestions extends React.Component {
   }
 
   renderQuestionTwoB() {
-    const key = '5_dischargeMonth';
+    const key = '3_dischargeMonth';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const monthLabel = (
@@ -145,7 +149,8 @@ class FormQuestions extends React.Component {
     );
 
     return (
-      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ef={(el) => { this[key] = el; }}>
+      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ref={(el) => { this[key] = el; }}>
+        <Element name={key}/>
         <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
@@ -157,8 +162,8 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionThree() {
-    const key = '6_courtMartial';
+  renderQuestionFour() {
+    const key = '7_courtMartial';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Was your discharge the outcome of a General Court Martial? (Answer “no” if your discharge was administrative, or was the outcome of a Special or a Summary Court Martial.)</h4>;
@@ -170,8 +175,8 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionFour() {
-    const key = '7_branchOfService';
+  renderQuestionOne() {
+    const key = '1_branchOfService';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>In which branch of service did you serve?</h4>;
@@ -268,11 +273,11 @@ class FormQuestions extends React.Component {
     return (
       <div>
         {this.renderQuestionOne()}
-        {this.renderQuestionOneA()}
-        {this.renderQuestionOneB()}
         {this.renderQuestionTwo()}
         {this.renderQuestionTwoB()}
         {this.renderQuestionThree()}
+        {this.renderQuestionThreeA()}
+        {this.renderQuestionThreeB()}
         {this.renderQuestionFour()}
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}

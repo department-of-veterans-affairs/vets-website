@@ -21,6 +21,18 @@ class Timeline extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // If we just expanded or unexpanded
+    if (prevState.expanded !== this.state.expanded) {
+      const x = (window.pageXOffset || document.documentElement.scrollLeft);
+      // I think this is too slow...should be happening after rendering, but it's like it's getting the previous button location
+      const topOfButton = document.querySelector('li button.va-button-link').getBoundingClientRect().top;
+      const y = (window.pageYOffset || document.documentElement.scrollTop);
+      // Put the expander button in the same position it was in before relative to the window
+      window.scrollTo(x, y + topOfButton - this.prevTopOfButton);
+    }
+  }
+
   getPastEvents = () => {
     return this.props.events.map((event, index) => {
       const { title, description, liClass } = getEventContent(event);
@@ -37,7 +49,10 @@ class Timeline extends React.Component {
 
   toggleExpanded = () => {
     this.setState((prevState) => ({ expanded: !prevState.expanded }));
+    this.prevTopOfButton = document.querySelector('li button.va-button-link').getBoundingClientRect().top;
   }
+
+  prevTopOfButton = 0
 
   render() {
     const eventList = this.state.expanded ? this.getPastEvents() : [];
