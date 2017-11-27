@@ -25,7 +25,10 @@ class MegaMenu {
     const backs = Array.from(this.menu.querySelectorAll('.vetnav-back'));
 
     menus.forEach((menu) => {
-      menu.addEventListener('click', this.toggleMenu);
+      // If it has an associated menu, add the event listener
+      if (menu.getAttribute('aria-controls')) {
+        menu.addEventListener('click', this.toggleMenu);
+      }
     });
 
     submenus.forEach((submenu) => {
@@ -90,7 +93,6 @@ class MegaMenu {
 
   toggleMenu(event) {
     const eTarget = event.target;
-    const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
 
     if (eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
@@ -103,6 +105,7 @@ class MegaMenu {
       Open the first sub-menu and expand first trigger
       when the breakpoint > 768
       */
+      const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
       if (this.isWideScreen() && whichMenu.querySelector('.vetnav-panel--submenu')) {
         whichMenu.querySelector('.vetnav-trigger').setAttribute('aria-expanded', true);
         whichMenu.querySelector('.vetnav-panel--submenu').removeAttribute('hidden');
