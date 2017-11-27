@@ -112,15 +112,15 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/application/TBD">Apply for Pre-Need Determination of Eligibility</a>
+<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/application/TBD">Apply for a Pre-Need Eligibility Determination</a>
 
 ### Other ways to apply
 
 **By mail**
 
-Apply by mailing using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+Apply by mail using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-Print the form, fill it out, and send it to us along with copies of your supporting documents to:
+Print the form, fill it out, and send it and copies of your supporting documents to: 
 
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
@@ -129,8 +129,6 @@ Print the form, fill it out, and send it to us along with copies of your support
 </p>
 
 **Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
-
-<br>
 
 **By fax** 
 
