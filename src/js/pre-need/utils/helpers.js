@@ -125,7 +125,7 @@ export function transform(formConfig, form) {
       },
       applicant: {
         applicantEmail: application.claimant.email,
-        applicantPhoneNumber: application.claimant.phoneNumber,
+        applicantPhoneNumber: application.claimant.phoneNumber
       }
     });
   };
