@@ -9,7 +9,7 @@ order: 1
 
 <div class="va-introtext">
 
-Are you the current or surviving spouse or child of a Veteran with disabilities? If you don’t qualify for TRICARE (the Department of Defense’s health care program for active-duty and retired Servicemembers and their families), you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share the cost of some of your health care services and supplies. Find out if you qualify for CHAMPVA and how to apply. 
+Are you the current or surviving spouse or child of a Veteran with disabilities? If you don’t qualify for TRICARE (the Department of Defense’s health care program for active-duty and retired Servicemembers and their families), you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we share—or cover—the cost of some of your health care services and supplies. Find out if you qualify for CHAMPVA and how to apply.
 
 </div>
 
@@ -32,7 +32,7 @@ A service-connected disability is a disability that we’ve concluded was caused
 
 ### What else might affect whether I can get CHAMPVA benefits for myself or a family member?
 
-There are other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more: 
+There are other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more:
 
 <div class="usa-accordion">
   <ul class="usa-unstyled-list">
@@ -78,7 +78,8 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="caregiver">A primary family caregiver of a Veteran with injuries and/or disabilities </button>
       <div id="caregiver" class="usa-accordion-content">
-        <p>If you’re a family member caring for a Veteran with disabilities who was injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
+        <p>If you’re a family member caring for a Veteran with disabilities, and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA. [Download a fact sheet on CHAMPVA for primary caregivers](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_11-01.pdf).</p>
+        <p>If the Veteran you're caring for was seriously injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
         <p><a href='/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
     </li>
