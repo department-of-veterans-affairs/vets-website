@@ -92,6 +92,23 @@ class Main extends React.Component {
     );
   }
 
+  renderVicDownBanner() {
+    const content = (
+      <div>
+        <h4 className="usa-alert-heading">Sorry, our service isn't working right now.</h4>
+        <div>
+          <p>Please try again later or contact us with any questions.</p>
+        </div>
+      </div>
+    );
+    return (
+      <AlertBox
+        content={content}
+        isVisible
+        status="error"/>
+    );
+  }
+
   render() {
     let message;
 
@@ -102,6 +119,7 @@ class Main extends React.Component {
     const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 vet-id-card">
+          {this.renderVicDownBanner()}
           <h1>Printed Veteran ID Card</h1>
           <p>You can use your printed Veteran ID Card (VIC) instead of your DD214 to get discounts on goods and services offered to Veterans. You can also use other identification cards for this purpose. Find out if you need a VIC or if you already have what you need.</p>
           <h3>Should I request a printed Veteran ID card?</h3>
