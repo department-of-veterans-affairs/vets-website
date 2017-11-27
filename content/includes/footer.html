@@ -100,7 +100,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 <script async src="/js/user-voice.js"></script>
 
 <!-- htmllint attr-bans="[]" -->
-{% if builh4ype === 'development' %}
+{% if buildtype === 'development' %}
   <script>
     window.dataLayer = [];
   </script>
@@ -109,10 +109,10 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   <script>
     // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ environment: '{{ builh4ype }}' });
+    window.dataLayer.push({ environment: '{{ buildtype }}' });
     // We want to know if we are being iframed
     if ( self !== top ) {
-      window.dataLayer.push({ event: 'iframed', embeliedIn: document.referrer});
+      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
     }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
