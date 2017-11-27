@@ -310,6 +310,7 @@ export function getAlertContent(alert) {
       return {
         title: '',
         description: '',
+        cssClass: '',
         type,
         date
       };
