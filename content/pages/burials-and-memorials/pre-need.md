@@ -100,14 +100,6 @@ To apply, you’ll need your (or your sponsor's):
 
 </div>
 
-### What if I need help filling out my application forms?
-
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
-
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
-
-[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
-
 <div markdown="0"><br></div>
 
 ### Ready to apply?
@@ -133,6 +125,16 @@ Print the form, fill it out, and send it and copies of your supporting documents
 **By fax** 
 
 You can also fax your application to us at 1-855-840-8299.
+
+<br>
+
+### What if I need help filling out my application?
+
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+
+[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <br>
 
