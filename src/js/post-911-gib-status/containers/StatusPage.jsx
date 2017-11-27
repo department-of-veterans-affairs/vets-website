@@ -7,13 +7,8 @@ import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
-  constructor() {
-    super();
-    this.navigateToPrint = this.navigateToPrint.bind(this);
-  }
-
-  navigateToPrint() {
-    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  navigateToPrint = () => {
+    this.props.router.push('/print');
   }
 
   render() {
