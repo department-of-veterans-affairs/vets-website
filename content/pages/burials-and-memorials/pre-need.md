@@ -96,8 +96,6 @@ To apply, you’ll need your (or your sponsor's):
 - **If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
 - **If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
 
-<br>
-
 </div>
 
 <div markdown="0"><br></div>
