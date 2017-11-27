@@ -132,7 +132,9 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 <br>
 
-#### By fax to 1-855-840-8299.
+**By fax** 
+
+You can also fax your application to us at 1-855-840-8299.
 
 <br>
 
