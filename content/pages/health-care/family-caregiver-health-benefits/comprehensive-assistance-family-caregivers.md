@@ -31,19 +31,18 @@ Answer a few questions to find out if you meet the criteria for this program. [F
 Your Veteran can appoint 1 primary (main) caregiver and up to 2 secondary caregivers (people who serve as backup support to the primary caregiver when needed). Your benefits will depend on whether you’re the primary caregiver or a secondary caregiver.
 
 If you’re the primary caregiver, you may receive:
-- Caregiver education and training, including the required Caregiver Core Curriculum
-- A monthly stipend (payment) based on the Veteran's level of care
-- Travel, lodging, and subsistence (financial assistance) to attend required Caregiver Core Curriculum training and to travel as a medical attendant to the Veteran's health care appointments as needed
-- Access to health care insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)—if you don't already qualify for care or services under another health care plan. [Learn more about CHAMPVA](/health-care/family-caregiver-health-benefits/CHAMPVA/).
-- Mental health services and counseling to meet your unique needs. These services don’t include inpatient care or medicine.
+- Caregiver education and training
+- A monthly stipend (payment) 
+- Travel, lodging, and financial assistance when traveling with the Veteran to receive care
+- Access to health care benefits through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)—if you don't already qualify for care or services under another health care plan. [Learn more about CHAMPVA](/health-care/family-caregiver-health-benefits/CHAMPVA/).
+- Mental health services and counseling
 - Up to 30 days per year of respite care
-- Monitoring to ensure the Veteran's well-being and quality of care
 
 ### How do I get these benefits?
 
 You’ll need to apply for these benefits. To apply, fill out an Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG). You’ll need identification and health coverage information for both you and your Veteran—and you’ll both need to sign and date the form.
 
-[Download VA Form 10-10CG](/)
+[Download VA Form 10-10CG](https://www.vets.gov/health-care/forms/vha-10-10CG.pdf)
 
 Mail the form and any supporting documents to:
 
