@@ -1,5 +1,6 @@
 // The distance from the top of the sceen that the mobile navigation menu should appear
-$height-offset: 153.16px;
+$height-offset-small: 131.16px;
+$height-offset-xsmall: 153.16px;
 
 body.va-pos-fixed {
   width: 100%;
@@ -8,7 +9,7 @@ body.va-pos-fixed {
 
 #vetnav {
   background-color: $color-primary-darkest;
-  height: calc(100% - #{$height-offset});
+  height: calc(100% - #{$height-offset-xsmall});
 
   // This value should be equal to the default y-position of the menu so that removing it
   // shouldn't affect anything. However, it's here to show how the height is offset by the
@@ -31,6 +32,10 @@ body.va-pos-fixed {
         overflow: visible;
       }
     }
+  }
+
+  @include media($small-screen){
+    height: calc(100% - #{$height-offset-small});
   }
 
   @include media($medium-large-screen) {
