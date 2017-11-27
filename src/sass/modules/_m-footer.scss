@@ -39,6 +39,11 @@
 }
 
 [class^=va-footer-linkgroup] {
+  padding-left: 0;
+  li {
+    list-style: none;
+  }
+
   a {
     background: none;
     color: $color-white;
