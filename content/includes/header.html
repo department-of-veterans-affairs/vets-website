@@ -12,13 +12,25 @@
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta content="Vets.gov" property="og:site_name">
+
+<!--twitter cards-->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="adhocteam">
+<meta name="twitter:creator" content="adhocteam">
+
+<!-- description below-->
+<meta name="twitter:image:src" content="https://adhocteam.us/assets/img/design/twitter-card.png">
+<!-- end twitter cards -->
+
 {% if lastupdate %}
 <meta name="DC.Date" content="{{lastupdate| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
 {% endif %}
 {% if title %}
 <meta content="{{ title }}" property="og:title">
+<meta content="{{ title }}" name="twitter:title" >
 {% else %}
 <meta content="https://www.vets.gov" property="og:title">
+<meta content="https://www.vets.gov" name="twitter:title">
 {% endif %}
 <meta content="website" property="og:type">
 {% if path %}
@@ -26,6 +38,7 @@
 {% endif %}
 {% if description %}
 <meta content="{{ description }}" property="og:description">
+<meta content="{{ description }}" name="twitter:description" >
 <meta content="{{ description }}" name="description">
 {% endif %}
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
