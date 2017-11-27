@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
+
 import AlertBox from '../../common/components/AlertBox';
+import { mhvAccessError } from '../../common/utils/error-messages';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
@@ -12,17 +14,14 @@ class ErrorView extends React.Component {
         return includes(codes, error.code);
       };
     };
+
+    let content;
     let title;
     let detail;
     let alert;
 
-    if (some(errors, errorCodeIncludes(errorCodes.acceptTerms))) {
-      title = 'Accept terms and conditions';
-      detail = (
-        <p>
-          To refill prescriptions, you need to accept the MyHealtheVet terms and conditions first. If you want to use Secure Messaging, please accept the Secure Messaging terms and conditions too. <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">Review terms and conditions</a>
-        </p>
-      );
+    if (some(errors, errorCodeIncludes(errorCodes.access))) {
+      content = mhvAccessError;
     } else if (some(errors, errorCodeIncludes(errorCodes.registration))) {
       alert = true;
       title = 'We’re not able to locate your records';
@@ -49,8 +48,7 @@ class ErrorView extends React.Component {
       );
     }
 
-
-    const content = (
+    content = content || (
       <div>
         <h4>{title}</h4>
         <div>
@@ -78,7 +76,7 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.acceptTerms,
+      errorCodes.access,
       errorCodes.registration,
       errorCodes.prescriptions,
       errorCodes.accountcreation,
