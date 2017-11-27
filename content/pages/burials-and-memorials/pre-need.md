@@ -112,15 +112,19 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ### Ready to apply?
 
-Fill out the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/application/TBD">Apply for Pre-Need Determination of Eligibility</a>
 
-Print the form, fill it out, and send it to us along with copies of your supporting documents in 1 of 2 ways:
+### Other ways to apply
 
-#### By mail to:
+**By mail**
+
+Apply by mailing using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+
+Print the form, fill it out, and send it to us along with copies of your supporting documents to:
 
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
-	    P.O. Box 510543<br>
+	    PO Box 510543<br>
 	    St. Louis, MO 63151<br>
 </p>
 
