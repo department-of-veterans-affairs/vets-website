@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import FormTitle from '../../common/schemaform/FormTitle';
@@ -66,4 +65,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(StatusPage));
+export default connect(mapStateToProps)(StatusPage);
