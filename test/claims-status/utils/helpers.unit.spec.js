@@ -19,6 +19,7 @@ import {
 } from '../../../src/js/claims-status/utils/helpers';
 
 import {
+  getAlertContent,
   getStatusContents,
   getNextEvents,
   STATUS_TYPES
@@ -482,6 +483,24 @@ describe('Disability benefits helpers: ', () => {
       // each of the 2 'nod' nextEvents has 4 properties
       expect(Object.keys(firstEvent).length).to.equal(4);
       expect(Object.keys(secondEvent).length).to.equal(4);
+    });
+  });
+
+  describe('getAlertContent', () => {
+    it('returns an object with title, desc, type, and date', () => {
+      const alert = {
+        type: 'warning',
+        date: '09-21-2017',
+        details: {
+          type: 'waiting_on_action'
+        }
+      };
+
+      const alertContent = getAlertContent(alert);
+      expect(alertContent.title).to.exist;
+      expect(alertContent.description).to.exist;
+      expect(alertContent.type).to.exist;
+      expect(alertContent.date).to.exist;
     });
   });
 });
