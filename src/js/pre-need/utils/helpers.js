@@ -111,8 +111,6 @@ export function transform(formConfig, form) {
     return !isAuthorizedAgent({ application }) ?
       merge(application, {
         applicant: {
-          applicantEmail: application.claimant.email,
-          applicantPhoneNumber: application.claimant.phoneNumber,
           mailingAddress: application.claimant.address,
           name: application.claimant.name
         }
@@ -124,6 +122,10 @@ export function transform(formConfig, form) {
     return merge(application, {
       veteran: {
         serviceName: application.veteran.serviceName || application.veteran.currentName
+      },
+      applicant: {
+        applicantEmail: application.claimant.email,
+        applicantPhoneNumber: application.claimant.phoneNumber
       }
     });
   };
