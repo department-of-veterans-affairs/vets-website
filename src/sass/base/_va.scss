@@ -215,10 +215,15 @@ table {
   clear: both;
   margin: 0;
   padding: 0;
+
+  // Without this value the navbar will look the same in the end but this keeps the navbar's height from expanding/blinking
+  // right as the navbar elements are rendered on screen during page load.
+  // This is the height on mobile fyi.
   min-height: 167.19px;
 
   @include media($medium-screen) {
     position: relative;
+    // Same reason as the comment above, only the value has been adjusted to be the height of the navbar for tablet/desktop.
     min-height: 159px;
   }
 
