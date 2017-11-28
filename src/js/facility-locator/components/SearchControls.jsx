@@ -30,6 +30,7 @@ class SearchControls extends Component {
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
     this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
     this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
+    this.handleServiceFilterSelect = this.handleServiceFilterSelect.bind(this);
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
@@ -144,7 +145,9 @@ class SearchControls extends Component {
     e.preventDefault();
     // to account for mouse events
     if (shouldNotToggle) {
-      return;
+      this.setState({
+        facilityDropdownFocused: true
+      });
     }
     if (!this.state.facilityDropdownActive) {
       const selection = getFacility(this.facilities, this.props.currentQuery);
@@ -152,7 +155,8 @@ class SearchControls extends Component {
     }
     this.setState({
       facilityDropdownActive: !this.state.facilityDropdownActive,
-      serviceDropdownActive: false,
+      facilityDropdownFocused: true,
+      serviceDropdownActive: false
     });
   }
 
@@ -164,7 +168,9 @@ class SearchControls extends Component {
     const { currentQuery: { facilityType } } = this.props;
     const shouldNotToggle = e.keyCode && !shouldToggle(e.keyCode, this.state.serviceDropdownActive);
     if (shouldNotToggle) {
-      return;
+      this.setState({
+        servicesDropdownFocused: true
+      });
     }
     if (!this.state.serviceDropdownActive) {
       const selection = getService(this.services, this.props.currentQuery);
@@ -174,6 +180,7 @@ class SearchControls extends Component {
       this.setState({
         serviceDropdownActive: !this.state.serviceDropdownActive,
         facilityDropdownActive: false,
+        servicesDropdownFocused: true,
       });
     }
   }
@@ -198,6 +205,12 @@ class SearchControls extends Component {
     e.preventDefault();
     const { facilityDropdownActive, serviceDropdownActive } = this.state;
     const formsToReset = resetMenus(facilityDropdownActive, serviceDropdownActive);
+    this.setState({
+      facilityDropdownActive: false,
+      serviceDropdownActive: false,
+      facilityDropdownFocused: false,
+      serviceDropdownFocused: false,
+    });
     if (formsToReset && formsToReset.includes('facility')) {
       this.toggleFacilityDropdown(e);
     }
@@ -260,7 +273,7 @@ class SearchControls extends Component {
 
     return (
       <div className="flex-center">
-        <button id="serviceDropdown" type="button" className="facility-option">
+        <button id="serviceDropdown" tabIndex="-1" type="button" className="facility-option">
           <span className="flex-center">
             <span className="legend spacer"></span>
             {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? 38 : 27) })}
@@ -293,7 +306,7 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form>
+        <form role="presentation" onKeyUp={resetMenus}>
           <div className="columns usa-width-one-third medium-4" >
             <label htmlFor="streetCityStateZip">Enter Street, City, State or Zip</label>
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>

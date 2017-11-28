@@ -11,6 +11,7 @@ export function getFacility(options, currentQuery) {
   let selection = options[0];
   if (currentQuery.facilityType) {
     const { facilityType } = currentQuery;
+    // console.log('options', options);
     selection = options.filter(elem => elem.id && elem.id === facilityType);
   }
   return selection;
@@ -20,6 +21,7 @@ export function getService(options, currentQuery) {
   let selection = options[0];
   if (currentQuery.serviceType) {
     const { serviceType } = currentQuery;
+    // console.log('options', options);
     selection = options.filter(elem => elem.id && elem.id === serviceType);
   }
   return selection;
@@ -40,7 +42,7 @@ export function isEscape(code) {
 }
 
 export function isToggle(code) {
-  return code === keyMap.ENTER;
+  return code === keyMap.ENTER || code === keyMap.SPACE;
 }
 
 export function resetMenus(facilityMenuOpen, serviceMenuOpen) {
