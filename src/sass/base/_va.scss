@@ -219,7 +219,12 @@ table {
   // Without this value the navbar will look the same in the end but this keeps the navbar's height from expanding/blinking
   // right as the navbar elements are rendered on screen during page load.
   // This is the height on mobile fyi.
-  min-height: 167.19px;
+  min-height: 189.19px;
+
+  // This sets the height of the header on large mobile devices between 480 and 768.
+  @include media($small-screen) {
+    min-height: 167.19px
+  }
 
   @include media($medium-screen) {
     position: relative;
