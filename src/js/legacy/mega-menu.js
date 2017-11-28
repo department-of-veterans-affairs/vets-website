@@ -39,15 +39,16 @@ class MegaMenu {
     this.openControl.addEventListener('click', this.showMenu);
     this.closeControl.addEventListener('click', this.hideMenu);
     this.menu.addEventListener('click', (event) => event.stopPropagation());
-    
+
     document.addEventListener('click', this.handleDocumentClick);
     window.addEventListener('resize', this.resetMenu);
   }
 
   handleDocumentClick(event) {
     const target = event.target;
-    if (!target.classList.contains('vetnav-level1')) {
+    if (!this.menu.contains(target)){
       this.closeAll();
+      this.resetMenu();
     }
   }
 
@@ -67,7 +68,7 @@ class MegaMenu {
     event.stopPropagation();
     target.setAttribute('aria-expanded', false);
     dropdown.setAttribute('hidden', 'hidden');
-    
+
     this.menu.classList.remove('vetnav--submenu-expanded');
   }
 
@@ -130,7 +131,7 @@ class MegaMenu {
 
     showCurrent.removeAttribute('hidden');
     event.target.setAttribute('aria-expanded', true);
-    
+
     this.menu.classList.add('vetnav--submenu-expanded');
   }
 
@@ -144,7 +145,13 @@ class MegaMenu {
     document.body.classList.remove('va-pos-fixed');
   }
 
-  showMenu() {
+  showMenu(event) {
+    // If this function is programatically called like in resetMenu, there won't be an event.
+    // But we need to call it otherwise, because we need to prevent the document click event from
+    // firing and automatically closing the menu.
+    if (event) {
+      event.stopPropagation();
+    }
     document.body.classList.add('va-pos-fixed');
     this.openControl.setAttribute('hidden','hidden');
     this.menu.removeAttribute('hidden');
