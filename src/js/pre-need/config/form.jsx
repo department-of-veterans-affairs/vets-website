@@ -642,6 +642,7 @@ const formConfig = {
                 properties: {
                   claimant: {
                     type: 'object',
+                    required: ['email', 'phoneNumber'],
                     properties: {
                       address: address.schema(fullSchemaPreNeed, true),
                       'view:contactInfoDescription': {

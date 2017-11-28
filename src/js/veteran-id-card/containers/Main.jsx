@@ -50,7 +50,7 @@ class Main extends React.Component {
     }
     return (
       <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
-        Request your Veteran ID card<span className="exit-icon">&nbsp;</span>
+        Request a Veteran ID card<span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
@@ -114,7 +114,8 @@ Check with your state to see if they issue a Veteran ID Card.</li>
           </ul>
           <p>You can use any of these cards to get the same discounts. If you already have one of them, you don’t need a VIC, but you can still apply for it if you’d like.</p>
           <p>If you don’t have one of these cards, you should request a Veteran ID Card.</p>
-          <h3>Ready to request or want to check the status of your application?</h3>
+          <h3>Ready to request a Veteran ID Card?</h3>
+          <p>You can request your card online now—or check the status of your request. Note: To continue, you'll need a government-issued ID (like your driver's license) and a photo of yourself from the shoulders up. Make sure you have what you need for this next step.</p>
           <div>
             {this.renderButton()}
             <div>{message}</div>

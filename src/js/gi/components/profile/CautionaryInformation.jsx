@@ -39,9 +39,18 @@ export class CautionaryInformation extends React.Component {
     const it = this.props.institution;
     if (!it.complaints) { return null; }
 
+    // If Ashford, show specific link.
+    const schoolSpecificLink =
+      (it.facilityCode === '21007103' || it.website === 'http://www.ashford.edu') && (
+        <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA" target="_blank">More information on Ashford University</a>
+      );
+
     const flagContent = (
       <div>
-        {it.cautionFlagReason}
+        <p>
+          {it.cautionFlagReason} {schoolSpecificLink}
+        </p>
+        <br/>
         <p>
           <a onClick={this.props.onShowModal.bind(this, 'cautionInfo')}>
             Learn more about these warnings

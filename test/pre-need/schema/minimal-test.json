@@ -21,7 +21,9 @@
         },
         "ssn": "234-24-4444",
         "dateOfBirth": "1990-03-02",
-        "relationshipToVet": "1"
+        "relationshipToVet": "1",
+        "email": "test@test.com",
+        "phoneNumber": "5555555555"
       },
       "hasCurrentlyBuried": "2",
       "veteran": {
