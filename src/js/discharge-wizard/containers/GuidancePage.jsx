@@ -112,7 +112,7 @@ class GuidancePage extends React.Component {
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
-              <h4>Need help?</h4>
+              <h4 className="usa-alert-heading">Need help?</h4>
               <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a <a href="https://www.va.gov/vso/">VSO</a>, search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations.</p>
             </div>}
             isVisible
@@ -287,6 +287,22 @@ class GuidancePage extends React.Component {
     );
   }
 
+  renderDischargeWarning() {
+    const boardToSubmit = board(this.props.formValues);
+    const prevAppType = this.props.formValues['10_prevApplicationType'];
+
+    const alertContent = (
+      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results here are for Veterans who have discharges that are administrative, or the result of a Special or Summary Court Martial. If your discharge was the outcome of a General Court Martial, you may need to send your application to a different board. You can find out which board by editing your answers on the previous page.</p>
+    );
+
+    return (
+      <AlertBox
+        content={alertContent}
+        isVisible={(boardToSubmit.abbr === 'DRB') && prevAppType === '3'}
+        status="warning"/>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -302,6 +318,7 @@ class GuidancePage extends React.Component {
             content={venueWarning}
             isVisible={this.props.formValues['10_prevApplicationType'] === '4'}
             status="warning"/>
+          {this.renderDischargeWarning()}
           {this.renderOptionalStep()}
           <ul className="vertical-list-group more-bottom-cushion numbered">
             {this.renderStepOne()}
