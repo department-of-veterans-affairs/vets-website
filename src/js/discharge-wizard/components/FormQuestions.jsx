@@ -201,7 +201,7 @@ class FormQuestions extends React.Component {
       { label: 'No', value: '2' },
     ];
 
-    return this.renderQuestion('8_prevApplication', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionFiveA() {
@@ -217,7 +217,7 @@ class FormQuestions extends React.Component {
       { label: `After ${labelYear}`, value: '2' },
     ];
 
-    return this.renderQuestion('9_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions);
+    return this.renderQuestion(key, prevApplicationYearLabel, prevApplicationYearOptions);
   }
 
   renderQuestionFiveB() {
@@ -233,7 +233,25 @@ class FormQuestions extends React.Component {
       { label: 'Not sure', value: '4' },
     ];
 
-    return this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions);
+    return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
+  }
+
+  renderQuestionSix() {
+    const key = '11_priorService';
+    const transgender = this.props.formValues['4_reason'] === '5';
+    const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
+
+    if (transgender || honorableDischarge || !shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
+    const questionLabel = <h4>Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?</h4>;
+
+    const questionOptions = [
+      { label: 'Yes, I have discharge paperwork documenting a discharge under honorable or general under honorable conditions.', value: '1' },
+      { label: 'Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period.', value: '2' },
+      { label: 'No, I did not complete an earlier period of service.', value: '3' },
+    ];
+
+    return this.renderQuestion(key, questionLabel, questionOptions);
   }
 
   renderAnswerReview() {
@@ -282,6 +300,7 @@ class FormQuestions extends React.Component {
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}
         {this.renderQuestionFiveB()}
+        {this.renderQuestionSix()}
         {this.renderAnswerReview()}
       </div>
     );
