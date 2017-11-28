@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getAlertContent } from '../../utils/appeals-v2-helpers';
 
-const Alert = ({ alert, key }) => {
+const Alert = ({ alert }) => {
   const { title, description, cssClass } = getAlertContent(alert);
   return (
-    <li key={key}>
+    <li>
       <div className={`usa-alert ${cssClass}`}>
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">{title}</h3>
@@ -17,11 +17,9 @@ const Alert = ({ alert, key }) => {
 };
 
 Alert.propTypes = {
-  key: PropTypes.string.isRequired,
   alert: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    date: PropTypes.string,
-    details: PropTypes.string
+    details: PropTypes.object
   })
 };
 

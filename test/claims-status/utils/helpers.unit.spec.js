@@ -489,18 +489,17 @@ describe('Disability benefits helpers: ', () => {
   describe('getAlertContent', () => {
     it('returns an object with title, desc, type, and date', () => {
       const alert = {
-        type: 'warning',
-        date: '09-21-2017',
+        type: 'waiting_on_action',
         details: {
-          type: 'waiting_on_action'
+          representative: 'Mr. Spock'
         }
       };
 
       const alertContent = getAlertContent(alert);
       expect(alertContent.title).to.exist;
       expect(alertContent.description).to.exist;
+      expect(alertContent.cssClass).to.exist;
       expect(alertContent.type).to.exist;
-      expect(alertContent.date).to.exist;
     });
   });
 });

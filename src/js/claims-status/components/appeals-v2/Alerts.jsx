@@ -22,8 +22,7 @@ const Alerts = (props) => {
 Alerts.propTypes = {
   alerts: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
-    date: PropTypes.string,
-    details: PropTypes.string
+    details: PropTypes.object
   }))
 };
 

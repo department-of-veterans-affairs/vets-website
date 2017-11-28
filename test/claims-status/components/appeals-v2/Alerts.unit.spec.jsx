@@ -6,16 +6,13 @@ import Alerts from '../../../../src/js/claims-status/components/appeals-v2/Alert
 const defaultProps = {
   alerts: [
     {
-      type: 'warning',
-      date: '09-21-2017',
+      type: 'waiting_on_action',
       details: {
-        type: 'waiting_on_action'
+        representative: 'Mr. Spock'
       }
     }, {
-      type: 'warning',
-      date: '09-21-2017',
+      type: 'hearing_scheduled',
       details: {
-        type: 'hearing_scheduled',
         date: 'March 5th, 2018'
       }
     }

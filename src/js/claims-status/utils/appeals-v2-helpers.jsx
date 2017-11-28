@@ -6,12 +6,7 @@ export const STATUS_TYPES = {
   bvaDecision: 'bva_decision',
 };
 
-export const ALERT_STYLE_TYPES = {
-  warning: 'warning',
-  information: 'information'
-};
-
-export const ALERT_CONTENT_TYPES = {
+export const ALERT_TYPES = {
   waitingOnAction: 'waiting_on_action',
   hearingScheduled: 'hearing_scheduled',
   bvaDecisionPending: 'bva_decision_pending'
@@ -264,9 +259,9 @@ export function getNextEvents(currentStatus) {
  * @returns {object} containing dynamically-generated title & description properties
  */
 export function getAlertContent(alert) {
-  const { type, date, details } = alert;
-  switch (details.type) {
-    case ALERT_CONTENT_TYPES.waitingOnAction:
+  const { type, details } = alert;
+  switch (type) {
+    case ALERT_TYPES.waitingOnAction:
       return {
         title: 'Your appeal is waiting on action by your representative',
         description: `Your appeal is near the front of the line, but it is not
@@ -275,18 +270,16 @@ export function getAlertContent(alert) {
           informal hearing presentation (IHP). Please contact your
           representative for more information.`,
         cssClass: 'usa-alert-warning',
-        type,
-        date
+        type
       };
-    case ALERT_CONTENT_TYPES.hearingScheduled:
+    case ALERT_TYPES.hearingScheduled:
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
         description: '',
         cssClass: 'usa-alert-info',
         type,
-        date
       };
-    case ALERT_CONTENT_TYPES.bvaDecisionPending:
+    case ALERT_TYPES.bvaDecisionPending:
       return {
         title: 'You will soon receive your Board decision',
         description: (
@@ -304,7 +297,6 @@ export function getAlertContent(alert) {
         ),
         cssClass: 'usa-alert-info',
         type,
-        date
       };
     default:
       return {
@@ -312,7 +304,6 @@ export function getAlertContent(alert) {
         description: '',
         cssClass: '',
         type,
-        date
       };
   }
 }
