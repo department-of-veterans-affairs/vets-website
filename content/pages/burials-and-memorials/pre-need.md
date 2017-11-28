@@ -102,7 +102,7 @@ To apply, you’ll need your (or your sponsor's):
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/application/TBD">Apply for a Pre-need Eligibility Determination</a>
+<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/TBD/application/">Apply for a Pre-need Eligibility Determination</a>
 
 ### Other ways to apply
 
