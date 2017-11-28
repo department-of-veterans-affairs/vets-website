@@ -10,6 +10,7 @@ export const shouldShowQuestion = (currentKey, validQuestions) => {
   const isValid = validQuestions.indexOf(currentKey) > -1;
   const isNotFutureQuestion = parseInt(num, 10) <= parseInt(nextNum, 10);
   const formIsComplete = lastQuestion === 'END';
+
   return isValid && (isNotFutureQuestion || formIsComplete);
 };
 
