@@ -19,7 +19,6 @@ const Alert = ({ alert }) => {
 Alert.propTypes = {
   alert: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    date: PropTypes.string,
     details: PropTypes.object
   })
 };

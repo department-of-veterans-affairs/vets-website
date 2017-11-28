@@ -259,7 +259,7 @@ export function getNextEvents(currentStatus) {
  * @returns {object} containing dynamically-generated title & description properties
  */
 export function getAlertContent(alert) {
-  const { type, date, details } = alert;
+  const { type, details } = alert;
   switch (type) {
     case ALERT_TYPES.waitingOnAction:
       return {
@@ -270,8 +270,7 @@ export function getAlertContent(alert) {
           informal hearing presentation (IHP). Please contact your
           representative for more information.`,
         cssClass: 'usa-alert-warning',
-        type,
-        date
+        type
       };
     case ALERT_TYPES.hearingScheduled:
       return {
@@ -279,7 +278,6 @@ export function getAlertContent(alert) {
         description: '',
         cssClass: 'usa-alert-info',
         type,
-        date
       };
     case ALERT_TYPES.bvaDecisionPending:
       return {
@@ -299,7 +297,6 @@ export function getAlertContent(alert) {
         ),
         cssClass: 'usa-alert-info',
         type,
-        date
       };
     default:
       return {
@@ -307,7 +304,6 @@ export function getAlertContent(alert) {
         description: '',
         cssClass: '',
         type,
-        date
       };
   }
 }

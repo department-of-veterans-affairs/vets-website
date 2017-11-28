@@ -7,13 +7,11 @@ const defaultProps = {
   alerts: [
     {
       type: 'waiting_on_action',
-      date: '09-21-2017',
       details: {
         representative: 'Mr. Spock'
       }
     }, {
       type: 'hearing_scheduled',
-      date: '09-21-2017',
       details: {
         date: 'March 5th, 2018'
       }
