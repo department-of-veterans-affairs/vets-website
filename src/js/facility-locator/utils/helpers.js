@@ -2,31 +2,32 @@ export const keyMap = {
   TAB: 9,
   ENTER: 13,
   ESCAPE: 27,
+  SPACE: 32,
   UP: 38,
   DOWN: 40
 };
 
-export function getFacilityIndex(options, currentQuery) {
-  let index = 0;
+export function getFacility(options, currentQuery) {
+  let selection = options[0];
   if (currentQuery.facilityType) {
     const { facilityType } = currentQuery;
-    index = options.indexOf(facilityType);
+    selection = options.filter(elem => elem.id && elem.id === facilityType);
   }
-  return index;
+  return selection;
 }
 
-export function getServiceIndex(options, currentQuery) {
-  let index = 0;
+export function getService(options, currentQuery) {
+  let selection = options[0];
   if (currentQuery.serviceType) {
     const { serviceType } = currentQuery;
-    index = options.indexOf(serviceType);
+    selection = options.filter(elem => elem.id && elem.id === serviceType);
   }
-  return index;
+  return selection;
 }
 
 export function getDirection(code) {
-  if (code === keyMap.UP) return 1;
-  if (code === keyMap.DOWN) return -1;
+  if (code === keyMap.UP) return -1;
+  if (code === keyMap.DOWN) return 1;
   return false;
 }
 
