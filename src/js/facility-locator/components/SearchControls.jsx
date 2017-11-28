@@ -88,7 +88,7 @@ class SearchControls extends Component {
       option.focus();
     }
     if (this.services[index]) {
-      this.setstate({
+      this.setState({
         focusedServiceIndex: index
       });
     }
@@ -126,9 +126,11 @@ class SearchControls extends Component {
     }
     if (isTraverse(e.keyCode)) {
       // console.log('traversing', e.target);
-      const newIndex = +this.state.focusedServiceIndex - getDirection(e.keyCode);
+      const increment = getDirection(e.keyCode);
+      // console.log('increment', increment);
+      const newIndex = +this.state.focusedServiceIndex + increment;
+      // console.log(this.state.focusedFacilityIndex);
       // console.log('newIndex', newIndex);
-      // console.log(this.state.focusedServiceIndex);
       return this.focusServiceOption(this.services[newIndex], newIndex);
     }
     return false;
@@ -224,7 +226,7 @@ class SearchControls extends Component {
         {
           services.map((k, i) => {
             return (<li className={`${this.state.focusedServiceIndex === i ? 'is-hovered' : ''}`} key={k} value={k}>
-              <button ref={ elem => { this.services[i] = elem; }} onKeyUp={this.navigateServiceDropdown} id={k} type="button" className="facility-option" onClick={this.handleServiceFilterSelect.bind(this, k)}>
+              <button tabIndex="-1" ref={ elem => { this.services[i] = elem; }} onKeyUp={this.navigateServiceDropdown} id={k} type="button" className="facility-option" onClick={this.handleServiceFilterSelect.bind(this, k)}>
                 <span className="flex-center">
                   <span className="legend spacer"></span>
                   {benefitsServices[k] || k}
@@ -240,14 +242,14 @@ class SearchControls extends Component {
   renderSelectOptionWithIcon(facilityType) {
     if (facilityType) {
       return (
-        <button ref={ elem => { this.facilities.push(elem); }} id={facilityType} type="button" className="facility-option" onClick={() => this.handleFacilityFilterSelect(facilityType)} onKeyUp={this.navigateFacilityDropdown}>
+        <button tabIndex="-1" ref={ elem => { this.facilities.push(elem); }} id={facilityType} type="button" className="facility-option" onClick={() => this.handleFacilityFilterSelect(facilityType)} onKeyUp={this.navigateFacilityDropdown}>
           <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
         </button>
       );
     }
 
     return (
-      <button type="button" className="facility-option">
+      <button tabIndex="-1" type="button" className="facility-option">
         <span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>
       </button>
     );
