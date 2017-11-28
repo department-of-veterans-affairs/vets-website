@@ -28,7 +28,9 @@ if (navigator.userAgent.includes('Edge/14')) {
   window.fetch = undefined;
 }
 
-import 'whatwg-fetch';
+// This needs to stay as require because import causes it to be executed before the
+// above code
+require('whatwg-fetch');
 
 // This polyfill has its own test logic so no need to conditionally require.
 import 'polyfill-function-prototype-bind';
