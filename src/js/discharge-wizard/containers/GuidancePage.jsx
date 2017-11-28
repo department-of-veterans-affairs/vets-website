@@ -297,7 +297,7 @@ class GuidancePage extends React.Component {
               <strong>Result</strong>: {this.renderResultSummary()}.
             </p>
           </div>
-          <CarefulConsiderationStatement reason={this.props.formValues['4_reason']} dischargeType={this.props.formValues['5_dischargeType']}/>
+          <CarefulConsiderationStatement formValues={this.props.formValues}/>
           <AlertBox
             content={venueWarning}
             isVisible={this.props.formValues['10_prevApplicationType'] === '4'}

@@ -13,7 +13,7 @@ const initialState = {
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
   '11_priorService': null,
-  questions: ['1_branchOfService'],
+  questions: ['1_branchOfService'], // represents valid question progression
 };
 
 function nextQuestion(currentQuestion, answer, state) {
