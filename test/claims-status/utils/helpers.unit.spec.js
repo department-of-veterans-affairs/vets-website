@@ -498,8 +498,8 @@ describe('Disability benefits helpers: ', () => {
       const alertContent = getAlertContent(alert);
       expect(alertContent.title).to.exist;
       expect(alertContent.description).to.exist;
+      expect(alertContent.cssClass).to.exist;
       expect(alertContent.type).to.exist;
-      expect(alertContent.date).to.exist;
     });
   });
 });
