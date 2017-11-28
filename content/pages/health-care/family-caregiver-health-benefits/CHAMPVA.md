@@ -123,11 +123,11 @@ With CHAMPVA, you’ll be covered for services and supplies when we determine th
 
 When you’re signed up for CHAMPVA, you’ll get a copy of the CHAMPVA Program Guide. This guide will tell you more about covered and non-covered services and supplies.
 
-[Download the CHAMPVA Program Guide](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/programguides/champva_guide.pdf).
+- [Download the CHAMPVA Program Guide](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/programguides/champva_guide.pdf).
 
-[See a complete list of non-covered services and supplies in the CHAMPVA Policy Manual](https://www.vha.cc.va.gov/system/templates/selfservice/va_ss/#!portal/554400000001036?LANGUAGE=en&COUNTRY=us).
+- [See a complete list of non-covered services and supplies in the CHAMPVA Policy Manual](https://www.vha.cc.va.gov/system/templates/selfservice/va_ss/#!portal/554400000001036?LANGUAGE=en&COUNTRY=us).
 
-[Download fact sheets on CHAMPVA benefits](https://www.va.gov/COMMUNITYCARE/pubs/factsheets.asp#champva).
+- [Download fact sheets on CHAMPVA benefits](https://www.va.gov/COMMUNITYCARE/pubs/factsheets.asp#champva).
 
 ### How do I get CHAMPVA benefits?
 
@@ -169,7 +169,7 @@ Once we get your application, we’ll review it to be sure it’s complete and i
 If you send us all required and optional documents—and if your application is complete—it’ll take about 6 weeks after we get your package until you get your CHAMPVA ID card and related materials.
 If you send us only the required documents, it may take 2 to 8 months since we’ll need to confirm your information with other federal agencies.
 
-### Get more information:
+### Get more information
 [Get answers to frequently asked questions about CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/CHAMPVA_faq.asp).<br>
 [Find out how to file a CHAMPVA claim](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/champva_claim.asp).<br>
 [Find out if you can get care at a local VA medical center when you're covered under CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/citi/index.asp).
