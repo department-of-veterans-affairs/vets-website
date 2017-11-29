@@ -99,7 +99,7 @@ function getMenuStructure(menuLi) {
  *
  * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
  */
-function openMenu(menuLi, openSubMenu = false) {
+function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
   // If we're not dealing with a menu structure, abort
   const struct = getMenuStructure(menuLi);
   if (!struct) {
@@ -112,9 +112,15 @@ function openMenu(menuLi, openSubMenu = false) {
   menuButton.setAttribute('aria-expanded', true);
   menu.removeAttribute('hidden');
 
+  if (stealFocus) {
+    const menuRole = (menu.getAttribute('role') || '').toLowerCase();
+    const firstMenuItem = menuRole === 'menu' ? menu.firstElementChild : menu.querySelector('[role="menu"] > li');
+    firstMenuItem.firstElementChild.focus();
+  }
+
   // If we're wide-screen, open the first submenu
   if (openSubMenu) {
-    openMenu(menu.firstElementChild);
+    openMenu(menu.firstElementChild, false, false);
   }
 }
 
@@ -194,8 +200,8 @@ export default function addMenuListeners(menuElement) {
           event.preventDefault();
           // Open the menu, focus on the last item
           openMenu(targetLi);
-          // TODO: Focus on the last item
-          // TODO: Open the last submenu if (isWideScreen())
+          const lastSubmenu = targetLi.querySelector('[role="menu"] > li');
+          openMenu(lastSubmenu);
         } else if (isMB) {
           event.preventDefault();
           // Move focus to the previous sibling
@@ -221,6 +227,8 @@ export default function addMenuListeners(menuElement) {
       default: break;
     }
   });
+
+  // TODO: Add listener for loss of focus for if we tab away from an open menu
 
   // menuElement.addEventListener('click', (event) => {
   //   // Handle opening menus 'n stuff
