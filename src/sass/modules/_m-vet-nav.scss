@@ -313,13 +313,13 @@ body.va-pos-fixed {
 
 .vetnav-panel {
   a {
+    @include no-sr-content;
+
     background-image: none;
     color: $color-white;
     display: block;
     padding: .8rem 1.6rem;
     text-decoration: none;
-
-    @include no-sr-content;
 
     @include media($medium-large-screen) {
       color: $color-link-default;
