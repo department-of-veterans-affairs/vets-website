@@ -65,6 +65,14 @@ function moveFocus(element, direction) {
 }
 
 
+/**
+ * Gets the menu and associated menu button from an element if possible. Returns null if not.
+ *
+ * @param {HTMLElement} menuLi  The element (probably <li>) that may contain a menu
+ * @return {Object|null}        If the element contains a proper menu structure, returns an object
+ *                               { menu: <HTMLElement>, menuButton: <HTMLElement> }
+ *                               Otherwise, returns null
+ */
 function getMenuStructure(menuLi) {
   const menuButton = menuLi.querySelector('button, [role="button"]');
   // Assumes whatever follows the button immediately is the associated menu or menu container
