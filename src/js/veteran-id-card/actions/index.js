@@ -18,14 +18,14 @@ export function initiateIdRequest() {
           type: ATTRS_SUCCESS,
           vicUrl: response.url,
           traits: response.traits
-        })
+        });
       },
       (response) => {
         window.dataLayer.push({ event: 'vic-submit-failure' });
         dispatch({
           type: ATTRS_FAILURE,
           errors: response.errors
-        })
+        });
       }
     );
   };
