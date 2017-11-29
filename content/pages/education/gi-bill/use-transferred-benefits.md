@@ -49,7 +49,7 @@ When you can use your benefits depends on your relationship to the Veteran or se
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Your dependents may still qualify even if a child marries or you and your spouse divorce. However, Servicemembers and Veterans can revoke (cancel) or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you’re still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility (ability to get a TOE) has been totally revoked, you can’t transfer benefits again to that dependent.
+You may still qualify for benefits even if you are a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (cancel) or change a Transfer of Entitlement (TOE) at any time. 
 
 </div>
 </div>
@@ -59,11 +59,11 @@ Your dependents may still qualify even if a child marries or you and your spouse
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What benefits can my qualified dependents get?</h3>
+<h3 itemprop="name">What benefits can I get?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for:
+If the DOD approves the Transfer of Entitlement (TOE), you can apply for up to 36 months of benefits, and may be able to get money for:
 
 - Tuition
 - Housing
@@ -75,7 +75,7 @@ If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 
 ------
 
-If DOD approves the TOE, family members may apply for benefits.
+If DOD approves the TOE, you may apply for benefits.
 
 - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
 - Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
@@ -86,53 +86,3 @@ If DOD approves the TOE, family members may apply for benefits.
 </div>
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
-
-<h3 itemprop="name">How do I transfer the benefit?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-While you’re still on active duty, you’ll request to transfer, change, or revoke a Transfer of Entitlement (TOE) through milConnect. You can’t apply for a TOE through us. [Transfer, change, or revoke a TOE](https://www.dmdc.osd.mil/milconnect/).
-
-If DOD approves the TOE, family members may apply for benefits.
-
-- [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
-- Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
-
-[Find a nearby VA facility](/facilities/).
-
-Once you leave active duty, you can still provide a future effective date that the TOE can be used, change the number of months transferred, or revoke the TOE by submitting a written request to VA through milConnect.
-
-</div>
-</div>
-</div>
-
-<div itemscope itemtype="http://schema.org/Question">
-
-<h3 itemprop="name">Get more information</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-- [DOD website for information on transferring benefits](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
-- [Fact sheet on transferring Post-9/11 GI Bill benefits](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
-- To find out if you qualify, the status of your transfer request, and how to use the TEB Portlet (for service-specific questions), please contact the right career counselor or personnel center from this list:
-  - Army Active-Duty Officer  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-  - Army Active-Duty Enlisted  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-  - Army National Guard  [Email](mailto:ng.robinson.ngb-arng-pec.mbx.arng-hrm-o-gi-bill-ch33@mail.mil)
-  - Army Reserve (Enlisted and Officer)  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-  - Navy Active-Duty Personnel  1-866-U-ASK-NPC (<a href="tel:+18668275672">1-866-827-5672</a>) or DSN 882-5672
-  - Navy Reserve  <a href="tel:+18006218853">1-800-621-8853</a>, Fax: 1-757-444-7597/7598  [Email](mailto:cnrfc_post911gibill@navy.mil)
-  - Marine Corps Active-Duty Officer  [Email](mailto:Angelo.Valadez@usmc.mil)
-  - Marine Corps Active-Duty Enlisted  [Email](mailto:Michael.A.Peck@usmc.mil)
-  - Marine Corps Reserve  [Email](mailto:smb_manpower.cmt@usmc.mil)
-  - Air Force Active Duty  <a href="tel:+18005250102">1-800-525-0102</a> or <a href="tel:12105655000">1-210-565-5000</a> or DSN 665-5000
-  - Air National Guard  (Contact unit retention manager)
-  - Air Force Reserve  [Email](mailto:julia.williamson@us.af.mil)
-  - Coast Guard Active Duty  [Email](mailto:reidus.stokes@uscg.mil)
-  - Coast Guard Reserve  [Email](mailto:reserveVAeducation@uscg.mil)
-  - NOAA  [Email](mailto:Gregory.Raymond@noaa.gov) or <a href="tel:13017137728">1-301-713-7728</a>
-  - PHS  [Email](mailto:OCCOHelpdesk@hhs.gov) or <a href="tel:12404536130">1-240-453-6130</a>
-
-</div>
-</div>
-</div>
