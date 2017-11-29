@@ -3,6 +3,11 @@ const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 
+function isWideScreen() {
+  return matchMedia('(min-width: 768px)').matches;
+}
+
+
 /**
  * Returns whether the HTMLElement passed is a menu button. This is only true if:
  *  1. The element is a button or has [role="button"]
@@ -75,8 +80,7 @@ function moveFocus(element, direction) {
  */
 function getMenuStructure(menuLi) {
   const menuButton = menuLi.querySelector('button, [role="button"]');
-  // Assumes whatever follows the button immediately is the associated menu or menu container
-  const menu = menuButton ? menuButton.nextElementSibling : null;
+  const menu = menuButton ? menuLi.querySelector(`#${menuButton.getAttribute('aria-controls')}`) : null;
 
   if (!menuButton || !menu) {
     return null;
@@ -91,11 +95,11 @@ function getMenuStructure(menuLi) {
 
 
 /**
- * Opens a top-level menu.
+ * Opens a menu.
  *
  * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
  */
-function openMenu(menuLi) {
+function openMenu(menuLi, openSubMenu = false) {
   // If we're not dealing with a menu structure, abort
   const struct = getMenuStructure(menuLi);
   if (!struct) {
@@ -107,11 +111,16 @@ function openMenu(menuLi) {
   // Open the menu
   menuButton.setAttribute('aria-expanded', true);
   menu.removeAttribute('hidden');
+
+  // If we're wide-screen, open the first submenu
+  if (openSubMenu) {
+    openMenu(menu.firstElementChild);
+  }
 }
 
 
 /**
- * Closes a top-level menu.
+ * Closes a menu.
  *
  * @param {HTMLLIElement} menuLI  The <li> containing the menubutton and menu
  */
@@ -128,9 +137,6 @@ function closeMenu(menuLi) {
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
 }
-
-
-// function openSubmenu() {}
 
 
 /**
@@ -187,6 +193,7 @@ export default function addMenuListeners(menuElement) {
           // Open the menu, focus on the last item
           openMenu(targetLi);
           // TODO: Focus on the last item
+          // TODO: Open the last submenu if (isWideScreen())
         } else if (isMB) {
           event.preventDefault();
           // Move focus to the previous sibling
@@ -198,7 +205,7 @@ export default function addMenuListeners(menuElement) {
         if (inMenubar && isMB) {
           event.preventDefault();
           // Open the menu, focus on the first item
-          openMenu(targetLi);
+          openMenu(targetLi, isWideScreen());
           // TODO: Focus on the first item
         } else if (isMB) {
           event.preventDefault();
