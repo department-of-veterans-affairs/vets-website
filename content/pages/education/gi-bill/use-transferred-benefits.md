@@ -82,6 +82,8 @@ If DOD approves the TOE, you may apply for benefits.
 
 [Find a nearby VA facility](/facilities/).
 
+Service members and Veterans: [Transfer GI Bill benefits](https://www.vets.gov/education/gi-bill/transfer/).
+
 </div>
 </div>
 </div>
