@@ -292,7 +292,6 @@ export const veteranUI = {
   }
 };
 
-
 export const serviceRecordsUI = {
   'ui:title': 'Service periods',
   'ui:description': 'Please record all periods of service',

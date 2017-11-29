@@ -206,7 +206,6 @@ export function getFormDOM(form) {
     ReactTestUtils.Simulate.click(this.getElement(selector));
   };
 
-  // TODO: Remove fillDate from unit-helpers and prefer this one
   formDOM.fillDate = function populateDate(partialId, dateString) {
     oldFillDate(this, partialId, dateString);
   };
