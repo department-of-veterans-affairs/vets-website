@@ -63,5 +63,19 @@
   background-size: 1em auto;
   padding-right: 1.2em;
   position: relative;
+
+  &:after {
+    // adds non-visible alt content for screen readers
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    padding: 0;
+    border: 0;
+    margin: -1px;
+    content: "opens in a new tab";
+  }
 }
 

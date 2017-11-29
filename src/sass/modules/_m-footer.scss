@@ -55,6 +55,12 @@
     &:hover {
       color: $color-gold;
     }
+
+    &:after {
+      // don't add exit-icon screen reader alt content because exit-icon is
+      // itself hidden with background: none applied to the parent anchor tag
+      content: none;
+    }
   }
 }
 
