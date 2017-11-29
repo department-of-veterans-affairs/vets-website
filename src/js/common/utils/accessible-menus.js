@@ -27,6 +27,7 @@ function isMenuButton(element) {
     !!(menuRole === 'menu' || menuElement.querySelector('[role="menu"]'));
 }
 
+
 /**
  * Determines if an element is visible by checking both its display and at least one of its children's
  *  display is neither hidden nor none. Only goes one level deep.
@@ -39,6 +40,7 @@ function isVisible(element) {
     Array.from(element.children).some(e => !hiddenDisplays.includes(getComputedStyle(e).display));
   return visible;
 }
+
 
 /**
  * Focuses on either the previous or next element in a list. If either the beginning or end of the list
@@ -62,9 +64,15 @@ function moveFocus(element, direction) {
   }
 }
 
-function openMenu(menuLi) {
-  // TODO: Make this open either a submenu or menu
 
+/**
+ * Opens a top-level menu.
+ *
+ * TODO: Make this open a submenu as well
+ *
+ * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
+ */
+function openMenu(menuLi) {
   const menuButton = menuLi.querySelector('button, [role="button"]');
   // Assumes whatever follows the button immediately is the associated menu or menu container
   const menu = menuButton ? menuButton.nextElementSibling : null;
@@ -83,10 +91,11 @@ function openMenu(menuLi) {
   menu.removeAttribute('hidden');
 }
 
+
 /**
- * Closes a menubar menu.
+ * Closes a top-level menu.
  *
- * @param {HTMLLIElement} menuLI  The <li> containing the menu button and menu
+ * @param {HTMLLIElement} menuLI  The <li> containing the menubutton and menu
  */
 function closeMenu(menuLi) {
   // TODO: Make this close either a submenu or a menu
@@ -109,7 +118,9 @@ function closeMenu(menuLi) {
   menu.setAttribute('hidden', 'hidden');
 }
 
+
 // function openSubmenu() {}
+
 
 /**
  * Attaches event listeners to a menu or menu bar to make it keyboard navigable.
