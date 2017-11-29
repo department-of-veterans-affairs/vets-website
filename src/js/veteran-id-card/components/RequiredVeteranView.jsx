@@ -18,9 +18,8 @@ class RequiredVeteranView extends React.Component {
     } else if (this.props.userProfile.veteranStatus === 'OK') {
       if (!serviceAvailable) {
         // If all above conditions are true and service is still not present in user profile, then user
-        // is either not enrolled in beta, or is not eligible on other grounds
-        // such as discharge status.
-        view = <SystemDownView messageLine1="We can't proceed with your request for a Veteran ID Card." messageLine2="We’re working to expand the program to all eligible Veterans, so please check back again soon to see if you’re eligible."/>;
+        // is not eligible due to title 38 status indicator
+        view = <SystemDownView messageLine1="We're sorry. We can't proceed with your request for a Veteran ID card because we can't confirm your eligibility right now." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>;
       } else {
         view = this.props.children;
       }

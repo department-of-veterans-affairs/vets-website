@@ -26,12 +26,12 @@ class GuidancePage extends React.Component {
 
   renderResultSummary() {
     const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
-    return `You need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['7_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
+    return `You need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['1_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
   }
 
   renderOptionalStep() {
-    const validReason = ['1', '2'].indexOf(this.props.formValues['1_reason']) > -1;
-    const dischargeYear = parseInt(this.props.formValues['4_dischargeYear'], 10);
+    const validReason = ['1', '2'].indexOf(this.props.formValues['4_reason']) > -1;
+    const dischargeYear = parseInt(this.props.formValues['2_dischargeYear'], 10);
     const validYear = dischargeYear >= 2001 && dischargeYear <= 2009;
 
     if (validReason && validYear) {
@@ -48,7 +48,7 @@ class GuidancePage extends React.Component {
   }
 
   renderStepOne() {
-    const questionOneResponse = this.props.formValues['1_reason'];
+    const questionOneResponse = this.props.formValues['4_reason'];
     const specReason = ['1', '2', '4'].indexOf(questionOneResponse) > -1;
     const boardToSubmit = board(this.props.formValues);
     /* eslint-disable quote-props */
@@ -112,7 +112,7 @@ class GuidancePage extends React.Component {
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
-              <h4>Need help?</h4>
+              <h4 className="usa-alert-heading">Need help?</h4>
               <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a <a href="https://www.va.gov/vso/">VSO</a>, search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations.</p>
             </div>}
             isVisible
@@ -125,14 +125,14 @@ class GuidancePage extends React.Component {
   renderStepTwo() {
     const boardToSubmit = board(this.props.formValues);
     let militaryRecordInfo;
-    if (parseInt(this.props.formValues['4_dischargeYear'], 10) >= 1997) {
+    if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1997) {
       militaryRecordInfo = <p>You can <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">retrieve your complete military personnel record</a> (your Official Military Personnel File, or OMPF) online.</p>;
     } else {
       militaryRecordInfo = <p>You can make a <a target="_blank" href="https://www.archives.gov/veterans/military-service-records">request online or by mail to receive your complete military personnel record</a> (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.</p>;
     }
 
     let specificTypeInstruction;
-    switch (this.props.formValues['1_reason']) {
+    switch (this.props.formValues['4_reason']) {
       case '1':
         specificTypeInstruction = 'you suffered from symptoms of PTSD or mental health conditions while in the service';
         break;
@@ -140,7 +140,7 @@ class GuidancePage extends React.Component {
         specificTypeInstruction = 'you suffered from symptoms of TBI while in the service';
         break;
       case '3':
-        if (this.props.formValues['2_dischargeType'] === '2') {
+        if (this.props.formValues['5_dischargeType'] === '2') {
           specificTypeInstruction = 'your discharge status was due only to your sexual orientation and not other bad conduct';
         }
         break;
@@ -169,9 +169,9 @@ class GuidancePage extends React.Component {
   }
 
   renderMedicalRecordInfo() {
-    if (['1', '2', '4'].indexOf(this.props.formValues['1_reason']) > -1) {
+    if (['1', '2', '4'].indexOf(this.props.formValues['4_reason']) > -1) {
       let requestQuestion;
-      if (parseInt(this.props.formValues['4_dischargeYear'], 10) >= 1992) {
+      if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1992) {
         requestQuestion = <a target="_blank" href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html">Find out how to request your military medical records.</a>;
       } else {
         requestQuestion = <span>Your <strong>military health records</strong> will be included with your VA medical records you request.</span>;
@@ -195,8 +195,8 @@ class GuidancePage extends React.Component {
     const noPrevApp = this.props.formValues['8_prevApplication'] === '2';
     const prevAppType = this.props.formValues['10_prevApplicationType'];
     const prevAppYear = this.props.formValues['9_prevApplicationYear'];
-    const dischargeYear = this.props.formValues['4_dischargeYear'];
-    const dischargeMonth = this.props.formValues['5_dischargeMonth'] || 1;
+    const dischargeYear = this.props.formValues['2_dischargeYear'];
+    const dischargeMonth = this.props.formValues['3_dischargeMonth'] || 1;
     const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) > 15;
 
     const boardToSubmit = board(this.props.formValues);
@@ -205,20 +205,20 @@ class GuidancePage extends React.Component {
     let onlineSubmissionMsg;
 
     if (prevAppType === '2') {
-      boardExplanation = <p>Because your application was denied by the DRB on a Personal Appearance review, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])} to appeal that decision.</p>;
+      boardExplanation = <p>Because your application was denied by the DRB on a Personal Appearance review, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision.</p>;
     } else if (prevAppType === '3') {
       boardExplanation = <p>Because you previously applied to the {boardToSubmit.abbr}, you must re-apply to the {boardToSubmit.abbr} for reconsideration.</p>;
     } else if ((noPrevApp || (['1', '4'].indexOf(prevAppType) > -1) || prevAppYear === '1') && oldDischarge) {
-      boardExplanation = <p>Because your discharge was over 15 years ago, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])}.</p>;
-    } else if (this.props.formValues['6_courtMartial'] === '1') {
-      boardExplanation = <p>Because your discharge was the result of a General Court-Martial, you must apply to the  {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])}.</p>;
-    } else if (this.props.formValues['1_reason'] === '5' || this.props.formValues['3_intention'] === '1') {
-      boardExplanation = <p>Because you are seeking to change information other than your discharge status, re-enlistment code, and narrative reason for discharge, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['7_branchOfService'])}.</p>;
+      boardExplanation = <p>Because your discharge was over 15 years ago, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>;
+    } else if (this.props.formValues['7_courtMartial'] === '1') {
+      boardExplanation = <p>Because your discharge was the result of a General Court-Martial, you must apply to the  {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>;
+    } else if (this.props.formValues['4_reason'] === '5' || this.props.formValues['6_intention'] === '1') {
+      boardExplanation = <p>Because you are seeking to change information other than your discharge status, re-enlistment code, and narrative reason for discharge, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>;
     } else if (boardToSubmit.abbr === 'DRB') {
-      boardExplanation = <p>Given the details of your request, you must apply to the DRB for the {branchOfService(this.props.formValues['7_branchOfService'])}. {prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''} The DRB is a panel of commissioned officers, or a combination of senior NCOs and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time, you must apply to a different board.</p>;
+      boardExplanation = <p>Given the details of your request, you must apply to the DRB for the {branchOfService(this.props.formValues['1_branchOfService'])}. {prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''} The DRB is a panel of commissioned officers, or a combination of senior NCOs and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time, you must apply to a different board.</p>;
     }
 
-    if (boardToSubmit.abbr === 'DRB' && this.props.formValues['7_branchOfService'] === 'army') {
+    if (boardToSubmit.abbr === 'DRB' && this.props.formValues['1_branchOfService'] === 'army') {
       onlineSubmissionMsg = <p>You can also submit this information online at <a target="_blank" href="http://actsonline.army.mil/">ACTSOnline</a>. </p>;
     } else {
       onlineSubmissionMsg = <p>Unfortunately, there isn’t a way to submit this form online.</p>;
@@ -279,11 +279,27 @@ class GuidancePage extends React.Component {
           <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
           <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
           <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
-          {this.props.formValues['7_branchOfService'] === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
-          {['navy', 'marines'].includes(this.props.formValues['7_branchOfService']) && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Navy Discharge Review Board</a></li>}
+          {this.props.formValues['1_branchOfService'] === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
+          {['navy', 'marines'].includes(this.props.formValues['1_branchOfService']) && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Navy Discharge Review Board</a></li>}
           <li><a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">VA Guidance on COD Review</a></li>
         </ul>
       </div>
+    );
+  }
+
+  renderDischargeWarning() {
+    const boardToSubmit = board(this.props.formValues);
+    const prevAppType = this.props.formValues['10_prevApplicationType'];
+
+    const alertContent = (
+      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results here are for Veterans who have discharges that are administrative, or the result of a Special or Summary Court Martial. If your discharge was the outcome of a General Court Martial, you may need to send your application to a different board. You can find out which board by editing your answers on the previous page.</p>
+    );
+
+    return (
+      <AlertBox
+        content={alertContent}
+        isVisible={(boardToSubmit.abbr === 'DRB') && prevAppType === '3'}
+        status="warning"/>
     );
   }
 
@@ -297,11 +313,12 @@ class GuidancePage extends React.Component {
               <strong>Result</strong>: {this.renderResultSummary()}.
             </p>
           </div>
-          <CarefulConsiderationStatement reason={this.props.formValues['1_reason']} dischargeType={this.props.formValues['2_dischargeType']}/>
+          <CarefulConsiderationStatement formValues={this.props.formValues}/>
           <AlertBox
             content={venueWarning}
             isVisible={this.props.formValues['10_prevApplicationType'] === '4'}
             status="warning"/>
+          {this.renderDischargeWarning()}
           {this.renderOptionalStep()}
           <ul className="vertical-list-group more-bottom-cushion numbered">
             {this.renderStepOne()}
