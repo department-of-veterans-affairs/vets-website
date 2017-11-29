@@ -49,7 +49,6 @@ export function isToggle(keyEvent) {
   // To prevent unwanted scrolling and interaction with other elements
   if (result) {
     keyEvent.preventDefault();
-    keyEvent.stopPropagation();
   }
   return result;
 }
