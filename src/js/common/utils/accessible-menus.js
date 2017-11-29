@@ -29,7 +29,8 @@ function isVisible(element) {
  *  is reached, it wraps to the last or first element respectively. If an element isn't visible, it's
  *  skipped.
  *
- * @param {HTMLElement} element  The <li> containing the menu item
+ * @param {HTMLLIElement} element  The <li> containing the menu item
+ * @param {String} direction     The direction to move the focus. Possible options: 'previous', 'next'
  */
 function moveFocus(element, direction) {
   const focusElement = direction === 'previous' ?
@@ -46,6 +47,34 @@ function moveFocus(element, direction) {
 }
 
 // function openMenu() {}
+
+/**
+ * Closes a menubar menu.
+ *
+ * @param {HTMLLIElement} menuLI  The <li> containing the menu button and menu
+ */
+function closeMenu(menuLi) {
+  // TODO: Make this close either a submenu or a menu
+
+  const menuButton = menuLi.querySelector('button, [role="button"]');
+  // Assumes whatever follows the button immediately is the associated menu or menu container
+  const menu = menuButton ? menuButton.nextElementSibling : null;
+
+  // If we're not dealing with a menu structure, abort
+  if (!menuButton || !menu) {
+    return;
+  }
+  const menuRole = (menu.getAttribute('role') || '').toLowerCase();
+  if (!(menuRole === 'menu' || menu.querySelector('[role="menu"]'))) {
+    return;
+  }
+
+  // Close the menu
+  // TODO: Make this just remove the attribute. Currently, we have to set it to false because of styling
+  // menuButton.removeAttribute('aria-expanded');
+  menuButton.setAttribute('aria-expanded', false);
+  menu.setAttribute('hidden', 'hidden');
+}
 
 // function openSubmenu() {}
 
@@ -76,8 +105,8 @@ export default function addMenuListeners(menuElement) {
     switch (event.keyCode) {
       case LEFT_ARROW: {
         if (inMenubar) {
+          closeMenu(targetLi);
           moveFocus(targetLi, 'previous');
-          // TODO: Close the menu
         } else if (isMenuButton(targetLi)) {
           // Move focus to the opening menu button
         }
@@ -85,9 +114,8 @@ export default function addMenuListeners(menuElement) {
       }
       case RIGHT_ARROW: {
         if (inMenubar) {
-          // Move focus to the next item
+          closeMenu(targetLi);
           moveFocus(targetLi, 'next');
-          // TODO: Close the menu
         } else if (isMenuButton(targetLi)) {
           // Open the menu, focus on the first item
         }
