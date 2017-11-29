@@ -78,7 +78,7 @@ While you’re still on active duty, you’ll request to transfer, change, or re
 
 Once you leave active duty, you can still provide a future effective date that the TOE can be used, change the number of months transferred, or revoke the TOE by submitting a written request to VA through milConnect.
 
-Family members: [Use transferred benefits](https://www.vets.gov/education/gi-bill/use-transferred-benefits/).
+Family members: [Use transferred benefits](https://www.vets.gov/education/gi-bill/use-transferred-benefits.md).
 
 </div>
 </div>
