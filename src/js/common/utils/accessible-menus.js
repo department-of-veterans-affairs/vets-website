@@ -65,26 +65,36 @@ function moveFocus(element, direction) {
 }
 
 
-/**
- * Opens a top-level menu.
- *
- * TODO: Make this open a submenu as well
- *
- * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
- */
-function openMenu(menuLi) {
+function getMenuStructure(menuLi) {
   const menuButton = menuLi.querySelector('button, [role="button"]');
   // Assumes whatever follows the button immediately is the associated menu or menu container
   const menu = menuButton ? menuButton.nextElementSibling : null;
 
-  // If we're not dealing with a menu structure, abort
   if (!menuButton || !menu) {
-    return;
+    return null;
   }
   const menuRole = (menu.getAttribute('role') || '').toLowerCase();
   if (!(menuRole === 'menu' || menu.querySelector('[role="menu"]'))) {
+    return null;
+  }
+
+  return { menuButton, menu };
+}
+
+
+/**
+ * Opens a top-level menu.
+ *
+ * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
+ */
+function openMenu(menuLi) {
+  // If we're not dealing with a menu structure, abort
+  const struct = getMenuStructure(menuLi);
+  if (!struct) {
     return;
   }
+
+  const { menuButton, menu } = struct;
 
   // Open the menu
   menuButton.setAttribute('aria-expanded', true);
@@ -98,20 +108,13 @@ function openMenu(menuLi) {
  * @param {HTMLLIElement} menuLI  The <li> containing the menubutton and menu
  */
 function closeMenu(menuLi) {
-  // TODO: Make this close either a submenu or a menu
-
-  const menuButton = menuLi.querySelector('button, [role="button"]');
-  // Assumes whatever follows the button immediately is the associated menu or menu container
-  const menu = menuButton ? menuButton.nextElementSibling : null;
-
   // If we're not dealing with a menu structure, abort
-  if (!menuButton || !menu) {
+  const struct = getMenuStructure(menuLi);
+  if (!struct) {
     return;
   }
-  const menuRole = (menu.getAttribute('role') || '').toLowerCase();
-  if (!(menuRole === 'menu' || menu.querySelector('[role="menu"]'))) {
-    return;
-  }
+
+  const { menuButton, menu } = struct;
 
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
@@ -149,30 +152,35 @@ export default function addMenuListeners(menuElement) {
     switch (event.keyCode) {
       case LEFT_ARROW: {
         if (inMenubar) {
+          event.preventDefault();
           closeMenu(targetLi);
           moveFocus(targetLi, 'previous');
         } else if (isMenuButton(event.target)) {
+          event.preventDefault();
           // Move focus to the opening menu button
         }
         break;
       }
       case RIGHT_ARROW: {
         if (inMenubar) {
+          event.preventDefault();
           closeMenu(targetLi);
           moveFocus(targetLi, 'next');
         } else if (isMenuButton(event.target)) {
+          event.preventDefault();
           // Open the menu, focus on the first item
         }
-
         break;
       }
       case UP_ARROW: {
         const isMB = isMenuButton(event.target);
         if (inMenubar && isMB) {
+          event.preventDefault();
           // Open the menu, focus on the last item
           openMenu(targetLi);
           // TODO: Focus on the last item
         } else if (isMB) {
+          event.preventDefault();
           // Move focus to the previous sibling
         }
         break;
@@ -180,10 +188,12 @@ export default function addMenuListeners(menuElement) {
       case DOWN_ARROW: {
         const isMB = isMenuButton(event.target);
         if (inMenubar && isMB) {
+          event.preventDefault();
           // Open the menu, focus on the first item
           openMenu(targetLi);
           // TODO: Focus on the first item
         } else if (isMB) {
+          event.preventDefault();
           // Move focus to the next sibling
         }
         break;
