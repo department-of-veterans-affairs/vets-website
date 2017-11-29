@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import ReviewPage from './review/ReviewPage';
-import RoutedPage from './pages/RoutedPage';
+import RoutedFormPage from './pages/RoutedFormPage';
 import RoutedSiPPage from './save-in-progress/RoutedSiPPage';
 import shouldUpdate from 'recompose/shouldUpdate';
 
@@ -72,7 +72,7 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
-  const FormPage = formConfig.disableSave ? RoutedPage : RoutedSiPPage;
+  const FormPage = formConfig.disableSave ? RoutedFormPage : RoutedSiPPage;
   let routes = formPages
     .map(page => {
       return {

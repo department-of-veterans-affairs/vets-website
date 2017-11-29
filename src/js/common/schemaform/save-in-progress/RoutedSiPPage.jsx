@@ -14,7 +14,7 @@ import {
   saveAndRedirectToReturnUrl
 } from './save-load-actions';
 import { toggleLoginModal } from '../../../login/actions';
-import { RoutedPage } from '../pages/RoutedPage';
+import { RoutedFormPage } from '../pages/RoutedFormPage';
 
 class RoutedSiPPage extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class RoutedSiPPage extends React.Component {
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
   }
 
-  setData = (formData) => {
+  onChange = (formData) => {
     this.props.setData(formData);
     this.debouncedAutoSave();
   }
@@ -58,10 +58,10 @@ class RoutedSiPPage extends React.Component {
     );
 
     return (
-      <RoutedPage
+      <RoutedFormPage
         {...this.props}
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
-        setData={this.setData}
+        setData={this.onChange}
         prefilled={form.prefillStatus === PREFILL_STATUSES.success}
         contentAfterButtons={contentAfterButtons}/>
     );
