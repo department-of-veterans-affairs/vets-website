@@ -5,7 +5,7 @@ import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
-import { getDirection, getFacility, getService, isTraverse, isEscape, shouldToggle, keyMap, isSelect, resetMenus } from '../utils/helpers.js';
+import { getDirection, getSelection, isTraverse, isEscape, isSpace, shouldToggle, isSelect } from '../utils/helpers.js';
 
 class SearchControls extends Component {
 
@@ -22,15 +22,60 @@ class SearchControls extends Component {
     };
     this.services = [];
     this.facilities = [];
-    this.resetMenus = this.resetMenus.bind(this);
     this.focusFacilityOption = this.focusFacilityOption.bind(this);
     this.focusServiceOption = this.focusServiceOption.bind(this);
+    this.goToFacilityDropdown = this.goToFacilityDropdown(this);
+    this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
+    this.handleServiceFilterSelect = this.handleServiceFilterSelect.bind(this);
     this.navigateFacilityDropdown = this.navigateFacilityDropdown.bind(this);
     this.navigateServiceDropdown = this.navigateServiceDropdown.bind(this);
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
     this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
-    this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
-    this.handleServiceFilterSelect = this.handleServiceFilterSelect.bind(this);
+    this.setFacilityDropdownFocus = this.setFacilityDropdownFocus.bind(this);
+    this.setServiceDropdownFocus = this.setServiceDropdownFocus.bind(this);
+  }
+
+  setFacilityDropdownFocus(newState) {
+    const dropdownState = false ? !this.state.facilityDropdownActive : this.state.facilityDropdownActive;
+    this.setState({
+      facilityDropdownFocused: newState,
+      facilityDropdownActive: dropdownState
+    });
+  }
+
+  setServiceDropdownFocus(newState) {
+    const dropdownState = false ? !this.state.serviceDropdownActive : this.state.serviceDropdownActive;
+    this.setState({
+      serviceDropdownFocused: newState,
+      serviceDropdownActive: dropdownState
+    });
+  }
+
+  goToFacilityDropdown() {
+    if (this.facilityDropdown) {
+      this.facilityDropdown.focus();
+    }
+  }
+
+  handleEditSearch = () => {
+    this.props.updateSearchQuery({
+      active: false,
+    });
+  }
+
+  handleFacilityFilterSelect(newFacilityType) {
+    const { currentQuery: { facilityType } } = this.props;
+    this.toggleFacilityDropdown();
+    if (['benefits', 'vet_center'].includes(newFacilityType) &&
+      newFacilityType === facilityType) {
+      return this.props.updateSearchQuery({
+        facilityType: newFacilityType,
+      });
+    }
+    return this.props.updateSearchQuery({
+      facilityType: newFacilityType,
+      serviceType: null,
+    });
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
@@ -38,18 +83,6 @@ class SearchControls extends Component {
     this.props.onChange({
       searchString: e.target.value,
     });
-  }
-
-  handleServiceFilterSelect(serviceType) {
-    if (serviceType === 'All') {
-      this.props.updateSearchQuery({
-        serviceType: null,
-      });
-    } else {
-      this.props.updateSearchQuery({
-        serviceType,
-      });
-    }
   }
 
   handleSearch = (e) => {
@@ -66,12 +99,92 @@ class SearchControls extends Component {
     onSearch();
   }
 
-  handleEditSearch = () => {
-    this.props.updateSearchQuery({
-      active: false,
+  handleServiceFilterSelect(serviceType) {
+    if (serviceType === 'All') {
+      this.props.updateSearchQuery({
+        serviceType: null,
+      });
+    } else {
+      this.props.updateSearchQuery({
+        serviceType,
+      });
+    }
+  }
+
+  navigateFacilityDropdown(e) {
+    const which = e.target;
+    if (isEscape(e.keyCode)) {
+      return this.toggleFacilityDropdown();
+    }
+    if (isSelect(e.keyCode)) {
+      return this.handleFacilityFilterSelect(which.id);
+    }
+    if (isTraverse(e.keyCode)) {
+      const increment = getDirection(e.keyCode);
+      const newIndex = +this.state.focusedFacilityIndex + increment;
+      return this.focusFacilityOption(this.facilities[newIndex], newIndex);
+    }
+    return false;
+  }
+
+  navigateServiceDropdown(e) {
+    const which = e.target;
+    if (isEscape(e.keyCode) || isSpace(e.keyCode)) {
+      return this.toggleServiceDropdown(e);
+    }
+    if (isSelect(e.keyCode)) {
+      if (!this.state.serviceDropdownActive) return this.toggleServiceDropdown(e);
+      return this.handleServiceFilterSelect(which.id);
+    }
+    if (isTraverse(e.keyCode)) {
+      if (!this.state.serviceDropdownActive) return this.toggleServiceDropdown(e);
+      const increment = getDirection(e.keyCode);
+      const newIndex = +this.state.focusedServiceIndex + increment;
+      return this.focusServiceOption(this.services[newIndex], newIndex);
+    }
+    return false;
+  }
+
+  toggleFacilityDropdown(e) {
+    if (e) {
+      const shouldNotToggle = e.keyCode && !shouldToggle(e, this.state.facilityDropdownActive);
+      if (shouldNotToggle) return true;
+    }
+    const isActive = this.state.facilityDropdownActive;
+    const selection = getSelection(this.facilities, this.props.currentQuery, 'facilityType');
+    if (isActive) {
+      this.facilityDropdown.focus();
+    } else {
+      this.focusFacilityOption(selection.selection, selection.id);
+    }
+    return this.setState({
+      facilityDropdownActive: !this.state.facilityDropdownActive,
+      serviceDropdownActive: false
     });
   }
-  // is there some other focusing to do/state variable to set to style the box properly?
+
+  toggleServiceDropdown(e) {
+    const { currentQuery: { facilityType } } = this.props;
+    const noServices = !['benefits', 'vet_center'].includes(facilityType);
+    if (noServices) return;
+    if (e) {
+      const shouldNotToggle = e.keyCode && !shouldToggle(e, this.state.serviceDropdownActive);
+      if (shouldNotToggle) return;
+    }
+    const isActive = this.state.serviceDropdownActive;
+    const selection = getSelection(this.services, this.props.currentQuery, 'serviceType');
+    if (isActive) {
+      this.serviceDropdown.focus();
+    } else {
+      this.focusServiceOption(selection.selection, selection.id);
+    }
+    this.setState({
+      serviceDropdownActive: !this.state.serviceDropdownActive,
+      facilityDropdownActive: false
+    });
+  }
+
+  // TODO: use onFocus instead 
   focusFacilityOption(option, index) {
     if (option) {
       option.focus();
@@ -83,7 +196,7 @@ class SearchControls extends Component {
     }
   }
 
-  // is there some other focusing to do/state variable to set to style the box properly?
+  // TODO: use onFocus instead 
   focusServiceOption(option, index) {
     if (option) {
       option.focus();
@@ -95,133 +208,11 @@ class SearchControls extends Component {
     }
   }
 
-  navigateFacilityDropdown(e) {
-    const which = e.target;
-    // console.log('navigateFacilityDropdown', e.target);
-    if (isEscape(e.keyCode)) {
-      return this.toggleFacilityDropdown();
-    }
-    if (isSelect(e.keyCode)) {
-      return this.handleFacilityFilterSelect(which.id);
-    }
-    if (isTraverse(e.keyCode)) {
-      // console.log('traversing', e.target);
-      const increment = getDirection(e.keyCode);
-      // console.log('increment', increment);
-      const newIndex = +this.state.focusedFacilityIndex + increment;
-      // console.log(this.state.focusedFacilityIndex);
-      // console.log('newIndex', newIndex);
-      return this.focusFacilityOption(this.facilities[newIndex], newIndex);
-    }
-    return false;
-  }
-
-  navigateServiceDropdown(e) {
-    const which = e.target;
-    // console.log('navigateServiceDropdown', e.target);
-    if (isEscape(e.keyCode)) {
-      return this.toggleServiceDropdown();
-    }
-    if (isSelect(e.keyCode)) {
-      return this.handleServiceFilterSelect(which.id);
-    }
-    if (isTraverse(e.keyCode)) {
-      // console.log('traversing', e.target);
-      const increment = getDirection(e.keyCode);
-      // console.log('increment', increment);
-      const newIndex = +this.state.focusedServiceIndex + increment;
-      // console.log(this.state.focusedFacilityIndex);
-      // console.log('newIndex', newIndex);
-      return this.focusServiceOption(this.services[newIndex], newIndex);
-    }
-    return false;
-  }
-
-  toggleFacilityDropdown(e) {
-    // this seems redundant?
-    // console.log('toggleFacilityDropdown', e.target);
-    // this.resetMenus(e)
-    const shouldNotToggle = e.keyCode && !shouldToggle(e.keyCode, this.state.facilityDropdownActive);
-    e.preventDefault();
-    // to account for mouse events
-    if (shouldNotToggle) {
-      this.setState({
-        facilityDropdownFocused: true
-      });
-    }
-    if (!this.state.facilityDropdownActive) {
-      const selection = getFacility(this.facilities, this.props.currentQuery);
-      this.focusFacilityOption(selection);
-    }
-    this.setState({
-      facilityDropdownActive: !this.state.facilityDropdownActive,
-      facilityDropdownFocused: true,
-      serviceDropdownActive: false
-    });
-  }
-
-  toggleServiceDropdown(e) {
-    // this seems redundant?
-    // this.resetMenus(e)
-    // console.log('toggleservdrop', e.target);
-    e.preventDefault();
-    const { currentQuery: { facilityType } } = this.props;
-    const shouldNotToggle = e.keyCode && !shouldToggle(e.keyCode, this.state.serviceDropdownActive);
-    if (shouldNotToggle) {
-      this.setState({
-        servicesDropdownFocused: true
-      });
-    }
-    if (!this.state.serviceDropdownActive) {
-      const selection = getService(this.services, this.props.currentQuery);
-      this.focusServiceOption(selection);
-    }
-    if (['benefits', 'vet_center'].includes(facilityType)) {
-      this.setState({
-        serviceDropdownActive: !this.state.serviceDropdownActive,
-        facilityDropdownActive: false,
-        servicesDropdownFocused: true,
-      });
-    }
-  }
-
-  handleFacilityFilterSelect(newFacilityType) {
-    const { currentQuery: { facilityType } } = this.props;
-    if (['benefits', 'vet_center'].includes(newFacilityType) &&
-      newFacilityType === facilityType) {
-      return this.props.updateSearchQuery({
-        facilityType: newFacilityType,
-      });
-    }
-    return this.props.updateSearchQuery({
-      facilityType: newFacilityType,
-      serviceType: null,
-    });
-  }
-
-  resetMenus(e) {
-    const tabbedAway = keyMap.TAB === e.keyCode;
-    if (!tabbedAway) return;
-    e.preventDefault();
-    const { facilityDropdownActive, serviceDropdownActive } = this.state;
-    const formsToReset = resetMenus(facilityDropdownActive, serviceDropdownActive);
-    this.setState({
-      facilityDropdownActive: false,
-      serviceDropdownActive: false,
-      facilityDropdownFocused: false,
-      serviceDropdownFocused: false,
-    });
-    if (formsToReset && formsToReset.includes('facility')) {
-      this.toggleFacilityDropdown(e);
-    }
-    if (formsToReset && formsToReset.includes('service')) {
-      this.toggleServiceDropdown(e);
-    }
-  }
 
   renderServiceFilterOptions() {
     const { currentQuery: { facilityType } } = this.props;
     let services;
+    this.services = [];
 
     switch (facilityType) {
       case 'benefits':
@@ -239,7 +230,7 @@ class SearchControls extends Component {
         {
           services.map((k, i) => {
             return (<li className={`${this.state.focusedServiceIndex === i ? 'is-hovered' : ''}`} key={k} value={k}>
-              <button tabIndex="-1" ref={ elem => { this.services[i] = elem; }} onKeyUp={this.navigateServiceDropdown} id={k} type="button" className="facility-option" onClick={this.handleServiceFilterSelect.bind(this, k)}>
+              <button tabIndex="-1" ref={ elem => { if (i) this.services[i] = elem; }} id={k} type="button" className="facility-option" onClick={this.handleServiceFilterSelect.bind(this, k)}>
                 <span className="flex-center">
                   <span className="legend spacer"></span>
                   {benefitsServices[k] || k}
@@ -252,10 +243,10 @@ class SearchControls extends Component {
     );
   }
 
-  renderSelectOptionWithIcon(facilityType) {
+  renderSelectOptionWithIcon(facilityType, index) {
     if (facilityType) {
       return (
-        <button tabIndex="-1" ref={ elem => { this.facilities.push(elem); }} id={facilityType} type="button" className="facility-option" onClick={() => this.handleFacilityFilterSelect(facilityType)} onKeyUp={this.navigateFacilityDropdown}>
+        <button tabIndex="-1" ref={ elem => { if (index > -1) this.facilities[index] = elem; }} id={facilityType} type="button" className="facility-option" onClick={() => this.handleFacilityFilterSelect(facilityType)} onKeyDown={this.navigateFacilityDropdown}>
           <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
         </button>
       );
@@ -285,7 +276,7 @@ class SearchControls extends Component {
 
   render() {
     const { currentQuery, isMobile } = this.props;
-    const { facilityDropdownActive, serviceDropdownActive, serviceDropdownFocused } = this.state;
+    const { facilityDropdownActive, serviceDropdownActive, facilityDropdownFocused, serviceDropdownFocused } = this.state;
 
     if (currentQuery.active && isMobile) {
       return (
@@ -306,29 +297,29 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form role="presentation" onKeyUp={resetMenus}>
-          <div className="columns usa-width-one-third medium-4" >
+        <form>
+          <div className="columns usa-width-one-third medium-4">
             <label htmlFor="streetCityStateZip">Enter Street, City, State or Zip</label>
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
-            <div onKeyUp={this.toggleFacilityDropdown} tabIndex="0" className={`facility-dropdown-wrapper ${this.state.facilityDropdownFocused ? 'is-focused' : ''} ${facilityDropdownActive ? 'active' : ''}`} aria-controls="expandable" aria-expanded="false" role="combobox" onClick={this.toggleFacilityDropdown}>
+            <div ref={ elem => {this.facilityDropdown = elem; }} onFocus={() => this.setFacilityDropdownFocus(true)} id="facilityDropdown" onBlur={() => this.setFacilityDropdownFocus(false)} onKeyDown={this.toggleFacilityDropdown} tabIndex="0" className={`facility-dropdown-wrapper ${facilityDropdownFocused ? 'is-focused' : ''} ${facilityDropdownActive ? 'active' : ''}`} aria-controls="expandable" aria-expanded="false" role="combobox" onClick={this.toggleFacilityDropdown}>
               <div className="flex-center">
                 {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               </div>
               <ul role="listbox" className="dropdown">
-                <li className={`${this.state.facilityDropdownFocused && !this.state.facilityDropdownActive ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon()}</li>
-                <li className={`${this.state.focusedFacilityIndex === 0 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('health')}</li>
-                <li className={`${this.state.focusedFacilityIndex === 1 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('benefits')}</li>
-                <li className={`${this.state.focusedFacilityIndex === 2 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('cemetery')}</li>
-                <li className={`${this.state.focusedFacilityIndex === 3 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('vet_center')}</li>
+                <li className={`${facilityDropdownFocused && !this.state.facilityDropdownActive ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon()}</li>
+                <li className={`${this.state.focusedFacilityIndex === 0 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('health', 0)}</li>
+                <li className={`${this.state.focusedFacilityIndex === 1 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('benefits', 1)}</li>
+                <li className={`${this.state.focusedFacilityIndex === 2 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('cemetery', 2)}</li>
+                <li className={`${this.state.focusedFacilityIndex === 3 ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('vet_center', 3)}</li>
               </ul>
             </div>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <div onKeyUp={this.toggleServiceDropdown} className={serviceDropdownClasses} ref="serviceDropdown" tabIndex="0" role="combobox" aria-controls="expandable" aria-expanded="false" onClick={this.toggleServiceDropdown}>
+            <div onFocus={() => this.setServiceDropdownFocus(true)} onBlur={() => this.setServiceDropdownFocus(false)} onKeyDown={this.navigateServiceDropdown} className={serviceDropdownClasses} ref={ elem => { this.serviceDropdown = elem; }} tabIndex="0" role="combobox" aria-controls="expandable" aria-expanded="false" onClick={this.toggleServiceDropdown}>
               <div className="flex-center">
                 {this.renderServiceSelectOption(currentQuery.serviceType)}
               </div>

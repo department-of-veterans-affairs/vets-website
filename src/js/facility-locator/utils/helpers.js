@@ -7,24 +7,16 @@ export const keyMap = {
   DOWN: 40
 };
 
-export function getFacility(options, currentQuery) {
+export function getSelection(options, currentQuery, key) {
   let selection = options[0];
-  if (currentQuery.facilityType) {
-    const { facilityType } = currentQuery;
-    // console.log('options', options);
-    selection = options.filter(elem => elem.id && elem.id === facilityType);
+  if (currentQuery[key]) {
+    const selectionType = currentQuery[key];
+    selection = options.reduce((acc, elem) => {
+      if (elem.id && elem.id === selectionType) acc = elem; // eslint-disable-line no-param-reassign
+      return acc;
+    }, selection);
   }
-  return selection;
-}
-
-export function getService(options, currentQuery) {
-  let selection = options[0];
-  if (currentQuery.serviceType) {
-    const { serviceType } = currentQuery;
-    // console.log('options', options);
-    selection = options.filter(elem => elem.id && elem.id === serviceType);
-  }
-  return selection;
+  return { selection, id: options.indexOf(selection) };
 }
 
 export function getDirection(code) {
@@ -33,39 +25,42 @@ export function getDirection(code) {
   return false;
 }
 
+export function isSpace(code) {
+  return code === keyMap.SPACE;
+}
+
+export function isSelect(code) {
+  return code === keyMap.ENTER;
+}
+
 export function isTraverse(code) {
   return code === keyMap.UP || code === keyMap.DOWN;
 }
 
 export function isEscape(code) {
-  return code === keyMap.ESCAPE || code === keyMap.TAB;
+  const result = code === keyMap.ESCAPE || code === keyMap.TAB;
+  if (code === keyMap.ESCAPE) event.preventDefault();
+  return result;
 }
 
-export function isToggle(code) {
-  return code === keyMap.ENTER || code === keyMap.SPACE;
-}
-
-export function resetMenus(facilityMenuOpen, serviceMenuOpen) {
-  const result = [];
-  if (facilityMenuOpen) {
-    result.push('facility');
-  }
-  if (serviceMenuOpen) {
-    result.push('service');
+export function isToggle(keyEvent) {
+  const { keyCode: code } = keyEvent;
+  const result = code === keyMap.ENTER || code === keyMap.SPACE;
+  // To prevent unwanted scrolling and interaction with other elements
+  if (result) {
+    keyEvent.preventDefault();
+    keyEvent.stopPropagation();
   }
   return result;
 }
 
-export function shouldToggle(code, isActive) {
-  const toggle = isToggle(code);
+export function shouldToggle(keyEvent, isActive) {
+  const { keyCode: code } = keyEvent;
+  const toggle = isToggle(keyEvent);
   const shouldOpen = isTraverse(code) || toggle;
   const shouldClose = isEscape(code) || toggle;
   if (shouldOpen && !isActive) return 'open';
   if (shouldClose && isActive) return 'close';
   return false;
-}
-
-export function isSelect(code) {
-  return code === keyMap.ENTER;
 }
 
