@@ -208,7 +208,9 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-expanded=false] {
+  // TODO: We shouldn't have [aria-expanded=false], so make these "unexpanded" styles the default
+  //  Could just use a class for this instead
+  &[aria-haspopup]:not([aria-expanded=true]) {
     background-image: url(/img/plus-white.svg);
 
     &:hover {

@@ -70,9 +70,7 @@ function closeMenu(menuLi) {
   }
 
   // Close the menu
-  // TODO: Make this just remove the attribute. Currently, we have to set it to false because of styling
-  // menuButton.removeAttribute('aria-expanded');
-  menuButton.setAttribute('aria-expanded', false);
+  menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
 }
 
