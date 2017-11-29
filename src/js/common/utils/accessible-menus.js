@@ -156,13 +156,13 @@ export default function addMenuListeners(menuElement) {
     return;
   }
 
-
   // For all the sub menus, add listeners for:
   //  Up, down, left, right, enter (if necessary), space (if necessary)
   menuElement.addEventListener('keydown', (event) => {
     const targetLi = event.target.parentElement;
     // Target's grandparent because the parent is a <li>
     const inMenubar = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
+
     switch (event.keyCode) {
       case LEFT_ARROW: {
         if (inMenubar) {
@@ -175,6 +175,7 @@ export default function addMenuListeners(menuElement) {
         }
         break;
       }
+
       case RIGHT_ARROW: {
         if (inMenubar) {
           event.preventDefault();
@@ -186,6 +187,7 @@ export default function addMenuListeners(menuElement) {
         }
         break;
       }
+
       case UP_ARROW: {
         const isMB = isMenuButton(event.target);
         if (inMenubar && isMB) {
@@ -200,6 +202,7 @@ export default function addMenuListeners(menuElement) {
         }
         break;
       }
+
       case DOWN_ARROW: {
         const isMB = isMenuButton(event.target);
         if (inMenubar && isMB) {
@@ -213,7 +216,8 @@ export default function addMenuListeners(menuElement) {
         }
         break;
       }
-      // TODO: escape, enter (maybe), space (maybe)
+      // TODO: escape
+
       default: break;
     }
   });
