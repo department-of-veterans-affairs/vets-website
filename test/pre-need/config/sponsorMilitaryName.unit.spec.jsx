@@ -36,6 +36,23 @@ describe('Pre-need sponsor military name', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('should submit with required fields filled in', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    selectRadio(form, 'root_application_veteran_view:hasServiceName', 'N');
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
   it('should reveal name fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
