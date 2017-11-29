@@ -80,7 +80,7 @@ Once you leave active duty, you can still provide a future effective date that t
 
 You can revoke (cancel) or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you’re still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility (ability to get a TOE) has been totally revoked, you can’t transfer benefits again to that dependent.
 
-Family members: [Use transferred benefits](https://www.vets.gov/education/gi-bill/use-transferred-benefits.md).
+Family members: [Use transferred benefits](https://www.vets.gov/education/gi-bill/use-transferred-benefits/).
 
 </div>
 </div>
