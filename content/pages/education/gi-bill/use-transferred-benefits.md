@@ -87,4 +87,3 @@ Service members and Veterans: [Transfer GI Bill benefits](https://www.vets.gov/e
 </div>
 </div>
 </div>
-
