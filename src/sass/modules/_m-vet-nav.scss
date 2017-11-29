@@ -319,6 +319,8 @@ body.va-pos-fixed {
     padding: .8rem 1.6rem;
     text-decoration: none;
 
+    @include no-sr-content;
+
     @include media($medium-large-screen) {
       color: $color-link-default;
 

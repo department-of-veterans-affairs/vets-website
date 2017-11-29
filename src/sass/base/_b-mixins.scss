@@ -79,3 +79,12 @@
   }
 }
 
+// There are a few places where the exit-icon is explicitly hidden using prop / values
+// like 'background-image: none;'. In these cases, we want to hide the corresponding
+// content placed in the ::after pseudo-element
+@mixin no-sr-content {
+  &:after {
+    content: none;
+  }
+}
+

@@ -39,6 +39,8 @@
   a {
     padding: 0;
     background-image: none;
+
+    @include no-sr-content;
   }
 }
 
