@@ -3,12 +3,28 @@ const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 
+/**
+ * Returns whether the HTMLElement passed is a menu button. This is only true if:
+ *  1. The element is a button or has [role="button"]
+ *  2. The element has popup
+ *  3. The element has aria-controls that contains the id of an element with [role="menu"]
+ *
+ * @param {HTMLElement} element  The element in question
+ * @return {bool}
+ */
 function isMenuButton(element) {
+  // There is no element.getElementById() :matrix:
+  const menuElement = element.parentElement.querySelector(`#${element.getAttribute('aria-controls')}`);
+  if (!menuElement) {
+    return false;
+  }
+
+  const menuRole = (menuElement.getAttribute('role') || '').toLowerCase();
+
   return (element.tagName.toLowerCase() === 'button' || element.getAttribute('role').toLowerCase() === 'button') &&
-    element.getAttribute('aria-haspopup') &&
-    // Next element is a menu
-    // TODO: Should go by whether the element that aria-controls points to is a menu
-    element.nextElementSibling.getAttribute('role').toLowerCase() === 'menu';
+    ['menu', 'true'].includes(element.getAttribute('aria-haspopup')) &&
+    // The menuElement either is or contains a menu element
+    !!(menuRole === 'menu' || menuElement.querySelector('[role="menu"]'));
 }
 
 /**
@@ -46,7 +62,26 @@ function moveFocus(element, direction) {
   }
 }
 
-// function openMenu() {}
+function openMenu(menuLi) {
+  // TODO: Make this open either a submenu or menu
+
+  const menuButton = menuLi.querySelector('button, [role="button"]');
+  // Assumes whatever follows the button immediately is the associated menu or menu container
+  const menu = menuButton ? menuButton.nextElementSibling : null;
+
+  // If we're not dealing with a menu structure, abort
+  if (!menuButton || !menu) {
+    return;
+  }
+  const menuRole = (menu.getAttribute('role') || '').toLowerCase();
+  if (!(menuRole === 'menu' || menu.querySelector('[role="menu"]'))) {
+    return;
+  }
+
+  // Open the menu
+  menuButton.setAttribute('aria-expanded', true);
+  menu.removeAttribute('hidden');
+}
 
 /**
  * Closes a menubar menu.
@@ -105,7 +140,7 @@ export default function addMenuListeners(menuElement) {
         if (inMenubar) {
           closeMenu(targetLi);
           moveFocus(targetLi, 'previous');
-        } else if (isMenuButton(targetLi)) {
+        } else if (isMenuButton(event.target)) {
           // Move focus to the opening menu button
         }
         break;
@@ -114,25 +149,29 @@ export default function addMenuListeners(menuElement) {
         if (inMenubar) {
           closeMenu(targetLi);
           moveFocus(targetLi, 'next');
-        } else if (isMenuButton(targetLi)) {
+        } else if (isMenuButton(event.target)) {
           // Open the menu, focus on the first item
         }
 
         break;
       }
       case UP_ARROW: {
-        const isMB = isMenuButton(targetLi);
+        const isMB = isMenuButton(event.target);
         if (inMenubar && isMB) {
           // Open the menu, focus on the last item
+          openMenu(targetLi);
+          // TODO: Focus on the last item
         } else if (isMB) {
           // Move focus to the previous sibling
         }
         break;
       }
       case DOWN_ARROW: {
-        const isMB = isMenuButton(targetLi);
+        const isMB = isMenuButton(event.target);
         if (inMenubar && isMB) {
           // Open the menu, focus on the first item
+          openMenu(targetLi);
+          // TODO: Focus on the first item
         } else if (isMB) {
           // Move focus to the next sibling
         }
