@@ -34,9 +34,14 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 <div class="feature" markdown=“1”>
   
 (/health-care/health-conditions/conditions-related-to-service-era/)  
-  
-  
-  featured copy</div>
+
+### Are there any health concerns I should be aware of based on my service history?
+
+Yes. Certain health concerns may be more likely to affect Veterans who served in a specific time and place. Find out which health concerns you should be aware of depending on when and where you served. <br>
+
+[Get health information by service dates and locations](/health-care/health-conditions/conditions-related-to-service-era/). 
+
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
