@@ -272,7 +272,6 @@ export class Modals extends React.Component {
           <p><a href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and" target="_blank">Settlement reached with the Federal Trade Commission (FTC)</a></p>
           <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Suspended for 85/15 violation – Flight Program</a></p>
           <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs</a></p>
-          <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ISAA" target="_blank">Iowa SAA approval ends 9/18/16 (Potential lapse in program approval and payment of GI Bill benefits.)</a></p>
           <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank">School operating under provisional accreditation (previously accredited by ACICS)</a></p>
           <p>
             To learn more, visit the "Caution Flag" section of the <a

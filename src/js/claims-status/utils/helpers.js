@@ -283,7 +283,17 @@ export const mockData = {
         ],
         alerts: [
           {
-            type: 'tbd', // Need to get a real status type
+            type: 'waiting_on_action',
+            details: {
+              representative: 'Mr. Spock'
+            }
+          }, {
+            type: 'hearing_scheduled',
+            details: {
+              date: 'March 5th, 2018'
+            }
+          }, {
+            type: 'bva_decision_pending',
             details: {}
           }
         ],
