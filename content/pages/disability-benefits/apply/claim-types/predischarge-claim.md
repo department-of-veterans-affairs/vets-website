@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
-title: Predischarge Claim
+title: pre-discharge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityClaimTypesPredischarge
 order: 9
 relatedlinks:
-  - heading: Other benefits you can apply for while in predischarge status
+  - heading: Other benefits you can apply for while in pre-discharge status
     links:
     - url: /education/
       title: Education Benefits
@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability and you’re currently in predischarge status, you can file a claim for disability benefits 90 to 180 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program, depending on where you're stationed.
+If you have a service-connected disability and you’re currently in pre-discharge status, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program, depending on where you're stationed.
 
 </div>
 
@@ -48,9 +48,11 @@ Yes. Even if you file your claim in time, you can't use the BDD program if your 
 - Are awaiting discharge from a VA hospital or military treatment facility, **or**
 - Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany or Yongsan, Korea), **or**
 - Are pregnant, **or**
-- Require a Character of Discharge determination
+- Require a Character of Discharge determination, **or**
+- Can't go to a VA exam during the 45 days after you submit your claim **or**
+- Don't have a copy of your treatment records for your current period of service **or**
+- Added a medical condition to your claim but have fewer than 90 days left on active duty (we will process those conditions after you separate from the military)
 
-In these cases, your claim may be covered by another program, like the Integrated Disability Evaluation System (IDES) for Servicemembers being medically separated.
 
 </div>
 
