@@ -30,7 +30,8 @@ export const questionLabels = {
   '3_dischargeMonth': {},
   '7_courtMartial': {
     '1': 'My discharge was the outcome of a General Court Martial',
-    '2': 'My discharge was not the outcome of a General Court Martial',
+    '2': 'My discharge was administrative or the outcome of a Special or Summary Court Martial',
+    '3': 'I\'m not sure if my discharge was the outcome of a General Court Martial',
   },
   '1_branchOfService': {
     army: 'Army',
@@ -51,7 +52,7 @@ export const questionLabels = {
     '1': 'I applied to a Discharge Review Board (DRB) for a Documentary Review',
     '2': 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review',
     '3': 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)',
-    '4': 'Not sure',
+    '4': 'I\'m not sure what type of application I made when I was previously denied an upgrade',
   },
 };
 /* eslint-enable quote-props */

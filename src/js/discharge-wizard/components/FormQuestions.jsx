@@ -168,8 +168,9 @@ class FormQuestions extends React.Component {
 
     const label = <h4>Was your discharge the outcome of a General Court Martial? (Answer “no” if your discharge was administrative, or was the outcome of a Special or a Summary Court Martial.)</h4>;
     const options = [
-      { label: 'Yes', value: '1' },
-      { label: 'No', value: '2' },
+      { label: 'Yes, my discharge was the outcome of a General Court Martial.', value: '1' },
+      { label: 'No, my discharge was administrative or the outcome of a Special or Summary Court Martial.', value: '2' },
+      { label: 'I\'m not sure.', value: '3' },
     ];
 
     return this.renderQuestion(key, label, options);
@@ -262,7 +263,7 @@ class FormQuestions extends React.Component {
         <Element name="END"/>
         <h4>Review your answers</h4>
         <div className="va-introtext">
-          <p>If any information below is incorrect, update your answers to get the best guidance for your discharge situation.</p>
+          <p>If any information below is incorrect, update your answers to get the best information for your discharge situation.</p>
         </div>
         <table className="usa-table-borderless">
           <tbody>
