@@ -12,7 +12,7 @@ order: 4
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-Take steps to use GI Bill benefits transferred to you by your spouse or a parent. 
+A dependent spouse or child of a Servicemember who has unused Post-9/11 GI Bill benefits can apply to use these benefits to help with education costs. Find out how family members can use these transferred benefits.  
 
 </div>
 
@@ -30,14 +30,14 @@ When you can use your benefits depends on your relationship to the Veteran or Se
 - May use the benefit right away
 - May use the benefit while the Servicemember is on active duty or after separation
 - Don’t qualify for the monthly housing allowance while the Servicemember is on active duty
-- May use the benefit for up to 15 years after the Servicemember's separation from active duty
+- May use the benefit for up to 15 years after the Servicemember’s separation from active duty
 
 #### Children
 - May start to use the benefit only after the Servicemember has finished at least 10 years of service
 - May use the benefit while the Servicemember is on active duty or after separation
 - May not use the benefit until they’ve gotten a high school diploma (or equivalency certificate), or have reached 18 years of age
 - Qualify for the monthly housing allowance even when the Servicemember is on active duty
-- Don’t have to use the benefit within 15 years after the Servicemember's separation from active duty, but can’t use the benefit after they’ve turned 26 years old.
+- Don’t have to use the benefit within 15 years after the Servicemember’s separation from active duty, but can’t use the benefit after they’ve turned 26 years old.
 
   </div>
   </div>
@@ -49,7 +49,7 @@ When you can use your benefits depends on your relationship to the Veteran or Se
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may still qualify for benefits even if you're a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (withdraw) or change a Transfer of Entitlement (TOE) at any time. 
+You may still qualify for benefits even if you’re a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (withdraw) or change a Transfer of Entitlement (TOE) at any time. 
 
 </div>
 </div>
@@ -79,14 +79,14 @@ If the Department of Defense (DoD) approves the Transfer of Entitlement (TOE), y
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If DoD approves the TOE, you may apply for benefits.
+If DoD approves the TOE, you'll need to apply for benefits.
 
 - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
 - Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
 
 [Find a nearby VA facility](/facilities/).
 
-Servicemembers and Veterans: [Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+Servicemembers and Veterans:[Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 
 </div>
 </div>
