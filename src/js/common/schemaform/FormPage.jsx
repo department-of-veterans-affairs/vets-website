@@ -46,7 +46,7 @@ class FormPage extends React.Component {
     }
   }
 
-  onChange(formData) {
+  onChange = (formData) => {
     let newData = formData;
     if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
@@ -56,7 +56,7 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   }
 
-  onSubmit({ formData }) {
+  onSubmit = ({ formData }) => {
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
