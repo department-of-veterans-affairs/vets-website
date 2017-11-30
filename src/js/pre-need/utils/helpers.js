@@ -252,7 +252,10 @@ export const veteranUI = {
     'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
   },
   vaClaimNumber: {
-    'ui:title': 'VA claim number (if known)'
+    'ui:title': 'VA claim number (if known)',
+    'ui:errorMessages': {
+      pattern: 'Your VA claim number must be between 7 to 9 digits'
+    }
   },
   placeOfBirth: {
     'ui:title': 'Place of birth'
