@@ -46,7 +46,7 @@ describe('Schemaform <RoutedSiPPage>', () => {
 
     const tree = shallow(
       <RoutedSiPPage form={form} route={route} user={user} location={location}/>
-    ).find('RoutedFormPage').dive();
+    ).find('FormPage').dive();
 
     expect(tree.find('SaveStatus').isEmpty()).not.to.be.true;
     expect(tree.find('SaveFormLink').isEmpty()).not.to.be.true;

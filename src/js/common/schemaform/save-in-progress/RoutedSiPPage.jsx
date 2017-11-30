@@ -14,7 +14,7 @@ import {
   saveAndRedirectToReturnUrl
 } from './save-load-actions';
 import { toggleLoginModal } from '../../../login/actions';
-import { RoutedFormPage } from '../pages/RoutedFormPage';
+import { FormPage } from '../FormPage';
 
 class RoutedSiPPage extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class RoutedSiPPage extends React.Component {
     );
 
     return (
-      <RoutedFormPage
+      <FormPage
         {...this.props}
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}

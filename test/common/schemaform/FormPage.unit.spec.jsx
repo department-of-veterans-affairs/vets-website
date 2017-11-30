@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { RoutedFormPage } from '../../../../src/js/common/schemaform/pages/RoutedFormPage';
+import { FormPage } from '../../../src/js/common/schemaform/FormPage';
 
-describe('Schemaform <RoutedFormPage>', () => {
+describe('Schemaform <FormPage>', () => {
   const location = {
     pathname: '/testing/0'
   };
@@ -44,7 +44,7 @@ describe('Schemaform <RoutedFormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedFormPage form={form} route={route} user={user} location={location}/>
+      <FormPage form={form} route={route} user={user} location={location}/>
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
@@ -109,7 +109,7 @@ describe('Schemaform <RoutedFormPage>', () => {
       };
 
       tree = SkinDeep.shallowRender(
-        <RoutedFormPage
+        <FormPage
           router={router}
           setData={setData}
           form={form}
@@ -184,7 +184,7 @@ describe('Schemaform <RoutedFormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedFormPage
+      <FormPage
         router={router}
         form={form}
         user={user}
@@ -242,7 +242,7 @@ describe('Schemaform <RoutedFormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedFormPage
+      <FormPage
         form={form}
         user={user}
         route={route}
@@ -301,7 +301,7 @@ describe('Schemaform <RoutedFormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedFormPage
+      <FormPage
         setData={setData}
         form={form}
         user={user}
@@ -370,7 +370,7 @@ describe('Schemaform <RoutedFormPage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <RoutedFormPage
+      <FormPage
         setData={setData}
         router={router}
         form={form}
