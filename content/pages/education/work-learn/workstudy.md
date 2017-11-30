@@ -28,7 +28,7 @@ You can be a part of VA’s work-study program if you’re enrolled at least thr
     - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) <br>
     (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
     - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
-    - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
+    - [Vocational Rehabilitation and Employment program](https://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
 
 
 ### Who’s covered?
@@ -45,9 +45,9 @@ You can get a paid for a part-time job while you study.
 
 ### How do I get these benefits? 
 
-You’ll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). [Download VA Form 22-8691](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
+You’ll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). [Download VA Form 22-8691](https://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
 
-Get in touch with the regional processing office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+Get in touch with the regional processing office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### What kind of job can I get?
 Under VA’s work-study program, you can:

@@ -89,12 +89,12 @@ You can also call the VA general information hotline at <a href="tel:+1-800-827-
 
 ### Can I get disability compensation (monthly payments) or other benefits from VA?
 
-You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd#ptsd-disability-eligibility).
+You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
 
 Or, get help applying for disability compensation by:
 
-- Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
-- Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](http://www.benefits.va.gov/benefits/mstcoordinators.asp).
+- Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](https://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
+- Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](https://www.benefits.va.gov/benefits/mstcoordinators.asp).
 
 <br>
 

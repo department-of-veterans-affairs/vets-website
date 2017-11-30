@@ -116,9 +116,9 @@ You may still be able to get care:
 
 ### Where can I find more information or support?
 
-[Get resources and support to help you readjust after returning from deployment](http://www.mentalhealth.va.gov/returningservicevets.asp).<br />
-[Find more resources for help in a crisis](http://www.mentalhealth.va.gov/gethelp.asp).<br />
-[Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp).
+[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
+[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
+[Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 
 <script type="text/javascript">
 

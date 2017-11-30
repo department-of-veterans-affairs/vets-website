@@ -47,6 +47,6 @@ Are you a Servicemember, Veteran, or spouse or dependent child of a Servicemembe
 **Are you ending your military tour of duty soon?** You’ll need to get new coverage quickly. In some cases, you must act within 120 days of leaving the military to ensure no lapse in coverage. 
 
 Keep in mind that some life insurance policies provide dividend options (cash payments made to policy holders when the company makes a profit).<br>
-[Learn more about dividend options](http://www.benefits.va.gov/insurance/dividends_options.asp).<br>
-[Learn the truth about dividend rumors](http://www.benefits.va.gov/insurance/dividends_special.asp).<br>
+[Learn more about dividend options](https://www.benefits.va.gov/insurance/dividends_options.asp).<br>
+[Learn the truth about dividend rumors](https://www.benefits.va.gov/insurance/dividends_special.asp).<br>
 [Search for unclaimed funds](https://insurance.va.gov/UnclaimedFunds/).

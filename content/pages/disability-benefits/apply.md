@@ -37,7 +37,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 ### Prepare
 
-- [Check your eligibility](/disability-benefits/eligibility).
+- [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
@@ -100,14 +100,14 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-[Go to a regional benefits office](http://www.benefits.va.gov/benefits/offices.asp).
+[Go to a regional benefits office](https://www.benefits.va.gov/benefits/offices.asp).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h3 itemprop="name">What happens after I apply?</h3>
 <div itemprop="itemListElement">
 
-[Find out what happens after you apply](/disability-benefits/after-you-apply).
+[Find out what happens after you apply](/disability-benefits/after-you-apply/).
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 

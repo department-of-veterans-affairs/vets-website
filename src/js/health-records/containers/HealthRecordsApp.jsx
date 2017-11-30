@@ -35,7 +35,7 @@ export class HealthRecordsApp extends React.Component {
         verifyUrl={this.props.verifyUrl}>
         <RequiredTermsAcceptanceView
           termsName="mhvac"
-          cancelPath="/health-care"
+          cancelPath="/health-care/"
           termsNeeded={!this.props.profile.healthTermsCurrent}>
           <AppContent>
             <div>

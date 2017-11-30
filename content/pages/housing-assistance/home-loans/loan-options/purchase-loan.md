@@ -33,7 +33,7 @@ You may be able to get a VA-backed purchase loan if you:
 
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
 - **Better terms and interest rates** than other loans from private banks, mortgage companies, or credit unions (also called lenders)
-- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 - **No need for private mortgage insurance (PMI) or mortgage insurance premiums (MIP)**
   - PMI is a type of insurance that protects the lender if you end up not being able to pay your mortgage. It’s usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount.
   - MIP is what the Federal Housing Administration (FHA) requires you to pay to self-insure an FHA loan against future loss.
@@ -166,7 +166,7 @@ After closing, you’re ready to move into your new home. Congratulations!
 
 [Check out the Consumer Financial Protection Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf).
 
-[Learn more about VA-backed home loans](http://www.benefits.va.gov/homeloans/).
+[Learn more about VA-backed home loans](https://www.benefits.va.gov/homeloans/).
 
 [Watch a video about VA home loans and how to apply](https://www.youtube.com/watch?v=h3gR_BmMP7A).
 
