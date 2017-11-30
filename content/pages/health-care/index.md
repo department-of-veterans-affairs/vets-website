@@ -10,20 +10,16 @@ widgets:
     loadingMessage: Checking your application status.
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
-  - heading:
+  - heading: Apply for Health Care Benefits
     links:
-    - url: /health-care/about-va-health-care/
-      title: About VA Health Care Coverage
-      description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
     - url: /health-care/eligibility/
       title: Eligibility
       description: Find out if you can get VA health care benefits.
     - url: /health-care/apply/
       title: Application Process
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
-    - url: /health-care/health-conditions
-      title: Health Needs and Conditions
-      description: Find out how to access VA services for mental health, women’s health, and other specific needs. And find out which service-connected health concerns you should be aware of, based on when and where you served.
+  - heading: Manage Your Health
+    links:
     - url: /health-care/prescriptions/
       title: Refill Prescriptions
       description: Refill prescriptions online, and track the status of your refills.
@@ -36,7 +32,14 @@ majorlinks:
     - url: /health-care/health-records/
       title: Get Your VA Health Records
       description: View, download, and print your VA health records.
-relatedlinks:
+  - heading: Learn About Health Care Coverage
+    links:
+    - url: /health-care/about-va-health-care/
+      title: About VA Health Care Coverage
+      description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
+    - url: /health-care/health-conditions
+      title: Health Needs and Conditions
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs. And find out which service-connected health concerns you should be aware of, based on when and where you served.
   - heading: Get health information based on your service history
     links:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
