@@ -31,13 +31,18 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 </div>
 
+<div class="feature" markdown=“1”>
+  
+(/health-care/health-conditions/conditions-related-to-service-era/)  
+  
+  
+  featured copy</div>
+
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Access services for:</h3>
+<h3 itemprop="name">Access services by condition for:</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-
-- [Conditions related to when and where you served](/health-care/health-conditions/conditions-related-to-service-era/)
 
 - [Mental health](/health-care/health-conditions/mental-health/), such as:
 
