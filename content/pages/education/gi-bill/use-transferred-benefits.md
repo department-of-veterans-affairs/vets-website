@@ -24,20 +24,20 @@ Take steps to use GI Bill benefits transferred to you by your spouse or a parent
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-When you can use your benefits depends on your relationship to the Veteran or service member:
+When you can use your benefits depends on your relationship to the Veteran or Servicemember:
 
 #### Spouses
 - May use the benefit right away
-- May use the benefit while the service member is on active duty or after separation
-- Don’t qualify for the monthly housing allowance while the service member is on active duty
-- May use the benefit for up to 15 years after the service member's separation from active duty
+- May use the benefit while the Servicemember is on active duty or after separation
+- Don’t qualify for the monthly housing allowance while the Servicemember is on active duty
+- May use the benefit for up to 15 years after the Servicemember's separation from active duty
 
 #### Children
-- May start to use the benefit only after the service member has finished at least 10 years of service
-- May use the benefit while the service member is on active duty or after separation
+- May start to use the benefit only after the Servicemember has finished at least 10 years of service
+- May use the benefit while the Servicemember is on active duty or after separation
 - May not use the benefit until they’ve gotten a high school diploma (or equivalency certificate), or have reached 18 years of age
-- Qualify for the monthly housing allowance even when the service member is on active duty
-- Don’t have to use the benefit within 15 years after the service member's separation from active duty, but can’t use the benefit after they’ve turned 26 years old.
+- Qualify for the monthly housing allowance even when the Servicemember is on active duty
+- Don’t have to use the benefit within 15 years after the Servicemember's separation from active duty, but can’t use the benefit after they’ve turned 26 years old.
 
   </div>
   </div>
@@ -49,7 +49,7 @@ When you can use your benefits depends on your relationship to the Veteran or se
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may still qualify for benefits even if you are a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (cancel) or change a Transfer of Entitlement (TOE) at any time. 
+You may still qualify for benefits even if you're a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (withdraw) or change a Transfer of Entitlement (TOE) at any time. 
 
 </div>
 </div>
@@ -63,7 +63,7 @@ You may still qualify for benefits even if you are a dependent child who gets ma
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If the DOD approves the Transfer of Entitlement (TOE), you can apply for up to 36 months of benefits, and may be able to get money for:
+If the Department of Defense (DoD) approves the Transfer of Entitlement (TOE), you can apply for up to 36 months of benefits, and may be able to get money for:
 
 - Tuition
 - Housing
@@ -75,14 +75,18 @@ If the DOD approves the Transfer of Entitlement (TOE), you can apply for up to 3
 
 ------
 
-If DOD approves the TOE, you may apply for benefits.
+<h3 itemprop="name">How do I get these benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+If DoD approves the TOE, you may apply for benefits.
 
 - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
 - Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
 
 [Find a nearby VA facility](/facilities/).
 
-Service members and Veterans: [Transfer GI Bill benefits](https://www.vets.gov/education/gi-bill/transfer/).
+Servicemembers and Veterans: [Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 
 </div>
 </div>
