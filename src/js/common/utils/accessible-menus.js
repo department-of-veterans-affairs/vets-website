@@ -9,6 +9,23 @@ function isWideScreen() {
 
 
 /**
+ * Finds the closest ancestor for which the callback returns true.
+ *
+ * @param {HTMLElement}  element
+ * @param {function}     testCB   When this returns true on an ancestor, that ancestor is returned
+ * @return {HTMLElement|null}     If there is no ansestor for which the test returns true, null is returned
+ */
+function findNearestAncestor(element, testCB) {
+  const parent = element.parentElement;
+  if (!parent) {
+    return null;
+  }
+  const returnVal = testCB(parent) ? parent : findNearestAncestor(parent, testCB);
+  return returnVal;
+}
+
+
+/**
  * Returns whether the HTMLElement passed is a menu button. This is only true if:
  *  1. The element is a button or has [role="button"]
  *  2. The element has popup
@@ -196,29 +213,44 @@ export default function addMenuListeners(menuElement) {
 
       case UP_ARROW: {
         const isMB = isMenuButton(event.target);
+        const inMenu = (targetLi.parentElement.getAttribute('role') || '').toLowerCase() === 'menu';
         if (inMenubar && isMB) {
           event.preventDefault();
           // Open the menu, focus on the last item
           openMenu(targetLi);
           const lastSubmenu = targetLi.querySelector('[role="menu"] > li');
           openMenu(lastSubmenu);
-        } else if (isMB) {
+        } else if (inMenu) {
           event.preventDefault();
-          // Move focus to the previous sibling
+          // If we've reached the top of a list, figure out if we need to go up a level or wrap around
+          if (targetLi.previousElementSibling === null) {
+            const firstLi = findNearestAncestor(targetLi, el => {
+              return el.tagName.toLowerCase() === 'li';
+            });
+
+            // If the first <li> ancestor is in a [role="menubar"], we're at the first submenu and should
+            //  go up to the top-level menubar item
+            if (firstLi && (firstLi.parentElement.getAttribute('role') || '') === 'menubar') {
+              firstLi.firstElementChild.focus();
+            } else {
+              moveFocus(targetLi, 'previous');
+            }
+          } else {
+            moveFocus(targetLi, 'previous');
+          }
         }
         break;
       }
 
       case DOWN_ARROW: {
         const isMB = isMenuButton(event.target);
+        const inMenu = (targetLi.parentElement.getAttribute('role') || '').toLowerCase() === 'menu';
         if (inMenubar && isMB) {
           event.preventDefault();
-          // Open the menu, focus on the first item
           openMenu(targetLi, isWideScreen());
-          // TODO: Focus on the first item
-        } else if (isMB) {
+        } else if (inMenu) {
           event.preventDefault();
-          // Move focus to the next sibling
+          moveFocus(targetLi, 'next');
         }
         break;
       }
