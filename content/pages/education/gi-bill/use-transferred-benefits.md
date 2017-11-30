@@ -63,7 +63,7 @@ You may still qualify for benefits even if you’re a dependent child who gets m
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If the Department of Defense (DoD) approves the Transfer of Entitlement (TOE), you can apply for up to 36 months of benefits, and may be able to get money for:
+If the Department of Defense (DoD) approves the TOE, you can apply for up to 36 months of benefits, and may be able to get money for:
 
 - Tuition
 - Housing
@@ -79,14 +79,14 @@ If the Department of Defense (DoD) approves the Transfer of Entitlement (TOE), y
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If DoD approves the TOE, you'll need to apply for benefits.
+If the DoD approves the TOE, you'll need to apply for benefits.
 
 - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
 - Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
 
 [Find a nearby VA facility](/facilities/).
 
-Servicemembers and Veterans:[Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+Servicemembers and Veterans: [Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 
 </div>
 </div>
