@@ -4,42 +4,42 @@
     <div class="row va-flex">
     <ul class="va-footer-linkgroup" id="footer-services">
       <li><h4 class="va-footer-linkgroup-title">Services and Benefits</h4></li>
-      <li><a href="https://www.vets.gov/disability-benefits/">Disability Benefits</a></li>
-      <li><a href="https://www.vets.gov/health-care/">Health Care Benefits</a></li>
-      <li><a href="https://www.vets.gov/education/">Education Benefits</a></li>
-      <li><a href="https://www.vets.gov/housing-assistance/">Housing Assistance</a></li>
-      <li><a href="https://www.vets.gov/employment/">Careers and Employment</a></li>
-      <li><a href="https://www.vets.gov/life-insurance/">Life Insurance</a></li>
-      <li><a href="https://www.vets.gov/pension/">Pension Benefits</a></li>
-      <li><a href="https://www.vets.gov/burials-and-memorials">Burials and Memorials</a></li>
+      <li><a href="/disability-benefits/" onClick="footerNavClick(this, 'footer-services');">Disability Benefits</a></li>
+      <li><a href="/health-care/" onClick="footerNavClick(this, 'footer-services');">Health Care Benefits</a></li>
+      <li><a href="/education/" onClick="footerNavClick(this, 'footer-services');">Education Benefits</a></li>
+      <li><a href="/housing-assistance/" onClick="footerNavClick(this, 'footer-services');">Housing Assistance</a></li>
+      <li><a href="/employment/" onClick="footerNavClick(this, 'footer-services');">Careers and Employment</a></li>
+      <li><a href="/life-insurance/" onClick="footerNavClick(this, 'footer-services');">Life Insurance</a></li>
+      <li><a href="/pension/" onClick="footerNavClick(this, 'footer-services');">Pension Benefits</a></li>
+      <li><a href="/burials-and-memorials/" onClick="footerNavClick(this, 'footer-services');">Burials and Memorials</a></li>
     </ul>
     <ul class="va-footer-linkgroup" id="footer-popular">
       <li><h4 class="va-footer-linkgroup-title">Popular on Vets.gov</h4></li>
-      <li><a href="https://www.vets.gov/veteran-id-card/">Apply for Printed Veteran ID Card</a></li>
-      <li><a href="https://www.vets.gov/health-care/apply/">Apply for health care</a></li>
-      <li><a href="https://www.vets.gov/education/apply-for-education-benefits/">Apply for education benefits</a></li>
-      <li><a href="https://www.vets.gov/track-claims/your-claims/">Check your claim and appeal status</a></li>
-      <li><a href="https://www.vets.gov/gi-bill-comparison-tool/">Education benefits by school</a></li>
-      <li><a href="https://www.vets.gov/health-care/prescriptions/">Refill prescriptions</a></li>
+      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      <li><a href="/health-care/apply/" onClick="footerNavClick(this);">Apply for health care</a></li>
+      <li><a href="/education/apply-for-education-benefits/" onClick="footerNavClick(this);">Apply for education benefits</a></li>
+      <li><a href="/track-claims/" onClick="footerNavClick(this);">Check your claim and appeal status</a></li>
+      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Education benefits by school</a></li>
+      <li><a href="/health-care/prescriptions/" onClick="footerNavClick(this);">Refill prescriptions</a></li>
     </ul>
     <ul class="va-footer-linkgroup va-list--plain" id="footer-contact">
       <li><h4 class="va-footer-linkgroup-title">Contact</h4></li>
-      <li><a href="/facilities/">Find nearby VA locations</a></li>
+      <li><a href="/facilities/" onClick="footerNavClick(this);">Find nearby VA locations</a></li>
       <li>Call the Vets.gov Help Desk<br>
-      <a href="tel:18555747286">1-855-574-7286</a><br>
-      TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br>
+      <a href="tel:18555747286" onClick="footerNavClick(this);">1-855-574-7286</a><br>
+      TTY:&nbsp;<a href="tel:+18008778339" onClick="footerNavClick(this);">1-800-877-8339</a><br>
 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</li>
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
     <div>
-      <ul class="va-footer-linkgroup--inline">
-        <li><a href="/playbook/">Vets.gov Playbook</a></li>
-        <li><a target="_blank" href="http://www.va.gov/oig/">Inspector General</a></li>
-        <li><a target="_blank" href="http://www.section508.va.gov/">Accessibility</a></li>
-        <li><a href="/privacy">Privacy</a></li>
-        <li><a target="_blank" href="http://usa.gov">USA.gov</a></li>
+      <ul class="va-footer-linkgroup--inline" id="footer-supplemental">
+        <li><a href="/playbook/" onClick="footerNavClick(this);">Vets.gov Playbook</a></li>
+        <li><a target="_blank" href="http://www.va.gov/oig/" onClick="footerNavClick(this);">Inspector General</a></li>
+        <li><a target="_blank" href="http://www.section508.va.gov/" onClick="footerNavClick(this);">Accessibility</a></li>
+        <li><a href="/privacy/" onClick="footerNavClick(this);">Privacy</a></li>
+        <li><a target="_blank" href="http://usa.gov" onClick="footerNavClick(this);">USA.gov</a></li>
       </ul>
     </div>
     <div>
@@ -126,6 +126,15 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
+<script type="text/javascript">
+  function footerNavClick(elem) {
+    const eventLabel = 'nav-' + elem.parentElement.parentElement.id
+    window.dataLayer.push({
+      event: eventLabel,
+      navlabel: elem.innerText
+    });
+  }
+</script>
 {% if widgets %}
 <script type="text/javascript">
 (function() {
@@ -136,5 +145,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 })();
 </script>
 {% endif %}
+
 </body>
 </html>
