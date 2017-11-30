@@ -39,7 +39,7 @@ majorlinks:
       description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
     - url: /health-care/health-conditions
       title: Health Needs and Conditions
-      description: Find out how to access VA services for mental health, women’s health, and other specific needs as well as service-connected health concerns you should be aware of, based on your service history.
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs.
   - heading: Get health information based on your service history
     links:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
