@@ -39,8 +39,8 @@ class FormPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.route.pageKey !== prevProps.route.pageKey
-      || prevProps.params.index !== this.props.params.index) {
+    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey ||
+      _.get('params.index', prevProps) !== _.get('params.index', this.props)) {
       scrollToTop();
       focusForm();
     }
@@ -95,14 +95,13 @@ class FormPage extends React.Component {
     let data = form.data;
 
     if (route.pageConfig.showPagePerItem) {
-      const arrayPath  = route.pageConfig.arrayPath;
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
-      schema = schema.properties[arrayPath].items[params.index];
+      schema = schema.properties[route.pageConfig.arrayPath].items[params.index];
       // Similarly, the items uiSchema and the data for just that particular item are passed
-      uiSchema = uiSchema[arrayPath].items;
+      uiSchema = uiSchema[route.pageConfig.arrayPath].items;
       // And the data should be for just the item in the array
-      data = _.get([arrayPath, params.index], data);
+      data = _.get([route.pageConfig.arrayPath, params.index], data);
     }
 
     return (
