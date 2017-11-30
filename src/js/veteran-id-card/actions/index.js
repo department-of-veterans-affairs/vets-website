@@ -6,20 +6,27 @@ export const ATTRS_FAILURE = 'ATTRS_FAILURE';
 export const REDIRECT_TIMED_OUT = 'REDIRECT_TIMED_OUT';
 
 export function initiateIdRequest() {
+  window.dataLayer.push({ event: 'vic-submit-started' });
   return dispatch => {
     dispatch({ type: ATTRS_FETCHING });
 
     apiRequest('/id_card/attributes',
       {},
-      (response) => dispatch({
-        type: ATTRS_SUCCESS,
-        vicUrl: response.url,
-        traits: response.traits
-      }),
-      (response) => dispatch({
-        type: ATTRS_FAILURE,
-        errors: response.errors
-      })
+      (response) => {
+        window.dataLayer.push({ event: 'vic-submit-success' });
+        dispatch({
+          type: ATTRS_SUCCESS,
+          vicUrl: response.url,
+          traits: response.traits
+        });
+      },
+      (response) => {
+        window.dataLayer.push({ event: 'vic-submit-failure' });
+        dispatch({
+          type: ATTRS_FAILURE,
+          errors: response.errors
+        });
+      }
     );
   };
 }
