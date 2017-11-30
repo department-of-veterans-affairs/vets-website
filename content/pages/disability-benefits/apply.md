@@ -67,7 +67,7 @@ For all disability claims, please provide:
 <h4 itemprop="name">Ready to apply?</h4>
 <div itemprop="itemListElement">
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><span class="usa-sr-only"></span>Go to eBenefits to Apply</a>
 
 </div>
 </div>

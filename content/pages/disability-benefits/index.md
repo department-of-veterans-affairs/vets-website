@@ -39,4 +39,4 @@ If you have a disability that was caused by—or got worse because of—your act
 
 </div>
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><span class="usa-sr-only"></span>Go to eBenefits to Apply</a>

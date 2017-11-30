@@ -15,8 +15,6 @@ class SearchControls extends Component {
     this.state = {
       facilityDropdownActive: false,
       serviceDropdownActive: false,
-      facilityDropdownFocused: false,
-      serviceDropdownFocused: false,
       focusedFacilityIndex: 0,
       focusedServiceIndex: 0
     };
@@ -33,24 +31,6 @@ class SearchControls extends Component {
     this.navigateServiceDropdown = this.navigateServiceDropdown.bind(this);
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
     this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
-    this.setFacilityDropdownFocus = this.setFacilityDropdownFocus.bind(this);
-    this.setServiceDropdownFocus = this.setServiceDropdownFocus.bind(this);
-  }
-
-  setFacilityDropdownFocus(newState) {
-    const dropdownState = false ? !this.state.facilityDropdownActive : this.state.facilityDropdownActive;
-    this.setState({
-      facilityDropdownFocused: newState,
-      facilityDropdownActive: dropdownState
-    });
-  }
-
-  setServiceDropdownFocus(newState) {
-    const dropdownState = false ? !this.state.serviceDropdownActive : this.state.serviceDropdownActive;
-    this.setState({
-      serviceDropdownFocused: newState,
-      serviceDropdownActive: dropdownState
-    });
   }
 
   goToFacilityDropdown() {
@@ -252,17 +232,24 @@ class SearchControls extends Component {
   }
 
   renderSelectOptionWithIcon(facilityType, index) {
-    if (facilityType) {
-      return (
-        <button tabIndex="-1" ref={ elem => { this.facilities[index] = elem; }} id={facilityType} type="button" className="facility-option" onClick={() => this.handleFacilityFilterSelect(facilityType)} onKeyDown={this.navigateFacilityDropdown}>
-          <span className="flex-center"><span className={`legend ${kebabCase(facilityType)}-icon`}></span>{facilityTypes[facilityType]}</span>
-        </button>
-      );
-    }
+    const facilityClasses = classNames({
+      legend: true,
+      spacer: !facilityType,
+      [`${kebabCase(facilityType)}-icon`]: facilityType
+    });
 
     return (
-      <button id="AllFacilities" tabIndex="-1" type="button" className="facility-option" ref={ elem => { this.facilities[index] = elem; }}  onKeyDown={this.navigateFacilityDropdown}>
-        <span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>
+      <button
+        tabIndex="-1"
+        ref={ elem => { this.facilities[index] = elem; }}
+        id={facilityType || 'AllFacilities'}
+        type="button"
+        className="facility-option"
+        onClick={() => this.handleFacilityFilterSelect(facilityType)}
+        onKeyDown={this.navigateFacilityDropdown}>
+        <span className="flex-center">
+          <span className={facilityClasses}></span>{facilityTypes[facilityType] || 'All Facilities'}
+        </span>
       </button>
     );
   }
@@ -284,7 +271,7 @@ class SearchControls extends Component {
 
   render() {
     const { currentQuery, isMobile } = this.props;
-    const { facilityDropdownActive, serviceDropdownActive, facilityDropdownFocused, serviceDropdownFocused } = this.state;
+    const { facilityDropdownActive, serviceDropdownActive } = this.state;
     const facilityType = this.props.currentQuery.facilityType || 'AllFacilities';
     const serviceType = this.props.currentQuery.serviceType || 'All';
     if (currentQuery.active && isMobile) {
@@ -297,11 +284,14 @@ class SearchControls extends Component {
       );
     }
 
+    const facilityDropdownClasses = classNames({
+      'facility-dropdown-wrapper': true,
+      active: facilityDropdownActive
+    });
     const serviceDropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
       active: serviceDropdownActive,
-      'is-focused': serviceDropdownFocused,
-      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType),
+      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType)
     });
 
     return (
@@ -313,22 +303,71 @@ class SearchControls extends Component {
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
-            <div ref={ elem => {this.facilityDropdown = elem; }} onFocus={() => this.setFacilityDropdownFocus(true)} id="facility-list" onBlur={() => this.setFacilityDropdownFocus(false)} onKeyDown={this.toggleFacilityDropdown} tabIndex="0" className={`facility-dropdown-wrapper ${facilityDropdownFocused ? 'is-focused' : ''} ${facilityDropdownActive ? 'active' : ''}`} aria-autocomplete="none" aria-owns="facility-list" aria-controls="expandable" aria-expanded="false" aria-labelledby="facility-label" aria-required="false" aria-activedescendant={facilityType} role="combobox" onClick={this.toggleFacilityDropdown}>
+            <div
+              ref={ elem => {this.facilityDropdown = elem; }}
+              id="facility-list"
+              onKeyDown={this.toggleFacilityDropdown}
+              tabIndex="0"
+              className={facilityDropdownClasses}
+              aria-autocomplete="none"
+              aria-owns="facility-list"
+              aria-controls="expandable"
+              aria-expanded="false"
+              aria-labelledby="facility-label"
+              aria-required="false"
+              aria-activedescendant={facilityType}
+              role="combobox"
+              onClick={this.toggleFacilityDropdown}>
               <div className="flex-center">
                 {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               </div>
               <ul role="listbox" className="dropdown">
-                <li role="option" aria-selected={this.isSelectedFacility('AllFacilities')} className={`${this.isFocusedFacilityIndex(0) ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon(null, 0)}</li>
-                <li role="option" aria-selected={this.isSelectedFacility('health')} className={`${this.isFocusedFacilityIndex(1) ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('health', 1)}</li>
-                <li role="option" aria-selected={this.isSelectedFacility('benefits')} className={`${this.isFocusedFacilityIndex(2) ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('benefits', 2)}</li>
-                <li role="option" aria-selected={this.isSelectedFacility('cemetery')} className={`${this.isFocusedFacilityIndex(3) ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('cemetery', 3)}</li>
-                <li role="option" aria-selected={this.isSelectedFacility('vet_center')} className={`${this.isFocusedFacilityIndex(4) ? 'is-hovered' : ''}`}>{this.renderSelectOptionWithIcon('vet_center', 4)}</li>
+                <li role="option"
+                  aria-selected={this.isSelectedFacility('AllFacilities')}
+                  className={`${this.isFocusedFacilityIndex(0) ? 'is-hovered' : ''}`}>
+                  {this.renderSelectOptionWithIcon(null, 0)}
+                </li>
+                <li
+                  role="option"
+                  aria-selected={this.isSelectedFacility('health')}
+                  className={`${this.isFocusedFacilityIndex(1) ? 'is-hovered' : ''}`}>
+                  {this.renderSelectOptionWithIcon('health', 1)}
+                </li>
+                <li
+                  role="option"
+                  aria-selected={this.isSelectedFacility('benefits')}
+                  className={`${this.isFocusedFacilityIndex(2) ? 'is-hovered' : ''}`}>
+                  {this.renderSelectOptionWithIcon('benefits', 2)}
+                </li>
+                <li
+                  role="option"
+                  aria-selected={this.isSelectedFacility('cemetery')}
+                  className={`${this.isFocusedFacilityIndex(3) ? 'is-hovered' : ''}`}>
+                  {this.renderSelectOptionWithIcon('cemetery', 3)}
+                </li>
+                <li
+                  role="option"
+                  aria-selected={this.isSelectedFacility('vet_center')}
+                  className={`${this.isFocusedFacilityIndex(4) ? 'is-hovered' : ''}`}>
+                  {this.renderSelectOptionWithIcon('vet_center', 4)}
+                </li>
               </ul>
             </div>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
             <label htmlFor="serviceType" id="service-label">Select Service Type</label>
-            <div onFocus={() => this.setServiceDropdownFocus(true)} onBlur={() => this.setServiceDropdownFocus(false)} onKeyDown={this.navigateServiceDropdown} className={serviceDropdownClasses} ref={ elem => { this.serviceDropdown = elem; }} tabIndex="0" role="combobox" aria-controls="expandable" aria-expanded="false" aria-labelledby="service-label" aria-required="false" aria-activedescendant={serviceType} onClick={this.toggleServiceDropdown}>
+            <div
+              onKeyDown={this.navigateServiceDropdown}
+              className={serviceDropdownClasses}
+              ref={ elem => { this.serviceDropdown = elem; }}
+              tabIndex="0"
+              role="combobox"
+              aria-controls="expandable"
+              aria-expanded="false"
+              aria-labelledby="service-label"
+              aria-required="false"
+              aria-activedescendant={serviceType}
+              onClick={this.toggleServiceDropdown}>
               <div className="flex-center">
                 {this.renderServiceSelectOption(currentQuery.serviceType)}
               </div>

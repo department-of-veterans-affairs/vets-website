@@ -42,7 +42,7 @@ export class CautionaryInformation extends React.Component {
     // If Ashford, show specific link.
     const schoolSpecificLink =
       (it.facilityCode === '21007103' || it.website === 'http://www.ashford.edu') && (
-        <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA" target="_blank">More information on Ashford University</a>
+        <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA" target="_blank"><span className="usa-sr-only"></span>More information on Ashford University</a>
       );
 
     const flagContent = (
@@ -107,10 +107,10 @@ export class CautionaryInformation extends React.Component {
           <div className="link-header">
             <h3>
               {+it.complaints.mainCampusRollUp}&nbsp;
-              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank"><span className="usa-sr-only"></span>student complaints</a>
             </h3>
             <span>
-              &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
+              &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank"><span className="usa-sr-only"></span>Source</a>)
             </span>
           </div>
         </div>

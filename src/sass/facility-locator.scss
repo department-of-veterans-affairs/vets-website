@@ -14,7 +14,7 @@
   }
   .is-hovered {
     color: $color-white !important;
-    background: $color-primary-darker; 
+    background: $color-primary-darker;
   }
   // TODO(css): Fix when #content .section h* is fixed
   h4 {
@@ -321,7 +321,6 @@
       line-height: 1.3;
       margin: 0.2em 0;
       max-width: 46rem;
-      outline: none;
       padding: 0 0.5em;
       width: 100%;
 

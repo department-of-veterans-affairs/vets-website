@@ -21,7 +21,7 @@ export default function MailOrFax({ onClose }) {
       <ol>
         <li>Make copies of the documents.</li>
         <li>Make sure you write your name and claim number on every page.</li>
-        <li>Mail or fax them to the <a target="_blank" href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp">VA Claims Intake Center.</a></li>
+        <li>Mail or fax them to the <a target="_blank" href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"><span className="usa-sr-only"></span>VA Claims Intake Center.</a></li>
       </ol>
     </div>
   );
