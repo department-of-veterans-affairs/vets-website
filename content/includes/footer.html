@@ -1,10 +1,7 @@
 <script type="text/javascript">
-  function footerNavClick(event) {
-    listID = event.target.parentElement.parentElement.id
-    window.dataLayer.push({
-      event: `nav-${listID}`,
-      navlabel: event.target.innerText
-    });
+  function footerNavClick() {
+    console.log(this.parentElement.parentElement.id);
+    console.log(this.innerText);
   }
 </script>
 
@@ -14,7 +11,7 @@
     <div class="row va-flex">
     <ul class="va-footer-linkgroup" id="footer-services">
       <li><h4 class="va-footer-linkgroup-title">Services and Benefits</h4></li>
-      <li><a href="/disability-benefits/" onClick="footerNavClick">Disability Benefits</a></li>
+      <li><a href="/disability-benefits/" onClick="window.dataLayer.push({event: `nav-footer-services`, navlabel: 'Disability Benefits'});">Disability Benefits</a></li>
       <li><a href="/health-care/" onClick="footerNavClick">Health Care Benefits</a></li>
       <li><a href="/education/" onClick="footerNavClick">Education Benefits</a></li>
       <li><a href="/housing-assistance/" onClick="footerNavClick">Housing Assistance</a></li>
