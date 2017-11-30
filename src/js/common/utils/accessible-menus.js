@@ -112,37 +112,6 @@ function getMenuStructure(menuLi) {
 
 
 /**
- * Opens a menu.
- *
- * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
- */
-function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
-  // If we're not dealing with a menu structure, abort
-  const struct = getMenuStructure(menuLi);
-  if (!struct) {
-    return;
-  }
-
-  const { menuButton, menu } = struct;
-
-  // Open the menu
-  menuButton.setAttribute('aria-expanded', true);
-  menu.removeAttribute('hidden');
-
-  if (stealFocus) {
-    const menuRole = (menu.getAttribute('role') || '').toLowerCase();
-    const firstMenuItem = menuRole === 'menu' ? menu.firstElementChild : menu.querySelector('[role="menu"] > li');
-    firstMenuItem.firstElementChild.focus();
-  }
-
-  // If we're wide-screen, open the first submenu
-  if (openSubMenu) {
-    openMenu(menu.firstElementChild, false, false);
-  }
-}
-
-
-/**
  * Closes a menu.
  *
  * @param {HTMLLIElement} menuLI  The <li> containing the menubutton and menu
@@ -159,6 +128,41 @@ function closeMenu(menuLi) {
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
+}
+
+
+/**
+ * Opens a menu.
+ *
+ * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
+ */
+function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
+  // If we're not dealing with a menu structure, abort
+  const struct = getMenuStructure(menuLi);
+  if (!struct) {
+    return;
+  }
+
+  const { menuButton, menu } = struct;
+
+  // First, close all sibling menus
+  const openMenus = menu.parentElement.querySelectorAll('[aria-expanded=true]');
+  openMenus.forEach(m => closeMenu(m.parentElement));
+
+  // Open the menu
+  menuButton.setAttribute('aria-expanded', true);
+  menu.removeAttribute('hidden');
+
+  if (stealFocus) {
+    const menuRole = (menu.getAttribute('role') || '').toLowerCase();
+    const firstMenuItem = menuRole === 'menu' ? menu.firstElementChild : menu.querySelector('[role="menu"] > li');
+    firstMenuItem.firstElementChild.focus();
+  }
+
+  // If we're wide-screen, open the first submenu
+  if (openSubMenu) {
+    openMenu(menu.firstElementChild, false, false);
+  }
 }
 
 
@@ -215,11 +219,20 @@ export default function addMenuListeners(menuElement) {
         const isMB = isMenuButton(event.target);
         const inMenu = (targetLi.parentElement.getAttribute('role') || '').toLowerCase() === 'menu';
         if (inMenubar && isMB) {
-          event.preventDefault();
           // Open the menu, focus on the last item
+          event.preventDefault();
+
+          // Only open the first menu; we'll manually open the next level
           openMenu(targetLi);
-          const lastSubmenu = targetLi.querySelector('[role="menu"] > li');
-          openMenu(lastSubmenu);
+
+          if (isWideScreen()) {
+            // `[role="menu"] > li:last-child` was acting more like `[role="menu"] > li :last-child`, so we're
+            //  doing it the hard way
+            const menuItems = targetLi.querySelector('[role="menu"]').children;
+            const lastSubmenu = menuItems[menuItems.length - 1];
+            openMenu(lastSubmenu, false, false);
+            lastSubmenu.firstElementChild.focus();
+          }
         } else if (inMenu) {
           event.preventDefault();
           // If we've reached the top of a list, figure out if we need to go up a level or wrap around
