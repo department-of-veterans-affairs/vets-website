@@ -1,3 +1,13 @@
+<script type="text/javascript">
+  function footerNavClick(event) {
+    listID = event.target.parentElement.parentElement.id
+    window.dataLayer.push({
+      event: `nav-${listID}`,
+      navlabel: event.target.innerText
+    });
+  }
+</script>
+
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
     <a class="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
@@ -126,16 +136,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
-
-<script type="text/javascript">
-  function footerNavClick(event) {
-    listID = event.target.parentElement.parentElement.id
-    window.dataLayer.push({
-      event: `nav-${listID}`,
-      navlabel: event.target.innerText
-    });
-  }
-</script>
 {% if widgets %}
 <script type="text/javascript">
 (function() {
