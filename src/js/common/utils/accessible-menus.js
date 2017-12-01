@@ -66,8 +66,13 @@ function isMenuButton(element) {
  */
 function isVisible(element) {
   const hiddenDisplays = ['hidden', 'none'];
-  const visible = !hiddenDisplays.includes(getComputedStyle(element).display) &&
-    Array.from(element.children).some(e => !hiddenDisplays.includes(getComputedStyle(e).display));
+
+  // If the element has children, check them; otherwise, naively assume it's visible
+  const childrenAreVisible = element.children.length ?
+    Array.from(element.children).some(e => !hiddenDisplays.includes(getComputedStyle(e).display)) :
+    true;
+  const visible = !hiddenDisplays.includes(getComputedStyle(element).display) && childrenAreVisible;
+
   return visible;
 }
 
@@ -187,11 +192,13 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
 
   if (stealFocus) {
     const menuRole = (menu.getAttribute('role') || '').toLowerCase();
-    const firstMenuItem = menuRole === 'menu' ? firstVisibleChild(menu) : firstVisibleChild(menu.querySelector('[role="menu"]'));
+    const firstMenuItem = menuRole === 'menu' ?
+      firstVisibleChild(menu) :
+      firstVisibleChild(menu.querySelector('[role="menu"]'));
     firstMenuItem.firstElementChild.focus();
   }
 
-  // If we're wide-screen, open the first submenu
+  // If we're wide-screen (for example), open the first submenu
   if (openSubMenu) {
     openMenu(menu.firstElementChild, false, false);
   }
@@ -241,6 +248,7 @@ export default function addMenuListeners(menuElement) {
     const targetLi = event.target.parentElement;
     // Target's grandparent because the parent is a <li>
     const inMenubar = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
+    const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
     switch (event.keyCode) {
       case LEFT_ARROW: {
@@ -248,9 +256,14 @@ export default function addMenuListeners(menuElement) {
           event.preventDefault();
           closeMenu(targetLi);
           moveFocus(targetLi, 'previous');
-        } else if (isMenuButton(event.target)) {
+        } else if (inMenu) {
           event.preventDefault();
+
           // Move focus to the opening menu button
+          // This wins no prizes for efficiency, but until we have efficiency problems...
+          // Find the nearest ancestor who has a menu structure
+          const parentMenuLi = findNearestAncestor(targetLi, getMenuStructure);
+          firstVisibleChild(parentMenuLi).focus();
         }
         break;
       }
@@ -270,7 +283,6 @@ export default function addMenuListeners(menuElement) {
 
       case UP_ARROW: {
         const isMB = isMenuButton(event.target);
-        const inMenu = (targetLi.parentElement.getAttribute('role') || '').toLowerCase() === 'menu';
         if (inMenubar && isMB) {
           // Open the menu, focus on the last item
           event.preventDefault();
@@ -308,7 +320,6 @@ export default function addMenuListeners(menuElement) {
 
       case DOWN_ARROW: {
         const isMB = isMenuButton(event.target);
-        const inMenu = (targetLi.parentElement.getAttribute('role') || '').toLowerCase() === 'menu';
         if (inMenubar && isMB) {
           event.preventDefault();
           openMenu(targetLi, isWideScreen());
