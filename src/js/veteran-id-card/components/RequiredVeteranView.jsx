@@ -11,7 +11,7 @@ class RequiredVeteranView extends React.Component {
       serviceRateLimited: Math.random() > 0.1
     };
   }
-  
+
   componentDidMount() {
     if (this.state.serviceRateLimited) {
       window.dataLayer.push({ event: 'vic-ratelimited' });
