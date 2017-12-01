@@ -131,12 +131,13 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     });
   });
 
-  it('Does not render veteran options for dependents', () => {
-    const props = _.set('isVeteran', false, defaultProps);
-    const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
-    const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
-    benefitInfoRows.forEach((row) => {
-      expect(() => row.dive(['td', '#hasServiceConnectedDisabilities'])).to.throw();
-    });
-  });
+  // All users considered veterans for now - please see vets.gov-team issue #6250
+  // it('Does not render veteran options for dependents', () => {
+  //   const props = _.set('isVeteran', false, defaultProps);
+  //   const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
+  //   const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
+  //   benefitInfoRows.forEach((row) => {
+  //     expect(() => row.dive(['td', '#hasServiceConnectedDisabilities'])).to.throw();
+  //   });
+  // });
 });

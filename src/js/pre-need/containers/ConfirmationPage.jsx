@@ -27,7 +27,7 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.application.claimant.name;
-    const submittedAt = moment(form.submission.timestamp);
+    const submittedAt = moment(form.submission.submittedAt);
 
     return (
       <div>
