@@ -62,12 +62,34 @@ function isMenuButton(element) {
  *  display is neither hidden nor none. Only goes one level deep.
  *
  * @param {HTMLElement} element  The element to determine the visibility of
+ * @return {bool}
  */
 function isVisible(element) {
   const hiddenDisplays = ['hidden', 'none'];
   const visible = !hiddenDisplays.includes(getComputedStyle(element).display) &&
     Array.from(element.children).some(e => !hiddenDisplays.includes(getComputedStyle(e).display));
   return visible;
+}
+
+
+/**
+ * Gets the first visible child of the element specified. Useful for focusing on the first visible
+ * element in a list.
+ *
+ * @param {HTMLElement} element  The element in question
+ * @return {HTMLElement|null}    If no children are present or none of them are visible, returns null
+ */
+function firstVisibleChild(element) {
+  if (!element.children.length) {
+    return null;
+  }
+
+  const firstVisible = Array.from(element.children).find(c => isVisible(c));
+  if (!firstVisible) {
+    return null;
+  }
+
+  return firstVisible;
 }
 
 
@@ -142,6 +164,9 @@ function closeMenu(menuLi) {
  * Opens a menu.
  *
  * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
+ * @param {bool} openSubMenu      Whether or not the first submenu should be opened. E.g. if we're opening the
+ *                                 second-level menu in a wide screen, we want the third-level opened as well
+ * @param {bool} stealFocus       Whether or not to focus on the first item in the opened menu
  */
 function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
   // If we're not dealing with a menu structure, abort
@@ -153,7 +178,7 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
   const { menuButton, menu } = struct;
 
   // First, close all sibling menus
-  const openMenus = menu.parentElement.querySelectorAll('[aria-expanded=true]');
+  const openMenus = menuLi.parentElement.querySelectorAll('[aria-expanded=true]');
   openMenus.forEach(m => closeMenu(m.parentElement));
 
   // Open the menu
@@ -162,7 +187,7 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
 
   if (stealFocus) {
     const menuRole = (menu.getAttribute('role') || '').toLowerCase();
-    const firstMenuItem = menuRole === 'menu' ? menu.firstElementChild : menu.querySelector('[role="menu"] > li');
+    const firstMenuItem = menuRole === 'menu' ? firstVisibleChild(menu) : firstVisibleChild(menu.querySelector('[role="menu"]'));
     firstMenuItem.firstElementChild.focus();
   }
 
@@ -238,6 +263,7 @@ export default function addMenuListeners(menuElement) {
         } else if (isMenuButton(event.target)) {
           event.preventDefault();
           // Open the menu, focus on the first item
+          openMenu(targetLi);
         }
         break;
       }
@@ -295,7 +321,7 @@ export default function addMenuListeners(menuElement) {
 
       case ESCAPE: {
         closeAll(menuElement);
-        // TODO: May have to figure out what to do with focus
+        // May have to figure out what to do with focus, but it works for now
         break;
       }
 
