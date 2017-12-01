@@ -108,9 +108,8 @@ class Main extends React.Component {
           <p>You <b>do not</b> need to request this card if you have one of these:</p>
           <ul>
             <li>Veterans Health Identification Card (VHIC), <b>or</b></li>
-            <li>Department of Defense (DoD) Identification Card (Common Access Card (CAC) or Uniformed Services ID Card, <b>or</b></li>
-            <li>State-issued ID (Driver’s license) with a Veteran designation or a state-issued Veteran ID Card.
-Check with your state to see if they issue a Veteran ID Card.</li>
+            <li>Department of Defense Identification Card&#8212;either a Common Access Card (CAC) or a Uniformed Services ID Card, <b>or</b></li>
+            <li>State-issued ID (driver’s license) with a Veteran designation or a state-issued Veteran ID Card. Check with your state to see if they issue Veteran ID Cards.</li>
           </ul>
           <p>You can use any of these cards to get the same discounts. If you already have one of them, you don’t need a VIC, but you can still apply for it if you’d like.</p>
           <p>If you don’t have one of these cards, you should request a Veteran ID Card.</p>

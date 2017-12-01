@@ -22,7 +22,7 @@ const entryFiles = {
   '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
   '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
-  'discharge-wizard': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
+  'discharge-upgrade-instructions': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
   'no-react': './src/js/no-react-entry.js',

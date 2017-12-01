@@ -211,7 +211,7 @@ class FormQuestions extends React.Component {
 
     const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
 
-    const labelYear = prevApplicationYearCutoff[this.props.formValues['1_reason']];
+    const labelYear = prevApplicationYearCutoff[this.props.formValues['4_reason']];
 
     const prevApplicationYearOptions = [
       { label: `${labelYear} or earlier`, value: '1' },
@@ -227,10 +227,15 @@ class FormQuestions extends React.Component {
 
     const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
 
+    let boardLabel = 'I applied to a Board for Correction of Military Records (BCMR)';
+    if (['navy', 'marines'].includes(this.props.formValues['1_branchOfService'])) {
+      boardLabel = 'I applied to the Board for Correction of Naval Records (BCNR)';
+    }
+
     const prevApplicationTypeOptions = [
       { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: '1' },
       { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: '2' },
-      { label: 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)', value: '3' },
+      { label: boardLabel, value: '3' },
       { label: 'Not sure', value: '4' },
     ];
 
