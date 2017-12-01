@@ -340,10 +340,10 @@ export default function addMenuListeners(menuElement) {
     }
   });
 
-  // TODO: Add listener for loss of focus for if we tab away from an open menu
-
+  // TODO: Implement this and get rid of MegaMenu usage
   // menuElement.addEventListener('click', (event) => {
-  //   // Handle opening menus 'n stuff
+  //   // Handle opening menus
+  //   // Handle closing menus when clicked away
   // });
 }
 
