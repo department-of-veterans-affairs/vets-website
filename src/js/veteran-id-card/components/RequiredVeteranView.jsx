@@ -8,7 +8,7 @@ class RequiredVeteranView extends React.Component {
   render() {
     let view;
     const serviceAvailable = this.props.userProfile.services.indexOf('id-card') !== -1;
-    const serviceRateLimited = Math.random() > 0.75;
+    const serviceRateLimited = Math.random() > 0.9;
 
     if (this.props.userProfile.veteranStatus === 'SERVER_ERROR') {
       // If eMIS status is null, show a system down message.
