@@ -12,6 +12,12 @@ class RequiredVeteranView extends React.Component {
     };
   }
 
+  componentDidMount() {
+     if (this.state.serviceRateLimited) {
+       window.dataLayer.push({ event: 'vic-ratelimited' });
+     }
+  }
+  
   render() {
     let view;
     const serviceAvailable = this.props.userProfile.services.indexOf('id-card') !== -1;
@@ -25,7 +31,6 @@ class RequiredVeteranView extends React.Component {
       view = <SystemDownView messageLine1="We’re sorry. We can’t proceed with your request for a Veteran ID card because we can't confirm your military history right now. Please try again in a few minutes." messageLine2="If it still doesn’t work, please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>;
     } else if (this.props.userProfile.veteranStatus === 'OK') {
       if (this.state.serviceRateLimited) {
-        window.dataLayer.push({ event: 'vic-ratelimited' });
         view = <SystemDownView messageLine1="We can't proceed with your request for a Veteran ID Card." messageLine2="The Veteran Identification Card application is currently experiencing very high traffic. If you're unable to send your application, please try again after 24 hours. We apologize and please know we're working to update it as soon as possible."/>;
       } else if (!serviceAvailable) {
         // If all above conditions are true and service is still not present in user profile, then user
