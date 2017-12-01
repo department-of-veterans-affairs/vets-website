@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { RoutedSiPPage } from '../../../../src/js/common/schemaform/save-in-progress/RoutedSiPPage';
+import { RoutedSavablePage } from '../../../../src/js/common/schemaform/save-in-progress/RoutedSavablePage';
 
-describe('Schemaform <RoutedSiPPage>', () => {
+describe('Schemaform <RoutedSavablePage>', () => {
   const location = {
     pathname: '/testing/0'
   };
@@ -45,7 +45,7 @@ describe('Schemaform <RoutedSiPPage>', () => {
     };
 
     const tree = shallow(
-      <RoutedSiPPage form={form} route={route} user={user} location={location}/>
+      <RoutedSavablePage form={form} route={route} user={user} location={location}/>
     ).find('FormPage').dive();
 
     expect(tree.find('SaveStatus').isEmpty()).not.to.be.true;
@@ -89,7 +89,7 @@ describe('Schemaform <RoutedSiPPage>', () => {
     const setData = sinon.spy();
 
     const tree = shallow(
-      <RoutedSiPPage setData={setData} form={form} route={route} user={user} location={location} autoSave={autosave}/>
+      <RoutedSavablePage setData={setData} form={form} route={route} user={user} location={location} autoSave={autosave}/>
     );
     tree.instance().debouncedAutoSave = autosave;
 

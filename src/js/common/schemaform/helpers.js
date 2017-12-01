@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import ReviewPage from './review/ReviewPage';
 import FormPage from './FormPage';
-import RoutedSiPPage from './save-in-progress/RoutedSiPPage';
+import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
 import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
@@ -72,7 +72,7 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
-  const Page = formConfig.disableSave ? FormPage : RoutedSiPPage;
+  const Page = formConfig.disableSave ? FormPage : RoutedSavablePage;
   let routes = formPages
     .map(page => {
       return {

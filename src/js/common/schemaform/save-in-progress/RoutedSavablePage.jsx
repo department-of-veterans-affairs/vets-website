@@ -16,7 +16,7 @@ import {
 import { toggleLoginModal } from '../../../login/actions';
 import { FormPage } from '../FormPage';
 
-class RoutedSiPPage extends React.Component {
+class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
@@ -84,7 +84,7 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-RoutedSiPPage.propTypes = {
+RoutedSavablePage.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
@@ -99,6 +99,6 @@ RoutedSiPPage.propTypes = {
   setData: PropTypes.func
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSiPPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavablePage));
 
-export { RoutedSiPPage };
+export { RoutedSavablePage };

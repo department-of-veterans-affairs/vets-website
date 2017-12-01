@@ -8,7 +8,7 @@ import _ from 'lodash/fp';
 import SchemaForm from './SchemaForm';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import { setData, uploadFile } from '../actions';
-import { getNextPage, getPreviousPage } from './routing';
+import { getNextPagePath, getPreviousPagePath } from './routing';
 
 import { focusElement } from '../utils/helpers';
 
@@ -66,16 +66,16 @@ class FormPage extends React.Component {
       this.props.setData(newData);
     }
 
-    const page = getNextPage(route.pageList, form.data, location.pathname, route.pageConfig);
+    const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
-    this.props.router.push(page);
+    this.props.router.push(path);
   }
 
   goBack = () => {
-    const { form, route: { pageConfig, pageList }, location } = this.props;
-    const page = getPreviousPage(pageList, form.data, location.pathname, pageConfig);
+    const { form, route: { pageList }, location } = this.props;
+    const path = getPreviousPagePath(pageList, form.data, location.pathname);
 
-    this.props.router.push(page);
+    this.props.router.push(path);
   }
 
   render() {
