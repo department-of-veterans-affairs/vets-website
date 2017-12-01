@@ -9,10 +9,6 @@
   .highlight {
     margin-bottom: 0.5em !important;
   }
-  .is-hovered {
-    color: $color-white !important;
-    background: $color-primary-darker;
-  }
   // TODO(css): Fix when #content .section h* is fixed
   h4 {
     padding: 0 !important;
@@ -395,22 +391,21 @@
           border-bottom: solid 1px $color-black;
           border-right: solid 1px $color-black;
           z-index: 1011;
+          .is-hovered, .active, :hover {
+            color: $color-white;
+            background: $color-primary-darker;
+          }
         }
       }
 
       .dropdown-option {
+        width: 100%;
         background-color: $color-white;
-        color: $color-black;
         display: block;
         box-shadow: none;
         padding: 0;
         margin: 0;
         text-decoration: none;
-        &.active, &:hover, &.is-hovered {
-          font-size: 1.6rem;
-          color: $color-white;
-          background: $color-primary-darker;
-        }
       }
 
       &.active {

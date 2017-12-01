@@ -26,7 +26,9 @@ class SearchControls extends Component {
     this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
     this.handleServiceFilterSelect = this.handleServiceFilterSelect.bind(this);
     this.isSelectedFacility = this.isSelectedFacility.bind(this);
+    this.isSelectedService = this.isSelectedService.bind(this);
     this.isFocusedFacilityIndex = this.isFocusedFacilityIndex.bind(this);
+    this.isFocusedServiceIndex = this.isFocusedServiceIndex.bind(this);
     this.navigateFacilityDropdown = this.navigateFacilityDropdown.bind(this);
     this.navigateServiceDropdown = this.navigateServiceDropdown.bind(this);
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
@@ -194,6 +196,14 @@ class SearchControls extends Component {
     return this.props.currentQuery.facilityType === facilityType;
   }
 
+  isSelectedService(serviceType) {
+    return this.props.currentQuery.serviceType === serviceType;
+  }
+
+  isFocusedServiceIndex(serviceIndex) {
+    return this.state.focusedServiceIndex === serviceIndex;
+  }
+
   isFocusedFacilityIndex(facilityIndex) {
     return this.state.focusedFacilityIndex === facilityIndex;
   }
@@ -222,7 +232,7 @@ class SearchControls extends Component {
           const serviceOptionClasses = classNames({
             'dropdown-option': true,
             'facility-option': true,
-            'is-hovered': this.isFocusedFacilityIndex(i)
+            'is-hovered': this.isSelectedService(k)
           });
           return (
             <li
@@ -249,7 +259,7 @@ class SearchControls extends Component {
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
       'facility-option': true,
-      'is-hovered': this.isFocusedFacilityIndex(index)
+      'is-hovered': this.isSelectedFacility(facilityType)
     });
     const facilityIconClasses = classNames({
       legend: true,
@@ -288,11 +298,40 @@ class SearchControls extends Component {
     );
   }
 
+  renderServiceSelect() {
+    const { currentQuery } = this.props;
+    const serviceType = currentQuery.serviceType || 'All';
+    const serviceDropdownClasses = classNames({
+      'facility-dropdown-wrapper': true,
+      active: this.state.serviceDropdownActive,
+      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType)
+    });
+    return (
+      <div className="columns usa-width-one-fourth medium-3">
+        <label htmlFor="serviceType" id="service-label">Select Service Type</label>
+        <div
+          onKeyDown={this.navigateServiceDropdown}
+          className={serviceDropdownClasses}
+          ref={ elem => { this.serviceDropdown = elem; }}
+          tabIndex="0"
+          role="combobox"
+          aria-controls="expandable"
+          aria-expanded="false"
+          aria-labelledby="service-label"
+          aria-required="false"
+          aria-activedescendant={serviceType}
+          onClick={this.toggleServiceDropdown}>
+          {this.renderServiceSelectOption(currentQuery.serviceType)}
+          {this.renderServiceFilterOptions()}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { currentQuery, isMobile } = this.props;
-    const { facilityDropdownActive, serviceDropdownActive } = this.state;
+    const { facilityDropdownActive } = this.state;
     const facilityType = this.props.currentQuery.facilityType || 'AllFacilities';
-    const serviceType = this.props.currentQuery.serviceType || 'All';
     if (currentQuery.active && isMobile) {
       return (
         <div className="search-controls-container">
@@ -307,11 +346,6 @@ class SearchControls extends Component {
       'facility-dropdown-wrapper': true,
       active: facilityDropdownActive
     });
-    const serviceDropdownClasses = classNames({
-      'facility-dropdown-wrapper': true,
-      active: serviceDropdownActive,
-      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType)
-    });
 
     return (
       <div className="search-controls-container clearfix">
@@ -321,7 +355,7 @@ class SearchControls extends Component {
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
           <div className="columns usa-width-one-fourth medium-3">
-            <label htmlFor="facilityType">Select Facility Type</label>
+            <label htmlFor="facilityType" id="facility-label">Select Facility Type</label>
             <div
               ref={ elem => {this.facilityDropdown = elem; }}
               id="facility-list"
@@ -349,26 +383,7 @@ class SearchControls extends Component {
               </ul>
             </div>
           </div>
-          <div className="columns usa-width-one-fourth medium-3">
-            <label htmlFor="serviceType" id="service-label">Select Service Type</label>
-            <div
-              onKeyDown={this.navigateServiceDropdown}
-              className={serviceDropdownClasses}
-              ref={ elem => { this.serviceDropdown = elem; }}
-              tabIndex="0"
-              role="combobox"
-              aria-controls="expandable"
-              aria-expanded="false"
-              aria-labelledby="service-label"
-              aria-required="false"
-              aria-activedescendant={serviceType}
-              onClick={this.toggleServiceDropdown}>
-              <div className="flex-center">
-                {this.renderServiceSelectOption(currentQuery.serviceType)}
-              </div>
-              {this.renderServiceFilterOptions()}
-            </div>
-          </div>
+          {this.renderServiceSelect()}
           <div className="columns usa-width-one-sixth medium-2">
             <input type="submit" value="Search" onClick={this.handleSearch}/>
           </div>
