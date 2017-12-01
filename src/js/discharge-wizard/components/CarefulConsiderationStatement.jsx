@@ -8,26 +8,26 @@ const reasonStatement = (props) => {
     case '1':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI or PTSD or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI, PTSD, or mental health conditions. <a href="http://arba.army.pentagon.mil/documents/SECDEF%20Guidance%20to%20BCMRs%20re%20Vets%20Claiming%20PTSD.pdf">Learn more about the DoD guidelines for reviewing cases related to TBI, PTSD, and mental health conditions.</a>
+          Because you answered that your discharge was related to a TBI or PTSD or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI, PTSD, or mental health conditions.
         </p>
       );
     case '2':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI. Learn more about the DoD guidelines for reviewing cases related to TBI.
+          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI.
         </p>
       );
     case '3':
       if (dischargeType === '2') {
         return (
           <p>
-            Because you answered that your discharge was due to sexual orientation under Don't Ask Don't Tell or its predecessor policies, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of this reason. Note: You must prove that your discharge was <strong>only</strong> due to sexual orientation, and not due to other behavior.
+            Because you answered that your discharge was due to your sexual orientation, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of their sexual orientation. Note: You must prove that your discharge was only due to your sexual orientation and events specifically related to it.
           </p>
         );
       } else if (dischargeType === '1') {
         return (
           <p>
-            Many Veterans received General or Honorable discharges under Don’t Ask Don’t Tell (DADT), and simply want references to sexual orientation removed from their DD-214, or want the ability to re-enlist. This is a relatively straightforward application.
+            Many Veterans received General or Honorable discharges due to their sexual orientation, and simply want references to sexual orientation removed from their DD-214, or want the ability to re-enlist. This is a relatively straightforward application.
           </p>
         );
       }
@@ -35,7 +35,7 @@ const reasonStatement = (props) => {
     case '4':
       return (
         <p>
-          Because you answered that your discharge was related to sexual assault or harassment, the DoD will carefully consider your case. In 2017, DoD recognized that many Veterans received discharges due to sexual assault or harassment and unfairly received less than honorable discharges. Note: You must prove that your discharge was <strong>only</strong> a result of sexual assault or harassment, and not due to other behavior.
+          Because you answered that your discharge was related to sexual assault or harassment, the DoD will carefully consider your case. In 2017, DoD recognized that many Veterans received discharges due to sexual assault or harassment and unfairly received less than honorable discharges. Note: You must prove that your discharge was only a result of sexual assault or harassment and events specifically related to it.
         </p>
       );
     case '5':

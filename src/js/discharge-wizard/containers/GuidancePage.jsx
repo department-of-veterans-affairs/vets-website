@@ -26,7 +26,7 @@ class GuidancePage extends React.Component {
 
   renderResultSummary() {
     const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
-    return `You need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['1_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
+    return `Based on your answers, you need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['1_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
   }
 
   renderOptionalStep() {
@@ -39,7 +39,7 @@ class GuidancePage extends React.Component {
         <div className="feature">
           <h4>(Optional): Apply to the Physical Disability Board of Review (PDBR)</h4>
           <p>
-            The Department of Defense (DoD) created the Physical Disability Board of Review (PDBR) specifically to review appeals about low disability ratings for Veterans discharged between 2001 and 2009.  Many Veterans discharged during this time period were inaccurately given lower disability ratings than they deserved, especially if they suffered from TBI, PTSD, or mental health conditions. If you were discharged in this period and previously received a disability rating for PTSD which you feel is too low, you are eligible to apply to the PDBR for review. The PDBR does not issue discharge status upgrades—but if the PDBR finds that your disability rating was unjustly low, this may help you make your case to upgrade your discharge status. Many Veterans in this situation choose to <a target="_blank" href="http://www.health.mil/PDBR">make a PDBR application</a> before applying for a discharge upgrade. <a target="_blank" href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process">Apply for a PBDR review</a>.
+            If you believe your disability rating for TBI, PTSD, or mental health conditions is too low, consider applying to the Physical Disability Board of Review (PDBR). The Department of Defense (DoD) created the PDBR specifically to review appeals about low disability ratings for Veterans discharged between 2001 and 2009. Many Veterans discharged during this time period were inaccurately given lower disability ratings than they deserved, especially if they suffered from TBI, PTSD, or mental health conditions. If you were discharged in this period and previously received a disability rating which you feel is too low, you are eligible to apply to the PDBR for review. The PDBR does not issue discharge upgrades—but if the PDBR finds that your disability rating was unjustly low, this may help you make your case to upgrade your discharge. Many Veterans in this situation choose to make a PDBR application before applying for a discharge upgrade. <a target="_blank" href="https://health.mil/PDBR">Learn more about PBDR reviews</a> <a target="_blank" href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process">Apply for a PBDR review</a>.
           </p>
         </div>
       );
@@ -81,10 +81,10 @@ class GuidancePage extends React.Component {
                 Did that {reasons[questionOneResponse].type} {questionOneResponse === '4' ? 'happen' : 'exist'} during your military service?
               </li>
               <li>
-                Does the {reasons[questionOneResponse].type} directly explain ot contribute to the discharge?
+                Why does the {reasons[questionOneResponse].type} directly explain or contribute to the discharge?
               </li>
               <li>
-                Why does the {reasons[questionOneResponse].type} outweigh any other evidence that supports the discharge?
+                Why does the {reasons[questionOneResponse].type} outweigh any other reasons you may have been discharged for?
               </li>
             </ul>
           </div>
@@ -103,17 +103,20 @@ class GuidancePage extends React.Component {
           </p>
           <ul>
             <li>Pay special attention to item 6, which asks for the reason for your change. Most Veterans attach additional pages to answer this question. {strongCaseTips()}</li>
-            {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you are applying for reconsideration of a previous application, you will need to enter the previous application number in Item 6b. Note that you are generally only eligible for reconsideration if you have new evidence to present, which was not available at the time of your last application. Make sure you clarify exactly what that new evidence entails.</li>}
-            {boardToSubmit.abbr !== 'DRB' && <li>Item 8 asks for your date of “discovery” of the injustice. If this date isn’t in the last 3 years, you’ll need to argue that the Board should hear your case anyway. This is not a strict date, so don’t let the 3-year rule keep you from applying if you have a strong case. You may note your recent discovery of new evidence about your claim or recent policy changes (like careful consideration for PTSD, TBI, or military sexual assault or harassment.</li>}
-            {boardToSubmit.abbr !== 'DRB' && <li>Item 10 asks if you are willing to appear in-person before the Board. The Board rarely asks Veterans to appear in person, but indicating that you’re willing to do so may help show how serious you are about your case.</li>}
-            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you <strong>may</strong> have more success with a Personal Appearance Review, but know that you will not be reimbursed for your travel costs. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
-            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] === '1' && <li>The DRB allows you to request either a Documentary Review or a Personal Appearance Review. Because your application was already denied during a Documentary Review, you must apply for a Personal Appearance Review.</li>}
+            {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you are applying for reconsideration of a previous application, you will need to enter the previous application number in Item 6b. Note: You are generally only eligible for reconsideration if you have new evidence to present that was not available at the time of your last application. Make sure you clarify exactly what that new evidence is. Additionally, the change in DoD policy, such as new consideration guidelines for PTSD, TBI, and sexual assault or harassment can qualify you for reconsideration.</li>}
+            {this.props.formValues['4_reason'] === '4' && <li>
+              Note: For upgrades related to sexual assault or harassment, you do not need to prove the original assault or harassment occurred—meaning if you didn't file charges or report the incident, you can still apply for an upgrade. The important part of your application is to explain how the incident impacted your service. For example, detail how the incident caused a decrease in your productivity, or was the reason for PTSD.
+            </li>}
+            {boardToSubmit.abbr !== 'DRB' && <li>Item 8 asks for your date of "discovery" of the injustice. If this date isn’t in the last 3 years, you’ll need to argue that the Board should hear your case anyway. This is not a strict date, so don’t let the 3-year rule keep you from applying if you have a strong case. You may note your recent discovery of new evidence about your claim or recent policy changes (like careful consideration for PTSD, TBI, or military sexual assault or harassment.</li>}
+            {boardToSubmit.abbr !== 'DRB' && <li>Item 10 asks if you are willing to appear in-person before the Board in Washington, DC. The Board rarely asks Veterans to appear in person, but indicating that you’re willing to do so may help show how serious you are about your case.</li>}
+            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you <strong>may</strong> have more success with a Personal Appearance Review. Note that you will have to pay your travel costs if you make a personal appearance. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
+            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] === '1' && <li>The DRB allows you to request either a Documentary Review or a Personal Appearance Review. Because your application was already denied during a Documentary Review, you must apply for a Personal Appearance Review in Washington, DC. Note that you will have to pay your travel costs if you make a personal appearance.</li>}
           </ul>
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
-              <h4 className="usa-alert-heading">Need help?</h4>
-              <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a <a href="https://www.va.gov/vso/">VSO</a>, search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations.</p>
+              <h4 className="usa-alert-heading">Need help preparing your application?</h4>
+              <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p>
             </div>}
             isVisible
             status="warning"/>
@@ -123,6 +126,10 @@ class GuidancePage extends React.Component {
   }
 
   renderStepTwo() {
+    if (this.props.formValues['4_reason'] === '8') {
+      return null;
+    }
+
     const boardToSubmit = board(this.props.formValues);
     let militaryRecordInfo;
     if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1997) {
@@ -310,7 +317,7 @@ class GuidancePage extends React.Component {
         <div className="medium-8">
           <div className="va-introtext">
             <p>
-              <strong>Result</strong>: {this.renderResultSummary()}.
+              {this.renderResultSummary()}.
             </p>
           </div>
           <CarefulConsiderationStatement formValues={this.props.formValues}/>
