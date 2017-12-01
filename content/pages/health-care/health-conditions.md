@@ -41,21 +41,33 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
-
-<h3 itemprop="name">Access services by condition for:</h3>
+<h4 itemprop="name">How do I find out how to get health services for a specific condition or need?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="text"> 
 
-- [Mental health](/health-care/health-conditions/mental-health/), such as:
+**Mental Health Problems**
 
-  - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
+Get health services information for:
 
-  - [Depression](/health-care/health-conditions/mental-health/depression/)
+- [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-conditions/mental-health/)
 
-  - [Suicide prevention](/health-care/health-conditions/mental-health/suicide-prevention/)
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
 
-  - [Substance use problems](/health-care/health-conditions/substance-use-problems/)
+- [Depression](/health-care/health-conditions/mental-health/depression/)
+
+- [Suicide prevention](/health-care/health-conditions/mental-health/suicide-prevention/)
+
+- [Substance use problems](/health-care/health-conditions/substance-use-problems/)
+
+**Conditions of the Eyes, Ears, and Teeth**
+
+- [Vision care](/health-care/about-va-health-care/vision-care/)
+
+- [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp)
+
+- [Dental care](/health-care/about-va-health-care/dental-care/)
+
+**Other Health Conditions and Needs**
 
 - [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 
@@ -63,13 +75,8 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-conditions/exposure-to-hazardous-materials/)
 
-- [Dental care](/health-care/about-va-health-care/dental-care/)
-
-- [Vision care](/health-care/about-va-health-care/vision-care/)
-
-- [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp)
-
 - [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
+
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
 
@@ -84,7 +91,6 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 <h4 itemprop="name">What if I need help understanding my benefits or accessing services?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
