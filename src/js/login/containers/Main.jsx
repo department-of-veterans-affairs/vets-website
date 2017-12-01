@@ -145,12 +145,14 @@ class Main extends React.Component {
   checkTokenStatus() {
     if (sessionStorage.userToken) {
       if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
-        // TODO(crew): make more customized prompt.
-        if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-          this.handleLogin();
-        } else {
-          this.handleLogout();
-        }
+
+        // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
+        // if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
+        //   this.handleLogin();
+        // } else {
+        //   this.handleLogout();
+        // }
+
       } else {
         if (this.props.getUserData()) {
           this.props.updateLoggedInStatus(true);
