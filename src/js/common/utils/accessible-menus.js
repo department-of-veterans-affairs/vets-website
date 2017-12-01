@@ -49,11 +49,11 @@ function isMenuButton(element) {
   }
 
   const menuRole = (menuElement.getAttribute('role') || '').toLowerCase();
+  const isButton = element.tagName.toLowerCase() === 'button' || element.getAttribute('role').toLowerCase() === 'button';
+  const hasPopup = ['menu', 'true'].includes(element.getAttribute('aria-haspopup'));
+  const isOrHasMenu = !!(menuRole === 'menu' || menuElement.querySelector('[role="menu"]'));
 
-  return (element.tagName.toLowerCase() === 'button' || element.getAttribute('role').toLowerCase() === 'button') &&
-    ['menu', 'true'].includes(element.getAttribute('aria-haspopup')) &&
-    // The menuElement either is or contains a menu element
-    !!(menuRole === 'menu' || menuElement.querySelector('[role="menu"]'));
+  return isButton && hasPopup && isOrHasMenu;
 }
 
 
@@ -206,9 +206,9 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
 
 
 /**
- * Creates a closure which closes all menus in the provided element.
+ * Closes all the menus in menuElement
  *
- * @param {HTMLElement}
+ * @param {HTMLElement} menuElement
  * @return {function}   Call this to close all menus
  */
 function closeAll(menuElement) {
@@ -243,7 +243,7 @@ export default function addMenuListeners(menuElement) {
   }
 
   // For all the sub menus, add listeners for:
-  //  Up, down, left, right, enter (if necessary), space (if necessary)
+  //  Up, down, left, right, escape
   menuElement.addEventListener('keydown', (e) => {
     const targetLi = e.target.parentElement;
     // Target's grandparent because the parent is a <li>
