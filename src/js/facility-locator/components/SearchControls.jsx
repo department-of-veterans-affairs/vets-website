@@ -4,6 +4,7 @@ import { truncate, kebabCase } from 'lodash';
 import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import SelectComponent from './SelectComponent';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import { getDirection, getSelection, isTraverse, isEscape, isSpace, shouldToggle, isSelect } from '../utils/helpers.js';
 
@@ -208,7 +209,7 @@ class SearchControls extends Component {
     return this.state.focusedFacilityIndex === facilityIndex;
   }
 
-  renderServiceFilterOptions() {
+  renderSelectOptions() {
     const { currentQuery: { facilityType } } = this.props;
     let services;
     this.services = [];
@@ -269,7 +270,7 @@ class SearchControls extends Component {
 
     return (
       <li role="option"
-        tabIndex={this.serviceDropdownActive ? '1' : '-1'}
+        tabIndex={this.state.serviceDropdownActive ? '1' : '-1'}
         aria-selected={this.isSelectedFacility('AllFacilities')}
         ref={ elem => { this.facilities[index] = elem; }}
         id={index > -1 ? (facilityType || 'AllFacilities') : null}
@@ -283,8 +284,7 @@ class SearchControls extends Component {
     );
   }
 
-  renderServiceSelectOption(serviceType) {
-    const { isMobile } = this.props;
+  renderSelectOption(serviceType, isMobile) {
 
     return (
       <div className="flex-center">
@@ -298,40 +298,9 @@ class SearchControls extends Component {
     );
   }
 
-  renderServiceSelect() {
-    const { currentQuery } = this.props;
-    const serviceType = currentQuery.serviceType || 'All';
-    const serviceDropdownClasses = classNames({
-      'facility-dropdown-wrapper': true,
-      active: this.state.serviceDropdownActive,
-      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType)
-    });
-    return (
-      <div className="columns usa-width-one-fourth medium-3">
-        <label htmlFor="serviceType" id="service-label">Select Service Type</label>
-        <div
-          onKeyDown={this.navigateServiceDropdown}
-          className={serviceDropdownClasses}
-          ref={ elem => { this.serviceDropdown = elem; }}
-          tabIndex="0"
-          role="combobox"
-          aria-controls="expandable"
-          aria-expanded="false"
-          aria-labelledby="service-label"
-          aria-required="false"
-          aria-activedescendant={serviceType}
-          onClick={this.toggleServiceDropdown}>
-          {this.renderServiceSelectOption(currentQuery.serviceType)}
-          {this.renderServiceFilterOptions()}
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const { currentQuery, isMobile } = this.props;
     const { facilityDropdownActive } = this.state;
-    const facilityType = this.props.currentQuery.facilityType || 'AllFacilities';
     if (currentQuery.active && isMobile) {
       return (
         <div className="search-controls-container">
@@ -341,7 +310,11 @@ class SearchControls extends Component {
         </div>
       );
     }
-
+    const serviceDropdownClasses = classNames({
+      'facility-dropdown-wrapper': true,
+      active: this.state.serviceDropdownActive,
+      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType)
+    });
     const facilityDropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
       active: facilityDropdownActive
@@ -354,36 +327,36 @@ class SearchControls extends Component {
             <label htmlFor="streetCityStateZip" id="facility-label">Enter Street, City, State or Zip</label>
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
-          <div className="columns usa-width-one-fourth medium-3">
-            <label htmlFor="facilityType" id="facility-label">Select Facility Type</label>
-            <div
-              ref={ elem => {this.facilityDropdown = elem; }}
-              id="facility-list"
-              onKeyDown={this.toggleFacilityDropdown}
-              tabIndex="0"
-              className={facilityDropdownClasses}
-              aria-autocomplete="none"
-              aria-owns="facility-list"
-              aria-controls="expandable"
-              aria-expanded="false"
-              aria-labelledby="facility-label"
-              aria-required="false"
-              aria-activedescendant={facilityType}
-              role="combobox"
-              onClick={this.toggleFacilityDropdown}>
-              <div className="flex-center">
-                {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
-              </div>
-              <ul role="listbox" className="dropdown">
-                {this.renderSelectOptionWithIcon(null, 0)}
-                {this.renderSelectOptionWithIcon('health', 1)}
-                {this.renderSelectOptionWithIcon('benefits', 2)}
-                {this.renderSelectOptionWithIcon('cemetery', 3)}
-                {this.renderSelectOptionWithIcon('vet_center', 4)}
-              </ul>
+          <SelectComponent
+            optionType="facility"
+            selectedType={currentQuery.facilityType}
+            setDropdown={elem => this.facilityDropdown = elem} // eslint-disable-line no-return-assign
+            toggleDropdown={this.toggleFacilityDropdown}
+            dropdownClasses={facilityDropdownClasses}
+            navigateDropdown={this.navigateServiceDropdown}
+            dropdownActive={this.state.facilityDropdownActive}>
+            <div className="flex-center">
+              {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
             </div>
-          </div>
-          {this.renderServiceSelect()}
+            <ul role="listbox" className="dropdown">
+              {this.renderSelectOptionWithIcon(null, 0)}
+              {this.renderSelectOptionWithIcon('health', 1)}
+              {this.renderSelectOptionWithIcon('benefits', 2)}
+              {this.renderSelectOptionWithIcon('cemetery', 3)}
+              {this.renderSelectOptionWithIcon('vet_center', 4)}
+            </ul>
+          </SelectComponent>
+          <SelectComponent
+            optionType="service"
+            selectedType={currentQuery.serviceType}
+            setDropdown={elem => this.serviceDropdown = elem} // eslint-disable-line no-return-assign
+            toggleDropdown={this.toggleServiceDropdown}
+            dropdownClasses={serviceDropdownClasses}
+            navigateDropdown={this.navigateServiceDropdown}
+            dropdownActive={this.state.serviceDropdownActive}>
+            {this.renderSelectOption(currentQuery.serviceType, this.props.isMobile)}
+            {this.renderSelectOptions()}
+          </SelectComponent>
           <div className="columns usa-width-one-sixth medium-2">
             <input type="submit" value="Search" onClick={this.handleSearch}/>
           </div>
