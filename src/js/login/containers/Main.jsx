@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+// import moment from 'moment';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 
@@ -14,7 +14,7 @@ import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
-const SESSION_REFRESH_INTERVAL_MINUTES = 45;
+// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 class Main extends React.Component {
   constructor(props) {
