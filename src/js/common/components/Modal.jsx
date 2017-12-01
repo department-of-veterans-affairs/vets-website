@@ -38,7 +38,7 @@ class Modal extends React.Component {
       document.addEventListener('keyup', this.handleDocumentKeyUp, false);
       this.setState({ lastFocus: document.activeElement, focusListener: focusListener(newProps.focusSelector) });
     } else if (!newProps.visible && this.props.visible) {
-      document.removeEventListener('click', this.handleDocumentClick, false);
+      document.removeEventListener('click', this.handleDocumentKeyUp, false);
       document.removeEventListener('focus', this.state.focusListener, true);
       this.state.lastFocus.focus();
       document.body.classList.remove('modal-open');
