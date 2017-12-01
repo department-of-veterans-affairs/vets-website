@@ -133,9 +133,9 @@ class GuidancePage extends React.Component {
     const boardToSubmit = board(this.props.formValues);
     let militaryRecordInfo;
     if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1997) {
-      militaryRecordInfo = <p>You can <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">retrieve your complete military personnel record</a> (your Official Military Personnel File, or OMPF) online.</p>;
+      militaryRecordInfo = <p>You can retrieve your complete military personnel record (your Official Military Personnel File, or OMPF) online. <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">Get your military personnel record.</a></p>;
     } else {
-      militaryRecordInfo = <p>You can make a <a target="_blank" href="https://www.archives.gov/veterans/military-service-records">request online or by mail to receive your complete military personnel record</a> (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.</p>;
+      militaryRecordInfo = <p>You can make a request online or by mail to receive your complete military personnel record (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.<a target="_blank" href="https://www.archives.gov/veterans/military-service-records">Get your military personnel record.</a></p>;
     }
 
     let specificTypeInstruction;
@@ -162,13 +162,13 @@ class GuidancePage extends React.Component {
         <div>
           <h4>Add supporting information</h4>
           <p>
-            To improve your chances of success, also include as many of the following documents as you can. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to assist in helping you collect evidence <strong>if</strong> you can demonstrate you reasonably attempted to obtain your records but could not.</span> : null}
+            To improve your chances of success, also include as many of the following documents as you can. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to help you collect evidence if you can demonstrate you reasonably attempted to obtain your records but could not.</span> : null}
           </p>
           <ul>
             <li><strong>Military Record</strong>: The Board won’t have access to your military records, so you will need to submit any relevant documentation yourself. {militaryRecordInfo} {specificTypeInstruction && <p>Remember, you must prove that {specificTypeInstruction}. Submit any documents from this record which help support your case for a discharge upgrade.</p>}</li>
             {this.renderMedicalRecordInfo()}
-            <li><strong>"Buddy Statements" or Other References From Service</strong>: On top of military and medical records, some Veterans submit statements from friends they knew while in the service, or other individuals with direct knowledge of your time in the military. The content of the letter is more important than who it comes from, as long as their opinion is credible and they know you well. Ask friends or others to write statements in support of your appeal and send them to you to include with your application.</li>
-            <li><strong>Testaments of Achievements Since Service</strong>: The Boards may be able to take into account positive steps you have taken in your life since your discharge. Specific guidance on this issue will be released soon, but, in the meantime, you may still want to include evidence of progress you’ve made. For example, if you were discharged for reasons related to alcohol or drugs, submit a certificates from a treatment program showing you’ve been drug free for an extended period of time. You can also submit letters from employers or leaders in your community attesting to your positive contributions to your community.</li>
+            <li><strong>"Buddy Statements" or Other References From Service</strong>: On top of military records, some Veterans submit statements from friends they knew while in the service, or other individuals with direct knowledge of their time in the military. The content of the letter is more important than who it comes from, as long as their opinion is credible and they know you well. Ask friends or others to write statements in support of your appeal and send them with your application. The letter may include statements about your achievements in the military, positive relationships you formed in the military, why they think your discharge was unjust or incorrect, or good deeds you did during that time.</li>
+            <li><strong>Testaments of Achievements Since Service</strong>: You may decide to add information about what you have achieved in your life since your discharge, particularly if your discharge also involved any issues related to drugs, alcohol, or other bad behavior. This can be in the form of a letter from an employer or community leader, evidence of successful drug treatment, or copies of certificates and degrees. More specific guidance about acheivements since service will be released by DoD soon, but in the meantime add any acheivements you would like to highlight.</li>
           </ul>
         </div>
       </li>
@@ -188,7 +188,7 @@ class GuidancePage extends React.Component {
         <li>
           <strong>Medical Records</strong>: In most cases, the Board won’t have easy access to your medical records, so you should submit any relevant documentation yourself as much as possible.
           <ul>
-            <li>You can request your VA medical records by submitting <a target="_blank" href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345-fill.pdf">VA Form 10-5345</a> to your local VA Medical Center.</li>
+            <li>You can request your <strong>VA medical records</strong> by submitting VA Form 10-5345 to your local VA Medical Center. <a target="_blank" href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345-fill.pdf">Download VA Form 10-5345.</a></li>
             <li>{requestQuestion}</li>
             <li>You can also submit <strong>medical records from a private practice doctor</strong>—contact your doctor’s office to get the records you need.</li>
           </ul>
