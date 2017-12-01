@@ -199,6 +199,7 @@ class GuidancePage extends React.Component {
   }
 
   renderStepThree() {
+    const reasonCode = this.props.formValues['4_reason'];
     const noPrevApp = this.props.formValues['8_prevApplication'] === '2';
     const prevAppType = this.props.formValues['10_prevApplicationType'];
     const prevAppYear = this.props.formValues['9_prevApplicationYear'];
@@ -211,31 +212,38 @@ class GuidancePage extends React.Component {
     let boardExplanation;
     let onlineSubmissionMsg;
 
-    if (prevAppType === '2') {
-      boardExplanation = <p>Because your application was denied by the DRB on a Personal Appearance review, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision.</p>;
+    if (reasonCode === '8' && ['2', '4'].includes(prevAppType)) {
+      boardExplanation = 'the DRB because it granted your previous upgrade request, so you must apply to them for a new DD-214.';
+      if (oldDischarge) {
+        boardExplanation = `the ${boardToSubmit.abbr} because your discharge was over 15 years ago. This is because it handles all cases from 15 years ago and longer.`;
+      }
+    } else if (reasonCode === '8' && prevAppType === '3') {
+      boardExplanation = `the ${boardToSubmit.abbr} because it granted your previous upgrade request, so you must apply to them for a new DD-214.`;
+    } else if (prevAppType === '2') {
+      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision. This is because your application was denied by the DRB on a Personal Appearance Review.`;
     } else if (prevAppType === '3') {
-      boardExplanation = <p>Because you previously applied to the {boardToSubmit.abbr}, you must re-apply to the {boardToSubmit.abbr} for reconsideration.</p>;
+      boardExplanation = `the ${boardToSubmit.abbr}. This is because if you've applied before, you must re-apply to the ${boardToSubmit.abbr} for reconsideration.`;
     } else if ((noPrevApp || (['1', '4'].indexOf(prevAppType) > -1) || prevAppYear === '1') && oldDischarge) {
-      boardExplanation = <p>Because your discharge was over 15 years ago, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>;
+      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because it handles all cases from 15 years ago and longer.`;
     } else if (this.props.formValues['7_courtMartial'] === '1') {
-      boardExplanation = <p>Because your discharge was the result of a General Court-Martial, you must apply to the  {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>;
-    } else if (this.props.formValues['4_reason'] === '5' || this.props.formValues['6_intention'] === '1') {
-      boardExplanation = <p>Because you are seeking to change information other than your discharge status, re-enlistment code, and narrative reason for discharge, you must apply to the {boardToSubmit.abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>;
+      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because your discharge was the result of a General Court Martial.`;
+    } else if (reasonCode === '5' || this.props.formValues['6_intention'] === '1') {
+      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because you're seeking to change information other than your discharge status, re-enlistment code, and narrative reason for discharge.`;
     } else if (boardToSubmit.abbr === 'DRB') {
-      boardExplanation = <p>Given the details of your request, you must apply to the DRB for the {branchOfService(this.props.formValues['1_branchOfService'])}. {prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''} The DRB is a panel of commissioned officers, or a combination of senior NCOs and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time, you must apply to a different board.</p>;
+      boardExplanation = `the DRB for the ${branchOfService(this.props.formValues['1_branchOfService'])}. ${prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review. The DRB is a panel of commissioned officers, or a combination of senior NCOs and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time, you must apply to a different board.' : ''}`;
     }
 
     if (boardToSubmit.abbr === 'DRB' && this.props.formValues['1_branchOfService'] === 'army') {
-      onlineSubmissionMsg = <p>You can also submit this information online at <a target="_blank" href="http://actsonline.army.mil/">ACTSOnline</a>. </p>;
+      onlineSubmissionMsg = <p>You can also submit this information online at ACTSOnline. <a target="_blank" href="http://actsonline.army.mil/">Visit ACTSOnline to submit your information</a>.</p>;
     } else {
-      onlineSubmissionMsg = <p>Unfortunately, there isn’t a way to submit this form online.</p>;
+      onlineSubmissionMsg = <p>Unfortunately, there isn't a way to submit this form online.</p>;
     }
 
     return (
       <li className="list-group-item">
         <div>
           <h4>Mail your completed form and all supporting materials</h4>
-          {boardExplanation}
+          <p>There are a number of different boards that handle discharge upgrades and corrections. Based on your answers on the previous page, you need to apply to {boardExplanation}</p>
           {prevAppYear === '1' ? <p>Because your last application was made prior to the release of DoD guidance related to discharges like yours, DoD will effectively consider your application as a new application. Your previous application may be consulted for evidence, but usual rules about how to appeal previous decisions do not apply.</p> : null}
           <p>
             Mail your completed form and all supporting materials to the {boardToSubmit.abbr} at:
@@ -254,10 +262,10 @@ class GuidancePage extends React.Component {
         <div className="usa-accordion accordion-container">
           <ul className="usa-unstyled-list">
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name">What happens after I send in my completed form and supporting materials?</button>
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name">What happens after I send in my application?</button>
               <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
                 <div itemProp="text">
-                  <p>Usually, it takes several months for the Board to review your application. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
+                  <p>Nearly all applications are reviewed by the Board within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
                   <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
                   <p>If your appeal results in raising your discharge status to honorable, you will be immediately eligible for all VA benefits and services. In the meantime, you may still apply for VA eligibility by <a target="_blank" href="#">requesting a Character of Discharge review</a>.</p>
                 </div>
@@ -271,10 +279,10 @@ class GuidancePage extends React.Component {
                     isVisible
                     status="warning"
                     content={<p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>}/>
-                  <p>If you have a discharge that is less than honorable or general, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
-                  <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you’ve completed an drug rehabilitation program.</p>
+                  <p>If you have a discharge that is less than honorable, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
+                  <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you've completed an drug rehabilitation program.</p>
                   <p>As with applying for a discharge upgrade, you may consider finding someone to advocate on your behalf (such as a lawyer or VSO) in collecting and submitting this evidence, depending on the complexity of your case.</p>
-                  <p>Many veterans with less than honorable discharges pursue both methods: a VA characterization of discharge review, and a DoD discharge upgrade. There is no reason not to pursue both at the same time</p>
+                  <p>Many veterans with less than honorable discharges pursue both methods: a VA characterization of discharge review, and a DoD discharge upgrade. There is no reason not to pursue both at the same time.</p>
                   <p>If you experienced sexual assault or harassment while in the military or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify for VA health benefits without a VA characterization of discharge review or a discharge upgrade.</p>
                 </div>
               </div>
