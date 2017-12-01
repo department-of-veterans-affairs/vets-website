@@ -151,6 +151,7 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-applicant-information',
+          title: 'Veteran Information',
           depends: isVeteran,
           uiSchema: {
             application: {

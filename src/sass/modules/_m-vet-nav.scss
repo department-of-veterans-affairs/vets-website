@@ -313,6 +313,8 @@ body.va-pos-fixed {
 
 .vetnav-panel {
   a {
+    @include no-sr-content;
+
     background-image: none;
     color: $color-white;
     display: block;
