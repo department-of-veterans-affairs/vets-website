@@ -2,6 +2,7 @@ const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
+const ESCAPE = 27;
 
 function isWideScreen() {
   return matchMedia('(min-width: 768px)').matches;
@@ -22,6 +23,12 @@ function findNearestAncestor(element, testCB) {
   }
   const returnVal = testCB(parent) ? parent : findNearestAncestor(parent, testCB);
   return returnVal;
+}
+
+
+// Reduce code duplication
+function findNearestLi(element) {
+  return findNearestAncestor(element, el => el.tagName.toLowerCase() === 'li');
 }
 
 
@@ -167,6 +174,26 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
 
 
 /**
+ * Creates a closure which closes all menus in the provided element.
+ *
+ * @param {HTMLElement}
+ * @return {function}   Call this to close all menus
+ */
+function closeAll(menuElement) {
+  // Get all the parent <li>s of open menus
+  const allMenus = Array.from(menuElement.querySelectorAll('[aria-expanded=true]'))
+    .map(e => findNearestLi(e));
+
+  // Add the top-level 
+  if (menuElement.getAttribute('aria-expanded') === true) {
+    allMenus.push(findNearestLi(menuElement));
+  }
+
+  allMenus.forEach(e => closeMenu(e));
+}
+
+
+/**
  * Attaches event listeners to a menu or menu bar to make it keyboard navigable.
  * 
  * If the mobile buttons are provided, this will also handle the opening and closing
@@ -237,9 +264,7 @@ export default function addMenuListeners(menuElement) {
           event.preventDefault();
           // If we've reached the top of a list, figure out if we need to go up a level or wrap around
           if (targetLi.previousElementSibling === null) {
-            const firstLi = findNearestAncestor(targetLi, el => {
-              return el.tagName.toLowerCase() === 'li';
-            });
+            const firstLi = findNearestLi(targetLi);
 
             // If the first <li> ancestor is in a [role="menubar"], we're at the first submenu and should
             //  go up to the top-level menubar item
@@ -267,7 +292,12 @@ export default function addMenuListeners(menuElement) {
         }
         break;
       }
-      // TODO: escape
+
+      case ESCAPE: {
+        closeAll(menuElement);
+        // TODO: May have to figure out what to do with focus
+        break;
+      }
 
       default: break;
     }
