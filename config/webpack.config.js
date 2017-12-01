@@ -214,7 +214,7 @@ const configGenerator = (options) => {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
     }
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
-      append: `\n//# sourceMappingURL=${sourceMap}/sourcemap/[url]`,
+      append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
       filename: '[file].map',
     }));
     baseConfig.module.rules.push({
