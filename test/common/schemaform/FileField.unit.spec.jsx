@@ -81,6 +81,48 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('li').text()).to.contain('Test file name');
   });
 
+  it('should call onChange once when deleting files', () => {
+    const idSchema = {
+      $id: 'field'
+    };
+    const schema = {
+      additionalItems: {},
+      items: [{
+        properties: {}
+      }]
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name'
+      }
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
+    const onChange = sinon.spy();
+
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={onChange}
+        requiredSchema={requiredSchema}/>
+    );
+
+    tree.instance().removeFile(0);
+
+    expect(onChange.calledOnce).to.be.true;
+    expect(onChange.firstCall.args.length).to.equal(0);
+  });
+
   it('should render uploading', () => {
     const idSchema = {
       $id: 'field'

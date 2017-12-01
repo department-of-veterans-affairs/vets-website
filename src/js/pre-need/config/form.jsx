@@ -17,6 +17,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
+import { validateSponsorDeathDate } from '../validation';
 
 import {
   GetFormHelp,
@@ -150,6 +151,7 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-applicant-information',
+          title: 'Veteran Information',
           depends: isVeteran,
           uiSchema: {
             application: {
@@ -216,7 +218,10 @@ const formConfig = {
                   'ui:title': 'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)'
                 },
                 vaClaimNumber: {
-                  'ui:title': 'Sponsor’s VA claim number (if known)'
+                  'ui:title': 'Sponsor’s VA claim number (if known)',
+                  'ui:errorMessages': {
+                    pattern: 'Your VA claim number must be between 7 to 9 digits'
+                  }
                 },
                 ssn: {
                   ...ssnDashesUI,
@@ -256,7 +261,10 @@ const formConfig = {
                     expandUnder: 'isDeceased',
                     expandUnderCondition: 'yes'
                   }
-                })
+                }),
+                'ui:validations': [
+                  validateSponsorDeathDate
+                ]
               })
             }
           },
@@ -635,6 +643,7 @@ const formConfig = {
                 properties: {
                   claimant: {
                     type: 'object',
+                    required: ['email', 'phoneNumber'],
                     properties: {
                       address: address.schema(fullSchemaPreNeed, true),
                       'view:contactInfoDescription': {

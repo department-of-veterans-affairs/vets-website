@@ -62,24 +62,27 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionOne() {
+  renderQuestionThree() {
+    const key = '4_reason';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
     const options = [
-      { label: questionLabels['1_reason']['1'], value: '1' },
-      { label: questionLabels['1_reason']['2'], value: '2' },
-      { label: questionLabels['1_reason']['3'], value: '3' },
-      { label: questionLabels['1_reason']['4'], value: '4' },
-      { label: questionLabels['1_reason']['5'], value: '5' },
-      { label: questionLabels['1_reason']['6'], value: '6' },
-      { label: questionLabels['1_reason']['7'], value: '7' },
+      { label: questionLabels[key]['1'], value: '1' },
+      { label: questionLabels[key]['2'], value: '2' },
+      { label: questionLabels[key]['3'], value: '3' },
+      { label: questionLabels[key]['4'], value: '4' },
+      { label: questionLabels[key]['5'], value: '5' },
+      { label: questionLabels[key]['6'], value: '6' },
+      { label: questionLabels[key]['7'], value: '7' },
     ];
 
     const label = <h4>Which of the following best describes why you want to change your discharge paperwork?</h4>;
 
-    return this.renderQuestion('1_reason', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionOneA() {
-    const key = '2_dischargeType';
+  renderQuestionThreeA() {
+    const key = '5_dischargeType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Which of the following categories best describes you?</h4>;
@@ -90,8 +93,8 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionOneB() {
-    const key = '3_intention';
+  renderQuestionThreeB() {
+    const key = '6_intention';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Do you want to change any portion of your record other than discharge status, re-enlistment code, and narrative reason for discharge? (For example, your name or remarks.)</h4>;
@@ -99,11 +102,11 @@ class FormQuestions extends React.Component {
       { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
       { label: `No, ${questionLabels[key][2]}`, value: '2' },
     ];
-    return this.renderQuestion('3_intention', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionTwo() {
-    const key = '4_dischargeYear';
+    const key = '2_dischargeYear';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const dischargeYear = this.props.formValues[key];
@@ -123,6 +126,7 @@ class FormQuestions extends React.Component {
 
     return (
       <fieldset className="fieldset-input dischargeYear" key="dischargeYear" ref={(el) => { this[key] = el; }}>
+        <Element name={key}/>
         <ErrorableSelect
           autocomplete="false"
           label={label}
@@ -135,7 +139,7 @@ class FormQuestions extends React.Component {
   }
 
   renderQuestionTwoB() {
-    const key = '5_dischargeMonth';
+    const key = '3_dischargeMonth';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const monthLabel = (
@@ -145,7 +149,8 @@ class FormQuestions extends React.Component {
     );
 
     return (
-      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ef={(el) => { this[key] = el; }}>
+      <fieldset className="fieldset-input dischargeMonth" key="dischargeMonth" ref={(el) => { this[key] = el; }}>
+        <Element name={key}/>
         <ErrorableSelect
           autocomplete="false"
           label={monthLabel}
@@ -157,21 +162,22 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionThree() {
-    const key = '6_courtMartial';
+  renderQuestionFour() {
+    const key = '7_courtMartial';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>Was your discharge the outcome of a General Court Martial? (Answer “no” if your discharge was administrative, or was the outcome of a Special or a Summary Court Martial.)</h4>;
     const options = [
-      { label: 'Yes', value: '1' },
-      { label: 'No', value: '2' },
+      { label: 'Yes, my discharge was the outcome of a General Court Martial.', value: '1' },
+      { label: 'No, my discharge was administrative or the outcome of a Special or Summary Court Martial.', value: '2' },
+      { label: 'I\'m not sure.', value: '3' },
     ];
 
     return this.renderQuestion(key, label, options);
   }
 
-  renderQuestionFour() {
-    const key = '7_branchOfService';
+  renderQuestionOne() {
+    const key = '1_branchOfService';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
     const label = <h4>In which branch of service did you serve?</h4>;
@@ -196,7 +202,7 @@ class FormQuestions extends React.Component {
       { label: 'No', value: '2' },
     ];
 
-    return this.renderQuestion('8_prevApplication', label, options);
+    return this.renderQuestion(key, label, options);
   }
 
   renderQuestionFiveA() {
@@ -205,14 +211,14 @@ class FormQuestions extends React.Component {
 
     const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
 
-    const labelYear = prevApplicationYearCutoff[this.props.formValues['1_reason']];
+    const labelYear = prevApplicationYearCutoff[this.props.formValues['4_reason']];
 
     const prevApplicationYearOptions = [
       { label: `${labelYear} or earlier`, value: '1' },
       { label: `After ${labelYear}`, value: '2' },
     ];
 
-    return this.renderQuestion('9_prevApplicationYear', prevApplicationYearLabel, prevApplicationYearOptions);
+    return this.renderQuestion(key, prevApplicationYearLabel, prevApplicationYearOptions);
   }
 
   renderQuestionFiveB() {
@@ -221,14 +227,37 @@ class FormQuestions extends React.Component {
 
     const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
 
+    let boardLabel = 'I applied to a Board for Correction of Military Records (BCMR)';
+    if (['navy', 'marines'].includes(this.props.formValues['1_branchOfService'])) {
+      boardLabel = 'I applied to the Board for Correction of Naval Records (BCNR)';
+    }
+
     const prevApplicationTypeOptions = [
       { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: '1' },
       { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: '2' },
-      { label: 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)', value: '3' },
+      { label: boardLabel, value: '3' },
       { label: 'Not sure', value: '4' },
     ];
 
-    return this.renderQuestion('10_prevApplicationType', prevApplicationTypeLabel, prevApplicationTypeOptions);
+    return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
+  }
+
+  renderQuestionSix() {
+    const key = '11_priorService';
+    const transgender = this.props.formValues['4_reason'] === '5';
+    const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
+
+    if (transgender || honorableDischarge || !shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+
+    const questionLabel = <h4>Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?</h4>;
+
+    const questionOptions = [
+      { label: 'Yes, I have discharge paperwork documenting a discharge under honorable or general under honorable conditions.', value: '1' },
+      { label: 'Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period.', value: '2' },
+      { label: 'No, I did not complete an earlier period of service.', value: '3' },
+    ];
+
+    return this.renderQuestion(key, questionLabel, questionOptions);
   }
 
   renderAnswerReview() {
@@ -239,7 +268,7 @@ class FormQuestions extends React.Component {
         <Element name="END"/>
         <h4>Review your answers</h4>
         <div className="va-introtext">
-          <p>If any information below is incorrect, update your answers to get the best guidance for your discharge situation.</p>
+          <p>If any information below is incorrect, update your answers to get the best information for your discharge situation.</p>
         </div>
         <table className="usa-table-borderless">
           <tbody>
@@ -268,15 +297,16 @@ class FormQuestions extends React.Component {
     return (
       <div>
         {this.renderQuestionOne()}
-        {this.renderQuestionOneA()}
-        {this.renderQuestionOneB()}
         {this.renderQuestionTwo()}
         {this.renderQuestionTwoB()}
         {this.renderQuestionThree()}
+        {this.renderQuestionThreeA()}
+        {this.renderQuestionThreeB()}
         {this.renderQuestionFour()}
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}
         {this.renderQuestionFiveB()}
+        {this.renderQuestionSix()}
         {this.renderAnswerReview()}
       </div>
     );

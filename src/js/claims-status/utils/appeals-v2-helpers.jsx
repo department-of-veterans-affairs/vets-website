@@ -1,8 +1,15 @@
+import React from 'react';
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   nod: 'nod',
   awaitingHearingDate: 'awaiting_hearing_date',
   bvaDecision: 'bva_decision',
+};
+
+export const ALERT_TYPES = {
+  waitingOnAction: 'waiting_on_action',
+  hearingScheduled: 'hearing_scheduled',
+  bvaDecisionPending: 'bva_decision_pending'
 };
 
 // TO DO: Replace made up properties and content with real versions once finalized.
@@ -246,3 +253,57 @@ export function getNextEvents(currentStatus) {
   }
 }
 
+/**
+ * 
+ * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
+ * @returns {object} containing dynamically-generated title & description properties
+ */
+export function getAlertContent(alert) {
+  const { type, details } = alert;
+  switch (type) {
+    case ALERT_TYPES.waitingOnAction:
+      return {
+        title: 'Your appeal is waiting on action by your representative',
+        description: `Your appeal is near the front of the line, but it is not
+          ready to go to a judge. It is currently waiting on your
+          representative, the ${details.representative}, to complete an
+          informal hearing presentation (IHP). Please contact your
+          representative for more information.`,
+        cssClass: 'usa-alert-warning',
+        type
+      };
+    case ALERT_TYPES.hearingScheduled:
+      return {
+        title: `Your hearing has been scheduled for ${details.date}`,
+        description: '',
+        cssClass: 'usa-alert-info',
+        type,
+      };
+    case ALERT_TYPES.bvaDecisionPending:
+      return {
+        title: 'You will soon receive your Board decision',
+        description: (
+          <ul>
+            <li>
+              While a judge is reviewing your case, please do not send any
+              additional evidence. This may delay your decision and increase
+              your wait time.
+            </li>
+            <li>
+              Please call your representative or Regional Office to make
+              sure we have the correct address to mail your decision letter.
+            </li>
+          </ul>
+        ),
+        cssClass: 'usa-alert-info',
+        type,
+      };
+    default:
+      return {
+        title: '',
+        description: '',
+        cssClass: '',
+        type,
+      };
+  }
+}
