@@ -47,7 +47,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 **Mental Health Problems**
 
-Get health services information for:
+Find out how to access services for:
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-conditions/mental-health/)
 
@@ -61,6 +61,8 @@ Get health services information for:
 
 **Conditions of the Eyes, Ears, and Teeth**
 
+Find out how to access services for:
+
 - [Vision care](/health-care/about-va-health-care/vision-care/)
 
 - [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp)
@@ -68,6 +70,8 @@ Get health services information for:
 - [Dental care](/health-care/about-va-health-care/dental-care/)
 
 **Other Health Conditions and Needs**
+
+Find out how to access services for:
 
 - [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 
