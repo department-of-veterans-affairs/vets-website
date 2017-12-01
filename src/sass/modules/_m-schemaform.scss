@@ -242,22 +242,23 @@ fieldset.schemaform-field-template {
 }
 
 //duplicated from claims-status.scss
-.ask-va-questions {
-  .talk {
-    margin: 0.5em 0;
-    padding: 0;
-  }
-  .phone-number {
-    margin: 0.5em 0 2em;
-    a {
-      font-weight: bold;
-      text-decoration: none;
-      margin: 0.5em 0;
-    }
-  }
+.help-talk {
+  margin: 0.5em 0;
+  padding: 0;
 }
+
+.help-phone-number {
+  margin: 0.5em 0 2em;
+}
+
+.help-phone-number-link {
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0.5em 0;
+}
+
 //duplicated/renamed from claims-status.scss
-.ask-va-questions.help-sidebar-box {
+.help-footer-box {
   padding: 2em 0;
   @include media($medium-large-screen) {
     padding-top: 0.6em;
@@ -265,16 +266,14 @@ fieldset.schemaform-field-template {
   }
 }
 //duplicated/renamed from claims-status.scss
-.help-sidebar-box {
+.help-footer-box {
   padding-top: 0.3em;
 }
+
 //duplicated/renamed from claims-status.scss
-.help-h2-border {
+.help-heading {
   border-bottom: 3px solid $color-primary;
   margin: 0.3em 0;
-}
-//duplicated/renamed from claims-status.scss
-.help-h2 {
   font-size: 1.35em;
   line-height: 1.5;
   font-weight: bold;
@@ -288,20 +287,7 @@ fieldset.schemaform-field-template {
   list-style: none;
   padding-left: 0;
   > li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  > .schemaform-file-item-edit {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.schemaform-file-list-buttons-editing {
-  display: flex;
-  > .schemaform-file-remove-button {
-    width: inherit;
+    list-style: none;
   }
 }
 
@@ -309,8 +295,27 @@ fieldset.schemaform-field-template {
   margin-top: 0.5em;
 }
 
-.schemaform-file-upload .schemaform-label {
+.schemaform-file-upload > div > .schemaform-label {
   font-weight: bold;
+}
+
+.schemaform-file-error.usa-input-error {
+  // border size is 4px
+  right: 4px;
+  width: calc(100% + 4px);
+  margin-top: inherit;
+}
+
+legend.schemaform-label.schemaform-file-label {
+  font-weight: bold;
+}
+
+.schemaform-file-attachment {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  .usa-input-error {
+    margin-top: 0;
+  }
 }
 
 .schemaform-file-list-buttons-editing > .usa-button {
@@ -462,9 +467,12 @@ fieldset.schemaform-field-template {
   margin-top: 0;
   margin-bottom: 1em;
   background-size: 3rem;
-  background-position: 1rem 1.8rem;
+  background-position: 1rem 2.2rem;
   > .usa-alert-body {
     padding-left: 3rem;
+  }
+  &::before {
+    display: none;
   }
 }
 
@@ -498,4 +506,42 @@ fieldset.schemaform-field-template {
 }
 .confirmation-guidance-message {
   margin-top: 0;
+}
+
+ul.react-autosuggest__suggestions-list {
+  background: $color-white;
+  border: 1px solid $color-gray;
+  // Box shadow only sides and bottom of suggestion list.
+  box-shadow: 0px 3px 3px -3px $color-focus,
+              3px 0 3px -3px $color-focus,
+              -3px 0 3px -3px $color-focus,
+              0 7px 7px -7px $color-focus,
+              7px 0 7px -7px $color-focus,
+              -7px 0 7px -7px $color-focus;
+  list-style: none;
+  margin-top: -.5rem;
+  max-width: 46rem;
+  padding: 0;
+  position: relative;
+
+  @include media-maxwidth($small-screen) {
+    font-size: 1.3rem;
+  }
+}
+
+li.react-autosuggest__suggestion {
+  padding: .5rem 1rem;
+  list-style-type: none;
+
+  &--focused {
+    background-color: $color-primary-alt-light;
+    cursor: pointer;
+  }
+}
+
+// More correcting of overly broad uswds accordion styles
+.react-autosuggest__input[aria-expanded=false] {
+  background-image: inherit !important;
+  background-repeat: inherit !important;
+  background-size: inherit !important;
 }

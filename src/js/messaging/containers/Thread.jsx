@@ -307,7 +307,7 @@ export class Thread extends React.Component {
         <div>
           <h4>Health care team has changed</h4>
           <p>
-            You are no longer associated with this health care team and cannot reply to this message. Please contact the help desk at 1-855-574-7286 if you have any questions.
+            You are no longer associated with this health care team and cannot reply to this message. Please contact the help desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) if you have any questions.
           </p>
         </div>
       );

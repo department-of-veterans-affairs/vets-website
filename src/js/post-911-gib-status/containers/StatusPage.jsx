@@ -7,13 +7,8 @@ import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
-  constructor() {
-    super();
-    this.navigateToPrint = this.navigateToPrint.bind(this);
-  }
-
-  navigateToPrint() {
-    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  navigateToPrint = () => {
+    this.props.router.push('/print');
   }
 
   render() {
@@ -57,7 +52,7 @@ class StatusPage extends React.Component {
         <EnrollmentHistory enrollmentData={enrollmentData}/>
         <div className="feature help-desk">
           <h2>Need help?</h2>
-          <div>Call 1-888-442-4551 (888-GI-BILL-1) from 8 a.m. to 7 p.m. (ET)</div>
+          <div>Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. (ET)</div>
         </div>
       </div>
     );

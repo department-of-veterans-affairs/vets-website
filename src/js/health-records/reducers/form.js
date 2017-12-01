@@ -1,6 +1,5 @@
 import set from 'lodash/fp/set';
 import { mapValues } from 'lodash';
-import { reportTypes } from '../config';
 import moment from 'moment';
 
 const initialState = {
@@ -9,21 +8,32 @@ const initialState = {
     start: null,
     end: moment(),
   },
+  errors: [],
+  loading: false,
   reportTypes: {},
   ready: false,
   requestDate: null,
-  inProgress: false,
+  inProgress: false
 };
 
-// map of all reportTypes in form { reportTypeValue: boolean }
-Object.keys(reportTypes).forEach(section => {
-  reportTypes[section].children.forEach(child => {
-    initialState.reportTypes[child.value] = false;
-  });
-});
+const initializeReportTypes = (eligibleClasses) => {
+  const reportTypes = {};
+  eligibleClasses.forEach((type) => { reportTypes[type] = false; });
+  return reportTypes;
+};
 
 export default function form(state = initialState, action) {
   switch (action.type) {
+    case 'FETCHING_ELIGIBLE_CLASSES':
+      return { ...state, loading: true, errors: [] };
+    case 'FETCH_ELIGIBLE_CLASSES_FAILURE':
+      return { ...state, loading: false, errors: action.errors };
+    case 'FETCH_ELIGIBLE_CLASSES_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        reportTypes: initializeReportTypes(action.classes)
+      };
     case 'START_DATE_CHANGED':
       return set('dateRange.start', action.date, state);
     case 'END_DATE_CHANGED':

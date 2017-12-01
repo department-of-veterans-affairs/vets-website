@@ -5,6 +5,7 @@ const Timeouts = require('../e2e/timeouts.js');
 const LettersHelpers = require('../e2e/letters-helpers.js');
 const LoginHelpers = require('../e2e/login-helpers');
 
+const newAddress = LettersHelpers.newAddress.data.attributes.address;
 const oldAddress = LettersHelpers.address.data.attributes.address;
 const oldAddressOne = startCase(oldAddress.addressOne.toLowerCase());
 const oldAddressTwo = oldAddress.addressTwo ? `, ${startCase(oldAddress.addressTwo.toLowerCase())}` : '';
@@ -34,6 +35,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.street').text.to.contain(oldStreetAddress);
     client.expect.element('.city-state').text.to.contain(oldCityStateZIP);
 
+    // Open, check visibility, and close address help modal
+    client.expect.element('#address-help').to.not.be.present;
+    client
+      .click('.address-help-btn')
+      .waitForElementVisible('#address-help', Timeouts.normal)
+      .click('.va-modal-close')
+      .expect.element('#address-help').to.not.be.present;
+
     // Update address and cancel
     client
       .click('.usa-button-secondary')
@@ -54,14 +63,13 @@ module.exports = E2eHelpers.createE2eTest(
 
     client
       .clearValue('input[name="city"]')
-      .fill('input[name="city"]', LettersHelpers.newAddress.city)
-      .setValue('select[name="state"]', LettersHelpers.newAddress.state)
+      .fill('input[name="city"]', newAddress.city)
+      .setValue('select[name="state"]', newAddress.stateCode)
       .clearValue('input[name="postalCode"]')
-      .fill('input[name="postalCode"]', LettersHelpers.newAddress.zipCode)
-      .click('.usa-button-primary')
+      .fill('input[name="postalCode"]', newAddress.zipCode)
+      .click('.usa-button-primary') // submits new data
       .waitForElementVisible('.city-state', Timeouts.normal)
       .expect.element('.city-state').text.to.contain('Chicago, Illinois 60602');
-
 
     client
       .click('.view-letters-button')

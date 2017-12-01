@@ -90,7 +90,7 @@ describe('<Main>', () => {
   it('should show backend authentication error', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: backendAuthenticationError, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#recordNotFound')).to.not.be.false;
+    expect(tree.subTree('#records-not-found')).to.not.be.false;
   });
 
   it('should show system down message for invalid address error', () => {

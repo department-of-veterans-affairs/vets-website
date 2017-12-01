@@ -11,8 +11,9 @@ html {
 body {
   background: $color-white;
   color: $color-gray-dark;
-  font-family: $font-sans;
+  // font-family: $font-sans;
   font-size: $base-font-size;
+  font-family: inherit;
 
   &.modal-open {
     overflow: hidden;
@@ -86,6 +87,19 @@ a {
   &:visited {
     color: $color-visited;
   }
+}
+
+// ====== Headings
+
+// H1 should only be used once at the top-level, so we can safely remove the margin-top.
+h1 {
+  margin-top: 0;
+}
+
+h6 {
+  margin: .5em 0 0;
+  text-transform: none;
+  font-weight: 700;
 }
 
 //======= Lists
@@ -170,6 +184,11 @@ hr {
   border: 1px solid $color-gray-light;
 }
 
+// Default table width to being 100%
+table {
+  width: 100%;
+}
+
 // Utility classes
 // TODO(css): Move these into a partial once there are enough
 .va-util-rel,
@@ -196,11 +215,21 @@ hr {
   clear: both;
   margin: 0;
   padding: 0;
-  min-height: 147.19px;
+
+  // Without this value the navbar will look the same in the end but this keeps the navbar's height from expanding/blinking
+  // right as the navbar elements are rendered on screen during page load.
+  // This is the height on mobile fyi.
+  min-height: 189.19px;
+
+  // This sets the height of the header on large mobile devices between 480 and 768.
+  @include media($small-screen) {
+    min-height: 167.19px
+  }
 
   @include media($medium-screen) {
     position: relative;
-    min-height: 168.5px;
+    // Same reason as the comment above, only the value has been adjusted to be the height of the navbar for tablet/desktop.
+    min-height: 159px;
   }
 
 .login-container {
@@ -278,42 +307,8 @@ hr {
   }
 }
 
-// Headings
-h1, h2 {
-  font-family: $font-sans;
-}
-
-h1:first-child {
+article > h1 {
   margin-top: 0;
-}
-
-h2, h3, h4, h5, h6 {
-  margin: 0;
-  padding: 0 0 .5em 0;
-}
-
-h2 {
-  @include heading-2;
-}
-
-h3, h4, h5, h6 {
-  color: $color-primary-darkest;
-}
-
-h3 {
-  @include heading-3;
-}
-
-h4 {
-  @include heading-4;
-}
-
-h5 {
-  @include heading-5;
-}
-
-h6 {
-  @include heading-6;
 }
 
 .text-center {
@@ -331,7 +326,7 @@ h6 {
 
 .va-facloc-tagline {
   color: $color-white;
-  font-family: $font-sans;
+  // font-family: $font-sans;
   margin: .5em 0 1em 0 !important;
 }
 
@@ -364,9 +359,14 @@ h6 {
   }
 }
 
+// This is a copy of USWDS's .usa-font-lead style
+// https://github.com/18F/web-design-standards/blob/develop/src/stylesheets/elements/_typography.scss#L164
 .va-introtext {
-  letter-spacing: normal;
-  font-size: 1.25em;
+  font-family: $font-serif;
+  font-size: $lead-font-size;
+  font-weight: $font-normal;
+  line-height: $lead-line-height;
+  max-width: $lead-max-width;
 }
 
 .secondary {
@@ -403,7 +403,10 @@ h6 {
   }
 
   h3 {
-    font-size: 1.65em;
+    margin-top: 0;
+  }
+  h4 {
+    margin-top: 0;
   }
   ul {
     margin: 0 0 .5em 1.5em;
@@ -780,42 +783,6 @@ li {
   }
 }
 
-[class^=va-wip] {
-  padding: .576rem 0;
-  font-size: 0.8em;
-  font-weight: 400;
-
-  a {
-    color: inherit;
-    background-image: none;
-    padding: 0;
-  }
-}
-
-.va-wip {
-  background: $color-white;
-  color: $color-gray-dark;
-  display: none;
-  font-size: 1.152rem;
-  margin: auto;
-
-  @include media($medium-large-screen) {
-    background: $color-gray-lightest;
-    display: block;
-  }
-}
-
-.va-wip--narrow {
-  border-top: 1px solid $color-primary-darker;
-  color: $color-white;
-  margin-top: 3.2rem;
-  white-space: normal;
-
-  @include media($medium-large-screen) {
-    display: none;
-  }
-}
-
 // Notice / feedback banners
 .va-notice--banner {
   background: $color-white;
@@ -825,6 +792,14 @@ li {
 
   @include media($medium-large-screen) {
     background: $color-gray-lightest;
+    .usa-banner-inner {
+      padding-left: 0;
+    }
+
+    .usa-banner-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
   &-inner {
@@ -937,11 +912,16 @@ li {
     height: 0;
   }
 
+  h4, h5 {
+    margin-top: 0;
+  }
+
   span {
     display: block;
   }
 
   .number {
+    font-family: $font-serif;
     font-size: 2em;
     font-weight: 700;
     float: left;
@@ -1454,4 +1434,8 @@ p.info-message {
 
 .fieldset-input {
   margin-top: 3rem;
+}
+
+[itemprop=acceptedAnswer] {
+  // margin-bottom: 3em;
 }

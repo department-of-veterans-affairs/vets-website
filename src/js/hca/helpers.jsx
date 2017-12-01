@@ -58,9 +58,15 @@ export function transform(formConfig, form) {
   });
 }
 
-export function FacilityHelp() {
-  return <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>;
-}
+export const facilityHelp = (
+  <div>
+    <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>
+    <br/>
+    If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank">Learn more about the Foreign Medical Program</a>.
+    <br/>
+    <p>You can also visit <a href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp" target="_blank">Veterans Living Abroad</a>.</p>
+  </div>
+);
 
 // Turns the facility list for each state into an array of strings
 export const medicalCentersByState = _.mapValues((val) => {
@@ -165,55 +171,71 @@ export const expensesGreaterThanIncomeWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
       <h2 className="usa-alert-heading">Your expenses are higher than or equal to your income.</h2>
-      <p className="usa-alert-text">You can stop entering your expenses. We’ll automatically adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
+      <p className="usa-alert-text">You can stop entering your expenses. We’ll adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
     </div>
   </div>
 );
 
-export function expensesLessThanIncome(formData) {
-  const {
-    veteranGrossIncome = 0,
-    veteranNetIncome = 0,
-    veteranOtherIncome = 0,
-    dependents = []
-  } = formData;
-
-  const {
-    spouseGrossIncome = 0,
-    spouseNetIncome = 0,
-    spouseOtherIncome = 0
-  } = formData['view:spouseIncome'] || {};
-
-  const vetSpouseIncome =
-    veteranGrossIncome +
-    veteranNetIncome +
-    veteranOtherIncome +
-    spouseGrossIncome +
-    spouseNetIncome +
-    spouseOtherIncome;
-
-  const income = dependents.reduce((sum, dependent) => {
+export function expensesLessThanIncome(fieldShownUnder) {
+  const fields = ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'];
+  return (formData) => {
     const {
-      grossIncome = 0,
-      netIncome = 0,
-      otherIncome = 0,
-    } = dependent;
+      veteranGrossIncome = 0,
+      veteranNetIncome = 0,
+      veteranOtherIncome = 0,
+      dependents = []
+    } = formData;
 
-    return grossIncome + netIncome + otherIncome + sum;
-  }, vetSpouseIncome);
+    const {
+      spouseGrossIncome = 0,
+      spouseNetIncome = 0,
+      spouseOtherIncome = 0
+    } = formData['view:spouseIncome'] || {};
 
-  const {
-    deductibleMedicalExpenses = 0,
-    deductibleFuneralExpenses = 0,
-    deductibleEducationExpenses = 0,
-  } = formData;
+    const vetSpouseIncome =
+      veteranGrossIncome +
+      veteranNetIncome +
+      veteranOtherIncome +
+      spouseGrossIncome +
+      spouseNetIncome +
+      spouseOtherIncome;
 
-  const expenses =
-    deductibleMedicalExpenses +
-    deductibleEducationExpenses +
-    deductibleFuneralExpenses;
+    const income = dependents.reduce((sum, dependent) => {
+      const {
+        grossIncome = 0,
+        netIncome = 0,
+        otherIncome = 0,
+      } = dependent;
 
-  return income > expenses;
+      return grossIncome + netIncome + otherIncome + sum;
+    }, vetSpouseIncome);
+
+    const {
+      deductibleMedicalExpenses = 0,
+      deductibleFuneralExpenses = 0,
+      deductibleEducationExpenses = 0,
+    } = formData;
+
+    const expenses =
+      deductibleMedicalExpenses +
+      deductibleEducationExpenses +
+      deductibleFuneralExpenses;
+
+    const hideBasedOnValues = income > expenses;
+
+    // If we're not going to hide based on values entered,
+    // then we need to make sure the current field is the last non-empty field
+    if (!hideBasedOnValues) {
+      const nonEmptyFields = fields.filter(field => formData[field]);
+      if (!nonEmptyFields.length || nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return true;
+  };
 }
 
 export const deductibleExpensesDescription = (
@@ -221,7 +243,25 @@ export const deductibleExpensesDescription = (
     Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
-        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we'll automatically adjust them to be equal to your income. This won't affect your application or benefits.
+        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we’ll adjust them to be equal to your income. This won’t affect your application or benefits.
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const medicaidDescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about Medicaid.">
+        Medicaid is a government health program for eligible low-income individuals and families and people with disabilities.
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const medicarePartADescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
+        Medicare is a federal health insurance program providing coverage for people who are 65 years or older or who meet who meet special criteria. Part A insurance covers hospital care, skilled nursing and nursing home care, hospice, and home health services.
       </AdditionalInfo>
     </div>
   </div>

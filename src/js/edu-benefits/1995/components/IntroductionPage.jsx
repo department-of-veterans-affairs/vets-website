@@ -16,11 +16,15 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Manage your education benefits"/>
         <p itemProp="description">Equal to VA Form 22-1995 (Request for Change of Program or Place of Training).</p>
         <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
-          resumeOnly
+          startText="Start the Education Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}>
+          Please complete the 22-1995 form to apply for education benefits.
+        </SaveInProgressIntro>
+        <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one" itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
@@ -53,18 +57,18 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <ul><li>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we’ve approved your application. Bring this to the VA certifying official at your school.</li></ul>
-              <ul><li>If your application wasn’t approved, you’ll get a denial letter in the mail.</li></ul>
+              <p>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we’ve approved your application. Bring this to the VA certifying official at your school.</p>
+              <p>If your application wasn’t approved, you’ll get a denial letter in the mail.</p>
             </li>
           </ol>
         </div>
         <SaveInProgressIntro
+          buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
+          startText="Start the Education Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 22-1995 form to apply to manage your education benefits.
-        </SaveInProgressIntro>
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={20} ombNumber="2900-0074" expDate="05/31/2018"/>
         </div>

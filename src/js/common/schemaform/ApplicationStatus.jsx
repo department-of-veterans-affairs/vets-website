@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import Raven from 'raven-js';
 
 import { formLinks, formTitles } from '../../user-profile/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -41,6 +42,20 @@ export class ApplicationStatus extends React.Component {
     });
   }
 
+  componentDidMount() {
+    if (this.props.profile.loading) {
+      this.timeout = setTimeout(() => {
+        Raven.captureMessage('vets_application_status_slow');
+      }, 5000);
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    if (oldProps.profile.loading && !this.props.profile.loading) {
+      clearTimeout(this.timeout);
+    }
+  }
+
   removeForm = (formId) => {
     this.setState({ modalOpen: false, loading: true });
     this.props.removeSavedForm(formId)
@@ -74,7 +89,7 @@ export class ApplicationStatus extends React.Component {
     }
 
     let savedForm;
-    let formId;
+    let { formId } = this.props;
     let multipleForms = false;
     if (formIds) {
       const matchingForms = profile.savedForms.filter(({ form }) => formIds.has(form));
@@ -85,7 +100,6 @@ export class ApplicationStatus extends React.Component {
       }
     } else {
       savedForm = profile.savedForms.find(({ form }) => form === this.props.formId);
-      formId = savedForm ? savedForm.form : null;
     }
 
     if (login.currentlyLoggedIn && savedForm) {
@@ -137,15 +151,13 @@ export class ApplicationStatus extends React.Component {
       return applyRender();
     } else if (showApplyButton) {
       return (
-        <div itemScope itemType="http://schema.org/Question">
+        <div itemProp="steps" itemScope itemType="http://schema.org/HowToSection">
           <h3 itemProp="name">Ready to apply?</h3>
-          <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
-            <div itemProp="text">
-              {this.props.additionalText && <p>{this.props.additionalText}</p>}
-              <div className="sip-application-status">
-                <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
-                {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
-              </div>
+          <div itemProp="itemListElement">
+            {this.props.additionalText && <p>{this.props.additionalText}</p>}
+            <div className="sip-application-status">
+              <a className="usa-button-primary va-button-primary" href={formLinks[formId]}>{applyText}</a>
+              {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about the application process.</a></p>}
             </div>
           </div>
         </div>

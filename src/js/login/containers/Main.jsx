@@ -14,6 +14,8 @@ import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
+const SESSION_REFRESH_INTERVAL_MINUTES = 45;
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -36,8 +38,15 @@ class Main extends React.Component {
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
-    window.onload = this.checkTokenStatus();
     this.bindNavbarLinks();
+
+    // If there is a window.opener, then this window was spawned by another instance of the website as the auth app.
+    // In this case, we don't need to actually login, because that data will be passed to the parent window and done there instead.
+    if (!window.opener) {
+      window.onload = () => {
+        this.loginUrlRequest.then(this.checkTokenStatus);
+      };
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -135,7 +144,7 @@ class Main extends React.Component {
 
   checkTokenStatus() {
     if (sessionStorage.userToken) {
-      if (moment() > moment(sessionStorage.entryTime).add(45, 'm')) {
+      if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
         // TODO(crew): make more customized prompt.
         if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
           this.handleLogin();
@@ -173,7 +182,7 @@ class Main extends React.Component {
         <div>
           <br/>
           <h3>Something went wrong on our end</h3>
-          <p>Please refresh this page or try again later. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).</p>
+          <p>Please refresh this page or try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
         </div>
       );
     }
@@ -224,7 +233,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getLoginUrls: () => {
-      getLoginUrls(dispatch);
+      return getLoginUrls(dispatch);
     },
     updateLogInUrls: (update) => {
       dispatch(updateLogInUrls(update));

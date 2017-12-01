@@ -38,7 +38,7 @@ module.exports = {
   },
 
   errorCodes: {
-    acceptTerms: [
+    access: [
       'RX135',
     ],
     registration: [

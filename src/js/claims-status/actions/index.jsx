@@ -1,11 +1,13 @@
 import React from 'react';
 import environment from '../../common/helpers/environment';
-import { makeAuthRequest } from '../utils/helpers';
+import { makeAuthRequest, mockData } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
+export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -71,6 +73,27 @@ export function getAppeals(filter) {
       },
       () => dispatch({ type: SET_APPEALS_UNAVAILABLE })
     );
+  };
+}
+
+export function fetchAppealsSuccess(response) {
+  return {
+    type: FETCH_APPEALS_SUCCESS,
+    // filter: filter, // No idea why this would be needed, but it's in the old version
+    appeals: response.data
+  };
+}
+
+// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
+export function getAppealsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_APPEALS_PENDING });
+
+    // Fake the fetch by just returning a resolved promice with the object shape we expect
+    //  to get from the api.
+    return setTimeout(() => Promise.resolve(mockData)
+      .then((response) => dispatch(fetchAppealsSuccess(response)))
+      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE })), 4000);
   };
 }
 
