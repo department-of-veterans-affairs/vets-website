@@ -310,6 +310,22 @@ class GuidancePage extends React.Component {
     );
   }
 
+  renderApplicationWarning() {
+    const prevAppType = this.props.formValues['10_prevApplicationType'];
+    const reason = this.props.formValues['4_reason'];
+
+    const alertContent = (
+      <p>You answered that you weren't sure what type of application you made before. This guidance assumes your successful upgrade application was reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB). For more reliable information, please review your records to find out where you made your earlier application and complete the questions again.</p>
+    );
+
+    return (
+      <AlertBox
+        content={alertContent}
+        isVisible={(reason === '8') && prevAppType === '3'}
+        status="warning"/>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -326,6 +342,7 @@ class GuidancePage extends React.Component {
             isVisible={this.props.formValues['10_prevApplicationType'] === '4'}
             status="warning"/>
           {this.renderDischargeWarning()}
+          {this.renderApplicationWarning()}
           {this.renderOptionalStep()}
           <ul className="vertical-list-group more-bottom-cushion numbered">
             {this.renderStepOne()}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { board, venueAddress, branchOfService } from '../utils';
 
 const reasonStatement = (props) => {
   const reason = props.formValues['4_reason'];
@@ -60,7 +61,7 @@ const priorServiceStatement = (props) => {
     case '2':
       return (
         <p>
-          Because you served honorably in one period of service, you can apply for VA benefits using that honorable characterization. You earned your benefits during the period in which you served honorably. This is true even if you didn’t receive an actual discharge at the end of the honorable period. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive an "Honorable" DD-214. If you believe there is a period of service that entitles you to benefits, but which is not reflected on a DD-214, you will likely need to ask the VA to do a Character of Service Determination. The only exception is for service-connected disability compensation. If your disability began during your less than honorable period of service, you won't be eligible to earn disability compensation unless you get your discharge upgraded.
+          The directions on this page tell you how to apply to an upgrade or correction for your final period of service, in which you received a less than honorable discharge. However, because you served honorably in a previous period of service, you can also apply for VA benefits using that honorable status. You earned your benefits during the period in which you served honorably. If you apply for VA benefits, make sure you mention your honorable period of service, and VA will conduct a Character of Service Determination review. You may also apply to DoD to receive a second DD-214 reflecting only your period of honorable service. To do so, <a href="http://www.afpc.af.mil/Portals/70/documents/Home/AFBCMR/DD%20Form%20149.pdf?ver=2016-12-15-120123-183">submit DoD Form 149</a> to the {board(props.formValues, true).abbr} for the {branchOfService(props.formValues['1_branchOfService'])} at {venueAddress(props.formValues, true)}. When filling out DoD Form 149, be sure to clarify in Item 6 that you are seeking a DD-214 for your honorable period of service, and include the dates of that period.
         </p>
       );
     default:
