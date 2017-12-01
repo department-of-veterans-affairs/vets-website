@@ -41,6 +41,8 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h4 itemprop="name">How do I find out how to get health services for a specific condition or need?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text"> 
