@@ -211,7 +211,7 @@ class FormQuestions extends React.Component {
 
     const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
 
-    const labelYear = prevApplicationYearCutoff[this.props.formValues['1_reason']];
+    const labelYear = prevApplicationYearCutoff[this.props.formValues['4_reason']];
 
     const prevApplicationYearOptions = [
       { label: `${labelYear} or earlier`, value: '1' },

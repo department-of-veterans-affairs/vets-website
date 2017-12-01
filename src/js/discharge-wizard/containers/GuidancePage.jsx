@@ -306,7 +306,7 @@ class GuidancePage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Guidance on Upgrading Your Discharge</h1>
+        <h1>Your Steps for Upgrading Your Discharge</h1>
         <div className="medium-8">
           <div className="va-introtext">
             <p>
