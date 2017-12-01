@@ -244,20 +244,20 @@ export default function addMenuListeners(menuElement) {
 
   // For all the sub menus, add listeners for:
   //  Up, down, left, right, enter (if necessary), space (if necessary)
-  menuElement.addEventListener('keydown', (event) => {
-    const targetLi = event.target.parentElement;
+  menuElement.addEventListener('keydown', (e) => {
+    const targetLi = e.target.parentElement;
     // Target's grandparent because the parent is a <li>
     const inMenubar = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
     const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
-    switch (event.keyCode) {
+    switch (e.keyCode) {
       case LEFT_ARROW: {
         if (inMenubar) {
-          event.preventDefault();
+          e.preventDefault();
           closeMenu(targetLi);
           moveFocus(targetLi, 'previous');
         } else if (inMenu) {
-          event.preventDefault();
+          e.preventDefault();
 
           // Move focus to the opening menu button
           // This wins no prizes for efficiency, but until we have efficiency problems...
@@ -270,11 +270,11 @@ export default function addMenuListeners(menuElement) {
 
       case RIGHT_ARROW: {
         if (inMenubar) {
-          event.preventDefault();
+          e.preventDefault();
           closeMenu(targetLi);
           moveFocus(targetLi, 'next');
-        } else if (isMenuButton(event.target)) {
-          event.preventDefault();
+        } else if (isMenuButton(e.target)) {
+          e.preventDefault();
           // Open the menu, focus on the first item
           openMenu(targetLi);
         }
@@ -282,10 +282,10 @@ export default function addMenuListeners(menuElement) {
       }
 
       case UP_ARROW: {
-        const isMB = isMenuButton(event.target);
+        const isMB = isMenuButton(e.target);
         if (inMenubar && isMB) {
           // Open the menu, focus on the last item
-          event.preventDefault();
+          e.preventDefault();
 
           // Only open the first menu; we'll manually open the next level
           openMenu(targetLi);
@@ -299,7 +299,7 @@ export default function addMenuListeners(menuElement) {
             lastSubmenu.firstElementChild.focus();
           }
         } else if (inMenu) {
-          event.preventDefault();
+          e.preventDefault();
           // If we've reached the top of a list, figure out if we need to go up a level or wrap around
           if (targetLi.previousElementSibling === null) {
             const firstLi = findNearestLi(targetLi);
@@ -319,12 +319,12 @@ export default function addMenuListeners(menuElement) {
       }
 
       case DOWN_ARROW: {
-        const isMB = isMenuButton(event.target);
+        const isMB = isMenuButton(e.target);
         if (inMenubar && isMB) {
-          event.preventDefault();
+          e.preventDefault();
           openMenu(targetLi, isWideScreen());
         } else if (inMenu) {
-          event.preventDefault();
+          e.preventDefault();
           moveFocus(targetLi, 'next');
         }
         break;
@@ -341,7 +341,7 @@ export default function addMenuListeners(menuElement) {
   });
 
   // TODO: Implement this and get rid of MegaMenu usage
-  // menuElement.addEventListener('click', (event) => {
+  // menuElement.addEventListener('click', (e) => {
   //   // Handle opening menus
   //   // Handle closing menus when clicked away
   // });
