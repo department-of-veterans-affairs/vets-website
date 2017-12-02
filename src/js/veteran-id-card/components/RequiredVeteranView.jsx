@@ -7,8 +7,9 @@ class RequiredVeteranView extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      serviceRateLimited: Math.random() > 0.1
+      serviceRateLimited: (props.serviceRateLimitEnabled && Math.random() > 0.1)
     };
   }
 
@@ -51,6 +52,11 @@ class RequiredVeteranView extends React.Component {
 
 RequiredVeteranView.propTypes = {
   userProfile: PropTypes.object.isRequired,
+  serviceRateLimitEnabled: PropTypes.bool,
+};
+
+RequiredVeteranView.defaultProps = {
+  serviceRateLimitEnabled: __VIC_RATE_LIMIT_ENABLED__, // eslint-disable-line no-undef
 };
 
 export default RequiredVeteranView;
