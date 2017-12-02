@@ -22,7 +22,7 @@ const entryFiles = {
   '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
   '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
-  'discharge-wizard': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
+  'discharge-upgrade-instructions': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
@@ -209,7 +209,14 @@ const configGenerator = (options) => {
   };
 
   if (options.buildtype === 'production' || options.buildtype === 'staging') {
-    baseConfig.devtool = '#source-map';
+    let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
+    if (options.build_type === 'production') {
+      sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+    }
+    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
+      append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
+      filename: '[file].map',
+    }));
     baseConfig.module.rules.push({
       test: /debug\/PopulateVeteranButton/,
       use: {
