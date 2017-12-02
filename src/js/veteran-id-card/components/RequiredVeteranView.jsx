@@ -12,6 +12,12 @@ class RequiredVeteranView extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (this.state.serviceRateLimited) {
+      window.dataLayer.push({ event: 'vic-ratelimited' });
+    }
+  }
+
   render() {
     let view;
     const serviceAvailable = this.props.userProfile.services.indexOf('id-card') !== -1;
