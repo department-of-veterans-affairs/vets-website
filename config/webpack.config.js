@@ -186,6 +186,7 @@ const configGenerator = (options) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
+        __VIC_RATE_LIMIT_ENABLED__: (JSON.stringify(options.buildtype) === 'production' || process.env.VIC_RATE_LIMIT_ENABLED === 'true'),
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
           API_PORT: (process.env.API_PORT || 3000),
@@ -209,7 +210,14 @@ const configGenerator = (options) => {
   };
 
   if (options.buildtype === 'production' || options.buildtype === 'staging') {
-    baseConfig.devtool = '#source-map';
+    let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
+    if (options.build_type === 'production') {
+      sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+    }
+    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
+      append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
+      filename: '[file].map',
+    }));
     baseConfig.module.rules.push({
       test: /debug\/PopulateVeteranButton/,
       use: {
