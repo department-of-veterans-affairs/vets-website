@@ -43,11 +43,13 @@ export function isEscape(code) {
   return result;
 }
 
-export function isToggle(keyEvent) {
+export function isToggle(keyEvent, isActive) {
   const { keyCode: code } = keyEvent;
-  const result = code === keyMap.ENTER || code === keyMap.SPACE;
-  // To prevent unwanted scrolling and interaction with other elements
-  if (result) {
+  const toggles = [keyMap.ENTER, keyMap.SPACE];
+  const shouldOpen = !isActive && code === keyMap.DOWN;
+  const shouldClose = isActive && [keyMap.ESCAPE, keyMap.TAB].includes(code);
+  const result = toggles.includes(code) || shouldClose || shouldOpen;
+  if (result && code !== keyMap.TAB) {
     keyEvent.preventDefault();
   }
   return result;
@@ -62,4 +64,3 @@ export function shouldToggle(keyEvent, isActive) {
   if (shouldClose && isActive) return 'close';
   return false;
 }
-

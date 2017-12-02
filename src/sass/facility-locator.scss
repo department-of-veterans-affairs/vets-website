@@ -391,7 +391,7 @@
           border-bottom: solid 1px $color-black;
           border-right: solid 1px $color-black;
           z-index: 1011;
-          .is-hovered, .active, :hover {
+          &.is-hovered, &.active, &:hover {
             color: $color-white;
             background: $color-primary-darker;
           }

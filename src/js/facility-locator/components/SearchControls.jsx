@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import SelectComponent from './SelectComponent';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
-import { getDirection, getSelection, isTraverse, isEscape, isSpace, shouldToggle, isSelect } from '../utils/helpers.js';
+import { getDirection, getSelection, isTraverse, shouldToggle, isSelect, isToggle } from '../utils/helpers.js';
 
 class SearchControls extends Component {
 
@@ -23,7 +23,6 @@ class SearchControls extends Component {
     this.facilities = [];
     this.focusFacilityOption = this.focusFacilityOption.bind(this);
     this.focusServiceOption = this.focusServiceOption.bind(this);
-    this.goToFacilityDropdown = this.goToFacilityDropdown(this);
     this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
     this.handleServiceFilterSelect = this.handleServiceFilterSelect.bind(this);
     this.isSelectedFacility = this.isSelectedFacility.bind(this);
@@ -34,13 +33,6 @@ class SearchControls extends Component {
     this.navigateServiceDropdown = this.navigateServiceDropdown.bind(this);
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
     this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
-  }
-
-  // TODO(ceh): arrowize to make consistent
-  goToFacilityDropdown() {
-    if (this.facilityDropdown) {
-      this.facilityDropdown.focus();
-    }
   }
 
   handleEditSearch = () => {
@@ -98,15 +90,16 @@ class SearchControls extends Component {
   }
 
   navigateFacilityDropdown(e) {
+    const isActive = this.state.facilityDropdownActive;
     const which = e.target;
     const facilityType = which.id === 'AllFacilities' ? null : which.id;
-    if (isEscape(e.keyCode)) {
-      return this.toggleFacilityDropdown();
+    if (isToggle(e, isActive)) {
+      if (isActive && isSelect(e.keyCode)) {
+        this.handleFacilityFilterSelect(facilityType);
+      }
+      return this.toggleFacilityDropdown(e);
     }
-    if (isSelect(e.keyCode)) {
-      return this.handleFacilityFilterSelect(facilityType);
-    }
-    if (isTraverse(e.keyCode)) {
+    if (isActive && isTraverse(e.keyCode)) {
       const increment = getDirection(e.keyCode);
       const newIndex = this.state.focusedFacilityIndex + increment;
       return this.focusFacilityOption(this.facilities[newIndex], newIndex);
@@ -115,18 +108,17 @@ class SearchControls extends Component {
   }
 
   navigateServiceDropdown(e) {
+    const isActive = this.state.serviceDropdownActive;
     const which = e.target;
-    if (isEscape(e.keyCode) || isSpace(e.keyCode)) {
+    if (isToggle(e, isActive)) {
+      if (isActive && isSelect(e.keyCode)) {
+        this.handleServiceFilterSelect(which.id);
+      }
       return this.toggleServiceDropdown(e);
     }
-    if (isSelect(e.keyCode)) {
-      if (!this.state.serviceDropdownActive) return this.toggleServiceDropdown(e);
-      return this.handleServiceFilterSelect(which.id);
-    }
-    if (isTraverse(e.keyCode)) {
-      if (!this.state.serviceDropdownActive) return this.toggleServiceDropdown(e);
+    if (isActive && isTraverse(e.keyCode)) {
       const increment = getDirection(e.keyCode);
-      const newIndex = +this.state.focusedServiceIndex + increment;
+      const newIndex = this.state.focusedServiceIndex + increment;
       return this.focusServiceOption(this.services[newIndex], newIndex);
     }
     return false;
@@ -271,7 +263,7 @@ class SearchControls extends Component {
     return (
       <li role="option"
         tabIndex={this.state.serviceDropdownActive ? '1' : '-1'}
-        aria-selected={this.isSelectedFacility('AllFacilities')}
+        aria-selected={this.isSelectedFacility(facilityType || 'AllFacilities')}
         ref={ elem => { this.facilities[index] = elem; }}
         id={index > -1 ? (facilityType || 'AllFacilities') : null}
         className={facilityOptionClasses}
@@ -333,7 +325,7 @@ class SearchControls extends Component {
             setDropdown={elem => this.facilityDropdown = elem} // eslint-disable-line no-return-assign
             toggleDropdown={this.toggleFacilityDropdown}
             dropdownClasses={facilityDropdownClasses}
-            navigateDropdown={this.navigateServiceDropdown}
+            navigateDropdown={this.navigateFacilityDropdown}
             dropdownActive={this.state.facilityDropdownActive}>
             <div className="flex-center">
               {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
