@@ -209,7 +209,14 @@ const configGenerator = (options) => {
   };
 
   if (options.buildtype === 'production' || options.buildtype === 'staging') {
-    baseConfig.devtool = '#source-map';
+    let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
+    if (options.build_type === 'production') {
+      sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+    }
+    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
+      append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
+      filename: '[file].map',
+    }));
     baseConfig.module.rules.push({
       test: /debug\/PopulateVeteranButton/,
       use: {
