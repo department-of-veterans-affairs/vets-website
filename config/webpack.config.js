@@ -211,7 +211,7 @@ const configGenerator = (options) => {
 
   if (options.buildtype === 'production' || options.buildtype === 'staging') {
     let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
-    if (options.build_type === 'production') {
+    if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
     }
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
