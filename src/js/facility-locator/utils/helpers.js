@@ -63,14 +63,6 @@ export function isToggle(keyEvent, isActive) {
   return result;
 }
 
-export function shouldToggle(keyEvent, isActive) {
-  const toggle = isToggle(keyEvent);
-  let result;
-  if (toggle && !isActive) result = 'open';
-  if (toggle && isActive) result = 'close';
-  return result;
-}
-
 export function pluralize(string) {
   const plural = string.slice(-1) === 'y' ? `${string.slice(0, -1)}ies` : `${string}s`;
   return plural;

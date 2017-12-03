@@ -10,7 +10,6 @@ import {
   getDirection,
   getOtherType,
   getServices,
-  shouldToggle,
   isSelect,
   isToggle,
   isTraverse,
@@ -115,9 +114,9 @@ class SearchControls extends Component {
     if (type === 'service' && noServices(type, facilityType)) {
       return;
     }
-    // To handle irrelevant key events
+    // To handle unrelated key events
     if (e) {
-      const shouldNotToggle = e.keyCode && !shouldToggle(e, isActive);
+      const shouldNotToggle = e.keyCode && !isToggle(e, isActive);
       if (shouldNotToggle) return;
     }
     if (isActive) {
