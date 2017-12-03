@@ -99,8 +99,7 @@ class SearchControls extends Component {
       }
       return this.toggleDropdown(e, type);
     }
-    if (isActive && isTraverse(e.keyCode)) {
-      e.preventDefault();
+    if (isActive && isTraverse(e)) {
       const increment = getDirection(e.keyCode);
       const newIndex = this.state[`focused${titleType}Index`] + increment;
       return this.focusOption(this[plural][newIndex], newIndex, type);
@@ -217,7 +216,6 @@ class SearchControls extends Component {
   }
 
   renderSelectOption(serviceType, isMobile) {
-
     return (
       <div className="flex-center">
         <button id="serviceDropdown" tabIndex="-1" type="button" className="facility-option">

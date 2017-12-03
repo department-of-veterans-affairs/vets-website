@@ -36,23 +36,28 @@ export function isSelect(code) {
   return code === keyMap.ENTER;
 }
 
-export function isTraverse(code) {
-  return code === keyMap.UP || code === keyMap.DOWN;
+export function isTraverse(keyEvent) {
+  const { keyCode: code } = keyEvent;
+  const result = code === keyMap.UP || code === keyMap.DOWN;
+  if (result) keyEvent.preventDefault();
+  return result;
 }
 
-export function isEscape(code) {
+export function isEscape(keyEvent) {
+  const { keyCode: code } = keyEvent;
   const result = code === keyMap.ESCAPE || code === keyMap.TAB;
-  if (code === keyMap.ESCAPE) event.preventDefault();
+  if (code === keyMap.ESCAPE) keyEvent.preventDefault();
   return result;
 }
 
 export function isToggle(keyEvent, isActive) {
   const { keyCode: code } = keyEvent;
   const toggles = [keyMap.ENTER, keyMap.SPACE];
+  const isToggleKey = toggles.includes(code);
   const shouldOpen = !isActive && code === keyMap.DOWN;
-  const shouldClose = isActive && [keyMap.ESCAPE, keyMap.TAB].includes(code);
-  const result = toggles.includes(code) || shouldClose || shouldOpen;
-  if (result) {
+  const shouldClose = isActive && isEscape(keyEvent);
+  const result = isToggleKey || shouldClose || shouldOpen;
+  if (isToggleKey) {
     keyEvent.preventDefault();
   }
   return result;
