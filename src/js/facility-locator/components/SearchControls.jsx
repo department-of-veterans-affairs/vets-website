@@ -9,7 +9,6 @@ import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import {
   getDirection,
   getOtherType,
-  getSelection,
   getServices,
   shouldToggle,
   isSelect,
@@ -32,14 +31,6 @@ class SearchControls extends Component {
     };
     this.services = [];
     this.facilities = [];
-    this.focusFacilityOption = this.focusFacilityOption.bind(this);
-    this.focusServiceOption = this.focusServiceOption.bind(this);
-    this.handleFacilityFilterSelect = this.handleFacilityFilterSelect.bind(this);
-    this.handleServiceFilterSelect = this.handleServiceFilterSelect.bind(this);
-    this.isSelectedFacility = this.isSelectedFacility.bind(this);
-    this.isSelectedService = this.isSelectedService.bind(this);
-    this.isFocusedFacilityIndex = this.isFocusedFacilityIndex.bind(this);
-    this.isFocusedServiceIndex = this.isFocusedServiceIndex.bind(this);
   }
 
   handleEditSearch = () => {
@@ -48,19 +39,32 @@ class SearchControls extends Component {
     });
   }
 
-  handleFacilityFilterSelect(newFacilityType) {
-    const { currentQuery: { facilityType } } = this.props;
-    this.toggleDropdown(null, 'facility');
-    if (['benefits', 'vet_center'].includes(newFacilityType) &&
-      newFacilityType === facilityType) {
-      return this.props.updateSearchQuery({
-        facilityType: newFacilityType,
-      });
+  handleFilterSelect(newOption, type) {
+    const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
+    if (type === 'facility') {
+      if (['benefits', 'vet_center'].includes(newOption) && newOption === facilityType) {
+        this.props.updateSearchQuery({
+          facilityType: newOption
+        });
+      } else {
+        this.props.updateSearchQuery({
+          facilityType: newOption,
+          serviceType: null
+        });
+      }
     }
-    return this.props.updateSearchQuery({
-      facilityType: newFacilityType,
-      serviceType: null,
-    });
+    if (type === 'service') {
+      if (newOption === 'All') {
+        this.props.updateSearchQuery({
+          serviceType: null,
+        });
+      } else {
+        this.props.updateSearchQuery({
+          serviceType: newOption
+        });
+      }
+    }
+    return this.toggleDropdown(null, type);
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
@@ -84,18 +88,6 @@ class SearchControls extends Component {
     onSearch();
   }
 
-  handleServiceFilterSelect(serviceType) {
-    if (serviceType === 'All') {
-      this.props.updateSearchQuery({
-        serviceType: null,
-      });
-    } else {
-      this.props.updateSearchQuery({
-        serviceType,
-      });
-    }
-  }
-
   navigateDropdown = (e, type) => {
     const titleType = type[0].toUpperCase() + type.slice(1);
     const isActive = this.state[`${type}DropdownActive`];
@@ -103,7 +95,7 @@ class SearchControls extends Component {
     const which = e.target;
     if (isToggle(e, isActive)) {
       if (isActive && isSelect(e.keyCode)) {
-        this[`handle${titleType}FilterSelect`](which.id);
+        this.handleFilterSelect(which.id, type);
       }
       return this.toggleDropdown(e, type);
     }
@@ -111,29 +103,30 @@ class SearchControls extends Component {
       e.preventDefault();
       const increment = getDirection(e.keyCode);
       const newIndex = this.state[`focused${titleType}Index`] + increment;
-      return this[`focus${titleType}Option`](this[plural][newIndex], newIndex);
+      return this.focusOption(this[plural][newIndex], newIndex, type);
     }
     return false;
   }
 
   toggleDropdown = (e, type) => {
+    const plural = pluralize(type);
     const titleType = type[0].toUpperCase() + type.slice(1);
     const isActive = this.state[`${type}DropdownActive`];
     const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
     if (type === 'service' && noServices(type, facilityType)) {
       return;
     }
-    const plural = pluralize(type);
     // To handle irrelevant key events
     if (e) {
       const shouldNotToggle = e.keyCode && !shouldToggle(e, isActive);
       if (shouldNotToggle) return;
     }
-    const selection = getSelection(this[plural], `${type}Type`);
     if (isActive) {
       this[`${type}Dropdown`].focus();
     } else {
-      this[`focus${titleType}Option`](selection.selection, selection.id);
+      const increment = getDirection(e.keyCode);
+      const newIndex = this.state[`focused${titleType}Index`] + increment;
+      this.focusOption(this[plural][newIndex], newIndex, type);
     }
     this.setState({
       [`${type}DropdownActive`]: !this.state[`${type}DropdownActive`],
@@ -141,42 +134,21 @@ class SearchControls extends Component {
     });
   }
 
-  focusFacilityOption(option, index) {
+  focusOption = (option, index, type) => {
+    const titleType = type[0].toUpperCase() + type.slice(1);
+    const plural = pluralize(type);
     if (option) {
       option.focus();
     }
-    if (this.facilities[index]) {
+    if (this[plural][index]) {
       this.setState({
-        focusedFacilityIndex: index
+        [`focused${titleType}Index`]: index
       });
     }
   }
 
-  focusServiceOption(option, index) {
-    if (option) {
-      option.focus();
-    }
-    if (this.services[index]) {
-      this.setState({
-        focusedServiceIndex: index
-      });
-    }
-  }
-
-  isSelectedFacility(facilityType) {
-    return this.props.currentQuery.facilityType === facilityType;
-  }
-
-  isSelectedService(serviceType) {
-    return this.props.currentQuery.serviceType === serviceType;
-  }
-
-  isFocusedServiceIndex(serviceIndex) {
-    return this.state.focusedServiceIndex === serviceIndex;
-  }
-
-  isFocusedFacilityIndex(facilityIndex) {
-    return this.state.focusedFacilityIndex === facilityIndex;
+  isSelectedOption = (option, type) => {
+    return this.props.currentQuery[type] === option;
   }
 
   renderSelectOptions = () => {
@@ -192,17 +164,18 @@ class SearchControls extends Component {
           const serviceOptionClasses = classNames({
             'dropdown-option': true,
             'facility-option': true,
-            'is-hovered': this.isSelectedService(k)
+            'is-hovered': this.isSelectedOption(k, 'serviceType')
           });
           return (
             <li
               tabIndex={this.serviceDropdownActive ? '1' : '-1'}
               role="option"
-              aria-selected={k === facilityType} className={serviceOptionClasses}
+              aria-selected={k === facilityType}
+              className={serviceOptionClasses}
               key={k}
               value={k}
               ref={ elem => { this.services[i] = elem; }}
-              id={k} onClick={this.handleServiceFilterSelect.bind(this, k)}>
+              id={k} onClick={() => this.handleFilterSelect(k, 'service')}>
               <span className="flex-center">
                 <span className="legend spacer"></span>
                 {benefitsServices[k] || k}
@@ -219,7 +192,7 @@ class SearchControls extends Component {
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
       'facility-option': true,
-      'is-hovered': this.isSelectedFacility(facilityType)
+      'is-hovered': this.isSelectedOption(facilityType, 'facilityType')
     });
     const facilityIconClasses = classNames({
       legend: true,
@@ -230,11 +203,11 @@ class SearchControls extends Component {
     return (
       <li role="option"
         tabIndex={this.state.serviceDropdownActive ? '1' : '-1'}
-        aria-selected={this.isSelectedFacility(facilityType || 'AllFacilities')}
+        aria-selected={this.isSelectedOption((facilityType || 'AllFacilities'), 'facilityType')}
         ref={ elem => { this.facilities[index] = elem; }}
         id={index > -1 ? (facilityType || 'AllFacilities') : null}
         className={facilityOptionClasses}
-        onClick={() => this.handleFacilityFilterSelect(facilityType)}
+        onClick={() => this.handleFilterSelect(facilityType, 'filter')}
         onKeyDown={this.navigateFacilityDropdown}>
         <span className="flex-center">
           <span className={facilityIconClasses}></span>{facilityTypes[facilityType] || 'All Facilities'}
