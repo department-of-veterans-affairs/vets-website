@@ -9,7 +9,7 @@ class RequiredVeteranView extends React.Component {
     super(props);
 
     this.state = {
-      serviceRateLimited: (props.serviceRateLimitEnabled && Math.random() > 0.1)
+      serviceRateLimited: (props.serviceRateLimitEnabled && Math.random() > 0.0)
     };
   }
 
