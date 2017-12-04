@@ -7,14 +7,16 @@ export const keyMap = {
   DOWN: 40
 };
 
+export function getDirection(code) {
+  if (code === keyMap.UP) return -1;
+  if (code === keyMap.DOWN) return 1;
+  return false;
+}
+
 export function getSelection(options, queryType) {
-  console.log('getting selection');
-  console.log('options');
-  console.log(options);
   /* eslint-disable no-param-reassign */
   let selection = options[0];
   if (queryType) {
-    console.log('inside has queryType', queryType);
     const selectionType = queryType;
     options = options.filter(item => !!item);
     selection = options.reduce((acc, elem) => {
@@ -24,16 +26,6 @@ export function getSelection(options, queryType) {
   }
   return { selection, id: options.indexOf(selection) };
   /* eslint-enable no-param-reassign */
-}
-
-export function getDirection(code) {
-  if (code === keyMap.UP) return -1;
-  if (code === keyMap.DOWN) return 1;
-  return false;
-}
-
-export function isSpace(code) {
-  return code === keyMap.SPACE;
 }
 
 export function isSelect(code) {
@@ -65,16 +57,6 @@ export function isToggle(keyEvent, isActive) {
     keyEvent.preventDefault();
   }
   return result;
-}
-
-export function pluralize(string) {
-  const plural = string.slice(-1) === 'y' ? `${string.slice(0, -1)}ies` : `${string}s`;
-  return plural;
-}
-
-export function getOtherType(type) {
-  const alternatives = new Map([['facility', 'service'], ['service', 'facility']]);
-  return alternatives.get(type);
 }
 
 export function noServices(type, facilityType) {

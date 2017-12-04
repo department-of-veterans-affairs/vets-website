@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { truncate, kebabCase } from 'lodash';
 import Listbox from './Listbox';
-import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import {
   getDirection,
-  getOtherType,
   getSelection,
-  getServices,
-  shouldToggle,
   isSelect,
   isToggle,
   isTraverse,
@@ -26,14 +21,9 @@ class Select extends Component {
     this.options = [];
   }
 
-  handleEditSearch = () => {
-    this.props.updateSearchQuery({
-      active: false,
-    });
-  }
-
-  handleFilterSelect(newOption, type) {
-    const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
+  handleFilterSelect = (newOption, type) => {
+    const { currentQuery } = this.props;
+    const { facilityType, serviceType } = currentQuery; // eslint-disable-line no-unused-vars
     if (type === 'facility' && newOption !== facilityType) {
       this.props.updateSearchQuery({
         facilityType: newOption,
@@ -54,30 +44,8 @@ class Select extends Component {
     return this.toggleDropdown(null, type);
   }
 
-  // TODO (bshyong): generalize to be able to handle Select box changes
-  handleQueryChange = (e) => {
-    this.props.onChange({
-      searchString: e.target.value,
-    });
-  }
-
-  handleSearch = (e) => {
-    const { onSearch } = this.props;
-    e.preventDefault();
-
-    const { facilityType } = this.props.currentQuery;
-    // Report event here to only send analytics event when a user clicks on the button
-    window.dataLayer.push({
-      event: 'fl-search',
-      'fl-search-fac-type': facilityType
-    });
-
-    onSearch();
-  }
-
   navigateDropdown = (e) => {
     const type = this.props.optionType;
-    const titleType = type[0].toUpperCase() + type.slice(1);
     const isActive = this.state.dropdownActive;
     const which = e.target;
     if (isToggle(e, isActive)) {
@@ -95,20 +63,16 @@ class Select extends Component {
   }
 
   handleBlur = (e) => {
-    const type = this.props.optionType;
     const { currentTarget } = e;
-    setTimeout( () => {
-      if(!currentTarget.contains(document.activeElement)){
-        this.setState({
-          dropdownActive: false
-        })
+    setTimeout(() => {
+      if (!currentTarget.contains(document.activeElement)) {
+        this.setState({ dropdownActive: false });
       }
-    })
+    });
   }
 
   toggleDropdown = (e) => {
     const type = this.props.optionType;
-    const titleType = type[0].toUpperCase() + type.slice(1);
     const isActive = this.state.dropdownActive;
     const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
     const queryType = type === 'service' ? serviceType : facilityType;
@@ -123,11 +87,7 @@ class Select extends Component {
     if (isActive) {
       this.dropdown.focus();
     } else {
-      console.log('searching options', this.options);
-            console.log('for queryType', queryType)
-      const {selection, id} = getSelection(this.options, queryType);
-      console.log('setting focus on selection', selection);
-            console.log('setting focus on selection id', id);
+      const { selection, id } = getSelection(this.options, queryType);
       this.focusOption(selection, id, type);
     }
     this.setState({
@@ -135,8 +95,7 @@ class Select extends Component {
     });
   }
 
-  focusOption = (option, index, type) => {
-    const titleType = type[0].toUpperCase() + type.slice(1);
+  focusOption = (option, index) => {
     if (option) {
       option.focus();
     }
@@ -147,100 +106,11 @@ class Select extends Component {
     }
   }
 
-  isSelectedOption = (option, type) => {
-    return this.props.currentQuery[type] === option;
-  }
-
-  renderSelectOptions = () => {
-    const { currentQuery: { facilityType } } = this.props;
-    const services = getServices(facilityType, benefitsServices, vetCenterServices);
-    console.log('service render');
-    console.log('options', this.options);
-    return (
-      <ul
-        className="dropdown"
-        role="listbox"
-        id="service-list">
-        {services && services.map((k, i, list) => {
-          const serviceOptionClasses = classNames({
-            'dropdown-option': true,
-            'facility-option': true,
-            'is-hovered': this.isSelectedOption(k, 'serviceType')
-          });
-          console.log('servicerender', k, i, list);
-
-          return (
-            <li
-              tabIndex={this.serviceDropdownActive ? '1' : '-1'}
-              role="option"
-              aria-selected={k === facilityType}
-              className={serviceOptionClasses}
-              key={k}
-              value={k}
-              ref={ elem => { this.options[i] = elem; }}
-              id={k}
-              onClick={() => this.handleFilterSelect(k, 'service')}>
-              <span className="flex-center">
-                <span className="legend spacer"></span>
-                {benefitsServices[k] || k}
-              </span>
-            </li>
-          );
-        })
-        }
-      </ul>
-    );
-  }
-
-  renderSelectOptionWithIcon = (facilityType, index) => {
-    const facilityOptionClasses = classNames({
-      'dropdown-option': true,
-      'facility-option': true,
-      'is-hovered': this.isSelectedOption(facilityType, 'facilityType')
-    });
-    const facilityIconClasses = classNames({
-      legend: true,
-      spacer: !facilityType,
-      [`${kebabCase(facilityType)}-icon`]: facilityType
-    });
-              console.log('facilityrender', facilityType, index);
-              console.log('facility render');
-
-    return (
-      <li role="option"
-        tabIndex={this.state.serviceDropdownActive ? '1' : '-1'}
-        aria-selected={this.isSelectedOption((facilityType || 'AllFacilities'), 'facilityType')}
-        ref={ elem => { this.options[index] = elem; }}
-        id={index > -1 ? (facilityType || 'AllFacilities') : null}
-        className={facilityOptionClasses}
-        onClick={() => this.handleFilterSelect(facilityType, 'facility')}
-        onKeyDown={this.navigateFacilityDropdown}>
-        <span className="flex-center">
-          <span className={facilityIconClasses}></span>{facilityTypes[facilityType] || 'All Facilities'}
-        </span>
-      </li>
-    );
-  }
-
-  renderSelectOption = (serviceType, isMobile) => {
-    return (
-      <div className="flex-center">
-        <button id="serviceDropdown" tabIndex="-1" type="button" className="facility-option">
-          <span className="flex-center">
-            <span className="legend spacer"></span>
-            {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? 38 : 27) })}
-          </span>
-        </button>
-      </div>
-    );
-  }
-
   render() {
     const { optionType, currentQuery, isMobile, hasIcons } = this.props;
     const { facilityType, serviceType } = currentQuery;
     let queryType = optionType === 'service' ? serviceType : facilityType;
     queryType = queryType || 'All';
-    console.log('options', this.options);
     const titleType = optionType[0].toUpperCase() + optionType.slice(1);
     const dropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
@@ -253,7 +123,7 @@ class Select extends Component {
         <div
           onKeyDown={e => this.navigateDropdown(e, optionType)}
           className={dropdownClasses}
-          ref={elem => this.dropdown = elem}
+          ref={elem => { this.dropdown = elem; }}
           tabIndex="0"
           role="combobox"
           aria-controls="expandable"
@@ -269,10 +139,8 @@ class Select extends Component {
             navigateDropdown={this.navigateDropdown}
             handleFilterSelect={this.handleFilterSelect}
             options={this.options}
-            isSelectedOption={this.isSelectedOption}
             dropdownActive={this.dropdownActive}
-            hasIcons={hasIcons}
-          />
+            hasIcons={hasIcons}/>
         </div>
       </div>
     );
