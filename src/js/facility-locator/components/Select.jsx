@@ -1,36 +1,29 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { truncate, kebabCase } from 'lodash';
-import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import SelectComponent from './Select';
+import { truncate, kebabCase } from 'lodash';
+import Listbox from './Listbox';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import {
   getDirection,
   getOtherType,
-  getServices,
   getSelection,
+  getServices,
+  shouldToggle,
   isSelect,
   isToggle,
   isTraverse,
-  noServices,
-  pluralize
+  noServices
 } from '../utils/helpers.js';
 
-class SearchControls extends Component {
-
+class Select extends Component {
   constructor() {
     super();
 
     this.state = {
-      facilityDropdownActive: false,
-      serviceDropdownActive: false,
-      focusedFacilityIndex: 0,
-      focusedServiceIndex: 0
+      dropdownActive: false,
+      focusedIndex: 0
     };
-    this.services = [];
-    this.facilities = [];
+    this.options = [];
   }
 
   handleEditSearch = () => {
@@ -46,11 +39,8 @@ class SearchControls extends Component {
         facilityType: newOption,
         serviceType: null
       });
-      this.setState({
-        focusedServiceIndex: null
-      });
     }
-    if (type === 'service') {
+    if (type === 'service' && newOption !== serviceType) {
       if (newOption === 'All') {
         this.props.updateSearchQuery({
           serviceType: null,
@@ -85,10 +75,10 @@ class SearchControls extends Component {
     onSearch();
   }
 
-  navigateDropdown = (e, type) => {
+  navigateDropdown = (e) => {
+    const type = this.props.optionType;
     const titleType = type[0].toUpperCase() + type.slice(1);
-    const isActive = this.state[`${type}DropdownActive`];
-    const plural = pluralize(type);
+    const isActive = this.state.dropdownActive;
     const which = e.target;
     if (isToggle(e, isActive)) {
       if (isActive && isSelect(e.keyCode)) {
@@ -98,15 +88,28 @@ class SearchControls extends Component {
     }
     if (isActive && isTraverse(e)) {
       const increment = getDirection(e.keyCode);
-      const newIndex = this.state[`focused${titleType}Index`] + increment;
-      return this.focusOption(this[plural][newIndex], newIndex, type);
+      const newIndex = this.state.focusedIndex + increment;
+      return this.focusOption(this.options[newIndex], newIndex, type);
     }
     return false;
   }
 
-  toggleDropdown = (e, type) => {
-    const plural = pluralize(type);
-    const isActive = this.state[`${type}DropdownActive`];
+  handleBlur = (e) => {
+    const type = this.props.optionType;
+    const { currentTarget } = e;
+    setTimeout( () => {
+      if(!currentTarget.contains(document.activeElement)){
+        this.setState({
+          dropdownActive: false
+        })
+      }
+    })
+  }
+
+  toggleDropdown = (e) => {
+    const type = this.props.optionType;
+    const titleType = type[0].toUpperCase() + type.slice(1);
+    const isActive = this.state.dropdownActive;
     const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
     const queryType = type === 'service' ? serviceType : facilityType;
     if (type === 'service' && noServices(type, facilityType)) {
@@ -118,51 +121,54 @@ class SearchControls extends Component {
       if (shouldNotToggle) return;
     }
     if (isActive) {
-      this[`${type}Dropdown`].focus();
+      this.dropdown.focus();
     } else {
-      const { selection, id } = getSelection(this[plural], queryType);
+      console.log('searching options', this.options);
+            console.log('for queryType', queryType)
+      const {selection, id} = getSelection(this.options, queryType);
+      console.log('setting focus on selection', selection);
+            console.log('setting focus on selection id', id);
       this.focusOption(selection, id, type);
     }
     this.setState({
-      [`${type}DropdownActive`]: !this.state[`${type}DropdownActive`],
-      [`${getOtherType(type)}DropdownActive`]: false
+      dropdownActive: !this.state.dropdownActive
     });
   }
 
   focusOption = (option, index, type) => {
     const titleType = type[0].toUpperCase() + type.slice(1);
-    const plural = pluralize(type);
     if (option) {
       option.focus();
     }
-    if (this[plural][index]) {
+    if (this.options[index]) {
       this.setState({
-        [`focused${titleType}Index`]: index
+        focusedIndex: index
       });
     }
   }
 
   isSelectedOption = (option, type) => {
-    const queryType = this.props.currentQuery[type];
-    const result = !!(queryType && queryType === option);
-    return result;
+    return this.props.currentQuery[type] === option;
   }
 
   renderSelectOptions = () => {
     const { currentQuery: { facilityType } } = this.props;
     const services = getServices(facilityType, benefitsServices, vetCenterServices);
-
+    console.log('service render');
+    console.log('options', this.options);
     return (
       <ul
         className="dropdown"
         role="listbox"
         id="service-list">
-        {services && services.map((k, i) => {
+        {services && services.map((k, i, list) => {
           const serviceOptionClasses = classNames({
             'dropdown-option': true,
             'facility-option': true,
             'is-hovered': this.isSelectedOption(k, 'serviceType')
           });
+          console.log('servicerender', k, i, list);
+
           return (
             <li
               tabIndex={this.serviceDropdownActive ? '1' : '-1'}
@@ -171,8 +177,9 @@ class SearchControls extends Component {
               className={serviceOptionClasses}
               key={k}
               value={k}
-              ref={ elem => { this.services[i] = elem; }}
-              id={k} onClick={() => this.handleFilterSelect(k, 'service')}>
+              ref={ elem => { this.options[i] = elem; }}
+              id={k}
+              onClick={() => this.handleFilterSelect(k, 'service')}>
               <span className="flex-center">
                 <span className="legend spacer"></span>
                 {benefitsServices[k] || k}
@@ -185,7 +192,7 @@ class SearchControls extends Component {
     );
   }
 
-  renderSelectOptionWithIcon(facilityType, index) {
+  renderSelectOptionWithIcon = (facilityType, index) => {
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
       'facility-option': true,
@@ -196,15 +203,17 @@ class SearchControls extends Component {
       spacer: !facilityType,
       [`${kebabCase(facilityType)}-icon`]: facilityType
     });
+              console.log('facilityrender', facilityType, index);
+              console.log('facility render');
 
     return (
       <li role="option"
         tabIndex={this.state.serviceDropdownActive ? '1' : '-1'}
         aria-selected={this.isSelectedOption((facilityType || 'AllFacilities'), 'facilityType')}
-        ref={ elem => { this.facilities[index] = elem; }}
+        ref={ elem => { this.options[index] = elem; }}
         id={index > -1 ? (facilityType || 'AllFacilities') : null}
         className={facilityOptionClasses}
-        onClick={() => this.handleFilterSelect(facilityType, 'filter')}
+        onClick={() => this.handleFilterSelect(facilityType, 'facility')}
         onKeyDown={this.navigateFacilityDropdown}>
         <span className="flex-center">
           <span className={facilityIconClasses}></span>{facilityTypes[facilityType] || 'All Facilities'}
@@ -213,7 +222,7 @@ class SearchControls extends Component {
     );
   }
 
-  renderSelectOption(serviceType, isMobile) {
+  renderSelectOption = (serviceType, isMobile) => {
     return (
       <div className="flex-center">
         <button id="serviceDropdown" tabIndex="-1" type="button" className="facility-option">
@@ -227,53 +236,47 @@ class SearchControls extends Component {
   }
 
   render() {
-    const { currentQuery, isMobile, onChange } = this.props;
+    const { optionType, currentQuery, isMobile, hasIcons } = this.props;
     const { facilityType, serviceType } = currentQuery;
-    const { facilityDropdownActive } = this.state;
-    if (currentQuery.active && isMobile) {
-      return (
-        <div className="search-controls-container">
-          <button className="small-12" onClick={this.handleEditSearch}>
-            Edit Search
-          </button>
-        </div>
-      );
-    }
-
+    let queryType = optionType === 'service' ? serviceType : facilityType;
+    queryType = queryType || 'All';
+    console.log('options', this.options);
+    const titleType = optionType[0].toUpperCase() + optionType.slice(1);
+    const dropdownClasses = classNames({
+      'facility-dropdown-wrapper': true,
+      active: this.state.dropdownActive,
+      disabled: optionType === 'service' && !['benefits', 'vet_center'].includes(facilityType)
+    });
     return (
-      <div className="search-controls-container clearfix">
-        <form>
-          <div className="columns usa-width-one-third medium-4">
-            <label htmlFor="streetCityStateZip" id="facility-label">Enter Street, City, State or Zip</label>
-            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
-          </div>
-          <SelectComponent
-            optionType="facility"
+      <div onBlur={this.handleBlur} className="columns usa-width-one-fourth medium-3">
+        <label htmlFor={`${optionType}Type`} id={`${optionType}-label`}>{`Select ${titleType} Type`}</label>
+        <div
+          onKeyDown={e => this.navigateDropdown(e, optionType)}
+          className={dropdownClasses}
+          ref={elem => this.dropdown = elem}
+          tabIndex="0"
+          role="combobox"
+          aria-controls="expandable"
+          aria-expanded="false"
+          aria-labelledby={`${optionType}-label`}
+          aria-required="false"
+          aria-activedescendant={queryType}
+          onClick={this.toggleDropdown}>
+          <Listbox
+            optionType={optionType}
             currentQuery={currentQuery}
-            updateSearchQuery={this.props.updateSearchQuery}
-            onChange={onChange}
-            hasIcons={true}
-            isMobile={this.props.isMobile}/>
-          <SelectComponent
-            optionType="service"
-            currentQuery={currentQuery}
-            updateSearchQuery={this.props.updateSearchQuery}
-            onChange={onChange}
-            hasIcons={false}
-            isMobile={this.props.isMobile}/>
-          <div className="columns usa-width-one-sixth medium-2">
-            <input type="submit" value="Search" onClick={this.handleSearch}/>
-          </div>
-        </form>
+            isMobile={isMobile}
+            navigateDropdown={this.navigateDropdown}
+            handleFilterSelect={this.handleFilterSelect}
+            options={this.options}
+            isSelectedOption={this.isSelectedOption}
+            dropdownActive={this.dropdownActive}
+            hasIcons={hasIcons}
+          />
+        </div>
       </div>
     );
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateSearchQuery,
-  }, dispatch);
-}
-
-export default connect(null, mapDispatchToProps)(SearchControls);
+export default Select;

@@ -9,6 +9,8 @@ export const keyMap = {
 
 export function getSelection(options, queryType) {
   console.log('getting selection');
+  console.log('options');
+  console.log(options);
   /* eslint-disable no-param-reassign */
   let selection = options[0];
   if (queryType) {

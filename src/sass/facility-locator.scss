@@ -386,14 +386,19 @@
         max-height: 70vh;
         overflow-y: auto;
         border-top: solid 1px $color-black;
+        border-bottom: solid 1px $color-black;
+        border-right: solid 1px $color-black;
+        border-left: solid 1px $color-black;
         .dropdown-option {
-          border-left: solid 1px $color-black;
           border-bottom: solid 1px $color-black;
-          border-right: solid 1px $color-black;
           z-index: 1011;
+          width: 100%;
           &.is-hovered, &.active, &:hover {
             color: $color-white;
             background: $color-primary-darker;
+          }
+          &:last-child {
+            border-bottom: none;
           }
         }
       }
