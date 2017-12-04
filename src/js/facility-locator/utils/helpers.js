@@ -8,9 +8,11 @@ export const keyMap = {
 };
 
 export function getSelection(options, queryType) {
+  console.log('getting selection');
   /* eslint-disable no-param-reassign */
   let selection = options[0];
   if (queryType) {
+    console.log('inside has queryType', queryType);
     const selectionType = queryType;
     options = options.filter(item => !!item);
     selection = options.reduce((acc, elem) => {
@@ -33,7 +35,7 @@ export function isSpace(code) {
 }
 
 export function isSelect(code) {
-  return code === keyMap.ENTER;
+  return code === keyMap.ENTER || code === keyMap.SPACE;
 }
 
 export function isTraverse(keyEvent) {

@@ -10,6 +10,7 @@ import {
   getDirection,
   getOtherType,
   getServices,
+  getSelection,
   isSelect,
   isToggle,
   isTraverse,
@@ -40,17 +41,14 @@ class SearchControls extends Component {
 
   handleFilterSelect(newOption, type) {
     const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
-    if (type === 'facility') {
-      if (['benefits', 'vet_center'].includes(newOption) && newOption === facilityType) {
-        this.props.updateSearchQuery({
-          facilityType: newOption
-        });
-      } else {
-        this.props.updateSearchQuery({
-          facilityType: newOption,
-          serviceType: null
-        });
-      }
+    if (type === 'facility' && newOption !== facilityType) {
+      this.props.updateSearchQuery({
+        facilityType: newOption,
+        serviceType: null
+      });
+      this.setState({
+        focusedServiceIndex: null
+      });
     }
     if (type === 'service') {
       if (newOption === 'All') {
@@ -108,9 +106,9 @@ class SearchControls extends Component {
 
   toggleDropdown = (e, type) => {
     const plural = pluralize(type);
-    const titleType = type[0].toUpperCase() + type.slice(1);
     const isActive = this.state[`${type}DropdownActive`];
     const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
+    const queryType = type === 'service' ? serviceType : facilityType;
     if (type === 'service' && noServices(type, facilityType)) {
       return;
     }
@@ -122,9 +120,8 @@ class SearchControls extends Component {
     if (isActive) {
       this[`${type}Dropdown`].focus();
     } else {
-      const increment = getDirection(e.keyCode);
-      const newIndex = this.state[`focused${titleType}Index`] + increment;
-      this.focusOption(this[plural][newIndex], newIndex, type);
+      const { selection, id } = getSelection(this[plural], queryType);
+      this.focusOption(selection, id, type);
     }
     this.setState({
       [`${type}DropdownActive`]: !this.state[`${type}DropdownActive`],
@@ -146,7 +143,9 @@ class SearchControls extends Component {
   }
 
   isSelectedOption = (option, type) => {
-    return this.props.currentQuery[type] === option;
+    const queryType = this.props.currentQuery[type];
+    const result = !!(queryType && queryType === option);
+    return result;
   }
 
   renderSelectOptions = () => {
@@ -228,7 +227,8 @@ class SearchControls extends Component {
   }
 
   render() {
-    const { currentQuery, isMobile } = this.props;
+    const { currentQuery, isMobile, onChange } = this.props;
+    const { facilityType, serviceType } = currentQuery;
     const { facilityDropdownActive } = this.state;
     if (currentQuery.active && isMobile) {
       return (
@@ -239,15 +239,6 @@ class SearchControls extends Component {
         </div>
       );
     }
-    const serviceDropdownClasses = classNames({
-      'facility-dropdown-wrapper': true,
-      active: this.state.serviceDropdownActive,
-      disabled: !['benefits', 'vet_center'].includes(currentQuery.facilityType)
-    });
-    const facilityDropdownClasses = classNames({
-      'facility-dropdown-wrapper': true,
-      active: facilityDropdownActive
-    });
 
     return (
       <div className="search-controls-container clearfix">
@@ -258,14 +249,12 @@ class SearchControls extends Component {
           </div>
           <SelectComponent
             optionType="facility"
-            selectedType={currentQuery.facilityType}
-            setDropdown={elem => this.facilityDropdown = elem} // eslint-disable-line no-return-assign
-            toggleDropdown={(e) => this.toggleDropdown(e, 'facility')}
-            dropdownClasses={facilityDropdownClasses}
-            navigateDropdown={e => this.navigateDropdown(e, 'facility')}
-            dropdownActive={this.state.facilityDropdownActive}>
+            currentQuery={currentQuery}
+            updateSearchQuery={this.props.updateSearchQuery}
+            onChange={onChange}
+            refs={this.facilities}>
             <div className="flex-center">
-              {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
+              {this.renderSelectOptionWithIcon(facilityType)}
             </div>
             <ul role="listbox" className="dropdown">
               {this.renderSelectOptionWithIcon(null, 0)}
@@ -277,13 +266,11 @@ class SearchControls extends Component {
           </SelectComponent>
           <SelectComponent
             optionType="service"
-            selectedType={currentQuery.serviceType}
-            setDropdown={elem => this.serviceDropdown = elem} // eslint-disable-line no-return-assign
-            toggleDropdown={(e) => this.toggleDropdown(e, 'service')}
-            dropdownClasses={serviceDropdownClasses}
-            navigateDropdown={e => this.navigateDropdown(e, 'service')}
-            dropdownActive={this.state.serviceDropdownActive}>
-            {this.renderSelectOption(currentQuery.serviceType, this.props.isMobile)}
+            currentQuery={currentQuery}
+            updateSearchQuery={this.props.updateSearchQuery}
+            onChange={onChange}
+            refs={this.services}>
+            {this.renderSelectOption(serviceType, isMobile)}
             {this.renderSelectOptions()}
           </SelectComponent>
           <div className="columns usa-width-one-sixth medium-2">
