@@ -76,7 +76,7 @@ export class LetterList extends React.Component {
           To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
         </p>
         <p>
-          To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/" target="_blank"><span className="usa-sr-only"></span>Get Adobe Reader</a>
+          To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Get Adobe Reader</a>
         </p>
         <p>
           <Link to="confirm-address">Go back to edit address</Link>
@@ -93,8 +93,8 @@ export class LetterList extends React.Component {
         </p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill statement of benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><span className="usa-sr-only"></span><strong>Log into eBenefits to request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><span className="usa-sr-only"></span><strong>Log into eBenefits to request a copy of your discharge or separation papers (DD 214).</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><span className="usa-sr-only">This will open a new website.</span><strong>Log into eBenefits to request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><span className="usa-sr-only">This will open a new website.</span><strong>Log into eBenefits to request a copy of your discharge or separation papers (DD 214).</strong></a></li>
         </ul>
         <div className="feature help-desk">
           <h2>Need help?</h2>

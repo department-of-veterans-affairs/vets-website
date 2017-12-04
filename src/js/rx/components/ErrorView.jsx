@@ -27,7 +27,7 @@ class ErrorView extends React.Component {
       title = 'We’re not able to locate your records';
       detail = (
         <p>
-          Please call support at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET). To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet. To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration"><span className="usa-sr-only"></span>visit MyHealtheVet</a>
+          Please call support at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET). To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet. To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration"><span className="usa-sr-only">This will open a new website.</span>visit MyHealtheVet</a>
         </p>
       );
     } else if (some(errors, errorCodeIncludes(errorCodes.prescriptions))) {

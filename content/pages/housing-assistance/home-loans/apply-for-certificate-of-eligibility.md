@@ -145,7 +145,7 @@ You can apply in 1 of 3 ways:
 **Online through eBenefits** <br>
 We recommend applying for your COE online.
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"><span class="usa-sr-only"></span>Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"><span class="usa-sr-only">This will open a new website.</span>Go to eBenefits to Apply</a>
 
 **Through our Web LGY system** <br>
 In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.

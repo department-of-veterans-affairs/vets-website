@@ -19,11 +19,11 @@ Hearings are an optional part of the appeals process. They may add time to your 
 <p>There’s no set amount of time for your hearing. Usually hearings last about 30 minutes, but your hearing will last as long as you need to discuss your appeal with the VLJ.</p>
 
 <h3>How do I get a representative?</h3>
-<p>At your hearing, you can bring a representative with you. This person can help you prepare for the hearing and present your information to the VLJ. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp"><span class="usa-sr-only"></span>Search for an accredited representative</a>.</p>
+<p>At your hearing, you can bring a representative with you. This person can help you prepare for the hearing and present your information to the VLJ. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp"><span class="usa-sr-only">This will open a new website.</span>Search for an accredited representative</a>.</p>
 <p>Once you have a representative, you’ll need to let the VA know they have permission to represent you by completing a form.</p>
 <ul>
-<li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"><span class="usa-sr-only"></span>Download VA Form 21-22A</a></li>
-<li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"><span class="usa-sr-only"></span>Download VA Form 21-22</a></li>
+<li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-22A</a></li>
+<li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-22</a></li>
 </ul>
 
 <h3>How do I ask for a hearing?</h3>

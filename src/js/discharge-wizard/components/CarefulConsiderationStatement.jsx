@@ -8,7 +8,7 @@ const reasonStatement = (props) => {
     case '1':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI or PTSD or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI, PTSD, or mental health conditions. <a href="http://arba.army.pentagon.mil/documents/SECDEF%20Guidance%20to%20BCMRs%20re%20Vets%20Claiming%20PTSD.pdf"><span className="usa-sr-only"></span>Learn more about the DoD guidelines for reviewing cases related to TBI, PTSD, and mental health conditions.</a>
+          Because you answered that your discharge was related to a TBI or PTSD or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI, PTSD, or mental health conditions. <a href="http://arba.army.pentagon.mil/documents/SECDEF%20Guidance%20to%20BCMRs%20re%20Vets%20Claiming%20PTSD.pdf"><span className="usa-sr-only">This will open a new website.</span>Learn more about the DoD guidelines for reviewing cases related to TBI, PTSD, and mental health conditions.</a>
         </p>
       );
     case '2':

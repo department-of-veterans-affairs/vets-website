@@ -32,7 +32,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You’ll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf"><span class="usa-sr-only"></span>Download a Notice of Disagreement (VA Form 21-0958)</a>
+        By filing an NOD, you begin the appeals process. You’ll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download a Notice of Disagreement (VA Form 21-0958)</a>
       </p>
       <p>Fill out your NOD and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local RO.</p>
     </div>
@@ -118,11 +118,11 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4">How do I get a representative to help me?</button>
       <div id="dbq4" class="usa-accordion-content">
-        <p>If you want to, you can choose a representative to help you with your appeal. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp"><span class="usa-sr-only"></span>Search for an accredited representative</a>.</p>
+        <p>If you want to, you can choose a representative to help you with your appeal. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp"><span class="usa-sr-only">This will open a new website.</span>Search for an accredited representative</a>.</p>
         <p>Once you have a representative, you’ll need to let VA know they have permission to represent you by completing a form.</p>
         <ul>
-          <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"><span class="usa-sr-only"></span>Download VA Form 21-22A</a></li>
-          <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"><span class="usa-sr-only"></span>Download VA Form 21-22</a></li>
+          <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-22A</a></li>
+          <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-22</a></li>
         </ul>
       </div>
     </li>
@@ -160,7 +160,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
           <li>File a new claim with your RO, <strong>or</strong></li>
           <li>File a motion asking the Board to reconsider your appeal (there’s no time limit to file this motion), <strong>or</strong></li>
           <li>File a motion asking the Board to review your appeal again because there was clear and unmistakable error in its decision (there’s no time limit to file this motion), <strong>or</strong></li>
-          <li>File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). <a href="https://www.uscourts.cavc.gov/appeal.php"><span class="usa-sr-only"></span>Learn how to file an appeal with the CAVC</a>.</li>
+          <li>File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). <a href="https://www.uscourts.cavc.gov/appeal.php"><span class="usa-sr-only">This will open a new website.</span>Learn how to file an appeal with the CAVC</a>.</li>
         </ul>
       </div>
     </li>
@@ -180,7 +180,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq9">How do I file a Notice of Appeal with the CAVC?</button>
       <div id="dbq9" class="usa-accordion-content">
-        <p>If the Board has sent you a final decision on your appeal, you can appeal the Board’s decision to the CAVC. You’ll need to wait until you have a final decision from the Board—not the VBA RO—before you can appeal to the CAVC. <a href="https://www.uscourts.cavc.gov/appeal.php"><span class="usa-sr-only"></span>Learn how to file an appeal with the CAVC</a>.</p>
+        <p>If the Board has sent you a final decision on your appeal, you can appeal the Board’s decision to the CAVC. You’ll need to wait until you have a final decision from the Board—not the VBA RO—before you can appeal to the CAVC. <a href="https://www.uscourts.cavc.gov/appeal.php"><span class="usa-sr-only">This will open a new website.</span>Learn how to file an appeal with the CAVC</a>.</p>
       </div>
     </li>
   </ul>

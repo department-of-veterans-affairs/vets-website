@@ -64,7 +64,7 @@ class ConfirmationPage extends React.Component {
           <li>Your reserve kicker</li>
           <li>Documentation of additional contributions that would increase your monthly benefits.</li>
         </ul>
-        <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252"><span className="usa-sr-only"></span>GI Bill site</a>.</p>
+        <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252"><span className="usa-sr-only">This will open a new website.</span>GI Bill site</a>.</p>
       </div>)
       : null;
 

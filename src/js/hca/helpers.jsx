@@ -62,9 +62,9 @@ export const facilityHelp = (
   <div>
     <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>
     <br/>
-    If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank"><span className="usa-sr-only"></span>Learn more about the Foreign Medical Program</a>.
+    If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Learn more about the Foreign Medical Program</a>.
     <br/>
-    <p>You can also visit <a href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp" target="_blank"><span className="usa-sr-only"></span>Veterans Living Abroad</a>.</p>
+    <p>You can also visit <a href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Veterans Living Abroad</a>.</p>
   </div>
 );
 
@@ -145,7 +145,7 @@ export const financialDisclosureText = (
     </ul>
 
     <div className="input-section">
-      <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"><span className="usa-sr-only"></span>Learn more</a> about our income thresholds (also called income limits) and copayments.
+      <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"><span className="usa-sr-only">This will open a new website.</span>Learn more</a> about our income thresholds (also called income limits) and copayments.
     </div>
   </div>
 );
