@@ -66,7 +66,7 @@ When you die, the person arranging your burial will need to call the National Ce
 
 We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
-[Learn more about planning a burial for a family member who has died](/burials-and-memorials/burial-planning).
+[Learn more about planning a burial for a family member who has died](/burials-and-memorials/burial-planning/).
 
 <br>
 

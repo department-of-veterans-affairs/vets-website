@@ -13,7 +13,7 @@ Our Nationwide Gravesite Locator tool can help you find where Veterans and their
 
 </div>
 
-[Use our Nationwide Gravesite Locator tool](http://gravelocator.cem.va.gov/).</br>
+[Use our Nationwide Gravesite Locator tool](https://gravelocator.cem.va.gov/).</br>
 We update the Nationwide Gravesite Locator every day. 
 
 [Find a grave at Arlington National Cemetery](http://www.arlingtoncemetery.mil/#/). 
