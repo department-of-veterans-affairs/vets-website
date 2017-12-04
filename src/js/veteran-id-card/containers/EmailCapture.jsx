@@ -43,7 +43,7 @@ class EmailCapture extends React.Component {
             isVisible
             status="warning"/>
 
-          <h4>If you'd like us to let you know when the application is working again, please enter your email address below. Note: We'll use your email only to contact you about the Veteran ID Card. See our <a href="/privacy/">privacy policy</a>.</h4>
+          <h4>If you'd like us to let you know when the application is working again, please enter your email address below. Note: We'll use your email only to contact you about the Veteran ID Card. <a href="/privacy/">See our privacy policy</a>.</h4>
 
           <form onSubmit={this.handleSubmit}>
             <ErrorableTextInput errorMessage={this.props.errors && this.props.errors[0].title}
