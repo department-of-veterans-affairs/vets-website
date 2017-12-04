@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
+const ESCAPE_KEY = 27;
+
 function focusListener(selector) {
   const listener = event => {
     const modal = document.querySelector('.va-modal');
@@ -21,6 +23,7 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
+    this.handleDocumentKeyUp = this.handleDocumentKeyUp.bind(this);
     this.state = { lastFocus: null, focusListener: null };
   }
 
@@ -32,8 +35,10 @@ class Modal extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.visible && !this.props.visible) {
+      document.addEventListener('keyup', this.handleDocumentKeyUp, false);
       this.setState({ lastFocus: document.activeElement, focusListener: focusListener(newProps.focusSelector) });
     } else if (!newProps.visible && this.props.visible) {
+      document.removeEventListener('keyup', this.handleDocumentKeyUp, false);
       document.removeEventListener('focus', this.state.focusListener, true);
       this.state.lastFocus.focus();
       document.body.classList.remove('modal-open');
@@ -50,8 +55,15 @@ class Modal extends React.Component {
   }
 
   componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleDocumentKeyUp, false);
     document.removeEventListener('focus', this.state.focusListener, true);
     document.body.classList.remove('modal-open');
+  }
+
+  handleDocumentKeyUp(event) {
+    if (event.keyCode === ESCAPE_KEY) {
+      this.handleClose(event);
+    }
   }
 
   handleClose(e) {
