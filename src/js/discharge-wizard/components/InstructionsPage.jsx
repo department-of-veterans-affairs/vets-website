@@ -14,7 +14,7 @@ class InstructionsPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Guidance on Upgrading Your Discharge</h1>
+        <h1>Get Instructions for Upgrading Your Discharge</h1>
         <main itemScope itemType="http://schema.org/FAQPage">
           <div className="row">
             <article className="usa-content columns">
