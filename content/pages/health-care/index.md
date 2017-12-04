@@ -20,6 +20,9 @@ majorlinks:
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
   - heading: Manage Your Health
     links:
+    - url: /health-care/health-conditions/conditions-related-to-service-era/
+      title: Learn About Health Concerns Related to Your Service History
+      description: Find out which service-connected health concerns you should be aware of, based on when and where you served.
     - url: /health-care/prescriptions/
       title: Refill Prescriptions
       description: Refill prescriptions online, and track the status of your refills.
@@ -40,11 +43,6 @@ majorlinks:
     - url: /health-care/health-conditions
       title: Health Needs and Conditions 
       description: Find out how to access VA services for mental health, women’s health, and other specific needs. 
-  - heading: Get Health Information Based On Your Service History
-    links:
-    - url: /health-care/health-conditions/conditions-related-to-service-era/
-      title: Conditions Related to When and Where You Served
-      description: Find out which service-connected health concerns you should be aware of, based on when and where you served.
 ---
 
 <div class="va-introtext">
