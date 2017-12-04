@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import Raven from 'raven-js';
 
 import { formLinks, formTitles } from '../../user-profile/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -39,6 +40,20 @@ export class ApplicationStatus extends React.Component {
         'Dec.'
       ]
     });
+  }
+
+  componentDidMount() {
+    if (this.props.profile.loading) {
+      this.timeout = setTimeout(() => {
+        Raven.captureMessage('vets_application_status_slow');
+      }, 5000);
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    if (oldProps.profile.loading && !this.props.profile.loading) {
+      clearTimeout(this.timeout);
+    }
   }
 
   removeForm = (formId) => {

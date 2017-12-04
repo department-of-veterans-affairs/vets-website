@@ -24,7 +24,7 @@ majorlinks:
     - url: /disability-benefits/conditions/special-claims/hospitalization/
       title: Time Spent in a Hospital
       description: If you spent time in a VA or VA-approved hospital for a service-connected disability, find out if you can get benefits like disability payments for that time.
-    - url: /disability-benefits/conditions/special-claims/individual-unemployability
+    - url: /disability-benefits/conditions/special-claims/individual-unemployability/
       title: Being Unable to Work (Individual Unemployability)
       description: If you can’t work because of your service-connected disability, find out if you can get increased disability payments.
     - url: /disability-benefits/conditions/special-claims/title-38-USC-1151/

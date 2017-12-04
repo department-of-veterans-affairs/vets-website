@@ -10,14 +10,12 @@ import { createHistory } from 'history';
 import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initCommon from '../common/init-common';
 
-const store = createCommonStore(reducer);
-createLoginWidget(store);
+const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/discharge-wizard'
+  basename: '/discharge-upgrade-instructions'
 });
 
 function init() {

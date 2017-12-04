@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getAppealsV2 } from '../actions/index.jsx';
-import { getStatusContents } from '../utils/appeals-v2-helpers';
+import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Timeline from '../components/appeals-v2/Timeline';
 import Alerts from '../components/appeals-v2/Alerts';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
@@ -24,14 +25,18 @@ class AppealsV2StatusPage extends React.Component {
   }
 
   render() {
-    const { events, status } = this.props.appeal.attributes;
+    if (this.props.appealsLoading) {
+      return <LoadingIndicator message="Please wait while we load your appeal..."/>;
+    }
+    const { events, alerts, status } = this.props.appeal.attributes;
     const { type, details } = status;
     const currentStatus = getStatusContents(type, details);
+    const nextEvents = getNextEvents(type);
     return (
       <div>
         <Timeline events={events} currentStatus={currentStatus}/>
-        <Alerts/>
-        <WhatsNext/>
+        <Alerts alerts={alerts}/>
+        <WhatsNext nextEvents={nextEvents}/>
         <Docket/>
       </div>
     );
@@ -44,6 +49,7 @@ AppealsV2StatusPage.defaultProps = {
     type: '',
     attributes: {
       events: [],
+      alerts: [],
       status: {
         type: '',
         details: {}
@@ -64,7 +70,7 @@ AppealsV2StatusPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loading: state.loading
+    appealsLoading: state.disability.status.appeals.appealsLoading,
   };
 }
 

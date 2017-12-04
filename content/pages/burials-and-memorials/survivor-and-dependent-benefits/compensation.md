@@ -54,11 +54,11 @@ Tax-free monetary benefits
 
 ### As a surviving spouse or child, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](https://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
 
 You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
 
 - Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
 
@@ -69,15 +69,15 @@ You can apply for this benefit in 1 of 3 ways:
 
 You may be able to get compensation as a surviving parent if: 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
-- Your income is below a certain amount. [View the parents DIC rate table]( http://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
+- Your income is below a certain amount. [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
 
 ### As a surviving parent, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). [Download VA Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). [Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
 You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
 
 - Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
 

@@ -1,8 +1,15 @@
+import React from 'react';
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   nod: 'nod',
   awaitingHearingDate: 'awaiting_hearing_date',
   bvaDecision: 'bva_decision',
+};
+
+export const ALERT_TYPES = {
+  waitingOnAction: 'waiting_on_action',
+  hearingScheduled: 'hearing_scheduled',
+  bvaDecisionPending: 'bva_decision_pending'
 };
 
 // TO DO: Replace made up properties and content with real versions once finalized.
@@ -193,3 +200,110 @@ export function getEventContent(event) {
   }
 }
 
+/**
+ * @param {string} currentStatus an appeal's current status, one of STATUS_TYPES
+ * @returns {array} of objects that each contain text details of a next event
+ */
+export function getNextEvents(currentStatus) {
+  switch (currentStatus) {
+    case STATUS_TYPES.nod:
+      return [
+        {
+          title: 'Additional evidence',
+          description: `VBA must reveiw any additional evidence you submit prios to certifying
+          your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
+          to grant your appeal, but if not, they will need to produce an additional
+          Statement of the Case.`,
+          durationText: '11 months',
+          cardDescription: 'The Oakland regional office takes about 11 months to produce additional Statements of the Case.'
+        }, {
+          title: 'Appeal certified to the Board',
+          description: 'Your appeal will be sent to the Board of Veterans’ Appeals in Washington, D.C.',
+          durationText: '2 months',
+          cardDescription: 'The Oakland regional office takes about 2 months to certify your appeal to the Board.'
+        }
+      ];
+    case STATUS_TYPES.awaitingHearingDate:
+      return [
+        {
+          title: 'Awaiting hearing date',
+          description: 'VBA is in the process of scheduling your hearing date',
+          durationText: '2 months',
+          cardDescription: 'The Oakland regional office takes about 2 months to schedule a hearing date.'
+        }
+      ];
+    case STATUS_TYPES.bvaDecision:
+      return [
+        {
+          title: 'Board decision reached',
+          descirption: 'Your appeal decision is being sent to your mailing address',
+          durationText: '2 weeks',
+          cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
+        }
+      ];
+    default:
+      return [
+        {
+          title: 'Unknown event',
+          description: 'We could not find the next event in your appeal',
+          durationText: 'Unknown',
+          cardDescription: 'No description found'
+        }
+      ];
+  }
+}
+
+/**
+ * 
+ * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
+ * @returns {object} containing dynamically-generated title & description properties
+ */
+export function getAlertContent(alert) {
+  const { type, details } = alert;
+  switch (type) {
+    case ALERT_TYPES.waitingOnAction:
+      return {
+        title: 'Your appeal is waiting on action by your representative',
+        description: `Your appeal is near the front of the line, but it is not
+          ready to go to a judge. It is currently waiting on your
+          representative, the ${details.representative}, to complete an
+          informal hearing presentation (IHP). Please contact your
+          representative for more information.`,
+        cssClass: 'usa-alert-warning',
+        type
+      };
+    case ALERT_TYPES.hearingScheduled:
+      return {
+        title: `Your hearing has been scheduled for ${details.date}`,
+        description: '',
+        cssClass: 'usa-alert-info',
+        type,
+      };
+    case ALERT_TYPES.bvaDecisionPending:
+      return {
+        title: 'You will soon receive your Board decision',
+        description: (
+          <ul>
+            <li>
+              While a judge is reviewing your case, please do not send any
+              additional evidence. This may delay your decision and increase
+              your wait time.
+            </li>
+            <li>
+              Please call your representative or Regional Office to make
+              sure we have the correct address to mail your decision letter.
+            </li>
+          </ul>
+        ),
+        cssClass: 'usa-alert-info',
+        type,
+      };
+    default:
+      return {
+        title: '',
+        description: '',
+        cssClass: '',
+        type,
+      };
+  }
+}

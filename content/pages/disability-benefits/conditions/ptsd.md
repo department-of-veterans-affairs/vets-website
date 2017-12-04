@@ -22,7 +22,7 @@ Get more information and resources on the Veterans Crisis Line website. [Visit t
 
 #### Posttraumatic Stress Disorder (PTSD) Basics
 
-Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
+Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](https://www.ptsd.va.gov/public/index.asp).
 
 You may be able to get disability compensation or benefits if you have symptoms of PTSD and while serving in the military you: 
 - Suffered a serious injury, personal or sexual trauma, or sexual violation, **or** 
@@ -62,5 +62,5 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 Please note that the screening process for disability benefits is geared toward getting a full understanding of your PTSD, not treating it. To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
 
 ### Get more information 
-We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. [Learn about our PTSD programs](http://www.mentalhealth.va.gov/PTSD.asp).
+We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. [Learn about our PTSD programs](https://www.mentalhealth.va.gov/PTSD.asp).
 

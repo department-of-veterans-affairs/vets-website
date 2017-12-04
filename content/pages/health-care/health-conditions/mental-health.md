@@ -15,9 +15,9 @@ If you qualify for VA health care, you can get high-quality mental health servic
 
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert">
+<div class="usa-alert usa-alert-warning va-alert va-crisis-alert">
   <div class="usa-alert-body">
-	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<h4 class="va-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner">
 	    <ul>
@@ -116,9 +116,9 @@ You may still be able to get care:
 
 ### Where can I find more information or support?
 
-[Get resources and support to help you readjust after returning from deployment](http://www.mentalhealth.va.gov/returningservicevets.asp).<br />
-[Find more resources for help in a crisis](http://www.mentalhealth.va.gov/gethelp.asp).<br />
-[Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp).
+[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
+[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
+[Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 
 <script type="text/javascript">
 

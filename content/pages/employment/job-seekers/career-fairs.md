@@ -45,7 +45,7 @@ Career fairs are an important first step in the search for employment. In-person
 <h3 itemprop="name">Find a career fair near you</h3>
 <div itemprop="itemListElement">
 
-[Corporate Gray military-friendly job fairs](http://www.corporategray.com/jobfairs) take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
+[Corporate Gray military-friendly job fairs](https://www.corporategray.com/jobfairs) take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
 
 [Hiring Our Heroes](https://www.uschamberfoundation.org/events/hiringfairs) organizes hiring fairs and other events to help Veterans, transitioning Servicemembers, and military spouses find meaningful employment opportunities.
 

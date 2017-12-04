@@ -82,6 +82,9 @@ module.exports = {
   },
 
   errorCodes: {
+    access: [
+      'SM105'
+    ],
     accountcreation: [
       'MHVAC1',
     ]

@@ -248,6 +248,21 @@ form {
   min-height: 74px;
 }
 
+.usa-alert {
+  // min-height: 70px;
+
+  &.va-crisis-alert {
+    background-size:4.5rem;
+    padding-bottom:1.7rem;
+  }
+}
+
+.usa-alert-body {
+  > h3:first-child, > h4:first-child, > h5:first-child {
+    margin-top: 0;
+  }
+}
+
 #hurricane-warning-container {
 
   width: 100%;

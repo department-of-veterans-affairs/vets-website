@@ -16,6 +16,8 @@ We have 3 regional pension management centers. Look at the lists below to find t
 
 This office serves:
 
+<div class="usa-grid-full">
+
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Connecticut</li>
@@ -45,6 +47,8 @@ This office serves:
 </ul>
 </div>
 
+</div>
+
 To submit a pension application to this office, mail it to:
 
 <p class="va-address-block">
@@ -57,7 +61,7 @@ To submit a pension application to this office, mail it to:
 
 Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA Philadelphia Regional Benefit Office](http://www.benefits.va.gov/philadelphia/).
+[Get more information about the VA Philadelphia Regional Benefit Office](https://www.benefits.va.gov/philadelphia/).
 
 <br>
 
@@ -65,6 +69,7 @@ Or, fax it to 1-844-655-1604.
 
 This office serves:
 
+<div class="usa-grid-full">
 <div class="small-12 medium-6 usa-width-five-twelfths columns">
 <ul>
 <li>Alabama</li>
@@ -87,6 +92,8 @@ This office serves:
 </ul>
 </div>
 
+</div>
+
 To submit a pension application to this office, mail it to:
 
 <p class="va-address-block">
@@ -99,7 +106,7 @@ To submit a pension application to this office, mail it to:
 
 Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA Milwaukee Regional Benefit Office](http://www.benefits.va.gov/milwaukee/).
+[Get more information about the VA Milwaukee Regional Benefit Office](https://www.benefits.va.gov/milwaukee/).
 
 <br>
 
@@ -158,4 +165,4 @@ To submit a pension application to this office, mail it to:
 
 Or, fax it to 1-844-655-1604.
 
-[Get more information about the VA St. Paul Regional Benefit Office](http://www.benefits.va.gov/stpaul/).
+[Get more information about the VA St. Paul Regional Benefit Office](https://www.benefits.va.gov/stpaul/).

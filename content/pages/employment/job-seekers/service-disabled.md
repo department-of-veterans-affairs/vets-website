@@ -36,11 +36,11 @@ If entrepreneurship interests you, your disability may qualify you for preferenc
 
 ### Private Sector
 
-Private-sector employers may qualify for incentives such as [tax benefits](http://www.benefits.va.gov/VOW/docs/seiflyerfinal.pdf) when hiring Veterans with service-connected disabilities. It is good for you to know about this when you meet with VA Employment Center representatives and during the interview process.
+Private-sector employers may qualify for incentives such as [tax benefits](https://www.benefits.va.gov/VOW/docs/seiflyerfinal.pdf) when hiring Veterans with service-connected disabilities. It is good for you to know about this when you meet with VA Employment Center representatives and during the interview process.
 
 Credentialing and job training will help in your search. Check your [military transcripts](/employment/job-seekers/military-transcripts/) now to be sure they’re accurate.
 
 -----
 
 ### Learn more
-Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply/help/) for more information.
+Contact your local [Veteran Employment Specialist (VES)](https://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply/help/) for more information.

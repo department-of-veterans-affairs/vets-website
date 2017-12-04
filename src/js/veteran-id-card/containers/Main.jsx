@@ -50,7 +50,7 @@ class Main extends React.Component {
     }
     return (
       <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
-        Apply for a Veteran ID card<span className="exit-icon">&nbsp;</span>
+        Request a Veteran ID card<span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
@@ -102,10 +102,20 @@ class Main extends React.Component {
     const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 vet-id-card">
-          <h1>Request a Veteran ID Card</h1>
-          <p>If you’re a Veteran and you don’t already have a Veterans Health Identification Card (VHIC) or a retirement card issued by the Department of Defense (DoD), you can request a printed Veteran ID Card.</p>
-          <p>This card gives you an easy way to show proof of your service so you can access discounted goods and services offered to Veterans.</p>
-          <h3>Ready to apply?</h3>
+          <h1>Printed Veteran ID Card</h1>
+          <p>You can use your printed Veteran ID Card (VIC) instead of your DD214 to get discounts on goods and services offered to Veterans. You can also use other identification cards for this purpose. Find out if you need a VIC or if you already have what you need.</p>
+          <h3>Should I request a printed Veteran ID card?</h3>
+          <p>You <b>do not</b> need to request this card if you have one of these:</p>
+          <ul>
+            <li>Veterans Health Identification Card (VHIC), <b>or</b></li>
+            <li>Department of Defense Identification Card&#8212;either a Common Access Card (CAC) or a Uniformed Services ID Card, <b>or</b></li>
+            <li>State-issued ID (driver’s license) with a Veteran designation or a state-issued Veteran ID Card. Check with your state to see if they issue Veteran ID Cards.</li>
+          </ul>
+          <p>You can use any of these cards to get the same discounts. If you already have one of them, you don’t need a VIC, but you can still apply for it if you’d like.</p>
+          <p>If you don’t have one of these cards, you should request a Veteran ID Card.</p>
+          <h3>Ready to request a Veteran ID Card?</h3>
+          <p>You can request your card online now—or check the status of your request. </p>
+          <p><strong>Note:</strong> To continue, you'll need a government-issued ID (like your driver's license) and a photo of yourself from the shoulders up. Make sure you have what you need for this next step.</p>
           <div>
             {this.renderButton()}
             <div>{message}</div>

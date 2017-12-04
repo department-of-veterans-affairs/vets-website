@@ -2,6 +2,7 @@
 import './polyfills';
 import './sentry.js';
 import '../legacy/menu';  // Used in the footer.
+import './usa-banner-toggle';
 
 // New navigation menu
 if (document.querySelector('#vetnav')) {
