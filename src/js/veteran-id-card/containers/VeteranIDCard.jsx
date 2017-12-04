@@ -7,6 +7,12 @@ import EmailCapture from './EmailCapture';
 
 class VeteranIDCard extends React.Component {
 
+  componentDidMount() {
+    if (!this.props.profile.accountType) {
+      window.dataLayer.push({ event: 'vic-unauthenticated' });
+    }
+  }
+
   render() {
     // direct all unauthenticated users to email form
     if (!this.props.profile.accountType) {
