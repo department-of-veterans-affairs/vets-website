@@ -5,6 +5,11 @@ export const ATTRS_SUCCESS = 'ATTRS_SUCCESS';
 export const ATTRS_FAILURE = 'ATTRS_FAILURE';
 export const REDIRECT_TIMED_OUT = 'REDIRECT_TIMED_OUT';
 
+export const VIC_EMAIL_CAPTURING = 'VIC_EMAIL_CAPTURING';
+export const VIC_EMAIL_CAPTURE_SUCCESS = 'VIC_EMAIL_CAPTURE_SUCCESS';
+export const VIC_EMAIL_CAPTURE_FAILURE = 'VIC_EMAIL_CAPTURE_FAILURE';
+export const VIC_SET_EMAIL = 'VIC_SET_EMAIL';
+
 export function initiateIdRequest() {
   window.dataLayer.push({ event: 'vic-submit-started' });
   return dispatch => {
@@ -33,4 +38,40 @@ export function initiateIdRequest() {
 
 export function timeoutRedirect() {
   return { type: REDIRECT_TIMED_OUT };
+}
+
+export function setEmail(email) {
+  return {
+    type: VIC_SET_EMAIL,
+    email,
+  };
+}
+
+export function submitEmail(email) {
+  return dispatch => {
+    dispatch({ type: VIC_EMAIL_CAPTURING });
+
+    apiRequest('/id_card/announcement_subscription',
+      {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({
+          id_card_announcement_subscription: {  // eslint-disable-line camelcase
+            email,
+          }
+        })
+      },
+      () => {
+        dispatch({
+          type: VIC_EMAIL_CAPTURE_SUCCESS,
+        });
+      },
+      (response) => {
+        dispatch({
+          type: VIC_EMAIL_CAPTURE_FAILURE,
+          errors: response.errors
+        });
+      }
+    );
+  };
 }

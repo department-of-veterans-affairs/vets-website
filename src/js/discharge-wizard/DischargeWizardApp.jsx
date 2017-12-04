@@ -6,7 +6,7 @@ export default function DischargeWizardApp({ children }) {
       <nav className="va-nav-breadcrumbs">
         <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
           <li><a href="/">Home</a></li>
-          <li><strong>Guidance on Upgrading Your Discharge</strong></li>
+          <li><strong>Get Instructions for Upgrading Your Discharge</strong></li>
         </ul>
       </nav>
       <div className="row">
