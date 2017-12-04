@@ -669,7 +669,7 @@ smith.use(redirect({
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
-function generateStaticSettings(){
+function generateStaticSettings() {
   const settingsPath = path.join(destination, 'js/settings.js');
   const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
   fs.writeFileSync(settingsPath, settingsContent);
