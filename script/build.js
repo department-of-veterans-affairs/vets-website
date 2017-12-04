@@ -93,7 +93,6 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('veteran-id-card/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -570,10 +569,9 @@ smith.use(layouts({
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
-  hostname: 'http://www.vets.gov',
+  hostname: 'https://www.vets.gov',
   omitIndex: true
 }));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({

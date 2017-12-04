@@ -215,11 +215,21 @@ table {
   clear: both;
   margin: 0;
   padding: 0;
-  min-height: 147.19px;
+
+  // Without this value the navbar will look the same in the end but this keeps the navbar's height from expanding/blinking
+  // right as the navbar elements are rendered on screen during page load.
+  // This is the height on mobile fyi.
+  min-height: 189.19px;
+
+  // This sets the height of the header on large mobile devices between 480 and 768.
+  @include media($small-screen) {
+    min-height: 167.19px
+  }
 
   @include media($medium-screen) {
     position: relative;
-    min-height: 168.5px;
+    // Same reason as the comment above, only the value has been adjusted to be the height of the navbar for tablet/desktop.
+    min-height: 159px;
   }
 
 .login-container {
@@ -773,42 +783,6 @@ li {
   }
 }
 
-[class^=va-wip] {
-  padding: .576rem 0;
-  font-size: 0.8em;
-  font-weight: 400;
-
-  a {
-    color: inherit;
-    background-image: none;
-    padding: 0;
-  }
-}
-
-.va-wip {
-  background: $color-white;
-  color: $color-gray-dark;
-  display: none;
-  font-size: 1.152rem;
-  margin: auto;
-
-  @include media($medium-large-screen) {
-    background: $color-gray-lightest;
-    display: block;
-  }
-}
-
-.va-wip--narrow {
-  border-top: 1px solid $color-primary-darker;
-  color: $color-white;
-  margin-top: 3.2rem;
-  white-space: normal;
-
-  @include media($medium-large-screen) {
-    display: none;
-  }
-}
-
 // Notice / feedback banners
 .va-notice--banner {
   background: $color-white;
@@ -818,6 +792,14 @@ li {
 
   @include media($medium-large-screen) {
     background: $color-gray-lightest;
+    .usa-banner-inner {
+      padding-left: 0;
+    }
+
+    .usa-banner-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
   &-inner {

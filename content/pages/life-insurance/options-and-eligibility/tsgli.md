@@ -43,7 +43,7 @@ Yes. To qualify for TSGLI, your injury can’t:
 - Occur while you’re committing or trying to commit a felony, **or**
 - Be the result of a physical or mental illness or disease (not including illness or disease caused by a wound infection; a chemical, biological, or radiological weapon; or accidentally swallowing a contaminated substance)
 
-[View TSGLI loss standards](http://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp).
+[View TSGLI loss standards](https://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp).
 
 <br>
 
@@ -53,7 +53,7 @@ You may be able to get retroactive TSGLI (meaning that it takes effect starting 
 
 You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your SGLI coverage was in effect when you got injured. 
 
-**Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](http://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
+**Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](https://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
 
 <br>
 
@@ -77,7 +77,7 @@ You’re automatically covered through TSGLI if you’re signed up for full-time
 
 To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out the Application for TSGLI Benefits, and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.
 
-[Download the Application for TSGLI Benefits](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2017-01.pdf).
+[Download the Application for TSGLI Benefits](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2017-01.pdf).
 
 <br>
 
@@ -87,7 +87,7 @@ First, look at the denial letter you received from your branch of service. Your 
 
 If your letter says to complete this form, fill it out and submit it to your branch of service.
 
-[Download the TSGLI Appeal Request Form](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
+[Download the TSGLI Appeal Request Form](https://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
 
 <br>
 
@@ -99,5 +99,5 @@ If you have SGLI coverage, your SGLI premium (which is automatically deducted fr
 
 ### Where can I find more information?
 
-[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+[Read our insurance publications](https://www.benefits.va.gov/INSURANCE/ins_publications.asp).
 

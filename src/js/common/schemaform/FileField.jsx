@@ -65,8 +65,9 @@ export default class FileField extends React.Component {
     const newFileList = this.props.formData.filter((file, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
+    } else {
+      this.props.onChange(newFileList);
     }
-    this.props.onChange(newFileList);
   }
 
   render() {
@@ -114,7 +115,7 @@ export default class FileField extends React.Component {
                       <ProgressBar percent={this.state.progress}/>
                     </div>
                   }
-                  <span>{file.name}</span>
+                  {!file.uploading && <span>{file.name}</span>}
                   {!hasErrors && itemSchema.properties.attachmentId &&
                     <div className="schemaform-file-attachment">
                       <SchemaField

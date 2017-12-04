@@ -57,6 +57,9 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 
 You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
 </div>
+</div>
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h4 itemprop="name">How to schedule online</h4>
 
@@ -78,9 +81,10 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 <div>
   <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
 </div>
-
-
 </div>
+</div>
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h4 itemprop="name">How to schedule through secure messaging</h4>
 
@@ -94,7 +98,7 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
 [Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/veterans.asp).
 
 </div>
-
+</div>
 </div> <!-- closes overall FAQ -->
 <br>
 

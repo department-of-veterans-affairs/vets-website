@@ -10,29 +10,33 @@ export const shouldShowQuestion = (currentKey, validQuestions) => {
   const isValid = validQuestions.indexOf(currentKey) > -1;
   const isNotFutureQuestion = parseInt(num, 10) <= parseInt(nextNum, 10);
   const formIsComplete = lastQuestion === 'END';
+
   return isValid && (isNotFutureQuestion || formIsComplete);
 };
 
 export const branchOfService = (key) => {
-  return questionLabels['7_branchOfService'][key === 'marines' ? 'navy' : key];
+  return questionLabels['1_branchOfService'][key === 'marines' ? 'navy' : key];
 };
 
-export const board = (formValues) => {
+export const board = (formValues, noDRB) => {
   const prevAppType = ['1', '4'].indexOf(formValues['10_prevApplicationType']) > -1;
   const noPrevApp = formValues['8_prevApplication'] === '2';
   const preAppDateBefore = formValues['9_prevApplicationYear'] === '1';
-  const courtMartial = formValues['6_courtMartial'] === '1';
-  const transgender = formValues['1_reason'] === '5';
-  const intention = formValues['3_intention'] === '1';
+  const courtMartial = formValues['7_courtMartial'] === '1';
+  const transgender = formValues['4_reason'] === '5';
+  const intention = formValues['6_intention'] === '1';
   const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
-  const dischargeYear = formValues['4_dischargeYear'];
-  const dischargeMonth = formValues['5_dischargeMonth'] || 1;
+  const dischargeYear = formValues['2_dischargeYear'];
+  const dischargeMonth = formValues['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
 
   let boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
-  if (['army', 'airForce', 'coastGuard'].indexOf(formValues['7_branchOfService']) > -1) {
+  if (['army', 'airForce', 'coastGuard'].indexOf(formValues['1_branchOfService']) > -1) {
     boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
   }
+
+  // short circuit condition for prior period of service response
+  if (noDRB) { return boardObj; }
 
   if (noPrevApp || preAppDateBefore || prevAppType) {
     if (courtMartial || transgender || intention || oldDischarge) {
@@ -45,10 +49,10 @@ export const board = (formValues) => {
   return null;
 };
 
-export const venueAddress = (formValues) => {
+export const venueAddress = (formValues, noDRB) => {
   const boardData = board(formValues);
-  if (boardData && boardData.abbr === 'DRB') {
-    switch (formValues['7_branchOfService']) {
+  if (!noDRB && boardData && boardData.abbr === 'DRB') {
+    switch (formValues['1_branchOfService']) {
       case 'army':
         return (
           <p className="va-address-block">
@@ -88,7 +92,7 @@ export const venueAddress = (formValues) => {
         );
     }
   } else {
-    switch (formValues['7_branchOfService']) {
+    switch (formValues['1_branchOfService']) {
       case 'army':
         return (
           <p className="va-address-block">
