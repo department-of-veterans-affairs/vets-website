@@ -39,11 +39,11 @@ class EmailCapture extends React.Component {
         <div>
           <h1>Printed Veteran ID Card</h1>
           <AlertBox
-            content="We're sorry your application isn't going through. Our system is having trouble handling the many requests for cards, and we're working to fix the problem as quickly as we can."
+            content="We’re sorry. Our system is having trouble handling the many requests for Veteran ID cards, and can’t accept your application right now. We’re working to fix the problem as fast as we can."
             isVisible
             status="warning"/>
 
-          <h4>If you'd like us to let you know when the application is working again, please enter your email address here. Note: We'll use your email only to contact you about the Veteran Identification Card. See our <a href="/privacy/">privacy policy</a>.</h4>
+          <h4>If you'd like us to let you know when the application is working again, please enter your email address here. Note: We'll use your email only to contact you about the Veteran ID Card. See our <a href="/privacy/">privacy policy</a>.</h4>
 
           <form onSubmit={this.handleSubmit}>
             <ErrorableTextInput errorMessage={this.props.errors && this.props.errors[0].title}
