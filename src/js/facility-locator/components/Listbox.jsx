@@ -27,7 +27,7 @@ class Listbox extends Component {
     return (
       <ul
         className="dropdown"
-        role="listbox"
+        role={!this.props.isDisabled ? 'listbox' : undefined}
         id="service-list">
         {services && services.map((k, i) => {
           const serviceOptionClasses = classNames({
@@ -89,6 +89,34 @@ class Listbox extends Component {
     );
   }
 
+  renderSelectButtonWithIcon = (facilityType, index) => {
+    const facilityOptionClasses = classNames({
+      'dropdown-option': true,
+      'facility-option': true,
+      'is-hovered': this.isSelectedOption(facilityType, 'facilityType')
+    });
+    const facilityIconClasses = classNames({
+      legend: true,
+      spacer: !facilityType,
+      [`${kebabCase(facilityType)}-icon`]: facilityType
+    });
+
+    return (
+      <div
+        tabIndex={this.props.dropdownActive ? '1' : '-1'}
+        ref={ elem => { this.props.options[index] = elem; }}
+        id={index > -1 ? (facilityType || 'AllFacilities') : null}
+        className={facilityOptionClasses}
+        onClick={() => this.props.handleFilterSelect(facilityType, 'facility')}
+        onKeyDown={this.props.navigateDropdown}>
+        <span className="flex-center">
+          <span className={facilityIconClasses}></span>
+          {facilityTypes[facilityType] || 'All Facilities'}
+        </span>
+      </div>
+    );
+  }
+
   renderSelectOption = (serviceType, isMobile) => {
     return (
       <div className="flex-center">
@@ -107,16 +135,18 @@ class Listbox extends Component {
   }
 
   render() {
-    const { hasIcons, isMobile } = this.props;
+    const { hasIcons, isMobile, isDisabled } = this.props;
     const { currentQuery: { facilityType, serviceType } } = this.props;
     return (
       <div>
         {hasIcons &&
           <div>
             <div className="flex-center">
-              {this.renderSelectOptionWithIcon(facilityType)}
+              {this.renderSelectButtonWithIcon(facilityType)}
             </div>
-            <ul role="listbox" className="dropdown">
+            <ul
+              role={!isDisabled ? 'listbox' : undefined}
+              className="dropdown">
               {this.renderSelectOptionWithIcon(null, 0)}
               {this.renderSelectOptionWithIcon('health', 1)}
               {this.renderSelectOptionWithIcon('benefits', 2)}

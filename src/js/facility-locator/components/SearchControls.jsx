@@ -49,7 +49,7 @@ class SearchControls extends Component {
       <div className="search-controls-container clearfix">
         <form>
           <div className="columns usa-width-one-third medium-4">
-            <label htmlFor="streetCityStateZip" id="facility-label">Enter Street, City, State or Zip</label>
+            <label htmlFor="streetCityStateZip" id="streetCityStateZip-label">Enter Street, City, State or Zip</label>
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
           <SelectComponent

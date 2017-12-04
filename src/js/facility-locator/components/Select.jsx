@@ -109,13 +109,20 @@ class Select extends Component {
   render() {
     const { optionType, currentQuery, isMobile, hasIcons } = this.props;
     const { facilityType, serviceType } = currentQuery;
+    const disabled = optionType === 'service' && !['benefits', 'vet_center'].includes(facilityType);
     let queryType = optionType === 'service' ? serviceType : facilityType;
-    queryType = queryType || 'All';
+    if (!queryType) {
+      if (optionType === 'service'){
+        queryType = 'All';
+      } else if (optionType === 'facility') {
+        queryType = 'AllFacilities';
+      }
+    }
     const titleType = optionType[0].toUpperCase() + optionType.slice(1);
     const dropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
       active: this.state.dropdownActive,
-      disabled: optionType === 'service' && !['benefits', 'vet_center'].includes(facilityType)
+      disabled
     });
     return (
       <div onBlur={this.handleBlur} className="columns usa-width-one-fourth medium-3">
@@ -125,16 +132,15 @@ class Select extends Component {
           className={dropdownClasses}
           ref={elem => { this.dropdown = elem; }}
           tabIndex="0"
-          role="combobox"
-          aria-controls="expandable"
           aria-expanded="false"
           aria-labelledby={`${optionType}-label`}
           aria-required="false"
-          aria-activedescendant={queryType}
+          aria-activedescendant={this.dropDownActive && queryType}
           onClick={this.toggleDropdown}>
           <Listbox
             optionType={optionType}
             currentQuery={currentQuery}
+            isDisabled={disabled}
             isMobile={isMobile}
             navigateDropdown={this.navigateDropdown}
             handleFilterSelect={this.handleFilterSelect}
