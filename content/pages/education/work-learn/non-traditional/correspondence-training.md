@@ -39,6 +39,6 @@ We’ll pay you back for the cost of your correspondence training classes if you
 
 - We base payment amounts on the specific GI Bill program you’re using. If you’re enrolled in correspondence training, we decide your payment amount and then pay it quarterly after your school lets us know that you’ve finished your course of study. 
 
-- If you’re covered under the Post-9/11 GI Bill, we pay you back for the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. For all other GI Bill recipients, we reimburse 55% of the approved costs. [View the current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you’re covered under the Post-9/11 GI Bill, we pay you back for the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. For all other GI Bill recipients, we reimburse 55% of the approved costs. [View the current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 

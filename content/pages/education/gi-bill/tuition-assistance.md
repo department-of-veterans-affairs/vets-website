@@ -39,11 +39,11 @@ If you’re using the Montgomery GI Bill, you’ll get the difference between th
 
 **Note:** It’s very important that you talk with your education officer and use the GI Bill Comparison Tool before applying for benefits through this program. Using Top-Up will affect your GI Bill payments, so you’ll want to think carefully about your situation before applying. If you’re going to take more courses after leaving the military, figure out if the GI Bill benefits you have left will cover your needs. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
-- If you use the Montgomery GI Bill, this benefit will be reduced, or charged, one month of entitlement for each payment received that is equal to the full-time monthly GI Bill rate. [See the rate tables](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you use the Montgomery GI Bill, this benefit will be reduced, or charged, one month of entitlement for each payment received that is equal to the full-time monthly GI Bill rate. [See the rate tables](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you use the Post-9/11 GI Bill, this benefit will be charged based on training time no matter how much money you’re paid back. Half-time training rates reduce your GI Bill benefit by a half-month for each month you’re enrolled.
 
 **Exception:** In no case will the combined amount paid by DOD and VA be more than the total cost of the course.
 
 ### Get more information
 
-[Read the Top-Up fact sheet](http://www.benefits.va.gov/GIBILL/docs/factsheets/topup.pdf).
+[Read the Top-Up fact sheet](https://www.benefits.va.gov/GIBILL/docs/factsheets/topup.pdf).

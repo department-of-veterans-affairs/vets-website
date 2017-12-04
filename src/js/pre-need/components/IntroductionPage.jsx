@@ -75,7 +75,7 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help">Find an accredited representative.</a>
+                <strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/">Find an accredited representative.</a>
               </p>
               <AlertBox
                 content={infoBoxContent}

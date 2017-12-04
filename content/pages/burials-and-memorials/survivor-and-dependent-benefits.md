@@ -14,10 +14,10 @@ widgets:
 majorlinks:
   - heading:
     links:
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs
+    - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs/
       title: Burial Allowance Application Process
       description: Find out if you can get paid back for funeral and other burial costs.
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation
+    - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation/
       title: Compensation for Survivors and Dependents
       description: Find out if you can get tax-free monetary benefits.
 relatedlinks:
