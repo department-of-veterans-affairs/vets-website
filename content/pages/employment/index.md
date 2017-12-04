@@ -25,7 +25,7 @@ majorlinks:
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
   - heading: Other Resources
     links:
-    - url: /employment/job-seekers/family-members
+    - url: /employment/job-seekers/family-members/
       title: Explore Resources for Military and Veteran Family Members
       description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
     - url: https://veterans.linkedin.com/

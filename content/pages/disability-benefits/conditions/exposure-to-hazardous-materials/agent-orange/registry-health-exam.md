@@ -26,8 +26,8 @@ You can get an Agent Orange Registry health exam if you served in Vietnam betwee
   - In Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter, **or**
   - In other locations, but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
  
- [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp). <br>
- [Learn about herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
+ [See the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp). <br>
+ [Learn about herbicide tests and storage outside Vietnam](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
 
 ### Who’s covered?
 Veterans
@@ -35,7 +35,7 @@ Veterans
 
 ### How do I get these benefits?
 
-To schedule your exam, contact your local VA Environmental Health Coordinator. If you qualify, you won’t have to pay anything for this exam. It’s free for qualified Veterans. [Find a VA Environmental Health Coordinator near you](http://www.publichealth.va.gov/exposures/coordinators.asp).
+To schedule your exam, contact your local VA Environmental Health Coordinator. If you qualify, you won’t have to pay anything for this exam. It’s free for qualified Veterans. [Find a VA Environmental Health Coordinator near you](https://www.publichealth.va.gov/exposures/coordinators.asp).
 
 ### What should I expect at the exam?
 
@@ -60,7 +60,7 @@ Please note that:
 - Your family members can’t get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
 
 ### Need help?
-Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp)
+Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp)
 
 ### Get more information
-[Learn more about the Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 
+[Learn more about the Agent Orange Registry health exam](https://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 

@@ -48,5 +48,5 @@ To prove that you had contact with Agent Orange during your Thailand service, yo
 Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
-Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn about Agent Orange benefits](https://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 

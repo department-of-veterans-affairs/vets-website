@@ -41,7 +41,7 @@ display_title: Frequently Asked Questions
                         <p>If you want to use more advanced Vets.gov tools to manage your benefits and services—like tracking your VA claims and appeals, downloading your full VA health record, or tracking how much of your Post-9/11 GI Bill benefits you've used—you'll need to take extra steps to verify your identity. This means we’ll make sure you’re you (not someone pretending to be you) before we give you access to your personal information. </p>
                         <p>To get started, you’ll create an account through ID.me, our trusted technology partner in helping to keep your personal information safe.</p>
                         <p>Or, you can sign in with your <strong>DS Logon</strong> account (used to access eBenefits or milConnect)—and we'll connect your account to Vets.gov through ID.me. If you have a basic or advanced (non-premium) account, you’ll need to verify your identity through ID.me. We can also help you use ID.me to add an extra layer of security to your account (called 2-factor authentication).</p>
-                        <a href="/faq" class="login-required">Sign in now</a>.
+                        <a href="/faq/" class="login-required">Sign in now</a>.
                       </div>
                     </div>
                   </li>
@@ -86,7 +86,7 @@ display_title: Frequently Asked Questions
                     <div id="dbq4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you have a <strong>DS Logon</strong> account, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
-                        <p><a href="/faq" class="login-required">Sign in now</a></p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a></p>
                         <p>If you don’t have one of these premium accounts, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
                         <p>To go through the ID.me identity-proofing process, you’ll need:</p>
                         <ul>
@@ -99,7 +99,7 @@ display_title: Frequently Asked Questions
                             </ul>
                           </li>
                         </ul>
-                        <p><a href="/faq" class="login-required">Sign in now</a></p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a></p>
                       </div>
                     </div>
                   </li>
@@ -185,7 +185,7 @@ display_title: Frequently Asked Questions
                         <p>When you create an account, ID.me will ask you to provide personal information, like your name, date of birth, address, or other details. ID.me will also ask you to either upload a picture of your driver’s license or passport or answer questions based on your public and private data (like your credit report) that only you’d know how to answer. This is to help make sure you're you—and not someone pretending to be you.</p>
                         <p>With your permission, ID.me will share this information with the Department of Veterans Affairs so we can give you access to your VA health records and benefit information. ID.me will never share your information with anyone else without asking for your permission.</p>
                         <p>To learn more about how your personal information will be kept safe, read our privacy policy and ID.me’s privacy policy.</p>
-                        <p><a href="/privacy">View the Vets.gov privacy policy</a>.</p>
+                        <p><a href="/privacy/">View the Vets.gov privacy policy</a>.</p>
                         <p><a href="https://wallet.id.me/privacy">View the ID.me privacy policy</a>.</p>
                       </div>
                     </div>
@@ -216,7 +216,7 @@ display_title: Frequently Asked Questions
                         <p><strong>If you have a basic (non-premium) DS Logon account</strong>, you can save your in-progress online applications.</p>
                         <p>To access more advanced tools—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—you’ll need to go through the ID.me process to verify your identity. This is because the benefits and services you’re signing up for on Vets.gov require a higher level of security since they use your personal information. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to this information.</p>
                         <p><strong>If you have a premium DS Logon account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
-                        <p><a href="/faq" class="login-required">Sign in now</a>.</p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
@@ -231,7 +231,7 @@ display_title: Frequently Asked Questions
                         <p>We’ll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they have your password.</p>
                         <p>ID.me helps us to do this in a way that's simple and secure. In fact, they offer the strongest identity verification system available to prevent fraud and identity theft. ID.me is a trusted VA partner and 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.</p>
                         <p><strong>If you have a DS Logon account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
-                        <p><a href="/faq" class="login-required">Sign in now</a></p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a></p>
                       </div>
                     </div>
                   </li>
