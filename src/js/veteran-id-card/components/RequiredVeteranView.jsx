@@ -2,9 +2,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SystemDownView from '../../common/components/SystemDownView';
+import EmailCapture from '../containers/EmailCapture';
 
 class RequiredVeteranView extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      serviceRateLimited: (props.serviceRateLimitEnabled && Math.random() > 0.05)
+    };
+  }
+
+  componentDidMount() {
+    if (this.state.serviceRateLimited) {
+      window.dataLayer.push({ event: 'vic-ratelimited' });
+    }
+  }
+
   render() {
+    // redirect logged-in users to email form based on serviceRateLimited prop
+    if (this.state.serviceRateLimited) {
+      return <EmailCapture/>;
+    }
+
     let view;
     const serviceAvailable = this.props.userProfile.services.indexOf('id-card') !== -1;
 
@@ -35,6 +55,11 @@ class RequiredVeteranView extends React.Component {
 
 RequiredVeteranView.propTypes = {
   userProfile: PropTypes.object.isRequired,
+  serviceRateLimitEnabled: PropTypes.bool,
+};
+
+RequiredVeteranView.defaultProps = {
+  serviceRateLimitEnabled: __VIC_RATE_LIMIT_ENABLED__, // eslint-disable-line no-undef
 };
 
 export default RequiredVeteranView;
