@@ -23,7 +23,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
-const settings = require('../config/settings');
+const createSettings = require('../config/settings');
 
 const sourceDir = '../content/pages';
 
@@ -670,6 +670,7 @@ smith.use(redirect({
 }));
 
 function generateStaticSettings() {
+  const settings = createSettings(options);
   const settingsPath = path.join(destination, 'js/settings.js');
   const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
   fs.writeFileSync(settingsPath, settingsContent);
