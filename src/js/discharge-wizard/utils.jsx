@@ -46,7 +46,8 @@ export const board = (formValues, noDRB) => {
   } else if (prevAppTypeBoard) {
     return boardObj;
   }
-  return null;
+
+  return boardObj;
 };
 
 export const venueAddress = (formValues, noDRB) => {

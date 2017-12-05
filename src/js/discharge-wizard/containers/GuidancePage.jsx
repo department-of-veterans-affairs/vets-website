@@ -319,7 +319,7 @@ class GuidancePage extends React.Component {
 
   renderDischargeWarning() {
     const boardToSubmit = board(this.props.formValues);
-    const prevAppType = this.props.formValues['10_prevApplicationType'];
+    const prevAppType = this.props.formValues['7_courtMartial'];
 
     const alertContent = (
       <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results here are for Veterans who have discharges that are administrative, or the result of a Special or Summary Court Martial. If your discharge was the outcome of a General Court Martial, you may need to send your application to a different board. You can find out which board by editing your answers on the previous page.</p>
