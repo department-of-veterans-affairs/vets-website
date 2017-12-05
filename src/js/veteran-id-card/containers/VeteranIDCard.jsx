@@ -6,24 +6,18 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
+const rateLimit = window.settings.vic.rateLimit;
+
 class VeteranIDCard extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      serviceRateLimited: (props.serviceRateLimitEnabled && Math.random() > 0.0)
-    };
-  }
-
   componentDidMount() {
-    if (this.state.serviceRateLimited) {
+    if (this.props.serviceRateLimitEnabled) {
       window.dataLayer.push({ event: 'vic-ratelimited' });
     }
   }
 
   render() {
-    if (this.state.serviceRateLimited) {
+    if (this.props.serviceRateLimitEnabled) {
       return <EmailCapture/>;
     }
 
@@ -50,7 +44,7 @@ VeteranIDCard.propTypes = {
 };
 
 VeteranIDCard.defaultProps = {
-  serviceRateLimitEnabled: __VIC_RATE_LIMIT_ENABLED__, // eslint-disable-line no-undef
+  serviceRateLimitEnabled: Math.random() > rateLimit
 };
 
 const mapStateToProps = (state) => {
