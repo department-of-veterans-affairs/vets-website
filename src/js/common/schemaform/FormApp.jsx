@@ -112,9 +112,6 @@ class FormApp extends React.Component {
         action = 'replace';
       }
       newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
-    } else if (newProps.savedStatus !== this.props.savedStatus &&
-      newProps.savedStatus === SAVE_STATUSES.success) {
-      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
@@ -125,6 +122,11 @@ class FormApp extends React.Component {
       || ((oldProps.savedStatus !== this.props.savedStatus &&
       this.props.savedStatus === SAVE_STATUSES.pending))) {
       scrollToTop();
+    }
+
+    if (this.props.savedStatus !== oldProps.savedStatus &&
+      this.props.savedStatus === SAVE_STATUSES.success) {
+      this.props.router.push(`${this.props.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
