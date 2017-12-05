@@ -73,8 +73,8 @@ export const prevApplicationYearCutoff = {
 export const answerReview = (key, formValues) => {
   const ans = formValues[key];
   const dischargeYearLabel = prevApplicationYearCutoff[formValues['4_reason']];
-  const dischargeMonth = options.months[formValues['3_dischargeMonth']] && options.months[formValues['3_dischargeMonth']].label;
-
+  const monthObj = options.months.find(m => String(m.value) === formValues['3_dischargeMonth']);
+  const dischargeMonth = monthObj && monthObj.label;
 
   switch (key) {
     case '4_reason':

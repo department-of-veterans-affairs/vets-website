@@ -9,11 +9,16 @@ import { venueWarning } from '../config';
 
 class GuidancePage extends React.Component {
   componentDidMount() {
+    const prevScript = document.getElementById('uswds');
+    if (prevScript) { prevScript.remove(); }
+
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = 'https://standards.usa.gov/assets/js/vendor/uswds.min.js';
+    script.id = 'uswds';
+    script.src = 'https://standards.usa.gov/assets/js/vendor/uswds.min.js?guidance';
     document.getElementsByTagName('head')[0].appendChild(script);
+
     window.scrollTo(0, 0);
   }
 
@@ -93,6 +98,26 @@ class GuidancePage extends React.Component {
       return null;
     };
 
+    const dd214Tips = (
+      <ul>
+        <li>Pay special attention to item 6, which asks for the reason for your change. Here you should explain why you need a fresh DD-214, including any problems you are facing when having to show both the DD-214 and DD-215. You may consider attaching additional pages to fully answer this question.</li>
+      </ul>
+    );
+
+    const nonDd2014Tips = (
+      <ul>
+        <li>Pay special attention to item 6, which asks for the reason for your change. Most Veterans attach additional pages to answer this question. {strongCaseTips()}</li>
+        {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you are applying for reconsideration of a previous application, you will need to enter the previous application number in Item 6b. Note: You are generally only eligible for reconsideration if you have new evidence to present that was not available at the time of your last application. Make sure you clarify exactly what that new evidence is. Additionally, the change in DoD policy, such as new consideration guidelines for PTSD, TBI, and sexual assault or harassment can qualify you for reconsideration.</li>}
+        {this.props.formValues['4_reason'] === '4' && <li>
+          Note: For upgrades related to sexual assault or harassment, you do not need to prove the original assault or harassment occurred—meaning if you didn't file charges or report the incident, you can still apply for an upgrade. The important part of your application is to explain how the incident impacted your service. For example, detail how the incident caused a decrease in your productivity, or was the reason for PTSD.
+        </li>}
+        {boardToSubmit.abbr !== 'DRB' && <li>Item 8 asks for your date of "discovery" of the injustice. If this date isn’t in the last 3 years, you’ll need to argue that the Board should hear your case anyway. This is not a strict date, so don’t let the 3-year rule keep you from applying if you have a strong case. You may note your recent discovery of new evidence about your claim or recent policy changes (like careful consideration for PTSD, TBI, or military sexual assault or harassment.</li>}
+        {boardToSubmit.abbr !== 'DRB' && <li>Item 10 asks if you are willing to appear in-person before the Board in Washington, DC. The Board rarely asks Veterans to appear in person, but indicating that you’re willing to do so may help show how serious you are about your case.</li>}
+        {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you <strong>may</strong> have more success with a Personal Appearance Review. Note that you will have to pay your travel costs if you make a personal appearance. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
+        {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] === '1' && <li>The DRB allows you to request either a Documentary Review or a Personal Appearance Review. Because your application was already denied during a Documentary Review, you must apply for a Personal Appearance Review in Washington, DC. Note that you will have to pay your travel costs if you make a personal appearance.</li>}
+      </ul>
+    );
+
     const form = formData(this.props.formValues);
     return (
       <li className="list-group-item">
@@ -101,17 +126,7 @@ class GuidancePage extends React.Component {
           <p>
             Important tips for completing Form {form.num}:
           </p>
-          <ul>
-            <li>Pay special attention to item 6, which asks for the reason for your change. Most Veterans attach additional pages to answer this question. {strongCaseTips()}</li>
-            {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you are applying for reconsideration of a previous application, you will need to enter the previous application number in Item 6b. Note: You are generally only eligible for reconsideration if you have new evidence to present that was not available at the time of your last application. Make sure you clarify exactly what that new evidence is. Additionally, the change in DoD policy, such as new consideration guidelines for PTSD, TBI, and sexual assault or harassment can qualify you for reconsideration.</li>}
-            {this.props.formValues['4_reason'] === '4' && <li>
-              Note: For upgrades related to sexual assault or harassment, you do not need to prove the original assault or harassment occurred—meaning if you didn't file charges or report the incident, you can still apply for an upgrade. The important part of your application is to explain how the incident impacted your service. For example, detail how the incident caused a decrease in your productivity, or was the reason for PTSD.
-            </li>}
-            {boardToSubmit.abbr !== 'DRB' && <li>Item 8 asks for your date of "discovery" of the injustice. If this date isn’t in the last 3 years, you’ll need to argue that the Board should hear your case anyway. This is not a strict date, so don’t let the 3-year rule keep you from applying if you have a strong case. You may note your recent discovery of new evidence about your claim or recent policy changes (like careful consideration for PTSD, TBI, or military sexual assault or harassment.</li>}
-            {boardToSubmit.abbr !== 'DRB' && <li>Item 10 asks if you are willing to appear in-person before the Board in Washington, DC. The Board rarely asks Veterans to appear in person, but indicating that you’re willing to do so may help show how serious you are about your case.</li>}
-            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] !== '1' && <li>You can request either a Documentary Review or Personal Appearance Review from the Discharge Review Board (DRB). If your case is especially complicated and requires detailed explanation, you <strong>may</strong> have more success with a Personal Appearance Review. Note that you will have to pay your travel costs if you make a personal appearance. Documentary Reviews are generally faster and so it is usually recommended to begin with one. Also, if you are denied in a Documentary Review, you can then appeal via Personal Appearance, but you can’t request Documentary Review after a Personal Appearance.</li>}
-            {boardToSubmit.abbr === 'DRB' && this.props.formValues['10_prevApplicationType'] === '1' && <li>The DRB allows you to request either a Documentary Review or a Personal Appearance Review. Because your application was already denied during a Documentary Review, you must apply for a Personal Appearance Review in Washington, DC. Note that you will have to pay your travel costs if you make a personal appearance.</li>}
-          </ul>
+          {this.props.formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
@@ -262,8 +277,8 @@ class GuidancePage extends React.Component {
         <div className="usa-accordion accordion-container">
           <ul className="usa-unstyled-list">
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name">What happens after I send in my application?</button>
-              <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1a" itemProp="name">What happens after I send in my application?</button>
+              <div id="dbq1a" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
                 <div itemProp="text">
                   <p>Nearly all applications are reviewed by the Board within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
                   <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
@@ -272,8 +287,8 @@ class GuidancePage extends React.Component {
               </div>
             </li>
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name">Can I apply for VA benefits in the meantime?</button>
-              <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2a" itemProp="name">Can I apply for VA benefits in the meantime?</button>
+              <div id="dbq2a" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
                 <div itemProp="text">
                   <AlertBox
                     isVisible
