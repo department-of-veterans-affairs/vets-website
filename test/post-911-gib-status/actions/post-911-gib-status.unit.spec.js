@@ -34,7 +34,7 @@ const teardown = () => {
   global.window = oldWindow;
 };
 
-describe.only('getEnrollmentData', () => {
+describe('getEnrollmentData', () => {
   const successResponse = {
     meta: {
       status: 'OK'
