@@ -105,6 +105,11 @@ describe.only('getEnrollmentData', () => {
   afterEach(teardown);
 
   it('dispatches GET_ENROLLMENT_DATA_SUCCESS on successful fetch', (done) => {
+    global.fetch.returns(Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve(successResponse)
+    }));
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -114,5 +119,4 @@ describe.only('getEnrollmentData', () => {
         expect(action.data).to.equal(successResponse.data.attributes);
       }).then(done, done);
   });
-
 });
