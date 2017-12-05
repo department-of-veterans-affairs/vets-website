@@ -77,7 +77,9 @@ function nextQuestion(currentQuestion, answer, state) {
       }
       break;
     case '10_prevApplicationType':
-      if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
+      if (state['4_reason'] === '8') {
+        next = 'END';
+      } else if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
         next = '11_priorService';
       } else {
         next = 'END';

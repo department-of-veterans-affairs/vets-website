@@ -8,18 +8,22 @@ import { branchOfService, board, formData, venueAddress } from '../utils';
 import { venueWarning } from '../config';
 
 class GuidancePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeFAQ: null,
+    };
+  }
   componentDidMount() {
-    const prevScript = document.getElementById('uswds');
-    if (prevScript) { prevScript.remove(); }
-
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.id = 'uswds';
-    script.src = 'https://standards.usa.gov/assets/js/vendor/uswds.min.js?guidance';
-    document.getElementsByTagName('head')[0].appendChild(script);
-
     window.scrollTo(0, 0);
+  }
+
+  handleFAQToggle(e) {
+    e.preventDefault();
+    this.setState({
+      activeFAQ: e.target.name
+    });
   }
 
   handlePrint(e) {
@@ -277,8 +281,8 @@ class GuidancePage extends React.Component {
         <div className="usa-accordion accordion-container">
           <ul className="usa-unstyled-list">
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1a" itemProp="name">What happens after I send in my application?</button>
-              <div id="dbq1a" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" name="q1" aria-expanded={this.state.activeFAQ === 'q1'}>What happens after I send in my application?</button>
+              <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={this.state.activeFAQ !== 'q1'}>
                 <div itemProp="text">
                   <p>Nearly all applications are reviewed by the Board within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
                   <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
@@ -287,8 +291,8 @@ class GuidancePage extends React.Component {
               </div>
             </li>
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2a" itemProp="name">Can I apply for VA benefits in the meantime?</button>
-              <div id="dbq2a" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" name="q2" aria-expanded={this.state.activeFAQ === 'q2'}>Can I apply for VA benefits in the meantime?</button>
+              <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={this.state.activeFAQ !== 'q2'}>
                 <div itemProp="text">
                   <AlertBox
                     isVisible
