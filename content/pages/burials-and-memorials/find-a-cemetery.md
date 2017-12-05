@@ -13,9 +13,9 @@ Our Nationwide Gravesite Locator tool can help you find where Veterans and their
 
 </div>
 
-<a href="https://gravelocator.cem.va.gov/"><span class="usa-sr-only">This will open a new website.</span>Use our Nationwide Gravesite Locator tool</a>.</br>
+[Use our Nationwide Gravesite Locator tool](https://gravelocator.cem.va.gov/).</br>
 We update the Nationwide Gravesite Locator every day. 
 
-<a href="http://www.arlingtoncemetery.mil/#/"><span class="usa-sr-only">This will open a new website.</span>Find a grave at Arlington National Cemetery</a>. 
+[Find a grave at Arlington National Cemetery](http://www.arlingtoncemetery.mil/#/). 
 
 There are many ways you can volunteer at a VA cemetery. You can help with funerals, cemetery grounds, and visitor education. [Find a VA cemetery near you](/facilities).

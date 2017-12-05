@@ -24,7 +24,7 @@ You can get this benefit if:
 
 You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
 [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
-<a href="https://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp"><span class="usa-sr-only">This will open a new website.</span>See the list of schools that offer the Yellow Ribbon Program</a>. <br />
+[See the list of schools that offer the Yellow Ribbon Program](https://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp). <br />
 
 
 </div>

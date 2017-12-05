@@ -50,7 +50,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 **Please note:**
 
-- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. <a href="https://www.cem.va.gov/cem/cems/listcem.asp"><span class="usa-sr-only">This will open a new website.</span>Find a state Veterans cemetery</a>.
+- **This application is only for national cemeteries.** If you'd like to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time. Some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).
 
 - **This application doesn’t apply to Arlington National Cemetery or the United States Soldiers and Airmen's Home National Cemetery.** If you'd like to be buried in either of these Department of the Army cemeteries, please call <a href="tel:+18779078585">1-877-907-8585</a>, Monday through Friday, 8:00 a.m. to 5:30 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 9:00 a.m. to 1:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
@@ -104,15 +104,15 @@ To apply, you’ll need your (or your sponsor's):
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative"><span class="usa-sr-only">This will open a new website.</span>Request a representative</a>.
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
-<a href="https://www.va.gov/statedva.htm"><span class="usa-sr-only">This will open a new website.</span>Find your state’s Veterans agency</a>.
+[Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <div markdown="0"><br></div>
 
 ### Ready to apply?
 
-Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <a href="https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 40-10007</a>.
+Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
 Print the form, fill it out, and send it to us along with copies of your supporting documents in 1 of 2 ways:
 

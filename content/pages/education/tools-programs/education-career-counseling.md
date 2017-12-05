@@ -45,7 +45,7 @@ You can get these services if you’ll be discharged from active duty within 6 m
 
 You’ll need to apply:
 
-1. Log in to <a href="https://www.ebenefits.va.gov"><span class="usa-sr-only">This will open a new website.</span>eBenefits</a>.
+1. Log in to [eBenefits](https://www.ebenefits.va.gov).
 2. Select “Apply.”
 3. Select “Vocational Rehabilitation and Employment Benefits.”
 4. Apply for “Educational and Career Counseling.”<br /><br />

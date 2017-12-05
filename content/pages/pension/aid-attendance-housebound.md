@@ -42,7 +42,7 @@ There are 2 ways you can get this benefit:
 You can write to the PMC for your state. [Find your PMC](/pension/pension-management-center/). 
 
 Include this information: 
-- Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-2680</a>. 
+- Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
 - Details about what you normally do during the day and how you get places
 - Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own 
 

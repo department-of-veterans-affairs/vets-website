@@ -44,8 +44,8 @@ We offer blind and low vision rehabilitation services such as:
 
 Depending on your needs, you may get care in an outpatient setting or in an inpatient clinic (where you’ll live full time for a short period of time). <br>
 
-<a href="https://www.prosthetics.va.gov/blindrehab/locations.asp"><span class="usa-sr-only">This will open a new website.</span>Find inpatient Blind Rehabilitation Centers</a>. <br>
-<a href="https://www.prosthetics.va.gov/blindrehab/BRS_Coordinated_Care.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about other blind rehabilitation services</a>.
+[Find inpatient Blind Rehabilitation Centers](https://www.prosthetics.va.gov/blindrehab/locations.asp). <br>
+[Learn more about other blind rehabilitation services](https://www.prosthetics.va.gov/blindrehab/BRS_Coordinated_Care.asp).
 
 </div>
 
@@ -75,4 +75,4 @@ Or, contact the Blind Rehabilitation Service Program office by phone (<a href="t
 
 ### If I’m blind and have hearing loss, will VA cover the cost of my hearing aids?
 
-<a href="https://www.prosthetics.va.gov/psas/Hearing_Aids.asp"><span class="usa-sr-only">This will open a new website.</span>Find out how to get hearing aids through VA</a>.
+[Find out how to get hearing aids through VA](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp).

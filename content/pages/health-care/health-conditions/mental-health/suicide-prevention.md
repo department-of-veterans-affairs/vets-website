@@ -35,7 +35,7 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 ##### Are you in crisis? You have options.
 
 - Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.
-- <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/"><span class="usa-sr-only">This will open a new website.</span>Get private support online with the confidential Veterans Chat</a>.
+- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
 - Text <a href="sms:838255">838255</a> to get help right away.
 - Call <a href="tel:911">911</a>.
 - Go to the nearest emergency room.
@@ -57,14 +57,14 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 <br>
 
-<a href="https://www.veteranscrisisline.net/GetHelp/ResourceLocator.aspx"><span class="usa-sr-only">This will open a new website.</span>Find these and other resources near you</a>.
+[Find these and other resources near you](https://www.veteranscrisisline.net/GetHelp/ResourceLocator.aspx).
 
 <br>
 
 #### You can also find information and support on our websites:
 
-- Get information about suicide prevention and the support we offer. <a href="https://www.mentalhealth.va.gov/MENTALHEALTH/suicide_prevention/index.asp"><span class="usa-sr-only">This will open a new website.</span>Visit our suicide prevention website</a>.
-- Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. <a href="https://maketheconnection.net/"><span class="usa-sr-only">This will open a new website.</span>Visit Make the Connection</a>.
+- Get information about suicide prevention and the support we offer. [Visit our suicide prevention website](https://www.mentalhealth.va.gov/MENTALHEALTH/suicide_prevention/index.asp).
+- Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
 
 </div>
 
@@ -85,11 +85,11 @@ They may also change the way they act, and start to:
 - Act violently or take risks (like driving fast or running red lights)
 - Do things to prepare for a suicide (like giving away special personal items, making a will, or seeking access to guns or pills)
 
-<a href="https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx"><span class="usa-sr-only">This will open a new website.</span>Get the full list of signs that someone may be considering suicide</a>.
+[Get the full list of signs that someone may be considering suicide](https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx).
 
-Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs. <a href="https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp"><span class="usa-sr-only">This will open a new website.</span>Recognize when to ask for help</a>.
+Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs. [Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp).
 
-<a href="https://www.vetselfcheck.org/Welcome.cfm"><span class="usa-sr-only">This will open a new website.</span>Take our Veterans self-check quiz</a>.
+[Take our Veterans self-check quiz](https://www.vetselfcheck.org/Welcome.cfm).
 
 <br>
 
@@ -99,7 +99,7 @@ Yes. If you’re a family member or friend of a Veteran who’s having trouble a
 
 To speak with a VA coach, call <a href="tel:+1-888-823-7458">1-888-823-7458</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. <a href="https://www.mirecc.va.gov/coaching/"><span class="usa-sr-only">This will open a new website.</span>Visit Coaching into Care</a>.
+To get tips and resources for spouses, parents, and Veterans, visit the Coaching Into Care website. [Visit Coaching into Care](https://www.mirecc.va.gov/coaching/).
 
 <br>
 
@@ -107,7 +107,7 @@ To get tips and resources for spouses, parents, and Veterans, visit the Coaching
 
 Get tips for talking to children of different ages about suicide:
 
-- <a href="https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto4to8.asp"><span class="usa-sr-only">This will open a new website.</span>Preschoolers</a>
-- <a href="https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto9to13.asp"><span class="usa-sr-only">This will open a new website.</span>School-age children</a>
-- <a href="https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto14to18.asp"><span class="usa-sr-only">This will open a new website.</span>Teenagers</a>
-- <a href="https://www.mirecc.va.gov/visn19/talk2kids/docs/Talk2Child_color.pdf"><span class="usa-sr-only">This will open a new website.</span>All ages</a>
+- [Preschoolers](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto4to8.asp)
+- [School-age children](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto9to13.asp)
+- [Teenagers](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto14to18.asp)
+- [All ages](https://www.mirecc.va.gov/visn19/talk2kids/docs/Talk2Child_color.pdf)

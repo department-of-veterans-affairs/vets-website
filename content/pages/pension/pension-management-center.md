@@ -61,7 +61,7 @@ To submit a pension application to this office, mail it to:
 
 Or, fax it to 1-844-655-1604.
 
-<a href="https://www.benefits.va.gov/philadelphia/"><span class="usa-sr-only">This will open a new website.</span>Get more information about the VA Philadelphia Regional Benefit Office</a>.
+[Get more information about the VA Philadelphia Regional Benefit Office](https://www.benefits.va.gov/philadelphia/).
 
 <br>
 
@@ -106,7 +106,7 @@ To submit a pension application to this office, mail it to:
 
 Or, fax it to 1-844-655-1604.
 
-<a href="https://www.benefits.va.gov/milwaukee/"><span class="usa-sr-only">This will open a new website.</span>Get more information about the VA Milwaukee Regional Benefit Office</a>.
+[Get more information about the VA Milwaukee Regional Benefit Office](https://www.benefits.va.gov/milwaukee/).
 
 <br>
 
@@ -165,4 +165,4 @@ To submit a pension application to this office, mail it to:
 
 Or, fax it to 1-844-655-1604.
 
-<a href="https://www.benefits.va.gov/stpaul/"><span class="usa-sr-only">This will open a new website.</span>Get more information about the VA St. Paul Regional Benefit Office</a>.
+[Get more information about the VA St. Paul Regional Benefit Office](https://www.benefits.va.gov/stpaul/).

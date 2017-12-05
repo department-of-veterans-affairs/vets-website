@@ -23,8 +23,8 @@ As you navigate the civilian marketplace, you may encounter challenges. The Vete
 
 </div>
 
-More private-sector businesses are committing each day to hire Veterans and military family members. Search the <a href="https://www.careeronestop.org/JobSearch/job-search.aspx"><span class="usa-sr-only">This will open a new website.</span>Veterans Job Bank</a> for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/advanced-training-and-certifications/licensing-certification/), VA can help guide you through the process.
+More private-sector businesses are committing each day to hire Veterans and military family members. Search the [Veterans Job Bank](https://www.careeronestop.org/JobSearch/job-search.aspx) for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/advanced-training-and-certifications/licensing-certification/), VA can help guide you through the process.
 
-If you own your own business or want to start a company, <a href="https://www.sba.gov/offices/headquarters/ovbd/resources/160511"><span class="usa-sr-only">This will open a new website.</span>VA](/employment/job-seekers/register-your-business/), the [Small Business Administration Boots to Business program</a>, and organizations like <a href="http://vets.syr.edu/education/"><span class="usa-sr-only">This will open a new website.</span>Syracuse University’s Institute for Veterans and Military Families</a> offer mentorship, counseling, and training.
+If you own your own business or want to start a company, [VA](/employment/job-seekers/register-your-business/), the [Small Business Administration Boots to Business program](https://www.sba.gov/offices/headquarters/ovbd/resources/160511), and organizations like [Syracuse University’s Institute for Veterans and Military Families](http://vets.syr.edu/education/) offer mentorship, counseling, and training.
 
-If you are out of work, you may be eligible for <a href="http://careeronestop.org/site/american-job-center.aspx"><span class="usa-sr-only">This will open a new website.</span>unemployment support</a>, which is handled by the state in which you work.
+If you are out of work, you may be eligible for [unemployment support](http://careeronestop.org/site/american-job-center.aspx), which is handled by the state in which you work.

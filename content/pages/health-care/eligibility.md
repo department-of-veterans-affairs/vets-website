@@ -41,8 +41,8 @@ You should know:
 
 - **If you separated under conditions other than honorable:**
 
-  - You can use VA’s Health Benefits Explorer to find out if any exceptions apply to you. <a href="http://hbexplorer.vacloud.us/"><span class="usa-sr-only">This will open a new website.</span>Go to the Health Benefits Explorer</a>.
-  - Or, you can visit healthcare.gov to find out if you qualify for health insurance. <a href="https://www.healthcare.gov/"><span class="usa-sr-only">This will open a new website.</span>Go to healthcare.gov</a>.
+  - You can use VA’s Health Benefits Explorer to find out if any exceptions apply to you. [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
+  - Or, you can visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/).
 
 <br>
 
@@ -62,7 +62,7 @@ You may qualify for enhanced eligibility status (meaning you’ll be placed in a
 - You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <a href="http://nationalincomelimits.vaftl.us/"><span class="usa-sr-only">This will open a new website.</span>Learn more about income limits</a>.
+If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
 </div>
 </div>
@@ -82,9 +82,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative"><span class="usa-sr-only">This will open a new website.</span>Request a representative</a>.
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
-Or, <a href="https://www.va.gov/statedva.htm"><span class="usa-sr-only">This will open a new website.</span>find your state’s Veterans agency</a>.
+Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
@@ -113,7 +113,7 @@ Or, <a href="https://www.va.gov/statedva.htm"><span class="usa-sr-only">This wil
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
 
-Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. <a href="https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about health benefit copay rates</a>.
+Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
 
 Your priority group will be based on:
 
@@ -124,7 +124,7 @@ Your priority group will be based on:
 - Other benefits you may be receiving (like pension benefits)
 
 We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
-<a href="https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp"><span class="usa-sr-only">This will open a new website.</span>View the different priority groups</a>.
+[View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp).
 
 </div>
 </div>

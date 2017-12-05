@@ -49,13 +49,13 @@ As a woman Veteran, you’re part of the fastest-growing group within our Vetera
 - Screening and management of sexually transmitted diseases (STDs) like HIV/AIDS and hepatitis
 - Maternity care and other reproductive health services
 - Treatment for sexual problems, urinary incontinence, and other issues
-- Prosthetic and sensory aid (PSA) services, like prosthetic limbs, hearing aids, and post-mastectomy items. <a href="https://www.prosthetics.va.gov/factsheet/PSAS-FactSheet-WomenVets.pdf"><span class="usa-sr-only">This will open a new website.</span>Download our fact sheet on prosthetic and sensory services for women Veterans</a>.
+- Prosthetic and sensory aid (PSA) services, like prosthetic limbs, hearing aids, and post-mastectomy items. [Download our fact sheet on prosthetic and sensory services for women Veterans](https://www.prosthetics.va.gov/factsheet/PSAS-FactSheet-WomenVets.pdf).
 - Referrals for physical therapy, occupational therapy, speech-language therapy, and other rehabilitation therapies
 - [Homebound and long-term care for those who meet specific requirements](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 
 Please note that we cannot, by law, provide abortion services.
 
-Through legislation announced January 19, 2017, we are expanding our fertility services to include counseling and treatment using assisted reproductive technologies—including in vitro fertilization (IVF). These services will be available to Veterans and spouses of Veterans who have a service-connected disability that makes it impossible for them to have a baby without the help of fertility treatment. Veterans can begin scheduling appointments to find out if they qualify and to get a clinical exam, consultation, and initial treatment as we work to build the program’s structure. <a href="https://www.va.gov/opa/pressrel/pressrelease.cfm?id=2854"><span class="usa-sr-only">This will open a new website.</span>Learn more about the recent changes in IVF coverage</a>.
+Through legislation announced January 19, 2017, we are expanding our fertility services to include counseling and treatment using assisted reproductive technologies—including in vitro fertilization (IVF). These services will be available to Veterans and spouses of Veterans who have a service-connected disability that makes it impossible for them to have a baby without the help of fertility treatment. Veterans can begin scheduling appointments to find out if they qualify and to get a clinical exam, consultation, and initial treatment as we work to build the program’s structure. [Learn more about the recent changes in IVF coverage](https://www.va.gov/opa/pressrel/pressrelease.cfm?id=2854).
 
 <br>
 
@@ -69,8 +69,8 @@ If you’re a woman Veteran and you’re currently signed up for VA health care,
 
 We provide services for:
 
-- <a href="https://www.va.gov/homeless/for_women_veterans.asp"><span class="usa-sr-only">This will open a new website.</span>Women Veterans who are homeless</a>
-- <a href="https://www.womenshealth.va.gov/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp"><span class="usa-sr-only">This will open a new website.</span>Victims of intimate partner violence</a>
+- [Women Veterans who are homeless](https://www.va.gov/homeless/for_women_veterans.asp)
+- [Victims of intimate partner violence](https://www.womenshealth.va.gov/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp)
 
 Women Veterans who want:
   - [Education and training](/education/)
@@ -96,10 +96,10 @@ Once you’ve signed up:
 
 If you don’t have VA health care benefits, you may still be able to get care:
 
-- **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>). Or, <a href="https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp"><span class="usa-sr-only">This will open a new website.</span>start a secure chat</a>.
+- **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. <a href="https://www.va.gov/homeless/"><span class="usa-sr-only">This will open a new website.</span>Learn about our homelessness programs</a>.
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
@@ -113,6 +113,6 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 ### Where can I find more information and support?
 
-- Our women’s health website gives you the latest information about how we help women Veterans stay well. <a href="https://www.womenshealth.va.gov/"><span class="usa-sr-only">This will open a new website.</span>Visit the women’s health website</a>.
-- Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. <a href="https://www.va.gov/womenvet/"><span class="usa-sr-only">This will open a new website.</span>Visit the Center for Women Veterans website</a>.
+- Our women’s health website gives you the latest information about how we help women Veterans stay well. [Visit the women’s health website](https://www.womenshealth.va.gov/).
+- Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/).
 - Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential guidance. Call the Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>).

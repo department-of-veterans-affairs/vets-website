@@ -59,7 +59,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 - [Vision care](/health-care/about-va-health-care/vision-care/)
 
-- <a href="https://www.prosthetics.va.gov/psas/Hearing_Aids.asp"><span class="usa-sr-only">This will open a new website.</span>Hearing loss</a>
+- [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp)
 
 - [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 

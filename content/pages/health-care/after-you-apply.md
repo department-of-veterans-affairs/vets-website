@@ -35,14 +35,14 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <li class="process-step list-two">
 
 **Read your Veterans Health Benefits Handbook.** We’ll send this to you by mail. Your handbook will explain your specific health care benefits (based on the priority group we assigned you), how much you’ll pay in copays, and other helpful information. <br />
-<a href="https://www.va.gov/healthbenefits/vhbh/publications/vhbh_sample_handbook_2014.pdf"><span class="usa-sr-only">This will open a new website.</span>Download a sample handbook</a>. <br />
-<a href="https://www.va.gov/healthbenefits/resources/priority_groups.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about priority groups</a>.
+[Download a sample handbook](https://www.va.gov/healthbenefits/vhbh/publications/vhbh_sample_handbook_2014.pdf). <br />
+[Learn more about priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp).
 
 </li>
 
 <li class="process-step list-three">
 
-**Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and speak with the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> <a href="https://www.va.gov/HEALTHBENEFITS/vhic/index.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about the VHIC</a>. <br />
+**Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and speak with the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
 [Find a VA medical center near you](/facilities/).
 
 </li>
@@ -97,7 +97,7 @@ If you need help accessing services, call our toll-free hotline at 1-877-222-VET
 
 #### What if I need to update my personal information?
 
-To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 10-10EZR</a>.
+To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
 Mail this form and any supporting materials to:
 
@@ -115,4 +115,4 @@ You can also get help updating your personal information by visiting your local 
 
 #### What if my application isn’t approved and I disagree with the decision?
 
-If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. <a href="https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf"><span class="usa-sr-only">This will open a new website.</span>Download our “How Do I Appeal?” booklet</a>.
+If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. [Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).

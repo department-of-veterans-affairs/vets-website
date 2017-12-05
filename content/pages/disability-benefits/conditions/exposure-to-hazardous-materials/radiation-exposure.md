@@ -10,7 +10,7 @@ template: detail-page
 
 Find out if you can get disability compensation or benefits for illnesses—including some cancers—believed to be caused by contact with radiation during military service. 
 
-<a href="http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309"><span class="usa-sr-only">This will open a new website.</span>Learn about radiation-related illnesses</a>. 
+[Learn about radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
 
 </div>
 

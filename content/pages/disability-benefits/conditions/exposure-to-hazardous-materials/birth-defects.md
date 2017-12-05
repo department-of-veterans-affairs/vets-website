@@ -57,4 +57,4 @@ You’ll need to apply for benefits for your child. When you apply, you’ll hav
 
 ### Get more information
 
-Does your child have spina bifida? <a href="https://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about spina bifida and Agent Orange</a>.
+Does your child have spina bifida? [Learn more about spina bifida and Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp).

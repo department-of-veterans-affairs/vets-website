@@ -8,7 +8,7 @@ order: 1
 
 <div class="va-introtext">
 
-REAP ended on November 25, 2015, but under the National Defense Authorization Act of 2016, some REAP benefits will remain in place for 3 more years. <a href="https://www.benefits.va.gov/gibill/reap.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about what this change means for you</a>.
+REAP ended on November 25, 2015, but under the National Defense Authorization Act of 2016, some REAP benefits will remain in place for 3 more years. [Learn more about what this change means for you](https://www.benefits.va.gov/gibill/reap.asp).
 
 </div>
 

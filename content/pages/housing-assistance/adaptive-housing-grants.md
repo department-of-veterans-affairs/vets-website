@@ -68,16 +68,16 @@ Apply through eBenefits. [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefi
 
 #### Apply by mail
 
-Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). <a href="https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 26-4555</a>.
+Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). [Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf).
 
-Mail it to your nearest regional loan center. <a href="https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp"><span class="usa-sr-only">This will open a new website.</span>Find a regional loan center near you</a>.
+Mail it to your nearest regional loan center. [Find a regional loan center near you](https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
 
 If you have trouble accessing the form, call us toll-free at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>) to have a claim form mailed to you.
 
 #### Apply in person
 
 Fill out VA Form 26-4555 and bring it to your nearest VA regional office. To find a regional office near you:
-- <a href="https://www.va.gov/directory/guide/home.asp"><span class="usa-sr-only">This will open a new website.</span>Use our online locator tool</a>, **or**
+- [Use our online locator tool](https://www.va.gov/directory/guide/home.asp), **or**
 - Call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 ### Need help?

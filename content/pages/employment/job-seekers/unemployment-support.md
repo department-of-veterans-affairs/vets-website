@@ -58,7 +58,7 @@ You
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You must apply for unemployment benefits in the state in which you reside. You can do this in person at your <a href="http://www.servicelocator.org/OWSLinks.asp"><span class="usa-sr-only">This will open a new website.</span>state employment office</a> or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
+You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
 
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower.
 

@@ -68,7 +68,7 @@ If you’re eligible, we’ll invite you to an orientation session at your neare
 
 ### What if I'm a Servicemember who hasn't yet received a service-connected disability rating?
 
-You don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). <a href="http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download Form 28-0588</a>.
+You don't need to wait for a rating. Instead, please fill out VA Form 28-0588 (VA Vocational Rehabilitation - Getting Ahead After You Get Out). [Download Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
 You may be eligible for VR&amp;E benefits and services if you're:
 - Going through the Physical Evaluation Board process, **or**

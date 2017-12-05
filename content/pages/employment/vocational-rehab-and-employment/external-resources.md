@@ -18,10 +18,10 @@ relatedlinks:
       description: Find out if you're eligible for certain counseling services, training, and education benefits.
 ---
 
-<a href="http://www.careeronestop.org/ReEmployment/veterans/default.aspx"><span class="usa-sr-only">This will open a new website.</span>Veterans ReEmployment</a> connects you with employment services and jobs that use the skills you learned in the military. It also helps with job-search strategies, getting copies of military records, and choosing the right schools or training programs.
+[Veterans ReEmployment](http://www.careeronestop.org/ReEmployment/veterans/default.aspx) connects you with employment services and jobs that use the skills you learned in the military. It also helps with job-search strategies, getting copies of military records, and choosing the right schools or training programs.
 
-<a href="http://www.mynextmove.org/vets/"><span class="usa-sr-only">This will open a new website.</span>My Next Move for Vets</a> helps you look for a new career or find a civilian career that's like your military job.
+[My Next Move for Vets](http://www.mynextmove.org/vets/) helps you look for a new career or find a civilian career that's like your military job.
 
-<a href="https://www.hireheroesusa.org/about-us/"><span class="usa-sr-only">This will open a new website.</span>Hire Heroes USA</a> connects you with successful business professionals and helps you explain your military skills on your resume or in private-sector interviews.
+[Hire Heroes USA](https://www.hireheroesusa.org/about-us/) connects you with successful business professionals and helps you explain your military skills on your resume or in private-sector interviews.
 
-<a href="http://www.pva.org/site/c.ajIRK9NJLcJ2E/b.7750849/k.36C/Operation_PAVE_Paving_Access_for_Veterans_Employment.htm"><span class="usa-sr-only">This will open a new website.</span>Operation Pave: Paving Access for Veterans Employment</a> helps Veterans with spinal-cord injuries find jobs and access resources for workplace accommodations. Workplace accommodations are changes or adjustments to a job, work environment, or work process that set you up to do your job despite your disability. Examples of workplace accommodations include special equipment, ramps to make buildings wheelchair accessible, or modified work schedules.
+[Operation Pave: Paving Access for Veterans Employment](http://www.pva.org/site/c.ajIRK9NJLcJ2E/b.7750849/k.36C/Operation_PAVE_Paving_Access_for_Veterans_Employment.htm) helps Veterans with spinal-cord injuries find jobs and access resources for workplace accommodations. Workplace accommodations are changes or adjustments to a job, work environment, or work process that set you up to do your job despite your disability. Examples of workplace accommodations include special equipment, ramps to make buildings wheelchair accessible, or modified work schedules.

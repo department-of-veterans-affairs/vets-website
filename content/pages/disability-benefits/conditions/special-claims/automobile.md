@@ -47,10 +47,10 @@ When you apply, you’ll need to show that your disability is service connected 
 
 #### For the one-time payment to help you buy a specially equipped vehicle 
 - You’ll need to fill out an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502).
-<a href="https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-4502</a>. 
+[Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). 
 - We’ll pay the vehicle’s seller directly. 
 
 #### For the adaptive-equipment grant
-- If you qualify for adaptive equipment only, you’ll need to fill out an Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394). <a href="https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 10-1394</a>.
+- If you qualify for adaptive equipment only, you’ll need to fill out an Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394). [Download VA Form 10-1394](https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
 - We may pay you, or we may pay the equipment seller directly.  
 

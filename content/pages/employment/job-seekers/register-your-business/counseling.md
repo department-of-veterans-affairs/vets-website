@@ -7,7 +7,7 @@ concurrence: complete
 
 <div class="va-introtext">
 
-The <a href="https://www.sba.gov/content/veteran-service-disabled-veteran-owned"><span class="usa-sr-only">This will open a new website.</span>Small Business Administration</a> and VA’s Office of Small and Disadvantaged Business Utilization in collaboration with <a href="http://business.usa.gov/"><span class="usa-sr-only">This will open a new website.</span>Business USA</a> have resources to support you in starting a new business or growing an existing one.
+The [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned) and VA’s Office of Small and Disadvantaged Business Utilization in collaboration with [Business USA](http://business.usa.gov/) have resources to support you in starting a new business or growing an existing one.
 
 </div>
 

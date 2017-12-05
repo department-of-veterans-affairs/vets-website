@@ -33,9 +33,9 @@ If you served during the Vietnam War—anytime between November 1, 1965, and Apr
 You may be at risk of:
 
 - **[Diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/):** A toxic chemical used to clear trees and plants during the war that can cause long-term health effects
-- **<a href="http://www.hepatitis.va.gov/patient/hcv/index.asp"><span class="usa-sr-only">This will open a new website.</span>Hepatitis C</a>:** An infectious disease that can harm your liver
-- **<a href="http://www.publichealth.va.gov/exposures/noise/index.asp"><span class="usa-sr-only">This will open a new website.</span>Hearing problems caused by noise</a>:** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
-- **<a href="http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp"><span class="usa-sr-only">This will open a new website.</span>Illnesses or injuries caused by occupational (job-related) hazards</a>:** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
+- **[Hepatitis C](http://www.hepatitis.va.gov/patient/hcv/index.asp):** An infectious disease that can harm your liver
+- **[Hearing problems caused by noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
+- **[Illnesses or injuries caused by occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 
 </div>
 
@@ -46,7 +46,7 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. <a href="https://www.publichealth.va.gov/exposures/coordinators.asp"><span class="usa-sr-only">This will open a new website.</span>Find your local VA environmental health coordinator</a>.
+Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
 
 </li>
 

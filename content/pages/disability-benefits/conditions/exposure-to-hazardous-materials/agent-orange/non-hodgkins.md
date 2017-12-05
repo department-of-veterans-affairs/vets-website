@@ -50,10 +50,10 @@ You may be able to get disability benefits if you have non-Hodgkin’s lymphoma 
 
 You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be related to contact with Agent Orange. So, when you apply for benefits, you won’t have to show that your illness is related to Agent Orange or that it began during—or got worse because of—your military service.
 
-<a href="https://www.vets.gov/disability-benefits/apply/"><span class="usa-sr-only">This will open a new website.</span>Apply for benefits</a>.
+[Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
 ### Get more information
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
-Want to learn more about non-Hodgkin’s lymphoma treatment, the latest research, and more from the National Institutes of Health? <a href="https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm"><span class="usa-sr-only">This will open a new website.</span>Visit MedlinePlus</a>.
+Want to learn more about non-Hodgkin’s lymphoma treatment, the latest research, and more from the National Institutes of Health? [Visit MedlinePlus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm).

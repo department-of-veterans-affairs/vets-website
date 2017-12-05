@@ -78,7 +78,7 @@ We provide many options for Veterans seeking treatment for substance use problem
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
 - [Depression](/health-care/health-conditions/mental-health/depression/)
 
-<a href="https://www.mentalhealth.va.gov/res-vatreatmentprograms.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about treatment programs for substance use problems</a>.
+[Learn more about treatment programs for substance use problems](https://www.mentalhealth.va.gov/res-vatreatmentprograms.asp).
 
 </div>
 
@@ -90,7 +90,7 @@ Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your substance use. Your provider can help you get screened for substance use problems and related issues (like PTSD or depression)—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
-  - <a href="https://www.va.gov/directory/guide/SUD.asp"><span class="usa-sr-only">This will open a new website.</span>Find a Substance Use Disorder (SUD) program near you</a>, **or**
+  - [Find a Substance Use Disorder (SUD) program near you](https://www.va.gov/directory/guide/SUD.asp), **or**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
 - **If you served in Operation Enduring Freedom (OEF), Operation Iraqi Freedom (OIF), or Operation New Dawn (OND),** call your local VA medical center, and ask to speak to the OEF/OIF/OND coordinator. [Find a VA medical center near you](/facilities/).
@@ -103,7 +103,7 @@ You may still be able to get care:
 
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. <a href="https://www.va.gov/homeless/"><span class="usa-sr-only">This will open a new website.</span>Learn about our homelessness programs</a>.
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
@@ -111,11 +111,11 @@ You may still be able to get care:
 
 ### Where can I find more information and support?
 
-- <a href="https://www.mentalhealth.va.gov/docs/MHG_English.pdf"><span class="usa-sr-only">This will open a new website.</span>Download our Guide to VA Mental Health Services</a>.
-- Go to our Make the Connection website to hear stories from Veterans about their own experiences with overcoming drug and alcohol problems, and to get access to more resources and support. <a href="https://maketheconnection.net/"><span class="usa-sr-only">This will open a new website.</span>Visit Make the Connection</a>.
-- Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. <a href="https://www.mentalhealth.va.gov/self_help.asp"><span class="usa-sr-only">This will open a new website.</span>Get self-help resources</a>.
-- Visit the resources section of our VA website to find more trusted resources outside VA that can offer information and support. <a href="https://www.mentalhealth.va.gov/substanceabuse.asp"><span class="usa-sr-only">This will open a new website.</span>Find resources</a>.
-- Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more. <a href="https://mobile.va.gov/app/stay-quit-coach"><span class="usa-sr-only">This will open a new website.</span>Get the Stay Quit Coach app</a>.
+- [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf).
+- Go to our Make the Connection website to hear stories from Veterans about their own experiences with overcoming drug and alcohol problems, and to get access to more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
+- Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
+- Visit the resources section of our VA website to find more trusted resources outside VA that can offer information and support. [Find resources](https://www.mentalhealth.va.gov/substanceabuse.asp).
+- Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more. [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).
 
 <script type="text/javascript">
 

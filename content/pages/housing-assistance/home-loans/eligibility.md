@@ -126,8 +126,8 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 - You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this one time)
 
 To request an entitlement restoration, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and send it to the VA regional loan center for your state. <br>
-<a href="https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 26-1880</a>. <br>
-<a href="https://www.benefits.va.gov/homeloans/contact_rlc_info.asp"><span class="usa-sr-only">This will open a new website.</span>Find your state’s VA regional loan center</a>. 
+[Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br>
+[Find your state’s VA regional loan center](https://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

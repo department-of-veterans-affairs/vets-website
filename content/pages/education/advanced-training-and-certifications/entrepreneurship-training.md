@@ -28,6 +28,6 @@ You can get this training if you qualify for any of these programs:
 
 ### How do I get this training? 
 
-<a href="https://www.va.gov/osdbu/about/contacts.asp"><span class="usa-sr-only">This will open a new website.</span>Contact your local VA Small Business Liaison</a>.
+[Contact your local VA Small Business Liaison](https://www.va.gov/osdbu/about/contacts.asp).
 
-Go to a conference or event to talk directly to VA Small Business Liaisons and entrepreneurs. <a href="https://www.va.gov/osdbu/library/events.asp"><span class="usa-sr-only">This will open a new website.</span>Find a conference or event</a>.
+Go to a conference or event to talk directly to VA Small Business Liaisons and entrepreneurs. [Find a conference or event](https://www.va.gov/osdbu/library/events.asp).

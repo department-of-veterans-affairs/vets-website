@@ -36,7 +36,7 @@ You
 </div>
 
 ### How it works
-<a href="https://www.vip.vetbiz.gov/"><span class="usa-sr-only">This will open a new website.</span>Apply online</a>.
+[Apply online](https://www.vip.vetbiz.gov/).
 
 ### Learn more
-Contact a <a href="https://www.va.gov/osdbu/verification/assistance/counselors.asp"><span class="usa-sr-only">This will open a new website.</span>trained specialist</a> who can coach you through the application process.
+Contact a [trained specialist](https://www.va.gov/osdbu/verification/assistance/counselors.asp) who can coach you through the application process.

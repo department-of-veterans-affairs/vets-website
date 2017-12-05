@@ -70,17 +70,17 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 - **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
-<a href="https://www.benefits.va.gov/pension/current_rates_veteran_pen.asp"><span class="usa-sr-only">This will open a new website.</span>Get historic rate charts from past years</a>.
+[Get historic rate charts from past years](https://www.benefits.va.gov/pension/current_rates_veteran_pen.asp).
 
 #### Read full regulations from Title 38 Code of Federal Regulations
 
-<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123"><span class="usa-sr-only">This will open a new website.</span>3.23 Improved Pension Rates – Veterans and Surviving Spouses</a>
+[3.23 Improved Pension Rates – Veterans and Surviving Spouses](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
 
-<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_124"><span class="usa-sr-only">This will open a new website.</span>3.24 Improved Pension Rates – Surviving Children</a>
+[3.24 Improved Pension Rates – Surviving Children](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_124)
 
-<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_1271"><span class="usa-sr-only">This will open a new website.</span>3.271 Computation of Income</a>
+[3.271 Computation of Income](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_1271)
 
-<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_1272"><span class="usa-sr-only">This will open a new website.</span>3.272 Exclusions from Income</a>
+[3.272 Exclusions from Income](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_1272)
 
-<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_1273"><span class="usa-sr-only">This will open a new website.</span>3.273 Rate Computation</a> 
+[3.273 Rate Computation](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_1273) 
 

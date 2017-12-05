@@ -47,7 +47,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 You'll need:
 
- - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. <a href="https://www.cem.va.gov/CEM/hmm/discharge_documents.asp"><span class="usa-sr-only">This will open a new website.</span>Find out which discharge documents we accept along with your application</a>.
+ - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](https://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
 
 You'll need the deceased's:
 
@@ -83,11 +83,11 @@ You'll need to tell us:
 
  - The cemetery where you'd prefer the deceased to be buried <br />
  [Find a VA national cemetery](/facilities/).<br />
- <a href="https://www.cem.va.gov/grants/veterans_cemeteries.asp"><span class="usa-sr-only">This will open a new website.</span>Find a state Veterans cemetery</a>.
+ [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-and-memorials/honor/headstones-markers-medallions/)
  - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-and-memorials/honor/flags-and-memorial-certificates/)
- - <a href="https://www.dmdc.osd.mil/mfh/"><span class="usa-sr-only">This will open a new website.</span>If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation</a>
+ - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
 
  [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
 
@@ -108,7 +108,7 @@ The funeral director you’ve chosen can help you with these steps too:
 ### Can I get information about the Burial at Sea program?
 
 If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>, Monday through Friday, 8:30 a.m. to 5:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
-<a href="http://www.navy.mil/navydata/nav_legacy.asp?id=204"><span class="usa-sr-only">This will open a new website.</span>Get more information about the Burial at Sea program</a>.
+[Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 <br>
 

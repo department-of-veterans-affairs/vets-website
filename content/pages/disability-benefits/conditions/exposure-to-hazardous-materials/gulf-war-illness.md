@@ -67,7 +67,7 @@ Veterans
 
 You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
-<a href="https://www.publichealth.va.gov/exposures/gulfwar/military-service.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about service in Southwest Asia</a>.
+[Learn more about service in Southwest Asia](https://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 
 ### What’s included in the Southwest Asia theater of military operations?
 - Iraq, Kuwait, Saudi Arabia

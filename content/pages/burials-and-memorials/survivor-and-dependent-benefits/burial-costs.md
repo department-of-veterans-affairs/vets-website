@@ -72,7 +72,7 @@ You may need a copy of:
 
 ##### By mail
 
-Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21P-530</a>.
+Apply by mail using an Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
 Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
 
