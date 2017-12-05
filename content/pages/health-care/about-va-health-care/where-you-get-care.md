@@ -44,7 +44,7 @@ Care settings may include:
 [Find a medical center near you](/facilities/).
 - **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](/facilities/).
 - **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br>
-[Learn more about Vet Centers](http://www.vetcenter.va.gov). <br>
+<a href="http://www.vetcenter.va.gov"><span class="usa-sr-only">This will open a new website.</span>Learn more about Vet Centers</a>. <br>
 [Find a Vet Center near you](/facilities/).
 - **VA Community Living Centers and other assisted living or residential (live-in) settings.** These places provide support for Veterans who need more intense nursing care and help with everyday tasks (like bathing, dressing, or taking medicines). [Learn more about assisted living and residential care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 - **Your own home.** If needed, you may get medical treatment, nursing care, or help with everyday tasks in the comfort of your own home. [Learn more about home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
@@ -53,7 +53,7 @@ Care settings may include:
 
 #### What if the nearest VA location can’t provide the services I need?
 
-Your VA provider will work with you to make sure you get the care you need. You may need to go to another VA location or to a local VA community care provider. VA community care providers have contracts with us to provide care to Veterans. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
+Your VA provider will work with you to make sure you get the care you need. You may need to go to another VA location or to a local VA community care provider. VA community care providers have contracts with us to provide care to Veterans. <a href="https://www.va.gov/COMMUNITYCARE/index.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about VA community care</a>.
 
 </div>
 
@@ -79,11 +79,11 @@ Your VA provider will work with you to make sure you get the care you need. You 
 
 You may be able to get care:
 - [At a VA outpatient clinic](/facilities/)
-- [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
-- [Through a VA community care provider](https://www.va.gov/communitycare/)
+- <a href="https://www.vetcenter.va.gov/"><span class="usa-sr-only">This will open a new website.</span>At a Mobile Vet Center</a>
+- <a href="https://www.va.gov/communitycare/"><span class="usa-sr-only">This will open a new website.</span>Through a VA community care provider</a>
 - In your own home either:
-  - [In-person by skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp), **or**
-  - [Remotely through telehealth](https://www.telehealth.va.gov/)
+  - <a href="https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp"><span class="usa-sr-only">This will open a new website.</span>In-person by skilled home health care providers</a>, **or**
+  - <a href="https://www.telehealth.va.gov/"><span class="usa-sr-only">This will open a new website.</span>Remotely through telehealth</a>
 
 You may also qualify to receive local community care through the Veterans Choice Program if you:
 - Live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
@@ -91,7 +91,7 @@ You may also qualify to receive local community care through the Veterans Choice
 - Have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
 - Face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-[Learn more about the Choice program](https://www.va.gov/opa/choiceact/).
+<a href="https://www.va.gov/opa/choiceact/"><span class="usa-sr-only">This will open a new website.</span>Learn more about the Choice program</a>.
 
 <br>
 
@@ -103,7 +103,7 @@ Call 911 or go to the nearest emergency room. You don’t have to contact us in 
 
 If you’re far from a VA medical center, we may pay for emergency care in a non-VA setting. Be sure to contact your nearest VA medical center as soon as possible—and ask to talk to the patient transfer or patient administration representative. Payment for emergency care in a non-VA setting ends when a VA provider concludes that you’re stable enough to be transferred to a VA medical center.
 
-For more information, call your local VA medical center’s enrollment coordinator. Or, [get more details on emergency care coverage](https://www.va.gov/healthbenefits/access/emergency_care.asp).
+For more information, call your local VA medical center’s enrollment coordinator. Or, <a href="https://www.va.gov/healthbenefits/access/emergency_care.asp"><span class="usa-sr-only">This will open a new website.</span>get more details on emergency care coverage</a>.
 
 <br>
 
@@ -111,7 +111,7 @@ For more information, call your local VA medical center’s enrollment coordinat
 
 #### What should I do if I move?
 
-Let us know right away so we can help set up care in your new location. To change your address, call us at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
+Let us know right away so we can help set up care in your new location. To change your address, call us at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about our Foreign Medical Program</a>.
 
 <br>
 
@@ -132,7 +132,7 @@ We can also mail prescription refills to you at your temporary address. Just be 
 
 For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. [Find a medical center near you](/facilities/).
 
-**Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
+**Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about our Foreign Medical Program</a>.
 
 <br>
 
@@ -148,7 +148,7 @@ You can schedule VA health care appointments by phone or through our online sche
 
 #### Can you help me get to and from appointments?
 
-Yes, we may be able to help you get to and from appointments in certain cases. Or, we may pay you back for the cost of transportation if you qualify for help. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
+Yes, we may be able to help you get to and from appointments in certain cases. Or, we may pay you back for the cost of transportation if you qualify for help. <a href="https://www.va.gov/healthbenefits/vtp/"><span class="usa-sr-only">This will open a new website.</span>Learn more about VA transportation services</a>.
 
 <br>
 
@@ -156,4 +156,4 @@ Yes, we may be able to help you get to and from appointments in certain cases. O
 
 #### Can you help me cover travel expenses if I need to travel for care?
 
-Yes, we may be able to help with travel expenses if you need to travel for care. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
+Yes, we may be able to help with travel expenses if you need to travel for care. <a href="https://www.va.gov/healthbenefits/vtp/"><span class="usa-sr-only">This will open a new website.</span>Learn more about VA transportation services</a>.

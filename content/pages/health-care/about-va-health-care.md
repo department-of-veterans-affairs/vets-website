@@ -42,7 +42,7 @@ All Veterans receive coverage for most care and services, but only some will qua
 
 [Learn more about priority groups](/health-care/eligibility/#priority-groups).
 
-You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. <a href="https://www.va.gov/health/aca/FAQ.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about the ACA, VA, and you</a>.
 </div>
 </div>
 </div>
@@ -83,9 +83,9 @@ You should also know that being signed up for VA health care meets your Affordab
   - Medical treatments
   - Kidney dialysis
   - Acute care (short-term treatment for a severe illness or injury or after surgery)
-  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp).
-- Emergency care in a VA hospital, outpatient clinic, or Vet Center. [Find a VA health facility near you](https://www.vets.gov/facilities/).
-- Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. [Learn more about non-VA emergency medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp).
+  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). <a href="https://www.va.gov/healthbenefits/access/specialty_care_services.asp"><span class="usa-sr-only">This will open a new website.</span>See more VA medical and surgical specialty care services</a>.
+- Emergency care in a VA hospital, outpatient clinic, or Vet Center. <a href="https://www.vets.gov/facilities/"><span class="usa-sr-only">This will open a new website.</span>Find a VA health facility near you</a>.
+- Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. <a href="https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about non-VA emergency medical care</a>.
 - Mental health services to treat certain issues like posttraumatic stress disorder (PTSD), military sexual trauma (MST), depression, and substance use problems. [Learn more about mental health services](/health-care/health-conditions/mental-health/).
 - Assisted living and home health care (depending on your needs and income as well as space in the programs). [Learn more about assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 - Prescriptions written by a VA doctor. [Refill your prescriptions](/health-care/prescriptions/).
@@ -118,9 +118,9 @@ We may cover services that your VA primary care provider concludes you need to s
 
 You may be able to get help with some non-medical services, like:
 
-- [Beneficiary travel benefits (help paying for travel related to treatment)](https://www.va.gov/healthbenefits/vtp/beneficiary_travel.asp)
-- [Caregiver support (help for the person who cares for you)](https://www.caregiver.va.gov/)
-- [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp)
+- <a href="https://www.va.gov/healthbenefits/vtp/beneficiary_travel.asp"><span class="usa-sr-only">This will open a new website.</span>Beneficiary travel benefits (help paying for travel related to treatment)</a>
+- <a href="https://www.caregiver.va.gov/"><span class="usa-sr-only">This will open a new website.</span>Caregiver support (help for the person who cares for you)</a>
+- <a href="https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp"><span class="usa-sr-only">This will open a new website.</span>Veterans transportation service (help getting to and from appointments)</a>
 
 </div>
 </div>
@@ -225,7 +225,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, <a href="https://www.va.gov/statedva.htm"><span class="usa-sr-only">This will open a new website.</span>contact your state’s Veterans agency</a>.
 
 </div>
 </div>

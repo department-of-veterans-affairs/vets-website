@@ -197,7 +197,7 @@ You can apply online by filling out the 10-10EZ health care application.
 
 ### Where do I go for VA dental care?
 
-We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. [Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
+We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. <a href="https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp"><span class="usa-sr-only">This will open a new website.</span>Find a VA dental clinic near you</a>.
 
 <br>
 
@@ -206,8 +206,8 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
 
 - Are signed up for VA health care ([apply now](/health-care/apply/)), **or**
-- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). [Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
+- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). <a href="https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp"><span class="usa-sr-only">This will open a new website.</span>Find out if you can sign up for CHAMPVA</a>.
 
-[Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/).
+<a href="https://www.va.gov/healthbenefits/VADIP/"><span class="usa-sr-only">This will open a new website.</span>Learn more about VADIP</a>.
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

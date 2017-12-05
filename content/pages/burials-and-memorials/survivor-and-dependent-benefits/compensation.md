@@ -54,13 +54,13 @@ Tax-free monetary benefits
 
 ### As a surviving spouse or child, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). [Download VA Form 21-534](https://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation (VA Form 21-534). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-534</a>. 
 
 You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center for your state <a href="https://www.benefits.va.gov/PENSION/resources-contact.asp"><span class="usa-sr-only">This will open a new website.</span>(Find the Pension Management Center for your state)</a>, **or**
 
-- Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
+- Work with an accredited representative <a href="https://www.vets.gov/disability-benefits/apply/help/index.html"><span class="usa-sr-only">This will open a new website.</span>(Get help from an accredited representative)</a>, **or**
 
 - Go to a VA Regional Office and get help from a VA employee [(Find a local VA office)](/facilities/).
 
@@ -73,13 +73,13 @@ You may be able to get compensation as a surviving parent if:
 
 ### As a surviving parent, how do I get compensation? 
 
-You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). [Download VA Form 21-535](https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
+You’ll need to apply for compensation. Fill out an Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21-535). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 21-535</a>.
 
 You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center for your state <a href="https://www.benefits.va.gov/PENSION/resources-contact.asp"><span class="usa-sr-only">This will open a new website.</span>(Find the Pension Management Center for your state)</a>, **or**
 
-- Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
+- Work with an accredited representative <a href="https://www.vets.gov/disability-benefits/apply/help/index.html"><span class="usa-sr-only">This will open a new website.</span>(Get help from an accredited representative)</a>, **or**
 
 - Go to a VA Regional Office and have a VA employee help you [(Find a local VA office)](/facilities/).
 

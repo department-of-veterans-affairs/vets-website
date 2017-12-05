@@ -59,9 +59,9 @@ You’ll need to apply for these benefits. When you apply, you won’t need to p
 
 Apply in 1 of 3 ways:
 
-- Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. [Apply online through OSGLI](https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment).
-- [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
-- Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. [Download the Application for Veterans’ Group Life Insurance](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
+- Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. <a href="https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment"><span class="usa-sr-only">This will open a new website.</span>Apply online through OSGLI</a>.
+- <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management"><span class="usa-sr-only">This will open a new website.</span>Apply online through eBenefits</a>.
+- Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. <a href="https://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf"><span class="usa-sr-only">This will open a new website.</span>Download the Application for Veterans’ Group Life Insurance</a>.
 
 Fax the form to 1-800-236-6142, or mail it to: 
 
@@ -621,7 +621,7 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 </ul>
 </div>
 
-[See the VGLI premium rates before July 1, 2014](https://www.benefits.va.gov/INSURANCE/vgli_rates_old.asp).
+<a href="https://www.benefits.va.gov/INSURANCE/vgli_rates_old.asp"><span class="usa-sr-only">This will open a new website.</span>See the VGLI premium rates before July 1, 2014</a>.
 
 <br>
 
@@ -660,7 +660,7 @@ To convert your VGLI policy:
 
 ### Where can I find more information?
 
-[Read our insurance publications](https://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+<a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><span class="usa-sr-only">This will open a new website.</span>Read our insurance publications</a>.
 
 ------
 
@@ -669,7 +669,7 @@ To convert your VGLI policy:
 If you have a severe service-connected disability that we’ve concluded was caused—or made worse—by your service, you may be able to get Veterans’ Mortgage Life Insurance (VMLI). In the event of your death, this mortgage protection insurance can help your family pay off the home mortgage on a home that’s been adapted to meet your needs.
 
 To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Grant. The SAH grant can help you buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently. When you receive an SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI and will help you apply. <br>
-[Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
+<a href="https://www.benefits.va.gov/homeloans/adaptedhousing.asp"><span class="usa-sr-only">This will open a new website.</span>Find out if you qualify for an SAH grant—and how to apply</a>. <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-and-eligibility/vmli/).
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

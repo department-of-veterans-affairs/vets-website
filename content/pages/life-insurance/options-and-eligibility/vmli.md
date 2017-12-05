@@ -30,7 +30,7 @@ You may be able to get VMLI if you have a severe disability, and you:
 - Have a mortgage on the home, **and**
 - Are under 70 years old
 
-[Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp).
+<a href="https://www.benefits.va.gov/homeloans/adaptedhousing.asp"><span class="usa-sr-only">This will open a new website.</span>Find out if you qualify for an SAH grant—and how to apply</a>.
 
 <br>
 
@@ -60,7 +60,7 @@ Up to $200,000 in mortgage life insurance—paid directly to the bank or other l
 
 First, you’ll need to apply for an SAH grant. If you get the SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI. If you already have an SAH grant, ask your agent about VMLI.
 
-Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636). [Download VA Form 29-8636](https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
+Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636). <a href="https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 29-8636</a>. 
 
 **Note:** Remember, you must apply for VMLI before your 70th birthday.
 
@@ -75,7 +75,7 @@ Your VMLI premium will be based on:
 - How many more mortgage payments you need to make to pay off your mortgage, **and**
 - The amount of VMLI coverage you need
 
-Use our VMLI Premium Calculator to figure out what your premium may be. [Go to the VMLI Premium Calculator](https://insurance.va.gov/VMLICalc/VMLICalc.asp).
+Use our VMLI Premium Calculator to figure out what your premium may be. <a href="https://insurance.va.gov/VMLICalc/VMLICalc.asp"><span class="usa-sr-only">This will open a new website.</span>Go to the VMLI Premium Calculator</a>.
 
 <br>
 
@@ -100,7 +100,7 @@ Send notice of any changes to:
   Philadelphia, PA 19101<br>
 </p>
 
-[Read our life insurance publications for more guidance](https://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
+<a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><span class="usa-sr-only">This will open a new website.</span>Read our life insurance publications for more guidance</a>. 
 
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

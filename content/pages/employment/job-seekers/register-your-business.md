@@ -58,12 +58,12 @@ You may qualify if you meet all the requirements of a VOSB listed above, and eit
 - Tax relief
 - Better access to capital
 - Extra support if your startup or small business is poised for high growth and innovation
-- [Support in finding VA procurements, contract awards, and acquisition resources](https://www.va.gov/osdbu/acquisition/index.asp)
-- [Resources, education, and training to help you learn how to do business with us](https://www.va.gov/osdbu/outreach/soc/index.asp)
-- [Help building business partnerships and connecting with the people who make decisions about procurement in government and large private-sector firms](https://www.va.gov/osdbu/outreach/dap/index.asp)
-- [Resources to guide you through every step of becoming an entrepreneur](https://www.va.gov/OSDBU/entrepreneur/index.asp)<br>
+- <a href="https://www.va.gov/osdbu/acquisition/index.asp"><span class="usa-sr-only">This will open a new website.</span>Support in finding VA procurements, contract awards, and acquisition resources</a>
+- <a href="https://www.va.gov/osdbu/outreach/soc/index.asp"><span class="usa-sr-only">This will open a new website.</span>Resources, education, and training to help you learn how to do business with us</a>
+- <a href="https://www.va.gov/osdbu/outreach/dap/index.asp"><span class="usa-sr-only">This will open a new website.</span>Help building business partnerships and connecting with the people who make decisions about procurement in government and large private-sector firms</a>
+- <a href="https://www.va.gov/OSDBU/entrepreneur/index.asp"><span class="usa-sr-only">This will open a new website.</span>Resources to guide you through every step of becoming an entrepreneur</a><br>
 
-[Learn more about the Vets First Verification Program](https://www.va.gov/osdbu/verification/index.asp).
+<a href="https://www.va.gov/osdbu/verification/index.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about the Vets First Verification Program</a>.
 
 <br>
 <span id="business-how">
@@ -71,19 +71,19 @@ You may qualify if you meet all the requirements of a VOSB listed above, and eit
 #### How do I register my small business?
  
 To register as a VOSB or SDVOSB, you’ll need to apply through the Vets First Verification Program. 
-[Apply online](https://www.vip.vetbiz.gov/). 
+<a href="https://www.vip.vetbiz.gov/"><span class="usa-sr-only">This will open a new website.</span>Apply online</a>. 
 
 Our VA-certified Verification Assistance Counselors—and Verification Program Webinars and Town Halls—can help guide you through the process. If you use these pre-qualification resources, you can help speed up the decision on your application.</br>
 
-[Find a VA verification counselor in your state](https://www.va.gov/osdbu/verification/assistance/counselors.asp).</br>
-[View Verification Program webinars on how to apply for the first time or for reverification](https://www.va.gov/osdbu/verification/you_asked_we_listened.asp).
+<a href="https://www.va.gov/osdbu/verification/assistance/counselors.asp"><span class="usa-sr-only">This will open a new website.</span>Find a VA verification counselor in your state</a>.</br>
+<a href="https://www.va.gov/osdbu/verification/you_asked_we_listened.asp"><span class="usa-sr-only">This will open a new website.</span>View Verification Program webinars on how to apply for the first time or for reverification</a>.
 
 <br>
 <span id="business-bidding">
  
 #### How do I get advice for bidding on federal contracts in my area?
  
-Contact your local VA Small Business Liaison. [Find a VA Small Business Liaison near you](https://www.va.gov/OSDBU/about/contacts.asp).
+Contact your local VA Small Business Liaison. <a href="https://www.va.gov/OSDBU/about/contacts.asp"><span class="usa-sr-only">This will open a new website.</span>Find a VA Small Business Liaison near you</a>.
 
 <br>
 <span id="business-questions">
@@ -95,7 +95,7 @@ To learn more about how we can help you access opportunities:
 - Call the OSDBU Call Center at <a href="tel:+1866-584-2344">1-866-584-2344</a> anytime from 8:00 a.m. to 6:00 p.m. (ET), **or**
 - Email us at <a href="mailto:osdbu@va.gov">osdbu@va.gov</a><br>
 
-To learn more about OSDBU and to access our events calendar and other online resources, visit our website. [Go to the OSDBU website](https://www.va.gov/OSDBU/index.asp). 
+To learn more about OSDBU and to access our events calendar and other online resources, visit our website. <a href="https://www.va.gov/OSDBU/index.asp"><span class="usa-sr-only">This will open a new website.</span>Go to the OSDBU website</a>. 
 
 <br>
 <span id="business-resources">
@@ -103,12 +103,12 @@ To learn more about OSDBU and to access our events calendar and other online res
 #### Are there other resources that can help me start or grow a business?
 
 Yes. The U.S. Small Business Administration (SBA) can provide you with resources to help you start or grow your own business. And many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses for Veterans and military family members. Some courses are online, while others are in-person classes.</br>
-[Visit the Small Business Administration website](https://www.sba.gov/).</br> 
-[Learn about SBA’s Office of Veterans Business Development (OVBD)](https://www.sba.gov/business-guide/grow/veteran-owned-businesses-programs#section-header-0).<br>
+<a href="https://www.sba.gov/"><span class="usa-sr-only">This will open a new website.</span>Visit the Small Business Administration website</a>.</br> 
+<a href="https://www.sba.gov/business-guide/grow/veteran-owned-businesses-programs#section-header-0"><span class="usa-sr-only">This will open a new website.</span>Learn about SBA’s Office of Veterans Business Development (OVBD)</a>.<br>
 
 Find out about these training programs offered by the Institute for Veterans and Military Families at Syracuse University in partnership with SBA and other organizations:
-- [Boots to Business (for Servicemembers and their spouses)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/boots-to-business/).
-- [Entrepreneurship Bootcamp for Veterans with Disabilities (for post-9/11 Veterans with service-connected disabilities and their family caregivers)](http://ebv.vets.syr.edu/)
-- [Veteran Women Igniting the Spirit of Entrepreneurship (for women Veterans and female military spouses and partners)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/v-wise/)<br>
+- <a href="https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/boots-to-business/"><span class="usa-sr-only">This will open a new website.</span>Boots to Business (for Servicemembers and their spouses)</a>.
+- <a href="http://ebv.vets.syr.edu/"><span class="usa-sr-only">This will open a new website.</span>Entrepreneurship Bootcamp for Veterans with Disabilities (for post-9/11 Veterans with service-connected disabilities and their family caregivers)</a>
+- <a href="https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/v-wise/"><span class="usa-sr-only">This will open a new website.</span>Veteran Women Igniting the Spirit of Entrepreneurship (for women Veterans and female military spouses and partners)</a><br>
 
-If you’re already open for business and want to sell to the federal government, the Procurement Technical Assistance Center (PTAC) can help with the required documentation and registration to bid on government contracts. [Find a PTAC near you](http://www.aptac-us.org/). 
+If you’re already open for business and want to sell to the federal government, the Procurement Technical Assistance Center (PTAC) can help with the required documentation and registration to bid on government contracts. <a href="http://www.aptac-us.org/"><span class="usa-sr-only">This will open a new website.</span>Find a PTAC near you</a>. 

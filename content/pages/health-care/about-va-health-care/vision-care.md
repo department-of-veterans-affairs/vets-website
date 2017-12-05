@@ -51,7 +51,7 @@ We’ll cover the cost of your eyeglasses if you:
 - Have a compensable service-connected disability (a disability linked to your military service for which you’re receiving VA disability payments), **or**
 - Are a former Prisoner of War (POW), **or**
 - Were awarded a Purple Heart, **or**
-- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](https://www.vets.gov/disability-benefits/conditions/special-claims/title-38-USC-1151/), **or**
+- <a href="https://www.vets.gov/disability-benefits/conditions/special-claims/title-38-USC-1151/"><span class="usa-sr-only">This will open a new website.</span>Receive benefits under Title 38 United States Code (U.S.C.) 1151</a>, **or**
 - Receive an increased pension based on your being permanently housebound and in need of regular aid and attendance
 
 We’ll also cover the cost of your eyeglasses if you have any of these issues:
@@ -75,4 +75,4 @@ For more information, contact the prosthetic representative at your nearest VA m
 
 ### If I have vision and hearing loss, will VA cover the cost of hearing aids too?
 
-[Find out how to get hearing aids through VA](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp).
+<a href="https://www.prosthetics.va.gov/psas/Hearing_Aids.asp"><span class="usa-sr-only">This will open a new website.</span>Find out how to get hearing aids through VA</a>.

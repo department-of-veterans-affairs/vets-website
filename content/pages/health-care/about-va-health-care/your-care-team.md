@@ -68,7 +68,7 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 - **Provide or arrange for preventive care,** such as immunizations (like flu shots) to prevent illness and screenings to help find diseases like cancer in their earliest stages—when treatment is most likely to be successful.
 
-- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Health***e***Vet portal. [Visit My Health***e***Vet](https://www.myhealth.va.gov/).
+- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Health***e***Vet portal. <a href="https://www.myhealth.va.gov/"><span class="usa-sr-only">This will open a new website.</span>Visit My Health***e***Vet</a>.
 
 - **Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
 
@@ -114,5 +114,5 @@ It depends. We may pay for you to receive care through the VA community care net
 
 VA community care providers must meet our strict quality standards and be approved by us before they can provide care for you.
 
-[Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp). <br>
-[Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/).
+<a href="https://www.va.gov/COMMUNITYCARE/index.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about VA community care</a>. <br>
+<a href="https://www.va.gov/opa/choiceact/"><span class="usa-sr-only">This will open a new website.</span>Learn more about the Veterans Choice Program</a>.

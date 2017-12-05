@@ -28,11 +28,11 @@ You can get a burial flag if you’re the next of kin or a close friend of the d
 
 ### How do I get a flag?
 
-To get a burial flag, fill out the Application for United States Flag for Burial Purposes (VA Form 27-2008). [Download VA Form 27-2008](https://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf).
+To get a burial flag, fill out the Application for United States Flag for Burial Purposes (VA Form 27-2008). <a href="https://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 27-2008</a>.
 
 Bring the application form to:
 - A funeral director, **or**
-- [A VA Regional Benefit Office](https://www.benefits.va.gov/benefits/offices.asp), **or**
+- <a href="https://www.benefits.va.gov/benefits/offices.asp"><span class="usa-sr-only">This will open a new website.</span>A VA Regional Benefit Office</a>, **or**
 - A United States post office. Call ahead to make sure your local post office has burial flags.
 
 ### How do I display and care for the flag?
@@ -47,7 +47,7 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 
 ### Can I get a Presidential Memorial Certificate?
 
-A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who’s eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran’s death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](https://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
+A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who’s eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran’s death certificate and discharge papers (DD214 or other separation documents). <a href="https://www.va.gov/vaforms/va/pdf/VA40-0247.pdf"><span class="usa-sr-only">This will open a new website.</span>Download a PMC request form</a>.
 
 Send the PMC request form and discharge papers to:
 <br><br>

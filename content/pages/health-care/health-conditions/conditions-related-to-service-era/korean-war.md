@@ -32,9 +32,9 @@ If you served during the Korean War—anytime between June 25, 1950, and July 27
 
 You may be at risk of illnesses or injuries caused by:
 
-- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served in the Chosin Reservoir Campaign, conducted from October through December 1950 in extreme subzero temperatures.
-- **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
-- **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
+- **<a href="http://www.publichealth.va.gov/exposures/cold-injuries/index.asp"><span class="usa-sr-only">This will open a new website.</span>Extreme cold</a>:** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served in the Chosin Reservoir Campaign, conducted from October through December 1950 in extreme subzero temperatures.
+- **<a href="http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp"><span class="usa-sr-only">This will open a new website.</span>Occupational (job-related) hazards</a>:** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
+- **<a href="http://www.publichealth.va.gov/exposures/noise/index.asp"><span class="usa-sr-only">This will open a new website.</span>Noise</a>:** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 
 </div>
 
@@ -45,7 +45,7 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp).
+Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. <a href="https://www.publichealth.va.gov/exposures/coordinators.asp"><span class="usa-sr-only">This will open a new website.</span>Find your local VA environmental health coordinator</a>.
 
 </li>
 

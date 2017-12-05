@@ -48,11 +48,11 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
 
 You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
+- <a href="http://www.ebenefits.va.gov"><span class="usa-sr-only">This will open a new website.</span>Apply online at eBenefits</a>. Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
 **or**
-- [Get help from an accredited representative or VSO](https://www.va.gov/ogc/apps/accreditation/index.asp),
+- <a href="https://www.va.gov/ogc/apps/accreditation/index.asp"><span class="usa-sr-only">This will open a new website.</span>Get help from an accredited representative or VSO</a>,
 **or**
-- [Get help at a VA regional office](https://www.vets.gov/facility-locator/)
+- <a href="https://www.vets.gov/facility-locator/"><span class="usa-sr-only">This will open a new website.</span>Get help at a VA regional office</a>
 
 When you apply, you’ll need to give us:
 
@@ -85,9 +85,9 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 
 You’ll need to apply for benefits:
 
--	[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant), **or**
+-	<a href="https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant"><span class="usa-sr-only">This will open a new website.</span>Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online</a>, **or**
 
-- [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
+- <a href="https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068"><span class="usa-sr-only">This will open a new website.</span>Download the Camp Lejeune Family Member Application (VA Form 10-10068)</a>. 
 <br>
 Fax it to 1-512-460-5536, or mail it to:
 
@@ -106,7 +106,7 @@ When you apply, please provide:
 
 - Medical records that show you have one of the 15 conditions listed above, **and**
 
-- [A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
+- <a href="https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b"><span class="usa-sr-only">This will open a new website.</span>A Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)</a>. Have your doctor fill out and sign this form before submitting.  
 
 <div class="feature" markdown="1">
 

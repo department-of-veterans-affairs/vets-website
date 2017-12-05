@@ -37,7 +37,7 @@ Payment for testing fees, including:
 
 ### How do I get this benefit?
 
-We’ll charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
+We’ll charge your GI Bill benefit package for testing expenses. <a href="https://gibill.custhelp.com/app/answers/detail/a_id/29"><span class="usa-sr-only">This will open a new website.</span>Learn about how we charge your GI Bill benefit package</a>.
 
 - You may need to provide your proof of payment.
 - We’ll pay you back only for mandatory test fees.
@@ -67,4 +67,4 @@ We’ll charge your GI Bill benefit package for testing expenses. [Learn about h
 - ECE (Excelsior College Examinations)
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
-[See the complete list of tests and fees](https://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
+<a href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"><span class="usa-sr-only">This will open a new website.</span>See the complete list of tests and fees</a>.

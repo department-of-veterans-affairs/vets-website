@@ -72,7 +72,7 @@ St. Louis, MO 63166-6830<br>
 St. Louis, MO 63103<br>
 </p>
 
-[MAP](https://www.benefits.va.gov/gibill/regional_processing.asp)
+<a href="https://www.benefits.va.gov/gibill/regional_processing.asp"><span class="usa-sr-only">This will open a new website.</span>MAP</a>
 
 
 </div>

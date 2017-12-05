@@ -38,7 +38,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - ##### Are you already in the workforce?
 
-  Search for a [new career](https://www.careeronestop.org/JobSearch/job-search.aspx) or consider [additional education](/education/gi-bill/).
+  Search for a <a href="https://www.careeronestop.org/JobSearch/job-search.aspx"><span class="usa-sr-only">This will open a new website.</span>new career</a> or consider [additional education](/education/gi-bill/).
 
 </div>
 
@@ -49,7 +49,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 ##### Discover your skills and interests<br>
 
-Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler/), then explore related [career paths](https://www.mynextmove.org/).
+Identify the type of work you enjoy with the <a href="https://www.mynextmove.org/"><span class="usa-sr-only">This will open a new website.</span>Interest Profiler](/employment/job-seekers/interest-profiler/), then explore related [career paths</a>.
 </li>
 
 <li class="process-step list-two" markdown="1">
@@ -64,7 +64,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Build a resume<br>
 
 - Build your [resume](/employment/job-seekers/create-resume).
-- Get a free [LinkedIn&trade; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
+- Get a free <a href="https://veterans.linkedin.com/"><span class="usa-sr-only">This will open a new website.</span>LinkedIn&trade; Job Seeker profile</a> to present yourself professionally.
 </li>
 
 <li class="process-step list-four" markdown="1">
@@ -80,8 +80,8 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Search online job banks
 
-- [Research jobs on careeronestop.org](https://www.careeronestop.org/JobSearch/job-search.aspx), sponsored by the U.S. Department of Labor.
-- Search for connections and job listings on [LinkedIn&trade;](https://veterans.linkedin.com/) as well as other online job boards.
+- <a href="https://www.careeronestop.org/JobSearch/job-search.aspx"><span class="usa-sr-only">This will open a new website.</span>Research jobs on careeronestop.org</a>, sponsored by the U.S. Department of Labor.
+- Search for connections and job listings on <a href="https://veterans.linkedin.com/"><span class="usa-sr-only">This will open a new website.</span>LinkedIn&trade;</a> as well as other online job boards.
 </li>
 
 <li class="process-step list-six" markdown="1">
@@ -97,17 +97,17 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs/) available 
 ### Consider furthering your education
 - The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
-- Consider military [tuition assistance](http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA).html?serv=149) (for active duty).
-- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&trade; Learning](https://veterans.linkedin.com).
-- Earn a free [Coursera Course Certificate](https://www.surveymonkey.com/survey-closed/?sm=FJHklU3G8dZiAvMvaXCjHbRQzq11Lm9wxWgvT3bLmUfVF_2BDwr4Heo0_2BnYHEhahfBKrDxUsNaZ3DU3iPeqmxGl_2FwdWj3AJAYhMRrDOUGicxY_3D).
+- Consider military <a href="http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA"><span class="usa-sr-only">This will open a new website.</span>tuition assistance</a>.html?serv=149) (for active duty).
+- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with <a href="https://veterans.linkedin.com"><span class="usa-sr-only">This will open a new website.</span>LinkedIn&trade; Learning</a>.
+- Earn a free <a href="https://www.surveymonkey.com/survey-closed/?sm=FJHklU3G8dZiAvMvaXCjHbRQzq11Lm9wxWgvT3bLmUfVF_2BDwr4Heo0_2BnYHEhahfBKrDxUsNaZ3DU3iPeqmxGl_2FwdWj3AJAYhMRrDOUGicxY_3D"><span class="usa-sr-only">This will open a new website.</span>Coursera Course Certificate</a>.
 
 <br>
 
 ### Get personalized help if you need it
 
-- Government and private resources offer [one-on-one assistance](https://www.dol.gov/veterans/findajob/).
-- Qualified Veterans with service-connected disabilities can get [employment support services](/employment/job-seekers/service-disabled/), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](https://www.benefits.va.gov/vocrehab/index.asp).
-- [American Job Centers](http://www.careeronestop.org/ReEmployment/Veterans/JobSearchHelp/ChangeCareers/one-stop-career-centers.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
+- Government and private resources offer <a href="https://www.dol.gov/veterans/findajob/"><span class="usa-sr-only">This will open a new website.</span>one-on-one assistance</a>.
+- Qualified Veterans with service-connected disabilities can get <a href="https://www.benefits.va.gov/vocrehab/index.asp"><span class="usa-sr-only">This will open a new website.</span>employment support services](/employment/job-seekers/service-disabled/), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)</a>.
+- <a href="http://www.careeronestop.org/ReEmployment/Veterans/JobSearchHelp/ChangeCareers/one-stop-career-centers.aspx"><span class="usa-sr-only">This will open a new website.</span>American Job Centers</a> offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
 
 <br>
 

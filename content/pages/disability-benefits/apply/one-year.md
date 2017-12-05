@@ -31,7 +31,7 @@ relatedlinks:
 You may be able to get disability benefits if you have signs of an illness like hypertension (high blood pressure), arthritis, diabetes, or peptic ulcers that started within a year after you were discharged from active military service.
 
 
-If your symptoms appear within 1 year after discharge—even if they weren’t there while you were serving—we’ll conclude that they’re related to your service. [See the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+If your symptoms appear within 1 year after discharge—even if they weren’t there while you were serving—we’ll conclude that they’re related to your service. <a href="https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc"><span class="usa-sr-only">This will open a new website.</span>See the complete list of covered illnesses</a>.
 
 </div>
 
@@ -43,7 +43,7 @@ You may be able to get benefits if you have an illness that’s at least 10% dis
   -	The illness is listed in Title 38, Code of Federal Regulation, 3.09(a), **and**
   -	You were discharged under conditions other than dishonorable
 
-[See Title 38, Code of Federal Regulation, 3.09(a)](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+<a href="https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc"><span class="usa-sr-only">This will open a new website.</span>See Title 38, Code of Federal Regulation, 3.09(a)</a>.
 
 ### Who’s covered?
 Veterans
@@ -58,7 +58,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that your illness is at least 10% disabling. (For example, you may include a doctor’s report showing that you’re taking medicine for your high blood pressure.) You’ll also need to show that the illness appeared within 1 year after being discharged from active service. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
+You’ll need to apply for benefits. When you apply, you’ll have to show that your illness is at least 10% disabling. (For example, you may include a doctor’s report showing that you’re taking medicine for your high blood pressure.) You’ll also need to show that the illness appeared within 1 year after being discharged from active service. <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><span class="usa-sr-only">This will open a new website.</span>Apply for benefits</a>.
 
 **Exception:**<br>
 The following diseases are covered, even if they appear more than 1 year after you separated: 

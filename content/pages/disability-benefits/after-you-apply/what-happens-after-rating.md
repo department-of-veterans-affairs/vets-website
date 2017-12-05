@@ -20,9 +20,9 @@ Disability compensation may include financial compensation (payments) as well as
 If you haven’t gotten your decision notice:
 
 - [Check your status](/track-claims/), **or**
-- [Contact your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp), **or**
+- <a href="https://www.benefits.va.gov/benefits/offices.asp"><span class="usa-sr-only">This will open a new website.</span>Contact your local regional benefit office</a>, **or**
 - Call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
-- [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D)
+- <a href="https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D"><span class="usa-sr-only">This will open a new website.</span>Contact us online</a>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -56,12 +56,12 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 <div itemprop="text">
 
 - **For Health Care:** If you served on active duty—and were discharged from the military under conditions other than dishonorable—you may be able to get VA health care. This includes access to VA doctors and care, plus medical equipment, prosthetics, and prescriptions. [Apply for VA health care](/health-care/apply/).
-- **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](https://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">1-800-669-8477</a>, Monday through Friday, 8:00 a.m. to 6:00 p.m. (<abbr title="eastern time">ET</abbr>).
+- **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. <a href="https://www.benefits.va.gov/insurance/s-dvi.asp"><span class="usa-sr-only">This will open a new website.</span>Apply for S-DVI online</a>. Or, call <a href="tel:+18006698477">1-800-669-8477</a>, Monday through Friday, 8:00 a.m. to 6:00 p.m. (<abbr title="eastern time">ET</abbr>).
 - **For Education Benefits:** You can get VA support for college or job training under special programs. Or, talk with a VA education counselor to find out what benefits you may be able to get. [Learn about education benefits](/education/).
 - **For Dependent Benefits:** If you’re 30% or more disabled due to a disability caused by service in the military, you can get financial support and benefits for your qualified dependents. There are 2 ways to register:
-  - [Register through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), or
+  - <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><span class="usa-sr-only">This will open a new website.</span>Register through eBenefits</a>, or
   - [Register through your local VA office](/facilities/).
-- **For Other Benefits:** Check with your local or state VA offices for other benefits you may be able to get—like help with buying a home or making changes to your home to make it more accessible, or help with getting a job. [Find a VA office near you](https://www.va.gov/statedva.htm).
+- **For Other Benefits:** Check with your local or state VA offices for other benefits you may be able to get—like help with buying a home or making changes to your home to make it more accessible, or help with getting a job. <a href="https://www.va.gov/statedva.htm"><span class="usa-sr-only">This will open a new website.</span>Find a VA office near you</a>.
 
 </div>
 </div>
@@ -75,7 +75,7 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 
 - **If you have a 100% disability rating**, you may be able to get:
   - [Dental care](/disability-benefits/conditions/special-claims/dentistry/), **and**
-  - [Access to commissaries and exchanges](http://www.militaryonesource.mil/on-and-off-base-living/commissaries-exchanges)
+  - <a href="http://www.militaryonesource.mil/on-and-off-base-living/commissaries-exchanges"><span class="usa-sr-only">This will open a new website.</span>Access to commissaries and exchanges</a>
 - **If you can’t work due to your disability caused by service in the military**—even without a 100% rating—you can apply for individual unemployability. [Learn about individual unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 - **If you need special clothing because of your injuries**, you may be able to get money to buy new clothes. [Learn about the annual clothing allowance benefit](/disability-benefits/conditions/special-claims/clothing/).
 
@@ -88,5 +88,5 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 It’s important to update your information with VA when you have a new address, a change to your marital status, or any other life change that could affect your rating or payment. If your disability gets worse, you can file a claim for an increase in benefits.
 
 Update your information in 1 of 2 ways:
-- [Make the change directly in eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), **or**
+- <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"><span class="usa-sr-only">This will open a new website.</span>Make the change directly in eBenefits</a>, **or**
 - [Contact your local VA office or eligibility office](/facilities/)

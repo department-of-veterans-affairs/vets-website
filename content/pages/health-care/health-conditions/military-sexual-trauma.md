@@ -77,13 +77,13 @@ Here’s how to access VA services for MST:
 - **If you don’t have a VA primary care provider,** call your local VA medical center and ask to speak to the MST coordinator. You should feel free to ask for a provider of a specific gender if that makes you feel more comfortable. [Find a VA medical center near you](/facilities/).
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - Visit our website to learn about VA programs for Veterans who are homeless. <a href="https://www.va.gov/homeless/"><span class="usa-sr-only">This will open a new website.</span>Learn about our homelessness programs</a>.
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 You can also call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf).
+<a href="https://www.mentalhealth.va.gov/docs/MHG_English.pdf"><span class="usa-sr-only">This will open a new website.</span>See our Guide to VA Mental Health Services</a>.
 
 <br>
 
@@ -93,19 +93,19 @@ You can’t get compensation for the traumatic event itself. But you may be able
 
 Or, get help applying for disability compensation by:
 
-- Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](https://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
-- Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](https://www.benefits.va.gov/benefits/mstcoordinators.asp).
+- Reading our fact sheet on disability compensation for conditions related to MST. <a href="https://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf"><span class="usa-sr-only">This will open a new website.</span>Read the fact sheet</a>.
+- Talking to the MST coordinator at your local VA regional benefits office. <a href="https://www.benefits.va.gov/benefits/mstcoordinators.asp"><span class="usa-sr-only">This will open a new website.</span>Find an MST coordinator near you</a>.
 
 <br>
 
 ### Where can I find more information and support?
 
 - Download our military sexual trauma brochure for Veterans.
-  - [In English](https://www.mentalhealth.va.gov/docs/MST-BrochureforVeterans.pdf).
-  - [In Spanish](https://www.mentalhealth.va.gov/docs/MST-BrochureforVeterans-Spanish-Sep2010.pdf).
-- Watch a video about MST, its effects on survivors, and VA services available to Veterans who’ve experienced MST. [Watch the video](https://www.youtube.com/watch?v=b9snig5gZfk).
-- Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
-- Go to the Department of Defense (DOD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
+  - <a href="https://www.mentalhealth.va.gov/docs/MST-BrochureforVeterans.pdf"><span class="usa-sr-only">This will open a new website.</span>In English</a>.
+  - <a href="https://www.mentalhealth.va.gov/docs/MST-BrochureforVeterans-Spanish-Sep2010.pdf"><span class="usa-sr-only">This will open a new website.</span>In Spanish</a>.
+- Watch a video about MST, its effects on survivors, and VA services available to Veterans who’ve experienced MST. <a href="https://www.youtube.com/watch?v=b9snig5gZfk"><span class="usa-sr-only">This will open a new website.</span>Watch the video</a>.
+- Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. <a href="https://maketheconnection.net/"><span class="usa-sr-only">This will open a new website.</span>Visit Make the Connection</a>.
+- Go to the Department of Defense (DOD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. <a href="https://www.safehelpline.org/"><span class="usa-sr-only">This will open a new website.</span>Visit SafeHelpline.org</a>.
 
 <script type="text/javascript">
 

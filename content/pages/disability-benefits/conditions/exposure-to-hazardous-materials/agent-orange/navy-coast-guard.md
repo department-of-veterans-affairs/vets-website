@@ -38,7 +38,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 [See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
-**Note:** Even if your ship or boat is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in our alphabetized list of ships that had contact with Agent Orange. [Check the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
+**Note:** Even if your ship or boat is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in our alphabetized list of ships that had contact with Agent Orange. <a href="https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp"><span class="usa-sr-only">This will open a new website.</span>Check the list of ships that had contact with Agent Orange</a>.
 
 <br>
 
@@ -75,4 +75,4 @@ Get more information about ships that may have been exposed to Agent Orange.
 Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
-Want to find out if the ship you were on had contact with Agent Orange? [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf).
+Want to find out if the ship you were on had contact with Agent Orange? <a href="http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf"><span class="usa-sr-only">This will open a new website.</span>See the list of ships that had contact with Agent Orange</a>.

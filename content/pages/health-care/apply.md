@@ -51,9 +51,9 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative"><span class="usa-sr-only">This will open a new website.</span>Request a representative</a>.
 
-Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Or, <a href="https://www.va.gov/statedva.htm"><span class="usa-sr-only">This will open a new website.</span>find your state’s Veterans agency</a>.
 
 </div>
 </div>
@@ -87,7 +87,7 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 
 ##### By mail
 
-Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). <a href="https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 10-10EZ</a>.
 
 Print the form, fill it out, and send it to this address:
 
@@ -101,7 +101,7 @@ Atlanta, GA 30329<br>
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
 [Find a VA medical center or clinic near you](/facilities/).<br />
-[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+<a href="https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 10-10EZ</a>
 
 </div>
 </div>
@@ -135,7 +135,7 @@ If you’ve also applied for a VA pension or disability benefits, you can check 
 <h3 itemprop="name">How do I update my information if I’m already signed up?</h3>
 <div itemprop="itemListElement">
 
-To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
+To update your personal, insurance, or financial information from an earlier application, fill out a Health Benefits Update Form (VA Form 10-10EZR). <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 10-10EZR</a>.
 
 </div>
 </div>

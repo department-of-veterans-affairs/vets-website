@@ -45,15 +45,15 @@ We offer treatment and support for mental health problems, like:
 - [Suicide prevention](/health-care/health-conditions/mental-health/suicide-prevention/)
 - [Issues related to military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 - [Substance use problems](/health-care/health-conditions/substance-use-problems/)
-- [Bipolar disorder](https://www.mentalhealth.va.gov/bipolar.asp)
-- [Schizophrenia](https://www.mentalhealth.va.gov/schizophrenia.asp)
+- <a href="https://www.mentalhealth.va.gov/bipolar.asp"><span class="usa-sr-only">This will open a new website.</span>Bipolar disorder</a>
+- <a href="https://www.mentalhealth.va.gov/schizophrenia.asp"><span class="usa-sr-only">This will open a new website.</span>Schizophrenia</a>
 
 We also treat anxiety-related conditions, like:
 
-- [Generalized anxiety disorder](https://www.mentalhealth.va.gov/generalizedanxiety.asp)
-- [Panic disorder](https://www.mentalhealth.va.gov/panicdisorder.asp)
-- [Social anxiety](https://www.mentalhealth.va.gov/socialanxiety.asp)
-- [Specific phobias](https://www.mentalhealth.va.gov/specificphobias.asp)
+- <a href="https://www.mentalhealth.va.gov/generalizedanxiety.asp"><span class="usa-sr-only">This will open a new website.</span>Generalized anxiety disorder</a>
+- <a href="https://www.mentalhealth.va.gov/panicdisorder.asp"><span class="usa-sr-only">This will open a new website.</span>Panic disorder</a>
+- <a href="https://www.mentalhealth.va.gov/socialanxiety.asp"><span class="usa-sr-only">This will open a new website.</span>Social anxiety</a>
+- <a href="https://www.mentalhealth.va.gov/specificphobias.asp"><span class="usa-sr-only">This will open a new website.</span>Specific phobias</a>
 
 <br>
 
@@ -81,9 +81,9 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 
 #### Get more information
 
-[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf).
+<a href="https://www.mentalhealth.va.gov/docs/MHG_English.pdf"><span class="usa-sr-only">This will open a new website.</span>See our Guide to VA Mental Health Services</a>.
 <br>
-[Visit MentalHealth.va.gov](https://www.mentalhealth.va.gov/).
+<a href="https://www.mentalhealth.va.gov/"><span class="usa-sr-only">This will open a new website.</span>Visit MentalHealth.va.gov</a>.
 
 </div>
 
@@ -106,7 +106,7 @@ You may still be able to get care:
 
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - Visit our website to learn about VA programs for Veterans who are homeless. <a href="https://www.va.gov/homeless/"><span class="usa-sr-only">This will open a new website.</span>Learn about our homelessness programs</a>.
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
@@ -116,9 +116,9 @@ You may still be able to get care:
 
 ### Where can I find more information or support?
 
-[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
-[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
-[Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
+<a href="https://www.mentalhealth.va.gov/returningservicevets.asp"><span class="usa-sr-only">This will open a new website.</span>Get resources and support to help you readjust after returning from deployment</a>.<br />
+<a href="https://www.mentalhealth.va.gov/gethelp.asp"><span class="usa-sr-only">This will open a new website.</span>Find more resources for help in a crisis</a>.<br />
+<a href="https://www.mentalhealth.va.gov/Resources.asp"><span class="usa-sr-only">This will open a new website.</span>Access additional resources for ongoing support</a>.
 
 <script type="text/javascript">
 

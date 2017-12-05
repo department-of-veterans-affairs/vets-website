@@ -33,7 +33,7 @@ You may be able to get a VA-backed purchase loan if you:
 
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
 - **Better terms and interest rates** than other loans from private banks, mortgage companies, or credit unions (also called lenders)
-- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. <a href="https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp"><span class="usa-sr-only">This will open a new website.</span>See current effective loan limits</a>.
 - **No need for private mortgage insurance (PMI) or mortgage insurance premiums (MIP)**
   - PMI is a type of insurance that protects the lender if you end up not being able to pay your mortgage. It’s usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount.
   - MIP is what the Federal Housing Administration (FHA) requires you to pay to self-insure an FHA loan against future loss.
@@ -85,7 +85,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 ##### Look at your current finances.
 
-Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
+Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. <a href="http://www.consumerfinance.gov/owning-a-home/process/prepare/"><span class="usa-sr-only">This will open a new website.</span>Get more advice from the Consumer Financial Protection Bureau</a>. 
 
 </li>
 
@@ -162,12 +162,12 @@ After closing, you’re ready to move into your new home. Congratulations!
 
 #### If you need more help:
 
-[Look for workshops from Department of Housing and Urban Development–approved housing counseling agencies](http://www.hud.gov/offices/hsg/sfh/hcc/hcs.cfm?weblistaction=summary).
+<a href="http://www.hud.gov/offices/hsg/sfh/hcc/hcs.cfm?weblistaction=summary"><span class="usa-sr-only">This will open a new website.</span>Look for workshops from Department of Housing and Urban Development–approved housing counseling agencies</a>.
 
-[Check out the Consumer Financial Protection Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf).
+<a href="http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf"><span class="usa-sr-only">This will open a new website.</span>Check out the Consumer Financial Protection Bureau’s home loan toolkit</a>.
 
-[Learn more about VA-backed home loans](https://www.benefits.va.gov/homeloans/).
+<a href="https://www.benefits.va.gov/homeloans/"><span class="usa-sr-only">This will open a new website.</span>Learn more about VA-backed home loans</a>.
 
-[Watch a video about VA home loans and how to apply](https://www.youtube.com/watch?v=h3gR_BmMP7A).
+<a href="https://www.youtube.com/watch?v=h3gR_BmMP7A"><span class="usa-sr-only">This will open a new website.</span>Watch a video about VA home loans and how to apply</a>.
 
-[Watch a video about the cost of home ownership](https://www.youtube.com/watch?v=vYr5QVwL1Ow). 
+<a href="https://www.youtube.com/watch?v=vYr5QVwL1Ow"><span class="usa-sr-only">This will open a new website.</span>Watch a video about the cost of home ownership</a>. 

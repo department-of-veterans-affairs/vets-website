@@ -33,7 +33,7 @@ majorlinks:
       description: Get a Free 1-Year Subscription for Online Classes with LinkedIn Learning from LinkedIn Premium
 ---
 
-**In partnership with the [United States Department of Labor](https://www.dol.gov/vets/)**
+**In partnership with the <a href="https://www.dol.gov/vets/"><span class="usa-sr-only">This will open a new website.</span>United States Department of Labor</a>**
 
 <div class="va-introtext">
 

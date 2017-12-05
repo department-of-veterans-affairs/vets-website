@@ -66,13 +66,13 @@ A waiver of premiums. This means you won’t have to pay your life insurance pre
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). Mail it to the address listed on the form. [Download VA Form 29-357](https://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
+To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). Mail it to the address listed on the form. <a href="https://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf"><span class="usa-sr-only">This will open a new website.</span>Download VA Form 29-357</a>. 
 
 <br>
 
 #### Where can I find more information?
 
-[Read our insurance publications](https://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+<a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><span class="usa-sr-only">This will open a new website.</span>Read our insurance publications</a>.
 
 <hr>
 
@@ -110,7 +110,7 @@ Up to 50% of the face value of your coverage in increments of $5,000—paid to y
  
 Only the insured Servicemember or Veteran may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
  
-**If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284.htm).
+**If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. <a href="https://benefits.va.gov/INSURANCE/forms/8284.htm"><span class="usa-sr-only">This will open a new website.</span>Download the Claim for Accelerated Benefits form</a>.
 
 - If you’re still on active duty or you’re a Reservist, turn in the form to your service branch. They will need to fill out part of the form. 
 
@@ -126,7 +126,7 @@ Or, fax the form to 1-877-832-4943.
 
 <br>
 
-**If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284A.htm).
+**If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. <a href="https://benefits.va.gov/INSURANCE/forms/8284A.htm"><span class="usa-sr-only">This will open a new website.</span>Download the Claim for Accelerated Benefits form</a>.
  
 You’ll need to fill out one part of the application, and your doctor will need to fill out another part of it.
  
@@ -136,7 +136,7 @@ We pay the remaining amount of the face value of the insurance policy to your de
  
 #### Where can I find more information?
  	
-[Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook](https://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp).
+<a href="https://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp"><span class="usa-sr-only">This will open a new website.</span>Read chapter 5 of the Servicemembers’ and Veterans’ Group Life Insurance Handbook</a>.
 
-[Contact the Office of Servicemembers' Group Life Insurance (OSGLI)](https://benefits.va.gov/INSURANCE/resources-contact.asp).
+<a href="https://benefits.va.gov/INSURANCE/resources-contact.asp"><span class="usa-sr-only">This will open a new website.</span>Contact the Office of Servicemembers' Group Life Insurance (OSGLI)</a>.
 

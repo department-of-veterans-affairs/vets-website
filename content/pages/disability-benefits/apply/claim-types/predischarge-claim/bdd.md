@@ -39,7 +39,7 @@ Compensation (monthly payments)
 
 ### How do I get these disability benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to turn in your service treatment records. You’ll also need to finish all phases of the VA/DOD medical separation examination processes before your release from the military. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, you’ll have to turn in your service treatment records. You’ll also need to finish all phases of the VA/DOD medical separation examination processes before your release from the military. <a href="https://www.vets.gov/disability-benefits/apply/"><span class="usa-sr-only">This will open a new website.</span>Apply for benefits</a>.
 
 
 ### Get more information

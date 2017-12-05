@@ -62,16 +62,16 @@ Your VA pension = $6,506 for the year (or $542 paid each month)
 | --- | --- | 
 | A qualified surviving child  | $2,205 |
 
-[Get historic rate charts from past years](https://www.benefits.va.gov/pension/current_rates_survivor_pen.asp).
+<a href="https://www.benefits.va.gov/pension/current_rates_survivor_pen.asp"><span class="usa-sr-only">This will open a new website.</span>Get historic rate charts from past years</a>.
 
 #### Read the full regulations from Title 38 Code of Federal Regulations
 
-[3.23 Improved Pension Rates – Veterans and Surviving Spouses](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123"><span class="usa-sr-only">This will open a new website.</span>3.23 Improved Pension Rates – Veterans and Surviving Spouses</a>
 
-[3.24 Improved Pension Rates – Surviving Children](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123"><span class="usa-sr-only">This will open a new website.</span>3.24 Improved Pension Rates – Surviving Children</a>
 
-[3.271 “Income” for VA Purposes (IVAP)](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123"><span class="usa-sr-only">This will open a new website.</span>3.271 “Income” for VA Purposes (IVAP)</a>
 
-[3.272 Exclusions from Income](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123"><span class="usa-sr-only">This will open a new website.</span>3.272 Exclusions from Income</a>
 
-[3.272 Rate Computations](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123) 
+<a href="https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123"><span class="usa-sr-only">This will open a new website.</span>3.272 Rate Computations</a> 

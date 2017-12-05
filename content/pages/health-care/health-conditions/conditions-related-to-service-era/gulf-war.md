@@ -33,23 +33,23 @@ If you served in the Gulf War in Operation Desert Shield or Operation Desert Sto
 You may be at risk of:
 
 - Health problems caused by toxic chemicals or other hazardous materials in the environment, like:
-  - **[Sand, dust, and particulates](http://www.publichealth.va.gov/exposures/sand-dust-particulates/index.asp):** Tiny matter found in the air 
-  - **[Depleted uranium](http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp):** Uranium used in military tank armor and some bullets 
-  - **[Oil well fires](http://www.publichealth.va.gov/exposures/gulfwar/sources/oil-well-fires.asp):** Oil or gas wells that caught on fire and burned
-  - **[Chemical and biological weapons (Khamisiyah, Iraq)](http://www.publichealth.va.gov/exposures/gulfwar/sources/chem-bio-weapons.asp):** Chemicals released into the atmosphere from the demolition of a munitions storage depot in Khamisiyah, Iraq
-  - **[Chemical Agent Resistant Coating (CARC) paint](http://www.publichealth.va.gov/exposures/gulfwar/sources/chem-bio-weapons.asp):** A paint used on military vehicles to resist corrosion and chemical agents
-  - **[Pesticides](http://www.publichealth.va.gov/exposures/gulfwar/sources/pesticides.asp):** Substances used to repel or destroy pests such as insects and pathogens
+  - **<a href="http://www.publichealth.va.gov/exposures/sand-dust-particulates/index.asp"><span class="usa-sr-only">This will open a new website.</span>Sand, dust, and particulates</a>:** Tiny matter found in the air 
+  - **<a href="http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp"><span class="usa-sr-only">This will open a new website.</span>Depleted uranium</a>:** Uranium used in military tank armor and some bullets 
+  - **<a href="http://www.publichealth.va.gov/exposures/gulfwar/sources/oil-well-fires.asp"><span class="usa-sr-only">This will open a new website.</span>Oil well fires</a>:** Oil or gas wells that caught on fire and burned
+  - **<a href="http://www.publichealth.va.gov/exposures/gulfwar/sources/chem-bio-weapons.asp"><span class="usa-sr-only">This will open a new website.</span>Chemical and biological weapons (Khamisiyah, Iraq)</a>:** Chemicals released into the atmosphere from the demolition of a munitions storage depot in Khamisiyah, Iraq
+  - **<a href="http://www.publichealth.va.gov/exposures/gulfwar/sources/chem-bio-weapons.asp"><span class="usa-sr-only">This will open a new website.</span>Chemical Agent Resistant Coating (CARC) paint</a>:** A paint used on military vehicles to resist corrosion and chemical agents
+  - **<a href="http://www.publichealth.va.gov/exposures/gulfwar/sources/pesticides.asp"><span class="usa-sr-only">This will open a new website.</span>Pesticides</a>:** Substances used to repel or destroy pests such as insects and pathogens
 
 - Illnesses and injuries caused by:
-  - **[Extreme heat](http://www.publichealth.va.gov/exposures/heat-injuries/index.asp):** Health problems (like heat stroke, heat exhaustion, and sunburn) that can be caused by serving in hot desert climates
-  - **[Toxic embedded fragments](http://www.publichealth.va.gov/exposures/toxic_fragments/index.asp):** Shrapnel and other metals (some containing chemicals) that stay in your body after an injury and can cause injury at the site of the fragment or in other parts of your body 
-  - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
-  - **[Infectious diseases](http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp):** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetii (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus. 
-  - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
+  - **<a href="http://www.publichealth.va.gov/exposures/heat-injuries/index.asp"><span class="usa-sr-only">This will open a new website.</span>Extreme heat</a>:** Health problems (like heat stroke, heat exhaustion, and sunburn) that can be caused by serving in hot desert climates
+  - **<a href="http://www.publichealth.va.gov/exposures/toxic_fragments/index.asp"><span class="usa-sr-only">This will open a new website.</span>Toxic embedded fragments</a>:** Shrapnel and other metals (some containing chemicals) that stay in your body after an injury and can cause injury at the site of the fragment or in other parts of your body 
+  - **<a href="http://www.publichealth.va.gov/exposures/noise/index.asp"><span class="usa-sr-only">This will open a new website.</span>Noise</a>:** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
+  - **<a href="http://www.publichealth.va.gov/exposures/infectious-diseases/index.asp"><span class="usa-sr-only">This will open a new website.</span>Infectious diseases</a>:** There are 9 infectious diseases related to Southwest Asia and Afghanistan military service. These are malaria, brucellosis, campylobacter jejuni, coxiella burnetii (Q Fever), mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, and West Nile Virus. 
+  - **<a href="http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp"><span class="usa-sr-only">This will open a new website.</span>Occupational (job-related) hazards</a>:** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 
 - Possible side effects of:
-  - **[Vaccinations](http://www.publichealth.va.gov/exposures/gulfwar/sources/vaccinations.asp):** Vaccines given to help prevent infectious diseases as well as anthrax and botulinum toxoid. These vaccines are being studied as one possible cause of chronic multi-symptom illnesses in Gulf War Veterans.
-  - **[Pyridostigmine bromide (PB)](http://www.publichealth.va.gov/exposures/gulfwar/sources/pyridostigmine-bromide.asp):** An anti-nerve agent pill used as a pretreatment to protect military personnel in the event of an attack with the nerve agent soman. So far, research shows that there’s no evidence to link PB to multi-symptom illnesses in Gulf War Veterans, but we continue to monitor these Veterans’ health issues. 
+  - **<a href="http://www.publichealth.va.gov/exposures/gulfwar/sources/vaccinations.asp"><span class="usa-sr-only">This will open a new website.</span>Vaccinations</a>:** Vaccines given to help prevent infectious diseases as well as anthrax and botulinum toxoid. These vaccines are being studied as one possible cause of chronic multi-symptom illnesses in Gulf War Veterans.
+  - **<a href="http://www.publichealth.va.gov/exposures/gulfwar/sources/pyridostigmine-bromide.asp"><span class="usa-sr-only">This will open a new website.</span>Pyridostigmine bromide (PB)</a>:** An anti-nerve agent pill used as a pretreatment to protect military personnel in the event of an attack with the nerve agent soman. So far, research shows that there’s no evidence to link PB to multi-symptom illnesses in Gulf War Veterans, but we continue to monitor these Veterans’ health issues. 
 
 </div>
 
@@ -60,11 +60,11 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp). 
+Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. <a href="https://www.publichealth.va.gov/exposures/coordinators.asp"><span class="usa-sr-only">This will open a new website.</span>Find your local VA environmental health coordinator</a>. 
 
-- **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
+- **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. <a href="http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf"><span class="usa-sr-only">This will open a new website.</span>Download our Toxic Embedded Fragments fact sheet</a>.  
 
-- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the Depleted Uranium Follow-up Program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
+- **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. <a href="http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp"><span class="usa-sr-only">This will open a new website.</span>Learn more about the Depleted Uranium Follow-up Program</a>.
 
 </li>
 
@@ -72,11 +72,11 @@ Talk to your primary health care provider or your local VA environmental health 
 
 Ask about getting a free exam and joining these registries to document your exposures and health concerns:
 <br />
-[The Airborne Hazards and Open Burn Pit Registry](https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/) 
+<a href="https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/"><span class="usa-sr-only">This will open a new website.</span>The Airborne Hazards and Open Burn Pit Registry</a> 
 <br />
-[The Gulf War Registry](http://www.publichealth.va.gov/exposures/gulfwar/benefits/registry-exam.asp)
+<a href="http://www.publichealth.va.gov/exposures/gulfwar/benefits/registry-exam.asp"><span class="usa-sr-only">This will open a new website.</span>The Gulf War Registry</a>
 <br />
-[The Ionizing Radiation Registry](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp)
+<a href="https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp"><span class="usa-sr-only">This will open a new website.</span>The Ionizing Radiation Registry</a>
 
 </li>
 
