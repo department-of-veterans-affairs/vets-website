@@ -60,7 +60,7 @@ Take these steps to make sure you’re taking care of your health:
 <ol class="process">
 <li class="process-step list-one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp). 
+Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp). 
 
 - **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
 

@@ -8,7 +8,7 @@ layout: page-react.html
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
-      <li><a href="/burials-and-memorials/burial-planning">Burial Planning</a></li>
+      <li><a href="/burials-and-memorials/burial-planning/">Burial Planning</a></li>
     </ul>
   </nav>
 

@@ -36,7 +36,7 @@ Veterans
 
 ### How much will I get if I join a co-op training program?
 
-The amount we cover depends on the benefit you use. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+The amount we cover depends on the benefit you use. [View current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 - **The Post-9/11 GI Bill:** If the program is at a public IHL, we pay the actual costs for public in-state tuition and fees. If the program is at a private or foreign IHL, we pay the lesser of the national maximum or the actual costs for in-state tuition and fees. We also pay for some of the cost of housing and books.
 - **All other GI Bill programs:** We pay a monthly rate that depends on which GI Bill program you qualify for. 

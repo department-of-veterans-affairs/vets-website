@@ -52,7 +52,7 @@ class LoginPrompt extends React.Component {
             <p>Even without an account, you can apply for VA benefits.</p>
             <h5>Having trouble signing in?</h5>
             <p>
-              <a href="/faq">Get answers to Frequently Asked Questions (FAQs)</a>
+              <a href="/faq/">Get answers to Frequently Asked Questions (FAQs)</a>
             </p>
           </div>
         </div>

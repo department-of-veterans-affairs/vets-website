@@ -60,4 +60,4 @@ You can withdraw the money in your VEAP account if you don’t meet basic qualif
 
 
 ### Get more information
-[Read the VEAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf).
+[Read the VEAP pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf).
