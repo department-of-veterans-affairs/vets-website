@@ -30,18 +30,13 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
       .expect.element('#root_veteranSocialSecurityNumber').to.have.value.that.equals('123445544');
 
-    // save and finish a form later
+    // auto save a form
     client
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Northampton, MA')
       .pause(1500)
-      .click('.schemaform-sip-save-link');
+      .expect.element('.saved-success-container').to.be.visible;
 
-    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');
-    client.assert.urlContains('form-saved');
-
-    client.axeCheck('.main');
-
-    // fail to save a form
+    // fail to save a form because of 500
     client
       .click('.usa-button-primary')
       .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
@@ -51,13 +46,14 @@ module.exports = E2eHelpers.createE2eTest(
         value: {},
         status: 500
       }, token)
-      .click('.schemaform-sip-save-link');
+      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
+      .pause(1500);
 
     client.assert.urlContains('birth-information');
-
     client
-      .expect.element('.usa-alert-error').text.to.contain('Something went wrong when saving your form');
+      .expect.element('.usa-alert-error').text.to.contain('We’re sorry, but we’re having some issues and are working to fix them');
 
+    // Recover and save after errors
     /* eslint-disable camelcase */
     client
       .mockData({
@@ -77,32 +73,30 @@ module.exports = E2eHelpers.createE2eTest(
           }
         }
       }, token)
-      .click('.schemaform-sip-save-link');
+      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Florence, MA')
+      .pause(1500);
     /* eslint-enable camelcase */
 
-    client.assert.urlContains('form-saved');
-
-    // test start over, but all it really does is fetch the form again
-    client
-      .click('.usa-button-secondary')
-      .waitForElementVisible('.va-modal', Timeouts.normal)
-      .click('.va-modal .usa-button-primary');
-
-    E2eHelpers.expectNavigateAwayFrom(client, 'form-saved');
     client.assert.urlContains('/veteran-information/birth-information');
-
-    // test 401 error when saving
     client
+      .expect.element('.saved-success-container').to.be.visible;
+
+    // fail to save a form because signed out
+    // Can't recover from this because it logs you out and we'd have to log in again
+    client
+      .click('.usa-button-primary')
+      .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'put',
         value: {},
         status: 401
       }, token)
-      .click('.schemaform-sip-save-link');
+      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
+      .pause(1500);
 
-    client
-      .expect.element('.usa-alert-error').text.to.contain('Sorry, you’re signed out.');
+    client.assert.urlContains('birth-information');
+    client.expect.element('.usa-alert-error').text.to.contain('Sorry, you’re no longer signed in');
 
     client.end();
   });
