@@ -7,7 +7,7 @@ const settings = {
     BASE_URL: process.env.BASE_URL
   },
   vic: {
-    rateLimit: 0.1
+    rateLimit: 0.5
   }
 };
 
