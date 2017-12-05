@@ -1,23 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
-const rateLimit = window.settings.vic.rateLimit;
-
 class VeteranIDCard extends React.Component {
 
   componentDidMount() {
-    if (this.props.serviceRateLimitEnabled) {
-      window.dataLayer.push({ event: 'vic-ratelimited' });
+    if (!this.props.profile.accountType) {
+      window.dataLayer.push({ event: 'vic-unauthenticated' });
     }
   }
 
   render() {
-    if (this.props.serviceRateLimitEnabled) {
+    // direct all unauthenticated users to email form
+    if (!this.props.profile.accountType) {
       return <EmailCapture/>;
     }
 
@@ -37,15 +35,6 @@ class VeteranIDCard extends React.Component {
     );
   }
 }
-
-
-VeteranIDCard.propTypes = {
-  serviceRateLimitEnabled: PropTypes.bool,
-};
-
-VeteranIDCard.defaultProps = {
-  serviceRateLimitEnabled: Math.random() > rateLimit
-};
 
 const mapStateToProps = (state) => {
   const userState = state.user;
