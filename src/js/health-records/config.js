@@ -203,7 +203,7 @@ module.exports = {
   },
 
   errorCodes: {
-    accountcreation: [
+    accountCreation: [
       'MHVAC1',
     ]
   }

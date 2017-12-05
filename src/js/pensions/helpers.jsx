@@ -106,7 +106,7 @@ export const directDepositWarning = (
 
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility" target="_blank">Check your eligibility.</a></span>
+    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility/" target="_blank">Check your eligibility.</a></span>
   </div>
 );
 
@@ -201,7 +201,7 @@ export const expeditedProcessDescription = (
   <div>
     <h5>Fully developed claim program</h5>
     <p>If you have uploaded all the supporting documentation you have and any forms for additional benefits, you can apply using the Fully Developed Claim (FDC) program.</p>
-    <a href="/pension/apply/fully-developed-claim" target="_blank">Learn more about the FDC program</a>.
+    <a href="/pension/apply/fully-developed-claim/" target="_blank">Learn more about the FDC program</a>.
   </div>
 );
 

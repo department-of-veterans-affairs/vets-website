@@ -20,9 +20,12 @@ button,
     // background-color: $color-primary-darker;
   }
   &[href^=http] {
+    @include no-sr-content;
+
     background-image: none;
     // TODO: clean up #content .main.interior a then remove !important
     text-decoration: none !important;
+
   }
 }
 

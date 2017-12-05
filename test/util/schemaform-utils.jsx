@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
-import { fillDate } from './unit-helpers';
+import { fillDate as oldFillDate } from './unit-helpers';
 
 import {
   replaceRefSchemas,
@@ -206,9 +206,8 @@ export function getFormDOM(form) {
     ReactTestUtils.Simulate.click(this.getElement(selector));
   };
 
-  // TODO: Remove fillDate from unit-helpers and prefer this one
   formDOM.fillDate = function populateDate(partialId, dateString) {
-    fillDate(this, partialId, dateString);
+    oldFillDate(this, partialId, dateString);
   };
 
   /**
@@ -233,5 +232,23 @@ export function fillData(form, selector, value) {
 export function selectRadio(form, fieldName, value) {
   form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
     target: { value }
+  });
+}
+
+export function fillDate(form, partialId, dateString) {
+  const date = dateString.split('-');
+  const month = form.find(`select#${partialId}Month`);
+  const day = form.find(`select#${partialId}Day`);
+  const year = form.find(`input#${partialId}Year`);
+
+  month.simulate('change', {
+    target: { value: date[1] }
+  });
+
+  day.simulate('change', {
+    target: { value: date[2] }
+  });
+  year.simulate('change', {
+    target: { value: date[0] }
   });
 }

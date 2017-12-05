@@ -98,7 +98,7 @@ If you have a service-connected disability that limits your ability to work or p
 </div>
 <div id="react-applicationStatus"></div>
 
-[Learn about the application process](/education/apply).
+[Learn about the application process](/education/apply/).
 
 <div markdown="0"><br></div>
 </div>

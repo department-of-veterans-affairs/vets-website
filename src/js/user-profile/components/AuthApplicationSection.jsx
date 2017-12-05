@@ -11,7 +11,7 @@ class AuthApplicationSection extends React.Component {
       content = (
         <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
-          <p><a href="/health-care/apply">Apply for health care</a></p>
+          <p><a href="/health-care/apply/">Apply for health care</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
           <p><a href="/health-care/prescriptions">Refill your prescription</a></p>
           <p><a href="/health-care/messaging">Message your health care team</a></p>
@@ -25,7 +25,7 @@ class AuthApplicationSection extends React.Component {
       content = (
         <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
-          <p><a href="/health-care/apply">Apply for health care</a></p>
+          <p><a href="/health-care/apply/">Apply for health care</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
           <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
           <p>Refill your prescription</p>
