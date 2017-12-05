@@ -98,13 +98,13 @@ export const answerReview = (key, formValues) => {
       return `I made my previous application ${ans === '1' ? `${dischargeYearLabel} or earlier` : `after ${dischargeYearLabel}`}`;
     case '10_prevApplicationType':
       if (ans === '3') {
-        if (['navy', 'marines'].include(formValues['1_branchOfService'])) {
+        if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
           return 'I applied to the Board for Correction of Naval Records (BCNR)';
         }
         return 'I applied to a Board for Correction of Military Records (BCMR)';
       }
       return questionLabels[key][ans];
     default:
-      return null;
+      return questionLabels[key][ans];
   }
 };
