@@ -36,7 +36,7 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 	  <div class="expander-content-inner">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/"><span class="usa-sr-only">This will open a new website.</span>Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
 		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
 		  <li>Call <a href="tel:911">911</a>.</li>
 		  <li>Go to the nearest emergency room.</li>
@@ -79,7 +79,7 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 [Get a free DS Logon Premium account](https://mobile.va.gov/dslogon).
 
 <div>
-  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/"><span class="usa-sr-only">This will open a new website.</span>Schedule a VA Appointment Online</a>
+  <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
 </div>
 </div>
 </div>

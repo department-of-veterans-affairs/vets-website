@@ -84,14 +84,14 @@ export function fileHelp({ formData }) {
       <p>Please upload all documentation to support your claim. {(hasSchoolChild || hasDisabledChild) && 'This includes:'}</p>
       <ul>
         {hasSchoolChild &&
-          <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank"><span className="usa-sr-only">This will open a new website.</span>VA Form 21-674</a>)</li>}
+          <li>A completed Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>)</li>}
         {hasDisabledChild &&
           <li>Private medical records documenting your child’s disability before the age of 18</li>}
       </ul>
       <p>If you’re claiming for Aid and Attendance or Housebound benefits, this includes:</p>
       <ul>
-        <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank"><span className="usa-sr-only">This will open a new website.</span>VA Form 21-2680</a>)</li>
-        <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank"><span className="usa-sr-only">This will open a new website.</span>VA Form 21-0779</a>)</li>
+        <li>A completed Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf" target="_blank">VA Form 21-2680</a>)</li>
+        <li>A completed Request for Nursing Home Information in Connection with Claim for Aid and Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf" target="_blank">VA Form 21-0779</a>)</li>
       </ul>
       <p>File types you can upload: PDF, JPG, PNG</p>
     </div>
@@ -100,7 +100,7 @@ export function fileHelp({ formData }) {
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank"><span className="usa-sr-only">This will open a new website.</span>www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">1-800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">1-888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">1-800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">1-888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
   </div>
 );
 
@@ -170,7 +170,7 @@ export const disabilityDocs = (
 export const schoolAttendanceWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank"><span className="usa-sr-only">This will open a new website.</span>VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+      Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
     </div>
   </div>
 );
@@ -180,7 +180,7 @@ export const marriageWarning = (
     <div className="usa-alert-body">
       <h5 className="usa-alert-heading">Recognition of marriages</h5>
       If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
-      <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage"><span className="usa-sr-only">This will open a new website.</span>www.va.gov/opa/marriage</a>.</p>
+      <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
     </div>
   </div>
 );

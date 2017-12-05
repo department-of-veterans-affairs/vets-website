@@ -148,7 +148,7 @@ class UserDataSection extends React.Component {
           {content}
           <p><span className="label">Email address:</span> {email}</p>
           <p>Want to change your email, password, or other account settings?<br/>
-            <a href="https://wallet.id.me/settings" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Go to ID.me to manage your account</a>
+            <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
           {this.renderTermsLink()}
         </div>

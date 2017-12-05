@@ -289,7 +289,7 @@ export class Modals extends React.Component {
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuition')}>
           <h3>Tuition and fees per year</h3>
           <p>Enter the total tuition/fees you will be charged for the academic year.</p>
-          <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank"><span className="usa-sr-only">This will open a new website.</span>IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank"><span className="usa-sr-only">This will open a new website.</span>College Navigator</a>.</p>
+          <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank">IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank">College Navigator</a>.</p>
           <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
         </Modal>
 

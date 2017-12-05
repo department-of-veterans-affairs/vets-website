@@ -93,7 +93,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
               </li>
               <li>VA found it had further duty to assist you in developing your appeal, such as helping you get treatment records or providing a physical exam if needed.</li>
             </ul>
-            <p>When you receive a copy of the SSOC in the mail, you need to <a href="https://www.va.gov/vaforms/va/pdf/VA9.pdf"><span className="usa-sr-only">This will open a new website.</span>complete the Form 9</a>. This form asks you to review the SSOC and confirm the issues you want to appeal and why you want to appeal them. If you’d like VBA to certify your appeal to the Board, you need to complete and send back the Form 9 by (date). If you do not send back the Form 9, your appeal will be closed.</p>
+            <p>When you receive a copy of the SSOC in the mail, you need to <a href="https://www.va.gov/vaforms/va/pdf/VA9.pdf">complete the Form 9</a>. This form asks you to review the SSOC and confirm the issues you want to appeal and why you want to appeal them. If you’d like VBA to certify your appeal to the Board, you need to complete and send back the Form 9 by (date). If you do not send back the Form 9, your appeal will be closed.</p>
             <p>On the Form 9, you can also let the Board know if you’d like a hearing for your appeal. <a href="/disability-benefits/claim-appeals/hearings/">Learn more about hearings</a>.</p>
             <p>If new evidence is added to your appeal, the RO will review the evidence and another SSOC will be developed.</p>
           </div>,
@@ -161,7 +161,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         description: <div>
           <p className="claims-first-paragraph">The Board has made a decision on each issue within your appeal. You’ll receive a copy of the Board’s decision in the mail.</p>
           <h5>What if I don’t agree with the Board’s decision?</h5>
-          <p className="claims-first-paragraph">If you disagree with any part of the Board’s decision, you can appeal it by filing a Notice of Appeal with the United States Court of Appeals for Veterans Claims (CAVC), which is a federal court. You have 120 days to file an appeal with CAVC, if you decide to do so. <a href="https://www.uscourts.cavc.gov/appeal.php"><span className="usa-sr-only">This will open a new website.</span>Learn how to file an appeal with the CAVC.</a></p>
+          <p className="claims-first-paragraph">If you disagree with any part of the Board’s decision, you can appeal it by filing a Notice of Appeal with the United States Court of Appeals for Veterans Claims (CAVC), which is a federal court. You have 120 days to file an appeal with CAVC, if you decide to do so. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC.</a></p>
         </div>,
       },
     },

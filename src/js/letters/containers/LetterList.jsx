@@ -93,8 +93,8 @@ export class LetterList extends React.Component {
         </p>
         <ul>
           <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" target="_blank"><strong>View and print your Post-9/11 GI Bill statement of benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><span className="usa-sr-only">This will open a new website.</span><strong>Log into eBenefits to request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
-          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><span className="usa-sr-only">This will open a new website.</span><strong>Log into eBenefits to request a copy of your discharge or separation papers (DD 214).</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/coe" target="_blank"><strong>Log into eBenefits to request a Certificate of Eligibility (COE) for your home loan benefits.</strong></a></li>
+          <li><a href="https://eauth.va.gov/ebenefits/DPRIS" target="_blank"><strong>Log into eBenefits to request a copy of your discharge or separation papers (DD 214).</strong></a></li>
         </ul>
         <div className="feature help-desk">
           <h2>Need help?</h2>

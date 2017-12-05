@@ -179,7 +179,7 @@ class GuidancePage extends React.Component {
     if (['1', '2', '4'].indexOf(this.props.formValues['4_reason']) > -1) {
       let requestQuestion;
       if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1992) {
-        requestQuestion = <a target="_blank" href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"><span className="usa-sr-only">This will open a new website.</span>Find out how to request your military medical records.</a>;
+        requestQuestion = <a target="_blank" href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html">Find out how to request your military medical records.</a>;
       } else {
         requestQuestion = <span>Your <strong>military health records</strong> will be included with your VA medical records you request.</span>;
       }
@@ -291,12 +291,12 @@ class GuidancePage extends React.Component {
         </div>
         <h4>Additional Resources</h4><hr/>
         <ul>
-          <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/"><span className="usa-sr-only">This will open a new website.</span>VA health benefits for Veterans who experience military sexual trauma</a></li>
-          <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/"><span className="usa-sr-only">This will open a new website.</span>VA health benefits for Veterans with mental health conditions</a></li>
-          <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/"><span className="usa-sr-only">This will open a new website.</span>VA health benefits for Veterans with PTSD</a></li>
-          {this.props.formValues['1_branchOfService'] === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html"><span className="usa-sr-only">This will open a new website.</span>Army Discharge Review Board</a></li>}
-          {['navy', 'marines'].includes(this.props.formValues['1_branchOfService']) && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx"><span className="usa-sr-only">This will open a new website.</span>Navy Discharge Review Board</a></li>}
-          <li><a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"><span className="usa-sr-only">This will open a new website.</span>VA Guidance on COD Review</a></li>
+          <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
+          <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
+          <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
+          {this.props.formValues['1_branchOfService'] === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
+          {['navy', 'marines'].includes(this.props.formValues['1_branchOfService']) && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Navy Discharge Review Board</a></li>}
+          <li><a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">VA Guidance on COD Review</a></li>
         </ul>
       </div>
     );

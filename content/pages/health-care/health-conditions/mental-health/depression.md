@@ -36,7 +36,7 @@ Depression is a serious illness, but this common mental health problem is also h
 	  <div class="expander-content-inner">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/"><span class="usa-sr-only">This will open a new website.</span>Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
 		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
 		  <li>Call <a href="tel:911">911</a>.</li>
 		  <li>Go to the nearest emergency room.</li>

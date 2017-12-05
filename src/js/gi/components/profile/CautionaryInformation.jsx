@@ -42,7 +42,7 @@ export class CautionaryInformation extends React.Component {
     // If Ashford, show specific link.
     const schoolSpecificLink =
       (it.facilityCode === '21007103' || it.website === 'http://www.ashford.edu') && (
-        <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA" target="_blank"><span className="usa-sr-only">This will open a new website.</span>More information on Ashford University</a>
+        <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA" target="_blank">More information on Ashford University</a>
       );
 
     const flagContent = (

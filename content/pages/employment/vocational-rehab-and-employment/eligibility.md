@@ -59,7 +59,7 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"><span class="usa-sr-only">This will open a new website.</span>Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
 Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet. [Find out how to apply](/employment/vocational-rehab-and-employment/apply-vre/).
 
