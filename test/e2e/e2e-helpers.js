@@ -14,19 +14,6 @@ function overrideVetsGovApi(client) {
   [`http://localhost:${process.env.API_PORT || 3000}`]);
 }
 
-function breakVetsGovApi(client) {
-  client.execute(() => {
-    const current = window.VetsGov || {};
-    window.VetsGov = Object.assign({}, current, {
-      api: {
-        // eslint-disable-next-line object-shorthand
-        url: 'http://asdfasdfasdf'
-      }
-    });
-    return window.VetsGov;
-  },
-  [`http://fakehostname:${process.env.API_PORT || 3000}`]);
-}
 function overrideSmoothScrolling(client) {
   client.execute(() => {
     const current = window.VetsGov || {};
@@ -107,7 +94,6 @@ module.exports = {
   expectValueToBeBlank,
   expectInputToNotBeSelected,
   overrideVetsGovApi,
-  breakVetsGovApi,
   overrideSmoothScrolling,
   overrideAnimations
 };
