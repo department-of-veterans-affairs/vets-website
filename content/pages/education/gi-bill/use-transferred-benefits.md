@@ -16,8 +16,7 @@ order: 4
 
   </div>
 
-  <div class="feature" markdown="1">
-    <div itemscope itemtype="http://schema.org/Question">
+    <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
       <h3 itemprop="name">When can I use my transferred benefits?</h3>
       <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
         <div itemprop="text">
@@ -38,45 +37,46 @@ order: 4
         </div>
       </div>
     </div>
-  </div>
-  <div itemscope itemtype="http://schema.org/Question">
-    <h4 itemprop="name">How long may I use my benefits?</h4>
-    <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-      <div itemprop="text">
-        You may still qualify for benefits even if you’re a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (withdraw) or change a Transfer of Entitlement (TOE) at any time.
+    <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+      <h4 itemprop="name">How long may I use my benefits?</h4>
+      <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+        <div itemprop="text">
+          You may still qualify for benefits even if you’re a dependent child who gets married or a dependent spouse who gets divorced. However, Servicemembers and Veterans can revoke (withdraw) or change a Transfer of Entitlement (TOE) at any time.
+        </div>
       </div>
     </div>
-  </div>
-  <div itemscope itemtype="http://schema.org/Question">
-    <h3 itemprop="name">What benefits can I get?</h3>
-    <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-      <div itemprop="text">
+    <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+      <h3 itemprop="name">What benefits can I get?</h3>
+      <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+        <div itemprop="text">
 
-        If the Department of Defense (DoD) approves the TOE, you can apply for up to 36 months of benefits, and may be able to get money for:
+          If the Department of Defense (DoD) approves the TOE, you can apply for up to 36 months of benefits, and may be able to get money for:
 
-        - Tuition
-        - Housing
-        - Books and supplies
+          - Tuition
+          - Housing
+          - Books and supplies
+        </div>
       </div>
     </div>
-  </div>
 
-  ------
-  <div itemscope itemtype="http://schema.org/Question">
-    <h3 itemprop="name">How do I get these benefits?</h3>
-    <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-      <div itemprop="text">
+    <div class="feature" markdown="1">
+    ------
+    </div>
+    <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+      <h3 itemprop="name">How do I get these benefits?</h3>
+      <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+        <div itemprop="text">
 
-        If the DoD approves the TOE, you'll need to apply for benefits.
+          If the DoD approves the TOE, you'll need to apply for benefits.
 
-        - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
-        - Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
+          - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
+          - Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
 
-        [Find a nearby VA facility](/facilities/).
+          [Find a nearby VA facility](/facilities/).
 
-        Servicemembers and Veterans: [Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+          Servicemembers and Veterans: [Transfer your Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 
+        </div>
       </div>
     </div>
-  </div>
 </div>

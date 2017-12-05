@@ -18,10 +18,7 @@ Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to yo
 
 </div>
 
-<div class="feature" markdown="1">
-
-<div itemscope itemtype="http://schema.org/Question">
-
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">Can I transfer benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -32,11 +29,11 @@ You can transfer benefits if you’re on active duty or in the Selected Reserve 
      - You have at least 10 years of service on the date of approval, can’t commit to add 4 more years of service because of either policy or statute, but agree to serve for the maximum amount of time allowed, **and**
   - The person getting benefits has enrolled in the Defense Enrollment Eligibility Reporting System (DEERS)
 
-  </div>
-  </div>
-  </div>
+</div>
+</div>
+</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h4 itemprop="name">Who’s covered?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -47,10 +44,9 @@ Qualified dependents
 </div>
 </div>
 </div>
-</div>
-</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">What benefits can my qualified dependents get?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -66,9 +62,11 @@ If the DoD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 </div>
 </div>
 
+<div class="feature" markdown="1">
 ------
+</div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">How do I transfer benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -91,7 +89,7 @@ Family members: [Learn how to use transferred benefits](/education/gi-bill/use-t
 </div>
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Get more information</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -117,6 +115,7 @@ Family members: [Learn how to use transferred benefits](/education/gi-bill/use-t
   - NOAA  [Email](mailto:Gregory.Raymond@noaa.gov) or <a href="tel:13017137728">1-301-713-7728</a>
   - PHS  [Email](mailto:OCCOHelpdesk@hhs.gov) or <a href="tel:12404536130">1-240-453-6130</a>
 
+</div>
 </div>
 </div>
 </div>
