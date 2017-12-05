@@ -29,7 +29,7 @@ If you have a service-connected disability and you’re currently in pre-dischar
 You can use the BDD program if:
 -	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
 - You have a known separation date, **and**
--	Your separation date is within the next 90 to 180 days
+-	Your separation date is within the next 180 to 90 days
 
 <br>
 
