@@ -12,7 +12,7 @@ const initialState = {
   '8_prevApplication': null, // 5
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
-  '11_priorService': null,
+  '11_priorService': null, // 6
   questions: ['1_branchOfService'], // represents valid question progression
 };
 
@@ -35,6 +35,8 @@ function nextQuestion(currentQuestion, answer, state) {
     case '4_reason':
       if (answer === '3') {
         next = '5_dischargeType';
+      } else if (answer === '8') {
+        next = 'END';
       } else {
         next = '6_intention';
       }
