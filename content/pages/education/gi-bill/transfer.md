@@ -7,8 +7,6 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 order: 4
 ---
-
-
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
@@ -31,7 +29,7 @@ You can transfer benefits if you’re on active duty or in the Selected Reserve 
 
 </div>
 </div>
-</div>
+</div><div markdown="0"><br></div>
 
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
@@ -43,8 +41,7 @@ Qualified dependents
 
 </div>
 </div>
-</div>
-
+</div><div markdown="0"><br></div>
 
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
@@ -60,11 +57,7 @@ If the DoD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 
 </div>
 </div>
-</div>
-
-<div class="feature" markdown="1">
-------
-</div>
+</div><div markdown="0"><hr></div>
 
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
@@ -87,7 +80,7 @@ Family members: [Learn how to use transferred benefits](/education/gi-bill/use-t
 
 </div>
 </div>
-</div>
+</div><div markdown="0"><br></div>
 
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
@@ -117,5 +110,6 @@ Family members: [Learn how to use transferred benefits](/education/gi-bill/use-t
 
 </div>
 </div>
-</div>
+</div><div markdown="0"><br></div>
+
 </div>
