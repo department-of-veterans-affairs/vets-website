@@ -49,6 +49,7 @@ class RequiredVeteranView extends React.Component {
 }
 
 RequiredVeteranView.propTypes = {
+  userProfile: PropTypes.object.isRequired,
   serviceRateLimited: PropTypes.bool
 };
 
