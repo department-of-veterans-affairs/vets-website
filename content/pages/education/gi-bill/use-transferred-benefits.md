@@ -36,7 +36,7 @@ When you can use your benefits depends on your relationship to the Veteran or Se
 </div>
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">How long may I use my benefits?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -45,7 +45,7 @@ You may still qualify for benefits even if you’re a dependent child who gets m
 </div>
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">What benefits can I get?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -59,7 +59,7 @@ If the Department of Defense (DoD) approves the TOE, you can apply for up to 36 
 </div>
 </div><div markdown="0"><hr></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">How do I get these benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">

@@ -31,7 +31,7 @@ You can transfer benefits if you’re on active duty or in the Selected Reserve 
 </div>
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h4 itemprop="name">Who’s covered?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -43,7 +43,7 @@ Qualified dependents
 </div>
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">What benefits can my qualified dependents get?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -59,7 +59,7 @@ If the DoD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 </div>
 </div><div markdown="0"><hr></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">How do I transfer benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -82,7 +82,7 @@ Family members: [Learn how to use transferred benefits](/education/gi-bill/use-t
 </div>
 </div><div markdown="0"><br></div>
 
-<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<div markdown="1" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Get more information</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
