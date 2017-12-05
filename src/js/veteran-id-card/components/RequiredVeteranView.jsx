@@ -54,7 +54,7 @@ RequiredVeteranView.propTypes = {
 };
 
 RequiredVeteranView.defaultProps = {
-  serviceRateLimited: rateLimit > Math.random()
+  serviceRateLimited: Math.random() > rateLimit
 };
 
 export default RequiredVeteranView;
