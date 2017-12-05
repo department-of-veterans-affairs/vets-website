@@ -20,7 +20,12 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
       .then(() => new Promise(resolve => browser.url(route, resolve)))
 
       // Hand off the browser and route to the route handler.
-      .then(() => routeHandler(browser, route));
+      .then(() => routeHandler(browser, route))
+      .catch(err => {
+        console.log(`An error occurred on route ${route}`);
+        console.log(err);
+        console.log(err.stack);
+      })
 
   }, Promise.resolve());
 }
