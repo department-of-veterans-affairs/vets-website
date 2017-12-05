@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: predischarge Claim
+title: Pre-discharge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: detail-page
