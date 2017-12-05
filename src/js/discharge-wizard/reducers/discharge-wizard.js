@@ -36,7 +36,7 @@ function nextQuestion(currentQuestion, answer, state) {
       if (answer === '3') {
         next = '5_dischargeType';
       } else if (answer === '8') {
-        next = 'END';
+        next = '10_prevApplicationType';
       } else {
         next = '6_intention';
       }
