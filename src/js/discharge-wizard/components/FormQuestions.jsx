@@ -25,6 +25,7 @@ class FormQuestions extends React.Component {
       scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], {
         duration: 1000,
         smooth: true,
+        offset: -150,
       });
     }, 100);
   }
