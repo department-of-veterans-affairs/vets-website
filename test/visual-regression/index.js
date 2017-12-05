@@ -82,7 +82,8 @@ function beginApplication(browser) {
       .then(() => browser.closeWindow())
 
       // Tell Nighwatch we're finished.
-      .then(done);
+      .then(done)
+      .catch(err => console.log(err.stack));
   });
 }
 
