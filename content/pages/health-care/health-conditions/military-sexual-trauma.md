@@ -93,8 +93,8 @@ You can’t get compensation for the traumatic event itself. But you may be able
 
 Or, get help applying for disability compensation by:
 
-- Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](https://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
-- Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](https://www.benefits.va.gov/benefits/mstcoordinators.asp).
+- Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
+- Talking to the MST coordinator at your local VA regional benefit office. [Find an MST coordinator near you](http://www.benefits.va.gov/benefits/mstcoordinators.asp).
 
 <br>
 
@@ -105,7 +105,7 @@ Or, get help applying for disability compensation by:
   - [In Spanish](https://www.mentalhealth.va.gov/docs/MST-BrochureforVeterans-Spanish-Sep2010.pdf).
 - Watch a video about MST, its effects on survivors, and VA services available to Veterans who’ve experienced MST. [Watch the video](https://www.youtube.com/watch?v=b9snig5gZfk).
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
-- Go to the Department of Defense (DOD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
+- Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
 
 <script type="text/javascript">
 

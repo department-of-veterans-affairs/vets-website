@@ -33,9 +33,9 @@ Career fairs are an important first step in the search for employment. In-person
 - Dress professionally.
 - Research the companies that will be in attendance, and find out what jobs they have open.
 - Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
-- Bring multiple copies of your résumé and any relevant military transcripts.
+- Bring multiple copies of your resume and any relevant military transcripts.
 - Bring business cards to encourage follow-up conversations with prospective employers.
-- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
+- For virtual or online events, fill out all necessary online profile requirements (including resume, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
 
 </div>
 </div>

@@ -52,7 +52,7 @@ You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 **or**
 - [Get help from an accredited representative or VSO](https://www.va.gov/ogc/apps/accreditation/index.asp),
 **or**
-- [Get help at a VA regional office](https://www.vets.gov/facility-locator/)
+- [Get help at a VA regional benefit office](https://www.vets.gov/facility-locator/)
 
 When you apply, you’ll need to give us:
 
