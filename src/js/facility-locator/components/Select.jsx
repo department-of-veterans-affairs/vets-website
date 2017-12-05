@@ -25,10 +25,17 @@ class Select extends Component {
     const { currentQuery } = this.props;
     const { facilityType, serviceType } = currentQuery; // eslint-disable-line no-unused-vars
     if (type === 'facility' && newOption !== facilityType) {
-      this.props.updateSearchQuery({
-        facilityType: newOption,
-        serviceType: null
-      });
+      if (newOption === 'AllFacilities') {
+        this.props.updateSearchQuery({
+          facilityType: null,
+          serviceType: null
+        });
+      } else {
+        this.props.updateSearchQuery({
+          facilityType: newOption,
+          serviceType: null
+        });
+      }
     }
     if (type === 'service' && newOption !== serviceType) {
       if (newOption === 'All') {

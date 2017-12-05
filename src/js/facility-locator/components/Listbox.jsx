@@ -11,7 +11,7 @@ class Listbox extends Component {
   }
 
   renderSelectOptions = () => {
-    const { currentQuery: { facilityType } } = this.props;
+    const { currentQuery: { facilityType, serviceType } } = this.props;
     const services = getServices(facilityType, benefitsServices, vetCenterServices);
     return (
       <ul
@@ -19,17 +19,20 @@ class Listbox extends Component {
         role={!this.props.isDisabled ? 'listbox' : undefined}
         id="service-list">
         {services && services.map((k, i) => {
+          const defaultSelected = !serviceType && k === 'All';
+          const isSelected = this.isSelectedOption(k, 'serviceType');
+          const isHovered = defaultSelected || isSelected;
           const serviceOptionClasses = classNames({
             'dropdown-option': true,
             'facility-option': true,
-            'is-hovered': this.isSelectedOption(k, 'serviceType')
+            'is-hovered': isHovered
           });
 
           return (
             <li
-              tabIndex={this.props.dropdownActive ? '1' : '-1'}
+              tabIndex={this.props.dropdownActive ? '0' : '-1'}
               role="option"
-              aria-selected={k === facilityType}
+              aria-selected={isHovered}
               className={serviceOptionClasses}
               key={k}
               value={k}
@@ -49,10 +52,13 @@ class Listbox extends Component {
   }
 
   renderSelectOptionWithIcon = (facilityType, index) => {
+    const defaultSelected = !this.props.currentQuery.facilityType && !facilityType;
+    const isSelected = this.isSelectedOption((facilityType), 'facilityType')
+    const isHovered = isSelected || defaultSelected;
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
       'facility-option': true,
-      'is-hovered': this.isSelectedOption(facilityType, 'facilityType')
+      'is-hovered': isHovered
     });
     const facilityIconClasses = classNames({
       legend: true,
@@ -63,8 +69,8 @@ class Listbox extends Component {
     return (
       <li
         role="option"
-        tabIndex={this.props.dropdownActive ? '1' : '-1'}
-        aria-selected={this.isSelectedOption((facilityType || 'AllFacilities'), 'facilityType')}
+        tabIndex={this.props.dropdownActive ? '0' : '-1'}
+        aria-selected={isHovered}
         ref={ elem => { this.props.options[index] = elem; }}
         id={index > -1 ? (facilityType || 'AllFacilities') : null}
         className={facilityOptionClasses}
@@ -81,8 +87,7 @@ class Listbox extends Component {
   renderSelectButtonWithIcon = (facilityType) => {
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
-      'facility-option': true,
-      'is-hovered': this.isSelectedOption(facilityType, 'facilityType')
+      'facility-option': true
     });
     const facilityIconClasses = classNames({
       legend: true,
@@ -106,8 +111,7 @@ class Listbox extends Component {
   renderSelectOption = (serviceType, isMobile) => {
     const serviceOptionClasses = classNames({
       'dropdown-option': true,
-      'facility-option': true,
-      'is-hovered': this.isSelectedOption(serviceType, 'serviceType')
+      'facility-option': true
     });
     return (
       <div className="flex-center">
