@@ -2,12 +2,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { getEnrollmentData } from '../../../src/js/post-911-gib-status/actions/post-911-gib-status';
 import {
-  BACKEND_AUTHENTICATION_ERROR,
   BACKEND_SERVICE_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
-  GET_ENROLLMENT_DATA_SUCCESS,
-  NO_CHAPTER33_RECORD_AVAILABLE,
-  metaStatus
+  GET_ENROLLMENT_DATA_SUCCESS
 } from '../../../src/js/post-911-gib-status/utils/constants';
 
 let oldFetch;
@@ -117,6 +114,58 @@ describe.only('getEnrollmentData', () => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_ENROLLMENT_DATA_SUCCESS);
         expect(action.data).to.equal(successResponse.data.attributes);
+      }).then(done, done);
+  });
+
+  it('dispatches GET_ENROLLMENT_DATA_FAILURE on unspecified failure', (done) => {
+    global.fetch.returns(Promise.reject(new Error('Unknown error in apiRequest')));
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
+      }).then(done, done);
+  });
+
+  it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code', (done) => {
+    global.fetch.returns(Promise.reject({}));
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
+      }).then(done, done);
+  });
+
+  it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error code', (done) => {
+    global.fetch.returns(Promise.reject({
+      errors: [
+        { status: '500' }
+      ]
+    }));
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
+      }).then(done, done);
+  });
+
+  it('dispatches matching error action on known error code', (done) => {
+    global.fetch.returns(Promise.reject({
+      errors: [
+        { status: '503' }
+      ]
+    }));
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(BACKEND_SERVICE_ERROR);
       }).then(done, done);
   });
 });
