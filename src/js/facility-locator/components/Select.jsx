@@ -112,7 +112,7 @@ class Select extends Component {
     const disabled = optionType === 'service' && !['benefits', 'vet_center'].includes(facilityType);
     let queryType = optionType === 'service' ? serviceType : facilityType;
     if (!queryType) {
-      if (optionType === 'service'){
+      if (optionType === 'service') {
         queryType = 'All';
       } else if (optionType === 'facility') {
         queryType = 'AllFacilities';
@@ -127,16 +127,13 @@ class Select extends Component {
     return (
       <div onBlur={this.handleBlur} className="columns usa-width-one-fourth medium-3">
         <label htmlFor={`${optionType}Type`} id={`${optionType}-label`}>{`Select ${titleType} Type`}</label>
-        <div
+        <button
           onKeyDown={e => this.navigateDropdown(e, optionType)}
           className={dropdownClasses}
           ref={elem => { this.dropdown = elem; }}
-          tabIndex="0"
           aria-expanded="false"
           aria-labelledby={`${optionType}-label`}
-          aria-required="false"
-          aria-activedescendant={this.dropDownActive && queryType}
-          onClick={this.toggleDropdown}>
+          onClick={e => {e.preventDefault(); this.toggleDropdown(e);}}>
           <Listbox
             optionType={optionType}
             currentQuery={currentQuery}
@@ -147,7 +144,7 @@ class Select extends Component {
             options={this.options}
             dropdownActive={this.dropdownActive}
             hasIcons={hasIcons}/>
-        </div>
+        </button>
       </div>
     );
   }

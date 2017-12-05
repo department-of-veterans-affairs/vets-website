@@ -5,17 +5,6 @@ import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import { getServices } from '../utils/helpers.js';
 
 class Listbox extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      facilityDropdownActive: false,
-      serviceDropdownActive: false,
-      focusedFacilityIndex: 0,
-      focusedServiceIndex: 0
-    };
-    this.options = [];
-  }
 
   isSelectedOption = (option, type) => {
     return this.props.currentQuery[type] === option;
@@ -89,7 +78,7 @@ class Listbox extends Component {
     );
   }
 
-  renderSelectButtonWithIcon = (facilityType, index) => {
+  renderSelectButtonWithIcon = (facilityType) => {
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
       'facility-option': true,
@@ -103,11 +92,8 @@ class Listbox extends Component {
 
     return (
       <div
-        tabIndex={this.props.dropdownActive ? '1' : '-1'}
-        ref={ elem => { this.props.options[index] = elem; }}
-        id={index > -1 ? (facilityType || 'AllFacilities') : null}
+        id="facilityDropdown"
         className={facilityOptionClasses}
-        onClick={() => this.props.handleFilterSelect(facilityType, 'facility')}
         onKeyDown={this.props.navigateDropdown}>
         <span className="flex-center">
           <span className={facilityIconClasses}></span>
@@ -118,18 +104,21 @@ class Listbox extends Component {
   }
 
   renderSelectOption = (serviceType, isMobile) => {
+    const serviceOptionClasses = classNames({
+      'dropdown-option': true,
+      'facility-option': true,
+      'is-hovered': this.isSelectedOption(serviceType, 'serviceType')
+    });
     return (
       <div className="flex-center">
-        <button
+        <div
           id="serviceDropdown"
-          tabIndex="-1"
-          type="button"
-          className="facility-option">
+          className={serviceOptionClasses}>
           <span className="flex-center">
             <span className="legend spacer"></span>
             {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? 38 : 27) })}
           </span>
-        </button>
+        </div>
       </div>
     );
   }

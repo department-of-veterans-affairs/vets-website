@@ -393,6 +393,7 @@
           border-bottom: solid 1px $color-black;
           z-index: 1011;
           width: 100%;
+          background-color: $color-white;
           &.is-hovered, &.active, &:hover {
             color: $color-white;
             background: $color-primary-darker;
@@ -404,8 +405,9 @@
       }
 
       .dropdown-option {
+        font-weight: 400;
         width: 100%;
-        background-color: $color-white;
+        background-color: inherit;
         display: block;
         box-shadow: none;
         padding: 0;
