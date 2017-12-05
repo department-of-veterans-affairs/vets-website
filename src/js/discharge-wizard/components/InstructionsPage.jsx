@@ -55,7 +55,7 @@ class InstructionsPage extends React.Component {
                                 <div className="va-alert usa-alert usa-alert-warning">
                                   <div className="va-alert-body usa-alert-body">
                                     <div className="usa-alert-text usa-alert-heading">
-                                      <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"><span className="usa-sr-only">This will open a new website.</span>Character of Discharge or Character of Service Determination process.</a></p>
+                                      <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>
                                     </div>
                                   </div>
                                 </div>
