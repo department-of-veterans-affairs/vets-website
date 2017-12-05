@@ -39,7 +39,7 @@ class GuidancePage extends React.Component {
         <div className="feature">
           <h4>(Optional): Apply to the Physical Disability Board of Review (PDBR)</h4>
           <p>
-            If you believe your disability rating for TBI, PTSD, or mental health conditions is too low, consider applying to the Physical Disability Board of Review (PDBR). The Department of Defense (DoD) created the PDBR specifically to review appeals about low disability ratings for Veterans discharged between 2001 and 2009. Many Veterans discharged during this time period were inaccurately given lower disability ratings than they deserved, especially if they suffered from TBI, PTSD, or mental health conditions. If you were discharged in this period and previously received a disability rating which you feel is too low, you are eligible to apply to the PDBR for review. The PDBR does not issue discharge upgrades—but if the PDBR finds that your disability rating was unjustly low, this may help you make your case to upgrade your discharge. Many Veterans in this situation choose to make a PDBR application before applying for a discharge upgrade. <a target="_blank" href="https://health.mil/PDBR">Learn more about PBDR reviews</a> <a target="_blank" href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process">Apply for a PBDR review</a>.
+            If you believe your disability rating for TBI, PTSD, or mental health conditions is too low, consider applying to the Physical Disability Board of Review (PDBR). The Department of Defense (DoD) created the PDBR specifically to review appeals about low disability ratings for Veterans discharged between 2001 and 2009. Many Veterans discharged during this time period were inaccurately given lower disability ratings than they deserved, especially if they suffered from TBI, PTSD, or mental health conditions. If you were discharged in this period and previously received a disability rating which you feel is too low, you are eligible to apply to the PDBR for review. The PDBR does not issue discharge upgrades—but if the PDBR finds that your disability rating was unjustly low, this may help you make your case to upgrade your discharge. Many Veterans in this situation choose to make a PDBR application before applying for a discharge upgrade. <a target="_blank" href="https://health.mil/PDBR"><span className="usa-sr-only">This will open a new website.</span>Learn more about PBDR reviews</a> <a target="_blank" href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process"><span className="usa-sr-only">This will open a new website.</span>Apply for a PBDR review</a>.
           </p>
         </div>
       );
@@ -116,7 +116,7 @@ class GuidancePage extends React.Component {
           <AlertBox
             content={<div>
               <h4 className="usa-alert-heading">Need help preparing your application?</h4>
-              <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p>
+              <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a href="https://www.benefits.va.gov/vso/varo.asp"><span className="usa-sr-only">This will open a new website.</span>Find a VSO near you</a>.</p>
             </div>}
             isVisible
             status="warning"/>
@@ -133,9 +133,9 @@ class GuidancePage extends React.Component {
     const boardToSubmit = board(this.props.formValues);
     let militaryRecordInfo;
     if (parseInt(this.props.formValues['2_dischargeYear'], 10) >= 1997) {
-      militaryRecordInfo = <p>You can retrieve your complete military personnel record (your Official Military Personnel File, or OMPF) online. <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">Get your military personnel record.</a></p>;
+      militaryRecordInfo = <p>You can retrieve your complete military personnel record (your Official Military Personnel File, or OMPF) online. <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html"><span className="usa-sr-only">This will open a new website.</span>Get your military personnel record.</a></p>;
     } else {
-      militaryRecordInfo = <p>You can make a request online or by mail to receive your complete military personnel record (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.<a target="_blank" href="https://www.archives.gov/veterans/military-service-records">Get your military personnel record.</a></p>;
+      militaryRecordInfo = <p>You can make a request online or by mail to receive your complete military personnel record (your Official Military Personnel File, or OMPF) in the mail. You may at first only receive a portion of the available records; you will want to request the full set of records.<a target="_blank" href="https://www.archives.gov/veterans/military-service-records"><span className="usa-sr-only">This will open a new website.</span>Get your military personnel record.</a></p>;
     }
 
     let specificTypeInstruction;
@@ -188,7 +188,7 @@ class GuidancePage extends React.Component {
         <li>
           <strong>Medical Records</strong>: In most cases, the Board won’t have easy access to your medical records, so you should submit any relevant documentation yourself as much as possible.
           <ul>
-            <li>You can request your <strong>VA medical records</strong> by submitting VA Form 10-5345 to your local VA Medical Center. <a target="_blank" href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345-fill.pdf">Download VA Form 10-5345.</a></li>
+            <li>You can request your <strong>VA medical records</strong> by submitting VA Form 10-5345 to your local VA Medical Center. <a target="_blank" href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345-fill.pdf"><span className="usa-sr-only">This will open a new website.</span>Download VA Form 10-5345.</a></li>
             <li>{requestQuestion}</li>
             <li>You can also submit <strong>medical records from a private practice doctor</strong>—contact your doctor’s office to get the records you need.</li>
           </ul>
@@ -234,7 +234,7 @@ class GuidancePage extends React.Component {
     }
 
     if (boardToSubmit.abbr === 'DRB' && this.props.formValues['1_branchOfService'] === 'army') {
-      onlineSubmissionMsg = <p>You can also submit this information online at ACTSOnline. <a target="_blank" href="http://actsonline.army.mil/">Visit ACTSOnline to submit your information</a>.</p>;
+      onlineSubmissionMsg = <p>You can also submit this information online at ACTSOnline. <a target="_blank" href="http://actsonline.army.mil/"><span className="usa-sr-only">This will open a new website.</span>Visit ACTSOnline to submit your information</a>.</p>;
     } else {
       onlineSubmissionMsg = <p>Unfortunately, there isn't a way to submit this form online.</p>;
     }
@@ -266,7 +266,7 @@ class GuidancePage extends React.Component {
               <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
                 <div itemProp="text">
                   <p>Nearly all applications are reviewed by the Board within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
-                  <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
+                  <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html"><span className="usa-sr-only">This will open a new website.</span>request a copy</a>.</p>
                   <p>If your appeal results in raising your discharge status to honorable, you will be immediately eligible for all VA benefits and services. In the meantime, you may still apply for VA eligibility by <a target="_blank" href="#">requesting a Character of Discharge review</a>.</p>
                 </div>
               </div>
@@ -278,7 +278,7 @@ class GuidancePage extends React.Component {
                   <AlertBox
                     isVisible
                     status="warning"
-                    content={<p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>}/>
+                    content={<p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"><span className="usa-sr-only">This will open a new website.</span>Character of Discharge or Character of Service Determination process.</a></p>}/>
                   <p>If you have a discharge that is less than honorable, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
                   <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you've completed an drug rehabilitation program.</p>
                   <p>As with applying for a discharge upgrade, you may consider finding someone to advocate on your behalf (such as a lawyer or VSO) in collecting and submitting this evidence, depending on the complexity of your case.</p>

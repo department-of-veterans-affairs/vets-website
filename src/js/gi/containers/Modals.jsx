@@ -209,15 +209,15 @@ export class Modals extends React.Component {
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('accredited')}>
           <h3>Is your school accredited</h3>
-          <p>Accreditation matters if you plan to start school at one institution and transfer to another to complete your degree. Be sure to ask any potential school about their credit transfer policy. The U.S. Department of Education (ED) maintains a&nbsp;<a href="http://ope.ed.gov/accreditation/" id="anch_384" target="_blank">database</a>&nbsp;of accredited postsecondary institutions and programs. Accreditation is a recognized credential for schools and some programs. As stated by the ED, the goal of accreditation is to ensure that the education provided by institutions of higher education meets acceptable levels of quality.</p>
-          <p>To learn more about accreditation, visit the <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation" target="_blank"> about this tool</a> page. </p>
+          <p>Accreditation matters if you plan to start school at one institution and transfer to another to complete your degree. Be sure to ask any potential school about their credit transfer policy. The U.S. Department of Education (ED) maintains a&nbsp;<a href="http://ope.ed.gov/accreditation/" id="anch_384" target="_blank"><span className="usa-sr-only">This will open a new website.</span>database</a>&nbsp;of accredited postsecondary institutions and programs. Accreditation is a recognized credential for schools and some programs. As stated by the ED, the goal of accreditation is to ensure that the education provided by institutions of higher education meets acceptable levels of quality.</p>
+          <p>To learn more about accreditation, visit the <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation" target="_blank"><span className="usa-sr-only">This will open a new website.</span> about this tool</a> page. </p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('typeAccredited')}>
           <h3>Accreditation types (Regional vs. National vs. Hybrid)</h3>
           <p>Is the school regionally or nationally accredited at the institution level?</p>
-          <p>Schools are accredited by private educational associations of regional or national scope. While the Department of Education does not say whether regional or national accreditation is better, a recent ED study revealed that, “Nearly 90 percent of all student credit transfer opportunities occurred between institutions that were regionally, rather than nationally, accredited.” <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">http://nces.ed.gov/pubs2014/2014163.pdf</a></p>
-          <p>To learn more about accreditation types, visit the <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
+          <p>Schools are accredited by private educational associations of regional or national scope. While the Department of Education does not say whether regional or national accreditation is better, a recent ED study revealed that, “Nearly 90 percent of all student credit transfer opportunities occurred between institutions that were regionally, rather than nationally, accredited.” <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386"><span className="usa-sr-only">This will open a new website.</span>http://nces.ed.gov/pubs2014/2014163.pdf</a></p>
+          <p>To learn more about accreditation types, visit the <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"><span className="usa-sr-only">This will open a new website.</span> about this tool</a> page. </p>
         </Modal>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('singleContact')}>
           <h3>Single Point of Contact For Veterans</h3>
@@ -265,14 +265,14 @@ export class Modals extends React.Component {
             increased regulatory or legal scrutiny to this program. VA will display other categories
             of caution flags in future versions of the GI Bill Comparison Tool.
           </p>
-          <p><a href="https://studentaid.ed.gov/sa/about/data-center/school/hcm" target="_blank">Heightened Cash Monitoring</a></p>
-          <p><a href="http://ope.ed.gov/accreditation/" target="_blank">Accreditation</a></p>
-          <p><a href="https://www.dodmou.com/Home/Faq" target="_blank">DoD Probation For Military Tuition Assistance</a></p>
-          <p><a href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university" target="_blank">Federal Trade Commission Filed Suit for Deceptive Advertising</a></p>
-          <p><a href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and" target="_blank">Settlement reached with the Federal Trade Commission (FTC)</a></p>
-          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Suspended for 85/15 violation – Flight Program</a></p>
-          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs</a></p>
-          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank">School operating under provisional accreditation (previously accredited by ACICS)</a></p>
+          <p><a href="https://studentaid.ed.gov/sa/about/data-center/school/hcm" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Heightened Cash Monitoring</a></p>
+          <p><a href="http://ope.ed.gov/accreditation/" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Accreditation</a></p>
+          <p><a href="https://www.dodmou.com/Home/Faq" target="_blank"><span className="usa-sr-only">This will open a new website.</span>DoD Probation For Military Tuition Assistance</a></p>
+          <p><a href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Federal Trade Commission Filed Suit for Deceptive Advertising</a></p>
+          <p><a href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Settlement reached with the Federal Trade Commission (FTC)</a></p>
+          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Suspended for 85/15 violation – Flight Program</a></p>
+          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs</a></p>
+          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank"><span className="usa-sr-only">This will open a new website.</span>School operating under provisional accreditation (previously accredited by ACICS)</a></p>
           <p>
             To learn more, visit the "Caution Flag" section of the <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
@@ -297,7 +297,7 @@ export class Modals extends React.Component {
           <h3>In-state tuition and fees per year</h3>
           <p>Enter the amount of tuition/fees your school charges in-state students.</p>
           <p>When you select some schools, we import the average in-state tuition/fees for an undergraduate student as reported by the school to the Department of Education through IPEDS. This is the same information that is published on College Navigator.</p>
-          <p>Generally, in-state residents are charged a discounted rate of tuition and fees. VA pays the in-state tuition & fee rate at public schools. <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
+          <p>Generally, in-state residents are charged a discounted rate of tuition and fees. VA pays the in-state tuition & fee rate at public schools. <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank"><span className="usa-sr-only">This will open a new website.</span>Click here for more information.</a></p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcYr')}>
@@ -403,7 +403,7 @@ export class Modals extends React.Component {
             days. You also need to have received an honorable discharge.
           </p>
           <p>
-            For detailed information about Cumulative Post-9/11 Service, visit <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice" target="_blank">this page</a>.
+            For detailed information about Cumulative Post-9/11 Service, visit <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice" target="_blank"><span className="usa-sr-only">This will open a new website.</span>this page</a>.
           </p>
         </Modal>
 
