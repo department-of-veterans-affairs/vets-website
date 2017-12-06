@@ -23,8 +23,8 @@ class Select extends Component {
 
   handleFilterSelect = (newOption, type) => {
     const { currentQuery } = this.props;
-    const { facilityType, serviceType } = currentQuery; // eslint-disable-line no-unused-vars
-    if (type === 'facility' && newOption !== facilityType) {
+    const queryType = currentQuery[`${type}Type`];
+    if (type === 'facility' && newOption !== queryType) {
       if (newOption === 'AllFacilities') {
         this.props.updateSearchQuery({
           facilityType: null,
@@ -37,7 +37,7 @@ class Select extends Component {
         });
       }
     }
-    if (type === 'service' && newOption !== serviceType) {
+    if (type === 'service' && newOption !== queryType) {
       if (newOption === 'All') {
         this.props.updateSearchQuery({
           serviceType: null,
@@ -81,11 +81,7 @@ class Select extends Component {
   toggleDropdown = (e) => {
     const type = this.props.optionType;
     const isActive = this.state.dropdownActive;
-    const { currentQuery: { facilityType, serviceType } } = this.props; // eslint-disable-line no-unused-vars
-    const queryType = type === 'service' ? serviceType : facilityType;
-    if (type === 'service' && noServices(type, facilityType)) {
-      return;
-    }
+    const queryType = this.props.currentQuery[`${type}Type`];
     // To handle unrelated key events
     if (e) {
       const shouldNotToggle = e.keyCode && !isToggle(e, isActive);
