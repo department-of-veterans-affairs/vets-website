@@ -53,29 +53,15 @@ Yes. Even if you file your claim in time, you can't use the BDD program if your 
 - Don't have a copy of your treatment records for your current period of service **or**
 - Added a medical condition to your claim but have fewer than 90 days left on active duty (we will process those conditions after you separate from the military)
 
-
 </div>
 
 ### What kinds of disability benefits can I get?
 Compensation (monthly payments)
 
-<br>
-
 -----
 
 ### How do I get these disability benefits through the BDD program?
 You'll need to apply. The application process will depend on where you're stationed.
-
-**Jump to the section for where you're stationed:**
-
-[United States](#stationed-us)</br>
-[Germany](#stationed-germany)</br>
-[Korea](#stationed-korea)</br>
-[Europe, Middle East, or Africa](#stationed-emea)
-
-<br>
-
-<spand id="stationed-us">
 
 #### If you're stationed in the U.S.
 You can apply for benefits online, by mail, or in-person. <br>
@@ -86,6 +72,8 @@ To complete the process you'll need to:
 - Be available for 45 days from the date you apply to have a VA medical exam, **and**
 - Finish all phases of the VA/DoD medical separation examination processes before your release from the military
 
+#### If you're stationed overseas.
+Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
 **Need help applying?** If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll free at <a href="tel:+18008271000">1-800-827-1000</a>.
