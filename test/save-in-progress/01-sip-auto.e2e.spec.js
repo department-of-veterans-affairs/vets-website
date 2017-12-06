@@ -33,7 +33,7 @@ module.exports = E2eHelpers.createE2eTest(
     // auto save a form
     client
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Northampton, MA')
-      .pause(1500)
+      .pause(1200)
       .expect.element('.saved-success-container').to.be.visible;
 
     // fail to save a form because of 500
@@ -47,7 +47,7 @@ module.exports = E2eHelpers.createE2eTest(
         status: 500
       }, token)
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
-      .pause(1500);
+      .pause(1200);
 
     client.assert.urlContains('birth-information');
     client
@@ -74,7 +74,7 @@ module.exports = E2eHelpers.createE2eTest(
         }
       }, token)
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Florence, MA')
-      .pause(1500);
+      .pause(1200);
     /* eslint-enable camelcase */
 
     client.assert.urlContains('/veteran-information/birth-information');
@@ -93,7 +93,7 @@ module.exports = E2eHelpers.createE2eTest(
         status: 401
       }, token)
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
-      .pause(1500);
+      .pause(1200);
 
     client.assert.urlContains('birth-information');
     client.expect.element('.usa-alert-error').text.to.contain('Sorry, you’re no longer signed in');

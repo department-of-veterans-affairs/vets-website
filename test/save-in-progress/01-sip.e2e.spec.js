@@ -33,7 +33,6 @@ module.exports = E2eHelpers.createE2eTest(
     // save and finish a form later
     client
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Northampton, MA')
-      .pause(1500)
       .click('.schemaform-sip-save-link');
 
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');

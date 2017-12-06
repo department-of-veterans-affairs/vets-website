@@ -22,7 +22,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled')
       .click('.edit-btn')
       .fill('input[name="root_veteranFullName_first"]', 'Jane')
-      .pause(1500);
+      .pause(1200);
 
     // client
     //   .expect.element('.saved-success-container').to.be.visible;
