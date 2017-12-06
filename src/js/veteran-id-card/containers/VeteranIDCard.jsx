@@ -5,10 +5,10 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
-const rateLimiteMethod = window.sessionStorage.getItem('vicRateLimitMethod');
-const rateLimitAuthed = rateLimiteMethod === 'unauthenticated' ? 1 : window.settings.vic.rateLimitAuthed;
-const rateLimitUnauthed = window.settings.vic.rateLimitUnauthed;
-const serviceRateLimitedRandomizer = Math.random();
+const vicSettings = {
+  serviceRateLimitedUnauthed: Math.random() > window.settings.vic.rateLimitUnauthed,
+  serviceRateLimitedAuthed: window.sessionStorage.getItem('vicInitialAuthStatus') !== 'unauthenticated' && Math.random() > window.settings.vic.rateLimitAuthed
+};
 
 class VeteranIDCard extends React.Component {
 
@@ -18,8 +18,7 @@ class VeteranIDCard extends React.Component {
     // This will occur even for unauthenticated users and should only occur once.
     if (this.props.profile.loading && !nextProps.profile.loading) {
       const userProfile = nextProps.profile;
-      const serviceRateLimitedAuthed = this.props.serviceRateLimitedRandomizer > this.props.rateLimitAuthed;
-      const serviceRateLimitedUnauthed = this.props.serviceRateLimitedRandomizer > this.props.rateLimitUnauthed;
+      const { serviceRateLimitedAuthed, serviceRateLimitedUnauthed } = this.props.vicSettings;
       const isloggedIn = !!userProfile.accountType;
 
       if (isloggedIn) {
@@ -35,11 +34,11 @@ class VeteranIDCard extends React.Component {
           window.dataLayer.push({ event: 'vic-authenticated' });
         }
       } else {
+        window.sessionStorage.setItem('vicInitialAuthStatus', 'unauthenticated');
         if (serviceRateLimitedUnauthed) {
           window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
           this.renderEmailCapture = true;
         } else {
-          window.sessionStorage.setItem('vicRateLimitMethod', 'unauthenticated');
           window.dataLayer.push({ event: 'vic-unauthenticated' });
         }
       }
@@ -74,9 +73,7 @@ const mapStateToProps = (state) => {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    rateLimitAuthed,
-    rateLimitUnauthed,
-    serviceRateLimitedRandomizer
+    vicSettings
   };
 };
 
