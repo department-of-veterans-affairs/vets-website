@@ -54,7 +54,7 @@ class Listbox extends Component {
 
   renderSelectOptionWithIcon = (facilityType, index) => {
     const defaultSelected = !this.props.currentQuery.facilityType && !facilityType;
-    const isSelected = this.isSelectedOption((facilityType), 'facilityType')
+    const isSelected = this.isSelectedOption((facilityType), 'facilityType');
     const isHovered = isSelected || defaultSelected;
     const facilityOptionClasses = classNames({
       'dropdown-option': true,
