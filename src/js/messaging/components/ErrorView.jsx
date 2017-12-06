@@ -22,7 +22,7 @@ class ErrorView extends React.Component {
 
     if (some(errors, errorCodeIncludes(errorCodes.access))) {
       content = mhvAccessError;
-    } else if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    } else if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
       alert = true;
       title = 'We couldn’t access your health tools';
       detail = (
@@ -61,6 +61,7 @@ class ErrorView extends React.Component {
     const { errors } = this.props;
     const blockingErrors = concat(
       errorCodes.access,
+      errorCodes.accountCreation
     );
 
     // don’t block application if no errors, or errors not in the list above
