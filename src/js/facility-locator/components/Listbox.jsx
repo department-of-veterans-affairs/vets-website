@@ -13,6 +13,7 @@ class Listbox extends Component {
   renderSelectOptions = () => {
     const { currentQuery: { facilityType, serviceType } } = this.props;
     const services = getServices(facilityType, benefitsServices, vetCenterServices);
+    this.props.resetOptions();
     return (
       <ul
         className="dropdown"

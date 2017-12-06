@@ -14,18 +14,15 @@ export function getDirection(code) {
 }
 
 export function getSelection(options, queryType) {
-  /* eslint-disable no-param-reassign */
   let selection = options[0];
   if (queryType) {
     const selectionType = queryType;
-    options = options.filter(item => !!item);
     selection = options.reduce((acc, elem) => {
-      if (elem.id && elem.id === selectionType) acc = elem;
+      if (elem.id && elem.id === selectionType) acc = elem; // eslint-disable-line no-param-reassign
       return acc;
     }, selection);
   }
   return { selection, id: options.indexOf(selection) };
-  /* eslint-enable no-param-reassign */
 }
 
 export function isSelect(code) {

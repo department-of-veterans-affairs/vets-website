@@ -113,6 +113,10 @@ class Select extends Component {
     }
   }
 
+  resetOptions = () => {
+    this.options = [];
+  }
+
   render() {
     const { optionType, currentQuery, isMobile, hasIcons } = this.props;
     const { facilityType, serviceType } = currentQuery;
@@ -149,6 +153,7 @@ class Select extends Component {
             navigateDropdown={this.navigateDropdown}
             handleFilterSelect={this.handleFilterSelect}
             options={this.options}
+            resetOptions={this.resetOptions}
             dropdownActive={this.dropdownActive}
             hasIcons={hasIcons}/>
         </button>
