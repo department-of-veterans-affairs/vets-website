@@ -81,3 +81,29 @@
   margin-bottom: 0;
   background-position: 1rem 1.4rem;
 }
+
+// education benefits
+
+// this can probably be removed
+.edu-benefits-alert {
+  margin-top: 0;
+  margin-bottom: 23px;
+}
+
+.edu-warning-single-line {
+  margin-top: 0;
+  > .usa-alert-body {
+    padding-left: 4rem;
+  }
+}
+
+
+@media screen and (min-width: 600px) {
+  .edu-warning-single-line {
+    > .usa-alert-body {
+      background-size: 4.2rem;
+      background-position: 1.3rem 1.5rem;
+      padding-left: 5rem;
+    }
+  }
+}
