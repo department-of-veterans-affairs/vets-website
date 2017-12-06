@@ -556,6 +556,7 @@ const formConfig = {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 endpoint: '/v0/preneeds/preneed_attachments',
                 fileTypes: ['pdf'],
+                maxSize: 15728640,
                 hideLabelText: true,
                 createPayload: (file) => {
                   const payload = new FormData();
