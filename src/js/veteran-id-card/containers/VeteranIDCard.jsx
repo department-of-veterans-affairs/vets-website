@@ -6,7 +6,7 @@ import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
 const rateLimiteMethod = window.sessionStorage.getItem('vicRateLimitMethod');
-const rateLimitAuthed = rateLimiteMethod === 'unauthenticated' ? window.settings.vic.rateLimitAuthed : 1;
+const rateLimitAuthed = rateLimiteMethod === 'unauthenticated' ? 1 : window.settings.vic.rateLimitAuthed;
 const rateLimitUnauthed = window.settings.vic.rateLimitUnauthed;
 const serviceRateLimitedRandomizer = Math.random();
 
