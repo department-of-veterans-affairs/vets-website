@@ -63,7 +63,8 @@ export default function SupportingDocumentsDescription(props) {
           </li>
         </ol>
       </AdditionalInfo>
-      File types you can upload: PDF
+      File types you can upload: PDF<br/>
+      Maximum file size: 15MB
     </div>
   );
 }
