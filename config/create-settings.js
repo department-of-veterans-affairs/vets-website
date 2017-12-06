@@ -11,7 +11,7 @@ function createSettings(options) {
       BASE_URL: process.env.BASE_URL
     },
     vic: {
-      rateLimit: options.buildtype === 'development' ? 1 : 0.1
+      rateLimit: 1
     }
   };
 }
