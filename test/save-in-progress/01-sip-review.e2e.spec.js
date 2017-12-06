@@ -12,7 +12,6 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(reviewUrl)
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.schemaform-chapter-accordion-header', Timeouts.slow);  // First render of React may be slow.
 
     E2eHelpers.overrideVetsGovApi(client);
@@ -24,8 +23,9 @@ module.exports = E2eHelpers.createE2eTest(
       .fill('input[name="root_veteranFullName_first"]', 'Jane')
       .pause(1200);
 
-    // client
-    //   .expect.element('.saved-success-container').to.be.visible;
+    // auto save form
+    client
+      .expect.element('.saved-success-container').to.be.visible;
 
     // save and finish a form later
     client
@@ -34,6 +34,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.assert.urlContains('form-saved');
 
+    // server error when saving in progress form
     client
       .url(reviewUrl)
       .waitForElementVisible('body', Timeouts.normal)
