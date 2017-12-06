@@ -7,33 +7,39 @@ import EmailCapture from './EmailCapture';
 
 const rateLimitAuthed = window.settings.vic.rateLimitAuthed;
 const rateLimitUnauthed = window.settings.vic.rateLimitUnauthed;
+const serviceRateLimitedRandomizer = Math.random();
 
 class VeteranIDCard extends React.Component {
 
-  componentDidMount() {
-    // Redirect users to email form based on rate limits for unauthed or authed users
-    if (this.props.profile.accountType) {
-      if (this.props.serviceRateLimitedAuthed) {
-        window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
-        this.renderEmailCapture = true;
-      } else {
-        window.dataLayer.push({ event: 'vic-authenticated' });
-      }
-    } else {
-      if (this.props.serviceRateLimitedUnauthed) {
-        window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
-        this.renderEmailCapture = true;
-      } else {
-        window.dataLayer.push({ event: 'vic-unauthenticated' });
-      }
-    }
+  componentWillReceiveProps(nextProps) {
 
-    if (this.renderEmailCapture === true) {
-      // Report if they will see an error message around eMIS status
-      if (this.props.profile.veteranStatus === 'NOT_FOUND') {
-        window.dataLayer.push({ events: 'vic-emis-lookup-failed' });
-      } else if (this.props.profile.veteranStatus === 'SERVER_ERROR') {
-        window.dataLayer.push({ events: 'vic-emis-error' });
+    // Once the login logic is all done...
+    // This will occur even for unauthenticated users and should only occur once.
+    if (this.props.profile.loading && !nextProps.profile.loading) {
+      const userProfile = nextProps.profile;
+      const serviceRateLimitedAuthed = this.props.serviceRateLimitedRandomizer > this.props.rateLimitAuthed;
+      const serviceRateLimitedUnauthed = this.props.serviceRateLimitedRandomizer > this.props.rateLimitUnauthed;
+      const isloggedIn = !!userProfile.accountType;
+
+      if (isloggedIn) {
+        if (serviceRateLimitedAuthed) {
+          window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
+          this.renderEmailCapture = true;
+          if (userProfile.veteranStatus === 'NOT_FOUND') {
+            window.dataLayer.push({ events: 'vic-emis-lookup-failed' });
+          } else if (userProfile.veteranStatus === 'SERVER_ERROR') {
+            window.dataLayer.push({ events: 'vic-emis-error' });
+          }
+        } else {
+          window.dataLayer.push({ event: 'vic-authenticated' });
+        }
+      } else {
+        if (serviceRateLimitedUnauthed) {
+          window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
+          this.renderEmailCapture = true;
+        } else {
+          window.dataLayer.push({ event: 'vic-unauthenticated' });
+        }
       }
     }
   }
@@ -66,8 +72,9 @@ const mapStateToProps = (state) => {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
-    serviceRateLimitedAuthed: Math.random() > rateLimitAuthed,
-    serviceRateLimitedUnauthed: Math.random() > rateLimitUnauthed
+    rateLimitAuthed,
+    rateLimitUnauthed,
+    serviceRateLimitedRandomizer
   };
 };
 
