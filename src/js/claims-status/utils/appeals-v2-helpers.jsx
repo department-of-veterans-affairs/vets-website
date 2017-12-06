@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from 'moment';
+
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   nod: 'nod',
@@ -306,4 +308,8 @@ export function getAlertContent(alert) {
         type,
       };
   }
+}
+
+export function formatDate(date) {
+  return moment(date, 'YYYY-MM-DD').format('MMMM d, YYYY');
 }

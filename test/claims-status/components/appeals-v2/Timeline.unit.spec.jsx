@@ -6,73 +6,51 @@ import Timeline from '../../../../src/js/claims-status/components/appeals-v2/Tim
 
 import { getEventContent } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 
-const defaultProps = {
-  events: [
-    {
-      type: 'claim',
-      date: '2016-05-30',
-      details: {}
-    },
-    {
-      type: 'nod',
-      date: '2016-06-10',
-      details: {}
-    }
-  ],
-  currentStatus: {
-    title: 'Current Status Title',
-    description: 'Status description here'
-  }
-};
-
 describe('<Timeline/>', () => {
-  // We get a warning to not attach the DOM directly to document.body, so create a wrapper element
-  // Note: Be sure to .detach() the DOM from the wrapper when the test is finished!
-  const wrapper = document.createElement('div');
-  document.body.appendChild(wrapper);
-
-  // window.scrollTo isn't implemented, so just stub it out to avoid the warning
-  const oldScrollTo = window.scrollTo;
-
-  before(() => {
-    window.scrollTo = () => {};
-  });
-
-  after(() => {
-    window.scrollTo = oldScrollTo;
-  });
-
-  // Use this if you have to attach the DOM to an element
-  let mountedWrapper;
-
-  afterEach(() => {
-    // If it's been used, cleanup the mess.
-    // This is out here in case a test fails and the .detach() call at the end of the test
-    //  doesn't get run.
-    if (typeof mountedWrapper !== 'undefined' && mountedWrapper.unmount) {
-      mountedWrapper.detach();
-      mountedWrapper.unmount();
+  const defaultProps = {
+    events: [
+      {
+        type: 'claim',
+        date: '2016-05-30',
+        details: {}
+      },
+      {
+        type: 'nod',
+        date: '2016-06-10',
+        details: {}
+      }
+    ],
+    currentStatus: {
+      title: 'Current Status Title',
+      description: 'Status description here'
     }
-  });
+  };
 
   it('should render', () => {
     const component = shallow(<Timeline {...defaultProps}/>);
     expect(component.type()).to.equal('div');
   });
 
-  it('should expand and collapse past history events', () => {
-    mountedWrapper = mount(<Timeline {...defaultProps}/>, { attachTo: wrapper });
-    const expander = mountedWrapper.find('.section-unexpanded button');
-    expect(expander.exists()).to.be.true;
+  it('should render an expander', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const expander = wrapper.find('Expander');
+    expect(expander.type()).to.equal('li');
+  });
 
-    expander.simulate('click');
+  it('should not render past events by default', () => {
 
-    const collapser = mountedWrapper.find('.section-expanded button');
-    expect(collapser.exists()).to.be.true;
+  });
 
-    collapser.simulate('click');
+  it('should render past events when state toggled', () => {
 
-    expect(mountedWrapper.find('.section-unexpanded button').exists()).to.be.true;
+  });
+
+  it('should hide past events when state is toggled', () => {
+
+  });
+
+  it('should always render the current event', () => {
+
   });
 
   it('should render CurrentStatus', () => {
