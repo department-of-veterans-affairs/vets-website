@@ -11,7 +11,7 @@ relatedlinks:
     links:
     - url: /education/
       title: Education Benefits
-      description: Apply for and manage education benefits (like Post-9/11 GI Bill benefits) that can help you pay for college and training programs.
+      description: Apply for and manage education benefits (like Post-9/11 GI Bill benefits) that you can use to pay for college and training programs.
     - url: /housing-assistance/
       title: Housing Assistance
       description: Find out if you qualify for a VA home loan or a housing grant to help you live more independently with your service-connected disability.
@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability and you’re currently in pre-discharge status, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program, depending on where you're stationed.
+If you have a service-connected disability and you’re currently in pre-discharge status, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program.
 
 </div>
 
@@ -29,29 +29,29 @@ If you have a service-connected disability and you’re currently in pre-dischar
 You can use the BDD program if:
 -	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
 - You have a known separation date, **and**
--	Your separation date is within the next 180 to 90 days
+-	Your separation date is in the next 180 to 90 days
 
 <br>
 
 ### What if I have less than 90 days left on active duty?
-You can't file a BDD claim or add more medical conditions to your initial claim. But you can still file your claim prior to discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
+You can't file a BDD claim or add more medical conditions to your initial claim. But you can still file your claim before discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
 [Learn about the application process](/disability-benefits/apply/).</br>
-[Learn about the evidence needed for fully developed and standard claims](/disability-benefits/apply/evidence/).
+[Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
 
-### Is there any other reason I wouldn't be able to use the BDD program?
+### Are there any other reasons I wouldn't be able to use the BDD program?
 Yes. Even if you file your claim in time, you can't use the BDD program if your claim requires special handling because you:
-- Need case management for a serious or very serious injury or illness, **or**
+- Need case management for a serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
 - Are terminally ill, **or**
 - Are awaiting discharge from a VA hospital or military treatment facility, **or**
-- Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany or Yongsan, Korea), **or**
+- Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany, or Yongsan, Korea), **or**
 - Are pregnant, **or**
 - Require a Character of Discharge determination, **or**
-- Can't go to a VA exam during the 45 days after you submit your claim **or**
-- Don't have a copy of your treatment records for your current period of service **or**
-- Added a medical condition to your claim but have fewer than 90 days left on active duty (we will process those conditions after you separate from the military)
+- Can't go to a VA exam during the 45 days after you submit your claim, **or**
+- Don't have a copy of your treatment records for your current period of service, **or**
+- Added a medical condition to your claim but have less than 90 days left on active duty (We'll process the added conditions after you separate from the military.)
 
 </div>
 
@@ -61,22 +61,22 @@ Compensation (monthly payments)
 -----
 
 ### How do I get these disability benefits through the BDD program?
-You'll need to apply. The application process will depend on where you're stationed.
+You'll need to apply. The application process depends on where you're stationed.
 
 #### If you're stationed in the U.S.
-You can apply for benefits online, by mail, or in-person. <br>
+You can apply for benefits online, by mail, or in person. <br>
 [Learn more about how to apply for benefits](/disability-benefits/apply/).
 
 To complete the process you'll need to:
 - Submit your service treatment records along with your application, **and**
-- Be available for 45 days from the date you apply to have a VA medical exam, **and**
-- Finish all phases of the VA/DoD medical separation examination processes before your release from the military
+- Be available for 45 days from the date you apply for a VA medical exam, **and**
+- Finish the VA/DoD medical separation examination process before your release from the military
 
 #### If you're stationed overseas.
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
-**Need help applying?** If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll free at <a href="tel:+18008271000">1-800-827-1000</a>.
+**Need help applying?** If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>.
 
 <br>
 
