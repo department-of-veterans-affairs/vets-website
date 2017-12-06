@@ -6,23 +6,23 @@ plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 5
 relatedlinks:
-  - heading: Get answers to your questions about filing a disability claim
+  - heading: More information about filing disability claims
     links:
-      - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-        title: What’s the fastest way to file a claim?
-        description: ""
-      - url: /disability-benefits/apply/
-        title: How do I file a claim?
-        description: ""
-      - url: /disability-benefits/apply/claim-types/predischarge-claim/
-        title: How do I file while on active duty?
-        description: ""
-      - url: /disability-benefits/apply/one-year/
-        title: How do I file for an illness that started after I was discharged from active duty?
-        description: ""
-      - url: /disability-benefits/after-you-apply/date/
-        title: How does VA decide when my disability compensation starts?
-        description: ""
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: Fastest Way to File a Claim
+      description: "File a fully developed claim—the fastest way to file a benefits claim."
+    - url: /disability-benefits/apply/
+      title: Application Process
+      description: Apply online now, or find out how to apply in person or get help from a trained professional.
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: Pre-discharge Claim
+      description: "If you have a disability and you're currently in predischarge status, file a predischarge disability claim 180 to 90       days before you leave the military."
+    - url: /disability-benefits/apply/one-year/
+      title: Postservice Claim
+      description: "If you have a disability related to military service that didn't appear until after you ended your service, file a         postservice claim."
+    - url: /disability-benefits/after-you-apply/date/
+      title: Effective Date of Claim
+      description: "Learn how VA figures out the effective date for disability claims."
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
