@@ -5,7 +5,8 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
-const rateLimitAuthed = window.settings.vic.rateLimitAuthed;
+const rateLimiteMethod = window.sessionStorage.getItem('vicRateLimitMethod');
+const rateLimitAuthed = rateLimiteMethod === 'unauthenticated' ? window.settings.vic.rateLimitAuthed : 1;
 const rateLimitUnauthed = window.settings.vic.rateLimitUnauthed;
 const serviceRateLimitedRandomizer = Math.random();
 
@@ -38,6 +39,7 @@ class VeteranIDCard extends React.Component {
           window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
           this.renderEmailCapture = true;
         } else {
+          window.sessionStorage.setItem('vicRateLimitMethod', 'unauthenticated');
           window.dataLayer.push({ event: 'vic-unauthenticated' });
         }
       }
