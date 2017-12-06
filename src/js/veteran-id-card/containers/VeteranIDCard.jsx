@@ -5,17 +5,32 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
 
+const rateLimitAuthed = window.settings.vic.rateLimitAuthed;
+const rateLimitUnauthed = window.settings.vic.rateLimitUnauthed;
+
 class VeteranIDCard extends React.Component {
 
   componentDidMount() {
-    if (!this.props.profile.accountType) {
-      window.dataLayer.push({ event: 'vic-unauthenticated' });
+    // Redirect users to email form based on rate limits for unauthed or authed users
+    if (this.props.profile.accountType) {
+      if (this.props.serviceRateLimitedAuthed) {
+        window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
+        this.renderEmailCapture = true;
+      } else {
+        window.dataLayer.push({ event: 'vic-authenticated' });
+      }
+    } else {
+      if (this.props.serviceRateLimitedUnauthed) {
+        window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
+        this.renderEmailCapture = true;
+      } else {
+        window.dataLayer.push({ event: 'vic-unauthenticated' });
+      }
     }
   }
 
   render() {
-    // direct all unauthenticated users to email form
-    if (!this.props.profile.accountType) {
+    if (this.renderEmailCapture) {
       return <EmailCapture/>;
     }
 
@@ -42,6 +57,8 @@ const mapStateToProps = (state) => {
     profile: userState.profile,
     loginUrl: userState.login.loginUrl,
     verifyUrl: userState.login.verifyUrl,
+    serviceRateLimitedAuthed: Math.random() > rateLimitAuthed,
+    serviceRateLimitedUnauthed: Math.random() > rateLimitUnauthed
   };
 };
 
