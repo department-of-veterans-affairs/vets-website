@@ -5,14 +5,14 @@ const HcaHelpers = require('../e2e/hca-helpers.js');
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
-    const reviewUrl = `${url}/review-and-submit`;
+    const reviewUrl = `${url}/review-and-submit?skip`;
     const token = HcaHelpers.initSaveInProgressMock(url, client);
 
     // Ensure introduction page renders.
     client
       .url(reviewUrl)
       .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.schemaform-chapter-accordion-header', Timeouts.slow);  // First render of React may be slow.
+      .waitForElementVisible('.usa-button-primary', Timeouts.slow);  // First render of React may be slow.
 
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
