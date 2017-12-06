@@ -27,6 +27,15 @@ class VeteranIDCard extends React.Component {
         window.dataLayer.push({ event: 'vic-unauthenticated' });
       }
     }
+
+    if (this.renderEmailCapture === true ){
+      // Report if they will see an error message around eMIS status
+      if (this.props.profile.veteranStatus === 'NOT_FOUND') {
+        window.dataLayer.push({ events: 'vic-emis-lookup-failed' });
+      } else if (this.props.profile.veteranStatus === 'SERVER_ERROR' ) {
+        window.dataLayer.push({ events: 'vic-emis-error' });
+      }
+    }
   }
 
   render() {
