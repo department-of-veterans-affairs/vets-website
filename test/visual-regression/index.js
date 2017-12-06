@@ -20,13 +20,7 @@ function createRouteHandlerChain(browser, routes, routeHandler) {
       .then(() => new Promise(resolve => browser.url(route, resolve)))
 
       // Hand off the browser and route to the route handler.
-      .then(() => routeHandler(browser, route))
-
-      .catch(err => {
-        console.log(`An error occurred on route ${route}`);
-        console.log(err);
-        console.log(err.stack);
-      });
+      .then(() => routeHandler(browser, route));
 
   }, Promise.resolve());
 }
@@ -88,8 +82,8 @@ function beginApplication(browser) {
       .then(() => browser.closeWindow())
 
       // Tell Nighwatch we're finished.
-      .then(done)
-      .catch(err => console.log(err.stack));
+      .then(done);
+    // .catch(err => console.log(err.stack));
   });
 }
 
