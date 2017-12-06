@@ -106,3 +106,10 @@
     }
   }
 }
+
+.sip-application-error {
+  background-size: 4.2rem;
+  > .usa-alert-body {
+    padding-left: 3.5rem;
+  }
+}
