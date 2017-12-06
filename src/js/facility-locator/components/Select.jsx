@@ -115,9 +115,8 @@ class Select extends Component {
 
   render() {
     const { optionType, currentQuery, isMobile, hasIcons } = this.props;
-    const { facilityType, serviceType } = currentQuery;
-    const disabled = optionType === 'service' && !['benefits', 'vet_center'].includes(facilityType);
-    let queryType = optionType === 'service' ? serviceType : facilityType;
+    const disabled = noServices(optionType, currentQuery.facilityType);
+    let queryType = currentQuery[`${optionType}Type`];
     if (!queryType) {
       if (optionType === 'service') {
         queryType = 'All';
@@ -137,6 +136,7 @@ class Select extends Component {
         <button
           onKeyDown={e => this.navigateDropdown(e, optionType)}
           className={dropdownClasses}
+          disabled={disabled}
           ref={elem => { this.dropdown = elem; }}
           aria-expanded="false"
           aria-labelledby={`${optionType}-label`}

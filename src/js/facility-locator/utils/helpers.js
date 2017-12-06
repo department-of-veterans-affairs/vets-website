@@ -57,7 +57,7 @@ export function isToggle(keyEvent, isActive) {
 }
 
 export function noServices(type, facilityType) {
-  return !['benefits', 'vet_center'].includes(facilityType);
+  return type === 'service' && !['benefits', 'vet_center'].includes(facilityType);
 }
 
 export function getServices(facilityType, benefitsServices, vetCenterServices) {
