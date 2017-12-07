@@ -13,7 +13,7 @@ import {
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from './save-load-actions';
+} from './save-in-progress/save-load-actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
@@ -68,7 +68,8 @@ class FormApp extends React.Component {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
-    const devRedirect = __BUILDTYPE__ !== 'development' || currentLocation.search.includes('redirect');
+    const devRedirect = (__BUILDTYPE__ !== 'development' && !currentLocation.search.includes('skip'))
+      || currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
     if (isInProgress(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
@@ -112,9 +113,6 @@ class FormApp extends React.Component {
         action = 'replace';
       }
       newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
-    } else if (newProps.savedStatus !== this.props.savedStatus &&
-      newProps.savedStatus === SAVE_STATUSES.success) {
-      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
@@ -125,6 +123,11 @@ class FormApp extends React.Component {
       || ((oldProps.savedStatus !== this.props.savedStatus &&
       this.props.savedStatus === SAVE_STATUSES.pending))) {
       scrollToTop();
+    }
+
+    if (this.props.savedStatus !== oldProps.savedStatus &&
+      this.props.savedStatus === SAVE_STATUSES.success) {
+      this.props.router.push(`${this.props.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 

@@ -2,24 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
+import _ from 'lodash/fp';
 
 import SchemaForm from './SchemaForm';
-import SaveFormLink from './SaveFormLink';
-import SaveStatus from './SaveStatus';
 import ProgressButton from '../components/form-elements/ProgressButton';
-import { focusElement, getActivePages } from '../utils/helpers';
-import { expandArrayPages } from './helpers';
-import { setData, uploadFile } from './actions';
-import {
-  PREFILL_STATUSES,
-  saveErrors,
-  autoSaveForm,
-  saveAndRedirectToReturnUrl
-} from './save-load-actions';
+import { setData, uploadFile } from '../actions';
+import { getNextPagePath, getPreviousPagePath } from './routing';
 
-import { toggleLoginModal } from '../../login/actions';
+import { focusElement } from '../utils/helpers';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');
@@ -39,23 +30,9 @@ const scrollToTop = () => {
   });
 };
 
-/*
- * Component for regular form pages (i.e. not on the review page). Handles moving back
- * and forward through pages
- */
 class FormPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-    this.autoSave = this.autoSave.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.goBack = this.goBack.bind(this);
-    this.getEligiblePages = this.getEligiblePages.bind(this);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
-  }
-
   componentDidMount() {
-    if (!saveErrors.has(this.props.form.savedStatus)) {
+    if (!this.props.blockScrollOnMount) {
       scrollToTop();
       focusForm();
     }
@@ -69,7 +46,7 @@ class FormPage extends React.Component {
     }
   }
 
-  onChange(formData) {
+  onChange = (formData) => {
     let newData = formData;
     if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
@@ -77,11 +54,10 @@ class FormPage extends React.Component {
       newData = _.set([this.props.route.pageConfig.arrayPath, this.props.params.index], formData, this.props.form.data);
     }
     this.props.setData(newData);
-    this.debouncedAutoSave();
   }
 
-  onSubmit({ formData }) {
-    const { route, params, form } = this.props;
+  onSubmit = ({ formData }) => {
+    const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
@@ -90,53 +66,34 @@ class FormPage extends React.Component {
       this.props.setData(newData);
     }
 
-    const { pages, pageIndex } = this.getEligiblePages();
-    this.props.router.push(pages[pageIndex + 1].path);
+    const path = getNextPagePath(route.pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
   }
 
-  /*
-   * Returns the page list without conditional pages that have not satisfied
-   * their dependencies and therefore should be skipped.
-   */
-  getEligiblePages() {
-    const { form, route: { pageConfig, pageList } } = this.props;
-    const eligiblePageList = getActivePages(pageList, form.data);
-    // Any `showPagePerItem` pages are expanded to create items for each array item.
-    // We update the `path` for each of those pages to replace `:index` with the current item index.
-    const expandedPageList = expandArrayPages(eligiblePageList, form.data);
-    // We can’t check the pageKey for showPagePerItem pages, because multiple pages will match
-    const pageIndex = pageConfig.showPagePerItem
-      ? _.findIndex(item => item.path === this.props.location.pathname, expandedPageList)
-      : _.findIndex(item => item.pageKey === pageConfig.pageKey, expandedPageList);
-    return { pages: expandedPageList, pageIndex };
-  }
+  goBack = () => {
+    const { form, route: { pageList }, location } = this.props;
+    const path = getPreviousPagePath(pageList, form.data, location.pathname);
 
-  autoSave() {
-    const { form, user } = this.props;
-    if (!form.disableSave && user.login.currentlyLoggedIn) {
-      const data = form.data;
-      const { formId, version } = form;
-      const returnUrl = this.props.location.pathname;
-
-      this.props.autoSaveForm(formId, data, version, returnUrl);
-    }
-  }
-
-  goBack() {
-    const { pages, pageIndex } = this.getEligiblePages();
-    // if we found the current page, go to previous one
-    // if not, go back to the beginning because they shouldn’t be here
-    const page = pageIndex >= 0 ? pageIndex - 1 : 0;
-    this.props.router.push(pages[page].path);
+    this.props.router.push(path);
   }
 
   render() {
-    const { route, params, form, user } = this.props;
+    const {
+      route,
+      params,
+      form,
+      contentAfterButtons,
+      prefilled
+    } = this.props;
+
     let {
       schema,
       uiSchema
     } = form.pages[route.pageConfig.pageKey];
+
     let data = form.data;
+
     if (route.pageConfig.showPagePerItem) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
@@ -156,8 +113,8 @@ class FormPage extends React.Component {
           schema={schema}
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
+          prefilled={prefilled}
           uploadFile={this.props.uploadFile}
-          prefilled={this.props.form.prefillStatus === PREFILL_STATUSES.success}
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
@@ -176,18 +133,7 @@ class FormPage extends React.Component {
                 afterText="»"/>
             </div>
           </div>
-          {!form.disableSave && <SaveStatus
-            isLoggedIn={user.login.currentlyLoggedIn}
-            showLoginModal={user.login.showModal}
-            toggleLoginModal={this.props.toggleLoginModal}
-            form={form}>
-          </SaveStatus>}
-          {!form.disableSave && <SaveFormLink
-            locationPathname={this.props.location.pathname}
-            form={form}
-            user={this.props.user}
-            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-            toggleLoginModal={this.props.toggleLoginModal}/>}
+          {contentAfterButtons}
         </SchemaForm>
       </div>
     );
@@ -203,9 +149,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setData,
-  saveAndRedirectToReturnUrl,
-  autoSaveForm,
-  toggleLoginModal,
   uploadFile
 };
 

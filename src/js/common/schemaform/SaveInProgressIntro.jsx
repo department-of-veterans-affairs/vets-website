@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 
 import { toggleLoginModal } from '../../login/actions';
-import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
+import { fetchInProgressForm, removeInProgressForm } from './save-in-progress/save-load-actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 

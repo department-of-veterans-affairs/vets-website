@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import SignInLink from '../components/SignInLink';
+import SignInLink from '../../components/SignInLink';
 import { SAVE_STATUSES, saveErrors } from './save-load-actions';
 
 class SaveStatus extends React.Component {
