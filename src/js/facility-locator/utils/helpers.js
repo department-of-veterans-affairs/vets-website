@@ -17,10 +17,7 @@ export function getSelection(options, queryType) {
   let selection = options[0];
   if (queryType) {
     const selectionType = queryType;
-    selection = options.reduce((acc, elem) => {
-      if (elem.id && elem.id === selectionType) acc = elem; // eslint-disable-line no-param-reassign
-      return acc;
-    }, selection);
+    selection = options.find((item) => item.id === selectionType);
   }
   return { selection, id: options.indexOf(selection) };
 }
