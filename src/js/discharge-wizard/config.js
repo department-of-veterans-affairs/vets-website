@@ -53,7 +53,7 @@ export const questionLabels = {
     '1': 'I applied to a Discharge Review Board (DRB) for a Documentary Review',
     '2': 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review',
     '3': 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)',
-    '4': 'I\'m not sure what type of application I made when I was previously denied an upgrade',
+    '4': 'I\'m not sure what kind of discharge upgrade application I previously made.',
   },
   '11_priorService': {
     '1': 'I have discharge paperwork documenting a discharge under honorable or general under honorable conditions.',
