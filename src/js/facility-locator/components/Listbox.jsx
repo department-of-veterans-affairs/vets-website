@@ -20,7 +20,7 @@ class Listbox extends Component {
     return (
       <ul
         className="dropdown"
-        role={!this.props.isDisabled ? 'listbox' : undefined}
+        role="listbox"
         id="service-list">
         {services && services.map((k, i) => {
           const defaultSelected = !serviceType && k === 'All';
@@ -141,20 +141,20 @@ class Listbox extends Component {
             <div className="flex-center">
               {this.renderSelectButtonWithIcon(facilityType)}
             </div>
-            <ul
-              role={!isDisabled ? 'listbox' : undefined}
+            {!isDisabled && <ul
+              role="listbox"
               className="dropdown">
               {this.renderSelectOptionWithIcon(null, 0)}
               {this.renderSelectOptionWithIcon('health', 1)}
               {this.renderSelectOptionWithIcon('benefits', 2)}
               {this.renderSelectOptionWithIcon('cemetery', 3)}
               {this.renderSelectOptionWithIcon('vet_center', 4)}
-            </ul>
+            </ul>}
           </div>}
         {!hasIcons &&
           <div>
             {this.renderSelectOption(serviceType, isMobile)}
-            {this.renderSelectOptions()}
+            {!isDisabled && this.renderSelectOptions()}
           </div>}
       </div>
     );
