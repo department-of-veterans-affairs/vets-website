@@ -51,7 +51,7 @@ Yes. Even if you file your claim in time, you can't use the BDD program if your 
 - Require a Character of Discharge determination, **or**
 - Can't go to a VA exam during the 45 days after you submit your claim, **or**
 - Don't have a copy of your treatment records for your current period of service, **or**
-- Added a medical condition to your claim but have less than 90 days left on active duty (We'll process the added conditions after you separate from the military.)
+- Added a medical condition to your claim but have less than 90 days left on active duty (we'll process the added conditions after you separate from the military)
 
 </div>
 
