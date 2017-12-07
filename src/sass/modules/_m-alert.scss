@@ -1,4 +1,4 @@
-.va-alert {
+/*.va-alert {
   color: $color-gray-dark !important;
   position: relative;
 
@@ -14,7 +14,7 @@
     font: inherit;
     color: inherit;
   }
-}
+}*/
 
 .va-alert-close {
   background: transparent;
@@ -44,6 +44,8 @@
 
 .usa-alert {
   // min-height: 70px;
+  background-size: 2.8rem;
+  background-position: 1.7rem 2.8rem;
 
   &.va-crisis-alert {
     background-size:4.5rem;
