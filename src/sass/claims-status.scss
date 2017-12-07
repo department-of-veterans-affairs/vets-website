@@ -658,14 +658,17 @@ h1:focus {
   .section-unexpanded:before {
     font-family: FontAwesome;
     content: "\f067";
-    // new stuff
     color: $color-primary;
-    background-color: transparent;
+    background-color: $color-white;
+    border-color: $color-primary;
   }
 
   .section-expanded:before {
     font-family: FontAwesome;
     content: "\f068";
+    color: $color-primary;
+    background-color: $color-white;
+    border-color: $color-primary;
   }
 
   .section-current {
