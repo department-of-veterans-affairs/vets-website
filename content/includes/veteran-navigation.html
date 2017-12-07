@@ -7,13 +7,13 @@
           <button
             aria-controls="vetnav-explore"
             class="vetnav-level1 vetnav-trigger"
-            aria-expanded="false">Explore benefits</button>
+            aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-top-level' })";>Explore benefits</button>
           <div id="vetnav-explore" class="vetnav-panel" hidden>
             <ul>
             <li>
               <button class="vetnav-level2 vetnav-trigger"
                 aria-expanded="false"
-                aria-controls="vetnav-disability">Disability</button>
+                aria-controls="vetnav-disability" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Disability</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-disability" hidden>
                 <li>
                   <button
@@ -33,7 +33,7 @@
             </li>
 
             <li>
-              <button class="vetnav-level2 vetnav-trigger" aria-controls="vetnav-healthcare">Health care</button>
+              <button class="vetnav-level2 vetnav-trigger" aria-controls="vetnav-healthcare" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Health care</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-healthcare" hidden>
                 <li>
                   <button
@@ -58,7 +58,7 @@
               <button
                 class="vetnav-level2 vetnav-trigger"
                 aria-controls="vetnav-edu"
-                aria-expanded="false">Education &amp; training</button>
+                aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Education &amp; training</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-edu" hidden>
                 <li>
                   <button
@@ -80,7 +80,7 @@
               <button
                  class="vetnav-level2 vetnav-trigger"
                  aria-controls="vetnav-housing"
-                 aria-expanded="false">Housing assistance</button>
+                 aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Housing assistance</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-housing" hidden>
                <li>
                  <button
@@ -98,7 +98,7 @@
               <button
                   class="vetnav-level2 vetnav-trigger"
                   aria-controls="vetnav-careers"
-                  aria-expanded="false">Careers &amp; employment</button>
+                  aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Careers &amp; employment</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-careers" hidden>
                 <li>
                   <button
@@ -118,7 +118,7 @@
               <button
                 class="vetnav-level2 vetnav-trigger"
                 aria-controls="vetnav-lifeinsurance"
-                aria-expanded="false">Life insurance</button>
+                aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Life insurance</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-lifeinsurance" hidden>
                 <li>
                   <button
@@ -138,7 +138,7 @@
               <button
                   class="vetnav-level2 vetnav-trigger"
                   aria-controls="vetnav-pension"
-                  aria-expanded="false">Pension</button>
+                  aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Pension</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-pension" hidden>
                 <li>
                   <button
@@ -158,7 +158,7 @@
               <button
                 class="vetnav-level2 vetnav-trigger"
                 aria-controls="vetnav-burials"
-                aria-expanded="false">Burials &amp; memorials</button>
+                aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-second-level' })";>Burials &amp; memorials</button>
               <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-burials" hidden>
                 <li>
                   <button
@@ -180,7 +180,7 @@
         </li>
 
         <li>
-          <button class="vetnav-level1 vetnav-trigger" aria-controls="vetnav-benefits" aria-expanded="false">Manage your health &amp; benefits</button>
+          <button class="vetnav-level1 vetnav-trigger" aria-controls="vetnav-benefits" aria-expanded="false" onClick="window.dataLayer.push({ event: 'nav-header-top-level' })";>Manage your health &amp; benefits</button>
           <div class="vetnav-panel" id="vetnav-benefits" hidden>
             <ul>
               <li><a class="login-required" href="/health-care/prescriptions/" onClick="reportHeaderNav('Manage Health and Benefits');">Refill prescriptions</a></li>
@@ -202,8 +202,8 @@
 <script>
 function reportHeaderNav(navpath) {
   window.dataLayer.push({
-    event: 'nav-header',
-    navpath: navpath
+    event: 'nav-header-link',
+    'nav-path': navpath
   });
 }
 </script>
