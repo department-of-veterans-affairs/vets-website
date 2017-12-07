@@ -141,6 +141,8 @@ class Select extends Component {
       <div onBlur={this.handleBlur} className="columns usa-width-one-fourth medium-3">
         <label htmlFor={`${optionType}Type`} id={`${optionType}-label`}>{`Select ${titleType} Type`}</label>
         <div
+          tabIndex="0"
+          role="button"
           onKeyDown={e => this.navigateDropdown(e, optionType)}
           className={dropdownClasses}
           disabled={disabled}
