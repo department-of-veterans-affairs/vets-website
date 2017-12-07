@@ -321,6 +321,8 @@ function initSaveInProgressMock(url, client) {
     .waitForElementVisible('body', Timeouts.normal);
 
   LoginHelpers.setUserToken(token, client);
+
+  return token;
 }
 module.exports = {
   completePersonalInformation,
