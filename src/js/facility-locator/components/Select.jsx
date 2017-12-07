@@ -110,8 +110,6 @@ class Select extends Component {
   focusOption = (option, index) => {
     if (option) {
       option.focus();
-    }
-    if (this.options[index]) {
       this.setState({
         focusedIndex: index
       });
