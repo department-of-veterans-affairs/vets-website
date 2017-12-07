@@ -158,6 +158,7 @@ class Select extends Component {
             navigateDropdown={this.navigateDropdown}
             handleFilterSelect={this.handleFilterSelect}
             options={this.options}
+            addOptionRef={this.addOptionRef}
             resetOptions={this.resetOptions}
             dropdownActive={this.dropdownActive}
             hasIcons={hasIcons}/>
