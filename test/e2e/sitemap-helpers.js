@@ -27,6 +27,7 @@ function sitemapURLs(callback) {
         // which violates WCAG 2.0 standards. This element id is referenced by
         // https://search.usa.gov/assets/sayt_loader_libs.js, so if we change the ID
         // of one of the elements, search won't work.
+        '/facilities/',
         '/404.html'
       ];
 
