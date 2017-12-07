@@ -45,13 +45,13 @@ Yes. Even if you file your claim in time, you can't use the BDD program if your 
 - Need case management for a serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
 - Are terminally ill, **or**
-- Are awaiting discharge from a VA hospital or military treatment facility, **or**
+- Are waiting to be discharged while being treated at a VA hospital or other military treatment facility, **or**
 - Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany, or Yongsan, Korea), **or**
 - Are pregnant, **or**
-- Require a Character of Discharge determination, **or**
-- Can't go to a VA exam during the 45 days after you submit your claim, **or**
-- Don't have a copy of your treatment records for your current period of service, **or**
-- Added a medical condition to your claim but have less than 90 days left on active duty (we'll process the added conditions after you separate from the military)
+- Are waiting for us to determine your Character of Discharge, **or**
+- Can't go to a VA exam during the 45 day period after you submit your claim, **or**
+- Didn't submit copies of your treatment records for your current period of service, **or**
+- Added a medical condition to your original claim when you had less than 90 days left on active duty (**Note:** We'll process the added conditions after your discharge.)
 
 </div>
 
