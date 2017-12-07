@@ -174,9 +174,8 @@ describe('getLettersList', () => {
       ok: true,
       json: () => Promise.resolve(lettersResponse)
     }));
-    const thunk = getLetterList();
     const dispatch = sinon.spy();
-    thunk(dispatch, getState)
+    getLetterList(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_SUCCESS);
@@ -186,9 +185,8 @@ describe('getLettersList', () => {
 
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', (done) => {
     global.fetch.returns(Promise.reject(new Error('something went wrong')));
-    const thunk = getLetterList();
     const dispatch = sinon.spy();
-    thunk(dispatch, getState)
+    getLetterList(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_FAILURE);
@@ -209,9 +207,8 @@ describe('getLettersList', () => {
         errors: [{ status: `${code}` }]
       }));
 
-      const thunk = getLetterList();
       const dispatch = sinon.spy();
-      thunk(dispatch, getState)
+      getLetterList(dispatch)
         .then(() => {
           const action = dispatch.firstCall.args[0];
           expect(action.type).to.equal(lettersErrors[code]);
@@ -386,10 +383,9 @@ describe('getBenefitSummaryOptions', () => {
       ok: true,
       json: () => Promise.resolve(mockResponse)
     }));
-    const thunk = getBenefitSummaryOptions();
     const dispatch = sinon.spy();
 
-    thunk(dispatch, getState)
+    getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
         const action = dispatch.args[0][0]; // first call, first arg
         expect(action.type).to.equal(GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS);
@@ -399,10 +395,9 @@ describe('getBenefitSummaryOptions', () => {
 
   it('dispatches FAILURE action when GET fails', (done) => {
     global.fetch.returns(Promise.reject({}));
-    const thunk = getBenefitSummaryOptions();
     const dispatch = sinon.spy();
 
-    thunk(dispatch, getState)
+    getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
         expect(dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })).to.be.true;
       }).then(done, done);
