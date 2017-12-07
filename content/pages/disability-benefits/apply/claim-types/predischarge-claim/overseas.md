@@ -11,7 +11,7 @@ order: 3
 
 <div class="va-introtext">
 
-You can file a disability claim through the Benefits Delivery at Discharge program (BDD) while you’re stationed overseas. You'll need to make sure you have enough time in the country you're in to finish your medical exam, which may include visits to several specialty clinics. 
+You can file a disability claim through the Benefits Delivery at Discharge (BDD) program while you’re stationed overseas. You'll need to make sure you have enough time in the country you're in to finish your medical exam, which may include visits to several specialty clinics. 
 
 
 </div>
