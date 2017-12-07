@@ -40,7 +40,7 @@ class Listbox extends Component {
               className={serviceOptionClasses}
               key={k}
               value={k}
-              ref={ elem => { this.props.options[i] = elem; }}
+              ref={(elem) => {this.props.addOptionRef(elem, i);}}
               id={k}
               onClick={() => this.props.handleFilterSelect(k, 'service')}>
               <span className="flex-center">
@@ -75,8 +75,8 @@ class Listbox extends Component {
         role="option"
         tabIndex={this.props.dropdownActive ? '0' : '-1'}
         aria-selected={isHovered}
-        ref={ elem => { this.props.options[index] = elem; }}
-        id={index > -1 ? (facilityType || 'AllFacilities') : null}
+        ref={(elem) => { this.props.addOptionRef(elem, index);}}
+        id={facilityType || 'AllFacilities'}
         className={facilityOptionClasses}
         onClick={() => this.props.handleFilterSelect(facilityType, 'facility')}
         onKeyDown={this.props.navigateDropdown}>

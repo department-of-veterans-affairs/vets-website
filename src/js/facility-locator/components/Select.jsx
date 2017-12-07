@@ -21,6 +21,10 @@ class Select extends Component {
     this.options = [];
   }
 
+  addOptionRef = (option, index) => {
+    this.options[index] = option;
+  }
+
   handleFilterSelect = (newOption, type) => {
     const { currentQuery } = this.props;
     const queryType = currentQuery[`${type}Type`];
