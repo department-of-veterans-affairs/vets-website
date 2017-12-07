@@ -4,7 +4,8 @@ import { truncate, kebabCase } from 'lodash';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import { getServices } from '../utils/helpers.js';
 
-const mobileLength = 38; // TODO(ceh): add comment regarding these magic numbers
+// These values determine how long dropdown text is, according to the viewport
+const mobileLength = 38;
 const notMobileLength = 27;
 
 class Listbox extends Component {
