@@ -47,4 +47,4 @@ We can help Servicemembers, Veterans, and family members plan a burial or memori
 
 </div>
 
-<div id="react-applicationStatus" data-hide-apply-button></div>
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
