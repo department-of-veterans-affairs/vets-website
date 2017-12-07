@@ -85,11 +85,11 @@ describe('getEnrollmentData', () => {
             status: 'Approved',
             amendments: [
               {
-                onCampusHours: 'Unknown Type: number,null',
-                onlineHours: 'Unknown Type: number,null',
-                yellowRibbonAmount: 'Unknown Type: number,null',
+                onCampusHours: 8,
+                onlineHours: 0,
+                yellowRibbonAmount: 1,
                 type: 'string',
-                changeEffectiveDate: 'Unknown Type: string,null'
+                changeEffectiveDate: 'No effective date'
               }
             ]
           }
