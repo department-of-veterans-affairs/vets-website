@@ -33,7 +33,7 @@ describe.only('<Timeline/>', () => {
     expect(component.exists()).to.be.true;
   });
 
-  it('should render one expander item', () => {
+  it('should render one expander item if events present', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
     const expander = wrapper.find('Expander');
     expect(expander.length).to.equal(1);
@@ -60,6 +60,15 @@ describe.only('<Timeline/>', () => {
     wrapper.setState({ expanded: true });
     expect(wrapper.find('PastEvent').length).to.equal(defaultProps.events.length);
   });
+
+  it('should render nothing for past events if no events in list', () => {
+    const props = { ...defaultProps, events: [] };
+    const wrapper = shallow(<Timeline {...props}/>);
+    expect(wrapper.find('PastEvent').length).to.equal(0);
+    wrapper.setState({ expanded: true });
+    expect(wrapper.find('PastEvent').length).to.equal(0);
+  });
+
 
   it('should render one CurrentStatus component', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);

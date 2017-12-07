@@ -27,18 +27,22 @@ class Timeline extends React.Component {
   toggleExpanded = () => this.setState((prevState) => ({ expanded: !prevState.expanded }));
 
   render() {
-    const pastEventsList = this.props.events.map((event, index) => {
-      const { title, description, liClass } = getEventContent(event);
-      const date = formatDate(event.date);
-      return (
-        <PastEvent
-          key={`past-event-${index}`}
-          title={title}
-          date={date}
-          description={description}
-          liClass={liClass}/>
-      );
-    });
+    const { events } = this.props;
+    let pastEventsList = [];
+    if (events[0]) {
+      pastEventsList = events.map((event, index) => {
+        const { title, description, liClass } = getEventContent(event);
+        const date = formatDate(event.date);
+        return (
+          <PastEvent
+            key={`past-event-${index}`}
+            title={title}
+            date={date}
+            description={description}
+            liClass={liClass}/>
+        );
+      });
+    }
 
     let expanderTitle = '';
     let expanderCssClass = '';

@@ -658,6 +658,9 @@ h1:focus {
   .section-unexpanded:before {
     font-family: FontAwesome;
     content: "\f067";
+    // new stuff
+    color: $color-primary;
+    background-color: transparent;
   }
 
   .section-expanded:before {
