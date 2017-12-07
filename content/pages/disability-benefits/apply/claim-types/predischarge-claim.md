@@ -55,7 +55,7 @@ Yes. Even if you file your claim in time, you can't use the BDD program if your 
 
 </div>
 
-### What kinds of disability benefits can I get?
+### What kind of disability benefits can I get?
 Compensation (monthly payments)
 
 -----
@@ -63,7 +63,7 @@ Compensation (monthly payments)
 ### How do I get these disability benefits through the BDD program?
 You'll need to apply. The application process depends on where you're stationed.
 
-#### If you're stationed in the U.S.
+#### Stationed in the U.S.
 You can apply for benefits online, by mail, or in person. <br>
 [Learn more about how to apply for benefits](/disability-benefits/apply/).
 
@@ -72,7 +72,7 @@ To complete the process you'll need to:
 - Be available for 45 days from the date you apply for a VA medical exam, **and**
 - Finish the VA/DoD medical separation examination process before your release from the military
 
-#### If you're stationed overseas.
+#### Stationed overseas
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
