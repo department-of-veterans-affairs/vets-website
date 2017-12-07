@@ -71,20 +71,44 @@ function computeComparisonResult(browser, route, diffFileName, comparisonResult)
 
 // The entry point for this module as a route handler
 function calculateDiff(browser, route) {
-  const [baselineFileName, diffFileName] = getFileNames(route);
-  const operations = [
-    readFile(baselineFileName),
-    takeScreenshot(browser)
-  ];
+  return new Promise((resolve, reject) => {
+    const timeout = 5000;
+    const [baselineFileName, diffFileName] = getFileNames(route);
+    const operations = [
+      readFile(baselineFileName),
+      takeScreenshot(browser)
+    ];
 
-  // Wait for the baseline file to be read and the screenshot operation to complete
-  return Promise.all(operations)
+    let isFinished = false;
 
-    // After reading both images into memory, run the operation used to compare their contents
-    .then(results => executeComparison(...results))
+    // Set a timer just in case something weird happens and causes it to get stuck.
+    /* eslint-disable no-console */
+    setTimeout(() => {
+      if (!isFinished) {
+        console.log(`Operation timed out for the following route: ${route}`);
+        reject();
+      }
+    }, timeout);
 
-    // Process the results from the comparison
-    .then(comparisonResult => computeComparisonResult(browser, route, diffFileName, comparisonResult));
+    Promise.all(operations)
+
+      // After reading both images into memory, run the operation used to compare their contents
+      .then(results => executeComparison(...results))
+
+      // Process the results from the comparison
+      .then(comparisonResult => computeComparisonResult(browser, route, diffFileName, comparisonResult))
+
+      // Calls to the wrapping function used for handling timeouts
+      .then(val => {
+        isFinished = true;
+        resolve(val);
+      })
+
+      .catch(err => {
+        isFinished = true;
+        reject(err);
+      });
+  });
 }
 
 module.exports = calculateDiff;
