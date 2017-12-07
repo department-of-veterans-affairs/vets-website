@@ -95,7 +95,7 @@ export function notQualifiedWarning() {
         </ul>
         <h5>Resources</h5>
         <ul>
-          <li><a target="_blank" href="/education/eligibility">Check Post-9/11 GI Bill benefits eligibility</a></li>
+          <li><a target="_blank" href="/education/eligibility/">Check Post-9/11 GI Bill benefits eligibility</a></li>
           <li>If you’re enrolled in education benefits through another chapter (Montgomery GI Bill (MGIB) or Reservists Educational Assistance Program (REAP)), check our <a target="_blank" href="https://www.gibill.va.gov/wave/index.do">Web Automated Verification of Enrollment (W.A.V.E)</a></li>
         </ul>
       </div>

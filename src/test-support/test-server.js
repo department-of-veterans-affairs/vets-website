@@ -29,7 +29,7 @@ const app = express();
 const root = path.resolve(__dirname, `../../build/${options.buildtype}`);
 app.use(morgan('combined', { skip: (req, _res) => { return req.path.match(/(css|js|gif|jpg|png|svg)$/); } }));
 app.use(express.static(root));
-app.use('/health-care/apply/application', fallback('index.html', { root }));
+app.use('/health-care/apply/application', fallback('/health-care/apply/application/index.html', { root }));
 app.use('/rx', fallback('index.html', { root }));
 app.use('/health-care/messaging', fallback('/health-care/messaging/index.html', { root }));
 app.use('/health-care/prescriptions', fallback('/health-care/prescriptions/index.html', { root }));
