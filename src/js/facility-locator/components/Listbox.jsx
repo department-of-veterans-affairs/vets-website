@@ -13,149 +13,94 @@ class Listbox extends Component {
     return this.props.currentQuery[type] === option;
   }
 
-  renderSelectOptions = () => {
-    const { currentQuery: { facilityType, serviceType } } = this.props;
-    const services = getServices(facilityType, benefitsServices, vetCenterServices);
-    this.props.resetOptions();
-    return (
-      <ul
-        className="dropdown"
-        role="listbox"
-        id="service-list">
-        {services && services.map((k, i) => {
-          const defaultSelected = !serviceType && k === 'All';
-          const isSelected = this.isSelectedOption(k, 'serviceType');
-          const isHovered = defaultSelected || isSelected;
-          const serviceOptionClasses = classNames({
-            'dropdown-option': true,
-            'facility-option': true,
-            'is-hovered': isHovered
-          });
-
-          return (
-            <li
-              tabIndex={this.props.dropdownActive ? '0' : '-1'}
-              role="option"
-              aria-selected={isHovered}
-              className={serviceOptionClasses}
-              key={k}
-              value={k}
-              ref={(elem) => {this.props.addOptionRef(elem, i);}}
-              id={k}
-              onClick={() => this.props.handleFilterSelect(k, 'service')}>
-              <span className="flex-center">
-                <span className="legend spacer"></span>
-                {benefitsServices[k] || k}
-              </span>
-            </li>
-          );
-        })
-        }
-      </ul>
-    );
-  }
-
-  renderSelectOptionWithIcon = (facilityType, index) => {
-    const defaultSelected = !this.props.currentQuery.facilityType && !facilityType;
-    const isSelected = this.isSelectedOption((facilityType), 'facilityType');
-    const isHovered = isSelected || defaultSelected;
-    const facilityOptionClasses = classNames({
-      'dropdown-option': true,
-      'facility-option': true,
-      'is-hovered': isHovered
-    });
-    const facilityIconClasses = classNames({
-      legend: true,
-      spacer: !facilityType,
-      [`${kebabCase(facilityType)}-icon`]: facilityType
-    });
-
-    return (
-      <li
-        role="option"
-        tabIndex={this.props.dropdownActive ? '0' : '-1'}
-        aria-selected={isHovered}
-        ref={(elem) => { this.props.addOptionRef(elem, index);}}
-        id={facilityType || 'AllFacilities'}
-        className={facilityOptionClasses}
-        onClick={() => this.props.handleFilterSelect(facilityType, 'facility')}
-        onKeyDown={this.props.navigateDropdown}>
-        <span className="flex-center">
-          <span className={facilityIconClasses}></span>
-          {facilityTypes[facilityType] || 'All Facilities'}
-        </span>
-      </li>
-    );
-  }
-
-  renderSelectButtonWithIcon = (facilityType) => {
-    const facilityOptionClasses = classNames({
+  renderSelection = () => {
+    const { currentQuery, optionType, isMobile } = this.props;
+    const queryType = currentQuery[`${optionType}Type`];
+    const defaultSelected = !queryType;
+    const isFacility = optionType === 'facility';
+    const hasSpacer = !isFacility ? true : defaultSelected;
+    const optionClasses = classNames({
       'dropdown-option': true,
       'facility-option': true
     });
-    const facilityIconClasses = classNames({
+    const iconClasses = classNames({
       legend: true,
-      spacer: !facilityType,
-      [`${kebabCase(facilityType)}-icon`]: facilityType
+      spacer: hasSpacer,
+      [`${kebabCase(queryType)}-icon`]: !!(queryType && isFacility)
     });
 
-    return (
-      <div
-        id="facilityDropdown"
-        className={facilityOptionClasses}
-        onKeyDown={this.props.navigateDropdown}>
-        <span className="flex-center">
-          <span className={facilityIconClasses}></span>
-          {facilityTypes[facilityType] || 'All Facilities'}
-        </span>
-      </div>
-    );
-  }
-
-  renderSelectOption = (serviceType, isMobile) => {
-    const serviceOptionClasses = classNames({
-      'dropdown-option': true,
-      'facility-option': true
-    });
     return (
       <div className="flex-center">
         <div
-          id="serviceDropdown"
-          className={serviceOptionClasses}>
+          id={`${optionType}Dropdown`}
+          className={optionClasses}>
           <span className="flex-center">
-            <span className="legend spacer"></span>
-            {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? mobileLength : notMobileLength) })}
+            <span className={iconClasses}></span>
+            {isFacility && (facilityTypes[queryType] || 'All Facilities')}
+            {!isFacility && (truncate((benefitsServices[queryType] || queryType || 'All'), { length: (isMobile ? mobileLength : notMobileLength) }))}
           </span>
         </div>
       </div>
     );
   }
 
+  renderList = () => {
+    const facilities = ['AllFacilities', 'health', 'benefits', 'cemetery', 'vet_center'];
+    const { currentQuery, optionType } = this.props;
+    const isFacility = optionType === 'facility';
+    const { facilityType } = currentQuery;
+    const services = getServices(facilityType, benefitsServices, vetCenterServices);
+    const queryType = currentQuery[`${optionType}Type`];
+    const listOptions = optionType === 'facility' ? facilities : services;
+    this.props.resetOptions();
+
+    return (
+      <ul
+        className="dropdown"
+        role="listbox">
+        {listOptions && listOptions.map((type, index) => {
+          const isDefault = index === 0;
+          const defaultSelected = !queryType && isDefault;
+          const isSelected = this.isSelectedOption(type, `${optionType}Type`);
+          const hasSpacer = isFacility ? index === 0 : true;
+          const isHovered = isSelected || defaultSelected;
+          const optionClasses = classNames({
+            'dropdown-option': true,
+            'facility-option': true,
+            'is-hovered': isHovered
+          });
+          const iconClasses = classNames({
+            legend: true,
+            spacer: hasSpacer,
+            [`${kebabCase(type)}-icon`]: index && isFacility
+          });
+          return (
+            <li
+              role="option"
+              tabIndex={this.props.dropdownActive ? '0' : '-1'}
+              aria-selected={isHovered}
+              ref={(elem) => { this.props.addOptionRef(elem, index);}}
+              id={type}
+              key={type}
+              className={optionClasses}
+              onClick={() => this.props.handleFilterSelect(type, optionType)}
+              onKeyDown={this.props.navigateDropdown}>
+              <span className="flex-center">
+                <span className={iconClasses}></span>
+                {isFacility && (facilityTypes[type] || 'All Facilities')}
+                {!isFacility && (benefitsServices[type] || type)}
+              </span>
+            </li>);
+        })}
+      </ul>
+    );
+  }
+
   render() {
-    const { hasIcons, isMobile, isDisabled } = this.props;
-    const { currentQuery: { facilityType, serviceType } } = this.props;
     return (
       <div>
-        {hasIcons &&
-          <div>
-            <div className="flex-center">
-              {this.renderSelectButtonWithIcon(facilityType)}
-            </div>
-            {!isDisabled && <ul
-              role="listbox"
-              className="dropdown">
-              {this.renderSelectOptionWithIcon(null, 0)}
-              {this.renderSelectOptionWithIcon('health', 1)}
-              {this.renderSelectOptionWithIcon('benefits', 2)}
-              {this.renderSelectOptionWithIcon('cemetery', 3)}
-              {this.renderSelectOptionWithIcon('vet_center', 4)}
-            </ul>}
-          </div>}
-        {!hasIcons &&
-          <div>
-            {this.renderSelectOption(serviceType, isMobile)}
-            {!isDisabled && this.renderSelectOptions()}
-          </div>}
+        {this.renderSelection()}
+        {this.renderList()}
       </div>
     );
   }

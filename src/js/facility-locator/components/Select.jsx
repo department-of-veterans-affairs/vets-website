@@ -62,7 +62,6 @@ class Select extends Component {
     const which = e.target;
     if (isToggle(e, isActive)) {
       const code = e.keyCode;
-      // if (toggles.contains(code) || isEscape(code)) e.preventDefault();
       if (toggles.includes(code)) e.preventDefault();
       if (isActive && isSelect(e.keyCode)) {
         this.handleFilterSelect(which.id, type);
@@ -121,7 +120,7 @@ class Select extends Component {
   }
 
   render() {
-    const { optionType, currentQuery, isMobile, hasIcons } = this.props;
+    const { optionType, currentQuery, isMobile } = this.props;
     const disabled = noServices(optionType, currentQuery.facilityType);
     let queryType = currentQuery[`${optionType}Type`];
     if (!queryType) {
@@ -160,8 +159,7 @@ class Select extends Component {
             options={this.options}
             addOptionRef={this.addOptionRef}
             resetOptions={this.resetOptions}
-            dropdownActive={this.dropdownActive}
-            hasIcons={hasIcons}/>
+            dropdownActive={this.dropdownActive}/>
         </div>
       </div>
     );

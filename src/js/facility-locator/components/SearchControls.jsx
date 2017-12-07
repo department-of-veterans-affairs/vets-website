@@ -57,7 +57,6 @@ class SearchControls extends Component {
             currentQuery={currentQuery}
             updateSearchQuery={this.props.updateSearchQuery}
             onChange={onChange}
-            hasIcons
             isMobile={this.props.isMobile}/>
           <SelectComponent
             optionType="service"
