@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { truncate, kebabCase } from 'lodash';
+import _ from 'lodash';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import { getServices } from '../utils/helpers.js';
 
@@ -27,7 +27,7 @@ class Listbox extends Component {
     const iconClasses = classNames({
       legend: true,
       spacer: hasSpacer,
-      [`${kebabCase(queryType)}-icon`]: !!(queryType && isFacility)
+      [`${_.kebabCase(queryType)}-icon`]: !!(queryType && isFacility)
     });
 
     return (
@@ -38,7 +38,7 @@ class Listbox extends Component {
           <span className="flex-center">
             <span className={iconClasses}></span>
             {isFacility && (facilityTypes[queryType] || 'All Facilities')}
-            {!isFacility && (truncate((benefitsServices[queryType] || queryType || 'All'), { length: (isMobile ? mobileLength : notMobileLength) }))}
+            {!isFacility && (_.truncate((benefitsServices[queryType] || queryType || 'All'), { length: (isMobile ? mobileLength : notMobileLength) }))}
           </span>
         </div>
       </div>
@@ -73,7 +73,7 @@ class Listbox extends Component {
           const iconClasses = classNames({
             legend: true,
             spacer: hasSpacer,
-            [`${kebabCase(type)}-icon`]: index && isFacility
+            [`${_.kebabCase(type)}-icon`]: index && isFacility
           });
           return (
             <li
