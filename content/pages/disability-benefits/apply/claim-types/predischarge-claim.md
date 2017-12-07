@@ -70,7 +70,7 @@ You can apply for benefits online, by mail, or in person. <br>
 To complete the process you'll need to:
 - Submit your service treatment records along with your application, **and**
 - Be available for 45 days from the date you apply for a VA medical exam, **and**
-- Finish the VA/DoD medical separation examination process before your release from the military
+- Finish all phases of the VA/DoD medical separation examination process before your release from the military
 
 #### Stationed overseas
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
