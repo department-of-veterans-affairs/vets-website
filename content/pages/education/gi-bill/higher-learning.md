@@ -46,11 +46,11 @@ The school decides how to rate each hour. For example, if a graduate program at 
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Can I take classes at more than 1 school at a time?</h3>
+<h3 itemprop="name">Can I take classes at more than one school at a time?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can take classes at more than 1 school under the GI Bill as long as:
+You can take classes at more than one school under the GI Bill as long as:
 - The classes at both schools count toward your degree, **and**
 - The school granting your degree considers the classes at the second school to be required in order to get your degree
 
@@ -63,11 +63,11 @@ You can take classes at more than 1 school under the GI Bill as long as:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Can I get more than 1 degree under the GI Bill?</h3>
+<h3 itemprop="name">Can I get more than one degree under the GI Bill?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-The GI Bill will pay you for the classes you need to get more than 1 degree. Once you earn a degree, you can work toward another one if you still have GI Bill benefits left.
+The GI Bill will pay you for the classes you need to get more than one degree. Once you earn a degree, you can work toward another one if you still have GI Bill benefits left.
 
 </div>
 </div>

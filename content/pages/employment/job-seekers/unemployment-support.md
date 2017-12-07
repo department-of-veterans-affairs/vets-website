@@ -34,15 +34,15 @@ If you can’t find a job after you separate from active-duty service, you may b
 Yes, if:
 
 - You were honorably discharged from active-duty service.
-- You are actively seeking employment.
-- You are no longer on terminal leave.
+- You’re actively seeking employment.
+- You’re no longer on terminal leave.
 
 </div>
 </div>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
-<h3 itemprop="name">Who is eligible</h3>
+<h3 itemprop="name">Who’s eligible</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -58,19 +58,19 @@ You
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
+You must apply for unemployment benefits in the state where you live. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you’re eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states don’t pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
 
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower.
 
-#### You will need the following documents when you apply:
+#### You’ll need the following documents when you apply:
 
-- DD Form 214
+- A copy of your DD214
 
-- Social security card
+- Social Security card
 
-- Current résumé or military job history
+- Current resume or military job history
 
-If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facilities/) or Community Resource and Referral Center where VA staff are ready to help.
+If you’re unemployed and at risk of becoming homeless, call or visit your [local VA medical center](/facilities/) or Community Resource and Referral Center where VA staff are ready to help.
 
 </div>
 </div>

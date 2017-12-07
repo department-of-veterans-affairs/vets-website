@@ -100,7 +100,7 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-[Go to a regional benefits office](https://www.benefits.va.gov/benefits/offices.asp).
+[Go to a regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 

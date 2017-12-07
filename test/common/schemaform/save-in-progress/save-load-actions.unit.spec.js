@@ -18,9 +18,9 @@ import {
   setPrefillComplete,
   setFetchFormPending,
   setStartOver,
-} from '../../../src/js/common/schemaform/save-load-actions';
+} from '../../../../src/js/common/schemaform/save-in-progress/save-load-actions';
 
-import { logOut } from '../../../src/js/login/actions';
+import { logOut } from '../../../../src/js/login/actions';
 
 let oldFetch;
 let oldSessionStorage;

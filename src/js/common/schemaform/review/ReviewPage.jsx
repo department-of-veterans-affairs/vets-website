@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
-import SaveFormLink from '../SaveFormLink';
-import SaveStatus from '../SaveStatus';
+import SaveFormLink from '../save-in-progress/SaveFormLink';
+import SaveStatus from '../save-in-progress/SaveStatus';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-load-actions';
+import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-in-progress/save-load-actions';
 import { toggleLoginModal } from '../../../login/actions';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
