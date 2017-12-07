@@ -19,7 +19,7 @@ You can file a disability claim through the Benefits Delivery at Discharge (BDD)
 ### In Germany
 You can get in touch with the Landstuhl BDD office by:
 - **Phone** at DSN 590-8200 (or commercial 06371-9464-8200), **or**
-- **Email** at GermanyBDD.vbapit@va.gov, **or**
+- **Email** at <a href="GermanyBDD.vbapit@va.gov">GermanyBDD.vbapit@va.gov, **or**
 - **In person** The office is located in building 3724 at the Landstuhl Regional Medical Center. It's open Monday through Friday, from 9:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m. You don't need an appointment.
 
 To complete the process, you'll need to:
@@ -55,7 +55,7 @@ If you're stationed outside the Kaiserslautern Military Community, you can file 
 
   **Contact the Landstuhl BDD office to ask what information and forms you need.** You can contact the office by:
   - **Phone** at DSN 590-8200 (or commercial 06371-9464-8200), **or**
-  - **Email** at GermanyBDD.vbapit@va.gov
+  - **Email** at <a href="GermanyBDD.vbapit@va.gov">GermanyBDD.vbapit@va.gov 
 
   </li>
 
