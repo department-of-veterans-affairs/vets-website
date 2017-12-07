@@ -248,8 +248,158 @@ export function getClaimType(claim) {
 //  is just an example of what evss(?) is returning to the api.
 export const mockData = {
   data: [
-    {
-      id: '7387389', // Apparently this is a string...
+    { // Status: Review your statement of the case - pending_form9
+      id: '7387389',
+      type: 'appealSeries',
+      attributes: {
+        active: true,
+        incompleteHistory: false,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'pending_form9',
+          details: {
+            regionalOffice: 'Chicago Regional Office'
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Service connection for tinnitus',
+            lastAction: 'field_grant',
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [
+          {
+            type: 'form9_due',
+            details: {
+              date: 'January 28, 2018'
+            }
+          }
+        ],
+        events: [
+          {
+            type: 'claim',
+            date: '2016-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2016-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2016-09-12',
+            details: {}
+          }
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    },
+    { // Status: Waiting to be assigned to a judge - on_docket
+      id: '7387390',
+      type: 'appealSeries',
+      attributes: {
+        active: true,
+        incompleteHistory: false,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'on_docket',
+          details: {
+            regionalOffice: 'Chicago Regional Office'
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Service connection for tinnitus',
+            lastAction: 'field_grant',
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [
+          {
+            type: 'waiting_on_action',
+            details: {
+              representative: 'Mr. Spock'
+            }
+          }, {
+            type: 'hearing_scheduled',
+            details: {
+              date: 'March 5th, 2018'
+            }
+          }, {
+            type: 'bva_decision_pending',
+            details: {}
+          }
+        ],
+        events: [
+          {
+            type: 'claim',
+            date: '2010-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2012-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2013-06-01',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2014-06-12',
+            details: {}
+          },
+          {
+            type: 'appeal_received',
+            date: '2014-09-21',
+            details: {}
+          }
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    },
+    { // Status: The Board has made a decision on your appeal - bva_decision
+      id: '7387391',
       type: 'appealSeries',
       attributes: {
         active: true,
