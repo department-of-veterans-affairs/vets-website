@@ -34,11 +34,11 @@ class VeteranIDCard extends React.Component {
           window.dataLayer.push({ event: 'vic-authenticated' });
         }
       } else {
-        window.sessionStorage.setItem('vicInitialAuthStatus', 'unauthenticated');
         if (serviceRateLimitedUnauthed) {
           window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
           this.renderEmailCapture = true;
         } else {
+          window.sessionStorage.setItem('vicInitialAuthStatus', 'unauthenticated');
           window.dataLayer.push({ event: 'vic-unauthenticated' });
         }
       }
