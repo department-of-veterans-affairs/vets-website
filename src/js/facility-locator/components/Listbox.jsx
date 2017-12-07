@@ -4,6 +4,9 @@ import { truncate, kebabCase } from 'lodash';
 import { benefitsServices, facilityTypes, vetCenterServices } from '../config';
 import { getServices } from '../utils/helpers.js';
 
+const mobileLength = 38; // TODO(ceh): add comment regarding these magic numbers
+const notMobileLength = 27;
+
 class Listbox extends Component {
 
   isSelectedOption = (option, type) => {
@@ -121,7 +124,7 @@ class Listbox extends Component {
           className={serviceOptionClasses}>
           <span className="flex-center">
             <span className="legend spacer"></span>
-            {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? 38 : 27) })}
+            {truncate((benefitsServices[serviceType] || serviceType || 'All'), { length: (isMobile ? mobileLength : notMobileLength) })}
           </span>
         </div>
       </div>
