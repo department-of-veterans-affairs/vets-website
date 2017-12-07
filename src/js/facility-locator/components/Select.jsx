@@ -123,6 +123,7 @@ class Select extends Component {
     const { optionType, currentQuery, isMobile } = this.props;
     const disabled = noServices(optionType, currentQuery.facilityType);
     let queryType = currentQuery[`${optionType}Type`];
+
     if (!queryType) {
       if (optionType === 'service') {
         queryType = 'All';
@@ -130,12 +131,14 @@ class Select extends Component {
         queryType = 'AllFacilities';
       }
     }
+
     const titleType = optionType[0].toUpperCase() + optionType.slice(1);
     const dropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
       active: this.state.dropdownActive,
       disabled
     });
+
     return (
       <div onBlur={this.handleBlur} className="columns usa-width-one-fourth medium-3">
         <label htmlFor={`${optionType}Type`} id={`${optionType}-label`}>{`Select ${titleType} Type`}</label>
@@ -146,7 +149,7 @@ class Select extends Component {
           className={dropdownClasses}
           disabled={disabled}
           ref={elem => { this.dropdown = elem; }}
-          aria-expanded="false"
+          aria-expanded={this.dropdownActive}
           aria-labelledby={`${optionType}-label`}
           onClick={e => {e.preventDefault(); this.toggleDropdown(e);}}>
           <Listbox
