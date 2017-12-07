@@ -50,7 +50,7 @@ Mail the application to the Pension Management Center (PMC) for your state. [Fin
 
 **In person**
 
-Bring your application to a regional benefits office near you. [Find a regional benefits office](/facilities/).
+Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
 
 **With the help of a trained professional**
 

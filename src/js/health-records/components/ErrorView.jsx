@@ -16,7 +16,7 @@ class ErrorView extends React.Component {
     let detail;
     let alert;
 
-    if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
       alert = true;
       title = 'We couldn’t access your health tools';
       detail = (
@@ -54,7 +54,7 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.accountcreation,
+      errorCodes.accountCreation,
     );
 
     // don’t block application if no errors, or errors not in the list above

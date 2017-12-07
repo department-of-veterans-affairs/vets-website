@@ -61,4 +61,4 @@ Get tested if you’ve made or worked with products like:
 
 ### Get more information
 
-Do you think you may have had contact with asbestos? [Learn about asbestos-related illnesses](http://www.publichealth.va.gov/exposures/asbestos/index.asp).
+Do you think you may have had contact with asbestos? [Learn about asbestos-related illnesses](https://www.publichealth.va.gov/exposures/asbestos/index.asp).

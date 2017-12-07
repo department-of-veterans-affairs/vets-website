@@ -10,7 +10,7 @@ export default function PrivacyAgreement({ onChange, checked, showError }) {
         onValueChange={onChange}
         name="privacyAgreement"
         errorMessage={showError && !checked ? 'You must accept the privacy policy before continuing' : undefined}
-        label={<span>I have read and accept the <a target="_blank" href="/privacy">privacy policy</a></span>}/>
+        label={<span>I have read and accept the <a target="_blank" href="/privacy/">privacy policy</a></span>}/>
     </div>
   );
 }

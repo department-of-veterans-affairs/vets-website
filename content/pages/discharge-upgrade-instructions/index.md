@@ -1,7 +1,8 @@
 ---
-title: Discharge Wizard
 layout: page-react.html
-entryname: discharge-wizard
+title: Guidance on Upgrading Your Discharge
+display_title: Guidance on Upgrading Your Discharge
+entryname: discharge-upgrade-instructions
 ---
 <div id="main">
   <div class="section">
@@ -13,5 +14,4 @@ entryname: discharge-wizard
       </div>
     </div>
   </div>
-  <!-- HCA Application End -->
 </div>

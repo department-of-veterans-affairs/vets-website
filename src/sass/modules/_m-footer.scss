@@ -55,6 +55,8 @@
     &:hover {
       color: $color-gold;
     }
+
+    @include no-sr-content;
   }
 }
 

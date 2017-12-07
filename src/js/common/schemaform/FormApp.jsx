@@ -68,7 +68,8 @@ class FormApp extends React.Component {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
-    const devRedirect = __BUILDTYPE__ !== 'development' || currentLocation.search.includes('redirect');
+    const devRedirect = (__BUILDTYPE__ !== 'development' && !currentLocation.search.includes('skip'))
+      || currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
     if (isInProgress(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether

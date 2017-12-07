@@ -21,7 +21,7 @@ majorlinks:
     - url: /health-care/apply/
       title: Application Process
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
-    - url: /health-care/health-conditions
+    - url: /health-care/health-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /health-care/health-conditions/conditions-related-to-service-era/

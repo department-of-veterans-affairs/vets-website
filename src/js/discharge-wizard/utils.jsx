@@ -18,14 +18,13 @@ export const branchOfService = (key) => {
   return questionLabels['1_branchOfService'][key === 'marines' ? 'navy' : key];
 };
 
-export const board = (formValues) => {
+export const board = (formValues, noDRB) => {
   const prevAppType = ['1', '4'].indexOf(formValues['10_prevApplicationType']) > -1;
   const noPrevApp = formValues['8_prevApplication'] === '2';
   const preAppDateBefore = formValues['9_prevApplicationYear'] === '1';
   const courtMartial = formValues['7_courtMartial'] === '1';
   const transgender = formValues['4_reason'] === '5';
   const intention = formValues['6_intention'] === '1';
-  const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
   const dischargeYear = formValues['2_dischargeYear'];
   const dischargeMonth = formValues['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
@@ -35,20 +34,22 @@ export const board = (formValues) => {
     boardObj = { name: 'Board for Correction of Military Records (BCMR)', abbr: 'BCMR' };
   }
 
+  // short circuit condition for prior period of service response
+  if (noDRB) { return boardObj; }
+
   if (noPrevApp || preAppDateBefore || prevAppType) {
     if (courtMartial || transgender || intention || oldDischarge) {
       return boardObj;
     }
     return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
-  } else if (prevAppTypeBoard) {
-    return boardObj;
   }
-  return null;
+
+  return boardObj;
 };
 
-export const venueAddress = (formValues) => {
+export const venueAddress = (formValues, noDRB) => {
   const boardData = board(formValues);
-  if (boardData && boardData.abbr === 'DRB') {
+  if (!noDRB && boardData && boardData.abbr === 'DRB') {
     switch (formValues['1_branchOfService']) {
       case 'army':
         return (
