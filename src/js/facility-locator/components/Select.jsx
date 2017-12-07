@@ -137,7 +137,7 @@ class Select extends Component {
     return (
       <div onBlur={this.handleBlur} className="columns usa-width-one-fourth medium-3">
         <label htmlFor={`${optionType}Type`} id={`${optionType}-label`}>{`Select ${titleType} Type`}</label>
-        <button
+        <div
           onKeyDown={e => this.navigateDropdown(e, optionType)}
           className={dropdownClasses}
           disabled={disabled}
@@ -156,7 +156,7 @@ class Select extends Component {
             resetOptions={this.resetOptions}
             dropdownActive={this.dropdownActive}
             hasIcons={hasIcons}/>
-        </button>
+        </div>
       </div>
     );
   }
