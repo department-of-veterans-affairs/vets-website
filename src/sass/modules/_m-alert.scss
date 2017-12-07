@@ -63,10 +63,10 @@
 
   position: relative;
 
-  &.usa-alert {
+  /*&.usa-alert {
     background-size: 4.1rem;
     background-position: 2rem 1.9rem;
-  }
+  }*/
   .usa-alert-heading {
     padding-bottom: 0 !important;
   }
@@ -102,8 +102,8 @@
 @media screen and (min-width: 600px) {
   .edu-warning-single-line {
     > .usa-alert-body {
-      background-size: 4.2rem;
-      background-position: 1.3rem 1.5rem;
+      /*background-size: 4.2rem;
+      background-position: 1.3rem 1.5rem;*/
       padding-left: 5rem;
     }
   }
