@@ -7,7 +7,8 @@ import {
   isSelect,
   isToggle,
   isTraverse,
-  noServices
+  noServices,
+  toggles
 } from '../utils/helpers.js';
 
 class Select extends Component {
@@ -60,12 +61,16 @@ class Select extends Component {
     const isActive = this.state.dropdownActive;
     const which = e.target;
     if (isToggle(e, isActive)) {
+      const code = e.keyCode;
+      // if (toggles.contains(code) || isEscape(code)) e.preventDefault();
+      if (toggles.includes(code)) e.preventDefault();
       if (isActive && isSelect(e.keyCode)) {
         this.handleFilterSelect(which.id, type);
       }
       return this.toggleDropdown(e, type);
     }
-    if (isActive && isTraverse(e)) {
+    if (isActive && isTraverse(e.keyCode)) {
+      e.preventDefault();
       const increment = getDirection(e.keyCode);
       const newIndex = this.state.focusedIndex + increment;
       return this.focusOption(this.options[newIndex], newIndex, type);

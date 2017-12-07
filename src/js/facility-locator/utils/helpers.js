@@ -7,6 +7,8 @@ export const keyMap = {
   DOWN: 40
 };
 
+export const toggles = [keyMap.ENTER, keyMap.SPACE];
+
 export function getDirection(code) {
   if (code === keyMap.UP) return -1;
   if (code === keyMap.DOWN) return 1;
@@ -26,30 +28,20 @@ export function isSelect(code) {
   return code === keyMap.ENTER || code === keyMap.SPACE;
 }
 
-export function isTraverse(keyEvent) {
-  const { keyCode: code } = keyEvent;
-  const result = code === keyMap.UP || code === keyMap.DOWN;
-  if (result) keyEvent.preventDefault();
-  return result;
+export function isTraverse(code) {
+  return code === keyMap.UP || code === keyMap.DOWN;
 }
 
-export function isEscape(keyEvent) {
-  const { keyCode: code } = keyEvent;
-  const result = code === keyMap.ESCAPE || code === keyMap.TAB;
-  if (code === keyMap.ESCAPE) keyEvent.preventDefault();
-  return result;
+export function isEscape(code) {
+  return code === keyMap.ESCAPE || code === keyMap.TAB;
 }
 
 export function isToggle(keyEvent, isActive) {
   const { keyCode: code } = keyEvent;
-  const toggles = [keyMap.ENTER, keyMap.SPACE];
   const isToggleKey = toggles.includes(code);
   const shouldOpen = !isActive && code === keyMap.DOWN;
-  const shouldClose = isActive && isEscape(keyEvent);
+  const shouldClose = isActive && isEscape(code);
   const result = isToggleKey || shouldClose || shouldOpen;
-  if (isToggleKey) {
-    keyEvent.preventDefault();
-  }
   return result;
 }
 
