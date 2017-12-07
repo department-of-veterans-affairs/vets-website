@@ -38,7 +38,6 @@ class AlertBox extends React.Component {
     }
 
     const alertClass = classNames(
-      'va-alert',
       'usa-alert',
       `usa-alert-${this.props.status}`
     );
@@ -57,7 +56,7 @@ class AlertBox extends React.Component {
         aria-live="assertive"
         className={alertClass}
         ref={(ref) => { this._ref = ref; }}>
-        <div className="va-alert-body usa-alert-body">
+        <div className="usa-alert-body">
           <div className="usa-alert-text usa-alert-heading">
             {this.props.content}
           </div>
