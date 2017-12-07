@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import Timeline from '../../../../src/js/claims-status/components/appeals-v2/Timeline';
 
-import { getEventContent } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
+import { getEventContent, formatDate } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 
-describe('<Timeline/>', () => {
+describe.only('<Timeline/>', () => {
   const defaultProps = {
     events: [
       {
@@ -26,56 +26,96 @@ describe('<Timeline/>', () => {
     }
   };
 
+  const formattedDateRange = 'May 1, 2016 - June 5, 2016';
+
   it('should render', () => {
     const component = shallow(<Timeline {...defaultProps}/>);
-    expect(component.type()).to.equal('div');
+    expect(component.exists()).to.be.true;
   });
 
-  it('should render an expander', () => {
+  it('should render one expander item', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
     const expander = wrapper.find('Expander');
-    expect(expander.type()).to.equal('li');
+    expect(expander.length).to.equal(1);
   });
 
-  it('should not render past events by default', () => {
-
+  it('should not render any past events by default', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const pastEvents = wrapper.find('PastEvent');
+    expect(pastEvents.exists()).to.be.false;
   });
 
-  it('should render past events when state toggled', () => {
-
+  it('should toggle expanded state when toggleExpanded called', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    expect(wrapper.state('expanded')).to.equal(false);
+    wrapper.instance().toggleExpanded();
+    expect(wrapper.state('expanded')).to.equal(true);
+    wrapper.instance().toggleExpanded();
+    expect(wrapper.state('expanded')).to.equal(false);
   });
 
-  it('should hide past events when state is toggled', () => {
-
+  it('should render past events when expanded state is true', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    expect(wrapper.find('PastEvent').length).to.equal(0);
+    wrapper.setState({ expanded: true });
+    expect(wrapper.find('PastEvent').length).to.equal(defaultProps.events.length);
   });
 
-  it('should always render the current event', () => {
-
+  it('should render one CurrentStatus component', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const currentStatus = wrapper.find('CurrentStatus');
+    expect(currentStatus.length).to.equal(1);
   });
 
-  it('should render CurrentStatus', () => {
-    const component = shallow(<Timeline {...defaultProps}/>);
-    expect(component.find('CurrentStatus').exists()).to.be.true;
+  it('should pass formatted date range to the Expander', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const expander = wrapper.find('Expander');
+    const { dateRange } = expander.props();
+    expect(dateRange).to.equal(formattedDateRange);
   });
 
-  it('should render the date range in the history expander', () => {
-    const component = shallow(<Timeline {...defaultProps}/>);
-    expect(component.find('.appeal-event-date').text()).to.equal('May 1, 2016 - June 5, 2016');
+  it('should pass empty string as dateRange to Expander when no events', () => {
+    const props = { ...defaultProps, events: [] };
+    const wrapper = shallow(<Timeline {...props}/>);
+    const expander = wrapper.find('Expander');
+    const { dateRange } = expander.props();
+    expect(dateRange).to.equal('');
   });
 
-  it('should render the date for a past event', () => {
-    mountedWrapper = mount(<Timeline {...defaultProps}/>, { attachTo: wrapper });
-    mountedWrapper.find('.section-unexpanded button').simulate('click');
-    expect(mountedWrapper.find('.appeal-event-date').first().text()).to.equal('on May 1, 2016');
+  it('should pass all required props to PastEvents', () => {
+    const { title, description, liClass } = getEventContent(defaultProps.events[0]);
+    const date = formatDate(defaultProps.events[0].date);
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    wrapper.setState({ expanded: true });
+    const firstProps = wrapper.find('PastEvent').first().props();
+    expect(firstProps.title).to.equal(title);
+    expect(firstProps.description).to.equal(description);
+    expect(firstProps.liClass).to.equal(liClass);
+    expect(firstProps.date).to.equal(date);
   });
 
-  it('should render content for an event based on the type', () => {
-    mountedWrapper = mount(<Timeline {...defaultProps}/>, { attachTo: wrapper });
-    mountedWrapper.find('.section-unexpanded button').simulate('click');
-    const firstEvent = mountedWrapper.find('li').first();
-    const eventContent = getEventContent(defaultProps.events[0]);
+  it('should pass all required props to Expander', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const expanderProps = wrapper.find('Expander').props();
+    expect(expanderProps.title).to.equal('See past events');
+    expect(expanderProps.dateRange).to.equal(formattedDateRange);
+    expect(expanderProps.onToggle).to.equal(wrapper.instance().toggleExpanded);
+    expect(expanderProps.cssClass).to.equal('section-unexpanded');
+  });
 
-    expect(firstEvent.find('h3').text()).to.equal(eventContent.title);
-    expect(firstEvent.find('p').text()).to.equal(eventContent.description);
+  it('should pass updated props to Expander when state toggled', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    wrapper.setState({ expanded: true });
+    const expanderProps = wrapper.find('Expander').props();
+    expect(expanderProps.title).to.equal('Hide past events');
+    expect(expanderProps.cssClass).to.equal('section-expanded');
+  });
+
+  it('should pass along its currentStatus props to CurrentStatus', () => {
+    const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const { title, description } = defaultProps.currentStatus;
+    const currentStatusProps = wrapper.find('CurrentStatus').props();
+    expect(currentStatusProps.title).to.equal(title);
+    expect(currentStatusProps.description).to.equal(description);
   });
 });
