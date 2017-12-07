@@ -231,7 +231,7 @@ class GuidancePage extends React.Component {
     let boardExplanation;
     let onlineSubmissionMsg;
 
-    if (reasonCode === '8' && ['2', '4'].includes(prevAppType)) {
+    if (reasonCode === '8' && prevAppType !== '3') {
       boardExplanation = 'the DRB because it granted your previous upgrade request, so you must apply to them for a new DD-214.';
       if (oldDischarge) {
         boardExplanation = `the ${boardToSubmit.abbr} because your discharge was over 15 years ago. This is because it handles all cases from 15 years ago and longer.`;
