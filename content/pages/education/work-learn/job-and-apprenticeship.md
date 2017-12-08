@@ -72,14 +72,14 @@ If you’re a Veteran in an approved program, you can use your GI Bill benefit a
 Your payment depends on which GI Bill program you’re using. [View the payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 #### Post-9/11 GI Bill MHA Payment Rates
-You’ll get 100% of your applicable MHA during the first 6 months of training, if you completed more than 3 years of active-duty service. Then you’ll get:
+You’ll get 100% of your applicable MHA during the first 6 months of training if you completed more than 3 years of active-duty service. Then you’ll get:
 
 - 80% of your applicable MHA during the second 6 months of training
 - 60% of your applicable MHA during the third 6 months of training
 - 40% of your applicable MHA during the fourth 6 months of training
 - 20% of your applicable MHA during the rest of the training period
 
-**Note:** If you completed between 90 days and 3 years of active-duty service, you'll receive between 40% and 90% of the full benefit. 
+**Note:** If you completed between 90 days and 3 years of active-duty service, you'll get 40% to 90% of the full benefit. 
 
 #### All other GI Bill Programs Payment Rates
 
