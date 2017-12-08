@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { sendFeedback } from '../actions';
+import { sendFeedback, clearError } from '../actions';
 import DefaultView from '../components/DefaultView';
 import FeedbackForm from '../components/FeedbackForm';
 import FeedbackSubmitted from '../components/FeedbackSubmitted';
@@ -35,12 +35,16 @@ class Main extends React.Component {
       content = (
         <FeedbackForm
           sendFeedback={this.props.sendFeedback}
-          requestPending={this.props.requestPending}/>
+          clearError={this.props.clearError}
+          requestPending={this.props.requestPending}
+          hasError={this.props.hasError}
+          errorMessage={this.props.errorMessage}/>
       );
     }
 
     return (
       <div className="feedback-widget">
+        <a className="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
         <div className="row">{content}</div>
       </div>
     );
@@ -58,6 +62,9 @@ function mapDispatchToProps(dispatch) {
   return {
     sendFeedback(values) {
       return dispatch(sendFeedback(values));
+    },
+    clearError() {
+      return dispatch(clearError());
     }
   };
 }
@@ -66,7 +73,9 @@ Main.propTypes = {
   requestPending: PropTypes.bool,
   feedbackReceived: PropTypes.bool,
   shouldSendResponse: PropTypes.bool,
-  sendFeedback: PropTypes.func.isRequired
+  sendFeedback: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

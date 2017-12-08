@@ -1,46 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AlertBox from '../../common/components/AlertBox';
 
 class FeedbackForm extends React.Component {
 
   constructor() {
     super();
-    this.feedbackChanged = this.feedbackChanged.bind(this);
-    this.shouldSendResponseChanged = this.shouldSendResponseChanged.bind(this);
-    this.emailChanged = this.emailChanged.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       shouldSendResponse: false,
-      feedback: '',
+      description: '',
       email: ''
     };
   }
 
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
     this.props.sendFeedback(this.state);
   }
 
-  feedbackChanged({ target: { value: feedback } }) {
-    this.setState({ feedback });
+  descriptionChanged = ({ target: { value: description } }) => {
+    this.setState({ description });
   }
 
-  shouldSendResponseChanged({ target: { checked: shouldSendResponse } }) {
+  shouldSendResponseChanged = ({ target: { checked: shouldSendResponse } }) => {
     this.setState({ shouldSendResponse });
   }
 
-  emailChanged({ target: { value: email } }) {
+  emailChanged = ({ target: { value: email } }) => {
     this.setState({ email });
   }
 
   render() {
+    let errorBanner = null;
+    if (this.props.errorMessage) {
+      errorBanner = <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>;
+    }
+
     return (
       <form className="feedback-form" onSubmit={this.onSubmit}>
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <div className="row va-flex">
           <div className="feedback-widget-form">
-            <label htmlFor="feedback">What can we do to make Vets.gov better?</label>
-            <textarea name="feedback" value={this.state.feedback} onChange={this.feedbackChanged}/>
+            {errorBanner}
+            <label htmlFor="description">What can we do to make Vets.gov better?</label>
+            <textarea name="description" value={this.state.description} onChange={this.descriptionChanged}/>
           </div>
           <div className="feedback-widget-need-help">
             <div className="feedback-widget-need-help-inner">
@@ -74,6 +77,8 @@ class FeedbackForm extends React.Component {
 
 FeedbackForm.propTypes = {
   sendFeedback: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
   requestPending: PropTypes.bool
 };
 
