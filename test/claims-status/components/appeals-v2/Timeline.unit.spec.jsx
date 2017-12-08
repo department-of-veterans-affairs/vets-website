@@ -57,6 +57,8 @@ describe('<Timeline/>', () => {
   it('should render past events when expanded state is true', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
     expect(wrapper.find('PastEvent').length).to.equal(0);
+    // wrapper's instance.toggleExpanded() method doesn't cause a re-render
+    // in enzyme, so need to setState directly (which explicitly does re-render)
     wrapper.setState({ expanded: true });
     expect(wrapper.find('PastEvent').length).to.equal(defaultProps.events.length);
   });

@@ -16,7 +16,7 @@ class Timeline extends React.Component {
 
   formatDateRange = () => {
     const { events } = this.props;
-    if (!events[0]) {
+    if (!events.length) {
       return '';
     }
     const first = formatDate(events[0].date);
@@ -29,7 +29,7 @@ class Timeline extends React.Component {
   render() {
     const { events } = this.props;
     let pastEventsList = [];
-    if (events[0]) {
+    if (events.length) {
       pastEventsList = events.map((event, index) => {
         const { title, description, liClass } = getEventContent(event);
         const date = formatDate(event.date);

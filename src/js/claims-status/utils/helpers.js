@@ -285,7 +285,7 @@ export const mockData = {
           {
             type: 'form9_due',
             details: {
-              date: 'January 28, 2018'
+              date: '2018-01-28'
             }
           }
         ],

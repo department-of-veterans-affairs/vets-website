@@ -18,6 +18,10 @@ export const ALERT_TYPES = {
   bvaDecisionPending: 'bva_decision_pending'
 };
 
+export function formatDate(date) {
+  return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+}
+
 // TO DO: Replace made up properties and content with real versions once finalized.
 /**
  * Grabs the matching title and dynamically-generated description for a given current status type
@@ -30,7 +34,7 @@ export const ALERT_TYPES = {
  * @returns {Contents}
  */
 export function getStatusContents(type, details) {
-  const { nod, awaitingHearingDate, remand, pendingForm9, onDocket } = STATUS_TYPES;
+  const { nod, awaitingHearingDate, bvaDecision, remand, pendingForm9, onDocket } = STATUS_TYPES;
   const contents = {};
   if (type === nod) {
     const office = details.regionalOffice || 'Regional Office';
@@ -46,6 +50,36 @@ export function getStatusContents(type, details) {
     contents.title = 'You are waiting for your hearing date';
     contents.description = `You have selected to have a ${hearingType} in your form 9. 
       Currently the Board is having hearings for appeals of ${currenltyHearing}`;
+  } else if (type === bvaDecision) {
+    const { decisionIssues } = details;
+    const allowedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'allowed'))
+      .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
+    const deniedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'denied'))
+      .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
+    const businessDays = details.businessDays;
+    contents.title = 'The Board has made a decision on some of your appeals';
+    contents.description = (
+      <div>
+        <div>
+          The Board of Veterans Appeals has made a decision on some of your appeals.
+          You will receive your decision letter in the mail in {businessDays} business days. Here is an overview
+          of the decision:
+        </div>
+        <br/>
+        <div className="decision-items">
+          <h5 className="allowed-items">Allowed</h5>
+          <ul>{allowedIssues}</ul>
+          <h5 className="denied-items">Denied</h5>
+          <ul>{deniedIssues}</ul>
+        </div>
+        <div>
+          For issues that are allowed, you will receive compensation. For more information, please
+          contact your VSO or representative.
+        </div>
+      </div>
+    );
   } else if (type === remand) {
     const { decisionIssues } = details;
     const allowedIssues = decisionIssues
@@ -94,9 +128,9 @@ export function getStatusContents(type, details) {
         </p>
         <p>
           <em>Note:</em> If you send more evidence with the Form 9, it will be reviewed by the
-            Regional Office and will likely delay a decision on your appeal. If you have new
-            evidence, it’s best to send it when the Board of Veterans Appeals is reviewing your
-            case.
+          Regional Office and will likely delay a decision on your appeal. If you have new
+          evidence, it’s best to send it when the Board of Veterans Appeals is reviewing your
+          case.
         </p>
       </div>
     );
@@ -140,7 +174,7 @@ export const EVENT_TYPES = {
  * @param {Object} event
  * @returns {Object}
  */
-export function getEventContent(event)  {
+export function getEventContent(event) {
   switch (event.type) {
     case EVENT_TYPES.claim:
       return {
@@ -335,7 +369,6 @@ export function getNextEvents(currentStatus) {
         }
       ];
     case STATUS_TYPES.onDocket: {
-      const boldStyle = { fontWeight: 'bold' };
       return [
         {
           title: 'Judge Decides Your Appeal',
@@ -348,17 +381,17 @@ export function getNextEvents(currentStatus) {
               </div>
               <ul>
                 <li>
-                  <span style={boldStyle}>Allow - </span>The judge overrules the Regional Office and makes a decision
+                  <strong>Allow - </strong>The judge overrules the Regional Office and makes a decision
                   on your rating
                 </li>
-                <li><span style={boldStyle}>Deny - </span>The judge agrees with the Regional Office decision</li>
+                <li><strong>Deny - </strong>The judge agrees with the Regional Office decision</li>
                 <li>
-                  <span style={boldStyle}>Remand - </span>The judge sends the issue to Veterans Benefits
+                  <strong>Remand - </strong>The judge sends the issue to Veterans Benefits
                     Administration (VBA) for more evidence or to fix a mistake before making a
                     decision
                 </li>
               </ul>
-              <div><span style={boldStyle}>Note:</span> About 60% of all cases have at least 1 issue remanded.</div>
+              <div><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</div>
             </div>
           ),
           durationText: '10 months',
@@ -399,7 +432,7 @@ export function getAlertContent(alert) {
       };
     case ALERT_TYPES.form9Due:
       return {
-        title: `Return the Form 9 by ${details.date} in order to continue your appeal`,
+        title: `Return the Form 9 by ${formatDate(details.date)} in order to continue your appeal`,
         description: (
           <div>
             <p>
@@ -450,8 +483,4 @@ export function getAlertContent(alert) {
         type,
       };
   }
-}
-
-export function formatDate(date) {
-  return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
 }
