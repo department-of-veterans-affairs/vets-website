@@ -46,17 +46,14 @@
   // min-height: 70px;
   background-size: 2.8rem;
   background-position: 1.7rem 2.8rem;
-
-  &.va-crisis-alert {
-    background-size:4.5rem;
-    padding-bottom:1.7rem;
-  }
 }
 
 .usa-alert-body {
   > h3:first-child, > h4:first-child, > h5:first-child {
     margin-top: 0;
   }
+
+  padding-left: 2.2rem;
 }
 
 .claims-alert {
@@ -71,7 +68,7 @@
     padding-bottom: 0 !important;
   }
   > .usa-alert-body {
-    padding-left: 4.2rem;
+    //padding-left: 4.2rem;
   }
   &:focus {
     outline: none;
@@ -81,7 +78,7 @@
 .claims-alert.phase-back-alert {
   margin-top: 0;
   margin-bottom: 0;
-  background-position: 1rem 1.4rem;
+  //background-position: 1rem 1.4rem;
 }
 
 // education benefits
@@ -95,7 +92,7 @@
 .edu-warning-single-line {
   margin-top: 0;
   > .usa-alert-body {
-    padding-left: 4rem;
+  //  padding-left: 4rem;
   }
 }
 
@@ -104,14 +101,14 @@
     > .usa-alert-body {
       /*background-size: 4.2rem;
       background-position: 1.3rem 1.5rem;*/
-      padding-left: 5rem;
+    //  padding-left: 5rem;
     }
   }
 }
 
 .sip-application-error {
-  background-size: 4.2rem;
+//  background-size: 4.2rem;
   > .usa-alert-body {
-    padding-left: 3.5rem;
+  //  padding-left: 3.5rem;
   }
 }

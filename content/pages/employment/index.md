@@ -55,9 +55,7 @@ We can support you in all stages of your job search—from returning to work wit
           <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
           <li><a href='http://www.va.gov/homeless/cec-contacts.asp'>Get job-placement help from a Community Employment Coordinator (CEC)</a>.</li>
         </ul>
-<br>
 <p>We can also connect you with other non-VA resources in your community.</p>
-<br>
         <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
     </div>
   </div>
