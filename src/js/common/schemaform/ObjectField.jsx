@@ -12,7 +12,7 @@ import {
 } from 'react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../components/form-elements/ExpandingGroup';
-import PrefillMessage from './PrefillMessage';
+import PrefillMessage from './save-in-progress/PrefillMessage';
 
 /*
  * This is largely copied from the react-jsonschema-form library,

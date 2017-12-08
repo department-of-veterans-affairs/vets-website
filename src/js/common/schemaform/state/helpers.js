@@ -4,7 +4,7 @@ import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 import {
   checkValidSchema,
   createFormPageList
-} from './helpers';
+} from '../helpers';
 
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];

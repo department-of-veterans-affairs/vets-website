@@ -21,7 +21,7 @@ import {
   PREFILL_STATUSES
 } from '../../../../src/js/common/schemaform/save-in-progress/actions';
 
-import createSchemaFormReducer from '../../../../src/js/common/schemaform/reducers';
+import createSchemaFormReducer from '../../../../src/js/common/schemaform/state';
 
 describe('schemaform createSchemaFormReducer', () => {
   it('creates a reducer with initial state for each page', () => {

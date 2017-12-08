@@ -9,12 +9,12 @@ import {
   fetchInProgressForm,
   setFetchFormStatus,
   removeInProgressForm
-} from './save-in-progress/actions';
+} from './actions';
 
-import SignInLink from '../components/SignInLink';
-import ProgressButton from '../components/form-elements/ProgressButton';
+import SignInLink from '../../components/SignInLink';
+import ProgressButton from '../../components/form-elements/ProgressButton';
 
-import { toggleLoginModal } from '../../login/actions';
+import { toggleLoginModal } from '../../../login/actions';
 
 
 // For now, this only handles loading errors, but it could feasibly be reworked

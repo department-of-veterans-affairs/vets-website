@@ -7,7 +7,7 @@ import {
   updateSchemaFromUiSchema,
   updateItemsSchema,
   replaceRefSchemas
-} from '../../../src/js/common/schemaform/formState';
+} from '../../../../src/js/common/schemaform/state/helpers';
 
 describe('Schemaform formState:', () => {
   describe('updateRequiredFields', () => {

@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import {
   recalculateSchemaAndData
-} from '../formState';
+} from '../state/helpers';
 
 import {
   SET_SAVE_FORM_STATUS,

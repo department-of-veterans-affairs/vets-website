@@ -5,10 +5,10 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../utils/helpers';
-import { fetchInProgressForm, removeInProgressForm } from './save-in-progress/actions';
-import { handleVerify } from '../../common/helpers/login-helpers.js';
-import { formTitles } from '../../user-profile/helpers';
+import { focusElement } from '../../utils/helpers';
+import { fetchInProgressForm, removeInProgressForm } from './actions';
+import { handleVerify } from '../../../common/helpers/login-helpers.js';
+import { formTitles } from '../../../user-profile/helpers';
 import FormStartControls from './FormStartControls';
 
 const scroller = Scroll.scroller;

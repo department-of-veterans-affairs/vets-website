@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { toggleLoginModal } from '../../login/actions';
-import { fetchInProgressForm, removeInProgressForm } from './save-in-progress/actions';
-import LoadingIndicator from '../components/LoadingIndicator';
+import { toggleLoginModal } from '../../../login/actions';
+import { fetchInProgressForm, removeInProgressForm } from './actions';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
-import { getIntroState } from './save-in-progress/selectors';
+import { getIntroState } from './selectors';
 
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
