@@ -591,7 +591,8 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
-        '/letters'].join('|'))
+        '/letters',
+        '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility'].join('|'))
   }));
 }
 
