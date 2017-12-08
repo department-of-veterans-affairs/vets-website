@@ -15,11 +15,12 @@ class GuidancePage extends React.Component {
       activeFAQ: null,
     };
   }
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  handleFAQToggle(e) {
+  handleFAQToggle = (e) => {
     e.preventDefault();
     this.setState({
       activeFAQ: e.target.name
@@ -281,7 +282,7 @@ class GuidancePage extends React.Component {
         <div className="usa-accordion accordion-container">
           <ul className="usa-unstyled-list">
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" name="q1" aria-expanded={this.state.activeFAQ === 'q1'}>What happens after I send in my application?</button>
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" name="q1" aria-expanded={this.state.activeFAQ === 'q1'} onClick={this.handleFAQToggle}>What happens after I send in my application?</button>
               <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={this.state.activeFAQ !== 'q1'}>
                 <div itemProp="text">
                   <p>Nearly all applications are reviewed by the Board within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
@@ -291,7 +292,7 @@ class GuidancePage extends React.Component {
               </div>
             </li>
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" name="q2" aria-expanded={this.state.activeFAQ === 'q2'}>Can I apply for VA benefits in the meantime?</button>
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" name="q2" aria-expanded={this.state.activeFAQ === 'q2'} onClick={this.handleFAQToggle}>Can I apply for VA benefits in the meantime?</button>
               <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={this.state.activeFAQ !== 'q2'}>
                 <div itemProp="text">
                   <AlertBox
