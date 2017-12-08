@@ -35,5 +35,17 @@ export function deconstructPath(path) {
  * @param {*} [defaultValue]
  * @return {*}
  */
-// export function get(object, path, defaultValue) {
-// }
+export function get(object, path, defaultValue) {
+  const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
+  let currentValue = object;
+
+  for (let i = 0; i < arrayPath.length; i++) {
+    if (currentValue[arrayPath[i]]) {
+      currentValue = currentValue[arrayPath[i]];
+    } else {
+      return defaultValue;
+    }
+  }
+
+  return (typeof currentValue !== 'undefined') ? currentValue : defaultValue;
+}
