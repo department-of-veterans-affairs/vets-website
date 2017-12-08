@@ -54,7 +54,7 @@ You can work with a trained professional called an accredited representative to 
 
 #### Apply in person
 
-Bring your application to a Regional Benefits Office near you. [Find a Regional Benefits Office](/facilities/). 
+Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/). 
 
 ### How long does it take VA to make a decision?
 

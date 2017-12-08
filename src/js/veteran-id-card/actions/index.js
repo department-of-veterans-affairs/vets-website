@@ -48,6 +48,7 @@ export function setEmail(email) {
 }
 
 export function submitEmail(email) {
+  window.dataLayer.push({ event: 'vic-email-started' });
   return dispatch => {
     dispatch({ type: VIC_EMAIL_CAPTURING });
 
@@ -62,11 +63,13 @@ export function submitEmail(email) {
         })
       },
       () => {
+        window.dataLayer.push({ event: 'vic-email-success' });
         dispatch({
           type: VIC_EMAIL_CAPTURE_SUCCESS,
         });
       },
       (response) => {
+        window.dataLayer.push({ event: 'vic-email-failure' });
         dispatch({
           type: VIC_EMAIL_CAPTURE_FAILURE,
           errors: response.errors

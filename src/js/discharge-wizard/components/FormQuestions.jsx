@@ -25,6 +25,7 @@ class FormQuestions extends React.Component {
       scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], {
         duration: 1000,
         smooth: true,
+        offset: -150,
       });
     }, 100);
   }
@@ -98,6 +99,8 @@ class FormQuestions extends React.Component {
   renderQuestionThreeB() {
     const key = '6_intention';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    // explicit override for dd214 condition
+    if (this.props.formValues['4_reason'] === '8') { return null; }
 
     const label = <h4>Do you want to change your name, discharge date, or anything written in the "other remarks" section of your DD-214?</h4>;
     const options = [
@@ -167,6 +170,8 @@ class FormQuestions extends React.Component {
   renderQuestionFour() {
     const key = '7_courtMartial';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    // explicit override for dd214 condition
+    if (this.props.formValues['4_reason'] === '8') { return null; }
 
     const label = <h4>Was your discharge the outcome of a <strong>General</strong> Court Martial?</h4>;
     const options = [
@@ -197,6 +202,8 @@ class FormQuestions extends React.Component {
   renderQuestionFive() {
     const key = '8_prevApplication';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    // explicit override for dd214 condition
+    if (this.props.formValues['4_reason'] === '8') { return null; }
 
     const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You will still be able to apply, your answer to this question only changes where you send your application.</h4>;
     const options = [
@@ -210,6 +217,8 @@ class FormQuestions extends React.Component {
   renderQuestionFiveA() {
     const key = '9_prevApplicationYear';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    // explicit override for dd214 condition
+    if (this.props.formValues['4_reason'] === '8') { return null; }
 
     const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
 
@@ -250,6 +259,8 @@ class FormQuestions extends React.Component {
     const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
 
     if (transgender || honorableDischarge || !shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    // explicit override for dd214 condition
+    if (this.props.formValues['4_reason'] === '8') { return null; }
 
     const questionLabel = <h4>Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?</h4>;
 

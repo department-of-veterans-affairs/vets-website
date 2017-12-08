@@ -25,7 +25,6 @@ export const board = (formValues, noDRB) => {
   const courtMartial = formValues['7_courtMartial'] === '1';
   const transgender = formValues['4_reason'] === '5';
   const intention = formValues['6_intention'] === '1';
-  const prevAppTypeBoard = ['2', '3'].indexOf(formValues['10_prevApplicationType']) > -1;
   const dischargeYear = formValues['2_dischargeYear'];
   const dischargeMonth = formValues['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
@@ -43,10 +42,9 @@ export const board = (formValues, noDRB) => {
       return boardObj;
     }
     return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
-  } else if (prevAppTypeBoard) {
-    return boardObj;
   }
-  return null;
+
+  return boardObj;
 };
 
 export const venueAddress = (formValues, noDRB) => {

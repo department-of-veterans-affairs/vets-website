@@ -53,7 +53,7 @@ export const questionLabels = {
     '1': 'I applied to a Discharge Review Board (DRB) for a Documentary Review',
     '2': 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review',
     '3': 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)',
-    '4': 'I\'m not sure what type of application I made when I was previously denied an upgrade',
+    '4': 'I\'m not sure what kind of discharge upgrade application I previously made.',
   },
   '11_priorService': {
     '1': 'I have discharge paperwork documenting a discharge under honorable or general under honorable conditions.',
@@ -73,8 +73,8 @@ export const prevApplicationYearCutoff = {
 export const answerReview = (key, formValues) => {
   const ans = formValues[key];
   const dischargeYearLabel = prevApplicationYearCutoff[formValues['4_reason']];
-  const dischargeMonth = options.months[formValues['3_dischargeMonth']] && options.months[formValues['3_dischargeMonth']].label;
-
+  const monthObj = options.months.find(m => String(m.value) === formValues['3_dischargeMonth']);
+  const dischargeMonth = monthObj && monthObj.label;
 
   switch (key) {
     case '4_reason':
@@ -98,13 +98,13 @@ export const answerReview = (key, formValues) => {
       return `I made my previous application ${ans === '1' ? `${dischargeYearLabel} or earlier` : `after ${dischargeYearLabel}`}`;
     case '10_prevApplicationType':
       if (ans === '3') {
-        if (['navy', 'marines'].include(formValues['1_branchOfService'])) {
+        if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
           return 'I applied to the Board for Correction of Naval Records (BCNR)';
         }
         return 'I applied to a Board for Correction of Military Records (BCMR)';
       }
       return questionLabels[key][ans];
     default:
-      return null;
+      return questionLabels[key][ans];
   }
 };
