@@ -95,12 +95,11 @@ function completeApplicantContactInformation(client, data) {
 
 function initApplicationSubmitMock() {
   mock(null, {
-    path: '/v0/burial_claims',
+    path: 'v0/preneeds/burial_forms',
     verb: 'post',
     value: {
       data: {
         attributes: {
-          regionalOffice: [],
           confirmationNumber: '123fake-submission-id-567',
           submittedAt: '2016-05-16'
         }
@@ -111,13 +110,13 @@ function initApplicationSubmitMock() {
 
 function initDocumentUploadMock() {
   mock(null, {
-    path: '/v0/claim_attachments',
+    path: '/v0/preneeds/preneed_attachments',
     verb: 'post',
     value: {
       data: {
         attributes: {
           attachmentId: '1',
-          name: 'test.pdf',
+          name: 'VA40-10007.pdf',
           confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
         }
       }
