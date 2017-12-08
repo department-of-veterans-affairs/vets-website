@@ -6,7 +6,7 @@ import Timeline from '../../../../src/js/claims-status/components/appeals-v2/Tim
 
 import { getEventContent, formatDate } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 
-describe.only('<Timeline/>', () => {
+describe('<Timeline/>', () => {
   const defaultProps = {
     events: [
       {
