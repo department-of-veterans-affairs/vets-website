@@ -62,7 +62,6 @@ We can support you in all stages of your job search—from returning to work wit
 </div>
 
 <script type="text/javascript">
-
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
     .addEventListener('click', function () {
