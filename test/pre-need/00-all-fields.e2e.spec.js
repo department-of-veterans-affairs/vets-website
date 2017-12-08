@@ -105,12 +105,12 @@ const runTest = E2eHelpers.createE2eTest(
         .click('input[type="checkbox"]')
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
-      // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-      // client.expect.element('.js-test-location').attribute('data-location')
-      // .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+      client.expect.element('.js-test-location').attribute('data-location')
+        .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
       // Submit message
-      // client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
+      client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
       client.axeCheck('.main');
     }

@@ -95,7 +95,7 @@ function completeApplicantContactInformation(client, data) {
 
 function initApplicationSubmitMock() {
   mock(null, {
-    path: 'v0/preneeds/burial_forms',
+    path: '/v0/preneeds/burial_forms',
     verb: 'post',
     value: {
       data: {
