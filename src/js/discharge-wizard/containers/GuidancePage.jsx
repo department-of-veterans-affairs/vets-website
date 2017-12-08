@@ -23,7 +23,7 @@ class GuidancePage extends React.Component {
   handleFAQToggle = (e) => {
     e.preventDefault();
     this.setState({
-      activeFAQ: e.target.name
+      activeFAQ: this.state.activeFAQ ? null : e.target.name
     });
   }
 

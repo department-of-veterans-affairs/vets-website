@@ -11,19 +11,13 @@ class InstructionsPage extends React.Component {
   }
 
   componentDidMount() {
-    // const script = document.createElement('script');
-    // script.type = 'text/javascript';
-    // script.async = true;
-    // script.src = 'https://standards.usa.gov/assets/js/vendor/uswds.min.js';
-    // script.id = 'uswds';
-    // document.getElementsByTagName('head')[0].appendChild(script);
     window.scrollTo(0, 0);
   }
 
   handleFAQToggle = (e) => {
     e.preventDefault();
     this.setState({
-      activeFAQ: e.target.name
+      activeFAQ: this.state.activeFAQ ? null : e.target.name
     });
   }
 
