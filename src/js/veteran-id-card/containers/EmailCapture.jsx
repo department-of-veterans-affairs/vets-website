@@ -38,9 +38,8 @@ class EmailCapture extends React.Component {
       view = (
         <div>
           <h1>Printed Veteran ID Card</h1>
-          <p>You've come to the right place to get the Veteran ID card! We’ve experienced a great response and are working to make the application process more efficient.</p>
-          <p>If you would like to receive a notification when the application is ready, please provide your email address.</p>
-          <p><strong>Note:</strong> We'll user your email only to contact you about the Veteran Identification Card. See our privacy policy.</p>
+          <p>You've reached the new Veteran ID Card application! We're excited to bring this important recognition to Veterans. We've experienced a great response and are working to make the application process more efficient.</p>
+          <p>We want to engage you in the application process quickly and will be sending specific instructions on how to proceed. Please enter your email address below. We'll only use it to contact you about continuing the Veteran ID Card application process. <a href="/privacy/">See our privacy policy</a>.</p>
           <form onSubmit={this.handleSubmit}>
             <ErrorableTextInput errorMessage={this.props.errors && this.props.errors[0].title}
               label={<span>Email address</span>}
