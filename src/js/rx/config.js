@@ -38,7 +38,7 @@ module.exports = {
   },
 
   errorCodes: {
-    acceptTerms: [
+    access: [
       'RX135',
     ],
     registration: [
@@ -57,7 +57,7 @@ module.exports = {
       'RX99',
       'VA900',
     ],
-    accountcreation: [
+    accountCreation: [
       'MHVAC1',
     ],
   },

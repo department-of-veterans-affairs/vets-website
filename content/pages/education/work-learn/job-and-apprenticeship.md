@@ -69,10 +69,10 @@ You’ll most likely need to enter into a training contract for a set amount of 
 
 If you’re a Veteran in an approved program, you can use your GI Bill benefit and get tax-free money for books and supplies. The Post-9/11 GI Bill offers you a monthly housing allowance (MHA) in addition to your entry-level wage. We issue GI Bill payments each month after your employer or union reports your hours to us.
 
-Your payment depends on which GI Bill program you’re using. [View the payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+Your payment depends on which GI Bill program you’re using. [View the payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 #### Post-9/11 GI Bill MHA Payment Rates
-You’ll get 100% of your applicable MHA during the first 6 months of training. Then you’ll get:
+You’ll get 100% of your applicable MHA during the first 6 months of training. Then, you’ll get this percentage of your MHA until your benefits run out:
 
 - 80% of your applicable MHA during the second 6 months of training
 - 60% of your applicable MHA during the third 6 months of training
@@ -80,12 +80,13 @@ You’ll get 100% of your applicable MHA during the first 6 months of training. 
 - 20% of your applicable MHA during the rest of the training period
 
 #### All other GI Bill Programs Payment Rates
+You’ll get this percentage of your GI Bill rate until your benefits run out:
 
 - 75% of the full-time GI Bill rate for the first 6 months of training
 - 55% of the full-time GI Bill rate for the second 6 months of training
 - 35% of the full-time GI Bill rate for the rest of the training period
 
-[Get more information about on-the-job and apprenticeship training programs](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
+[Get more information about on-the-job and apprenticeship training programs](https://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
 
 </div>
 </div>

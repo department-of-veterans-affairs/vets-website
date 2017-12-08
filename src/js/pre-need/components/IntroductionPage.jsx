@@ -54,8 +54,8 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>
                   <strong>If you’re applying as the legally married spouse or surviving spouse or the unmarried adult child of a Servicemember or Veteran</strong>, you’ll need your personal information (including Social Security number and date of birth).
+                  <br/>
                 </li>
-                <br/>
                 <li>
                   <strong>If you’re applying on behalf of someone else</strong>, you’ll need to upload supporting documents or an affidavit (a written statement of facts confirmed by an oath or affirmation) showing that you’re:
                   <ul>
@@ -75,7 +75,7 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help">Find an accredited representative.</a>
+                <strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/">Find an accredited representative.</a>
               </p>
               <AlertBox
                 content={infoBoxContent}

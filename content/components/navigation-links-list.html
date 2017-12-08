@@ -46,7 +46,7 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
         {% for link in group.links %}
           {% if link.url != empty %}
             <li>
-              <a href="{{link.url}}">
+              <a href="{{link.url}}" onClick="window.dataLayer.push({ event: 'nav-linkslist' });">
               {% if link.title != empty %}
                 <h4 class="va-nav-linkslist-title">{{ link.title }}</h4>
               {% endif %}
