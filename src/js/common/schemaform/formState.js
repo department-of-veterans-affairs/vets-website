@@ -1,6 +1,10 @@
 import _ from 'lodash/fp';
+import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
-import { checkValidSchema } from './helpers';
+import {
+  checkValidSchema,
+  createFormPageList
+} from './helpers';
 
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
@@ -407,3 +411,94 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
     schema: newSchema
   };
 }
+
+export function recalculateSchemaAndData(initialState) {
+  return Object.keys(initialState.pages)
+    .reduce((state, pageKey) => {
+      // on each data change, we need to do the following steps
+      // Recalculate any required fields, based on the new data
+      const page = state.pages[pageKey];
+      const formData = initialState.data;
+
+      const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData);
+
+      let newState = state;
+
+      if (formData !== data) {
+        newState = _.set('data', data, state);
+      }
+
+      if (page.schema !== schema) {
+        newState = _.set(['pages', pageKey, 'schema'], schema, newState);
+      }
+
+      if (page.showPagePerItem) {
+        const arrayData = _.get(page.arrayPath, newState.data) || [];
+        // If an item was added or removed for the data used by a showPagePerItem page,
+        // we have to reset everything because we can’t match the edit states to rows directly
+        // This will rarely ever be noticeable
+        if (page.editMode.length !== arrayData.length) {
+          newState = _.set(['pages', pageKey, 'editMode'], arrayData.map(() => false), newState);
+        }
+      }
+
+      return newState;
+    }, initialState);
+}
+
+export function createInitialState(formConfig) {
+  let initialState = {
+    submission: {
+      status: false,
+      errorMessage: false,
+      id: false,
+      timestamp: false,
+      hasAttemptedSubmit: false
+    },
+    formId: formConfig.formId,
+    loadedData: {
+      formData: {},
+      metadata: {}
+    },
+    trackingPrefix: formConfig.trackingPrefix
+  };
+
+  const pageAndDataState = createFormPageList(formConfig)
+    .reduce((state, page) => {
+      const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
+      let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      // Throw an error if the new schema is invalid
+      checkValidSchema(schema);
+      schema = updateItemsSchema(schema);
+      const isArrayPage = page.showPagePerItem;
+      const data = getDefaultFormState(schema, page.initialData, schema.definitions);
+
+      /* eslint-disable no-param-reassign */
+      state.pages[page.pageKey] = {
+        uiSchema: page.uiSchema,
+        schema,
+        editMode: isArrayPage ? [] : false,
+        showPagePerItem: page.showPagePerItem,
+        arrayPath: page.arrayPath,
+        itemFilter: page.itemFilter
+      };
+
+      state.data = _.merge(state.data, data);
+      /* eslint-enable no-param-reassign */
+
+      return state;
+    }, {
+      data: {
+        privacyAgreementAccepted: false,
+      },
+      pages: {},
+    });
+
+  initialState = _.assign(initialState, pageAndDataState);
+  // Take another pass and recalculate the schema and data based on the default data
+  // We do this to avoid passing undefined for the whole form state when the form first renders
+  initialState = recalculateSchemaAndData(initialState);
+
+  return initialState;
+}
+
