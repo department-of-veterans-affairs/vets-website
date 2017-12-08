@@ -67,12 +67,12 @@ export function getStatusContents(type, details) {
           of the decision:
         </div>
         <br/>
-        <div>
-          Allowed
+        <div className="decision-items">
+          <h5 className="allowed-items">Allowed</h5>
           <ul>{allowedIssues}</ul>
-          Denied
+          <h5 className="denied-items">Denied</h5>
           <ul>{deniedIssues}</ul>
-          Remanded
+          <h5 className="remand-items">Remand</h5>
           <ul>{remandIssues}</ul>
         </div>
         <div>

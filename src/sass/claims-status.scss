@@ -870,7 +870,7 @@ h1:focus {
 .appeals-next-list {
   list-style-type: none;
 
-  li {
+  li.next-event {
     &:before { // styles the bullets to mimic bullets in Timeline
       display: inline-block;
       vertical-align: middle;
@@ -917,5 +917,20 @@ h1:focus {
 
   li {
     margin-left: -.4em;
+  }
+}
+
+.decision-items {
+  h5 {
+    &.allowed-items {
+      color: $color-green;
+    }
+    &.denied-items {
+      color: $color-red;
+    }
+    &.remand-items {
+      color: $color-primary;
+    }
+    font-weight: bold;
   }
 }

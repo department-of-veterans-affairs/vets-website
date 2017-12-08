@@ -347,22 +347,7 @@ export const mockData = {
             date: '2016-05-30'
           }
         ],
-        alerts: [
-          {
-            type: 'waiting_on_action',
-            details: {
-              representative: 'Mr. Spock'
-            }
-          }, {
-            type: 'hearing_scheduled',
-            details: {
-              date: 'March 5th, 2018'
-            }
-          }, {
-            type: 'bva_decision_pending',
-            details: {}
-          }
-        ],
+        alerts: [],
         events: [
           {
             type: 'claim',
@@ -385,7 +370,7 @@ export const mockData = {
             details: {}
           },
           {
-            type: 'appeal_received',
+            type: 'certified',
             date: '2014-09-21',
             details: {}
           },
@@ -487,7 +472,9 @@ export const mockData = {
           {
             type: 'hearing_held',
             date: '2015-06-10',
-            details: {}
+            details: {
+              regionalOffice: 'Chicago'
+            }
           },
           {
             type: 'bva_decision',
