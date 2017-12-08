@@ -7,7 +7,7 @@ class Disclaimer extends React.Component {
   render() {
     const disclaimerClass = classNames(
       { 'va-alert--open': this.props.isOpen },
-      { 'va-alert usa-alert usa-alert-warning': true },
+      { 'usa-alert usa-alert-warning': true },
     );
 
     const openButton = classNames(
@@ -22,8 +22,8 @@ class Disclaimer extends React.Component {
       <div
         className={disclaimerClass}
         aria-expanded={this.props.isOpen}>
-        <div className="usa-alert-body va-alert-body">
-          <h5 className="va-alert-title usa-alert-heading">This list includes only your active VA prescriptions</h5>
+        <div className="usa-alert-body">
+          <h4 className="usa-alert-heading">This list includes only your active VA prescriptions</h4>
           <p hidden={!this.props.isOpen}>
             If you’re taking a medicine that you don’t see on this list — or if you have any questions about your current medicines — please contact your VA health care team.
           </p>
