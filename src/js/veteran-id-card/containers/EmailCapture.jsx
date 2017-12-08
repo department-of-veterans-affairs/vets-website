@@ -38,13 +38,9 @@ class EmailCapture extends React.Component {
       view = (
         <div>
           <h1>Printed Veteran ID Card</h1>
-          <AlertBox
-            content="We’re sorry. The Veteran ID Card system is having trouble handling the many requests for cards, and can’t accept your application right now. We’re working to fix the problem as fast as we can."
-            isVisible
-            status="warning"/>
-
-          <h4>If you'd like us to let you know when the application is working again, please enter your email address below. Note: We'll use your email only to contact you about the Veteran ID Card. <a href="/privacy/">See our privacy policy</a>.</h4>
-
+          <p>You've come to the right place to get the Veteran ID card! We’ve experienced a great response and are working to make the application process more efficient.</p>
+          <p>If you would like to receive a notification when the application is ready, please provide your email address.</p>
+          <p><strong>Note:</strong> We'll user your email only to contact you about the Veteran Identification Card. <a href="/privacy/">See our privacy policy</a>.</p>
           <form onSubmit={this.handleSubmit}>
             <ErrorableTextInput errorMessage={this.props.errors && this.props.errors[0].title}
               label={<span>Email address</span>}
