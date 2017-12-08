@@ -86,7 +86,10 @@ Timeline.propTypes = {
   })).isRequired,
   currentStatus: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element
+    ]).isRequired,
   }).isRequired
 };
 

@@ -388,6 +388,13 @@ export const mockData = {
             type: 'appeal_received',
             date: '2014-09-21',
             details: {}
+          },
+          {
+            type: 'hearing_held',
+            date: '2015-05-06',
+            details: {
+              regionalOffice: 'Chicago'
+            }
           }
         ],
         evidence: [
@@ -411,9 +418,28 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'nod', // This may or may not be a real status type
-          details: { // Don't actually know what's in here
-            regionalOffice: 'Chicago Regional Office'
+          type: 'remand',
+          details: {
+            regionalOffice: 'Chicago Regional Office',
+            decisionIssues: [
+              {
+                description: 'Heel, increased rating',
+                disposition: 'allowed',
+                date: '2016-05-30'
+              }, {
+                description: 'Knee, increased rating',
+                disposition: 'allowed',
+                date: '2016-05-30'
+              }, {
+                description: 'Leg, service connection',
+                disposition: 'denied',
+                date: '2016-05-30'
+              }, {
+                description: 'Diabetes, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+            ]
           }
         },
         docket: {
@@ -426,38 +452,48 @@ export const mockData = {
         issues: [
           {
             active: true,
-            description: 'Service connection for tinnitus',
+            description: 'Tinnitus, service connection',
             lastAction: 'field_grant',
             date: '2016-05-30'
           }
         ],
-        alerts: [
-          {
-            type: 'waiting_on_action',
-            details: {
-              representative: 'Mr. Spock'
-            }
-          }, {
-            type: 'hearing_scheduled',
-            details: {
-              date: 'March 5th, 2018'
-            }
-          }, {
-            type: 'bva_decision_pending',
-            details: {}
-          }
-        ],
+        alerts: [],
         events: [
           {
             type: 'claim',
-            date: '2016-05-30',
+            date: '2010-05-30',
             details: {}
           },
           {
             type: 'nod',
+            date: '2011-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2012-06-10',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2013-06-10',
+            details: {}
+          },
+          {
+            type: 'certified',
+            date: '2014-06-10',
+            details: {}
+          },
+          {
+            type: 'hearing_held',
+            date: '2015-06-10',
+            details: {}
+          },
+          {
+            type: 'bva_decision',
             date: '2016-06-10',
             details: {}
-          }
+          },
         ],
         evidence: [
           {

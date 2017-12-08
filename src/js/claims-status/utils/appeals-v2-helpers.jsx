@@ -8,6 +8,7 @@ export const STATUS_TYPES = {
   awaitingHearingDate: 'awaiting_hearing_date',
   onDocket: 'on_docket',
   bvaDecision: 'bva_decision',
+  remand: 'remand'
 };
 
 export const ALERT_TYPES = {
@@ -29,8 +30,7 @@ export const ALERT_TYPES = {
  * @returns {Contents}
  */
 export function getStatusContents(type, details) {
-  const { nod, awaitingHearingDate, bvaDecision, pendingForm9, onDocket } = STATUS_TYPES;
-
+  const { nod, awaitingHearingDate, remand, pendingForm9, onDocket } = STATUS_TYPES;
   const contents = {};
   if (type === nod) {
     const office = details.regionalOffice || 'Regional Office';
@@ -46,12 +46,41 @@ export function getStatusContents(type, details) {
     contents.title = 'You are waiting for your hearing date';
     contents.description = `You have selected to have a ${hearingType} in your form 9. 
       Currently the Board is having hearings for appeals of ${currenltyHearing}`;
-  } else if (type === bvaDecision) {
-    const decisionType = details.decisionType || 'Unknown (please wait for your letter)';
-    contents.title = 'The Board has made a decision on your appeal';
-    contents.description = `The Board of Veterans’ Appeals has made a decision on your appeal. 
-    You will receive your decision letter in the mail in 7 business days. Your appeal  
-    decision is: ${decisionType}`;
+  } else if (type === remand) {
+    const { decisionIssues } = details;
+    const allowedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'allowed'))
+      .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
+    const deniedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'denied'))
+      .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
+    const remandIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'remand'))
+      .map((issue, i) => (<li key={`remanded-${i}`}>{issue.description}</li>));
+    const businessDays = details.businessDays;
+    contents.title = 'The Board has made a decision on some of your appeals';
+    contents.description = (
+      <div>
+        <div>
+          The Board of Veterans Appeals has made a decision on some of your appeals.
+          You will receive your decision letter in the mail in {businessDays} business days. Here is an overview
+          of the decision:
+        </div>
+        <br/>
+        <div>
+          Allowed
+          <ul>{allowedIssues}</ul>
+          Denied
+          <ul>{deniedIssues}</ul>
+          Remanded
+          <ul>{remandIssues}</ul>
+        </div>
+        <div>
+          For issues that are allowed, you will receive compensation. For more information, please
+          contact your VSO or representative.
+        </div>
+      </div>
+    );
   } else if (type === pendingForm9) {
     contents.title = 'Review your Statement of the Case';
     contents.description = (
@@ -93,7 +122,6 @@ export const EVENT_TYPES = {
   soc: 'soc',
   form9: 'form9',
   ssoc: 'ssoc',
-  appealReceived: 'appeal_received',
   certified: 'certified',
   hearingHeld: 'hearing_held',
   hearingCancelled: 'hearing_cancelled',
@@ -112,7 +140,7 @@ export const EVENT_TYPES = {
  * @param {Object} event
  * @returns {Object}
  */
-export function getEventContent(event) {
+export function getEventContent(event)  {
   switch (event.type) {
     case EVENT_TYPES.claim:
       return {
@@ -156,15 +184,9 @@ export function getEventContent(event) {
         description: '',
         liClass: 'section-complete'
       };
-    case EVENT_TYPES.appealReceived:
-      return {
-        title: 'The Board received your appeal',
-        description: '',
-        liClass: 'section-complete'
-      };
     case EVENT_TYPES.certified:
       return {
-        title: 'Certification',
+        title: 'The Board received your appeal',
         description: '',
         liClass: 'section-complete'
       };
@@ -188,7 +210,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.bvaDecision:
       return {
-        title: 'Board Decision',
+        title: 'The Board made a decision on your appeal',
         description: '',
         liClass: 'section-complete'
       };
@@ -296,9 +318,20 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'Board decision reached',
-          descirption: 'Your appeal decision is being sent to your mailing address',
+          description: 'Your appeal decision is being sent to your mailing address',
           durationText: '2 weeks',
           cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
+        }
+      ];
+    case STATUS_TYPES.remand:
+      return [
+        {
+          title: 'VBA prepares a Statement of the Case (SOC)',
+          description: `If you send the Form 9 with new evidence, the Veterans Benefits
+            Administration (VBA) will finish its review and transfer your case to the Board of
+            Veterans’ Appeals.`,
+          durationText: '11 months',
+          cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
         }
       ];
     case STATUS_TYPES.onDocket: {
@@ -319,13 +352,13 @@ export function getNextEvents(currentStatus) {
                   on your rating
                 </li>
                 <li><span style={boldStyle}>Deny - </span>The judge agrees with the Regional Office decision</li>
-                <li >
+                <li>
                   <span style={boldStyle}>Remand - </span>The judge sends the issue to Veterans Benefits
                     Administration (VBA) for more evidence or to fix a mistake before making a
                     decision
                 </li>
               </ul>
-              <p><span>Note:</span> About 60% of all cases have at least 1 issue remanded.</p>
+              <div><span style={boldStyle}>Note:</span> About 60% of all cases have at least 1 issue remanded.</div>
             </div>
           ),
           durationText: '10 months',
@@ -420,5 +453,5 @@ export function getAlertContent(alert) {
 }
 
 export function formatDate(date) {
-  return moment(date, 'YYYY-MM-DD').format('MMMM d, YYYY');
+  return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
 }
