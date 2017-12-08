@@ -143,6 +143,18 @@
   }
 }
 
+// rx
+
+.rx-app {
+
+  // TODO: Find a better way to write this that doesn't rely on nesting
+  .usa-alert {
+    & + .rx-app-title {
+      margin-top: 2.5rem;
+    }
+  }
+}
+
 // education benefits
 
 // this can probably be removed
