@@ -26,7 +26,7 @@ describe('<Timeline/>', () => {
     }
   };
 
-  const formattedDateRange = 'May 1, 2016 - June 5, 2016';
+  const formattedDateRange = 'May 30, 2016 - June 10, 2016';
 
   it('should render', () => {
     const component = shallow(<Timeline {...defaultProps}/>);
