@@ -53,9 +53,11 @@ function completeServiceName(client, data) {
 }
 
 function completeBenefitSelection(client, data) {
+  // TODO: Include autosuggest interaction
   client
-    // TODO: Include autosuggest interaction
     .fill('input[name="root_application_claimant_desiredCemetery"]', data.claimant.desiredCemetery.label)
+  // Test is flaky so have to select option twice for it to register
+    .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried)
     .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried);
   if (data.currentlyBuriedPersons.length) {
     data.currentlyBuriedPersons.forEach((person, index) => {

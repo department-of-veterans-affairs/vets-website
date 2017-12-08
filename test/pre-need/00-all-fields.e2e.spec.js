@@ -54,9 +54,9 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/sponsor-military-name');
 
     // Benefit Selection page
+    // TODO: Create and invoke autosuggest helper
     client.waitForElementVisible('label[for="root_application_claimant_desiredCemetery"]', Timeouts.normal);
     client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
-    // TODO: Create and invoke autosuggest helper
     PageHelpers.completeBenefitSelection(client, testData.data.application);
     // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
     client.axeCheck('.main', { rules: ['section508'] })
