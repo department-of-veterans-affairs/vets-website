@@ -25,8 +25,9 @@ module.exports = E2eHelpers.createE2eTest(
     // Open first panel
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
-      .click('button.usa-button-unstyled');
-    client.expect.element('.usa-accordion-content').to.be.visible;
+      .click('button.usa-button-unstyled')
+      .pause(1200);
+    client.expect.element('.edit-btn').to.be.visible;
 
 
     // Click privacy agreement  
