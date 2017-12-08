@@ -110,7 +110,7 @@ To apply, you’ll need your (or your sponsor's):
 
 Apply by mail using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
-Print the form, fill it out, and send it and copies of your supporting documents to: 
+Print the form, fill it out, and send it (with copies of your supporting documents) to: 
 
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
