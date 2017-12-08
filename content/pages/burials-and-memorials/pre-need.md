@@ -92,9 +92,9 @@ To apply, you’ll need your (or your sponsor's):
 
 #### More information needed for certain applicants
 
-- **If you’re applying as a spouse, surviving spouse, or unmarried adult child**, you’ll also need your personal information, including your Social Security number.
-- **If you're applying on behalf of someone else**, you'll also need supporting documents showing you have the authority to apply for that person.
-- **If you're applying for an unmarried adult child of a Servicemember or Veteran**, you'll also need to provide supporting documents with information about the child's disability.
+- **If you’re applying as a spouse, surviving spouse, or unmarried adult child,** you’ll also need your personal information, including your Social Security number.
+- **If you're applying on behalf of someone else,** you'll also need supporting documents showing you have the authority to apply for that person.
+- **If you're applying for an unmarried adult child of a Servicemember or Veteran,** you'll also need to provide supporting documents with information about the child's disability.
 
 </div>
 
@@ -118,7 +118,7 @@ Print the form, fill it out, and send it and copies of your supporting documents
 	    St. Louis, MO 63151<br>
 </p>
 
-**Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
+Please don't send us the originals of your DD214 and other supporting documents since we can't return them. Send copies only.
 
 **By fax** 
 
