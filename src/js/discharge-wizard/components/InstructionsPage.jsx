@@ -53,11 +53,9 @@ class InstructionsPage extends React.Component {
                             <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq4" itemProp="name">Did you know you may be able to get VA benefits without a discharge upgrade?</button>
                             <div id="dbq4" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
                               <div itemProp="text">
-                                <div className="va-alert usa-alert usa-alert-warning">
-                                  <div className="va-alert-body usa-alert-body">
-                                    <div className="usa-alert-text usa-alert-heading">
-                                      <p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>
-                                    </div>
+                                <div className="usa-alert usa-alert-warning">
+                                  <div className="usa-alert-body">
+                                      Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a>
                                   </div>
                                 </div>
                                 <p>If you have a discharge that is less than honorable, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
