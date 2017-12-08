@@ -28,6 +28,8 @@ function sitemapURLs(callback) {
         // https://search.usa.gov/assets/sayt_loader_libs.js, so if we change the ID
         // of one of the elements, search won't work.
         '/404.html',
+        // This is here because aXe bug flags the custom select component on this page
+        '/facilities/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/'
       ];
