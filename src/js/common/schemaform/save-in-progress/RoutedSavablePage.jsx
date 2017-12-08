@@ -12,7 +12,7 @@ import {
   saveErrors,
   autoSaveForm,
   saveAndRedirectToReturnUrl
-} from './save-load-actions';
+} from './actions';
 import { toggleLoginModal } from '../../../login/actions';
 import { FormPage } from '../FormPage';
 

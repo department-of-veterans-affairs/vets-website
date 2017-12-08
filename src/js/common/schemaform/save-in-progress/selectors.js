@@ -11,8 +11,14 @@ export const getSaveInProgressState = createStructuredSelector({
   isLoggedIn: state => state.user.login.currentlyLoggedIn,
   savedForms: state => state.user.profile.savedForms,
   prefillsAvailable: state => state.user.profile.prefillsAvailable,
-  profileIsLoading: state => state.user.profile.loading,
-  version: state => state.form.version,
-  formId: state =>  state.form.formId,
-  migrations: state => state.form.migrations
+  profileIsLoading: state => state.user.profile.loading
 });
+
+export const getIntroState = createStructuredSelector({
+  formId: state =>  state.form.formId,
+  migrations: state => state.form.migrations,
+  returnUrl: state => state.form.loadedData.metadata.returnUrl,
+  user: state => state.user,
+  lastSavedDate: state => state.form.lastSavedDate
+});
+

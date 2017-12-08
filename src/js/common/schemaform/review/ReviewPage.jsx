@@ -13,7 +13,7 @@ import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-in-progress/save-load-actions';
+import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-in-progress/actions';
 import { toggleLoginModal } from '../../../login/actions';
 
 import { focusElement, getActivePages } from '../../utils/helpers';

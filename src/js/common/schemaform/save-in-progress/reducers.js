@@ -16,7 +16,7 @@ import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
   saveErrors
-} from '../save-in-progress/save-load-actions';
+} from '../save-in-progress/actions';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {
