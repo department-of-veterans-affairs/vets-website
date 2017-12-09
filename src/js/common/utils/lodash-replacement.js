@@ -1,5 +1,6 @@
 const numIndexRE = /(.+)\[(\d+)\]$/;
 
+
 /**
  * Takes a string and casts it into an array.
  * Can take strings like a.b[4].c
@@ -27,6 +28,48 @@ export function deconstructPath(path) {
   return arrayPath;
 }
 
+
+/**
+ * Clones an object. Currently just uses Object.assign(), but we can change that later if desired.
+ *
+ * @param {Object} object
+ * @return {Object}
+ */
+export function clone(object) {
+  return Object.assign({}, object);
+}
+
+/**
+ * Deeply clones an object. It's probably not super performant on deeply nested objects, but
+ *  it gets the job done for now.
+ *
+ * Functions retain the same reference, but their `this` context changes like we'd expect.
+ *
+ * @param {Object} object
+ * @return {Object}
+ */
+export function cloneDeep(object) {
+  const newObj = clone(object);
+
+  for (const key of Object.keys(newObj)) {
+    if (Array.isArray(newObj[key])) {
+      newObj[key] = newObj[key].slice().map(e => {
+        // Deep clones arrays and objects
+        if (typeof e === 'object' && e !== null) {
+          return cloneDeep(e);
+        }
+
+        return e;
+      });
+    } else if (typeof newObj[key] === 'object') {
+      newObj[key] = cloneDeep(newObj[key]);
+    }
+  }
+
+  return newObj;
+}
+
+
 /**
  * Gets a the value at the end of the path.
  *
@@ -49,3 +92,21 @@ export function get(object, path, defaultValue) {
 
   return (typeof currentValue !== 'undefined') ? currentValue : defaultValue;
 }
+
+
+/**
+ * Sets the value at the end of the path, creating the appropriate objects along the way if needed.
+ *
+ * @param {Obect} object
+ * @param {Array|string} path
+ * @param {*} value
+ * @return {Object} A new object with the appropriate value set
+ */
+// export function set(object, path, value) {
+//   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
+//   // The use of cloneDeep here could really slow it down; perf needed
+//   const newObj = cloneDeep(object);
+// 
+//   for (let i = 0; i < arrayPath.length; i++) {
+//   }
+// }
