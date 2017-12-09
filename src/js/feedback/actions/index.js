@@ -19,12 +19,12 @@ function handleFeedbackApiResponse(dispatch, values, response) {
 
 export function sendFeedback(values) {
   return (dispatch) => {
-    const { description: feedback, email } = values;
+    const { description, email } = values;
     const url = `${environment.API_URL}/v0/feedback`;
     const body = {
       target_page: window.location.pathname,
       owner_email: email,
-      feedback
+      description
     };
     const settings = {
       headers: { 'Content-Type': 'application/json' },
