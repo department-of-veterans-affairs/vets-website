@@ -8,8 +8,8 @@ import FeedbackSubmitted from '../components/FeedbackSubmitted';
 
 class Main extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.revealForm = this.revealForm.bind(this);
     this.state = { formIsVisible: false, requestPending: false };
   }

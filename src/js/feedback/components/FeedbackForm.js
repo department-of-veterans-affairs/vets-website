@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '../../common/components/AlertBox';
 
+const MIN_INPUT = 5;
+
 class FeedbackForm extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       shouldSendResponse: false,
       description: '',
@@ -36,6 +38,12 @@ class FeedbackForm extends React.Component {
       errorBanner = <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>;
     }
 
+    let isFormValid = this.state.description.length > MIN_INPUT;
+
+    if (isFormValid && this.state.shouldSendResponse) {
+      isFormValid = this.state.email.match( /[^@\s]+@([^@\s]+\.)+[^@\s]+/);
+    }
+
     return (
       <form className="feedback-form" onSubmit={this.onSubmit}>
         <h4 className="feedback-widget-title">Tell us what you think</h4>
@@ -43,7 +51,7 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-form">
             {errorBanner}
             <label htmlFor="description">What can we do to make Vets.gov better?</label>
-            <textarea name="description" value={this.state.description} onChange={this.descriptionChanged}/>
+            <textarea autoFocus name="description" value={this.state.description} onChange={this.descriptionChanged}/>
           </div>
           <div className="feedback-widget-need-help">
             <div className="feedback-widget-need-help-inner">
@@ -65,7 +73,7 @@ class FeedbackForm extends React.Component {
                 <input name="email" value={this.state.email} onChange={this.emailChanged}/>
               </div>
             ) : null}
-            <button type="submit" disabled={this.props.requestPending} className="usa-button-primary usa-width-one-whole">
+            <button type="submit" disabled={this.props.requestPending || !isFormValid} className="usa-button-primary usa-width-one-whole">
               {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
             </button>
           </div>
