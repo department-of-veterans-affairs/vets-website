@@ -41,7 +41,7 @@ class FeedbackForm extends React.Component {
     let isFormValid = this.state.description.length > MIN_INPUT;
 
     if (isFormValid && this.state.shouldSendResponse) {
-      isFormValid = this.state.email.match( /[^@\s]+@([^@\s]+\.)+[^@\s]+/);
+      isFormValid = this.state.email.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
     }
 
     return (
@@ -51,7 +51,7 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-form">
             {errorBanner}
             <label htmlFor="description">What can we do to make Vets.gov better?</label>
-            <textarea autoFocus name="description" value={this.state.description} onChange={this.descriptionChanged}/>
+            <textarea name="description" value={this.state.description} onChange={this.descriptionChanged}/>
           </div>
           <div className="feedback-widget-need-help">
             <div className="feedback-widget-need-help-inner">
