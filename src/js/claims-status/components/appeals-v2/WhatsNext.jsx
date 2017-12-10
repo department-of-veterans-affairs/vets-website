@@ -32,7 +32,10 @@ class WhatsNext extends React.Component {
 WhatsNext.propTypes = {
   nextEvents: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element
+    ]).isRequired,
     durationText: PropTypes.string.isRequired,
     cardDescription: PropTypes.string.isRequired
   })).isRequired

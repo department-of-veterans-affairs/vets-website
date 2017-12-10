@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
 import { SAVE_STATUSES, saveErrors } from './save-load-actions';
-import { focusElement } from '../utils/helpers';
+import { focusElement } from '../../utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
