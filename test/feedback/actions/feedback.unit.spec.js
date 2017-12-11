@@ -9,22 +9,22 @@ import {
   CLEAR_FEEDBACK_ERROR
 } from '../../../src/js/feedback/actions';
 
-describe('sendFeedback', function() {
+describe('sendFeedback', () => {
 
-  let dispatch = sinon.spy();
-  let old = { sessionStorage: global.sessionStorage, fetch: global.fetch };
-  let fetch = null;
-  let fetchResponse = {
+  const dispatch = sinon.spy();
+  const old = { sessionStorage: global.sessionStorage, fetch: global.fetch };
+  const fetchResponse = {
     ok: true,
-    json(){},
+    json() {},
     headers: {
-      get: key => ({ 'content-type' : 'application/json' }[key])
+      get: key => ({ 'content-type': 'application/json' }[key])
     }
   };
+  const fetch = sinon.spy(() => Promise.resolve(fetchResponse));
 
   before(() => {
     global.sessionStorage = {};
-    global.fetch = fetch = sinon.spy((url, settings) => Promise.resolve(fetchResponse));
+    global.fetch = fetch;
   });
 
   after(() => {
@@ -54,7 +54,7 @@ describe('sendFeedback', function() {
       chai.assert.equal(secondAction.type, FEEDBACK_RECEIVED, 'The FEEDBACK_RECEIVED action was dispatched.');
 
     }).then(done, done);
-  })
+  });
 
   it('dispatches FEEDBACK_ERROR when response.ok is false', (done) => {
     fetchResponse.ok = false;
@@ -78,9 +78,9 @@ describe('sendFeedback', function() {
   });
 });
 
-describe('clearError', function() {
+describe('clearError', () => {
   it('returns type CLEAR_FEEDBACK_ERROR', () => {
     const result = clearError();
     chai.assert.equal(result.type, CLEAR_FEEDBACK_ERROR, 'The CLEAR_FEEDBACK_ERROR action was returned.');
-  })
-})
+  });
+});
