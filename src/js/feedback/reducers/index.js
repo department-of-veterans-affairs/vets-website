@@ -13,20 +13,22 @@ function feedbackReducer(state = initialState, action) {
       return {
         requestPending: true,
         feedbackReceived: false,
-        shouldSendResponse: action.values.shouldSendResponse
+        shouldSendResponse: action.values.shouldSendResponse,
+        errorMessage: null
       };
     case FEEDBACK_RECEIVED:
       return {
         requestPending: false,
         feedbackReceived: true,
-        shouldSendResponse: state.shouldSendResponse
+        shouldSendResponse: state.shouldSendResponse,
+        errorMessage: null
       };
     case FEEDBACK_ERROR:
       return {
         requestPending: false,
         feedbackReceived: false,
-        errorMessage: action.message,
-        shouldSendResponse: state.shouldSendResponse
+        shouldSendResponse: state.shouldSendResponse,
+        errorMessage: action.message
       };
     case CLEAR_FEEDBACK_ERROR:
       return { ...state, errorMessage: null };
