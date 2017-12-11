@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Conditions Related to When and Where You Served
+title: Health Concerns Related to When and Where You Served
 display_title: Conditions Related to Service Era
 concurrence: complete
 lastupdate: 2017-06-28
