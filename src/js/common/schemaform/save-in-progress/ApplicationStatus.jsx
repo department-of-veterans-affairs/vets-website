@@ -4,11 +4,11 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Raven from 'raven-js';
 
-import { formLinks, formTitles } from '../../user-profile/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
-import Modal from '../../common/components/Modal';
-import { removeSavedForm } from '../../user-profile/actions';
+import { formLinks, formTitles } from '../../../user-profile/helpers';
+import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import ProgressButton from '../../../common/components/form-elements/ProgressButton';
+import Modal from '../../../common/components/Modal';
+import { removeSavedForm } from '../../../user-profile/actions';
 
 export class ApplicationStatus extends React.Component {
   constructor(props) {

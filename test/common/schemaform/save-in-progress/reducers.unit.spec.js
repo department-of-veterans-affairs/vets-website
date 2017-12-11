@@ -1,13 +1,6 @@
 import _ from 'lodash/fp';
 import { expect } from 'chai';
 
-import { SET_DATA,
-  SET_EDIT_MODE,
-  SET_PRIVACY_AGREEMENT,
-  SET_SUBMISSION,
-  SET_SUBMITTED
-} from '../../../../src/js/common/schemaform/actions';
-
 import {
   SET_SAVE_FORM_STATUS,
   SET_AUTO_SAVE_FORM_STATUS,
@@ -23,7 +16,7 @@ import {
 
 import createSchemaFormReducer from '../../../../src/js/common/schemaform/state';
 
-describe('schemaform createSchemaFormReducer', () => {
+describe('schemaform createSaveInProgressInitialState', () => {
   it('creates a reducer with initial state for each page', () => {
     const formConfig = {
       chapters: {
@@ -49,16 +42,14 @@ describe('schemaform createSchemaFormReducer', () => {
         }
       }
     };
-    const reducer = createSchemaFormReducer(formConfig);
+    const reducer = createSchemaFormReducer(formConfig, { data: {} });
     const state = reducer(undefined, {});
 
-    expect(state.submission).not.to.be.undefined;
-    expect(state.data.privacyAgreementAccepted).to.be.false;
-    expect(state.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
     expect(state.isStartingOver).to.be.false;
     expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
     expect(state.initialData).to.equal(state.data);
   });
+
   describe('reducer', () => {
     const formConfig = {
       chapters: {
@@ -77,7 +68,7 @@ describe('schemaform createSchemaFormReducer', () => {
         }
       }
     };
-    const reducer = createSchemaFormReducer(formConfig);
+    const reducer = createSchemaFormReducer(formConfig, { data: {} });
 
     const data = {
       formData: {
@@ -89,102 +80,6 @@ describe('schemaform createSchemaFormReducer', () => {
       }
     };
 
-    it('should set data state', () => {
-      const state = reducer({
-        pages: {
-          page1: {
-            schema: {
-              type: 'object',
-              properties: {}
-            },
-            uiSchema: {},
-          }
-        },
-        data: null
-      }, {
-        type: SET_DATA,
-        page: 'page1',
-        data: { field: 'test2' }
-      });
-
-      expect(state.data.field).to.equal('test2');
-    });
-    it('should set edit mode', () => {
-      const state = reducer({
-        pages: {
-          page1: {
-            editMode: false
-          }
-        }
-      }, {
-        type: SET_EDIT_MODE,
-        page: 'page1',
-        edit: true
-      });
-
-      expect(state.pages.page1.editMode).to.be.true;
-    });
-    it('should reset array edit modes', () => {
-      const state = reducer({
-        pages: {
-          page1: {
-            showPagePerItem: true,
-            arrayPath: 'testing',
-            editMode: [true],
-            schema: {
-              type: 'object',
-              properties: {}
-            },
-            uiSchema: {},
-          }
-        },
-        data: { testing: [{}] }
-      }, {
-        type: SET_DATA,
-        data: { testing: [{}, {}] }
-      });
-
-      expect(state.pages.page1.editMode).to.eql([false, false]);
-    });
-    it('should set privacy agreement', () => {
-      const state = reducer({
-        data: {
-          privacyAgreementAccepted: false
-        }
-      }, {
-        type: SET_PRIVACY_AGREEMENT,
-        privacyAgreementAccepted: true
-      });
-
-      expect(state.data.privacyAgreementAccepted).to.be.true;
-    });
-    it('should set submission field', () => {
-      const state = reducer({
-        submission: {
-          hasAttemptedSubmit: false
-        }
-      }, {
-        type: SET_SUBMISSION,
-        field: 'hasAttemptedSubmit',
-        value: true
-      });
-
-      expect(state.submission.hasAttemptedSubmit).to.be.true;
-    });
-    it('should set submitted', () => {
-      const state = reducer({
-        submission: {
-          response: null,
-          status: false
-        }
-      }, {
-        type: SET_SUBMITTED,
-        response: { field: 'test' }
-      });
-
-      expect(state.submission.status).to.equal('applicationSubmitted');
-      expect(state.submission.response).to.eql({ field: 'test' });
-    });
     it('should set save form status', () => {
       const state = reducer({
         savedStatus: SAVE_STATUSES.notAttempted
@@ -197,6 +92,7 @@ describe('schemaform createSchemaFormReducer', () => {
       expect(state.startingOver).to.be.false;
       expect(state.prefillStatus).to.equal(PREFILL_STATUSES.notAttempted);
     });
+
     it('should set auto save form status', () => {
       const state = reducer({
         autoSavedStatus: SAVE_STATUSES.notAttempted

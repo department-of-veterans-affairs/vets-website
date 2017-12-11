@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import PrefillMessage from '../../../src/js/common/schemaform/PrefillMessage';
+import PrefillMessage from '../../../../src/js/common/schemaform/save-in-progress/PrefillMessage';
 
 describe('Schemaform <PrefillMessage>', () => {
   it('should render', () => {
