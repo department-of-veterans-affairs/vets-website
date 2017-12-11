@@ -8,20 +8,20 @@ relatedlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: Fastest Way to File a Claim
-      description: "File a fully developed claim—the fastest way to file a benefits claim."
+      title: Fully Developed Claim
+      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
-      title: Application Process
-      description: Apply online now, or find out how to apply in person or get help from a trained professional.
-    - url: /track-claims/
-      title: Check Claim and Appeal Status
-      description: Track the status of your disability claims and appeals.
+      title: Disability Benefits Application Process
+      description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
+    - url: /disability-benefits/apply/help/
+      title: Get Help Filing a Claim
+      description: "An accredited representative with a Veterans Service Organization can help you fill out your disability claim."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Pre-discharge Claim
-      description: "If you have a disability and you're currently in predischarge status, file a predischarge disability claim 180 to 90       days before you leave the military."
+      description: "If you have a disability and you're currently in pre-discharge status, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability-benefits/apply/one-year/
-      title: Postservice Claim
-      description: "If you have a disability related to military service that didn't appear until after you ended your service, file a         postservice claim."
+      title: Disabilities That Appear Within 1 Year After Discharge
+      description: "You might be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
 ---
 
 <div class="va-introtext">
