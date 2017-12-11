@@ -1,21 +1,3 @@
-/*.va-alert {
-  color: $color-gray-dark !important;
-  position: relative;
-
-  &-title, h5 {
-    // Duplicating this rule  and abusing !important until
-    // #content .section h5 gets cleared up.
-    color: $color-gray-dark !important;
-    padding-bottom: 0 !important;
-  }
-
-  p {
-    margin: 0 !important;
-    font: inherit;
-    color: inherit;
-  }
-}*/
-
 .va-alert-close {
   background: transparent;
   color: $color-base;
@@ -45,6 +27,7 @@
 .usa-alert {
   background-size: 2.8rem;
   background-position: 1.7rem 2.8rem;
+  min-height: 74px;
 }
 
 .usa-alert-body, .usa-alert-header {
@@ -130,9 +113,6 @@
 
 .edu-warning-single-line {
   margin-top: 0;
-  > .usa-alert-body {
-  //  padding-left: 4rem;
-  }
 }
 
 @media screen and (min-width: 600px) {
@@ -142,12 +122,5 @@
       background-position: 1.3rem 1.5rem;*/
     //  padding-left: 5rem;
     }
-  }
-}
-
-.sip-application-error {
-//  background-size: 4.2rem;
-  > .usa-alert-body {
-  //  padding-left: 3.5rem;
   }
 }
