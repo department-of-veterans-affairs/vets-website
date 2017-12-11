@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '../../common/components/AlertBox';
 
-const MIN_INPUT = 5;
+const MIN_INPUT = 1;
 
 class FeedbackForm extends React.Component {
 
@@ -38,7 +38,7 @@ class FeedbackForm extends React.Component {
       errorBanner = <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>;
     }
 
-    let isFormValid = this.state.description.length > MIN_INPUT;
+    let isFormValid = this.state.description.length >= MIN_INPUT;
 
     if (isFormValid && this.state.shouldSendResponse) {
       isFormValid = this.state.email.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);

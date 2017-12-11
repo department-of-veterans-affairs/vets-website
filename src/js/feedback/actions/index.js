@@ -1,6 +1,4 @@
-/* eslint-disable camelcase, strict */
-
-import environment from '../../common/helpers/environment.js';
+import { apiRequest } from '../../common/helpers/api';
 
 export const SEND_FEEDBACK = 'SEND_FEEDBACK';
 export const FEEDBACK_RECEIVED = 'FEEDBACK_RECEIVED';
@@ -9,32 +7,21 @@ export const CLEAR_FEEDBACK_ERROR = 'CLEAR_FEEDBACK_ERROR';
 
 const errorMessage = 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
 
-function handleFeedbackApiResponse(dispatch, values, response) {
-  if (response.ok) {
-    dispatch({ type: FEEDBACK_RECEIVED });
-  } else {
-    dispatch({ type: FEEDBACK_ERROR, message: errorMessage });
-  }
-}
-
 export function sendFeedback(values) {
   return (dispatch) => {
-    const { description, email } = values;
-    const url = `${environment.API_URL}/v0/feedback`;
-    const body = {
-      target_page: window.location.pathname,
-      owner_email: email,
-      description
-    };
+    const { description, email: ownerEmail } = values;
+    const targetPage = window.location.pathname;
     const settings = {
       headers: { 'Content-Type': 'application/json' },
       method: 'post',
-      body: JSON.stringify(body)
+      body: JSON.stringify({ ownerEmail, description, targetPage })
     };
 
     dispatch({ type: SEND_FEEDBACK, values });
-    return fetch(url, settings)
-      .then(response => handleFeedbackApiResponse(dispatch, values, response));
+
+    return apiRequest('/feedback', settings)
+      .then(() => dispatch({ type: FEEDBACK_RECEIVED }))
+      .catch(() => dispatch({ type: FEEDBACK_ERROR, message: errorMessage }));
   };
 }
 
