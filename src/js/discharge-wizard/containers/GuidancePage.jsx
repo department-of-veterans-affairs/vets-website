@@ -11,18 +11,17 @@ class GuidancePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      activeFAQ: null,
-    };
+    this.state = {};
   }
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  handleFAQToggle(e) {
+  handleFAQToggle = (e) => {
     e.preventDefault();
     this.setState({
-      activeFAQ: e.target.name
+      [e.target.name]: !this.state[e.target.name],
     });
   }
 
@@ -281,18 +280,18 @@ class GuidancePage extends React.Component {
         <div className="usa-accordion accordion-container">
           <ul className="usa-unstyled-list">
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" name="q1" aria-expanded={this.state.activeFAQ === 'q1'}>What happens after I send in my application?</button>
-              <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={this.state.activeFAQ !== 'q1'}>
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" name="q1" aria-expanded={!!this.state.q1} onClick={this.handleFAQToggle}>What happens after I send in my application?</button>
+              <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q1}>
                 <div itemProp="text">
                   <p>Nearly all applications are reviewed by the Board within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
                   <p>If your application is successful, the Board will either issue you a DD-215, which contains updates to the DD-214, or an entirely new DD-214. If you get a new DD-214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
-                  <p>If your appeal results in raising your discharge status to honorable, you will be immediately eligible for all VA benefits and services. In the meantime, you may still apply for VA eligibility by <a target="_blank" href="#">requesting a Character of Discharge review</a>.</p>
+                  <p>If your appeal results in raising your discharge status to honorable, you will be immediately eligible for all VA benefits and services. In the meantime, you may still apply for VA eligibility by <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">requesting a Character of Discharge review</a>.</p>
                 </div>
               </div>
             </li>
             <li itemScope itemType="http://schema.org/Question">
-              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" name="q2" aria-expanded={this.state.activeFAQ === 'q2'}>Can I apply for VA benefits in the meantime?</button>
-              <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={this.state.activeFAQ !== 'q2'}>
+              <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" name="q2" aria-expanded={!!this.state.q2} onClick={this.handleFAQToggle}>Can I apply for VA benefits in the meantime?</button>
+              <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q2}>
                 <div itemProp="text">
                   <AlertBox
                     isVisible
