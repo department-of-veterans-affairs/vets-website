@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Predischarge Claim
+title: Pre-discharge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -11,7 +11,7 @@ majorlinks:
     links:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/bdd/
       title: Enter the Benefits Delivery at Discharge (BDD) program
-      description: Are you between 90 and 180 days from separation?
+      description: Are you between 180 and 90 days from separation?
     - url: /disability-benefits/apply/claim-types/predischarge-claim/overseas/
       title: Go to an Intake Site in Korea or Germany
       description: Are you stationed overseas?
@@ -25,7 +25,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability and you’re currently in predischarge status, you can file a claim for disability benefits 90 to 180 days before any of these changes to your status:
+If you have a disability and you’re currently in pre-discharge status, you can file a claim for disability benefits 180 to 90 days before any of these changes to your status:
 
 </div>
 
