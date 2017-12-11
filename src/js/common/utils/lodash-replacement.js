@@ -11,8 +11,8 @@ const numIndexRE = /(.+)\[(\d+)\]$/;
 export function deconstructPath(path) {
   const arrayPath = path.split('.');
 
-  // Change ['a', 'b[0]'] -> ['a', 'b', 0]
-  arrayPath.forEach((e, i) => {
+  // Turns out it's just a wee bit faster to use a named function over an anonymous one
+  const decunstruct = (e, i) => {
     // Skip the nubers we insert
     if (typeof e === 'number') {
       return;
@@ -23,7 +23,10 @@ export function deconstructPath(path) {
       arrayPath[i] = matches[1];
       arrayPath.splice(i + 1, 0, parseInt(matches[2], 10));
     }
-  });
+  };
+
+  // Change ['a', 'b[0]'] -> ['a', 'b', 0]
+  arrayPath.forEach(decunstruct);
 
   return arrayPath;
 }
