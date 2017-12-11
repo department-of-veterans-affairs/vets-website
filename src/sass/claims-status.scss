@@ -658,11 +658,17 @@ h1:focus {
   .section-unexpanded:before {
     font-family: FontAwesome;
     content: "\f067";
+    color: $color-primary;
+    background-color: $color-white;
+    border-color: $color-primary;
   }
 
   .section-expanded:before {
     font-family: FontAwesome;
     content: "\f068";
+    color: $color-primary;
+    background-color: $color-white;
+    border-color: $color-primary;
   }
 
   .section-current {
@@ -693,7 +699,7 @@ h1:focus {
     border-left: 0.6em solid transparent;
     border-right: 0.6em solid transparent;
     border-top: 1.2em solid $color-gray-lighter;
-    margin-top: -24px;
+    margin-top: -1em;
     margin-left: 0.8em;
   }
 
@@ -864,7 +870,7 @@ h1:focus {
 .appeals-next-list {
   list-style-type: none;
 
-  li {
+  li.next-event {
     &:before { // styles the bullets to mimic bullets in Timeline
       display: inline-block;
       vertical-align: middle;
@@ -911,5 +917,20 @@ h1:focus {
 
   li {
     margin-left: -.4em;
+  }
+}
+
+.decision-items {
+  h5 {
+    &.allowed-items {
+      color: $color-green;
+    }
+    &.denied-items {
+      color: $color-red;
+    }
+    &.remand-items {
+      color: $color-primary;
+    }
+    font-weight: bold;
   }
 }

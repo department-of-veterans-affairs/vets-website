@@ -31,7 +31,7 @@ import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
   saveErrors
-} from '../save-load-actions';
+} from '../save-in-progress/save-load-actions';
 
 function recalculateSchemaAndData(initialState) {
   return Object.keys(initialState.pages)

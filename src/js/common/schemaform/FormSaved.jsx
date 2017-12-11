@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../utils/helpers';
-import { fetchInProgressForm, removeInProgressForm } from './save-load-actions';
+import { fetchInProgressForm, removeInProgressForm } from './save-in-progress/save-load-actions';
 import { handleVerify } from '../../common/helpers/login-helpers.js';
 import { formTitles } from '../../user-profile/helpers';
 import FormStartControls from './FormStartControls';

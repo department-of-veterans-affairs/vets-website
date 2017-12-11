@@ -1,6 +1,6 @@
 import React from 'react';
 import ProgressButton from '../../components/form-elements/ProgressButton';
-import SaveFormLink from '../SaveFormLink';
+import SaveFormLink from '../save-in-progress/SaveFormLink';
 
 export default function SubmitButtons(props) {
   const {
