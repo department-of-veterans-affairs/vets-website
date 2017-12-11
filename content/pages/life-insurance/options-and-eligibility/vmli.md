@@ -30,7 +30,7 @@ You may be able to get VMLI if you have a severe disability, and you:
 - Have a mortgage on the home, **and**
 - Are under 70 years old
 
-[Find out if you qualify for an SAH grant—and how to apply](http://www.benefits.va.gov/homeloans/adaptedhousing.asp).
+[Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp).
 
 <br>
 
@@ -60,7 +60,7 @@ Up to $200,000 in mortgage life insurance—paid directly to the bank or other l
 
 First, you’ll need to apply for an SAH grant. If you get the SAH grant, your Loan Guaranty agent will tell you if you qualify for VMLI. If you already have an SAH grant, ask your agent about VMLI.
 
-Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636). [Download VA Form 29-8636](http://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
+Your agent will help you fill out a Veterans’ Mortgage Life Insurance Statement (VA Form 29-8636). [Download VA Form 29-8636](https://www.benefits.va.gov/INSURANCE/forms/29-8636_08-2011.pdf). 
 
 **Note:** Remember, you must apply for VMLI before your 70th birthday.
 
@@ -100,7 +100,7 @@ Send notice of any changes to:
   Philadelphia, PA 19101<br>
 </p>
 
-[Read our life insurance publications for more guidance](http://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
+[Read our life insurance publications for more guidance](https://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
 
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

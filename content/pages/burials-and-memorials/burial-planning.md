@@ -47,7 +47,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 You'll need:
 
- - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+ - The DD214 or other discharge documents of the deceased or the Servicemember or Veteran whose military service will be used to decide if the deceased qualifies for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. [Find out which discharge documents we accept along with your application](https://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
 
 You'll need the deceased's:
 
@@ -107,7 +107,7 @@ The funeral director you’ve chosen can help you with these steps too:
 
 ### Can I get information about the Burial at Sea program?
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">1-866-787-0081</a>, Monday through Friday, 8:30 a.m. to 5:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll-free at <a href="tel:+18667870081">1-866-787-0081</a>, Monday through Friday, 8:30 a.m. to 5:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
 [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 <br>

@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -22,6 +23,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const createSettings = require('../config/create-settings');
 
 const sourceDir = '../content/pages';
 
@@ -667,9 +669,19 @@ smith.use(redirect({
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
+function generateStaticSettings() {
+  const settings = createSettings(options);
+  const settingsPath = path.join(destination, 'js/settings.js');
+  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
+  fs.writeFileSync(settingsPath, settingsContent);
+}
+
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
+
+  generateStaticSettings();
+
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {
