@@ -51,16 +51,18 @@ export function clone(object) {
 export function cloneDeep(object) {
   const newObj = clone(object);
 
+  const cloneArrayElement = e => {
+    // Deep clones arrays and objects
+    if (typeof e === 'object' && e !== null) {
+      return cloneDeep(e);
+    }
+
+    return e;
+  };
+
   for (const key of Object.keys(newObj)) {
     if (Array.isArray(newObj[key])) {
-      newObj[key] = newObj[key].slice().map(e => {
-        // Deep clones arrays and objects
-        if (typeof e === 'object' && e !== null) {
-          return cloneDeep(e);
-        }
-
-        return e;
-      });
+      newObj[key] = newObj[key].slice().map(cloneArrayElement);
     } else if (typeof newObj[key] === 'object') {
       newObj[key] = cloneDeep(newObj[key]);
     }
