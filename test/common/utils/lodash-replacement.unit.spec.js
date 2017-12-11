@@ -4,7 +4,7 @@ import {
   deconstructPath,
   clone,
   cloneDeep,
-  // get,
+  get,
   // set
 } from '../../../src/js/common/utils/lodash-replacement';
 
@@ -73,16 +73,37 @@ describe('lodash replacements', () => {
 
 
   describe('get', () => {
-    // Terrible description...
-    it('should get the value at the appropriate nested path', () => {});
+    const o = {
+      a: 'a',
+      b: { c: 'c' },
+      k: { a: { y: 'f' } },
+      g: ['h', 'i', 'j']
+    };
 
-    it('should handle array indexes', () => {});
+    it('should get a value one level deep', () => {
+      expect(get(o, 'a')).to.equal(o.a);
+    });
 
-    it('should handle an array path', () => {});
+    it('should get a value n levels deep', () => {
+      expect(get(o, 'b.c')).to.equal(o.b.c);
+      expect(get(o, 'k.a.y')).to.equal(o.k.a.y);
+    });
 
-    it('should return a default value if not found', () => {});
+    it('should handle array indexes', () => {
+      expect(get(o, 'g[2]')).to.equal(o.g[2]);
+    });
 
-    it('should return undefined if not fount and no default is provided', () => {});
+    it('should handle an array path', () => {
+      expect(get(o, ['k', 'a', 'y'])).to.equal(o.k.a.y);
+    });
+
+    it('should return a default value if not found', () => {
+      expect(get(o, 'does.not.exist', 'default')).to.equal('default');
+    });
+
+    it('should return undefined if not found and no default is provided', () => {
+      expect(get(o, 'does.not.exist')).to.equal();
+    });
   });
 });
 
