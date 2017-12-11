@@ -14,6 +14,7 @@ class InstructionsPage extends React.Component {
 
   handleFAQToggle = (e) => {
     e.preventDefault();
+    window.dataLayer.push({ event: 'discharge-upgrade-faq-toggle' });
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });
