@@ -3,7 +3,7 @@ import environment from '../../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../../login/actions';
 
-import { removeFormApi, saveFormApi } from './sip-api';
+import { removeFormApi, saveFormApi } from './api';
 import { sanitizeForm } from '../helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
