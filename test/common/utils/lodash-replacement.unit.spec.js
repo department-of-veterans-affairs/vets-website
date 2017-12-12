@@ -159,6 +159,19 @@ describe('lodash replacements', () => {
       expect(o).to.eql(oCopy);
     });
 
+    it('should not maintain the same refs to sub-objects', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = set(o, 'k.a.y', 'd');
+      expect(newObj.k.a).to.not.equal(o.k.a);
+      expect(newObj.k.a).to.not.eql(o.k.a);
+    });
+
     it('should throw an error if a segment of the path is not a string or number', () => {
       const o = {
         a: 'a',
