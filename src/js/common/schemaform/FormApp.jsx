@@ -207,7 +207,6 @@ class FormApp extends React.Component {
       );
     }
 
-
     return (
       <div>
         <div className="row">
@@ -216,7 +215,7 @@ class FormApp extends React.Component {
             {
               formConfig.title &&
               // If we’re on the introduction page, show the title if we’re actually on the loading screen
-              (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
+              (!isIntroductionPage || (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted)) &&
                 <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
             }
             {content}
