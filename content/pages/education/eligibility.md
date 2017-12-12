@@ -96,7 +96,7 @@ If you have a service-connected disability that limits your ability to work or p
 </div>
 </div>
 </div>
-<div id="react-applicationStatus"></div>
+<div id="react-applicationStatus" class="static-page-widget"></div>
 
 [Learn about the application process](/education/apply/).
 

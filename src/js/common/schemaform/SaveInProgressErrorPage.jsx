@@ -9,7 +9,7 @@ import {
   fetchInProgressForm,
   setFetchFormStatus,
   removeInProgressForm
-} from './save-in-progress/save-load-actions';
+} from './save-in-progress/actions';
 
 import SignInLink from '../components/SignInLink';
 import ProgressButton from '../components/form-elements/ProgressButton';

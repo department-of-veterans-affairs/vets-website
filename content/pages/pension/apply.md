@@ -36,7 +36,7 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
-<div id="react-applicationStatus">
+<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
 </div>
 
