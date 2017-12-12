@@ -5,7 +5,7 @@ import {
   clone,
   cloneDeep,
   get,
-  // set
+  set
 } from '../../../src/js/common/utils/lodash-replacement';
 
 
@@ -103,6 +103,78 @@ describe('lodash replacements', () => {
 
     it('should return undefined if not found and no default is provided', () => {
       expect(get(o, 'does.not.exist')).to.equal();
+    });
+  });
+
+
+  describe('set', () => {
+    it('should set the value of an existing path', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = set(o, 'b.c', 'd');
+      expect(newObj.b.c).to.equal('d');
+    });
+
+    it('should set the value of a path that doesn\'t exist yet', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = set(o, 'new.path', ['foo', 'bar']);
+      expect(newObj.new.path).to.eql(['foo', 'bar']);
+    });
+
+    it('should handle an array path', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = set(o, ['new', 'path'], ['foo', 'bar']);
+      expect(newObj.new.path).to.eql(['foo', 'bar']);
+    });
+
+    it('should not modify original object', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      // Perhaps using cloneDeep in here is in bad taste?
+      const oCopy = cloneDeep(o);
+
+      set(o, ['new', 'path'], ['foo', 'bar']);
+      expect(o).to.eql(oCopy);
+    });
+
+    it('should throw an error if a segment of the path is not a string or number', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      try {
+        set(o, ['new', [0, 1]], ['foo', 'bar']);
+        // Shouldn't get here; should throw an error
+        expect(true).to.be.false;
+      } catch (e) {
+        // Public service announcement: Arrays are objects too!
+        expect(e.message).to.contain('Unrecognized path element type: object.');
+      }
     });
   });
 });

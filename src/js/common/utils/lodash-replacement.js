@@ -88,7 +88,7 @@ export function get(object, path, defaultValue) {
   let currentValue = object;
 
   for (let i = 0; i < arrayPath.length; i++) {
-    if (currentValue[arrayPath[i]]) {
+    if (typeof currentValue[arrayPath[i]] !== 'undefined') {
       currentValue = currentValue[arrayPath[i]];
     } else {
       return defaultValue;
@@ -100,18 +100,61 @@ export function get(object, path, defaultValue) {
 
 
 /**
+ * Same as `set`, but uses the level param to determine when to clone and give a more helpful error message.
+ *
+ * @param {Obect} object
+ * @param {Array|string} path
+ * @param {*} value
+ * @param {Number} level  How many times we've recursed
+ * @return {Object} A new object with the appropriate value set
+ */
+function baseSet(object, path, value, level = 0) {
+  const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
+
+  if (!arrayPath.length) {
+    // We're at the end of our path; time to assign
+    return value;
+  }
+
+  // Only clone the whole object once
+  let newObj = object;
+  if (level === 0) {
+    newObj = cloneDeep(object);
+  }
+
+  const pathSegment = arrayPath.shift();
+
+  // Handle a path that doesn't exist
+  if (typeof newObj[pathSegment] === 'undefined') {
+    // The type of this element depends on the next path chunk
+    switch (typeof pathSegment) {
+      case 'string':
+        newObj[pathSegment] = {};
+        break;
+      case 'number':
+        // The array should be big enough to get whatever index we're looking for
+        newObj[pathSegment] = new Array(pathSegment + 1);
+        break;
+      default:
+        throw new Error(`Unrecognized path element type: ${typeof pathSegment}. Expected string or number. arrayPath[${level}] contains ${pathSegment}.`);
+    }
+  }
+
+  newObj[pathSegment] = baseSet(newObj[pathSegment], arrayPath, value, level + 1);
+
+  return newObj;
+}
+
+
+/**
  * Sets the value at the end of the path, creating the appropriate objects along the way if needed.
+ * Separate from `baseSet` to not expose the level param.
  *
  * @param {Obect} object
  * @param {Array|string} path
  * @param {*} value
  * @return {Object} A new object with the appropriate value set
  */
-// export function set(object, path, value) {
-//   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
-//   // The use of cloneDeep here could really slow it down; perf needed
-//   const newObj = cloneDeep(object);
-// 
-//   for (let i = 0; i < arrayPath.length; i++) {
-//   }
-// }
+export function set(object, path, value) {
+  return baseSet(object, path, value, 0);
+}
