@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: File a Predischarge Claim While Overseas
+title: File a Pre-discharge Claim While Overseas
 display_title: File a Claim While Overseas
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
@@ -17,7 +17,7 @@ You can file a disability claim while you’re stationed overseas.
 
 ### Within the Kaiserslautern Military Community (KMC)
 
-If you are stationed within the KMC, visit the Landstuhl Benefits Delivery at Discharge (BDD) office, where you can start your disability claim while you’re on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
+If you are stationed within the KMC, visit the Landstuhl Benefits Delivery at Discharge (BDD) office, where you can start your disability claim while you’re on active duty in pre-discharge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
 
 ### Outside the KMC
 
