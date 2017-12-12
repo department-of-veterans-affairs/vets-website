@@ -72,19 +72,10 @@ class FormApp extends React.Component {
   }
 }
 
-<<<<<<< HEAD
-const mapDispatchToProps = {
-  setFetchFormStatus,
-  fetchInProgressForm
-};
-
-export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(FormApp));
-=======
 const mapStateToProps = (state) => ({
   formData: state.form.data
 });
 
 export default connect(mapStateToProps)(FormApp);
->>>>>>> ee663bc... Initial refactor
 
 export { FormApp };
