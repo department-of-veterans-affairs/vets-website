@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
 import { RoutedSavableApp } from '../../../../src/js/common/schemaform/save-in-progress/RoutedSavableApp';
-import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../../src/js/common/schemaform/save-in-progress/save-load-actions';
+import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../../src/js/common/schemaform/save-in-progress/actions';
 
 let oldWindow;
 

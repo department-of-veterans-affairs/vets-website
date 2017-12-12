@@ -12,7 +12,7 @@ import {
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from './save-load-actions';
+} from './actions';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 import { isInProgress } from '../../utils/helpers';
