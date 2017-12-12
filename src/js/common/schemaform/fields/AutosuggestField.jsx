@@ -1,20 +1,42 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
-import fuzzy from 'fuzzy';
+// import fuzzysearch from 'fuzzysearch';
+import fastLevenshtein from 'fast-levenshtein';
 
 function getSuggestions(options, value) {
   if (value) {
-    return fuzzy.filter(value.toUpperCase(), options, {
-      extract: (option) => option.label.toUpperCase()
-    })
-      .map(match => match.original);
+    // return fuzzy.filter(value.toUpperCase(), options, {
+    //   extract: (option) => option.label.toUpperCase()
+    // })
+    //   .map(match => match.original);
+    // return options.filter(option => fuzzysearch(value.toUpperCase(), option.label.toUpperCase()));
+    return options
+      .map(option => {
+        return {
+          score: option.label.toUpperCase().includes(value.toUpperCase())
+            ? 0
+            : fastLevenshtein.get(value.toUpperCase(), option.label.toUpperCase()),
+          original: option
+        };
+      })
+      .sort((a, b) => {
+        const result = a.score - b.score;
+
+        if (result === 0) {
+          return a.original.label.length - b.original.label.length;
+        }
+
+        return result;
+      })
+      .map(sorted => sorted.original)
+      .slice(0, 20);
   }
 
-  return [];
+  return options;
 }
 
-export default class AutosuggestWidget extends React.Component {
+export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
     const input = props.formData ? (props.formData.label || '') : '';
@@ -24,13 +46,14 @@ export default class AutosuggestWidget extends React.Component {
     let suggestions = [];
 
     if (!uiOptions.getOptions) {
-      options = this.props.enumOptions.map(option => {
+      const idSchema = props.schema.properties.id;
+      options = idSchema.enum.map((id, index) => {
         return {
-          id: option.value,
-          label: option.label
+          id,
+          label: uiOptions.labels[id] || idSchema.enumNames[index]
         };
       });
-      suggestions = getSuggestions(options, this.state.input);
+      suggestions = getSuggestions(options, input);
     }
 
     this.state = {
