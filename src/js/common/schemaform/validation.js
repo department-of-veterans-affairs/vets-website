@@ -296,7 +296,7 @@ export function validateAddress(errors, address, formData, schema) {
 
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
+  if (['USA', 'CAN', 'MEX'].includes(address.country)
     && address.state === undefined
     && schema.required.length) {
     errors.state.addError('Please select a state or province');
