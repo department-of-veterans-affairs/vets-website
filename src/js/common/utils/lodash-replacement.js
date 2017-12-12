@@ -1,3 +1,10 @@
+/**
+ * Lodash replacements is a collection of functions designed to replace common lodash ones.
+ * These function will more closely resemble lodash/fp functions in that they should be
+ *   non-mutative and support the lodash/fp parameter order. They should _not_ support auto-
+ *   currying for simplicity.
+ */
+
 const numIndexRE = /(.+)\[(\d+)\]$/;
 
 
@@ -83,7 +90,7 @@ export function cloneDeep(object) {
  * @param {*} [defaultValue]
  * @return {*}
  */
-export function get(object, path, defaultValue) {
+export function get(path, object, defaultValue) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
   let currentValue = object;
 
@@ -108,7 +115,7 @@ export function get(object, path, defaultValue) {
  * @param {Number} level  How many times we've recursed
  * @return {Object} A new object with the appropriate value set
  */
-function baseSet(object, path, value, level = 0) {
+function baseSet(path, object, value, level = 0) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
 
   if (!arrayPath.length) {
@@ -140,7 +147,7 @@ function baseSet(object, path, value, level = 0) {
     }
   }
 
-  newObj[pathSegment] = baseSet(newObj[pathSegment], arrayPath, value, level + 1);
+  newObj[pathSegment] = baseSet(arrayPath, newObj[pathSegment], value, level + 1);
 
   return newObj;
 }
@@ -155,6 +162,6 @@ function baseSet(object, path, value, level = 0) {
  * @param {*} value
  * @return {Object} A new object with the appropriate value set
  */
-export function set(object, path, value) {
-  return baseSet(object, path, value, 0);
+export function set(path, object, value) {
+  return baseSet(path, object, value, 0);
 }

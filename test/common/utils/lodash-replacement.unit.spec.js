@@ -81,28 +81,28 @@ describe('lodash replacements', () => {
     };
 
     it('should get a value one level deep', () => {
-      expect(get(o, 'a')).to.equal(o.a);
+      expect(get('a', o)).to.equal(o.a);
     });
 
     it('should get a value n levels deep', () => {
-      expect(get(o, 'b.c')).to.equal(o.b.c);
-      expect(get(o, 'k.a.y')).to.equal(o.k.a.y);
+      expect(get('b.c', o)).to.equal(o.b.c);
+      expect(get('k.a.y', o)).to.equal(o.k.a.y);
     });
 
     it('should handle array indexes', () => {
-      expect(get(o, 'g[2]')).to.equal(o.g[2]);
+      expect(get('g[2]', o)).to.equal(o.g[2]);
     });
 
     it('should handle an array path', () => {
-      expect(get(o, ['k', 'a', 'y'])).to.equal(o.k.a.y);
+      expect(get(['k', 'a', 'y'], o)).to.equal(o.k.a.y);
     });
 
     it('should return a default value if not found', () => {
-      expect(get(o, 'does.not.exist', 'default')).to.equal('default');
+      expect(get('does.not.exist', o, 'default')).to.equal('default');
     });
 
     it('should return undefined if not found and no default is provided', () => {
-      expect(get(o, 'does.not.exist')).to.equal();
+      expect(get('does.not.exist', o)).to.equal();
     });
   });
 
@@ -116,7 +116,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set(o, 'b.c', 'd');
+      const newObj = set('b.c', o, 'd');
       expect(newObj.b.c).to.equal('d');
     });
 
@@ -128,7 +128,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set(o, 'new.path', ['foo', 'bar']);
+      const newObj = set('new.path', o, ['foo', 'bar']);
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
@@ -140,7 +140,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set(o, ['new', 'path'], ['foo', 'bar']);
+      const newObj = set(['new', 'path'], o, ['foo', 'bar']);
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
@@ -155,7 +155,7 @@ describe('lodash replacements', () => {
       // Perhaps using cloneDeep in here is in bad taste?
       const oCopy = cloneDeep(o);
 
-      set(o, ['new', 'path'], ['foo', 'bar']);
+      set(['new', 'path'], o, ['foo', 'bar']);
       expect(o).to.eql(oCopy);
     });
 
@@ -167,7 +167,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set(o, 'k.a.y', 'd');
+      const newObj = set('k.a.y', o, 'd');
       expect(newObj.k.a).to.not.equal(o.k.a);
       expect(newObj.k.a).to.not.eql(o.k.a);
     });
@@ -181,7 +181,7 @@ describe('lodash replacements', () => {
       };
 
       try {
-        set(o, ['new', [0, 1]], ['foo', 'bar']);
+        set(['new', [0, 1]], o, ['foo', 'bar']);
         // Shouldn't get here; should throw an error
         expect(true).to.be.false;
       } catch (e) {
