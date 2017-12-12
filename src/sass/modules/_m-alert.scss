@@ -28,6 +28,12 @@
   background-size: 2.8rem;
   background-position: 1.7rem 2.8rem;
   min-height: 74px;
+  display: table;
+
+  .usa-alert-body {
+    display:table-cell;
+    vertical-align: middle;
+  }
 }
 
 .usa-alert-heading {
@@ -38,7 +44,6 @@
   > h3:first-child, > h4:first-child, > h5:first-child {
     margin-top: .3em;
   }
-
   padding-left: 2.2rem;
 }
 
