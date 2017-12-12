@@ -82,6 +82,10 @@
     margin-top: 1em;
   }
 
+  .feedback-error > .usa-alert {
+    margin: 1.5em 0;
+  }
+
   @include media($medium-screen) {
     .feedback-button {
       margin: 10px 0 0;

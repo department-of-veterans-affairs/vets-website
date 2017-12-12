@@ -35,7 +35,11 @@ class FeedbackForm extends React.Component {
   render() {
     let errorBanner = null;
     if (this.props.errorMessage) {
-      errorBanner = <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>;
+      errorBanner = (
+        <div className="feedback-error">
+          <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>
+        </div>
+      );
     }
 
     let isFormValid = this.state.description.length >= MIN_INPUT;
