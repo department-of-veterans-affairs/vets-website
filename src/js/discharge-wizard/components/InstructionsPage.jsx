@@ -2,14 +2,21 @@ import React from 'react';
 import { Link } from 'react-router';
 
 class InstructionsPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
   componentDidMount() {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = 'https://standards.usa.gov/assets/js/vendor/uswds.min.js';
-    script.id = 'uswds';
-    document.getElementsByTagName('head')[0].appendChild(script);
     window.scrollTo(0, 0);
+  }
+
+  handleFAQToggle = (e) => {
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: !this.state[e.target.name],
+    });
   }
 
   render() {
@@ -50,8 +57,8 @@ class InstructionsPage extends React.Component {
                       <div className="usa-accordion">
                         <ul className="usa-unstyled-list">
                           <li itemScope itemType="http://schema.org/Question">
-                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq4" itemProp="name">Did you know you may be able to get VA benefits without a discharge upgrade?</button>
-                            <div id="dbq4" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq4" itemProp="name" aria-expanded={!!this.state.q1} onClick={this.handleFAQToggle} name="q1">Did you know you may be able to get VA benefits without a discharge upgrade?</button>
+                            <div id="dbq4" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q1}>
                               <div itemProp="text">
                                 <div className="va-alert usa-alert usa-alert-warning">
                                   <div className="va-alert-body usa-alert-body">
@@ -70,8 +77,8 @@ class InstructionsPage extends React.Component {
                             </div>
                           </li>
                           <li itemScope itemType="http://schema.org/Question">
-                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name">What if I already applied for an upgrade or correction and was denied?</button>
-                            <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" aria-expanded={!!this.state.q2} onClick={this.handleFAQToggle} name="q2">What if I already applied for an upgrade or correction and was denied?</button>
+                            <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q2}>
                               <div itemProp="text">
                                 <p>If you have previously made a discharge upgrade application and were denied, you may have to follow a different process. Note that, unless you have new information to add to your application, re-applying is not likely to change the outcome of your case, unless you fall into one of the special groups that the Department of Defense has issued new guidance for (such as people discharged for reasons related to PTSD, TBI, mental health conditions, sexual orientation, or sexual assault or harassment).</p>
                                 <h4>Denied Upgrade After Records Review</h4>
@@ -90,8 +97,8 @@ class InstructionsPage extends React.Component {
                             </div>
                           </li>
                           <li itemScope itemType="http://schema.org/Question">
-                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name">What if I have discharges for more than one period of service?</button>
-                            <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" aria-expanded={!!this.state.q3} onClick={this.handleFAQToggle} name="q3">What if I have discharges for more than one period of service?</button>
+                            <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q3}>
                               <div itemProp="text">
                                 <p>If the Department of Defense (DoD) determined you served honorably in one period of service, you may use that honorable characterization to establish eligibility for VA benefits, even if you later received a less than honorable discharge. You earned your benefits during the period in which you served honorably.</p>
                                 <p>The only exception is for service-connected disability compensation. You are only eligible to earn disability compensation for disabilities you suffered during a period of honorable service. You can't use an honorable discharge from one period of service to establish eligibility for a service-connected disability from a different period.</p>
@@ -99,8 +106,8 @@ class InstructionsPage extends React.Component {
                             </div>
                           </li>
                           <li itemScope itemType="http://schema.org/Question">
-                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq3" itemProp="name">What if I served honorably, but didn't receive discharge paperwork?</button>
-                            <div id="dbq3" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq3" itemProp="name" aria-expanded={!!this.state.q4} onClick={this.handleFAQToggle} name="q4">What if I served honorably, but didn't receive discharge paperwork?</button>
+                            <div id="dbq3" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q4}>
                               <div itemProp="text">
                                 <p>If the Department of Defense (DoD) determined you served honorably in one period of service, you may use that honorable characterization to establish eligibility for VA benefits. You earned your benefits during the period in which you served honorably.</p>
                                 <p>The only exception is for service-connected disability compensation. You're only eligible to earn disability compensation for disabilities you suffered during a period of honorable service. You can't use an honorable discharge from one period of service to establish eligibility for a service-connected disability from a different period.</p>
@@ -110,8 +117,8 @@ class InstructionsPage extends React.Component {
                             </div>
                           </li>
                           <li itemScope itemType="http://schema.org/Question">
-                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq5" itemProp="name">What if I have a DD-215 showing an upgraded discharge, but my DD-214 is still incorrect?</button>
-                            <div id="dbq5" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+                            <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq5" itemProp="name" aria-expanded={!!this.state.q5} onClick={this.handleFAQToggle} name="q5">What if I have a DD-215 showing an upgraded discharge, but my DD-214 is still incorrect?</button>
+                            <div id="dbq5" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q5}>
                               <div itemProp="text">
                                 <p>Historically, when DoD upgraded a Veteran’s discharge, DoD issued a DD-215 showing corrections to the DD-214, and then attached the DD-215 to the old DD-214—meaning the DD-214 itself still shows the outdated discharge and related information. While the discharge on your DD-215 is your correct discharge, some Veterans still want a corrected DD-214 that shows no record of their earlier discharge status.</p>
                                 <p>If you have a DD-215 and want an updated DD-214, choose the "Get Started" button above and on the next page select, "I received a discharge upgrade or correction, but my upgrade came in the form of a DD-215 and I want an updated DD-214."</p>
