@@ -1,11 +1,14 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
+import fuzzy from 'fuzzy';
 
 function getSuggestions(options, value) {
   if (value) {
-    return options.filter(option =>
-      option.label.toUpperCase().includes(value.toUpperCase()));
+    return fuzzy.filter(value.toUpperCase(), options, {
+      extract: (option) => option.label.toUpperCase()
+    })
+      .map(match => match.original);
   }
 
   return [];
