@@ -10,11 +10,10 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.revealForm = this.revealForm.bind(this);
     this.state = { formIsVisible: false, requestPending: false };
   }
 
-  revealForm() {
+  revealForm = () => {
     this.setState({ formIsVisible: true });
   }
 
@@ -53,7 +52,6 @@ class Main extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
     ...state.feedback
   };
 }
