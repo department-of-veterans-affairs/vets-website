@@ -13,10 +13,11 @@ import {
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from './save-in-progress/save-load-actions';
+} from './save-in-progress/actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
+import { getSaveInProgressState } from './save-in-progress/selectors';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -230,24 +231,11 @@ class FormApp extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loadedStatus: state.form.loadedStatus,
-  savedStatus: state.form.savedStatus,
-  autoSavedStatus: state.form.autoSavedStatus,
-  prefillStatus: state.form.prefillStatus,
-  returnUrl: state.form.loadedData.metadata.returnUrl,
-  formData: state.form.data,
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  savedForms: state.user.profile.savedForms,
-  prefillsAvailable: state.user.profile.prefillsAvailable,
-  profileIsLoading: state.user.profile.loading
-});
-
 const mapDispatchToProps = {
   setFetchFormStatus,
   fetchInProgressForm
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
+export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(FormApp));
 
 export { FormApp };

@@ -96,6 +96,7 @@ function getUserToken() {
 function logIn(token, client, url, level) {
   initUserMock(token, level);
   initLogoutMock(token);
+  initLoginUrlsMock(token);
 
   client
     .url(`${E2eHelpers.baseUrl}${url}`)
