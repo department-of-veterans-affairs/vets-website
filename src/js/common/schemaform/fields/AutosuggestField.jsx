@@ -17,21 +17,40 @@ function getSuggestions(options, value) {
 export default class AutosuggestWidget extends React.Component {
   constructor(props) {
     super(props);
+    const input = props.formData ? (props.formData.label || '') : '';
+    const uiOptions = this.props.uiSchema['ui:options'];
+
+    let options = [];
+    let suggestions = [];
+
+    if (!uiOptions.getOptions) {
+      options = this.props.enumOptions.map(option => {
+        return {
+          id: option.value,
+          label: option.label
+        };
+      });
+      suggestions = getSuggestions(options, this.state.input);
+    }
+
     this.state = {
-      options: [],
-      input: props.formData ? (props.formData.label || '') : '',
-      suggestions: []
+      options,
+      input,
+      suggestions
     };
+
   }
 
   componentDidMount() {
     if (!this.props.formContext.reviewMode) {
       const uiOptions = this.props.uiSchema['ui:options'];
-      uiOptions.getOptions().then(options => {
-        if (!this.unmounted) {
-          this.setState({ options, suggestions: getSuggestions(options, this.state.input) });
-        }
-      });
+      if (uiOptions.getOptions) {
+        uiOptions.getOptions().then(options => {
+          if (!this.unmounted) {
+            this.setState({ options, suggestions: getSuggestions(options, this.state.input) });
+          }
+        });
+      }
     }
   }
 
