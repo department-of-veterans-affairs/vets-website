@@ -12,7 +12,7 @@ export function sendFeedback(values) {
     const { description, email: ownerEmail } = values;
     const targetPage = window.location.pathname;
     const settings = {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: '' },
       method: 'post',
       body: JSON.stringify({ ownerEmail, description, targetPage })
     };
