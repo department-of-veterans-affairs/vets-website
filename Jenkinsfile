@@ -48,7 +48,7 @@ def comment_broken_links = { brokenlinks ->
   def pr = repo.getPullRequest(prNum)
 
   pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +
-              brokenlinks.replaceAll("\[production\] |>>> href: |,","|") +
+              brokenlinks.replaceAll(/\[production\] |>>> href: |,/,"|") +
               "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
