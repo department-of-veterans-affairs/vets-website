@@ -79,6 +79,14 @@
   }
 }
 
+.claims-alert-checkbox {
+  > label {
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+}
+
 .need-files-alert {
   padding-bottom: 4em;
   @include media($medium-large-screen) {
