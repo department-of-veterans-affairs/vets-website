@@ -19,8 +19,8 @@ function FeedbackForm(props) {
         </div>
       ) : null}
       <h4 className="feedback-widget-title">Tell us what you think</h4>
-      <div className="row va-flex">
-        <div className="feedback-widget-form">
+      <div className="va-flex">
+        <div className="feedback-widget-description-container">
           <ErrorableTextarea
             label="What can we do to make Vets.gov better?"
             name="description"
@@ -29,7 +29,7 @@ function FeedbackForm(props) {
             onValueChange={({ value: description }) => props.setFormValues({ description })}
             required/>
         </div>
-        <div className="feedback-widget-need-help">
+        <div className="feedback-widget-need-help-container">
           <div className="feedback-widget-need-help-inner">
             <h3>Need help?</h3>
             Calls the Vets.gov Help Desk<br/>
@@ -48,7 +48,7 @@ function FeedbackForm(props) {
       <div className="usa-grid-full">
         <div className="usa-width-one-third">
           {props.formValues.shouldSendResponse ? (
-            <div>
+            <div className="feedback-email-container">
               <ErrorableTextInput
                 label="Your email address"
                 name="email"
@@ -58,12 +58,14 @@ function FeedbackForm(props) {
                 required/>
             </div>
           ) : null}
-          <button
-            type="submit"
-            disabled={props.requestPending || !props.formHasValidated || props.formErrors.description || props.formErrors.email}
-            className="usa-button-primary usa-width-one-whole">
-            {props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
-          </button>
+          <div className="feedback-submit-container">
+            <button
+              type="submit"
+              disabled={props.requestPending || !props.formHasValidated || props.formErrors.description || props.formErrors.email}
+              className="usa-button-primary usa-width-one-whole feedback-submit-button">
+              {props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
+            </button>
+          </div>
         </div>
       </div>
     </form>

@@ -25,7 +25,10 @@
   color: $color-gray-dark;
 
   > .row {
-    padding: 0 0.9375rem;;
+    padding: 0 0.9375rem;
+    .va-flex {
+      padding-left: 0;
+    }
   }
 
   .feedback-error > .usa-alert {
@@ -47,30 +50,12 @@
   }
 }
 
-.feedback-widget-form {
+.feedback-widget-description-container {
   order: 1;
   flex: 0 0 100%;
 
-  label[for=feedback] {
-    margin-top: 0;
-  }
-
   textarea[name=description]{
     max-width: 100%;
-  }
-
-  label[for=should-send-response]{
-    margin: 1em 0;
-  }
-
-  label[for=email]{
-    margin-top: 0;
-  }
-
-  button[type=submit]{
-    width: 100%;
-    display: block;
-    margin-top: 1em;
   }
 
   @include media($medium-screen) {
@@ -83,7 +68,7 @@
   }
 }
 
-.feedback-widget-need-help {
+.feedback-widget-need-help-container {
   order: 0;
   flex: 0 1 100%;
   .feedback-widget-need-help-inner {
