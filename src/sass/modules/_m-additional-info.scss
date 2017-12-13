@@ -2,3 +2,32 @@
   margin-top: 1em;
   margin-bottom: 1em;
 }
+
+.additional-info-button {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.additional-info-title {
+  color: $color-gray-dark;
+  border-bottom: 2px $color-primary dotted;
+  border-bottom-right-radius: 1px;
+  &:hover {
+    color: $color-black;
+  }
+}
+
+.fa-angle-down {
+  font-size: 16px !important;
+  color: $color-gray-light;
+  margin: 0.5rem;
+  transform: rotate(0deg);
+  transition: transform 0.15s linear;
+}
+
+.fa-angle-down.open {
+  transform: rotate(180deg);
+  transition: transform 0.15s linear;
+}

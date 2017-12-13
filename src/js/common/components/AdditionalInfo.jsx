@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
+import classNames from 'classnames';
 import ExpandingGroup from './form-elements/ExpandingGroup';
 
 export default class AdditionalInfo extends React.Component {
@@ -16,15 +17,19 @@ export default class AdditionalInfo extends React.Component {
 
   render() {
     const { triggerText, children } = this.props;
-
+    const iconClass = classNames({
+      fa: true,
+      'fa-angle-down': true,
+      open: this.state.open
+    });
     const trigger = (
       <button
         type="button"
-        className="va-button-link"
+        className="additional-info-button va-button-link"
         aria-expanded={this.state.open ? 'true' : 'false'}
         aria-controls={this.expandedContentId}
         onClick={this.toggle}>
-        {triggerText}
+        <span className="additional-info-title">{triggerText}<i className={iconClass}></i></span>
       </button>
     );
 
@@ -33,13 +38,6 @@ export default class AdditionalInfo extends React.Component {
         {trigger}
         <div>
           <div className="additional-info-content">{children}</div>
-          <button
-            className="va-button-link"
-            aria-expanded={this.state.open ? 'true' : 'false'}
-            aria-controls={this.expandedContentId}
-            onClick={this.toggle}>
-            Close
-          </button>
         </div>
       </ExpandingGroup>
     );
