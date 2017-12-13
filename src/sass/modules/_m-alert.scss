@@ -65,6 +65,7 @@
   margin-bottom: 2em;
 }
 
+// blue box on individual claim details
 .claims-alert-header {
   padding-bottom: 0 !important;
   margin-top: 0;
@@ -75,14 +76,6 @@
 
   li {
     margin-left: -.4em;
-  }
-}
-
-.claims-alert-checkbox {
-  > label {
-    margin-top: 0;
-    margin-bottom: 0;
-    max-width: 100%;
   }
 }
 
