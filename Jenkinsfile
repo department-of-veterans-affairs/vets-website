@@ -42,10 +42,14 @@ def comment_broken_links = { brokenlinks ->
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
   //def pr = repo.getPullRequest()
 
-  echo env.GIT_BRANCH
-  echo env.GIT_COMMIT
-  echo env.GIT_REPO
-  echo env.CHANGE_TARGET
+  echo brokenlinks
+
+  echo "${env.CHANGE_ID}"
+  echo "${env.BRANCH_NAME}"
+  echo env.BRANCH_NAME
+  echo env.CHANGE_ID
+  echo ${env.BRANCH_NAME}
+  echo ${env.CHANGE_ID}
 
   //pr.comment('Skipping merge due to comment or change request!\ncc @patrickvinograd @CyberKoz @jkassemi')
 }
