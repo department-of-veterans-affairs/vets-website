@@ -28,37 +28,28 @@
     padding: 0 0.9375rem;;
   }
 
+  .feedback-error > .usa-alert {
+    margin: 1.5em 0;
+  }
+
   .feedback-widget-title {
     margin: 0 0 0.5em 0;
-  }
-
-  .feedback-button {
-    width: auto;
-    // margin-top: initial;
-  }
-
-  .feedback-widget-form {
-    order: 1;
-    flex: 0 0 100%;
-    // padding-right: 1em;
-  }
-
-  .feedback-widget-need-help {
-    order: 0;
-    flex: 0 1 100%;
-    .feedback-widget-need-help-inner {
-      background-color: $color-aqua-lightest;
-      padding: 1em;
-      margin: 1em 0;
-      > h3 {
-        margin-top: 0;
-      }
-    }
   }
 
   .feedback-widget-intro {
     margin: 0;
   }
+
+  @include media($medium-screen) {
+    .feedback-button {
+      margin: 10px 0 0;
+    }
+  }
+}
+
+.feedback-widget-form {
+  order: 1;
+  flex: 0 0 100%;
 
   label[for=feedback] {
     margin-top: 0;
@@ -82,30 +73,33 @@
     margin-top: 1em;
   }
 
-  .feedback-error > .usa-alert {
-    margin: 1.5em 0;
-  }
-
   @include media($medium-screen) {
-    .feedback-button {
-      margin: 10px 0 0;
+    order: 0;
+    flex: 0 0 67%;
+    padding-right: 1em;
+    label {
+      margin-top: 0;
     }
-    .feedback-widget-form {
-      order: 0;
-      flex: 0 0 67%;
-      padding-right: 1em;
-      label {
-        margin-top: 0;
-      }
-    }
+  }
+}
 
-    .feedback-widget-need-help {
-      order: 1;
-      flex: 0 1 33%;
-      margin-top: 23.2px;  // the sum of the label height plus textarea margin-top
-      .feedback-widget-need-help-inner {
-        margin: 0;
-      }
+.feedback-widget-need-help {
+  order: 0;
+  flex: 0 1 100%;
+  .feedback-widget-need-help-inner {
+    background-color: $color-aqua-lightest;
+    padding: 1em;
+    margin: 1em 0;
+    > h3 {
+      margin-top: 0;
+    }
+  }
+  @include media($medium-screen) {
+    order: 1;
+    flex: 0 1 33%;
+    margin-top: 23.2px;  // the sum of the label height plus textarea margin-top
+    .feedback-widget-need-help-inner {
+      margin: 0;
     }
   }
 }
