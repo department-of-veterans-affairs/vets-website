@@ -134,7 +134,7 @@ class GuidancePage extends React.Component {
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
             content={<div>
-              <h4>Need help preparing your application?</h4>
+              <h4 className="usa-alert-heading">Need help preparing your application?</h4>
               <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a target="_blank" href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p>
             </div>}
             isVisible
@@ -231,7 +231,7 @@ class GuidancePage extends React.Component {
     let boardExplanation;
     let onlineSubmissionMsg;
 
-    if (reasonCode === '8' && prevAppType !== '3') {
+    if (reasonCode === '8' && ['2', '4'].includes(prevAppType)) {
       boardExplanation = 'the DRB because it granted your previous upgrade request, so you must apply to them for a new DD-214.';
       if (oldDischarge) {
         boardExplanation = `the ${boardToSubmit.abbr} because your discharge was over 15 years ago. This is because it handles all cases from 15 years ago and longer.`;
@@ -297,7 +297,7 @@ class GuidancePage extends React.Component {
                   <AlertBox
                     isVisible
                     status="warning"
-                    content={<span>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></span>}/>
+                    content={<p>Even with a less than honorable discharge, you may be able to still access some VA benefits through the <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">Character of Discharge or Character of Service Determination process.</a></p>}/>
                   <p>If you have a discharge that is less than honorable, when you apply for VA benefits, it will trigger a review at VA. VA will review your record to determine if your service was "honorable for VA purposes."</p>
                   <p>You should receive a letter from VA letting you that they have begun to review your case. The VA handles these reviews on a case-by-case basis, and so they can take a long time — sometimes over a year. To access VA benefits, it helps to respond to this letter with information supporting your case. For example, if you’re asking VA to forgive your past behavior, provide evidence of positive steps you have taken in your life since your time in the service such as "buddy statements" or a certificate showing you've completed an drug rehabilitation program.</p>
                   <p>As with applying for a discharge upgrade, you may consider finding someone to advocate on your behalf (such as a lawyer or VSO) in collecting and submitting this evidence, depending on the complexity of your case.</p>
