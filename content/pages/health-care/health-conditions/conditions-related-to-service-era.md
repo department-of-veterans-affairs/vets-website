@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Health Concerns Related to When and Where You Served
-display_title: Concerns Related to Service Era
+display_title: Concerns Related to Service History
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
