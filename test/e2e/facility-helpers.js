@@ -219,10 +219,6 @@ const resultsData = {
   }
 };
 
-function checkActiveElement(data) {
-  return document.activeElement === document.querySelector(data);
-}
-
 // Create API routes
 function initApplicationMock(token) {
   mock(token, {
@@ -241,6 +237,5 @@ function initApplicationMock(token) {
 }
 
 module.exports = {
-  checkActiveElement,
-  initApplicationMock,
+  initApplicationMock
 };
