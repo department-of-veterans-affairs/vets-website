@@ -130,7 +130,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = _.set('b.c', o, 'd');
+      const newObj = _.set('b.c', 'd', o);
       expect(newObj.b.c).to.equal('d');
     });
 
@@ -142,7 +142,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = _.set('new.path', o, ['foo', 'bar']);
+      const newObj = _.set('new.path', ['foo', 'bar'], o);
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
@@ -154,8 +154,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      // const newObj = _.set('array.0', o, 'first');
-      const newObj = _.set(['array', 1], o, 'first');
+      const newObj = _.set(['array', 1], 'first', o);
       expect(newObj.array).to.eql([undefined, 'first']);
     });
 
@@ -167,7 +166,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = _.set(['new', 'path'], o, ['foo', 'bar']);
+      const newObj = _.set(['new', 'path'], ['foo', 'bar'], o);
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
@@ -182,7 +181,7 @@ describe('lodash replacements', () => {
       // Perhaps using cloneDeep in here is in bad taste?
       const oCopy = _.cloneDeep(o);
 
-      _.set(['new', 'path'], o, ['foo', 'bar']);
+      _.set(['new', 'path'], ['foo', 'bar'], o);
       expect(o).to.eql(oCopy);
     });
 
@@ -194,7 +193,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = _.set('k.a.y', o, 'd');
+      const newObj = _.set('k.a.y', 'd', o);
       expect(newObj.k.a).to.not.equal(o.k.a);
       expect(newObj.k.a).to.not.eql(o.k.a);
     });
@@ -208,7 +207,7 @@ describe('lodash replacements', () => {
       };
 
       try {
-        _.set(['new', [0, 1]], o, ['foo', 'bar']);
+        _.set(['new', [0, 1]], ['foo', 'bar'], o);
         // Shouldn't get here; should throw an error
         throw new Error('Should have failed if path is not a string or number.');
       } catch (e) {

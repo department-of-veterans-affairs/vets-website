@@ -10,7 +10,7 @@ import cloneDeep from './cloneDeep';
  * @param {Number} level  How many times we've recursed
  * @return {Object} A new object with the appropriate value set
  */
-function baseSet(path, object, value, level = 0) {
+function baseSet(path, value, object, level = 0) {
   let arrayPath = Array.isArray(path) ? path : deconstructPath(path);
 
   if (!arrayPath.length) {
@@ -49,7 +49,7 @@ function baseSet(path, object, value, level = 0) {
     }
   }
 
-  newObj[pathSegment] = baseSet(arrayPath, newObj[pathSegment], value, level + 1);
+  newObj[pathSegment] = baseSet(arrayPath, value, newObj[pathSegment], level + 1);
 
   return newObj;
 }
@@ -64,7 +64,7 @@ function baseSet(path, object, value, level = 0) {
  * @param {*} value
  * @return {Object} A new object with the appropriate value set
  */
-export default function set(path, object, value) {
-  return baseSet(path, object, value, 0);
+export default function set(path, value, object) {
+  return baseSet(path, value, object, 0);
 }
 
