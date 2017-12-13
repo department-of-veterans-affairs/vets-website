@@ -51,9 +51,14 @@ p.usa-alert-heading {
 
 .usa-alert-body, .usa-alert-header {
   > h3:first-child, > h4:first-child, > h5:first-child {
-    margin-top: .3em;
+    margin-top: .3rem;
   }
   padding-left: 2.2rem;
+
+  h3, h4, h5 {
+    font-size:1.7rem;
+    margin-top:.3rem;
+  }
 }
 
 .claims-list-alert {
