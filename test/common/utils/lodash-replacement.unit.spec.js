@@ -1,18 +1,24 @@
 import { expect } from 'chai';
 
-import {
-  deconstructPath,
-  clone,
-  cloneDeep,
-  get,
-  set
-} from '../../../src/js/common/utils/lodash-replacement';
+import _ from '../../../src/js/common/utils/lodash-replacements';
+import deconstructPath from '../../../src/js/common/utils/lodash-replacements/deconstructPath';
 
 
+// Could split these out into separate files...
 describe('lodash replacements', () => {
   describe('deconstructPath', () => {
-    it('should deconstruct a string path into an array', () => {
+    it('should deconstruct a string path', () => {
+      const strPath = 'a.b.c';
+      expect(deconstructPath(strPath)).to.eql(['a', 'b', 'c']);
+    });
+
+    it('should handle array notation', () => {
       const strPath = 'a.b[4].c';
+      expect(deconstructPath(strPath)).to.eql(['a', 'b', 4, 'c']);
+    });
+
+    it('should handle array indexes using dot notation', () => {
+      const strPath = 'a.b.4.c';
       expect(deconstructPath(strPath)).to.eql(['a', 'b', 4, 'c']);
     });
   });
@@ -24,7 +30,7 @@ describe('lodash replacements', () => {
         a: 1,
         b: 2
       };
-      const cloned = clone(obj);
+      const cloned = _.clone(obj);
       expect(cloned).to.eql(obj);
       expect(cloned).to.not.equal(obj);
     });
@@ -46,11 +52,19 @@ describe('lodash replacements', () => {
       arrowFunction: () => this.int
     };
 
-    const cloned = cloneDeep(obj);
+    const cloned = _.cloneDeep(obj);
 
     it('should return an object with a different reference', () => {
       expect(cloned).to.eql(obj);
       expect(cloned).to.not.equal(obj);
+    });
+
+    it('should handle an array as the root "object"', () => {
+      const arr = ['foo', 'bar', 0];
+      const clonedArr = _.cloneDeep(arr);
+
+      expect(clonedArr).to.eql(arr);
+      expect(clonedArr).to.not.equal(arr);
     });
 
     it('should clone all sub-objects', () => {
@@ -81,28 +95,28 @@ describe('lodash replacements', () => {
     };
 
     it('should get a value one level deep', () => {
-      expect(get('a', o)).to.equal(o.a);
+      expect(_.get('a', o)).to.equal(o.a);
     });
 
     it('should get a value n levels deep', () => {
-      expect(get('b.c', o)).to.equal(o.b.c);
-      expect(get('k.a.y', o)).to.equal(o.k.a.y);
+      expect(_.get('b.c', o)).to.equal(o.b.c);
+      expect(_.get('k.a.y', o)).to.equal(o.k.a.y);
     });
 
     it('should handle array indexes', () => {
-      expect(get('g[2]', o)).to.equal(o.g[2]);
+      expect(_.get('g[2]', o)).to.equal(o.g[2]);
     });
 
     it('should handle an array path', () => {
-      expect(get(['k', 'a', 'y'], o)).to.equal(o.k.a.y);
+      expect(_.get(['k', 'a', 'y'], o)).to.equal(o.k.a.y);
     });
 
     it('should return a default value if not found', () => {
-      expect(get('does.not.exist', o, 'default')).to.equal('default');
+      expect(_.get('does.not.exist', o, 'default')).to.equal('default');
     });
 
     it('should return undefined if not found and no default is provided', () => {
-      expect(get('does.not.exist', o)).to.equal();
+      expect(_.get('does.not.exist', o)).to.equal();
     });
   });
 
@@ -116,11 +130,11 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set('b.c', o, 'd');
+      const newObj = _.set('b.c', o, 'd');
       expect(newObj.b.c).to.equal('d');
     });
 
-    it('should set the value of a path that doesn\'t exist yet', () => {
+    it('should create nested objects as needed', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -128,8 +142,21 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set('new.path', o, ['foo', 'bar']);
+      const newObj = _.set('new.path', o, ['foo', 'bar']);
       expect(newObj.new.path).to.eql(['foo', 'bar']);
+    });
+
+    it('should create nested arrays as needed', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      // const newObj = _.set('array.0', o, 'first');
+      const newObj = _.set(['array', 1], o, 'first');
+      expect(newObj.array).to.eql([undefined, 'first']);
     });
 
     it('should handle an array path', () => {
@@ -140,7 +167,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set(['new', 'path'], o, ['foo', 'bar']);
+      const newObj = _.set(['new', 'path'], o, ['foo', 'bar']);
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
@@ -153,9 +180,9 @@ describe('lodash replacements', () => {
       };
 
       // Perhaps using cloneDeep in here is in bad taste?
-      const oCopy = cloneDeep(o);
+      const oCopy = _.cloneDeep(o);
 
-      set(['new', 'path'], o, ['foo', 'bar']);
+      _.set(['new', 'path'], o, ['foo', 'bar']);
       expect(o).to.eql(oCopy);
     });
 
@@ -167,7 +194,7 @@ describe('lodash replacements', () => {
         g: ['h', 'i', 'j']
       };
 
-      const newObj = set('k.a.y', o, 'd');
+      const newObj = _.set('k.a.y', o, 'd');
       expect(newObj.k.a).to.not.equal(o.k.a);
       expect(newObj.k.a).to.not.eql(o.k.a);
     });
@@ -181,10 +208,15 @@ describe('lodash replacements', () => {
       };
 
       try {
-        set(['new', [0, 1]], o, ['foo', 'bar']);
+        _.set(['new', [0, 1]], o, ['foo', 'bar']);
         // Shouldn't get here; should throw an error
-        expect(true).to.be.false;
+        throw new Error('Should have failed if path is not a string or number.');
       } catch (e) {
+        // There's gotta be a better way to do this...
+        if (e.message === 'Should have failed if path is not a string or number.') {
+          throw e;
+        }
+
         // Public service announcement: Arrays are objects too!
         expect(e.message).to.contain('Unrecognized path element type: object.');
       }
