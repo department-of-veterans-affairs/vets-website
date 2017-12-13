@@ -47,7 +47,9 @@ def comment_broken_links = { brokenlinks ->
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
   def pr = repo.getPullRequest(prNum)
 
-  pr.comment("### Broken links found by Jenkins\n\n*File >>> Link URL that does not exist*\n" + brokenlinks)
+  pr.comment("### Broken links found by Jenkins\n\n**File >>> Missing URL in link from that file**\n" +
+              brokenlinks.replaceAll(",|[production] |href: ","") +
+              "\n\n _Note: Long file or URLs may be cut-off_")
 }
 
 node('vetsgov-general-purpose') {
