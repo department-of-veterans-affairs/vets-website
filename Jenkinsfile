@@ -118,6 +118,11 @@ node('vetsgov-general-purpose') {
       parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+      if env.BRANCH_NAME.startsWith("content"){
+        echo "${env.BRANCH_NAME} - ${env.BUILD_URL}"
+        sh "curl -O ${env.BUILD_URL}/consoleText"
+        sh "grep broken consoleText"
+      }
       throw error
     }
   }
@@ -201,7 +206,7 @@ node('vetsgov-general-purpose') {
         'production': [ 'prod' ],
       ][env.BRANCH_NAME]
 
-      // Deploy the build associated with this ref. To deploy from a release use 
+      // Deploy the build associated with this ref. To deploy from a release use
       // the `deploys/vets-website-env-from-build` jobs from the Jenkins web console.
       for (int i=0; i<targets.size(); i++) {
         build job: "deploys/vets-website-${targets.get(i)}-from-build", parameters: [
