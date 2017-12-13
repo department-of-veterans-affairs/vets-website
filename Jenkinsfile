@@ -1,3 +1,5 @@
+import org.kohsuke.github.GitHub
+
 def envNames = ['development', 'staging', 'production']
 
 def isReviewable = {
@@ -33,6 +35,19 @@ def notify = { message, color='good' ->
                   color: color,
                   failOnError: true
     }
+}
+
+def comment_broken_links = { brokenlinks ->
+  def github = GitHub.connect()
+  def repo = github.getRepository('department-of-veterans-affairs/vets-website')
+  //def pr = repo.getPullRequest()
+
+  echo env.GIT_BRANCH
+  echo env.GIT_COMMIT
+  echo env.GIT_REPO
+  echo env.CHANGE_TARGET
+
+  //pr.comment('Skipping merge due to comment or change request!\ncc @patrickvinograd @CyberKoz @jkassemi')
 }
 
 node('vetsgov-general-purpose') {
@@ -119,9 +134,12 @@ node('vetsgov-general-purpose') {
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
       if (env.BRANCH_NAME.startsWith("content")) {
-        echo "${env.BRANCH_NAME} - ${env.BUILD_URL}"
-        sh "curl -O ${env.BUILD_URL}/consoleText"
-        sh "grep broken consoleText"
+        sh "curl -O \$(echo ${env.BUILD_URL} | sed 's/jenkins.vetsgov-internal/172.31.1.100/')consoleText"
+        def broken_links = sh (
+                script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
+                returnStdout: true
+            ).trim()
+        comment_broken_links(broken_links)
       }
       throw error
     }
