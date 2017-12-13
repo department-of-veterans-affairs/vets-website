@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import ArrayField from '../../../src/js/common/schemaform/ArrayField';
+import ArrayField from '../../../../src/js/common/schemaform/fields/ArrayField';
 
 const registry = {
   definitions: {},

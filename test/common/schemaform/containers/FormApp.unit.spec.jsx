@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { FormApp } from '../../../src/js/common/schemaform/FormApp';
-import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../src/js/common/schemaform/save-in-progress/actions';
+import { FormApp } from '../../../../src/js/common/schemaform/containers/FormApp';
+import { LOAD_STATUSES, PREFILL_STATUSES } from '../../../../src/js/common/schemaform/save-in-progress/actions';
 
 let oldWindow;
 

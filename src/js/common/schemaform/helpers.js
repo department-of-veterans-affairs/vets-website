@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import ReviewPage from './review/ReviewPage';
-import FormPage from './FormPage';
+import FormPage from './containers/FormPage';
 import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
 import shouldUpdate from 'recompose/shouldUpdate';
 

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {

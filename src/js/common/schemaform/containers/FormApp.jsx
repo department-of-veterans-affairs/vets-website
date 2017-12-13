@@ -4,20 +4,20 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import FormNav from './FormNav';
-import FormTitle from './FormTitle';
-import AskVAQuestions from './AskVAQuestions';
+import FormNav from '../components/FormNav';
+import FormTitle from '../components/FormTitle';
+import AskVAQuestions from '../components/AskVAQuestions';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from './save-in-progress/actions';
-import LoadingIndicator from '../components/LoadingIndicator';
+} from '../save-in-progress/actions';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
-import { isInProgress } from '../utils/helpers';
-import { getSaveInProgressState } from './save-in-progress/selectors';
+import { isInProgress } from '../../utils/helpers';
+import { getSaveInProgressState } from '../save-in-progress/selectors';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { FormPage } from '../../../src/js/common/schemaform/FormPage';
+import { FormPage } from '../../../../src/js/common/schemaform/containers/FormPage';
 
 describe('Schemaform <FormPage>', () => {
   const location = {

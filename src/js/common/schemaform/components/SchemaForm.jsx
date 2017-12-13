@@ -4,19 +4,19 @@ import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { uiSchemaValidate, transformErrors } from './validation';
+import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';
-import * as reviewWidgets from './review/widgets';
-import ReviewFieldTemplate from './review/ReviewFieldTemplate';
-import StringField from './review/StringField';
-import widgets from './widgets/index';
-import ObjectField from './ObjectField';
-import ArrayField from './ArrayField';
-import ReadOnlyArrayField from './review/ReadOnlyArrayField';
-import BasicArrayField from './BasicArrayField';
-import TitleField from './TitleField';
-import ReviewObjectField from './review/ObjectField';
-import { scrollToFirstError } from '../utils/helpers';
+import * as reviewWidgets from '../review/widgets';
+import ReviewFieldTemplate from '../review/ReviewFieldTemplate';
+import StringField from '../review/StringField';
+import widgets from '../widgets/index';
+import ObjectField from '../fields/ObjectField';
+import ArrayField from '../fields/ArrayField';
+import ReadOnlyArrayField from '../review/ReadOnlyArrayField';
+import BasicArrayField from '../fields/BasicArrayField';
+import TitleField from '../fields/TitleField';
+import ReviewObjectField from '../review/ObjectField';
+import { scrollToFirstError } from '../../utils/helpers';
 
 const fields = {
   ObjectField,

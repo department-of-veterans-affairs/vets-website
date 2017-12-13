@@ -2,10 +2,10 @@ import React from 'react';
 import _ from 'lodash/fp';
 import shallowEqual from 'recompose/shallowEqual';
 
-import SegmentedProgressBar from '../components/SegmentedProgressBar';
+import SegmentedProgressBar from '../../components/SegmentedProgressBar';
 
-import { getActivePages } from '../utils/helpers';
-import { createFormPageList, createPageList, expandArrayPages } from './helpers';
+import { getActivePages } from '../../utils/helpers';
+import { createFormPageList, createPageList, expandArrayPages } from '../helpers';
 
 export default class FormNav extends React.Component {
   // The formConfig transforming is a little heavy, so skip it if we can

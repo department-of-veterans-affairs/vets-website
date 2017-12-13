@@ -5,12 +5,12 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 
-import SchemaForm from './SchemaForm';
-import ProgressButton from '../components/form-elements/ProgressButton';
-import { setData, uploadFile } from './actions';
-import { getNextPagePath, getPreviousPagePath } from './routing';
+import SchemaForm from '../components/SchemaForm';
+import ProgressButton from '../../components/form-elements/ProgressButton';
+import { setData, uploadFile } from '../actions';
+import { getNextPagePath, getPreviousPagePath } from '../routing';
 
-import { focusElement } from '../utils/helpers';
+import { focusElement } from '../../utils/helpers';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');

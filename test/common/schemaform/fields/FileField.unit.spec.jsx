@@ -4,10 +4,10 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 
-import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
 
-import FileField from '../../../src/js/common/schemaform/FileField';
-import fileUploadUI, { fileSchema } from '../../../src/js/common/schemaform/definitions/file';
+import FileField from '../../../../src/js/common/schemaform/fields/FileField';
+import fileUploadUI, { fileSchema } from '../../../../src/js/common/schemaform/definitions/file';
 
 const formContext = {
   setTouched: sinon.spy()

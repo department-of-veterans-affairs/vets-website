@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash/fp';
-import { pureWithDeepEquals } from './helpers';
+import { pureWithDeepEquals } from '../helpers';
 
 import {
   deepEquals,
@@ -11,8 +11,8 @@ import {
   getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
-import ExpandingGroup from '../components/form-elements/ExpandingGroup';
-import PrefillMessage from './save-in-progress/PrefillMessage';
+import ExpandingGroup from '../../components/form-elements/ExpandingGroup';
+import PrefillMessage from '../save-in-progress/PrefillMessage';
 
 /*
  * This is largely copied from the react-jsonschema-form library,

@@ -3,8 +3,8 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { scrollToFirstError } from '../utils/helpers';
-import { setArrayRecordTouched } from './helpers';
+import { scrollToFirstError } from '../../utils/helpers';
+import { setArrayRecordTouched } from '../helpers';
 
 import {
   toIdSchema,
@@ -12,7 +12,7 @@ import {
   deepEquals
 } from 'react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from './validation';
+import { errorSchemaIsValid } from '../validation';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
