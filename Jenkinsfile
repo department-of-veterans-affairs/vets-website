@@ -38,14 +38,14 @@ def notify = { message, color='good' ->
 }
 
 def comment_broken_links = { brokenlinks ->
-  def pr = sh(
+  def prNum = sh(
         script: "curl -s https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls?head=department-of-veterans-affairs:${env.BRANCH_NAME} | grep '\"number\"' | grep -Eo '[0-9]+'",
         returnStdout: true
       ).trim().toInteger()
 
   def github = GitHub.connect()
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
-  def pr = repo.getPullRequest(pr)
+  def pr = repo.getPullRequest(prNum)
 
   pr.comment("### Broken links found by Jenkins\n\n*File >>> Link URL that does not exist*\n" + brokenlinks)
 }
