@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 import AskVAQuestions from './AskVAQuestions';
 import RoutedSavableApp from './save-in-progress/RoutedSavableApp';
+
+const Element = Scroll.Element;
 
 /*
  * Primary component for a schema generated form app.
@@ -53,6 +56,7 @@ class FormApp extends React.Component {
                 ) :
                 (
                   <div>
+                    <Element name="topScrollElement"/>
                     {formTitle}
                     {formNav}
                     <div className="progress-box progress-box-schemaform">
