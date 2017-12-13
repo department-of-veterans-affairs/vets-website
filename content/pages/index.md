@@ -8,7 +8,7 @@ description: Apply for and manage the VA benefits and services you’ve earned a
 majorlinks:
   - heading:
     links:
-    - url: /disability-benefits/
+    - url: /disability-benefits/not-here/
       title: Disability Benefits
       description: Apply for disability compensation and other benefits for conditions related to your military service.
     - url: /health-care/
