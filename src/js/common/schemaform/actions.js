@@ -1,5 +1,5 @@
 import Raven from 'raven-js';
-import _ from 'lodash/fp';
+import _ from '../utils/lodash-replacements';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
 
