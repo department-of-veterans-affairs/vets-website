@@ -133,10 +133,8 @@ class GuidancePage extends React.Component {
           {this.props.formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
           <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
           <AlertBox
-            content={<div>
-              <h4 className="usa-alert-heading">Need help preparing your application?</h4>
-              <p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a target="_blank" href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p>
-            </div>}
+            headline={<h4>Need help preparing your application?</h4>}
+            content={<div><p>The process of preparing a discharge upgrade or correction application can sometimes be a lot of work and take a long time. Although many Veterans are successful by themselves, it may be helpful to find someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a target="_blank" href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p></div>}
             isVisible
             status="warning"/>
         </div>
