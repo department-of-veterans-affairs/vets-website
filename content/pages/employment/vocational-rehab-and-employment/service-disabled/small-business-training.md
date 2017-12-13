@@ -10,7 +10,7 @@ relatedlinks:
     - url: /employment/vocational-rehab-and-employment/service-disabled/return-to-job/
       title: Reemployment Track
       description: You may have the right to return to the civilian job you held before activating. Find out how we can help with this process.
-    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    - url: /employment/vocational-rehab-and-employment/service-disabled/job-search-and-counseling/BROKEN
       title: Rapid Access to Employment Track
       description: If you want a job that matches your existing skills, find out if you can get employment counseling and job-search support.
     - url: /employment/vocational-rehab-and-employment/service-disabled/new-skills/
@@ -20,7 +20,7 @@ relatedlinks:
       title: Independent Living Track
       description: Learn about services that can help you live as independently as possible if you can't return to work right away.
   - heading: More support for your small business
-    links: 
+    links:
     - url: /employment/job-seekers/register-your-business/
       title: Register Your Veteran-Owned Small Business
       description: Register to do business with VA and get support for your Veteran-owned small business.

@@ -11,13 +11,13 @@ majorlinks:
     - url: /disability-benefits/not-here/
       title: Disability Benefits
       description: Apply for disability compensation and other benefits for conditions related to your military service.
-    - url: /health-care/
+    - url: /health-care/broken/
       title: Health Care Benefits
       description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
     - url: /education/
       title: Education Benefits
       description: Apply for and manage benefits that help you pay for college and training programs.
-    - url: /housing-assistance/
+    - url: /housing-assistance/also-broken/
       title: Housing Assistance
       description: Find out if you qualify for a VA home loan. If you have a service-connected disability, find out if you qualify for a housing grant to help you live more independently.
     - url: /employment/
