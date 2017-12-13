@@ -29,10 +29,12 @@
   background-position: 1.7rem 2.8rem;
   min-height: 74px;
   display: table;
+  width: 100%;
 
   .usa-alert-body {
     display:table-cell;
     vertical-align: middle;
+    border:1px solid pink;
   }
 }
 
@@ -55,7 +57,6 @@
 .va-alert-close-icon {
   font-size: 1.1em !important;
 }
-
 
 .claims-alert-status {
   margin-top: 0;
