@@ -79,7 +79,7 @@ You’ll get 100% of your applicable MHA during the first 6 months of training. 
 - 40% of your applicable MHA during the fourth 6 months of training
 - 20% of your applicable MHA during the rest of the training period
 
-**Note:** If you completed between 90 days and 3 years of active-duty service, you'll get 40% to 90% of the full benefit.
+**Note:** If you completed at least 90 days, but less than 3 years, of active-duty service after September 10, 2001, your applicable MHA benefit will be lower than the full amount shown in the rate tables. Depending on how long you served, you’ll start with between 40% to 90% of the full benefit.
 
 #### All other GI Bill Programs Payment Rates
 You’ll get this percentage of your GI Bill rate until your benefits run out:
