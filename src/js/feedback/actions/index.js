@@ -28,7 +28,7 @@ export function sendFeedback() {
       body: JSON.stringify({ ownerEmail, description, targetPage })
     };
 
-    dispatch({ type: SEND_FEEDBACK, formValues });
+    dispatch({ type: SEND_FEEDBACK });
 
     return apiRequest('/feedback', settings)
       .then(() => dispatch({ type: FEEDBACK_RECEIVED }))
