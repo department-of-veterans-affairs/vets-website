@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { revealForm, setFormValues, sendFeedback, clearError } from '../actions';
 import DefaultView from '../components/DefaultView';
 import FeedbackForm from '../components/FeedbackForm';
@@ -36,6 +37,8 @@ const mapDispatchToProps = {
 
 Main.propTypes = {
   formValues: PropTypes.object.isRequired,
+  formErrors: PropTypes.object.isRequired,
+  formHasValidated: PropTypes.bool,
   requestPending: PropTypes.bool,
   feedbackReceived: PropTypes.bool,
   shouldSendResponse: PropTypes.bool,

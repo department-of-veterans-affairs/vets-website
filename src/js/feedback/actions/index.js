@@ -1,4 +1,5 @@
 import { apiRequest } from '../../common/helpers/api';
+import { isValidEmail } from '../../common/utils/validations';
 
 export const REVEAL_FORM = 'REVEAL_FORM';
 export const SET_FORM_VALUES = 'SET_FORM_VALUES';
@@ -9,12 +10,29 @@ export const CLEAR_FEEDBACK_ERROR = 'CLEAR_FEEDBACK_ERROR';
 
 const errorMessage = 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
 
+function runValidation({ description, email, shouldSendResponse }) {
+  const formErrors = {};
+  if (description !== undefined) {
+    formErrors.description = description.length > 0 ? null : 'Please enter a description';
+  }
+  if (shouldSendResponse === false) {
+    formErrors.email = null;
+  } else if (email !== undefined) {
+    formErrors.email = isValidEmail(email) ? null : 'Please enter a valid email';
+  }
+  return formErrors;
+}
+
 export function revealForm() {
   return { type: REVEAL_FORM };
 }
 
 export function setFormValues(formValues) {
-  return { type: SET_FORM_VALUES, formValues };
+  return {
+    type: SET_FORM_VALUES,
+    formValues,
+    formErrors: runValidation(formValues)
+  };
 }
 
 export function sendFeedback() {
@@ -30,9 +48,12 @@ export function sendFeedback() {
 
     dispatch({ type: SEND_FEEDBACK });
 
-    return apiRequest('/feedback', settings)
-      .then(() => dispatch({ type: FEEDBACK_RECEIVED }))
-      .catch(() => dispatch({ type: FEEDBACK_ERROR, message: errorMessage }));
+    return apiRequest(
+      '/feedback',
+      settings,
+      () => dispatch({ type: FEEDBACK_RECEIVED }),
+      () => dispatch({ type: FEEDBACK_ERROR, message: errorMessage })
+    );
   };
 }
 
