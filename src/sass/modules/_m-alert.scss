@@ -44,6 +44,11 @@
   margin-top: .3em;
 }
 
+// on post-9/11 GI Bill
+p.usa-alert-heading {
+  margin-top:0;
+}
+
 .usa-alert-body, .usa-alert-header {
   > h3:first-child, > h4:first-child, > h5:first-child {
     margin-top: .3em;
@@ -135,5 +140,12 @@
       background-position: 1.3rem 1.5rem;*/
     //  padding-left: 5rem;
     }
+  }
+}
+
+//messaging
+#messaging-app-header {
+  .usa-alert {
+    margin-bottom: 2em;
   }
 }
