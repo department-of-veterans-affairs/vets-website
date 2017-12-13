@@ -56,16 +56,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    sendFeedback(values) {
-      return dispatch(sendFeedback(values));
-    },
-    clearError() {
-      return dispatch(clearError());
-    }
-  };
-}
+const mapDispatchToProps = {
+  sendFeedback,
+  clearError
+};
 
 Main.propTypes = {
   requestPending: PropTypes.bool,
