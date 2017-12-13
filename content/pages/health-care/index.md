@@ -22,7 +22,7 @@ majorlinks:
     links:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
       title: Learn About Health Concerns Related to Your Service History
-      description: Learn about service-connected health concerns you should be aware of, based on when and where you served.
+      description: Learn about service-connected health concerns you should be aware of based on when and where you served.
     - url: /health-care/prescriptions/
       title: Refill Prescriptions
       description: Refill prescriptions online, and track the status of your refills.
