@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { sendFeedback, clearError } from '../actions';
+import { revealForm, setFormValues, sendFeedback, clearError } from '../actions';
 import DefaultView from '../components/DefaultView';
 import FeedbackForm from '../components/FeedbackForm';
 import FeedbackSubmitted from '../components/FeedbackSubmitted';
 
 class Main extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = { formIsVisible: false };
-  }
-
-  revealForm = () => {
-    this.setState({ formIsVisible: true });
-  }
 
   render() {
     let content = null;
@@ -25,14 +16,16 @@ class Main extends React.Component {
         <FeedbackSubmitted
           shouldSendResponse={this.props.shouldSendResponse}/>
       );
-    } else if (!this.state.formIsVisible) {
+    } else if (!this.props.formIsVisible) {
       content = (
         <DefaultView
-          revealForm={this.revealForm}/>
+          revealForm={this.props.revealForm}/>
       );
     } else {
       content = (
         <FeedbackForm
+          formValues={this.props.formValues}
+          setFormValues={this.props.setFormValues}
           sendFeedback={this.props.sendFeedback}
           clearError={this.props.clearError}
           requestPending={this.props.requestPending}
@@ -57,6 +50,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  setFormValues,
+  revealForm,
   sendFeedback,
   clearError
 };
@@ -65,6 +60,8 @@ Main.propTypes = {
   requestPending: PropTypes.bool,
   feedbackReceived: PropTypes.bool,
   shouldSendResponse: PropTypes.bool,
+  setFormValues: PropTypes.func.isRequired,
+  revealForm: PropTypes.func.isRequired,
   sendFeedback: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
   errorMessage: PropTypes.string

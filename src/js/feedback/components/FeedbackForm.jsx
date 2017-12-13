@@ -6,30 +6,21 @@ const MIN_INPUT = 1;
 
 class FeedbackForm extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      shouldSendResponse: false,
-      description: '',
-      email: ''
-    };
-  }
-
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.sendFeedback(this.state);
+    this.props.sendFeedback();
   }
 
   descriptionChanged = ({ target: { value: description } }) => {
-    this.setState({ description });
+    this.props.setFormValues({ description });
   }
 
   shouldSendResponseChanged = ({ target: { checked: shouldSendResponse } }) => {
-    this.setState({ shouldSendResponse });
+    this.props.setFormValues({ shouldSendResponse });
   }
 
   emailChanged = ({ target: { value: email } }) => {
-    this.setState({ email });
+    this.props.setFormValues({ email });
   }
 
   render() {
@@ -42,10 +33,10 @@ class FeedbackForm extends React.Component {
       );
     }
 
-    let isFormValid = this.state.description.length >= MIN_INPUT;
+    let isFormValid = this.props.formValues.description.length >= MIN_INPUT;
 
-    if (isFormValid && this.state.shouldSendResponse) {
-      isFormValid = this.state.email.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
+    if (isFormValid && this.props.formValues.shouldSendResponse) {
+      isFormValid = this.props.formValues.email.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
     }
 
     return (
@@ -55,7 +46,7 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-form">
             {errorBanner}
             <label htmlFor="description">What can we do to make Vets.gov better?</label>
-            <textarea name="description" value={this.state.description} onChange={this.descriptionChanged}/>
+            <textarea name="description" value={this.props.formValues.description} onChange={this.descriptionChanged}/>
           </div>
           <div className="feedback-widget-need-help">
             <div className="feedback-widget-need-help-inner">
@@ -67,14 +58,14 @@ class FeedbackForm extends React.Component {
             </div>
           </div>
         </div>
-        <input id="should-send-response" type="checkbox" value={this.state.shouldSendResponse} onChange={this.shouldSendResponseChanged}/>
+        <input id="should-send-response" type="checkbox" value={this.props.formValues.shouldSendResponse} onChange={this.shouldSendResponseChanged}/>
         <label htmlFor="should-send-response">I would like to receive a response about my feedback.</label>
         <div className="usa-grid-full">
           <div className="usa-width-one-third">
-            {this.state.shouldSendResponse ? (
+            {this.props.formValues.shouldSendResponse ? (
               <div>
                 <label htmlFor="email">Your email address</label>
-                <input name="email" value={this.state.email} onChange={this.emailChanged}/>
+                <input name="email" value={this.props.formValues.email} onChange={this.emailChanged}/>
               </div>
             ) : null}
             <button type="submit" disabled={this.props.requestPending || !isFormValid} className="usa-button-primary usa-width-one-whole">
@@ -88,6 +79,7 @@ class FeedbackForm extends React.Component {
 }
 
 FeedbackForm.propTypes = {
+  setFormValues: PropTypes.func.isRequired,
   sendFeedback: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
