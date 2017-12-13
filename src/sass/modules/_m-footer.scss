@@ -24,7 +24,7 @@
   background-color: $color-gray-lightest;
   color: $color-gray-dark;
 
-  .row {
+  > .row {
     padding: 0 0.9375rem;;
   }
 
@@ -50,7 +50,7 @@
       background-color: $color-aqua-lightest;
       padding: 1em;
       margin: 1em 0;
-      h3 {
+      > h3 {
         margin-top: 0;
       }
     }
