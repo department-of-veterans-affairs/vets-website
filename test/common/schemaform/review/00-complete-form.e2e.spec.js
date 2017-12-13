@@ -24,14 +24,58 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Open first panel
     client
-      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .waitForElementVisible('.usa-accordion-bordered', Timeouts.normal)
       .click('button.usa-button-unstyled')
       .pause(1200);
     client.expect.element('.edit-btn').to.be.visible;
 
+    // Edit form fields successfully
+    client
+      .click('.edit-btn');
+    client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
+
+    client
+      .clearValue('input[name="root_veteranFullName_first"]')
+      .fill('input[name="root_veteranFullName_first"]', 'Jacques')
+      .click('.usa-button-primary');
+
+    client.expect.element('.review-row span').text.to.equal('Jacques');
+
+    // Edit form fields unsuccessfully
+    client.waitForElementVisible('.edit-btn', Timeouts.normal);
+    client
+      .click('.edit-btn');
+    client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
+
+    client
+      .removeText('input[name="root_veteranFullName_first"]')
+      .pause(1200)
+      .click('input[name="root_veteranFullName_middle"]')
+      .pause();
+
+    client
+      .click('.usa-button-primary');
+
+    client.expect.element('.usa-input-error').to.be.visible;
+    client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
+
+    // Fix validation errors and save successfully
+    client
+      .fill('input[name="root_veteranFullName_first"]', 'Jean-Pierre')
+      .click('.usa-button-primary');
+
+    client.expect.element('.review-row span').text.to.equal('Jean-Pierre');
+
+    // Close panel
+    client.expect.element('.edit-btn').to.be.visible;
+    client
+      .click('button.usa-button-unstyled');
+
+    client.expect.element('.edit-btn').to.not.be.visible;
 
     // Click privacy agreement  
     client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
       .click('input[type="checkbox"]')
       // Disabling axeCheck for now, to return to in a separate PR
       // .axeCheck('.main')
