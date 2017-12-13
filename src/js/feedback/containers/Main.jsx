@@ -28,7 +28,7 @@ class Main extends React.Component {
     } else if (!this.state.formIsVisible) {
       content = (
         <DefaultView
-          feedbackButtonClicked={this.revealForm}/>
+          revealForm={this.revealForm}/>
       );
     } else {
       content = (

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function DefaultView({ feedbackButtonClicked }) {
+function DefaultView({ revealForm }) {
   return (
     <div className="usa-grid-full">
       <div className="usa-width-one-half">
@@ -11,14 +11,14 @@ function DefaultView({ feedbackButtonClicked }) {
         </p>
       </div>
       <div className="usa-width-one-half">
-        <button onClick={feedbackButtonClicked} className="usa-button-secondary feedback-button">Give us feedback</button>
+        <button onClick={revealForm} className="usa-button-secondary feedback-button">Give us feedback</button>
       </div>
     </div>
   );
 }
 
 DefaultView.propTypes = {
-  feedbackButtonClicked: PropTypes.func.isRequired
+  revealForm: PropTypes.func.isRequired
 };
 
 export default DefaultView;
