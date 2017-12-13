@@ -42,7 +42,6 @@ def comment_broken_links = { brokenlinks ->
         script: "curl -s https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls?head=department-of-veterans-affairs:${env.BRANCH_NAME} | grep '\"number\"' | grep -Eo '[0-9]+'",
         returnStdout: true
       ).trim().toInteger()
-  )
 
   def github = GitHub.connect()
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
