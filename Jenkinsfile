@@ -37,7 +37,17 @@ def notify = { message, color='good' ->
     }
 }
 
-def comment_broken_links = { brokenlinks ->
+def comment_broken_links = {
+  // Pull down console log replacing URL with IP since we can't hit internal DNS
+  sh "curl -O \$(echo ${env.BUILD_URL} | sed 's/jenkins.vetsgov-internal/172.31.1.100/')consoleText"
+
+  // Find all lines with broken links in production build
+  def broken_links = sh (
+          script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
+          returnStdout: true
+      ).trim()
+
+  // Convert branch name to PR number
   def prNum = sh(
         script: "curl -s https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls?head=department-of-veterans-affairs:${env.BRANCH_NAME} | grep '\"number\"' | grep -Eo '[0-9]+'",
         returnStdout: true
@@ -47,6 +57,7 @@ def comment_broken_links = { brokenlinks ->
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
   def pr = repo.getPullRequest(prNum)
 
+  // Post our comment with broken links formatted as a Markdown table
   pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +
               brokenlinks.replaceAll(/\[production\] |>>> href: |,/,"|") +
               "\n\n _Note: Long file names or URLs may be cut-off_")
@@ -135,13 +146,10 @@ node('vetsgov-general-purpose') {
       parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+
+      // For content team PRs, add comment in GH so they don't need direct Jenkins access to find broken links
       if (env.BRANCH_NAME.startsWith("content")) {
-        sh "curl -O \$(echo ${env.BUILD_URL} | sed 's/jenkins.vetsgov-internal/172.31.1.100/')consoleText"
-        def broken_links = sh (
-                script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
-                returnStdout: true
-            ).trim()
-        comment_broken_links(broken_links)
+        comment_broken_links()
       }
       throw error
     }
