@@ -34,7 +34,7 @@ function feedbackReducer(state = initialState, action) {
     case SET_FORM_VALUES:
       return {
         ...state,
-        formHasValidated: true,
+        formHasValidated: state.formHasValidated || action.formErrors.description !== undefined,
         formValues: {
           ...state.formValues,
           ...action.formValues
