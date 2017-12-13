@@ -5,7 +5,7 @@ import chai from 'chai';
 import DefaultView from '../../../src/js/feedback/components/DefaultView';
 
 const props = {
-  feedbackButtonClicked() {}
+  revealForm() {}
 };
 
 describe('<DefaultView/>', () => {

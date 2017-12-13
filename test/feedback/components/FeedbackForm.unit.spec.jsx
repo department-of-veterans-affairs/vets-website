@@ -7,8 +7,11 @@ import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
 import AlertBox from '../../../src/js/common/components/AlertBox';
 
 const defaultProps = {
+  formValues: {},
+  formErrors: {},
   sendFeedback() {},
   clearError() {},
+  setFormValues() {},
   errorMessage: null,
   requestPending: null
 };
@@ -30,19 +33,12 @@ describe('<FeedbackForm/>', () => {
 
   it('submits the form information', () => {
     const sendFeedback = sinon.spy();
-    const state = { shouldSendResponse: true, description: 'My description', email: 'test@test.com' };
     const props = { ...defaultProps, sendFeedback };
     const wrapper = enzyme.shallow(<FeedbackForm {...props}/>);
-
     const event = { preventDefault: sinon.spy() };
 
-    wrapper.setState(state);
     wrapper.find('form').simulate('submit', event);
-
     chai.assert.isTrue(event.preventDefault.calledOnce, 'event.preventDefault was called');
     chai.assert.isTrue(sendFeedback.calledOnce, 'The submit handler was called');
-
-    const sendFeedbackArgs = sendFeedback.args[0][0];
-    chai.assert.deepEqual(sendFeedbackArgs, state, 'The form state was passed to the sendFeedback function.');
   });
 });

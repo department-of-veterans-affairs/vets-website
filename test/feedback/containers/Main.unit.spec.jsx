@@ -9,6 +9,11 @@ import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
 import FeedbackSubmitted from '../../../src/js/feedback/components/FeedbackSubmitted';
 
 const defaultProps = {
+  formIsVisible: false,
+  formValues: {},
+  formErrors: {},
+  setFormValues() {},
+  revealForm() {},
   requestPending: false,
   feedbackReceived: false,
   shouldSendResponse: false,
@@ -27,14 +32,12 @@ describe('<Main/>', () => {
   });
 
   it('should render FeedbackForm with correct props', () => {
-    const state = { formIsVisible: true };
     const sendFeedback = sinon.spy();
-    const props = { ...defaultProps, sendFeedback };
+    const overrides = { formIsVisible: true, sendFeedback };
+    const props = { ...defaultProps, ...overrides };
     const wrapper = enzyme.shallow(<Main {...props}/>);
-
-    wrapper.setState(state);
-
     const feedbackFormWrapper = wrapper.find(FeedbackForm);
+
     chai.assert.lengthOf(feedbackFormWrapper, 1, 'The FeedbackForm was rendered');
 
     const event = { preventDefault: sinon.spy() };

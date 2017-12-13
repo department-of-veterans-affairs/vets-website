@@ -21,6 +21,24 @@ describe('sendFeedback', () => {
     }
   };
   const fetch = sinon.spy(() => Promise.resolve(fetchResponse));
+  const state = {
+    feedback: {
+      requestPending: false,
+      feedbackReceived: false,
+      errorMessage: null,
+      formIsVisible: false,
+      formHasValidated: false,
+      formValues: {
+        description: '',
+        email: '',
+        shouldSendResponse: false
+      },
+      formErrors: {
+        description: null,
+        email: null
+      }
+    }
+  };
 
   before(() => {
     global.sessionStorage = {};
@@ -39,8 +57,9 @@ describe('sendFeedback', () => {
 
   it('dispatches SEND_FEEDBACK and FEEDBACK_RECEIVED when there is a successful request', (done) => {
 
-    const actionCreator = sendFeedback({ description: 'My feedback description', email: 'test@test.com' });
-    const result = actionCreator(dispatch);
+    const getState = () => state;
+    const actionCreator = sendFeedback();
+    const result = actionCreator(dispatch, getState);
 
     result.then(() => {
 
@@ -59,8 +78,9 @@ describe('sendFeedback', () => {
   it('dispatches FEEDBACK_ERROR when response.ok is false', (done) => {
     fetchResponse.ok = false;
 
+    const getState = () => state;
     const actionCreator = sendFeedback({ description: 'My feedback description', email: 'test@test.com' });
-    const result = actionCreator(dispatch);
+    const result = actionCreator(dispatch, getState);
 
     result.then(() => {
 
