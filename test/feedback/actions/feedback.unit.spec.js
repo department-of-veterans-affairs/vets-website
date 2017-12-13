@@ -1,4 +1,4 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   sendFeedback,
@@ -63,14 +63,14 @@ describe('sendFeedback', () => {
 
     result.then(() => {
 
-      chai.assert.isTrue(fetch.calledOnce, 'Fetch was called');
-      chai.assert.isTrue(dispatch.calledTwice, 'There were two actions dispatched.');
+      expect(fetch.calledOnce).to.be.true;
+      expect(dispatch.calledTwice).to.be.true;
 
       const firstAction = dispatch.args[0][0];
       const secondAction = dispatch.args[1][0];
 
-      chai.assert.equal(firstAction.type, SEND_FEEDBACK, 'The SEND_FEEDBACK action was dispatched.');
-      chai.assert.equal(secondAction.type, FEEDBACK_RECEIVED, 'The FEEDBACK_RECEIVED action was dispatched.');
+      expect(firstAction.type).to.equal(SEND_FEEDBACK);
+      expect(secondAction.type).to.equal(FEEDBACK_RECEIVED);
 
     }).then(done, done);
   });
@@ -84,15 +84,15 @@ describe('sendFeedback', () => {
 
     result.then(() => {
 
-      chai.assert.isTrue(fetch.calledOnce, 'Fetch was called');
-      chai.assert.isTrue(dispatch.calledTwice, 'There were two actions dispatched.');
+      expect(fetch.calledOnce).to.be.true;
+      expect(dispatch.calledTwice).to.be.true;
 
       const firstAction = dispatch.args[0][0];
       const secondAction = dispatch.args[1][0];
 
-      chai.assert.equal(firstAction.type, SEND_FEEDBACK, 'The SEND_FEEDBACK action was dispatched.');
-      chai.assert.equal(secondAction.type, FEEDBACK_ERROR, 'The FEEDBACK_ERROR action was dispatched.');
-      chai.assert.isString(secondAction.message, 'The FEEDBACK_ERROR action also contained an error message.');
+      expect(firstAction.type).to.equal(SEND_FEEDBACK);
+      expect(secondAction.type).to.equal(FEEDBACK_ERROR);
+      expect(secondAction.message).to.be.a('string');
 
     }).then(done, done);
   });
@@ -101,6 +101,6 @@ describe('sendFeedback', () => {
 describe('clearError', () => {
   it('returns type CLEAR_FEEDBACK_ERROR', () => {
     const result = clearError();
-    chai.assert.equal(result.type, CLEAR_FEEDBACK_ERROR, 'The CLEAR_FEEDBACK_ERROR action was returned.');
+    expect(result.type).to.equal(CLEAR_FEEDBACK_ERROR);
   });
 });

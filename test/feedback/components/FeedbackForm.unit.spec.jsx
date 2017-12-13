@@ -1,6 +1,6 @@
 import React from 'react';
 import enzyme from 'enzyme';
-import chai from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
@@ -21,14 +21,14 @@ describe('<FeedbackForm/>', () => {
   it('should render', () => {
     const wrapper = enzyme.shallow(<FeedbackForm {...defaultProps}/>);
     const text = wrapper.text();
-    chai.assert.isTrue(text.includes('Tell us what you think'), 'The title was rendered.');
+    expect(text.includes('Tell us what you think')).to.be.true;
   });
 
   it('should render with an error message', () => {
     const errorMessage = 'Testing errors';
     const props = { ...defaultProps, errorMessage };
     const wrapper = enzyme.shallow(<FeedbackForm {...props}/>);
-    chai.assert.lengthOf(wrapper.find(AlertBox), 1, 'The error message was rendered.');
+    expect(wrapper.find(AlertBox)).to.have.lengthOf(1);
   });
 
   it('submits the form information', () => {
@@ -38,7 +38,8 @@ describe('<FeedbackForm/>', () => {
     const event = { preventDefault: sinon.spy() };
 
     wrapper.find('form').simulate('submit', event);
-    chai.assert.isTrue(event.preventDefault.calledOnce, 'event.preventDefault was called');
-    chai.assert.isTrue(sendFeedback.calledOnce, 'The submit handler was called');
+
+    expect(event.preventDefault.calledOnce).to.be.true;
+    expect(sendFeedback.calledOnce).to.be.true;
   });
 });

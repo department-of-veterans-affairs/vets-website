@@ -1,6 +1,6 @@
 import React from 'react';
 import enzyme from 'enzyme';
-import chai from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Main } from '../../../src/js/feedback/containers/Main';
@@ -27,8 +27,8 @@ describe('<Main/>', () => {
   it('should render with DefaultView', () => {
     const wrapper = enzyme.shallow(<Main {...defaultProps}/>);
     const text = wrapper.text();
-    chai.assert.isTrue(text.includes('Give feedback on this page'), 'The title was rendered.');
-    chai.assert.lengthOf(wrapper.find(DefaultView), 1, 'The DefaultView was rendered');
+    expect(text.includes('Give feedback on this page')).to.be.true;
+    expect(wrapper.find(DefaultView)).to.have.lengthOf(1);
   });
 
   it('should render FeedbackForm with correct props', () => {
@@ -38,19 +38,19 @@ describe('<Main/>', () => {
     const wrapper = enzyme.shallow(<Main {...props}/>);
     const feedbackFormWrapper = wrapper.find(FeedbackForm);
 
-    chai.assert.lengthOf(feedbackFormWrapper, 1, 'The FeedbackForm was rendered');
+    expect(feedbackFormWrapper).to.have.lengthOf(1);
 
     const event = { preventDefault: sinon.spy() };
-
     feedbackFormWrapper.dive().find('form').simulate('submit', event);
-    chai.assert.isTrue(sendFeedback.calledOnce, 'The sendFeedback prop was passed correctly to the FeedbackForm');
-    chai.assert.isTrue(event.preventDefault.calledOnce, 'event.preventDefault was called');
+
+    expect(sendFeedback.calledOnce).to.be.true;
+    expect(event.preventDefault.calledOnce).to.be.true;
   });
 
   it('should render FeedbackSubmitted', () => {
     const props = { ...defaultProps, feedbackReceived: true };
     const wrapper = enzyme.shallow(<Main {...props}/>);
-    chai.assert.lengthOf(wrapper.find(FeedbackSubmitted), 1, 'The FeedbackSubmitted was rendered');
+    expect(wrapper.find(FeedbackSubmitted)).to.have.lengthOf(1);
   });
 
 });
