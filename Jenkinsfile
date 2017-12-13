@@ -118,7 +118,7 @@ node('vetsgov-general-purpose') {
       parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
-      if env.BRANCH_NAME.startsWith("content"){
+      if (env.BRANCH_NAME.startsWith("content")) {
         echo "${env.BRANCH_NAME} - ${env.BUILD_URL}"
         sh "curl -O ${env.BUILD_URL}/consoleText"
         sh "grep broken consoleText"
