@@ -61,8 +61,7 @@ export function getLetterList(dispatch) {
     }
   ).catch((error) => {
     if (error.message.match('vets_letters_error_server_get')) {
-      Raven.captureException(error);
-      return dispatch({ type: GET_LETTERS_FAILURE });
+      dispatch({ type: GET_LETTERS_FAILURE });
     }
     throw error;
   });
@@ -77,7 +76,11 @@ export function getBenefitSummaryOptions(dispatch) {
       type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
       data: response,
     }),
-    () => dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })
+    () => {
+      dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
+      // Is there a prize for the longest error name?
+      throw new Error('vets_letters_get_benefit_summary_options_failure');
+    }
   );
 }
 
@@ -88,7 +91,9 @@ export function getLetterListAndBSLOptions() {
     return getLetterList(dispatch)
       // Maybe shouldn't try to get BSO options if we get an error or we don't get a BSL...
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch(rejectedPromise => rejectedPromise); // getLetterList should return a rejected promise if it fails
+      .catch(error => {
+        Raven.captureException(error);
+      });
   };
 }
 
