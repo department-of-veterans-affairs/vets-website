@@ -18,7 +18,7 @@ import {
   setPrefillComplete,
   setFetchFormPending,
   setStartOver,
-} from '../../../../src/js/common/schemaform/save-in-progress/save-load-actions';
+} from '../../../../src/js/common/schemaform/save-in-progress/actions';
 
 import { logOut } from '../../../../src/js/login/actions';
 

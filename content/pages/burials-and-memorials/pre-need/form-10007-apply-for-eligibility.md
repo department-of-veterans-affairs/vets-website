@@ -1,5 +1,5 @@
 ---
-title: Apply online for pre-need determination of eligibility in a VA National Cemetary
+title: Apply online for pre-need determination of eligibility in a VA National Cemetery
 entryname: pre-need
 layout: page-react.html
 ---
@@ -8,7 +8,7 @@ layout: page-react.html
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/burials-and-memorials/">Burials and Memorials</a></li>
-      <li><a href="/burials-and-memorials/burial-planning/">Burial Planning</a></li>
+      <li><a href="/burials-and-memorials/pre-need/">Pre-need Eligibility Determination</a></li>
     </ul>
   </nav>
 

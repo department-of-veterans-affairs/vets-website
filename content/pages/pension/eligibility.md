@@ -47,7 +47,7 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 </div>
 
-<div id="react-applicationStatus">
+<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
 </div>
 
