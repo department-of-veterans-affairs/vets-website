@@ -35,7 +35,7 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.isActiveElement('#AllFacilities');
 
     client
-      .assert.elementPresent('div[class="facility-dropdown-wrapper active"]');
+      .assert.visible('ul[class="dropdown"]');
 
     client
       .sendKeys('#AllFacilities', client.Keys.DOWN_ARROW)
@@ -46,7 +46,7 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.isActiveElement('div[class="facility-dropdown-wrapper"]');
 
     client
-      .assert.elementNotPresent('div[class="facility-dropdown-wrapper active"]');
+      .assert.hidden('ul[class="dropdown"]');
 
     client
       .assert.attributeContains('#health', 'aria-selected', true);
