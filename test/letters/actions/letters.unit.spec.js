@@ -27,6 +27,7 @@ import {
 
 import {
   getLetterList,
+  getLetterListAndBSLOptions,
   getMailingAddress,
   getBenefitSummaryOptions,
   getLetterPdf,
@@ -222,6 +223,34 @@ describe('getLettersList', () => {
           const action = dispatch.firstCall.args[0];
           expect(action.type).to.equal(lettersErrors[code]);
         }).then(done, done);
+    });
+  });
+});
+
+describe('getLetterListAndBSLOptions', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  it('should make the call to get the BSL options after the letter list call is complete', (done) => {
+    const thunk = getLetterListAndBSLOptions();
+    const dispatch = () => {};
+
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).to.equal(2);
+      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).to.be.true;
+      expect(global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary')).to.be.true;
+      done();
+    });
+  });
+
+  it('should not make the call to get the BSL options if the letter list call fails', (done) => {
+    global.fetch.returns(Promise.reject());
+    const thunk = getLetterListAndBSLOptions();
+    const dispatch = () => {};
+
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).to.equal(1);
+      done();
     });
   });
 });
