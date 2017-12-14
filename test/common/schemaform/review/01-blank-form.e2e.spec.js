@@ -45,25 +45,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.expect.element('.review-row span').text.to.equal('Jean-Pierre');
 
-    // // Edit form fields successfully
-    // client
-    //   .click('.edit-btn');
-    // client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
-
-    // client
-    //   .clearValue('input[name="root_veteranFullName_first"]')
-    //   .fill('input[name="root_veteranFullName_first"]', 'Jacques')
-    //   .click('.usa-button-primary');
-
-    // client.expect.element('.review-row span').text.to.equal('Jacques');
-
-    // // Close panel
-    // client.expect.element('.edit-btn').to.be.visible;
-    // client
-    //   .click('button.usa-button-unstyled');
-
-    // client.expect.element('.edit-btn').to.not.be.visible;
-
     // Click privacy agreement  
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
@@ -73,15 +54,6 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-progress-buttons .usa-button-primary');
 
     client.expect.element('.usa-alert').to.be.visible;
-
-    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-    // client.expect.element('.js-test-location').attribute('data-location')
-    //   .to.not.contain('/review-and-submit').before(Timeouts.slow);
-
-    // // Submit message
-    // client.expect.element('.confirmation-page-title').to.be.visible;
-
-    // client.axeCheck('.main');
 
     client.end();
   });
