@@ -27,7 +27,7 @@ describe('sendFeedback', () => {
       feedbackReceived: false,
       errorMessage: null,
       formIsVisible: false,
-      formHasValidated: false,
+      formIsSubmittable: false,
       formValues: {
         description: '',
         email: '',
