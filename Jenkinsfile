@@ -59,7 +59,7 @@ def comment_broken_links = {
 
   // Post our comment with broken links formatted as a Markdown table
   pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +
-              brokenlinks.replaceAll(/\[production\] |>>> href: |,/,"|") +
+              broken_links.replaceAll(/\[production\] |>>> href: |,/,"|") +
               "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
