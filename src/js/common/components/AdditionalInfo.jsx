@@ -36,9 +36,7 @@ export default class AdditionalInfo extends React.Component {
     return (
       <ExpandingGroup open={this.state.open} expandedContentId={this.expandedContentId}>
         {trigger}
-        <div>
-          <div className="additional-info-content">{children}</div>
-        </div>
+        <div className="additional-info-content">{children}</div>
       </ExpandingGroup>
     );
   }
