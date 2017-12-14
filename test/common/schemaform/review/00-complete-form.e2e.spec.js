@@ -47,14 +47,16 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.edit-btn');
     client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
 
+    client.clearElement('input[name="root_veteranFullName_first"]');
+    client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
     client
-      .removeText('input[name="root_veteranFullName_first"]')
       .pause(1200)
-      .click('input[name="root_veteranFullName_middle"]')
-      .pause();
+      .click('input[name="root_veteranFullName_middle"]');
+    client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
 
     client
-      .click('.usa-button-primary');
+      .click('.usa-button-primary')
+      .pause();
 
     client.expect.element('.usa-input-error').to.be.visible;
     client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
@@ -69,9 +71,10 @@ module.exports = E2eHelpers.createE2eTest(
     // Close panel
     client.expect.element('.edit-btn').to.be.visible;
     client
+      .pause(1200)
       .click('button.usa-button-unstyled');
 
-    client.expect.element('.edit-btn').to.not.be.visible;
+    client.expect.element('.edit-btn').to.not.be.present;
 
     // Click privacy agreement  
     client
