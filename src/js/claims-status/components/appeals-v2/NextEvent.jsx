@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const NextEvent = ({ title, description, durationText, cardDescription, showSeparator }) => {
   return (
-    <li>
+    <li className="next-event">
       <h3>{title}</h3>
       <p>{description}</p>
       <div className="card information">
@@ -17,7 +17,10 @@ const NextEvent = ({ title, description, durationText, cardDescription, showSepa
 
 NextEvent.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired,
   durationText: PropTypes.string.isRequired,
   cardDescription: PropTypes.string.isRequired,
   showSeparator: PropTypes.bool.isRequired

@@ -36,7 +36,7 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
-<div id="react-applicationStatus">
+<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
 </div>
 
@@ -50,7 +50,7 @@ Mail the application to the Pension Management Center (PMC) for your state. [Fin
 
 **In person**
 
-Bring your application to a regional benefits office near you. [Find a regional benefits office](/facilities/).
+Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
 
 **With the help of a trained professional**
 

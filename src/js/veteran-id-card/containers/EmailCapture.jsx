@@ -29,7 +29,7 @@ class EmailCapture extends React.Component {
         <div>
           <h1>Printed Veteran ID Card</h1>
           <AlertBox
-            content={<h4 className="usa-alert-heading">Email received.  We will send you an email when the application is available again.</h4>}
+            content={<h4 className="usa-alert-heading">Thank you for your email address. We'll let you know when the application is working again.</h4>}
             isVisible
             status="success"/>
         </div>
@@ -38,16 +38,11 @@ class EmailCapture extends React.Component {
       view = (
         <div>
           <h1>Printed Veteran ID Card</h1>
-          <AlertBox
-            content="Thank you for your interest in the Veteran Identification Card! Currently, we are experiencing a high volume of traffic. We apologize, and want you to know we're working to fix the problem."
-            isVisible
-            status="warning"/>
-
-          <h4>In the meantime, please enter your email address and we'll send an update when the Veteran Identification Card application is back online.</h4>
-
+          <p>You've reached the new Veteran ID Card application! We're excited to bring this important recognition to Veterans. We've experienced a great response and are working to make the application process more efficient.</p>
+          <p>We want to engage you in the application process quickly and will be sending specific instructions on how to proceed. Please enter your email address below. We'll only use it to contact you about continuing the Veteran ID Card application process. <a href="/privacy/">See our privacy policy</a>.</p>
           <form onSubmit={this.handleSubmit}>
             <ErrorableTextInput errorMessage={this.props.errors && this.props.errors[0].title}
-              label={<span>Email Address</span>}
+              label={<span>Email address</span>}
               name="email"
               field={this.props.email}
               onValueChange={(update) => this.props.setEmail(update)}

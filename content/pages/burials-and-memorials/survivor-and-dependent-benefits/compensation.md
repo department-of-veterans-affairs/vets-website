@@ -62,7 +62,7 @@ You can apply for this benefit in 1 of 3 ways:
 
 - Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
 
-- Go to a VA Regional Office and get help from a VA employee [(Find a local VA office)](/facilities/).
+- Go to a VA regional benefit office and get help from a VA employee [(Find a local VA office)](/facilities/).
 
 
 ### As a surviving parent, can I get compensation?
@@ -81,7 +81,7 @@ You can apply for this benefit in 1 of 3 ways:
 
 - Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
 
-- Go to a VA Regional Office and have a VA employee help you [(Find a local VA office)](/facilities/).
+- Go to a VA regional benefit office and have a VA employee help you [(Find a local VA office)](/facilities/).
 
 
 

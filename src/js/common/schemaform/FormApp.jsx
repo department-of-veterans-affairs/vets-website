@@ -13,10 +13,11 @@ import {
   SAVE_STATUSES,
   setFetchFormStatus,
   fetchInProgressForm
-} from './save-load-actions';
+} from './save-in-progress/actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 import { isInProgress } from '../utils/helpers';
+import { getSaveInProgressState } from './save-in-progress/selectors';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -68,7 +69,8 @@ class FormApp extends React.Component {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
-    const devRedirect = __BUILDTYPE__ !== 'development' || currentLocation.search.includes('redirect');
+    const devRedirect = (__BUILDTYPE__ !== 'development' && !currentLocation.search.includes('skip'))
+      || currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
     if (isInProgress(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
@@ -112,9 +114,6 @@ class FormApp extends React.Component {
         action = 'replace';
       }
       newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
-    } else if (newProps.savedStatus !== this.props.savedStatus &&
-      newProps.savedStatus === SAVE_STATUSES.success) {
-      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
@@ -125,6 +124,11 @@ class FormApp extends React.Component {
       || ((oldProps.savedStatus !== this.props.savedStatus &&
       this.props.savedStatus === SAVE_STATUSES.pending))) {
       scrollToTop();
+    }
+
+    if (this.props.savedStatus !== oldProps.savedStatus &&
+      this.props.savedStatus === SAVE_STATUSES.success) {
+      this.props.router.push(`${this.props.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
@@ -203,7 +207,6 @@ class FormApp extends React.Component {
       );
     }
 
-
     return (
       <div>
         <div className="row">
@@ -212,7 +215,7 @@ class FormApp extends React.Component {
             {
               formConfig.title &&
               // If we’re on the introduction page, show the title if we’re actually on the loading screen
-              (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
+              (!isIntroductionPage || (!formConfig.disableSave && this.props.loadedStatus !== LOAD_STATUSES.notAttempted)) &&
                 <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
             }
             {content}
@@ -227,24 +230,11 @@ class FormApp extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loadedStatus: state.form.loadedStatus,
-  savedStatus: state.form.savedStatus,
-  autoSavedStatus: state.form.autoSavedStatus,
-  prefillStatus: state.form.prefillStatus,
-  returnUrl: state.form.loadedData.metadata.returnUrl,
-  formData: state.form.data,
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  savedForms: state.user.profile.savedForms,
-  prefillsAvailable: state.user.profile.prefillsAvailable,
-  profileIsLoading: state.user.profile.loading
-});
-
 const mapDispatchToProps = {
   setFetchFormStatus,
   fetchInProgressForm
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormApp));
+export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(FormApp));
 
 export { FormApp };

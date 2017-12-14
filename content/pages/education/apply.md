@@ -50,7 +50,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 </div>
 </div>
 </div>
-<div id="react-applicationStatus"></div>
+<div id="react-applicationStatus" class="static-page-widget"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 

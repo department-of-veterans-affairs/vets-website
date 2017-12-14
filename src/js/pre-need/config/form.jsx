@@ -556,6 +556,7 @@ const formConfig = {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 endpoint: '/v0/preneeds/preneed_attachments',
                 fileTypes: ['pdf'],
+                maxSize: 15728640,
                 hideLabelText: true,
                 createPayload: (file) => {
                   const payload = new FormData();
@@ -698,9 +699,12 @@ const formConfig = {
                   'ui:widget': 'radio',
                   'ui:options': {
                     updateSchema: (formData) => {
-                      const applicantName = formatName(formData.application.claimant.name);
+                      const nameData = _.get('application.claimant.name', formData);
+                      const applicantName = nameData
+                        ? formatName(nameData)
+                        : null;
+
                       return {
-                        'enum': ['Self', 'Authorized Agent/Rep'],
                         enumNames: [applicantName || 'Myself', 'Someone else']
                       };
                     },
@@ -715,7 +719,9 @@ const formConfig = {
                     expandUnderCondition: 'Authorized Agent/Rep'
                   },
                   name: _.merge(nonRequiredFullNameUI, {
-                    'ui:title': 'Preparer information'
+                    'ui:title': 'Preparer information',
+                    first: { 'ui:required': isAuthorizedAgent },
+                    last: { 'ui:required': isAuthorizedAgent },
                   }),
                   mailingAddress: _.merge(address.uiSchema('Mailing address'), {
                     country: { 'ui:required': isAuthorizedAgent },
