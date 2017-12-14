@@ -42,7 +42,6 @@ class FeedbackForm extends React.Component {
           event.preventDefault();
           this.props.sendFeedback();
         }}>
-
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <div className="va-flex">
           <div className="feedback-widget-description-container">
