@@ -33,6 +33,8 @@ class FormQuestions extends React.Component {
   handleScrollTo = (e) => {
     e.preventDefault();
 
+    window.dataLayer.push({ event: 'discharge-upgrade-review-edit' });
+
     scroller.scrollTo(e.target.name, {
       duration: 1000,
       smooth: true,
