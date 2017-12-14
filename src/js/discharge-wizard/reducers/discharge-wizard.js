@@ -13,6 +13,7 @@ const initialState = {
   '8_prevApplication': null, // 5
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
+  '11_failureToExhaust': null, // 5b
   '12_priorService': null, // 6
   questions: ['1_branchOfService'], // represents valid question progression
 };
