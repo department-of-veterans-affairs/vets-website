@@ -24,7 +24,7 @@ Yes, if you have one or more illnesses believed to be caused by Agent Orange and
 - You came ashore in Vietnam
 
 [See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/). <br>
-[Learn more about U.S. Navy and Coast Guard ships in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
+[Learn more about U.S. Navy and Coast Guard ships in Vietnam](https://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
 
 ### Who’s covered?
 

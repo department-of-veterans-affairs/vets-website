@@ -23,10 +23,10 @@ majorlinks:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
       title: Learn About Health Concerns Related to Your Service History
       description: Learn about service-connected health concerns you should be aware of based on when and where you served.
-    - url: /health-care/prescriptions/
+    - url: /health-care/prescriptions
       title: Refill Prescriptions
       description: Refill prescriptions online, and track the status of your refills.
-    - url: /health-care/messaging/
+    - url: /health-care/messaging
       title: Send a Secure Message to Your Health Care Team
       description: Send a secure, private note to your primary care provider or other members of your VA health care team.
     - url: /health-care/schedule-an-appointment
@@ -40,7 +40,7 @@ majorlinks:
     - url: /health-care/about-va-health-care/
       title: About VA Health Care Coverage
       description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
-    - url: /health-care/health-conditions
+    - url: /health-care/health-conditions/
       title: Health Needs and Conditions 
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
 ---
@@ -51,7 +51,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 </div>
 
-<div id="react-applicationStatus" data-hide-apply-button></div>
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
 
 <div class="va-alert usa-alert usa-alert-warning">
   <div class="usa-alert-body">

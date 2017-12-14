@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -22,6 +23,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const createSettings = require('../config/create-settings');
 
 const sourceDir = '../content/pages';
 
@@ -92,7 +94,7 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/burial-planning/application.md');
+  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -437,7 +439,7 @@ if (options.watch) {
         { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
+        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -667,9 +669,19 @@ smith.use(redirect({
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
+function generateStaticSettings() {
+  const settings = createSettings(options);
+  const settingsPath = path.join(destination, 'js/settings.js');
+  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
+  fs.writeFileSync(settingsPath, settingsContent);
+}
+
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
+
+  generateStaticSettings();
+
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {

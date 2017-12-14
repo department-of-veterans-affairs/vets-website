@@ -44,7 +44,7 @@ function makeMockApiRouter(opts) {
 
     mockResponses[auth] = mockResponses[auth] || {};
     mockResponses[auth][verb] = mockResponses[auth][verb] || {};
-    mockResponses[auth][verb][path] = req.body.value;
+    mockResponses[auth][verb][path] = { status: req.body.status, value: req.body.value };
     const result = { result: `set auth:${auth} ${verb} ${path} to ${JSON.stringify(req.body.value)}` };
     res.status(200).json(result);
   });
@@ -67,8 +67,13 @@ function makeMockApiRouter(opts) {
       res.status(500);
       result = { error: `mock not initialized for auth: ${auth} ${verb} ${path}` };
     }
-    opts.logger.verbose(auth, verb, path, result);
-    res.json(result);
+
+    if (result.status) {
+      res.status(result.status);
+    }
+
+    opts.logger.debug(auth, verb, path, result.value);
+    res.json(result.value);
   });
 
   return router;

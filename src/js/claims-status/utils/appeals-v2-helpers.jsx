@@ -1,16 +1,26 @@
 import React from 'react';
+import moment from 'moment';
+
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   nod: 'nod',
+  pendingForm9: 'pending_form9',
   awaitingHearingDate: 'awaiting_hearing_date',
+  onDocket: 'on_docket',
   bvaDecision: 'bva_decision',
+  remand: 'remand'
 };
 
 export const ALERT_TYPES = {
   waitingOnAction: 'waiting_on_action',
+  form9Due: 'form9_due',
   hearingScheduled: 'hearing_scheduled',
   bvaDecisionPending: 'bva_decision_pending'
 };
+
+export function formatDate(date) {
+  return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+}
 
 // TO DO: Replace made up properties and content with real versions once finalized.
 /**
@@ -24,8 +34,7 @@ export const ALERT_TYPES = {
  * @returns {Contents}
  */
 export function getStatusContents(type, details) {
-  const { nod, awaitingHearingDate, bvaDecision } = STATUS_TYPES;
-
+  const { nod, awaitingHearingDate, bvaDecision, remand, pendingForm9, onDocket } = STATUS_TYPES;
   const contents = {};
   if (type === nod) {
     const office = details.regionalOffice || 'Regional Office';
@@ -42,11 +51,95 @@ export function getStatusContents(type, details) {
     contents.description = `You have selected to have a ${hearingType} in your form 9. 
       Currently the Board is having hearings for appeals of ${currenltyHearing}`;
   } else if (type === bvaDecision) {
-    const decisionType = details.decisionType || 'Unknown (please wait for your letter)';
-    contents.title = 'The Board has made a decision on your appeal';
-    contents.description = `The Board of Veterans’ Appeals has made a decision on your appeal. 
-    You will receive your decision letter in the mail in 7 business days. Your appeal  
-    decision is: ${decisionType}`;
+    const { decisionIssues } = details;
+    const allowedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'allowed'))
+      .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
+    const deniedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'denied'))
+      .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
+    const businessDays = details.businessDays;
+    contents.title = 'The Board has made a decision on some of your appeals';
+    contents.description = (
+      <div>
+        <div>
+          The Board of Veterans Appeals has made a decision on some of your appeals.
+          You will receive your decision letter in the mail in {businessDays} business days. Here is an overview
+          of the decision:
+        </div>
+        <br/>
+        <div className="decision-items">
+          <h5 className="allowed-items">Allowed</h5>
+          <ul>{allowedIssues}</ul>
+          <h5 className="denied-items">Denied</h5>
+          <ul>{deniedIssues}</ul>
+        </div>
+        <div>
+          For issues that are allowed, you will receive compensation. For more information, please
+          contact your VSO or representative.
+        </div>
+      </div>
+    );
+  } else if (type === remand) {
+    const { decisionIssues } = details;
+    const allowedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'allowed'))
+      .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
+    const deniedIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'denied'))
+      .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
+    const remandIssues = decisionIssues
+      .filter((issue) => (issue.disposition === 'remand'))
+      .map((issue, i) => (<li key={`remanded-${i}`}>{issue.description}</li>));
+    const businessDays = details.businessDays;
+    contents.title = 'The Board has made a decision on some of your appeals';
+    contents.description = (
+      <div>
+        <div>
+          The Board of Veterans Appeals has made a decision on some of your appeals.
+          You will receive your decision letter in the mail in {businessDays} business days. Here is an overview
+          of the decision:
+        </div>
+        <br/>
+        <div className="decision-items">
+          <h5 className="allowed-items">Allowed</h5>
+          <ul>{allowedIssues}</ul>
+          <h5 className="denied-items">Denied</h5>
+          <ul>{deniedIssues}</ul>
+          <h5 className="remand-items">Remand</h5>
+          <ul>{remandIssues}</ul>
+        </div>
+        <div>
+          For issues that are allowed, you will receive compensation. For more information, please
+          contact your VSO or representative.
+        </div>
+      </div>
+    );
+  } else if (type === pendingForm9) {
+    contents.title = 'Review your Statement of the Case';
+    contents.description = (
+      <div>
+        <p>
+          The Veterans Benefits Administration (VBA) sent you a Statement of the Case on November
+          28, 2017. The Statement of the Case document explains the reasons why the Regional Office
+          could not fully grant your appeal. If you don’t agree with the Statement of the Case, you
+          can bring your appeal to the Board of Veterans’ Appeals. To do this you must complete and
+          return a Form 9 within 60 days.
+        </p>
+        <p>
+          <em>Note:</em> If you send more evidence with the Form 9, it will be reviewed by the
+          Regional Office and will likely delay a decision on your appeal. If you have new
+          evidence, it’s best to send it when the Board of Veterans Appeals is reviewing your
+          case.
+        </p>
+      </div>
+    );
+  } else if (type === onDocket) {
+    contents.title = 'Waiting to be assigned to a judge';
+    contents.description = `Your appeal is at the Board of Veterans’ Appeals waiting to be
+      assigned to a Veterans Law Judge. Staff at the Board are making sure that your case is
+      complete, accurate, and ready to be decided by a judge. If you have evidence that isn’t
+      already included in your case, now is a good time to send it to the Board.`;
   } else {
     contents.title = 'Current Status Unknown';
     contents.description = 'Your current appeal status is unknown at this time';
@@ -85,116 +178,116 @@ export function getEventContent(event) {
   switch (event.type) {
     case EVENT_TYPES.claim:
       return {
-        title: 'Claim Decision',
-        description: 'Your original claim decision was sent to you.',
+        title: 'VBA sent the original claim decision to you',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
-        title: 'Notice of Disagreement',
-        description: 'Notice of Disagreement received by your Regional Office.',
+        title: 'VBA received your Notice of Disagreement',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.droHearing:
       return {
         title: 'Dro Hearing',
-        description: 'You have a hearing at VBA with a Decision Review Officer prior to SOC.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
         title: 'Field grant',
-        description: 'You have received a Field Grant.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
-        title: 'Statement of the Case',
-        description: 'Statement of the Case (SOC) prepared by your Regional Office.',
+        title: 'VBA prepared a Statement of the Case (SOC)',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
         title: 'Form 9 Recieved',
-        description: 'Form 9 received by your Regional Office.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
         title: 'Supplemental Statement of the Case',
-        description: 'Supplemental Statement of the Case (SOC) prepared by your Regional Office.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.certified:
       return {
-        title: 'Certification',
-        description: 'Your appeal was received by the Board.',
+        title: 'The Board received your appeal',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: 'Hearing Held',
-        description: `Your hearing was held at ${event.details.location}.`,
+        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingCancelled:
       return {
         title: 'Hearing Cancelled',
-        description: 'Your hearing was cancelled.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
         title: 'Hearing No Show',
-        description: 'You missed your hearing.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
-        title: 'Board Decision',
-        description: 'The Board has made a decision on your appeal.',
+        title: 'The Board made a decision on your appeal',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaRemand:
       return {
         title: 'Board Remand',
-        description: 'BVA is collecting more evidence.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
         title: 'Withdrawn',
-        description: 'You have withdrawn your appeal.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
         title: 'Merged',
-        description: 'Your appeals have been merged.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'CAVC Decision',
-        description: 'CAVC has made a decision.',
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.recordDesignation:
       return {
         title: 'Designation of Record',
-        description: `${event.details.name} has submitted a motion to continue this appeal.`,
+        description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Reconsideration by Letter',
-        description: 'The Board has denied your motion for reconsideration.',
+        description: '',
         liClass: 'section-complete'
       };
     default:
       return {
         title: 'Unknown Event',
-        description: 'Not sure what happened here...weird.',
+        description: '',
         liClass: 'section-complete'
       };
   }
@@ -223,6 +316,29 @@ export function getNextEvents(currentStatus) {
           cardDescription: 'The Oakland regional office takes about 2 months to certify your appeal to the Board.'
         }
       ];
+    case STATUS_TYPES.pendingForm9:
+      return [
+        {
+          title: 'The Board receives your appeal',
+          description: `If you send the Form 9 without new evidence, the Veterans Benefits
+            Administration (VBA) will finish its review and transfer your case to the Board of
+            Veterans’ Appeals.`,
+          durationText: '2 months',
+          cardDescription: 'VBA takes about 2 months to certify appeals to the Board'
+        }, {
+          title: 'VBA prepares a Statement of the Case (SOC)',
+          description: `If you send the Form 9 with new evidence, the Veterans Benefits
+            Administration (VBA) will finish its review and transfer your case to the Board of
+            Veterans’ Appeals.`,
+          durationText: '11 months',
+          cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
+        }, {
+          title: 'You withdraw your appeal',
+          description: 'If you do not send the Form 9 within 60 days, your appeal will be closed.',
+          durationText: '2 months',
+          cardDescription: 'You have 60 days to submit your appeal before it is closed'
+        }
+      ];
     case STATUS_TYPES.awaitingHearingDate:
       return [
         {
@@ -236,11 +352,53 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'Board decision reached',
-          descirption: 'Your appeal decision is being sent to your mailing address',
+          description: 'Your appeal decision is being sent to your mailing address',
           durationText: '2 weeks',
           cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
         }
       ];
+    case STATUS_TYPES.remand:
+      return [
+        {
+          title: 'VBA prepares a Statement of the Case (SOC)',
+          description: `If you send the Form 9 with new evidence, the Veterans Benefits
+            Administration (VBA) will finish its review and transfer your case to the Board of
+            Veterans’ Appeals.`,
+          durationText: '11 months',
+          cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
+        }
+      ];
+    case STATUS_TYPES.onDocket: {
+      return [
+        {
+          title: 'Judge Decides Your Appeal',
+          description: (
+            <div>
+              <div>
+                A Veterans Law Judge, working with one of the Board attorneys, will review all of
+                the available evidence and write a decision. For each issue you are appealing, they
+                can decide to:
+              </div>
+              <ul>
+                <li>
+                  <strong>Allow - </strong>The judge overrules the Regional Office and makes a decision
+                  on your rating
+                </li>
+                <li><strong>Deny - </strong>The judge agrees with the Regional Office decision</li>
+                <li>
+                  <strong>Remand - </strong>The judge sends the issue to Veterans Benefits
+                    Administration (VBA) for more evidence or to fix a mistake before making a
+                    decision
+                </li>
+              </ul>
+              <div><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</div>
+            </div>
+          ),
+          durationText: '10 months',
+          cardDescription: 'A Veterans Law Judge typically takes 10 months to write a decision.'
+        }
+      ];
+    }
     default:
       return [
         {
@@ -271,6 +429,25 @@ export function getAlertContent(alert) {
           representative for more information.`,
         cssClass: 'usa-alert-warning',
         type
+      };
+    case ALERT_TYPES.form9Due:
+      return {
+        title: `Return the Form 9 by ${formatDate(details.date)} in order to continue your appeal`,
+        description: (
+          <div>
+            <p>
+              A Form 9 was included with your Statement of the Case. By completing and returning
+              the form, you bring your appeal to the Board of Veterans’ Appeals. On this form,
+              you can request a hearing with a Veterans Law Judge, if you would like one.
+            </p>
+            <p>
+              If you need help with understanding your Statement of the Case or completing the Form
+              9, contact your VSO or representative.
+            </p>
+            <p><a href="#">Learn more about completing the Form 9</a>.</p>
+          </div>
+        ),
+        cssClass: 'usa-alert-warning'
       };
     case ALERT_TYPES.hearingScheduled:
       return {

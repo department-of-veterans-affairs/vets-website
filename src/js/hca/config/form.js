@@ -654,7 +654,7 @@ const formConfig = {
               'ui:field': 'BasicArrayField',
               items: dependentIncomeUiSchema,
               'ui:options': {
-                hideIf: (formData) => !_.get('dependents.length', formData)
+                hideIf: (formData) => !_.get('view:reportDependents', formData)
               }
             }
           },

@@ -12,7 +12,7 @@ const initialState = {
   '8_prevApplication': null, // 5
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
-  '11_priorService': null,
+  '11_priorService': null, // 6
   questions: ['1_branchOfService'], // represents valid question progression
 };
 
@@ -35,6 +35,8 @@ function nextQuestion(currentQuestion, answer, state) {
     case '4_reason':
       if (answer === '3') {
         next = '5_dischargeType';
+      } else if (answer === '8') {
+        next = '10_prevApplicationType';
       } else {
         next = '6_intention';
       }
@@ -75,7 +77,9 @@ function nextQuestion(currentQuestion, answer, state) {
       }
       break;
     case '10_prevApplicationType':
-      if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
+      if (state['4_reason'] === '8') {
+        next = 'END';
+      } else if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
         next = '11_priorService';
       } else {
         next = 'END';

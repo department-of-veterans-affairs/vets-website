@@ -1,3 +1,4 @@
+const moment = require('moment');
 const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const HcaHelpers = require('../e2e/hca-helpers.js');
@@ -5,7 +6,7 @@ const HcaHelpers = require('../e2e/hca-helpers.js');
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
-    HcaHelpers.initSaveInProgressMock(url, client);
+    const token = HcaHelpers.initSaveInProgressMock(url, client);
 
     // Ensure introduction page renders.
     client
@@ -29,15 +30,56 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
       .expect.element('#root_veteranSocialSecurityNumber').to.have.value.that.equals('123445544');
 
-    // save a form
+    // save and finish a form later
     client
-      .pause(1000)
+      .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Northampton, MA')
       .click('.schemaform-sip-save-link');
 
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');
     client.assert.urlContains('form-saved');
 
     client.axeCheck('.main');
+
+    // fail to save a form
+    client
+      .click('.usa-button-primary')
+      .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
+      .mockData({
+        path: '/v0/in_progress_forms/1010ez',
+        verb: 'put',
+        value: {},
+        status: 500
+      }, token)
+      .click('.schemaform-sip-save-link');
+
+    client.assert.urlContains('birth-information');
+
+    client
+      .expect.element('.usa-alert-error').text.to.contain('Something went wrong when saving your form');
+
+    /* eslint-disable camelcase */
+    client
+      .mockData({
+        path: '/v0/in_progress_forms/1010ez',
+        verb: 'put',
+        value: {
+          data: {
+            attributes: {
+              metadata: {
+                version: 0,
+                returnUrl: '/veteran-information/birth-information',
+                savedAt: 1498588443698,
+                expires_at: moment().add(1, 'day').unix(),
+                last_updated: 1498588443
+              }
+            }
+          }
+        }
+      }, token)
+      .click('.schemaform-sip-save-link');
+    /* eslint-enable camelcase */
+
+    client.assert.urlContains('form-saved');
 
     // test start over, but all it really does is fetch the form again
     client
@@ -47,6 +89,19 @@ module.exports = E2eHelpers.createE2eTest(
 
     E2eHelpers.expectNavigateAwayFrom(client, 'form-saved');
     client.assert.urlContains('/veteran-information/birth-information');
+
+    // test 401 error when saving
+    client
+      .mockData({
+        path: '/v0/in_progress_forms/1010ez',
+        verb: 'put',
+        value: {},
+        status: 401
+      }, token)
+      .click('.schemaform-sip-save-link');
+
+    client
+      .expect.element('.usa-alert-error').text.to.contain('Sorry, you’re signed out.');
 
     client.end();
   });
