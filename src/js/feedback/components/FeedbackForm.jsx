@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AlertBox from '../../common/components/AlertBox';
 import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 
 class FeedbackForm extends React.Component {
 
@@ -63,12 +64,11 @@ class FeedbackForm extends React.Component {
             </div>
           </div>
         </div>
-        <input
-          id="should-send-response"
-          type="checkbox"
-          value={this.props.formValues.shouldSendResponse}
-          onChange={({ target: { checked: shouldSendResponse } }) => this.props.setFormValues({ shouldSendResponse })}/>
-        <label htmlFor="should-send-response">I would like to receive a response about my feedback.</label>
+        <ErrorableCheckbox
+          name="should-send-response"
+          label="I would like to receive a response about my feedback."
+          checked={this.props.formValues.shouldSendResponse}
+          onValueChange={(shouldSendResponse) => this.props.setFormValues({ shouldSendResponse })}/>
         <div className="usa-grid-full">
           <div className="usa-width-one-third">
             {this.props.formValues.shouldSendResponse && (
@@ -76,27 +76,28 @@ class FeedbackForm extends React.Component {
                 <ErrorableTextInput
                   label="Your email address"
                   name="email"
+                  type="email"
                   field={{ value: this.props.formValues.email, dirty: false }}
                   onValueChange={this.setEmail}
                   errorMessage={this.emailErrorMessage()}
                   required/>
               </div>
             )}
-            {this.props.errorMessage && (
-              <div className="feedback-error">
-                <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>
-              </div>
-            )}
             <div className="feedback-submit-container">
               <button
                 type="submit"
-                disabled={!this.props.formIsSubmittable}
+                disabled={this.props.requestPending || !this.props.formIsSubmittable}
                 className="usa-button-primary usa-width-one-whole feedback-submit-button">
                 {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
               </button>
             </div>
           </div>
         </div>
+        {this.props.errorMessage && (
+          <div className="feedback-error">
+            <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>
+          </div>
+        )}
       </form>
     );
   }
