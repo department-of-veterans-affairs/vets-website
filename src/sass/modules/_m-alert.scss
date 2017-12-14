@@ -38,6 +38,12 @@
     vertical-align: middle;
     border:1px solid pink;
   }
+
+  .usa-alert-text {
+    p:first-child {
+      margin-top:0;
+    }
+  }
 }
 
 .usa-alert-heading {
