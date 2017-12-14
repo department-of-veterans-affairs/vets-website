@@ -25,9 +25,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Open first panel
     client
       .waitForElementVisible('.usa-accordion-bordered', Timeouts.normal)
-      .click('button.usa-button-unstyled')
-      .pause(1200);
-    client.expect.element('.edit-btn').to.be.visible;
+      .click('.usa-accordion-bordered .usa-button-unstyled')
+      .waitForElementVisible('.edit-btn', Timeouts.normal);
 
     // Edit form fields successfully
     client
