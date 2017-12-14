@@ -59,7 +59,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 </div>
 </div>
 
-<div id="react-applicationStatus">
+<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 

@@ -1,5 +1,6 @@
 import { DW_UPDATE_FIELD } from '../actions';
 import _ from 'lodash';
+import moment from 'moment';
 
 const initialState = {
   '1_branchOfService': null, // 4
@@ -12,12 +13,19 @@ const initialState = {
   '8_prevApplication': null, // 5
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
-  '11_priorService': null, // 6
+  '11_failureToExhaust': null, // 5b
+  '12_priorService': null, // 6
   questions: ['1_branchOfService'], // represents valid question progression
 };
 
 function nextQuestion(currentQuestion, answer, state) {
   let next;
+  const noGeneralCourtMartial = state['7_courtMartial'] === '2';
+  const dischargeYear = state['2_dischargeYear'];
+  const dischargeMonth = state['3_dischargeMonth'] || 1;
+  const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
+  const commonChanges = state['6_intention'] === '2';
+
   switch (currentQuestion) {
     case '1_branchOfService':
       next = '2_dischargeYear';
@@ -59,7 +67,7 @@ function nextQuestion(currentQuestion, answer, state) {
         }
       } else {
         if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
-          next = '11_priorService';
+          next = '12_priorService';
         } else {
           next = 'END';
         }
@@ -70,7 +78,7 @@ function nextQuestion(currentQuestion, answer, state) {
         next = '10_prevApplicationType';
       } else {
         if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
-          next = '11_priorService';
+          next = '12_priorService';
         } else {
           next = 'END';
         }
@@ -79,8 +87,10 @@ function nextQuestion(currentQuestion, answer, state) {
     case '10_prevApplicationType':
       if (state['4_reason'] === '8') {
         next = 'END';
+      } else if (answer === '3' && noGeneralCourtMartial && !oldDischarge && commonChanges) {
+        next = '11_failureToExhaust';
       } else if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
-        next = '11_priorService';
+        next = '12_priorService';
       } else {
         next = 'END';
       }
