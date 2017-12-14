@@ -26,6 +26,15 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ email });
   }
 
+  sendFeedback = (event) => {
+    event.preventDefault();
+    this.props.sendFeedback({
+      description: this.props.description,
+      email: this.props.email,
+      shouldSendResponse: this.props.shouldSendResponse
+    });
+  }
+
   descriptionErrorMessage = () => {
     return !this.state.suppressDescriptionErrors ? this.props.formErrors.description : '';
   }
@@ -36,12 +45,7 @@ class FeedbackForm extends React.Component {
 
   render() {
     return (
-      <form
-        className="feedback-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.props.sendFeedback();
-        }}>
+      <form className="feedback-form" onSubmit={this.sendFeedback}>
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <div className="va-flex">
           <div className="feedback-widget-description-container">

@@ -26,9 +26,8 @@ export function setFormValues(formValues) {
   };
 }
 
-export function sendFeedback() {
-  return (dispatch, getState) => {
-    const { formValues } = getState().feedback;
+export function sendFeedback(formValues) {
+  return (dispatch) => {
     const { description, email: ownerEmail } = formValues;
     const targetPage = window.location.pathname;
     const settings = {
