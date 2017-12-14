@@ -36,6 +36,7 @@ You can get benefits if you qualify for the GI Bill and want to work in an indus
 
  - Veterans
  - Spouses and children getting benefits through either the Fry Scholarship or the Survivors' and Dependents' Educational Assistance (DEA) Program
+ - Children getting transferred benefits under Chapter 33
 
 **Exception:** 
 You can’t get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
