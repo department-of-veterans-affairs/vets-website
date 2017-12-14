@@ -37,7 +37,7 @@ export const formLinks = {
   '22-1995': '/education/apply-for-education-benefits/application/1995/',
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
   '22-5495': '/education/apply-for-education-benefits/application/5495/',
-  '40-10007': '/burials-and-memorials/burial-planning/application/'
+  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/'
 };
 
 export const trackingPrefixes = {
