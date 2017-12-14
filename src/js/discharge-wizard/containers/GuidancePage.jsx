@@ -20,6 +20,7 @@ class GuidancePage extends React.Component {
 
   handleFAQToggle = (e) => {
     e.preventDefault();
+    window.dataLayer.push({ event: 'discharge-upgrade-faq-toggle' });
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });
@@ -27,6 +28,7 @@ class GuidancePage extends React.Component {
 
   handlePrint(e) {
     e.preventDefault();
+    window.dataLayer.push({ event: 'discharge-upgrade-print' });
     if (window.print) {
       window.print();
     }
