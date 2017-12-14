@@ -47,15 +47,9 @@ def comment_broken_links = {
           returnStdout: true
       ).trim()
 
-  // Convert branch name to PR number
-  def prNum = sh(
-        script: "curl -s https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls?head=department-of-veterans-affairs:${env.BRANCH_NAME} | grep '\"number\"' | grep -Eo '[0-9]+'",
-        returnStdout: true
-      ).trim().toInteger()
-
   def github = GitHub.connect()
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
-  def pr = repo.getPullRequest(prNum)
+  pr = repo.queryPullRequests().head("head=department-of-veterans-affairs:${env.BRANCH_NAME}").asList().get(0)
 
   // Post our comment with broken links formatted as a Markdown table
   pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +

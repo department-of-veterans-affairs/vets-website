@@ -8,13 +8,13 @@ description: Apply for and manage the VA benefits and services you’ve earned a
 majorlinks:
   - heading:
     links:
-    - url: /disability-benefits/
+    - url: /disability-benefits/BROKE
       title: Disability Benefits
       description: Apply for disability compensation and other benefits for conditions related to your military service.
     - url: /health-care/
       title: Health Care Benefits
       description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
-    - url: /education/
+    - url: /education/BROKE
       title: Education Benefits
       description: Apply for and manage benefits that help you pay for college and training programs.
     - url: /housing-assistance/
