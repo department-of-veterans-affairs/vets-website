@@ -521,6 +521,8 @@ ul.react-autosuggest__suggestions-list {
   list-style: none;
   margin-top: -.5rem;
   max-width: 46rem;
+  max-height: 46rem;
+  overflow: auto;
   padding: 0;
   position: relative;
 

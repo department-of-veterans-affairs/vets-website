@@ -23,6 +23,7 @@ export function uiSchema(label, getOptions, options = {}) {
     'ui:field': AutosuggestField,
     'ui:options': {
       showFieldLabel: 'label',
+      maxOptions: 20,
       getOptions
     }
   }, options);

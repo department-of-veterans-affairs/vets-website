@@ -1,40 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
-// import fuzzysearch from 'fuzzysearch';
-import fastLevenshtein from 'fast-levenshtein';
-
-function getSuggestions(options, value) {
-  if (value) {
-    // return fuzzy.filter(value.toUpperCase(), options, {
-    //   extract: (option) => option.label.toUpperCase()
-    // })
-    //   .map(match => match.original);
-    // return options.filter(option => fuzzysearch(value.toUpperCase(), option.label.toUpperCase()));
-    return options
-      .map(option => {
-        return {
-          score: option.label.toUpperCase().includes(value.toUpperCase())
-            ? 0
-            : fastLevenshtein.get(value.toUpperCase(), option.label.toUpperCase()),
-          original: option
-        };
-      })
-      .sort((a, b) => {
-        const result = a.score - b.score;
-
-        if (result === 0) {
-          return a.original.label.length - b.original.label.length;
-        }
-
-        return result;
-      })
-      .map(sorted => sorted.original)
-      .slice(0, 20);
-  }
-
-  return options;
-}
+import { sortListByFuzzyMatch } from '../../utils/helpers';
 
 export default class AutosuggestField extends React.Component {
   constructor(props) {
@@ -53,7 +20,7 @@ export default class AutosuggestField extends React.Component {
           label: uiOptions.labels[id] || idSchema.enumNames[index]
         };
       });
-      suggestions = getSuggestions(options, input);
+      suggestions = this.getSuggestions(options, input);
     }
 
     this.state = {
@@ -70,7 +37,7 @@ export default class AutosuggestField extends React.Component {
       if (uiOptions.getOptions) {
         uiOptions.getOptions().then(options => {
           if (!this.unmounted) {
-            this.setState({ options, suggestions: getSuggestions(options, this.state.input) });
+            this.setState({ options, suggestions: this.getSuggestions(options, this.state.input) });
           }
         });
       }
@@ -88,10 +55,19 @@ export default class AutosuggestField extends React.Component {
     }
   }
 
+  getSuggestions = (options, value) => {
+    if (value) {
+      const uiOptions = this.props.uiSchema['ui:options'];
+      return sortListByFuzzyMatch(value, options).slice(0, uiOptions.maxOptions);
+    }
+
+    return options;
+  }
+
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
       input: value,
-      suggestions: getSuggestions(this.state.options, value)
+      suggestions: this.getSuggestions(this.state.options, value)
     });
   }
 
