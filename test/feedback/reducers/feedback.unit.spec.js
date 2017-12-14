@@ -7,7 +7,7 @@ import {
   CLEAR_FEEDBACK_ERROR
 } from '../../../src/js/feedback/actions';
 
-const reducerInterface = ['requestPending', 'feedbackReceived', 'errorMessage', 'formErrors', 'formHasValidated', 'formIsVisible', 'formValues'];
+const reducerInterface = ['requestPending', 'feedbackReceived', 'errorMessage', 'formErrors', 'formIsSubmittable', 'formIsVisible', 'formValues'];
 
 describe('Feedback Reducer', () => {
 
