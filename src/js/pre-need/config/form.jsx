@@ -329,10 +329,7 @@ const formConfig = {
                   veteran: {
                     type: 'object',
                     properties: {
-                      serviceRecords: _.set('items.properties.serviceBranch',
-                        autosuggest.schema(veteran.properties.serviceRecords.items.properties.serviceBranch),
-                        veteran.properties.serviceRecords
-                      )
+                      serviceRecords: veteran.properties.serviceRecords
                     }
                   }
                 }
@@ -527,7 +524,7 @@ const formConfig = {
                   claimant: {
                     type: 'object',
                     properties: {
-                      desiredCemetery: autosuggest.schema(),
+                      desiredCemetery: autosuggest.schema,
                       'view:desiredCemeteryNote': {
                         type: 'object',
                         properties: {}
@@ -537,7 +534,7 @@ const formConfig = {
                   hasCurrentlyBuried,
                   currentlyBuriedPersons: _.set(
                     'items.properties.cemeteryNumber',
-                    autosuggest.schema(),
+                    autosuggest.schema,
                     currentlyBuriedPersons
                   )
                 }

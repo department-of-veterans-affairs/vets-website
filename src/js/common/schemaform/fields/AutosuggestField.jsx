@@ -13,11 +13,11 @@ export default class AutosuggestField extends React.Component {
     let suggestions = [];
 
     if (!uiOptions.getOptions) {
-      const idSchema = props.schema.properties.id;
-      options = idSchema.enum.map((id, index) => {
+      this.useEnum = true;
+      options = props.schema.enum.map((id, index) => {
         return {
           id,
-          label: uiOptions.labels[id] || idSchema.enumNames[index]
+          label: uiOptions.labels[id] || props.schema.enumNames[index]
         };
       });
       suggestions = this.getSuggestions(options, input);
@@ -64,6 +64,23 @@ export default class AutosuggestField extends React.Component {
     return options;
   }
 
+  getFormData = (suggestion) => {
+    if (this.useEnum) {
+      return suggestion.id;
+    }
+
+    return _.set('widget', 'autosuggest', suggestion);
+  }
+
+  getReviewLabel(formData, uiSchema, schema) {
+    const uiOptions = uiSchema['ui:options'];
+    if (!uiOptions.getOptions) {
+      return uiOptions.labels[formData] || schema.enumNames[schema.enum.indexOf(formData)];
+    }
+
+    return formData.label;
+  }
+
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
       input: value,
@@ -74,7 +91,7 @@ export default class AutosuggestField extends React.Component {
   handleSuggestionSelected = (event, { suggestion }) => {
     event.preventDefault();
     if (suggestion) {
-      this.props.onChange(_.set('widget', 'autosuggest', suggestion));
+      this.props.onChange(this.getFormData(suggestion));
     } else {
       this.props.onChange();
     }
@@ -83,7 +100,7 @@ export default class AutosuggestField extends React.Component {
 
   handleBlur = (event, { focusedSuggestion }) => {
     if (focusedSuggestion) {
-      this.props.onChange(_.set('widget', 'autosuggest', focusedSuggestion));
+      this.props.onChange(this.getFormData(focusedSuggestion));
       this.setState({ input: focusedSuggestion.label });
     } else {
       const value = _.get('formData.label', this.props) || '';
@@ -91,7 +108,7 @@ export default class AutosuggestField extends React.Component {
         this.setState({ input: value });
       }
     }
-    this.props.onBlur(this.props.id);
+    this.props.onBlur(this.props.idSchema.$id);
   }
 
   handleSuggestionsClearRequested = () => {
@@ -108,14 +125,14 @@ export default class AutosuggestField extends React.Component {
   }
 
   render() {
-    const { idSchema, formContext, formData } = this.props;
+    const { idSchema, formContext, formData, uiSchema, schema } = this.props;
     const id = idSchema.$id;
 
     if (formContext.reviewMode) {
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{formData.label}</span></dd>
+          <dd><span>{this.getReviewLabel(formData, uiSchema, schema)}</span></dd>
         </div>
       );
     }

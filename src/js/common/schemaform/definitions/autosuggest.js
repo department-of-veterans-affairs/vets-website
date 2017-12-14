@@ -2,20 +2,18 @@ import _ from 'lodash/fp';
 
 import AutosuggestField from '../fields/AutosuggestField';
 
-export function schema(field) {
-  return {
-    type: 'object',
-    properties: {
-      id: field || { type: 'any' },
-      value: {
-        type: 'string'
-      },
-      widget: {
-        type: 'string'
-      }
+export const schema = {
+  type: 'any',
+  properties: {
+    id: { type: 'any' },
+    value: {
+      type: 'string'
+    },
+    widget: {
+      type: 'string'
     }
-  };
-}
+  }
+};
 
 export function uiSchema(label, getOptions, options = {}) {
   return _.merge({

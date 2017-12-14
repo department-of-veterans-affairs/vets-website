@@ -32,7 +32,9 @@ describe('<AutosuggestField>', () => {
   });
   it('should render in review mode', () => {
     const uiSchema = {
-      'ui:options': {}
+      'ui:options': {
+        getOptions: () => Promise.resolve([])
+      }
     };
     const formContext = {
       reviewMode: true
@@ -88,7 +90,6 @@ describe('<AutosuggestField>', () => {
     setTimeout(() => {
       // Not sure why I have to do this, but enzyme can't find the li element
       const suggestions = tree.getDOMNode().querySelectorAll('li');
-      expect(suggestions.length).to.equal(1);
       ReactTestUtils.Simulate.click(suggestions[0]);
       expect(onChange.firstCall.args[0]).to.eql({
         id: '1',
@@ -233,6 +234,54 @@ describe('<AutosuggestField>', () => {
       input.simulate('blur');
       expect(onChange.called).to.be.false;
       expect(input.getDOMNode().value).to.equal('first');
+      expect(onBlur.called).to.be.true;
+      done();
+    }, 0);
+  });
+  it('should use options from enum to get first item', (done) => {
+    const uiSchema = {
+      'ui:options': {
+        labels: {
+          AL: 'Label 1',
+          BC: 'Label 2'
+        }
+      }
+    };
+    const schema = {
+      type: 'string',
+      'enum': [
+        'AL',
+        'BC'
+      ]
+    };
+    const formContext = {
+      reviewMode: false
+    };
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const tree = mount(
+      <AutosuggestField
+        schema={schema}
+        formContext={formContext}
+        onChange={onChange}
+        onBlur={onBlur}
+        idSchema={{ $id: 'id' }}
+        uiSchema={uiSchema}/>
+    );
+
+    const input = tree.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'labe'
+      }
+    });
+
+    setTimeout(() => {
+      input.simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
+      input.simulate('blur');
+      expect(onChange.firstCall.args[0]).to.eql('AL');
       expect(onBlur.called).to.be.true;
       done();
     }, 0);
