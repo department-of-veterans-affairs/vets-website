@@ -106,7 +106,7 @@ class ServicesAtFacility extends Component {
     }
 
     const alertHeading = (<h4>This list may not include all of the services available at this location.</h4>);
-    const alertContent = (<p>Please check on the facility’s website or call them for this information.</p>);
+    const alertContent = (<div>Please check on the facility’s website or call them for this information.</div>);
 
     return (
       <div>
@@ -116,7 +116,7 @@ class ServicesAtFacility extends Component {
           <AlertBox
             isVisible
             status="warning"
-            heading={alertHeading}
+            headline={alertHeading}
             content={alertContent}/>
         </div>
 
