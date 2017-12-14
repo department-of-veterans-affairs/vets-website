@@ -104,9 +104,7 @@ RequiredLoginView.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]).isRequired,
-  userProfile: PropTypes.object.isRequired,
-  loginUrl: PropTypes.string,
-  verifyUrl: PropTypes.string
+  userProfile: PropTypes.object.isRequired
 };
 
 export default RequiredLoginView;
