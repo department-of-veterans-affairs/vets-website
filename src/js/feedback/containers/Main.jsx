@@ -38,7 +38,7 @@ const mapDispatchToProps = {
 Main.propTypes = {
   formValues: PropTypes.object.isRequired,
   formErrors: PropTypes.object.isRequired,
-  formHasValidated: PropTypes.bool,
+  formIsSubmittable: PropTypes.bool,
   requestPending: PropTypes.bool,
   feedbackReceived: PropTypes.bool,
   shouldSendResponse: PropTypes.bool,

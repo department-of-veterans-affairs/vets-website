@@ -10,28 +10,19 @@ export const CLEAR_FEEDBACK_ERROR = 'CLEAR_FEEDBACK_ERROR';
 
 const errorMessage = 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
 
-function runValidation({ description, email, shouldSendResponse }) {
-  const formErrors = {};
-  if (description !== undefined) {
-    formErrors.description = description.length > 0 ? null : 'Please enter a description';
-  }
-  if (shouldSendResponse === false) {
-    formErrors.email = null;
-  } else if (email !== undefined) {
-    formErrors.email = isValidEmail(email) ? null : 'Please enter a valid email';
-  }
-  return formErrors;
-}
-
 export function revealForm() {
   return { type: REVEAL_FORM };
 }
 
 export function setFormValues(formValues) {
+  const formErrors = {};
+  if (formValues.description !== undefined) formErrors.description = formValues.description.length > 0 ? '' : 'Please enter a description';
+  if (formValues.email !== undefined) formErrors.email = isValidEmail(formValues.email) ? '' : 'Please enter a valid email';
+
   return {
     type: SET_FORM_VALUES,
     formValues,
-    formErrors: runValidation(formValues)
+    formErrors
   };
 }
 

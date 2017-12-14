@@ -12,15 +12,15 @@ const initialState = {
   feedbackReceived: false,
   errorMessage: null,
   formIsVisible: false,
-  formHasValidated: false,
+  formIsSubmittable: false,
   formValues: {
     description: '',
     email: '',
     shouldSendResponse: false
   },
   formErrors: {
-    description: null,
-    email: null
+    description: '',
+    email: ''
   }
 };
 
@@ -32,18 +32,17 @@ function feedbackReducer(state = initialState, action) {
         formIsVisible: true
       };
     case SET_FORM_VALUES:
+    {
+      const formValues = { ...state.formValues, ...action.formValues };
+      const formErrors = { ...state.formErrors, ...action.formErrors };
+      const formIsSubmittable = formValues.description && !formErrors.description && (formValues.shouldSendResponse ? formValues.email && !formErrors.email : true);
       return {
         ...state,
-        formHasValidated: state.formHasValidated || action.formErrors.description !== undefined,
-        formValues: {
-          ...state.formValues,
-          ...action.formValues
-        },
-        formErrors: {
-          ...state.formErrors,
-          ...action.formErrors
-        }
+        formIsSubmittable,
+        formValues,
+        formErrors
       };
+    }
     case SEND_FEEDBACK:
       return {
         ...state,
