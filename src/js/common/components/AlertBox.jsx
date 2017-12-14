@@ -51,17 +51,32 @@ class AlertBox extends React.Component {
       );
     }
 
+    if (this.props.headline) {
+      return (
+        <div
+          aria-live="assertive"
+          className={alertClass}
+          ref={(ref) => { this._ref = ref; }}>
+          <div className="usa-alert-body">
+            <div className="usa-alert-heading">
+              {this.props.headline}
+            </div>
+            <div className="usa-alert-text">
+              {this.props.content}
+            </div>
+          </div>
+          {closeButton}
+          <div className="cf"></div>
+        </div>
+      );
+    }
+
     return (
       <div
         aria-live="assertive"
         className={alertClass}
         ref={(ref) => { this._ref = ref; }}>
         <div className="usa-alert-body">
-          if(this.props.headline) {
-            <div className="usa-alert-heading">
-              {this.props.headline}
-            </div>
-          }
           <div className="usa-alert-text">
             {this.props.content}
           </div>
@@ -71,6 +86,7 @@ class AlertBox extends React.Component {
       </div>
     );
   }
+
 }
 
 AlertBox.propTypes = {
