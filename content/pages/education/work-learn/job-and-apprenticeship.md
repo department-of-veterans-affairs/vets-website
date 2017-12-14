@@ -21,7 +21,7 @@ You can get help paying for books, supplies, and housing while you’re learning
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get benefits if you qualify for the GI Bill, and you want to work in an industry or job that has OJT, like:
+You can get benefits if you qualify for the GI Bill and want to work in an industry or job that has OJT, like:
  -	Plumbing
  -	Hotel management
  -	Firefighting
