@@ -6,6 +6,18 @@ import UserInfoSection from '../components/UserInfoSection';
 import { formatDateLong } from '../../common/utils/helpers';
 
 class PrintPage extends React.Component {
+  componentDidMount() {
+    document.querySelector('header').classList.add('no-print-no-sr');
+    document.querySelector('footer').classList.add('no-print-no-sr');
+    document.querySelector('.va-nav-breadcrumbs').classList.add('no-print-no-sr');
+  }
+
+  componentWillUnmount() {
+    document.querySelector('header').classList.remove('no-print-no-sr');
+    document.querySelector('footer').classList.remove('no-print-no-sr');
+    document.querySelector('nav').classList.remove('no-print-no-sr');
+  }
+
   render() {
     const enrollmentData = this.props.enrollmentData || {};
 

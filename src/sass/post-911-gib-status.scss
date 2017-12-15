@@ -82,17 +82,13 @@
     }
 
     @media print {
-      body {
-        display: none;
-      }
-
-      div.print-status {
-        display: block;
-      }
-
       padding: 0;
     }
   }
+}
+
+.no-print-no-sr {
+    display: none !important;
 }
 
 #noChapter33Benefits {
