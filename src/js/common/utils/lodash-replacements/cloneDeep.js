@@ -10,7 +10,7 @@ import clone from './clone';
  * @return {Object}
  */
 export default function cloneDeep(object) {
-  const newObj = Array.isArray(object) ? object.slice() : clone(object);
+  const newObj = clone(object);
 
   const cloneArrayElement = e => {
     // Deep clones arrays and objects

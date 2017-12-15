@@ -34,6 +34,13 @@ describe('lodash replacements', () => {
       expect(cloned).to.eql(obj);
       expect(cloned).to.not.equal(obj);
     });
+
+    it('should clone a set', () => {
+      const s = new Set([{ sub: 'original' }]);
+      const cloned = _.clone(s);
+      expect(cloned).to.eql(s);
+      expect(cloned).to.not.equal(s);
+    });
   });
 
 
