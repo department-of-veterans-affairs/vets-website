@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createSelector } from 'reselect';
 import moment from 'moment';
 
 import { toggleLoginModal } from '../../login/actions';
-import { fetchInProgressForm, removeInProgressForm } from './save-in-progress/save-load-actions';
+import { fetchInProgressForm, removeInProgressForm } from './save-in-progress/actions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
+import { getIntroState } from './save-in-progress/selectors';
 
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
@@ -143,22 +143,7 @@ SaveInProgressIntro.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired
 };
 
-export const introSelector = createSelector(
-  state => state.form.formId,
-  state => state.form.migrations,
-  state => state.form.loadedData,
-  state => state.user,
-  state => state.form.lastSavedDate,
-  (formId, migrations, loadedData, user, lastSavedDate) => {
-    return {
-      formId,
-      migrations,
-      returnUrl: loadedData.metadata.returnUrl,
-      lastSavedDate,
-      user
-    };
-  }
-);
+export const introSelector = getIntroState;
 
 export const introActions = {
   fetchInProgressForm,

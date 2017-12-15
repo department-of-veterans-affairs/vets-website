@@ -95,7 +95,7 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
 - [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
 **Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
-[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/veterans.asp).
+[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp). 
 
 </div>
 </div>

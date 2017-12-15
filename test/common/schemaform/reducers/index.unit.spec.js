@@ -19,7 +19,7 @@ import {
   SAVE_STATUSES,
   LOAD_STATUSES,
   PREFILL_STATUSES
-} from '../../../../src/js/common/schemaform/save-in-progress/save-load-actions';
+} from '../../../../src/js/common/schemaform/save-in-progress/actions';
 
 import createSchemaFormReducer from '../../../../src/js/common/schemaform/reducers';
 
