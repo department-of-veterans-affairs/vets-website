@@ -27,7 +27,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help filing a disability claim, you may want to work with an accredited representative. We trust these professionals because they’re trained in the claims process and can help you with VA-related needs.
+If you need help filing a disability claim, you may want to work with an accredited representative. Many accredited representatives work for Veterans Service Organizations (VSOs). Beyond disability claims, VSOs can help you understand insurance, education, vocational rehabilitation and employment, home loans, life insurance, pension, health care, and burial benefits. We trust these professionals because they’re trained in the claims process and can help you with VA-related needs.
 
 Most accredited representatives work for Veterans Service Organizations (VSOs). These private nonprofit groups advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. 
 
