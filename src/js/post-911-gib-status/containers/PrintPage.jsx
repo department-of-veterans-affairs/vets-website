@@ -18,6 +18,9 @@ class PrintPage extends React.Component {
     document.querySelector('nav').classList.remove('no-print-no-sr');
   }
 
+  backToStatement = () => this.props.router.push('/');
+  printWindow = () => window.print();
+
   render() {
     const enrollmentData = this.props.enrollmentData || {};
 
@@ -29,8 +32,18 @@ class PrintPage extends React.Component {
           <div className="print-screen">
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
             <h1 className="section-header">Post-9/11 GI Bill<sup>&reg;</sup> Statement of Benefits</h1>
-            <p>The information in this letter is the Post-9/11 GI Bill Statement of Benefits for the beneficiary listed below as of {todayFormatted}. Any pending or recent changes to enrollment may affect remaining entitlement.</p>
+            <button
+              className="usa-button-primary"
+              onClick={this.printWindow}>Print This Page</button>
+            <p>
+              The information in this letter is the Post-9/11 GI Bill Statement of Benefits for
+              the beneficiary listed below as of {todayFormatted}. Any pending or recent changes to
+              enrollment may affect remaining entitlement.
+            </p>
             <UserInfoSection enrollmentData={enrollmentData}/>
+            <button
+              className="usa-button-secondary"
+              onClick={this.backToStatement}>Back to Statement Page</button>
           </div>
         </div>
       </div>

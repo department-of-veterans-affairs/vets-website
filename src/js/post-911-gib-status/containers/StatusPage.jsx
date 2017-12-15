@@ -31,7 +31,7 @@ class StatusPage extends React.Component {
       printButton = (
         <div className="section">
           <button onClick={this.navigateToPrint} className="usa-button-primary" id="print-button">
-            Print Statement of Benefits
+            Get Printable Statement of Benefits
           </button>
         </div>
       );
