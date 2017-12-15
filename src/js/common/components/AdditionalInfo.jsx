@@ -11,8 +11,7 @@ export default class AdditionalInfo extends React.Component {
     this.state = { open: false };
   }
 
-  toggle = (e) => {
-    if (e) e.preventDefault();
+  toggle = () => {
     this.setState({ open: !this.state.open });
   }
 
