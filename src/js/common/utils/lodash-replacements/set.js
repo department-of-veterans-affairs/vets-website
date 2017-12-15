@@ -1,5 +1,6 @@
 import deconstructPath from './deconstructPath';
 import cloneDeep from './cloneDeep';
+import checkValidPath from './checkValidPath';
 
 /**
  * Same as `set`, but uses the level param to determine when to clone and give a more helpful error message.
@@ -21,8 +22,6 @@ function baseSet(arrayPath, value, object, level = 0) {
   if (level === 0) {
     // Only clone the whole object once
     newObj = cloneDeep(object);
-    // The following path segments are not allowed
-    arrayPath = arrayPath.filter(e => e !== undefined && e !== null); // eslint-disable-line no-param-reassign
   }
 
   const pathSegment = arrayPath.shift();
@@ -64,6 +63,7 @@ function baseSet(arrayPath, value, object, level = 0) {
  */
 export default function set(path, value, object) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
+  checkValidPath(arrayPath);
   return baseSet(arrayPath, value, object, 0);
 }
 

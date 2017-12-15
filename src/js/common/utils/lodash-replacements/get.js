@@ -1,4 +1,5 @@
 import deconstructPath from './deconstructPath';
+import checkValidPath from './checkValidPath';
 
 /**
  * Gets a the value at the end of the path.
@@ -14,6 +15,7 @@ import deconstructPath from './deconstructPath';
  */
 export default function get(path, object, defaultValue) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
+  checkValidPath(arrayPath);
   const currentValue = arrayPath.reduce((current, next) => {
     return typeof current === 'undefined' ? current : current[next];
   }, object);

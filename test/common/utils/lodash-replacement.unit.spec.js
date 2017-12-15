@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import _ from '../../../src/js/common/utils/lodash-replacements';
 import deconstructPath from '../../../src/js/common/utils/lodash-replacements/deconstructPath';
+import checkValidPath from '../../../src/js/common/utils/lodash-replacements/checkValidPath';
 
 
 // Could split these out into separate files...
@@ -241,6 +242,16 @@ describe('lodash replacements', () => {
         // Public service announcement: Arrays are objects too!
         expect(e.message).to.contain('Unrecognized path element type: object.');
       }
+    });
+  });
+
+  describe('checkValidPath', () => {
+    it('should throw an error if a path segment is undefined', () => {
+      expect(() => checkValidPath(['asdf', undefined])).to.throw;
+    });
+
+    it('should throw an error if a path segment is null', () => {
+      expect(() => checkValidPath(['asdf', null])).to.throw;
     });
   });
 });
