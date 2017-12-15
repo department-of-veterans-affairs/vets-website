@@ -95,6 +95,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
+  ignoreList.push('discharge-upgrade-instructions/index.md');
 }
 smith.use(ignore(ignoreList));
 
