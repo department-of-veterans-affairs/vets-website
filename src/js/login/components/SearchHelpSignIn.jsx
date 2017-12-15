@@ -24,28 +24,39 @@ class SearchHelpSignIn extends React.Component {
     this.props.toggleLoginModal(true);
   }
 
+  hasSession() {
+    return !!window.sessionStorage.getItem('userFirstName');
+  }
+
   render() {
     let content;
     const login = this.props.login;
+    const isLoading = this.props.profile.loading;
+    const hasSession = this.hasSession();
 
-    if (login.currentlyLoggedIn) {
+    // If we're done loading, and the user is logged in, or loading is in progress,
+    // and we have information is session storage, we can go ahead and render.
+    if ((!isLoading && login.currentlyLoggedIn) || (isLoading && hasSession)) {
       const firstName = _.startCase(_.toLower(
         this.props.profile.userFullName.first || sessionStorage.userFirstName
       ));
       const greeting = firstName || this.props.profile.email;
 
       content = (<SignInProfileMenu
+        disabled={isLoading}
         clickHandler={() => {
           this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
         onUserLogout={this.props.onUserLogout}/>);
-    } else if (this.props.profile.loading) {
-      content = null;
     } else {
+      const classList = [
+        isLoading ? 'disabled' : ''
+      ].join(' ');
+
       content = (<div>
-        <a href="#" onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
+        <a href="#" className={classList} onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
       </div>
       );
     }
