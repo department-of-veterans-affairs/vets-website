@@ -20,7 +20,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Open first panel
     client
       .waitForElementVisible('.usa-accordion-bordered', Timeouts.normal)
-      .click('button.usa-button-unstyled')
+      .click('.usa-accordion-bordered .usa-button-unstyled')
       .pause(1200);
     client.expect.element('.edit-btn').to.be.visible;
 
