@@ -33,6 +33,8 @@ class FormQuestions extends React.Component {
   handleScrollTo = (e) => {
     e.preventDefault();
 
+    window.dataLayer.push({ event: 'discharge-upgrade-review-edit' });
+
     scroller.scrollTo(e.target.name, {
       duration: 1000,
       smooth: true,
@@ -253,8 +255,29 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
   }
 
+  renderQuestionFiveC() {
+    const key = '11_failureToExhaust';
+    const { formValues } = this.props;
+
+    if (!shouldShowQuestion(key, formValues.questions)) { return null; }
+
+    const prevApplicationTypeLabel = <h4>Was your application denied due to "failure to exhaust" other remedies?</h4>;
+
+    let boardLabel = 'BCMR';
+    if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
+      boardLabel = 'BCNR';
+    }
+
+    const prevApplicationTypeOptions = [
+      { label: `Yes, the ${boardLabel} denied my application due to "failure to exhaust" other remedies (that is, for applying to the wrong Board).`, value: '1' },
+      { label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the substance of my claim.`, value: '2' },
+    ];
+
+    return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
+  }
+
   renderQuestionSix() {
-    const key = '11_priorService';
+    const key = '12_priorService';
     const transgender = this.props.formValues['4_reason'] === '5';
     const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
 
@@ -319,6 +342,7 @@ class FormQuestions extends React.Component {
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}
         {this.renderQuestionFiveB()}
+        {this.renderQuestionFiveC()}
         {this.renderQuestionSix()}
         {this.renderAnswerReview()}
       </div>

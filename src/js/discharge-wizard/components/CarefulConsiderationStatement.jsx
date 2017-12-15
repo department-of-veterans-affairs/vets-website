@@ -51,7 +51,7 @@ const reasonStatement = (props) => {
 };
 
 const priorServiceStatement = (props) => {
-  switch (props.formValues['11_priorService']) {
+  switch (props.formValues['12_priorService']) {
     case '1':
       return (
         <p>

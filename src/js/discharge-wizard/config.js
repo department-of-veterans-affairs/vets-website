@@ -55,7 +55,11 @@ export const questionLabels = {
     '3': 'I applied to a Board for Correction of Military/Naval Records (BCMR/BCNR)',
     '4': 'I\'m not sure what kind of discharge upgrade application I previously made.',
   },
-  '11_priorService': {
+  '11_failureToExhaust': {
+    '1': 'The BCMR/BCNR denied my application due to "failure to exhaust" other remedies (that is, for applying to the wrong Board).',
+    '2': 'The BCMR/BCNR denied my application for other reasons, such as not agreeing with the substance of my claim.',
+  },
+  '12_priorService': {
     '1': 'I have discharge paperwork documenting a discharge under honorable or general under honorable conditions.',
     '2': 'I completed a prior period of service, but I did not receive discharge paperwork from that period.',
     '3': 'I did not complete an earlier period of service.',

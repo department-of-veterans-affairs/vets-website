@@ -20,6 +20,7 @@ class GuidancePage extends React.Component {
 
   handleFAQToggle = (e) => {
     e.preventDefault();
+    window.dataLayer.push({ event: 'discharge-upgrade-faq-toggle' });
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });
@@ -27,6 +28,7 @@ class GuidancePage extends React.Component {
 
   handlePrint(e) {
     e.preventDefault();
+    window.dataLayer.push({ event: 'discharge-upgrade-print' });
     if (window.print) {
       window.print();
     }
@@ -231,15 +233,19 @@ class GuidancePage extends React.Component {
     let onlineSubmissionMsg;
 
     if (reasonCode === '8' && prevAppType !== '3') {
-      boardExplanation = 'the DRB because it granted your previous upgrade request, so you must apply to them for a new DD-214.';
+      boardExplanation = 'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
       if (oldDischarge) {
-        boardExplanation = `the ${boardToSubmit.abbr} because your discharge was over 15 years ago. This is because it handles all cases from 15 years ago and longer.`;
+        boardExplanation = `the ${boardToSubmit.name}. The Board handles all cases from 15 or more years ago.`;
       }
     } else if (reasonCode === '8' && prevAppType === '3') {
-      boardExplanation = `the ${boardToSubmit.abbr} because it granted your previous upgrade request, so you must apply to them for a new DD-214.`;
+      boardExplanation = `the ${boardToSubmit.name}. The ${boardToSubmit.abbr} was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
+    } else if (prevAppYear === '1' && boardToSubmit.abbr === 'DRB') {
+      return `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. In general, DRB does not handle appeals for previously denied applications. However, because new rules have recently come out regarding discharges like yours, the Boards may treat your application as a new case. If possible, review the new policies and state in your application how the change in the policy is relevant to your case. If the DRB decides that the new rules don't apply to your situation, you will likely have to send an appeal to a different Board.`;
+    } else if (this.props.formValues['11_failureToExhaust'] && boardToSubmit.abbr === 'DRB') {
+      return `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. The ${boardToSubmit.name} previously rejected your application because you applied to the DRB first. For applications like yours, the ${boardToSubmit.abbr} can review only cases that have already been rejected by the DRB. The DRB is a panel of commissioned officers, or a mix of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge. After this time period, you must apply to a different board.`;
     } else if (prevAppType === '2') {
-      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision. This is because your application was denied by the DRB on a Personal Appearance Review.`;
-    } else if (prevAppType === '3') {
+      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision. This is because your application was denied by the Discharge Review Board (DRB) on a Personal Appearance Review.`;
+    } else if (prevAppType === '3' && this.props.formValues['11_failureToExhaust'] !== '1') {
       boardExplanation = `the ${boardToSubmit.abbr}. This is because if you've applied before, you must re-apply to the ${boardToSubmit.abbr} for reconsideration.`;
     } else if ((noPrevApp || (['1', '4'].indexOf(prevAppType) > -1) || prevAppYear === '1') && oldDischarge) {
       boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because it handles all cases from 15 years ago and longer.`;
