@@ -49,25 +49,6 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.edit-btn').to.not.be.present;
 
     // Edit form fields unsuccessfully
-    // client.waitForElementVisible('.edit-btn', Timeouts.normal);
-    // client
-    //   .click('.edit-btn');
-    // client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
-
-    // client.clearElement('input[name="root_veteranFullName_first"]');
-    // client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
-    // client
-    //   .pause(1200)
-    //   .click('input[name="root_veteranFullName_middle"]');
-    // client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
-
-    // client
-    //   .click('.usa-button-primary')
-    //   .pause();
-
-    // client.expect.element('.usa-input-error').to.be.visible;
-    // client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
-
     client
       .waitForElementVisible('.usa-accordion-bordered', Timeouts.normal);
 
