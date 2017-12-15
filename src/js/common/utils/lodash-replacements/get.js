@@ -3,6 +3,10 @@ import deconstructPath from './deconstructPath';
 /**
  * Gets a the value at the end of the path.
  *
+ * Note: This function does not return a clone of this value, so if the return
+ *  result of this function is an object, modifying it will also change the original
+ *  object it was grabbed from.
+ *
  * @param {Object} object
  * @param {Array|string} path
  * @param {*} [defaultValue]
