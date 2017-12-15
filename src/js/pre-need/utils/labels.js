@@ -12,7 +12,7 @@ export const serviceLabels = {
   WS: 'Women’s Army Corps',
   CF: 'Royal Canadian Air Force',
   RO: 'Army, Navy, or Air Force ROTC',
-  CA: 'U.S Citizen, Served with Allies (WWII)',
+  CA: 'U.S. Citizen, Served with Allies (WWII)',
   WR: 'Women’s Reserve (Navy, Marine Corps, Coast Guard)',
   CS: 'Civilian, Strategic Service (OSS)',
   KC: 'Quartermaster Corps, Keswick Crew (WWII)',
