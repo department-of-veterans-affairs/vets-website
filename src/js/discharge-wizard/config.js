@@ -6,7 +6,7 @@ export const labels = {
   bcnr: 'Board for Correction of Naval Records (BCNR)',
 };
 
-export const venueWarning = 'You indicated you were not sure which venue you used to make your last application. This guidance is designed for Veterans who have not previously made any discharge upgrade applications; your process may differ based on your previous application. For more reliable guidance, please review your records and determine where you made your previous application.';
+export const venueWarning = 'You answered that you weren\'t sure where you applied for an upgrade before. The instructions below are for Veterans who have never applied for a discharge upgrade, so your process may be different. For more reliable information on your discharge upgrade process, please review your records to find out which board you sent your earlier application to, and complete the questions again.';
 /* eslint-disable quote-props */
 export const questionLabels = {
   '4_reason': {
