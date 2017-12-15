@@ -36,6 +36,15 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
+<div class="feature">
+If you want to submit an intent to file while you gather information or supporting documentation, please:
+
+- Fill out and mail an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966).  [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf). **or**
+- Submit an intent to file at your a regional benefit office near you. [Find a regional benefit office](/facilities/). **or**
+- Work with a trained professional at a Veterans Service Organization (VSO) to get help submitting an intent to file
+
+</div>
+
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
 </div>
