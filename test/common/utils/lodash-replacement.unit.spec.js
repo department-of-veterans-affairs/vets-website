@@ -177,7 +177,7 @@ describe('lodash replacements', () => {
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
-    it('should not modify original object', () => {
+    it('should not modify original object when adding a new property', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -189,6 +189,21 @@ describe('lodash replacements', () => {
       const oCopy = _.cloneDeep(o);
 
       _.set(['new', 'path'], ['foo', 'bar'], o);
+      expect(o).to.eql(oCopy);
+    });
+
+    it('should not modify original object when changing an existing property', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      // Perhaps using cloneDeep in here is in bad taste?
+      const oCopy = _.cloneDeep(o);
+
+      _.set('b.c', 'd', o);
       expect(o).to.eql(oCopy);
     });
 
