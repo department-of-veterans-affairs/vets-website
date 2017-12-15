@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.expect.element('.review-row span').text.to.equal('Jean-Pierre');
 
-    // Click privacy agreement  
+    // Click privacy agreement and trying to submit form with empty fields 
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
       .click('input[type="checkbox"]')
