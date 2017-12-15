@@ -232,8 +232,8 @@ export function gaClientId() {
 export function sortListByFuzzyMatch(value, list, prop = 'label') {
   return list
     .map(option => {
-      const label = option[prop].toUpperCase().replace(/\.[0-9]/g, '');
-      const val = value.toUpperCase().replace(/\.[0-9]/g, '');
+      const label = option[prop].toUpperCase().replace(/[^a-zA-Z ]/g, '');
+      const val = value.toUpperCase().replace(/[^a-zA-Z ]/g, '');
       let score = label.includes(val) ? 0 : Infinity;
 
       // if the search term is just one word, split the

@@ -35,6 +35,7 @@ export const serviceLabels = {
   AT: 'U.S. Army Air Forces (Air Transport Command)',
   GP: 'Guam Combat Patrol',
   MC: 'U.S. Marine Corps',
+  NA: 'U.S. Navy',
   NO: 'National Oceanic and Atmospheric Admin.',
   PS: 'Philippine Scouts',
   CM: 'Cadet or Midshipman',
