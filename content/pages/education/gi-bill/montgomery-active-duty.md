@@ -24,6 +24,8 @@ You can get education benefits if you were honorably discharged and <br>
 -	You have a high school diploma, GED, or 12 hours of college credit, **and**
 -	You meet the requirements of one of categories below
 
+<br>
+
 #### One of these categories must describe you:
 
 ##### CATEGORY I
