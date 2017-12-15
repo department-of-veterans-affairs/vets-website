@@ -1,6 +1,8 @@
-const arrayIndexRE = /(.+)\[(\d+)\]$/;
-const numOnlyRE = /^(\d+)$/;
-
+// Coerce to numbers where applicable
+function coerceNumber(e) {
+  const num = parseInt(e, 10);
+  return e === `${num}` ? num : e;
+}
 
 /**
  * Takes a string and casts it into an array.
@@ -10,27 +12,10 @@ const numOnlyRE = /^(\d+)$/;
  * @return {Array}
  */
 export default function deconstructPath(path) {
-  const arrayPath = path.split('.');
-
-  // Change ['a', 'b[0]'] -> ['a', 'b', 0]
-  // and ['a', 'b', '0'] -> ['a', 'b', 0]
-  const deconstruct = (e, i) => {
-    // Skip the nubers we insert
-    if (typeof e === 'number') {
-      return;
-    }
-
-    const arrayIndexMatches = e.match(arrayIndexRE);
-    const numOnlyMatches = e.match(numOnlyRE);
-    if (arrayIndexMatches) {
-      arrayPath[i] = arrayIndexMatches[1];
-      arrayPath.splice(i + 1, 0, parseInt(arrayIndexMatches[2], 10));
-    } else if (numOnlyMatches) {
-      arrayPath[i] = parseInt(numOnlyMatches[1], 10);
-    }
-  };
-
-  arrayPath.forEach(deconstruct);
+  const arrayPath = path
+    .split(/[.[\]]/)
+    .filter(e => e !== '')
+    .map(coerceNumber);
 
   return arrayPath;
 }

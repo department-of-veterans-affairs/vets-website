@@ -18,8 +18,8 @@ describe('lodash replacements', () => {
     });
 
     it('should handle array indexes using dot notation', () => {
-      const strPath = 'a.b.4.c';
-      expect(deconstructPath(strPath)).to.eql(['a', 'b', 4, 'c']);
+      const strPath = 'a.b.4.c.123abc';
+      expect(deconstructPath(strPath)).to.eql(['a', 'b', 4, 'c', '123abc']);
     });
   });
 
