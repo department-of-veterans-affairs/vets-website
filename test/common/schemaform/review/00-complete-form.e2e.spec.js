@@ -40,33 +40,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.expect.element('.review-row span').text.to.equal('Jacques');
 
-    // Edit form fields unsuccessfully
-    client.waitForElementVisible('.edit-btn', Timeouts.normal);
-    client
-      .click('.edit-btn');
-    client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
-
-    client.clearElement('input[name="root_veteranFullName_first"]');
-    client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
-    client
-      .pause(1200)
-      .click('input[name="root_veteranFullName_middle"]');
-    client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
-
-    client
-      .click('.usa-button-primary')
-      .pause();
-
-    client.expect.element('.usa-input-error').to.be.visible;
-    client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
-
-    // Fix validation errors and save successfully
-    client
-      .fill('input[name="root_veteranFullName_first"]', 'Jean-Pierre')
-      .click('.usa-button-primary');
-
-    client.expect.element('.review-row span').text.to.equal('Jean-Pierre');
-
     // Close panel
     client.expect.element('.edit-btn').to.be.visible;
     client
@@ -74,6 +47,51 @@ module.exports = E2eHelpers.createE2eTest(
       .click('button.usa-button-unstyled');
 
     client.expect.element('.edit-btn').to.not.be.present;
+
+    // Edit form fields unsuccessfully
+    // client.waitForElementVisible('.edit-btn', Timeouts.normal);
+    // client
+    //   .click('.edit-btn');
+    // client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
+
+    // client.clearElement('input[name="root_veteranFullName_first"]');
+    // client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
+    // client
+    //   .pause(1200)
+    //   .click('input[name="root_veteranFullName_middle"]');
+    // client.expect.element('input[name="root_veteranFullName_first"]').text.to.equal('');
+
+    // client
+    //   .click('.usa-button-primary')
+    //   .pause();
+
+    // client.expect.element('.usa-input-error').to.be.visible;
+    // client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
+
+    client
+      .waitForElementVisible('.usa-accordion-bordered', Timeouts.normal);
+
+    client
+      .click('.usa-accordion-bordered.form-review-panel:nth-child(2)')
+      .click('.edit-btn')
+      .pause(1000)
+      .clearValue('#root_lastEntryDateYear')
+      .setValue('#root_lastEntryDateYear', '98')
+      .pause(1000);
+
+    client
+      .click('.usa-button-primary.null')
+      .pause(1000);
+
+    client
+      .expect.element('.usa-input-error').to.be.visible;
+
+    // Fix validation errors and save successfully
+    client
+      .fill('#root_lastEntryDateYear', '1998')
+      .click('.usa-button-primary');
+
+    client.expect.element('.review-row:nth-child(2) span').text.to.equal('01/02/1998');
 
     // Click privacy agreement  
     client
