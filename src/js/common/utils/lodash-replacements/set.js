@@ -10,9 +10,7 @@ import cloneDeep from './cloneDeep';
  * @param {Number} level  How many times we've recursed
  * @return {Object} A new object with the appropriate value set
  */
-function baseSet(path, value, object, level = 0) {
-  let arrayPath = Array.isArray(path) ? path : deconstructPath(path);
-
+function baseSet(arrayPath, value, object, level = 0) {
   if (!arrayPath.length) {
     // We're at the end of our path; time to assign
     return value;
@@ -24,7 +22,7 @@ function baseSet(path, value, object, level = 0) {
     // Only clone the whole object once
     newObj = cloneDeep(object);
     // The following path segments are not allowed
-    arrayPath = arrayPath.filter(e => e !== undefined && e !== null);
+    arrayPath = arrayPath.filter(e => e !== undefined && e !== null); // eslint-disable-line no-param-reassign
   }
 
   const pathSegment = arrayPath.shift();
@@ -65,6 +63,7 @@ function baseSet(path, value, object, level = 0) {
  * @return {Object} A new object with the appropriate value set
  */
 export default function set(path, value, object) {
-  return baseSet(path, value, object, 0);
+  const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
+  return baseSet(arrayPath, value, object, 0);
 }
 
