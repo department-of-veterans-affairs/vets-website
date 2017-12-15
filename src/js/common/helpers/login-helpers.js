@@ -59,7 +59,10 @@ export function getUserData(dispatch) {
       Authorization: `Token token=${sessionStorage.userToken}`
     })
   }).then(response => {
-    return response.json();
+    if (response.ok) return response.json();
+    const error = new Error(response.statusText);
+    error.status = response.status;
+    throw error;
   }).then(json => {
     if (json.data) {
       const userData = json.data.attributes.profile;
@@ -93,6 +96,13 @@ export function getUserData(dispatch) {
     } else {
       dispatch(profileLoadingFinished());
     }
+  }).catch(error => {
+    if (error.status === 401) {
+      for (const key of ['entryTime', 'userToken', 'userFirstName']) {
+        sessionStorage.removeItem(key);
+      }
+    }
+    dispatch(profileLoadingFinished());
   });
 }
 
