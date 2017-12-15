@@ -21,13 +21,13 @@ export default function cloneDeep(object) {
     return e;
   };
 
-  for (const key of Object.keys(newObj)) {
+  Object.keys(newObj).forEach(key => {
     if (Array.isArray(newObj[key])) {
       newObj[key] = newObj[key].slice().map(cloneArrayElement);
     } else if (typeof newObj[key] === 'object') {
       newObj[key] = cloneDeep(newObj[key]);
     }
-  }
+  });
 
   return newObj;
 }
