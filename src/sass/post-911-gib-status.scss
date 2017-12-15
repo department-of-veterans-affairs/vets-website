@@ -82,6 +82,14 @@
     }
 
     @media print {
+      body {
+        display: none;
+      }
+
+      div.print-status {
+        display: block;
+      }
+
       padding: 0;
     }
   }
