@@ -25,7 +25,8 @@ class SearchHelpSignIn extends React.Component {
   }
 
   hasSession() {
-    return !!window.sessionStorage.getItem('userFirstName');
+    // Includes a safety check because sessionStorage is not defined during e2e testing
+    return !!(window.sessionStorage && window.sessionStorage.getItem('userFirstName'));
   }
 
   render() {
