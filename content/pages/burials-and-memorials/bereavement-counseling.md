@@ -16,7 +16,7 @@ relatedlinks:
       description: Find out if you can get tax-free monetary benefits.
     - url: /burials-and-memorials/burial-planning/
       title: Burial Planning
-      description: Find out the steps you’ll need to take to arrange for a family member’s burial.
+      description: Find out the steps you’ll need to take to arrange for a Servicemember, Veteran, or eligible family member’s burial.
     - url: /burials-and-memorials/what-to-expect-at-a-funeral/
       title: What to Expect at a Memorial Service
       description: Find out what will happen to help you prepare for this day.
