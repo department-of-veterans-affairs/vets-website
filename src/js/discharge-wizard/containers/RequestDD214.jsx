@@ -3,6 +3,14 @@ import { connect } from 'react-redux';
 import { board, venueAddress, branchOfService } from '../utils';
 
 class RequestDD214 extends React.Component {
+  componentDidMount() {
+    if (localStorage.getItem('dw-viewed-guidance')) {
+      localStorage.removeItem('dw-viewed-guidance');
+    } else {
+      this.props.router.push('/');
+    }
+  }
+
   render() {
     return (
       <div>

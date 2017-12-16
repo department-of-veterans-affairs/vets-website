@@ -10,6 +10,7 @@ class InstructionsPage extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    sessionStorage.setItem('dw-session-started', true);
   }
 
   handleFAQToggle = (e) => {

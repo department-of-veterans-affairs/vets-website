@@ -16,6 +16,13 @@ class GuidancePage extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    localStorage.setItem('dw-viewed-guidance', true);
+
+    if (sessionStorage.getItem('dw-session-started')) {
+      sessionStorage.removeItem('dw-session-started');
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   handleFAQToggle = (e) => {
