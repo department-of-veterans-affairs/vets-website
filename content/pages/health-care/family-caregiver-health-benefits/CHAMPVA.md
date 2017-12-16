@@ -143,7 +143,7 @@ To speed up the processing of your application, you can also send copies (*not* 
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
 - Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
-  - Copies of each child’s birth certificate or adoption papers
+  - A copy of each child’s birth certificate or adoption papers
   - School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
 
 **If you’re a surviving spouse who remarried but is once again single**, also send a copy of the legal document that ended your marriage. This may be a divorce decree, death certificate, or annulment decree.
@@ -165,7 +165,7 @@ Or, fax it to: 1-303-331-7809
 ### What happens after I apply?
 Once we get your application, we’ll review it to be sure it’s complete and includes all required forms. If it’s not complete, we’ll return it to you with more instructions. [Download application instructions](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-03.pdf).
 
- ### How long will it take to hear back about my application?
+### How long will it take to hear back about my application?
 If you send us all required and optional documents—and if your application is complete—it’ll take about 6 weeks after we get your package until you get your CHAMPVA ID card and related materials.
 
 If you send us only the required documents, it may take 2 to 8 months since we’ll need to confirm your information with other federal agencies.
