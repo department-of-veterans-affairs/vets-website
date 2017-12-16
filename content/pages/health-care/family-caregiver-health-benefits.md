@@ -18,7 +18,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 
 If you’re the family member of an active-duty, retired, or deceased Servicemember, National Guard Soldier, Reservist, or Medal of Honor recipient, you may qualify for the TRICARE program.
 
-TRICARE is the health care program for uniformed Servicemembers and their families around the world. It provides comprehensive coverage, including health plans, prescription medicines, dental plans, and programs for people with special needs. The Department of Defense’s Defense Health Agency manages this program. [Find out if you qualify for TRICARE and how to apply](https://www.tricare.mil/).
+TRICARE provides comprehensive health coverage, including health plans, prescription medicines, dental plans, and programs for people with special needs. The Department of Defense’s Defense Health Agency manages this program. [Find out if you qualify for TRICARE and how to apply](https://www.tricare.mil/).
 
 <br>
 
