@@ -19,7 +19,7 @@ Are you the current or surviving spouse of—or a child of—a Veteran with disa
 
 You may qualify for CHAMPVA if you don’t qualify for TRICARE and you’re:
 
-- The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional office, **or**
+- The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional benefit office, **or**
 - The surviving spouse or child of a Veteran who died from a VA-rated service-connected disability, **or**
 - The surviving spouse or child of a Veteran who was at the time death rated permanently and totally disabled from a service-connected disability, **or**
 - The surviving spouse or child of a Servicemember who died in the line of duty, not due to misconduct (in most of these cases, family members qualify for TRICARE, not CHAMPVA).
@@ -131,20 +131,20 @@ When you’re signed up for CHAMPVA, you’ll get a copy of the CHAMPVA Program 
 
 ### How do I get CHAMPVA benefits?
 
-You’ll need to apply for these benefits. To apply, submit:
+You’ll need to apply for these benefits. To apply, submit these required documents:
 
-- [VA Form 10-10d (Application for CHAMPVA Benefits)]( https://www.va.gov/vaforms/medical/pdf/vha-10-10d-fill.pdf), **and** 
-- [VA Form 10-7959c (Other Health Insurance [OHI] Certification)](http://www.va.gov/vaforms/form_detail.asp?FormNo=7959c), **and**
- - Documents related to your Medicare status: 
+- [Application for CHAMPVA Benefits (VA Form 10-10d)]( https://www.va.gov/vaforms/medical/pdf/vha-10-10d-fill.pdf), **and** 
+- [Other Health Insurance Certification (VA Form 10-7959c)](http://www.va.gov/vaforms/form_detail.asp?FormNo=7959c), **and**
+- Documents related to your Medicare status:
   - **If you qualify for Medicare for any reason,** you’ll need to submit a copy of your Medicare card. 
   - **If you’re 65 years old or older and don't qualify for Medicare,** you’ll need to send us documentation from the Social Security Administration that confirms you don't qualify for Medicare benefits under anyone’s Social Security number.
 
-To speed up the processing of your application, you can also send copies (*not* originals) of:
+To speed up the processing of your application, you can also send copies (*not* originals) of these optional documents:
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
 - Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
-  - Each child’s birth certificate or adoption papers
-  -  School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
+  - Copies of each child’s birth certificate or adoption papers
+  - School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
 
 **If you’re a surviving spouse who remarried but is once again single**, also send a copy of the legal document that ended your marriage. This may be a divorce decree, death certificate, or annulment decree.
 
@@ -167,6 +167,7 @@ Once we get your application, we’ll review it to be sure it’s complete and i
 
  ### How long will it take to hear back about my application?
 If you send us all required and optional documents—and if your application is complete—it’ll take about 6 weeks after we get your package until you get your CHAMPVA ID card and related materials.
+
 If you send us only the required documents, it may take 2 to 8 months since we’ll need to confirm your information with other federal agencies.
 
 ### Get more information
