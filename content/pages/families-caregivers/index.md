@@ -29,7 +29,7 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 <span id="health-care">
 
 ### Health Care Benefits
-If you’re the spouse, surviving spouse, or dependent child of—or a family member caring for—a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/). 
+If you’re the spouse, surviving spouse, or dependent child of—or a family member caring for—a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
@@ -118,7 +118,7 @@ If you need help with your daily activities—or you’re housebound—you may a
 
 ### Burials and Memorials
 
-If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-and-memorials/eligibility/).
+If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/).
 
 If a Servicemember, Veteran, or eligible spouse or dependent child in your family dies, we’re here to help you through the process of planning their burial and memorial.
 
