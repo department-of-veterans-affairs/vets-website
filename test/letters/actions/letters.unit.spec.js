@@ -118,11 +118,10 @@ describe('saveAddress', () => {
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
-        throw new Error('Should not resolve the promise when GET fails');
-      }).catch(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
-      }).then(done, done);
+        done();
+      });
   });
 
   it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
@@ -147,11 +146,10 @@ describe('saveAddress', () => {
     const dispatch = sinon.spy();
     thunk(dispatch, getState)
       .then(() => {
-        throw new Error('Should not resolve the promise when GET fails');
-      }).catch(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
-      }).then(done, done);
+        done();
+      });
   });
 });
 
@@ -193,11 +191,12 @@ describe('getLettersList', () => {
     const dispatch = sinon.spy();
     getLetterList(dispatch)
       .then(() => {
-        throw new Error('Should not resolve the promise when GET fails');
+        done(new Error('Should not resolve the promise when GET fails'));
       }).catch(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_FAILURE);
-      }).then(done, done);
+        done();
+      });
   });
 
   const lettersErrors = {
@@ -437,10 +436,11 @@ describe('getBenefitSummaryOptions', () => {
 
     getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
-        throw new Error('Should not resolve the promise when the GET fails');
+        done(new Error('Should not resolve the promise when the GET fails'));
       }).catch(() => {
         expect(dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })).to.be.true;
-      }).then(done, done);
+        done();
+      });
   });
 });
 
