@@ -94,7 +94,7 @@ Benefits may include educational and vocational (job) counseling, plus help with
 
 If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-and-eligibility/fsgli/).
 
-If you have FSGLI coverage, you can also get free, professional financial planning and online will-preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
+If you have FSGLI coverage, you can also get free, professional financial planning and online will preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
 
 If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
 
@@ -118,7 +118,9 @@ If you need help with your daily activities—or you’re housebound—you may a
 
 ### Burials and Memorials
 
-If a Servicemember or Veteran in your family dies, we’re here to help you through the process of planning their burial and memorial.
+If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-and-memorials/eligibility/).
+
+If a Servicemember, Veteran, or eligible spouse or dependent child in your family dies, we’re here to help you through the process of planning their burial and memorial.
 
 [Learn about how to plan a burial for a deceased family member](/burials-and-memorials/burial-planning/).<br>
 [See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-and-memorials/eligibility/).<br>
