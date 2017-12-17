@@ -41,33 +41,62 @@ It depends on a number of factors, like your military service history and your c
 
 ### What VA dental care benefits do I qualify for?
 
-Click on the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for:
+Find the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for. Jump to that section:
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</button>
-<div id="dental-care-disability" class="usa-accordion-content">
+- [I have a service-connected disability or condition, and I get disability compensation (monthly payments)](#dental-care-disability).
+- [I’m a former Prisoner of War](#dental-care-POW).
+- [I have 1 or more service-connected disabilities rated 100% disabling](#dental-care-disability-100-percent).
+- [I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions](dental-care-unemployable).
+- 
+
+<div id="dental-care-disability" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 **You’re in:** Class I
 
 **You may qualify for:** Any needed dental care
 
 </div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-pow">I’m a former Prisoner of War.</button>
-<div id="dental-care-pow" class="usa-accordion-content">
+</div>
+</div>
+<br>
+
+<div id="dental-care-POW" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">I’m a former Prisoner of War.</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 **You’re in:** Class IIC
 
 **You may qualify for:** Any needed dental care
 
 </div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability-100">I have 1 or more service-connected disabilities rated 100% disabling.</button>
-<div id="dental-care-disability-100" class="usa-accordion-content">
+</div>
+</div>
+<br>
+
+<div id="dental-care-disability-100-percent" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">I have 1 or more service-connected disabilities rated 100% disabling.</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+  
+**You’re in:** Class IV
+
+**You may qualify for:** Any needed dental care\*
+
+**\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
+
+</div>
+</div>
+</div>
+<br>
+
+<div id="dental-care-unemployable" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions.</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 **You’re in:** Class IV
 
@@ -76,19 +105,10 @@ Click on the statement below that describes you best to find out your benefits c
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
 
 </div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-unemployable">I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions.</button>
-<div id="dental-care-unemployable" class="usa-accordion-content">
-
-**You’re in:** Class IV
-
-**You may qualify for:** Any needed dental care\*
-
-**\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
-
 </div>
-</li>
+</div>
+<br>
+
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-gulf-war">I served on active duty for 90 days or more during the Persian Gulf War era.</button>
 <div id="dental-care-gulf-war" class="usa-accordion-content">
