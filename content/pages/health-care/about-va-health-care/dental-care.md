@@ -47,16 +47,17 @@ Find the statement below that describes you best to find out your benefits class
 - [I’m a former Prisoner of War](#dental-care-POW).
 - [I have 1 or more service-connected disabilities rated 100% disabling](#dental-care-disability-100-percent).
 - [I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions](#dental-care-unemployable).
-- 
+- [I served on active duty for 90 days or more during the Persian Gulf War era](#dental-care-gulf-war).
+- [I have a service-connected noncompensable dental condition (a dental condition that you’re not getting disability payments for) or a disability that’s the result of combat wounds or service trauma](#dental-care-noncompensable).
 
 <div id="dental-care-disability" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**You’re in:** Class I
+You’re in: Class I
 
-**You may qualify for:** Any needed dental care
+You may qualify for: Any needed dental care
 
 </div>
 </div>
@@ -68,9 +69,9 @@ Find the statement below that describes you best to find out your benefits class
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**You’re in:** Class IIC
+You’re in: Class IIC
 
-**You may qualify for:** Any needed dental care
+You may qualify for: Any needed dental care
 
 </div>
 </div>
@@ -82,9 +83,9 @@ Find the statement below that describes you best to find out your benefits class
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
   
-**You’re in:** Class IV
+You’re in: Class IV
 
-**You may qualify for:** Any needed dental care\*
+You may qualify for: Any needed dental care\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
 
@@ -98,9 +99,9 @@ Find the statement below that describes you best to find out your benefits class
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**You’re in:** Class IV
+You’re in: Class IV
 
-**You may qualify for:** Any needed dental care\*
+You may qualify for: Any needed dental care\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
 
@@ -109,15 +110,17 @@ Find the statement below that describes you best to find out your benefits class
 </div>
 <br>
 
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-gulf-war">I served on active duty for 90 days or more during the Persian Gulf War era.</button>
-<div id="dental-care-gulf-war" class="usa-accordion-content">
+<div id="dental-care-gulf-war" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">I served on active duty for 90 days or more during the Persian Gulf War era.
+</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+  
+You’re in: Class II
 
-**You’re in:** Class II
+You may qualify for: 1-time dental care
 
-**You may qualify for:** 1-time dental care
-
-**You can get this care only if:**
+You can get this care only if:
 
 - You were discharged or released under conditions other than dishonorable, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
@@ -126,19 +129,26 @@ Find the statement below that describes you best to find out your benefits class
 **\*Please note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
 
 </div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-noncompensable">I have a service-connected noncompensable dental condition (a dental condition that you’re not getting disability payments for) or a disability that’s the result of combat wounds or service trauma.</button>
-<div id="dental-care-noncompensable" class="usa-accordion-content">
+</div>
+</div>
+<br>
 
-**You’re in:** Class IIA
+<div id="dental-care-noncompensable" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">I have a service-connected noncompensable dental condition (a dental condition that you’re not getting disability payments for) or a disability that’s the result of combat wounds or service trauma.</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
-**You may qualify for:** Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth)
+You’re in: Class IIA
+
+You may qualify for: Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth)
 
 **You should know:** A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.
 
 </div>
-</li>
+</div>
+</div>
+<br>
+
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-sc-worse">A VA dental care provider has concluded that my dental condition is linked to a service-connected health condition and is making that condition worse.</button>
 <div id="dental-care-sc-worse" class="usa-accordion-content">
