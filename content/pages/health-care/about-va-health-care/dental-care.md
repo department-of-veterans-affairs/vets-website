@@ -46,7 +46,7 @@ Find the statement below that describes you best to find out your benefits class
 - [I have a service-connected disability or condition, and I get disability compensation (monthly payments)](#dental-care-disability).
 - [I’m a former Prisoner of War](#dental-care-POW).
 - [I have 1 or more service-connected disabilities rated 100% disabling](#dental-care-disability-100-percent).
-- [I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions](dental-care-unemployable).
+- [I’m unemployable (unable to work), and I get disability compensation at the 100% disabling rate due to service-connected conditions](#dental-care-unemployable).
 - 
 
 <div id="dental-care-disability" itemscope itemtype="http://schema.org/Question">
