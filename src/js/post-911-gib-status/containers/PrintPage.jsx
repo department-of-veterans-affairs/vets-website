@@ -7,7 +7,7 @@ import { formatDateLong, focusElement } from '../../common/utils/helpers';
 
 class PrintPage extends React.Component {
   componentDidMount() {
-    focusElement('usa-button-primary');
+    focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
     document.querySelector('.va-nav-breadcrumbs').classList.add('no-print-no-sr');
