@@ -60,8 +60,6 @@ Jump to the section below that describes you best to find out your benefits clas
 <h4 itemprop="name">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class I.
 
@@ -78,8 +76,6 @@ You may qualify for any needed dental care.
 <h4 itemprop="name">I’m a former Prisoner of War.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class IIC.
 
@@ -96,8 +92,6 @@ You may qualify for any needed dental care.
 <h4 itemprop="name">I have 1 or more service-connected disabilities rated 100% disabling.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class IV.
 
@@ -117,8 +111,6 @@ You may qualify for any needed dental care.\*
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
   
---------------------
-  
 You’re in Class IV.
 
 You may qualify for any needed dental care.\*
@@ -137,8 +129,6 @@ You may qualify for any needed dental care.\*
 </h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
--------------------- 
   
 You’re in Class II.
 
@@ -163,8 +153,6 @@ You can get this care only if:
 <h4 itemprop="name">I have a service-connected noncompensable dental condition (a dental condition that you’re not getting disability payments for) or a disability that’s the result of combat wounds or service trauma.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class IIA.
 
@@ -183,8 +171,6 @@ You may qualify for any dental care needed to make sure you have and can keep a 
 <h4 itemprop="name">A VA dental care provider has concluded that my dental condition is linked to a service-connected health condition and is making that condition worse.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class III.
 
@@ -201,8 +187,6 @@ You may qualify for dental care to treat the oral conditions that a VA dental ca
 <h4 itemprop="name">I’m active in a 38 U.S.C. Chapter 31 vocational rehabilitation program.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class V.
 
@@ -227,8 +211,6 @@ You may qualify for: Dental care that a VA dental care provider concludes is nee
 <h4 itemprop="name">I get VA care or am scheduled for inpatient care for a health condition—and I need dental care for a dental issue that’s making my health condition harder to treat.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class VI.
 
@@ -245,8 +227,6 @@ You may qualify for dental care to treat the dental issue that a VA dental care 
 <h4 itemprop="name">I’m signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039).</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in Class IIB.
 
@@ -267,8 +247,6 @@ You may qualify for a 1-time course of dental care that a VA dental care provide
 <h4 itemprop="name">I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care).</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
---------------------
 
 You’re in inpatient status.
 
