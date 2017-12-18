@@ -178,6 +178,13 @@ describe('lodash replacements', () => {
       expect(newObj.new.path).to.eql(['foo', 'bar']);
     });
 
+    it('should not change the array path provided', () => {
+      const o = {};
+      const arrayPath = ['path', 0];
+      _.set(arrayPath, 'foo', o);
+      expect(arrayPath).to.eql(['path', 0]);
+    });
+
     it('should not modify original object when adding a new property', () => {
       const o = {
         a: 'a',

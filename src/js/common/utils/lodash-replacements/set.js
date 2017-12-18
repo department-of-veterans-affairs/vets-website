@@ -18,15 +18,15 @@ import checkValidPath from './checkValidPath';
  * @return {Object} A new object with the appropriate value set
  */
 function baseSet(arrayPath, value, object, level = 0) {
-  if (!arrayPath.length) {
+  if (level >= arrayPath.length) {
     // We're at the end of our path; time to assign
     return value;
   }
 
   const newObj = clone(object);
 
-  const pathSegment = arrayPath.shift();
-  const nextPathSegment = arrayPath[0];
+  const pathSegment = arrayPath[level];
+  const nextPathSegment = arrayPath[level + 1];
 
   // Handle a path that doesn't exist
   if (typeof newObj[pathSegment] === 'undefined') {
