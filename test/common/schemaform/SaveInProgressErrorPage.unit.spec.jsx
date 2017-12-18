@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { SaveInProgressErrorPage } from '../../../src/js/common/schemaform/SaveInProgressErrorPage';
-import { LOAD_STATUSES } from '../../../src/js/common/schemaform/save-in-progress/save-load-actions';
+import { LOAD_STATUSES } from '../../../src/js/common/schemaform/save-in-progress/actions';
 
 let oldFetch;
 let oldSessionStorage;

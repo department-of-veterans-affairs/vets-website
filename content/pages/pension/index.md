@@ -37,4 +37,4 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 
 </div>
 
-<div id="react-applicationStatus" data-hide-apply-button></div>
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>

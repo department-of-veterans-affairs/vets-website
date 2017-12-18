@@ -7,8 +7,7 @@ import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound } from '../utils/helpers';
 
 import {
-  getBenefitSummaryOptions,
-  getLetterList,
+  getLetterListAndBSLOptions,
   getMailingAddress,
   getAddressCountries,
   getAddressStates
@@ -26,9 +25,8 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    this.props.getLetterList();
+    this.props.getLetterListAndBSLOptions();
     this.props.getMailingAddress();
-    this.props.getBenefitSummaryOptions();
     this.props.getAddressCountries();
     this.props.getAddressStates();
   }
@@ -114,8 +112,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getBenefitSummaryOptions,
-  getLetterList,
+  // getBenefitSummaryOptions,
+  // getLetterList,
+  getLetterListAndBSLOptions,
   getMailingAddress,
   getAddressCountries,
   getAddressStates,

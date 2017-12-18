@@ -53,4 +53,4 @@ majorlinks:
 We offer Veterans, Servicemembers, and their families education benefits like help paying tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
 
 </div>
-<div id="react-applicationStatus" data-hide-apply-button></div>
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>

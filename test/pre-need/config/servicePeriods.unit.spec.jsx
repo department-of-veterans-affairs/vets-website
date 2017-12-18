@@ -53,7 +53,7 @@ describe('Pre-need service periods', () => {
 
       form.find('.va-growable-add-btn').simulate('click');
 
-      expect(form.find('.va-growable-background').first().text()).to.contain('ALLIED FORCES');
+      expect(form.find('.va-growable-background').first().text()).to.contain('Allied Forces');
     });
 
     it('should submit with valid data', () => {

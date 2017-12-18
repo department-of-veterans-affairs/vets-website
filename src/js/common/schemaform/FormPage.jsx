@@ -7,7 +7,7 @@ import _ from 'lodash/fp';
 
 import SchemaForm from './SchemaForm';
 import ProgressButton from '../components/form-elements/ProgressButton';
-import { setData, uploadFile } from '../actions';
+import { setData, uploadFile } from './actions';
 import { getNextPagePath, getPreviousPagePath } from './routing';
 
 import { focusElement } from '../utils/helpers';
