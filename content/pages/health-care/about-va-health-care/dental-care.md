@@ -65,6 +65,8 @@ You may qualify for any needed dental care.
 
 [Find out how to get these benefits](#dental-care-get-benefits).
 
+-----------------------------------------------
+
 </div>
 </div>
 </div>
