@@ -508,6 +508,10 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 0;
 }
 
+.react-autosuggest__container {
+  position: relative;
+}
+
 ul.react-autosuggest__suggestions-list {
   background: $color-white;
   border: 1px solid $color-gray;
@@ -524,7 +528,10 @@ ul.react-autosuggest__suggestions-list {
   max-height: 46rem;
   overflow: auto;
   padding: 0;
-  position: relative;
+  position: absolute;
+  width: 100%;
+  top: 46px;
+  left: 0;
 
   @include media-maxwidth($small-screen) {
     font-size: 1.3rem;
