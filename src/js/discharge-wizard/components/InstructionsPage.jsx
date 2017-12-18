@@ -29,7 +29,7 @@ class InstructionsPage extends React.Component {
           <div className="row">
             <article className="usa-content columns">
               <div className="va-introtext">
-                <p>Answer a series of questions to get customized stey-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
+                <p>Answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
               </div>
               <div className="main home signup" role="main">
                 <div className="section main-menu">
