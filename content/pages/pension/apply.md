@@ -36,7 +36,7 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
-<div class="va-introtext">
+<br>
 
 You can submit an intent to file while you gather information or supporting documentation for your claim. An intent to file in some cases lets you set a benefits effective date before you turn in your completed claim. To file an intent to file, please:
 
@@ -44,7 +44,7 @@ You can submit an intent to file while you gather information or supporting docu
 - Submit an intent to file at a regional benefit office near you. [Find a regional benefit office](/facilities/), **or**
 - Work with a trained professional at a Veterans Service Organization (VSO) to get help submitting an intent to file
 
-</div>
+</br>
 
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
