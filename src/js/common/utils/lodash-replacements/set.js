@@ -9,6 +9,8 @@ import checkValidPath from './checkValidPath';
  *  other objects will be. By not cloning the data outside the path, we allow components (and Redux's connect
  *  HoC) to quickly tell which parts of the root object have changed, by doing a `===` comparison.
  *
+ * TODO: Link to some documentation which will be a better explanation than the above
+ *
  * @param {Array|Obect} object
  * @param {Array|string} path
  * @param {*} value
