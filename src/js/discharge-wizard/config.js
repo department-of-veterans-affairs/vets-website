@@ -10,7 +10,7 @@ export const venueWarning = 'You answered that you weren\'t sure where you appli
 /* eslint-disable quote-props */
 export const questionLabels = {
   '4_reason': {
-    '1': 'I suffered from an undiagnosed, misdiagnosed, or untreated mental health condition, including post-traumatic stress disorder (PTSD), while in the service. I was discharged for reasons related to this condition.',
+    '1': 'I suffered from an undiagnosed, misdiagnosed, or untreated mental health condition, including posttraumatic stress disorder (PTSD), while in the service. I was discharged for reasons related to this condition.',
     '2': 'I suffered from an undiagnosed, misdiagnosed, or untreated Traumatic Brain Injury (TBI) while in the service. I was discharged for reasons related to this condition.',
     '3': 'I was discharged due to my sexual orientation (including under the Don’t Ask, Don’t Tell policy).',
     '4': 'I was the victim of sexual assault or harassment in the service, and was discharged for reasons related to this incident.',
