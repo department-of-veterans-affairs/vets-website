@@ -22,18 +22,14 @@ export default function FinancialDisclosureDescription({ viewedPages, pageKeys }
   if (unViewedPages.some(key => key.includes('spouse'))) {
     alertBody = (
       <div className="usa-alert-body">
-        Does your spouse have any net worth, income, or expenses?
-        <br/>
-        <br/>
+        <p className="usa-alert-text">Does your spouse have any net worth, income, or expenses?</p>
         <button className="va-button-link" onClick={jumpToFirst}>Yes, jump to spouse</button>
       </div>
     );
   } else if (unViewedPages.some(key => key.includes('dependents'))) {
     alertBody = (
       <div className="usa-alert-body">
-        Do the dependents you added have any net worth, income, or expenses?
-        <br/>
-        <br/>
+        <p className="usa-alert-text">Do the dependents you added have any net worth, income, or expenses?</p>
         <button className="va-button-link" onClick={jumpToFirst}>Yes, jump to new dependents</button>
       </div>
     );
