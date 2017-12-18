@@ -208,7 +208,7 @@ describe('lodash replacements', () => {
       expect(o).to.eql(oCopy);
     });
 
-    it('should not maintain the same refs to sub-objects', () => {
+    it('should not maintain the same refs to sub-objects which were changed', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
@@ -219,6 +219,31 @@ describe('lodash replacements', () => {
       const newObj = _.set('k.a.y', 'd', o);
       expect(newObj.k.a).to.not.equal(o.k.a);
       expect(newObj.k.a).to.not.eql(o.k.a);
+    });
+
+    // Objects outside the given path should remain the same
+    it('should maintain the same refs to objects not touched', () => {
+      const old = {
+        a: {
+          prop: 1
+        },
+        b: {
+          prop2: {
+            other: 5
+          },
+          c: {
+            prop3: 3
+          }
+        }
+      };
+
+      const changed = _.set('b.c', { prop4: 4 }, old);
+
+      expect(changed).to.not.equal(old);
+      expect(old.a).to.equal(changed.a);
+      expect(old.b).to.not.equal(changed.b);
+      expect(old.b.c).to.not.equal(changed.b.c);
+      expect(old.b.prop2).to.equal(changed.b.prop2);
     });
 
     it('should throw an error if a segment of the path is not a string or number', () => {

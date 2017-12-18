@@ -1,9 +1,13 @@
 import deconstructPath from './deconstructPath';
-import cloneDeep from './cloneDeep';
+import clone from './clone';
 import checkValidPath from './checkValidPath';
 
 /**
  * Same as `set`, but uses the level param to determine when to clone and give a more helpful error message.
+ *
+ * Note: Sub-objects in the path will not be `===` to objects in the same path in the existing data, but all
+ *  other objects will be. By not cloning the data outside the path, we allow components (and Redux's connect
+ *  HoC) to quickly tell which parts of the root object have changed, by doing a `===` comparison.
  *
  * @param {Array|Obect} object
  * @param {Array|string} path
@@ -17,12 +21,7 @@ function baseSet(arrayPath, value, object, level = 0) {
     return value;
   }
 
-  // Do some one-time prep work
-  let newObj = object;
-  if (level === 0) {
-    // Only clone the whole object once
-    newObj = cloneDeep(object);
-  }
+  const newObj = clone(object);
 
   const pathSegment = arrayPath.shift();
   const nextPathSegment = arrayPath[0];
