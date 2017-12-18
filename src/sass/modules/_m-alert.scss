@@ -30,24 +30,29 @@
   min-height: 74px;
   display: table;
   width: 100%;
-  padding-top:1.2em;
-  padding-bottom:1.2em;
+  padding-top: 1.2em;
+  padding-bottom: 1.2em;
 
   .usa-alert-body {
     display:table-cell;
     vertical-align: middle;
-    border:1px solid pink;
+  //  border:1px solid pink;
   }
 
   .usa-alert-text {
     p:first-child {
-      margin-top:0;
+      margin-top: 0;
     }
 
     p:last-child {
-       margin-bottom:0;
+       margin-bottom: 0;
     }
-    
+
+    //should override :first-child
+    p:only-of-type {
+      margin-top: 1em;
+    }
+
     ul {
       padding-left:2rem;
     }
