@@ -23,7 +23,7 @@ import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, u
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
     duration: 500,
     delay: 0,
     smooth: true,
