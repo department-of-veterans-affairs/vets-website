@@ -103,7 +103,7 @@ export default class AutosuggestField extends React.Component {
       this.props.onChange(this.getFormData(focusedSuggestion));
       this.setState({ input: focusedSuggestion.label });
     } else {
-      const value = _.get('formData.label', this.props) || '';
+      const value = this.getReviewLabel(this.props.formData, this.props.uiSchema, this.props.schema) || '';
       if (value !== this.state.input) {
         this.setState({ input: value });
       }
