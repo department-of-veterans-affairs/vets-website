@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import URLSearchParams from 'url-search-params';
+import classNames from 'classnames';
 
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
@@ -52,12 +53,8 @@ class SearchHelpSignIn extends React.Component {
         isOpen={login.utilitiesMenuIsOpen.account}
         onUserLogout={this.props.onUserLogout}/>);
     } else {
-      const classList = [
-        isLoading ? 'disabled' : ''
-      ].join(' ');
-
       content = (<div>
-        <a href="#" className={classList} onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
+        <a href="#" className={classNames({ disabled: isLoading })} onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
       </div>
       );
     }
