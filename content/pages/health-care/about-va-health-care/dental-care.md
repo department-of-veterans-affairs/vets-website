@@ -54,6 +54,8 @@ Jump to the section below that describes you best to find out your benefits clas
 - [I’m signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039)](#dental-care-homeless).
 - [I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care)](#dental-care-inpatient).
 
+<br>
+
 <div id="dental-care-disability" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -65,7 +67,7 @@ You may qualify for any needed dental care.
 
 [Find out how to get these benefits](#dental-care-get-benefits).
 
------------------------------------------------
+--------------------
 
 </div>
 </div>
@@ -80,6 +82,10 @@ You may qualify for any needed dental care.
 You’re in Class IIC.
 
 You may qualify for any needed dental care.
+
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
 
 </div>
 </div>
@@ -97,6 +103,10 @@ You may qualify for any needed dental care.\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
 
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
+
 </div>
 </div>
 </div>
@@ -112,6 +122,10 @@ You’re in Class IV.
 You may qualify for any needed dental care.\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
+
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
 
 </div>
 </div>
@@ -136,6 +150,10 @@ You can get this care only if:
 
 **\*Please note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
 
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
+
 </div>
 </div>
 </div>
@@ -152,6 +170,10 @@ You may qualify for any dental care needed to make sure you have and can keep a 
 
 **You should know:** A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.
 
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
+
 </div>
 </div>
 </div>
@@ -165,6 +187,10 @@ You may qualify for any dental care needed to make sure you have and can keep a 
 You’re in Class III.
 
 You may qualify for dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse.
+
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
 
 </div>
 </div>
@@ -188,6 +214,10 @@ You may qualify for: Dental care that a VA dental care provider concludes is nee
 - Make it possible for you to get and adjust to a job during the period of employment assistance, **or**
 - Make it possible for you to be fully independent in your daily living
 
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
+
 </div>
 </div>
 </div>
@@ -201,6 +231,10 @@ You may qualify for: Dental care that a VA dental care provider concludes is nee
 You’re in Class VI.
 
 You may qualify for dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat.
+
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
 
 </div>
 </div>
@@ -221,6 +255,10 @@ You may qualify for a 1-time course of dental care that a VA dental care provide
 - Get a job, **or**
 - Treat moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
 
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
+
 </div>
 </div>
 </div>
@@ -234,6 +272,10 @@ You may qualify for a 1-time course of dental care that a VA dental care provide
 You’re in inpatient status.
 
 You may qualify for dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for.
+
+[Find out how to get these benefits](#dental-care-get-benefits).
+
+--------------------
 
 </div>
 </div>
