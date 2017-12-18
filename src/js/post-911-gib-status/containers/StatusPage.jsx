@@ -11,6 +11,7 @@ class StatusPage extends React.Component {
   componentDidMount() {
     focusElement('.show-on-focus');
   }
+
   navigateToPrint = () => {
     this.props.router.push('/print');
   }
