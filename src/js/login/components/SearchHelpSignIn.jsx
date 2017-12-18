@@ -53,8 +53,9 @@ class SearchHelpSignIn extends React.Component {
         isOpen={login.utilitiesMenuIsOpen.account}
         onUserLogout={this.props.onUserLogout}/>);
     } else {
+      const classes = classNames({ disabled: isLoading });
       content = (<div>
-        <a href="#" className={classNames({ disabled: isLoading })} onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
+        <a href="#" className={classes} onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
       </div>
       );
     }
