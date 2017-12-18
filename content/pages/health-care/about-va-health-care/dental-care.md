@@ -59,9 +59,9 @@ Jump to the section below that describes you best to find out your benefits clas
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class I
+You’re in Class I.
 
-You may qualify for: Any needed dental care
+You may qualify for any needed dental care.
 
 </div>
 </div>
@@ -73,9 +73,9 @@ You may qualify for: Any needed dental care
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class IIC
+You’re in Class IIC.
 
-You may qualify for: Any needed dental care
+You may qualify for any needed dental care.
 
 </div>
 </div>
@@ -87,9 +87,9 @@ You may qualify for: Any needed dental care
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
   
-You’re in: Class IV
+You’re in Class IV.
 
-You may qualify for: Any needed dental care\*
+You may qualify for any needed dental care.\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
 
@@ -103,9 +103,9 @@ You may qualify for: Any needed dental care\*
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class IV
+You’re in Class IV.
 
-You may qualify for: Any needed dental care\*
+You may qualify for any needed dental care.\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit.
 
@@ -120,9 +120,9 @@ You may qualify for: Any needed dental care\*
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
   
-You’re in: Class II
+You’re in Class II.
 
-You may qualify for: 1-time dental care
+You may qualify for 1-time dental care.
 
 You can get this care only if:
 
@@ -142,9 +142,9 @@ You can get this care only if:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class IIA
+You’re in Class IIA.
 
-You may qualify for: Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth)
+You may qualify for any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth).
 
 **You should know:** A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.
 
@@ -158,9 +158,9 @@ You may qualify for: Any dental care needed to make sure you have and can keep a
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class III
+You’re in Class III.
 
-You may qualify for: Dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse
+You may qualify for dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse.
 
 </div>
 </div>
@@ -172,7 +172,7 @@ You may qualify for: Dental care to treat the oral conditions that a VA dental c
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class V
+You’re in Class V.
 
 You may qualify for: Dental care that a VA dental care provider concludes is needed to:
 
@@ -194,9 +194,9 @@ You may qualify for: Dental care that a VA dental care provider concludes is nee
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Class VI
+You’re in Class VI.
 
-You may qualify for: Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat
+You may qualify for dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat.
 
 </div>
 </div>
@@ -209,9 +209,9 @@ You may qualify for: Dental care to treat the dental issue that a VA dental care
 <div itemprop="text">
 
 
-You’re in: Class IIB
+You’re in Class IIB.
 
-You may qualify for: A 1-time course of dental care that a VA dental care provider concludes you need to:
+You may qualify for a 1-time course of dental care that a VA dental care provider concludes you need to:
 
 - Relieve pain, **or**
 - Get a job, **or**
@@ -227,9 +227,9 @@ You may qualify for: A 1-time course of dental care that a VA dental care provid
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’re in: Inpatient status
+You’re in inpatient status.
 
-You may qualify for: Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for
+You may qualify for dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for.
 
 </div>
 </div>
