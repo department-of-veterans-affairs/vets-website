@@ -37,7 +37,6 @@ It depends on a number of factors, like your military service history and your c
 
 </div>
 
-<br>
 
 ### What VA dental care benefits do I qualify for?
 
