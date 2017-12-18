@@ -239,7 +239,6 @@ You may qualify for dental services that a VA dental care provider—working wit
 <br>
 
 <div id="dental-care-get-benefits" itemscope itemtype="http://schema.org/Question">
-<h4 itemprop="name">Find out how to get these benefits.</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
   
