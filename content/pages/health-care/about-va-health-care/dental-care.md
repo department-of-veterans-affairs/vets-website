@@ -53,7 +53,7 @@ Jump to the section below that describes you best to find out your benefits clas
 - [I’m active in a 38 U.S.C. Chapter 31 vocational rehabilitation program](#dental-care-vre).
 - [I get VA care or am scheduled for inpatient care for a health condition—and I need dental care for a dental issue that’s making my health condition harder to treat](#dental-care-treat).
 - [I’m signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039)](#dental-care-homeless).
-- [I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care)](dental-care-inpatient).
+- [I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care)](#dental-care-inpatient).
 
 <div id="dental-care-disability" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</h4>
