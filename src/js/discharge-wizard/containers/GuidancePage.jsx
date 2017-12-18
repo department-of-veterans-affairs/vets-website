@@ -16,6 +16,13 @@ class GuidancePage extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    localStorage.setItem('dw-viewed-guidance', true);
+
+    if (sessionStorage.getItem('dw-session-started')) {
+      sessionStorage.removeItem('dw-session-started');
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   handleFAQToggle = (e) => {
@@ -331,7 +338,7 @@ class GuidancePage extends React.Component {
     const prevAppType = this.props.formValues['7_courtMartial'];
 
     const alertContent = (
-      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results here are for Veterans who have discharges that are administrative, or the result of a Special or Summary Court Martial. If your discharge was the outcome of a General Court Martial, you may need to send your application to a different board. You can find out which board by editing your answers on the previous page.</p>
+      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results below are for Veterans who have discharges that are administrative or the result of a special or summary court-martial. If your discharge was the outcome of a general court-martial, you may need to send your application to a different board. You can find out the correct board by completing the questions again with the information from your records.</p>
     );
 
     return (
@@ -347,7 +354,7 @@ class GuidancePage extends React.Component {
     const reason = this.props.formValues['4_reason'];
 
     const alertContent = (
-      <p>You answered that you weren't sure what type of application you made before. This guidance assumes your successful upgrade application was reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB). For more reliable information, please review your records to find out where you made your earlier application and complete the questions again.</p>
+      <p>You answered that you weren't sure where you applied for an upgrade before. The instructions below are for Veterans who had a successful upgrade application reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB). For more reliable information, please review your records to find out which board you sent your earlier application to, and complete the questions again.</p>
     );
 
     return (

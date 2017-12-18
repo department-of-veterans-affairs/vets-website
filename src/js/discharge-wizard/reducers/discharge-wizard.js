@@ -4,8 +4,8 @@ import moment from 'moment';
 
 const initialState = {
   '1_branchOfService': null, // 4
-  '2_dischargeYear': undefined, // 2
-  '3_dischargeMonth': undefined, // 2a
+  '2_dischargeYear': '', // 2
+  '3_dischargeMonth': '', // 2a
   '4_reason': null, // 1
   '5_dischargeType': null, // 1a
   '6_intention': null, // 1b
@@ -110,6 +110,11 @@ function form(state = initialState, action) {
 
   switch (action.type) {
     case DW_UPDATE_FIELD:
+      // no-op if clicking on the same value
+      if (action.value === state[action.key]) {
+        return state;
+      }
+
       if (nextQuestion(action.key, action.value, state) === 'END') {
         return {
           ...state,
