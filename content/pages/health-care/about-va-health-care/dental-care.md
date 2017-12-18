@@ -63,6 +63,8 @@ You’re in Class I.
 
 You may qualify for any needed dental care.
 
+[Find out how to get these benefits](#dental-care-get-benefits).
+
 </div>
 </div>
 </div>
@@ -236,12 +238,20 @@ You may qualify for dental services that a VA dental care provider—working wit
 </div>
 <br>
 
+<div id="dental-care-get-benefits" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Find out how to get these benefits.</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+  
 ### How do I apply for VA dental care benefits?
 
 You can apply online by filling out the 10-10EZ health care application.
 
 <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
+</div>
+</div>
+</div>
 <br>
 
 ### Where do I go for VA dental care?
