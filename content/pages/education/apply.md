@@ -34,7 +34,7 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3 itemprop="name">What do I need to do to apply for VA education benefits?</h3>
+<h3 itemprop="name">How do I prepare before starting my application?</h3>
 <div itemprop="itemListElement">
 
 - [Check to see if you're eligible for VA education benefits](/education/eligibility/).
