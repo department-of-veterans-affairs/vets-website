@@ -18,7 +18,7 @@ majorlinks:
       title: Eligibility
       description: Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
     - url: /education/apply/
-      title: Application Process
+      title: How to Apply
       description: Apply online now, or find out how to apply in person or by mail.
   - heading: Learn about Educational Assistance Programs
     links:
