@@ -138,11 +138,11 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 <br>
 
-### How long does it take VA to make a decision?
+### Can I check the status of my application?
 
 <div class="card information" markdown="0">
-<span class="number">About 90 days</span>
-<span class="description">If more than 90 days has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
+<span class="number">Yes</span>
+<span class="description">If you haven’t heard back about your application, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
 </div>
 
 <div markdown="0"><br></div>
