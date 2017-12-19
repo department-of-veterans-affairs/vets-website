@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';

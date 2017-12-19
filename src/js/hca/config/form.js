@@ -8,7 +8,7 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
