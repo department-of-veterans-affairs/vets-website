@@ -1,5 +1,4 @@
 import React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
 import { connect } from 'react-redux';
 
 import UserInfoSection from '../components/UserInfoSection';
