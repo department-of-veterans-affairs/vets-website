@@ -237,5 +237,5 @@ function initApplicationMock(token) {
 }
 
 module.exports = {
-  initApplicationMock,
+  initApplicationMock
 };

@@ -7,6 +7,8 @@ import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Main from '../../login/containers/Main';
 
+const healthTools = ['health-records', 'rx', 'messaging'];
+
 class RequiredLoginView extends React.Component {
   isServiceAvailable() {
     const requiredApp = this.props.serviceRequired;
@@ -28,7 +30,9 @@ class RequiredLoginView extends React.Component {
   }
 
   renderContent() {
-    if (this.props.userProfile.loading === true) {
+    const { userProfile, serviceRequired: requiredApp } = this.props;
+
+    if (userProfile.loading === true) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
@@ -36,19 +40,23 @@ class RequiredLoginView extends React.Component {
     const signInUrl = appendQuery('/', nextQuery);
 
     if (this.props.authRequired === 1) {
-      if (this.props.userProfile.accountType >= 1) {
+      if (userProfile.accountType >= 1) {
         return this.props.children;
       }
 
       return window.location.replace(signInUrl);
 
     } else if (this.props.authRequired === 3) {
-      if (this.props.userProfile.accountType === 3) {
+      // Ignore LOA when accessing health tools with MHV sign-in.
+      const mhvAccess =
+        healthTools.includes(requiredApp) &&
+        userProfile.authnContext === 'myhealthevet';
+
+      if (userProfile.accountType === 3 || mhvAccess) {
         // TODO: Delete the logic around attemptingAppealsAccess once we
         // resolve the MVI/Appeals Users issues.
         // if app we are trying to access includes appeals,
         // bypass the checks for userProfile status
-        const requiredApp = this.props.serviceRequired;
         let attemptingAppealsAccess;
 
         if (Array.isArray(requiredApp)) {
@@ -57,10 +65,10 @@ class RequiredLoginView extends React.Component {
           attemptingAppealsAccess = requiredApp === 'appeals-status';
         }
 
-        if (this.props.userProfile.status === 'SERVER_ERROR' && !attemptingAppealsAccess) {
+        if (userProfile.status === 'SERVER_ERROR' && !attemptingAppealsAccess) {
           // If va_profile is null, show a system down message.
           return <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
-        } else if (this.props.userProfile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
+        } else if (userProfile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
           // If va_profile is "not found", show message that we cannot find the user
           // in our system.
           return <SystemDownView messageLine1="We couldn’t find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>;
@@ -83,7 +91,7 @@ class RequiredLoginView extends React.Component {
             : null;
           return React.cloneElement(child, props);
         });
-      } else if (this.props.userProfile.accountType === 1) {
+      } else if (userProfile.accountType === 1) {
         return  <Main renderType="verifyPage"/>;
       }
 
@@ -104,9 +112,7 @@ RequiredLoginView.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]).isRequired,
-  userProfile: PropTypes.object.isRequired,
-  loginUrl: PropTypes.string,
-  verifyUrl: PropTypes.string
+  userProfile: PropTypes.object.isRequired
 };
 
 export default RequiredLoginView;
