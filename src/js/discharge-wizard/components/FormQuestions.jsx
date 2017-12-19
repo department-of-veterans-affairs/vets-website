@@ -81,7 +81,7 @@ class FormQuestions extends React.Component {
       { label: questionLabels[key]['7'], value: '7' },
     ];
 
-    const label = <h4>Which of the following <strong>best</strong> describes why you want to change your discharge paperwork? Choose the one that best applies to your situation. Note: If multiple options fit your situation, choose the answer that started the events leading to your discharge. (For example, if you experienced sexual assault and had PTSD resulting from that experience, choose sexual assault as your main reason.)</h4>;
+    const label = <h4>Which of the following <strong>best</strong> describes why you want to change your discharge paperwork? Choose the one that's closest to your situation. <strong>Note:</strong> If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.</h4>;
 
     return this.renderQuestion(key, label, options);
   }
@@ -261,7 +261,7 @@ class FormQuestions extends React.Component {
 
     if (!shouldShowQuestion(key, formValues.questions)) { return null; }
 
-    const prevApplicationTypeLabel = <h4>Was your application denied due to "failure to exhaust" other remedies?</h4>;
+    const prevApplicationTypeLabel = <h4>Was your application denied due to "failure to exhaust other remedies"? Note: "Failure to exhaust other remedies" generally means you applied to the wrong board.</h4>;
 
     let boardLabel = 'BCMR';
     if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
@@ -269,8 +269,8 @@ class FormQuestions extends React.Component {
     }
 
     const prevApplicationTypeOptions = [
-      { label: `Yes, the ${boardLabel} denied my application due to "failure to exhaust" other remedies (that is, for applying to the wrong Board).`, value: '1' },
-      { label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the substance of my claim.`, value: '2' },
+      { label: `Yes, the ${boardLabel} denied my application due to "failure to exhaust other remedies."`, value: '1' },
+      { label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the evidence in my application.`, value: '2' },
     ];
 
     return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);

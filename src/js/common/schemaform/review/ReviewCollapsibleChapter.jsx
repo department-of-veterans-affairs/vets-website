@@ -66,7 +66,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, {
+    scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -74,7 +74,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   scrollToPage(key) {
-    scroller.scrollTo(`${key}ScrollElement`, {
+    scroller.scrollTo(`${key}ScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
       smooth: true,
