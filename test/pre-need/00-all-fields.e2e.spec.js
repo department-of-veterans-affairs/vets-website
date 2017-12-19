@@ -12,7 +12,7 @@ const runTest = E2eHelpers.createE2eTest(
     if (process.env.BUILDTYPE !== 'production') {
     // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/burials-and-memorials/burial-planning/application`)
+        .url(`${E2eHelpers.baseUrl}/burials-and-memorials/pre-need/form-10007-apply-for-eligibility`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply online for pre-need determination of eligibility in a VA National Cemetary: Vets.gov')
         .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.

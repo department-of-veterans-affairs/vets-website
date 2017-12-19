@@ -19,6 +19,7 @@ import {
   dischargeTypeLabels,
   lastServiceBranchLabels,
   facilityHelp,
+  isEssentialAcaCoverageDescription,
   medicaidDescription,
   medicalCentersByState,
   medicalCenterLabels,
@@ -829,7 +830,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'VA Facility',
             isEssentialAcaCoverage: {
-              'ui:title': 'I am enrolling to obtain minimum essential coverage under the Affordable Care Act'
+              'ui:title': isEssentialAcaCoverageDescription
             },
             'view:preferredFacility': {
               'ui:title': 'Select your preferred VA medical facility',

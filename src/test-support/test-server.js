@@ -34,6 +34,7 @@ app.use('/rx', fallback('index.html', { root }));
 app.use('/health-care/messaging', fallback('/health-care/messaging/index.html', { root }));
 app.use('/health-care/prescriptions', fallback('/health-care/prescriptions/index.html', { root }));
 app.use('/education/apply-for-education-benefits/application', fallback('/education/apply-for-education-benefits/application/index.html', { root }));
+app.use('/burials-and-memorials/pre-need/form-10007-apply-for-eligibility', fallback('/burials-and-memorials/pre-need/form-10007-apply-for-eligibility.html', { root }));
 
 app.listen(options.port, () => {
   // eslint-disable-next-line no-console

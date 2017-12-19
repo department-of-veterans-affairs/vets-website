@@ -42,6 +42,7 @@ class DropDown extends React.Component {
         <button className={buttonClasses}
           aria-controls={this.props.id}
           aria-expanded={this.props.isOpen}
+          disabled={this.props.disabled}
           onClick={this.toggleDropDown}>
           <span>
             {this.props.icon}
@@ -72,11 +73,13 @@ DropDown.propTypes = {
   contents: PropTypes.node.isRequired,
   icon: PropTypes.node, /* Should be SVG markup */
   id: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool
 };
 
 DropDown.defaultProps = {
-  container: window.document
+  container: window.document,
+  disabled: false
 };
 
 export default DropDown;

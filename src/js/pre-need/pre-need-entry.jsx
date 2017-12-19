@@ -15,7 +15,7 @@ import reducer from './reducer';
 const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/burials-and-memorials/burial-planning/application'
+  basename: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility'
 });
 
 function init() {

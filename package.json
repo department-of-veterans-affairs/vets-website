@@ -74,7 +74,7 @@
     "body-parser": "^1.15.2",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
-    "chromedriver": "2.29",
+    "chromedriver": "^2.33.2",
     "chunk-manifest-webpack-plugin": "^1.0.0",
     "classlist-polyfill": "^1.0.3",
     "classnames": "^2.2.5",

@@ -77,7 +77,7 @@ export default class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(`topOfTable_${this.props.idSchema.$id}`, {
+      scroller.scrollTo(`topOfTable_${this.props.idSchema.$id}`, window.VetsGov.scroll || {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -88,7 +88,7 @@ export default class ArrayField extends React.Component {
 
   scrollToRow(id) {
     setTimeout(() => {
-      scroller.scrollTo(`table_${id}`, {
+      scroller.scrollTo(`table_${id}`, window.VetsGov.scroll || {
         duration: 500,
         delay: 0,
         smooth: true,
