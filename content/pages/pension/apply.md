@@ -42,7 +42,8 @@ When you submit an intent to file form, it sets the effective date while you gat
 
 #### How do I submit an intent to file?
 
-Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). Simply starting your pension application doesn’t show your intent to file. <br>
+Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). 
+**Note:** Simply starting your pension application doesn’t show your intent to file. <br>
 [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf).
 
 Turn in your form in any of these ways:
