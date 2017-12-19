@@ -71,7 +71,7 @@ export function getUserData(dispatch) {
       sessionStorage.setItem('userFirstName', userData.first_name);
     }
     //Report out the current level of assurance for the user
-    window.dataLayer.push({ event: `login-current-loa-${userData.loa.current}`});
+    window.dataLayer.push({ event: `login-loa-current-${userData.loa.current}` });
     dispatch(updateProfileFields({
       savedForms: json.data.attributes.in_progress_forms,
       prefillsAvailable: json.data.attributes.prefills_available,
