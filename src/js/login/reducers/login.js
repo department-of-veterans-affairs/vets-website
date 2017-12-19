@@ -5,6 +5,7 @@ import {
   LOG_OUT,
   TOGGLE_LOGIN_MODAL,
   UPDATE_LOGGEDIN_STATUS,
+  UPDATE_SESSION_EXPIRES_SOON,
   UPDATE_LOGIN_URLS,
   UPDATE_LOGOUT_URL,
   UPDATE_MULTIFACTOR_URL,
@@ -20,6 +21,7 @@ const initialState = {
   logoutUrl: null,
   multifactorUrl: null,
   showModal: false,
+  showSessionRefreshModal: false,
   verifyUrl: null,
   utilitiesMenuIsOpen: {
     search: false,
@@ -64,6 +66,9 @@ function loginStuff(state = initialState, action) {
 
     case TOGGLE_LOGIN_MODAL:
       return _.set('showModal', action.isOpen, state);
+
+    case UPDATE_SESSION_EXPIRES_SOON:
+      return _.set('showSessionRefreshModal', action.value, state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);

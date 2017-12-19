@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import moment from 'moment';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 
@@ -9,12 +9,10 @@ import Modal from '../../common/components/Modal';
 import environment from '../../common/helpers/environment';
 import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
+import { updateLoggedInStatus, updateSessionExpiresSoon, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
-
-// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 class Main extends React.Component {
   constructor(props) {
@@ -40,7 +38,11 @@ class Main extends React.Component {
     });
     this.bindNavbarLinks();
 
-    // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another 
+    if (this.props.renderType === 'navComponent') {
+      this.refreshInterval = window.setInterval(this.checkTokenExpiration, 10000);
+    }
+
+    // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
       window.onload = () => {
@@ -144,26 +146,26 @@ class Main extends React.Component {
 
   checkTokenStatus() {
     if (sessionStorage.userToken) {
-
-      // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
-      // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
-      //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-      //     this.handleLogin();
-      //   } else {
-      //     this.handleLogout();
-      //   }
-      // } else {
-      //   if (this.props.getUserData()) {
-      //     this.props.updateLoggedInStatus(true);
-      //   }
-      // }
-
-      // @todo after doing the above, remove this code.
-      if (this.props.getUserData()) {
-        this.props.updateLoggedInStatus(true);
-      }
+      if (this.props.getUserData()) this.props.updateLoggedInStatus(true);
     } else {
       this.props.updateLoggedInStatus(false);
+    }
+  }
+
+  checkTokenExpiration = () => {
+    const isLoading = this.props.profile.loading;
+    const isLoggedIn = this.props.profile.accountType;
+    if (isLoading || !isLoggedIn) return;
+
+    const entryTime = moment(sessionStorage.entryTime);
+    const expiresSoon = moment() > entryTime.add(this.props.sessionRefreshIntervalMinutes, 'm');
+    if (!expiresSoon) return;
+
+    if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
+      // this.handleLogin();
+      this.props.updateSessionExpiresSoon(true);
+    } else {
+      this.handleLogout();
     }
   }
 
@@ -253,6 +255,9 @@ const mapDispatchToProps = (dispatch) => {
     updateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },
+    updateSessionExpiresSoon: (update) => {
+      dispatch(updateSessionExpiresSoon(update));
+    },
     toggleLoginModal: (update) => {
       dispatch(toggleLoginModal(update));
     },
@@ -269,6 +274,10 @@ Main.propTypes = {
     'verifyPage',
   ]).isRequired,
   shouldRedirect: PropTypes.bool,
+};
+
+Main.defaultProps = {
+  sessionRefreshIntervalMinutes: 45
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -3,6 +3,7 @@ import { gaClientId } from '../../common/utils/helpers';
 export const LOG_OUT = 'LOG_OUT';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
 export const UPDATE_LOGGEDIN_STATUS = 'UPDATE_LOGGEDIN_STATUS';
+export const UPDATE_SESSION_EXPIRES_SOON = 'UPDATE_SESSION_EXPIRES_SOON';
 export const UPDATE_LOGIN_URLS = 'UPDATE_LOGIN_URLS';
 export const UPDATE_LOGOUT_URL = 'UPDATE_LOGOUT_URL';
 export const UPDATE_MULTIFACTOR_URL = 'UPDATE_MULTIFACTOR_URL';
@@ -13,6 +14,13 @@ export const FETCH_LOGIN_URLS_FAILED = 'FETCH_LOGIN_URLS_FAILED';
 export function updateLoggedInStatus(value) {
   return {
     type: UPDATE_LOGGEDIN_STATUS,
+    value
+  };
+}
+
+export function updateSessionExpiresSoon(value) {
+  return {
+    type: UPDATE_SESSION_EXPIRES_SOON,
     value
   };
 }
