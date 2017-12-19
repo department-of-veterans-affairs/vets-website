@@ -49,7 +49,7 @@
     }
 
     //should override :first-child
-    p:only-of-type {
+    usa-alert-heading + p:only-of-type {
       margin-top: 1em;
     }
 
