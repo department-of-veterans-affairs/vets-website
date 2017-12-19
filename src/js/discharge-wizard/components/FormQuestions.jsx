@@ -81,7 +81,7 @@ class FormQuestions extends React.Component {
       { label: questionLabels[key]['7'], value: '7' },
     ];
 
-    const label = <h4>Which of the following <strong>best</strong> describes why you want to change your discharge paperwork? Choose the one that best applies to your situation. Note: If multiple options fit your situation, choose the answer that started the events leading to your discharge. (For example, if you experienced sexual assault and had PTSD resulting from that experience, choose sexual assault as your main reason.)</h4>;
+    const label = <h4>Which of the following <strong>best</strong> describes why you want to change your discharge paperwork? Choose the one that's closest to your situation. <strong>Note:</strong> If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.</h4>;
 
     return this.renderQuestion(key, label, options);
   }
@@ -255,8 +255,29 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
   }
 
+  renderQuestionFiveC() {
+    const key = '11_failureToExhaust';
+    const { formValues } = this.props;
+
+    if (!shouldShowQuestion(key, formValues.questions)) { return null; }
+
+    const prevApplicationTypeLabel = <h4>Was your application denied due to "failure to exhaust other remedies"? Note: "Failure to exhaust other remedies" generally means you applied to the wrong board.</h4>;
+
+    let boardLabel = 'BCMR';
+    if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
+      boardLabel = 'BCNR';
+    }
+
+    const prevApplicationTypeOptions = [
+      { label: `Yes, the ${boardLabel} denied my application due to "failure to exhaust other remedies."`, value: '1' },
+      { label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the evidence in my application.`, value: '2' },
+    ];
+
+    return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
+  }
+
   renderQuestionSix() {
-    const key = '11_priorService';
+    const key = '12_priorService';
     const transgender = this.props.formValues['4_reason'] === '5';
     const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
 
@@ -321,6 +342,7 @@ class FormQuestions extends React.Component {
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}
         {this.renderQuestionFiveB()}
+        {this.renderQuestionFiveC()}
         {this.renderQuestionSix()}
         {this.renderAnswerReview()}
       </div>

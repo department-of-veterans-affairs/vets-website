@@ -16,6 +16,13 @@ class GuidancePage extends React.Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    localStorage.setItem('dw-viewed-guidance', true);
+
+    if (sessionStorage.getItem('dw-session-started')) {
+      sessionStorage.removeItem('dw-session-started');
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   handleFAQToggle = (e) => {
@@ -233,15 +240,19 @@ class GuidancePage extends React.Component {
     let onlineSubmissionMsg;
 
     if (reasonCode === '8' && prevAppType !== '3') {
-      boardExplanation = 'the DRB because it granted your previous upgrade request, so you must apply to them for a new DD-214.';
+      boardExplanation = 'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
       if (oldDischarge) {
-        boardExplanation = `the ${boardToSubmit.abbr} because your discharge was over 15 years ago. This is because it handles all cases from 15 years ago and longer.`;
+        boardExplanation = `the ${boardToSubmit.name}. The Board handles all cases from 15 or more years ago.`;
       }
     } else if (reasonCode === '8' && prevAppType === '3') {
-      boardExplanation = `the ${boardToSubmit.abbr} because it granted your previous upgrade request, so you must apply to them for a new DD-214.`;
+      boardExplanation = `the ${boardToSubmit.name}. The ${boardToSubmit.abbr} was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
+    } else if (prevAppYear === '1' && boardToSubmit.abbr === 'DRB') {
+      return `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. In general, DRB does not handle appeals for previously denied applications. However, because new rules have recently come out regarding discharges like yours, the Boards may treat your application as a new case. If possible, review the new policies and state in your application how the change in the policy is relevant to your case. If the DRB decides that the new rules don't apply to your situation, you will likely have to send an appeal to a different Board.`;
+    } else if (this.props.formValues['11_failureToExhaust'] && boardToSubmit.abbr === 'DRB') {
+      return `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. The ${boardToSubmit.name} previously rejected your application because you applied to the DRB first. For applications like yours, the ${boardToSubmit.abbr} can review only cases that have already been rejected by the DRB. The DRB is a panel of commissioned officers, or a mix of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge. After this time period, you must apply to a different board.`;
     } else if (prevAppType === '2') {
-      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision. This is because your application was denied by the DRB on a Personal Appearance Review.`;
-    } else if (prevAppType === '3') {
+      boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])} to appeal that decision. This is because your application was denied by the Discharge Review Board (DRB) on a Personal Appearance Review.`;
+    } else if (prevAppType === '3' && this.props.formValues['11_failureToExhaust'] !== '1') {
       boardExplanation = `the ${boardToSubmit.abbr}. This is because if you've applied before, you must re-apply to the ${boardToSubmit.abbr} for reconsideration.`;
     } else if ((noPrevApp || (['1', '4'].indexOf(prevAppType) > -1) || prevAppYear === '1') && oldDischarge) {
       boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because it handles all cases from 15 years ago and longer.`;
@@ -327,7 +338,7 @@ class GuidancePage extends React.Component {
     const prevAppType = this.props.formValues['7_courtMartial'];
 
     const alertContent = (
-      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results here are for Veterans who have discharges that are administrative, or the result of a Special or Summary Court Martial. If your discharge was the outcome of a General Court Martial, you may need to send your application to a different board. You can find out which board by editing your answers on the previous page.</p>
+      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a General Court Martial, it's important for you to double check your military records. The results below are for Veterans who have discharges that are administrative or the result of a special or summary court-martial. If your discharge was the outcome of a general court-martial, you may need to send your application to a different board. You can find out the correct board by completing the questions again with the information from your records.</p>
     );
 
     return (
@@ -343,7 +354,7 @@ class GuidancePage extends React.Component {
     const reason = this.props.formValues['4_reason'];
 
     const alertContent = (
-      <p>You answered that you weren't sure what type of application you made before. This guidance assumes your successful upgrade application was reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB). For more reliable information, please review your records to find out where you made your earlier application and complete the questions again.</p>
+      <p>You answered that you weren't sure where you applied for an upgrade before. The instructions below are for Veterans who had a successful upgrade application reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB). For more reliable information, please review your records to find out which board you sent your earlier application to, and complete the questions again.</p>
     );
 
     return (

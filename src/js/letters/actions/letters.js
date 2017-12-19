@@ -27,48 +27,76 @@ import {
   SAVE_ADDRESS_SUCCESS
 } from '../utils/constants';
 
-export function getLetterList() {
+export function getLetterList(dispatch) {
+  return apiRequest(
+    '/v0/letters',
+    null,
+    response => dispatch({
+      type: GET_LETTERS_SUCCESS,
+      data: response,
+    }),
+    (response) => {
+      window.dataLayer.push({ event: 'letter-list-failure' });
+      if (typeof response.errors === 'undefined' || response.errors.length === 0) {
+        return Promise.reject(new Error('vets_letters_error_server_get: undefined error'));
+      }
+      const error = response.errors[0];
+      switch (error.status) {
+        case '503': // Handled same as 504
+        case '504':
+          // Either EVSS or a partner service is down or EVSS times out
+          return dispatch({ type: BACKEND_SERVICE_ERROR });
+        case '403':
+          // Backend authentication problem
+          return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+        case '502':
+          // Some of the partner services are down, so we cannot verify the
+          // eligibility of some letters
+          return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+        default:
+          return Promise.reject(
+            new Error(`vets_letters_error_server_get: ${error.status || 'unknown'}`)
+          );
+      }
+    }
+  ).catch((error) => {
+    if (error.message.match('vets_letters_error_server_get')) {
+      dispatch({ type: GET_LETTERS_FAILURE });
+    }
+    throw error;
+  });
+}
+
+
+export function getBenefitSummaryOptions(dispatch) {
+  return apiRequest(
+    '/v0/letters/beneficiary',
+    null,
+    response => dispatch({
+      type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+      data: response,
+    }),
+    () => {
+      dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
+      // Is there a prize for the longest error name?
+      throw new Error('vets_letters_get_benefit_summary_options_failure');
+    }
+  );
+}
+
+
+// Call getLetterList then getBenefitSummaryOptions
+export function getLetterListAndBSLOptions() {
   return (dispatch) => {
-    return apiRequest(
-      '/v0/letters',
-      null,
-      response => dispatch({
-        type: GET_LETTERS_SUCCESS,
-        data: response,
-      }),
-      (response) => {
-        window.dataLayer.push({ event: 'letter-list-failure' });
-        if (typeof response.errors === 'undefined' || response.errors.length === 0) {
-          return Promise.reject(new Error('vets_letters_error_server_get: undefined error'));
-        }
-        const error = response.errors[0];
-        switch (error.status) {
-          case '503': // Handled same as 504
-          case '504':
-            // Either EVSS or a partner service is down or EVSS times out
-            return dispatch({ type: BACKEND_SERVICE_ERROR });
-          case '403':
-            // Backend authentication problem
-            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          case '502':
-            // Some of the partner services are down, so we cannot verify the
-            // eligibility of some letters
-            return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-          default:
-            return Promise.reject(
-              new Error(`vets_letters_error_server_get: ${error.status || 'unknown'}`)
-            );
-        }
-      }
-    ).catch((error) => {
-      if (error.message.match('vets_letters_error_server_get')) {
+    return getLetterList(dispatch)
+      // Maybe shouldn't try to get BSO options if we get an error or we don't get a BSL...
+      .then(() => getBenefitSummaryOptions(dispatch))
+      .catch(error => {
         Raven.captureException(error);
-        return dispatch({ type: GET_LETTERS_FAILURE });
-      }
-      throw error;
-    });
+      });
   };
 }
+
 
 export function getAddressFailure() {
   window.dataLayer.push({ event: 'letter-update-address-notfound' });
@@ -92,20 +120,6 @@ export function getMailingAddress() {
       },
       // catch errors in fetch or success handler
       () => dispatch(getAddressFailure())
-    );
-  };
-}
-
-export function getBenefitSummaryOptions() {
-  return (dispatch) => {
-    return apiRequest(
-      '/v0/letters/beneficiary',
-      null,
-      response => dispatch({
-        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
-        data: response,
-      }),
-      () => dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })
     );
   };
 }

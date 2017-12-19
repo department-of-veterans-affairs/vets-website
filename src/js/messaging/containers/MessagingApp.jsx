@@ -57,9 +57,7 @@ class MessagingApp extends React.Component {
       <RequiredLoginView
         authRequired={3}
         serviceRequired="messaging"
-        userProfile={this.props.profile}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}>
+        userProfile={this.props.profile}>
         <RequiredTermsAcceptanceView
           termsName="mhvac"
           cancelPath="/health-care/"
@@ -98,9 +96,7 @@ const mapStateToProps = (state) => {
     alert: msgState.alert,
     recipients: msgState.recipients.data,
     loading: msgState.loading,
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    profile: userState.profile
   };
 };
 
