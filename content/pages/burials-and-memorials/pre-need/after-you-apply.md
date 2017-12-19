@@ -27,8 +27,7 @@ Find out what happens after you apply for a pre-need eligibility determination f
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">About 90 days</span>
-<span class="description">If more than 90 days have passed since you sent us your application and you haven’t heard back, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
+<span class="description">If you haven't heard back about your application, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
 </div>
 
 The amount of time it takes to review your application depends on:
