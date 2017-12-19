@@ -24,7 +24,7 @@ class Disclaimer extends React.Component {
         aria-expanded={this.props.isOpen}>
         <div className="usa-alert-body">
           <h4 className="usa-alert-heading">This list includes only your active VA prescriptions</h4>
-          <div className="usa-alert-body" hidden={!this.props.isOpen}>
+          <div className="usa-alert-text" hidden={!this.props.isOpen}>
             <p>If you’re taking a medicine that you don’t see on this list — or if you have any questions about your current medicines — please contact your VA health care team.</p>
           </div>
           <button
