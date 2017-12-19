@@ -2,12 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+
 import { PrintPage } from '../../../src/js/post-911-gib-status/containers/PrintPage';
 
-describe.only('<PrintPage/>', () => {
+describe('<PrintPage/>', () => {
   const pushSpy = sinon.spy();
   const defaultProps = {
     router: { push: pushSpy },
+    enrollmentData: {}
   };
 
   it('should render', () => {
@@ -33,13 +35,15 @@ describe.only('<PrintPage/>', () => {
   });
 
   it('should fire a print request when print button clicked', () => {
-    const printSpy = sinon.spy(global.window, 'print');
+    const oldWindow = global.window;
+    const printSpy = sinon.spy();
+    global.window.print = printSpy;
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
     const printButton = wrapper.find('.usa-button-primary');
     expect(printSpy.notCalled).to.be.true;
     printButton.simulate('click');
     expect(printSpy.calledOnce).to.be.true;
-    printSpy.restore();
+    global.window = oldWindow;
   });
 
   it('should navigate to statement when back to statement button clicked', () => {
