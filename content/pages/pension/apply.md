@@ -37,11 +37,20 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 </div>
 
 <br>
-You can submit an intent to file while you gather information or supporting documentation for your claim. An intent to file in some cases lets you set a benefits effective date before you turn in your completed claim. Starting your pension application doesn’t indicate your intent to file. To show your intent to file, please:
+#### What's an intent to file?
 
-- Fill out and mail an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966).  [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf), **or**
-- Submit an intent to file at a regional benefit office near you. [Find a regional benefit office](/facilities/), **or**
-- Work with a trained professional at a Veterans Service Organization (VSO) to get help submitting an intent to file
+An intent to file is a form you can submit to let us know you’ll be filing a claim soon (within a year) and to lock in an effective date while you gather supporting documents. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you get starting from a date in the past). 
+
+#### How do I submit an intent to file?
+
+You’ll need to turn in an intent to file form. Simply starting your pension application doesn’t show your intent to file. You can submit an intent to file form in one of 3 ways:
+
+- Fill out and mail in an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf), **or**
+- Turn in an intent to file form at a regional benefit office near you, **or**
+- Work with a trained professional (like an accredited representative at a Veterans Service Organization) to get help submitting an intent to file
+
+[Find a regional benefit office](/facilities/).
+[Find an accredited representative](/disability-benefits/apply/help/index.html).
 
 </br>
 
