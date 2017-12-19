@@ -16,6 +16,7 @@ import {
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 import { isInProgress } from '../../utils/helpers';
+import { getSaveInProgressState } from './selectors';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -112,9 +113,6 @@ class RoutedSavableApp extends React.Component {
         action = 'replace';
       }
       newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
-    } else if (newProps.savedStatus !== this.props.savedStatus &&
-      newProps.savedStatus === SAVE_STATUSES.success) {
-      newProps.router.push(`${newProps.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
@@ -125,6 +123,11 @@ class RoutedSavableApp extends React.Component {
       || ((oldProps.savedStatus !== this.props.savedStatus &&
       this.props.savedStatus === SAVE_STATUSES.pending))) {
       scrollToTop();
+    }
+
+    if (this.props.savedStatus !== oldProps.savedStatus &&
+      this.props.savedStatus === SAVE_STATUSES.success) {
+      this.props.router.push(`${this.props.formConfig.urlPrefix || ''}form-saved`);
     }
   }
 
@@ -215,24 +218,11 @@ class RoutedSavableApp extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loadedStatus: state.form.loadedStatus,
-  savedStatus: state.form.savedStatus,
-  autoSavedStatus: state.form.autoSavedStatus,
-  prefillStatus: state.form.prefillStatus,
-  returnUrl: state.form.loadedData.metadata.returnUrl,
-  formData: state.form.data,
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  savedForms: state.user.profile.savedForms,
-  prefillsAvailable: state.user.profile.prefillsAvailable,
-  profileIsLoading: state.user.profile.loading
-});
-
 const mapDispatchToProps = {
   setFetchFormStatus,
   fetchInProgressForm
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableApp));
+export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp));
 
 export { RoutedSavableApp };
