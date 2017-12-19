@@ -47,10 +47,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
           !pathname.includes('auth/login/callback');
 
         if (shouldRedirectToLogin) {
-          window.location.href = appendQuery(
-            environment.BASE_URL,
-            { next: pathname }
-          );
+          const loginUrl = appendQuery(environment.BASE_URL, { next: pathname });
+          window.location.href = loginUrl;
         }
 
         return data.then(Promise.reject.bind(Promise));
