@@ -35,7 +35,7 @@ describe('<PrintPage/>', () => {
   });
 
   it('should fire a print request when print button clicked', () => {
-    const oldWindow = global.window;
+    const oldPrint = global.window.print;
     const printSpy = sinon.spy();
     global.window.print = printSpy;
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
@@ -43,7 +43,7 @@ describe('<PrintPage/>', () => {
     expect(printSpy.notCalled).to.be.true;
     printButton.simulate('click');
     expect(printSpy.calledOnce).to.be.true;
-    global.window = oldWindow;
+    global.window.print = oldPrint;
   });
 
   it('should navigate to statement when back to statement button clicked', () => {
