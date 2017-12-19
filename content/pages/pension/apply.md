@@ -38,7 +38,7 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 #### If I start my pension application, does VA consider this "intent to file"?
 
-No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date while you gather supporting documents to turn in with your pension application. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from a date in the past). 
+No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date while you gather supporting documents to turn in with your pension application. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from your effective date). 
 
 #### How do I submit an intent to file?
 
