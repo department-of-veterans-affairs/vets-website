@@ -70,7 +70,7 @@ export function getUserData(dispatch) {
     if (userData.first_name) {
       sessionStorage.setItem('userFirstName', userData.first_name);
     }
-    //Report out the current level of assurance for the user
+    // Report out the current level of assurance for the user
     window.dataLayer.push({ event: `login-loa-current-${userData.loa.current}` });
     dispatch(updateProfileFields({
       savedForms: json.data.attributes.in_progress_forms,
