@@ -50,9 +50,11 @@ You’ll need to turn in an Intent to File a Claim for Compensation and/or Pensi
 You can submit this form in one of 3 ways:
 
 **By mail**
+
 Mail the form to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
 
 **In person**
+
 Turn in an intent to file form at a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/).
 
