@@ -41,10 +41,15 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         : Promise.resolve(response);
 
       if (!response.ok) {
-        if (response.status === 401) {
+        const { pathname } = window.location;
+        const shouldRedirectToLogin =
+          response.status === 401 &&
+          !pathname.includes('auth/login/callback');
+
+        if (shouldRedirectToLogin) {
           window.location.href = appendQuery(
             environment.BASE_URL,
-            { next: window.location.pathname }
+            { next: pathname }
           );
         }
 
