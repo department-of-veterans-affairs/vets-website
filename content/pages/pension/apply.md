@@ -36,15 +36,13 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
-#### Should I submit an intent to file form before I apply for pension benefits?
+#### If I start my pension application, does VA consider this "intent to file"?
 
-When you submit an intent to file form, it sets the effective date while you gather supporting documents to turn in with your pension application. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from a date in the past). 
+No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date while you gather supporting documents to turn in with your pension application. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from a date in the past). 
 
 #### How do I submit an intent to file?
 
-Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). 
-**Note:** Simply starting your pension application doesn’t show your intent to file. <br>
-[Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf).
+Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf).
 
 Turn in your form in any of these ways:
 
