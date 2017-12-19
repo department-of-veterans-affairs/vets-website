@@ -238,7 +238,7 @@ class FormQuestions extends React.Component {
     const key = '10_prevApplicationType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
-    const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
+    const prevApplicationTypeLabel = <h4>What type of application did you make in your previous upgrade appeal?</h4>;
 
     let boardLabel = 'I applied to a Board for Correction of Military Records (BCMR)';
     if (['navy', 'marines'].includes(this.props.formValues['1_branchOfService'])) {
