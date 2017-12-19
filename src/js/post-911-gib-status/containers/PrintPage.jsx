@@ -1,4 +1,5 @@
 import React from 'react';
+import { unmountComponentAtNode } from 'react-dom';
 import { connect } from 'react-redux';
 
 import UserInfoSection from '../components/UserInfoSection';
@@ -16,7 +17,7 @@ export class PrintPage extends React.Component {
   componentWillUnmount() {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
-    document.querySelector('nav').classList.remove('no-print-no-sr');
+    document.querySelector('.va-nav-breadcrumbs').classList.remove('no-print-no-sr');
   }
 
   backToStatement = () => this.props.router.push('/');
