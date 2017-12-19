@@ -5,7 +5,7 @@ import UserInfoSection from '../components/UserInfoSection';
 
 import { formatDateLong, focusElement } from '../../common/utils/helpers';
 
-class PrintPage extends React.Component {
+export class PrintPage extends React.Component {
   componentDidMount() {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
