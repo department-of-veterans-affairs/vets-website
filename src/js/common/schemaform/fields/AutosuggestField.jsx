@@ -75,7 +75,16 @@ export default class AutosuggestField extends React.Component {
   getReviewLabel(formData, uiSchema, schema) {
     const uiOptions = uiSchema['ui:options'];
     if (!uiOptions.getOptions) {
-      return uiOptions.labels[formData] || schema.enumNames[schema.enum.indexOf(formData)];
+      if (uiOptions.labels[formData]) {
+        return uiOptions.labels[formData];
+      }
+
+      const index = schema.enum.indexOf(formData) >= 0;
+      if (schema.enumNames && index >= 0) {
+        return uiOptions.labels[formData] || schema.enumNames[index];
+      }
+
+      return null;
     }
 
     return formData.label;
@@ -98,15 +107,12 @@ export default class AutosuggestField extends React.Component {
     this.setState({ input: suggestion.label });
   }
 
-  handleBlur = (event, { focusedSuggestion }) => {
-    if (focusedSuggestion) {
-      this.props.onChange(this.getFormData(focusedSuggestion));
-      this.setState({ input: focusedSuggestion.label });
-    } else {
-      const value = this.getReviewLabel(this.props.formData, this.props.uiSchema, this.props.schema) || '';
-      if (value !== this.state.input) {
-        this.setState({ input: value });
-      }
+  handleBlur = () => {
+    const value = this.getReviewLabel(this.props.formData, this.props.uiSchema, this.props.schema) || '';
+    if (!value && this.state.input) {
+      this.props.onChange(this.state.input);
+    } else if (!value) {
+      this.props.onChange();
     }
     this.props.onBlur(this.props.idSchema.$id);
   }
