@@ -89,7 +89,12 @@ function nextQuestion(currentQuestion, answer, state) {
         next = 'END';
       } else if (answer === '3' && noGeneralCourtMartial && !oldDischarge && commonChanges) {
         next = '11_failureToExhaust';
-      } else if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
+      } else {
+        next = 'END';
+      }
+      break;
+    case '11_failureToExhaust':
+      if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
         next = '12_priorService';
       } else {
         next = 'END';
