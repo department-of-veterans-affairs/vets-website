@@ -36,31 +36,25 @@ You can apply online, in person, or by mail for a Veterans pension. Follow these
 
 </div>
 
-<br>
+#### Should I submit an intent to file form before I apply for pension benefits?
 
-#### What's an intent to file?
-
-An intent to file is a form you can submit to let us know you’ll be filing a claim soon (within a year) and to lock in an effective date while you gather supporting documents. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you get starting from a date in the past). 
+When you submit an intent to file form, it sets the effective date while you gather supporting documents to turn in with your pension application. An effective date is the day you can start getting your benefits. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from a date in the past). 
 
 #### How do I submit an intent to file?
 
-You’ll need to turn in an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). Simply starting your pension application doesn’t show your intent to file. <br>
+Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). Simply starting your pension application doesn’t show your intent to file. <br>
 [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf).
 
-You can submit this form in one of 3 ways:
+Turn in your form in any of these ways:
 
-**By mail**
+- Mail it to the Pension Management Center (PMC) for your state. <br>
+[Find your PMC](/pension/pension-management-center/).
 
-Mail the form to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
-
-**In person**
-
-Turn in an intent to file form at a regional benefit office near you. <br>
+- Turn it in at a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/).
 
-**With the help of a trained professional**
-
-You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
+- Work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
+[Find an accredited representative](/disability-benefits/apply/help/).
 
 </br>
 
