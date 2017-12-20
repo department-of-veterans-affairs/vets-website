@@ -79,7 +79,7 @@ Accredited representatives can also help you gather supporting documents (like a
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe you were charged a fee that’s too high by a claims agent or attorney, you can challenge it. [Find out more in the “How to Challenge a Fee” guide](https://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
+Generally, no individual or organization may charge you a fee to help you file your initial application for benefits. They may charge you for unusual expenses. And, VA-accredited claims agents and attorneys may charge for their services after VA has made a decision about your claim. Make sure you ask up front what, if any, fees you’ll be charged. If you believe you were charged a fee that’s too high by a claims agent or attorney, you can challenge it. [Find out more in the “How to Challenge a Fee” guide](https://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 </div>
 </div>
