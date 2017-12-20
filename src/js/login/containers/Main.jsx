@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
+import moment from 'moment';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
@@ -13,56 +13,7 @@ import { updateLoggedInStatus, updateSessionExpiresSoon, updateLogoutUrl, update
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
-
-function SessionRefreshModal({ sessionExpiresAfterMinutes, visible, login, logout }) {
-  const now = moment();
-  const isExpired =  now.isAfter(moment(window.sessionStorage.entryTime).add(sessionExpiresAfterMinutes, 'm'));
-  let title = null;
-  let content = null;
-
-  if (isExpired) {
-    title = 'Your Vets.gov session has expired';
-    content = (
-      <div>
-        <p>To protect your privacy and security, your session has expired after an hour of inactivity.</p>
-        <button type="button" className="usa-button-primary" onClick={() => document.location.reload()}>Return to Vets.gov</button>
-      </div>
-    );
-  } else {
-    title = 'Your Vets.gov session is expiring';
-    content = (
-      <div>
-        <p>To protect your privacy and security, your session is expiring and you will be automatically signed out within 10 minutes. Would you like to stay signed in?</p>
-        <button type="button"
-          className="usa-button-primary"
-          onClick={(event) => {
-            event.preventDefault();
-            return login();
-          }}>Stay signed in</button>
-        <button type="button"
-          className="usa-button-secondary"
-          onClick={(event) => {
-            event.preventDefault();
-            return logout();
-          }}>Sign out now</button>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <Modal
-        id="session-refresh-modal"
-        hideCloseButton
-        onClose={() => {}}
-        visible={visible}
-        focusSelector="button"
-        title={title}>
-        {content}
-      </Modal>
-    </div>
-  );
-}
+import SessionRefreshModal from '../components/SessionRefreshModal';
 
 class Main extends React.Component {
 
