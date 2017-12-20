@@ -276,7 +276,7 @@ class GuidancePage extends React.Component {
         <div>
           <h4>Mail your completed form and all supporting materials</h4>
           <p>There are a number of different boards that handle discharge upgrades and corrections. Based on your answers on the previous page, you need to apply to {boardExplanation}</p>
-          {prevAppYear === '1' ? <p>Because your last application was made before the release of DoD guidance related to discharges like yours, DoD will effectively consider your application as a new application. Your previous application may be consulted for evidence, but usual rules about how to appeal previous decisions do not apply.</p> : null}
+          {prevAppYear === '1' && ['BCNR', 'BCMR'].includes(board(this.props.formValues).abbr) ? <p>Your last application was made before the release of DoD guidance related to discharges like yours. As a result, the Board may treat your application as a new case. If possible, review the new policies and state in your application how the change in policy is relevant to your case.</p> : null}
           <p>
             Mail your completed form and all supporting documents to the {boardToSubmit.abbr} at:
           </p>
