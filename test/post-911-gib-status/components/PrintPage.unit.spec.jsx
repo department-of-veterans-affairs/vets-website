@@ -12,6 +12,8 @@ describe('<PrintPage/>', () => {
     enrollmentData: {}
   };
 
+  afterEach(() => pushSpy.reset());
+
   it('should render', () => {
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
     expect(wrapper.type()).to.equal('div');
