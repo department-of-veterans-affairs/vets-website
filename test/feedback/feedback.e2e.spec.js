@@ -8,7 +8,7 @@ const selectors = {
   revealFormButton: '.feedback-button',
   form: '.feedback-form',
   formDescription: '.feedback-form textarea',
-  formShouldSendResponse: '#should-send-response',
+  formShouldSendResponse: 'input[name=should-send-response]',
   formEmail: '.feedback-form input[name=email]',
   formSubmit: '.feedback-form button[type=submit]',
   formSubmitted: '#feedback-submitted'
