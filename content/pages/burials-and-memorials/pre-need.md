@@ -136,7 +136,7 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 [Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
 
-**Note:** For more information, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application—don't apply again.
+**Note:** For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
 
 <div markdown="0"><br></div>
