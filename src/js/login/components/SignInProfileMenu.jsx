@@ -21,7 +21,8 @@ class SignInProfileMenu extends React.Component {
         contents={dropDownContents}
         id="accountMenu"
         icon={icon}
-        isOpen={this.props.isOpen}/>
+        isOpen={this.props.isOpen}
+        disabled={this.props.disabled}/>
     );
   }
 }
@@ -31,7 +32,8 @@ SignInProfileMenu.propTypes = {
   cssClass: PropTypes.string,
   greeting: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
-  onUserLogout: PropTypes.func.isRequired
+  onUserLogout: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default SignInProfileMenu;
