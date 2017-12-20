@@ -153,9 +153,11 @@ class Main extends React.Component {
   }
 
   checkTokenExpiration = () => {
-    const isLoading = this.props.profile.loading;
-    const isLoggedIn = this.props.profile.accountType;
-    if (isLoading || !isLoggedIn) return;
+    // If the profile request is pending; the user is not logged-in; or the session refresh modal is already shown,
+    // we can exit this function right away.
+    if (this.props.profile.loading ||
+      !this.props.login.currentlyLoggedIn ||
+      this.props.login.showSessionRefreshModal) return;
 
     const entryTime = moment(sessionStorage.entryTime);
     const expiresSoon = moment() > entryTime.add(this.props.sessionRefreshIntervalMinutes, 'm');
