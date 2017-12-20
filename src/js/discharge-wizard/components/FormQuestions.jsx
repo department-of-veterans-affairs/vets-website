@@ -323,7 +323,7 @@ class FormQuestions extends React.Component {
           </tbody>
         </table>
         <Link to="/guidance" className="usa-button-primary va-button">
-          Get my guidance »
+          Get my results »
         </Link>
       </div>
     );
