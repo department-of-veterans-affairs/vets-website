@@ -92,7 +92,7 @@ export const answerReview = (key, formValues) => {
       return questionLabels[key][ans];
     case '2_dischargeYear':
       if (ans === '1991' && !formValues['3_dischargeMonth']) {
-        return 'I was discharged before 1991';
+        return 'I was discharged before 1992';
       }
       return `I was discharged in ${dischargeMonth || ''} ${formValues[key]}`;
     case '7_courtMartial':
