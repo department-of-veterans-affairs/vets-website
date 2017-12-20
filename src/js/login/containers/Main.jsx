@@ -35,17 +35,6 @@ function SessionRefreshModal({ visible, isLoading, login, logout }) {
 }
 
 class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.checkTokenStatus = this.checkTokenStatus.bind(this);
-    this.getLoginUrls = this.getLoginUrls.bind(this);
-    this.getLogoutUrl = this.getLogoutUrl.bind(this);
-    this.getVerifyUrl = this.getVerifyUrl.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
-    this.setMyToken = this.setMyToken.bind(this);
-  }
 
   componentDidMount() {
     if (sessionStorage.userToken) {
@@ -89,25 +78,25 @@ class Main extends React.Component {
     this.unbindNavbarLinks();
   }
 
-  getVerifyUrl() {
+  getVerifyUrl = () => {
     const { currentlyLoggedIn, verifyUrl } = this.props.login;
     if (currentlyLoggedIn && !verifyUrl) {
       this.verifyUrlRequest = getVerifyUrl(this.props.updateVerifyUrl);
     }
   }
 
-  setMyToken(event) {
+  setMyToken = (event) => {
     if (event.data === sessionStorage.userToken) {
       this.props.getUserData();
       this.getLogoutUrl();
     }
   }
 
-  getLoginUrls() {
+  getLoginUrls = () => {
     this.loginUrlRequest = this.props.getLoginUrls();
   }
 
-  getLogoutUrl() {
+  getLogoutUrl = () => {
     this.logoutUrlRequest = fetch(`${environment.API_URL}/v0/sessions`, {
       method: 'DELETE',
       headers: new Headers({
@@ -140,7 +129,7 @@ class Main extends React.Component {
     });
   }
 
-  handleLogout() {
+  handleLogout = () => {
     window.dataLayer.push({ event: 'logout-link-clicked' });
     const myLogoutUrl = this.props.login.logoutUrl;
     if (myLogoutUrl) {
@@ -150,7 +139,7 @@ class Main extends React.Component {
     }
   }
 
-  handleSignup() {
+  handleSignup = () => {
     window.dataLayer.push({ event: 'register-link-clicked' });
     const myLoginUrl = this.props.login.loginUrls.idme;
     if (myLoginUrl) {
@@ -160,11 +149,11 @@ class Main extends React.Component {
     }
   }
 
-  handleLogin(loginUrl = 'idme') {
+  handleLogin = (loginUrl = 'idme') => {
     this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.updateLogInUrls);
   }
 
-  checkTokenStatus() {
+  checkTokenStatus = () => {
     if (sessionStorage.userToken) {
       if (this.props.getUserData()) this.props.updateLoggedInStatus(true);
     } else {
