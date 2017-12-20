@@ -31,7 +31,7 @@ The amount of time it takes to review your application depends on:
 - How much information you provided in your application, **and**
 - Whether you provided your (or your sponsor's) DD214 or other separation documents along with your application
 
-**Note:** For more information, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application—don't apply again.
+**Note:** For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
 <br>
 
