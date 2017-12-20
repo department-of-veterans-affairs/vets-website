@@ -39,9 +39,9 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 
 - [Check to see if you're eligible for VA education benefits](/education/eligibility/).
 - Gather the documents and information listed below that you’ll need to apply for education benefits.
-- See what benefits you’ll get at the school you want to attend.
+- See what benefits you’ll get at the school you want to attend.<br/>
  [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program.
+- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program.<br/>
  [Get help with your benefits](/disability-benefits/apply/help/index.html).
 
 <div markdown="0"><br></div>
@@ -68,13 +68,13 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 Yes. You can also apply:
 
 #### In person
-Go to a VA regional office and have a VA employee help you.
+Go to a VA regional office and have a VA employee help you.<br/>
 [Find a VA regional benefit office near you](/facilities).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 #### By mail
-Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>), to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school.
+Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>), to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school.<br/>
 [See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 </div>
