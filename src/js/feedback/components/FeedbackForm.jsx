@@ -28,11 +28,7 @@ class FeedbackForm extends React.Component {
 
   sendFeedback = (event) => {
     event.preventDefault();
-    this.props.sendFeedback({
-      description: this.props.description,
-      email: this.props.email,
-      shouldSendResponse: this.props.shouldSendResponse
-    });
+    this.props.sendFeedback(this.props.formValues);
   }
 
   descriptionErrorMessage = () => {

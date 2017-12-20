@@ -11,7 +11,7 @@ function Main(props) {
   let content = null;
 
   if (props.feedbackReceived) {
-    content = <FeedbackSubmitted shouldSendResponse={props.shouldSendResponse}/>;
+    content = <FeedbackSubmitted shouldSendResponse={props.formValues.shouldSendResponse}/>;
   } else if (props.formIsVisible) {
     content = <FeedbackForm {...props}/>;
   } else {
