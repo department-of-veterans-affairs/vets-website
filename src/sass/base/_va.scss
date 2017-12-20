@@ -51,6 +51,11 @@ body .row.full {
   float: left;
 }
 
+// Remove from print view, incidentally removes from screen readers as well
+.no-print-no-sr {
+  display: none !important;
+}
+
 // Abbr
 
 abbr {
