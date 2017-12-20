@@ -299,7 +299,7 @@ class GuidancePage extends React.Component {
                 <div itemProp="text">
                   <p>The Board reviews nearly all applications within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
                   <p>If your application is successful, the Board will direct your service personnel office to issue you either a DD215, which contains updates to the DD214, or an entirely new DD214. If you get a new DD214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
-                  <p>If your appeal results in raising your discharge to honorable, you'll be immediately eligible for all VA benefits and services. For now, you may still apply for VA eligibility by <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">requesting a Character of Discharge review</a>.</p>
+                  <p>If your appeal results in raising your discharge to honorable, you'll immediately be considered an eligible Veteran to VA, and you can apply for VA benefits and services. For now, you may still apply for VA eligibility by <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">requesting a Character of Discharge review</a>.</p>
                 </div>
               </div>
             </li>
