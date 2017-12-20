@@ -66,11 +66,11 @@ It depends. We process claims in the order we receive them, unless a claim requi
 
 -------------
 
-#### If I start my pension application, does VA consider this "intent to file"?
+### If I start my pension application, does VA consider this "intent to file"?
 
 No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date (the day you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from your effective date). 
 
-#### How do I submit an intent to file form?
+### How do I submit an intent to file form?
 
 Download, fill out, and submit an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966). [Download VA Form 21-0966](https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf).
 
