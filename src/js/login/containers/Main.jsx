@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
-import moment from 'moment';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
@@ -27,11 +26,6 @@ class Main extends React.Component {
       this.setMyToken(evt);
     });
     this.bindNavbarLinks();
-
-    if (this.props.renderType === 'navComponent') {
-      this.refreshInterval = window.setInterval(this.checkTokenExpiration, this.props.sessionExpirationIntervalSeconds * 1000);
-    }
-
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
@@ -144,21 +138,6 @@ class Main extends React.Component {
     }
   }
 
-  checkTokenExpiration = () => {
-    // If the profile request is pending; the user is not logged-in; or the session refresh modal is already shown,
-    // we can exit this function right away.
-    if (this.props.profile.loading ||
-      !this.props.login.currentlyLoggedIn ||
-      this.props.login.showSessionRefreshModal) return;
-
-    const now = moment();
-    const entryTime = sessionStorage.entryTime;
-    const expiresSoon = now.isAfter(moment(entryTime).add(this.props.sessionExpiresAfterMinutes - 10, 'm'));
-    if (!expiresSoon) return;
-
-    this.props.updateSessionExpiresSoon(true);
-  }
-
   handleCloseModal = () => {
     this.props.toggleLoginModal(false);
     window.dataLayer.push({ event: 'login-modal-closed' });
@@ -204,10 +183,14 @@ class Main extends React.Component {
               {this.renderModalContent()}
             </Modal>
             <SessionRefreshModal
+              updateSessionExpiresSoon={this.props.updateSessionExpiresSoon}
+              login={this.props.login}
+              profile={this.props.profile}
               visible={this.props.login.showSessionRefreshModal}
-              login={this.handleLogin}
               sessionExpiresAfterMinutes={this.props.sessionExpiresAfterMinutes}
-              logout={this.handleLogout}/>
+              sessionExpirationIntervalSeconds={this.props.sessionExpirationIntervalSeconds}
+              handleLogin={this.handleLogin}
+              handleLogout={this.handleLogout}/>
           </div>
         );
       }
