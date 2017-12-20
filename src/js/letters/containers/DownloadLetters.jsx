@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import findIndex from 'lodash/fp/findIndex';
 
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
 import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
 
 import StepHeader from '../components/StepHeader';

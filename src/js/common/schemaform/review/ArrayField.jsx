@@ -7,7 +7,7 @@ import {
   getDefaultFormState
 } from 'react-jsonschema-form/lib/utils';
 
-import SchemaForm from '../SchemaForm';
+import SchemaForm from '../components/SchemaForm';
 
 import { focusElement } from '../../utils/helpers';
 

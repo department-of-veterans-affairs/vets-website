@@ -13,14 +13,14 @@ const initialState = {
   '8_prevApplication': null, // 5
   '9_prevApplicationYear': null, // 5a
   '10_prevApplicationType': null, // 5b
-  '11_failureToExhaust': null, // 5b
+  '11_failureToExhaust': null, // 5c
   '12_priorService': null, // 6
   questions: ['1_branchOfService'], // represents valid question progression
 };
 
 function nextQuestion(currentQuestion, answer, state) {
   let next;
-  const noGeneralCourtMartial = state['7_courtMartial'] === '2';
+  const noGeneralCourtMartial = ['2', '3'].includes(state['7_courtMartial']);
   const dischargeYear = state['2_dischargeYear'];
   const dischargeMonth = state['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
@@ -89,7 +89,12 @@ function nextQuestion(currentQuestion, answer, state) {
         next = 'END';
       } else if (answer === '3' && noGeneralCourtMartial && !oldDischarge && commonChanges) {
         next = '11_failureToExhaust';
-      } else if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
+      } else {
+        next = 'END';
+      }
+      break;
+    case '11_failureToExhaust':
+      if (state['4_reason'] !== '5' && state['5_dischargeType'] !== '1') {
         next = '12_priorService';
       } else {
         next = 'END';

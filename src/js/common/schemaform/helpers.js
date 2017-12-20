@@ -1,14 +1,14 @@
 import _ from 'lodash/fp';
 import ReviewPage from './review/ReviewPage';
-import FormPage from './FormPage';
+import FormPage from './containers/FormPage';
 import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
 import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
 import { getInactivePages, getActivePages } from '../utils/helpers';
-import FormSaved from './FormSaved';
-import SaveInProgressErrorPage from './SaveInProgressErrorPage';
+import FormSaved from './save-in-progress/FormSaved';
+import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
