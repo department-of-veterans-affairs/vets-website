@@ -14,7 +14,41 @@ import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
-function SessionRefreshModal({ visible, isLoading, login, logout }) {
+function SessionRefreshModal({ sessionExpiresAfterMinutes, visible, login, logout }) {
+  const now = moment();
+  const isExpired =  now.isAfter(moment(window.sessionStorage.entryTime).add(sessionExpiresAfterMinutes, 'm'));
+  let title = null;
+  let content = null;
+
+  if (isExpired) {
+    title = 'Your Vets.gov session has expired';
+    content = (
+      <div>
+        <p>To protect your privacy and security, your session has expired after an hour of inactivity.</p>
+        <button type="button" className="usa-button-primary" onClick={() => document.location.reload()}>Return to Vets.gov</button>
+      </div>
+    );
+  } else {
+    title = 'Your Vets.gov session is expiring';
+    content = (
+      <div>
+        <p>To protect your privacy and security, your session is expiring and you will be automatically signed out within 10 minutes. Would you like to stay signed in?</p>
+        <button type="button"
+          className="usa-button-primary"
+          onClick={(event) => {
+            event.preventDefault();
+            return login();
+          }}>Stay signed in</button>
+        <button type="button"
+          className="usa-button-secondary"
+          onClick={(event) => {
+            event.preventDefault();
+            return logout();
+          }}>Sign out now</button>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Modal
@@ -23,12 +57,8 @@ function SessionRefreshModal({ visible, isLoading, login, logout }) {
         onClose={() => {}}
         visible={visible}
         focusSelector="button"
-        title="Your session on Vets.gov will expire soon.">
-        <div>
-          <p>For security reasons, your session is expiring and you will be automatically signed out. Would like to stay signed in?</p>
-          <button type="button" disabled={isLoading} className="usa-button-primary" onClick={login}>Stay signed in</button>
-          <button type="button" disabled={isLoading} className="usa-button-secondary" onClick={logout}>Sign out now</button>
-        </div>
+        title={title}>
+        {content}
       </Modal>
     </div>
   );
@@ -155,7 +185,9 @@ class Main extends React.Component {
 
   checkTokenStatus = () => {
     if (sessionStorage.userToken) {
-      if (this.props.getUserData()) this.props.updateLoggedInStatus(true);
+      if (this.props.getUserData()) {
+        this.props.updateLoggedInStatus(true);
+      }
     } else {
       this.props.updateLoggedInStatus(false);
     }
@@ -168,8 +200,9 @@ class Main extends React.Component {
       !this.props.login.currentlyLoggedIn ||
       this.props.login.showSessionRefreshModal) return;
 
-    const entryTime = moment(sessionStorage.entryTime);
-    const expiresSoon = moment() > entryTime.add(this.props.sessionExpiresAfterMinutes, 'm');
+    const now = moment();
+    const entryTime = sessionStorage.entryTime;
+    const expiresSoon = now.isAfter(moment(entryTime).add(this.props.sessionExpiresAfterMinutes - 10, 'm'));
     if (!expiresSoon) return;
 
     this.props.updateSessionExpiresSoon(true);
@@ -222,8 +255,8 @@ class Main extends React.Component {
             <SessionRefreshModal
               visible={this.props.login.showSessionRefreshModal}
               login={this.handleLogin}
-              logout={this.handleLogout}
-              isLoading={this.props.login.loading}/>
+              sessionExpiresAfterMinutes={this.props.sessionExpiresAfterMinutes}
+              logout={this.handleLogout}/>
           </div>
         );
       }
@@ -290,7 +323,7 @@ Main.propTypes = {
 };
 
 Main.defaultProps = {
-  sessionExpiresAfterMinutes: 45,
+  sessionExpiresAfterMinutes: 60,
   sessionExpirationIntervalSeconds: 10
 };
 
