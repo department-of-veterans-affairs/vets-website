@@ -4,21 +4,26 @@ import { board, venueAddress, branchOfService } from '../utils';
 
 class RequestDD214 extends React.Component {
   componentDidMount() {
-    if (localStorage.getItem('dw-viewed-guidance')) {
-      localStorage.removeItem('dw-viewed-guidance');
-    } else {
+    if (!localStorage.getItem('dw-viewed-guidance')) {
       this.props.router.push('/');
     }
   }
 
+  componentWillUnmount() {
+    localStorage.removeItem('dw-formValues');
+    localStorage.removeItem('dw-viewed-guidance');
+  }
+
   render() {
+    const formValues = JSON.parse(localStorage.getItem('dw-formValues'));
+
     return (
       <div>
         <h1>Your Steps for Getting a DD214 for Your Honorable Period of Service</h1>
         <div className="medium-8">
           <div className="va-introtext">
             <p>
-              To receive a second DD214 reflecting <strong>only</strong> your period of honorable service, you'll need to complete Department of Defense (DoD) Form 149 and send it to the {board(this.props.formValues, true).abbr}—<strong>do not</strong> send it to the Discharge Review Board (DRB)] for the {branchOfService(this.props.formValues['1_branchOfService'])}.
+              To receive a second DD214 reflecting <strong>only</strong> your period of honorable service, you'll need to complete Department of Defense (DoD) Form 149 and send it to the {board(formValues, true).name}—<strong>do not</strong> send it to the Discharge Review Board (DRB)] for the {branchOfService(formValues['1_branchOfService'])}.
             </p>
           </div>
           <ul className="vertical-list-group more-bottom-cushion numbered">
@@ -34,11 +39,11 @@ class RequestDD214 extends React.Component {
             </li>
             <li className="list-group-item">
               <h4>Mail your completed form</h4>
-              <p>There are a number of different boards that handle discharge upgrades and corrections. Because you want a new DD214, which is seen as a correction of your military record, you'll need to apply to the {board(this.props.formValues, true).abbr} for the {branchOfService(this.props.formValues['1_branchOfService'])}.</p>
+              <p>There are a number of different boards that handle discharge upgrades and corrections. Because you want a new DD214, which is seen as a correction of your military record, you'll need to apply to the {board(formValues, true).abbr} for the {branchOfService(formValues['1_branchOfService'])}.</p>
               <p>Unfortunately, there isn’t a way to submit this form online.</p>
-              <p>Mail your completed form and all supporting materials to the {board(this.props.formValues, true).abbr} at:</p>
+              <p>Mail your completed form and all supporting materials to the {board(formValues, true).abbr} at:</p>
               <p>
-                {venueAddress(this.props.formValues, true)}
+                {venueAddress(formValues, true)}
               </p>
             </li>
           </ul>

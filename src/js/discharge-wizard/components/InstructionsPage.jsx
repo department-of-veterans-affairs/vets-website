@@ -23,7 +23,7 @@ class InstructionsPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="dw-instructions">
         <h1>Get Instructions for Upgrading Your Discharge</h1>
         <main itemScope itemType="http://schema.org/FAQPage">
           <div className="row">
@@ -43,7 +43,7 @@ class InstructionsPage extends React.Component {
                           <li>Mental health conditions, including posttraumatic stress disorder (PTSD)</li>
                           <li>Traumatic brain injury (TBI)</li>
                           <li>Sexual assault or harassment during military service</li>
-                          <li>Sexual orientation (including under the Don't Ask Don't Tell policy)</li>
+                          <li>Sexual orientation (including under the Don't Ask, Don't Tell policy)</li>
                         </ul>
                         <p>
                           The information you enter on the next page is completely confidential.
@@ -99,7 +99,7 @@ class InstructionsPage extends React.Component {
                             <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq3" itemProp="name" aria-expanded={!!this.state.q4} onClick={this.handleFAQToggle} name="q4">What if I served honorably, but didn't receive discharge paperwork?</button>
                             <div id="dbq3" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q4}>
                               <div itemProp="text">
-                                <p>You're eligible for VA benefits even if you didn’t receive a discharge in the form of a DD214 at the end of an honorable period of service. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive an "honorable" DD214 at the end of your second period of service. If you completed a period of honorable service that's not reflected on a DD214, make sure you specifically mention this period of service when you apply for VA benefits. We may do a Character of Discharge review to confirm your eligibility.</p>
+                                <p>You're eligible for VA benefits at the end of an honorable period of service, even if you didn’t receive a discharge in the form of a DD214. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive an "honorable" DD214 at the end of your second period of service. If you completed a period of honorable service that's not reflected on a DD214, make sure you specifically mention this period of service when you apply for VA benefits. We may do a Character of Discharge review to confirm your eligibility.</p>
                                 <p>You can also apply to the Department of Defense (DoD) or the Coast Guard for a second DD214 only for that honorable period of service. Click <strong>Get Started</strong> above and answer the questions based on your most recent discharge. When you're asked if you completed a period of service in which your character of service was honorable or general under honorable conditions, select: "Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period."</p>
                               </div>
                             </div>
@@ -108,7 +108,7 @@ class InstructionsPage extends React.Component {
                             <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq5" itemProp="name" aria-expanded={!!this.state.q5} onClick={this.handleFAQToggle} name="q5">What if I have a DD215 showing an upgraded discharge, but my DD214 still isn't correct?</button>
                             <div id="dbq5" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q5}>
                               <div itemProp="text">
-                                <p>When the Department of Defense (DoD) or the Coast Guard upgrades a Veteran’s discharge, it issues a DD215 showing corrections to the DD214. The DoD or the Coast Guard attaches the DD215 to the old DD214—which still shows the outdated discharge and related information. While the discharge on the DD215 is the correct discharge, a Veteran may still want a new DD214 that shows no record of their earlier characterization of discharge.</p>
+                                <p>When the Department of Defense (DoD) or the Coast Guard upgrades a Veteran’s discharge, it usually issues a DD215 showing corrections to the DD214. The DoD or the Coast Guard attaches the DD215 to the old DD214—which still shows the outdated discharge and related information. While the discharge on the DD215 is the correct discharge, a Veteran may still want a new DD214 that shows no record of their earlier characterization of discharge.</p>
                                 <p>If you have a DD215 and want an updated DD214, click the <strong>Get Started</strong> button above. On the next page select, "I received a discharge upgrade or correction, but my upgrade came in the form of a DD215, and I want an updated DD214." After you've answered all the questions, you'll see instructions for how to request a new DD214.</p>
                               </div>
                             </div>

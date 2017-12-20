@@ -21,12 +21,10 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('.usa-accordion-bordered', Timeouts.normal)
       .click('.usa-accordion-bordered .usa-button-unstyled')
-      .pause(1200);
-    client.expect.element('.edit-btn').to.be.visible;
+      .waitForElementVisible('.edit-btn', Timeouts.normal);
 
     // Try to save form with validation errors
     client
-      .waitForElementVisible('.edit-btn', Timeouts.normal)
       .click('.edit-btn');
     client.expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
 
