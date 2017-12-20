@@ -158,6 +158,21 @@
   white-space: nowrap;
 }
 
+#session-refresh-modal {
+  .va-modal-title {
+    display: block;
+    color: $color-gray-dark;
+  }
+  .va-modal-inner {
+    max-width: 55rem;
+    width: 55vw;
+    .va-modal-body {
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+  }
+}
+
 button.va-modal-close {
   background-color: inherit;
   color: $color-va-modal-close;

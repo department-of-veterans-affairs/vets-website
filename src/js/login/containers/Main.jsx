@@ -14,6 +14,26 @@ import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
+function SessionRefreshModal({ visible, isLoading, login, logout }) {
+  return (
+    <div>
+      <Modal
+        id="session-refresh-modal"
+        hideCloseButton
+        onClose={() => {}}
+        visible={visible}
+        focusSelector="button"
+        title="Your session on Vets.gov will expire soon.">
+        <div>
+          <p>For security reasons, your session is expiring and you will be automatically signed out. Would like to stay signed in?</p>
+          <button type="button" disabled={isLoading} className="usa-button-primary" onClick={login}>Stay signed in</button>
+          <button type="button" disabled={isLoading} className="usa-button-secondary" onClick={logout}>Sign out now</button>
+        </div>
+      </Modal>
+    </div>
+  );
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +59,7 @@ class Main extends React.Component {
     this.bindNavbarLinks();
 
     if (this.props.renderType === 'navComponent') {
-      this.refreshInterval = window.setInterval(this.checkTokenExpiration, 10000);
+      this.refreshInterval = window.setInterval(this.checkTokenExpiration, this.props.sessionExpirationIntervalSeconds * 1000);
     }
 
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
@@ -160,15 +180,10 @@ class Main extends React.Component {
       this.props.login.showSessionRefreshModal) return;
 
     const entryTime = moment(sessionStorage.entryTime);
-    const expiresSoon = moment() > entryTime.add(this.props.sessionRefreshIntervalMinutes, 'm');
+    const expiresSoon = moment() > entryTime.add(this.props.sessionExpiresAfterMinutes, 'm');
     if (!expiresSoon) return;
 
-    if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-      // this.handleLogin();
-      this.props.updateSessionExpiresSoon(true);
-    } else {
-      this.handleLogout();
-    }
+    this.props.updateSessionExpiresSoon(true);
   }
 
   handleCloseModal = () => {
@@ -215,6 +230,11 @@ class Main extends React.Component {
               title="Sign in to Vets.gov">
               {this.renderModalContent()}
             </Modal>
+            <SessionRefreshModal
+              visible={this.props.login.showSessionRefreshModal}
+              login={this.handleLogin}
+              logout={this.handleLogout}
+              isLoading={this.props.login.loading}/>
           </div>
         );
       }
@@ -276,10 +296,13 @@ Main.propTypes = {
     'verifyPage',
   ]).isRequired,
   shouldRedirect: PropTypes.bool,
+  sessionExpiresAfterMinutes: PropTypes.number,
+  sessionExpirationIntervalSeconds: PropTypes.number,
 };
 
 Main.defaultProps = {
-  sessionRefreshIntervalMinutes: 45
+  sessionExpiresAfterMinutes: 45,
+  sessionExpirationIntervalSeconds: 10
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

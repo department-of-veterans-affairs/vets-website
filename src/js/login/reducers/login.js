@@ -40,8 +40,10 @@ function closeAllMenus(menuState) {
 
 function loginStuff(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_LOGGEDIN_STATUS:
-      return _.set('currentlyLoggedIn', action.value, state);
+    case UPDATE_LOGGEDIN_STATUS: {
+      const result = _.set('currentlyLoggedIn', action.value, state);
+      return _.set('showSessionRefreshModal', false, result);
+    }
     case FETCH_LOGIN_URLS_FAILED:
       return _.set('loginUrlsError', true, state);
     case UPDATE_LOGIN_URLS:
