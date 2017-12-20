@@ -39,6 +39,8 @@ class FormQuestions extends React.Component {
       duration: 1000,
       smooth: true,
     });
+
+    (this[e.target.name].querySelector('input') || this[e.target.name].querySelector('select')).focus();
   }
 
   renderQuestion(name, label, options) {
