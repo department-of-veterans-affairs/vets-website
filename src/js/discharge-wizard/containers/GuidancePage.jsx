@@ -17,6 +17,7 @@ class GuidancePage extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     localStorage.setItem('dw-viewed-guidance', true);
+    localStorage.setItem('dw-formValues', JSON.stringify(this.props.formValues));
 
     if (sessionStorage.getItem('dw-session-started')) {
       sessionStorage.removeItem('dw-session-started');
