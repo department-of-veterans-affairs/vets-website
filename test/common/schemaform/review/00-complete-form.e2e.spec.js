@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Close panel
     client.expect.element('.edit-btn').to.be.visible;
     client
-      .pause(1200)
+      .waitForElementVisible('button.usa-button-unstyled', Timeouts.normal)
       .click('button.usa-button-unstyled');
 
     client.expect.element('.edit-btn').to.not.be.present;
@@ -62,10 +62,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client
       .click('.usa-button-primary.null')
-      .pause(1000);
-
-    client
-      .expect.element('.usa-input-error').to.be.visible;
+      .waitForElementVisible('.usa-input-error', Timeouts.normal);
 
     // Fix validation errors and save successfully
     client
