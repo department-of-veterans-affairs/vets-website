@@ -140,6 +140,12 @@ describe('lodash replacements', () => {
 
       const newObj = _.set('b.c', 'd', o);
       expect(newObj.b.c).to.equal('d');
+      // Expect everything else to be deeply equal
+      Object.keys(o).forEach(key => {
+        if (key !== 'b') {
+          expect(o[key]).to.eql(newObj[key]);
+        }
+      });
     });
 
     it('should create nested objects as needed', () => {
