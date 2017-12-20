@@ -7,6 +7,9 @@ export const labels = {
 };
 
 export const venueWarning = 'You answered that you weren\'t sure where you applied for an upgrade before. The instructions below are for Veterans who have never applied for a discharge upgrade, so your process may be different. For more reliable information on your discharge upgrade process, please review your records to find out which board you sent your earlier application to, and complete the questions again.';
+
+export const upgradeVenueWarning = 'You answered that you weren\'t sure where you applied for an upgrade before. The instructions below are for Veterans who had a successful upgrade application reviewed by the [branch of service] Discharge Review Board (DRB). For more reliable information, please review your records to find out which board you sent your earlier application to, and complete the questions again.';
+
 /* eslint-disable quote-props */
 export const questionLabels = {
   '4_reason': {

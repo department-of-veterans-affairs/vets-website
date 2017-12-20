@@ -5,7 +5,7 @@ import moment from 'moment';
 import AlertBox from '../../common/components/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
 import { branchOfService, board, formData, venueAddress } from '../utils';
-import { venueWarning } from '../config';
+import { venueWarning, upgradeVenueWarning } from '../config';
 
 class GuidancePage extends React.Component {
   constructor(props) {
@@ -365,6 +365,28 @@ class GuidancePage extends React.Component {
     );
   }
 
+  renderVenueWarnings() {
+    const { formValues } = this.props;
+    const prevAppType = formValues['10_prevApplicationType'];
+    const reason = formValues['4_reason'];
+    const dischargeYear = formValues['2_dischargeYear'];
+    const dischargeMonth = formValues['3_dischargeMonth'] || 1;
+    const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
+
+    return (
+      <div>
+        <AlertBox
+          content={venueWarning}
+          isVisible={prevAppType === '4' && reason !== '8'}
+          status="warning"/>
+        <AlertBox
+          content={upgradeVenueWarning}
+          isVisible={prevAppType === '4' && reason === '8' && !oldDischarge}
+          status="warning"/>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="dw-instructions">
@@ -376,10 +398,7 @@ class GuidancePage extends React.Component {
             </p>
           </div>
           <CarefulConsiderationStatement formValues={this.props.formValues}/>
-          <AlertBox
-            content={venueWarning}
-            isVisible={this.props.formValues['10_prevApplicationType'] === '4'}
-            status="warning"/>
+          {this.renderVenueWarnings()}
           {this.renderDischargeWarning()}
           {this.renderApplicationWarning()}
           {this.renderOptionalStep()}
