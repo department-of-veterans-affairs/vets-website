@@ -23,7 +23,7 @@ class InstructionsPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="dw-instructions">
         <h1>Get Instructions for Upgrading Your Discharge</h1>
         <main itemScope itemType="http://schema.org/FAQPage">
           <div className="row">

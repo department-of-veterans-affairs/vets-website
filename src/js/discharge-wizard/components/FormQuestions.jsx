@@ -331,7 +331,7 @@ class FormQuestions extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="dw-questions">
         {this.renderQuestionOne()}
         {this.renderQuestionTwo()}
         {this.renderQuestionTwoB()}
