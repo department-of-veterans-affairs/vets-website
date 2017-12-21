@@ -126,6 +126,17 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-7" itemprop="name">
+                      I live overseas. Can I use my international address and phone number to verify my identity?
+                    </button>
+                    <div id="faq-vetsgov-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p><strong>If you’re signing in through your ID.me account</strong>, you’ll need to use your most recent official stateside address and phone number (the information that will match records like your credit history)—even if it’s not your current contact information.</p>
+                        <p><strong>If you have a DS Logon premium account</strong>, you can sign in using those credentials and you won't need to verify your identity.</p>
+                      </div>
+                    </div>
+                  </li>
                 </ul>
                 <br/><br/>
                 <a name="what-is-idme"></a>
