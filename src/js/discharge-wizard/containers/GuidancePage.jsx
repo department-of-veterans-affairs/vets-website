@@ -262,7 +262,7 @@ class GuidancePage extends React.Component {
     } else if (reasonCode === '5' || this.props.formValues['6_intention'] === '1') {
       boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because you want to change information other than your characterization of discharge, re-enlistment code, separation code, and narrative reason for discharge.`;
     } else if (boardToSubmit.abbr === 'DRB') {
-      boardExplanation = `the Discharge Review Board (DRB) for the ${branchOfService(this.props.formValues['1_branchOfService'])}. ${prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review. The DRB is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time period, you must apply to a different board.' : ''}`;
+      boardExplanation = `the Discharge Review Board (DRB) for the ${branchOfService(this.props.formValues['1_branchOfService'])}. The DRB is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time period, you must apply to a different board. ${prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''}`;
     }
 
     if (boardToSubmit.abbr === 'DRB' && this.props.formValues['1_branchOfService'] === 'army') {
