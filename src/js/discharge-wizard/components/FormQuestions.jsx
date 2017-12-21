@@ -280,10 +280,8 @@ class FormQuestions extends React.Component {
 
   renderQuestionSix() {
     const key = '12_priorService';
-    const transgender = this.props.formValues['4_reason'] === '5';
-    const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
 
-    if (transgender || honorableDischarge || !shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
@@ -318,7 +316,7 @@ class FormQuestions extends React.Component {
               return (reviewLabel && shouldShowQuestion(k, this.props.formValues.questions) &&
                 <tr key={k}>
                   <td><p>{reviewLabel}</p></td>
-                  <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  <td><a href="#" onClick={this.handleScrollTo} name={k} aria-label={reviewLabel}>Edit</a></td>
                 </tr>
               );
             })}
