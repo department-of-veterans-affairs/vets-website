@@ -21,6 +21,7 @@ export default function createEducationApplicationStatus(store) {
             applyRender={() => (
               <div>
                 <h3>How do I apply online?</h3>
+                <p>Just answer a few questions so we can point you to the education benefits form that's right for you.</p>
                 <EducationWizard/>
               </div>
             )}/>

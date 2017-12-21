@@ -73,7 +73,7 @@ export default class EducationWizard extends React.Component {
           aria-controls="wizardOptions"
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}>
-          Select Correct Form
+          Get Started Toward Your Form
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
