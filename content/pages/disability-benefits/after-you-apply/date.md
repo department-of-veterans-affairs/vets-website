@@ -21,7 +21,7 @@ relatedlinks:
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability-benefits/apply/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
-      description: "You might be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
+      description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
 ---
 
 <div class="va-introtext">
