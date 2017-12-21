@@ -15,7 +15,6 @@ class GuidancePage extends React.Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0);
     localStorage.setItem('dw-viewed-guidance', true);
     localStorage.setItem('dw-formValues', JSON.stringify(this.props.formValues));
 
@@ -24,8 +23,9 @@ class GuidancePage extends React.Component {
     } else {
       this.props.router.push('/');
     }
-
     this.downloadFormBtn.focus();
+
+    window.scrollTo(0, 0);
   }
 
   handleFAQToggle = (e) => {
