@@ -25,6 +25,8 @@ function nextQuestion(currentQuestion, answer, state) {
   const dischargeMonth = state['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
   const commonChanges = state['6_intention'] === '2';
+  const transgender = state['4_reason'] === '5';
+  const honorableDischarge = state['5_dischargeType'] === '1';
 
   switch (currentQuestion) {
     case '1_branchOfService':
@@ -89,6 +91,8 @@ function nextQuestion(currentQuestion, answer, state) {
         next = 'END';
       } else if (answer === '3' && noGeneralCourtMartial && !oldDischarge && commonChanges) {
         next = '11_failureToExhaust';
+      } else if (!transgender && !honorableDischarge) {
+        next = '12_priorService';
       } else {
         next = 'END';
       }

@@ -13,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('.discharge-wizard', Timeouts.slow)
       // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-      .axeCheck('.main', { rules: ['section508'] });
+      .axeCheck('.main');
 
     // questions page
     client
@@ -39,13 +39,13 @@ module.exports = E2eHelpers.createE2eTest(
 
     client
       .waitForElementVisible('.review-answers', Timeouts.normal)
-      .axeCheck('.main', { rules: ['section508'] })
+      .axeCheck('.main')
       .click('a.usa-button-primary');
     // results page
     client
       .click('a.usa-button-primary')
       .waitForElementVisible('.dw-instructions', Timeouts.normal)
-      .axeCheck('.main', { rules: ['section508'] });
+      .axeCheck('.main');
 
     client.end();
   });
