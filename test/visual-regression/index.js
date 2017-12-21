@@ -89,7 +89,6 @@ function beginApplication(browser) {
 
       // Tell Nighwatch we're finished.
       .then(done);
-    // .catch(err => console.log(err.stack));
   });
 }
 
