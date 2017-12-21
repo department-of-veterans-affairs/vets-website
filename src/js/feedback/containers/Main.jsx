@@ -12,15 +12,17 @@ function Main(props) {
 
   if (props.feedbackReceived) {
     content = <FeedbackSubmitted shouldSendResponse={props.formValues.shouldSendResponse}/>;
-  } else if (props.formIsVisible) {
-    content = <FeedbackForm {...props}/>;
   } else {
-    content = <DefaultView revealForm={props.revealForm}/>;
+    content = (
+      <div>
+        <DefaultView {...props}/>
+        <FeedbackForm {...props}/>
+      </div>
+    );
   }
 
   return (
     <div className="feedback-widget">
-      <a className="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
       <div className="row">{content}</div>
     </div>
   );

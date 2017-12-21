@@ -28,7 +28,7 @@ class FeedbackForm extends React.Component {
 
   sendFeedback = (event) => {
     event.preventDefault();
-    this.props.sendFeedback(this.props.formValues);
+    if (this.props.formIsSubmittable) this.props.sendFeedback(this.props.formValues);
   }
 
   descriptionErrorMessage = () => {
@@ -41,17 +41,48 @@ class FeedbackForm extends React.Component {
 
   render() {
     return (
-      <form className="feedback-form" onSubmit={this.sendFeedback}>
+      <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback} aria-hidden={!this.props.formIsVisible}>
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <div className="va-flex">
-          <div className="feedback-widget-description-container">
-            <ErrorableTextarea
-              label="What can we do to make Vets.gov better?"
-              name="description"
-              onValueChange={this.setDescription}
-              errorMessage={this.descriptionErrorMessage()}
-              field={{ value: this.props.formValues.description, dirty: false }}
-              required/>
+          <div className="feedback-widget-form-container">
+            <div className="feedback-widget-desc-container">
+              <ErrorableTextarea
+                label="What can we do to make Vets.gov better?"
+                name="description"
+                onValueChange={this.setDescription}
+                errorMessage={this.descriptionErrorMessage()}
+                field={{ value: this.props.formValues.description, dirty: false }}
+                required/>
+            </div>
+            <ErrorableCheckbox
+              name="should-send-response"
+              label="I would like to receive a response about my feedback."
+              checked={this.props.formValues.shouldSendResponse}
+              onValueChange={(shouldSendResponse) => this.props.setFormValues({ shouldSendResponse })}/>
+            <div className="usa-grid-full">
+              <div className="usa-width-two-thirds">
+                {this.props.formValues.shouldSendResponse && (
+                  <div className="feedback-email-container">
+                    <ErrorableTextInput
+                      label="Your email address"
+                      name="email"
+                      type="email"
+                      field={{ value: this.props.formValues.email, dirty: false }}
+                      onValueChange={this.setEmail}
+                      errorMessage={this.emailErrorMessage()}
+                      required/>
+                  </div>
+                )}
+                <div className="feedback-submit-container">
+                  <button
+                    type="submit"
+                    disabled={this.props.requestPending || !this.props.formIsSubmittable}
+                    className="usa-button-primary usa-width-one-whole feedback-submit-button">
+                    {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
@@ -60,35 +91,6 @@ class FeedbackForm extends React.Component {
               <a href="tel:18555747286">1-855-574-7286</a><br/>
               TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
               Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)
-            </div>
-          </div>
-        </div>
-        <ErrorableCheckbox
-          name="should-send-response"
-          label="I would like to receive a response about my feedback."
-          checked={this.props.formValues.shouldSendResponse}
-          onValueChange={(shouldSendResponse) => this.props.setFormValues({ shouldSendResponse })}/>
-        <div className="usa-grid-full">
-          <div className="usa-width-one-third">
-            {this.props.formValues.shouldSendResponse && (
-              <div className="feedback-email-container">
-                <ErrorableTextInput
-                  label="Your email address"
-                  name="email"
-                  type="email"
-                  field={{ value: this.props.formValues.email, dirty: false }}
-                  onValueChange={this.setEmail}
-                  errorMessage={this.emailErrorMessage()}
-                  required/>
-              </div>
-            )}
-            <div className="feedback-submit-container">
-              <button
-                type="submit"
-                disabled={this.props.requestPending || !this.props.formIsSubmittable}
-                className="usa-button-primary usa-width-one-whole feedback-submit-button">
-                {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
-              </button>
             </div>
           </div>
         </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function DefaultView({ revealForm }) {
+function DefaultView({ revealForm, formIsVisible }) {
   return (
-    <div className="usa-grid-full">
+    <div  id="feedback-initial" className="usa-grid-full" aria-hidden={formIsVisible}>
       <div className="usa-width-one-half">
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <p className="feedback-widget-intro">
@@ -11,7 +11,7 @@ function DefaultView({ revealForm }) {
         </p>
       </div>
       <div className="usa-width-one-half">
-        <button onClick={revealForm} className="usa-button-secondary feedback-button">Give us feedback</button>
+        <button id="feedback-tool" onClick={revealForm} className="usa-button-secondary feedback-button">Give us feedback</button>
       </div>
     </div>
   );
