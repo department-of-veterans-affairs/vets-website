@@ -14,16 +14,16 @@ relatedlinks:
       description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
-      description: Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional.
+      description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/help/
       title: Get Help Filing a Claim
-      description: "Need help filing a disability claim? An accredited representative with a Veterans Service Organization can help."
+      description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Pre-discharge Claim
-      description: "If you have a disability and you’re currently in pre-discharge status, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
+      description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability-benefits/after-you-apply/date/
       title: Effective Date of Disability 
-      description: "Learn how VA decides the date your disability benefits will start."
+      description: "Learn how VA decides the date you can start getting your disability benefits."
 ---
 
 <div class="va-introtext">
