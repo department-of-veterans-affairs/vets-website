@@ -16,18 +16,16 @@ const defaultProps = {
   revealForm() {},
   requestPending: false,
   feedbackReceived: false,
-  shouldSendResponse: false,
   sendFeedback() {},
   clearError() {},
-  errorMessage: null
+  errorMessage: null,
+  formIsSubmittable: true
 };
 
 describe('<Main/>', () => {
 
   it('should render with DefaultView', () => {
     const wrapper = enzyme.shallow(<Main {...defaultProps}/>);
-    const text = wrapper.text();
-    expect(text.includes('Give feedback on this page')).to.be.true;
     expect(wrapper.find(DefaultView)).to.have.lengthOf(1);
   });
 

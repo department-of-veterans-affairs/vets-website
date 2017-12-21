@@ -13,7 +13,8 @@ const defaultProps = {
   clearError() {},
   setFormValues() {},
   errorMessage: null,
-  requestPending: null
+  requestPending: null,
+  formIsSubmittable: true
 };
 
 describe('<FeedbackForm/>', () => {
