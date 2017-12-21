@@ -21,11 +21,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled')
       .click('.edit-btn')
       .fill('input[name="root_veteranFullName_first"]', 'Jane')
-      .pause(1200);
-
-    // auto save form
-    client
-      .expect.element('.saved-success-container').to.be.visible;
+      .waitForElementVisible('.saved-success-container', Timeouts.normal);
 
     // save and finish a form later
     client
