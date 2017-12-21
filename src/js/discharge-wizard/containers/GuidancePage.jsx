@@ -23,7 +23,11 @@ class GuidancePage extends React.Component {
     } else {
       this.props.router.push('/');
     }
-    this.downloadFormBtn.focus();
+
+    const el = document.getElementById('dw-home-link');
+    if (el) {
+      el.focus();
+    }
 
     window.scrollTo(0, 0);
   }
