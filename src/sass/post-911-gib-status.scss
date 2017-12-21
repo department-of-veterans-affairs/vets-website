@@ -82,7 +82,19 @@
     }
 
     @media print {
+      font: $font-serif;
+      color: $color-gray-dark;
       padding: 0;
+      a {
+        text-decoration: none;
+        &:after {
+          content:" (https://vets.gov" attr(href) ")";
+        }
+      }
+
+      button {
+        display: none;
+      }
     }
   }
 }

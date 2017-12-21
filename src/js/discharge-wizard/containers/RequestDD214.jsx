@@ -23,7 +23,7 @@ class RequestDD214 extends React.Component {
         <div className="medium-8">
           <div className="va-introtext">
             <p>
-              To receive a second DD214 reflecting <strong>only</strong> your period of honorable service, you'll need to complete Department of Defense (DoD) Form 149 and send it to the {board(formValues, true).name}—<strong>do not</strong> send it to the Discharge Review Board (DRB)] for the {branchOfService(formValues['1_branchOfService'])}.
+              To receive a second DD214 reflecting <strong>only</strong> your period of honorable service, you'll need to complete Department of Defense (DoD) Form 149 and send it to the {board(formValues, true).name}—<strong>do not</strong> send it to the Discharge Review Board (DRB) for the {branchOfService(formValues['1_branchOfService'])}.
             </p>
           </div>
           <ul className="vertical-list-group more-bottom-cushion numbered">

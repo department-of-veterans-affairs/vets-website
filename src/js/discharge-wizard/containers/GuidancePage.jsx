@@ -15,7 +15,6 @@ class GuidancePage extends React.Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0);
     localStorage.setItem('dw-viewed-guidance', true);
     localStorage.setItem('dw-formValues', JSON.stringify(this.props.formValues));
 
@@ -24,6 +23,13 @@ class GuidancePage extends React.Component {
     } else {
       this.props.router.push('/');
     }
+
+    const el = document.getElementById('dw-home-link');
+    if (el) {
+      el.focus();
+    }
+
+    window.scrollTo(0, 0);
   }
 
   handleFAQToggle = (e) => {
@@ -140,7 +146,7 @@ class GuidancePage extends React.Component {
             Important tips for completing Form {form.num}:
           </p>
           {this.props.formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
-          <a target="_blank" href={form.link} className="usa-button-primary va-button">Download Form {form.num}</a>
+          <a target="_blank" href={form.link} className="usa-button-primary va-button" ref={(el) => { this.downloadFormBtn = el; }}>Download Form {form.num}</a>
           <AlertBox
             content={<div>
               <h4 className="usa-alert-heading">Need help preparing your application?</h4>
@@ -195,7 +201,7 @@ class GuidancePage extends React.Component {
           <ul>
             <li><strong>Military Record</strong>: In most cases, your records will be important to the Board's decision. The Board may not have easy access to your military records, especially if you served many years ago, so we strongly recommend you submit any relevant documents yourself. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to help you collect evidence if you can demonstrate you made a reasonable attempt to get your records but you didn't succeed.</span> : null} {militaryRecordInfo} {specificTypeInstruction && <p>Remember, you should try to prove that {specificTypeInstruction}. Submit any documents from this record that help support your case for a discharge upgrade.</p>}</li>
             {this.renderMedicalRecordInfo()}
-            <li><strong>"Buddy Statements" or Other References From Service</strong>: On top of military records, some Veterans attach statements from friends they knew while in the service, or other individuals with direct knowledge of their time in the military. The content of the letter is more important than who it comes from, as long as their opinion is credible and they know you well. The writer should state how they learned about the facts or opinions they're writing about. The letter may include statements about your achievements in the military, positive relationships you formed in the military, why they think your discharge was unjust or incorrect, and your good deeds during that time.</li>
+            <li><strong>"Buddy Statements" or Other References From Service</strong>: On top of military records, you can attach statements from friends or colleagues you knew while in the service, or other individuals with direct knowledge of your time in the military. The content of the letter is more important than who it comes from, as long as the writer's opinion is credible and they know you well. The writer should state how they learned about the facts or opinions they're writing about. The letters may include statements about your achievements in the military, positive relationships you formed in the military, why your discharge may be unjust or incorrect, and your good deeds during that time.</li>
             <li><strong>Testaments of Achievements Since Service</strong>: You may decide to add information about what you have achieved in your life since your discharge, particularly if your discharge involved any issues related to drugs, alcohol, or bad behavior. This can be in the form of a letter from an employer or community leader, evidence of successful drug treatment, or copies of certificates and degrees. DoD will soon release more specific information about achievements since service, but, for now, add any acheivements you would like to call out.</li>
           </ul>
         </div>
@@ -262,7 +268,7 @@ class GuidancePage extends React.Component {
     } else if (reasonCode === '5' || this.props.formValues['6_intention'] === '1') {
       boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(this.props.formValues['1_branchOfService'])}. This is because you want to change information other than your characterization of discharge, re-enlistment code, separation code, and narrative reason for discharge.`;
     } else if (boardToSubmit.abbr === 'DRB') {
-      boardExplanation = `the Discharge Review Board (DRB) for the ${branchOfService(this.props.formValues['1_branchOfService'])}. ${prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review. The DRB is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time period, you must apply to a different board.' : ''}`;
+      boardExplanation = `the Discharge Review Board (DRB) for the ${branchOfService(this.props.formValues['1_branchOfService'])}. The DRB is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time period, you must apply to a different board. ${prevAppType === '1' ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.' : ''}`;
     }
 
     if (boardToSubmit.abbr === 'DRB' && this.props.formValues['1_branchOfService'] === 'army') {
@@ -276,7 +282,7 @@ class GuidancePage extends React.Component {
         <div>
           <h4>Mail your completed form and all supporting materials</h4>
           <p>There are a number of different boards that handle discharge upgrades and corrections. Based on your answers on the previous page, you need to apply to {boardExplanation}</p>
-          {prevAppYear === '1' ? <p>Because your last application was made before the release of DoD guidance related to discharges like yours, DoD will effectively consider your application as a new application. Your previous application may be consulted for evidence, but usual rules about how to appeal previous decisions do not apply.</p> : null}
+          {prevAppYear === '1' && ['BCNR', 'BCMR'].includes(board(this.props.formValues).abbr) ? <p>Your last application was made before the release of DoD guidance related to discharges like yours. As a result, the Board may treat your application as a new case. If possible, review the new policies and state in your application how the change in policy is relevant to your case.</p> : null}
           <p>
             Mail your completed form and all supporting documents to the {boardToSubmit.abbr} at:
           </p>
@@ -299,7 +305,7 @@ class GuidancePage extends React.Component {
                 <div itemProp="text">
                   <p>The Board reviews nearly all applications within 18 months. You can continue to submit supporting documentation until the Board has reviewed your application.</p>
                   <p>If your application is successful, the Board will direct your service personnel office to issue you either a DD215, which contains updates to the DD214, or an entirely new DD214. If you get a new DD214, <a target="_blank" href="https://www.dpris.dod.mil/veteranaccess.html">request a copy</a>.</p>
-                  <p>If your appeal results in raising your discharge to honorable, you'll be immediately eligible for all VA benefits and services. For now, you may still apply for VA eligibility by <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">requesting a Character of Discharge review</a>.</p>
+                  <p>If your appeal results in raising your discharge to honorable, you'll immediately be considered an eligible Veteran to VA, and you can apply for VA benefits and services. For now, you may still apply for VA eligibility by <a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">requesting a Character of Discharge review</a>.</p>
                 </div>
               </div>
             </li>
