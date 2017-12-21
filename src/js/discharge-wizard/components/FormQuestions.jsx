@@ -318,7 +318,7 @@ class FormQuestions extends React.Component {
               return (reviewLabel && shouldShowQuestion(k, this.props.formValues.questions) &&
                 <tr key={k}>
                   <td><p>{reviewLabel}</p></td>
-                  <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  <td><a href="#" onClick={this.handleScrollTo} name={k} aria-label={reviewLabel}>Edit</a></td>
                 </tr>
               );
             })}
