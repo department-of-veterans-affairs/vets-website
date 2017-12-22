@@ -24,49 +24,47 @@ import {
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
-  SAVE_ADDRESS_SUCCESS
+  SAVE_ADDRESS_SUCCESS,
+  INVALID_ADDRESS_PROPERTY
 } from '../utils/constants';
 
-export function getLetterList(dispatch) {
-  return apiRequest(
-    '/v0/letters',
-    null,
-    response => dispatch({
-      type: GET_LETTERS_SUCCESS,
-      data: response,
-    }),
-    (response) => {
-      window.dataLayer.push({ event: 'letter-list-failure' });
-      if (typeof response.errors === 'undefined' || response.errors.length === 0) {
-        return Promise.reject(new Error('vets_letters_error_server_get: undefined error'));
+export function getLetterList() {
+  return (dispatch) => {
+    return apiRequest(
+      '/v0/letters',
+      null,
+      response => dispatch({
+        type: GET_LETTERS_SUCCESS,
+        data: response,
+      }),
+      (response) => {
+        window.dataLayer.push({ event: 'letter-list-failure' });
+        const status = (response.errors && response.errors.length)
+          ? response.errors[0].status
+          : 'unknown';
+        Raven.captureException(new Error(`vets_letters_error_getLetterList: ${status}`));
+        switch (status) {
+          case '403':
+            // Backend authentication problem
+            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+          case '422':
+            // User has an invalid address for his or her letters
+            return dispatch({ type: INVALID_ADDRESS_PROPERTY });
+          case '502':
+            // Some of the partner services are down, so we cannot verify the
+            // eligibility of some letters
+            return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+          case '503': // fall-through to 504
+          case '504':
+            // Either EVSS or a partner service is down or EVSS times out
+            return dispatch({ type: BACKEND_SERVICE_ERROR });
+          default:
+            return dispatch({ type: GET_LETTERS_FAILURE });
+        }
       }
-      const error = response.errors[0];
-      switch (error.status) {
-        case '503': // Handled same as 504
-        case '504':
-          // Either EVSS or a partner service is down or EVSS times out
-          return dispatch({ type: BACKEND_SERVICE_ERROR });
-        case '403':
-          // Backend authentication problem
-          return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-        case '502':
-          // Some of the partner services are down, so we cannot verify the
-          // eligibility of some letters
-          return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-        default:
-          return Promise.reject(
-            new Error(`vets_letters_error_server_get: ${error.status || 'unknown'}`)
-          );
-      }
-    }
-  ).catch((error) => {
-    if (error.message.match('vets_letters_error_server_get')) {
-      dispatch({ type: GET_LETTERS_FAILURE });
-    }
-    throw error;
-  });
+    );
+  };
 }
-
 
 export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
