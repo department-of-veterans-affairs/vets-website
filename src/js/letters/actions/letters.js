@@ -257,7 +257,13 @@ export function saveAddress(address) {
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
-      () => dispatch(saveAddressFailure())
+      (response) => {
+        const status = (response.errors && response.errors.length)
+          ? response.errors[0].status
+          : 'unknown';
+        Raven.captureException(new Error(`vets_letters_error_saveAddress: ${status}`));
+        return dispatch(saveAddressFailure());
+      }
     );
   };
 }
