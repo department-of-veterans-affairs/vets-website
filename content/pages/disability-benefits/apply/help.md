@@ -27,9 +27,9 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help filing a disability claim, you may want to work with an accredited representative, often called a Veterans Service Officer (VSO). VSOs may work for Veterans Service Organizations, as well as for local government offices. Beyond disability claims, VSOs can help you understand insurance, education, vocational rehabilitation and employment, home loans, life insurance, pension, health care, and burial benefits. We trust these professionals because they’re trained in the claims process and can help you with VA-related needs.
+If you need help filing a disability claim, you may want to work with an accredited Veterans Service Officer (VSO), claims agent, or attorney. These accredited representatives are trained and certified to help you. VSOs may work for Veterans Service Organizations, as well as for local government offices. In addition to helping with claims, VSOs can help you understand insurance, education, vocational rehabilitation and employment, home loans, life insurance, pension, health care, and burial benefits. We trust these professionals because they’re trained in the claims process and can help you with VA-related needs.
 
-VSOs also advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. 
+Veterans Service Organizations also advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. They may also provide additional resources to Veterans, such as helping with transportation to medical appointments or emergency funds.
 
 </div>
 
@@ -96,7 +96,7 @@ Generally, no individual or organization may charge you a fee to help you file y
 You can find an accredited representative in 1 of 2 ways:
 
 1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
-2. Use the VA Office of General Counsel’s list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](https://www.va.gov/ogc/accreditation.asp).
+2. Use the VA Office of General Counsel’s list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](www.va.gov/ogc/apps/accreditation/index.asp).
 
 </div>
 </div>
