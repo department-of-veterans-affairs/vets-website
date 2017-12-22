@@ -267,11 +267,17 @@ export function getAddressCountries() {
     return apiRequest(
       '/v0/address/countries',
       null,
-      response => dispatch({
+      (response) => dispatch({
         type: GET_ADDRESS_COUNTRIES_SUCCESS,
         countries: response,
       }),
-      () => dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE })
+      (response) => {
+        const status = (response.errors && response.errors.length)
+          ? response.errors[0].status
+          : 'unknown';
+        Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
+        return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
+      }
     );
   };
 }
@@ -281,11 +287,17 @@ export function getAddressStates() {
     return apiRequest(
       '/v0/address/states',
       null,
-      response => dispatch({
+      (response) => dispatch({
         type: GET_ADDRESS_STATES_SUCCESS,
         states: response,
       }),
-      () => dispatch({ type: GET_ADDRESS_STATES_FAILURE })
+      (response) => {
+        const status = (response.errors && response.errors.length)
+          ? response.errors[0].status
+          : 'unknown';
+        Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
+        return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
+      }
     );
   };
 }
