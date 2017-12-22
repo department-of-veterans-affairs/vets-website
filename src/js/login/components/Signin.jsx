@@ -66,7 +66,7 @@ class Signin extends React.Component {
           </div>
           <div className="row hide-for-medium-up mobile-explanation">
             <div className="columns small-12">
-              <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
+              <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
           <div className="row">
