@@ -398,3 +398,9 @@ export const toGenericAddress = (address) => {
   delete genericAddress.militaryStateCode;
   return genericAddress;
 };
+
+export const getStatus = (response) => {
+  return (response.errors && response.errors.length)
+    ? response.errors[0].status
+    : 'unknown';
+};

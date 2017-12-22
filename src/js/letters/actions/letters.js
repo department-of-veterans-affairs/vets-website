@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
-import { apiRequest, stripEmpties, toGenericAddress } from '../utils/helpers.jsx';
+import { apiRequest, stripEmpties, toGenericAddress, getStatus } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -33,15 +33,13 @@ export function getLetterList() {
     return apiRequest(
       '/v0/letters',
       null,
-      response => dispatch({
+      (response) => dispatch({
         type: GET_LETTERS_SUCCESS,
         data: response,
       }),
       (response) => {
         window.dataLayer.push({ event: 'letter-list-failure' });
-        const status = (response.errors && response.errors.length)
-          ? response.errors[0].status
-          : 'unknown';
+        const status = getStatus(response);
         Raven.captureException(new Error(`vets_letters_error_getLetterList: ${status}`));
         switch (status) {
           case '403':
@@ -70,14 +68,14 @@ export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
     '/v0/letters/beneficiary',
     null,
-    response => dispatch({
+    (response) => dispatch({
       type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
       data: response,
     }),
-    () => {
-      dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
-      // Is there a prize for the longest error name?
-      throw new Error('vets_letters_get_benefit_summary_options_failure');
+    (response) => {
+      const status = getStatus(response);
+      Raven.captureException(new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`));
+      return dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
     }
   );
 }
@@ -89,7 +87,7 @@ export function getLetterListAndBSLOptions() {
     return getLetterList(dispatch)
       // Maybe shouldn't try to get BSO options if we get an error or we don't get a BSL...
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch(error => {
+      .catch((error) => {
         Raven.captureException(error);
       });
   };
@@ -116,9 +114,7 @@ export function getMailingAddress() {
         });
       },
       (response) => {
-        const status = (response.errors && response.errors.length)
-          ? response.errors[0].status
-          : 'unknown';
+        const status = getStatus(response);
         Raven.captureException(new Error(`vets_letters_error_getMailingAddress: ${status}`));
         return dispatch(getAddressFailure());
       }
@@ -195,7 +191,11 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
         window.URL.revokeObjectURL(downloadUrl);
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      () => dispatch(getLetterPdfFailure(letterType))
+      (response) => {
+        const status = getStatus(response);
+        Raven.captureException(new Error(`vets_letters_error_getLetterPdf_${letterType}: ${status}`));
+        return dispatch(getLetterPdfFailure(letterType));
+      }
     );
   };
 }
@@ -258,9 +258,7 @@ export function saveAddress(address) {
         return dispatch(saveAddressSuccess(responseAddress));
       },
       (response) => {
-        const status = (response.errors && response.errors.length)
-          ? response.errors[0].status
-          : 'unknown';
+        const status = getStatus(response);
         Raven.captureException(new Error(`vets_letters_error_saveAddress: ${status}`));
         return dispatch(saveAddressFailure());
       }
@@ -278,9 +276,7 @@ export function getAddressCountries() {
         countries: response,
       }),
       (response) => {
-        const status = (response.errors && response.errors.length)
-          ? response.errors[0].status
-          : 'unknown';
+        const status = getStatus(response);
         Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
       }
@@ -298,9 +294,7 @@ export function getAddressStates() {
         states: response,
       }),
       (response) => {
-        const status = (response.errors && response.errors.length)
-          ? response.errors[0].status
-          : 'unknown';
+        const status = getStatus(response);
         Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
       }
