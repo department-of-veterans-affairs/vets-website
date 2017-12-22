@@ -106,7 +106,6 @@ export function getMailingAddress() {
     return apiRequest(
       '/v0/address',
       null,
-      // on fetch success
       (response) => {
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
@@ -116,8 +115,13 @@ export function getMailingAddress() {
           data: responseCopy
         });
       },
-      // catch errors in fetch or success handler
-      () => dispatch(getAddressFailure())
+      (response) => {
+        const status = (response.errors && response.errors.length)
+          ? response.errors[0].status
+          : 'unknown';
+        Raven.captureException(new Error(`vets_letters_error_getMailingAddress: ${status}`));
+        return dispatch(getAddressFailure());
+      }
     );
   };
 }

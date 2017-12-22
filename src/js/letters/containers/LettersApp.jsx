@@ -1,4 +1,5 @@
 import React from 'react';
+import Raven from 'raven-js';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
@@ -16,6 +17,7 @@ export function AppContent({ children, isDataAvailable }) {
         If you think you should be able to access this information, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
       </h4>
     );
+    Raven.captureException(new Error('vets_letters_user_unregistered'));
   } else {
     view = children;
   }
