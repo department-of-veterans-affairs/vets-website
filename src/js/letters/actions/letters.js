@@ -28,41 +28,38 @@ import {
   INVALID_ADDRESS_PROPERTY
 } from '../utils/constants';
 
-export function getLetterList() {
-  return (dispatch) => {
-    return apiRequest(
-      '/v0/letters',
-      null,
-      (response) => dispatch({
-        type: GET_LETTERS_SUCCESS,
-        data: response,
-      }),
-      (response) => {
-        window.dataLayer.push({ event: 'letter-list-failure' });
-        const status = getStatus(response);
-        Raven.captureException(new Error(`vets_letters_error_getLetterList: ${status}`));
-        switch (status) {
-          case '403':
-            // Backend authentication problem
-            return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-          case '422':
-            // User has an invalid address for his or her letters
-            return dispatch({ type: INVALID_ADDRESS_PROPERTY });
-          case '502':
-            // Some of the partner services are down, so we cannot verify the
-            // eligibility of some letters
-            return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-          case '503': // fall-through to 504
-          case '504':
-            // Either EVSS or a partner service is down or EVSS times out
-            return dispatch({ type: BACKEND_SERVICE_ERROR });
-          default:
-            return dispatch({ type: GET_LETTERS_FAILURE });
-        }
+export function getLetterList(dispatch) {
+  return apiRequest(
+    '/v0/letters',
+    null,
+    response => dispatch({
+      type: GET_LETTERS_SUCCESS,
+      data: response,
+    }),
+    (response) => {
+      window.dataLayer.push({ event: 'letter-list-failure' });
+      const status = getStatus(response);
+      if (status === '403') {
+        // Backend authentication problem
+        dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+      } else if (status === '422') {
+        // User has an invalid address for his or her letters
+        dispatch({ type: INVALID_ADDRESS_PROPERTY });
+      } else if (status === '502') {
+        // Some of the partner services are down, so we cannot verify the
+        // eligibility of some letters
+        dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+      } else if (status === '503' || status === '504') {
+        // Either EVSS or a partner service is down or EVSS times out
+        dispatch({ type: BACKEND_SERVICE_ERROR });
+      } else {
+        dispatch({ type: GET_LETTERS_FAILURE });
       }
-    );
-  };
+      throw new Error(`vets_letters_error_getLetterList: ${status}`);
+    }
+  );
 }
+
 
 export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
@@ -73,9 +70,9 @@ export function getBenefitSummaryOptions(dispatch) {
       data: response,
     }),
     (response) => {
+      dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
       const status = getStatus(response);
-      Raven.captureException(new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`));
-      return dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
+      throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
     }
   );
 }
@@ -85,11 +82,8 @@ export function getBenefitSummaryOptions(dispatch) {
 export function getLetterListAndBSLOptions() {
   return (dispatch) => {
     return getLetterList(dispatch)
-      // Maybe shouldn't try to get BSO options if we get an error or we don't get a BSL...
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch((error) => {
-        Raven.captureException(error);
-      });
+      .catch((error) => Raven.captureException(error));
   };
 }
 
