@@ -60,7 +60,6 @@ export function getLetterList(dispatch) {
   );
 }
 
-
 export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
     '/v0/letters/beneficiary',
@@ -77,7 +76,6 @@ export function getBenefitSummaryOptions(dispatch) {
   );
 }
 
-
 // Call getLetterList then getBenefitSummaryOptions
 export function getLetterListAndBSLOptions() {
   return (dispatch) => {
@@ -86,7 +84,6 @@ export function getLetterListAndBSLOptions() {
       .catch((error) => Raven.captureException(error));
   };
 }
-
 
 export function getAddressFailure() {
   window.dataLayer.push({ event: 'letter-update-address-notfound' });
