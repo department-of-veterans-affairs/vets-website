@@ -35,29 +35,16 @@ export default class SaveInProgressIntro extends React.Component {
           </div>
         );
       } else if (prefillAvailable) {
-        if (this.props.formId === '21P-527EZ') {
-          alert = (
-            <div>
-              <div className="usa-alert usa-alert-info schemaform-sip-alert">
-                <div className="usa-alert-body">
-                  <strong>Note:</strong> If you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start your pension application to submit the form. After 60 days, the form won't be saved and you'll need to start over.
-                </div>
+        alert = (
+          <div>
+            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+              <div className="usa-alert-body">
+                <strong>Note:</strong> Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.
               </div>
-              <br/>
             </div>
-          );
-        } else {
-          alert = (
-            <div>
-              <div className="usa-alert usa-alert-info schemaform-sip-alert">
-                <div className="usa-alert-body">
-                  <strong>Note:</strong> Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.
-                </div>
-              </div>
-              <br/>
-            </div>
-          );
-        }
+            <br/>
+          </div>
+        );
       } else {
         alert = (
           <div>
@@ -71,17 +58,30 @@ export default class SaveInProgressIntro extends React.Component {
         );
       }
     } else if (prefillEnabled) {
-      alert = (
-        <div>
-          <div className="usa-alert usa-alert-info schemaform-sip-alert">
-            <div className="usa-alert-body">
-              <strong>Note:</strong> If you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.<br/>
-              <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
+      if (this.props.formId === '21P-527EZ') {
+        alert = (
+          <div>
+            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+              <div className="usa-alert-body">
+                <strong>Note:</strong> If you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start your pension application to submit the form. After 60 days, the form won't be saved and you'll need to start over.
+              </div>
             </div>
+            <br/>
           </div>
-          <br/>
-        </div>
-      );
+        );
+      } else {
+        alert = (
+          <div>
+            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+              <div className="usa-alert-body">
+                <strong>Note:</strong> If you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.<br/>
+                <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
+              </div>
+            </div>
+            <br/>
+          </div>
+        );
+      }
     } else {
       alert = (
         <div>
