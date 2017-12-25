@@ -320,7 +320,7 @@ smith.use(collections({
     pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Conditions Related to Service Era'
+      name: 'Concerns Related to Service Era'
     }
   },
   housing: {
