@@ -50,7 +50,7 @@ Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/
 
 #### Work with a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
+You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. [Get help filing your claim](/disability-benefits/apply/help/).
 
 #### Apply in person
 
