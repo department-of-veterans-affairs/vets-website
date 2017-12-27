@@ -28,12 +28,15 @@ export function setFormValues(formValues) {
 
 export function sendFeedback(formValues) {
   return (dispatch) => {
-    const { description, email: ownerEmail } = formValues;
+    const { description, shouldSendResponse, email: ownerEmail } = formValues;
     const targetPage = window.location.pathname;
+    const body = { description, targetPage };
+    if (shouldSendResponse) body.ownerEmail = ownerEmail;
+
     const settings = {
       headers: { 'Content-Type': 'application/json', Authorization: '' },
       method: 'post',
-      body: JSON.stringify({ ownerEmail, description, targetPage })
+      body: JSON.stringify(body)
     };
 
     dispatch({ type: SEND_FEEDBACK });
