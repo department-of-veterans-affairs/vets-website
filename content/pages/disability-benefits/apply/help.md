@@ -96,7 +96,7 @@ Generally, no individual or organization may charge you a fee to help you file y
 You can find an accredited representative or VSO in 1 of 2 ways:
 
 1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
-2. Use the VA Office of General Counsel’s list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](www.va.gov/ogc/apps/accreditation/index.asp).
+2. Use the VA Office of General Counsel’s list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [Search the VA Office of General Counsel list](www.va.gov/ogc/apps/accreditation/index.asp).
 
 </div>
 </div>
