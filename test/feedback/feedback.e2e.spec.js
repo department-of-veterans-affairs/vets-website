@@ -2,7 +2,6 @@ const mock = require('../e2e/mock-helpers');
 const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts');
 
-const pause = 500;
 const selectors = {
   root: '#feedback-root',
   revealFormButton: '.feedback-button',
@@ -19,12 +18,22 @@ function begin(browser) {
     .waitForElementVisible(selectors.root, Timeouts.slow)
     .axeCheck('document');
 
-  browser.click(selectors.revealFormButton).pause(pause);
-  browser.setValue(selectors.formDescription, 'This is my feedback').pause(pause);
-  browser.click(selectors.formShouldSendResponse).pause(pause);
-  browser.setValue(selectors.formEmail, 'test@adhocteam.us').pause(pause);
-  browser.click(selectors.formSubmit).pause(pause);
+  // Click the feedback button to reveal the form
+  browser.click(selectors.revealFormButton);
+  browser.waitForElementVisible(selectors.form, Timeouts.normal);
+
+  // Set actual feedback value
+  browser.setValue(selectors.formDescription, 'This is my feedback');
+
+  // Set the email value
+  browser.click(selectors.formShouldSendResponse);
+  browser.waitForElementPresent(selectors.formEmail, Timeouts.normal);
+  browser.setValue(selectors.formEmail, 'test@adhocteam.us');
+
+  // Click the submit button
+  browser.click(selectors.formSubmit);
   browser.waitForElementPresent(selectors.formSubmitted, Timeouts.normal);
+
   browser.end();
 }
 
