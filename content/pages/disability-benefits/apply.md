@@ -80,7 +80,7 @@ For all disability claims, please provide:
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
