@@ -31,7 +31,8 @@ describe('<Main/>', () => {
 
   it('should render FeedbackForm with correct props', () => {
     const sendFeedback = sinon.spy();
-    const overrides = { formIsVisible: true, sendFeedback };
+    const formValues = { description: 'test', email: 'test@test.com' };
+    const overrides = { formIsVisible: true, formValues, sendFeedback };
     const props = { ...defaultProps, ...overrides };
     const wrapper = enzyme.shallow(<Main {...props}/>);
     const feedbackFormWrapper = wrapper.find(FeedbackForm);
@@ -43,6 +44,9 @@ describe('<Main/>', () => {
 
     expect(sendFeedback.calledOnce).to.be.true;
     expect(event.preventDefault.calledOnce).to.be.true;
+
+    const calledWith = sendFeedback.args[0][0];
+    expect(calledWith).to.contain.all.keys('description', 'email');
   });
 
   it('should render FeedbackSubmitted', () => {

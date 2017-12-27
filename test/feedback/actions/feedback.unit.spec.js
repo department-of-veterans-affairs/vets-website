@@ -52,6 +52,12 @@ describe('sendFeedback', () => {
       expect(firstAction.type).to.equal(SEND_FEEDBACK);
       expect(secondAction.type).to.equal(FEEDBACK_RECEIVED);
 
+      const [url, settings] = fetch.args[0];
+      const payload = JSON.parse(settings.body);
+
+      expect(payload).to.contain.all.keys('ownerEmail', 'description', 'targetPage');
+      expect(url.endsWith('/feedback')).to.be.true;
+
     }).then(done, done);
   });
 
