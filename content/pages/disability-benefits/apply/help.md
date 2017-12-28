@@ -27,7 +27,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help filing a claim, you may want to work with an accredited Veterans Service Officer, claims agent, or attorney. We trust these professionals because they’re trained and certified in the claims process and can help you with VA-related needs. Veterans Service Officers may work for Veterans Service Organizations (both are called VSOs), as well as for local government offices. Veterans Service Organizations advocate on behalf of Veterans and Servicemembers—as well as their dependents and survivors. Find out more about accredited representatives and how they can help you.
+If you need help filing a claim, you may want to work with an accredited attorney, a claims agent, or a representative from a Veterans Service Organization (VSO). We trust these professionals because they’re trained and certified in the claims process and can help you with VA-related needs. VSOs advocate on behalf of Veterans and Servicemembers—as well as their dependents and survivors. Find out more about accredited representatives and how they can help you.
 
 </div>
 
@@ -70,6 +70,8 @@ These trained professionals can also:
 - Help you gather supporting documents (like a doctor’s report or medical test results)
 - File a claim on your behalf
 - Provide additional resources to Veterans, such as helping with transportation to medical appointments or emergency funds
+
+**Note:** Veterans Service Officers work for Veterans Service Organizations (both are called VSOs), as well as for local government offices. 
 
 </div>
 </div>
