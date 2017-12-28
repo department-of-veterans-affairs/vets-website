@@ -48,7 +48,7 @@ function nextQuestion(currentQuestion, answer, state) {
       } else if (answer === '8') {
         next = '10_prevApplicationType';
       } else if (answer === '5') {
-        next = '10_prevApplicationType';
+        next = '7_courtMartial';
       } else {
         next = '6_intention';
       }
