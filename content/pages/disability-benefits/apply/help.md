@@ -37,7 +37,7 @@ If you need help filing a claim, you may want to work with an accredited Veteran
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Accredited representatives need to:
+Accredited representatives and VSOs need to:
   - Pass an exam
   - Pass a background check
   - Take continuing-education courses to make sure they’re providing the most up-to-date information
@@ -77,7 +77,7 @@ These trained professionals can also:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">What does it cost to use an accredited representative?</h4>
+<h4 itemprop="name">What does it cost to use an accredited representative or VSO?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -92,7 +92,7 @@ In general, no individual or organization may charge you a fee to help you file 
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">How do I find an accredited representative?</h3>
+<h3 itemprop="name">How do I find an accredited representative or VSO?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -113,7 +113,7 @@ Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Rep
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can set up a VSO or other representative to work on your behalf in one of these ways:
+You can set up an accredited representative or VSO to work on your behalf in one of these ways:
 
 - Use eBenefits to let us know you’ll be working with a representative or to change your current representation.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). 
