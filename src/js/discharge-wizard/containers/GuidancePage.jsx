@@ -49,7 +49,7 @@ class GuidancePage extends React.Component {
   }
 
   renderResultSummary() {
-    const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3';
+    const forReconsideration = this.props.formValues['10_prevApplicationType'] === '3' && this.props.formValues['11_failureToExhaust'] !== '1';
     return `Based on your answers, you need to complete Department of Defense (DoD) Form ${formData(this.props.formValues).num} and send it to the ${board(this.props.formValues).name} for the ${branchOfService(this.props.formValues['1_branchOfService'])}${forReconsideration ? ' for reconsideration' : ''}`;
   }
 
