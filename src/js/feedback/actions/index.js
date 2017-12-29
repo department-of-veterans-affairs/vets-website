@@ -27,7 +27,7 @@ export function setFormValues(formValues) {
 function errorMessage(status) {
   switch (status) {
     case 429:
-      return 'We’re sorry. We can only accept up to five feedback submissions an hour for each user. We apologize for the inconvenience.'
+      return 'We’re sorry. We can only accept up to five feedback submissions an hour for each user. We apologize for the inconvenience.';
     default:
       return 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
   }
