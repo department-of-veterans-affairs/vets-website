@@ -27,7 +27,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help filing a claim, you may want to work with an accredited attorney, a claims agent, or a representative from a Veterans Service Organization (VSO). We trust these professionals because they’re trained and certified in the claims process and can help you with VA-related needs. VSOs advocate on behalf of Veterans and Servicemembers—as well as their dependents and survivors. Find out more about accredited representatives and how they can help you.
+If you need help filing a claim, you may want to work with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the claims process and can help you with VA-related needs. VSOs advocate on behalf of Veterans and Servicemembers—as well as their dependents and survivors. Find out more about accredited representatives and how they can help you.
 
 </div>
 
@@ -99,11 +99,11 @@ In general, no individual or organization may charge you a fee to help you file 
 <div itemprop="text">
 
 You can find an accredited representative or VSO in one of these ways:
-Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives
+
 - Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
 - Find VA-recognized organizations and VA-accredited individuals by name, city, state, or zip code through the VA Office of the General Counsel. <br>
-[Search the VA Office of the General Counsel list](https://www.va.gov/ogc/apps/accreditation/index.asp).
+[Search the VA Office of the General Counsel's list](https://www.va.gov/ogc/apps/accreditation/index.asp).
 
 </div>
 </div>
