@@ -269,7 +269,7 @@ smith.use(collections({
     }
   },
   educationToolsPrograms: {
-    pattern: '{education/tools-programs/*.md,employment/vocational-rehab-and-employment.md}',
+    pattern: 'education/tools-programs/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Career Counseling'
