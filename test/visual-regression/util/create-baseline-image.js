@@ -8,4 +8,3 @@ function createBaselineImage(browser, route) {
 }
 
 module.exports = createBaselineImage;
-//
