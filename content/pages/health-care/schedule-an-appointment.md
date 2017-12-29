@@ -31,7 +31,7 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 
 <div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	 <h4 usa-alert-title>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
 	    <ul>
@@ -95,7 +95,7 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
 - [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
 **Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
-[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp). 
+[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
 </div>
