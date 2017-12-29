@@ -33,7 +33,7 @@ If you need help filing a claim, you may want to work with an accredited attorne
 
 <div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What does it take to be an accredited representative or VSO?</h3>
+<h3 itemprop="name">What does it take to be an accredited representative or a VSO?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -50,7 +50,7 @@ Recognized organizations and individuals can legally represent a Veteran, Servic
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What does an accredited representative or VSO do?</h3>
+<h3 itemprop="name">What does an accredited representative or a VSO do?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -79,7 +79,7 @@ These trained professionals can also:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">What does it cost to use an accredited representative or VSO?</h4>
+<h4 itemprop="name">What does it cost to use an accredited representative or a VSO?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -94,11 +94,11 @@ In general, no individual or organization may charge you a fee to help you file 
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">How do I find an accredited representative or VSO?</h3>
+<h3 itemprop="name">How do I find an accredited representative or a VSO?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can find an accredited representative or VSO in one of these ways:
+You can find an accredited representative or a VSO in one of these ways:
 
 - Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
@@ -111,11 +111,11 @@ You can find an accredited representative or VSO in one of these ways:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">How do I set up a VSO or other accredited representative to work on my behalf?</h4>
+<h4 itemprop="name">How do I set up an accredited representative or a VSO to work on my behalf?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can set up an accredited representative or VSO to work on your behalf in one of these ways:
+You can set up an accredited representative or a VSO to work on your behalf in one of these ways:
 
 - Use eBenefits to let us know you’ll be working with a representative or to change your current representation.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). 
