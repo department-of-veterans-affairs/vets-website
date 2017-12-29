@@ -8,8 +8,6 @@ export const FEEDBACK_RECEIVED = 'FEEDBACK_RECEIVED';
 export const FEEDBACK_ERROR = 'FEEDBACK_ERROR';
 export const CLEAR_FEEDBACK_ERROR = 'CLEAR_FEEDBACK_ERROR';
 
-const errorMessage = 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
-
 export function revealForm() {
   return { type: REVEAL_FORM };
 }
@@ -24,6 +22,15 @@ export function setFormValues(formValues) {
     formValues,
     formErrors
   };
+}
+
+function errorMessage(status) {
+  switch (status) {
+    case 429:
+      return 'We’re sorry. We can only accept up to five feedback submissions an hour for each user. We apologize for the inconvenience.'
+    default:
+      return 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
+  }
 }
 
 export function sendFeedback(formValues) {
@@ -45,7 +52,7 @@ export function sendFeedback(formValues) {
       '/feedback',
       settings,
       () => dispatch({ type: FEEDBACK_RECEIVED }),
-      () => dispatch({ type: FEEDBACK_ERROR, message: errorMessage })
+      (error) => dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) })
     );
   };
 }
