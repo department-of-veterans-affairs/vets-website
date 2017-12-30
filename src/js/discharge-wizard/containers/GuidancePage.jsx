@@ -348,13 +348,13 @@ class GuidancePage extends React.Component {
         <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
         <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
         <li><a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">VA Guidance on Character of Discharge Reviews</a></li>
-        {branchOfService === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil">Army Review Boards Agency</a></li>}
-        {branchOfService === 'army' && board(this.props.formValues).abbr === 'DRB' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
-        {branchOfService === 'army' && board(this.props.formValues).abbr === 'BCMR' && <li><a target="_blank" href="http://arba.army.pentagon.mil/abcmr-overview.html">Army Board for Correction of Military Records</a></li>}
+        {serviceBranch === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil">Army Review Boards Agency</a></li>}
+        {serviceBranch === 'army' && board(this.props.formValues).abbr === 'DRB' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
+        {serviceBranch === 'army' && board(this.props.formValues).abbr === 'BCMR' && <li><a target="_blank" href="http://arba.army.pentagon.mil/abcmr-overview.html">Army Board for Correction of Military Records</a></li>}
         {['navy', 'marines'].includes(serviceBranch) && <li><a target="_blank" href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx">Naval Discharge Review Board</a></li>}
-        {branchOfService === 'airForce' && board(this.props.formValues).abbr === 'BCMR' && <li><a target="_blank" href="http://www.afpc.af.mil/Board-for-Correction-of-Military-Records/">Air Force Board for Correction of Military Records</a></li>}
-        {branchOfService === 'coastGuard' && board(this.props.formValues).abbr === 'BCMR' && <li><a target="_blank" href="https://www.uscg.mil/Resources/legal/BCMR/">Coast Guard Board for Correction of Military Records</a></li>}
-        {branchOfService === 'coastGuard' && board(this.props.formValues).abbr === 'DRB' && <li><a target="_blank" href="https://www.uscg.mil/Resources/Legal/DRB.aspx/">Coast Guard Discharge Review Board</a></li>}
+        {serviceBranch === 'airForce' && board(this.props.formValues).abbr === 'BCMR' && <li><a target="_blank" href="http://www.afpc.af.mil/Board-for-Correction-of-Military-Records/">Air Force Board for Correction of Military Records</a></li>}
+        {serviceBranch === 'coastGuard' && board(this.props.formValues).abbr === 'BCMR' && <li><a target="_blank" href="https://www.uscg.mil/Resources/legal/BCMR/">Coast Guard Board for Correction of Military Records</a></li>}
+        {serviceBranch === 'coastGuard' && board(this.props.formValues).abbr === 'DRB' && <li><a target="_blank" href="https://www.uscg.mil/Resources/Legal/DRB.aspx/">Coast Guard Discharge Review Board</a></li>}
       </ul>
     );
   }
