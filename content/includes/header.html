@@ -99,9 +99,9 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
 
 </head>
 <body class="{{ body_class }}">
-
-<a class="show-on-focus" href="#content">Skip to Content</a>
-
+  <div class="show-on-focus-wrapper">
+    <a class="show-on-focus" href="#content">Skip to Content</a>
+  </div>
 {% if !noHeader %}
   {% include "content/includes/top-nav.html" %}
 {% endif %}

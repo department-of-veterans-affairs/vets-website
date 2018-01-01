@@ -21,6 +21,10 @@ body {
 }
 
 // Skip link
+.show-on-focus-wrapper {
+  padding: 1em;
+}
+
 .show-on-focus {
   position: absolute;
   top: -10em;
