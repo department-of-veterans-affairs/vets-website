@@ -203,7 +203,7 @@ export class Main extends React.Component {
 
     const radioButtonProps = {
       name: 'dateRange',
-      label: '',
+      label: <h4 className="highlight">Select Date Range</h4>,
       options: [
         { label: 'Last 3 months', value: '3mo' },
         { label: 'Last 6 months', value: '6mo' },
@@ -273,7 +273,6 @@ export class Main extends React.Component {
 
     return (
       <div>
-        <h4 className="highlight">Select Date Range</h4>
         <ErrorableRadioButtons {...radioButtonProps}/>
       </div>
     );
@@ -312,15 +311,19 @@ export class Main extends React.Component {
           <form>
             {this.renderDateOptions()}
             <div>
-              <h4 className="highlight">Select Types of Information</h4>
-              <ErrorableCheckbox
-                name="all"
-                label="All available VA health records"
-                checked={allValuesChecked}
-                onValueChange={(checked) => {
-                  this.props.toggleAllReports(checked);
-                }}/>
-              {this.renderInformationTypes()}
+              <fieldset>
+                <legend>
+                  <h4 className="highlight">Select Types of Information</h4>
+                </legend>
+                <ErrorableCheckbox
+                  name="all"
+                  label="All available VA health records"
+                  checked={allValuesChecked}
+                  onValueChange={(checked) => {
+                    this.props.toggleAllReports(checked);
+                  }}/>
+                {this.renderInformationTypes()}
+              </fieldset>
             </div>
             <div className="form-actions">
               <button
