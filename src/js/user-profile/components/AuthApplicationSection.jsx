@@ -13,7 +13,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/health-care/apply/">Apply for health care</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
-          <p><a href="<p></discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>
+          <p><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>
           <p><a href="/health-care/prescriptions">Refill your prescription</a></p>
           <p><a href="/health-care/messaging">Message your health care team</a></p>
           <p><a href="/health-care/health-records">Get your VA health records</a></p>
