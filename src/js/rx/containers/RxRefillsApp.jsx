@@ -42,9 +42,7 @@ class RxRefillsApp extends React.Component {
       <RequiredLoginView
         authRequired={3}
         serviceRequired="rx"
-        userProfile={this.props.profile}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}>
+        userProfile={this.props.profile}>
         <RequiredTermsAcceptanceView
           termsName="mhvac"
           cancelPath="/health-care/"
@@ -82,9 +80,7 @@ const mapStateToProps = (state) => {
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    profile: userState.profile
   };
 };
 

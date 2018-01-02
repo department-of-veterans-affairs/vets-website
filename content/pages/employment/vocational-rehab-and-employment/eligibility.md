@@ -48,7 +48,7 @@ Your basic period of eligibility ends 12 years from the date you received notice
 
 You may be eligible for VR&amp;E benefits and services if you're a Servicemember who:
 
-- Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
+- Has a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
 **Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.

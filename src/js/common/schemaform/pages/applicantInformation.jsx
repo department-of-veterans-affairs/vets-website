@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import applicantDescription from '../ApplicantDescription';
+import applicantDescription from '../components/ApplicantDescription';
 
 import currentOrPastDateUI from '../definitions/currentOrPastDate';
 import fullNameUI from '../definitions/fullName';
