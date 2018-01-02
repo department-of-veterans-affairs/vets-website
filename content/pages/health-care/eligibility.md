@@ -169,7 +169,10 @@ You may want to consider finding someone to advocate on your behalf, depending o
 
 Note: You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
 
-**If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service,** you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
+**If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service,** you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade. Learn more about accessing VA health services for:<br/>
+[Mental health problems](/health-care/health-conditions/mental-health/)<br/>
+[PTSD](/health-care/health-conditions/mental-health/ptsd/)
+[Military sexual trauma](/health-care/health-conditions/military-sexual-trauma/)
 
 </div>
 </div>
