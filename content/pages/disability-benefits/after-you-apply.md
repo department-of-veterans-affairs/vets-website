@@ -33,7 +33,7 @@ Find out what happens to your claim after you apply for disability benefits.
 
 <div class="card information" markdown="0">
 <span class="number">99.4 days</span>
-<span class="description">Average number of days to complete disability-related claims in November 2017</span>
+<span class="description">Average number of days to complete disability-related claims in December 2017</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
