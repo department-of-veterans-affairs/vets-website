@@ -45,9 +45,8 @@ You should know:
   - Or, you can use VA’s Health Benefits Explorer to find out if any exceptions apply to you.<br/>
   [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
   - Or, you can visit healthcare.gov to find out if you qualify for health insurance.<br/>
-  [Go to healthcare.gov](https://www.healthcare.gov/).
-
-**Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/). 
+  [Go to healthcare.gov](https://www.healthcare.gov/). <br/>
+  **Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/). 
 
 <br>
 
@@ -162,10 +161,11 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade.<br/>
+If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.
+<br/>
 [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/).
 
-Even with a less than honorable discharge, you may be able to access some VA benefits through the Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge.
+But even with a less than honorable discharge and no discharge upgrade, you may be able to access some VA benefits through the Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge.
 
 You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you. Find a VSO near you.
 
