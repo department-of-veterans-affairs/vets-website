@@ -171,8 +171,8 @@ You may want to consider finding someone to advocate on your behalf, depending o
 
 **If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service,** you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade. Learn more about accessing VA health services for:<br/>
 - [Mental health problems](/health-care/health-conditions/mental-health/)
-- [PTSD](/health-care/health-conditions/mental-health/ptsd/)
-- [Military sexual trauma](/health-care/health-conditions/military-sexual-trauma/)
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
+- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 
 </div>
 </div>
