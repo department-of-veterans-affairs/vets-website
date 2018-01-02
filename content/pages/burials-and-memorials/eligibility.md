@@ -9,8 +9,8 @@ relatedlinks:
   - heading: 
     links:
     - url: /discharge-upgrade-instructions/
-      title: Get Instructions for Upgrading Your Discharge
-      description: Do you have a less than honorable discharge that you believe was unfair or unjust? Find out how to apply for a discharge upgrade.
+      title: How to Apply for a Discharge Upgrade
+      description: Do you have a less than honorable discharge that you believe was unfair or unjust? Find out how to apply for a discharge upgrade. If your application goes through, you may be able to get VA burial and memorial benefits.
 ---
 
 <div class="va-introtext">
