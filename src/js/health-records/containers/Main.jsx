@@ -203,7 +203,9 @@ export class Main extends React.Component {
 
     const radioButtonProps = {
       name: 'dateRange',
+      additionalFieldsetClass: 'health-record-fieldset',
       label: <h4 className="highlight">Select Date Range</h4>,
+      additionalLegendClass: 'legend-heading-wrapper',
       options: [
         { label: 'Last 3 months', value: '3mo' },
         { label: 'Last 6 months', value: '6mo' },
@@ -311,8 +313,8 @@ export class Main extends React.Component {
           <form>
             {this.renderDateOptions()}
             <div>
-              <fieldset>
-                <legend>
+              <fieldset className="fieldset-input health-record-fieldset">
+                <legend className="legend-label legend-heading-wrapper">
                   <h4 className="highlight">Select Types of Information</h4>
                 </legend>
                 <ErrorableCheckbox

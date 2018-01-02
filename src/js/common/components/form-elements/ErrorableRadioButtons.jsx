@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
@@ -127,10 +128,22 @@ class ErrorableRadioButtons extends React.Component {
       return output;
     });
 
+    const fieldsetClass = classNames({
+      'fieldset-input': true,
+      'usa-input-error': this.props.errorMessage,
+      [`${this.props.additionalFieldsetClass}`]: !!this.props.additionalFieldsetClass
+    });
+
+    const legendClass = classNames({
+      'legend-label': true,
+      'usa-input-error-label': this.props.errorMessage,
+      [`${this.props.additionalLegendClass}`]: !!this.props.additionalLegendClass
+    });
+
     return (
-      <fieldset className={this.props.errorMessage ? 'fieldset-input usa-input-error' : 'fieldset-input'}>
+      <fieldset className={fieldsetClass}>
         <legend
-          className={this.props.errorMessage ? 'legend-label usa-input-error-label' : 'legend-label'}>
+          className={legendClass}>
           {this.props.label}
           {requiredSpan}
         </legend>

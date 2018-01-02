@@ -1427,6 +1427,12 @@ p.info-message {
   width: 12px;
 }
 
+.legend-heading-wrapper {
+  max-width: 100%;
+  margin: 0.08em 0;
+  width: 100%;
+}
+
 .legend-label {
   display: block;
   margin-top: 3rem;
@@ -1439,6 +1445,9 @@ p.info-message {
 
 .fieldset-input {
   margin-top: 3rem;
+  .health-record-fieldset { //specificity used to override
+    margin-top: 1.5rem;
+  }
 }
 
 [itemprop=acceptedAnswer] {
