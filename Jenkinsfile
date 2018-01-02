@@ -4,6 +4,7 @@ def envNames = ['development', 'staging', 'production']
 
 def isReviewable = {
   env.BRANCH_NAME != 'production' &&
+    env.BRANCH_NAME != 'user_feedback_footer_form-I3445' &&
     env.BRANCH_NAME != 'master'
 }
 
@@ -11,6 +12,7 @@ env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
+    env.BRANCH_NAME == 'user_feedback_footer_form-I3445' ||
     env.BRANCH_NAME == 'production') &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
@@ -30,6 +32,7 @@ def buildDetails = { vars ->
 
 def notify = { message, color='good' ->
     if (env.BRANCH_NAME == 'master' ||
+        env.BRANCH_NAME == 'user_feedback_footer_form-I3445' ||
         env.BRANCH_NAME == 'production') {
         slackSend message: message,
                   color: color,
@@ -225,7 +228,8 @@ node('vetsgov-general-purpose') {
       }
 
       def targets = [
-        'master': [ 'dev', 'staging' ],
+        'master': [ 'staging' ],
+        'user_feedback_footer_form-I3445': [ 'dev' ],
         'production': [ 'prod' ],
       ][env.BRANCH_NAME]
 
