@@ -105,3 +105,5 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.end();
   });
+
+module.exports['@disabled'] = true;
