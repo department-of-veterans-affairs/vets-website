@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
-const logDataError = () => Raven.captureException(new Error('vets_letters_user_unregistered'));
+const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -12,7 +12,7 @@ export class AppContent extends React.Component {
   constructor(props) {
     super(props);
     if (props.isDataAvailable === false) {
-      logDataError();
+      Raven.captureException(new Error(UNREGISTERED_ERROR));
       this.state = { errorLogged: true };
     } else {
       this.state = { errorLogged: false };
@@ -22,7 +22,7 @@ export class AppContent extends React.Component {
   componentWillReceiveProps(nextProps) {
     // only log isDataAvailable error if one isn't already logged
     if (nextProps.isDataAvailable === false && !this.state.errorLogged) {
-      logDataError();
+      Raven.captureException(new Error(UNREGISTERED_ERROR));
       this.setState({ errorLogged: true });
     }
   }
