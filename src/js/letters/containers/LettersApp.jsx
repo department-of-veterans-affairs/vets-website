@@ -4,29 +4,50 @@ import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
+const logDataError = () => Raven.captureException(new Error('vets_letters_user_unregistered'));
+
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-export function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
-  let view;
-
-  if (unregistered) {
-    view = (
-      <h4>
-        We weren’t able to find information about your VA letters.
-        If you think you should be able to access this information, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-      </h4>
-    );
-    Raven.captureException(new Error('vets_letters_user_unregistered'));
-  } else {
-    view = children;
+export class AppContent extends React.Component {
+  constructor(props) {
+    super(props);
+    if (props.isDataAvailable === false) {
+      logDataError();
+      this.state = { errorLogged: true };
+    } else {
+      this.state = { errorLogged: false };
+    }
   }
 
-  return (
-    <div className="usa-grid">
-      {view}
-    </div>
-  );
+  componentWillReceiveProps(nextProps) {
+    // only log isDataAvailable error if one isn't already logged
+    if (nextProps.isDataAvailable === false && !this.state.errorLogged) {
+      logDataError();
+      this.setState({ errorLogged: true });
+    }
+  }
+
+  render() {
+    const unregistered = this.props.isDataAvailable === false;
+    let view;
+
+    if (unregistered) {
+      view = (
+        <h4>
+          We weren’t able to find information about your VA letters.
+          If you think you should be able to access this information, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+        </h4>
+      );
+    } else {
+      view = this.props.children;
+    }
+
+    return (
+      <div className="usa-grid">
+        {view}
+      </div>
+    );
+  }
 }
 
 export class LettersApp extends React.Component {
