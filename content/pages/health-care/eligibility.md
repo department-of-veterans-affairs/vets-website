@@ -40,10 +40,14 @@ You should know:
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
 - **If you separated under conditions other than honorable:**
-  - You may be able to access some VA benefits through the Character of Discharge review process. [Learn more about the this process](#discharge-upgrade).
-  - Or, you can use VA’s Health Benefits Explorer to find out if any exceptions apply to you. [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
-  - Or, you can visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/).
+  - You may be able to access some VA benefits through the Character of Discharge review process.<br/>
+  [Learn more about this process](#discharge-upgrade).
+  - Or, you can use VA’s Health Benefits Explorer to find out if any exceptions apply to you.<br/>
+  [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
+  - Or, you can visit healthcare.gov to find out if you qualify for health insurance.<br/>
+  [Go to healthcare.gov](https://www.healthcare.gov/).
 
+**Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/). 
 
 <br>
 
@@ -115,7 +119,8 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
 
-Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
+Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care.<br/>
+[Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
 
 Your priority group will be based on:
 
@@ -125,7 +130,7 @@ Your priority group will be based on:
 - Whether or not you qualify for Medicaid, **and**
 - Other benefits you may be receiving (like pension benefits)
 
-We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
+We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).<br/>
 [View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp).
 
 </div>
@@ -141,7 +146,8 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. <br/>
+[Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
 
 </div>
 </div>
@@ -156,6 +162,9 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
+If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade.<br/>
+[Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/).
+
 Even with a less than honorable discharge, you may be able to access some VA benefits through the Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge.
 
 You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you. Find a VSO near you.
@@ -163,8 +172,6 @@ You may want to consider finding someone to advocate on your behalf, depending o
 Note: You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
 
 If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
-
-[Find out how to apply to upgrade your discharge](https://www.vets.gov/discharge-upgrade-instructions/).
 
 </div>
 </div>
