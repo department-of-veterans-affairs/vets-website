@@ -85,7 +85,7 @@ If you have a service-connected disability that limits your ability to work or p
 
 
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
-<h3 itemprop="name"> If I have a less than honorable discharge, can I try to get my discharge upgraded so I can get VA education benefits?</h3>
+<h3 itemprop="name"> If I have a less than honorable discharge, can I try to get my discharge upgraded so I can receive VA education benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
