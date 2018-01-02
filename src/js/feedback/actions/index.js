@@ -9,6 +9,7 @@ export const FEEDBACK_ERROR = 'FEEDBACK_ERROR';
 export const CLEAR_FEEDBACK_ERROR = 'CLEAR_FEEDBACK_ERROR';
 
 export function revealForm() {
+  window.dataLayer.push({ event: 'feedback-revealed' });
   return { type: REVEAL_FORM };
 }
 
@@ -47,12 +48,19 @@ export function sendFeedback(formValues) {
     };
 
     dispatch({ type: SEND_FEEDBACK });
+    window.dataLayer.push({ event: 'feedback-started' });
 
     return apiRequest(
       '/feedback',
       settings,
-      () => dispatch({ type: FEEDBACK_RECEIVED }),
-      (error) => dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) })
+      () => {
+        window.dataLayer.push({ event: 'feedback-success' });
+        dispatch({ type: FEEDBACK_RECEIVED });
+      },
+      (error) => {
+        window.dataLayer.push({ event: 'feedback-failure' });
+        dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) });
+      }
     );
   };
 }
