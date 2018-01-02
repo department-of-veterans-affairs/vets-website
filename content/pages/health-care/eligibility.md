@@ -40,14 +40,13 @@ You should know:
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
 - **If you separated under conditions other than honorable:**
-  - You may be able to access some VA benefits through the Character of Discharge review process.<br/>
+  - You may be able to apply for a discharge upgrade or access some VA benefits through the Character of Discharge review process.<br/>
   [Learn more about this process](#discharge-upgrade).
   - Or, you can use VA’s Health Benefits Explorer to find out if any exceptions apply to you.<br/>
   [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
   - Or, you can visit healthcare.gov to find out if you qualify for health insurance.<br/>
   [Go to healthcare.gov](https://www.healthcare.gov/). <br/>
-  **Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/). 
-
+  
 <br>
 
 #### Enhanced Eligibility Status
@@ -161,17 +160,16 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.
-<br/>
+**If you have a less than honorable discharge that you believe is unfair or unjust,** you can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.<br/>
 [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/).
 
-But even with a less than honorable discharge and no discharge upgrade, you may be able to access some VA benefits through the Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge.
+**Even if you don't get a discharge upgrade,** you may be able to access some VA benefits through the Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge.
 
 You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you. Find a VSO near you.
 
 Note: You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
 
-If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
+**If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service,** you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
 
 </div>
 </div>
@@ -186,7 +184,8 @@ If you experienced sexual assault or harassment while in the military, or need m
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
+We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. <br/>
+[Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
 
 </div>
 </div>
@@ -201,7 +200,8 @@ We cover routine eye exams and preventive tests under VA health care benefits. I
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
+In certain cases, you may receive dental care as part of your VA health benefits. <br/>
+[Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
 
 </div>
 </div>
@@ -216,7 +216,8 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
+If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. <br/>
+[Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
 
 </div>
 </div>
