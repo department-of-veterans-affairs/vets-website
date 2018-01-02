@@ -32,9 +32,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .url(`${E2eHelpers.baseUrl}${formLinks['21P-530']}`)
     .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
-  // client
-  //   .url(`${E2eHelpers.baseUrl}${formLinks['1010ez']}`)
-  //   .waitForElementVisible('.schemaform-intro', Timeouts.normal);
+  client
+    .url(`${E2eHelpers.baseUrl}${formLinks['1010ez']}`)
+    .waitForElementVisible('.schemaform-intro', Timeouts.normal);
 
   client
     .url(`${E2eHelpers.baseUrl}${formLinks['22-1990']}`)
