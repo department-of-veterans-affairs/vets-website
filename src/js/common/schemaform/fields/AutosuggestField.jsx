@@ -55,9 +55,9 @@ export default class AutosuggestField extends React.Component {
 
   componentDidMount() {
     if (!this.props.formContext.reviewMode) {
-      const uiOptions = this.props.uiSchema['ui:options'];
-      if (uiOptions.getOptions) {
-        uiOptions.getOptions().then(options => {
+      const getOptions = this.props.uiSchema['ui:options'].getOptions;
+      if (getOptions) {
+        getOptions().then(options => {
           if (!this.unmounted) {
             this.setState({ options, suggestions: this.getSuggestions(options, this.state.input) });
           }
