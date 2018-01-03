@@ -13,6 +13,8 @@ import { makeField } from '../../model/fields.js';
  *
  * Validation has the following props.
 
+ * `additionalFieldsetClass` - String for any additional fieldset classes.
+ * `additionalLegendClass` - String for any additional legend classes.
  * `label` - String for the group field label.
  * `name` - String for the name attribute.
  * `toolTipText` - String with help text for user.
@@ -156,6 +158,8 @@ class ErrorableRadioButtons extends React.Component {
 }
 
 ErrorableRadioButtons.propTypes = {
+  additionalFieldsetClass: PropTypes.string,
+  additionalLegendClass: PropTypes.string,
   errorMessage: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
