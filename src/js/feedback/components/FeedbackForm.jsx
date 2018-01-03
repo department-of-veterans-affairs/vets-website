@@ -96,7 +96,11 @@ class FeedbackForm extends React.Component {
         </div>
         {this.props.errorMessage && (
           <div className="feedback-error">
-            <AlertBox status="error" onCloseAlert={this.props.clearError} content={this.props.errorMessage} isVisible/>
+            <AlertBox status="error"
+              onCloseAlert={this.props.clearError}
+              headline={<h4>{this.props.errorMessage.title}</h4>}
+              content={this.props.errorMessage.description}
+              isVisible/>
           </div>
         )}
       </form>

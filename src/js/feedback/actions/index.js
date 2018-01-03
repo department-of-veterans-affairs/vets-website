@@ -28,9 +28,15 @@ export function setFormValues(formValues) {
 function errorMessage(status) {
   switch (status) {
     case 429:
-      return 'We’re sorry. We can’t process this request right now. Please try again later.';
+      return {
+        title: 'We can’t receive your feedback right now',
+        description: 'We’re sorry. Something’s not working right on our end, and we can’t process your feedback message right now. Please try again later.'
+      };
     default:
-      return 'An error occurred while trying to submit the form. We apologize for the inconvenience.';
+      return {
+        title: 'An error occurred',
+        description: 'An error occurred while trying to submit the form. We apologize for the inconvenience.'
+      };
   }
 }
 
