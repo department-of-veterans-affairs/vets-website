@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Get Help Filing a Claim
+title: Get Help Filing Your Claim
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
