@@ -247,10 +247,6 @@ export function stringifyFormReplacer(key, value) {
     if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
       return undefined;
     }
-    // autosuggest widgets save value and label info, but we should just return the value
-    if (value.widget === 'autosuggest') {
-      return value.id;
-    }
   }
 
   // Clean up empty objects in arrays
@@ -258,6 +254,12 @@ export function stringifyFormReplacer(key, value) {
     const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
     // If every item in the array is cleared, remove the whole array
     return newValues.length > 0 ? newValues : undefined;
+  }
+
+  if (value && value.startsWith('field:autosuggest||')) {
+    // field layout is field:autosuggest||id||label
+    const fields = value.split('||');
+    return fields[1];
   }
 
   return value;

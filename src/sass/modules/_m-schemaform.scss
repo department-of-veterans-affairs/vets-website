@@ -532,6 +532,7 @@ ul.react-autosuggest__suggestions-list {
   width: 100%;
   top: 46px;
   left: 0;
+  z-index: 1;
 
   @include media-maxwidth($small-screen) {
     font-size: 1.3rem;

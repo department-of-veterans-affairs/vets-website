@@ -1,23 +1,46 @@
 import React from 'react';
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
 import { sortListByFuzzyMatch } from '../../utils/helpers';
+
+// field layout is field:autosuggest||id||label
+function getInput(input, uiSchema, schema) {
+  if (input && input.startsWith('field:autosuggest||')) {
+    const fields = input.split('||');
+    return fields[2] || '';
+  }
+
+  if (input) {
+    const uiOptions = uiSchema['ui:options'];
+    if (uiOptions.labels[input]) {
+      return uiOptions.labels[input];
+    }
+
+    const index = schema.enum.indexOf(input) >= 0;
+    if (schema.enumNames && index >= 0) {
+      return uiOptions.labels[input] || schema.enumNames[index];
+    }
+  }
+
+  return '';
+}
 
 export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
-    const input = props.formData ? (props.formData.label || '') : '';
-    const uiOptions = this.props.uiSchema['ui:options'];
+    const { uiSchema, schema, formData } = props;
+    const input = getInput(formData, uiSchema, schema);
+    const uiOptions = uiSchema['ui:options'];
 
     let options = [];
     let suggestions = [];
 
     if (!uiOptions.getOptions) {
       this.useEnum = true;
-      options = props.schema.enum.map((id, index) => {
+      options = schema.enum.map((id, index) => {
         return {
           id,
-          label: uiOptions.labels[id] || props.schema.enumNames[index]
+          label: uiOptions.labels[id] || schema.enumNames[index]
         };
       });
       suggestions = this.getSuggestions(options, input);
@@ -28,7 +51,6 @@ export default class AutosuggestField extends React.Component {
       input,
       suggestions
     };
-
   }
 
   componentDidMount() {
@@ -52,6 +74,8 @@ export default class AutosuggestField extends React.Component {
     this.setState({ input: newValue });
     if (!newValue) {
       this.props.onChange();
+    } else {
+      this.props.onChange(`field:autosuggest||||${newValue}`);
     }
   }
 
@@ -69,25 +93,7 @@ export default class AutosuggestField extends React.Component {
       return suggestion.id;
     }
 
-    return _.set('widget', 'autosuggest', suggestion);
-  }
-
-  getReviewLabel(formData, uiSchema, schema) {
-    const uiOptions = uiSchema['ui:options'];
-    if (!uiOptions.getOptions) {
-      if (uiOptions.labels[formData]) {
-        return uiOptions.labels[formData];
-      }
-
-      const index = schema.enum.indexOf(formData) >= 0;
-      if (schema.enumNames && index >= 0) {
-        return uiOptions.labels[formData] || schema.enumNames[index];
-      }
-
-      return null;
-    }
-
-    return formData.label;
+    return `field:autosuggest||${suggestion.id}||${suggestion.label}`;
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
@@ -108,12 +114,12 @@ export default class AutosuggestField extends React.Component {
   }
 
   handleBlur = () => {
-    const value = this.getReviewLabel(this.props.formData, this.props.uiSchema, this.props.schema) || '';
-    if (!value && this.state.input) {
-      this.props.onChange(this.state.input);
-    } else if (!value) {
-      this.props.onChange();
-    }
+    // const value = getInput(this.props.formData, this.props.uiSchema, this.props.schema) || '';
+    // if (!value && this.state.input) {
+    //   this.props.onChange(this.getFormData({ id: '', label: this.state.input }));
+    // } else if (!value) {
+    //   this.props.onChange();
+    // }
     this.props.onBlur(this.props.idSchema.$id);
   }
 
@@ -138,7 +144,7 @@ export default class AutosuggestField extends React.Component {
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{this.getReviewLabel(formData, uiSchema, schema)}</span></dd>
+          <dd><span>{this.getInput(formData, uiSchema, schema)}</span></dd>
         </div>
       );
     }
