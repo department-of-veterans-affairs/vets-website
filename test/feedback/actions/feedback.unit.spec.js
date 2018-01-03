@@ -12,7 +12,7 @@ import {
 describe('sendFeedback', () => {
 
   const dispatch = sinon.spy();
-  const old = { sessionStorage: global.sessionStorage, fetch: global.fetch };
+  const old = { sessionStorage: global.sessionStorage, fetch: global.fetch, dataLayer: global.window.dataLayer };
   const fetchResponse = {
     ok: true,
     json() {},
@@ -25,11 +25,13 @@ describe('sendFeedback', () => {
   before(() => {
     global.sessionStorage = {};
     global.fetch = fetch;
+    global.window.dataLayer = [];
   });
 
   after(() => {
     global.fetch = old.fetch;
     global.sessionStorage = old.sessionStorage;
+    global.window.dataLayer = old.dataLayer;
   });
 
   afterEach(() => {
@@ -98,7 +100,7 @@ describe('sendFeedback', () => {
 
       expect(firstAction.type).to.equal(SEND_FEEDBACK);
       expect(secondAction.type).to.equal(FEEDBACK_ERROR);
-      expect(secondAction.message).to.be.a('string');
+      expect(secondAction.message).to.be.a('object');
 
     }).then(done, done);
   });

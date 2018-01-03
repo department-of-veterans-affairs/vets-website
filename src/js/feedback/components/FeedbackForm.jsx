@@ -116,7 +116,10 @@ FeedbackForm.propTypes = {
   setFormValues: PropTypes.func.isRequired,
   sendFeedback: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
+  errorMessage: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.description
+  }),
   requestPending: PropTypes.bool
 };
 
