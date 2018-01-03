@@ -49,12 +49,10 @@ class ErrorView extends React.Component {
     }
 
     content = content || (
-      <div>
+      <span>
         <h4>{title}</h4>
-        <div>
-          {detail}
-        </div>
-      </div>
+        <div>{detail}</div>
+      </span>
     );
 
     if (alert) {
