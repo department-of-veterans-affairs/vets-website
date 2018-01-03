@@ -83,6 +83,43 @@ module.exports = E2eHelpers.createE2eTest(
       .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address
       .expect.element('.city-state').to.be.present.before(Timeouts.normal);
 
+    // -- Go to letters list -- //
+
+    client
+      .click('.view-letters-button')
+      .assert.urlContains('/letters/letter-list')
+      .waitForElementVisible('.step-content', Timeouts.normal)
+      .click('.step-content div.form-review-panel:nth-of-type(4) button') // open the bsl accordion
+      .waitForElementPresent('#militaryService', Timeouts.normal);
+
+    // poke all the checkboxes and expect them to all be unselected
+    client
+      .expect.element('#militaryService').to.have.attribute('checked').equals('true');
+    client
+      .click('#militaryService')
+      .expect.element('#militaryService').to.not.have.attribute('checked');
+    client.execute(() => {
+      return Array.from(document.querySelectorAll('#benefitInfoTable input[type="checkbox"]'))
+        .map(e => e.getAttribute('id'));
+    }, [], (obj) => {
+      const ids = obj.value;
+      ids.forEach(id => {
+        client.expect.element(`#${id}`).to.have.attribute('checked').equals('true');
+        client.click(`#${id}`);
+        client.expect.element(`#${id}`).to.not.have.attribute('checked');
+      });
+    });
+
+    // collapse the bsl accordion
+    client
+      .click('.step-content div.form-review-panel:nth-of-type(4) button') // open the bsl accordion
+      .waitForElementNotPresent('#militaryService', Timeouts.normal);
+
+    // poke the back button
+    client
+      .click('.step-content p:nth-of-type(3) a')
+      .assert.urlContains('/letters/confirm-address');
+
     client.end();
   }
 );

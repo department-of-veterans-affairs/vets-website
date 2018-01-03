@@ -34,7 +34,7 @@ class AlertBox extends React.Component {
 
   render() {
     if (!this.props.isVisible) {
-      return <div aria-live="assertive"/>;
+      return <div aria-live="polite"/>;
     }
 
     const alertClass = classNames(
@@ -55,7 +55,7 @@ class AlertBox extends React.Component {
 
     return (
       <div
-        aria-live="assertive"
+        aria-live="polite"
         className={alertClass}
         ref={(ref) => { this._ref = ref; }}>
         <div className="usa-alert-body">
