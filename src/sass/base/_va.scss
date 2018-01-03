@@ -22,7 +22,7 @@ body {
 }
 
 // Skip link
-.show-on-focus-wrapper {
+.show-on-focus-wrapper:focus-within {
   padding: 1em;
 }
 
