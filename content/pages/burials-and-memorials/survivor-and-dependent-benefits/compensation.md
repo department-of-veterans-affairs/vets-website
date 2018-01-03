@@ -79,7 +79,7 @@ You can apply for this benefit in 1 of 3 ways:
 
 - Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
 
-- Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
+- Work with an accredited representative [(Get help filing for survivors benefits)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
 
 - Go to a VA regional benefit office and have a VA employee help you [(Find a local VA office)](/facilities/).
 
