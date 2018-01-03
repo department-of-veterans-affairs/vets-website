@@ -105,10 +105,10 @@ describe('<Main>', () => {
     expect(childText).to.equal(testText);
   });
 
-  it('should show letters unavailable message when service is unavailable', () => {
+  it('should show system down message when service is unavailable', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: unavailable, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#lettersUnavailable')).to.not.be.false;
+    expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('renders system down message for all unspecified errors', () => {

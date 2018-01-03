@@ -41,10 +41,13 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.review-answers', Timeouts.normal)
       .axeCheck('.main')
       .click('a.usa-button-primary');
+
+    client.pause(Timeouts.verySlow);
+
     // results page
     client
       .click('a.usa-button-primary')
-      .waitForElementVisible('.dw-instructions', Timeouts.slow)
+      .waitForElementVisible('.dw-guidance', Timeouts.verySlow)
       .axeCheck('.main');
 
     client.end();
