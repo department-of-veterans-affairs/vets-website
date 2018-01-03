@@ -106,7 +106,9 @@ export const directDepositWarning = (
 
 export const wartimeWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility/" target="_blank">Check your eligibility.</a></span>
+    <div className="usa-alert-text">
+      <p><strong>Note:</strong> You have indicated that you did not serve during an <a href="http://www.benefits.va.gov/pension/wartimeperiod.asp" target="_blank"> eligible wartime period</a>. Find out if you still qualify. <a href="/pension/eligibility/" target="_blank">Check your eligibility.</a></p>
+    </div>
   </div>
 );
 
@@ -133,36 +135,51 @@ export function servedDuringWartime(period) {
 
 export const uploadMessage = (
   <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">If you have many documents to upload you can mail them to us.<br/><br/><em>We’ll provide an address after you finish the application.</em></div>
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        <p>If you have many documents to upload you can mail them to us.</p>
+        <p><em>We’ll provide an address after you finish the application.</em></p>
+      </div>
+    </div>
   </div>
 );
 
 export const aidAttendanceEvidence = (
   <div>
     <div className="usa-alert usa-alert-info no-background-image">
-      <strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:
-      <ul>
-        <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
-        <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
-        <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
-        <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
-        <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
-      </ul>
+      <div className="usa-alert-body">
+        <div className="usa-alert-text">
+          <p><strong>If you’re claiming non-service-connected pension benefits with Aid and Attendance benefits</strong>, your supporting documents must show that you:</p>
+          <ul>
+            <li>Have corrected vision of 5/200 or less in both eyes, <strong>or</strong></li>
+            <li>Have contraction of the concentric visual field to 5 degrees or less, <strong>or</strong></li>
+            <li>Are a patient in a nursing home due to the loss of mental or physical abilities, <strong>or</strong></li>
+            <li>Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, <strong>or</strong></li>
+            <li>Are bedridden and have to spend most of the day in bed because of your disability</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
     <div className="usa-alert usa-alert-info no-background-image">
-      <strong>If you’re claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:
-      <ul>
-        <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
-        <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
-      </ul>
+      <div className="usa-alert-body">
+        <div className="usa-alert-text">
+          <p><strong>If you’re claiming for increased disability pension benefits based on being housebound</strong>, your supporting documents must show that you:</p>
+          <ul>
+            <li>Have a single permanent disability that’s 100% disabling, and you’re confined to your home, <strong>or</strong></li>
+            <li>Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
   </div>
 );
 
 export const disabilityDocs = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      You’ll need to provide all private medical records for your child’s disability.
+      <div className="usa-alert-text">You’ll need to provide all private medical records for your child’s disability.</div>
     </div>
   </div>
 );
@@ -170,7 +187,7 @@ export const disabilityDocs = (
 export const schoolAttendanceWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong>
+      <div className="usa-alert-text">Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong></div>
     </div>
   </div>
 );
@@ -178,22 +195,28 @@ export const schoolAttendanceWarning = (
 export const marriageWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h5 className="usa-alert-heading">Recognition of marriages</h5>
-      If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).<br/>
-      <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+      <h4 className="usa-alert-heading">Recognition of marriages</h4>
+      <div className="usa-alert-text">
+        <p>If you’re certifying you are married for VA benefits, your marriage must be recognized by the place you and your spouse lived at the time of your marriage, or where you and your spouse lived at the time you filed your claim (or a later date when you qualified for benefits).</p>
+        <p>Additional information on VA-recognized marriage is at <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.</p>
+      </div>
     </div>
   </div>
 );
 
 export const fdcWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application will be submitted as a fully developed claim.
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">Your application will be submitted as a fully developed claim.</div>
+    </div>
   </div>
 );
 
 export const noFDCWarning = (
   <div className="usa-alert usa-alert-info no-background-image">
-    Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">Your application doesn’t qualify for the Fully Developed Claim (FDC) program. We’ll review your claim through the standard claim process. Please turn in any information to support your claim as soon as you can to the address provided after you finish the application.</div>
+    </div>
   </div>
 );
 
@@ -208,7 +231,7 @@ export const expeditedProcessDescription = (
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      Your child won’t qualify as a dependent unless they’re in school or disabled.
+      <div className="usa-alert-text">Your child won’t qualify as a dependent unless they’re in school or disabled.</div>
     </div>
   </div>
 );
