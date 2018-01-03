@@ -1,11 +1,20 @@
 import _ from 'lodash/fp';
 
 import AutosuggestField from '../fields/AutosuggestField';
+import { validateAutosuggestOption } from '../validation';
 
 // don't use for enum fields, they need access to the
 // list of enums and names
 export const schema = {
-  type: 'string'
+  type: 'object',
+  properties: {
+    id: {
+      type: 'any'
+    },
+    label: {
+      type: 'string'
+    }
+  }
 };
 
 export function uiSchema(label, getOptions, options = {}) {
@@ -13,16 +22,11 @@ export function uiSchema(label, getOptions, options = {}) {
     'ui:title': label,
     'ui:field': AutosuggestField,
     'ui:validations': [
-      (errors, formData) => {
-        if (formData && formData.startsWith('field:autosuggest||')) {
-          const fields = formData.split('||');
-
-          if (!fields[1] && fields[2]) {
-            errors.addError('Please select an option from the suggestions');
-          }
-        }
-      }
+      validateAutosuggestOption
     ],
+    'ui:errorMessages': {
+      type: 'Please select an option from the suggestions'
+    },
     'ui:options': {
       showFieldLabel: 'label',
       maxOptions: 20,

@@ -1,16 +1,14 @@
 import React from 'react';
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
 import { sortListByFuzzyMatch } from '../../utils/helpers';
 
-// field layout is field:autosuggest||id||label
 function getInput(input, uiSchema, schema) {
-  if (input && input.startsWith('field:autosuggest||')) {
-    const fields = input.split('||');
-    return fields[2] || '';
+  if (input && input.widget === 'autosuggest') {
+    return input.label;
   }
 
-  if (input) {
+  if (typeof input !== 'object' && input) {
     const uiOptions = uiSchema['ui:options'];
     if (uiOptions.labels[input]) {
       return uiOptions.labels[input];
@@ -70,12 +68,17 @@ export default class AutosuggestField extends React.Component {
     this.unmounted = true;
   }
 
-  onChange = (event, { newValue }) => {
-    this.setState({ input: newValue });
-    if (!newValue) {
-      this.props.onChange();
-    } else {
-      this.props.onChange(`field:autosuggest||||${newValue}`);
+  onChange = (event, { method, newValue }) => {
+    // If this is changing because of a click, then onChange is called by suggestion selected method
+    // If it's changing because of up/down arrows, we want to skip it until a user makes a choice
+    // That leaves type as the only method we need to handle
+    if (method === 'type') {
+      if (!newValue) {
+        this.props.onChange();
+      } else {
+        this.props.onChange({ widget: 'autosuggest', label: newValue });
+      }
+      this.setState({ input: newValue });
     }
   }
 
@@ -93,7 +96,7 @@ export default class AutosuggestField extends React.Component {
       return suggestion.id;
     }
 
-    return `field:autosuggest||${suggestion.id}||${suggestion.label}`;
+    return _.set('widget', 'autosuggest', suggestion);
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
@@ -114,12 +117,6 @@ export default class AutosuggestField extends React.Component {
   }
 
   handleBlur = () => {
-    // const value = getInput(this.props.formData, this.props.uiSchema, this.props.schema) || '';
-    // if (!value && this.state.input) {
-    //   this.props.onChange(this.getFormData({ id: '', label: this.state.input }));
-    // } else if (!value) {
-    //   this.props.onChange();
-    // }
     this.props.onBlur(this.props.idSchema.$id);
   }
 
@@ -144,7 +141,7 @@ export default class AutosuggestField extends React.Component {
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{this.getInput(formData, uiSchema, schema)}</span></dd>
+          <dd><span>{getInput(formData, uiSchema, schema)}</span></dd>
         </div>
       );
     }
