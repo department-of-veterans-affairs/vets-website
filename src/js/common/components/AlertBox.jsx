@@ -51,7 +51,7 @@ class AlertBox extends React.Component {
       );
     }
 
-    const headline = this.props.headline ? (<div className="usa-alert-heading">{this.props.headling}</div>) : null;
+    const headline = this.props.headline && (<div className="usa-alert-heading">{this.props.headline}</div>);
 
     return (
       <div
