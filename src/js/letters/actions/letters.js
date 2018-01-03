@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
-import { apiRequest, stripEmpties, toGenericAddress } from '../utils/helpers.jsx';
+import { apiRequest, stripEmpties, toGenericAddress, getStatus } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
   BACKEND_AUTHENTICATION_ERROR,
@@ -24,7 +24,8 @@ import {
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
-  SAVE_ADDRESS_SUCCESS
+  SAVE_ADDRESS_SUCCESS,
+  INVALID_ADDRESS_PROPERTY
 } from '../utils/constants';
 
 export function getLetterList(dispatch) {
@@ -37,66 +38,52 @@ export function getLetterList(dispatch) {
     }),
     (response) => {
       window.dataLayer.push({ event: 'letter-list-failure' });
-      if (typeof response.errors === 'undefined' || response.errors.length === 0) {
-        return Promise.reject(new Error('vets_letters_error_server_get: undefined error'));
+      const status = getStatus(response);
+      if (status === '403') {
+        // Backend authentication problem
+        dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
+      } else if (status === '422') {
+        // User has an invalid address for his or her letters
+        dispatch({ type: INVALID_ADDRESS_PROPERTY });
+      } else if (status === '502') {
+        // Some of the partner services are down, so we cannot verify the
+        // eligibility of some letters
+        dispatch({ type: LETTER_ELIGIBILITY_ERROR });
+      } else if (status === '503' || status === '504') {
+        // Either EVSS or a partner service is down or EVSS times out
+        dispatch({ type: BACKEND_SERVICE_ERROR });
+      } else {
+        dispatch({ type: GET_LETTERS_FAILURE });
       }
-      const error = response.errors[0];
-      switch (error.status) {
-        case '503': // Handled same as 504
-        case '504':
-          // Either EVSS or a partner service is down or EVSS times out
-          return dispatch({ type: BACKEND_SERVICE_ERROR });
-        case '403':
-          // Backend authentication problem
-          return dispatch({ type: BACKEND_AUTHENTICATION_ERROR });
-        case '502':
-          // Some of the partner services are down, so we cannot verify the
-          // eligibility of some letters
-          return dispatch({ type: LETTER_ELIGIBILITY_ERROR });
-        default:
-          return Promise.reject(
-            new Error(`vets_letters_error_server_get: ${error.status || 'unknown'}`)
-          );
-      }
+      throw new Error(`vets_letters_error_getLetterList: ${status}`);
     }
-  ).catch((error) => {
-    if (error.message.match('vets_letters_error_server_get')) {
-      dispatch({ type: GET_LETTERS_FAILURE });
-    }
-    throw error;
-  });
+  );
 }
-
 
 export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
     '/v0/letters/beneficiary',
     null,
-    response => dispatch({
+    (response) => dispatch({
       type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
       data: response,
     }),
-    () => {
+    (response) => {
       dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
-      // Is there a prize for the longest error name?
-      throw new Error('vets_letters_get_benefit_summary_options_failure');
+      const status = getStatus(response);
+      throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
     }
   );
 }
-
 
 // Call getLetterList then getBenefitSummaryOptions
 export function getLetterListAndBSLOptions() {
   return (dispatch) => {
     return getLetterList(dispatch)
-      // Maybe shouldn't try to get BSO options if we get an error or we don't get a BSL...
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch(error => {
-        Raven.captureException(error);
-      });
+      .catch((error) => Raven.captureException(error));
   };
 }
-
 
 export function getAddressFailure() {
   window.dataLayer.push({ event: 'letter-update-address-notfound' });
@@ -108,7 +95,6 @@ export function getMailingAddress() {
     return apiRequest(
       '/v0/address',
       null,
-      // on fetch success
       (response) => {
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
@@ -118,8 +104,11 @@ export function getMailingAddress() {
           data: responseCopy
         });
       },
-      // catch errors in fetch or success handler
-      () => dispatch(getAddressFailure())
+      (response) => {
+        const status = getStatus(response);
+        Raven.captureException(new Error(`vets_letters_error_getMailingAddress: ${status}`));
+        return dispatch(getAddressFailure());
+      }
     );
   };
 }
@@ -193,7 +182,11 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
         window.URL.revokeObjectURL(downloadUrl);
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
-      () => dispatch(getLetterPdfFailure(letterType))
+      (response) => {
+        const status = getStatus(response);
+        Raven.captureException(new Error(`vets_letters_error_getLetterPdf_${letterType}: ${status}`));
+        return dispatch(getLetterPdfFailure(letterType));
+      }
     );
   };
 }
@@ -255,7 +248,11 @@ export function saveAddress(address) {
         }
         return dispatch(saveAddressSuccess(responseAddress));
       },
-      () => dispatch(saveAddressFailure())
+      (response) => {
+        const status = getStatus(response);
+        Raven.captureException(new Error(`vets_letters_error_saveAddress: ${status}`));
+        return dispatch(saveAddressFailure());
+      }
     );
   };
 }
@@ -265,11 +262,15 @@ export function getAddressCountries() {
     return apiRequest(
       '/v0/address/countries',
       null,
-      response => dispatch({
+      (response) => dispatch({
         type: GET_ADDRESS_COUNTRIES_SUCCESS,
         countries: response,
       }),
-      () => dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE })
+      (response) => {
+        const status = getStatus(response);
+        Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
+        return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
+      }
     );
   };
 }
@@ -279,11 +280,15 @@ export function getAddressStates() {
     return apiRequest(
       '/v0/address/states',
       null,
-      response => dispatch({
+      (response) => dispatch({
         type: GET_ADDRESS_STATES_SUCCESS,
         states: response,
       }),
-      () => dispatch({ type: GET_ADDRESS_STATES_FAILURE })
+      (response) => {
+        const status = getStatus(response);
+        Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
+        return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
+      }
     );
   };
 }

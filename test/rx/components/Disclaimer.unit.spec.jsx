@@ -19,7 +19,7 @@ describe('<Disclaimer>', () => {
   it('should have the expected class name', () => {
     const tree = SkinDeep.shallowRender(<Disclaimer {...props}/>);
 
-    expect(tree.props.className).to.equal('va-alert--open va-alert usa-alert usa-alert-warning');
+    expect(tree.props.className).to.equal('va-alert--open usa-alert usa-alert-warning');
   });
 
   it('should render expected button text when open', () => {

@@ -43,7 +43,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         <i className="fa fa-close va-alert-close-icon" aria-label="Close icon"></i>
       </button>
       <div className="usa-alert-body">
-        <h5 className="usa-alert-heading">Recently closed:</h5>
+        <h4 className="usa-alert-title">Recently closed:</h4>
         {closedClaims.map(claim => (
           <p className="usa-alert-text claims-closed-text" key={claim.id}>
             <Link to={claim.type === 'appeals_status_models_appeals' ? `appeals/${claim.id}/status` : `your-claims/${claim.id}/status`} onClick={() => { window.dataLayer.push({ event: 'claims-closed-alert-clicked' }); }}>Your {claim.type === 'appeals_status_models_appeals' ? 'Compensation Appeal' : getClaimType(claim)} – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</Link> has been closed as of {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}

@@ -29,7 +29,8 @@ class EmailCapture extends React.Component {
         <div>
           <h1>Printed Veteran ID Card</h1>
           <AlertBox
-            content={<h4 className="usa-alert-heading">Thank you for your email address. We will follow up with instructions on how to proceed with the application.</h4>}
+            headline={<h4>Thank you for your email address. We will follow up with instructions on how to proceed with the application.</h4>}
+            content={''}
             isVisible
             status="success"/>
         </div>
