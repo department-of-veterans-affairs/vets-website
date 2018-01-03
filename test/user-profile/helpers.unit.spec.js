@@ -35,6 +35,12 @@ const schemaToConfigIds = {
   definitions: 'N/A'
 };
 
+const excludedForms = new Set([
+  '28-1900',
+  '28-8832',
+  'VIC'
+]);
+
 describe('profile helpers:', () => {
   describe('formTitles', () => {
     it('should have title information for each verified form', () => {
@@ -64,7 +70,7 @@ describe('profile helpers:', () => {
         fullSchema530,
         fullSchema10007
       ];
-      const allFormIds = Object.keys(schemas);
+      const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
       const allMappedIds = Object.keys(schemaToConfigIds);
       const sipEnabledConfigs = configs.filter(config => !config.disableSave);
       const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
