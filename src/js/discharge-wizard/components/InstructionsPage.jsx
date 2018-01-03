@@ -24,7 +24,7 @@ class InstructionsPage extends React.Component {
   render() {
     return (
       <div className="dw-instructions">
-        <h1>Get Instructions for Upgrading Your Discharge</h1>
+        <h1>How to Apply for a Discharge Upgrade</h1>
         <main itemScope itemType="http://schema.org/FAQPage">
           <div className="row">
             <article className="usa-content columns">

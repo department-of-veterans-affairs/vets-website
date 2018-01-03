@@ -1,7 +1,7 @@
 ---
 layout: page-react.html
-title: Guidance on Upgrading Your Discharge
-display_title: Guidance on Upgrading Your Discharge
+title: How to Apply for a Discharge Upgrade
+display_title: How to Apply for a Discharge Upgrade
 entryname: discharge-upgrade-instructions
 ---
 <div id="main">
