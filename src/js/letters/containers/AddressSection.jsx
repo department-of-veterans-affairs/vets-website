@@ -68,8 +68,6 @@ export class AddressSection extends React.Component {
   }
 
   componentDidMount() {
-    // focusElement('.schemaform-title h1');
-    // focusElement('#content');
     focusElement('.va-introtext');
   }
 
