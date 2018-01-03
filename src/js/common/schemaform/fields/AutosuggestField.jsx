@@ -3,6 +3,8 @@ import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
 import { sortListByFuzzyMatch } from '../../utils/helpers';
 
+const ESCAPE_KEY = 27;
+
 function getInput(input, uiSchema, schema) {
   if (input && input.widget === 'autosuggest') {
     return input.label;
@@ -79,6 +81,13 @@ export default class AutosuggestField extends React.Component {
         this.props.onChange({ widget: 'autosuggest', label: newValue });
       }
       this.setState({ input: newValue });
+    }
+  }
+
+  onKeyDown = (event) => {
+    if (event.keyCode === ESCAPE_KEY) {
+      this.props.onChange();
+      this.setState({ input: '' });
     }
   }
 
@@ -161,6 +170,7 @@ export default class AutosuggestField extends React.Component {
           name: id,
           value: this.state.input,
           onChange: this.onChange,
+          onKeyDown: this.onKeyDown,
           'aria-labelledby': `${id}-label`,
           onBlur: this.handleBlur
         }}/>
