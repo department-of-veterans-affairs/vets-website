@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { assign, set } from 'lodash/fp';
 
 import {
   UPDATE_PROFILE_FIELDS,
@@ -12,7 +12,6 @@ import {
 } from '../actions';
 import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 
-// TODO(crew): Romove before this goes to production.
 const initialState = {
   userFullName: {
     first: null,
@@ -25,8 +24,7 @@ const initialState = {
   gender: null,
   accountType: null,
   terms: {
-    loading: false,
-    terms: {},
+    loading: false
   },
   savedForms: [],
   prefillsAvailable: [],
@@ -35,66 +33,41 @@ const initialState = {
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PROFILE_FIELDS: {
-      return _.assign(state, action.newState);
-    }
-    case PROFILE_LOADING_FINISHED: {
-      return _.set('loading', false, state);
-    }
-    case FETCH_LOGIN_URLS_FAILED: {
-      return _.set('loading', false, state);
-    }
-    case UPDATE_LOGGEDIN_STATUS: {
-      return _.set('loading', false, state);
-    }
-    case FETCHING_LATEST_MHV_TERMS: {
-      return {
-        ...state,
-        terms: {
-          ...state.terms,
-          content: {},
-          loading: true,
-        }
-      };
-    }
+    case UPDATE_PROFILE_FIELDS:
+      return assign(state, action.newState);
+
+    case PROFILE_LOADING_FINISHED:
+    case FETCH_LOGIN_URLS_FAILED:
+    case UPDATE_LOGGEDIN_STATUS:
+      return set('loading', false, state);
+
+    case FETCHING_LATEST_MHV_TERMS:
+      return set('terms.loading', true, state);
+
     case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
-      return {
-        ...state,
-        terms: {
-          ...state.terms,
-          ...action.terms,
-          loading: false,
-        }
-      };
+      return set('terms', {
+        ...initialState.terms,
+        ...action.terms,
+        loading: false,
+      }, state);
     }
+
     case FETCHING_LATEST_MHV_TERMS_FAILURE: {
-      return {
-        ...state,
-        terms: {
-          loading: false,
-        }
-      };
+      return set('terms', {
+        ...initialState.terms,
+        loading: false,
+      }, state);
     }
+
     case ACCEPTING_LATEST_MHV_TERMS: {
-      return state;
+      return set('terms.loading', true, state);
     }
-    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS: {
-      return {
-        ...state,
-        terms: {
-          loading: false,
-        }
-      };
-    }
+
+    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
     case ACCEPTING_LATEST_MHV_TERMS_FAILURE: {
-      return {
-        ...state,
-        terms: {
-          ...state.terms,
-          loading: false,
-        }
-      };
+      return set('terms.loading', false, state);
     }
+
     default:
       return state;
   }
