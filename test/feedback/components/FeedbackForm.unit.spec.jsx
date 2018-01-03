@@ -26,7 +26,7 @@ describe('<FeedbackForm/>', () => {
   });
 
   it('should render with an error message', () => {
-    const errorMessage = 'Testing errors';
+    const errorMessage = { title: 'An error', description: 'An error description' };
     const props = { ...defaultProps, errorMessage };
     const wrapper = enzyme.shallow(<FeedbackForm {...props}/>);
     expect(wrapper.find(AlertBox)).to.have.lengthOf(1);
