@@ -22,15 +22,12 @@ body {
 }
 
 // Skip link
-.show-on-focus-wrapper:focus-within {
-  padding: 1em;
-}
-
 .show-on-focus {
   position: absolute;
   top: -10em;
   background: $color-white;
   padding: 1em;
+  margin: 1em;
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
