@@ -5,12 +5,7 @@ title: Burial and Memorial Benefits Eligibility
 display_title: Eligibility
 collection: burials
 order: 1
-relatedlinks:
-  - heading: 
-    links:
-    - url: /discharge-upgrade-instructions/
-      title: How to Apply for a Discharge Upgrade
-      description: Do you have a less than honorable discharge that you believe was unfair or unjust? Find out how to apply for a discharge upgrade. If your application goes through, you may be able to get VA burial and memorial benefits.
+
 ---
 
 <div class="va-introtext">
@@ -30,7 +25,7 @@ You may qualify for burial and memorial benefits if you're:
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
 
-**Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. [Get instructions for upgrading your discharge](/discharge-upgrade-instructions/).
+**Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. If your application goes through, you may be able to get VA burial and memorial benefits. [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
 
 </div>
 
