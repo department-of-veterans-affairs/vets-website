@@ -68,7 +68,7 @@ export class AddressSection extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.va-introtext');
+    focusElement('#content');
   }
 
   /* editableAddress is initialized from redux store in the constructor
