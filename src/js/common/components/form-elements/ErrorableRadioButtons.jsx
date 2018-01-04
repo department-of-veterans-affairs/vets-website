@@ -130,16 +130,14 @@ class ErrorableRadioButtons extends React.Component {
       return output;
     });
 
-    const fieldsetClass = classNames({
-      'fieldset-input': true,
+    const fieldsetClass = classNames('fieldset-input', {
       'usa-input-error': this.props.errorMessage,
-      [`${this.props.additionalFieldsetClass}`]: !!this.props.additionalFieldsetClass
+      [this.props.additionalFieldsetClass]: this.props.additionalFieldsetClass
     });
 
-    const legendClass = classNames({
-      'legend-label': true,
+    const legendClass = classNames('legend-label', {
       'usa-input-error-label': this.props.errorMessage,
-      [`${this.props.additionalLegendClass}`]: !!this.props.additionalLegendClass
+      [this.props.additionalLegendClass]: this.props.additionalLegendClass
     });
 
     return (
