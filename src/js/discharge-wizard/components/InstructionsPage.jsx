@@ -24,7 +24,7 @@ class InstructionsPage extends React.Component {
   render() {
     return (
       <div className="dw-instructions">
-        <h1>Get Instructions for Upgrading Your Discharge</h1>
+        <h1>How to Apply for a Discharge Upgrade</h1>
         <main itemScope itemType="http://schema.org/FAQPage">
           <div className="row">
             <article className="usa-content columns">
@@ -70,7 +70,7 @@ class InstructionsPage extends React.Component {
                                 <p>If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.</p>
                                 <p>Learn more about:</p>
                                 <ul>
-                                  <li><a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
+                                  <li><a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who have experienced military sexual trauma</a></li>
                                   <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
                                   <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
                                 </ul>
@@ -81,7 +81,7 @@ class InstructionsPage extends React.Component {
                             <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq1" itemProp="name" aria-expanded={!!this.state.q2} onClick={this.handleFAQToggle} name="q2">What if I already applied for an upgrade or correction and was denied?</button>
                             <div id="dbq1" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q2}>
                               <div itemProp="text">
-                                <p>If your previous upgrade application was denied, you can apply again, but you may have to follow a different process. Click <strong>Get Started</strong> above. When asked if you've applied before, select <strong>Yes</strong>. After you've answered all the questions, you'll see application instructions specific to your situation.</p>
+                                <p>If your previous upgrade application was denied, you can apply again, but you may have to follow a different process. Click the <strong>Get Started</strong> button above. When you're asked if you've applied before, select <strong>Yes</strong>. After you've answered all the questions, you'll see application instructions specific to your situation.</p>
                                 <p>Applying again is most likely to be successful if your application is significantly different from when you last applied. For example, you may have additional evidence that wasn't available to you when you last applied, or the Departent of Defense (DoD) may have issued new rules regarding discharges. DoD rules changed for discharges related to PTSD, TBI, and mental health in 2014, military sexual harassment and assault in 2017, and sexual orientation in 2011.</p>
                               </div>
                             </div>
@@ -90,7 +90,7 @@ class InstructionsPage extends React.Component {
                             <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq2" itemProp="name" aria-expanded={!!this.state.q3} onClick={this.handleFAQToggle} name="q3">What if I have discharges for more than one period of service?</button>
                             <div id="dbq2" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q3}>
                               <div itemProp="text">
-                                <p>If the Department of Defense (DoD) or the Coast Guard determined you served honorably in one period of service, you may use that honorable characterization to establish eligibility for VA benefits, even if you later received a less than honorable discharge. You earned your benefits during the period in which you served honorably. Make sure you specifically mention your honorable period of service when applying for VA benefits.</p>
+                                <p>If the Department of Defense (DoD) or the Coast Guard determined you served honorably in one period of service, you may use that honorable characterization to establish eligibility for VA benefits, even if you later received a less than honorable discharge. You earned your benefits during the period in which you served honorably. Make sure you specifically mention your period of honorable service when applying for VA benefits.</p>
                                 <p><strong>Note:</strong> The only exception is for service-connected disability compensation. You're only eligible to earn disability compensation for disabilities you suffered during a period of honorable service. You can’t use an honorable discharge from one period of service to establish eligibility for a service-connected disability from a different period of service.</p>
                               </div>
                             </div>
@@ -99,8 +99,8 @@ class InstructionsPage extends React.Component {
                             <button className="usa-button-unstyled usa-accordion-button" aria-controls="dbq3" itemProp="name" aria-expanded={!!this.state.q4} onClick={this.handleFAQToggle} name="q4">What if I served honorably, but didn't receive discharge paperwork?</button>
                             <div id="dbq3" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q4}>
                               <div itemProp="text">
-                                <p>You're eligible for VA benefits at the end of an honorable period of service, even if you didn’t receive a discharge in the form of a DD214. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive an "honorable" DD214 at the end of your second period of service. If you completed a period of honorable service that's not reflected on a DD214, make sure you specifically mention this period of service when you apply for VA benefits. We may do a Character of Discharge review to confirm your eligibility.</p>
-                                <p>You can also apply to the Department of Defense (DoD) or the Coast Guard for a second DD214 only for that honorable period of service. Click <strong>Get Started</strong> above and answer the questions based on your most recent discharge. When you're asked if you completed a period of service in which your character of service was honorable or general under honorable conditions, select: "Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period."</p>
+                                <p>You're eligible for VA benefits at the end of a period of honorable service, even if you didn’t receive a discharge in the form of a DD214. If you completed your original contract period without any disciplinary problems, you can use this period of service to establish your eligibility, even if you re-enlisted or extended your service and did not receive an "honorable" DD214 at the end of your second period of service. If you completed a period of honorable service that's not reflected on a DD214, make sure you specifically mention this period of service when you apply for VA benefits. We may do a Character of Discharge review to confirm your eligibility.</p>
+                                <p>You can also apply to the Department of Defense (DoD) or the Coast Guard for a second DD214 only for that honorable period of service. Click the <strong>Get Started</strong> button above and answer the questions based on your most recent discharge. When you're asked if you completed a period of service in which your character of service was honorable or general under honorable conditions, select: "Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period."</p>
                               </div>
                             </div>
                           </li>
@@ -109,7 +109,7 @@ class InstructionsPage extends React.Component {
                             <div id="dbq5" className="usa-accordion-content" itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer" aria-hidden={!this.state.q5}>
                               <div itemProp="text">
                                 <p>When the Department of Defense (DoD) or the Coast Guard upgrades a Veteran’s discharge, it usually issues a DD215 showing corrections to the DD214. The DoD or the Coast Guard attaches the DD215 to the old DD214—which still shows the outdated discharge and related information. While the discharge on the DD215 is the correct discharge, a Veteran may still want a new DD214 that shows no record of their earlier characterization of discharge.</p>
-                                <p>If you have a DD215 and want an updated DD214, click the <strong>Get Started</strong> button above. On the next page select, "I received a discharge upgrade or correction, but my upgrade came in the form of a DD215, and I want an updated DD214." After you've answered all the questions, you'll see instructions for how to request a new DD214.</p>
+                                <p>If you have a DD215 and want an updated DD214, click the <strong>Get Started</strong> button above. On the next page, select: "I received a discharge upgrade or correction, but my upgrade came in the form of a DD215, and I want an updated DD214." After you've answered all the questions, you'll see instructions for how to request a new DD214.</p>
                               </div>
                             </div>
                           </li>

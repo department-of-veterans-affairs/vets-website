@@ -27,7 +27,7 @@ describe('<AddressContent/>', () => {
     const props = { ...defaultProps, saveError: true };
     const tree = SkinDeep.shallowRender(<AddressContent { ...props }/>);
     const updateFailureAlert = tree.dive(['UpdateFailureAlert']);
-    const updateFailureHeader = updateFailureAlert.subTree('h2').text();
+    const updateFailureHeader = updateFailureAlert.subTree('h4').text();
 
     expect(updateFailureAlert).to.exist;
     expect(updateFailureHeader).to.contain('Address update unsuccessful');
