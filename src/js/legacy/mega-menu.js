@@ -31,7 +31,6 @@ class MegaMenu {
   }
 
   showMegaMenu() {
-    console.log('menu shown');
     this.openControl.setAttribute('hidden', 'hidden');
     this.menu.removeAttribute('hidden');
     this.closeControl.removeAttribute('hidden');
