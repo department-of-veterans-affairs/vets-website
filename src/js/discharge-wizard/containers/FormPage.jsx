@@ -15,7 +15,7 @@ class FormPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Get Instructions for Upgrading Your Discharge</h1>
+        <h1>How to Apply for a Discharge Upgrade</h1>
         <div className="medium-8">
           <FormQuestions formValues={this.props.formValues} updateField={this.props.updateField}/>
         </div>

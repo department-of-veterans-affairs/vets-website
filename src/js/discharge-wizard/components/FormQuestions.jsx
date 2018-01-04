@@ -209,7 +209,7 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You can still apply—your answer to this question simply changes where you send your application.</h4>;
+    const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You can still apply. Your answer to this question simply changes where you send your application.</h4>;
     const options = [
       { label: 'Yes', value: '1' },
       { label: 'No', value: '2' },
