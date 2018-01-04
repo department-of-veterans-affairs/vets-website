@@ -162,23 +162,20 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 
 If you have a less than honorable discharge, you have 2 options to try to get VA health care benefits:
 
-- **If you believe your less than honorable discharge is unfair or unjust,** you can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.<br/>
+- **Apply for a discharge upgrade.**<br/>
+If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.<br/>
 [Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/).
 
-- **Even if you don't get a discharge upgrade,** you still may be able to access some VA benefits through the Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge. You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you.<br/>
+- **Go through the Character of Discharge review process.**<br/>
+Even if you don't get a discharge upgrade, you still may be able to access some VA health care benefits. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge. 
+
+You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you.<br/>
 [Find a VSO near you](https://www.benefits.va.gov/vso/varo.asp).
 
 **Note:** You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
 
-**How to get help right away if you need mental health care:**
+**How to get care for military sexual assault or mental health problems even without VA health care benefits:**
 If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (<a href="tel:+1-800-827-1000">1-800-827-1000</a>), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
-
-If you're in crisis, you have options:
-- Call the Veterans Crisis Line at (<a href="tel:+1-800-273-8255">1-800-273-8255</a>), then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text 838255 to get help right away.
-- Call 911.
-- Go to the nearest emergency room.
 
 Learn more about accessing VA health services for:<br/>
 - [Mental health problems](/health-care/health-conditions/mental-health/)
