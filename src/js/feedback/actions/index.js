@@ -30,12 +30,12 @@ function errorMessage(status) {
     case 429:
       return {
         title: 'We can’t receive your feedback right now',
-        description: 'We’re sorry. Something’s not working right on our end, and we can’t process your feedback message right now. Please try again later.'
+        description: 'We’re sorry. Something’s not working right on our end, and we can’t process your feedback message right now. Please try back in an hour.'
       };
     default:
       return {
-        title: 'An error occurred',
-        description: 'An error occurred while trying to submit the form. We apologize for the inconvenience.'
+        title: 'We’ve run into a problem',
+        description: 'We’re sorry. We couldn’t send your message. Please try again.'
       };
   }
 }
