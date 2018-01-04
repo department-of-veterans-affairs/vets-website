@@ -160,7 +160,7 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have a less than honorable discharge, you have 2 options to try to get VA health care benefits:
+You can try to qualify for VA health care benefits in 1 of 2 ways:
 
 - **Apply for a discharge upgrade.**<br/>
 If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.<br/>
@@ -174,8 +174,9 @@ You may want to consider finding someone to advocate on your behalf, depending o
 
 **Note:** You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
 
-**How to get care for military sexual assault or mental health problems even without VA health care benefits:**
-If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (<a href="tel:+1-800-827-1000">1-800-827-1000</a>), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
+**Getting care for mental health problems or issues related to military sexual assualt: <br/>
+
+If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (<a href="tel:+1-800-827-1000">1-800-827-1000</a>), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
 Learn more about accessing VA health services for:<br/>
 - [Mental health problems](/health-care/health-conditions/mental-health/)
