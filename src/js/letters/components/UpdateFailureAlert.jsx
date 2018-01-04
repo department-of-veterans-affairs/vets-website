@@ -12,7 +12,7 @@ const UpdateFailureAlert = ({ addressObject }) => {
   return (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
-        <h2 className="usa-alert-heading">Address update unsuccessful</h2>
+        <h4 className="usa-alert-heading">Address update unsuccessful</h4>
         <div className="usa-alert-text">
           <div>
             We weren't able to save your updated address. But your <strong>VA
