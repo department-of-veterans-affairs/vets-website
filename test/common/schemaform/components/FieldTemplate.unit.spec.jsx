@@ -100,7 +100,7 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>
     );
 
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Some error');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error Some error');
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
   });
   it('should render error when submitted', () => {
@@ -126,7 +126,7 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>
     );
 
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Some error');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error Some error');
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
   });
   it('should render description', () => {
