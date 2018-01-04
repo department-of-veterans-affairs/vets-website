@@ -79,13 +79,15 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.schemaform-sip-save-link');
     /* eslint-enable camelcase */
 
+    client.waitForElementVisible('.saved-form-metadata-container', Timeouts.normal);
     client.assert.urlContains('form-saved');
 
     // test start over, but all it really does is fetch the form again
     client
       .click('.usa-button-secondary')
       .waitForElementVisible('.va-modal', Timeouts.normal)
-      .click('.va-modal .usa-button-primary');
+      .click('.va-modal .usa-button-primary')
+      .waitForElementVisible('.schemaform-chapter-progress', Timeouts.normal);
 
     E2eHelpers.expectNavigateAwayFrom(client, 'form-saved');
     client.assert.urlContains('/veteran-information/birth-information');
