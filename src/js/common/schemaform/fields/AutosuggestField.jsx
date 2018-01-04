@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import Downshift from 'downshift';
 import { sortListByFuzzyMatch } from '../../utils/helpers';
+import classNames from 'classnames';
 
 const ESCAPE_KEY = 27;
 
@@ -49,7 +50,6 @@ export default class AutosuggestField extends React.Component {
     this.state = {
       options,
       input,
-      selectedItem: formData,
       suggestions
     };
   }
@@ -88,26 +88,44 @@ export default class AutosuggestField extends React.Component {
     return _.set('widget', 'autosuggest', suggestion);
   }
 
-  handleStateChange = (state) => {
-    if (typeof state.selectedItem !== 'undefined') {
-      const value = this.getFormData(state.selectedItem);
-      this.props.onChange(value);
+  handleInputValueChange = (inputValue) => {
+    if (inputValue !== this.state.input) {
+      let item = { widget: 'autosuggest', label: inputValue };
+      // once the input is long enough, check for exactly matching strings so that we don't
+      // force a user to click on an item when they've typed an exact match of a label
+      if (inputValue && inputValue.length > 3) {
+        const matchingItem = this.state.suggestions.find(suggestion => suggestion.label === inputValue);
+        if (matchingItem) {
+          item = this.getFormData(matchingItem);
+        }
+      }
+
+      this.props.onChange(item);
+
       this.setState({
-        input: state.selectedItem.label,
-        suggestions: this.getSuggestions(this.state.options, state.selectedItem.label)
+        input: inputValue,
+        suggestions: this.getSuggestions(this.state.options, inputValue)
       });
-    } else if (typeof state.inputValue !== 'undefined') {
-      this.props.onChange({ widget: 'autosuggest', label: state.inputValue });
+    } else if (inputValue === '') {
+      this.props.onChange();
       this.setState({
-        input: state.inputValue,
-        suggestions: this.getSuggestions(this.state.options, state.inputValue)
+        input: inputValue,
+        suggestions: this.getSuggestions(this.state.options, inputValue)
       });
     }
+
+  }
+
+  handleChange = (selectedItem) => {
+    const value = this.getFormData(selectedItem);
+    this.props.onChange(value);
+    this.setState({
+      input: selectedItem.label,
+    });
   }
 
   handleKeyDown = (event) => {
     if (event.keyCode === ESCAPE_KEY) {
-      this.props.onChange();
       this.setState({ input: '' });
     }
   }
@@ -131,7 +149,8 @@ export default class AutosuggestField extends React.Component {
 
     return (
       <Downshift
-        onStateChange={this.handleStateChange}
+        onChange={this.handleChange}
+        onInputValueChange={this.handleInputValueChange}
         inputValue={this.state.input}
         selectedItem={this.state.input}
         itemToString={item => {
@@ -148,20 +167,19 @@ export default class AutosuggestField extends React.Component {
           selectedItem,
           highlightedIndex
         }) => (
-          <div>
+          <div className="autosuggest-container">
             <input {...getInputProps({ id, name: id, onKeyDown: this.handleKeyDown, onBlur: this.handleBlur })}/>
             {isOpen && (
-              <div>
+              <div className="autosuggest-list">
                 {this.state.suggestions
                   .map((item, index) => (
                     <div
                       {...getItemProps({ item })}
-                      key={item.id}
-                      style={{
-                        backgroundColor:
-                          highlightedIndex === index ? 'gray' : 'white',
-                        fontWeight: selectedItem === item ? 'bold' : 'normal',
-                      }}>
+                      className={classNames('autosuggest-item', {
+                        'autosuggest-item-highlighted': highlightedIndex === index,
+                        'autosuggest-item-selected': selectedItem === item.label
+                      })}
+                      key={item.id}>
                       {item.label}
                     </div>
                   ))}
