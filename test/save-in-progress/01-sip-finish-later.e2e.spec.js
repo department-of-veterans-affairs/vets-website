@@ -53,6 +53,8 @@ module.exports = E2eHelpers.createE2eTest(
       }, token)
       .click('.schemaform-sip-save-link');
 
+    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
+
     client.assert.urlContains('birth-information');
 
     client
