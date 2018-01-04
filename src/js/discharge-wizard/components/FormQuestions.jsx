@@ -22,7 +22,7 @@ class FormQuestions extends React.Component {
     this.props.updateField(name, value);
     this.forceUpdate();
     setTimeout(() => {
-      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], {
+      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], window.VetsGov.scroll || {
         duration: 1000,
         smooth: true,
         offset: -150,
@@ -35,7 +35,7 @@ class FormQuestions extends React.Component {
 
     window.dataLayer.push({ event: 'discharge-upgrade-review-edit' });
 
-    scroller.scrollTo(e.target.name, {
+    scroller.scrollTo(e.target.name, window.VetsGov.scroll || {
       duration: 1000,
       smooth: true,
     });
@@ -209,7 +209,7 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You can still apply—your answer to this question simply changes where you send your application.</h4>;
+    const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You can still apply. Your answer to this question simply changes where you send your application.</h4>;
     const options = [
       { label: 'Yes', value: '1' },
       { label: 'No', value: '2' },

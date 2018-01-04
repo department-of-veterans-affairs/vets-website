@@ -243,25 +243,7 @@ form {
   }
 }
 
-// Ensure the info icon is centered in boxes with only one line of text
-.usa-alert-info {
-  min-height: 74px;
-}
-
-.usa-alert {
-  // min-height: 70px;
-
-  &.va-crisis-alert {
-    background-size:4.5rem;
-    padding-bottom:1.7rem;
-  }
-}
-
-.usa-alert-body {
-  > h3:first-child, > h4:first-child, > h5:first-child {
-    margin-top: 0;
-  }
-}
+// .usa-alert shame moved to _m_alert.scss
 
 #hurricane-warning-container {
 

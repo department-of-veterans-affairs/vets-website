@@ -191,7 +191,7 @@ describe('getLettersList', () => {
     const dispatch = sinon.spy();
     getLetterList(dispatch)
       .then(() => {
-        done(new Error('Should not resolve the promise when GET fails'));
+        done(new Error('getLetterList should have rejected but resolved instead'));
       }).catch(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_FAILURE);
@@ -436,7 +436,7 @@ describe('getBenefitSummaryOptions', () => {
 
     getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
-        done(new Error('Should not resolve the promise when the GET fails'));
+        done(new Error('getBenefitSummaryOptions should have rejected but resolved instead'));
       }).catch(() => {
         expect(dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })).to.be.true;
         done();
