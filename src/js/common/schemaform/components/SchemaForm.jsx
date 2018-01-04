@@ -145,7 +145,7 @@ class SchemaForm extends React.Component {
       children,
       onSubmit,
       onChange,
-      // safeRenderCompletion
+      safeRenderCompletion
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
@@ -153,7 +153,7 @@ class SchemaForm extends React.Component {
     return (
       <div>
         <Form
-          safeRenderCompletion
+          safeRenderCompletion={safeRenderCompletion}
           FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
           formContext={this.state.formContext}
           liveValidate
