@@ -119,14 +119,14 @@ class GuidancePage extends React.Component {
 
     const dd214Tips = (
       <ul>
-        <li>Pay special attention to item 6, which asks for the reason for your change. Here you should explain why you need a new DD214, including any problems you are facing when you have to show both the DD214 and DD215. You may consider attaching additional pages to fully answer this question.</li>
+        <li>Pay special attention to item 6, which asks for the reason for your change. Here you should explain why you need a new DD214, including any problems you face when you have to show both the DD214 and the DD215. You may want to consider attaching additional pages to fully answer this question.</li>
       </ul>
     );
 
     const nonDd2014Tips = (
       <ul>
         <li>Pay special attention to item 6, which asks for the reason for your change. Most Veterans attach additional pages to answer this question. {strongCaseTips()}</li>
-        {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you're applying for reconsideration of a previous application, you'll need to enter the previous application number in Item 6b. Note: You are generally only eligible for reconsideration if you have new evidence to present that was not available when you applied last time. Make sure you're clear about exactly what that new evidence is. Additionally, changes in DoD policy, like the new consideration guidelines for PTSD, TBI, and sexual assault or harassment, can qualify you for reconsideration.</li>}
+        {this.props.formValues['10_prevApplicationType'] === '3' && <li>Because you're applying for reconsideration of a previous application, you'll need to enter the previous application number in Item 6b. <strong>Note:</strong> You're generally only eligible for reconsideration if you have new evidence to present that wasn't available when you applied last time. Make sure you're clear about exactly what that new evidence is. Additionally, changes in DoD policy, like the new consideration guidelines for PTSD, TBI, and sexual assault or harassment, can qualify you for reconsideration.</li>}
         {this.props.formValues['4_reason'] === '4' && <li>
           Note: For upgrades related to sexual assault or harassment, you do not need to prove the original assault or harassment occurred—meaning if you didn't file charges or report the incident, you can still apply for an upgrade. The important part of your application is where you explain the impact of the incident on your service. For example, detail how the incident caused a decrease in your productivity, or was the reason for PTSD.
         </li>}
@@ -148,8 +148,10 @@ class GuidancePage extends React.Component {
           {this.props.formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
           <a target="_blank" href={form.link} className="usa-button-primary va-button" ref={(el) => { this.downloadFormBtn = el; }}>Download Form {form.num}</a>
           <AlertBox
-            headline={<h4>Need help preparing your application?</h4>}
-            content={<p>The process of preparing a discharge upgrade or correction application can be a lot of work and can take a long time. Although many Veterans are successful on their own, you may want to consider finding someone to advocate for you in this process. Try a Veteran Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a target="_blank" href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p>}
+            content={<div>
+              <h4 className="usa-alert-heading">Need help preparing your application?</h4>
+              <p>The process of preparing a discharge upgrade or correction application can be a lot of work and can take a long time. Although many Veterans are successful on their own, you may want to consider finding someone to advocate for you in this process. Try a Veterans Service Organization (VSO), search online for a lawyer who may provide services for low or no cost, or ask other Veterans for recommendations. <a target="_blank" href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you</a>.</p>
+            </div>}
             isVisible
             status="warning"/>
         </div>
@@ -200,7 +202,7 @@ class GuidancePage extends React.Component {
             <li><strong>Military Record</strong>: In most cases, your records will be important to the Board's decision. The Board may not have easy access to your military records, especially if you served many years ago, so we strongly recommend you submit any relevant documents yourself. {boardToSubmit.abbr !== 'DRB' ? <span>Note that the {boardToSubmit.abbr} is required to help you collect evidence if you can demonstrate you made a reasonable attempt to get your records but you didn't succeed.</span> : null} {militaryRecordInfo} {specificTypeInstruction && <p>Remember, you should try to prove that {specificTypeInstruction}. Submit any documents from this record that help support your case for a discharge upgrade.</p>}</li>
             {this.renderMedicalRecordInfo()}
             <li><strong>"Buddy Statements" or Other References From Service</strong>: On top of military records, you can attach statements from friends or colleagues you knew while in the service, or other individuals with direct knowledge of your time in the military. The content of the letter is more important than who it comes from, as long as the writer's opinion is credible and they know you well. The writer should state how they learned about the facts or opinions they're writing about. The letters may include statements about your achievements in the military, positive relationships you formed in the military, why your discharge may be unjust or incorrect, and your good deeds during that time.</li>
-            <li><strong>Testaments of Achievements Since Service</strong>: You may decide to add information about what you have achieved in your life since your discharge, particularly if your discharge involved any issues related to drugs, alcohol, or bad behavior. This can be in the form of a letter from an employer or community leader, evidence of successful drug treatment, or copies of certificates and degrees. DoD will soon release more specific information about achievements since service, but, for now, add any acheivements you would like to call out.</li>
+            <li><strong>Testaments of Achievements Since Service</strong>: You may decide to add information about what you have achieved in your life since your discharge, particularly if your discharge involved any issues related to drugs, alcohol, or bad behavior. This can be in the form of a letter from an employer or community leader, evidence of successful drug treatment, or copies of certificates and degrees. The DoD will soon release more specific information about achievements since service, but, for now, add any achievements you would like to call out.</li>
           </ul>
         </div>
       </li>
@@ -252,7 +254,7 @@ class GuidancePage extends React.Component {
     } else if (reasonCode === '8' && prevAppType === '3') {
       boardExplanation = `the ${boardToSubmit.name}. The ${boardToSubmit.abbr} was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
     } else if (prevAppYear === '1' && boardToSubmit.abbr === 'DRB') {
-      boardExplanation = `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. In general, DRB does not handle appeals for previously denied applications. However, because new rules have recently come out regarding discharges like yours, the Boards may treat your application as a new case. If possible, review the new policies and state in your application how the change in the policy is relevant to your case. If the DRB decides that the new rules don't apply to your situation, you will likely have to send an appeal to a different Board.`;
+      boardExplanation = `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. In general, the DRB does not handle appeals for previously denied applications. However, because new rules have recently come out regarding discharges like yours, the Boards may treat your application as a new case. If possible, review the new policies and state in your application how the change in the policy is relevant to your case. If the DRB decides that the new rules don't apply to your situation, you will likely have to send an appeal to a different Board.`;
     } else if (this.props.formValues['11_failureToExhaust'] && boardToSubmit.abbr === 'DRB') {
       boardExplanation = `the Discharge Review Board (DRB) for the ${this.props.formValues['1_branchOfService']}. The ${boardToSubmit.name} previously rejected your application because you did not apply to the DRB first. For applications like yours, the ${boardToSubmit.abbr} can review only cases that have already been rejected by the DRB. The DRB is a panel of commissioned officers, or a mix of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge. After this time period, you must apply to a different board.`;
     } else if (prevAppType === '2') {
@@ -319,7 +321,7 @@ class GuidancePage extends React.Component {
                   <p>If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.</p>
                   <p>Learn more about:</p>
                   <ul>
-                    <li><a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
+                    <li><a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who have experienced military sexual trauma</a></li>
                     <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
                     <li><a href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
                   </ul>

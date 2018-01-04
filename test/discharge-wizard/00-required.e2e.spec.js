@@ -38,7 +38,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('input[name="12_priorService"]');
 
     client
-      .waitForElementVisible('.review-answers', Timeouts.normal)
+      .waitForElementVisible('.review-answers', Timeouts.slow)
       .axeCheck('.main')
       .click('a.usa-button-primary');
 
