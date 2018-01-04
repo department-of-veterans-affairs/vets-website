@@ -17,12 +17,13 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.axeCheck('.main');
 
+    E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // load an in progress form
     client
       .click('.usa-button-primary');
 
-    E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
     client.assert.urlContains('/veteran-information/birth-information');
 
@@ -52,6 +53,8 @@ module.exports = E2eHelpers.createE2eTest(
       }, token)
       .click('.schemaform-sip-save-link');
 
+    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
+
     client.assert.urlContains('birth-information');
 
     client
@@ -79,13 +82,15 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.schemaform-sip-save-link');
     /* eslint-enable camelcase */
 
+    client.waitForElementVisible('.saved-form-metadata-container', Timeouts.slow);
     client.assert.urlContains('form-saved');
 
     // test start over, but all it really does is fetch the form again
     client
       .click('.usa-button-secondary')
       .waitForElementVisible('.va-modal', Timeouts.normal)
-      .click('.va-modal .usa-button-primary');
+      .click('.va-modal .usa-button-primary')
+      .waitForElementVisible('.schemaform-chapter-progress', Timeouts.normal);
 
     E2eHelpers.expectNavigateAwayFrom(client, 'form-saved');
     client.assert.urlContains('/veteran-information/birth-information');
@@ -105,3 +110,5 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.end();
   });
+
+module.exports['@disabled'] = true;
