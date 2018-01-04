@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import Autosuggest from 'react-autosuggest-ie11-compatible';
 import Downshift from 'downshift';
 import { sortListByFuzzyMatch } from '../../utils/helpers';
 
@@ -93,10 +92,16 @@ export default class AutosuggestField extends React.Component {
     if (typeof state.selectedItem !== 'undefined') {
       const value = this.getFormData(state.selectedItem);
       this.props.onChange(value);
-      this.setState({ input: state.selectedItem.label });
+      this.setState({
+        input: state.selectedItem.label,
+        suggestions: this.getSuggestions(this.state.options, state.selectedItem.label)
+      });
     } else if (typeof state.inputValue !== 'undefined') {
       this.props.onChange({ widget: 'autosuggest', label: state.inputValue });
-      this.setState({ input: state.inputValue });
+      this.setState({
+        input: state.inputValue,
+        suggestions: this.getSuggestions(this.state.options, state.inputValue)
+      });
     }
   }
 
@@ -140,15 +145,14 @@ export default class AutosuggestField extends React.Component {
           getInputProps,
           getItemProps,
           isOpen,
-          inputValue,
           selectedItem,
           highlightedIndex
         }) => (
           <div>
             <input {...getInputProps({ id, name: id, onKeyDown: this.handleKeyDown, onBlur: this.handleBlur })}/>
-            {(isOpen && inputValue.length > 2) && (
+            {isOpen && (
               <div>
-                {this.getSuggestions(this.state.options, inputValue)
+                {this.state.suggestions
                   .map((item, index) => (
                     <div
                       {...getItemProps({ item })}
