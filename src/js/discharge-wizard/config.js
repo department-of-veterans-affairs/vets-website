@@ -27,7 +27,7 @@ export const questionLabels = {
     '2': 'My discharge is not honorable or under honorable conditions.',
   },
   '6_intention': {
-    '1': 'I want to change my name, discharge date, or anything written in the "other remarks" section of my DD214. (This isn\'t common).',
+    '1': 'I want to change my name, discharge date, or something written in the "other remarks" section of my DD214. (This isn\'t common).',
     '2': 'I want to change only my characterization of discharge, re-enlistment code, separation code, and/or narrative reason for discharge.',
   },
   '2_dischargeYear': {},
