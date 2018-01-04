@@ -168,6 +168,7 @@ If your application goes through and your discharge is upgraded, you'll be eligi
 
 - **Go through the Character of Discharge review process.**<br/>
 Even if you don't get a discharge upgrade, you still may be able to access some VA health care benefits. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge. <br/>
+<br/>
 You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you.<br/>
 [Find a VSO near you](https://www.benefits.va.gov/vso/varo.asp).
 
