@@ -15,9 +15,6 @@ import './common';
 // Used in the footer.
 import './legacy/menu.js';
 
-// New navigation menu
-import './legacy/mega-menu.js';
-
 // New sidebar menu
 import './legacy/sidebar-navigation.js';
 
