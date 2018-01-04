@@ -79,7 +79,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.schemaform-sip-save-link');
     /* eslint-enable camelcase */
 
-    client.waitForElementVisible('.saved-form-metadata-container', Timeouts.normal);
+    client.waitForElementVisible('.saved-form-metadata-container', Timeouts.slow);
     client.assert.urlContains('form-saved');
 
     // test start over, but all it really does is fetch the form again
