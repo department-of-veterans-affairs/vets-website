@@ -16,6 +16,8 @@ class MegaMenu {
   }
 
   addListeners() {
+    this.closeControl.addEventListener('click', this.hideMegaMenu);
+    this.openControl.addEventListener('click', this.showMegaMenu);
     window.addEventListener('resize', this.resetMenu);
   }
 
@@ -29,6 +31,7 @@ class MegaMenu {
   }
 
   showMegaMenu() {
+    console.log('menu shown');
     this.openControl.setAttribute('hidden', 'hidden');
     this.menu.removeAttribute('hidden');
     this.closeControl.removeAttribute('hidden');

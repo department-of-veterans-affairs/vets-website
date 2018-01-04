@@ -362,8 +362,7 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
   });
 
   // Close when the screen is resized
-  // Useful for when the menu might be hidden on smaller screens
-  // TODO: Actually use this
+  // Useful for when the menu might be hidden on smaller screens (nav menubar)
   if (closeOnResize) {
     window.addEventListener('resize', () => closeAll(menuElement));
   }
@@ -380,8 +379,6 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     } else if (inMenu) {
       openMenu(targetLi);
     }
-
-    // TODO: Handle open and close menu button for small windows
   });
 
   // Handle clicking away from the menu
@@ -389,8 +386,6 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     const target = event.target;
     if (!menuElement.contains(target)) {
       closeAll(menuElement);
-      // TODO: Handle the open / close menu button for small windows
-      // this.resetMenu();
     }
   });
 }
