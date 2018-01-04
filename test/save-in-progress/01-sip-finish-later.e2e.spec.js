@@ -17,12 +17,13 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.axeCheck('.main');
 
+    E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // load an in progress form
     client
       .click('.usa-button-primary');
 
-    E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
     client.assert.urlContains('/veteran-information/birth-information');
 
