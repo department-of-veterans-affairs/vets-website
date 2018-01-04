@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
+import Downshift from 'downshift';
 import { sortListByFuzzyMatch } from '../../utils/helpers';
 
 const ESCAPE_KEY = 27;
@@ -49,6 +50,7 @@ export default class AutosuggestField extends React.Component {
     this.state = {
       options,
       input,
+      selectedItem: formData,
       suggestions
     };
   }
@@ -70,27 +72,6 @@ export default class AutosuggestField extends React.Component {
     this.unmounted = true;
   }
 
-  onChange = (event, { method, newValue }) => {
-    // If this is changing because of a click, then onChange is called by suggestion selected method
-    // If it's changing because of up/down arrows, we want to skip it until a user makes a choice
-    // That leaves type as the only method we need to handle
-    if (method === 'type') {
-      if (!newValue) {
-        this.props.onChange();
-      } else {
-        this.props.onChange({ widget: 'autosuggest', label: newValue });
-      }
-      this.setState({ input: newValue });
-    }
-  }
-
-  onKeyDown = (event) => {
-    if (event.keyCode === ESCAPE_KEY) {
-      this.props.onChange();
-      this.setState({ input: '' });
-    }
-  }
-
   getSuggestions = (options, value) => {
     if (value) {
       const uiOptions = this.props.uiSchema['ui:options'];
@@ -108,38 +89,26 @@ export default class AutosuggestField extends React.Component {
     return _.set('widget', 'autosuggest', suggestion);
   }
 
-  handleSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      input: value,
-      suggestions: this.getSuggestions(this.state.options, value)
-    });
+  handleStateChange = (state) => {
+    if (typeof state.selectedItem !== 'undefined') {
+      const value = this.getFormData(state.selectedItem);
+      this.props.onChange(value);
+      this.setState({ input: state.selectedItem.label });
+    } else if (typeof state.inputValue !== 'undefined') {
+      this.props.onChange({ widget: 'autosuggest', label: state.inputValue });
+      this.setState({ input: state.inputValue });
+    }
   }
 
-  handleSuggestionSelected = (event, { suggestion }) => {
-    event.preventDefault();
-    if (suggestion) {
-      this.props.onChange(this.getFormData(suggestion));
-    } else {
+  handleKeyDown = (event) => {
+    if (event.keyCode === ESCAPE_KEY) {
       this.props.onChange();
+      this.setState({ input: '' });
     }
-    this.setState({ input: suggestion.label });
   }
 
   handleBlur = () => {
     this.props.onBlur(this.props.idSchema.$id);
-  }
-
-  handleSuggestionsClearRequested = () => {
-    this.setState({ suggestions: [] });
-  }
-
-  shouldRenderSuggestions(searchTerm) {
-    const checkLength = searchTerm.trim().length > 2;
-    return checkLength;
-  }
-
-  renderSuggestion(suggestion) {
-    return <div>{suggestion.label}</div>;
   }
 
   render() {
@@ -156,24 +125,47 @@ export default class AutosuggestField extends React.Component {
     }
 
     return (
-      <Autosuggest
-        getSuggestionValue={suggestion => suggestion.label}
-        highlightFirstSuggestion
-        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-        onSuggestionSelected={this.handleSuggestionSelected}
-        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
-        renderSuggestion={this.renderSuggestion}
-        shouldRenderSuggestions={this.shouldRenderSuggestions}
-        suggestions={this.state.suggestions}
-        inputProps={{
-          id,
-          name: id,
-          value: this.state.input,
-          onChange: this.onChange,
-          onKeyDown: this.onKeyDown,
-          'aria-labelledby': `${id}-label`,
-          onBlur: this.handleBlur
-        }}/>
+      <Downshift
+        onStateChange={this.handleStateChange}
+        inputValue={this.state.input}
+        selectedItem={this.state.input}
+        itemToString={item => {
+          if (typeof item === 'string') {
+            return item;
+          }
+
+          return item.label;
+        }}
+        render={({
+          getInputProps,
+          getItemProps,
+          isOpen,
+          inputValue,
+          selectedItem,
+          highlightedIndex
+        }) => (
+          <div>
+            <input {...getInputProps({ id, name: id, onKeyDown: this.handleKeyDown, onBlur: this.handleBlur })}/>
+            {(isOpen && inputValue.length > 2) && (
+              <div>
+                {this.getSuggestions(this.state.options, inputValue)
+                  .map((item, index) => (
+                    <div
+                      {...getItemProps({ item })}
+                      key={item.id}
+                      style={{
+                        backgroundColor:
+                          highlightedIndex === index ? 'gray' : 'white',
+                        fontWeight: selectedItem === item ? 'bold' : 'normal',
+                      }}>
+                      {item.label}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        )}>
+      </Downshift>
     );
   }
 }
