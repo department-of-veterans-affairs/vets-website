@@ -58,11 +58,11 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/), **or**
 
-- Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
+- Work with an accredited representative. [Get help filing your claim](/disability-benefits/apply/help/index.html), **or**
 
-- Go to a VA regional benefit office and get help from a VA employee [(Find a local VA office)](/facilities/).
+- Go to a VA regional benefit office and get help from a VA employee. [Find a local VA office](/facilities/).
 
 
 ### As a surviving parent, can I get compensation?
@@ -77,11 +77,11 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](https://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/), **or**
 
-- Work with an accredited representative [(Get help filing for survivors benefits)](https://www.vets.gov/disability-benefits/apply/help/index.html), **or**
+- Work with an accredited representative. [Get help filing your claim](/disability-benefits/apply/help/index.html), **or**
 
-- Go to a VA regional benefit office and have a VA employee help you [(Find a local VA office)](/facilities/).
+- Go to a VA regional benefit office and have a VA employee help you. [Find a local VA office](/facilities/).
 
 
 
