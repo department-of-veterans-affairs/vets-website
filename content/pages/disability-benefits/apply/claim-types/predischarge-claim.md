@@ -37,8 +37,8 @@ You can use the BDD program if:
 You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. You have 2 options for filing:
 
 - **Go through The Decision Ready Claim (DRC) program.** This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivotrs. With your VSO's help, you can get a decision within 30 days. <br/>
-[Learn more about the DRC program](#drc-program) <br/>
-[Learn more about VSOs and how to find one](/disability-benefits/apply/help/)<br/>
+[Learn more about the DRC program](#drc-program). <br/>
+[Learn more about VSOs and how to find one](/disability-benefits/apply/help/). <br/>
 
 - **File a fully developed or standard claim.** The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br/>
 [Learn about the application process](/disability-benefits/apply/).</br>
@@ -68,8 +68,8 @@ Compensation (monthly payments)
 
 **Jump to a section:**
 
-[How do I get these disability benefits through the BDD program?](#bdd-program)
-[If I can't go through the BDD program, how can I file a claim through the DRC program?](#drc-program)
+[How do I get these disability benefits through the BDD program?](#bdd-program) <br/>
+[If I can't go through the BDD program, how can I file a claim through the DRC program?](#drc-program) <br/>
 [What's the Integrated Disability Evaluation System (IDES), and how does it work?](#ides-program)
 
 <span id="bdd-program"></span>
