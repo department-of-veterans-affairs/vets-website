@@ -47,8 +47,7 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 </div>
 
-<div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for a Veterans Pension</a>
-</div>
+### Ready to apply? 
 
-<div markdown="0"><br></div>
+Apply by mail using an Application for Pension (VA Form 21P-527EZ). [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+[Learn more about the application process](/pension/apply/).
