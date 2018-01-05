@@ -20,6 +20,9 @@ class AuthApplicationSection extends React.Component {
           <p><a href="/track-claims">Check your claim and appeal status</a></p>
           <p><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>
           {idCardAvailable && <p><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>}
+          <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
+            application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
+            during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
         </div>
       );
     } else {
