@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { formTitles, formLinks } from '../helpers';
+import { formTitles, formLinks, disabledForms } from '../helpers';
 
 class FormItem extends React.Component {
   render() {
@@ -21,7 +21,7 @@ class FormItem extends React.Component {
             <p>Your saved application <span className="expires">will expire on {expirationDate}.</span></p>
           </div>}
         </div>
-        <div className="row small-collapse">
+        {!disabledForms[formId] && <div className="row small-collapse">
           <div className="small-12 medium-8 large-8 columns">
             <div className="application-route-container resume">
               <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`}>Continue Your Application</a>
@@ -34,11 +34,12 @@ class FormItem extends React.Component {
               </button>
             </div>
           </div>
-        </div>
+        </div>}
+        {!!disabledForms[formId] && <div>{disabledForms[formId]}</div>}
       </div>
     );
     const expiredView = (
-      <div className="usa-alert usa-alert-warning">
+      <div className="usa-alert usa-alert-warning saved-form-expired no-background-image">
         <button className="va-alert-close notification-close va-expired-item-close" onClick={() => this.props.toggleModal(formId)} aria-label="Close notification">
           <i className="fa fa-close" aria-label="Close icon"></i>
         </button>

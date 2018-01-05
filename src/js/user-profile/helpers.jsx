@@ -76,3 +76,8 @@ export function isSIPEnabledForm(savedForm) {
   }
   return true;
 }
+
+export const disabledForms = {
+  '21P-527EZ': 'Sorry, this is disabled',
+  '21P-530': 'Sorry, this is disabled',
+};
