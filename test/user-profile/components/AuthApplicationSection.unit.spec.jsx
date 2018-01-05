@@ -7,8 +7,22 @@ import AuthApplicationSection from '../../../src/js/user-profile/components/Auth
 
 describe('<AuthApplicationSection>', () => {
   const props = {
-    userProfile: { services: [] },
-    verifyUrl: 'http://fake-verify-url'
+    userProfile: {
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'rx',
+        'messaging',
+        'health-records',
+        'evss-claims',
+        'user-profile',
+        'appeals-status',
+        'form-save-in-progress',
+        'form-prefill',
+        'id-card'
+      ]
+    },
   };
   let windowOpen;
   let oldWindow;
@@ -25,17 +39,31 @@ describe('<AuthApplicationSection>', () => {
   };
   before(setup);
   after(takeDown);
+
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
-  it('should display verify link is user is not verified', () => {
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
+
+  it('should display verify link if there are no available services', () => {
+    const tree = SkinDeep.shallowRender(<AuthApplicationSection userProfile={{ services: [] }}/>);
+    expect(tree.everySubTree('span').length).to.equal(1);
+  });
+
+  it('should display available services as well as verify link if there are some unavailable services', () => {
+    const tree = SkinDeep.shallowRender(<AuthApplicationSection userProfile={{
+      services: [
+        'facilities',
+        'hca',
+        'edu-benefits',
+        'user-profile',
+      ]
+    }}/>);
     expect(tree.everySubTree('span').length).to.equal(2);
   });
-  it('should not display verify link if user is verified', () => {
-    props.userProfile.accountType = 3;
+
+  it('should not display verify link if all services are available', () => {
     const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
     expect(tree.everySubTree('span').length).to.equal(1);
   });
