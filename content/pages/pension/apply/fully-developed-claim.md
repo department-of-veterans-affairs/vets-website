@@ -136,7 +136,7 @@ You’ll need to turn in the information and evidence as soon as you can.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">How do I turn in my information and evidence?</button>
 <div id="where-to-send" class="usa-accordion-content">
 
-Fill out an Application for Pension ([VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf)), and upload or attach to the end of the form all the related documents. We’ll send your application to the right Pension Management Center for your state.
+Fill out an Application for Pension ([VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf)), and attach to the end of the form all the related documents. Mail the application to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
 
 </div>
 </li>
