@@ -59,8 +59,9 @@ class AuthApplicationSection extends React.Component {
         return;
       }
 
-      const accessible =
-        requiredServices.reduce((acc, service) => acc && isAvailable[service], true);
+      const accessible = requiredServices.length > 1 ?
+        requiredServices.reduce((acc, service) => acc && isAvailable[service], true) :
+        isAvailable[requiredServices[0]];
       if (accessible) {
         availableServices.push(content);
       } else {
