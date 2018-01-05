@@ -13,6 +13,10 @@ const contentConditions = [
     ['edu-benefits']
   ],
   [
+    <p key="discharge-upgrade"><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>,
+    null
+  ],
+  [
     <p key="rx"><a href="/health-care/prescriptions">Refill your prescription</a></p>,
     ['rx']
   ],
@@ -51,6 +55,12 @@ class AuthApplicationSection extends React.Component {
     }, {});
 
     contentConditions.forEach(([content, requiredServices]) => {
+      // Services without any requirements are available to every user.
+      if (!requiredServices) {
+        availableServices.push(content);
+        return;
+      }
+
       const accessible = requiredServices.length > 1 ?
         requiredServices.reduce((acc, service) => acc && isAvailable[service], true) :
         isAvailable[requiredServices[0]];
