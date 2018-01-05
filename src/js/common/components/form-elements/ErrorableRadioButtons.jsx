@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
@@ -12,6 +13,8 @@ import { makeField } from '../../model/fields.js';
  *
  * Validation has the following props.
 
+ * `additionalFieldsetClass` - String for any additional fieldset classes.
+ * `additionalLegendClass` - String for any additional legend classes.
  * `label` - String for the group field label.
  * `name` - String for the name attribute.
  * `toolTipText` - String with help text for user.
@@ -127,10 +130,20 @@ class ErrorableRadioButtons extends React.Component {
       return output;
     });
 
+    const fieldsetClass = classNames('fieldset-input', {
+      'usa-input-error': this.props.errorMessage,
+      [this.props.additionalFieldsetClass]: this.props.additionalFieldsetClass
+    });
+
+    const legendClass = classNames('legend-label', {
+      'usa-input-error-label': this.props.errorMessage,
+      [this.props.additionalLegendClass]: this.props.additionalLegendClass
+    });
+
     return (
-      <fieldset className={this.props.errorMessage ? 'fieldset-input usa-input-error' : 'fieldset-input'}>
+      <fieldset className={fieldsetClass}>
         <legend
-          className={this.props.errorMessage ? 'legend-label usa-input-error-label' : 'legend-label'}>
+          className={legendClass}>
           {this.props.label}
           {requiredSpan}
         </legend>
@@ -143,6 +156,8 @@ class ErrorableRadioButtons extends React.Component {
 }
 
 ErrorableRadioButtons.propTypes = {
+  additionalFieldsetClass: PropTypes.string,
+  additionalLegendClass: PropTypes.string,
   errorMessage: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,

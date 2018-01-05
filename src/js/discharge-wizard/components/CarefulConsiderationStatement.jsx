@@ -70,7 +70,7 @@ const priorServiceStatement = (props) => {
             The instructions below tell you how to apply for an upgrade or correction to your final, less than honorable period of service. Because you served honorably in one period of service, however, you can apply for VA benefits using that honorable characterization. You earned your benefits during the period in which you served honorably. <strong>Note:</strong> The only exception is for service-connected disability compensation. If your disability began during your less than honorable period of service, you won't be eligible to earn disability compensation unless you get that discharge upgraded.
           </p>
           <p>
-            You do not need a DD214 to make this application—you only need to specifically mention this period of honorable service when you apply for VA benefits. (We may do a Character of Discharge review to confirm your eligibility.) If you want a DD214 for your period of honorable service for other reasons, you can request one. <Link to="/request-dd214" target="_blank">Get instructions on how to request a DD214 for your period of honorable service</Link>
+            You do not need a DD214 to make this application—you only need to specifically mention this honorable period of service when you apply for VA benefits. (We may do a Character of Discharge review to confirm your eligibility.) If you want a DD214 for your honorable period of service for other reasons, unrelated to applying for VA benefits, you can request one. <Link to="/request-dd214" target="_blank">Get instructions on how to request a DD214 for your period of honorable service</Link>
           </p>
           <p>
             If you'd like to apply to upgrade your final discharge, follow the instructions below.

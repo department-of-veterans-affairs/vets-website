@@ -205,9 +205,10 @@
     "camelcase-keys-recursive": "^0.8.2",
     "eslint-plugin-import": "^2.7.0",
     "eslint-stats": "^1.0.0",
+    "fast-levenshtein": "^2.0.6",
     "nyc": "^11.1.0",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d49c54324e53a59afe5998a9f52666b08aa49888"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e027b3d04b7157ed93908137da07830eefbe8c2c"
   }
 }

@@ -36,7 +36,10 @@ function completeServicePeriods(client, data) {
     client
       .fillDate(`root_application_veteran_serviceRecords_${index}_dateRange_from`, tour.dateRange.from)
       .fillDate(`root_application_veteran_serviceRecords_${index}_dateRange_to`, tour.dateRange.to)
-      .selectDropdown(`root_application_veteran_serviceRecords_${index}_serviceBranch`, tour.serviceBranch)
+      .click(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`)
+      .fill(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`, 'ALLIED FORCES')
+      .sendKeys(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`, client.Keys.DOWN_ARROW)
+      .sendKeys(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`, client.Keys.ENTER)
       .fill(`input[name="root_application_veteran_serviceRecords_${index}_highestRank"]`, tour.highestRank)
       .selectDropdown(`root_application_veteran_serviceRecords_${index}_dischargeType`, tour.dischargeType);
 
