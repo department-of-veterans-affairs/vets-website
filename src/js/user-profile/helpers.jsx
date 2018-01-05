@@ -78,6 +78,6 @@ export function isSIPEnabledForm(savedForm) {
 }
 
 export const disabledForms = {
-  '21P-527EZ': 'Sorry, this is disabled',
-  '21P-530': 'Sorry, this is disabled',
+  '21P-527EZ': 'You spoke. We listened. We’re working to improve your experience of applying for benefits online. Please come back soon to see our new and improved process.',
+  '21P-530': 'You spoke. We listened. We’re working to improve your experience of applying for benefits online. Please come back soon to see our new and improved process.',
 };

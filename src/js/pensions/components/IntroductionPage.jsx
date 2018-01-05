@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/components/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -19,14 +19,14 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          pageList={this.props.route.pageList}
-          startText="Start the Pension Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 21-527EZ form to apply for pension benefits.
-        </SaveInProgressIntro>
+        {/* <SaveInProgressIntro */}
+        {/*   prefillEnabled={this.props.route.formConfig.prefillEnabled} */}
+        {/*   pageList={this.props.route.pageList} */}
+        {/*   startText="Start the Pension Application" */}
+        {/*   {...this.props.saveInProgressActions} */}
+        {/*   {...this.props.saveInProgress}> */}
+        {/*   Please complete the 21-527EZ form to apply for pension benefits. */}
+        {/* </SaveInProgressIntro> */}
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
@@ -77,12 +77,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          pageList={this.props.route.pageList}
-          startText="Start the Pension Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+        {/* <SaveInProgressIntro */}
+        {/*   buttonOnly */}
+        {/*   pageList={this.props.route.pageList} */}
+        {/*   startText="Start the Pension Application" */}
+        {/*   {...this.props.saveInProgressActions} */}
+        {/*   {...this.props.saveInProgress}/> */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>

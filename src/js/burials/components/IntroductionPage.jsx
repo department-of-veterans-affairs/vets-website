@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
 import FormTitle from '../../common/schemaform/components/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -19,14 +19,14 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          pageList={this.props.route.pageList}
-          startText="Start the Burial Benefits Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 21P-530 form to apply for burial benefits.
-        </SaveInProgressIntro>
+        {/* <SaveInProgressIntro */}
+        {/*   prefillEnabled={this.props.route.formConfig.prefillEnabled} */}
+        {/*   pageList={this.props.route.pageList} */}
+        {/*   startText="Start the Burial Benefits Application" */}
+        {/*   {...this.props.saveInProgressActions} */}
+        {/*   {...this.props.saveInProgress}> */}
+        {/*   Please complete the 21P-530 form to apply for burial benefits. */}
+        {/* </SaveInProgressIntro> */}
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>
@@ -67,12 +67,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          pageList={this.props.route.pageList}
-          startText="Start the Burial Benefits Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+        {/* <SaveInProgressIntro */}
+        {/*   buttonOnly */}
+        {/*   pageList={this.props.route.pageList} */}
+        {/*   startText="Start the Burial Benefits Application" */}
+        {/*   {...this.props.saveInProgressActions} */}
+        {/*   {...this.props.saveInProgress}/> */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020"/>
         </div>
