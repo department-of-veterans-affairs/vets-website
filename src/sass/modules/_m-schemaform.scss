@@ -539,6 +539,10 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+.usa-input-error > .schemaform-widget-wrapper > .autosuggest-container > .autosuggest-list {
+  width: calc(100% + 1.9rem);
+}
+
 .autosuggest-item {
   padding: .5rem 1rem;
   list-style-type: none;

@@ -119,9 +119,11 @@ export default class AutosuggestField extends React.Component {
   handleChange = (selectedItem) => {
     const value = this.getFormData(selectedItem);
     this.props.onChange(value);
-    this.setState({
-      input: selectedItem.label,
-    });
+    if (this.state.input !== selectedItem.label) {
+      this.setState({
+        input: selectedItem.label,
+      });
+    }
   }
 
   handleKeyDown = (event) => {
@@ -170,11 +172,13 @@ export default class AutosuggestField extends React.Component {
           <div className="autosuggest-container">
             <input {...getInputProps({ id, name: id, onKeyDown: this.handleKeyDown, onBlur: this.handleBlur })}/>
             {isOpen && (
-              <div className="autosuggest-list">
+              <div className="autosuggest-list" role="listbox">
                 {this.state.suggestions
                   .map((item, index) => (
                     <div
                       {...getItemProps({ item })}
+                      role="option"
+                      aria-selected={selectedItem === item.label ? 'true' : 'false'}
                       className={classNames('autosuggest-item', {
                         'autosuggest-item-highlighted': highlightedIndex === index,
                         'autosuggest-item-selected': selectedItem === item.label
