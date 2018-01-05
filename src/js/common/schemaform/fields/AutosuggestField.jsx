@@ -1,34 +1,68 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Autosuggest from 'react-autosuggest-ie11-compatible';
+import { sortListByFuzzyMatch } from '../../utils/helpers';
 
-function getSuggestions(options, value) {
-  if (value) {
-    return options.filter(option =>
-      option.label.toUpperCase().includes(value.toUpperCase()));
+const ESCAPE_KEY = 27;
+
+function getInput(input, uiSchema, schema) {
+  if (input && input.widget === 'autosuggest') {
+    return input.label;
   }
 
-  return [];
+  if (typeof input !== 'object' && input) {
+    const uiOptions = uiSchema['ui:options'];
+    if (uiOptions.labels[input]) {
+      return uiOptions.labels[input];
+    }
+
+    const index = schema.enum.indexOf(input) >= 0;
+    if (schema.enumNames && index >= 0) {
+      return uiOptions.labels[input] || schema.enumNames[index];
+    }
+  }
+
+  return '';
 }
 
-export default class AutosuggestWidget extends React.Component {
+export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
+    const { uiSchema, schema, formData } = props;
+    const input = getInput(formData, uiSchema, schema);
+    const uiOptions = uiSchema['ui:options'];
+
+    let options = [];
+    let suggestions = [];
+
+    if (!uiOptions.getOptions) {
+      this.useEnum = true;
+      options = schema.enum.map((id, index) => {
+        return {
+          id,
+          label: uiOptions.labels[id] || schema.enumNames[index]
+        };
+      });
+      suggestions = this.getSuggestions(options, input);
+    }
+
     this.state = {
-      options: [],
-      input: props.formData ? (props.formData.label || '') : '',
-      suggestions: []
+      options,
+      input,
+      suggestions
     };
   }
 
   componentDidMount() {
     if (!this.props.formContext.reviewMode) {
-      const uiOptions = this.props.uiSchema['ui:options'];
-      uiOptions.getOptions().then(options => {
-        if (!this.unmounted) {
-          this.setState({ options, suggestions: getSuggestions(options, this.state.input) });
-        }
-      });
+      const getOptions = this.props.uiSchema['ui:options'].getOptions;
+      if (getOptions) {
+        getOptions().then(options => {
+          if (!this.unmounted) {
+            this.setState({ options, suggestions: this.getSuggestions(options, this.state.input) });
+          }
+        });
+      }
     }
   }
 
@@ -36,41 +70,63 @@ export default class AutosuggestWidget extends React.Component {
     this.unmounted = true;
   }
 
-  onChange = (event, { newValue }) => {
-    this.setState({ input: newValue });
-    if (!newValue) {
-      this.props.onChange();
+  onChange = (event, { method, newValue }) => {
+    // If this is changing because of a click, then onChange is called by suggestion selected method
+    // If it's changing because of up/down arrows, we want to skip it until a user makes a choice
+    // That leaves type as the only method we need to handle
+    if (method === 'type') {
+      if (!newValue) {
+        this.props.onChange();
+      } else {
+        this.props.onChange({ widget: 'autosuggest', label: newValue });
+      }
+      this.setState({ input: newValue });
     }
+  }
+
+  onKeyDown = (event) => {
+    if (event.keyCode === ESCAPE_KEY) {
+      this.props.onChange();
+      this.setState({ input: '' });
+    }
+  }
+
+  getSuggestions = (options, value) => {
+    if (value) {
+      const uiOptions = this.props.uiSchema['ui:options'];
+      return sortListByFuzzyMatch(value, options).slice(0, uiOptions.maxOptions);
+    }
+
+    return options;
+  }
+
+  getFormData = (suggestion) => {
+    if (this.useEnum) {
+      return suggestion.id;
+    }
+
+    return _.set('widget', 'autosuggest', suggestion);
   }
 
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
       input: value,
-      suggestions: getSuggestions(this.state.options, value)
+      suggestions: this.getSuggestions(this.state.options, value)
     });
   }
 
   handleSuggestionSelected = (event, { suggestion }) => {
     event.preventDefault();
     if (suggestion) {
-      this.props.onChange(_.set('widget', 'autosuggest', suggestion));
+      this.props.onChange(this.getFormData(suggestion));
     } else {
       this.props.onChange();
     }
     this.setState({ input: suggestion.label });
   }
 
-  handleBlur = (event, { focusedSuggestion }) => {
-    if (focusedSuggestion) {
-      this.props.onChange(_.set('widget', 'autosuggest', focusedSuggestion));
-      this.setState({ input: focusedSuggestion.label });
-    } else {
-      const value = _.get('formData.label', this.props) || '';
-      if (value !== this.state.input) {
-        this.setState({ input: value });
-      }
-    }
-    this.props.onBlur(this.props.id);
+  handleBlur = () => {
+    this.props.onBlur(this.props.idSchema.$id);
   }
 
   handleSuggestionsClearRequested = () => {
@@ -87,14 +143,14 @@ export default class AutosuggestWidget extends React.Component {
   }
 
   render() {
-    const { idSchema, formContext, formData } = this.props;
+    const { idSchema, formContext, formData, uiSchema, schema } = this.props;
     const id = idSchema.$id;
 
     if (formContext.reviewMode) {
       return (
         <div className="review-row">
           <dt>{this.props.uiSchema['ui:title']}</dt>
-          <dd><span>{formData.label}</span></dd>
+          <dd><span>{getInput(formData, uiSchema, schema)}</span></dd>
         </div>
       );
     }
@@ -114,6 +170,7 @@ export default class AutosuggestWidget extends React.Component {
           name: id,
           value: this.state.input,
           onChange: this.onChange,
+          onKeyDown: this.onKeyDown,
           'aria-labelledby': `${id}-label`,
           onBlur: this.handleBlur
         }}/>

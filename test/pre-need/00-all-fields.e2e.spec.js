@@ -14,7 +14,7 @@ const runTest = E2eHelpers.createE2eTest(
       client
         .url(`${E2eHelpers.baseUrl}/burials-and-memorials/pre-need/form-10007-apply-for-eligibility`)
         .waitForElementVisible('body', Timeouts.normal)
-        .assert.title('Apply online for pre-need determination of eligibility in a VA National Cemetary: Vets.gov')
+        .assert.title('Apply online for pre-need determination of eligibility in a VA National Cemetery: Vets.gov')
         .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
         .click('.usa-button-primary');
 
@@ -39,10 +39,10 @@ const runTest = E2eHelpers.createE2eTest(
       E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
 
       // Military History page
-      client.waitForElementVisible('select[name="root_application_veteran_serviceRecords_0_serviceBranch"]', Timeouts.normal);
+      client.waitForElementVisible('input[name="root_application_veteran_serviceRecords_0_serviceBranch"]', Timeouts.normal);
       PageHelpers.completeServicePeriods(client, testData.data.application.veteran);
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
-      client.axeCheck('.main')
+      client.axeCheck('.main', { rules: ['section508'] })
         .click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/sponsor-military-history');
 

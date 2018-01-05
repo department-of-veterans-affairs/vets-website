@@ -40,7 +40,7 @@ class Main extends React.Component {
     });
     this.bindNavbarLinks();
 
-    // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another 
+    // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
       window.onload = () => {
@@ -160,6 +160,7 @@ class Main extends React.Component {
 
       // @todo after doing the above, remove this code.
       if (this.props.getUserData()) {
+        window.dataLayer.push({ event: 'login-user-logged-in' });
         this.props.updateLoggedInStatus(true);
       }
     } else {

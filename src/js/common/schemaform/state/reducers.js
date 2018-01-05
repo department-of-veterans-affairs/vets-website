@@ -9,7 +9,7 @@ import { SET_DATA,
 
 import {
   recalculateSchemaAndData
-} from '../formState';
+} from '../state/helpers';
 
 export default {
   [SET_DATA]: (state, action) => {
