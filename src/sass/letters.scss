@@ -2,6 +2,12 @@
 @import "modules/m-form-process";
 @import "modules/m-progress-bar";
 @import "modules/m-schemaform";
+@mixin schemaform-padding {
+  // query borrowed from _m-schemaform.scss
+  @media(max-width: 40.063em) {
+    padding-right: 2rem - .9375rem;
+  }
+}
 
 .letters {
   h5 {
@@ -59,8 +65,13 @@
     }
   }
 
+  .va-introtext {
+    @include schemaform-padding;
+  }
+
   .progress-bar-segmented {
     padding-right: 2rem;
+    @include schemaform-padding;
   }
 
   .letters-address {
