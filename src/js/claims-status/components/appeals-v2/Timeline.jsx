@@ -67,10 +67,10 @@ class Timeline extends React.Component {
             onToggle={this.toggleExpanded}
             cssClass={expanderCssClass}/>
           {displayedEvents}
-          <CurrentStatus
+          {/* <CurrentStatus
             key={'current-event'}
             title={this.props.currentStatus.title}
-            description={this.props.currentStatus.description}/>
+            description={this.props.currentStatus.description}/> */}
         </ol>
         <div className="down-arrow"/>
       </div>

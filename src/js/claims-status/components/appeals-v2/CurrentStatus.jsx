@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CurrentStatus = ({ title, description }) => (
-  <li className="process-step section-current">
+  <div>
     <h2>Current Status</h2>
-    <h4>{title}</h4>
-    <div>{description}</div>
-  </li>
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </div>
 );
 
 CurrentStatus.PropTypes = {

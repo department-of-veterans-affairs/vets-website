@@ -6,7 +6,7 @@ const Expander = ({ title, dateRange, onToggle, cssClass }) => {
     <li className={`process-step ${cssClass}`}>
       {/* Giving this a margin top to help center the text to the li bullet */}
       <button onClick={onToggle} className="va-button-link">
-        <h4 style={{ color: 'inherit' }}>{title}</h4>
+        <h3 style={{ color: 'inherit' }}>{title}</h3>
       </button>
       <div className="appeal-event-date">{dateRange}</div>
       <div className="separator"/>
