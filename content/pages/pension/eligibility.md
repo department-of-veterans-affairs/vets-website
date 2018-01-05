@@ -49,6 +49,7 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 ### Ready to apply? 
 
-You can apply by mail using an Application for Pension (VA Form 21P-527EZ). [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+You can apply by mail using an Application for Pension (VA Form 21P-527EZ). <br> 
+[Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
 [Learn more about the application process](/pension/apply/).
