@@ -51,14 +51,6 @@ class AuthApplicationSection extends React.Component {
     }, {});
 
     contentConditions.forEach(([content, requiredServices]) => {
-      // VIC should not prompt for identity proofing when unavailable.
-      const idCard = 'id-card';
-      const vic = requiredServices.length === 1 && requiredServices[0] === idCard;
-      if (vic) {
-        if (isAvailable[idCard]) { availableServices.push(content); }
-        return;
-      }
-
       const accessible = requiredServices.length > 1 ?
         requiredServices.reduce((acc, service) => acc && isAvailable[service], true) :
         isAvailable[requiredServices[0]];
