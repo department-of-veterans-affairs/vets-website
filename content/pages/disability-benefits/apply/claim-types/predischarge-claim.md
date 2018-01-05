@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability and you’re currently in pre-discharge status, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program.
+If you have an illness or injury that you believe was caused—or made worse—by your active-duty service, you can file a claim for disability benefits 180 to 90 days before you leave the military. This may help speed up the claim decision process so you can get your benefits sooner. Find out how to file a claim through the Benefits Delivery at Discharge (BDD) program, and what to do if you have less than 90 days left on active duty.
 
 </div>
 
@@ -34,7 +34,13 @@ You can use the BDD program if:
 <br>
 
 ### What if I have less than 90 days left on active duty?
-You can't file a BDD claim or add more medical conditions to your initial claim. But you can still file your claim before discharge, and it'll be processed after separation as a fully developed or standard claim.</br>
+You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. You have 2 options for filing:
+
+- **Go through The Decision Ready Claim (DRC) program.** This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivotrs. With your VSO's help, you can get a decision within 30 days. <br/>
+[Learn more about the DRC program](#drc-program) <br/>
+[Learn more about VSOs and how to find one](/disability-benefits/apply/help/)<br/>
+
+- **File a fully developed or standard claim.** The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br/>
 [Learn about the application process](/disability-benefits/apply/).</br>
 [Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
@@ -60,6 +66,14 @@ Compensation (monthly payments)
 
 -----
 
+**Jump to a section:**
+
+[How do I get these disability benefits through the BDD program?](#bdd-program)
+[If I can't go through the BDD program, how can I file a claim through the DRC program?](#drc-program)
+[What's the Integrated Disability Evaluation System (IDES), and how does it work?](#ides-program)
+
+<span id="bdd-program"></span>
+
 ### How do I get these disability benefits through the BDD program?
 You'll need to apply. The application process depends on where you're stationed.
 
@@ -80,4 +94,60 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 
 <br>
 
+<span id="drc-program"></span>
+
+### If I can't go through the BDD program, how can I file a claim through the DRC program?
+
+To file a claim through the DRC program, you'll need to:
+- Appoint and work with an accredited Veterans Service Organization (VSO), **and**
+- Gather all relevant and required evidence to support your claim, **and**
+- Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
+
+When you work with an accredited VSO and provide all the necessary evidence with your application, you can get a decision on your claim in 30 days or less. <br>
+
+For more information:
+
+Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
+
+Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp#eligible-to-file). 
+
+Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).
+
+#### When you can't file a DRC claim
+
+You should know that you can't file a DRC claim if you're:
+
+- Enrolled in the Integrated Disability Evaluation System (IDES), **or**
+- Awaiting discharge while hospitalized in a VA or military treatment facility, **or**
+- Pregnant, **or**
+- Living outside of the U.S., **or**
+- Incarcerated in prison, **or**
+- Rated at 100% for your condition
+
+You also can't file a DRC claim if you:
+- Have more than 90 days left on active duty, unless you have a pending BDD claim, **or**
+- Require a character of discharge determination, **or**
+- Are currently appealing the condition you want to file a DRC for, **or**
+- Are claiming individual unemployability, **or**
+- Are seeking special monthly pension or only special monthly compensation, **or**
+- Are filing a restricted access claim as a Veterans Benefits Administration (VBA) employee, relative of a VBA employee, national service officer, or high-ranking government official
+
+You also can't file a DRC claim if you're filing for:
+- A previously denied condition, **or**
+- PTSD (post traumatic stress disorder) or a traumatic brain injury, unless you've been diagnosed with the condition while serving and it's noted on your exam, **or**
+- Camp Lejeune contaminated water, conditions related to mustard gas, or conditions related to being a fomer prisoner of war, **or**
+- A pension, **or**
+- Chapter 18 (spina bifida) or any other birth defects for dependent children, **or**
+- A condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was as a baseline before you entered service)
+
+<br>
+
+<span id="ides-program"></span>
+
+### What's the Integrated Disability Evaluation System (IDES), and how does it work?
+
+If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
+
+If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You'll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br/>
+[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
