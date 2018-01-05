@@ -63,8 +63,8 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete this pension benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message. You can print this for your records.</p>
+              <p>Complete an Application for Pension (VA Form 21P-527EZ). <a href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ</a>.</p>
+              <p>Mail the application to the Pension Management Center (PMC) for your state. <a href="/pension/pension-management-center/">Find your local regional benefit office</a>.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
