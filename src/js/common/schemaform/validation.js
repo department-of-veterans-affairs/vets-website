@@ -378,3 +378,12 @@ export function validateBooleanGroup(errors, userGroup, form, schema, errorMessa
     errors.addError(atLeastOne);
   }
 }
+
+export function validateAutosuggestOption(errors, formData) {
+  if (formData &&
+    formData.widget === 'autosuggest' &&
+    !formData.id &&
+    formData.label) {
+    errors.addError('Please select an option from the suggestions');
+  }
+}
