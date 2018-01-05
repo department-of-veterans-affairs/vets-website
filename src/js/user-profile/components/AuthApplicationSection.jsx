@@ -12,13 +12,17 @@ class AuthApplicationSection extends React.Component {
         <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/health-care/apply/">Apply for health care</a></p>
-          <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
+          <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
+          <p><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>
           <p><a href="/health-care/prescriptions">Refill your prescription</a></p>
           <p><a href="/health-care/messaging">Message your health care team</a></p>
           <p><a href="/health-care/health-records">Get your VA health records</a></p>
           <p><a href="/track-claims">Check your claim and appeal status</a></p>
           <p><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>
           {idCardAvailable && <p><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>}
+          <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
+            application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
+            during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
         </div>
       );
     } else {
@@ -27,6 +31,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/health-care/apply/">Apply for health care</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
+          <p><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>
           <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
           <p>Refill your prescription</p>
           <p>Message your health care team</p>
