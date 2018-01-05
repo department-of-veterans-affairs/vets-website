@@ -3,11 +3,6 @@ layout: page-breadcrumbs.html
 template: level2-index
 title: Pension Benefits
 permalink: /pension/index.html
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingMessage: Checking your application status.
-    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading:
     links:
@@ -37,4 +32,3 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 
 </div>
 
-<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>

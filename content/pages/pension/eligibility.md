@@ -5,11 +5,6 @@ title: Pension Benefits Eligibility
 concurrence:
 order: 1
 children: pensionEligibility
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingMessage: Checking your application status.
-    errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 ---
 
 <div class="va-introtext">
