@@ -87,6 +87,9 @@ class AuthApplicationSection extends React.Component {
             )
           }
           {unavailableServices}
+          <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
+            application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
+            during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
         </div>
       </div>
     );
