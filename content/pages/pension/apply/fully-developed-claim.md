@@ -139,7 +139,7 @@ You’ll need to turn in the information and evidence as soon as you can.
 - Fill out an Application for Pension (VA Form 21P-527EZ). <br>
 Download [VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
-- Attach to the end of the form all the related documents.
+- Attach all the supporting documents to the end of the form.
 
 - Mail your application to the Pension Management Center (PMC) for your state. <br>
 [Find your PMC](/pension/pension-management-center/).
