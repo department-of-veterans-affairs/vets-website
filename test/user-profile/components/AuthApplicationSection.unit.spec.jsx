@@ -48,23 +48,26 @@ describe('<AuthApplicationSection>', () => {
 
   it('should display Discharge Upgrade and verify link if there are no available services', () => {
     const wrapper = shallow(<AuthApplicationSection userProfile={{ services: [] }}/>);
-    expect(wrapper.find('span.label')).to.have.length(2);
-    expect(wrapper.find('.available-services').children('p')).to.have.length(1);
+    const availableServices = wrapper.find('.available-services');
+    expect(availableServices.children('p')).to.have.length(1);
+    expect(wrapper.find('.unavailable-services')).to.have.length(1);
   });
 
-  it('should display available services as well as verify link if there are some unavailable services', () => {
+  it('should display available services as well as verify link if there are some available services', () => {
     const wrapper = shallow(<AuthApplicationSection userProfile={{
       services: [
         'hca',
         'edu-benefits',
       ]
     }}/>);
-    expect(wrapper.find('span.label')).to.have.length(2);
-    expect(wrapper.find('.available-services').children('p')).to.have.length(3);
+    const availableServices = wrapper.find('.available-services');
+    expect(availableServices.children('p')).to.have.length(3);
+    expect(wrapper.find('.unavailable-services')).to.have.length(1);
   });
 
   it('should not display verify link if all services are available', () => {
     const wrapper = shallow(<AuthApplicationSection {...props}/>);
-    expect(wrapper.find('span.label')).to.have.length(1);
+    expect(wrapper.find('.available-services')).to.have.length(1);
+    expect(wrapper.find('.unavailable-services')).to.have.length(0);
   });
 });
