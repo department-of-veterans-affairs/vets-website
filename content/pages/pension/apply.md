@@ -49,7 +49,7 @@ Bring your application to a regional benefit office near you. <br>
 **With the help of a trained professional**
 
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
-[Find an accredited representative](/disability-benefits/apply/help/).
+[Get help filing a claim](/disability-benefits/apply/help/).
 
 
 [Find out how to apply for the Survivors Pension program](/pension/survivors-pension/).
