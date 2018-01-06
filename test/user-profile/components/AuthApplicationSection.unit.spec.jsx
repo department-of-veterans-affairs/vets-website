@@ -1,5 +1,5 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -41,30 +41,30 @@ describe('<AuthApplicationSection>', () => {
   after(takeDown);
 
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    const wrapper = shallow(<AuthApplicationSection {...props}/>);
+    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.hasClass('profile-section')).to.be.true;
   });
 
-  it('should display verify link if there are no available services', () => {
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection userProfile={{ services: [] }}/>);
-    expect(tree.everySubTree('span').length).to.equal(1);
+  it('should display Discharge Upgrade and verify link if there are no available services', () => {
+    const wrapper = shallow(<AuthApplicationSection userProfile={{ services: [] }}/>);
+    expect(wrapper.find('span.label')).to.have.length(2);
+    expect(wrapper.find('.available-services').children('p')).to.have.length(1);
   });
 
   it('should display available services as well as verify link if there are some unavailable services', () => {
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection userProfile={{
+    const wrapper = shallow(<AuthApplicationSection userProfile={{
       services: [
-        'facilities',
         'hca',
         'edu-benefits',
-        'user-profile',
       ]
     }}/>);
-    expect(tree.everySubTree('span').length).to.equal(2);
+    expect(wrapper.find('span.label')).to.have.length(2);
+    expect(wrapper.find('.available-services').children('p')).to.have.length(3);
   });
 
   it('should not display verify link if all services are available', () => {
-    const tree = SkinDeep.shallowRender(<AuthApplicationSection {...props}/>);
-    expect(tree.everySubTree('span').length).to.equal(1);
+    const wrapper = shallow(<AuthApplicationSection {...props}/>);
+    expect(wrapper.find('span.label')).to.have.length(1);
   });
 });

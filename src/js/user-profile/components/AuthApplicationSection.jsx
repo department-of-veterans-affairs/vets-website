@@ -77,16 +77,24 @@ class AuthApplicationSection extends React.Component {
         <div className="medium-12 columns">
           {
             !!availableServices.length && (
-              <p><span className="label">Your account will allow you to:</span></p>
+              <div>
+                <p><span className="label">Your account will allow you to:</span></p>
+                <div className="available-services">
+                  {availableServices}
+                </div>
+              </div>
             )
           }
-          {availableServices}
           {
             !!unavailableServices.length && (
-              <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
+              <div>
+                <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
+                <div className="unavailable-services">
+                  {unavailableServices}
+                </div>
+              </div>
             )
           }
-          {unavailableServices}
           <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
             application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
             during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
