@@ -45,7 +45,6 @@ module.exports = E2eHelpers.createE2eTest(
     // results page
     client
       .waitForElementVisible('.dw-guidance', Timeouts.slow)
-      .pause(Timeouts.slow)
       .axeCheck('.main');
 
     client.end();
