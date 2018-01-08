@@ -107,13 +107,14 @@ Your health care team will have a plan in place if your primary care provider is
 
 #### Can I see a local community care provider, paid for by VA?
 
-It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specifics needs and circumstances. 
+It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
 
-**We may refer you to a community provider if:**
+**We may refer you to a community provider if one of these is true:**
 - We can’t provide the services you need, **or**
 - We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
 - You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
 - You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
 - You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-Your VA provider will work with you to determine if you're eligible. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
+Your VA provider will work with you to determine if you're eligible. <br>
+[Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
