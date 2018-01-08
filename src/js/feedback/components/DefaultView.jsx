@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function DefaultView({ revealForm, formIsVisible }) {
+function DefaultView({ revealForm }) {
   return (
-    <div  id="feedback-initial" className="usa-grid-full" aria-hidden={formIsVisible}>
+    <div  id="feedback-initial" className="usa-grid-full">
       <div className="usa-width-one-half">
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <p className="feedback-widget-intro">

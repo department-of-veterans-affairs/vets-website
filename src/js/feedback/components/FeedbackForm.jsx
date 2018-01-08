@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { focusElement } from '../../common/utils/helpers';
 import AlertBox from '../../common/components/AlertBox';
 import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
@@ -14,6 +15,18 @@ class FeedbackForm extends React.Component {
       suppressDescriptionErrors: true,
       suppressEmailErrors: true
     };
+  }
+
+  componentDidMount() {
+    const descriptionId = this.descriptionComp && `#${this.descriptionComp.inputId}`;
+    focusElement(descriptionId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.formValues.shouldSendResponse && this.props.formValues.shouldSendResponse) {
+      const emailId = this.emailComp && `#${this.emailComp.inputId}`;
+      focusElement(emailId);
+    }
   }
 
   setDescription = ({ value: description, dirty }) => {
@@ -41,7 +54,7 @@ class FeedbackForm extends React.Component {
 
   render() {
     return (
-      <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback} aria-hidden={!this.props.formIsVisible}>
+      <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback}>
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <div className="va-flex">
           <div className="feedback-widget-form-container">
@@ -52,6 +65,7 @@ class FeedbackForm extends React.Component {
                 onValueChange={this.setDescription}
                 errorMessage={this.descriptionErrorMessage()}
                 field={{ value: this.props.formValues.description, dirty: false }}
+                ref={component => { this.descriptionComp = component; }}
                 required/>
             </div>
             <ErrorableCheckbox
@@ -70,6 +84,7 @@ class FeedbackForm extends React.Component {
                       field={{ value: this.props.formValues.email, dirty: false }}
                       onValueChange={this.setEmail}
                       errorMessage={this.emailErrorMessage()}
+                      ref={component => { this.emailComp = component; }}
                       required/>
                   </div>
                 )}

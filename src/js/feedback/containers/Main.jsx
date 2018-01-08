@@ -11,14 +11,11 @@ function Main(props) {
   let content = null;
 
   if (props.feedbackReceived) {
-    content = <FeedbackSubmitted shouldSendResponse={props.formValues.shouldSendResponse}/>;
+    content = <FeedbackSubmitted {...props}/>;
+  } else if (props.formIsVisible) {
+    content = <FeedbackForm {...props}/>;
   } else {
-    content = (
-      <div>
-        <DefaultView {...props}/>
-        <FeedbackForm {...props}/>
-      </div>
-    );
+    content = <DefaultView {...props}/>;
   }
 
   return (
@@ -48,7 +45,7 @@ Main.propTypes = {
   revealForm: PropTypes.func.isRequired,
   sendFeedback: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.object
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

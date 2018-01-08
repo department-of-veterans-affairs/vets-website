@@ -50,11 +50,6 @@
   }
 }
 
-#feedback-initial { display: block; }
-#feedback-form { display: none; }
-#feedback-initial[aria-hidden=true] { display: none; }
-#feedback-form[aria-hidden=false] { display: block; }
-
 .feedback-widget-form-container {
   order: 1;
   flex: 0 0 100%;
