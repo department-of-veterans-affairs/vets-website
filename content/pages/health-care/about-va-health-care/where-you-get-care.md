@@ -35,7 +35,7 @@ When you sign up for VA health care, you become part of the country’s largest 
 
 You’ll receive regular care at one VA location of your choice. If you need specialized medical treatments and services, we may refer you to other locations as well. Your health care team will use our electronic medical record system to coordinate your care no matter where you are.
 
-Care settings may include:
+**Care settings may include:**
 
 - **VA medical centers.** These centers offer a range of services:
   - All centers provide traditional hospital-based services—like surgery, critical care, mental health, and physical therapy.
@@ -53,7 +53,7 @@ Care settings may include:
 
 #### What if the nearest VA location can’t provide the services I need?
 
-Your VA provider will work with you to make sure you get the care you need. You may need to go to another VA location or to a local VA community care provider. VA community care providers have contracts with us to provide care to Veterans. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
+We may refer you to a community provider. Your eligibility for community care will be based on your specifics needs and circumstances. Your VA provider will work with you to determine if you're eligible. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
 
@@ -77,7 +77,7 @@ Your VA provider will work with you to make sure you get the care you need. You 
 
 #### Where do I get care if I live in a rural area, far from a VA medical center?
 
-You may be able to get care:
+**You may be able to get care:**
 - [At a VA outpatient clinic](/facilities/)
 - [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
 - [Through a VA community care provider](https://www.va.gov/communitycare/)
@@ -85,13 +85,16 @@ You may be able to get care:
   - [In-person by skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp), **or**
   - [Remotely through telehealth](https://www.telehealth.va.gov/)
 
-You may also qualify to receive local community care through the Veterans Choice Program if you:
-- Live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
-- Can’t get an appointment from the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date, the date you’d prefer to be seen next, **or**
-- Have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
-- Face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
+If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specifics needs and circumstances. 
 
-[Learn more about the Choice program](https://www.va.gov/opa/choiceact/).
+**We may refer you to a community provider if:**
+- We can’t provide the services you need, **or**
+- We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
+- You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
+- You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
+- You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
+
+Your VA provider will work with you to determine if you're eligible. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 <br>
 
