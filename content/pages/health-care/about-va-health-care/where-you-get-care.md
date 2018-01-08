@@ -53,7 +53,7 @@ You’ll receive regular care at one VA location of your choice. If you need spe
 
 #### What if the nearest VA location can’t provide the services I need?
 
-We may refer you to a community provider. Your eligibility for community care will be based on your specifics needs and circumstances. Your VA provider will work with you to determine if you're eligible. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
+We may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. Your VA provider will work with you to determine if you're eligible. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
 
@@ -80,12 +80,11 @@ We may refer you to a community provider. Your eligibility for community care wi
 **You may be able to get care:**
 - [At a VA outpatient clinic](/facilities/)
 - [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
-- [Through a VA community care provider](https://www.va.gov/communitycare/)
 - In your own home either:
   - [In-person by skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp), **or**
   - [Remotely through telehealth](https://www.telehealth.va.gov/)
 
-If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specifics needs and circumstances. 
+If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
 
 **We may refer you to a community provider if:**
 - We can’t provide the services you need, **or**
