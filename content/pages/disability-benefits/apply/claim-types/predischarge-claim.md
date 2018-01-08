@@ -31,11 +31,17 @@ If you have an illness or injury that you believe was caused—or made worse—b
 - You have a known separation date, **and**
 -	Your separation date is in the next 180 to 90 days
 
-**Note:** If you have less than 90 days left on active duty, you can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. [Learn how to file a claim less than 90 days before discharge](#drc-program).
 <br>
 
-### Are there any other reasons I wouldn't be able to use the BDD program?
-Yes. Even if you file your claim in time, you can't use the BDD program if your claim requires special handling because you:
+### What if I have less than 90 days left on active duty? 
+
+You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. [Learn how to file a claim less than 90 days before discharge](#drc-program).
+
+<br>
+
+### Are there any other reasons I can't use the BDD program?
+
+Yes. Even if you're on active duty awaiting discharge, and you file your claim in time, you can't use the BDD program if your claim requires special handling because you:
 - Need case management for a serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
 - Are terminally ill, **or**
@@ -89,12 +95,13 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 You have 2 options for filing:
 
 - **Go through The Decision Ready Claim (DRC) program.** This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivotrs. With your VSO's help, you can get a decision within 30 days.<br/>
+<br/>
 **To file a claim through the DRC program, you'll need to:**
   - Appoint and work with an accredited VSO, **and**
   - Gather all relevant and required evidence to support your claim, **and**
-  - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.<br/>
+  - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.<br/>  
 <br/>
-
+Not everyone can file a claim through the DRC program. 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -127,8 +134,11 @@ You have 2 options for filing:
 - A condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was as a baseline before you entered service)
 </div>
 </li>
+</ul>
+</div> 
+<br/>
 
-**For more information:**
+**For more information on the DRC program:**
 
 Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
 
