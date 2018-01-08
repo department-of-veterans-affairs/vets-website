@@ -28,11 +28,13 @@ export function setFormValues(formValues) {
 function errorMessage(status) {
   switch (status) {
     case 429:
+      window.dataLayer.push({ event: 'feedback-failure-429' });
       return {
         title: 'We can’t receive your feedback right now',
         description: 'We’re sorry. Something’s not working right on our end, and we can’t process your feedback message right now. Please try back in an hour.'
       };
     default:
+      window.dataLayer.push({ event: 'feedback-failure' });
       return {
         title: 'We’ve run into a problem',
         description: 'We’re sorry. We couldn’t send your message. Please try again.'
@@ -63,10 +65,7 @@ export function sendFeedback(formValues) {
         window.dataLayer.push({ event: 'feedback-success' });
         dispatch({ type: FEEDBACK_RECEIVED });
       },
-      (error) => {
-        window.dataLayer.push({ event: 'feedback-failure' });
-        dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) });
-      }
+      (error) => dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) })
     );
   };
 }
