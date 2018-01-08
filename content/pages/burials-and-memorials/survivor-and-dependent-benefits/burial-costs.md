@@ -4,7 +4,7 @@ template: detail-page
 title: Burial Allowance Application Process
 display_title: Burial Allowance Application Process
 order: 1
---
+---
 
 <div class="va-introtext">
 
@@ -57,7 +57,7 @@ You may need a copy of:
 
 </div>
 
-### Ready to apply? 
+### Ready to apply?
 
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br> [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
