@@ -139,7 +139,7 @@ describe('<Address>', () => {
 
     // Make sure every error message is rendered
     Object.values(errorMessages).forEach(message => {
-      expect(errors).to.contain(message);
+      expect(errors).to.contain(`Error ${message}`);
     });
   });
 

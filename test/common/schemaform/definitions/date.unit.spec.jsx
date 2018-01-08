@@ -42,7 +42,7 @@ describe('Schemaform definition date', () => {
       preventDefault: f => f
     });
 
-    expect(find('.usa-input-error-message').textContent).to.equal(dateUISchema['ui:errorMessages'].pattern);
+    expect(find('.usa-input-error-message').textContent).to.equal(`Error ${dateUISchema['ui:errorMessages'].pattern}`);
   });
   it('should render date title', () => {
     const form = ReactTestUtils.renderIntoDocument(
