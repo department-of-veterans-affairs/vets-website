@@ -35,7 +35,7 @@ At VA, we take a team approach to health care—with you at the center. Research
 
 After you sign up for VA health care and choose your main VA location, we’ll assign you to a health care team called a Patient Aligned Care Team (or PACT). Your team will be made up of you, those who support you (like your family members and caregivers), and your health care providers.
 
-Your team will include a:
+**Your team will include a:**
 
 - **Primary care provider** (your main doctor, nurse practitioner, or physician’s assistant)
 - **Clinical pharmacist** (a pharmacist who works with you and your primary care provider to make sure you’re taking the medicines that are right for you and your overall health)
@@ -62,7 +62,9 @@ When you need other services to meet your goals and needs, your team may call ot
 
 #### How will my health care team work with me?
 
-Your team’s goal is to plan for all the care you need to help you stay healthy and well throughout your life. Your team will:
+Your team’s goal is to plan for all the care you need to help you stay healthy and well throughout your life.
+
+**Your team will:**
 
 - **Build a partnership with you.** You’ll be an active member of the team, and you’ll work with your team to plan and make decisions to meet your personal health goals. Your team will offer wellness care, education, and lifestyle coaching to help you stay healthy.
 
