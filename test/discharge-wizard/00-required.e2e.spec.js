@@ -44,9 +44,8 @@ module.exports = E2eHelpers.createE2eTest(
 
     // results page
     client
-      .click('a.usa-button-primary')
       .waitForElementVisible('.dw-guidance', Timeouts.slow)
-      .pause(Timeouts.verySlow)
+      .pause(Timeouts.slow)
       .axeCheck('.main');
 
     client.end();
