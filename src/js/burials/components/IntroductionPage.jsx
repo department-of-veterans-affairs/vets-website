@@ -58,7 +58,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="/pension/apply/">Download VA Form 21P-530</a>.</p>
+              <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
               <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href="/facilities">Find your local regional benefit office</a>.</p>
             </li>
             <li className="process-step list-three">
