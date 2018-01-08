@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
-import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
+// import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 
 import { EVENT_TYPES } from '../utils/appeals-v2-helpers';
 
