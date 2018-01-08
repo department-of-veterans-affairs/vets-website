@@ -44,7 +44,25 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 
 ### Ready to apply? 
 
-You can apply by mail using an Application for Pension (VA Form 21P-527EZ). <br> 
+You can apply for a Veterans pension in 1 of 3 ways:
+
+**By mail**
+Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br> 
 [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
+Mail the application to the Pension Management Center (PMC) for your state. <br> 
+[Find your PMC](/pension/pension-management-center/).
+
+**In person**
+
+Bring your application to a regional benefit office near you. <br> 
+[Find a regional benefit office](/facilities/).
+
+**With the help of a trained professional**
+
+You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
+[Get help filing a claim](/disability-benefits/apply/help/).
+
+
+[Find out how to apply for the Survivors Pension program](/pension/survivors-pension/). <br>
 [Learn more about the application process](/pension/apply/).
