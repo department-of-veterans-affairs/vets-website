@@ -4,7 +4,7 @@ import createEducationApplicationStatus from './edu-benefits/components/createEd
 
 const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
-const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/', '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/']);
+const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/']);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
 
 // No-react styles.
