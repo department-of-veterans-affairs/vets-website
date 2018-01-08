@@ -33,19 +33,23 @@ You can apply in person or by mail for a Veterans pension. Follow these steps to
 
 ### Ready to apply? 
 
-Apply by mail using an Application for Pension (VA Form 21P-527EZ). [Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+You can apply by mail using an Application for Pension (VA Form 21P-527EZ). <br> 
+[Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
-Mail the application to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
+Mail the application to the Pension Management Center (PMC) for your state. <br> 
+[Find your PMC](/pension/pension-management-center/).
 
 #### Other ways to apply
 
 **In person**
 
-Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+Bring your application to a regional benefit office near you. <br> 
+[Find a regional benefit office](/facilities/).
 
 **With the help of a trained professional**
 
-You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
+You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
+[Get help filing a claim](/disability-benefits/apply/help/).
 
 
 [Find out how to apply for the Survivors Pension program](/pension/survivors-pension/).
