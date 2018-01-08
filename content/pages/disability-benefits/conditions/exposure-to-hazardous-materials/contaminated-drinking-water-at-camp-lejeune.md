@@ -52,7 +52,7 @@ You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 **or**
 - [Get help from an accredited representative, including Veterans Service Officers (VSOs)](/disability-benefits/apply/help/),
 **or**
-- [Get help at a VA regional benefit office](/facility-locator/)
+- [Get help at a VA regional benefit office](/facilities/)
 
 When you apply, you’ll need to give us:
 
