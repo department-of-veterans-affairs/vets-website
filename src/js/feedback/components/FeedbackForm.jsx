@@ -18,6 +18,8 @@ class FeedbackForm extends React.Component {
   }
 
   componentDidMount() {
+    // During testing, a shallow render won't render the React component "descriptionComp".
+    // This is a safety check to make sure it exists.
     const descriptionId = this.descriptionComp && `#${this.descriptionComp.inputId}`;
     focusElement(descriptionId);
   }
