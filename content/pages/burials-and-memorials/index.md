@@ -41,5 +41,3 @@ majorlinks:
 We can help Servicemembers, Veterans, and family members plan a burial or memorial service. Find out how to get burial benefits.
 
 </div>
-
-<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
