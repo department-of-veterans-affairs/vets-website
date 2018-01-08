@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
-import CurrentStatus from './CurrentStatus';
 import Expander from './Expander';
 import PastEvent from './PastEvent';
 
@@ -47,14 +46,17 @@ class Timeline extends React.Component {
     let expanderTitle = '';
     let expanderCssClass = '';
     let displayedEvents = [];
+    let downArrow;
     if (this.state.expanded) {
       expanderTitle = 'Hide past events';
       expanderCssClass = 'section-expanded';
       displayedEvents = pastEventsList;
+      downArrow = <div className="down-arrow"/>;
     } else {
       expanderTitle = 'See past events';
       expanderCssClass = 'section-unexpanded';
       displayedEvents = [];
+      downArrow = null;
     }
 
     return (
@@ -67,12 +69,8 @@ class Timeline extends React.Component {
             onToggle={this.toggleExpanded}
             cssClass={expanderCssClass}/>
           {displayedEvents}
-          {/* <CurrentStatus
-            key={'current-event'}
-            title={this.props.currentStatus.title}
-            description={this.props.currentStatus.description}/> */}
         </ol>
-        <div className="down-arrow"/>
+        {downArrow}
       </div>
     );
   }

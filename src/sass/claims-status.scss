@@ -589,35 +589,53 @@ h1:focus {
 
   // Child <li>s are expected to have .process-step as well as a .section-*
   .process-step {
-    border-left: 5px solid $color-gray-lighter;
-    margin-left: -2.65em;
     padding-bottom: 1em;
 
-    &:before {
-      margin-left: -2.65em;
+    &:last-child {
+      padding-left: 2em;
+    }
+
+    .va-button-link {
+      &h3 {
+        padding-top: 0;
+      }
     }
   }
 
-  .section-complete:before {
-    font-family: FontAwesome;
-    content: "\f00c";
-    margin-top: 5px; // Aligns the check bullets to their headers better
+  .section-complete {
+    border-left: 5px solid $color-gray-lighter;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f00c";
+      margin-top: 5px; // Aligns the check bullets to their headers better
+    }
   }
 
-  .section-unexpanded:before {
-    font-family: FontAwesome;
-    content: "\f067";
-    color: $color-primary;
-    background-color: $color-white;
-    border-color: $color-primary;
+  .section-unexpanded {
+
+    // offset left border with padding so element doesn't move while toggling expander
+    &.process-step {
+      padding-left: calc(2em + 5px);
+    }
+
+    &::before {
+      font-family: FontAwesome;
+      content: "\f067";
+      color: $color-primary;
+      background-color: $color-white;
+      border-color: $color-primary;
+    }
   }
 
-  .section-expanded:before {
-    font-family: FontAwesome;
-    content: "\f068";
-    color: $color-primary;
-    background-color: $color-white;
-    border-color: $color-primary;
+  .section-expanded {
+    border-left: 5px solid $color-gray-lighter;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f068";
+      color: $color-primary;
+      background-color: $color-white;
+      border-color: $color-primary;
+    }
   }
 
   .section-current {
