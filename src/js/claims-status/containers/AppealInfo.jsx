@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
-// import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
+import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 
 import { EVENT_TYPES } from '../utils/appeals-v2-helpers';
 
@@ -51,7 +51,7 @@ export function AppealInfo({ params, appeal, children }) {
           </div>
         </div>
         <div className="medium-4 columns">
-          {/* <AppealHelpSidebar location={appeal.location} aoj={appeal.aoj}/> */}
+          <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>
         </div>
       </div>
     </div>

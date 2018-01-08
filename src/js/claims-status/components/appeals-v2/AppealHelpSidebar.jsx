@@ -32,7 +32,7 @@ const boardVersion = (
  *                            Possible options:
  *                            ['vba', 'vha', 'nca', 'other']
  */
-export function AppealHelpSidebar({ location, aoj }) {
+export default function AppealHelpSidebar({ location, aoj }) {
   if (location === 'aoj') {
     if (aoj === 'vba') {
       return vbaVersion;
