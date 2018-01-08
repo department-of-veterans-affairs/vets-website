@@ -42,12 +42,9 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('a.usa-button-primary');
 
-    client.pause(Timeouts.verySlow);
-
     // results page
     client
-      .click('a.usa-button-primary')
-      .waitForElementVisible('.dw-guidance', Timeouts.verySlow)
+      .waitForElementVisible('.dw-guidance', Timeouts.slow)
       .axeCheck('.main');
 
     client.end();
