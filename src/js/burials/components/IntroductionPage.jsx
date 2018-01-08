@@ -29,7 +29,7 @@ class IntroductionPage extends React.Component {
         {/* </SaveInProgressIntro> */}
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            We're sorry. Our online application isn't available right now. We're working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
+            We’re sorry. Our online application isn’t available right now. We’re working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
           </div>
         </div>
         <div className="process schemaform-process schemaform-process-sip">
