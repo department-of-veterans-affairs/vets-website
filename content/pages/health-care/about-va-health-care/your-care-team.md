@@ -4,7 +4,7 @@ template: detail-page
 title: Your Care Team
 display_title:
 concurrence: complete
-lastupdate: 2017-07-06
+lastupdate: 2018-01-08
 order: 1
 relatedlinks:
   - heading: More information about your benefits
