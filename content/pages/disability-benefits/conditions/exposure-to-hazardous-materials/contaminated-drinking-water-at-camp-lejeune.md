@@ -50,7 +50,7 @@ You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
 - [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
 **or**
-- [Get help from an accredited representative, including Veterans Service Officers (VSO)](/disability-benefits/apply/help/),
+- [Get help from an accredited representative, including Veterans Service Officers (VSOs)](/disability-benefits/apply/help/),
 **or**
 - [Get help at a VA regional benefit office](/facility-locator/)
 
