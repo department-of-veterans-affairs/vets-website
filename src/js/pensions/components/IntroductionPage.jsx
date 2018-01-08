@@ -27,6 +27,11 @@ class IntroductionPage extends React.Component {
         {/*   {...this.props.saveInProgress}> */}
         {/*   Please complete the 21-527EZ form to apply for pension benefits. */}
         {/* </SaveInProgressIntro> */}
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            We're sorry. Our online application isn't available right now. We're working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
+          </div>
+        </div>
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>

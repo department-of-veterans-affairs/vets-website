@@ -27,6 +27,11 @@ class IntroductionPage extends React.Component {
         {/*   {...this.props.saveInProgress}> */}
         {/*   Please complete the 21P-530 form to apply for burial benefits. */}
         {/* </SaveInProgressIntro> */}
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            We're sorry. Our online application isn't available right now. We're working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
+          </div>
+        </div>
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>
@@ -53,7 +58,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete an Application for Burial Benefits (VA Form 21P-530). <a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
+              <p>Complete an Application for Burial Benefits (VA Form 21P-530). <a href="/pension/apply/">Download VA Form 21P-530</a>.</p>
               <p>Mail the application and other paperwork to your local regional benefit office. <a href="/facilities">Find your local regional benefit office</a>.</p>
             </li>
             <li className="process-step list-three">

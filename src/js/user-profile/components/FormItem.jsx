@@ -21,10 +21,11 @@ class FormItem extends React.Component {
             <p>Your saved application <span className="expires">will expire on {expirationDate}.</span></p>
           </div>}
         </div>
-        {!disabledForms[formId] && <div className="row small-collapse">
+        {!!disabledForms[formId] && <div>{disabledForms[formId]}</div>}
+        <div className="row small-collapse">
           <div className="small-12 medium-8 large-8 columns">
             <div className="application-route-container resume">
-              <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`}>Continue Your Application</a>
+              {!disabledForms[formId] && <a className="usa-button-primary application-route" href={`${formLinks[formId]}resume`}>Continue Your Application</a>}
             </div>
           </div>
           <div className="small-12 medium-4 large-4 columns">
@@ -34,8 +35,7 @@ class FormItem extends React.Component {
               </button>
             </div>
           </div>
-        </div>}
-        {!!disabledForms[formId] && <div>{disabledForms[formId]}</div>}
+        </div>
       </div>
     );
     const expiredView = (
