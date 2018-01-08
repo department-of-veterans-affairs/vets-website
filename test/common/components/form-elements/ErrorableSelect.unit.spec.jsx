@@ -62,7 +62,7 @@ describe('<ErrorableSelect>', () => {
 
     const errorMessages = tree.everySubTree('.usa-input-error-message');
     expect(errorMessages).to.have.lengthOf(1);
-    expect(errorMessages[0].text()).to.equal('error message');
+    expect(errorMessages[0].text()).to.equal('Error error message');
 
     // No error means no aria-describedby to not confuse screen readers.
     const selects = tree.everySubTree('select');

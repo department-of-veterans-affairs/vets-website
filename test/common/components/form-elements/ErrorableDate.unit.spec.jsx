@@ -31,7 +31,7 @@ describe('<ErrorableDate>', () => {
       <ErrorableDate required date={date} onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Please provide a response');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error Please provide a response');
   });
   it('displays invalid message', () => {
     const date = {
@@ -47,7 +47,7 @@ describe('<ErrorableDate>', () => {
       <ErrorableDate date={date} onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Please provide a valid date');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error Please provide a valid date');
   });
   it('does not show invalid message for month year date', () => {
     const date = {
@@ -78,7 +78,7 @@ describe('<ErrorableDate>', () => {
       <ErrorableDate date={date} validation={{ valid: false, message: 'Test' }} onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Test');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error Test');
   });
   it('displays custom message from array', () => {
     const date = {
@@ -101,7 +101,7 @@ describe('<ErrorableDate>', () => {
     );
 
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Test');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error Test');
   });
 });
 

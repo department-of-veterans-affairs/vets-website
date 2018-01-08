@@ -28,7 +28,7 @@ describe('Schemaform definition ssn', () => {
     ReactTestUtils.Simulate.blur(node);
 
     expect(formDOM.querySelector('.usa-input-error-message').textContent)
-      .to.equal(uiSchema['ui:errorMessages'].pattern);
+      .to.equal(`Error ${uiSchema['ui:errorMessages'].pattern}`);
   });
   it('should render formatted ssn for review', () => {
     const form = ReactTestUtils.renderIntoDocument(
