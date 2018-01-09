@@ -4,7 +4,7 @@ template: detail-page
 title: Where You’ll Get Care
 display_title:
 concurrence: complete
-lastupdate: 2018-01-08
+lastupdate: 2018-01-09
 order: 2
 relatedlinks:
   - heading: More information about your benefits
@@ -85,8 +85,8 @@ We may refer you to a community provider. Your eligibility for community care wi
 - [At a VA outpatient clinic](/facilities/)
 - [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
 - In your own home: <br>
-[Learn about skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp) <br>
-[Find out about remote telehealth services](https://www.telehealth.va.gov/)
+[Learn about skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp). <br>
+[Find out about remote telehealth services](https://www.telehealth.va.gov/).
 
 If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
 
