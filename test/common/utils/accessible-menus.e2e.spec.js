@@ -4,10 +4,11 @@ const Timeouts = require('../../e2e/timeouts.js');
 const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
 const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';
 const facilitiesLink = '#vetnav-menu a[href="/facilities/"]';
+const openControl = '.vetnav-controller-open';
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const { SPACE, ENTER, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, ESCAPE } = client.Keys;
+    const { SPACE, ENTER, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, ESCAPE, TAB } = client.Keys;
 
     client
       .url(`${E2eHelpers.baseUrl}/`);
@@ -24,6 +25,32 @@ module.exports = E2eHelpers.createE2eTest(
       // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
       .axeCheck('.main');
 
+    // ------------------------ //
+    // --- Small menu tests --- //
+    // ------------------------ //
+
+    client.resizeWindow(425, 887);
+
+    // Enter small menu
+    client.focusOn(openControl)
+      .keys(ENTER)
+      .assert.isActiveElement('vetnav-level1');
+
+    client
+      .keys(ESCAPE)
+      .assert.isActiveElement('vetnav-controller-open');
+
+    // Exit small menu
+    client.focusOn(openControl)
+      .keys(ENTER)
+      .keys(TAB)
+      .keys(TAB)
+      .keys(TAB)
+      .keys(TAB)
+      .expect.element('#vetnav').to.not.be.visible;
+
+    // Restore client to normal size
+    client.resizeWindow(1024, 768);
 
     // --------------------- //
     // --- Menubar tests --- //
@@ -61,20 +88,20 @@ module.exports = E2eHelpers.createE2eTest(
     // Right arrow should move focus to the right
     client.focusOn(exploreButton)
       .keys(RIGHT_ARROW)
-      .assert.isActiveElement(benefitsButton);
+      .assert.isActiveElement(benefitsButton.selector, benefitsButton.attribute);
     //  with wraparound
     client.focusOn(facilitiesLink)
       .keys(RIGHT_ARROW)
-      .assert.isActiveElement(exploreButton);
+      .assert.isActiveElement(exploreButton.selector, exploreButton.attribute);
 
     // Left arrow should move focus to the left
     client.focusOn(benefitsButton)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(exploreButton);
+      .assert.isActiveElement(exploreButton.selector, exploreButton.attribute);
     //  with wraparound
     client.focusOn(exploreButton)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(facilitiesLink);
+      .assert.isActiveElement(facilitiesLink.selector, facilitiesLink.selector);
 
 
     // ------------------------------ //
@@ -96,29 +123,29 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .focusOn(firstMenuItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(secondMenuItem);
+      .assert.isActiveElement(secondMenuItem.selector, secondMenuItem.attribute);
     //  with wraparound
     client
       .focusOn(lastMenuItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(firstMenuItem);
+      .assert.isActiveElement(firstMenuItem.selector, firstMenuItem.attribute);
 
     // Up arrow should move focus to the previous element
     client
       .focusOn(secondMenuItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(firstMenuItem);
+      .assert.isActiveElement(firstMenuItem.selector, firstMenuItem.attribute);
     //  with wraparound going to the opening menu button
     client
       .focusOn(firstMenuItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(exploreButton);
+      .assert.isActiveElement(exploreButton.selector, exploreButton.attribute);
 
     // Left arrow should do nothing
     client
       .focusOn(firstMenuItem)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(firstMenuItem);
+      .assert.isActiveElement(firstMenuItem.selector, firstMenuItem.attribute);
 
     // Right arrow should open the sub-menu and focus on the first element if sub-menu exists
     client.expect.element('#vetnav-healthcare').to.not.be.visible;
@@ -126,7 +153,7 @@ module.exports = E2eHelpers.createE2eTest(
       .focusOn(secondMenuItem)
       .keys(RIGHT_ARROW)
       .assert.visible('#vetnav-healthcare');
-    client.assert.isActiveElement(hcFirstItem);
+    client.assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
 
     // Space should open the sub-menu and focus on the first element if sub-menu exists
     client.expect.element('#vetnav-disability').to.not.be.visible;
@@ -176,35 +203,35 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .focusOn(hcFirstItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(hcSecondItem);
+      .assert.isActiveElement(hcSecondItem.selector, hcSecondItem.attribute);
     //  with wraparound
     client
       .focusOn(hcLastItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(hcFirstItem);
+      .assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
 
     // Up arrow should move focus to the previous item
     client
       .focusOn(hcSecondItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(hcFirstItem);
+      .assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
     //  with wraparound
     client
       .focusOn(hcFirstItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(hcLastItem);
+      .assert.isActiveElement(hcLastItem.selector, hcLastItem.attribute);
 
     // Right arrow should do nothing
     client
       .focusOn(hcFirstItem)
       .keys(RIGHT_ARROW)
-      .assert.isActiveElement(hcFirstItem);
+      .assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
 
     // Left arrow should move focus back to the opening menu button
     client
       .focusOn(hcFirstItem)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(secondMenuItem);
+      .assert.isActiveElement(secondMenuItem.selector, secondMenuItem.attribute);
 
     // TODO: Write these; I'm not sure what to do with them
     //  Do we just poke them and test the url? Seems like it'd get pretty slow

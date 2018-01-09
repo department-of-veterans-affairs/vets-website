@@ -12,8 +12,8 @@
  * @param {function} [callback] Optional callback function to be called when the command finishes.
  * @api commands
  */
-exports.command = function checkActiveElement(selector, callback) {
-  return this.execute((sel) => {
-    return document.querySelector(sel) === document.activeElement;
-  }, [selector], callback);
+exports.command = function checkActiveElement(callback) {
+  return this.elementActive(function (result) {// eslint-disable-line func-names
+    this.elementIdAttribute(result.value.ELEMENT, 'class', callback);
+  });
 };
