@@ -4,7 +4,7 @@ template: detail-page
 title: Your Care Team
 display_title:
 concurrence: complete
-lastupdate: 2018-01-08
+lastupdate: 2018-01-09
 order: 1
 relatedlinks:
   - heading: More information about your benefits
@@ -52,9 +52,9 @@ When you need other services to meet your goals and needs, your team may call ot
 
 - [How will my health care team work with me](#health-care-team)?
 - [Do I get to choose my primary care provider](#choose-primary-care-provider)?
-- [How do I schedule an appointment?](#appointments)
+- [How do I schedule an appointment](#appointments)?
 - [What happens if my primary care provider leaves VA](#primary-care-provider-leaves)?
-- [Can I see a local community care provider, paid for by VA?](#non-va-provider)?
+- [Can I see a local community care provider, paid for by VA](#non-va-provider)?
 
 <br>
 
@@ -114,7 +114,7 @@ It depends. If we can't provide the care you need, we may refer you to a communi
 
 **We may refer you to a community provider if one of these is true for you:**
 - We can’t provide the services you need, **or**
-- We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
+- We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date, the date you’d prefer to be seen next, **or**
 - You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
 - You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
 - You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
