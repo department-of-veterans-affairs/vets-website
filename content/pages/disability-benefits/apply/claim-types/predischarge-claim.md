@@ -114,7 +114,7 @@ You have 2 options for filing:
     - Are pregnant, **or**
     - Require a character of discharge determination, **or**
     - Are filing for a condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was before you entered service to be used as a baseline), **or**
-  - Have a claim that involves one or more DRC program exclusions. [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp/#eligibility). <br/>
+  - Have a claim that involves one or more DRC program exclusions. [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp). <br/>
 
   **For more information on the DRC program:**
   Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
