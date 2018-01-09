@@ -110,15 +110,19 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 - Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
 - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
 
-**Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.
+**Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.<br>
 [Learn about the IDES program](#ides-program). <br>
 [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp).
 
 **For more information on the DRC program:**
 
 Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. <br>
-Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). <br>
-Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
+
+Watch a video and download fact sheets on our VA.gov website. <br>
+[Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). <br>
+
+Or contact your local VSO.<br>
+[Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
 
 ### File a fully developed or standard claim
 
@@ -134,6 +138,6 @@ The difference in these claim types is based on how you gather evidence (support
 
 If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
-If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You'll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br/>
+If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You'll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br>
 [Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
