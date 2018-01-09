@@ -32,29 +32,34 @@ class Timeline extends React.Component {
       pastEventsList = events.map((event, index) => {
         const { title, description, liClass } = getEventContent(event);
         const date = formatDate(event.date);
+        const hideSeparator = (index === events.length - 1);
         return (
           <PastEvent
             key={`past-event-${index}`}
             title={title}
             date={date}
             description={description}
-            liClass={liClass}/>
+            liClass={liClass}
+            hideSeparator={hideSeparator}/>
         );
       });
     }
 
     let expanderTitle = '';
     let expanderCssClass = '';
+    let hideSeparator = false;
     let displayedEvents = [];
     let downArrow;
     if (this.state.expanded) {
       expanderTitle = 'Hide past events';
       expanderCssClass = 'section-expanded';
+      hideSeparator = false;
       displayedEvents = pastEventsList;
       downArrow = <div className="down-arrow"/>;
     } else {
       expanderTitle = 'See past events';
       expanderCssClass = 'section-unexpanded';
+      hideSeparator = true;
       displayedEvents = [];
       downArrow = null;
     }
@@ -67,7 +72,8 @@ class Timeline extends React.Component {
             title={expanderTitle}
             dateRange={this.formatDateRange()}
             onToggle={this.toggleExpanded}
-            cssClass={expanderCssClass}/>
+            cssClass={expanderCssClass}
+            hideSeparator={hideSeparator}/>
           {displayedEvents}
         </ol>
         {downArrow}
