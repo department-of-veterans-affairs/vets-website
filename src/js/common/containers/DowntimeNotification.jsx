@@ -18,6 +18,12 @@ export const services = {
   vic: 'vic'
 };
 
+export const serviceDowntimeStatus = {
+  down: 1,
+  downtimeApproaching: 2,
+  available: 3
+};
+
 class DowntimeNotification extends React.Component {
 
   static propTypes = {
@@ -33,28 +39,41 @@ class DowntimeNotification extends React.Component {
     )
   };
 
-  static isServiceDown(...serviceNames) {
+  static getServiceStatus(serviceName, current = moment(), warning = moment().add(1, 'hour')) {
+    const service = this.scheduledDowntime.find(downtime => downtime.service === serviceName);
+
+    if (!service) return serviceDowntimeStatus.available;
+    if (current.isSameOrAfter(service.startTime) && current.isSameOrBefore(service.endTime)) return serviceDowntimeStatus.down;
+    if (warning.isSameOrAfter(service.startTime) && warning.isSameOrBefore(service.endTime)) return serviceDowntimeStatus.downtimeApproaching;
+
+    return serviceDowntimeStatus.available;
+  }
+
+  static getApplicationStatus(...dependencies) {
     if (!this.scheduledDowntime) return null;
+
     const now = moment();
-    return serviceNames.some((serviceName) => {
-      const service = this.scheduledDowntime.find(downtime => downtime.service === serviceName);
-      if (!service) return false;
-      return now.isSameOrAfter(service.startTime) && now.isSameOrBefore(service.endTime);
-    });
+    const nextHour = moment().add(1, 'hour');
+
+    return dependencies.reduce((worstStatus, serviceName) => {
+      if (worstStatus === serviceDowntimeStatus.down) return worstStatus;
+
+      const status = this.getServiceStatus(serviceName, now, nextHour);
+      if (status === serviceDowntimeStatus.down || status === serviceDowntimeStatus.downtimeApproaching) return status;
+
+      return worstStatus;
+    }, serviceDowntimeStatus.available);
   }
 
   componentWillMount() {
-    if (this.props.scheduledDowntime && this.props.onScheduledDowntimeLoaded) {
-      this.props.onScheduledDowntimeLoaded();
-    } else {
-      this.props.getScheduledDowntime();
-    }
+    if (!DowntimeNotification.scheduledDowntime) this.props.getScheduledDowntime();
+    else if (this.props.onScheduledDowntimeLoaded) this.props.onScheduledDowntimeLoaded();
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.scheduledDowntime && this.props.scheduledDowntime) {
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.scheduledDowntime && nextProps.scheduledDowntime) {
       // Move the downtime data into static-level to make it accessible to the helper function(s).
-      DowntimeNotification.scheduledDowntime = this.props.scheduledDowntime;
+      DowntimeNotification.scheduledDowntime = nextProps.scheduledDowntime;
       if (this.props.onScheduledDowntimeLoaded) this.props.onScheduledDowntimeLoaded();
     }
   }
@@ -62,9 +81,24 @@ class DowntimeNotification extends React.Component {
   render() {
     if (!this.props.scheduledDowntime) return null;
 
-    // const isDown = DowntimeNotification.isServiceDown(...this.props.dependencies);
+    const applicationStatus = DowntimeNotification.getApplicationStatus(...this.props.dependencies);
+    let message = '';
 
-    return <AlertBox content="Downtime Notification" isVisible status="info"/>;
+    switch (applicationStatus) {
+      case serviceDowntimeStatus.down:
+        message = 'Currently in downtime.';
+        break;
+
+      case serviceDowntimeStatus.downtimeApproaching:
+        message = 'Downtime is approaching, uh oh.';
+        break;
+
+      case serviceDowntimeStatus.available:
+      default:
+        message = 'No downtime approaching - wahoo';
+    }
+
+    return <AlertBox content={message} isVisible status="info"/>;
   }
 
 }
