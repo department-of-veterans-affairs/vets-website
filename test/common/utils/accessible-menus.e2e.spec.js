@@ -4,11 +4,10 @@ const Timeouts = require('../../e2e/timeouts.js');
 const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
 const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';
 const facilitiesLink = '#vetnav-menu a[href="/facilities/"]';
-const openControl = '.vetnav-controller-open';
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const { SPACE, ENTER, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, ESCAPE, TAB } = client.Keys;
+    const { SPACE, ENTER, UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, ESCAPE } = client.Keys;
 
     client
       .url(`${E2eHelpers.baseUrl}/`);
@@ -25,36 +24,6 @@ module.exports = E2eHelpers.createE2eTest(
       // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
       .axeCheck('.main');
 
-    // ------------------------ //
-    // --- Small menu tests --- //
-    // ------------------------ //
-
-    client.resizeWindow(425, 887);
-
-    // Enter small menu
-    client.focusOn(openControl)
-      .keys(ENTER)
-      .assert.isActiveElement('vetnav-level1');
-
-    client
-      .keys(ESCAPE)
-      .assert.isActiveElement('vetnav-controller-open');
-
-    // Trap focus
-    client.focusOn(openControl)
-      .keys(ENTER)
-      .keys(TAB)
-      .keys(TAB)
-      .keys(TAB)
-      .keys(TAB)
-      .keys(TAB)
-      .keys(TAB)
-      .keys(TAB)
-      .keys(TAB)
-      .assert.isActiveElement('vetnav-level1');
-
-    // Restore client to normal size
-    client.resizeWindow(1024, 768);
 
     // --------------------- //
     // --- Menubar tests --- //
