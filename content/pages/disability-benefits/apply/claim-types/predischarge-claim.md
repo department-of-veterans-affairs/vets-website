@@ -101,29 +101,25 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 You have 2 options for filing:
 
 - **Go through The Decision Ready Claim (DRC) program.** This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.<br/>
-<br/>
 
-**To file a claim through the DRC program, you'll need to:**
+  **To file a claim through the DRC program, you'll need to:**
+    - Appoint and work with an accredited VSO, **and**
+    - Gather all relevant and required evidence to support your claim, **and**
+    - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.<br/>
 
-  - Appoint and work with an accredited VSO, **and**
-  - Gather all relevant and required evidence to support your claim, **and**
-  - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.<br/>  
-
-**You can't use the DRC program if you:**
-
-  - Have more than 90 days left on active duty, unless you have a pending BDD claim, **or** 
-  - Are enrolled in the Integrated Disability Evaluation System (IDES), **or**
-  - Are awaiting discharge while hospitalized in a VA or military treatment facility, **or**
-  - Are pregnant, **or**
-  - Require a character of discharge determination, **or**
-  - Are filing for a condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was as a baseline before you entered service), **or**
+  **You can't use the DRC program if you:**
+    - Have more than 90 days left on active duty, unless you have a pending BDD claim, **or** 
+    - Are enrolled in the Integrated Disability Evaluation System (IDES), **or**
+    - Are awaiting discharge while hospitalized in a VA or military treatment facility, **or**
+    - Are pregnant, **or**
+    - Require a character of discharge determination, **or**
+    - Are filing for a condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was as a baseline before you entered service), **or**
   - Have a claim that involves one or more DRC program exclusions. [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp/#eligibility). <br/>
 
-**For more information on the DRC program:**
-
-Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
-Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). 
-Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
+  **For more information on the DRC program:**
+  Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
+  Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). 
+  Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
 
 - **File a fully developed or standard claim.** The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br/>
 [Learn about the application process](/disability-benefits/apply/).</br>
