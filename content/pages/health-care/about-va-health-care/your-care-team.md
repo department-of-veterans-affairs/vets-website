@@ -70,7 +70,8 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 - **Provide or arrange for preventive care,** such as immunizations (like flu shots) to prevent illness and screenings to help find diseases like cancer in their earliest stages—when treatment is most likely to be successful.
 
-- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Health***e***Vet portal. [Visit My Health***e***Vet](https://www.myhealth.va.gov/).
+- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Health***e***Vet portal.<br>
+[Visit My Health***e***Vet](https://www.myhealth.va.gov/).
 
 - **Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
 
@@ -82,7 +83,8 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 No. You’ll choose the main VA location where you’d like to get care. We’ll assign you a health care team—including your primary care provider—based on the location you choose.
 
-If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. [Find a medical center near you](/facilities/).
+If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. <br>
+[Find a medical center near you](/facilities/).
 
 <br>
 
@@ -91,7 +93,8 @@ If you decide you want to change to a different primary care doctor, you’ll ne
 #### How do I schedule an appointment?
 
 
-You can schedule VA health care appointments by phone or through our online scheduling tool. [Find out how to schedule VA appointments by phone or online](/health-care/schedule-an-appointment).
+You can schedule VA health care appointments by phone or through our online scheduling tool. <br>
+[Find out how to schedule VA appointments by phone or online](/health-care/schedule-an-appointment).
 
 <br>
 
