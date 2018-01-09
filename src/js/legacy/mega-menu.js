@@ -1,4 +1,4 @@
-import { isWideScreen, isEscape } from '../common/utils/accessible-menus';
+import { isWideScreen, isEscape, isTab } from '../common/utils/accessible-menus';
 
 class MegaMenu {
   constructor(menuElement, openMenuElement, closeMenuElement, menuElements) {
@@ -7,11 +7,13 @@ class MegaMenu {
     this.openControl = openMenuElement;
     this.menuElements = menuElements;
     this.firstMenuElement = this.menuElements[0].getElementsByTagName('a')[0];
+    this.lastMenuElement = this.menuElements[0].parentNode.lastElementChild;
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
     this.showMegaMenu = this.showMegaMenu.bind(this);
     this.hideMegaMenu = this.hideMegaMenu.bind(this);
     this.exitSmallMegaMenu = this.exitSmallMegaMenu.bind(this);
+    this.toggleSmallMegaMenu = this.toggleSmallMegaMenu.bind(this);
 
     this.addListeners();
   }
@@ -19,7 +21,8 @@ class MegaMenu {
   addListeners() {
     this.closeControl.addEventListener('click', this.hideMegaMenu);
     this.openControl.addEventListener('click', this.showMegaMenu);
-    this.menuElements.forEach(item => item.addEventListener('keydown', this.exitSmallMegaMenu));
+    this.lastMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
+    this.menuElements.forEach(item => item.addEventListener('keydown', this.toggleSmallMegaMenu));
     window.addEventListener('resize', this.resetMenu);
   }
 
@@ -48,13 +51,18 @@ class MegaMenu {
     this.menu.classList.remove('vetnav--submenu-expanded');
   }
 
-  exitSmallMegaMenu(e) {
+  toggleSmallMegaMenu(e) {
     if (!isWideScreen() && isEscape(e)) {
       this.hideMegaMenu();
       this.openControl.focus();
     }
   }
 
+  exitSmallMegaMenu(e) {
+    if (!isWideScreen() && isTab(e)) {
+      this.hideMegaMenu();
+    }
+  }
 }
 
 export default MegaMenu;

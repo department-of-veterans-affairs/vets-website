@@ -1,3 +1,4 @@
+const TAB = 9;
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
@@ -10,6 +11,10 @@ function isWideScreen() {
 
 function isEscape(e) {
   return e.which === ESCAPE;
+}
+
+function isTab(e) {
+  return e.which === TAB;
 }
 
 /**
@@ -393,4 +398,4 @@ function addMenuListeners(menuElement, closeOnResize = false) {
   });
 }
 
-export { isWideScreen, isEscape, addMenuListeners };
+export { isWideScreen, isEscape, isTab, addMenuListeners };
