@@ -42,7 +42,7 @@ You’ll receive regular care at one VA location of your choice. If you need spe
   - Most centers provide medical and surgical specialty services—like oncology (cancer care), geriatrics (elder care), and neurology (care for conditions of the brain and nervous system).
   - Some medical centers also offer advanced services—like organ transplants and plastic surgery (reconstructing or repairing parts of the body in the treatment of traumatic injury). <br>
 [Find a medical center near you](/facilities/).
-- **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home.<br>
+- **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. <br>
 [Find a clinic near you](/facilities/).
 - **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br>
 [Learn more about Vet Centers](http://www.vetcenter.va.gov). <br>
@@ -110,7 +110,7 @@ Call 911 or go to the nearest emergency room. You don’t have to contact us in 
 
 If you’re far from a VA medical center, we may pay for emergency care in a non-VA setting. Be sure to contact your nearest VA medical center as soon as possible—and ask to talk to the patient transfer or patient administration representative. Payment for emergency care in a non-VA setting ends when a VA provider concludes that you’re stable enough to be transferred to a VA medical center.
 
-For more information, call your local VA medical center’s enrollment coordinator. 
+For more information, call your local VA medical center’s enrollment coordinator. <br>
 Or [get more details on emergency care coverage](https://www.va.gov/healthbenefits/access/emergency_care.asp).
 
 <br>
