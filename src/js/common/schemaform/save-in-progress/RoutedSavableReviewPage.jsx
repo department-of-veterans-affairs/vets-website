@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-in-progress/actions';
+import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
 import { toggleLoginModal } from '../../../login/actions';
 
 import { ReviewPage } from '../review/ReviewPage';
@@ -39,15 +39,20 @@ class RoutedSavableReviewPage extends React.Component {
   renderErrorMessage = () => {
     const { route, user, form, location } = this.props;
     const errorText = route.formConfig.errorText;
+    const savedStatus = form.savedStatus;
 
     const saveLink = (<SaveFormLink
       locationPathname={location.pathname}
       form={form}
       user={user}
-      saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-      toggleLoginModal={toggleLoginModal}>
+      saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+      toggleLoginModal={this.props.toggleLoginModal}>
       save your application
     </SaveFormLink>);
+
+    if (saveErrors.has(savedStatus)) {
+      return saveLink;
+    }
 
     let InlineErrorComponent;
     if (typeof errorText === 'function') {
@@ -94,7 +99,7 @@ class RoutedSavableReviewPage extends React.Component {
       <ReviewPage
         {...this.props}
         setData={this.setData}
-        contentAfterButtons={contentAfterButtons}
+        contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
         renderErrorMessage={this.renderErrorMessage}/>
     );
   }
