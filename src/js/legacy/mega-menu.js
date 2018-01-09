@@ -7,8 +7,8 @@ class MegaMenu {
     this.openControl = openMenuElement;
     this.menuElements = menuElements;
     this.firstMenuElement = this.menuElements[0].getElementsByTagName('a')[0];
-    this.lastMenuElement = this.menuElements[0].parentNode.lastElementChild;
-    this.lastTabbableElement = document.querySelectorAll('input,select,a[href],textarea,button,[tabindex]')[0];
+    this.lastMenuElement = this.menuElements[0].parentNode.lastElementChild.getElementsByTagName('a')[0];
+    this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]'); 
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
     this.showMegaMenu = this.showMegaMenu.bind(this);
@@ -24,6 +24,7 @@ class MegaMenu {
     this.closeControl.addEventListener('click', this.hideMegaMenu);
     this.closeControl.addEventListener('keydown', this.enterSmallMegaMenu);
     this.openControl.addEventListener('click', this.showMegaMenu);
+    this.firstMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
     this.lastMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
     this.menuElements.forEach(item => item.addEventListener('keydown', this.toggleSmallMegaMenu));
     window.addEventListener('resize', this.resetMenu);
@@ -69,22 +70,17 @@ class MegaMenu {
   }
 
   exitSmallMegaMenu(e) {
-    if (!isWideScreen() && isTab(e) && !e.shiftKey) {
-      this.lastTabbableElement.focus();
+    if(e.target === this.firstMenuElement){
+      if (!isWideScreen() && isTab(e) && e.shiftKey) {
+        e.preventDefault();
+        this.closeControl.focus();
+      []}
     }
-  }
-
-  showMegaMenu() {
-    this.openControl.setAttribute('hidden', 'hidden');
-    this.menu.removeAttribute('hidden');
-    this.closeControl.removeAttribute('hidden');
-  }
-
-  hideMegaMenu() {
-    this.closeControl.setAttribute('hidden', 'hidden');
-    this.menu.setAttribute('hidden', 'hidden');
-    this.openControl.removeAttribute('hidden');
-    this.menu.classList.remove('vetnav--submenu-expanded');
+    if(e.target === this.lastMenuElement){
+      if (!isWideScreen() && isTab(e) && !e.shiftKey) {
+        this.lastTabbableElement.focus();
+      }
+    }
   }
 }
 
