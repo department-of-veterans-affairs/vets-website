@@ -92,20 +92,20 @@ module.exports = E2eHelpers.createE2eTest(
     // Right arrow should move focus to the right
     client.focusOn(exploreButton)
       .keys(RIGHT_ARROW)
-      .assert.isActiveElement(benefitsButton.selector, benefitsButton.attribute);
+      .assert.isActiveElement(benefitsButton);
     //  with wraparound
     client.focusOn(facilitiesLink)
       .keys(RIGHT_ARROW)
-      .assert.isActiveElement(exploreButton.selector, exploreButton.attribute);
+      .assert.isActiveElement(exploreButton);
 
     // Left arrow should move focus to the left
     client.focusOn(benefitsButton)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(exploreButton.selector, exploreButton.attribute);
+      .assert.isActiveElement(exploreButton);
     //  with wraparound
     client.focusOn(exploreButton)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(facilitiesLink.selector, facilitiesLink.selector);
+      .assert.isActiveElement(facilitiesLink);
 
 
     // ------------------------------ //
@@ -127,29 +127,29 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .focusOn(firstMenuItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(secondMenuItem.selector, secondMenuItem.attribute);
+      .assert.isActiveElement(secondMenuItem);
     //  with wraparound
     client
       .focusOn(lastMenuItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(firstMenuItem.selector, firstMenuItem.attribute);
+      .assert.isActiveElement(firstMenuItem);
 
     // Up arrow should move focus to the previous element
     client
       .focusOn(secondMenuItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(firstMenuItem.selector, firstMenuItem.attribute);
+      .assert.isActiveElement(firstMenuItem);
     //  with wraparound going to the opening menu button
     client
       .focusOn(firstMenuItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(exploreButton.selector, exploreButton.attribute);
+      .assert.isActiveElement(exploreButton);
 
     // Left arrow should do nothing
     client
       .focusOn(firstMenuItem)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(firstMenuItem.selector, firstMenuItem.attribute);
+      .assert.isActiveElement(firstMenuItem);
 
     // Right arrow should open the sub-menu and focus on the first element if sub-menu exists
     client.expect.element('#vetnav-healthcare').to.not.be.visible;
@@ -157,7 +157,7 @@ module.exports = E2eHelpers.createE2eTest(
       .focusOn(secondMenuItem)
       .keys(RIGHT_ARROW)
       .assert.visible('#vetnav-healthcare');
-    client.assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
+    client.assert.isActiveElement(hcFirstItem);
 
     // Space should open the sub-menu and focus on the first element if sub-menu exists
     client.expect.element('#vetnav-disability').to.not.be.visible;
@@ -207,35 +207,35 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .focusOn(hcFirstItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(hcSecondItem.selector, hcSecondItem.attribute);
+      .assert.isActiveElement(hcSecondItem);
     //  with wraparound
     client
       .focusOn(hcLastItem)
       .keys(DOWN_ARROW)
-      .assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
+      .assert.isActiveElement(hcFirstItem);
 
     // Up arrow should move focus to the previous item
     client
       .focusOn(hcSecondItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
+      .assert.isActiveElement(hcFirstItem);
     //  with wraparound
     client
       .focusOn(hcFirstItem)
       .keys(UP_ARROW)
-      .assert.isActiveElement(hcLastItem.selector, hcLastItem.attribute);
+      .assert.isActiveElement(hcLastItem);
 
     // Right arrow should do nothing
     client
       .focusOn(hcFirstItem)
       .keys(RIGHT_ARROW)
-      .assert.isActiveElement(hcFirstItem.selector, hcFirstItem.attribute);
+      .assert.isActiveElement(hcFirstItem);
 
     // Left arrow should move focus back to the opening menu button
     client
       .focusOn(hcFirstItem)
       .keys(LEFT_ARROW)
-      .assert.isActiveElement(secondMenuItem.selector, secondMenuItem.attribute);
+      .assert.isActiveElement(secondMenuItem);
 
     // TODO: Write these; I'm not sure what to do with them
     //  Do we just poke them and test the url? Seems like it'd get pretty slow

@@ -73,6 +73,19 @@ class MegaMenu {
       this.lastTabbableElement.focus();
     }
   }
+
+  showMegaMenu() {
+    this.openControl.setAttribute('hidden', 'hidden');
+    this.menu.removeAttribute('hidden');
+    this.closeControl.removeAttribute('hidden');
+  }
+
+  hideMegaMenu() {
+    this.closeControl.setAttribute('hidden', 'hidden');
+    this.menu.setAttribute('hidden', 'hidden');
+    this.openControl.removeAttribute('hidden');
+    this.menu.classList.remove('vetnav--submenu-expanded');
+  }
 }
 
 export default MegaMenu;
