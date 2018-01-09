@@ -8,10 +8,12 @@ class MegaMenu {
     this.menuElements = menuElements;
     this.firstMenuElement = this.menuElements[0].getElementsByTagName('a')[0];
     this.lastMenuElement = this.menuElements[0].parentNode.lastElementChild;
+    this.lastTabbableElement = document.querySelectorAll('input,select,a[href],textarea,button,[tabindex]')[0];
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
     this.showMegaMenu = this.showMegaMenu.bind(this);
     this.hideMegaMenu = this.hideMegaMenu.bind(this);
+    this.enterSmallMegaMenu = this.enterSmallMegaMenu.bind(this);
     this.exitSmallMegaMenu = this.exitSmallMegaMenu.bind(this);
     this.toggleSmallMegaMenu = this.toggleSmallMegaMenu.bind(this);
 
@@ -20,6 +22,7 @@ class MegaMenu {
 
   addListeners() {
     this.closeControl.addEventListener('click', this.hideMegaMenu);
+    this.closeControl.addEventListener('keydown', this.enterSmallMegaMenu);
     this.openControl.addEventListener('click', this.showMegaMenu);
     this.lastMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
     this.menuElements.forEach(item => item.addEventListener('keydown', this.toggleSmallMegaMenu));
@@ -58,9 +61,16 @@ class MegaMenu {
     }
   }
 
+  enterSmallMegaMenu(e) {
+    if (!isWideScreen() && isTab(e) && !e.shiftKey) {
+      e.preventDefault();
+      this.firstMenuElement.focus();
+    }
+  }
+
   exitSmallMegaMenu(e) {
-    if (!isWideScreen() && isTab(e)) {
-      this.hideMegaMenu();
+    if (!isWideScreen() && isTab(e) && !e.shiftKey) {
+      this.lastTabbableElement.focus();
     }
   }
 }

@@ -40,14 +40,18 @@ module.exports = E2eHelpers.createE2eTest(
       .keys(ESCAPE)
       .assert.isActiveElement('vetnav-controller-open');
 
-    // Exit small menu
+    // Trap focus
     client.focusOn(openControl)
       .keys(ENTER)
       .keys(TAB)
       .keys(TAB)
       .keys(TAB)
       .keys(TAB)
-      .expect.element('#vetnav').to.not.be.visible;
+      .keys(TAB)
+      .keys(TAB)
+      .keys(TAB)
+      .keys(TAB)
+      .assert.isActiveElement('vetnav-level1');
 
     // Restore client to normal size
     client.resizeWindow(1024, 768);
