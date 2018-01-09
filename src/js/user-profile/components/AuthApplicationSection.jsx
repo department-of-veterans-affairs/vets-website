@@ -47,27 +47,23 @@ const contentConditions = [
 class AuthApplicationSection extends React.Component {
   render() {
     const { services } = this.props.userProfile;
-    const availableServices = [];
-    const unavailableServices = [];
-    const isAvailable = services.reduce((acc, service) => {
-      acc[service] = true;
-      return acc;
-    }, {});
+    const availableServices = new Set(services);
+    const availableContent = [];
+    const unavailableContent = [];
 
     contentConditions.forEach(([content, requiredServices]) => {
       // Services without any requirements are available to every user.
       if (!requiredServices) {
-        availableServices.push(content);
+        availableContent.push(content);
         return;
       }
 
-      const accessible = requiredServices.length > 1 ?
-        requiredServices.reduce((acc, service) => acc && isAvailable[service], true) :
-        isAvailable[requiredServices[0]];
-      if (accessible) {
-        availableServices.push(content);
+      const isAccessible = requiredServices.every(service => availableServices.has(service));
+
+      if (isAccessible) {
+        availableContent.push(content);
       } else {
-        unavailableServices.push(content);
+        unavailableContent.push(content);
       }
     });
 
@@ -76,21 +72,21 @@ class AuthApplicationSection extends React.Component {
         <h4 className="section-header">Available services</h4>
         <div className="medium-12 columns">
           {
-            !!availableServices.length && (
+            !!availableContent.length && (
               <div>
                 <p><span className="label">Your account will allow you to:</span></p>
                 <div className="available-services">
-                  {availableServices}
+                  {availableContent}
                 </div>
               </div>
             )
           }
           {
-            !!unavailableServices.length && (
+            !!unavailableContent.length && (
               <div>
                 <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
                 <div className="unavailable-services">
-                  {unavailableServices}
+                  {unavailableContent}
                 </div>
               </div>
             )
