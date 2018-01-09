@@ -100,10 +100,6 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 
 You have 2 options for filing:
 
-- **File a fully developed or standard claim.** The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br/>
-[Learn about the application process](/disability-benefits/apply/).</br>
-[Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
-
 - **Go through The Decision Ready Claim (DRC) program.** This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.<br/>
 <br/>
 
@@ -129,7 +125,11 @@ You have 2 options for filing:
 
 Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
 Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). 
-Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).
+Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
+
+- **File a fully developed or standard claim.** The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br/>
+[Learn about the application process](/disability-benefits/apply/).</br>
+[Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
 
