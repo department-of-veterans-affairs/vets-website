@@ -52,13 +52,9 @@ class AuthApplicationSection extends React.Component {
     const unavailableContent = [];
 
     contentConditions.forEach(([content, requiredServices]) => {
-      // Services without any requirements are available to every user.
-      if (!requiredServices) {
-        availableContent.push(content);
-        return;
-      }
-
-      const isAccessible = requiredServices.every(service => availableServices.has(service));
+      const isAccessible =
+        !requiredServices ||
+        requiredServices.every(service => availableServices.has(service));
 
       if (isAccessible) {
         availableContent.push(content);
