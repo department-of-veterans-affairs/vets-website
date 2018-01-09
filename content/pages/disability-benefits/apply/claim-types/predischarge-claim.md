@@ -37,7 +37,8 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 ### What if I have less than 90 days left on active duty? 
 
-You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. [Learn how to file a claim less than 90 days before discharge](#drc-program).
+You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. <br>
+[Learn how to file a claim less than 90 days before discharge](#drc-program).
 
 <br>
 
@@ -100,29 +101,29 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 
 You have 2 options for filing:
 
-- **Go through The Decision Ready Claim (DRC) program.** This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.<br/>
+#### Go through The Decision Ready Claim (DRC) program
 
-  **To file a claim through the DRC program, you'll need to:**
-    - Appoint and work with an accredited VSO, **and**
-    - Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
-    - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.<br/>
+This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.
 
-  **You can't use the DRC program if you:**
-    - Have more than 90 days left on active duty, unless you have a pending BDD claim, **or** 
-    - Are enrolled in the Integrated Disability Evaluation System (IDES), **or**
-    - Are awaiting discharge while hospitalized in a VA or military treatment facility, **or**
-    - Are pregnant, **or**
-    - Require a character of discharge determination, **or**
-    - Are filing for a condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was before you entered service to be used as a baseline), **or**
-  - Have a claim that involves one or more DRC program exclusions. [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp). <br/>
+**To file a claim through the DRC program, you'll need to:**
+- Appoint and work with an accredited VSO, **and**
+- Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
+- Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
 
-  **For more information on the DRC program:**
-  Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. 
-  Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). 
-  Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
+**Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.
+[Learn about the IDES program](#ides-program). <br>
+[See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp).
 
-- **File a fully developed or standard claim.** The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br/>
-[Learn about the application process](/disability-benefits/apply/).</br>
+**For more information on the DRC program:**
+
+Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. <br>
+Watch a video and download fact sheets on our VA.gov website. [Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). <br>
+Or contact your local VSO. [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
+
+### File a fully developed or standard claim
+
+The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
+[Learn about the application process](/disability-benefits/apply/).<br>
 [Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
 
 <br>
