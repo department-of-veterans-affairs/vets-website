@@ -51,7 +51,7 @@ export function AppealInfo({ params, appeal, children }) {
           </div>
         </div>
         <div className="medium-4 columns">
-          <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>
+          {appeal && <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>}
         </div>
       </div>
     </div>
@@ -70,3 +70,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps)(AppealInfo);
+
