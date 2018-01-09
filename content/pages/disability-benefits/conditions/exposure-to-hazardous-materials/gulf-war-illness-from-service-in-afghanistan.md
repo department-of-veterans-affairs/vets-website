@@ -63,6 +63,6 @@ You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/a
 
 You can get help from a trained professional trusted to help with VA-related claims. [Find an accredited representative](/disability-benefits/apply/help/).
 
-### Are there any others health concerns I should know about that may be related to my service in Afghanistan?
+### Are there any other health concerns I should know about that may be related to my service in Afghanistan?
 
 Yes. [Find out what health risks may be connected to your service in Afghanistan](/health-care/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/).
