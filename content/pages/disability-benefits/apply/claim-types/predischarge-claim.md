@@ -104,7 +104,7 @@ You have 2 options for filing:
 
   **To file a claim through the DRC program, you'll need to:**
     - Appoint and work with an accredited VSO, **and**
-    - Gather all relevant and required evidence to support your claim, **and**
+    - Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
     - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.<br/>
 
   **You can't use the DRC program if you:**
@@ -113,7 +113,7 @@ You have 2 options for filing:
     - Are awaiting discharge while hospitalized in a VA or military treatment facility, **or**
     - Are pregnant, **or**
     - Require a character of discharge determination, **or**
-    - Are filing for a condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was as a baseline before you entered service), **or**
+    - Are filing for a condition that you had before entering the service and that you believe was made worse by your active-duty service (unless you can provide evidence of how severe the condition was before you entered service to be used as a baseline), **or**
   - Have a claim that involves one or more DRC program exclusions. [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp/#eligibility). <br/>
 
   **For more information on the DRC program:**
