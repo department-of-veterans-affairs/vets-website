@@ -50,7 +50,7 @@ export function AppealInfo({ params, appeal, children }) {
             {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
           </div>
         </div>
-        <div className="medium-4 columns">
+        <div className="medium-4 columns help-sidebar">
           {appeal && <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>}
         </div>
       </div>
