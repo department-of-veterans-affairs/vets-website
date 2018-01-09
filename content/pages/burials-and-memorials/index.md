@@ -4,11 +4,6 @@ title: Burials and Memorials
 permalink: /burials-and-memorials/index.md
 template: level2-index
 showactionbar: false
-widgets:
-  - root: react-applicationStatus
-    timeout: 20
-    loadingmessage: Checking your application status.
-    errormessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Who Can Get Benefits
     links:
@@ -46,5 +41,3 @@ majorlinks:
 We can help Servicemembers, Veterans, and family members plan a burial or memorial service. Find out how to get burial benefits.
 
 </div>
-
-<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
