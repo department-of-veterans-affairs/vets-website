@@ -12,7 +12,7 @@ const defaultProps = {
 describe('<CurrentStatus/>', () => {
   it('should render', () => {
     const wrapper = shallow(<CurrentStatus {...defaultProps}/>);
-    expect(wrapper.type()).to.equal('li');
+    expect(wrapper.type()).to.equal('div');
   });
 
   it('should render title and description from passed in props', () => {
@@ -25,8 +25,8 @@ describe('<CurrentStatus/>', () => {
       determine whether or not they can grant your appeal.`
     };
     const wrapper = render(<CurrentStatus {...props}/>);
-    const statusTitle = wrapper.find('h4').text();
-    const statusDescription = wrapper.find('div').text();
+    const statusTitle = wrapper.find('h3').text();
+    const statusDescription = wrapper.find('p').text();
     expect(statusTitle).to.equal(props.title);
     expect(statusDescription).to.equal(props.description);
   });

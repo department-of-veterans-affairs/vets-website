@@ -13,9 +13,11 @@ const CurrentStatus = ({ title, description }) => (
 );
 
 CurrentStatus.PropTypes = {
-  key: PropTypes.number,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired
 };
 
 export default CurrentStatus;

@@ -35,7 +35,7 @@ class AppealsV2StatusPage extends React.Component {
     const nextEvents = getNextEvents(type);
     return (
       <div>
-        <Timeline events={events} currentStatus={currentStatus}/>
+        <Timeline events={events}/>
         <CurrentStatus
           title={currentStatus.title}
           description={currentStatus.description}/>

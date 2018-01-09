@@ -5,7 +5,7 @@ import Expander from './Expander';
 import PastEvent from './PastEvent';
 
 /**
- * Timeline is in charge of the past events and current status.
+ * Timeline is in charge of the past events.
  */
 class Timeline extends React.Component {
   constructor(props) {
@@ -88,13 +88,6 @@ Timeline.propTypes = {
     date: PropTypes.string.isRequired,
     details: PropTypes.object
   })).isRequired,
-  currentStatus: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]).isRequired,
-  }).isRequired
 };
 
 export default Timeline;
