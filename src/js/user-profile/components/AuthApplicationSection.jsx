@@ -84,7 +84,7 @@ class AuthApplicationSection extends React.Component {
           {
             !!unavailableContent.length && (
               <div>
-                <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
+                <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for, like:</span></p>
                 <div className="unavailable-services">
                   {unavailableContent}
                 </div>
