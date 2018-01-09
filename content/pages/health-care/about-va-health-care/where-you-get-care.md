@@ -4,7 +4,7 @@ template: detail-page
 title: Where You’ll Get Care
 display_title:
 concurrence: complete
-lastupdate: 2017-07-06
+lastupdate: 2018-01-08
 order: 2
 relatedlinks:
   - heading: More information about your benefits
@@ -80,20 +80,21 @@ We may refer you to a community provider. Your eligibility for community care wi
 **You may be able to get care:**
 - [At a VA outpatient clinic](/facilities/)
 - [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
-- In your own home either:
-  - [In-person by skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp), **or**
-  - [Remotely through telehealth](https://www.telehealth.va.gov/)
+- In your own home <br>
+[Learn about skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp) <br>
+[Find out about remote telehealth services](https://www.telehealth.va.gov/)
 
 If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
 
-**We may refer you to a community provider if:**
+**We may refer you to a community provider if any one of these is true:**
 - We can’t provide the services you need, **or**
 - We can’t make an appointment for you at the nearest VA medical facility within 30 days of the clinically indicated date (the date you and your VA provider agree should be the next date you’re seen for care)—or, if we can’t determine this date—the date you’d prefer to be seen next, **or**
 - You live more than 40 miles (driving distance) from the nearest VA medical facility, **or**
 - You have to travel by air, boat, or ferry to get to the nearest VA medical facility, **or**
 - You face an excessive burden in traveling to your nearest VA medical facility (like geographic challenges, environmental factors, or a health problem that makes it hard for you to travel)
 
-Your VA provider will work with you to determine if you're eligible. [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
+Your VA provider will work with you to determine if you're eligible. <br>
+[Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 <br>
 
