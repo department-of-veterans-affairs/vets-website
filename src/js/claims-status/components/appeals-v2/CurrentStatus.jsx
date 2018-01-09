@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 const CurrentStatus = ({ title, description }) => (
   <div className="current-status">
     <h2>Current Status</h2>
-    <h3 className="section-current">{title}</h3>
-    <p>{description}</p>
+    <div className="current-status-content">
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
+    <div className="down-arrow"/>
   </div>
 );
 
