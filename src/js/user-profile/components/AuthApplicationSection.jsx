@@ -1,60 +1,103 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+const contentConditions = [
+  [
+    <p key="hca"><a href="/health-care/apply/">Apply for health care</a></p>,
+    ['hca']
+  ],
+  [
+    (<p key="edu-benefits"><a href="/education/apply-for-education-benefits">
+      Apply for Education Benefits
+    </a></p>),
+    ['edu-benefits']
+  ],
+  [
+    <p key="discharge-upgrade"><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>,
+    null
+  ],
+  [
+    <p key="rx"><a href="/health-care/prescriptions">Refill your prescription</a></p>,
+    ['rx']
+  ],
+  [
+    <p key="messaging"><a href="/health-care/messaging">Message your health care team</a></p>,
+    ['messaging']
+  ],
+  [
+    <p key="health-records"><a href="/health-care/health-records">Get your VA health records</a></p>,
+    ['health-records']
+  ],
+  [
+    <p key="claims"><a href="/track-claims">Check your claim and appeal status</a></p>,
+    ['evss-claims', 'appeals-status']
+  ],
+  [
+    (<p key="post-911"><a href="/education/gi-bill/post-9-11/ch-33-benefit">
+      Get your Post-9/11 GI Bill statement of benefits
+    </a></p>),
+    ['evss-claims']
+  ],
+  [
+    <p key="vic"><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>,
+    ['id-card']
+  ]
+];
+
 class AuthApplicationSection extends React.Component {
   render() {
-    let content;
-    const verifiedAccountType = 3;// verified ID.me accounts are type 3
-    const isVerifiedUser = this.props.userProfile.accountType === verifiedAccountType;
-    const idCardAvailable = this.props.userProfile.services.indexOf('id-card') !== -1;
-    if (isVerifiedUser) {
-      content = (
-        <div className="medium-12 columns">
-          <p><span className="label">Your account will allow you to:</span></p>
-          <p><a href="/health-care/apply/">Apply for health care</a></p>
-          <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
-          <p><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>
-          <p><a href="/health-care/prescriptions">Refill your prescription</a></p>
-          <p><a href="/health-care/messaging">Message your health care team</a></p>
-          <p><a href="/health-care/health-records">Get your VA health records</a></p>
-          <p><a href="/track-claims">Check your claim and appeal status</a></p>
-          <p><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>
-          {idCardAvailable && <p><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>}
-          <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
-            application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
-            during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
-        </div>
-      );
-    } else {
-      content = (
-        <div className="medium-12 columns">
-          <p><span className="label">Your account will allow you to:</span></p>
-          <p><a href="/health-care/apply/">Apply for health care</a></p>
-          <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
-          <p><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>
-          <p><span className="label">You need to <a href="/verify?next=/profile">verify your identity</a> in order to:</span></p>
-          <p>Refill your prescription</p>
-          <p>Message your health care team</p>
-          <p>Get your VA health records</p>
-          <p>Check your claim and appeal status</p>
-          <p>Check your Post-9/11 GI Bill statement of benefits</p>
-          <p>Apply for a Veteran ID Card</p>
-        </div>
-      );
-    }
+    const { services } = this.props.userProfile;
+    const availableServices = new Set(services);
+    const availableContent = [];
+    const unavailableContent = [];
+
+    contentConditions.forEach(([content, requiredServices]) => {
+      const isAccessible =
+        !requiredServices ||
+        requiredServices.every(service => availableServices.has(service));
+
+      if (isAccessible) {
+        availableContent.push(content);
+      } else {
+        unavailableContent.push(content);
+      }
+    });
 
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Available services</h4>
-        {content}
+        <div className="medium-12 columns">
+          {
+            !!availableContent.length && (
+              <div>
+                <p><span className="label">Your account will allow you to:</span></p>
+                <div className="available-services">
+                  {availableContent}
+                </div>
+              </div>
+            )
+          }
+          {
+            !!unavailableContent.length && (
+              <div>
+                <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for, like:</span></p>
+                <div className="unavailable-services">
+                  {unavailableContent}
+                </div>
+              </div>
+            )
+          }
+          <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
+            application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
+            during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
+        </div>
       </div>
     );
   }
 }
 
 AuthApplicationSection.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  verifyUrl: PropTypes.string
+  userProfile: PropTypes.object.isRequired
 };
 
 export default AuthApplicationSection;
