@@ -664,14 +664,14 @@ h1:focus {
 
 .current-status {
 
+  h2 {
+    margin-top: 1em;
+  }
+
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
     margin-left: 20px;
     padding-left: 2em;
-
-    h2 {
-      margin-top: 1em;
-    }
 
     h3 {
       clear: none;
