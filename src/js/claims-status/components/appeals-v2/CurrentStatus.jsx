@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CurrentStatus = ({ title, description }) => (
-  <div>
+  <div className="current-status">
     <h2>Current Status</h2>
-    <h3>{title}</h3>
+    <h3 className="section-current">{title}</h3>
     <p>{description}</p>
   </div>
 );

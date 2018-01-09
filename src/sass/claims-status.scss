@@ -553,6 +553,11 @@ h1:focus {
   padding-top: 0;
   padding-left: 0;
 
+  &.form-process {
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+
   // To get all the li's to flow together, remove the top margin of the titles
   h2, h3, h4, h5 {
     margin-top: 0px;
@@ -638,25 +643,6 @@ h1:focus {
     }
   }
 
-  .section-current {
-    // Align the bullet horizontally
-    padding-left: calc(2em + 2px);
-
-    // Make sure the arrowhead lines up better
-    padding-bottom: 0px;
-
-    &:before {
-      // \2022 = unicode code point for bullet, then just color it green like the background
-      //  to make it "disappear"
-      content: "\2022";
-      color: $color-green;
-      font-size: 0.8em;
-      line-height: 1.4em;
-      margin-left: -3.85em;
-      margin-top: 11px; // Pull the bullet down to align it better
-    }
-  }
-
   .appeal-event-date {
     color: $color-gray-medium;
   }
@@ -673,6 +659,31 @@ h1:focus {
   .separator {
     margin: 0.8em 0 0 -0.7em;
     border-top: 1px solid $color-gray-lighter;
+  }
+}
+
+.current-status {
+  h2 {
+    margin-top: 1em;
+  }
+
+  .section-current {
+    // Align the bullet horizontally
+    padding-left: 4em;
+
+    // Make sure the arrowhead lines up better
+    padding-bottom: 0px;
+
+    &:before {
+      // \2022 = unicode code point for bullet, then just color it green like the background
+      //  to make it "disappear"
+      content: "\2022";
+      color: $color-green;
+      font-size: 0.8em;
+      line-height: 1.4em;
+      margin-left: -3.85em;
+      margin-top: 11px; // Pull the bullet down to align it better
+    }
   }
 }
 
