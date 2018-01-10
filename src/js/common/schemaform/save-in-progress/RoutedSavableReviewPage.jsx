@@ -96,14 +96,8 @@ class RoutedSavableReviewPage extends React.Component {
 
     return (
       <ReviewPage
-        form={form}
-        route={this.props.route}
+        {...this.props}
         setData={this.setData}
-        setEditMode={this.props.setEditMode}
-        setSubmission={this.props.setSubmission}
-        setPrivacyAgreement={this.props.setPrivacyAgreement}
-        submitForm={this.props.submitForm}
-        uploadFile={this.props.uploadFile}
         contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
         renderErrorMessage={this.renderErrorMessage}/>
     );
