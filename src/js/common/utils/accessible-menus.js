@@ -1,3 +1,4 @@
+const TAB = 9;
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
@@ -8,6 +9,13 @@ function isWideScreen() {
   return matchMedia('(min-width: 768px)').matches;
 }
 
+function isEscape(e) {
+  return e.which === ESCAPE;
+}
+
+function isTab(e) {
+  return e.which === TAB;
+}
 
 /**
  * Finds the closest ancestor for which the callback returns true.
@@ -256,7 +264,7 @@ function closeAll(menuElement) {
  * @param {HTMLElement} mobileOpenButton   Optional - The "Menu" button on mobile
  * @param {HTMLElement} mobileCloseButton  Optional - The "Close" button on mobile
  */
-export default function addMenuListeners(menuElement, closeOnResize = false) {
+function addMenuListeners(menuElement, closeOnResize = false) {
   const menuRole = menuElement.getAttribute('role');
   if (!['menubar', 'menu'].includes(menuRole)) {
     // If we don't have a menubar or menu, don't continue
@@ -390,3 +398,4 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
   });
 }
 
+export { isWideScreen, isEscape, isTab, addMenuListeners };
