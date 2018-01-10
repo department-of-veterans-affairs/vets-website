@@ -68,9 +68,9 @@ Compensation (monthly payments)
 
 **Jump to a section:**
 
-[How do I get these disability benefits through the BDD program]?(#bdd-program) <br/>
-[How do I file a disability claim if I have less than 90 days left on active duty]?(#drc-program) <br/>
-[What's the Integrated Disability Evaluation System (IDES), and how does it work]?(#ides-program)
+[How do I get these disability benefits through the BDD program](#bdd-program)? <br/>
+[How do I file a disability claim if I have less than 90 days left on active duty](#drc-program)? <br/>
+[What's the Integrated Disability Evaluation System (IDES), and how does it work](#ides-program)?
 
 <span id="bdd-program"></span>
 
