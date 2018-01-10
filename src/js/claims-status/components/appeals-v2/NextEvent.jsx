@@ -10,7 +10,7 @@ const NextEvent = ({ title, description, durationText, cardDescription, showSepa
         <span className="number">{durationText}</span>
         <span className="description">{cardDescription}</span>
       </div>
-      { showSeparator && <span className="sidelines">OR</span>}
+      { showSeparator && <span className="sidelines">or</span>}
     </li>
   );
 };

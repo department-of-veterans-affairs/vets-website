@@ -905,7 +905,9 @@ h1:focus {
     }
 
     .sidelines {
-    // line up the horizontal divider with the li::before 'bullets'
+      // line up the horizontal divider with the li::before 'bullets'
+      font-family: $font-serif;
+      font-size: 3rem; // match h2 size
       margin-left: -.6em;
       width: 102%;
     }
