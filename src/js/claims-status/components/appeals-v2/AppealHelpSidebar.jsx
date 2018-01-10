@@ -1,4 +1,5 @@
 import React from 'react';
+import Raven from 'raven-js';
 
 const vbaVersion = (
   <div>
@@ -44,12 +45,12 @@ export default function AppealHelpSidebar({ location, aoj }) {
     } else if (aoj === 'other') {
       return boardVersion;
     } else {
-      // Ah, bugger. Better log it.
+      Raven.captureMessage(`appeal-status-unexpected-aoj: ${aoj}`);
     }
   } else if (location === 'bva') {
     return boardVersion;
   } else {
-    // Well that's not good; log it!
+    Raven.captureMessage(`appeal-status-unexpected-location: ${location}`);
   }
 
   return null;
