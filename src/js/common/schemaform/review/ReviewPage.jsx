@@ -188,7 +188,14 @@ ReviewPage.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  setData: PropTypes.func.isRequired,
+  setEditMode: PropTypes.func.isRequired,
+  setSubmission: PropTypes.func.isRequired,
+  setPrivacyAgreement: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.element,
+  renderErrorMessage: PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));

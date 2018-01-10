@@ -16,7 +16,6 @@ import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, u
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.autoSave = this.autoSave.bind(this);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
   }
 
@@ -25,7 +24,7 @@ class RoutedSavableReviewPage extends React.Component {
     this.debouncedAutoSave();
   }
 
-  autoSave() {
+  autoSave = () => {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
       const data = form.data;
@@ -97,8 +96,13 @@ class RoutedSavableReviewPage extends React.Component {
 
     return (
       <ReviewPage
-        {...this.props}
+        form={form}
+        route={this.props.route}
         setData={this.setData}
+        setEditMode={this.props.setEditMode}
+        setSubmission={this.props.setSubmission}
+        setPrivacyAgreement={this.props.setPrivacyAgreement}
+        uploadFile={this.props.uploadFile}
         contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
         renderErrorMessage={this.renderErrorMessage}/>
     );

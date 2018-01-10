@@ -164,6 +164,7 @@ FormPage.propTypes = {
       path: PropTypes.string.isRequired
     }))
   }),
+  contentAfterButtons: PropTypes.element,
   setData: PropTypes.func
 };
 
