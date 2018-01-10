@@ -40,6 +40,7 @@ const entryFiles = {
   pensions: './src/js/pensions/pensions-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
   verify: './src/js/login/verify-entry.jsx',
+  'chapter36-vre': './src/js/vre/chapter36/chapter36-entry.jsx',
   style: './src/sass/style.scss'
 };
 
