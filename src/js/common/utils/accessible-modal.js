@@ -1,3 +1,4 @@
+import { isTab, isReverseTab } from './accessible-menus';
 /*
  * Creates function that captures Veterans Crisis Line modal focus.
  */
@@ -9,13 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function captureFocus(e) {
     if (e.target === closeControl) {
-      if (e.shiftKey && e.which === 'TAB') {
+      if (isReverseTab(e)) {
         e.preventDefault();
         lastTabbableElement.focus();
       }
     }
     if (e.target === lastTabbableElement) {
-      if (!e.shiftKey && e.which === 'TAB') {
+      if (isTab(e)) {
         e.preventDefault();
         closeControl.focus();
       }
