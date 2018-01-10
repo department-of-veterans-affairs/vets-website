@@ -14,7 +14,11 @@ function isEscape(e) {
 }
 
 function isTab(e) {
-  return e.which === TAB;
+  return e.which === TAB && !e.shiftKey;
+}
+
+function isReverseTab(e) {
+  return e.which === TAB  && e.shiftKey;
 }
 
 /**
@@ -398,4 +402,4 @@ function addMenuListeners(menuElement, closeOnResize = false) {
   });
 }
 
-export { isWideScreen, isEscape, isTab, addMenuListeners };
+export { isWideScreen, isEscape, isTab, isReverseTab, addMenuListeners };
