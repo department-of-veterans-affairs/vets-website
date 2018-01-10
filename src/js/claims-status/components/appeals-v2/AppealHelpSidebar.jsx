@@ -36,16 +36,14 @@ const boardVersion = (
  */
 export default function AppealHelpSidebar({ location, aoj }) {
   if (location === 'aoj') {
-    if (aoj === 'vba') {
-      return vbaVersion;
-    } else if (aoj === 'vha') {
-      // vha version (coming soon to a sidebar near you!)
-    } else if (aoj === 'nca') {
-      // nca version (coming soon to a sidebar near you!)
-    } else if (aoj === 'other') {
-      return boardVersion;
-    } else {
-      Raven.captureMessage(`appeal-status-unexpected-aoj: ${aoj}`);
+    // If the location is 'aoj', we have to check which agency it came from
+    switch (aoj) {
+      case 'vba': return vbaVersion;
+      case 'vha': return null; // vha version (coming soon to a sidebar near you!)
+      case 'nca': return null; // nca version (coming soon to a sidebar near you!)
+      case 'other': return boardVersion;
+      default:
+        Raven.captureMessage(`appeal-status-unexpected-aoj: ${aoj}`);
     }
   } else if (location === 'bva') {
     return boardVersion;
