@@ -7,7 +7,11 @@ import DefaultView from '../components/DefaultView';
 import FeedbackForm from '../components/FeedbackForm';
 import FeedbackSubmitted from '../components/FeedbackSubmitted';
 
+const veteranIdCard = '/veteran-id-card/';
+
 function Main(props) {
+  if (document.location.pathname === veteranIdCard) return null;
+
   let content = null;
 
   if (props.feedbackReceived) {
