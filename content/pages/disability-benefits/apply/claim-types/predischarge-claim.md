@@ -27,7 +27,7 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 ### Can I use the BDD program to get my disability benefits sooner?
 
-**You can use the BDD program if:**
+**You can use the BDD program if all of these are true for you:**
 
 -	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
 - You have a known separation date, **and**
@@ -44,7 +44,7 @@ You can't file a BDD claim or add more medical conditions to your initial claim.
 
 ### Are there any other reasons I can't use the BDD program?
 
-Yes. Even if you're on full-time active duty, with more than 90 days left of service, you can't use the BDD program if your claim requires special handling.
+You can't use the BDD program if your claim requires special handling—even if you're on full-time active duty, with more than 90 days left of service.
 
 **You can't use the BDD program if you:**
 
@@ -69,7 +69,7 @@ Compensation (monthly payments)
 **Jump to a section:**
 
 [How do I get these disability benefits through the BDD program?](#bdd-program) <br/>
-[How do a file a disability claim if I have less than 90 days left on active duty?](#drc-program) <br/>
+[How do I file a disability claim if I have less than 90 days left on active duty?](#drc-program) <br/>
 [What's the Integrated Disability Evaluation System (IDES), and how does it work?](#ides-program)
 
 <span id="bdd-program"></span>
@@ -81,7 +81,7 @@ You'll need to apply. The application process depends on where you're stationed.
 You can apply for benefits online, by mail, or in person. <br>
 [Learn more about how to apply for benefits](/disability-benefits/apply/).
 
-**To complete the process you'll need to:**
+**To complete the process, you'll need to:**
 
 - Submit your service treatment records along with your application, **and**
 - Be available for 45 days from the date you apply for a VA medical exam, **and**
@@ -91,7 +91,9 @@ You can apply for benefits online, by mail, or in person. <br>
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
-**Need help applying?** If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>.
+#### Need help applying? 
+
+If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>.
 
 <br>
 
@@ -101,7 +103,7 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 
 You have 2 options for filing:
 
-#### Go through The Decision Ready Claim (DRC) program
+#### Go through the Decision Ready Claim (DRC) program
 
 This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.
 
@@ -124,7 +126,7 @@ Watch a video and download fact sheets on our VA.gov website. <br>
 Or contact your local VSO.<br>
 [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
 
-### File a fully developed or standard claim
+#### File a fully developed or standard claim
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
 [Learn about the application process](/disability-benefits/apply/).<br>
@@ -136,7 +138,7 @@ The difference in these claim types is based on how you gather evidence (support
 
 ### What's the Integrated Disability Evaluation System (IDES), and how does it work?
 
-If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
+If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred to IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
 If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You'll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br>
 [Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
