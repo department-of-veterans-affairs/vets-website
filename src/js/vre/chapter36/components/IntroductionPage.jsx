@@ -32,8 +32,6 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6><a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">Find out if you qualify for a burial allowance</a>.</h6></div>
-              <br/>
               <div><h6>To fill out this application, you’ll need information about the deceased Veteran, including their:</h6></div>
               <ul>
                 <li>Social Security number or VA file number (required)</li>
@@ -48,12 +46,10 @@ class IntroductionPage extends React.Component {
                 <li>Documentation for transportation costs (if you’re claiming costs for the transportation of the Veteran’s remains)</li>
               </ul>
               <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
-              <h6>Learn about other survivor and dependent benefits</h6>
-              <p>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">Dependency and Indemnity Compensation</a>.</p>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete this burial benefits form.</p>
+              <p>Complete this form.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
