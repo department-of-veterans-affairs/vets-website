@@ -36,7 +36,8 @@ const boardVersion = (
  */
 export default function AppealHelpSidebar({ location, aoj }) {
   if (location === 'aoj') {
-    // If the location is 'aoj', we have to check which agency it came from
+    // If the location is 'aoj', we have to check which agency it came from to show
+    //  the appropriate information.
     switch (aoj) {
       case 'vba': return vbaVersion;
       case 'vha': return null; // vha version (coming soon to a sidebar near you!)
