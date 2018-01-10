@@ -106,7 +106,7 @@ export const venueAddress = (formValues, noDRB) => {
           <p className="va-address-block">
             Board for Correction of Air Force Records<br/>
             SAF/MRBR<br/>
-            550-C Street West, Suite 40<br/>
+            5550-C Street West, Suite 40<br/>
             Randolph AFB, TX 78150-4742<br/>
           </p>
         );
