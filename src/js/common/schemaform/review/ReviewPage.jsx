@@ -194,6 +194,7 @@ ReviewPage.propTypes = {
   setSubmission: PropTypes.func.isRequired,
   setPrivacyAgreement: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.element,
   renderErrorMessage: PropTypes.func
 };
