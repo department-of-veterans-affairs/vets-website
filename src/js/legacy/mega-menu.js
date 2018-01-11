@@ -1,4 +1,4 @@
-import { isWideScreen, isEscape, isTab } from '../common/utils/accessible-menus';
+import { isWideScreen, isEscape, isReverseTab, isTab } from '../common/utils/accessible-menus';
 
 class MegaMenu {
   constructor(menuElement, openMenuElement, closeMenuElement, menuElements) {
@@ -63,7 +63,7 @@ class MegaMenu {
   }
 
   enterSmallMegaMenu(e) {
-    if (!isWideScreen() && isTab(e) && !e.shiftKey) {
+    if (!isWideScreen() && isTab(e)) {
       e.preventDefault();
       this.firstMenuElement.focus();
     }
@@ -71,13 +71,13 @@ class MegaMenu {
 
   exitSmallMegaMenu(e) {
     if(e.target === this.firstMenuElement){
-      if (!isWideScreen() && isTab(e) && e.shiftKey) {
+      if (!isWideScreen() && isReverseTab(e)) {
         e.preventDefault();
         this.closeControl.focus();
       []}
     }
     if(e.target === this.lastMenuElement){
-      if (!isWideScreen() && isTab(e) && !e.shiftKey) {
+      if (!isWideScreen() && isTab(e)) {
         this.lastTabbableElement.focus();
       }
     }
