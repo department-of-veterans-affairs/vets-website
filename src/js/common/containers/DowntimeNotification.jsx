@@ -107,11 +107,10 @@ class DowntimeNotification extends React.Component {
   }
 
   renderStatusDown() {
-    const title = <h2>The {this.props.appTitle} is down while we fix a few things.</h2>;
     if (this.props.userIsAuthenticated) {
       return (
         <div className="row-padded">
-          {title}
+          <h2>The {this.props.appTitle} is down while we fix a few things.</h2>
           <p>We’ll be back up as soon as we can.</p>
           <p>In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p>
         </div>
@@ -119,22 +118,28 @@ class DowntimeNotification extends React.Component {
     }
     return (
       <div className="row-padded">
-        <AlertBox isVisible status="warning" headline={title}/>;
+        <AlertBox isVisible status="warning" headline={<h2>The {this.props.appTitle} is down while we fix a few things.</h2>}/>;
       </div>
     );
   }
 
   renderStatusDownApproaching() {
-    const message = <span>The {this.props.appTitle} will be down soon while we fix a few things.</span>;
     const content = this.props.children || this.props.content;
     let downtimeNotification = null;
     if (this.props.userIsAuthenticated) {
-      downtimeNotification = (<Modal
-        title="Downtime approaching"
-        content={message}
-        onClose={() => this.setState({ modalDismissed: true })}
-        visible={!this.state.modalDismissed}/>);
+      if (!this.state.modalDismissed) {
+        const close = () => this.setState({ modalDismissed: true });
+        downtimeNotification = (
+          <Modal id="downtime-approaching"
+            title="Downtime approaching"
+            onClose={close}
+            visible={!this.state.modalDismissed}>
+            <p>The {this.props.appTitle} will be down soon while we fix a few things.</p>
+            <button type="button" className="usa-button-secondary" onClick={close}>Dismiss</button>
+          </Modal>);
+      }
     } else {
+      const message = <span>The {this.props.appTitle} will be down soon while we fix a few things.</span>;
       downtimeNotification = <AlertBox isVisible status="info" content={message}/>;
     }
     return (
