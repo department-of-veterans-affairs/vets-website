@@ -31,11 +31,12 @@ class DowntimeNotification extends React.Component {
   static propTypes = {
     appTitle: PropTypes.string,
     children: PropTypes.object,
-    content: PropTypes.object,
-    customRender: PropTypes.func,
+    content: PropTypes.node,
     dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(services))).isRequired,
+    determineStatus: PropTypes.func,
     loadingIndicator: PropTypes.object,
-    onReady: PropTypes.func,
+    renderStatusDown: PropTypes.func,
+    renderStatusDownApproaching: PropTypes.func,
     scheduledDowntime: PropTypes.arrayOf(
       PropTypes.shape({
         service: PropTypes.string,
@@ -86,72 +87,82 @@ class DowntimeNotification extends React.Component {
 
   componentWillMount() {
     if (!this.props.scheduledDowntime) this.props.getScheduledDowntime();
-    else if (this.props.onReady) this.props.onReady();
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.scheduledDowntime && nextProps.scheduledDowntime) {
       DowntimeNotification.scheduledDowntime = nextProps.scheduledDowntime;  // Move the downtime data into static-level to make it accessible to the helper function(s).
-      if (this.props.onReady) this.props.onReady();
     }
   }
 
-  statusDownTemplate = (message) => {
-    if (this.props.userIsAuthenticated) {
-      return <h2>{message}</h2>;
-    }
-    return <AlertBox isVisible status="warning" content={message}/>;
+  determineStatus(statusMap) {
+    const statusDown = statusMap[serviceStatus.down].length > 0;
+    const statusDownApproaching = statusMap[serviceStatus.downtimeApproaching].length > 0;
+    const statusOk = !statusDown && !statusDownApproaching;
 
-  }
+    if (statusOk) return serviceStatus.ok;
+    if (statusDown) return serviceStatus.down;
 
-  statusDownApproachingTemplate = (message) => {
-    if (this.props.userIsAuthenticated) {
-      return (<Modal
-        title="Downtime approaching"
-        content={message}
-        onClose={() => this.setState({ modalDismissed: true })}
-        visible={!this.state.modalDismissed}/>);
-    }
-    return <AlertBox isVisible status="info" content={message}/>;
-
+    return serviceStatus.downtimeApproaching;
   }
 
   renderStatusDown() {
-    const message = <span>The {this.props.appTitle} is down while we fix a few things.</span>;
-    return this.statusDownTemplate(message);
+    const title = <h2>The {this.props.appTitle} is down while we fix a few things.</h2>;
+    if (this.props.userIsAuthenticated) {
+      return (
+        <div className="row-padded">
+          {title}
+          <p>We’ll be back up as soon as we can.</p>
+          <p>In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p>
+        </div>
+      );
+    }
+    return (
+      <div className="row-padded">
+        <AlertBox isVisible status="warning" headline={title}/>;
+      </div>
+    );
   }
 
   renderStatusDownApproaching() {
     const message = <span>The {this.props.appTitle} will be down soon while we fix a few things.</span>;
-    return this.statusDownApproachingTemplate(message);
+    const content = this.props.children || this.props.content;
+    let downtimeNotification = null;
+    if (this.props.userIsAuthenticated) {
+      downtimeNotification = (<Modal
+        title="Downtime approaching"
+        content={message}
+        onClose={() => this.setState({ modalDismissed: true })}
+        visible={!this.state.modalDismissed}/>);
+    } else {
+      downtimeNotification = <AlertBox isVisible status="info" content={message}/>;
+    }
+    return (
+      <div className="row-padded">
+        {downtimeNotification}
+        {content}
+      </div>
+    );
   }
 
   render() {
     if (!this.props.scheduledDowntime) return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
 
     const statusMap = DowntimeNotification.getAllServiceStatuses(...this.props.dependencies);
-    const statusDown = statusMap[serviceStatus.down].length > 0;
-    const statusDownApproaching = statusMap[serviceStatus.downtimeApproaching].length > 0;
-    const statusOk = !statusDown && !statusDownApproaching;
+    const derivedStatus = this.props.determineStatus ? this.props.determineStatus(statusMap) : this.determineStatus(statusMap);
+    const children = this.props.children || this.props.content;
 
-    if (statusOk) return this.props.children || this.props.content;
+    switch (derivedStatus) {
+      case serviceStatus.down:
+        return this.props.renderStatusDown ? this.props.renderStatusDown(children) : this.renderStatusDown();
 
-    if (this.props.customRender) {
-      const derivedStatus = statusDown ? serviceStatus.down : serviceStatus.downtimeApproaching;
-      const template = statusDown ? this.statusDownTemplate : this.statusDownApproachingTemplate;
-      const children = this.props.children || this.props.content;
-      return this.props.customRender(derivedStatus, statusMap, template, children);
+      case serviceStatus.downtimeApproaching:
+        return this.props.renderStatusDownApproaching ? this.props.renderStatusDownApproaching(children) : this.renderStatusDownApproaching();
+
+      case serviceStatus.ok:
+      default:
+        return children;
     }
-
-    const downtimeNotification = statusDown ? this.renderStatusDown() : this.renderStatusDownApproaching();
-    const content = statusDown ? null : (this.props.children || this.props.content);
-
-    return (
-      <div className="row">
-        {downtimeNotification}
-        {content}
-      </div>
-    );
   }
 }
 
