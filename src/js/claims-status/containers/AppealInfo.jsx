@@ -45,10 +45,12 @@ export function AppealInfo({ params, appeal, children }) {
         </Breadcrumbs>
       </div>
       <div className="row">
+        <h1>{claimHeading}</h1>
+      </div>
+      <div className="row">
         <div className="medium-8 columns">
           <AppealsV2TabNav
-            appealId={appealId}
-            claimHeading={claimHeading}/>
+            appealId={appealId}/>
           <div className="va-tab-content va-appeals-content">
             {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
           </div>
