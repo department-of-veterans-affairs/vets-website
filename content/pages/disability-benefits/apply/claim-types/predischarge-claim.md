@@ -38,7 +38,7 @@ If you have an illness or injury that you believe was caused—or made worse—b
 ### What if I have less than 90 days left on active duty? 
 
 You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. <br>
-[Learn how to file a claim less than 90 days before discharge](#drc-program).
+[Learn how to file a claim less than 90 days before discharge](#ways-to-file).
 
 <br>
 
@@ -65,6 +65,9 @@ You can't use the BDD program if your claim requires special handling—even if 
 Compensation (monthly payments)
 
 -----
+<span id="ways-to-file"></span>
+
+## Ways to file for disability benefits
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -91,14 +94,13 @@ Depending on where you're stationed, you can start your claim at a BDD office or
 #### Need help applying? 
 
 If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>.
-
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">How do I file a disability claim if I have less than 90 days left on active duty?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">How do I get these benefits if I have less than 90 days left on active duty?</button>
 <div id="drc-program" class="usa-accordion-content">
 
-You have 2 options for filing:
+You have 2 options for filing a disability claim:
 
 #### Go through the Decision Ready Claim (DRC) program
 
@@ -135,14 +137,13 @@ The difference in these claim types is based on how you gather evidence (support
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="ides-program">What's the Integrated Disability Evaluation System (IDES), and how does it work?</button>
 <div id="ides-program" class="usa-accordion-content">
 
+
 If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred to IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
 If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You'll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br>
-[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
+[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/). 
 
 </div>
 </li>
 </ul>
 </div>
-
-<br>
