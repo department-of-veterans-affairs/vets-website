@@ -7,6 +7,7 @@ import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Timeline from '../components/appeals-v2/Timeline';
+import CurrentStatus from '../components/appeals-v2/CurrentStatus';
 import Alerts from '../components/appeals-v2/Alerts';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
 import Docket from '../components/appeals-v2/Docket';
@@ -34,7 +35,10 @@ class AppealsV2StatusPage extends React.Component {
     const nextEvents = getNextEvents(type);
     return (
       <div>
-        <Timeline events={events} currentStatus={currentStatus}/>
+        <Timeline events={events}/>
+        <CurrentStatus
+          title={currentStatus.title}
+          description={currentStatus.description}/>
         <Alerts alerts={alerts}/>
         <WhatsNext nextEvents={nextEvents}/>
         <Docket/>

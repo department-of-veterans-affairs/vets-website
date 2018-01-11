@@ -27,7 +27,7 @@ export function formatDate(date) {
  * Grabs the matching title and dynamically-generated description for a given current status type
  * @typedef {Object} Contents
  * @property {string} title a current status type's title
- * @property {string} description a short paragraph describing the current status
+ * @property {HTMLElement} description details about the current status, can be any element
  * ----------------------------------------------------------------------------------------------
  * @param {string} statusType the status type of a claim appeal as returned by the api
  * @param {Object} details optional, properties vary depending on the status type
@@ -39,17 +39,21 @@ export function getStatusContents(type, details) {
   if (type === nod) {
     const office = details.regionalOffice || 'Regional Office';
     contents.title = `The ${office} is reviewing your appeal`;
-    contents.description = `The ${office} received your Notice of Disagreement and is revewing 
-      your appeal. This means they review all of the evidence related to your appeal, including 
-      any new evidence you submit. They may contact you to request additional evidence or 
-      medical examinations, as needed. When they have completed their review, they will 
-      determine whether or not they can grant your appeal.`;
+    contents.description = (
+      <p>The {office} received your Notice of Disagreement and is revewing
+      your appeal. This means they review all of the evidence related to your appeal, including
+      any new evidence you submit. They may contact you to request additional evidence or
+      medical examinations, as needed. When they have completed their review, they will
+      determine whether or not they can grant your appeal.</p>
+    );
   } else if (type === awaitingHearingDate) {
     const hearingType = details.hearingType || 'hearing';
     const currenltyHearing = details.currentlyHearing || 'an earlier month';
     contents.title = 'You are waiting for your hearing date';
-    contents.description = `You have selected to have a ${hearingType} in your form 9. 
-      Currently the Board is having hearings for appeals of ${currenltyHearing}`;
+    contents.description = (
+      <p>You have selected to have a {hearingType} in your form 9.
+      Currently the Board is having hearings for appeals of {currenltyHearing}</p>
+    );
   } else if (type === bvaDecision) {
     const { decisionIssues } = details;
     const allowedIssues = decisionIssues
@@ -136,13 +140,14 @@ export function getStatusContents(type, details) {
     );
   } else if (type === onDocket) {
     contents.title = 'Waiting to be assigned to a judge';
-    contents.description = `Your appeal is at the Board of Veterans’ Appeals waiting to be
+    contents.description = (
+      <p>Your appeal is at the Board of Veterans’ Appeals waiting to be
       assigned to a Veterans Law Judge. Staff at the Board are making sure that your case is
       complete, accurate, and ready to be decided by a judge. If you have evidence that isn’t
-      already included in your case, now is a good time to send it to the Board.`;
+      already included in your case, now is a good time to send it to the Board.</p>);
   } else {
     contents.title = 'Current Status Unknown';
-    contents.description = 'Your current appeal status is unknown at this time';
+    contents.description = <p>Your current appeal status is unknown at this time</p>;
   }
 
   return contents;
