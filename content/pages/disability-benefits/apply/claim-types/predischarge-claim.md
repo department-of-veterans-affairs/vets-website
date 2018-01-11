@@ -74,7 +74,8 @@ Choose the scenario below that matches your situation to find out how to apply f
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program">If you have 180 to 90 days left on active duty: Apply through the BDD program</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program">If you have 180 to 90 days left on active duty: <br>
+Apply through the BDD program</button>
 <div id="bdd-program" class="usa-accordion-content">
 
 If you have 180 to 90 days left on active duty, you'll need to apply for benefits through the BDD program. The application process depends on where you're stationed.
@@ -98,7 +99,8 @@ If you’re on a military base or other installation, contact your local Transit
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">If you have less than 90 days left on active duty: Apply through the Decision Ready Claim (DRC) program or other options</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">If you have less than 90 days left on active duty: <br>
+Apply through the Decision Ready Claim (DRC) program or file a fully developed or standard claim</button>
 <div id="drc-program" class="usa-accordion-content">
 
 If you have less than 90 days left on active duty, you have 2 options for filing a disability claim:
@@ -135,7 +137,8 @@ The difference in these claim types is based on how you gather evidence (support
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="ides-program">If you're wounded, injured, or ill and can't perform your duties: Referral to the Integrated Disability Evaluation System (IDES)</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="ides-program">If you're wounded, injured, or ill and can't perform your duties: <br>
+You'll be referred to the Integrated Disability Evaluation System (IDES)</button>
 <div id="ides-program" class="usa-accordion-content">
 
 If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred to IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
