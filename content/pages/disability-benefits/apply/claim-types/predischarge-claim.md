@@ -147,3 +147,5 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 </li>
 </ul>
 </div>
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
