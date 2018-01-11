@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
+import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 
 import { EVENT_TYPES } from '../utils/appeals-v2-helpers';
 
@@ -49,7 +50,9 @@ export function AppealInfo({ params, appeal, children }) {
             {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
           </div>
         </div>
-        {/* This assumes the Need Help sidebar doesn't change for either page */}
+        <div className="medium-4 columns help-sidebar">
+          {appeal && <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>}
+        </div>
       </div>
     </div>
   );
@@ -67,3 +70,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps)(AppealInfo);
+
