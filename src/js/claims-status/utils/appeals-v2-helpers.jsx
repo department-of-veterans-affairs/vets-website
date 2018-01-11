@@ -40,7 +40,7 @@ export function getStatusContents(type, details) {
     const office = details.regionalOffice || 'Regional Office';
     contents.title = `The ${office} is reviewing your appeal`;
     contents.description = (
-      <p>The ${office} received your Notice of Disagreement and is revewing
+      <p>The {office} received your Notice of Disagreement and is revewing
       your appeal. This means they review all of the evidence related to your appeal, including
       any new evidence you submit. They may contact you to request additional evidence or
       medical examinations, as needed. When they have completed their review, they will
@@ -51,8 +51,8 @@ export function getStatusContents(type, details) {
     const currenltyHearing = details.currentlyHearing || 'an earlier month';
     contents.title = 'You are waiting for your hearing date';
     contents.description = (
-      <p>You have selected to have a ${hearingType} in your form 9.
-      Currently the Board is having hearings for appeals of ${currenltyHearing}</p>
+      <p>You have selected to have a {hearingType} in your form 9.
+      Currently the Board is having hearings for appeals of {currenltyHearing}</p>
     );
   } else if (type === bvaDecision) {
     const { decisionIssues } = details;
