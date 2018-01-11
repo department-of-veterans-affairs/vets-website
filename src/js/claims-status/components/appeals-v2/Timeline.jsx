@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
-import CurrentStatus from './CurrentStatus';
 import Expander from './Expander';
 import PastEvent from './PastEvent';
 
 /**
- * Timeline is in charge of the past events and current status.
+ * Timeline is in charge of the past events.
  */
 class Timeline extends React.Component {
   constructor(props) {
@@ -33,28 +32,36 @@ class Timeline extends React.Component {
       pastEventsList = events.map((event, index) => {
         const { title, description, liClass } = getEventContent(event);
         const date = formatDate(event.date);
+        const hideSeparator = (index === events.length - 1);
         return (
           <PastEvent
             key={`past-event-${index}`}
             title={title}
             date={date}
             description={description}
-            liClass={liClass}/>
+            liClass={liClass}
+            hideSeparator={hideSeparator}/>
         );
       });
     }
 
     let expanderTitle = '';
     let expanderCssClass = '';
+    let hideSeparator = false;
     let displayedEvents = [];
+    let downArrow;
     if (this.state.expanded) {
       expanderTitle = 'Hide past events';
       expanderCssClass = 'section-expanded';
+      hideSeparator = false;
       displayedEvents = pastEventsList;
+      downArrow = <div className="down-arrow"/>;
     } else {
       expanderTitle = 'See past events';
       expanderCssClass = 'section-unexpanded';
+      hideSeparator = true;
       displayedEvents = [];
+      downArrow = null;
     }
 
     return (
@@ -65,14 +72,11 @@ class Timeline extends React.Component {
             title={expanderTitle}
             dateRange={this.formatDateRange()}
             onToggle={this.toggleExpanded}
-            cssClass={expanderCssClass}/>
+            cssClass={expanderCssClass}
+            hideSeparator={hideSeparator}/>
           {displayedEvents}
-          <CurrentStatus
-            key={'current-event'}
-            title={this.props.currentStatus.title}
-            description={this.props.currentStatus.description}/>
         </ol>
-        <div className="down-arrow"/>
+        {downArrow}
       </div>
     );
   }
@@ -84,13 +88,6 @@ Timeline.propTypes = {
     date: PropTypes.string.isRequired,
     details: PropTypes.object
   })).isRequired,
-  currentStatus: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]).isRequired,
-  }).isRequired
 };
 
 export default Timeline;

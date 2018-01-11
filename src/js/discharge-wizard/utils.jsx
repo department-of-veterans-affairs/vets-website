@@ -137,12 +137,12 @@ export const formData = (formValues) => {
   if (boardData && boardData.abbr === 'DRB') {
     return {
       num: 293,
-      link: 'http://arba.army.pentagon.mil/documents/dd0293.pdf',
+      link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
     };
   }
   return {
     num: 149,
-    link: 'http://arba.army.pentagon.mil/documents/dd0149.pdf',
+    link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
 

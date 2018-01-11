@@ -8,7 +8,7 @@ const Alert = ({ alert }) => {
     <li>
       <div className={`usa-alert ${cssClass}`}>
         <div className="usa-alert-body">
-          <h3 className="usa-alert-heading">{title}</h3>
+          <h4 className="usa-alert-heading">{title}</h4>
           <p className="usa-alert-text">{description}</p>
         </div>
       </div>
