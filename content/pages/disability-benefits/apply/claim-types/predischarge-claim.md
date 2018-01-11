@@ -94,9 +94,6 @@ If you’re on a military base or other installation, contact your local Transit
 
 </div>
 </li>
-
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">How do I file a disability claim if I have less than 90 days left on active duty?</button>
 <div id="drc-program" class="usa-accordion-content">
@@ -134,9 +131,6 @@ The difference in these claim types is based on how you gather evidence (support
 
 </div>
 </li>
-
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="ides-program">What's the Integrated Disability Evaluation System (IDES), and how does it work?</button>
 <div id="ides-program" class="usa-accordion-content">
