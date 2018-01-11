@@ -67,46 +67,47 @@ Compensation (monthly payments)
 -----
 <span id="ways-to-file"></span>
 
-## Ways to file for disability benefits
+### How to file your claim for disability benefits
+
+Choose below to find out how to file a claim for disability benefits, depending on your specific circumstances.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program">How do I get these disability benefits through the BDD program?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program">If I have 180 to 90 days left on active duty, how do I get disability benefits through the BDD program?</button>
 <div id="bdd-program" class="usa-accordion-content">
 
 You'll need to apply. The application process depends on where you're stationed.
 
-#### If you're stationed in the U.S.
+**If you're stationed in the U.S.**
 You can apply for benefits online, by mail, or in person. <br>
 [Learn more about how to apply for benefits](/disability-benefits/apply/).
 
-**To complete the process, you'll need to:**
+To complete the process, you'll need to:
 
 - Submit your service treatment records along with your application, **and**
 - Be available for 45 days from the date you apply for a VA medical exam, **and**
 - Finish all phases of the VA/DoD medical separation examination process before your release from the military
 
-#### If you're stationed overseas
+**If you're stationed overseas**
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
-#### Need help applying? 
-
+**Need help applying?** 
 If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>.
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">How do I get these benefits if I have less than 90 days left on active duty?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="drc-program">If I have less than 90 days left on active duty, how do I get disability beneftis?</button>
 <div id="drc-program" class="usa-accordion-content">
 
 You have 2 options for filing a disability claim:
 
-#### Go through the Decision Ready Claim (DRC) program
+**Go through the Decision Ready Claim (DRC) program**
 
 This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.
 
-**To file a claim through the DRC program, you'll need to:**
+To file a claim through the DRC program, you'll need to:
 - Appoint and work with an accredited VSO, **and**
 - Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
 - Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
@@ -115,7 +116,7 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 [Learn about the IDES program](#ides-program). <br>
 [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp).
 
-**For more information on the DRC program:**
+For more information on the DRC program:
 
 Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. <br>
 
@@ -125,7 +126,7 @@ Watch a video and download fact sheets on our VA.gov website. <br>
 Or contact your local VSO.<br>
 [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
 
-#### File a fully developed or standard claim
+**File a fully developed or standard claim**
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
 [Learn about the application process](/disability-benefits/apply/).<br>
@@ -134,7 +135,7 @@ The difference in these claim types is based on how you gather evidence (support
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="ides-program">What's the Integrated Disability Evaluation System (IDES), and how does it work?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="ides-program">If I'm wounded, injured, or ill and can't perform my duties, what's the Integrated Disability Evaluation System (IDES) and how does it work?</button>
 <div id="ides-program" class="usa-accordion-content">
 
 
