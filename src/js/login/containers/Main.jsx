@@ -198,9 +198,11 @@ class Main extends React.Component {
   }
 
   render() {
+    let content;
+
     switch (this.props.renderType) {
       case 'navComponent': {
-        return (
+        content = (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
             <Modal
@@ -214,18 +216,26 @@ class Main extends React.Component {
             </Modal>
           </div>
         );
+        break;
       }
       case 'verifyPage':
-        return this.props.profile.loading ?
+        content = this.props.profile.loading ?
           (<LoadingIndicator message="Loading the application..."/>) :
           (<Verify
             shouldRedirect={this.props.shouldRedirect}
             login={this.props.login}
             profile={this.props.profile}
             handleLogin={this.handleLogin}/>);
+        break;
       default:
-        return null;
+        content = null;
     }
+
+    return (
+      <div>
+        {content}
+      </div>
+    );
   }
 }
 
