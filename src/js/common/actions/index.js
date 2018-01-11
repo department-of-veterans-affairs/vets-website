@@ -1,7 +1,22 @@
 /* eslint-disable camelcase */
+import moment from 'moment';
 
 export const RETREIVE_SCHEDULED_DOWNTIME = 'RETREIVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
+
+function mockStatusDown() {
+  return {
+    start_time: moment().subtract(1, 'hour').toISOString(),
+    end_time: moment().add(1, 'hour').toISOString()
+  };
+}
+
+function mockStatusDownApproaching() {
+  return {
+    start_time: moment().add(1, 'hour').toISOString(),
+    end_time: moment().add(2, 'hour').toISOString()
+  };
+}
 
 const mock = {
   data: [
@@ -10,9 +25,8 @@ const mock = {
       type: 'maintenance_windows',
       attributes: {
         external_service: 'evss',
-        start_time: '2018-01-02T19:02:50.000Z',
-        end_time: '2018-01-03T19:02:00.000Z',
-        description: 'Benefits services will be unavailable for 24 hours.'
+        description: 'Benefits services will be unavailable for 24 hours.',
+        ...mockStatusDownApproaching()
       }
     },
     {
@@ -20,9 +34,8 @@ const mock = {
       type: 'maintenance_windows',
       attributes: {
         external_service: 'mhv',
-        start_time: '2018-01-02T19:57:36.000Z',
-        end_time: '2018-01-02T20:57:00.000Z',
-        description: 'This is broken!'
+        description: 'This is broken!',
+        ...mockStatusDown()
       }
     }
   ]
