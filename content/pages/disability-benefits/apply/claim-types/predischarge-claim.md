@@ -79,7 +79,7 @@ Choose the scenario below that matches your situation to find out how to apply f
 
 If you have 180 to 90 days left on active duty, you'll need to apply for benefits through the BDD program. The application process depends on where you're stationed.
 
-#### If you're stationed in the U.S.
+### If you're stationed in the U.S.
 You can apply for benefits online, by mail, or in person. <br>
 [Learn more about how to apply for benefits](/disability-benefits/apply/).
 
@@ -89,7 +89,7 @@ You can apply for benefits online, by mail, or in person. <br>
 - Be available for 45 days from the date you apply for a VA medical exam, **and**
 - Finish all phases of the VA/DoD medical separation examination process before your release from the military
 
-#### If you're stationed overseas
+### If you're stationed overseas
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
@@ -103,7 +103,7 @@ If you’re on a military base or other installation, contact your local Transit
 
 If you have less than 90 days left on active duty, you have 2 options for filing a disability claim:
 
-#### Go through the Decision Ready Claim (DRC) program
+### Go through the Decision Ready Claim (DRC) program
 
 This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.
 
@@ -126,7 +126,7 @@ Watch a video and download fact sheets on our VA.gov website. <br>
 Or contact your local VSO.<br>
 [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
 
-#### File a fully developed or standard claim
+### File a fully developed or standard claim
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
 [Learn about the application process](/disability-benefits/apply/).<br>
