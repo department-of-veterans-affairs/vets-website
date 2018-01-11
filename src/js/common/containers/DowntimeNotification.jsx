@@ -30,10 +30,11 @@ class DowntimeNotification extends React.Component {
 
   static propTypes = {
     appTitle: PropTypes.string,
-    children: PropTypes.object,
+    children: PropTypes.node,
     content: PropTypes.node,
     dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(services))).isRequired,
     determineStatus: PropTypes.func,
+    isReady: PropTypes.bool,
     loadingIndicator: PropTypes.object,
     renderStatusDown: PropTypes.func,
     renderStatusDownApproaching: PropTypes.func,
@@ -97,11 +98,11 @@ class DowntimeNotification extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.scheduledDowntime) this.props.getScheduledDowntime();
+    if (!this.props.isReady) this.props.getScheduledDowntime();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.scheduledDowntime && nextProps.scheduledDowntime) {
+    if (!this.props.isReady && nextProps.isReady) {
       DowntimeNotification.scheduledDowntime = nextProps.scheduledDowntime;  // Move the downtime data into static-level to make it accessible to the helper function(s).
     }
   }
@@ -167,7 +168,7 @@ class DowntimeNotification extends React.Component {
   }
 
   render() {
-    if (!this.props.scheduledDowntime) return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
+    if (!this.props.isReady) return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
 
     const downtimeMap = DowntimeNotification.getDowntimeForServices(...this.props.dependencies);
     const derivedStatus = this.props.determineStatus ? this.props.determineStatus(downtimeMap) : this.determineStatus(downtimeMap);
@@ -189,7 +190,8 @@ class DowntimeNotification extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    scheduledDowntime: state.scheduledDowntime,
+    isReady: state.scheduledDowntime.isReady,
+    scheduledDowntime: state.scheduledDowntime.values,
     userIsAuthenticated: state.user.login.currentlyLoggedIn
   };
 };
