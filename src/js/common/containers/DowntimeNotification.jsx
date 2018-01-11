@@ -88,7 +88,7 @@ class DowntimeNotification extends React.Component {
         startTime: result.startTime && result.startTime.isBefore(startTime) ? result.startTime : startTime,
         endTime: result.endTime && result.endTime.isAfter(endTime) ? result.endTime : endTime,
       };
-    }, { start: null, end: null });
+    }, {});
   }
 
   constructor(props) {
