@@ -13,10 +13,6 @@ const contentConditions = [
     ['edu-benefits']
   ],
   [
-    <p key="discharge-upgrade"><a href="/discharge-upgrade-instructions/">Apply for a discharge upgrade if needed</a></p>,
-    null
-  ],
-  [
     <p key="rx"><a href="/health-care/prescriptions">Refill your prescription</a></p>,
     ['rx']
   ],
@@ -64,32 +60,35 @@ class AuthApplicationSection extends React.Component {
     });
 
     return (
-      <div className="profile-section medium-12 columns">
-        <h4 className="section-header">Available services</h4>
-        <div className="medium-12 columns">
-          {
-            !!availableContent.length && (
-              <div>
-                <p><span className="label">Your account will allow you to:</span></p>
-                <div className="available-services">
-                  {availableContent}
+      <div>
+        <div className="profile-section medium-12 columns">
+          <h4 className="section-header">Available services</h4>
+          <div className="medium-12 columns">
+            {
+              !!availableContent.length && (
+                <div>
+                  <p><span className="label">Your account will allow you to:</span></p>
+                  <div className="available-services">
+                    {availableContent}
+                  </div>
                 </div>
-              </div>
-            )
-          }
-          {
-            !!unavailableContent.length && (
-              <div>
-                <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for, like:</span></p>
-                <div className="unavailable-services">
-                  {unavailableContent}
+              )
+            }
+            {
+              !!unavailableContent.length && (
+                <div>
+                  <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for, like:</span></p>
+                  <div className="unavailable-services">
+                    {unavailableContent}
+                  </div>
                 </div>
-              </div>
-            )
-          }
-          <p><strong>Note:</strong> If you have a less than honorable discharge, you can apply for an upgrade. If your
-            application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned
-            during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
+              )
+            }
+          </div>
+        </div>
+        <div className="profile-section">
+          <p><strong>Have a less than honorable discharge?</strong><br/>
+          You can apply for an upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.</p>
         </div>
       </div>
     );
