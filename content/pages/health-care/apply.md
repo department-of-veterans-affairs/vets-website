@@ -68,7 +68,7 @@ Or [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 <div class="feature">
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">What if I'm the a caregiver of a post-9/11 Veteran or Servicemember?</h4>
+<h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
 <div itemprop="itemListElement">
 
 You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
