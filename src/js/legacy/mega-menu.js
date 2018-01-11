@@ -74,7 +74,7 @@ class MegaMenu {
       if (!isWideScreen() && isReverseTab(e)) {
         e.preventDefault();
         this.closeControl.focus();
-      []}
+      }
     }
     if(e.target === this.lastMenuElement){
       if (!isWideScreen() && isTab(e)) {
