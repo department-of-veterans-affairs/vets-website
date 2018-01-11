@@ -6,7 +6,7 @@ const CurrentStatus = ({ title, description }) => (
     <h2>Current Status</h2>
     <div className="current-status-content">
       <h3>{title}</h3>
-      <p>{description}</p>
+      <div>{description}</div>
     </div>
     <div className="down-arrow"/>
   </div>
@@ -14,10 +14,7 @@ const CurrentStatus = ({ title, description }) => (
 
 CurrentStatus.PropTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired
+  description: PropTypes.element.isRequired
 };
 
 export default CurrentStatus;
