@@ -9,7 +9,7 @@ const defaultProps = {
   description: null,
 };
 
-describe.only('<CurrentStatus/>', () => {
+describe('<CurrentStatus/>', () => {
   it('should render', () => {
     const wrapper = shallow(<CurrentStatus {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');

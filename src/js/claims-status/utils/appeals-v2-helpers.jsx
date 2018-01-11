@@ -27,7 +27,7 @@ export function formatDate(date) {
  * Grabs the matching title and dynamically-generated description for a given current status type
  * @typedef {Object} Contents
  * @property {string} title a current status type's title
- * @property {element} description details about the current status, can be any element
+ * @property {HTMLElement} description details about the current status, can be any element
  * ----------------------------------------------------------------------------------------------
  * @param {string} statusType the status type of a claim appeal as returned by the api
  * @param {Object} details optional, properties vary depending on the status type
