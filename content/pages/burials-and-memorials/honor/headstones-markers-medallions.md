@@ -35,7 +35,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 ### Can I apply for one of these memorial items?
 
-You can apply for this benefit if you’re:
+You can apply for this benefit if you’re **one of the following**:
 - A family member of the deceased, **or**
 - A personal representative (someone who officially represents the deceased), **or**
 - A representative of an accredited Veterans Service Organization, **or**
@@ -49,9 +49,11 @@ You can apply for this benefit if you’re:
 
 ### How do I apply for a memorial item?
 
-**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
+**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
+[Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
 
-**For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](https://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
+**For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). <br>
+[Download VA Form 40-1330M](https://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
 
 - Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 
