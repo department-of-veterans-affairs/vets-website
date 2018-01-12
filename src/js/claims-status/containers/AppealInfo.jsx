@@ -22,15 +22,21 @@ export class AppealInfo extends React.Component {
     }
   }
 
+  createHeading = () => {
+    const firstClaim = this.props.appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim);
+    const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
+    return `Appeal of Claim Decision${appealDate}`;
+  }
+
   render() {
     const { params, appeal, appealsLoading, children } = this.props;
     let appealContent;
     if (appeal) {
-      const appealId = params.id;
-      const firstClaim = appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim);
-      const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
-      // Space is part of appealDate to ensure we don't have a trailing space if there is no firstClaim
-      const claimHeading = `Appeal of Claim Decision${appealDate}`;
+      // const firstClaim = appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim);
+      // const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
+      // // Space is part of appealDate to ensure we don't have a trailing space if there is no firstClaim
+      // const claimHeading = `Appeal of Claim Decision${appealDate}`;
+      const claimHeading = this.createHeading();
       appealContent = (
         <div>
           <div className="row">
@@ -47,7 +53,7 @@ export class AppealInfo extends React.Component {
           <div className="row">
             <div className="medium-8 columns">
               <AppealsV2TabNav
-                appealId={appealId}/>
+                appealId={params.id}/>
               <div className="va-tab-content va-appeals-content">
                 {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
               </div>
