@@ -24,9 +24,36 @@ const mock = {
       id: '139',
       type: 'maintenance_windows',
       attributes: {
-        external_service: 'evss',
+        external_service: 'appeals',
         description: 'Benefits services will be unavailable for 24 hours.',
         ...mockStatusDownApproaching()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'arcgis',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'emis',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'es',
+        description: 'This is broken!',
+        ...mockStatusDown()
       }
     },
     {
@@ -37,7 +64,61 @@ const mock = {
         description: 'This is broken!',
         ...mockStatusDown()
       }
-    }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'evss',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'idme',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'mvi',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'mhv',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'tims',
+        description: 'This is broken!',
+        ...mockStatusDown()
+      }
+    },
+    {
+      id: '140',
+      type: 'maintenance_windows',
+      attributes: {
+        external_service: 'vic',
+        description: 'This is broken!',
+        ...mockStatusDownApproaching()
+      }
+    },
   ]
 };
 
