@@ -26,6 +26,10 @@ export const serviceStatus = {
   ok: 'ok'
 };
 
+function DowntimeNotificationWrapper({ children }) {
+  return <div id="downtime-notification" style={{ marginBottom: '1em' }} className="row-padded">{children}</div>;
+}
+
 class DowntimeNotification extends React.Component {
 
   static propTypes = {
@@ -120,22 +124,19 @@ class DowntimeNotification extends React.Component {
 
   renderStatusDown(downtimeMap) {
     const { startTime, endTime } = DowntimeNotification.getDowntimeWindow(downtimeMap.down);
-    const title = <h2>The {this.props.appTitle} is down while we fix a few things.</h2>;
-    const message = <p>We’re undergoing scheduled maintenance from {startTime.format('LT')} to {endTime.format('LT')}.</p>;
+    const title = <h4>The {this.props.appTitle} is down while we fix a few things.</h4>;
+    const message = (
+      <div><p>We’re undergoing scheduled maintenance from {startTime.format('LT')} to {endTime.format('LT')}.<br/>
+      In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p></div>
+    );
 
     if (this.props.userIsAuthenticated) {
-      return (
-        <div className="row-padded">
-          {title}
-          {message}
-          <p>In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p>
-        </div>
-      );
+      return <DowntimeNotificationWrapper>{title}{message}</DowntimeNotificationWrapper>;
     }
     return (
-      <div className="row-padded">
-        <AlertBox isVisible status="warning" headline={title} content={message}/>;
-      </div>
+      <DowntimeNotificationWrapper>
+        <AlertBox isVisible status="warning" headline={title} content={message}/>
+      </DowntimeNotificationWrapper>
     );
   }
 
@@ -160,10 +161,10 @@ class DowntimeNotification extends React.Component {
       downtimeNotification = <AlertBox isVisible status="info" content={message}/>;
     }
     return (
-      <div className="row-padded">
+      <DowntimeNotificationWrapper>
         {downtimeNotification}
         {this.props.children || this.props.content}
-      </div>
+      </DowntimeNotificationWrapper>
     );
   }
 
