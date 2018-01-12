@@ -6,8 +6,8 @@ class MegaMenu {
     this.closeControl = closeMenuElement;
     this.openControl = openMenuElement;
     this.menuElements = this.menu.children[0].children;
-    this.firstMenuElement = this.menuElements[0].children[0];
-    this.lastMenuElement = this.menuElements[this.menuElements.length - 1].children[0];
+    this.firstTabbableMenuElement = this.menuElements[0].children[0];
+    this.lastTabbableMenuElement = this.menuElements[this.menuElements.length - 1].children[0];
     this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]'); 
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
@@ -24,8 +24,8 @@ class MegaMenu {
     this.closeControl.addEventListener('click', this.hideMegaMenu);
     this.closeControl.addEventListener('keydown', this.enterSmallMegaMenu);
     this.openControl.addEventListener('click', this.showMegaMenu);
-    this.firstMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
-    this.lastMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
+    this.firstTabbableMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
+    this.lastTabbableMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
     this.menu.addEventListener('keydown', this.toggleSmallMegaMenu);
     window.addEventListener('resize', this.resetMenu);
   }
@@ -44,7 +44,7 @@ class MegaMenu {
     this.menu.removeAttribute('hidden');
     this.closeControl.removeAttribute('hidden');
     if (!isWideScreen()) {
-      this.firstMenuElement.focus();
+      this.firstTabbableMenuElement.focus();
     }
   }
 
@@ -65,18 +65,18 @@ class MegaMenu {
   enterSmallMegaMenu(e) {
     if (!isWideScreen() && isTab(e)) {
       e.preventDefault();
-      this.firstMenuElement.focus();
+      this.firstTabbableMenuElement.focus();
     }
   }
 
   exitSmallMegaMenu(e) {
-    if(e.target === this.firstMenuElement){
+    if(e.target === this.firstTabbableMenuElement){
       if (!isWideScreen() && isReverseTab(e)) {
         e.preventDefault();
         this.closeControl.focus();
       }
     }
-    if(e.target === this.lastMenuElement){
+    if(e.target === this.lastTabbableMenuElement){
       if (!isWideScreen() && isTab(e)) {
         this.lastTabbableElement.focus();
       }
