@@ -10,6 +10,7 @@ import LoadingIndicator from '../components/LoadingIndicator';
 export const services = {
   appeals: 'appeals',
   arcgis: 'arcgis',
+  dslogon: 'dslogon',
   emis: 'emis',
   es: 'es',
   evss: 'evss',
