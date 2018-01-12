@@ -195,7 +195,7 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
   const { menuButton, menu } = struct;
 
   // First, close all sibling menus
-  const openMenus = menuLi.parentElement.querySelectorAll('[aria-expanded=true]');
+  const openMenus = Array.from(menuLi.parentElement.querySelectorAll('[aria-expanded=true]'));
   openMenus.forEach(m => closeMenu(m.parentElement));
 
   // Open the menu
