@@ -1,7 +1,7 @@
-@import 'shared-variables';
-@import 'modules/m-form-process';
-@import 'modules/m-progress-bar';
-@import 'modules/m-schemaform';
+@import "shared-variables";
+@import "modules/m-form-process";
+@import "modules/m-progress-bar";
+@import "modules/m-schemaform";
 @mixin schemaform-padding {
   // query borrowed from _m-schemaform.scss
   @media(max-width: 40.063em) {
@@ -132,7 +132,7 @@
   }
 
   th {
-    [scope='row'] {
+    [scope="row"] {
       padding-bottom: 0;
       padding-top: 0;
     }

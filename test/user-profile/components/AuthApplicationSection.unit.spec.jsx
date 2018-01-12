@@ -43,14 +43,6 @@ describe('<AuthApplicationSection>', () => {
   it('should render', () => {
     const wrapper = shallow(<AuthApplicationSection {...props}/>);
     expect(wrapper.type()).to.equal('div');
-    expect(wrapper.hasClass('profile-section')).to.be.true;
-  });
-
-  it('should display Discharge Upgrade and verify link if there are no available services', () => {
-    const wrapper = shallow(<AuthApplicationSection userProfile={{ services: [] }}/>);
-    const availableServices = wrapper.find('.available-services');
-    expect(availableServices.children('p')).to.have.length(1);
-    expect(wrapper.find('.unavailable-services').exists()).to.be.true;
   });
 
   it('should display available services as well as verify link if there are some available services', () => {
@@ -61,7 +53,7 @@ describe('<AuthApplicationSection>', () => {
       ]
     }}/>);
     const availableServices = wrapper.find('.available-services');
-    expect(availableServices.children('p')).to.have.length(3);
+    expect(availableServices.children('p')).to.have.length(2);
     expect(wrapper.find('.unavailable-services').exists()).to.be.true;
   });
 
