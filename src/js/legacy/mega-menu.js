@@ -6,9 +6,8 @@ class MegaMenu {
     this.closeControl = closeMenuElement;
     this.openControl = openMenuElement;
     this.menuElements = this.menu.children[0].children;
-;
-    this.firstMenuElement = this.menuElements[0].getElementsByTagName('a')[0];
-    this.lastMenuElement = this.menuElements[this.menuElements.length - 1].getElementsByTagName('a')[0];
+    this.firstMenuElement = this.menuElements[0].children[0];
+    this.lastMenuElement = this.menuElements[this.menuElements.length - 1].children[0];
     this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]'); 
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
