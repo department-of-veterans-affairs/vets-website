@@ -9,7 +9,7 @@ order: 4
 
 <div class="va-introtext">
 
-If you’ve had a claim for disability benefits denied in the past, you can file a reopened claim to get a new decision if all of these are true:
+If you’ve had a claim for disability benefits denied in the past, you can file a reopened claim to get a new decision **if all of these are true for you**:
 
 </div>
 
