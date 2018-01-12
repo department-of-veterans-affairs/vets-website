@@ -31,7 +31,8 @@ relatedlinks:
 You may be able to get disability benefits if you have signs of an illness like hypertension (high blood pressure), arthritis, diabetes, or peptic ulcers that started within a year after you were discharged from active military service.
 
 
-If your symptoms appear within 1 year after discharge—even if they weren’t there while you were serving—we’ll conclude that they’re related to your service. [See the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+If your symptoms appear within 1 year after discharge—even if they weren’t there while you were serving—we’ll conclude that they’re related to your service. <br>
+[See the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
 </div>
 
@@ -41,7 +42,7 @@ If your symptoms appear within 1 year after discharge—even if they weren’t t
 
 You may be able to get benefits if you have an illness that’s at least 10% disabling (a rating that measures how severe your disability is) that appears within 1 year after discharge and **both of the following are true for you**:
   -	The illness is listed in Title 38, Code of Federal Regulation, 3.09(a), **and**
-  -	You were discharged under conditions other than dishonorable
+  -	You were discharged under conditions other than dishonorable <br>
 
 [See Title 38, Code of Federal Regulation, 3.09(a)](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
@@ -59,7 +60,7 @@ Veterans
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that your illness is at least 10% disabling. (For example, you may include a doctor’s report showing that you’re taking medicine for your high blood pressure.) You’ll also need to show that the illness appeared within 1 year after being discharged from active service. <br>
-(https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
+[Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 **Exception:**<br>
 The following diseases are covered, even if they appear more than 1 year after you separated: 
