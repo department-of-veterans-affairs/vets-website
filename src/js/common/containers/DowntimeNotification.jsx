@@ -111,6 +111,10 @@ class DowntimeNotification extends React.Component {
     }
   }
 
+  shouldComponentUpdate() {
+    return !this.props.isReady;
+  }
+
   determineStatus(downtimeMap) {
     const statusDown = downtimeMap[serviceStatus.down].length > 0;
     const statusDownApproaching = downtimeMap[serviceStatus.downtimeApproaching].length > 0;
