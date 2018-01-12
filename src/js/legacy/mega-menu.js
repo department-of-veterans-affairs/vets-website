@@ -1,13 +1,14 @@
 import { isWideScreen, isEscape, isReverseTab, isTab } from '../common/utils/accessible-menus';
 
 class MegaMenu {
-  constructor(menuElement, openMenuElement, closeMenuElement, menuElements) {
+  constructor(menuElement, openMenuElement, closeMenuElement) {
     this.menu = menuElement;
     this.closeControl = closeMenuElement;
     this.openControl = openMenuElement;
-    this.menuElements = menuElements;
+    this.menuElements = this.menu.children[0].children;
+;
     this.firstMenuElement = this.menuElements[0].getElementsByTagName('a')[0];
-    this.lastMenuElement = this.menuElements[0].parentNode.lastElementChild.getElementsByTagName('a')[0];
+    this.lastMenuElement = this.menuElements[this.menuElements.length - 1].getElementsByTagName('a')[0];
     this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]'); 
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
@@ -26,7 +27,7 @@ class MegaMenu {
     this.openControl.addEventListener('click', this.showMegaMenu);
     this.firstMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
     this.lastMenuElement.addEventListener('keydown', this.exitSmallMegaMenu);
-    this.menuElements.forEach(item => item.addEventListener('keydown', this.toggleSmallMegaMenu));
+    this.menu.addEventListener('keydown', this.toggleSmallMegaMenu);
     window.addEventListener('resize', this.resetMenu);
   }
 
@@ -56,7 +57,7 @@ class MegaMenu {
   }
 
   toggleSmallMegaMenu(e) {
-    if (!isWideScreen() && isEscape(e)) {
+    if (e.target.nodeName === 'LI' && !isWideScreen() && isEscape(e)) {
       this.hideMegaMenu();
       this.openControl.focus();
     }
@@ -90,9 +91,8 @@ function initNavMenu() {
   const menuElement = document.querySelector('#vetnav');
   const openMenuElement = document.querySelector('.vetnav-controller-open');
   const closeMenuElement = document.querySelector('.vetnav-controller-close');
-  const menuElements = document.querySelectorAll('#vetnav-menu li');
 
-  const mm = new MegaMenu(menuElement, openMenuElement, closeMenuElement, menuElements);
+  const mm = new MegaMenu(menuElement, openMenuElement, closeMenuElement);
   mm.resetMenu();
 }
 
