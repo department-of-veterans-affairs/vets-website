@@ -17,7 +17,7 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 
 ### Can I get a burial flag?
 
-You can get a burial flag if you’re the next of kin or a close friend of the deceased, **and** one of these describes that person: 
+You can get a burial flag if you’re the next of kin or a close friend of the deceased, **and** any one of these describes that person: 
 
 - Served in wartime, **or**
 - Died while on active duty after May 27, 1941, **or**
@@ -29,7 +29,8 @@ You can get a burial flag if you’re the next of kin or a close friend of the d
 
 ### How do I get a flag?
 
-To get a burial flag, fill out the Application for United States Flag for Burial Purposes (VA Form 27-2008). [Download VA Form 27-2008](https://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf).
+To get a burial flag, fill out the Application for United States Flag for Burial Purposes (VA Form 27-2008). <br>
+[Download VA Form 27-2008](https://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf).
 
 Bring the application form to:
 - A funeral director, **or**
@@ -38,7 +39,8 @@ Bring the application form to:
 
 ### How do I display and care for the flag?
 
-To protect the flag from weather damage, don’t leave it outside for long periods of time. [Find out how to display and fold the flag]( https://www.legion.org/flag/questions-answers/91522/how-flag-be-displayed-fully-open-or-half-open-casket).
+To protect the flag from weather damage, don’t leave it outside for long periods of time. <br>
+[Find out how to display and fold the flag]( https://www.legion.org/flag/questions-answers/91522/how-flag-be-displayed-fully-open-or-half-open-casket).
 
 The Veteran’s family can also donate the flag to a national cemetery that has an Avenue of Flags so that it can be flown on patriotic holidays.
 
@@ -48,7 +50,8 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 
 ### Can I get a Presidential Memorial Certificate?
 
-A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who’s eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran’s death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](https://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
+A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who’s eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran’s death certificate and discharge papers (DD214 or other separation documents). <br>
+[Download a PMC request form](https://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
 
 Send the PMC request form and discharge papers to:
 <br><br>
