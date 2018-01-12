@@ -151,7 +151,7 @@ export default class EducationWizard extends React.Component {
                 <div className="usa-alert usa-alert-warning">
                   <div className="usa-alert-body">
                     <h4 className="usa-alert-heading wizard-alert-heading">Are you sure?</h4>
-                    <span>Are all of the following things true of your service?</span>
+                    <p>Are all of the following things true of your service?</p>
                     <ul>
                       <li>Enlisted under the National Call to Service program, <strong>and</strong></li>
                       <li>Entered service between 10/01/03 and 12/31/07, <strong>and</strong></li>

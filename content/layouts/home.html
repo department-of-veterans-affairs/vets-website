@@ -3,10 +3,12 @@
   {% if enablewarning %}
     {% include "content/includes/homepage-warning.html" %}
   {% endif %}
+  <div id="content">
   {{ contents }}
+  </div>
 
   <div class="va-h-ruled--stars"></div>
-  <div class="va-homepage-benefits usa-content">
+  <div class="va-homepage-benefits">
     {% include "content/components/navigation-links-list.html" %}
   </div>
 </main>

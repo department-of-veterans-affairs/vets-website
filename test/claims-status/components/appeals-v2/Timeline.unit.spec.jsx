@@ -20,10 +20,6 @@ describe('<Timeline/>', () => {
         details: {}
       }
     ],
-    currentStatus: {
-      title: 'Current Status Title',
-      description: 'Status description here'
-    }
   };
 
   const formattedDateRange = 'May 30, 2016 - June 10, 2016';
@@ -71,13 +67,6 @@ describe('<Timeline/>', () => {
     expect(wrapper.find('PastEvent').length).to.equal(0);
   });
 
-
-  it('should render one CurrentStatus component', () => {
-    const wrapper = shallow(<Timeline {...defaultProps}/>);
-    const currentStatus = wrapper.find('CurrentStatus');
-    expect(currentStatus.length).to.equal(1);
-  });
-
   it('should pass formatted date range to the Expander', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
     const expander = wrapper.find('Expander');
@@ -120,13 +109,5 @@ describe('<Timeline/>', () => {
     const expanderProps = wrapper.find('Expander').props();
     expect(expanderProps.title).to.equal('Hide past events');
     expect(expanderProps.cssClass).to.equal('section-expanded');
-  });
-
-  it('should pass along its currentStatus props to CurrentStatus', () => {
-    const wrapper = shallow(<Timeline {...defaultProps}/>);
-    const { title, description } = defaultProps.currentStatus;
-    const currentStatusProps = wrapper.find('CurrentStatus').props();
-    expect(currentStatusProps.title).to.equal(title);
-    expect(currentStatusProps.description).to.equal(description);
   });
 });

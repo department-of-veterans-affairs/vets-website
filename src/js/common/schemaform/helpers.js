@@ -1,14 +1,15 @@
 import _ from 'lodash/fp';
-import ReviewPage from './review/ReviewPage';
-import FormPage from './containers/FormPage';
-import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
 import shouldUpdate from 'recompose/shouldUpdate';
-
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getInactivePages, getActivePages } from '../utils/helpers';
+import FormPage from './containers/FormPage';
+import ReviewPage from './review/ReviewPage';
+import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
+import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage';
 import FormSaved from './save-in-progress/FormSaved';
 import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
+
+import { getInactivePages, getActivePages } from '../utils/helpers';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -125,7 +126,7 @@ export function createRoutes(formConfig) {
     {
       path: 'review-and-submit',
       formConfig,
-      component: ReviewPage,
+      component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
       pageList
     },
     {

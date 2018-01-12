@@ -62,9 +62,9 @@ module.exports = E2eHelpers.createE2eTest(
       }, token)
       .click('.usa-button-primary');
 
+    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
+
     client.expect.element('.usa-alert-error').text.to.contain('You have been signed out');
 
     client.end();
   });
-
-module.exports['@disabled'] = true;

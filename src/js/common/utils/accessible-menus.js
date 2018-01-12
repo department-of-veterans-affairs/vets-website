@@ -150,9 +150,9 @@ function getMenuStructure(menuLi) {
  *
  * @param {HTMLLIElement} menuLI  The <li> containing the menubutton and menu
  */
-function closeMenu(menuLi) {
-  // If we're not dealing with a menu structure, abort
-  const struct = getMenuStructure(menuLi);
+function closeMenu(menuLiOrStruct) {
+  // Make sure we've got a menu
+  const struct = menuLiOrStruct.menuButton ? menuLiOrStruct : getMenuStructure(menuLiOrStruct);
   if (!struct) {
     return;
   }
@@ -173,9 +173,9 @@ function closeMenu(menuLi) {
  *                                 second-level menu in a wide screen, we want the third-level opened as well
  * @param {bool} stealFocus       Whether or not to focus on the first item in the opened menu
  */
-function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
+function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus = true) {
   // If we're not dealing with a menu structure, abort
-  const struct = getMenuStructure(menuLi);
+  const struct = menuStructure || getMenuStructure(menuLi);
   if (!struct) {
     return;
   }
@@ -183,7 +183,7 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
   const { menuButton, menu } = struct;
 
   // First, close all sibling menus
-  const openMenus = menuLi.parentElement.querySelectorAll('[aria-expanded=true]');
+  const openMenus = Array.from(menuLi.parentElement.querySelectorAll('[aria-expanded=true]'));
   openMenus.forEach(m => closeMenu(m.parentElement));
 
   // Open the menu
@@ -200,7 +200,28 @@ function openMenu(menuLi, openSubMenu = false, stealFocus = true) {
 
   // If we're wide-screen (for example), open the first submenu
   if (openSubMenu) {
-    openMenu(menu.firstElementChild, false, false);
+    openMenu(menu.firstElementChild, null, false, false);
+  }
+}
+
+
+/**
+ * Opens a menu if it's closed, closes a menu if it's open.
+ *
+ * @param {HTMLLIElement} menuLi  The <li> containing the menubutton and menu
+ */
+function toggleMenu(menuLi) {
+  // If we're not dealing with a menu structure, abort
+  const struct = getMenuStructure(menuLi);
+  if (!struct) {
+    return;
+  }
+
+  // Check if it's open
+  if (struct.menuButton.getAttribute('aria-expanded') === 'true') {
+    closeMenu(struct);
+  } else {
+    openMenu(menuLi, struct, isWideScreen());
   }
 }
 
@@ -235,7 +256,7 @@ function closeAll(menuElement) {
  * @param {HTMLElement} mobileOpenButton   Optional - The "Menu" button on mobile
  * @param {HTMLElement} mobileCloseButton  Optional - The "Close" button on mobile
  */
-export default function addMenuListeners(menuElement) {
+export default function addMenuListeners(menuElement, closeOnResize = false) {
   const menuRole = menuElement.getAttribute('role');
   if (!['menubar', 'menu'].includes(menuRole)) {
     // If we don't have a menubar or menu, don't continue
@@ -295,7 +316,7 @@ export default function addMenuListeners(menuElement) {
             //  doing it the hard way
             const menuItems = targetLi.querySelector('[role="menu"]').children;
             const lastSubmenu = menuItems[menuItems.length - 1];
-            openMenu(lastSubmenu, false, false);
+            openMenu(lastSubmenu, null, false, false);
             lastSubmenu.firstElementChild.focus();
           }
         } else if (inMenu) {
@@ -322,7 +343,7 @@ export default function addMenuListeners(menuElement) {
         const isMB = isMenuButton(e.target);
         if (inMenubar && isMB) {
           e.preventDefault();
-          openMenu(targetLi, isWideScreen());
+          openMenu(targetLi, null, isWideScreen());
         } else if (inMenu) {
           e.preventDefault();
           moveFocus(targetLi, 'next');
@@ -340,10 +361,32 @@ export default function addMenuListeners(menuElement) {
     }
   });
 
-  // TODO: Implement this and get rid of MegaMenu usage
-  // menuElement.addEventListener('click', (e) => {
-  //   // Handle opening menus
-  //   // Handle closing menus when clicked away
-  // });
+  // Close when the screen is resized
+  // Useful for when the menu might be hidden on smaller screens (nav menubar)
+  if (closeOnResize) {
+    window.addEventListener('resize', () => closeAll(menuElement));
+  }
+
+  menuElement.addEventListener('click', e => {
+    const targetLi = e.target.parentElement;
+    // Target's grandparent because the parent is a <li>
+    const inMenubar = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
+    const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
+
+    // Handle opening (and closing) menus
+    if (inMenubar) {
+      toggleMenu(targetLi);
+    } else if (inMenu) {
+      openMenu(targetLi);
+    }
+  });
+
+  // Handle clicking away from the menu
+  document.addEventListener('click', event => {
+    const target = event.target;
+    if (!menuElement.contains(target)) {
+      closeAll(menuElement);
+    }
+  });
 }
 
