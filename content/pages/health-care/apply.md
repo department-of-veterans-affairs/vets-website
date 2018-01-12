@@ -45,6 +45,7 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 
 </div>
 </div>
+</div>
 
 
 <div id="react-applicationStatus" class="static-page-widget">
