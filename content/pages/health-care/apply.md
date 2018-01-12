@@ -58,7 +58,7 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 <h4 itemprop="name">What if I'm the caregiver of a post-9/11 Veteran or Servicemember?</h4>
 <div itemprop="itemListElement">
 
-You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
+You may qualify for VA health care and other benefits. See the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
 
 [Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
 
@@ -91,14 +91,15 @@ Atlanta, GA 30329<br>
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
-[Find a VA medical center or clinic near you](/facilities/).<br />
+Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
+[Find a VA medical center or clinic near you](/facilities/).<br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
-Or get help through your state's Department of Veterans Affairs. [Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
+Or get help through your state's Department of Veterans Affairs. <br>
+[Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
 
 ##### With the help of a trained professional 
-You can work with a trained professional called an accredited representative to get help applying for health care benefits. 
+You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
 [Get help filing a claim](/disability-benefits/apply/help/index.html)
 
 </div>
