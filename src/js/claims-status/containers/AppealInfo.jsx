@@ -32,10 +32,6 @@ export class AppealInfo extends React.Component {
     const { params, appeal, appealsLoading, children } = this.props;
     let appealContent;
     if (appeal) {
-      // const firstClaim = appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim);
-      // const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
-      // // Space is part of appealDate to ensure we don't have a trailing space if there is no firstClaim
-      // const claimHeading = `Appeal of Claim Decision${appealDate}`;
       const claimHeading = this.createHeading();
       appealContent = (
         <div>
