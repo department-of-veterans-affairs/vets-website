@@ -1,11 +1,12 @@
-import { isTab, isReverseTab } from './accessible-menus';
+import { isTab, isReverseTab, getTabbableElements } from './accessibility-helpers';
+
 /*
  * Creates function that captures Veterans Crisis Line modal focus.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
-  const tabbableElements = modal.querySelectorAll('input,select,a[href],textarea,button,[tabindex]');
+  const tabbableElements = getTabbableElements(modal);
   const closeControl = modal.getElementsByTagName('button')[0];
   const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
 

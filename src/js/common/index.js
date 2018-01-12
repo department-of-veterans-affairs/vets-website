@@ -4,7 +4,7 @@ import './sentry.js';
 import '../legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './utils/accessible-modal';
-import { addMenuListeners } from './utils/accessible-menus';
+import addMenuListeners from './utils/accessible-menus';
 
 addMenuListeners(document.querySelector('#vetnav-menu'), true);
 

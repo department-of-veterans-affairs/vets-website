@@ -1,25 +1,10 @@
-const TAB = 9;
+import { isWideScreen } from './accessibility-helpers';
+
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const ESCAPE = 27;
-
-function isWideScreen() {
-  return matchMedia('(min-width: 768px)').matches;
-}
-
-function isEscape(e) {
-  return e.which === ESCAPE;
-}
-
-function isTab(e) {
-  return e.which === TAB && !e.shiftKey;
-}
-
-function isReverseTab(e) {
-  return e.which === TAB  && e.shiftKey;
-}
 
 /**
  * Finds the closest ancestor for which the callback returns true.
@@ -268,7 +253,7 @@ function closeAll(menuElement) {
  * @param {HTMLElement} mobileOpenButton   Optional - The "Menu" button on mobile
  * @param {HTMLElement} mobileCloseButton  Optional - The "Close" button on mobile
  */
-function addMenuListeners(menuElement, closeOnResize = false) {
+export default function addMenuListeners(menuElement, closeOnResize = false) {
   const menuRole = menuElement.getAttribute('role');
   if (!['menubar', 'menu'].includes(menuRole)) {
     // If we don't have a menubar or menu, don't continue
@@ -401,5 +386,3 @@ function addMenuListeners(menuElement, closeOnResize = false) {
     }
   });
 }
-
-export { isWideScreen, isEscape, isTab, isReverseTab, addMenuListeners };
