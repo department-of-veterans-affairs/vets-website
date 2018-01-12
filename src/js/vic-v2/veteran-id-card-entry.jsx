@@ -15,7 +15,7 @@ import reducer from './reducer';
 const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/vic/application'
+  basename: '/vic-v2'
 });
 
 function init() {

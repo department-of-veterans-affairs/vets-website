@@ -95,7 +95,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
-  ignoreList.push('vic/application');
+  ignoreList.push('vic-v2/index.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -443,7 +443,7 @@ if (options.watch) {
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
         { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
         { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
-        { from: '^/vic/application(.*)', to: '/vic/application/' },
+        { from: '^/vic-v2(.*)', to: '/vic-v2/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
