@@ -23,7 +23,7 @@ If you’re a Servicemember with a disability, the Benefits Delivery at Discharg
 
 ### Can I use the BDD program to get my disability benefits sooner?
 
-You can use the BDD program if:
+You can use the BDD program if **all of the following are true for you**:
 
 -	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
 - You have a known separation date, **and**
@@ -39,7 +39,8 @@ Compensation (monthly payments)
 
 ### How do I get these disability benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to turn in your service treatment records. You’ll also need to finish all phases of the VA/DoD medical separation examination processes before your release from the military. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, you’ll have to turn in your service treatment records. You’ll also need to finish all phases of the VA/DoD medical separation examination processes before your release from the military. , <br>
+[Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
 
 ### Get more information
