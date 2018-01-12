@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import FileField from '../FileField';
+import FileField from '../fields/FileField';
 import { validateFileField } from '../validation';
 
 export default function fileUiSchema(label, userOptions = {}) {

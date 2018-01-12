@@ -35,7 +35,7 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 <br>
 
-### What if I have less than 90 days left on active duty? 
+### What if I have less than 90 days left on active duty?
 
 You can't file a BDD claim or add more medical conditions to your initial claim. But you can still begin the process of filing your claim before discharge. <br>
 [Learn how to file a claim less than 90 days before discharge](#ways-to-file).
@@ -144,7 +144,7 @@ You'll be referred to the Integrated Disability Evaluation System (IDES)</button
 If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred to IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
 If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You'll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br>
-[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/). 
+[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
 </div>
 </li>

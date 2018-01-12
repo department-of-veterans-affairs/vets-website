@@ -4,7 +4,7 @@ import { focusElement } from '../../common/utils/helpers';
 import AlertBox from '../../common/components/AlertBox';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../common/components/OMBInfo';
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -89,7 +89,6 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <h5>VA Review</h5>
-              <p>We usually process claims within 90 days.</p>
               <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">

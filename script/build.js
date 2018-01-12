@@ -94,7 +94,7 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/burial-planning/application.md');
+  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -320,7 +320,7 @@ smith.use(collections({
     pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Conditions Related to Service Era'
+      name: 'Concerns Related to Service Era'
     }
   },
   housing: {
@@ -430,6 +430,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
         { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/discharge-upgrade-instructions(.*)', to: '/discharge-upgrade-instructions/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
         { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
@@ -439,7 +440,8 @@ if (options.watch) {
         { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
+        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },

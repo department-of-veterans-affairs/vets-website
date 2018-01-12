@@ -12,9 +12,9 @@ import {
   saveErrors,
   autoSaveForm,
   saveAndRedirectToReturnUrl
-} from './save-load-actions';
+} from './actions';
 import { toggleLoginModal } from '../../../login/actions';
-import { FormPage } from '../FormPage';
+import { FormPage } from '../containers/FormPage';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {

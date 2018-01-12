@@ -7,7 +7,7 @@ export default function createApplicationStatus(store, form) {
   if (root) {
     import(
       /* webpackChunkName: "application-status" */
-      '../schemaform/ApplicationStatus').then(module => {
+      '../schemaform/save-in-progress/ApplicationStatus').then(module => {
       const ApplicationStatus = module.default;
       ReactDOM.render((
         <Provider store={store}>

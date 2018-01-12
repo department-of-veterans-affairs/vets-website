@@ -468,7 +468,7 @@ describe('Disability benefits helpers: ', () => {
       const type = 123;
       const contents = getStatusContents(type);
       expect(contents.title).to.equal('Current Status Unknown');
-      expect(contents.description).to.equal('Your current appeal status is unknown at this time');
+      expect(contents.description.props.children).to.equal('Your current appeal status is unknown at this time');
     });
   });
 

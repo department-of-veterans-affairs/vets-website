@@ -61,7 +61,7 @@ describe('<ErrorableSelect>', () => {
 
     const errorMessages = tree.everySubTree('.usa-input-error-message');
     expect(errorMessages).to.have.lengthOf(1);
-    expect(errorMessages[0].text()).to.equal('error message');
+    expect(errorMessages[0].text()).to.equal('Error error message');
 
     // If there's an error, we should have a describedby for screen readers
     const selects = tree.everySubTree('select');

@@ -12,6 +12,7 @@ widgets:
     loadingMessage: Checking your application status.
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 description: Get help paying for college or other training. Find out if you qualify for VA education benefits through the GI Bill and other educational assistance programs.
+gibsAlert: true
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div class="va-introtext" itemprop="description" >
@@ -71,12 +72,27 @@ You can get benefits through MGIB-SR if you’re a member of the Army, Navy, Air
 
 You may be able to get help paying for school tuition, testing fees, and advanced licensing and certifications through other VA educational assistance programs. You may also be able to get entrepreneurship training to help start or improve a small business. 
 
-
 [Learn more about advanced training and certifications](/education/advanced-training-and-certifications/).
 
 [Learn about other educational assistance programs](/education/other-educational-assistance-programs/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required. [Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
+If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required. 
+
+[Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
+
+</div>
+</div>
+</div><div markdown="0"><br></div>
+
+
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name"> If I have a less than honorable discharge, can I try to get my discharge upgraded so I can receive VA education benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Yes. You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/). 
 
 </div>
 </div>
@@ -96,7 +112,7 @@ If you have a service-connected disability that limits your ability to work or p
 </div>
 </div>
 </div>
-<div id="react-applicationStatus"></div>
+<div id="react-applicationStatus" class="static-page-widget"></div>
 
 [Learn about the application process](/education/apply/).
 

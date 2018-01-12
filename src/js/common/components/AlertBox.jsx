@@ -34,11 +34,10 @@ class AlertBox extends React.Component {
 
   render() {
     if (!this.props.isVisible) {
-      return <div aria-live="assertive"/>;
+      return <div aria-live="polite"/>;
     }
 
     const alertClass = classNames(
-      'va-alert',
       'usa-alert',
       `usa-alert-${this.props.status}`
     );
@@ -52,13 +51,16 @@ class AlertBox extends React.Component {
       );
     }
 
+    const headline = this.props.headline && (<div className="usa-alert-heading">{this.props.headline}</div>);
+
     return (
       <div
-        aria-live="assertive"
+        aria-live="polite"
         className={alertClass}
         ref={(ref) => { this._ref = ref; }}>
-        <div className="va-alert-body usa-alert-body">
-          <div className="usa-alert-text usa-alert-heading">
+        <div className="usa-alert-body">
+          {headline}
+          <div className="usa-alert-text">
             {this.props.content}
           </div>
         </div>
@@ -67,9 +69,11 @@ class AlertBox extends React.Component {
       </div>
     );
   }
+
 }
 
 AlertBox.propTypes = {
+  headline: PropTypes.node,
   content: PropTypes.node.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onCloseAlert: PropTypes.func,

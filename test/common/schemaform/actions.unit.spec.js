@@ -318,6 +318,7 @@ describe('Schemaform actions:', () => {
         });
       });
     });
+
     it('should call set data on success', () => {
       const thunk = uploadFile(
         {
