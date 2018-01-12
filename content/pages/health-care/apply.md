@@ -93,14 +93,14 @@ Atlanta, GA 30329<br>
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
 [Find a VA medical center or clinic near you](/facilities/).<br>
-[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Or get help through your state's Department of Veterans Affairs. <br>
 [Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
 
 ##### With the help of a trained professional 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing a claim](/disability-benefits/apply/help/index.html)
+[Get help filing a claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
