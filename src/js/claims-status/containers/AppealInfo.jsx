@@ -98,4 +98,3 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = { getAppealsV2 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppealInfo);
-
