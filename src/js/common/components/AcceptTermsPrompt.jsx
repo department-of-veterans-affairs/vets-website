@@ -80,17 +80,17 @@ class AcceptTermsPrompt extends React.Component {
       'form-radio-buttons': true,
       disabled: !this.state.scrolledToBottom
     });
-
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
     return (
       <div className="row primary terms-acceptance">
-        <div className="small-12 columns usa-content">
+        <div className="small-12 columns usa-content" role="region" aria-label="Terms and Conditions" tabIndex="0">
           <div dangerouslySetInnerHTML={{ __html: terms.headerContent }}/>
           <h1>{terms.title}</h1>
           <div className="terms-box">
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue
             </div>
-            <div className="terms-scroller" onScroll={this.handleScroll}>
+            <div className="terms-scroller" onScroll={this.handleScroll} tabIndex="0">
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }}/>
             </div>
             <div className={actionButtonClass}>
@@ -107,6 +107,7 @@ class AcceptTermsPrompt extends React.Component {
         </div>
       </div>
     );
+    /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
   }
 }
 
