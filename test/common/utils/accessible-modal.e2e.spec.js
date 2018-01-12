@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Trap backward traversall
     client
-      .keys([SHIFT, TAB, TAB, SHIFT])
+      .keys([SHIFT, TAB, TAB, SHIFT]) // Second SHIFT releases modifier key
       .assert.isActiveElement(lastModalItem);
 
     // Trap forward traversal
