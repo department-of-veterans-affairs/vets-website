@@ -5,8 +5,9 @@ import { isTab, isReverseTab } from './accessible-menus';
 
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
+  const tabbableElements = modal.querySelectorAll('input,select,a[href],textarea,button,[tabindex]');
   const closeControl = modal.getElementsByTagName('button')[0];
-  const lastTabbableElement = modal.querySelector('a[href="https://www.veteranscrisisline.net/"]');
+  const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
 
   function captureFocus(e) {
     if (e.target === closeControl) {
