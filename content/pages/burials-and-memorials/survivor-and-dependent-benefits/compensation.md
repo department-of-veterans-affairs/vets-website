@@ -27,7 +27,7 @@ If you’re a surviving spouse, you can get compensation **if any one of these d
 
 ### As a surviving child, can I get compensation from VA?
 
-If you’re a surviving child, you can get compensation if you aren’t married and aren’t included on the surviving spouse’s compensation, **and both of the following describe you**:
+If you’re a surviving child, you can get compensation if you aren’t married and aren’t included on the surviving spouse’s compensation, **and one of the following describes you**:
 - Are under the age of 18 (or under the age of 23 if attending school), **or**
 - Were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
