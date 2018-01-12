@@ -1,13 +1,13 @@
-import { isWideScreen, isEscape, isReverseTab, isTab } from '../common/utils/accessibility-helpers';
+import { isWideScreen, isEscape, isReverseTab, isTab, getTabbableElements } from '../common/utils/accessibility-helpers';
 
 class MegaMenu {
   constructor(menuElement, openMenuElement, closeMenuElement) {
     this.menu = menuElement;
     this.closeControl = closeMenuElement;
     this.openControl = openMenuElement;
-    this.menuElements = this.menu.children[0].children;
-    this.firstTabbableMenuElement = this.menuElements[0].children[0];
-    this.lastTabbableMenuElement = this.menuElements[this.menuElements.length - 1].children[0];
+    this.tabbableMenuElements = getTabbableElements(this.menu);
+    this.firstTabbableMenuElement = this.tabbableMenuElements[0];
+    this.lastTabbableMenuElement = this.tabbableMenuElements[this.tabbableMenuElements.length - 1];
     this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]'); 
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
