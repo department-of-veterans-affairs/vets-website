@@ -6,15 +6,15 @@ function isWideScreen() {
 }
 
 function isEscape(e) {
-  return e.which === ESCAPE;
+  return e.key === 'Escape' || e.key === 'Esc' || e.keyCode === ESCAPE;
 }
 
 function isTab(e) {
-  return e.which === TAB && !e.shiftKey;
+  return (e.key === 'Tab' || e.keyCode === TAB) && !e.shiftKey;
 }
 
 function isReverseTab(e) {
-  return e.which === TAB  && e.shiftKey;
+  return (e.key === 'Tab' || e.keyCode === TAB) && e.shiftKey;
 }
 
 function getTabbableElements(node) {
