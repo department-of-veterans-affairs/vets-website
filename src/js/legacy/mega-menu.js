@@ -8,7 +8,7 @@ class MegaMenu {
     this.tabbableMenuElements = getTabbableElements(this.menu);
     this.firstTabbableMenuElement = this.tabbableMenuElements[0];
     this.lastTabbableMenuElement = this.tabbableMenuElements[this.tabbableMenuElements.length - 1];
-    this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]'); 
+    this.lastTabbableElement = document.querySelector('[href="http://usa.gov"]');
     this.addListeners = this.addListeners.bind(this);
     this.resetMenu = this.resetMenu.bind(this);
     this.showMegaMenu = this.showMegaMenu.bind(this);
@@ -70,13 +70,13 @@ class MegaMenu {
   }
 
   exitSmallMegaMenu(e) {
-    if(e.target === this.firstTabbableMenuElement){
+    if (e.target === this.firstTabbableMenuElement) {
       if (!isWideScreen() && isReverseTab(e)) {
         e.preventDefault();
         this.closeControl.focus();
       }
     }
-    if(e.target === this.lastTabbableMenuElement){
+    if (e.target === this.lastTabbableMenuElement) {
       if (!isWideScreen() && isTab(e)) {
         this.lastTabbableElement.focus();
       }
