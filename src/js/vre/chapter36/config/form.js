@@ -1,14 +1,20 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 // import { transform } from '../helpers';
-// import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
+import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema36.properties;
-//
-// const { } = fullSchema36.definitions;
+import fullNameUI from '../../../common/schemaform/definitions/fullName';
+
+const {
+  applicantFullName
+} = fullSchema36.properties;
+
+const {
+  fullName
+} = fullSchema36.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -25,11 +31,64 @@ const formConfig = {
   },
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    fullName
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
+        applicantInformation: {
+          title: 'Applicant information',
+          path: 'applicant-information',
+          uiSchema: {
+            'view:isVeteran': {
+              'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
+              'ui:widget': 'yesNo'
+            },
+            applicantFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:required': formData => formData['view:isVeteran'] === false,
+              },
+              last: {
+                'ui:required': formData => formData['view:isVeteran'] === false,
+              },
+              'ui:options': {
+                expandUnder: 'view:isVeteran',
+                expandUnderCondition: false
+              }
+            }),
+            applicantRelationshipToVeteran: {
+              'ui:title': 'What is your relationship to the Servicemember or Veteran?',
+              'ui:widget': 'radio',
+              'ui:required': formData => formData['view:isVeteran'] === false,
+              'ui:options': {
+                expandUnder: 'view:isVeteran',
+                expandUnderCondition: false
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:isVeteran'],
+            properties: {
+              'view:isVeteran': {
+                type: 'boolean'
+              },
+              applicantFullName: _.unset('required', applicantFullName),
+              applicantRelationshipToVeteran: {
+                type: 'string',
+                'enum': [
+                  'Spouse',
+                  'Surviving spouse',
+                  'Child',
+                  'Stepchild',
+                  'Adopted child'
+                ]
+              }
+            }
+          }
+        }
       }
     },
     veteranInformation: {
