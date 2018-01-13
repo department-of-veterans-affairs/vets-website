@@ -1,13 +1,10 @@
+import { isWideScreen } from './accessibility-helpers';
+
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const ESCAPE = 27;
-
-function isWideScreen() {
-  return matchMedia('(min-width: 768px)').matches;
-}
-
 
 /**
  * Finds the closest ancestor for which the callback returns true.
@@ -389,4 +386,3 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     }
   });
 }
-
