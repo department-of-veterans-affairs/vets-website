@@ -56,7 +56,7 @@ class MegaMenu {
   }
 
   toggleSmallMegaMenu(e) {
-    if (e.target.nodeName === 'LI' && !isWideScreen() && isEscape(e)) {
+    if (!isWideScreen() && isEscape(e)) {
       this.hideMegaMenu();
       this.openControl.focus();
     }
