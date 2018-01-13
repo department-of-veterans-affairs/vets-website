@@ -41,6 +41,7 @@ const entryFiles = {
   rx: './src/js/rx/rx-entry.jsx',
   verify: './src/js/login/verify-entry.jsx',
   'chapter36-vre': './src/js/vre/chapter36/chapter36-entry.jsx',
+  'vic-v2': './src/js/vic-v2/veteran-id-card-entry.jsx',
   style: './src/sass/style.scss'
 };
 
