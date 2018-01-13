@@ -1,14 +1,17 @@
 const E2eHelpers = require('../../e2e/e2e-helpers');
 const Timeouts = require('../../e2e/timeouts.js');
 
-const modalLink = 'button[data-show="#modal-crisisline"]';
+const overlay = '#modal-crisisline';
 const firstModalItem = 'a[href="tel:18002738255"]';
 const closeControl = '.va-crisis-panel.va-modal-inner button';
+const firstOpenControl = 'button.va-crisis-line-button.va-overlay-trigger';
+const secondOpenControl = 'button.va-overlay-trigger.usa-button.usa-button-secondary';
+const thirdOpenControl = 'button.va-overlay-trigger.usa-button-unstyled.va-footer-vcl-trigger';
 const lastModalItem = 'a[href="https://www.veteranscrisisline.net/"]';
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const { TAB, SHIFT } = client.Keys;
+    const { ENTER, ESCAPE, TAB, SHIFT } = client.Keys;
 
     client
       .url(`${E2eHelpers.baseUrl}/`);
@@ -17,7 +20,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client
       .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible(modalLink, Timeouts.slow)
+      .waitForElementVisible(firstOpenControl, Timeouts.slow)
       .axeCheck('.main');
 
 
@@ -27,7 +30,8 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Open modal
     client
-      .click(modalLink)
+      .focusOn(firstOpenControl)
+      .keys(ENTER)
       .assert.isActiveElement(firstModalItem);
 
     // Trap backward traversal
@@ -39,6 +43,36 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .keys(TAB)
       .assert.isActiveElement(closeControl);
+
+    // Escape modal 
+    client
+      .keys(ESCAPE)
+      .assert.cssClassNotPresent(overlay, 'va-overlay--open')
+      .assert.cssClassNotPresent('body', 'va-pos-fixed');
+
+    // Return focus to appropriate open controls
+    client
+      .assert.isActiveElement(firstOpenControl);
+
+    client
+      .waitForElementVisible(secondOpenControl, Timeouts.slow)
+      .focusOn(secondOpenControl)
+      .keys(ENTER)
+      .assert.isActiveElement(firstModalItem);
+
+    client
+      .keys(ESCAPE)
+      .assert.isActiveElement(secondOpenControl);
+
+    client
+      .waitForElementVisible(thirdOpenControl, Timeouts.slow)
+      .focusOn(thirdOpenControl)
+      .keys(ENTER)
+      .assert.isActiveElement(firstModalItem);
+
+    client
+      .keys(ESCAPE)
+      .assert.isActiveElement(thirdOpenControl);
 
     client.end();
   });

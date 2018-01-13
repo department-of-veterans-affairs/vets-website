@@ -1,14 +1,22 @@
-import { isTab, isReverseTab, getTabbableElements } from './accessibility-helpers';
+import { isEscape, isTab, isReverseTab, getTabbableElements } from './accessibility-helpers';
 
 /*
- * Creates function that captures Veterans Crisis Line modal focus.
+ * Creates function that captures/releases Veterans Crisis Line modal focus.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('modal-crisisline');
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
   const tabbableElements = getTabbableElements(modal);
+  let openControl;
   const closeControl = modal.getElementsByTagName('button')[0];
   const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
+
+  function setOpenControl(e) {
+    if (e.target.classList.contains('va-overlay-trigger')) {
+      openControl = e.target;
+    }
+  }
 
   function captureFocus(e) {
     if (e.target === closeControl) {
@@ -25,6 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function closeModal(e) {
+    if (isEscape(e)) {
+      overlay.classList.remove('va-overlay--open');
+      document.body.classList.remove('va-pos-fixed');
+      openControl.focus();
+    }
+  }
+
+  document.body.addEventListener('click', setOpenControl);
+  modal.addEventListener('keydown', closeModal);
   closeControl.addEventListener('keydown', captureFocus);
   lastTabbableElement.addEventListener('keydown', captureFocus);
 });
