@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
   const tabbableElements = getTabbableElements(modal);
   let openControl;
-  const closeControl = modal.getElementsByTagName('button')[0];
+  const closeControl = tabbableElements[0];
   const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
 
   function setOpenControl(e) {
