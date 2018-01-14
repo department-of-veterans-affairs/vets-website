@@ -55,7 +55,6 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.isActiveElement(firstOpenControl);
 
     client
-      .waitForElementVisible(secondOpenControl, Timeouts.slow)
       .focusOn(secondOpenControl)
       .keys(ENTER)
       .assert.isActiveElement(firstModalItem);
@@ -65,7 +64,6 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.isActiveElement(secondOpenControl);
 
     client
-      .waitForElementVisible(thirdOpenControl, Timeouts.slow)
       .focusOn(thirdOpenControl)
       .keys(ENTER)
       .assert.isActiveElement(firstModalItem);
