@@ -9,7 +9,7 @@ describe('<AppealHeader/>', () => {
     lastUpdated: '2018-01-03T09:30:15-05:00',
   };
 
-  const formattedUpdateTime = 'Up to date as of January 03, 2018, at 8:30 a.m. (ET)';
+  const formattedDate = 'Up to date as of January 03, 2018, at 9:30 a.m. (ET)';
 
   it('renders', () => {
     const wrapper = shallow(<AppealHeader {...defaultProps}/>);
@@ -23,6 +23,6 @@ describe('<AppealHeader/>', () => {
 
   it('renders a last updated <p/> with a formatted date and time', () => {
     const wrapper = shallow(<AppealHeader {...defaultProps}/>);
-    expect(wrapper.find('p').text()).to.equal(formattedUpdateTime);
+    expect(wrapper.find('p').text()).to.equal(formattedDate);
   });
 });

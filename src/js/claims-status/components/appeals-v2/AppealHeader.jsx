@@ -12,7 +12,10 @@ const AppealHeader = ({ heading, lastUpdated }) => {
     },
   });
 
-  const formattedDateTime = moment(lastUpdated).format('MMMM DD, YYYY, [at] h:mm a [(ET)]');
+  const formattedDateTime = moment(lastUpdated)
+    .utc() // ignore user's own UTC offset (timezone)
+    .utcOffset(lastUpdated) // display lastUpdated's own timezone to everyone
+    .format('MMMM DD, YYYY, [at] h:mm a [(ET)]');
   const description = `Up to date as of ${formattedDateTime}`;
 
   return (
