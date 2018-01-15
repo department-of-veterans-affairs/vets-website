@@ -3,6 +3,7 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PhotoField from '../components/PhotoField';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
@@ -83,6 +84,23 @@ const formConfig = {
     documentUpload: {
       title: 'Document Upload',
       pages: {
+        photoUpload: {
+          path: 'documents/photo',
+          title: 'Photo upload',
+          uiSchema: {
+            photo: {
+              'ui:field': PhotoField
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              photo: {
+                type: 'any'
+              }
+            }
+          }
+        }
       }
     }
   }
