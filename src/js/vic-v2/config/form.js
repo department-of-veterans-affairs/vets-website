@@ -1,14 +1,28 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 // import { transform } from '../helpers';
-// import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
+import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
+import ssnUI from '../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import { genderLabels } from '../../common/utils/labels';
 
-// const { } = fullSchemaVIC.properties;
-//
-// const { } = fullSchemaVIC.definitions;
+
+const {
+  veteranDateOfBirth,
+  veteranSocialSecurityNumber,
+  gender,
+  veteranFullName
+} = fullSchemaVIC.properties;
+
+const {
+  fullName,
+  ssn,
+  date
+} = fullSchemaVIC.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -24,11 +38,46 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for a veteran id card.'
   },
   title: 'Apply for veteran id card',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    ssn,
+    fullName,
+    date
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
+        applicantInformation: {
+          path: 'applicant/information',
+          uiSchema: {
+            veteranFullName: fullNameUI,
+            veteranSocialSecurityNumber: ssnUI,
+            gender: {
+              'ui:widget': 'radio',
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
+              }
+            },
+            veteranDateOfBirth: _.assign(currentOrPastDateUI('Date of birth'),
+              {
+                'ui:errorMessages': {
+                  pattern: 'Please provide a valid date',
+                  futureDate: 'Please provide a valid date'
+                }
+              }
+            ),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName,
+              veteranSocialSecurityNumber,
+              gender,
+              veteranDateOfBirth
+            }
+          }
+        }
       }
     },
     contactInformation: {
