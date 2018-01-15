@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 // import { transform } from '../helpers';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
@@ -14,7 +12,6 @@ import { genderLabels } from '../../common/utils/labels';
 const {
   veteranDateOfBirth,
   veteranSocialSecurityNumber,
-  gender,
   veteranFullName
 } = fullSchemaVIC.properties;
 
@@ -49,31 +46,29 @@ const formConfig = {
       pages: {
         applicantInformation: {
           path: 'applicant/information',
+          title: 'Applicant information',
           uiSchema: {
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: ssnUI,
-            gender: {
+            'view:gender': {
               'ui:widget': 'radio',
               'ui:title': 'Gender',
               'ui:options': {
                 labels: genderLabels
               }
             },
-            veteranDateOfBirth: _.assign(currentOrPastDateUI('Date of birth'),
-              {
-                'ui:errorMessages': {
-                  pattern: 'Please provide a valid date',
-                  futureDate: 'Please provide a valid date'
-                }
-              }
-            ),
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
           },
           schema: {
             type: 'object',
+            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
             properties: {
               veteranFullName,
               veteranSocialSecurityNumber,
-              gender,
+              'view:gender': {
+                type: 'string',
+                'enum': ['F', 'M']
+              },
               veteranDateOfBirth
             }
           }
