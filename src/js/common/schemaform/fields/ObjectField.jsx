@@ -12,7 +12,6 @@ import {
 } from 'react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../../components/form-elements/ExpandingGroup';
-import PrefillMessage from '../save-in-progress/PrefillMessage';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -54,7 +53,6 @@ class ObjectField extends React.Component {
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
-    this.showPrefill = this.showPrefill.bind(this);
     this.SchemaField = pureWithDeepEquals(this.props.registry.fields.SchemaField);
     this.orderedProperties = this.orderAndFilterProperties(props.schema, props.uiSchema);
   }
@@ -118,15 +116,6 @@ class ObjectField extends React.Component {
     return _.values(groupedProperties);
   }
 
-  showPrefill(uiOptions, formContext) {
-    const isProduction = __BUILDTYPE__ === 'production';
-    const atMilitaryServiceInfo = formContext.pageTitle === 'Service Periods';
-    if (isProduction) {
-      return !!(uiOptions.showPrefillMessage && formContext.prefilled && !atMilitaryServiceInfo);
-    }
-    return !!(uiOptions.showPrefillMessage && formContext.prefilled);
-  }
-
   isRequired(name) {
     const { schema } = this.props;
     const schemaRequired = Array.isArray(schema.required) &&
@@ -157,7 +146,6 @@ class ObjectField extends React.Component {
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
     const uiOptions = uiSchema['ui:options'] || {};
-    const prefillMessage = uiOptions.prefillMessage === 'military' ? 'We’ve prefilled some of your military service details from your account. If you need to correct anything, you can edit the form fields below.' : 'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below.';
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
@@ -221,7 +209,6 @@ class ObjectField extends React.Component {
             {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
             {!textDescription && !DescriptionField && description}
           </div>}
-          {this.showPrefill(uiOptions, formContext) && <PrefillMessage message={prefillMessage}/>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;
