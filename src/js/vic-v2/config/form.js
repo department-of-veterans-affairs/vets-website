@@ -5,6 +5,7 @@
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PhotoField from '../components/PhotoField';
 
 // const { } = fullSchemaVIC.properties;
 //
@@ -39,6 +40,23 @@ const formConfig = {
     documentUpload: {
       title: 'Document Upload',
       pages: {
+        photoUpload: {
+          path: 'documents/photo',
+          title: 'Photo upload',
+          uiSchema: {
+            photo: {
+              'ui:field': PhotoField
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              photo: {
+                type: 'any'
+              }
+            }
+          }
+        }
       }
     }
   }
