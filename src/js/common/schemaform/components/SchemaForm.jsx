@@ -56,7 +56,7 @@ class SchemaForm extends React.Component {
       this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
     } else if (!!newProps.reviewMode !== !!this.state.formContext.reviewMode) {
       this.setState(this.getEmptyState(newProps));
-    } else if (!!newProps.formContext !== this.props.formContext) {
+    } else if (newProps.formContext !== this.props.formContext) {
       this.setState(this.getEmptyState(newProps));
     }
   }
