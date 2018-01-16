@@ -15,7 +15,7 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 
 <div class="feature" markdown=“1”>
 
-### Can I get VA health care benefits?
+### Can I get a Veteran ID Card?
 
 **You may be eligible for a Veteran ID Card if you:**
 - Served on active duty, **and**
