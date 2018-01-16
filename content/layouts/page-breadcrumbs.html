@@ -1,5 +1,9 @@
 {% include "content/includes/header.html" %}
 
+{% if gibsAlert %}
+  {% include "content/includes/gibs-down.html" %}
+{% endif %}
+
 {% include "content/includes/breadcrumbs.html" %}
 
 <div id="content" class="interior {{ id }}">

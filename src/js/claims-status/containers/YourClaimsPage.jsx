@@ -234,7 +234,7 @@ class YourClaimsPage extends React.Component {
               id="consolidated-claims"
               contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <FeaturesWarning/>
             <AskVAQuestions/>
           </div>

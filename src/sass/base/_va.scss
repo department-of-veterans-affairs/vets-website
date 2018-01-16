@@ -869,31 +869,6 @@ li {
   }
 }
 
-// Feedback widget
-
-.feedback-widget {
-  text-align: center;
-  overflow: hidden;
-
-  &:hover {
-    color: $color-gold;
-  }
-
-  @include media($medium-large-screen) {
-    text-align: left;
-  }
-
-  .icon {
-    background: url("/img/design/sprites/sprite.png") no-repeat -43px 0;
-    background-size: 215px 72px;
-    display: inline-block;
-    width: 19px;
-    height: 17px;
-    vertical-align: middle;
-    margin: 0 .5em 0 0;
-  }
-}
-
 // Search
 
 .search-button {
