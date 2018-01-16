@@ -5,7 +5,7 @@ const NextEvent = ({ title, description, durationText, cardDescription, showSepa
   return (
     <li className="next-event">
       <h3>{title}</h3>
-      <div>{description}</div>
+      <div className="event-description">{description}</div>
       <div className="card information">
         <span className="number">{durationText}</span>
         <span className="description">{cardDescription}</span>
