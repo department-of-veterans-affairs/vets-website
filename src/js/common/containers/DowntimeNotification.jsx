@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import objectValues from 'lodash/fp/values';
 import { connect } from 'react-redux';
 import { getScheduledDowntime } from '../actions';
 import AlertBox from '../components/AlertBox';
@@ -37,7 +38,7 @@ class DowntimeNotification extends React.Component {
     appTitle: PropTypes.string,
     children: PropTypes.node,
     content: PropTypes.node,
-    dependencies: PropTypes.arrayOf(PropTypes.oneOf(Object.values(services))).isRequired,
+    dependencies: PropTypes.arrayOf(PropTypes.oneOf(objectValues(services))).isRequired,
     determineStatus: PropTypes.func,
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
