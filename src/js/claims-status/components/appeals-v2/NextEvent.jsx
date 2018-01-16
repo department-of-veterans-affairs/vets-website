@@ -5,22 +5,19 @@ const NextEvent = ({ title, description, durationText, cardDescription, showSepa
   return (
     <li className="next-event">
       <h3>{title}</h3>
-      <p>{description}</p>
+      <div>{description}</div>
       <div className="card information">
         <span className="number">{durationText}</span>
         <span className="description">{cardDescription}</span>
       </div>
-      { showSeparator && <span className="sidelines">or</span>}
+      {showSeparator && <span className="sidelines">or</span>}
     </li>
   );
 };
 
 NextEvent.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  description: PropTypes.element.isRequired,
   durationText: PropTypes.string.isRequired,
   cardDescription: PropTypes.string.isRequired,
   showSeparator: PropTypes.bool.isRequired
