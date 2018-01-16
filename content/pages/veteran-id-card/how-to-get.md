@@ -83,7 +83,7 @@ You’ll need to apply online.
 No. But signing in can make applying easier—and help you get a decision faster.
 
 **When you sign in to Vets.gov and verify your identity, you’ll:**
--	**Save time** because we may be able to prefill your application** for you
+-	**Save time** because we may be able to prefill your application for you
 -	**Be able to save your in-progress application** and come back later to finish filling it out
 -	**Get your card sooner** because we can confirm your Veteran status more quickly
 
