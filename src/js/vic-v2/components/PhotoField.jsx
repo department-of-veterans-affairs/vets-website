@@ -42,43 +42,35 @@ export default class PhotoField extends React.Component {
     });
   }
 
-  moveUp = (e) => {
-    e.preventDefault();
+  moveUp = () => {
     this.refs.cropper.move(0, 5);
   }
 
-  moveDown = (e) => {
-    e.preventDefault();
+  moveDown = () => {
     this.refs.cropper.move(0, -5);
   }
 
-  moveRight = (e) => {
-    e.preventDefault();
+  moveRight = () => {
     this.refs.cropper.move(5, 0);
   }
 
-  moveLeft = (e) => {
-    e.preventDefault();
+  moveLeft = () => {
     this.refs.cropper.move(-5, 0);
   }
 
   zoom = (e) => {
-    e.preventDefault();
     this.refs.cropper.zoomTo(e.target.value);
   }
 
-  zoomIn = (e) => {
-    e.preventDefault();
+  zoomIn = () => {
     this.refs.cropper.zoom(0.1);
   }
 
-  zoomOut = (e) => {
-    e.preventDefault();
+  zoomOut = () => {
     this.refs.cropper.zoom(-0.1);
   }
 
-  cropImage = (e) => {
-    e.preventDefault();
+  cropImage = () => {
     const cropResult = this.refs.cropper.getCroppedCanvas().toDataURL();
     this.setState({ cropResult });
   }
@@ -113,25 +105,25 @@ export default class PhotoField extends React.Component {
             aria-valuemax="10"
             aria-valuenow={this.state.zoomValue}
             onInput={this.zoom}/>
-          <button onClick={this.zoomIn} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.zoomIn} style={{ 'float': 'right' }}>
             Move In
           </button>
-          <button onClick={this.zoomOut} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.zoomOut} style={{ 'float': 'right' }}>
             Move Out
           </button>
-          <button onClick={this.moveUp} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.moveUp} style={{ 'float': 'right' }}>
             Up
           </button>
-          <button onClick={this.moveDown} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.moveDown} style={{ 'float': 'right' }}>
             Down
           </button>
-          <button onClick={this.moveRight} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.moveRight} style={{ 'float': 'right' }}>
             Right
           </button>
-          <button onClick={this.moveLeft} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.moveLeft} style={{ 'float': 'right' }}>
             Left
           </button>
-          <button onClick={this.onDone} style={{ 'float': 'right' }}>
+          <button type="button" onClick={this.onDone} style={{ 'float': 'right' }}>
              I'm done
           </button>
         </div>
