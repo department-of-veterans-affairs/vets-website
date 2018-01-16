@@ -31,10 +31,10 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">Will my Veteran ID card replace my other military ID cards?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">Will my Veteran ID Card replace my other military ID cards?</button>
 <div id="replace" class="usa-accordion-content">
 
-No. Your Veteran ID card won’t replace your Veteran Health Identification Card, Common Access Card, or Department of Defense Uniformed Services or retiree ID Card.
+No. Your Veteran ID Card won’t replace your Veteran Health Identification Card, Common Access Card, or Department of Defense Uniformed Services or retiree ID Card.
 
 You can’t use your Veteran ID Card to prove your eligibility for any federal benefits or to access military installations.
 
@@ -51,7 +51,7 @@ Yes.
 - A Department of Defense (DoD) Identification Card—either a Common Access Card (CAC) or Uniformed Services ID Card, **or**
 - A state-issued ID (driver’s license) with a Veteran designation or a state-issued Veteran ID Card. All 50 states and the District of Columbia offer one of these options.
 
-If you already have one of these, you don’t need a VIC, but you can still apply for it if you’d like.
+If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
 
 </div>
 </li>
@@ -70,10 +70,10 @@ You’ll need to apply online.
 - A current color photo of yourself. <br>
 <br>
 **The photo has to follow all the standards listed below. It must:**
-  - Show a full front view of your face and neck (with no hat, head covering, or head phones covering or casting shadows on your hairline or face), and
-  - Be cropped from your shoulders up (much like a passport photo), and
-  - Show you with your eyes open and a neutral expression, and
-  - Be a square size and have a white or plain-color background (with no scenery or other people in the photo)
+  - Show a full front view of your face and neck (with no hat, head covering, or head phones covering or casting shadows on your hairline or face), **and**
+  - Be cropped from your shoulders up (much like a passport photo), **and**
+  - Show you with your eyes open and a neutral expression, **and**
+  - Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
   - Be uploaded as a .jpeg, .png, .bmp, or .tiff file
   
  <a class="usa-button-primary va-button-primary" href="/veteran-id-card/index/">Apply for Your VIC</a>
