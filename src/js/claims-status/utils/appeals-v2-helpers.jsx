@@ -404,7 +404,7 @@ export function getNextEvents(currentStatus) {
                     decision
                 </li>
               </ul>
-              <div><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</div>
+              <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
             </div>
           ),
           durationText: '10 months',
