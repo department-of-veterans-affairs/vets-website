@@ -35,6 +35,7 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 <div id="replace" class="usa-accordion-content">
 
 No. Your Veteran ID card won’t replace your Veteran Health Identification Card, Common Access Card, or Department of Defense Uniformed Services or retiree ID Card.
+
 You can’t use your Veteran ID Card to prove your eligibility for any federal benefits or to access military installations.
 
 </div>
@@ -67,6 +68,7 @@ You’ll need to apply online.
 - Your Social Security number
 - A digital copy (PDF) of your DD214 or other military discharge papers 
 - A current color photo of yourself. <br>
+<br>
 **The photo has to follow all the standards listed below. It must:**
   - Show a full front view of your face and neck (with no hat, head covering, or head phones covering or casting shadows on your hairline or face), and
   - Be cropped from your shoulders up (much like a passport photo), and
@@ -74,7 +76,7 @@ You’ll need to apply online.
   - Be a square size and have a white or plain-color background (with no scenery or other people in the photo)
   - Be uploaded as a .jpeg, .png, .bmp, or .tiff file
   
- <a class=“usa-button-primary va-button-primary” href=“/veteran-id-card/index/”>Apply for Your VIC</a>
+ <a class="usa-button-primary va-button-primary" href="/veteran-id-card/index/">Apply for Your VIC</a>
 
 ### Do I need to sign in to Vets.gov to apply for a Veteran ID Card?
 
@@ -82,17 +84,19 @@ No. But signing in can make applying easier—and help you get a decision faster
 
 **When you sign in to Vets.gov and verify your identity, you’ll:**
 -	**Save time** because we may be able to prefill your application** for you
--	**Be able to save your in-progress application and come back later to finish filling it out
+-	**Be able to save your in-progress application** and come back later to finish filling it out
 -	**Get your card sooner** because we can confirm your Veteran status more quickly
--	**Get a temporary card** you can print out and start using right away
 
 You’ll also be able to use more advanced Vets.gov tools to manage your benefits and services—like tracking your VA claims and appeals, downloading your full VA health record, or tracking how much of your Post-9/11 GI Bill benefits you’ve used.
 
 #### A note on verifying your identity	
 
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft. 
-We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
-[Sign in to Vets.gov](LINK TO SIGN IN).<br> 
+
+We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. 
+
+If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
+[Sign in to Vets.gov](/profile/).<br> 
 [Learn more about signing in to Vets.gov](https://www.vets.gov/faq/).
 
 <br>
