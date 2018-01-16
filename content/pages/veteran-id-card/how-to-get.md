@@ -87,8 +87,6 @@ No. But signing in can make applying easier—and help you get a decision faster
 -	**Be able to save your in-progress application** and come back later to finish filling it out
 -	**Get your card sooner** because we can confirm your Veteran status more quickly
 
-You’ll also be able to use more advanced Vets.gov tools to manage your benefits and services—like tracking your VA claims and appeals, downloading your full VA health record, or tracking how much of your Post-9/11 GI Bill benefits you’ve used.
-
 #### A note on verifying your identity	
 
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft. 
@@ -96,7 +94,6 @@ When you sign in to Vets.gov, we need to verify your identity to make sure you�
 We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. 
 
 If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
-[Sign in to Vets.gov](/profile/).<br> 
 [Learn more about signing in to Vets.gov](https://www.vets.gov/faq/).
 
 <br>
