@@ -74,7 +74,7 @@ You’ll need to apply online.
   - Be a square size and have a white or plain-color background (with no scenery or other people in the photo)
   - Be uploaded as a .jpeg, .png, .bmp, or .tiff file
   
- <a class=“usa-button-primary va-button-primary” href=“paste URL here”>Apply for Your VIC</a>
+ <a class=“usa-button-primary va-button-primary” href=“/veteran-id-card/index/”>Apply for Your VIC</a>
 
 ### Do I need to sign in to Vets.gov to apply for a Veteran ID Card?
 
@@ -93,8 +93,11 @@ You’ll also be able to use more advanced Vets.gov tools to manage your benefit
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft. 
 We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
 [Sign in to Vets.gov](LINK TO SIGN IN).<br> 
-[Learn more about signing in to Vets.gov](LINK TO https://www.vets.gov/faq/).
+[Learn more about signing in to Vets.gov](https://www.vets.gov/faq/).
 
+<br>
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
 
 
