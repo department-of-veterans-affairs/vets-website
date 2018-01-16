@@ -419,7 +419,7 @@ export function getNextEvents(currentStatus) {
 /**
  * 
  * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
- * @returns {object} containing dynamically-generated title & description properties
+ * @returns {HTMLElement} containing dynamically-generated title & description properties
  */
 export function getAlertContent(alert) {
   const { type, details } = alert;
@@ -427,11 +427,13 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.waitingOnAction:
       return {
         title: 'Your appeal is waiting on action by your representative',
-        description: `Your appeal is near the front of the line, but it is not
+        description: (
+          <p>Your appeal is near the front of the line, but it is not
           ready to go to a judge. It is currently waiting on your
-          representative, the ${details.representative}, to complete an
+          representative, the {details.representative}, to complete an
           informal hearing presentation (IHP). Please contact your
-          representative for more information.`,
+          representative for more information.</p>
+        ),
         cssClass: 'usa-alert-warning',
         type
       };
@@ -457,7 +459,7 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.hearingScheduled:
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
-        description: '',
+        description: null,
         cssClass: 'usa-alert-info',
         type,
       };
@@ -483,7 +485,7 @@ export function getAlertContent(alert) {
     default:
       return {
         title: '',
-        description: '',
+        description: null,
         cssClass: '',
         type,
       };
