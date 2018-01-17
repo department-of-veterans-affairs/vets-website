@@ -63,7 +63,7 @@ You’ll need to apply online.
 
 **When you apply, be sure to have these on hand:**
 - Your Social Security number
-- A digital copy of your DD214 or other military discharge papers to upload 
+- A digital copy (PDF) of your DD214 or other military discharge papers
 - A current color photo of yourself. <br>
 <br>
 **The photo has to follow all the standards listed below. It must:**
