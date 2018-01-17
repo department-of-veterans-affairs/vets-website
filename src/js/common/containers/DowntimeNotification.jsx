@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import objectValues from 'lodash/fp/values';
-import isEqual from 'lodash/fp/isEqual';
 import { connect } from 'react-redux';
 import { getScheduledDowntime } from '../actions';
 import AlertBox from '../components/AlertBox';
@@ -41,6 +40,7 @@ class DowntimeNotification extends React.Component {
     content: PropTypes.node,
     dependencies: PropTypes.arrayOf(PropTypes.oneOf(objectValues(services))).isRequired,
     determineStatus: PropTypes.func,
+    getScheduledDowntime: PropTypes.func.isRequired,
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
     render: PropTypes.func,
@@ -63,33 +63,34 @@ class DowntimeNotification extends React.Component {
     super(props);
     this.state = {
       modalDismissed: false,
-      downtimeMap: null
+      cache: {}
     };
   }
 
   componentWillMount() {
-    if (!this.props.isReady) this.props.getScheduledDowntime();
+    this.props.getScheduledDowntime();
   }
 
   // This is here just for caching the result of calculateDowntime, so that it isn't run every time a prop changes.
+  // Currently, this component should only do its calculations once, because it would be weird if in the middle of filling
+  // out a form a modal or alert appears alerting them of downtime, or if it just shuts down the app because we entered
+  // scheduled downtime.
   componentWillReceiveProps(newProps) {
     const firstLoad = newProps.isReady && !this.props.isReady;
-    const dependenciesChanged = !isEqual(newProps.dependencies, this.props.dependencies);
-    if (firstLoad || dependenciesChanged) {
+    if (firstLoad) {
       const downtimeMap = this.calculateDowntime(newProps.dependencies, newProps.scheduledDowntime);
-      this.setState({ downtimeMap });
+      const status = this.determineStatus(downtimeMap);
+      const downtimeWindow = this.getDowntimeWindow(downtimeMap[status]);
+      const cache = { downtimeMap, status, downtimeWindow };
+      this.setState({ cache });
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (!nextProps.isReady) return false;
-    if (!this.props.isReady && nextProps.isReady) return true;
+    if (nextProps.isReady && !this.props.isReady) return true;
 
-    const status = this.determineStatus(nextState.downtimeMap);
-    if (status === serviceStatus.ok) return true;
-
-    const oldStatus =  this.determineStatus(this.state.downtimeMap);
-    return status !== oldStatus;
+    return nextState.cache.status !== serviceStatus.down;
   }
 
   getStatusForDowntime(downtime, current = moment(), warning = moment().add(1, 'hour')) {
@@ -203,14 +204,12 @@ class DowntimeNotification extends React.Component {
   render() {
     if (!this.props.isReady) return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
 
-    const downtimeMap =  this.state.downtimeMap;
-    const derivedStatus = this.determineStatus(downtimeMap);
-    const downtimeWindow = this.getDowntimeWindow(downtimeMap[derivedStatus]);
+    const { downtimeMap, status, downtimeWindow } = this.state.cache;
     const children = this.props.children || this.props.content;
 
-    if (this.props.render) return this.props.render(derivedStatus, downtimeWindow, downtimeMap, children);
+    if (this.props.render) return this.props.render(status, downtimeWindow, downtimeMap, children);
 
-    switch (derivedStatus) {
+    switch (status) {
       case serviceStatus.down:
         return this.renderStatusDown(downtimeWindow);
 
@@ -226,7 +225,8 @@ class DowntimeNotification extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isReady: state.scheduledDowntime.isReady,
+    // The presenation varies based on the user's authentication status, so we wait for the profile.loading flag as well.
+    isReady: !state.user.profile.loading && state.scheduledDowntime.isReady,
     scheduledDowntime: state.scheduledDowntime.values,
     userIsAuthenticated: state.user.login.currentlyLoggedIn
   };
