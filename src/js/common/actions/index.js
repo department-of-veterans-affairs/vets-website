@@ -13,8 +13,10 @@ function receiveScheduledDowntime(dispatch, data) {
 export function getScheduledDowntime() {
   return (dispatch) => {
     dispatch({ type: RETREIVE_SCHEDULED_DOWNTIME });
-    return apiRequest('/maintenance_windows/', undefined, (json) => {
-      receiveScheduledDowntime(dispatch, json.data);
-    });
+    return apiRequest(
+      '/maintenance_windows/',
+      undefined,
+      (json) => { receiveScheduledDowntime(dispatch, json.data); },
+      () => { receiveScheduledDowntime(dispatch, []); });
   };
 }
