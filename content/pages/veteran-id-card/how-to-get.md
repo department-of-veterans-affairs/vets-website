@@ -38,7 +38,7 @@ Also, you can’t use your Veteran ID Card to prove your eligibility for any fed
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get business discounts?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get discounts at businesses?</button>
 <div id="instead" class="usa-accordion-content">
 
 Yes.
