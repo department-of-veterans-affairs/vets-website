@@ -36,12 +36,12 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 
 No. Your Veteran ID Card won’t replace your Veteran Health Identification Card, Common Access Card, or Department of Defense Uniformed Services or retiree ID Card.
 
-You can’t use your Veteran ID Card to prove your eligibility for any federal benefits or to access military installations.
+Also, you can’t use your Veteran ID Card to prove your eligibility for any federal benefits or to access military installations.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get these discounts?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get business discounts?</button>
 <div id="instead" class="usa-accordion-content">
 
 Yes.
@@ -66,11 +66,11 @@ You’ll need to apply online.
 
 **When you apply, be sure to have these on hand:**
 - Your Social Security number
-- A digital copy (PDF) of your DD214 or other military discharge papers 
+- A digital copy of your DD214 or other military discharge papers to upload 
 - A current color photo of yourself. <br>
 <br>
 **The photo has to follow all the standards listed below. It must:**
-  - Show a full front view of your face and neck (with no hat, head covering, or head phones covering or casting shadows on your hairline or face), **and**
+  - Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
   - Be cropped from your shoulders up (much like a passport photo), **and**
   - Show you with your eyes open and a neutral expression, **and**
   - Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
@@ -94,7 +94,7 @@ When you sign in to Vets.gov, we need to verify your identity to make sure you�
 We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. 
 
 If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
-[Learn more about signing in to Vets.gov](https://www.vets.gov/faq/).
+[Learn more about signing in to Vets.gov](/faq/).
 
 <br>
 
