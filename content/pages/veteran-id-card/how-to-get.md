@@ -31,7 +31,7 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">Will my Veteran ID Card replace my other military ID cards?</button>
 <div id="replace" class="usa-accordion-content">
 
-No. Your Veteran ID Card won’t replace your Veteran Health Identification Card, Common Access Card, or Department of Defense Uniformed Services or retiree ID Card.
+No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
 
 Also, you can’t use your Veteran ID Card to prove your eligibility for any federal benefits or to access military installations.
 
