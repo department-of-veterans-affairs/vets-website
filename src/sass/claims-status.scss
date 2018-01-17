@@ -948,10 +948,15 @@ h1:focus {
   }
 }
 
+
+$end-of-docket-width: 4px;
+$docket-bar-width: calc(100% - #{$end-of-docket-width});
+
 .docket-container {
   // This is slightly darker than the cards above it
   background-color: $color-gray-light-alt;
   padding: 16px;
+  margin: 3em 0px;
 
   p {
     margin: 0px;
@@ -973,10 +978,34 @@ h1:focus {
     }
   }
 
+  .marker-container {
+    // Same width as .docket-bar so we can more easily line the marker
+    //  up with .docket-bar .completed
+    width: $docket-bar-width;
+    margin-bottom: -16px;
+
+    .marker-spacer {
+      display: inline-block;
+    }
+
+    .marker {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      width: 9rem;
+      margin-left: -4.5rem;
+
+      p {
+        font-weight: bold;
+        color: $color-primary;
+      }
+    }
+  }
+
   .docket-bar {
     display: inline-block;
     // 100% - width of .end-of-docket
-    width: calc(100% - 4px);
+    width: $docket-bar-width;
     height: 40px;
     border: 1px solid $color-gray-light;
     // abuts the .end-of-docket
@@ -993,7 +1022,7 @@ h1:focus {
     display: inline-block;
     background-color: $color-gold;
     height: 64px;
-    width: 4px;
+    width: $end-of-docket-width;
   }
 
   .front-of-docket-text {
