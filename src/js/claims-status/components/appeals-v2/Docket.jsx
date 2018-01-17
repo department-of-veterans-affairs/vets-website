@@ -2,7 +2,7 @@ import React from 'react';
 
 class Docket extends React.Component {
   render() {
-    const { ahead, ready } = this.props;
+    const { ahead, total } = this.props;
 
     // TODO: Assess how accessible this is
     return (
@@ -10,7 +10,7 @@ class Docket extends React.Component {
         <span className="appeals-ahead">{ahead.toLocaleString()}</span>
         <p>Appeals ahead of you</p>
         <div className="docket-bar">
-          <div className="completed" style={{ width: `${ahead / ready}%` }}/>
+          <div className="completed" style={{ width: `${(ahead / total) * 100}%` }}/>
         </div>
       </div>
     );

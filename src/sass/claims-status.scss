@@ -975,7 +975,8 @@ h1:focus {
     background-color: $color-white;
 
     .completed {
-      color: $color-primary-darker;
+      background-color: $color-primary-darker;
+      height: 100%;
     }
   }
 }
