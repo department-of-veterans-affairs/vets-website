@@ -948,3 +948,34 @@ h1:focus {
   }
 }
 
+.docket-container {
+  // This is slightly darker than the cards above it
+  background-color: $color-gray-light-alt;
+  padding: 16px;
+
+  span.appeals-ahead {
+    display: block;
+    font-family: Source Sans Pro, sans serif;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $color-gray-light;
+    width: 80%;
+    max-width: 24rem;
+
+    & + p {
+      margin-top: 6px;
+    }
+  }
+
+  .docket-bar {
+    height: 40px;
+    border: 1px solid $color-gray-light;
+    background-color: $color-white;
+
+    .completed {
+      color: $color-primary-darker;
+    }
+  }
+}
