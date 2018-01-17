@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
@@ -47,6 +48,7 @@ import { schema as addressSchema, uiSchema as addressUI } from '../../common/sch
 
 import { createDependentSchema, uiSchema as dependentUI, createDependentIncomeSchema, dependentIncomeUiSchema } from '../definitions/dependent';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import dateUI from '../../common/schemaform/definitions/date';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
@@ -378,11 +380,14 @@ const formConfig = {
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
             lastEntryDate: currentOrPastDateUI('Service start date'),
-            lastDischargeDate: currentOrPastDateUI('Service end date'),
+            lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
+              // TODO: Use a constant instead of a magic string
+              'ui:required': (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
               'ui:options': {
-                labels: dischargeTypeLabels
+                labels: dischargeTypeLabels,
+                hideIf: (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
               }
             },
             'ui:options': {
@@ -404,8 +409,7 @@ const formConfig = {
             required: [
               'lastServiceBranch',
               'lastEntryDate',
-              'lastDischargeDate',
-              'dischargeType'
+              'lastDischargeDate'
             ],
           }
         },
