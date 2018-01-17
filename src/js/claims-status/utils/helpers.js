@@ -252,6 +252,7 @@ export const mockData = {
       id: '7387389',
       type: 'appealSeries',
       attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
@@ -318,6 +319,7 @@ export const mockData = {
       id: '7387390',
       type: 'appealSeries',
       attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
@@ -394,6 +396,7 @@ export const mockData = {
       id: '7387391',
       type: 'appealSeries',
       attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',

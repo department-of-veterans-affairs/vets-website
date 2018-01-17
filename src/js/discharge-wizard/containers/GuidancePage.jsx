@@ -364,7 +364,7 @@ class GuidancePage extends React.Component {
     const prevAppType = this.props.formValues['7_courtMartial'];
 
     const alertContent = (
-      <p>Note: Because you answered that you're not sure if your discharge was the outcome of a general court-martial, it's important for you to double-check your military records. The results below are for Veterans who have discharges that are administrative or the result of a special or summary court-martial. If your discharge was the outcome of a general court-martial, you may need to send your application to a different board. You can find out the correct board by completing the questions again with the information from your records.</p>
+      <p>Because you answered that you're not sure if your discharge was the outcome of a general court-martial, it's important for you to check your military records. The results below are for Veterans who have discharges that are administrative or the result of a special or summary court-martial.</p>
     );
 
     return (
@@ -380,7 +380,7 @@ class GuidancePage extends React.Component {
     const reason = this.props.formValues['4_reason'];
 
     const alertContent = (
-      <p>You answered that you weren't sure where you applied for an upgrade before. The instructions below are for Veterans who had a successful upgrade application reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB). For more reliable information, please review your records to find out which board you sent your earlier application to, and complete the questions again.</p>
+      <p>Because you answered that you weren't sure where you applied for an upgrade before, it's important for you to check your records. The instructions below are for Veterans who had a successful upgrade application reviewed by the {branchOfService(this.props.formValues['1_branchOfService'])} Discharge Review Board (DRB).</p>
     );
 
     return (

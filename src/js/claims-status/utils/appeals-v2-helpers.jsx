@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import _ from 'lodash';
 
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
@@ -17,6 +18,16 @@ export const ALERT_TYPES = {
   hearingScheduled: 'hearing_scheduled',
   bvaDecisionPending: 'bva_decision_pending'
 };
+
+/**
+ * Finds an appeal from the Redux store with ID matching arg ID
+ * @param {object} state Full redux store state tree
+ * @param {string} id Appeal ID of the appeal to find
+ * @returns {object} One appeal object or undefined if not found in the array
+ */
+export function isolateAppeal(state, id) {
+  return _.find(state.disability.status.claims.appeals, (a) => a.id === id);
+}
 
 export function formatDate(date) {
   return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
