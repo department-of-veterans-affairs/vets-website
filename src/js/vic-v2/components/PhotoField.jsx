@@ -13,6 +13,14 @@ const FILE_TYPES = [
 ];
 const MIN_SIZE = 350;
 
+function detectDragAndDrop() {
+  const div = document.createElement('div');
+  const supportsDragAndDrop = ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+  const iOS = !!navigator.userAgent.match('iPhone OS') || !!navigator.userAgent.match('iPad');
+  const dragAndDropDetected = supportsDragAndDrop && window.FileReader;
+  return dragAndDropDetected && !iOS;
+}
+
 function isValidFileType(file) {
   return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
 }
@@ -144,10 +152,12 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
+    const dragAndDropSupported = detectDragAndDrop();
     let instruction = 'Step 1 of 2: Upload a digital photo.';
     let description = 'Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.';
     if (this.state.src) instruction = 'Step 2 of 2: Fit your head and shoulders in the frame';
     if (this.state.done) description = 'Success! This photo will be printed on your Veteran ID card.';
+
     return (
       <div>
         {!this.state.done && <h4>{instruction}</h4>}
@@ -202,10 +212,10 @@ export default class PhotoField extends React.Component {
         {!this.state.src && !this.state.done && <Dropzone onDrop={this.onChange} accept="image/jpeg, image/png"/>}
         <ErrorableFileInput
           errorMessage={this.getErrorMessage()}
-          label={<span className="claims-upload-input-title">Select files to upload</span>}
+          label={dragAndDropSupported && <span className="claims-upload-input-title">Drag & drop your image into the square or upload.</span>}
           accept={FILE_TYPES.map(type => `.${type}`).join(',')}
           onChange={this.onChange}
-          buttonText="Add Files"
+          buttonText="Upload"
           name="fileUpload"
           additionalErrorClass="claims-upload-input-error-message"/>
       </div>
