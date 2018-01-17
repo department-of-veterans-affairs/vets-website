@@ -85,7 +85,7 @@ These trained professionals can also:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-In general, no individual or organization may charge you a fee to help you file your initial application for benefits. But they may charge you for unusual expenses. It is only after VA has made a decision about your claim that VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe a claims agent or attorney charged a fee that’s too high, you can challenge it. <br>
+In general, no individual or organization may charge you a fee to help you file your initial application for benefits. But they may charge you for unusual expenses. It's only after VA has made a decision about your claim that VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe a claims agent or attorney charged a fee that’s too high, you can challenge it. <br>
 [Find out more in the “How to Challenge a Fee” guide](https://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 </div>
@@ -122,6 +122,7 @@ You can set up an accredited representative or a VSO to work on your behalf in 1
 1. Use eBenefits to let us know you’ll be working with a representative or to change your current representation.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). 
 2. Fill out a form called an Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <br>[Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf).  
+
 Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
 [Find a VA regional office near you](/facilities/).
 
