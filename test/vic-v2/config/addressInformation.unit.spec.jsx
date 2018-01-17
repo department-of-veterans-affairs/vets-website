@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio, fillDate } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-describe('VIC applicant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+describe('VIC address information', () => {
+  const { schema, uiSchema } = formConfig.chapters.militaryContactInformation.pages.addressInformation;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -17,8 +17,8 @@ describe('VIC applicant information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('select').length).to.equal(2);
   });
 
   it('should not submit without required info', () => {
@@ -34,7 +34,7 @@ describe('VIC applicant information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -49,11 +49,10 @@ describe('VIC applicant information', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'input#root_veteranFullName_first', 'test');
-    fillData(form, 'input#root_veteranFullName_last', 'test2');
-    fillData(form, 'input#root_veteranSocialSecurityNumber', '233224343');
-    selectRadio(form, 'root_view:gender', 'F');
-    fillDate(form, 'root_veteranDateOfBirth', '1920-01-04');
+    fillData(form, 'input#root_veteranAddress_street', 'test');
+    fillData(form, 'input#root_veteranAddress_city', 'Northampton');
+    fillData(form, 'select#root_veteranAddress_state', 'MA');
+    fillData(form, 'input#root_veteranAddress_postalCode', '01040');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
