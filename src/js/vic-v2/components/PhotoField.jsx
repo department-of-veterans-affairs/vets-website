@@ -1,6 +1,49 @@
 import React from 'react';
 import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
+import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
+
+const FILE_TYPES = [
+  'png',
+  'tiff',
+  'tif',
+  'jpeg',
+  'jpg',
+  'bmp'
+];
+const MIN_SIZE = 350;
+
+function isValidFileType(file) {
+  return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
+}
+
+function isValidImageSize(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const img = new Image();
+      img.src = reader.result;
+      img.onerror = (e) => reject(e);
+      img.onload = () => {
+        const isValidSize = img.width >= MIN_SIZE && img.height >= MIN_SIZE;
+        resolve(isValidSize);
+      };
+    };
+  });
+}
+
+function isValidImage(file) {
+  return new Promise((resolve, reject) => {
+    isValidImageSize(file)
+      .then(isValidSize => {
+        const isValidType = isValidFileType(file);
+        resolve(isValidSize && isValidType);
+      })
+      .catch((e) => reject(e));
+  });
+}
+
 
 export default class PhotoField extends React.Component {
   constructor(props) {
@@ -8,7 +51,8 @@ export default class PhotoField extends React.Component {
     this.state = {
       cropResult: null,
       done: false,
-      zoomValue: 2
+      zoomValue: 2,
+      errorMessage: null
     };
   }
 
@@ -16,19 +60,39 @@ export default class PhotoField extends React.Component {
     this.setState({ src: null, done: true });
   }
 
-  onChange = (e) => {
-    e.preventDefault();
-    let files;
-    if (e.dataTransfer) {
-      files = e.dataTransfer.files;
-    } else if (e.target) {
-      files = e.target.files;
+  onChange = (files) => {
+    if (files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        isValidImage(file)
+          .then((isValid) => {
+            if (isValid) {
+              this.setState({
+                src: reader.result,
+                done: false,
+                cropResult: null,
+                errorMessage: null
+              });
+            } else if (!isValidFileType(file)) {
+              this.setState({
+                src: null,
+                done: false,
+                cropResult: null,
+                errorMessage: 'Please choose a file from one of the accepted types.'
+              });
+            } else if (isValidFileType(file)) {
+              this.setState({
+                src: null,
+                done: false,
+                cropResult: null,
+                errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
+              });
+            }
+          });
+      };
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.setState({ src: reader.result, done: false, cropResult: null });
-    };
-    reader.readAsDataURL(files[0]);
   }
 
   onDrop = (files) => {
@@ -40,6 +104,10 @@ export default class PhotoField extends React.Component {
     this.setState({ zoomValue: newZoomValue }, () => {
       this.refs.slider.value = this.state.zoomValue;
     });
+  }
+
+  getErrorMessage = () => {
+    return this.state.errorMessage;
   }
 
   moveUp = () => {
@@ -131,8 +199,15 @@ export default class PhotoField extends React.Component {
           </button>
         </div>
         }
-        {!this.state.src && !this.state.done && <Dropzone onDrop={this.onDrop} accept="image/jpeg, image/png"/>}
-        <input type="file" onChange={this.onChange}/>
+        {!this.state.src && !this.state.done && <Dropzone onDrop={this.onChange} accept="image/jpeg, image/png"/>}
+        <ErrorableFileInput
+          errorMessage={this.getErrorMessage()}
+          label={<span className="claims-upload-input-title">Select files to upload</span>}
+          accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+          onChange={this.onChange}
+          buttonText="Add Files"
+          name="fileUpload"
+          additionalErrorClass="claims-upload-input-error-message"/>
       </div>
     );
   }
