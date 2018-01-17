@@ -91,8 +91,11 @@ export default class PhotoField extends React.Component {
             src={this.state.src}
             style={{ height: 400, width: '100%' }}
             aspectRatio={1 / 1}
+            cropBoxMovable={false}
+            toggleDragModeOnDblclick={false}
+            dragMode="move"
             guides={false}
-            viewMode={1}
+            viewMode={2}
             zoom={this.onZoom}
             crop={this.cropImage}/>
           <input type="range"
