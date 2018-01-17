@@ -18,6 +18,9 @@ const defaultProps = {
 };
 
 describe('<RequiredTermsAcceptanceView>', () => {
+
+  global.window.dataLayer = [];
+
   it('should call initial actions properly', () => {
     window.scrollTo = () => {};
     const tree = SkinDeep.shallowRender(
