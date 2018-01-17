@@ -8,7 +8,7 @@ import { DowntimeNotification, services, serviceStatus } from '../../../src/js/c
 
 const beforeNow = moment().subtract(1, 'minute').toDate();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toDate();
-const moreThanHour = moment().add(1, 'hour').add(1, 'minute').toDate();
+const moreThanHour = moment().add(1, 'hour').add(1, 'hour').toDate();
 const endTime = moment().add(6, 'hour').toDate();
 
 const innerText = 'This is the inner text';

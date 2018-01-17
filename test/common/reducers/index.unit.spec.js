@@ -6,7 +6,7 @@ describe('Common Reducer', () => {
   describe('scheduledDowntime', () => {
     const scheduledDowntimeInterface = ['isReady', 'values'];
     it('returns the initial state', () => {
-      const result = scheduledDowntime();
+      const result = scheduledDowntime(undefined, { type: 'SHOULD_NOT_MATTER' });
       expect(result).to.have.all.keys(scheduledDowntimeInterface);
     });
     it('flips the isReady flag and sets value when RECEIVE_SCHEDULED_DOWNTIME is dispatched', () => {
