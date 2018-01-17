@@ -163,7 +163,7 @@ export default class PhotoField extends React.Component {
             toggleDragModeOnDblclick={false}
             dragMode="move"
             guides={false}
-            viewMode={2}
+            viewMode={1}
             zoom={this.onZoom}
             crop={this.cropImage}/>
           <input type="range"
