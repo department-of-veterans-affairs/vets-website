@@ -301,8 +301,8 @@ export class Thread extends React.Component {
     return form;
   }
 
-  renderNotice(disabled = false) {
-    if (disabled) {
+  renderHealthCareTeamNotice(shouldShow) {
+    if (shouldShow) {
       return (
         <div>
           <h4>Health care team has changed</h4>
@@ -312,8 +312,7 @@ export class Thread extends React.Component {
         </div>
       );
     }
-
-    return <NoticeBox/>;
+    return null;
   }
 
   render() {
@@ -400,9 +399,10 @@ export class Thread extends React.Component {
               Send
             </button>
           </div>
+          {this.renderHealthCareTeamNotice(disabled)}
           {form}
         </div>
-        {this.renderNotice(disabled)}
+        {!disabled && <NoticeBox/>}
         <ModalConfirmDelete
           cssClass="messaging-modal"
           onClose={this.props.toggleConfirmDelete}
