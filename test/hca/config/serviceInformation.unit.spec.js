@@ -77,7 +77,7 @@ describe('Hca serviceInformation', () => {
     formDOM.fillData('#root_lastServiceBranch', 'army');
     formDOM.fillDate('root_lastEntryDate', '2010-1-1');
     // TODO: Use a constant instead of a magic string
-    formDOM.fillDate('root_lastDischargeDate', moment().add(100, 'days').format('YYYY-MM-DD'));
+    formDOM.fillDate('root_lastDischargeDate', moment().add(130, 'days').format('YYYY-MM-DD'));
 
     expect(formDOM.querySelector('#root_dischargeType')).to.be.null;
 
