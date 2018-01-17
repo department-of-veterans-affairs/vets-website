@@ -21,9 +21,6 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 - Served on active duty, **and**
 - Separated under honorable conditions
 
-**Note:** If you have a less than honorable discharge, you can apply for an upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the Veteran ID Card and other VA benefits you earned during your period of service. <br>
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
 </div>
 
 #### Learn more about how the Veteran ID Card works
