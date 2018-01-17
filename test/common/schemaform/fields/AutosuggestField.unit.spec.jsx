@@ -16,7 +16,7 @@ describe('<AutosuggestField>', () => {
     const formContext = {
       reviewMode: false
     };
-    const tree = shallow(
+    const tree = mount(
       <AutosuggestField
         formData={{ widget: 'autosuggest', label: 'label' }}
         formContext={formContext}
@@ -24,11 +24,10 @@ describe('<AutosuggestField>', () => {
         uiSchema={uiSchema}/>
     );
 
-    const widget = tree.find('Autosuggest');
-    expect(widget.exists()).to.be.true;
-    expect(widget.props().inputProps.id).to.equal('id');
-    expect(widget.props().inputProps.name).to.equal('id');
-    expect(widget.props().inputProps.value).to.equal('label');
+    const input = tree.find('input');
+    expect(input.props().id).to.equal('id');
+    expect(input.props().name).to.equal('id');
+    expect(input.props().value).to.equal('label');
   });
   it('should render in review mode', () => {
     const uiSchema = {
@@ -47,7 +46,7 @@ describe('<AutosuggestField>', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(tree.find('Autosuggest').exists()).to.be.false;
+    expect(tree.find('Downshift').exists()).to.be.false;
     expect(tree.find('dd').text()).to.contain('testing');
   });
   it('should call onChange when suggestion is selected', (done) => {
@@ -88,8 +87,8 @@ describe('<AutosuggestField>', () => {
     });
 
     setTimeout(() => {
-      // Not sure why I have to do this, but enzyme can't find the li element
-      const suggestions = tree.getDOMNode().querySelectorAll('li');
+      // Not sure why I have to do this, but enzyme can't find the item element
+      const suggestions = tree.getDOMNode().querySelectorAll('.autosuggest-item');
       ReactTestUtils.Simulate.click(suggestions[0]);
       expect(onChange.secondCall.args[0]).to.eql({
         id: '1',
@@ -138,7 +137,7 @@ describe('<AutosuggestField>', () => {
         value: ''
       }
     });
-    expect(onChange.firstCall.args.length).to.equal(0);
+    expect(onChange.lastCall.args.length).to.equal(0);
   });
   it('should leave data on blur if partially filled in', (done) => {
     const uiSchema = {

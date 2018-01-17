@@ -59,7 +59,7 @@ describe('Schemaform definition dateRange', () => {
       preventDefault: f => f
     });
 
-    expect(find('.usa-input-error-message').textContent).to.equal(dateRangeUISchema['ui:errorMessages'].pattern);
+    expect(find('.usa-input-error-message').textContent).to.equal(`Error ${dateRangeUISchema['ui:errorMessages'].pattern}`);
   });
   it('should render dateRange title and messages', () => {
     const form = ReactTestUtils.renderIntoDocument(

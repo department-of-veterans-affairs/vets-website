@@ -29,7 +29,7 @@ class RequestDD214 extends React.Component {
           <ul className="vertical-list-group more-bottom-cushion numbered">
             <li className="list-group-item">
               <div>
-                <h4>Download and fill out <a href="http://www.afpc.af.mil/Portals/70/documents/Home/AFBCMR/DD%20Form%20149.pdf?ver=2016-12-15-120123-183">DoD Form 149</a></h4>
+                <h4>Download and fill out <a href="http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf">DoD Form 149</a></h4>
                 <ul>
                   <li>Pay special attention to item 6, which asks for the reason for your change. Be clear that you want a DD214 for your period of honorable service, and include the dates of that period.</li>
                   <li>Item 8 asks for your date of “discovery” of the injustice. In this case, it's the day you “discovered” you were missing an extra DD214 that you deserved. If this date isn’t in the last 3 years, you’ll need to argue that the Board should hear your case anyway. This isn't a strict date, so don’t let the 3-year rule keep you from applying if you have a strong case. You may note your recent discovery of new evidence about your situation, such as the ability to apply for a discharge upgrade.</li>

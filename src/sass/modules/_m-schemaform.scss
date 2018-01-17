@@ -508,11 +508,11 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 0;
 }
 
-.react-autosuggest__container {
+.autosuggest-container {
   position: relative;
 }
 
-ul.react-autosuggest__suggestions-list {
+.autosuggest-list {
   background: $color-white;
   border: 1px solid $color-gray;
   // Box shadow only sides and bottom of suggestion list.
@@ -539,13 +539,20 @@ ul.react-autosuggest__suggestions-list {
   }
 }
 
-li.react-autosuggest__suggestion {
+.usa-input-error > .schemaform-widget-wrapper > .autosuggest-container > .autosuggest-list {
+  width: calc(100% + 1.9rem);
+}
+
+.autosuggest-item {
   padding: .5rem 1rem;
   list-style-type: none;
 
-  &--focused {
+  &-highlighted {
     background-color: $color-primary-alt-light;
     cursor: pointer;
+  }
+  &-selected {
+    font-weight: bold;
   }
 }
 

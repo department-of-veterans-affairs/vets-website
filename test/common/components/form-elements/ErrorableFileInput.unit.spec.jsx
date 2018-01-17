@@ -22,7 +22,7 @@ describe('<ErrorableFileInput>', () => {
       <ErrorableFileInput buttonText="my label" errorMessage="error message" onChange={(_update) => {}}/>
     );
 
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('error message');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Error error message');
   });
 
   it('onChange fires and clears input', () => {
