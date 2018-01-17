@@ -7,8 +7,7 @@ import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound } from '../utils/helpers';
 
 import {
-  getBenefitSummaryOptions,
-  getLetterList,
+  getLetterListAndBSLOptions,
   getMailingAddress,
   getAddressCountries,
   getAddressStates
@@ -26,9 +25,8 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    this.props.getLetterList();
+    this.props.getLetterListAndBSLOptions();
     this.props.getMailingAddress();
-    this.props.getBenefitSummaryOptions();
     this.props.getAddressCountries();
     this.props.getAddressStates();
   }
@@ -58,36 +56,18 @@ export class Main extends React.Component {
       case awaitingResponse:
         appContent = <LoadingIndicator message="Loading your letters..."/>;
         break;
-      case backendServiceError:
-        appContent = systemDownMessage;
-        break;
       case backendAuthenticationError:
         appContent = recordsNotFound;
-        break;
-      case invalidAddressProperty:
-        appContent = systemDownMessage;
         break;
       case letterEligibilityError:
         appContent = this.props.children;
         break;
-      case unavailable:
-        appContent = (
-          <div id="lettersUnavailable">
-            <div className="usa-alert usa-alert-error" role="alert">
-              <div className="usa-alert-body">
-                <h4 className="usa-alert-heading">Letters Unavailable</h4>
-                <p className="usa-alert-text">
-                  We weren’t able to retrieve your VA letters. Please call <a href="tel:855-574-7286">1-855-574-7286</a>,
-                  TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </p>
-              </div>
-            </div>
-            <br/>
-          </div>
-        );
-        break;
+      case unavailable: // fall-through to default
+      case backendServiceError: // fall-through to default
+      case invalidAddressProperty: // fall-through to default
       default:
         appContent = systemDownMessage;
+        break;
     }
 
     return (
@@ -114,8 +94,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getBenefitSummaryOptions,
-  getLetterList,
+  // getBenefitSummaryOptions,
+  // getLetterList,
+  getLetterListAndBSLOptions,
   getMailingAddress,
   getAddressCountries,
   getAddressStates,

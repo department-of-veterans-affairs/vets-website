@@ -1,6 +1,9 @@
 <footer class="footer" role="contentinfo">
+  <!--
+    Uncomment this when the feedback tool is ready to go
+    <div id="feedback-root"></div>
+  -->
   <div class="footer-inner">
-    <a class="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
     <div class="row va-flex">
     <ul class="va-footer-linkgroup" id="footer-services">
       <li><h4 class="va-footer-linkgroup-title">Services and Benefits</h4></li>
@@ -56,13 +59,10 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     {% endif %}
   </div>
 
-
   <div class="va-notice--banner va-notice--banner--alt">
     <div class="usa-grid">
-      <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
-        <span class="icon"></span>
-        <span class="text">Provide feedback on Vets.gov</span>
-      </a>
+      <h4>A new way to give us feedback</h4>
+      <p>Check back soon to share your feedback on what you’d like to see on Vets.gov.</p>
     </div>
   </div>
 </footer>
@@ -96,8 +96,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 {% if modal %}
   {% include "content/includes/modal.html" %}
 {% endif %}
-
-<script async src="/js/user-voice.js"></script>
 
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}

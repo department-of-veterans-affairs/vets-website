@@ -1,7 +1,10 @@
+import org.kohsuke.github.GitHub
+
 def envNames = ['development', 'staging', 'production']
 
 def isReviewable = {
   env.BRANCH_NAME != 'production' &&
+    env.BRANCH_NAME != 'user_feedback_footer_form-I3445' &&
     env.BRANCH_NAME != 'master'
 }
 
@@ -9,6 +12,7 @@ env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
+    env.BRANCH_NAME == 'user_feedback_footer_form-I3445' ||
     env.BRANCH_NAME == 'production') &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
@@ -28,11 +32,33 @@ def buildDetails = { vars ->
 
 def notify = { message, color='good' ->
     if (env.BRANCH_NAME == 'master' ||
+        env.BRANCH_NAME == 'user_feedback_footer_form-I3445' ||
         env.BRANCH_NAME == 'production') {
         slackSend message: message,
                   color: color,
                   failOnError: true
     }
+}
+
+def comment_broken_links = {
+  // Pull down console log replacing URL with IP since we can't hit internal DNS
+  sh "curl -O \$(echo ${env.BUILD_URL} | sed 's/jenkins.vetsgov-internal/172.31.1.100/')consoleText"
+
+  // Find all lines with broken links in production build
+  def broken_links = sh (
+          script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
+          returnStdout: true
+      ).trim()
+
+  def github = GitHub.connect()
+  def repo = github.getRepository('department-of-veterans-affairs/vets-website')
+  def pr = repo.queryPullRequests().head("department-of-veterans-affairs:${env.BRANCH_NAME}").list().asList().get(0)
+
+
+  // Post our comment with broken links formatted as a Markdown table
+  pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +
+              broken_links.replaceAll(/\[production\] |>>> href: |,/,"|") +
+              "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
 node('vetsgov-general-purpose') {
@@ -118,6 +144,11 @@ node('vetsgov-general-purpose') {
       parallel builds
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+
+      // For content team PRs, add comment in GH so they don't need direct Jenkins access to find broken links
+      if (env.BRANCH_NAME.startsWith("content")) {
+        comment_broken_links()
+      }
       throw error
     }
   }
@@ -197,11 +228,12 @@ node('vetsgov-general-purpose') {
       }
 
       def targets = [
-        'master': [ 'dev', 'staging' ],
+        'master': [ 'staging' ],
+        'user_feedback_footer_form-I3445': [ 'dev' ],
         'production': [ 'prod' ],
       ][env.BRANCH_NAME]
 
-      // Deploy the build associated with this ref. To deploy from a release use 
+      // Deploy the build associated with this ref. To deploy from a release use
       // the `deploys/vets-website-env-from-build` jobs from the Jenkins web console.
       for (int i=0; i<targets.size(); i++) {
         build job: "deploys/vets-website-${targets.get(i)}-from-build", parameters: [

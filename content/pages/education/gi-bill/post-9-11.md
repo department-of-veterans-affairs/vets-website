@@ -4,6 +4,7 @@ template: detail-page
 title: Post-9/11 GI Bill
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
+gibsAlert: true
 order: 3
 ---
 

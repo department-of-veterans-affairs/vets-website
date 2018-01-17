@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 
 import SignInLink from '../../components/SignInLink';
-import { SAVE_STATUSES, saveErrors } from './save-load-actions';
+import { SAVE_STATUSES, saveErrors } from './actions';
 
 class SaveStatus extends React.Component {
   render() {

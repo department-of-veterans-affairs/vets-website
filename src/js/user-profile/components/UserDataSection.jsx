@@ -90,21 +90,15 @@ class UserDataSection extends React.Component {
   renderMultifactorMessage() {
     if (this.props.profile.multifactor) { return null; }
 
-    const content = (
-      <div className="mfa-message">
-        <div className="medium-8 column">
-          <h4 className="usa-alert-heading">Add extra security to your account</h4>
-          <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
-        </div>
-        <div className="medium-4 column">
-          <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
-        </div>
-      </div>
-    );
+    const headline = (<h4>Add extra security to your account</h4>);
+    const content = (<div><p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
+      <p><button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button></p>
+    </div>);
 
     return (
       <div>
         <AlertBox
+          headline={headline}
           content={content}
           isVisible
           status="warning"/>

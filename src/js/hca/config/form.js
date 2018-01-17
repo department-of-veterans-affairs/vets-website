@@ -8,7 +8,7 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -19,6 +19,7 @@ import {
   dischargeTypeLabels,
   lastServiceBranchLabels,
   facilityHelp,
+  isEssentialAcaCoverageDescription,
   medicaidDescription,
   medicalCentersByState,
   medicalCenterLabels,
@@ -654,7 +655,7 @@ const formConfig = {
               'ui:field': 'BasicArrayField',
               items: dependentIncomeUiSchema,
               'ui:options': {
-                hideIf: (formData) => !_.get('dependents.length', formData)
+                hideIf: (formData) => !_.get('view:reportDependents', formData)
               }
             }
           },
@@ -829,7 +830,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'VA Facility',
             isEssentialAcaCoverage: {
-              'ui:title': 'I am enrolling to obtain minimum essential coverage under the Affordable Care Act'
+              'ui:title': isEssentialAcaCoverageDescription
             },
             'view:preferredFacility': {
               'ui:title': 'Select your preferred VA medical facility',

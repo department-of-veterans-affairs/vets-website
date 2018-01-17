@@ -15,7 +15,7 @@ describe('<AlertBox>', () => {
         status={'info'}
         isVisible={false}/>
     );
-    expect(tree.toString()).to.equal('<div aria-live="assertive" />');
+    expect(tree.toString()).to.equal('<div aria-live="polite" />');
   });
 
   it('should have the expected classname', () => {
@@ -25,6 +25,6 @@ describe('<AlertBox>', () => {
         status={'info'}
         isVisible/>
     );
-    expect(tree.props.className).to.equal('va-alert usa-alert usa-alert-info');
+    expect(tree.props.className).to.equal('usa-alert usa-alert-info');
   });
 });

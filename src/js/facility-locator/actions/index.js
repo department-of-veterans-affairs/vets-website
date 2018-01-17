@@ -101,6 +101,23 @@ export function searchWithAddress(query) {
         const zipCode = (find(res.features[0].context, (v) => {
           return v.id.includes('postcode');
         }) || {}).text || res.features[0].place_name;
+        const featureBox = res.features[0].box;
+
+        let minBounds = [
+          coordinates[0] - 0.5,
+          coordinates[1] - 0.5,
+          coordinates[0] + 0.5,
+          coordinates[1] + 0.5,
+        ];
+
+        if (featureBox) {
+          minBounds = [
+            Math.min(featureBox[0], coordinates[0] - 0.5),
+            Math.min(featureBox[1], coordinates[1] - 0.5),
+            Math.max(featureBox[2], coordinates[0] + 0.5),
+            Math.max(featureBox[3], coordinates[1] + 0.5),
+          ];
+        }
 
         return dispatch({
           type: 'SEARCH_QUERY_UPDATED',
@@ -111,12 +128,7 @@ export function searchWithAddress(query) {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
-            bounds: res.features[0].bbox || [
-              coordinates[0] - 0.5,
-              coordinates[1] - 0.5,
-              coordinates[0] + 0.5,
-              coordinates[1] + 0.5,
-            ],
+            bounds: minBounds,
             zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
         });

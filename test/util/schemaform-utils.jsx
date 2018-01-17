@@ -5,13 +5,13 @@ import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
+import SchemaForm from '../../src/js/common/schemaform/components/SchemaForm';
 import { fillDate as oldFillDate } from './unit-helpers';
 
 import {
   replaceRefSchemas,
   updateSchemaAndData
-} from '../../src/js/common/schemaform/formState';
+} from '../../src/js/common/schemaform/state/helpers';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {

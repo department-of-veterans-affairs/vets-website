@@ -40,9 +40,9 @@ class Main extends React.Component {
     });
     this.bindNavbarLinks();
 
-    // If there is a window.opener, then this window was spawned by another instance of the website as the auth app.
-    // In this case, we don't need to actually login, because that data will be passed to the parent window and done there instead.
-    if (!window.opener) {
+    // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
+    // request, because that data will be passed to the parent window and done there instead.
+    if (!window.location.pathname.includes('auth/login/callback')) {
       window.onload = () => {
         this.loginUrlRequest.then(this.checkTokenStatus);
       };
@@ -160,6 +160,7 @@ class Main extends React.Component {
 
       // @todo after doing the above, remove this code.
       if (this.props.getUserData()) {
+        window.dataLayer.push({ event: 'login-user-logged-in' });
         this.props.updateLoggedInStatus(true);
       }
     } else {
@@ -197,9 +198,11 @@ class Main extends React.Component {
   }
 
   render() {
+    let content;
+
     switch (this.props.renderType) {
       case 'navComponent': {
-        return (
+        content = (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
             <Modal
@@ -213,18 +216,26 @@ class Main extends React.Component {
             </Modal>
           </div>
         );
+        break;
       }
       case 'verifyPage':
-        return this.props.profile.loading ?
+        content = this.props.profile.loading ?
           (<LoadingIndicator message="Loading the application..."/>) :
           (<Verify
             shouldRedirect={this.props.shouldRedirect}
             login={this.props.login}
             profile={this.props.profile}
             handleLogin={this.handleLogin}/>);
+        break;
       default:
-        return null;
+        content = null;
     }
+
+    return (
+      <div>
+        {content}
+      </div>
+    );
   }
 }
 

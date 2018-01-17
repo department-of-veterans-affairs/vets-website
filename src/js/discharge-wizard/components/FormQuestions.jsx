@@ -22,7 +22,7 @@ class FormQuestions extends React.Component {
     this.props.updateField(name, value);
     this.forceUpdate();
     setTimeout(() => {
-      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], {
+      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], window.VetsGov.scroll || {
         duration: 1000,
         smooth: true,
         offset: -150,
@@ -33,10 +33,14 @@ class FormQuestions extends React.Component {
   handleScrollTo = (e) => {
     e.preventDefault();
 
-    scroller.scrollTo(e.target.name, {
+    window.dataLayer.push({ event: 'discharge-upgrade-review-edit' });
+
+    scroller.scrollTo(e.target.name, window.VetsGov.scroll || {
       duration: 1000,
       smooth: true,
     });
+
+    (this[e.target.name].querySelector('input') || this[e.target.name].querySelector('select')).focus();
   }
 
   renderQuestion(name, label, options) {
@@ -79,7 +83,7 @@ class FormQuestions extends React.Component {
       { label: questionLabels[key]['7'], value: '7' },
     ];
 
-    const label = <h4>Which of the following <strong>best</strong> describes why you want to change your discharge paperwork? Choose the one that best applies to your situation. Note: If multiple options fit your situation, choose the answer that started the events leading to your discharge. (For example, if you experienced sexual assault and had PTSD resulting from that experience, choose sexual assault as your main reason.)</h4>;
+    const label = <div><h4>Which of the following best describes why you want to change your discharge paperwork? Choose the one that's closest to your situation.</h4><p><strong>Note:</strong> If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.</p></div>;
 
     return this.renderQuestion(key, label, options);
   }
@@ -102,7 +106,7 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const label = <h4>Do you want to change your name, discharge date, or anything written in the "other remarks" section of your DD-214?</h4>;
+    const label = <h4>Do you want to change your name, discharge date, or anything written in the "other remarks" section of your DD214?</h4>;
     const options = [
       { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
       { label: `No, ${questionLabels[key][2]}`, value: '2' },
@@ -173,10 +177,10 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const label = <h4>Was your discharge the outcome of a <strong>General</strong> Court Martial?</h4>;
+    const label = <h4>Was your discharge the outcome of a <strong>general</strong> court-martial?</h4>;
     const options = [
-      { label: 'Yes, my discharge was the outcome of a General Court Martial.', value: '1' },
-      { label: 'No, my discharge was administrative or the outcome of a Special or Summary Court Martial.', value: '2' },
+      { label: 'Yes, my discharge was the outcome of a general court-martial.', value: '1' },
+      { label: 'No, my discharge was administrative or the outcome of a special or summary court-martial.', value: '2' },
       { label: 'I\'m not sure.', value: '3' },
     ];
 
@@ -205,7 +209,7 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You will still be able to apply, your answer to this question only changes where you send your application.</h4>;
+    const label = <h4>Have you previously applied for and been denied a discharge upgrade for this period of service? Note: You can still apply. Your answer to this question simply changes where you send your application.</h4>;
     const options = [
       { label: 'Yes', value: '1' },
       { label: 'No', value: '2' },
@@ -220,7 +224,7 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const prevApplicationYearLabel = <h4>What year did you make this application?</h4>;
+    const prevApplicationYearLabel = <h4>What year did you apply for a discharge upgrade?</h4>;
 
     const labelYear = prevApplicationYearCutoff[this.props.formValues['4_reason']];
 
@@ -236,7 +240,7 @@ class FormQuestions extends React.Component {
     const key = '10_prevApplicationType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
 
-    const prevApplicationTypeLabel = <h4>What type of application did you make?</h4>;
+    const prevApplicationTypeLabel = <h4>What type of application did you make to upgrade your discharge previously?</h4>;
 
     let boardLabel = 'I applied to a Board for Correction of Military Records (BCMR)';
     if (['navy', 'marines'].includes(this.props.formValues['1_branchOfService'])) {
@@ -245,7 +249,7 @@ class FormQuestions extends React.Component {
 
     const prevApplicationTypeOptions = [
       { label: 'I applied to a Discharge Review Board (DRB) for a Documentary Review', value: '1' },
-      { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review', value: '2' },
+      { label: 'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review in Washington, DC', value: '2' },
       { label: boardLabel, value: '3' },
       { label: 'I\'m not sure', value: '4' },
     ];
@@ -253,19 +257,38 @@ class FormQuestions extends React.Component {
     return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
   }
 
-  renderQuestionSix() {
-    const key = '11_priorService';
-    const transgender = this.props.formValues['4_reason'] === '5';
-    const honorableDischarge = this.props.formValues['5_dischargeType'] === '1';
+  renderQuestionFiveC() {
+    const key = '11_failureToExhaust';
+    const { formValues } = this.props;
 
-    if (transgender || honorableDischarge || !shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
+    if (!shouldShowQuestion(key, formValues.questions)) { return null; }
+
+    const prevApplicationTypeLabel = <h4>Was your application denied due to "failure to exhaust other remedies"? Note: "Failure to exhaust other remedies" generally means you applied to the wrong board.</h4>;
+
+    let boardLabel = 'BCMR';
+    if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
+      boardLabel = 'BCNR';
+    }
+
+    const prevApplicationTypeOptions = [
+      { label: `Yes, the ${boardLabel} denied my application due to "failure to exhaust other remedies."`, value: '1' },
+      { label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the evidence in my application.`, value: '2' },
+    ];
+
+    return this.renderQuestion(key, prevApplicationTypeLabel, prevApplicationTypeOptions);
+  }
+
+  renderQuestionSix() {
+    const key = '12_priorService';
+
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) { return null; }
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
     const questionLabel = <h4>Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?</h4>;
 
     const questionOptions = [
-      { label: 'Yes, I have discharge paperwork documenting a discharge under honorable or general under honorable conditions.', value: '1' },
+      { label: 'Yes, I have discharge paperwork documenting a discharge that is honorable or under honorable conditions.', value: '1' },
       { label: 'Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period.', value: '2' },
       { label: 'No, I did not complete an earlier period of service.', value: '3' },
     ];
@@ -281,7 +304,7 @@ class FormQuestions extends React.Component {
         <Element name="END"/>
         <h4>Review your answers</h4>
         <div className="va-introtext">
-          <p>If any information below is incorrect, update your answers to get the best information for your discharge situation.</p>
+          <p>If any information below is incorrect, update your answers to get the most accurate information regarding your discharge situation.</p>
         </div>
         <table className="usa-table-borderless">
           <tbody>
@@ -293,14 +316,14 @@ class FormQuestions extends React.Component {
               return (reviewLabel && shouldShowQuestion(k, this.props.formValues.questions) &&
                 <tr key={k}>
                   <td><p>{reviewLabel}</p></td>
-                  <td><a href="#" onClick={this.handleScrollTo} name={k}>Edit</a></td>
+                  <td><a href="#" onClick={this.handleScrollTo} name={k} aria-label={reviewLabel}>Edit</a></td>
                 </tr>
               );
             })}
           </tbody>
         </table>
         <Link to="/guidance" className="usa-button-primary va-button">
-          Get my guidance »
+          Get my results »
         </Link>
       </div>
     );
@@ -308,7 +331,7 @@ class FormQuestions extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="dw-questions">
         {this.renderQuestionOne()}
         {this.renderQuestionTwo()}
         {this.renderQuestionTwoB()}
@@ -319,6 +342,7 @@ class FormQuestions extends React.Component {
         {this.renderQuestionFive()}
         {this.renderQuestionFiveA()}
         {this.renderQuestionFiveB()}
+        {this.renderQuestionFiveC()}
         {this.renderQuestionSix()}
         {this.renderAnswerReview()}
       </div>

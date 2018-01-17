@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, fillDate } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillDate } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pre-need/config/form';
 
 describe('Pre-need service periods', () => {
-  function servicePeriodsTests({ schema, uiSchema }, inputCount = 3) {
+  function servicePeriodsTests({ schema, uiSchema }, inputCount = 4) {
     it('should render', () => {
       const form = mount(
         <DefinitionTester
@@ -17,7 +17,7 @@ describe('Pre-need service periods', () => {
       );
 
       expect(form.find('input').length).to.equal(inputCount);
-      expect(form.find('select').length).to.equal(6);
+      expect(form.find('select').length).to.equal(5);
     });
 
     it('should not submit empty form', () => {
@@ -43,17 +43,24 @@ describe('Pre-need service periods', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
+          data={{
+            application: {
+              veteran: {
+                serviceRecords: [{
+                  serviceBranch: 'AL'
+                }]
+              }
+            }
+          }}
           uiSchema={uiSchema}/>
       );
 
       expect(form.find('input').length).to.equal(inputCount);
-      expect(form.find('select').length).to.equal(6);
-
-      fillData(form, 'select#root_application_veteran_serviceRecords_0_serviceBranch', 'AL');
+      expect(form.find('select').length).to.equal(5);
 
       form.find('.va-growable-add-btn').simulate('click');
 
-      expect(form.find('.va-growable-background').first().text()).to.contain('ALLIED FORCES');
+      expect(form.find('.va-growable-background').first().text()).to.contain('Allied Forces');
     });
 
     it('should submit with valid data', () => {
@@ -63,10 +70,18 @@ describe('Pre-need service periods', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
+          data={{
+            application: {
+              veteran: {
+                serviceRecords: [{
+                  serviceBranch: 'AL'
+                }]
+              }
+            }
+          }}
           uiSchema={uiSchema}/>
       );
 
-      fillData(form, 'select#root_application_veteran_serviceRecords_0_serviceBranch', 'AL');
       fillDate(form, 'root_application_veteran_serviceRecords_0_dateRange_from', '2002-1-1');
       fillDate(form, 'root_application_veteran_serviceRecords_0_dateRange_to', '2003-1-1');
 
@@ -81,7 +96,7 @@ describe('Pre-need service periods', () => {
   const applicantMilitaryHistory = formConfig.chapters.militaryHistory.pages.applicantMilitaryHistory;
 
   describe('sponsor', () => {
-    servicePeriodsTests(sponsorMilitaryHistory, 3);
+    servicePeriodsTests(sponsorMilitaryHistory);
   });
 
   describe('applicant', () => {
