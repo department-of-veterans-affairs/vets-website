@@ -12,6 +12,7 @@ const commandLineArgs = require('command-line-args');
 const cors = require('cors');
 const express = require('express');
 const winston = require('winston');
+const commonRoutes = require('./common');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
@@ -31,12 +32,20 @@ function stripTrailingSlash(path) {
 }
 
 function makeMockApiRouter(opts) {
-  // mockResponses[auth][verb][response]
   const mockResponses = {};
+  const globalNamespace = '_global';
+
+  commonRoutes.forEach(({ verb, path, response }) => {
+    mockResponses[globalNamespace] = {
+      [verb]: {
+        [path]: response
+      }
+    };
+  });
 
   const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
-    const auth = req.body.auth || '_global';
+    const auth = req.body.auth || globalNamespace;
     const verb = (req.body.verb || 'get').toLowerCase();
     const path = stripTrailingSlash(req.body.path);
 
@@ -53,14 +62,14 @@ function makeMockApiRouter(opts) {
   router.options('*', cors());
 
   router.all('*', cors(), (req, res) => {
-    const auth = req.get('Authorization') || '_global';
+    const auth = req.get('Authorization') || globalNamespace;
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[auth] || {})[verb];
     const path = stripTrailingSlash(req.path);
 
     let result = null;
     if (verbResponses) {
-      result = verbResponses[path];
+      result = verbResponses[path] || (mockResponses[globalNamespace][verb] && mockResponses[globalNamespace][verb][path]);
     }
 
     if (!result) {

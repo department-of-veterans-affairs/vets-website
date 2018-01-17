@@ -15,10 +15,12 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     ? [baseUrl, resource].join('')
     : resource;
 
+  const Authorization = sessionStorage.userToken && `Token token=${sessionStorage.userToken}`;
+
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`,
+      Authorization,
       'X-Key-Inflection': 'camel'
     }
   };
