@@ -45,35 +45,17 @@ class Timeline extends React.Component {
       });
     }
 
-    let expanderTitle = '';
-    let expanderCssClass = '';
-    let hideSeparator = false;
-    let displayedEvents = [];
-    let downArrow;
-    if (this.state.expanded) {
-      expanderTitle = 'Hide past events';
-      expanderCssClass = 'section-expanded';
-      hideSeparator = false;
-      displayedEvents = pastEventsList;
-      downArrow = <div className="down-arrow"/>;
-    } else {
-      expanderTitle = 'See past events';
-      expanderCssClass = 'section-unexpanded';
-      hideSeparator = true;
-      displayedEvents = [];
-      downArrow = null;
-    }
+    const downArrow = this.state.expanded ? <div className="down-arrow"/> : null;
+    const displayedEvents = this.state.expanded ? pastEventsList : [];
 
     return (
       <div>
         <ol className="form-process appeal-timeline">
           <Expander
-            key={'expander'}
-            title={expanderTitle}
+            expanded={this.state.expanded}
+            key="expander"
             dateRange={this.formatDateRange()}
-            onToggle={this.toggleExpanded}
-            cssClass={expanderCssClass}
-            hideSeparator={hideSeparator}/>
+            onToggle={this.toggleExpanded}/>
           {displayedEvents}
         </ol>
         {downArrow}

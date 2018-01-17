@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Expander = ({ title, dateRange, onToggle, cssClass, hideSeparator }) => {
-  const separator = (hideSeparator === true)
-    ? null
-    : <div className="separator"/>;
+const Expander = ({ expanded, dateRange, onToggle }) => {
+  let title;
+  let cssClass;
+  if (expanded) {
+    title = 'Hide past events';
+    cssClass = 'section-expanded';
+  } else {
+    title = 'See past events';
+    cssClass = 'section-unexpanded';
+  }
+
+  const separator = expanded ?  <div className="separator"/> : null;
 
   return (
     <li className={`process-step ${cssClass}`}>
