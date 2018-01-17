@@ -105,6 +105,7 @@ class DowntimeNotification extends React.Component {
 
   getDowntimeWindow(downtimes) {
     return downtimes.reduce((result, downtime) => {
+      if (!downtime.startTime || !downtime.endTime) return result;
       const startTime = moment(downtime.startTime);
       const endTime = moment(downtime.endTime);
       return {
@@ -155,12 +156,15 @@ class DowntimeNotification extends React.Component {
     return serviceStatus.downtimeApproaching;
   }
 
-  renderStatusDown({ startTime, endTime }) {
-    const title = `The ${this.props.appTitle} is down while we fix a few things.`;
-    const message = (
-      <div><p>We’re undergoing scheduled maintenance from {startTime.format('LT')} to {endTime.format('LT')}.<br/>
-      In the meantime, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p></div>
-    );
+  renderStatusDown({ endTime }) {
+    const title = `${this.props.appTitle} is down for maintenance.`;
+    let message = <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
+    if (endTime) {
+      message = (
+        <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now, and we hope to be finished by {endTime.format('MMMM Mo, LT')}. Please check back soon.</p>
+      );
+    }
+
     let downtimeNotification = null;
 
     if (this.props.userIsAuthenticated) {
@@ -176,14 +180,15 @@ class DowntimeNotification extends React.Component {
   }
 
   renderStatusDownApproaching({ startTime, endTime }) {
-    const message = <p>We’re undergoing scheduled maintenance from {startTime.format('LT')} to {endTime.format('LT')}.</p>;
+    const title = `${this.props.appTitle} will be down for maintenance soon`;
+    const message = <p>We'll be doing some work on ${this.props.appTitle} on {startTime.format('MMMM Mo')} between {startTime.format('LT')} and {endTime.format('LT')} . If you have trouble using this tool during that time, please check back soon.</p>;
     let downtimeNotification = null;
     if (this.props.userIsAuthenticated) {
       if (!this.state.modalDismissed) {
         const close = () => this.setState({ modalDismissed: true });
         downtimeNotification = (
           <Modal id="downtime-approaching"
-            title="Downtime approaching"
+            title={title}
             onClose={close}
             visible={!this.state.modalDismissed}>
             {message}
@@ -191,7 +196,7 @@ class DowntimeNotification extends React.Component {
           </Modal>);
       }
     } else {
-      downtimeNotification = <AlertBox isVisible status="info" content={message}/>;
+      downtimeNotification = <AlertBox isVisible status="info" headline={<h4>{title}</h4>} content={message}/>;
     }
     return (
       <DowntimeNotificationWrapper status={serviceStatus.downtimeApproaching}>
