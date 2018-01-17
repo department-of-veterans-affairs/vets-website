@@ -181,7 +181,7 @@ class DowntimeNotification extends React.Component {
 
   renderStatusDownApproaching({ startTime, endTime }) {
     const title = `${this.props.appTitle} will be down for maintenance soon`;
-    const message = <p>We'll be doing some work on ${this.props.appTitle} on {startTime.format('MMMM Mo')} between {startTime.format('LT')} and {endTime.format('LT')} . If you have trouble using this tool during that time, please check back soon.</p>;
+    const message = <p>We'll be doing some work on {this.props.appTitle} on {startTime.format('MMMM Mo')} between {startTime.format('LT')} and {endTime.format('LT')} . If you have trouble using this tool during that time, please check back soon.</p>;
     let downtimeNotification = null;
     if (this.props.userIsAuthenticated) {
       if (!this.state.modalDismissed) {
