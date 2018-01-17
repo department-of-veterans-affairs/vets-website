@@ -6,20 +6,25 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import * as addressDefinition from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import { genderLabels } from '../../common/utils/labels';
-
+import { validateMatch } from '../../common/schemaform/validation';
 
 const {
   veteranDateOfBirth,
   veteranSocialSecurityNumber,
-  veteranFullName
+  veteranFullName,
+  email,
+  serviceBranch
 } = fullSchemaVIC.properties;
 
 const {
   fullName,
   ssn,
-  date
+  date,
+  phone
 } = fullSchemaVIC.definitions;
 
 const formConfig = {
@@ -42,12 +47,12 @@ const formConfig = {
     date
   },
   chapters: {
-    applicantInformation: {
-      title: 'Applicant Information',
+    veteranInformation: {
+      title: 'Veteran Information',
       pages: {
-        applicantInformation: {
-          path: 'applicant/information',
-          title: 'Applicant information',
+        veteranInformation: {
+          path: 'veteran-information',
+          title: 'Veteran information',
           uiSchema: {
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: ssnUI,
@@ -76,9 +81,72 @@ const formConfig = {
         }
       }
     },
-    contactInformation: {
-      title: 'Contact Information',
+    militaryContactInformation: {
+      title: 'Military and Contact Information',
       pages: {
+        militaryContactInformation: {
+          path: 'military-contact-information',
+          title: 'Military and contact information',
+          uiSchema: {
+            'view:military': {
+              'ui:title': 'Military information',
+              serviceBranch: {
+                'ui:title': 'Branch of service'
+              }
+            },
+            'view:contact': {
+              'ui:title': 'Contact information',
+              email: {
+                'ui:title': 'Email address'
+              },
+              'view:confirmEmail': {
+                'ui:title': 'Re-enter email address',
+                'ui:options': {
+                  hideOnReview: true
+                }
+              },
+              phone: phoneUI('Phone number'),
+              'ui:validations': [
+                validateMatch('email', 'view:confirmEmail')
+              ]
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:military': {
+                type: 'object',
+                require: ['serviceBranch'],
+                properties: {
+                  serviceBranch
+                }
+              },
+              'view:contact': {
+                type: 'object',
+                required: ['email', 'view:confirmEmail'],
+                properties: {
+                  email,
+                  'view:confirmEmail': email,
+                  phone
+                }
+              },
+            }
+          }
+        },
+        addressInformation: {
+          path: 'address-information',
+          title: 'Address information',
+          uiSchema: {
+            veteranAddress: addressDefinition.uiSchema(),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              veteranAddress: addressDefinition.schema(fullSchemaVIC, true),
+            }
+          }
+        }
       }
     },
     documentUpload: {

@@ -28,8 +28,8 @@ class PrescriptionTable extends React.Component {
 
     const fields = [
       { label: 'Prescription Name', value: 'prescriptionName' },
-      { label: 'Submit Date', value: 'lastSubmitDate' },
-      { label: 'Fill Date', value: 'lastFillDate' },
+      { label: 'Submit Date', value: 'refillSubmitDate' },
+      { label: 'Fill Date', value: 'refillDate' },
       { label: 'Facility Name', value: 'facilityName' },
       { label: 'Refills Left', value: 'refillsLeft', nonSortable: true },
       { label: 'Refill Status', value: 'refillStatus', nonSortable: true },
