@@ -32,7 +32,7 @@ export class HealthRecordsApp extends React.Component {
         authRequired={3}
         serviceRequired="health-records"
         userProfile={this.props.profile}>
-        <DowntimeNotification appTitle="Health Records Application" dependencies={[services.mhv]}>
+        <DowntimeNotification appTitle="Health Records" dependencies={[services.mhv]}>
           <RequiredTermsAcceptanceView
             termsName="mhvac"
             cancelPath="/health-care/"

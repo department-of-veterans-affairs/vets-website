@@ -29,7 +29,7 @@ class ClaimsStatusApp extends React.Component {
         userProfile={this.props.profile}
         loginUrl={this.props.loginUrl}
         verifyUrl={this.props.verifyUrl}>
-        <DowntimeNotification appTitle="Claims Status application" dependencies={[services.evss]}>
+        <DowntimeNotification appTitle="Claims Status" dependencies={[services.evss]}>
           <AppContent>
             {this.props.children}
           </AppContent>

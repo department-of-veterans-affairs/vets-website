@@ -44,7 +44,7 @@ class RxRefillsApp extends React.Component {
         authRequired={3}
         serviceRequired="rx"
         userProfile={this.props.profile}>
-        <DowntimeNotification appTitle="RX Refills application" dependencies={[services.mhv]}>
+        <DowntimeNotification appTitle="RX Refills" dependencies={[services.mhv]}>
           <RequiredTermsAcceptanceView
             termsName="mhvac"
             cancelPath="/health-care/"
