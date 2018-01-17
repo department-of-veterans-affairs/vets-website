@@ -953,6 +953,10 @@ h1:focus {
   background-color: $color-gray-light-alt;
   padding: 16px;
 
+  p {
+    margin: 0px;
+  }
+
   span.appeals-ahead {
     display: block;
     font-family: Source Sans Pro, sans serif;
@@ -970,13 +974,35 @@ h1:focus {
   }
 
   .docket-bar {
+    display: inline-block;
+    // 100% - width of .end-of-docket
+    width: calc(100% - 4px);
     height: 40px;
     border: 1px solid $color-gray-light;
+    // abuts the .end-of-docket
+    border-right: 0px;
     background-color: $color-white;
 
     .completed {
       background-color: $color-primary-darker;
       height: 100%;
+    }
+  }
+
+  .end-of-docket {
+    display: inline-block;
+    background-color: $color-gold;
+    height: 64px;
+    width: 4px;
+  }
+
+  .front-of-docket-text {
+    display: flex;
+    flex-direction: row-reverse;
+
+    p {
+      width: 8rem;
+      text-align: right;
     }
   }
 }
