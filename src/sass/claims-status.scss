@@ -951,6 +951,8 @@ h1:focus {
 
 $end-of-docket-width: 4px;
 $docket-bar-width: calc(100% - #{$end-of-docket-width});
+$marker-width: 3rem;
+$marker-text-width: 9rem;
 
 .docket-container {
   // This is slightly darker than the cards above it
@@ -984,21 +986,27 @@ $docket-bar-width: calc(100% - #{$end-of-docket-width});
     width: $docket-bar-width;
     margin-bottom: -16px;
 
-    .marker-spacer {
+    .marker-text-spacer {
+      display: inline-block;
+      min-width: $marker-text-width / 2;
+      max-width: calc(100% - #{$marker-text-width} / 2);
+    }
+
+    .spacer {
       display: inline-block;
     }
 
     .marker {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      width: 9rem;
-      margin-left: -4.5rem;
+      display: inline-block;
+      width: $marker-width;
+      margin: 0px $marker-width / -2;
+    }
 
-      p {
-        font-weight: bold;
-        color: $color-primary;
-      }
+    span.marker-text {
+      font-weight: bold;
+      color: $color-primary;
+      width: $marker-text-width;
+      margin: 0px $marker-text-width / -2;
     }
   }
 
