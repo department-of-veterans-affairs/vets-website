@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Docket extends React.Component {
   render() {
@@ -37,6 +38,11 @@ class Docket extends React.Component {
     );
   }
 }
+
+Docket.propTypes = {
+  ahead: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
+};
 
 export default Docket;
 
