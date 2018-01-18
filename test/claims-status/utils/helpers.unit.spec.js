@@ -458,10 +458,14 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
-      const type = STATUS_TYPES.nod;
-      const details = { regionalOffice: 'Chicago Regional Office' };
+      const type = STATUS_TYPES.scheduledHearing;
+      const details = {};
+      const expectedDescSnippet = 'Your [HEARING TYPE] hearing is scheduled for [HEARING DATE] at [HEARING LOCATION].';
       const contents = getStatusContents(type, details);
-      expect(contents.title).to.equal('The Chicago Regional Office is reviewing your appeal');
+      expect(contents.title).to.equal('You are waiting for your hearing');
+      // TO-DO: Update with real content
+      const descText = contents.description.props.children;
+      expect(descText).to.contain(expectedDescSnippet);
     });
 
     it('returns sane object when given unknown type', () => {
