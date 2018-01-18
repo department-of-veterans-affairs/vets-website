@@ -19,7 +19,7 @@ const defaultProps = {
 
 describe('<RequiredTermsAcceptanceView>', () => {
 
-  global.window.dataLayer = [];
+  window.dataLayer = [];
 
   it('should call initial actions properly', () => {
     window.scrollTo = () => {};
