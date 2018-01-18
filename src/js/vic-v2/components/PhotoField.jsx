@@ -213,27 +213,31 @@ export default class PhotoField extends React.Component {
             onInput={this.zoom}/>
           <div className="cropper-control-column">
             <button className="cropper-control va-button va-button-link" type="button" onClick={this.zoomOut}>
-              Make smaller
+              Make smaller<i className="fa fa-search-minus"></i>
             </button>
             <button className="cropper-control va-button-link" type="button" onClick={this.zoomIn}>
-              Make larger
+              Make larger<i className="fa fa-search-plus"></i>
             </button>
           </div>
           <div className="cropper-control-contrainer">
             <div className="cropper-control-column">
               <button className="cropper-control va-button-link" type="button" onClick={this.moveUp}>
-                Move up
+                Move up<i className="fa fa-arrow-up"></i>
+
               </button>
               <button className="cropper-control va-button-link" type="button" onClick={this.moveDown}>
-                Move down
+                Move down<i className="fa fa-arrow-down"></i>
+
               </button>
             </div>
             <div className="cropper-control-column">
               <button className="cropper-control va-button-link" type="button" onClick={this.moveRight}>
-                Move right
+                Move right<i className="fa fa-arrow-right"></i>
+
               </button>
               <button className="cropper-control va-button-link" type="button" onClick={this.moveLeft}>
-                Move left
+                Move left<i className="fa fa-arrow-left"></i>
+
               </button>
             </div>
           </div>
