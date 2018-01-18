@@ -159,6 +159,7 @@ function closeMenu(menuLiOrStruct) {
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
+  menuButton.focus();
 }
 
 
@@ -371,7 +372,10 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
     // Handle opening (and closing) menus
-    if (inMenubar) {
+    if (e.target.classList.contains('back-button')) {
+      // Small menus with a "Back to menu" button in sub-menus
+      closeMenu(findNearestLi(targetLi));
+    } else if (inMenubar) {
       toggleMenu(targetLi);
     } else if (inMenu) {
       openMenu(targetLi);
@@ -386,3 +390,4 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     }
   });
 }
+
