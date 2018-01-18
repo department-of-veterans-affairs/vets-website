@@ -72,13 +72,13 @@ function runTests(browser, callbacks) {
 function testUnauthorized(browser) {
   return {
     ok() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.app, Timeouts.normal, resolve));
+      return new Promise(resolve => browser.waitForElementVisible(selectors.app, Timeouts.slow, resolve));
     },
     downtimeApproaching() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingAlertBanner, Timeouts.normal, resolve));
+      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingAlertBanner, Timeouts.slow, resolve));
     },
     down() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDown, Timeouts.normal, resolve));
+      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDown, Timeouts.slow, resolve));
     }
   };
 }
@@ -88,14 +88,14 @@ function testAuthorized(browser) {
     ok() {
       return new Promise(resolve => {
         const token = LoginHelpers.getUserToken();
-        LoginHelpers.logIn(token, browser, '/facilities', 3).waitForElementVisible('body', Timeouts.normal).waitForElementVisible(selectors.app, Timeouts.normal, resolve);
+        LoginHelpers.logIn(token, browser, '/facilities', 3).waitForElementVisible('body', Timeouts.slow).waitForElementVisible(selectors.app, Timeouts.slow, resolve);
       });
     },
     downtimeApproaching() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingModal, Timeouts.normal, resolve));
+      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingModal, Timeouts.slow, resolve));
     },
     down() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDown, Timeouts.normal, resolve));
+      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDown, Timeouts.slow, resolve));
     }
   };
 }
