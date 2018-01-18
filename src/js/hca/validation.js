@@ -9,7 +9,7 @@ export function validateServiceDatesFutureDischarge(errors, { lastDischargeDate,
   const endDate = moment().endOf('day').add(180, 'days');
 
   // TODO: Use a constant instead of a magic string
-  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-D').isAfter(endDate)) {
+  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDate)) {
     errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (180 days from today)`);
   }
 
