@@ -57,11 +57,33 @@ export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      src: null,
       cropResult: null,
       done: false,
       zoomValue: 2,
       errorMessage: null
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const newView = !prevState.src || prevState.done;
+    const cropper = this.refs.cropper;
+    if (newView && cropper) {
+      setTimeout(() => {
+        const containerData = cropper.getContainerData();
+        const containerWidth = containerData.width;
+        const smallScreen = window.innerWidth < 768;
+        const cropBoxSize = smallScreen ? 240 : 300;
+        const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
+        const cropBoxData = {
+          left: cropBoxLeftOffset,
+          top: 0,
+          width: cropBoxSize,
+          height: cropBoxSize
+        };
+        cropper.setCropBoxData(cropBoxData);
+      }, 0);
+    }
   }
 
   onDone = () => {
@@ -159,15 +181,18 @@ export default class PhotoField extends React.Component {
     if (this.state.done) description = 'Success! This photo will be printed on your Veteran ID card.';
 
     return (
-      <div>
-        {!this.state.done && <h4>{instruction}</h4>}
-        {(this.state.src || this.state.done) && <p>{description}</p>}
-        {this.state.done && <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped"/>}
+      <div style={{ border: 'lightgrey 9px solid' }}>
+        <div style={{ padding: '2px' }}>
+          <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>
+          {!this.state.done && <p>{instruction}</p>}
+          {(this.state.src || this.state.done) && <p>{description}</p>}
+          {this.state.done && <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped"/>}
+        </div>
         {this.state.src && <div>
           <Cropper
             ref="cropper"
+            responsive={false}
             src={this.state.src}
-            style={{ height: 400, width: '100%' }}
             aspectRatio={1 / 1}
             cropBoxMovable={false}
             toggleDragModeOnDblclick={false}
