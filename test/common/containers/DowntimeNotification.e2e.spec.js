@@ -109,7 +109,10 @@ function begin(browser) {
     runTests(browser, testUnauthorized(browser))
       .then(() => runTests(browser, testAuthorized(browser)))
       .then(() => browser.closeWindow())
-      .then(done, done);
+      .then(done, (err) => {
+        browser.verify.ok(false, err);
+        done();
+      });
   });
 }
 
