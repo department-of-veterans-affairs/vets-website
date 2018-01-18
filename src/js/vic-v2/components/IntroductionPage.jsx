@@ -18,9 +18,10 @@ class IntroductionPage extends React.Component {
   signedOutMessage = () => {
     return (
       <div>
-        <div className="usa-alert usa-alert-info schemaform-sip-alert">
+        <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <p>If you're signed in to your account, the application process can go more smoothly. Here's why:</p>
+            If you're signed in to your account, the application process can go more smoothly. Here's why:
+            <br/>
             <ul>
               <li>We can prefill part of your application based on your account details.</li>
               <li>You can save your form in progress, and come back later to finish filling it out.</li>
@@ -58,14 +59,16 @@ class IntroductionPage extends React.Component {
                 <li>A digital copy of your DD214 or other military discharge papers that you can upload</li>
                 <li>A current color photo of yourself</li>
               </ul>
-              <div><h6>The photo has to follow the guidance listed below. It must:</h6></div>
-              <ul>
-                <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), and</li>
-                <li>Be cropped from your shoulders up (much like a passport photo), and</li>
-                <li>Show you with your eyes open and a neutral expression, and</li>
-                <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
-                <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
-              </ul>
+              <div className="vic-intro-indent">
+                <div><h6>The photo has to follow the guidance listed below. It must:</h6></div>
+                <ul>
+                  <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), and</li>
+                  <li>Be cropped from your shoulders up (much like a passport photo), and</li>
+                  <li>Show you with your eyes open and a neutral expression, and</li>
+                  <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
+                  <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
+                </ul>
+              </div>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <h4 className="usa-alert-heading">Do I have to sign in to Vets.gov to apply for a Veteran ID Card?</h4>
