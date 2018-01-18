@@ -144,7 +144,7 @@ SaveInProgressIntro.propTypes = {
   removeInProgressForm: PropTypes.func.isRequired,
   startText: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
-  renderSignedOutMessage: PropTypes.func
+  renderSignInMessage: PropTypes.func
 };
 
 export const introSelector = getIntroState;

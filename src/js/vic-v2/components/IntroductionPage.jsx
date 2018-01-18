@@ -20,14 +20,14 @@ class IntroductionPage extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            If you're signed in to your account, the application process can go more smoothly. Here's why:
+            If you’re signed in to your account, the application process can go more smoothly. Here’s why:
             <br/>
             <ul>
               <li>We can prefill part of your application based on your account details.</li>
               <li>You can save your form in progress, and come back later to finish filling it out.</li>
               <li>You could get your card sooner because we can confirm your Veteran status more quickly.</li>
             </ul>
-            {!this.props.saveInProgress.user.login.currentlyLoggedIn && <p><button className="va-button-link" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign in to your account.</button></p>}
+            <p><button className="va-button-link" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign in to your account.</button></p>
           </div>
         </div>
         <br/>
