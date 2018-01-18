@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
 
-  signedOutMessage = () => {
+  renderSignInMessage = () => {
     return (
       <div>
         <div className="usa-alert usa-alert-info">
@@ -43,7 +43,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
-          renderSignedOutMessage={this.signedOutMessage}
+          renderSignInMessage={this.renderSignInMessage}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
           Please complete the VIC form to apply for a card

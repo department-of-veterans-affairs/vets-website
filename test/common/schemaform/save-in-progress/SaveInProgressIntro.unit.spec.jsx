@@ -262,7 +262,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        renderSignedOutMessage={renderSpy}
+        renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}/>
     );
 

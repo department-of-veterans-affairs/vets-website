@@ -13,7 +13,7 @@ export default class SaveInProgressIntro extends React.Component {
     let alert;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    const { renderSignedOutMessage, prefillEnabled } = this.props;
+    const { renderSignInMessage, prefillEnabled } = this.props;
 
     if (login.currentlyLoggedIn) {
       if (savedForm) {
@@ -58,8 +58,8 @@ export default class SaveInProgressIntro extends React.Component {
           </div>
         );
       }
-    } else if (renderSignedOutMessage) {
-      alert = renderSignedOutMessage(prefillEnabled);
+    } else if (renderSignInMessage) {
+      alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled) {
       alert = (
         <div>
