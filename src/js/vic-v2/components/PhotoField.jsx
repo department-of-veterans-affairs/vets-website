@@ -211,26 +211,34 @@ export default class PhotoField extends React.Component {
             aria-valuemax="10"
             aria-valuenow={this.state.zoomValue}
             onInput={this.zoom}/>
-          <button type="button" onClick={this.zoomIn} style={{ 'float': 'right' }}>
-            Move In
-          </button>
-          <button type="button" onClick={this.zoomOut} style={{ 'float': 'right' }}>
-            Move Out
-          </button>
-          <button type="button" onClick={this.moveUp} style={{ 'float': 'right' }}>
-            Up
-          </button>
-          <button type="button" onClick={this.moveDown} style={{ 'float': 'right' }}>
-            Down
-          </button>
-          <button type="button" onClick={this.moveRight} style={{ 'float': 'right' }}>
-            Right
-          </button>
-          <button type="button" onClick={this.moveLeft} style={{ 'float': 'right' }}>
-            Left
-          </button>
+          <div className="cropper-control-column">
+            <button className="cropper-control va-button va-button-link" type="button" onClick={this.zoomOut}>
+              Make smaller
+            </button>
+            <button className="cropper-control va-button-link" type="button" onClick={this.zoomIn}>
+              Make larger
+            </button>
+          </div>
+          <div className="cropper-control-contrainer">
+            <div className="cropper-control-column">
+              <button className="cropper-control va-button-link" type="button" onClick={this.moveUp}>
+                Move up
+              </button>
+              <button className="cropper-control va-button-link" type="button" onClick={this.moveDown}>
+                Move down
+              </button>
+            </div>
+            <div className="cropper-control-column">
+              <button className="cropper-control va-button-link" type="button" onClick={this.moveRight}>
+                Move right
+              </button>
+              <button className="cropper-control va-button-link" type="button" onClick={this.moveLeft}>
+                Move left
+              </button>
+            </div>
+          </div>
           <button type="button" onClick={this.onDone} style={{ 'float': 'right' }}>
-             I'm done
+            I'm done
           </button>
         </div>
         }
