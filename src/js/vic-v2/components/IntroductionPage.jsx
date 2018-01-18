@@ -110,6 +110,7 @@ class IntroductionPage extends React.Component {
           startText="Start the VIC application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
+        <a href="/privacy">Privacy Act Statement</a>
       </div>
     );
   }
