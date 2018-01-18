@@ -26,7 +26,7 @@ class Timeline extends React.Component {
   toggleExpanded = () => this.setState((prevState) => ({ expanded: !prevState.expanded }));
 
   render() {
-    const { events } = this.props;
+    const { events, missingEvents } = this.props;
     let pastEventsList = [];
     if (events.length) {
       pastEventsList = events.map((event, index) => {
@@ -55,7 +55,8 @@ class Timeline extends React.Component {
             expanded={this.state.expanded}
             key="expander"
             dateRange={this.formatDateRange()}
-            onToggle={this.toggleExpanded}/>
+            onToggle={this.toggleExpanded}
+            missingEvents={missingEvents}/>
           {displayedEvents}
         </ol>
         {downArrow}
@@ -70,6 +71,7 @@ Timeline.propTypes = {
     date: PropTypes.string.isRequired,
     details: PropTypes.object
   })).isRequired,
+  missingEvents: PropTypes.bool.isRequired
 };
 
 export default Timeline;

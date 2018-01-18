@@ -13,13 +13,13 @@ import Docket from '../components/appeals-v2/Docket';
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
 const AppealsV2StatusPage = ({ appeal }) => {
-  const { events, alerts, status } = appeal.attributes;
+  const { events, alerts, status, incompleteHistory } = appeal.attributes;
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
   const nextEvents = getNextEvents(type);
   return (
     <div>
-      <Timeline events={events}/>
+      <Timeline events={events} missingEvents={incompleteHistory}/>
       <CurrentStatus
         title={currentStatus.title}
         description={currentStatus.description}/>

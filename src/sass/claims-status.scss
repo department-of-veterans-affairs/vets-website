@@ -645,6 +645,10 @@ h1:focus {
 
   .appeal-event-date {
     color: $color-gray-medium;
+
+    & + .usa-alert {
+      margin-top: 1em;
+    }
   }
 
   & + .down-arrow {
@@ -711,6 +715,10 @@ h1:focus {
 
 .va-appeals-content {
   padding-top: 1em;
+
+  .usa-alert-text {
+    margin-top: 1em;
+  }
 }
 
 .appeals-tabs-item {
@@ -926,10 +934,6 @@ h1:focus {
     // up with CurrentStatus's title & description content
     background-position: 2.5rem 2.8rem;
     padding-left: 2.5em;
-
-    .usa-alert-text {
-      margin-top: 1em;
-    }
   }
 }
 

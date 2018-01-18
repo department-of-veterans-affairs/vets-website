@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Expander = ({ expanded, dateRange, onToggle }) => {
-  let title;
-  let cssClass;
-  if (expanded) {
-    title = 'Hide past events';
-    cssClass = 'section-expanded';
-  } else {
-    title = 'See past events';
-    cssClass = 'section-unexpanded';
-  }
+const missingEventsAlert = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h4 className="usa-alert-heading">Missing events</h4>
+      <p className="usa-alert-text">There may be some events missing from this page. If you have questions about a past form or VA decision, please contact your VSO or representative for more information.</p>
+    </div>
+  </div>
+);
 
-  const separator = expanded ?  <div className="separator"/> : null;
+const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
+  const title = expanded ? 'Hide past events' : 'See past events';
+  const cssClass = expanded ? 'section-expanded' : 'section-unexpanded';
+  const separator = (expanded && !missingEvents) ?  <div className="separator"/> : null;
+  const alert = missingEvents ? missingEventsAlert : null;
 
   return (
     <li className={`process-step ${cssClass}`}>
@@ -21,13 +23,15 @@ const Expander = ({ expanded, dateRange, onToggle }) => {
         <h3 style={{ color: 'inherit' }}>{title}</h3>
       </button>
       <div className="appeal-event-date">{dateRange}</div>
+      {expanded && alert}
       {separator}
     </li>
   );
 };
 
 Expander.propTypes = {
-  title: PropTypes.string.isRequired,
+  expanded: PropTypes.bool.isRequired,
+  missingEvents: PropTypes.bool.isRequired,
   dateRange: PropTypes.string.isRequired,
   onToggle: PropTypes.func.isRequired,
   cssClass: PropTypes.string.isRequired,
