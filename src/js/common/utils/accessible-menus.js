@@ -159,6 +159,7 @@ function closeMenu(menuLiOrStruct) {
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
+  menuButton.focus();
 }
 
 
