@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// TODO: Depending on when this gets rendered, we may want to return null if either
+//  `ahead` or `total` don't exist (or if `total` === 0 because of the divide by 0  error)
 function Docket({ ahead, total }) {
   const completedWidth = { width: `${((total - ahead) / total) * 100}%` };
 
   // TODO: Assess how accessible this is
   return (
     <div className="docket-container">
-      <span className="appeals-ahead">{ahead.toLocaleString()}</span>
+      <p className="appeals-ahead">{ahead.toLocaleString()}</p>
       <p>Appeals ahead of you</p>
 
       <div className="marker-container">
