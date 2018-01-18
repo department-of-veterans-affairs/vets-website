@@ -187,7 +187,7 @@ class DowntimeNotification extends React.Component {
       if (!this.state.modalDismissed) {
         const close = () => this.setState({ modalDismissed: true });
         downtimeNotification = (
-          <Modal id="downtime-approaching"
+          <Modal id="downtime-approaching-modal"
             title={title}
             onClose={close}
             visible={!this.state.modalDismissed}>
