@@ -1,0 +1,188 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import _ from 'lodash';
+import classNames from 'classnames';
+
+import ToolTip from '../../common/components/form-elements/ToolTip';
+import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
+
+import { makeField } from '../../common/model/fields.js';
+
+/**
+ * A radio button group with a label.
+ *
+ * Validation has the following props.
+
+ * `additionalFieldsetClass` - String for any additional fieldset classes.
+ * `additionalLegendClass` - String for any additional legend classes.
+ * `label` - String for the group field label.
+ * `name` - String for the name attribute.
+ * `toolTipText` - String with help text for user.
+ * `tabIndex` - Number for keyboard tab order.
+ * `options` - Array of options to populate group.
+ * `required` - is this field required.
+ * `value` - string. Value of the select field.
+ * `onValueChange` - a function with this prototype: (newValue)
+ */
+
+// NOTE: This component has been modified specifically for 508 compliance on the health records app
+class ErrorableRadioButtons extends React.Component {
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentWillMount() {
+    this.inputId = this.props.id || _.uniqueId('errorable-radio-buttons-');
+  }
+
+  handleChange(domEvent) {
+    this.props.onValueChange(makeField(domEvent.target.value, true));
+  }
+
+  render() {
+    // TODO: extract error logic into a utility function
+    // Calculate error state.
+    let errorSpan = '';
+    let errorSpanId = undefined;
+    if (this.props.errorMessage) {
+      errorSpanId = `${this.inputId}-error-message`;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
+    }
+
+    // Addes ToolTip if text is provided.
+    let toolTip;
+    if (this.props.toolTipText) {
+      toolTip = (
+        <ToolTip
+          tabIndex={this.props.tabIndex}
+          toolTipText={this.props.toolTipText}/>
+      );
+    }
+
+    // Calculate required.
+    let requiredSpan = undefined;
+    if (this.props.required) {
+      requiredSpan = <span className="form-required-span">*</span>;
+    }
+
+    const options = _.isArray(this.props.options) ? this.props.options : [];
+    const storedValue = this.props.value.value;
+    const optionElements = options.map((obj, index) => {
+      let optionLabel;
+      let optionValue;
+      let optionAdditional;
+      if (_.isString(obj)) {
+        optionLabel = obj;
+        optionValue = obj;
+      } else {
+        optionLabel = obj.label;
+        optionValue = obj.value;
+        if (obj.additional) {
+          optionAdditional = (<div>{obj.additional}</div>);
+        }
+      }
+      const checked = optionValue === storedValue ? 'checked=true' : '';
+      const radioButton = (
+        <div key={optionAdditional ? undefined : index} className="form-radio-buttons">
+          <input
+            autoComplete="false"
+            checked={checked}
+            id={`${this.inputId}-${index}`}
+            name={this.props.name}
+            type="radio"
+            value={optionValue}
+            onChange={this.handleChange}/>
+          <label
+            name={`${this.props.name}-${index}-label`}
+            htmlFor={`${this.inputId}-${index}`}>
+            {optionLabel}
+          </label>
+          {this.props.children}
+        </div>
+      );
+
+      let output = radioButton;
+
+      // Return an expanding group for buttons with additional content
+      if (optionAdditional) {
+        output = (
+          <ExpandingGroup
+            additionalClass="form-expanding-group-active-radio"
+            open={checked}
+            key={index}>
+            {radioButton}
+            <div>{optionAdditional}</div>
+          </ExpandingGroup>
+        );
+      }
+
+      return output;
+    });
+
+    const fieldsetClass = classNames('fieldset-input', {
+      'usa-input-error': this.props.errorMessage,
+      [this.props.additionalFieldsetClass]: this.props.additionalFieldsetClass
+    });
+
+    const legendClass = classNames('legend-label', {
+      'usa-input-error-label': this.props.errorMessage,
+      [this.props.additionalLegendClass]: this.props.additionalLegendClass
+    });
+
+    return (
+      <fieldset className={fieldsetClass}>
+        <legend
+          className={legendClass}>
+          {this.props.label}
+          {requiredSpan}
+        </legend>
+        {errorSpan}
+        {optionElements}
+        {toolTip}
+      </fieldset>
+    );
+  }
+}
+
+ErrorableRadioButtons.propTypes = {
+  additionalFieldsetClass: PropTypes.string,
+  additionalLegendClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
+  name: PropTypes.string,
+  id: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element,
+        ]),
+        value: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.bool
+        ]),
+        additional: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
+        ])
+      })
+    ])).isRequired,
+  value: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
+  }).isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  required: PropTypes.bool,
+};
+
+export default ErrorableRadioButtons;
