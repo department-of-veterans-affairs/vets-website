@@ -79,7 +79,6 @@ First, contact your school’s certifying official to make sure your program is 
 
 #### If you’ve already started your program:
 - Take your application to your school or employer.
-- Ask your school to fill out a VA Enrollment Certification (VA Form 22-1999) and send it to us along with your application. [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
-
+- Ask your school to fill out a VA Enrollment Certification (VA Form 22-1999) and send it to us along with your application.
 ### Get more information
 - Read the [DEA pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).

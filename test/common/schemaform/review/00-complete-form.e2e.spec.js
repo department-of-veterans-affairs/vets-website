@@ -71,7 +71,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.expect.element('.review-row:nth-child(2) span').text.to.equal('01/02/1998');
 
-    // Click privacy agreement  
+    // Click privacy agreement
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
       .click('input[type="checkbox"]')
