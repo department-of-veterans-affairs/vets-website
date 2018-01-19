@@ -157,7 +157,7 @@ class DowntimeNotification extends React.Component {
   }
 
   renderStatusDown({ endTime }) {
-    const title = `${this.props.appTitle} is down for maintenance.`;
+    const title = `The ${this.props.appTitle} is down for maintenance.`;
     let message = <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
       message = (
@@ -180,7 +180,7 @@ class DowntimeNotification extends React.Component {
   }
 
   renderStatusDownApproaching({ startTime, endTime }) {
-    const title = `${this.props.appTitle} will be down for maintenance soon`;
+    const title = `The ${this.props.appTitle} will be down for maintenance soon`;
     const message = <p>We'll be doing some work on {this.props.appTitle} on {startTime.format('MMMM Mo')} between {startTime.format('LT')} and {endTime.format('LT')} . If you have trouble using this tool during that time, please check back soon.</p>;
     let downtimeNotification = null;
     if (this.props.userIsAuthenticated) {
