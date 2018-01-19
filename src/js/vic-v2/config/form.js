@@ -41,7 +41,7 @@ const formConfig = {
     notFound: 'Please start over to apply for a veteran id card.',
     noAuth: 'Please sign in again to resume your application for a veteran id card.'
   },
-  title: 'Apply for veteran id card',
+  title: 'Apply for Veteran ID Card',
   defaultDefinitions: {
     ssn,
     fullName,
