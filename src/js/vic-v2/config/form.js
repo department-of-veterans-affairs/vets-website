@@ -156,8 +156,11 @@ const formConfig = {
           path: 'documents/photo',
           title: 'Photo upload',
           uiSchema: {
+            'ui:title': 'Upload Your Photo',
             photo: {
-              'ui:field': PhotoField
+              'ui:field': PhotoField,
+              'ui:title': 'Please upload a current photo of yourself that’ll appear on your Veteran ID Card.',
+
             }
           },
           schema: {

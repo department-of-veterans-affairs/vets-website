@@ -428,7 +428,7 @@ export function getNextEvents(currentStatus) {
 }
 
 /**
- * 
+ *
  * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
  * @returns {object} containing dynamically-generated title & description properties
  */
