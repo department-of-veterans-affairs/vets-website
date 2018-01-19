@@ -948,3 +948,97 @@ h1:focus {
   }
 }
 
+
+$end-of-docket-width: 4px;
+$docket-bar-width: calc(100% - #{$end-of-docket-width});
+$marker-width: 3rem;
+$marker-text-width: 9rem;
+
+.docket-container {
+  // This is slightly darker than the cards above it
+  background-color: $color-gray-light-alt;
+  padding: 16px;
+  margin: 3em 0px;
+
+  p {
+    margin: 0px;
+  }
+
+  .appeals-ahead {
+    font-family: Source Sans Pro, sans serif;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $color-gray-light;
+    width: 80%;
+    max-width: 24rem;
+
+    & + p {
+      margin-top: 6px;
+    }
+  }
+
+  .marker-container {
+    // Same width as .docket-bar so we can more easily line the marker
+    //  up with .docket-bar .completed
+    width: $docket-bar-width;
+    margin-bottom: -16px;
+
+    .marker-text-spacer {
+      display: inline-block;
+      min-width: $marker-text-width / 2;
+      max-width: calc(100% - #{$marker-text-width} / 2);
+    }
+
+    .spacer {
+      display: inline-block;
+    }
+
+    .marker {
+      display: inline-block;
+      width: $marker-width;
+      margin: 0px $marker-width / -2;
+    }
+
+    span.marker-text {
+      font-weight: bold;
+      color: $color-primary;
+      width: $marker-text-width;
+      margin: 0px $marker-text-width / -2;
+    }
+  }
+
+  .docket-bar {
+    display: inline-block;
+    // 100% - width of .end-of-docket
+    width: $docket-bar-width;
+    height: 40px;
+    border: 1px solid $color-gray-light;
+    // abuts the .end-of-docket
+    border-right: 0px;
+    background-color: $color-white;
+
+    .completed {
+      background-color: $color-primary-darker;
+      height: 100%;
+    }
+  }
+
+  .end-of-docket {
+    display: inline-block;
+    background-color: $color-gold;
+    height: 64px;
+    width: $end-of-docket-width;
+  }
+
+  .front-of-docket-text {
+    display: flex;
+    flex-direction: row-reverse;
+
+    p {
+      width: 8rem;
+      text-align: right;
+    }
+  }
+}
