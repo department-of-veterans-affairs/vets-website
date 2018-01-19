@@ -19,8 +19,8 @@ const selectors = {
   statusDownApproachingAlertBanner: '[data-status="downtimeApproaching"] .usa-alert'
 };
 
-function mock(data) {
-  return createMockEndpoint(token, { path: '/v0/maintenance_windows', verb: 'get', value: { data }  });
+function mock(data, _token = token) {
+  return createMockEndpoint(_token, { path: '/v0/maintenance_windows', verb: 'get', value: { data }  });
 }
 
 function mockNoDowntime() {
@@ -102,6 +102,11 @@ function testAuthorized(browser) {
   };
 }
 
+// At the end of the tests, erase the downtime notification values from the API so that future e2e tests aren't affected.
+function cleanUp() {
+  return mock([]).then(() => mock([], null));
+}
+
 function begin(browser) {
   browser.url(`${E2eHelpers.baseUrl}/facilities/`);
   E2eHelpers.overrideSmoothScrolling(browser);
@@ -110,7 +115,7 @@ function begin(browser) {
   browser.perform(done => {
     runTests(browser, testUnauthorized(browser))
       .then(() => runTests(browser, testAuthorized(browser)))
-      .then(mockNoDowntime)
+      .then(cleanUp)
       .then(() => browser.closeWindow())
       .then(done, (err) => {
         browser.verify.ok(false, err);
