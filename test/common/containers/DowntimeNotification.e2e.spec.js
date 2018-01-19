@@ -5,6 +5,8 @@ const Timeouts = require('../../e2e/timeouts');
 const FacilityHelpers = require('../../e2e/facility-helpers');
 const LoginHelpers = require('../../e2e/login-helpers');
 
+let token = null;
+
 const beforeNow = moment().subtract(1, 'minute').toISOString();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toISOString();
 const endTime = moment().add(6, 'hour').toISOString();
@@ -18,7 +20,7 @@ const selectors = {
 };
 
 function mock(data) {
-  return createMockEndpoint(null, { path: '/v0/maintenance_windows', verb: 'get', value: { data }  });
+  return createMockEndpoint(token, { path: '/v0/maintenance_windows', verb: 'get', value: { data }  });
 }
 
 function mockNoDowntime() {
@@ -87,7 +89,7 @@ function testAuthorized(browser) {
   return {
     ok() {
       return new Promise(resolve => {
-        const token = LoginHelpers.getUserToken();
+        token = LoginHelpers.getUserToken();
         LoginHelpers.logIn(token, browser, '/facilities', 3).waitForElementVisible('body', Timeouts.slow).waitForElementVisible(selectors.app, Timeouts.slow, resolve);
       });
     },
