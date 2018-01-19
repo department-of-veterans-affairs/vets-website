@@ -174,6 +174,7 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
+    const smallScreen = window.innerWidth < 768;
     const dragAndDropSupported = detectDragAndDrop();
     let instruction = 'Step 1 of 2: Upload a digital photo.';
     let description = 'Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.';
@@ -188,7 +189,7 @@ export default class PhotoField extends React.Component {
           {(this.state.src || this.state.done) && <p>{description}</p>}
           {this.state.done && <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped"/>}
         </div>
-        {this.state.src && <div>
+        {this.state.src && <div className="cropper-container-outer">
           <Cropper
             ref="cropper"
             responsive={false}
@@ -201,8 +202,13 @@ export default class PhotoField extends React.Component {
             viewMode={1}
             zoom={this.onZoom}
             crop={this.cropImage}/>
+          <div className="cropper-zoom-container">
+            {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>
+              <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
+            </button>}
           <input type="range"
             ref="slider"
+            className="cropper-zoom-slider"
             min="2"
             max="10"
             defaultValue="1"
@@ -211,33 +217,36 @@ export default class PhotoField extends React.Component {
             aria-valuemax="10"
             aria-valuenow={this.state.zoomValue}
             onInput={this.zoom}/>
-          <div className="cropper-control-column">
+            {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}>
+              <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
+            </button>}
+          </div>
+            {smallScreen && <div className="cropper-control-column">
             <button className="cropper-control va-button va-button-link" type="button" onClick={this.zoomOut}>
-              Make smaller<i className="fa fa-search-minus"></i>
+              <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
             </button>
             <button className="cropper-control va-button-link" type="button" onClick={this.zoomIn}>
-              Make larger<i className="fa fa-search-plus"></i>
+              <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
             </button>
-          </div>
+          </div>}
           <div className="cropper-control-contrainer">
             <div className="cropper-control-column">
               <button className="cropper-control va-button-link" type="button" onClick={this.moveUp}>
-                Move up<i className="fa fa-arrow-up"></i>
+                <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
 
               </button>
               <button className="cropper-control va-button-link" type="button" onClick={this.moveDown}>
-                Move down<i className="fa fa-arrow-down"></i>
+                <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
 
               </button>
             </div>
             <div className="cropper-control-column">
-              <button className="cropper-control va-button-link" type="button" onClick={this.moveRight}>
-                Move right<i className="fa fa-arrow-right"></i>
+              <button className="cropper-control va-button-link" type="button" onClick={this.moveLeft}>
+                <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
 
               </button>
-              <button className="cropper-control va-button-link" type="button" onClick={this.moveLeft}>
-                Move left<i className="fa fa-arrow-left"></i>
-
+              <button className="cropper-control va-button-link" type="button" onClick={this.moveRight}>
+                <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
               </button>
             </div>
           </div>

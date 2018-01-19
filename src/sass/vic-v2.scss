@@ -7,12 +7,22 @@
 @import "modules/m-modal";
 @import "modules/m-form-confirmation";
 
+.fa {
+  font-size: 1.07em !important;
+}
+
 .progress-box.progress-box-schemaform {
   padding: unset;
 }
 
 .form-panel {
   max-width: unset;
+}
+
+.cropper-container-outer {
+  @media (min-width: $medium-screen) {
+    padding: 10px 50px;
+  }
 }
 
 .cropper-container {
@@ -61,3 +71,97 @@
 .cropper-bg {
   background-image: none;
 }
+
+.cropper-control-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.cropper-control-column {
+  display: inline-block;
+  width: 100%;
+  @media (min-width: $medium-screen) {
+    width: 50%;
+  }
+}
+
+.cropper-control {
+  text-align: center;
+  width: 50% !important;
+  text-decoration: none !important;
+  text-align: center;
+}
+
+.cropper-zoom-container {
+  padding: 10px 0;
+}
+
+.cropper-zoom-slider {
+  display: inline-block;
+  @media (min-width: $medium-screen) {
+    height: unset;
+    width: 50% !important;
+    padding: 0 5px 5px 5px;
+  }
+}
+
+.cropper-control.cropper-control-zoom {
+  width: 25% !important;
+  &.cropper-control-zoom-in {
+    .cropper-control-label {
+      float: right;
+    }
+  }
+  &.cropper-control-zoom-out {
+    .cropper-control-label {
+      float: left;
+    }
+  }
+}
+
+.fa {
+  @media (min-width: $medium-screen) {
+    padding: 0 15px 0 5px !important;
+  }
+}
+
+.fa-search-plus {
+  padding: 0 0 0 5px !important; 
+  @media (min-width: $medium-screen) {
+    padding: 0  5px !important;
+    float: left;
+  }
+}
+
+.fa-search-minus {
+  padding: 0 0 0 5px !important; 
+  @media (min-width: $medium-screen) {
+    padding: 0 5px 0 5px !important;
+    float: right;
+  }
+}
+
+.fa-arrow-up {
+  padding: 0 33px 0 5px !important; 
+}
+
+.fa-arrow-down {
+  padding: 0 2px 0 5px !important; 
+}
+
+.fa-arrow-left {
+  padding: 0 31px 0 5px !important; 
+}
+
+.fa-arrow-right {
+  padding: 0 11px 0 5px !important; 
+}
+
