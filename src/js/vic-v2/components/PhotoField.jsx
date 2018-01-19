@@ -66,7 +66,7 @@ export default class PhotoField extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const newView = !prevState.src || prevState.done;
+    const newView = prevState.src !== this.state.src || !prevState.src || prevState.done;
     const cropper = this.refs.cropper;
     if (newView && cropper) {
       setTimeout(() => {
@@ -86,8 +86,12 @@ export default class PhotoField extends React.Component {
     }
   }
 
+  onEdit = () => {
+    this.setState({ done: false });
+  }
+
   onDone = () => {
-    this.setState({ src: null, done: true });
+    this.setState({ done: true });
   }
 
   onChange = (files) => {
@@ -176,96 +180,107 @@ export default class PhotoField extends React.Component {
   render() {
     const smallScreen = window.innerWidth < 768;
     const dragAndDropSupported = detectDragAndDrop();
-    let instruction = 'Step 1 of 2: Upload a digital photo.';
-    let description = 'Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.';
-    if (this.state.src) instruction = 'Step 2 of 2: Fit your head and shoulders in the frame';
+    let instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
+    let description = 'Drag and drop your image into the square or click the upload button.';
+    if (this.state.src) {
+      instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
+      description = 'Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.';
+    }
     if (this.state.done) description = 'Success! This photo will be printed on your Veteran ID card.';
 
     return (
-      <div style={{ border: 'lightgrey 9px solid' }}>
-        <div style={{ padding: '2px' }}>
-          <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>
-          {!this.state.done && <p>{instruction}</p>}
-          {(this.state.src || this.state.done) && <p>{description}</p>}
-          {this.state.done && <img style={{ width: '100%' }} src={this.state.cropResult} alt="cropped"/>}
-        </div>
-        {this.state.src && <div className="cropper-container-outer">
-          <Cropper
-            ref="cropper"
-            responsive={false}
-            src={this.state.src}
-            aspectRatio={1 / 1}
-            cropBoxMovable={false}
-            toggleDragModeOnDblclick={false}
-            dragMode="move"
-            guides={false}
-            viewMode={1}
-            zoom={this.onZoom}
-            crop={this.cropImage}/>
-          <div className="cropper-zoom-container">
-            {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}><i className="fa fa-search-minus"></i></button>}
-            {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>
-              <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
-            </button>}
-            <input type="range"
-              ref="slider"
-              className="cropper-zoom-slider"
-              min="2"
-              max="10"
-              defaultValue="1"
-              step="0.1"
-              aria-valuemin="2"
-              aria-valuemax="10"
-              aria-valuenow={this.state.zoomValue}
-              onInput={this.zoom}/>
-            {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
-            {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}>
-              <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
-            </button>}
+      <div>
+        {!smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
+        <div style={{ border: 'lightgrey 9px solid' }}>
+          <div style={{ margin: '1em 1em 4em' }}>
+            {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
+            {!this.state.done && instruction}
+            {(dragAndDropSupported || this.state.src || this.state.done) && <p>{description}</p>}
+            {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
           </div>
-          {smallScreen && <div className="cropper-control-column">
-            <button className="cropper-control va-button va-button-link" type="button" onClick={this.zoomOut}>
-              <span className="cropper-control-label">Make smaller</span>
-            </button>
-            <button className="cropper-control cropper-control-zoom cropper-control-zoom-in label-container va-button-link" type="button" onClick={this.zoomIn}>
-              <span className="cropper-control-label">Make larger</span>
-            </button>
+          {!this.state.done && this.state.src && <div className="cropper-container-outer">
+            <Cropper
+              ref="cropper"
+              responsive={false}
+              src={this.state.src}
+              aspectRatio={1 / 1}
+              cropBoxMovable={false}
+              toggleDragModeOnDblclick={false}
+              dragMode="move"
+              guides={false}
+              viewMode={1}
+              zoom={this.onZoom}
+              crop={this.cropImage}/>
+            <div className="cropper-zoom-container">
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}><i className="fa fa-search-minus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>
+                <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
+              </button>}
+              <input type="range"
+                ref="slider"
+                className="cropper-zoom-slider"
+                min="2"
+                max="10"
+                defaultValue="1"
+                step="0.1"
+                aria-valuemin="2"
+                aria-valuemax="10"
+                aria-valuenow={this.state.zoomValue}
+                onInput={this.zoom}/>
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}>
+                <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
+              </button>}
+            </div>
+            <div className="cropper-control-container">
+              <div className="cropper-control-column">
+                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
+                  <span className="cropper-control-label">Make smaller</span>
+                </button>}
+                <button className="cropper-control cropper-control-label-container  va-button-link" type="button" onClick={this.moveUp}>
+                  <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
+
+                </button>
+                <button className="cropper-control cropper-control-label-container va-button-link" type="button" onClick={this.moveLeft}>
+                  <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
+
+                </button>
+              </div>
+              <div className="cropper-control-column">
+                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
+                  <span className="cropper-control-label">Make larger</span>
+                </button>}
+                <button className="cropper-control cropper-control-label-container va-button-link" type="button" onClick={this.moveDown}>
+                  <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
+
+                </button>
+                <button className="cropper-control cropper-control-label-container va-button-link" type="button" onClick={this.moveRight}>
+                  <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
+                </button>
+              </div>
+            </div>
+            <div className="crop-button-container">
+              <button type="button" className="usa-button-primary" onClick={this.onDone}>
+                I'm done
+              </button>
+            </div>
+          </div>
+          }
+          {!this.state.src && !this.state.done && <div className="drop-target-container">
+            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/png">
+              <img alt="placeholder" src="/img/photo-placeholder.png"/>
+            </Dropzone>
           </div>}
-          <div className="cropper-control-contrainer">
-            <div className="cropper-control-column">
-              <button className="cropper-control va-button-link" type="button" onClick={this.moveUp}>
-                <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
-
-              </button>
-              <button className="cropper-control va-button-link" type="button" onClick={this.moveDown}>
-                <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
-
-              </button>
-            </div>
-            <div className="cropper-control-column">
-              <button className="cropper-control va-button-link" type="button" onClick={this.moveLeft}>
-                <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
-
-              </button>
-              <button className="cropper-control va-button-link" type="button" onClick={this.moveRight}>
-                <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
-              </button>
-            </div>
+          <div className={this.state.done ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
+            {this.state.done && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
+            <ErrorableFileInput
+              accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+              onChange={this.onChange}
+              buttonText={smallScreen ? <span>Upload <i className="fa fa-upload"></i></span> : 'Upload Your Photo'}
+              name="fileUpload"
+              additionalErrorClass="claims-upload-input-error-message"/>
           </div>
-          <button type="button" onClick={this.onDone} style={{ 'float': 'right' }}>
-            I'm done
-          </button>
         </div>
-        }
-        {!this.state.src && !this.state.done && <Dropzone onDrop={this.onChange} accept="image/jpeg, image/png"/>}
-        <ErrorableFileInput
-          errorMessage={this.getErrorMessage()}
-          label={dragAndDropSupported && <span className="claims-upload-input-title">Drag & drop your image into the square or upload.</span>}
-          accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-          onChange={this.onChange}
-          buttonText="Upload"
-          name="fileUpload"
-          additionalErrorClass="claims-upload-input-error-message"/>
       </div>
     );
   }

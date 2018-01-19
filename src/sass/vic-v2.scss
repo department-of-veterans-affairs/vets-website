@@ -159,32 +159,36 @@ input[type=range] {
 }
 
 .cropper-control-container {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-flow: row wrap;
+  flex-direction: row;
   justify-content: space-around;
+  margin-bottom: 30px;
 }
 
 .cropper-control-column {
-  display: inline-block;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
   @media (min-width: $medium-screen) {
-    width: 50%;
+    flex-direction: row;
   }
 }
 
-.cropper-control {
+.cropper-control-label-container {
+  margin: 10px;
+}
+
+.cropper-control-zoom {
   text-align: center;
   width: 50% !important;
   text-decoration: none !important;
   text-align: center;
 }
+//.cropper-control {
+  //text-align: center;
+  //width: 50% !important;
+  //text-decoration: none !important;
+  //text-align: center;
+//}
 
 .cropper-zoom-container {
   display: flex;
@@ -235,14 +239,18 @@ input[type=range] {
 }
 
 .fa-search-plus {
+  font-size: 2em !important;
   @media (min-width: $medium-screen) {
+    font-size: 1.07em !important;
     padding: 0  5px !important;
     float: left;
   }
 }
 
 .fa-search-minus {
+  font-size: 2em !important;
   @media (min-width: $medium-screen) {
+    font-size: 1.07em !important;
     padding: 0 4px 0 4px !important;
     float: right;
   }
@@ -264,3 +272,75 @@ input[type=range] {
   padding: 0 7px 0 5px !important; 
 }
 
+.photo-input-container {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 80px 0;
+    &.photo-input-container-left {
+      padding-left: 10px;
+      justify-content: left;
+    }
+    div[role="alert"] {
+      display: flex;
+      justify-content: center;
+    }
+}
+
+.drop-target-container {
+  height: 240px;
+  width: 240px;
+  margin: 0 auto 80px;
+  @media (min-width: $medium-screen) {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.drop-target {
+  position: absolute;
+  height: 240px;
+  width: 240px;
+  @media (min-width: $medium-screen) {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.drop-target:after {
+  content: " ";
+  position: absolute;
+  z-index: 2;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 1px;
+  border: 4px solid $color-black;
+}
+
+.drop-target:before {
+  content: " ";
+  position: absolute;
+  z-index: 2;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 5px;
+  border: 4px solid $color-primary;
+}
+
+.crop-button-container {
+  margin: 0 auto;
+  max-width: 130px;
+  width: 50%;
+}
+
+.photo-preview {
+  width: 240px;
+  @media (min-width: $medium-screen) {
+    width: 300px;
+  }
+}
+
+.photo-edit-button {
+  max-width: 150px;
+}
