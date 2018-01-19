@@ -25,7 +25,7 @@ describe('<AppealsV2StatusPage/>', () => {
   it('should pass down events as props to Timeline', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps}/>);
     const pastEvents = wrapper.find('Timeline').props().events;
-    expect(pastEvents.length).to.equal(defaultProps.appeal.attributes.events.length);
+    expect(pastEvents).to.equal(defaultProps.appeal.attributes.events);
   });
 
   it('should render a <CurrentStatus/> with title and description', () => {
@@ -48,11 +48,11 @@ describe('<AppealsV2StatusPage/>', () => {
   it('should render a <WhatsNext/> with nextEvents', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps}/>);
     const whatsNext = wrapper.find('WhatsNext');
-    const nextProps = whatsNext.props();
+    const whatsNextProps = whatsNext.props();
     expect(whatsNext.length).to.equal(1);
     // Testing against a specific string would require duplicating component
     // and util code so here we're just testing that the nextEvents prop exists
-    expect(nextProps.nextEvents).to.exist;
+    expect(whatsNextProps.nextEvents).to.exist;
   });
 
   it('should render a <Docket/>', () => {
