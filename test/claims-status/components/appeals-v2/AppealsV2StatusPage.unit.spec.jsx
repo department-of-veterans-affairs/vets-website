@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { mockData } from '../../../../src/js/claims-status/utils/helpers';
 import AppealsV2StatusPage from '../../../../src/js/claims-status/containers/AppealsV2StatusPage';
 
-describe.only('<AppealsV2StatusPage/>', () => {
+describe('<AppealsV2StatusPage/>', () => {
   const defaultProps = { appeal: mockData.data[0] };
 
   it('should render', () => {
