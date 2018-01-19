@@ -143,7 +143,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
-          startText="Start the VIC application"
+          startText="Start the VIC Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         <a href="/privacy">Privacy Act Statement</a>
