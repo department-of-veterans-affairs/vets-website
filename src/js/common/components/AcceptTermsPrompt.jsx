@@ -9,11 +9,12 @@ class AcceptTermsPrompt extends React.Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
-    this.state = {};
+    this.state = { scrolledToBottom: false, yesSelected: false };
   }
 
-  componentWillMount() {
-    this.setState({ scrolledToBottom: false, yesSelected: false });
+  componentDidMount() {
+    window.dataLayer.push({ event: 'terms-shown' });
+    window.scrollTo(0, 0);
   }
 
   onCancel(e) {

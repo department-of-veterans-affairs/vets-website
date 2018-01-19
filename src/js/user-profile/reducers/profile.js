@@ -9,6 +9,12 @@ import {
   ACCEPTING_LATEST_MHV_TERMS,
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
+  FETCHING_MHV_ACCOUNT,
+  FETCH_MHV_ACCOUNT_FAILURE,
+  FETCH_MHV_ACCOUNT_SUCCESS,
+  CREATING_MHV_ACCOUNT,
+  CREATE_MHV_ACCOUNT_FAILURE,
+  CREATE_MHV_ACCOUNT_SUCCESS
 } from '../actions';
 import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 
@@ -23,8 +29,14 @@ const initialState = {
   dob: null,
   gender: null,
   accountType: null,
-  terms: {
-    loading: false
+  mhv: {
+    account: {
+      loading: false,
+      accountState: 'unknown'
+    },
+    terms: {
+      loading: false
+    }
   },
   savedForms: [],
   prefillsAvailable: [],
@@ -42,30 +54,42 @@ function profileInformation(state = initialState, action) {
       return set('loading', false, state);
 
     case FETCHING_LATEST_MHV_TERMS:
-      return set('terms.loading', true, state);
+      return set('mhv.terms.loading', true, state);
 
     case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
-      return set('terms', {
-        ...initialState.terms,
+      return set('mhv.terms', {
+        ...initialState.mhv.terms,
         ...action.terms,
         loading: false,
       }, state);
     }
 
     case FETCHING_LATEST_MHV_TERMS_FAILURE: {
-      return set('terms', {
-        ...initialState.terms,
+      return set('mhv.terms', {
+        ...initialState.mhv.terms,
         loading: false,
       }, state);
     }
 
     case ACCEPTING_LATEST_MHV_TERMS: {
-      return set('terms.loading', true, state);
+      return set('mhv.terms.loading', true, state);
     }
 
     case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
     case ACCEPTING_LATEST_MHV_TERMS_FAILURE: {
-      return set('terms.loading', false, state);
+      return set('mhv.terms.loading', false, state);
+    }
+
+    case FETCHING_MHV_ACCOUNT:
+    case CREATING_MHV_ACCOUNT: {
+      return set('mhv.account.loading', true, state);
+    }
+
+    case FETCH_MHV_ACCOUNT_FAILURE:
+    case FETCH_MHV_ACCOUNT_SUCCESS:
+    case CREATE_MHV_ACCOUNT_FAILURE:
+    case CREATE_MHV_ACCOUNT_SUCCESS: {
+      return set('mhv.account.loading', false, state);
     }
 
     default:
