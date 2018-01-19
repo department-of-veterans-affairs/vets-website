@@ -60,7 +60,7 @@ export default class PhotoField extends React.Component {
       src: null,
       cropResult: null,
       done: false,
-      zoomValue: 2,
+      zoomValue: 0.4,
       errorMessage: null
     };
   }
@@ -220,12 +220,12 @@ export default class PhotoField extends React.Component {
               <input type="range"
                 ref="slider"
                 className="cropper-zoom-slider"
-                min="2"
-                max="10"
-                defaultValue="1"
-                step="0.1"
-                aria-valuemin="2"
-                aria-valuemax="10"
+                min="0"
+                max="1.5"
+                defaultValue="0.4"
+                step="0.01"
+                aria-valuemin="0"
+                aria-valuemax="1.5"
                 aria-valuenow={this.state.zoomValue}
                 onInput={this.zoom}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
