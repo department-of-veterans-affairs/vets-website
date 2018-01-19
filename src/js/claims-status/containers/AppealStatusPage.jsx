@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
@@ -105,50 +106,52 @@ class AppealStatusPage extends React.Component {
     const { status } = appealStatusDescriptions(lastEvent, previousHistory);
 
     return (
-      <div className="claims-container">
-        <div className="row">
-          <div>
-            <h1 className="claims-container-title">Your Compensation Appeal Status</h1>
-            <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}.</p>
+      <DowntimeNotification appName="appeals status tool" dependencies={[services.appeals]}>
+        <div className="claims-container">
+          <div className="row">
+            <div>
+              <h1 className="claims-container-title">Your Compensation Appeal Status</h1>
+              <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}.</p>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="small-12 usa-width-two-thirds medium-8 columns">
-            <div className="row">
-              <div className="next-action-container">
-                {this.renderHearingInfo()}
+          <div className="row">
+            <div className="small-12 usa-width-two-thirds medium-8 columns">
+              <div className="row">
+                <div className="next-action-container">
+                  {this.renderHearingInfo()}
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="next-action-container">
-                {this.renderStatusNextAction(lastEvent, previousHistory)}
+              <div className="row">
+                <div className="next-action-container">
+                  {this.renderStatusNextAction(lastEvent, previousHistory)}
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="last-status">
-                <div className="content">
-                  <i className="claims-status-icon last-status-content-icon fa fa-check-circle"></i>
-                  <h5>{status.title}</h5>
-                  <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
-                  {status.description}
-                  <p>
-                    <a href="/disability-benefits/claims-appeal/">Learn more about the appeals process</a>.
-                  </p>
+              <div className="row">
+                <div className="last-status">
+                  <div className="content">
+                    <i className="claims-status-icon last-status-content-icon fa fa-check-circle"></i>
+                    <h5>{status.title}</h5>
+                    <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
+                    {status.description}
+                    <p>
+                      <a href="/disability-benefits/claims-appeal/">Learn more about the appeals process</a>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="previous-activity">
+                  <h4>Previous Activity for Your Appeal</h4>
+                  {this.renderPreviousActivity(lastEvent, previousHistory)}
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="previous-activity">
-                <h4>Previous Activity for Your Appeal</h4>
-                {this.renderPreviousActivity(lastEvent, previousHistory)}
-              </div>
+            <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
+              <AskVAQuestions/>
             </div>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-            <AskVAQuestions/>
-          </div>
         </div>
-      </div>
+      </DowntimeNotification>
     );
   }
 }
