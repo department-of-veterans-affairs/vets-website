@@ -46,6 +46,7 @@ Yes.
 **You can use any of these forms of ID to get the same discounts:**
 - A Veterans Health Identification Card (VHIC), **or**
 - A Department of Defense (DoD) Identification Card—either a Common Access Card (CAC) or Uniformed Services ID Card, **or**
+- A Veterans Proof of Service Letter or Card, **or**
 - A state-issued ID (driver’s license) with a Veteran designation or a state-issued Veteran ID Card. All 50 states and the District of Columbia offer one of these options.
 
 If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
@@ -63,8 +64,8 @@ You’ll need to apply online.
 
 **When you apply, be sure to have these on hand:**
 - Your Social Security number
-- A digital copy (PDF) of your DD214 or other military discharge papers
-- A current color photo of yourself. <br>
+- A digital copy of your DD214 or other military discharge papers that you can upload
+- A current color photo of yourself <br>
 <br>
 **The photo has to follow all the standards listed below. It must:**
   - Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
