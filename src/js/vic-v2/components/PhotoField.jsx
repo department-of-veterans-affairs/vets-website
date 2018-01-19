@@ -203,30 +203,32 @@ export default class PhotoField extends React.Component {
             zoom={this.onZoom}
             crop={this.cropImage}/>
           <div className="cropper-zoom-container">
+            {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}><i className="fa fa-search-minus"></i></button>}
             {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>
               <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
             </button>}
-          <input type="range"
-            ref="slider"
-            className="cropper-zoom-slider"
-            min="2"
-            max="10"
-            defaultValue="1"
-            step="0.1"
-            aria-valuemin="2"
-            aria-valuemax="10"
-            aria-valuenow={this.state.zoomValue}
-            onInput={this.zoom}/>
+            <input type="range"
+              ref="slider"
+              className="cropper-zoom-slider"
+              min="2"
+              max="10"
+              defaultValue="1"
+              step="0.1"
+              aria-valuemin="2"
+              aria-valuemax="10"
+              aria-valuenow={this.state.zoomValue}
+              onInput={this.zoom}/>
+            {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
             {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}>
               <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
             </button>}
           </div>
-            {smallScreen && <div className="cropper-control-column">
+          {smallScreen && <div className="cropper-control-column">
             <button className="cropper-control va-button va-button-link" type="button" onClick={this.zoomOut}>
-              <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
+              <span className="cropper-control-label">Make smaller</span>
             </button>
-            <button className="cropper-control va-button-link" type="button" onClick={this.zoomIn}>
-              <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
+            <button className="cropper-control cropper-control-zoom cropper-control-zoom-in label-container va-button-link" type="button" onClick={this.zoomIn}>
+              <span className="cropper-control-label">Make larger</span>
             </button>
           </div>}
           <div className="cropper-control-contrainer">
