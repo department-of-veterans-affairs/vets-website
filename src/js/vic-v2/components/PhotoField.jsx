@@ -286,7 +286,7 @@ export default class PhotoField extends React.Component {
             </div>
             <div className="crop-button-container">
               <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I'm done
+                I’m done
               </button>
             </div>
           </div>
