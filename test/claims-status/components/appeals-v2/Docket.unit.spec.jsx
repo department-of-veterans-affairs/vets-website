@@ -17,7 +17,7 @@ describe('Appeals V2 Docket', () => {
 
   it('should show the number of appeals ahead of the appellant', () => {
     const wrapper = shallow(<Docket {...defaultProps}/>);
-    expect(wrapper.find('span.appeals-ahead').text()).to.equal('109,238');
+    expect(wrapper.find('.appeals-ahead').text()).to.equal('109,238');
   });
 
   it('should show the total number of appeals on the docket', () => {
