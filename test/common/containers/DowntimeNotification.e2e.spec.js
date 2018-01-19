@@ -108,6 +108,7 @@ function begin(browser) {
   browser.perform(done => {
     runTests(browser, testUnauthorized(browser))
       .then(() => runTests(browser, testAuthorized(browser)))
+      .then(mockNoDowntime)
       .then(() => browser.closeWindow())
       .then(done, (err) => {
         browser.verify.ok(false, err);
