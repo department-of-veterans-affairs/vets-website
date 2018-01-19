@@ -194,43 +194,44 @@ export function getEventContent(event) {
   switch (event.type) {
     case EVENT_TYPES.claim:
       return {
-        title: 'VBA sent the original claim decision to you',
+        title: 'VA sent the original claim decision to you',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
-        title: 'VBA received your Notice of Disagreement',
+        title: 'VA received your Notice of Disagreement',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.droHearing:
       return {
-        title: 'Dro Hearing',
+        // TODO: Verify property names these are correct
+        title: `Your ${event.details.type} hearing was held at ${event.details.location} with a Decision Review Officer`,
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
-        title: 'Field grant',
+        title: 'You received a Field Grant',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
-        title: 'VBA prepared a Statement of the Case (SOC)',
+        title: 'VA prepared a Statement of the Case (SOC)',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
-        title: 'Form 9 Recieved',
+        title: 'VA received your Form 9',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
-        title: 'Supplemental Statement of the Case',
+        title: 'VA prepared a new Statement of the Case',
         description: '',
         liClass: 'section-complete'
       };
@@ -242,19 +243,20 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        // TODO: Verify property names these are correct
+        title: `Your ${event.details.type} hearing was held ${event.details.regionalOffice}`,
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingCancelled:
       return {
-        title: 'Hearing Cancelled',
+        title: 'Your hearing was cancelled',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
-        title: 'Hearing No Show',
+        title: 'You missed your hearing',
         description: '',
         liClass: 'section-complete'
       };
@@ -266,37 +268,38 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.bvaRemand:
       return {
-        title: 'Board Remand',
+        title: 'BVA is collecting more evidence',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
-        title: 'Withdrawn',
+        title: 'You withdrew your appeal ',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
-        title: 'Merged',
+        title: 'Your appeals have been merged',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
-        title: 'CAVC Decision',
+        title: 'The Court of Appeals for Veterans Claims made a decision',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.recordDesignation:
       return {
-        title: 'Designation of Record',
+        // TODO: Verify this property is correct
+        title: `${event.details.name} submitted a motion to continue this appeal`,
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
-        title: 'Reconsideration by Letter',
+        title: 'The Board has denied your motion for reconsideration',
         description: '',
         liClass: 'section-complete'
       };
