@@ -10,6 +10,8 @@ import {
 } from '../../common/utils/options-for-select';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
+import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
+import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -176,9 +178,6 @@ const formConfig = {
             }),
             mothersMaidenName: {
               'ui:title': 'Mother’s maiden name'
-            },
-            'ui:options': {
-              showPrefillMessage: true
             }
           },
           schema: {
@@ -194,6 +193,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
+            'ui:description': PrefillMessage,
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             veteranSocialSecurityNumber: ssnUI,
             'view:placeOfBirth': {
@@ -207,9 +207,6 @@ const formConfig = {
                   labels: stateLabels
                 }
               }
-            },
-            'ui:options': {
-              showPrefillMessage: true
             }
           },
           schema: {
@@ -373,6 +370,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
+            'ui:description': __BUILDTYPE__ !== 'production' ? MilitaryPrefillMessage : undefined,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -396,10 +394,6 @@ const formConfig = {
                   ? () => false
                   : (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
               }
-            },
-            'ui:options': {
-              showPrefillMessage: true,
-              prefillMessage: 'military'
             },
             'ui:validations': [
               isProduction ? validateServiceDates : validateServiceDatesFutureDischarge
