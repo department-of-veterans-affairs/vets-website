@@ -87,18 +87,20 @@ export default class PhotoField extends React.Component {
     const newView = prevState.src !== this.state.src || !prevState.src || prevState.done;
     const cropper = this.refs.cropper;
     if (newView && cropper) {
-      const containerData = cropper.getContainerData();
-      const containerWidth = containerData.width;
-      const smallScreen = window.innerWidth < 768;
-      const cropBoxSize = smallScreen ? 240 : 300;
-      const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
-      const cropBoxData = {
-        left: cropBoxLeftOffset,
-        top: 0,
-        width: cropBoxSize,
-        height: cropBoxSize
-      };
-      cropper.setCropBoxData(cropBoxData);
+      setTimeout(() => {
+        const containerData = cropper.getContainerData();
+        const containerWidth = containerData.width;
+        const smallScreen = window.innerWidth < 768;
+        const cropBoxSize = smallScreen ? 240 : 300;
+        const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
+        const cropBoxData = {
+          left: cropBoxLeftOffset,
+          top: 0,
+          width: cropBoxSize,
+          height: cropBoxSize
+        };
+        cropper.setCropBoxData(cropBoxData);
+      }, 0);
     }
   }
 
