@@ -39,31 +39,27 @@ function detectDragAndDrop() {
   return dragAndDropDetected && !iOS;
 }
 
-function isValidFileType(file) {
-  return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
+function isValidFileType(fileName) {
+  return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
 }
 
-function isValidImageSize(file) {
+function isValidImageSize(result) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const img = new Image();
-      img.src = reader.result;
-      img.onerror = (e) => reject(e);
-      img.onload = () => {
-        const isValidSize = img.width >= MIN_SIZE && img.height >= MIN_SIZE;
-        resolve(isValidSize);
-      };
+    const img = new Image();
+    img.src = result;
+    img.onerror = (e) => reject(e);
+    img.onload = () => {
+      const isValidSize = img.width >= MIN_SIZE && img.height >= MIN_SIZE;
+      resolve(isValidSize);
     };
   });
 }
 
-function isValidImage(file) {
+function isValidImage(result, fileName) {
   return new Promise((resolve, reject) => {
-    isValidImageSize(file)
+    isValidImageSize(result)
       .then(isValidSize => {
-        const isValidType = isValidFileType(file);
+        const isValidType = isValidFileType(fileName);
         resolve(isValidSize && isValidType);
       })
       .catch((e) => reject(e));
@@ -118,7 +114,8 @@ export default class PhotoField extends React.Component {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        isValidImage(file)
+        const fileName = file.name;
+        isValidImage(reader.result, fileName)
           .then((isValid) => {
             if (isValid) {
               this.setState({
@@ -127,14 +124,14 @@ export default class PhotoField extends React.Component {
                 cropResult: null,
                 errorMessage: null
               });
-            } else if (!isValidFileType(file)) {
+            } else if (!isValidFileType(file.name)) {
               this.setState({
                 src: null,
                 done: false,
                 cropResult: null,
                 errorMessage: 'Please choose a file from one of the accepted types.'
               });
-            } else if (isValidFileType(file)) {
+            } else if (isValidFileType(file.name)) {
               this.setState({
                 src: null,
                 done: false,
