@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 // import { transform } from '../helpers';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
@@ -37,6 +39,23 @@ const formConfig = {
   formId: 'VIC',
   version: 0,
   prefillEnabled: true,
+  prefillTransform: (pages, formData, metadata) => {
+    if (Array.isArray(formData.serviceBranches) && formData.serviceBranches.length) {
+      const newData = _.unset('serviceBranches', formData);
+      newData.serviceBranch = formData.serviceBranches[0];
+      return {
+        metadata,
+        formData: newData,
+        pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', formData.serviceBranches, pages)
+      };
+    }
+
+    return {
+      metadata,
+      formData,
+      pages
+    };
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for a veteran id card.',
     noAuth: 'Please sign in again to resume your application for a veteran id card.'
