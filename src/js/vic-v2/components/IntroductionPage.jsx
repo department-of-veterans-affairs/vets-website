@@ -36,6 +36,28 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    // TODO: Hook this up to the right user check
+    const idProofed = false;
+    const signedIn = this.props.saveInProgress.user.login.currentlyLoggedIn;
+    const accountBenefits = (
+      <ul>
+        <li>We can prefill part of your application based on your account details.</li>
+        <li>You can save your form in progress, and come back later to finish filling it out.</li>
+        <li>You can get your card sooner because we can confirm your Veteran status more quickly.</li>
+      </ul>
+    );
+    const idProofingReqs = (
+      <div>
+        <div>To go through the ID.me identity-proofing process, you’ll need:</div>
+        <ul>
+          <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection)</li>
+          <li>Your Social Security number</li>
+          <li>Proof of your identity (which could be a driver’s license, passport, or the ability to answer questions based on private and public data (like your credit report))</li>
+        </ul>
+        <p>Verifying your identity is a one-time process that will take about 5-10 minutes. Once you’ve gone through the identity process, you won’t need to do it again. Signing in next time will be much faster.</p>
+      </div>
+    );
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for a Veteran ID Card"/>
@@ -43,6 +65,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
+          resumeOnly
           renderSignInMessage={this.renderSignInMessage}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
@@ -69,41 +92,54 @@ class IntroductionPage extends React.Component {
                   <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
                 </ul>
               </div>
+            </li>
+            {!signedIn && <li className="process-step list-two">
+              <div><h5>Sign In & Verify Your Identity</h5></div>
+              <p>Sign in to Vets.gov using your DS Logon or ID.me accounts. When you sign in to your account, we can verify your identity to make sure you’re you before we give you access to your personal information. This also helps to keep your information safe and prevent fraud and identity theft.</p>
+              <strong>If you’re signed in to your account, the application process can go more smoothly. Here’s why:</strong>
+              {accountBenefits}
+              <p>If you don’t have a DS Logon account, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available.</p>
+              {idProofingReqs}
+              <p><button className="usa-button usa-button-primary" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign In or Create an Account</button></p>
+              <p><a href="/faq">Get more information about signing in to Vets.gov</a>.</p>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <h4 className="usa-alert-heading">Do I have to sign in to Vets.gov to apply for a Veteran ID Card?</h4>
                   <div className="usa-alert-text">
-                    <p>You don’t have to sign in to fill out the VIC application. But signing in with your DS Logon or ID.me account can make applying easier—and will help you get a decision faster.</p>
-                    <p>If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me. ID.me is our trusted technology partner, providing the strongest identity verification system available to prevent fraud and identity theft, and to protect your information.</p>
-                    <p>If you don’t have an ID.me account and want to go through the ID.me identity-proofing process, you’ll need:</p>
-                    <ul>
-                      <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection), <strong>and</strong></li>
-                      <li>Your Social Security number, <strong>and</strong></li>
-                      <li>Proof of your identity (your driver’s license or passport, or the ability to answer questions based on private and public data—like your credit report)</li>
-                    </ul>
-                    <a href="/faq">Get more information about signing in to Vets.gov.</a><br/>
-                    {!this.props.saveInProgress.user.login.currentlyLoggedIn && <p><button className="va-button-link" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign in to your account.</button></p>}
+                    <p>No, but if you don’t sign in, it’ll take us longer to verify your identity and will delay a decision on your application. The fastest way to get your application processed is to sign in to your DS Logon or ID.me accounts.</p>
                   </div>
                 </div>
               </div>
-            </li>
-            <li className="process-step list-two">
+            </li>}
+            {signedIn && !idProofed && <li className="process-step list-two">
+              <div><h5>Verify Your Identity</h5></div>
+              <p>Verifying your identity is a security measure that helps us ensure that only you can access your Veteran ID Card. To do this, we use ID.me, our Veteran-owned trusted technology partner that provides the strongest identity verification system available. ID.me helps people like you easily prove your identity.</p>
+              <p>If you use your DS Logon account to sign in, we’ll connect your account to Vets.gov through ID.me.</p>
+              {idProofingReqs}
+              <p><a className="usa-button usa-button-primary" href="/verify?next=%2Fvic-v2">Verify Your Identity</a></p>
+              <p><a href="/faq">Get more information about signing in to Vets.gov</a>.</p>
+            </li>}
+            {signedIn && idProofed && <li className="process-step list-two">
+              <div><h5>Sign In</h5></div>
+              <div>We’re able to process your application faster since you’re signed in to your account. Other benefits to being signed in include:</div>
+              {accountBenefits}
+            </li>}
+            <li className="process-step list-three">
               <div><h5>Apply</h5></div>
               <p>Complete this VIC application.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
-            <li className="process-step list-three">
+            <li className="process-step list-four">
               <div><h5>VA Review</h5></div>
               <p>We process claims in the order we receive them.</p>
               <p>We’ll review your application to verify your eligibility. We may contact you if we have any questions or need more information.</p>
             </li>
-            <li className="process-step list-four">
+            <li className="process-step list-five">
               <div><h5>Decision</h5></div>
               <p>Once we verify your application, you should receive your Veteran ID Card in the mail in about 60 days.</p>
             </li>
           </ol>
         </div>
-        {!this.props.saveInProgress.user.login.currentlyLoggedIn && <p><button className="va-button-link" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign in to your account.</button></p>}
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
