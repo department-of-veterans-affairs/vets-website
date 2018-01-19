@@ -285,7 +285,7 @@ export default class PhotoField extends React.Component {
           </div>
           }
           {!this.state.src && !this.state.done && <div className="drop-target-container">
-            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/png">
+            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               <img alt="placeholder" src="/img/photo-placeholder.png"/>
             </Dropzone>
           </div>}
