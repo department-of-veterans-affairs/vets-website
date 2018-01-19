@@ -344,3 +344,12 @@ input[type=range] {
 .photo-edit-button {
   max-width: 150px;
 }
+
+.border-box {
+  border: $color-gray-light 9px solid;
+}
+
+.error-box {
+  border: $color-red 9px solid;
+}
+

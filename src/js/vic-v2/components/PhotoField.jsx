@@ -191,7 +191,8 @@ export default class PhotoField extends React.Component {
     return (
       <div>
         {!smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
-        <div style={{ border: 'lightgrey 9px solid' }}>
+        {this.state.errorMessage && <span className="usa-input-error-message">{this.state.errorMessage}</span>}
+        <div className={this.state.errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {!this.state.done && instruction}
