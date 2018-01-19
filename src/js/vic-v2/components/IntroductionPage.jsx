@@ -83,18 +83,18 @@ class IntroductionPage extends React.Component {
                 <li>A current color photo of yourself</li>
               </ul>
               <div className="vic-intro-indent">
-                <div><h6>The photo has to follow the guidance listed below. It must:</h6></div>
+                <div><h6>The photo has to follow all the standards listed below. It must:</h6></div>
                 <ul>
-                  <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), and</li>
-                  <li>Be cropped from your shoulders up (much like a passport photo), and</li>
-                  <li>Show you with your eyes open and a neutral expression, and</li>
+                  <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**</li>
+                  <li>Be cropped from your shoulders up (much like a passport photo), **and**</li>
+                  <li>Show you with your eyes open and a neutral expression, **and**</li>
                   <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
                   <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
                 </ul>
               </div>
             </li>
             {!signedIn && <li className="process-step list-two">
-              <div><h5>Sign In & Verify Your Identity</h5></div>
+              <div><h5>Sign In and Verify Your Identity</h5></div>
               <p>Sign in to Vets.gov using your DS Logon or ID.me accounts. When you sign in to your account, we can verify your identity to make sure you’re you before we give you access to your personal information. This also helps to keep your information safe and prevent fraud and identity theft.</p>
               <strong>If you’re signed in to your account, the application process can go more smoothly. Here’s why:</strong>
               {accountBenefits}
@@ -131,7 +131,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-four">
               <div><h5>VA Review</h5></div>
-              <p>We process claims in the order we receive them.</p>
+              <p>We process applications in the order we receive them.</p>
               <p>We’ll review your application to verify your eligibility. We may contact you if we have any questions or need more information.</p>
             </li>
             <li className="process-step list-five">
