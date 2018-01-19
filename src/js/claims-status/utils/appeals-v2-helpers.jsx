@@ -428,9 +428,27 @@ export function getNextEvents(currentStatus) {
 }
 
 /**
+<<<<<<< HEAD
  *
  * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
  * @returns {object} containing dynamically-generated title & description properties
+=======
+ * Takes an alert type and returns its display content and related CSS classes
+ * @typedef {object} alertInput
+ * @property {string} type one of ALERT_TYPES as returned by vets-api
+ * @property {object} details necessary dynamic info for each alert type, properties vary per type
+ * @param {alert} type each alert can have one of several types as defined by ALERT_TYPES
+ * ------------------------------------------------------------------------------------------------
+ * @typedef {object} alertOutput
+ * @property {string} title Used for the alert header
+ * @property {HTMLElement} description Some descriptive text for the alert body
+ * @property {string} cssClass USWDS alert display class, usually either a 'warning' or 'info'
+ * @property {string} displayType Segments the alert into either 'take action' or 'info' buckets
+ * @property {string} type Pass-through for the input type. Should be one of ALERT_TYPES
+ * ------------------------------------------------------------------------------------------------
+ * @param {alertInput} alert has some properties we match against to generate an alert's content
+ * @returns {alertOutput} dynamically-generated title, description, and styling properties
+>>>>>>> Update alert helper to output descriptions in jsx, add displayType property to all
  */
 export function getAlertContent(alert) {
   const { type, details } = alert;
@@ -438,12 +456,15 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.waitingOnAction:
       return {
         title: 'Your appeal is waiting on action by your representative',
-        description: `Your appeal is near the front of the line, but it is not
+        description: (
+          <p>Your appeal is near the front of the line, but it is not
           ready to go to a judge. It is currently waiting on your
-          representative, the ${details.representative}, to complete an
+          representative, the {details.representative}, to complete an
           informal hearing presentation (IHP). Please contact your
-          representative for more information.`,
+          representative for more information</p>
+        ),
         cssClass: 'usa-alert-warning',
+        displayType: 'take_action',
         type
       };
     case ALERT_TYPES.form9Due:
@@ -463,13 +484,16 @@ export function getAlertContent(alert) {
             <p><a href="#">Learn more about completing the Form 9</a>.</p>
           </div>
         ),
-        cssClass: 'usa-alert-warning'
+        cssClass: 'usa-alert-warning',
+        displayType: 'take_action',
+        type
       };
     case ALERT_TYPES.hearingScheduled:
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
-        description: '',
+        description: null,
         cssClass: 'usa-alert-info',
+        displayType: 'info',
         type,
       };
     case ALERT_TYPES.bvaDecisionPending:
@@ -489,6 +513,7 @@ export function getAlertContent(alert) {
           </ul>
         ),
         cssClass: 'usa-alert-info',
+        displayType: 'info',
         type,
       };
     default:
@@ -496,6 +521,7 @@ export function getAlertContent(alert) {
         title: '',
         description: '',
         cssClass: '',
+        displayType: '',
         type,
       };
   }
