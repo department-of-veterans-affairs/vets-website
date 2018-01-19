@@ -68,7 +68,7 @@ class UserProfileApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="User Profile" dependencies={[services.mvi, services.emis]}>
+          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             {view}
           </DowntimeNotification>
         </RequiredLoginView>

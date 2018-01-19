@@ -58,7 +58,7 @@ class MessagingApp extends React.Component {
         authRequired={3}
         serviceRequired="messaging"
         userProfile={this.props.profile}>
-        <DowntimeNotification appTitle="Secure Messaging" dependencies={[services.mhv]}>
+        <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
           <RequiredTermsAcceptanceView
             termsName="mhvac"
             cancelPath="/health-care/"
