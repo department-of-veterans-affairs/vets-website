@@ -3,6 +3,24 @@ import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 
+const PhotoDescription = (
+  <div className="feature">
+    <h3>What makes a good photo?</h3>
+    <div>
+      <p>To meet the requirements for a Veteran ID Card, your photo should follow the guidance listed below. It must:</p>
+      <ul>
+        <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
+        <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
+        <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
+        <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
+        <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
+      </ul>
+      <h3>Examples of good ID photos</h3>
+      <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
+      <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
+    </div>
+  </div>);
+
 const FILE_TYPES = [
   'png',
   'tiff',
@@ -190,7 +208,8 @@ export default class PhotoField extends React.Component {
 
     return (
       <div>
-        {!smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
+        {PhotoDescription}
+        {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
         {this.state.errorMessage && <span className="usa-input-error-message">{this.state.errorMessage}</span>}
         <div className={this.state.errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>

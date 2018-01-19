@@ -353,3 +353,10 @@ input[type=range] {
   border: $color-red 9px solid;
 }
 
+.example-photo {
+  width: 150px;
+  margin: 5px;
+  @media (min-width: $medium-screen) {
+    margin: 10px;
+  }
+}
