@@ -121,7 +121,7 @@ class IntroductionPage extends React.Component {
             </li>}
             {signedIn && idProofed && <li className="process-step list-two">
               <div><h5>Sign In</h5></div>
-              <div>We’re able to process your application faster since you’re signed in to your account. Other benefits to being signed in include:</div>
+              <p>We’re able to process your application faster since you’re signed in to your account.</p> Other benefits to being signed in include:
               {accountBenefits}
             </li>}
             <li className="process-step list-three">
