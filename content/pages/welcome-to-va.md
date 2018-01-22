@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Downloadable VA Welcome Kit
+title: Download Your VA Welcome Kit
 display_title: Download Your VA Welcome Kit
 order: 1
 plainlanguage: 
