@@ -1,7 +1,7 @@
 @import "shared-variables";
 @import "modules/m-form-process";
 @import "modules/m-progress-bar";
-@import "modules/m-schemaform";
+
 @mixin schemaform-padding {
   // query borrowed from _m-schemaform.scss
   @media(max-width: 40.063em) {
@@ -164,3 +164,36 @@
     white-space: nowrap;
   }
 }
+
+// --- Copied from _m-schemaform.css --- //
+
+// This probably belongs somewhere else
+
+.usa-alert, .usa-input-error, .nav-header > h4, .nav-header {
+  &:focus {
+    outline: none;
+  }
+}
+
+label + div {
+  select, input:not([type="radio"]) {
+    margin-top: 0.5em;
+  }
+}
+
+// Copied from .schemaform-chapter-progress
+.section-content {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-bottom: 1.5em;
+  @media (max-width: 40.063em) {
+    padding-left: 2rem - .9375rem;
+    padding-right: 2rem - .9375rem;
+  }
+  > h4 {
+    padding-bottom: 0 !important;
+  }
+}
+
+// --- End copy from _m-schemaform.css --- //
+

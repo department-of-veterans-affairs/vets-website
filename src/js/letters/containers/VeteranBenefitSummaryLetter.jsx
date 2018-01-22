@@ -114,7 +114,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
               type="checkbox"
               onChange={this.handleChange}/>
             <label
-              className="schemaform-label"
               name="militaryService-label"
               htmlFor="militaryService">
               Include military service information
