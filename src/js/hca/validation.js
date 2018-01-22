@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import { convertToDateField, validateCurrentOrPastDate } from '../common/schemaform/validation';
 import { isValidDateRange } from '../common/utils/validations';
 
-export function validateServiceDatesFutureDischarge(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
+export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
   const endDate = moment().endOf('day').add(180, 'days');
@@ -11,25 +11,6 @@ export function validateServiceDatesFutureDischarge(errors, { lastDischargeDate,
   // TODO: Use a constant instead of a magic string
   if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDate)) {
     errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (180 days from today)`);
-  }
-
-  if (veteranDateOfBirth) {
-    const dateOfBirth = moment(veteranDateOfBirth);
-
-    if (dateOfBirth.add(15, 'years').isAfter(moment(lastEntryDate))) {
-      errors.lastEntryDate.addError('You must have been at least 15 years old when you entered the service');
-    }
-  }
-}
-
-export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
-  const fromDate = convertToDateField(lastEntryDate);
-  const toDate = convertToDateField(lastDischargeDate);
-  const today = moment().startOf('day');
-
-  // TODO: Use a constant instead of a magic string
-  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate).isAfter(today)) {
-    errors.lastDischargeDate.addError('Discharge date must be after start of service period date and before today');
   }
 
   if (veteranDateOfBirth) {

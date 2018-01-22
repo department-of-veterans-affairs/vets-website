@@ -6,8 +6,8 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-describe('VIC military contact information', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryContactInformation.pages.militaryContactInformation;
+describe('VIC contact information', () => {
+  const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.contactInformation;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -17,7 +17,7 @@ describe('VIC military contact information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(3);
   });
 
   it('should not submit without required info', () => {
@@ -48,10 +48,9 @@ describe('VIC military contact information', () => {
         uiSchema={uiSchema}/>
     );
 
-    fillData(form, 'input[name="root_view:military_serviceBranch"]', 'Army');
-    fillData(form, 'input[name="root_view:contact_email"]', 'test@test.com');
-    fillData(form, 'input[name="root_view:contact_view:confirmEmail"]', 'test@test.com');
-    fillData(form, 'input[name="root_view:contact_phone"]', '4445556767');
+    fillData(form, 'input[name="root_email"]', 'test@test.com');
+    fillData(form, 'input[name="root_view:confirmEmail"]', 'test@test.com');
+    fillData(form, 'input[name="root_phone"]', '4445556767');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);

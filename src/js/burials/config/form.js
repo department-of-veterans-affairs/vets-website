@@ -131,9 +131,6 @@ const formConfig = {
                   widgetClassNames: 'schemaform-label-no-top-margin'
                 }
               }
-            },
-            'ui:options': {
-              showPrefillMessage: true
             }
           },
           schema: {

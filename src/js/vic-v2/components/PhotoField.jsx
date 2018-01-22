@@ -194,6 +194,14 @@ export default class PhotoField extends React.Component {
 
   render() {
     const smallScreen = window.innerWidth < 768;
+    let uploadMessage;
+    if (smallScreen) {
+      uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
+    } else if (this.state.src) {
+      uploadMessage = 'Upload a New Photo';
+    } else {
+      uploadMessage = 'Upload Your Photo';
+    }
     const dragAndDropSupported = detectDragAndDrop();
     let instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
     let description = 'Drag and drop your image into the square or click the upload button.';
@@ -278,7 +286,7 @@ export default class PhotoField extends React.Component {
             </div>
             <div className="crop-button-container">
               <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I'm done
+                I’m done
               </button>
             </div>
           </div>
@@ -293,7 +301,7 @@ export default class PhotoField extends React.Component {
             <ErrorableFileInput
               accept={FILE_TYPES.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
-              buttonText={smallScreen ? <span>Upload <i className="fa fa-upload"></i></span> : 'Upload Your Photo'}
+              buttonText={uploadMessage}
               name="fileUpload"
               additionalErrorClass="claims-upload-input-error-message"/>
           </div>
