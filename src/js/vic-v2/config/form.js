@@ -1,11 +1,11 @@
-import _ from 'lodash/fp';
-
 // import { transform } from '../helpers';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
+import { prefillTransform } from '../helpers';
+
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import * as addressDefinition from '../../common/schemaform/definitions/address';
@@ -39,23 +39,7 @@ const formConfig = {
   formId: 'VIC',
   version: 0,
   prefillEnabled: true,
-  prefillTransform: (pages, formData, metadata) => {
-    if (Array.isArray(formData.serviceBranches) && formData.serviceBranches.length) {
-      const newData = _.unset('serviceBranches', formData);
-      newData.serviceBranch = formData.serviceBranches[0];
-      return {
-        metadata,
-        formData: newData,
-        pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', formData.serviceBranches, pages)
-      };
-    }
-
-    return {
-      metadata,
-      formData,
-      pages
-    };
-  },
+  prefillTransform,
   savedFormMessages: {
     notFound: 'Please start over to apply for a veteran id card.',
     noAuth: 'Please sign in again to resume your application for a veteran id card.'
