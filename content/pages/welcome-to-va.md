@@ -35,7 +35,7 @@ majorlinks:
 
 The VA Welcome Kit is a quick, printable guide to help you in your journey as a civilian. 
 
-Based on where you are in life, your VA benefits and services can serve you in different ways. Keep your welcome kit to find out how we can support you at different times throughout your life—when it’s time to go to school, get a job, buy a house, get health care, or plan in advance for your burial or marker. You can also give the guide to friends or family members who need help with their benefits. <br>
+Based on where you are in life, your VA benefits and services can serve you in different ways. Keep your welcome kit handy to find out how we can support you at different times throughout your life—when it’s time to go to school, get a job, buy a house, get health care, or plan in advance for your burial or marker. You can also give the guide to friends or family members who need help with their benefits. <br>
 [Download the VA Welcome Kit](vets-website/content/pages/WelcomeVA_Guide_print_version_final.pdf)
 
 </div>
