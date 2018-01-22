@@ -13,7 +13,7 @@ import Docket from '../components/appeals-v2/Docket';
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
 const AppealsV2StatusPage = ({ appeal }) => {
-  const { events, alerts, status } = appeal.attributes;
+  const { events, alerts, status, docket } = appeal.attributes;
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
   const nextEvents = getNextEvents(type);
@@ -25,15 +25,13 @@ const AppealsV2StatusPage = ({ appeal }) => {
         description={currentStatus.description}/>
       <Alerts alerts={alerts}/>
       <WhatsNext nextEvents={nextEvents}/>
-      <Docket/>
+      <Docket {...docket}/>
     </div>
   );
 };
 
 AppealsV2StatusPage.propTypes = {
   appeal: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     attributes: PropTypes.shape({
       events: PropTypes.array,
       alerts: PropTypes.array,

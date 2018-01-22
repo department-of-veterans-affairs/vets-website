@@ -18,7 +18,7 @@ describe('VIC veteran information', () => {
     );
 
     expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('select').length).to.equal(4);
   });
 
   it('should not submit without required info', () => {
@@ -34,7 +34,7 @@ describe('VIC veteran information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -52,8 +52,9 @@ describe('VIC veteran information', () => {
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test2');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '233224343');
-    selectRadio(form, 'root_view:gender', 'F');
+    selectRadio(form, 'root_gender', 'F');
     fillDate(form, 'root_veteranDateOfBirth', '1920-01-04');
+    fillData(form, 'select#root_serviceBranch', 'F');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);

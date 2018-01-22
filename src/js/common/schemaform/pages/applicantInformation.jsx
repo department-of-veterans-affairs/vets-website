@@ -76,9 +76,6 @@ export default function applicantInformation(schema, options) {
         'ui:options': {
           labels: labels.relationship || relationshipLabels
         }
-      },
-      'ui:options': {
-        showPrefillMessage: true
       }
     }, personId.uiSchema(prefix, 'view:noSSN')),
     schema: {
