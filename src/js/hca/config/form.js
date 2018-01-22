@@ -54,7 +54,7 @@ import dateUI from '../../common/schemaform/definitions/date';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
-import { validateServiceDates, validateServiceDatesFutureDischarge, validateMarriageDate } from '../validation';
+import { validateServiceDates, validateMarriageDate } from '../validation';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
@@ -128,8 +128,6 @@ const {
 
 
 const stateLabels = createUSAStateLabels(states);
-
-const isProduction = __BUILDTYPE__ === 'production';
 
 const formConfig = {
   urlPrefix: '/',
@@ -380,23 +378,17 @@ const formConfig = {
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
             lastEntryDate: currentOrPastDateUI('Service start date'),
-            lastDischargeDate: isProduction
-              ? currentOrPastDateUI('Date of discharge')
-              : dateUI('Service end date'),
+            lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': isProduction
-                ? () => true
-                : (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
+              'ui:required': (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: isProduction
-                  ? () => false
-                  : (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
+                hideIf: (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
               }
             },
             'ui:validations': [
-              isProduction ? validateServiceDates : validateServiceDatesFutureDischarge
+              validateServiceDates
             ]
           },
           schema: {
