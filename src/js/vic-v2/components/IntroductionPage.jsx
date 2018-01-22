@@ -85,9 +85,9 @@ class IntroductionPage extends React.Component {
               <div className="vic-intro-indent">
                 <div><h6>The photo has to follow all the standards listed below. It must:</h6></div>
                 <ul>
-                  <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**</li>
-                  <li>Be cropped from your shoulders up (much like a passport photo), **and**</li>
-                  <li>Show you with your eyes open and a neutral expression, **and**</li>
+                  <li>Show a full front view of your face and neck, with full visibility of the face and no shadows, <strong>and</strong></li>
+                  <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
+                  <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
                   <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
                   <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
                 </ul>
