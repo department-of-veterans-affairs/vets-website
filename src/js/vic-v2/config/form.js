@@ -190,8 +190,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your DD214', {
-              endpoint: '/v0/vic/vic_attachments',
-              fileTypes: ['pdf']
+              endpoint: '/v0/vic/vic_attachments'
             })
           },
           schema: {
