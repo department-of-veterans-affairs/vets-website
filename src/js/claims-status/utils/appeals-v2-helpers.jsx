@@ -13,10 +13,17 @@ export const STATUS_TYPES = {
 };
 
 export const ALERT_TYPES = {
-  waitingOnAction: 'waiting_on_action',
-  form9Due: 'form9_due',
-  hearingScheduled: 'hearing_scheduled',
-  bvaDecisionPending: 'bva_decision_pending'
+  form9Needed: 'form9_needed',
+  scheduledHearing: 'scheduled_hearing',
+  hearingNoShow: 'hearing_no_show',
+  heldForEvidence: 'held_for_evidence',
+  cavcOption: 'cavc_option',
+  rampEligible: 'ramp_eligible',
+  rampIneligible: 'ramp_ineligible',
+  decisionSoon: 'decision_soon',
+  blockedByVso: 'blocked_by_vso',
+  scheduledDroHearing: 'scheduled_dro_hearing',
+  droHearingNoShow: 'dro_hearing_no_show',
 };
 
 /**
@@ -446,22 +453,9 @@ export function getNextEvents(currentStatus) {
 export function getAlertContent(alert) {
   const { type, details } = alert;
   switch (type) {
-    case ALERT_TYPES.waitingOnAction:
+    case ALERT_TYPES.form9Needed:
       return {
-        title: 'Your appeal is waiting on action by your representative',
-        description: (
-          <p>Your appeal is near the front of the line, but it is not
-          ready to go to a judge. It is currently waiting on your
-          representative, the {details.representative}, to complete an
-          informal hearing presentation (IHP). Please contact your
-          representative for more information</p>
-        ),
-        displayType: 'take_action',
-        type
-      };
-    case ALERT_TYPES.form9Due:
-      return {
-        title: `Return the Form 9 by ${formatDate(details.date)} in order to continue your appeal`,
+        title: `Return the Form 9 by [DATE] in order to continue your appeal`,
         description: (
           <div>
             <p>
@@ -473,38 +467,100 @@ export function getAlertContent(alert) {
               If you need help with understanding your Statement of the Case or completing the Form
               9, contact your VSO or representative.
             </p>
-            <p><a href="#">Learn more about completing the Form 9</a>.</p>
+            <p><a href="#">[LINK] Learn more about completing the Form 9</a>.</p>
           </div>
         ),
         displayType: 'take_action',
         type
       };
-    case ALERT_TYPES.hearingScheduled:
+    case ALERT_TYPES.scheduledHearing:
       return {
-        title: `Your hearing has been scheduled for ${details.date}`,
-        description: null,
-        displayType: 'info',
-        type,
-      };
-    case ALERT_TYPES.bvaDecisionPending:
-      return {
-        title: 'You will soon receive your Board decision',
+        title: 'A hearing has been scheduled',
         description: (
-          <ul>
-            <li>
-              While a judge is reviewing your case, please do not send any
-              additional evidence. This may delay your decision and increase
-              your wait time.
-            </li>
-            <li>
-              Please call your representative or Regional Office to make
-              sure we have the correct address to mail your decision letter.
-            </li>
-          </ul>
+          <p>Your [TYPE] hearing has been scheduled for [DATE] at [LOCATION].</p>
+        ),
+        displayType: 'take_action',
+        type
+      };
+    case ALERT_TYPES.hearingNoShow:
+      return {
+        title: 'You have 14 days to reschedule your hearing from [ORIG HEARING DATE]',
+        description: (
+          <p>You missed your hearing on [DATE]. If you want to reschedule your
+          hearing, please contact your VSO or representative for more information.</p>
+        ),
+        displayType: 'take_action',
+        type
+      };
+    case ALERT_TYPES.heldForEvidence:
+      return {
+        title: 'Your appeals case is being held open',
+        description: (
+          <p>You or your representative asked to hold your appeal open to
+          submit additional evidence. Please make sure the Board gets your
+          evidence by [DATE].</p>
+        ),
+        displayType: 'take_action',
+        type
+      };
+    case ALERT_TYPES.rampEligible:
+      return {
+        title: 'You have opted-in to the Rapid Appeals Modernization Program (RAMP)',
+        description: (
+          <div>
+            <p>You chose to participate in the new supplemental claim or
+            higher-level review lanes. This does not mean that your appeal has
+            been closed. If you didn’t choose this, please call your VSO or
+            representative as soon as possible.</p>
+            <p>At this time, Vets.gov Appeal Status is not able to get
+            information related to appeals that are part of RAMP.</p>
+          </div>
         ),
         displayType: 'info',
         type,
       };
+      case ALERT_TYPES.rampIneligible:
+        return {
+          title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
+          description: (
+            <p>This appeal is not eligible for RAMP because it’s near the front
+            of the docket line and ready to be assigned to a Veterans Law Judge
+            at the Board. For more information, please call your VSO or
+            representative.</p>
+          ),
+          displayType: 'info',
+          type,
+        };
+    case ALERT_TYPES.decisionSoon:
+      return {
+        title: 'Your appeal is near the front of line',
+        description: (
+          <p>Your appeal is near the front of the Board’s docket line for a
+          Veterans Law Judge to review your appeal and write a decision.
+          Sending in new evidence at this time will delay your case being
+          reviewed. Please make sure the Board has your correct mailing address.</p>
+        ),
+        displayType: 'info',
+        type,
+      };
+    case ALERT_TYPES.blockedByVso:
+      return {
+        title: 'Waiting on your representative',
+        description: (
+          <p>You’re at the front of the Board’s docket line, but your appeal is
+          with your Veteran Service Organization. Please contact them to make
+          sure they are sending the needed information to the Board.</p>
+        ),
+        displayType: 'info',
+        type,
+      };
+    // we don't know content for these yet
+    case ALERT_TYPES.scheduledDroHearing:
+      return {};
+    case ALERT_TYPES.droHearingNoShow:
+      return {};
+    case ALERT_TYPES.cavcOption:
+      return {};
     default:
       return {
         title: '',
