@@ -113,6 +113,7 @@ class ErrorableRadioButtons extends React.Component {
             {optionLabel}
           </label>
           {matchingSubSection}
+          {obj.content}
         </div>
       );
 
@@ -180,6 +181,10 @@ ErrorableRadioButtons.propTypes = {
         value: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.bool
+        ]),
+        content: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
         ]),
         additional: PropTypes.oneOfType([
           PropTypes.string,
