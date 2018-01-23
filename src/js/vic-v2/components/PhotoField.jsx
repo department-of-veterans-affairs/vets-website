@@ -150,9 +150,12 @@ export default class PhotoField extends React.Component {
 
   onZoom = (e) => {
     const newZoomValue = e.detail.ratio;
-    this.setState({ zoomValue: newZoomValue }, () => {
-      this.refs.slider.value = this.state.zoomValue;
-    });
+    if (newZoomValue < 1.4 && newZoomValue > 0.2) {
+      return this.setState({ zoomValue: newZoomValue }, () => {
+        this.refs.slider.value = this.state.zoomValue;
+      });
+    }
+    return e.preventDefault();
   }
 
   getErrorMessage = () => {
@@ -176,15 +179,21 @@ export default class PhotoField extends React.Component {
   }
 
   zoom = (e) => {
-    this.refs.cropper.zoomTo(e.target.value);
+    if (e.target.value < 1.4 && e.target.value > 0.2) {
+      this.refs.cropper.zoomTo(e.target.value);
+    }
   }
 
   zoomIn = () => {
-    this.refs.cropper.zoom(0.1);
+    if (this.state.zoomValue < 1.4) {
+      this.refs.cropper.zoom(0.1);
+    }
   }
 
   zoomOut = () => {
-    this.refs.cropper.zoom(-0.1);
+    if (this.state.zoomValue > 0.2) {
+      this.refs.cropper.zoom(-0.1);
+    }
   }
 
   cropImage = () => {
@@ -221,6 +230,9 @@ export default class PhotoField extends React.Component {
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {!this.state.done && instruction}
             {(dragAndDropSupported || this.state.src || this.state.done) && <p>{description}</p>}
+            {(dragAndDropSupported || this.state.src || this.state.done) && this.state.zoomValue > 1 && <div className="va-callout">
+Zooming in this close will make your ID picture less clear
+            </div>}
             {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
           </div>
           {!this.state.done && this.state.src && <div className="cropper-container-outer">
@@ -244,12 +256,12 @@ export default class PhotoField extends React.Component {
               <input type="range"
                 ref="slider"
                 className="cropper-zoom-slider"
-                min="0"
-                max="1.5"
+                min="0.2"
+                max="1.3"
                 defaultValue="0.4"
                 step="0.01"
-                aria-valuemin="0"
-                aria-valuemax="1.5"
+                aria-valuemin="0.2"
+                aria-valuemax="1.3"
                 aria-valuenow={this.state.zoomValue}
                 onInput={this.zoom}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
