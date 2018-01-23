@@ -106,7 +106,7 @@ input[type=range] {
 }
 
 .cropper-container-outer {
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     padding: 10px 50px;
   }
 }
@@ -114,7 +114,7 @@ input[type=range] {
 .cropper-container {
   height: 240px !important;
   width: 100% !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: 300px !important;
     width: 100% !important;
   }
@@ -168,7 +168,7 @@ input[type=range] {
 .cropper-control-column {
   display: flex;
   flex-direction: column;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     flex-direction: row;
   }
 }
@@ -200,7 +200,7 @@ input[type=range] {
 .cropper-zoom-slider {
   display: inline-block;
   width: 240px !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: unset;
     width: 340px !important;
     padding: 0 5px 5px 5px;
@@ -210,7 +210,7 @@ input[type=range] {
 .cropper-control.cropper-control-zoom {
   width: unset !important;
   padding: 0 10px !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     padding: 0px !important;
     width: 25% !important;
   }
@@ -220,7 +220,7 @@ input[type=range] {
       margin-right: 20px;
     }
     .cropper-control-label {
-      @media (min-width: $medium-screen) {
+      @media (min-width: $large-screen) {
         float: right;
       }
     }
@@ -233,14 +233,14 @@ input[type=range] {
 }
 
 .fa {
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     padding: 0 15px 0 5px !important;
   }
 }
 
 .fa-search-plus {
   font-size: 2em !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     font-size: 1.07em !important;
     padding: 0  5px !important;
     float: left;
@@ -249,7 +249,7 @@ input[type=range] {
 
 .fa-search-minus {
   font-size: 2em !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     font-size: 1.07em !important;
     padding: 0 4px 0 4px !important;
     float: right;
@@ -290,7 +290,7 @@ input[type=range] {
   height: 240px;
   width: 240px;
   margin: 0 auto 80px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;
   }
@@ -300,7 +300,7 @@ input[type=range] {
   position: absolute;
   height: 240px;
   width: 240px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;
   }
@@ -336,7 +336,7 @@ input[type=range] {
 
 .photo-preview {
   width: 240px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     width: 300px;
   }
 }
@@ -356,7 +356,7 @@ input[type=range] {
 .example-photo {
   width: 150px;
   margin: 5px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     margin: 10px;
   }
 }

@@ -86,7 +86,7 @@ export default class PhotoField extends React.Component {
       setTimeout(() => {
         const containerData = cropper.getContainerData();
         const containerWidth = containerData.width;
-        const smallScreen = window.innerWidth < 768;
+        const smallScreen = window.innerWidth < 1201;
         const cropBoxSize = smallScreen ? 240 : 300;
         const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
         const cropBoxData = {
@@ -193,7 +193,7 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
-    const smallScreen = window.innerWidth < 768;
+    const smallScreen = window.innerWidth < 1201;
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
