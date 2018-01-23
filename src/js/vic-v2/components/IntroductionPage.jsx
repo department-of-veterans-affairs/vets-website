@@ -113,7 +113,7 @@ class IntroductionPage extends React.Component {
             </li>}
             {signedIn && !idProofed && <li className="process-step list-two">
               <div><h5>Verify Your Identity</h5></div>
-              <p>Verifying your identity is a security measure that helps us ensure that only you can access your Veteran ID Card. To do this, we use ID.me, our Veteran-owned trusted technology partner that provides the strongest identity verification system available. ID.me helps people like you easily prove your identity.</p>
+              <p>Verifying your identity is a security measure that helps us ensure that only you can access your Veteran ID Card. To do this, we use ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity verification system available. ID.me helps people like you easily prove your identity.</p>
               <p>If you use your DS Logon account to sign in, we’ll connect your account to Vets.gov through ID.me.</p>
               {idProofingReqs}
               <p><a className="usa-button usa-button-primary" href="/verify?next=%2Fvic-v2">Verify Your Identity</a></p>
