@@ -284,19 +284,19 @@ export const mockData = {
         ],
         alerts: [
           {
-            type: 'form9_due',
+            type: 'form9_needed',
             details: {
               date: '2018-01-28'
             }
           },
           {
-            type: 'hearing_scheduled',
+            type: 'ramp_eligible',
             details: {
               date: '2016-05-30'
             },
           },
           {
-            type: 'bva_decision_pending',
+            type: 'decision_soon',
             details: {},
           },
         ],
