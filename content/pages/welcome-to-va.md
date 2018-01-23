@@ -6,29 +6,32 @@ order: 1
 plainlanguage: 
 template: detail-page
 majorlinks:
-  - heading: 
+  - heading:
     links:
-    - url: 
-      title: Health Care
-      description: 
-    - url: 
-      title: Finances
-      description: 
-    - url: 
-      title: Housing
-      description:       
-    - url: 
-      title: Employment
-      description:       
-    - url: 
-      title: Education
-      description:       
-    - url: 
-      title: Memorialization
-      description: 
-    - url: 
-      title: More Support
-      description: 
+    - url: /disability-benefits/
+      title: Disability Benefits
+      description: Apply for disability compensation and other benefits for conditions related to your military service.
+    - url: /health-care/
+      title: Health Care Benefits
+      description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
+    - url: /education/
+      title: Education Benefits
+      description: Apply for and manage benefits that help you pay for college and training programs.
+    - url: /housing-assistance/
+      title: Housing Assistance
+      description: Find out if you qualify for a VA home loan. If you have a service-connected disability, find out if you qualify for a housing grant to help you live more independently.
+    - url: /employment/
+      title: Careers and Employment
+      description: Find out if you're eligible for Vocational Rehabilitation and Employment (VR&E) services, get support for your Veteran-owned small business, and access other resources to help build your career skills and find a job.
+    - url: /life-insurance/
+      title: Life Insurance
+      description: Explore VA life insurance options, manage your policy online, and file claims.
+    - url: /pension/
+      title: Pension Benefits
+      description: Apply for monthly pension benefits for wartime Veterans and survivors.
+    - url: /burials-and-memorials/
+      title: Burials and Memorials
+      description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
 ---
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
