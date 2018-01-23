@@ -922,10 +922,9 @@ h1:focus {
   }
 
   .usa-alert {
-    // Shift alert icon and text over so that triangle lines
-    // up with CurrentStatus's title & description content
-    background-position: 2.5rem 2.8rem;
-    padding-left: 2.5em;
+    // Remove icons from standard USWDS alert styles
+    background-image: none;
+    padding-left: 1em;
 
     .usa-alert-text {
       margin-top: 1em;
