@@ -460,9 +460,9 @@ describe('Disability benefits helpers: ', () => {
     it('returns an object with correct title & description', () => {
       const type = STATUS_TYPES.scheduledHearing;
       const details = {};
-      const expectedDescSnippet = 'Your [HEARING TYPE] hearing is scheduled for [HEARING DATE] at [HEARING LOCATION].';
+      const expectedDescSnippet = 'Your [TYPE] hearing is scheduled for [DATE] at [LOCATION]';
       const contents = getStatusContents(type, details);
-      expect(contents.title).to.equal('You are waiting for your hearing');
+      expect(contents.title).to.equal('Your hearing has been scheduled');
       // TO-DO: Update with real content
       const descText = contents.description.props.children;
       expect(descText).to.contain(expectedDescSnippet);
@@ -471,7 +471,7 @@ describe('Disability benefits helpers: ', () => {
     it('returns sane object when given unknown type', () => {
       const type = 123;
       const contents = getStatusContents(type);
-      expect(contents.title).to.equal('Current Status Unknown');
+      expect(contents.title).to.equal('Current Appeal Status Unknown');
       expect(contents.description.props.children).to.equal('Your current appeal status is unknown at this time');
     });
   });
