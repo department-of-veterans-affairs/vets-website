@@ -20,7 +20,6 @@ const Alerts = ({alerts}) => {
   const alertsList = takeActionAlerts
     .concat(infoAlert)
     .map((alert, index) => {
-      console.log(alert.displayType);
       const key = `${alert.type}-${index}`;
       return (<Alert
         key={key}
