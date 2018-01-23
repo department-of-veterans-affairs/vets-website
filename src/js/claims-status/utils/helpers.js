@@ -288,7 +288,17 @@ export const mockData = {
             details: {
               date: '2018-01-28'
             }
-          }
+          },
+          {
+            type: 'hearing_scheduled',
+            details: {
+              date: '2016-05-30'
+            },
+          },
+          {
+            type: 'bva_decision_pending',
+            details: {},
+          },
         ],
         events: [
           {
