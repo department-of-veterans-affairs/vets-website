@@ -86,8 +86,11 @@ export default class PhotoField extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const newView = this.state.src && prevState.src !== this.state.src;
     const cropper = this.refs.cropper;
+    const slider = this.refs.slider;
     if (newView && cropper) {
       setTimeout(() => {
+        const { width, naturalWidth } = this.refs.cropper.getImageData();
+        slider.value = width / naturalWidth;
         const containerData = cropper.getContainerData();
         const containerWidth = containerData.width;
         const smallScreen = window.innerWidth < 1201;
