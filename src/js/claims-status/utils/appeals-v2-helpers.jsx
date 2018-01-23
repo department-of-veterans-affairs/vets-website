@@ -242,7 +242,6 @@ export function getStatusContents(statusType, details) {
             The Board of Veterans’ Appeals made a decision on your appeal. Here is an overview of
             the decision:
           </p>
-          <br/>
           <div className="decision-items">
             {allowedBlock}
             {deniedBlock}
@@ -299,7 +298,6 @@ export function getStatusContents(statusType, details) {
             The Board of Veterans’ Appeals made a decision on your appeal. Here is an overview of
             the decision:
           </p>
-          <br/>
           <div className="decision-items">
             {allowedBlock}
             {deniedBlock}
