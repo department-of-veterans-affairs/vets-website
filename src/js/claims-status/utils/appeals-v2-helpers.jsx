@@ -428,11 +428,6 @@ export function getNextEvents(currentStatus) {
 }
 
 /**
-<<<<<<< HEAD
- *
- * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
- * @returns {object} containing dynamically-generated title & description properties
-=======
  * Takes an alert type and returns its display content and related CSS classes
  * @typedef {object} alertInput
  * @property {string} type one of ALERT_TYPES as returned by vets-api
@@ -448,7 +443,6 @@ export function getNextEvents(currentStatus) {
  * ------------------------------------------------------------------------------------------------
  * @param {alertInput} alert has some properties we match against to generate an alert's content
  * @returns {alertOutput} dynamically-generated title, description, and styling properties
->>>>>>> Update alert helper to output descriptions in jsx, add displayType property to all
  */
 export function getAlertContent(alert) {
   const { type, details } = alert;
@@ -463,6 +457,7 @@ export function getAlertContent(alert) {
           informal hearing presentation (IHP). Please contact your
           representative for more information</p>
         ),
+        cssClass: 'usa-alert-warning',
         displayType: 'take_action',
         type
       };
@@ -483,6 +478,7 @@ export function getAlertContent(alert) {
             <p><a href="#">Learn more about completing the Form 9</a>.</p>
           </div>
         ),
+        cssClass: 'usa-alert-warning',
         displayType: 'take_action',
         type
       };
@@ -490,6 +486,7 @@ export function getAlertContent(alert) {
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
         description: null,
+        cssClass: 'usa-alert-info',
         displayType: 'info',
         type,
       };
@@ -509,6 +506,7 @@ export function getAlertContent(alert) {
             </li>
           </ul>
         ),
+        cssClass: 'usa-alert-info',
         displayType: 'info',
         type,
       };
