@@ -4,7 +4,6 @@ import moment from 'moment';
 import objectValues from 'lodash/fp/values';
 import { connect } from 'react-redux';
 import { getScheduledDowntime } from '../actions';
-import AlertBox from '../components/AlertBox';
 import Modal from '../components/Modal';
 import LoadingIndicator from '../components/LoadingIndicator';
 
@@ -165,14 +164,8 @@ class DowntimeNotification extends React.Component {
       );
     }
 
-    let downtimeNotification = null;
+    const downtimeNotification = <div><h2>{title}</h2>{message}</div>;
 
-    // @todo remove the "true" part of this
-    if (true || this.props.userIsAuthenticated) {
-      downtimeNotification = <div><h2>{title}</h2>{message}</div>;
-    } else {
-      downtimeNotification = <AlertBox isVisible status="warning" headline={<h4>{title}</h4>} content={message}/>;
-    }
     return (
       <DowntimeNotificationWrapper status={serviceStatus.down}>
         {downtimeNotification}
@@ -184,21 +177,16 @@ class DowntimeNotification extends React.Component {
     const title = `The ${this.props.appTitle} will be down for maintenance soon`;
     const message = <p>We'll be doing some work on {this.props.appTitle} on {startTime.format('MMMM Mo')} between {startTime.format('LT')} and {endTime.format('LT')} . If you have trouble using this tool during that time, please check back soon.</p>;
     let downtimeNotification = null;
-    // @todo - remove the "true" part of this
-    if (true || this.props.userIsAuthenticated) {
-      if (!this.state.modalDismissed) {
-        const close = () => this.setState({ modalDismissed: true });
-        downtimeNotification = (
-          <Modal id="downtime-approaching-modal"
-            title={title}
-            onClose={close}
-            visible={!this.state.modalDismissed}>
-            {message}
-            <button type="button" className="usa-button-secondary" onClick={close}>Dismiss</button>
-          </Modal>);
-      }
-    } else {
-      downtimeNotification = <AlertBox isVisible status="info" headline={<h4>{title}</h4>} content={message}/>;
+    if (!this.state.modalDismissed) {
+      const close = () => this.setState({ modalDismissed: true });
+      downtimeNotification = (
+        <Modal id="downtime-approaching-modal"
+          title={title}
+          onClose={close}
+          visible={!this.state.modalDismissed}>
+          {message}
+          <button type="button" className="usa-button-secondary" onClick={close}>Dismiss</button>
+        </Modal>);
     }
     return (
       <DowntimeNotificationWrapper status={serviceStatus.downtimeApproaching}>

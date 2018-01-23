@@ -69,15 +69,6 @@ describe('<DowntimeNotification/>', () => {
       { service: services.mhv, startTime: withinHour, endTime }
     ];
 
-    // it('should render the children components and an AlertBox when downtime approaching for unauthenticated users', () => {
-    //   const wrapper = getComponent([services.mhv]);
-    //   wrapper.setProps({ isReady: true, scheduledDowntime });
-    //   const innerWrapper = wrapper.find('DowntimeNotificationWrapper').dive();
-    //   expect(innerWrapper.text()).to.contain(innerText, 'The message was rendered');
-    //   expect(innerWrapper.find(`[data-status="${serviceStatus.downtimeApproaching}"]`)).to.have.lengthOf(1, 'The correct status was rendered');
-    //   expect(innerWrapper.find('AlertBox')).to.have.lengthOf(1, 'Unauthenticated users will see an alert');
-    // });
-
     it('should render the children and a Modal when downtime is approaching for authenticated users', () => {
       const wrapper = getComponent([services.mhv]);
       wrapper.setProps({ isReady: true, scheduledDowntime, userIsAuthenticated: true });
@@ -94,15 +85,6 @@ describe('<DowntimeNotification/>', () => {
       { service: services.appeals, startTime: moreThanHour, endTime },
       { service: services.mhv, startTime: beforeNow, endTime }
     ];
-
-    // it('should not render the children when we are in downtime and instead show an AlertBox for unauthenticated users', () => {
-    //   const wrapper = getComponent([services.mhv]);
-    //   wrapper.setProps({ isReady: true, scheduledDowntime });
-    //   const innerWrapper = wrapper.find('DowntimeNotificationWrapper').dive();
-    //   expect(innerWrapper.text()).to.not.contain(innerText, 'The message was not rendered');
-    //   expect(innerWrapper.find(`[data-status="${serviceStatus.down}"]`)).to.have.lengthOf(1, 'The correct status was rendered');
-    //   expect(innerWrapper.find('AlertBox')).to.have.lengthOf(1, 'Unauthenticated users will see an alert');
-    // });
 
     it('should not render the children when we are in downtime and instead show an AlertBox for unauthenticated users', () => {
       const wrapper = getComponent([services.mhv]);

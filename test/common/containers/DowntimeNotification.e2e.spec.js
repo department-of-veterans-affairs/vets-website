@@ -3,9 +3,8 @@ const createMockEndpoint = require('../../e2e/mock-helpers');
 const E2eHelpers = require('../../e2e/e2e-helpers');
 const Timeouts = require('../../e2e/timeouts');
 const FacilityHelpers = require('../../e2e/facility-helpers');
-const LoginHelpers = require('../../e2e/login-helpers');
 
-let token = null;
+const token = null;
 
 const beforeNow = moment().subtract(1, 'minute').toISOString();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toISOString();
@@ -15,8 +14,7 @@ const selectors = {
   app: '.facility-locator',
   downtimeNotification: '#downtime-notification',
   statusDown: '[data-status="down"]',
-  statusDownApproachingModal: '[data-status="downtimeApproaching"] #downtime-approaching-modal',
-  statusDownApproachingAlertBanner: '[data-status="downtimeApproaching"] .usa-alert'
+  statusDownApproachingModal: '[data-status="downtimeApproaching"] #downtime-approaching-modal'
 };
 
 function mock(data, _token = token) {
@@ -71,27 +69,10 @@ function runTests(browser, callbacks) {
     .then(callbacks.down);
 }
 
-function testUnauthorized(browser) {
+function getStatusHandlers(browser) {
   return {
     ok() {
       return new Promise(resolve => browser.waitForElementVisible(selectors.app, Timeouts.slow, resolve));
-    },
-    downtimeApproaching() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingAlertBanner, Timeouts.slow, resolve));
-    },
-    down() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDown, Timeouts.slow, resolve));
-    }
-  };
-}
-
-function testAuthorized(browser) {
-  return {
-    ok() {
-      return new Promise(resolve => {
-        token = LoginHelpers.getUserToken();
-        LoginHelpers.logIn(token, browser, '/facilities', 3).waitForElementVisible('body', Timeouts.slow).waitForElementVisible(selectors.app, Timeouts.slow, resolve);
-      });
     },
     downtimeApproaching() {
       return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingModal, Timeouts.slow, resolve));
@@ -113,8 +94,7 @@ function begin(browser) {
   FacilityHelpers.initApplicationMock();
 
   browser.perform(done => {
-    runTests(browser, testUnauthorized(browser))
-      .then(() => runTests(browser, testAuthorized(browser)))
+    runTests(browser, getStatusHandlers(browser))
       .then(cleanUp)
       .then(() => browser.closeWindow())
       .then(done, (err) => {
@@ -125,4 +105,4 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
-module.exports['@disabled'] = true;
+
