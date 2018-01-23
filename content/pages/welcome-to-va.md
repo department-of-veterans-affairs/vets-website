@@ -6,7 +6,7 @@ order: 1
 plainlanguage: 
 template: detail-page
 majorlinks:
-  - heading: Explore Vets.gov to learn about benefits you may qualify for
+  - heading: Explore Vets.gov to learn about your benefits
     links:
     - url: /disability-benefits/
       title: Disability Benefits
