@@ -45,7 +45,7 @@ describe('Main', () => {
     expect(tree.subTree('#recordNotFound')).to.be.ok;
   });
 
-  /* 
+  /*
     Temporarily switch out record not found and replace with System Down
     See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/7677
   */
