@@ -44,7 +44,7 @@ Use the guide as a quick reference for connecting to information on how to:
 - Apply for VA health care and make your first health appointment
 - File your VA disability claim and get your disability rating
 - Apply for VA education benefits
-- Get health right now for yourself or a friend or family member
+- Get help right now for yourself or a friend or family member
 
 We encourage you to print copies of this guide to share with fellow Veterans and family members.
 <br>
