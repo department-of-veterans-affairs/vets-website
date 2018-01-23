@@ -32,8 +32,6 @@ const AppealsV2StatusPage = ({ appeal }) => {
 
 AppealsV2StatusPage.propTypes = {
   appeal: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     attributes: PropTypes.shape({
       events: PropTypes.array,
       alerts: PropTypes.array,
