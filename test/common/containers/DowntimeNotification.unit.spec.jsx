@@ -71,7 +71,7 @@ describe('<DowntimeNotification/>', () => {
 
     it('should render the children and a Modal when downtime is approaching for authenticated users', () => {
       const wrapper = getComponent([services.mhv]);
-      wrapper.setProps({ isReady: true, scheduledDowntime, userIsAuthenticated: true });
+      wrapper.setProps({ isReady: true, scheduledDowntime });
       const innerWrapper = wrapper.find('DowntimeNotificationWrapper').dive();
       expect(innerWrapper.text()).to.contain(innerText, 'The message was rendered');
       expect(innerWrapper.find(`[data-status="${serviceStatus.downtimeApproaching}"]`)).to.have.lengthOf(1, 'The correct status was rendered');
@@ -88,7 +88,7 @@ describe('<DowntimeNotification/>', () => {
 
     it('should not render the children when we are in downtime and instead show an AlertBox for unauthenticated users', () => {
       const wrapper = getComponent([services.mhv]);
-      wrapper.setProps({ isReady: true, scheduledDowntime, userIsAuthenticated: true });
+      wrapper.setProps({ isReady: true, scheduledDowntime });
       const innerWrapper = wrapper.find('DowntimeNotificationWrapper').dive();
       expect(innerWrapper.text()).to.not.contain(innerText, 'The message was not rendered');
       expect(innerWrapper.find(`[data-status="${serviceStatus.down}"]`)).to.have.lengthOf(1, 'The correct status was rendered');
@@ -107,9 +107,6 @@ describe('<DowntimeNotification/>', () => {
     ];
     wrapper.setProps({ scheduledDowntime });
     expect(wrapper.text()).to.contain(innerText, 'The downtime was ignored.');
-
-    wrapper.setProps({ userIsAuthenticated: true });
-    expect(wrapper.text()).to.contain(innerText, 'The auth change was ignored.');
   });
 
 });
