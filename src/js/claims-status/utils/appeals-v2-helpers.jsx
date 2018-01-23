@@ -437,7 +437,6 @@ export function getNextEvents(currentStatus) {
  * @typedef {object} alertOutput
  * @property {string} title Used for the alert header
  * @property {HTMLElement} description Some descriptive text for the alert body
- * @property {string} cssClass USWDS alert display class, usually either a 'warning' or 'info'
  * @property {string} displayType Segments the alert into either 'take action' or 'info' buckets
  * @property {string} type Pass-through for the input type. Should be one of ALERT_TYPES
  * ------------------------------------------------------------------------------------------------
@@ -457,7 +456,6 @@ export function getAlertContent(alert) {
           informal hearing presentation (IHP). Please contact your
           representative for more information</p>
         ),
-        cssClass: 'usa-alert-warning',
         displayType: 'take_action',
         type
       };
@@ -478,7 +476,6 @@ export function getAlertContent(alert) {
             <p><a href="#">Learn more about completing the Form 9</a>.</p>
           </div>
         ),
-        cssClass: 'usa-alert-warning',
         displayType: 'take_action',
         type
       };
@@ -486,7 +483,6 @@ export function getAlertContent(alert) {
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
         description: null,
-        cssClass: 'usa-alert-info',
         displayType: 'info',
         type,
       };
@@ -506,15 +502,13 @@ export function getAlertContent(alert) {
             </li>
           </ul>
         ),
-        cssClass: 'usa-alert-info',
         displayType: 'info',
         type,
       };
     default:
       return {
         title: '',
-        description: '',
-        cssClass: '',
+        description: null,
         displayType: '',
         type,
       };
