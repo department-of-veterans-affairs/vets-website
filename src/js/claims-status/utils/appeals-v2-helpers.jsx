@@ -463,7 +463,6 @@ export function getAlertContent(alert) {
           informal hearing presentation (IHP). Please contact your
           representative for more information</p>
         ),
-        cssClass: 'usa-alert-warning',
         displayType: 'take_action',
         type
       };
@@ -484,7 +483,6 @@ export function getAlertContent(alert) {
             <p><a href="#">Learn more about completing the Form 9</a>.</p>
           </div>
         ),
-        cssClass: 'usa-alert-warning',
         displayType: 'take_action',
         type
       };
@@ -492,7 +490,6 @@ export function getAlertContent(alert) {
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
         description: null,
-        cssClass: 'usa-alert-info',
         displayType: 'info',
         type,
       };
@@ -512,7 +509,6 @@ export function getAlertContent(alert) {
             </li>
           </ul>
         ),
-        cssClass: 'usa-alert-info',
         displayType: 'info',
         type,
       };
