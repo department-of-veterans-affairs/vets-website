@@ -101,7 +101,9 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 {% if buildtype === 'development' %}
   <script>
     window.dataLayer = [];
+    window.dataLayer.push({ environment: '{{ buildtype }}' });
   </script>
+  <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
   <script>
