@@ -51,7 +51,7 @@ class AlertBox extends React.Component {
       );
     }
 
-    const headline = this.props.headline && (<div className="usa-alert-heading">{this.props.headline}</div>);
+    const headline = this.props.headline && (<h4 className="usa-alert-heading">{this.props.headline}</h4>);
 
     return (
       <div
@@ -62,6 +62,10 @@ class AlertBox extends React.Component {
           {headline}
           <div className="usa-alert-text">
             {this.props.content}
+          </div>
+          <div className="alert-actions">
+            {this.props.primaryButton && <button className="usa-button" onClick={this.props.primaryButton.action}>{this.props.primaryButton.text}</button>}
+            {this.props.secondaryButton && <button className="usa-button-secondary" onClick={this.props.secondaryButton.action}>{this.props.secondaryButton.text}</button>}
           </div>
         </div>
         {closeButton}
@@ -78,6 +82,14 @@ AlertBox.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   onCloseAlert: PropTypes.func,
   scrollOnShow: PropTypes.bool,
+  primaryButton: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
+  secondaryButton: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
   status: PropTypes.oneOf([
     'info',
     'error',
