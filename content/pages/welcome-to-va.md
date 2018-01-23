@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Download Your VA Welcome Kit
-display_title: Download Your VA Welcome Kit
+title: Print Out Your VA Welcome Kit
+display_title: Your VA Welcome Kit
 order: 1
 plainlanguage: 
 template: detail-page
@@ -36,11 +36,11 @@ majorlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Whether you're just getting out of the service or you've been a civilian for years now, our VA Welcome Kit can help guide you to the benefits and services you've earned.
+Whether you're just getting out of the service or you've been a civilian for years now, the VA Welcome Kit can help guide you to the benefits and services you've earned.
 
 Based on where you are in life, your VA benefits and services can support you in different ways. Keep your welcome kit handy so you can turn to it throughout your life—like when it’s time to go to school, get a job, buy a house, get health care, retire, or make plans for your care as you age.
 
-Go ahead and share this guide with friends or family members who need help with their benefits too.
+Feel free to share this guide with friends or family members who need help with their benefits too.
 
 [Download your VA Welcome Kit](vets-website/content/pages/WelcomeVA_Guide_print_version_final.pdf).
 
