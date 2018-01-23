@@ -36,9 +36,9 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    // TODO: Hook this up to the right user check
-    const idProofed = false;
-    const signedIn = this.props.saveInProgress.user.login.currentlyLoggedIn;
+    const { user } = this.props.saveInProgress;
+    const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
+    const signedIn = user.login.currentlyLoggedIn;
     const accountBenefits = (
       <ul>
         <li>We can prefill part of your application based on your account details.</li>
