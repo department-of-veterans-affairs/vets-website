@@ -26,7 +26,7 @@ const Alerts = ({alerts}) => {
         key={key}
         title={alert.title}
         description={alert.description}
-        cssClass={alert.cssClass}/>);
+        displayType={alert.displayType}/>);
     });
   
   return (
