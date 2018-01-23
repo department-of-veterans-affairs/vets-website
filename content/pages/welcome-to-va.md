@@ -33,22 +33,12 @@ majorlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-The VA Welcome Kit is a printable guide we've put together to help you make a smooth and successful transition to civilian life. 
+Whether you're just getting out of the service or you've been a civilian for years now, our VA Welcome Kit can help guide you to the benefits and services you've earned.
 
-This guide will help you and your family members explore all the VA benefits, services, and support available to you as a civilian. You can print it out and keep it handy to find out how we can support you at different times throughout your life.
+Based on where you are in life, your VA benefits and services can support you in different ways. Keep your welcome kit handy so you can turn to it throughout your life—like when it’s time to go to school, get a job, buy a house, get health care, retire, or make plans for your care as you age.
 
-Use the guide as a quick reference for connecting to information on how to:
-- Better understand your eligibility for VA benefits and your VA disability rating
-- Access different VA benefits and services when you need them—now and in the future
-- Get started with accessing your VA benefits and services today
-- Apply for VA health care and make your first health appointment
-- File your VA disability claim and get your disability rating
-- Apply for VA education benefits
-- Get help right now for yourself or a friend or family member
+Go ahead and share this guide with friends or family members who need help with their benefits too.
 
-We encourage you to print copies of this guide to share with fellow Veterans and family members.
-<br>
-
-[Download your VA Welcome Kit](vets-website/content/pages/WelcomeVA_Guide_print_version_final.pdf)
+[Download your VA Welcome Kit](vets-website/content/pages/WelcomeVA_Guide_print_version_final.pdf).
 
 </div>
