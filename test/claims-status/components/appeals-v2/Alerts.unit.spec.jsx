@@ -2,27 +2,17 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import Alerts from '../../../../src/js/claims-status/components/appeals-v2/Alerts';
+import { mockData } from '../../../../src/js/claims-status/utils/helpers';
+console.log(mockData);
 
 const defaultProps = {
-  alerts: [
-    {
-      type: 'waiting_on_action',
-      details: {
-        representative: 'Mr. Spock'
-      }
-    }, {
-      type: 'hearing_scheduled',
-      details: {
-        date: 'March 5th, 2018'
-      }
-    }
-  ]
+  alerts: mockData.data[0].attributes.alerts
 };
 
 describe('<Alerts/>', () => {
   it('renders', () => {
     const wrapper = shallow(<Alerts {...defaultProps}/>);
-    expect(wrapper.type()).to.equal('ul');
+    expect(wrapper.type()).to.equal('div');
   });
 
   it('should render all alerts', () => {
