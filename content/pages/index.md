@@ -3,7 +3,7 @@ layout: home.html
 body_class: home
 title: Home
 plainlanguage: 11-1-16 Ready for Beth review
-enablewarning: true
+enablewarning: false
 description: Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.
 majorlinks:
   - heading:
