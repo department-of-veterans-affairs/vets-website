@@ -7,7 +7,7 @@ import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
 describe('VIC address information', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryContactInformation.pages.addressInformation;
+  const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.addressInformation;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
