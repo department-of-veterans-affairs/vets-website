@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import Alerts from '../../../../src/js/claims-status/components/appeals-v2/Alerts';
 import { mockData } from '../../../../src/js/claims-status/utils/helpers';
-console.log(mockData);
 
 const defaultProps = {
   alerts: mockData.data[0].attributes.alerts

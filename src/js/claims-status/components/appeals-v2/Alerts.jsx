@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Alert from './Alert';
 import { getAlertContent } from '../../utils/appeals-v2-helpers';
 
-const Alerts = ({alerts}) => {
+const Alerts = ({ alerts }) => {
   if (typeof alerts === 'undefined' || alerts.length === 0) {
     return null;
   }
@@ -27,7 +27,7 @@ const Alerts = ({alerts}) => {
         description={alert.description}
         displayType={alert.displayType}/>);
     });
-  
+
   return (
     <div>
       {takeActionHeader}

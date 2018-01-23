@@ -451,11 +451,11 @@ export function getNextEvents(currentStatus) {
  * @returns {alertOutput} dynamically-generated title, description, and styling properties
  */
 export function getAlertContent(alert) {
-  const { type, details } = alert;
+  const { type } = alert; // also destructure 'details' out of alert once api finalizes
   switch (type) {
     case ALERT_TYPES.form9Needed:
       return {
-        title: `Return the Form 9 by [DATE] in order to continue your appeal`,
+        title: 'Return the Form 9 by [DATE] in order to continue your appeal',
         description: (
           <div>
             <p>
@@ -519,18 +519,18 @@ export function getAlertContent(alert) {
         displayType: 'info',
         type,
       };
-      case ALERT_TYPES.rampIneligible:
-        return {
-          title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
-          description: (
-            <p>This appeal is not eligible for RAMP because it’s near the front
-            of the docket line and ready to be assigned to a Veterans Law Judge
-            at the Board. For more information, please call your VSO or
-            representative.</p>
-          ),
-          displayType: 'info',
-          type,
-        };
+    case ALERT_TYPES.rampIneligible:
+      return {
+        title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
+        description: (
+          <p>This appeal is not eligible for RAMP because it’s near the front
+          of the docket line and ready to be assigned to a Veterans Law Judge
+          at the Board. For more information, please call your VSO or
+          representative.</p>
+        ),
+        displayType: 'info',
+        type,
+      };
     case ALERT_TYPES.decisionSoon:
       return {
         title: 'Your appeal is near the front of line',
