@@ -1,6 +1,7 @@
 import React from 'react';
 import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
+import classNames from 'classnames';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 
 const PhotoDescription = (
@@ -75,7 +76,10 @@ export default class PhotoField extends React.Component {
       cropResult: null,
       done: false,
       zoomValue: 0.4,
-      errorMessage: null
+      errorMessage: null,
+      warningMessage: null,
+      horizontallyMovable: true,
+      verticallyMovable: true
     };
   }
 
@@ -101,11 +105,11 @@ export default class PhotoField extends React.Component {
   }
 
   onEdit = () => {
-    this.setState({ done: false });
+    this.setState({ done: false, warningMessage: null });
   }
 
   onDone = () => {
-    this.setState({ done: true });
+    this.setState({ done: true, warningMessage: null });
   }
 
   onChange = (files) => {
@@ -149,9 +153,21 @@ export default class PhotoField extends React.Component {
   }
 
   onZoom = (e) => {
+    const smallScreen = window.innerWidth < 1201;
+    const cropBoxSize = smallScreen ? 240 : 300;
+    const imageData = this.refs.cropper.getImageData();
+    const verticallyMovable = (imageData.height / cropBoxSize) > 1;
+    const horizontallyMovable = (imageData.width / cropBoxSize) > 1;
     const newZoomValue = e.detail.ratio;
-    if (newZoomValue < 1.4 && newZoomValue > 0.2) {
-      return this.setState({ zoomValue: newZoomValue }, () => {
+    if (newZoomValue < 1.4 && newZoomValue > 0.1) {
+      let warningMessage = null;
+      if (!(this.state.verticallyMovable && this.state.horizontallyMovable)) {
+        warningMessage = 'Zooming out will enable you to move your picture.';
+      }
+      if (this.state.zoomValue > 1) {
+        warningMessage = 'Zooming in this close will make your ID picture less clear.';
+      }
+      return this.setState({ zoomValue: newZoomValue, verticallyMovable, horizontallyMovable, warningMessage }, () => {
         this.refs.slider.value = this.state.zoomValue;
       });
     }
@@ -179,7 +195,7 @@ export default class PhotoField extends React.Component {
   }
 
   zoom = (e) => {
-    if (e.target.value < 1.4 && e.target.value > 0.2) {
+    if (e.target.value < 1.4 && e.target.value > 0.1) {
       this.refs.cropper.zoomTo(e.target.value);
     }
   }
@@ -191,7 +207,7 @@ export default class PhotoField extends React.Component {
   }
 
   zoomOut = () => {
-    if (this.state.zoomValue > 0.2) {
+    if (this.state.zoomValue > 0.1) {
       this.refs.cropper.zoom(-0.1);
     }
   }
@@ -203,6 +219,12 @@ export default class PhotoField extends React.Component {
 
   render() {
     const smallScreen = window.innerWidth < 1201;
+    const verticalControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link', {
+      disabled: !this.state.verticallyMovable
+    });
+    const horizontalControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link', {
+      disabled: !this.state.horizontallyMovable
+    });
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
@@ -230,9 +252,7 @@ export default class PhotoField extends React.Component {
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {!this.state.done && instruction}
             {(dragAndDropSupported || this.state.src || this.state.done) && <p>{description}</p>}
-            {(dragAndDropSupported || this.state.src || this.state.done) && this.state.zoomValue > 1 && <div className="va-callout">
-Zooming in this close will make your ID picture less clear
-            </div>}
+            {this.state.warningMessage && <div className="va-callout">{this.state.warningMessage}</div>}
             {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
           </div>
           {!this.state.done && this.state.src && <div className="cropper-container-outer">
@@ -274,11 +294,11 @@ Zooming in this close will make your ID picture less clear
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                <button className="cropper-control cropper-control-label-container  va-button-link" type="button" onClick={this.moveUp}>
+                <button className={verticalControlClass} type="button" onClick={this.moveUp}>
                   <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
 
                 </button>
-                <button className="cropper-control cropper-control-label-container va-button-link" type="button" onClick={this.moveLeft}>
+                <button className={horizontalControlClass} type="button" onClick={this.moveLeft}>
                   <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
 
                 </button>
@@ -287,11 +307,11 @@ Zooming in this close will make your ID picture less clear
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
-                <button className="cropper-control cropper-control-label-container va-button-link" type="button" onClick={this.moveDown}>
+                <button className={verticalControlClass} type="button" onClick={this.moveDown}>
                   <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
 
                 </button>
-                <button className="cropper-control cropper-control-label-container va-button-link" type="button" onClick={this.moveRight}>
+                <button className={horizontalControlClass} type="button" onClick={this.moveRight}>
                   <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
                 </button>
               </div>

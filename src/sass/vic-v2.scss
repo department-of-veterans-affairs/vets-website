@@ -93,6 +93,14 @@ input[type=range] {
   }
 }
 
+.va-button-link {
+  &.disabled {
+    text-decoration: none;
+    color: $color-gray !important;
+  }
+}
+
+
 .fa {
   font-size: 1.07em !important;
 }
