@@ -46,7 +46,9 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. You can do this in 1 of 3 ways:
+You’ll need to apply for benefits. 
+
+**You can apply in 1 of 3 ways:**
 
 - [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
 **or**
@@ -54,7 +56,7 @@ You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 **or**
 - [Get help at a VA regional benefit office](/facilities/)
 
-When you apply, you’ll need to give us:
+**When you apply, you’ll need to give us:**
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
