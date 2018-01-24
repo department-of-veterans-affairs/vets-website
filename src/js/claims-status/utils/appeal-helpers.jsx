@@ -1,4 +1,5 @@
 import React from 'react';
+import Raven from 'raven-js';
 import moment from 'moment';
 
 export const hearingDescriptions = {
@@ -284,6 +285,9 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
         status: eventContent.status[prevType || 'defaultStatus'],
       };
     default:
+      Raven.captureMessage('appeals_status_unkown_lastEvent_type', {
+        extra: { eventType: lastEvent.type }
+      });
       break;
   }
 
