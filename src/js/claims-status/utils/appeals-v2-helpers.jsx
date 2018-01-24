@@ -18,8 +18,8 @@ export const STATUS_TYPES = {
   bvaDevelopment: 'bva_development',
   stayed: 'stayed',
   remand: 'remand',
-  bvaDecision: 'bva_decision',
   // Closed Statuses:
+  bvaDecision: 'bva_decision',
   fieldGrant: 'field_grant',
   withdrawn: 'withdrawn',
   ftr: 'ftr',
@@ -302,10 +302,10 @@ export function getStatusContents(statusType, details) {
             {allowedBlock}
             {deniedBlock}
           </div>
-          <div>
-            For issues that are allowed, you will receive compensation. For more information, please
-            contact your VSO or representative.
-          </div>
+          <p>
+            If this decision changes your disability rating or your eligibility for VA benefits,
+            you should expect this adjustment to be made in 1 to 2 months.
+          </p>
         </div>
       );
       break;
