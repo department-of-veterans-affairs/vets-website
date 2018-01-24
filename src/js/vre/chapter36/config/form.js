@@ -1,5 +1,8 @@
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
+import {
+  genders
+} from '../../../common/utils/options-for-select';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -32,6 +35,8 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
+    ssn,
+    gender
   },
   chapters: {
     applicantInformation: {
@@ -64,14 +69,16 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            definitions: {
+            properties: {
+              socialSecurityNumber: ssn,
+              gender: {
+                type: 'string',
+                'enum': genders.map(genderItem => genderItem.value),
+                enumNames: genders.map(genderItem => genderItem.label)
+              },
               seekingRestorativeTraining,
               seekingVocationalTraining,
               receivedPamphlet
-            },
-            properties: {
-              socialSecurityNumber: ssn,
-              gender
             }
           }
         }
