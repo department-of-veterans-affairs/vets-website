@@ -73,9 +73,7 @@ export default class PhotoField extends React.Component {
       done: false,
       zoomValue: 0.4,
       errorMessage: null,
-      warningMessage: null,
-      horizontallyMovable: true,
-      verticallyMovable: true
+      warningMessage: null
     };
   }
 
@@ -144,21 +142,13 @@ export default class PhotoField extends React.Component {
   }
 
   onZoom = (e) => {
-    const smallScreen = isSmallScreen(this.state.windowWidth);
-    const cropBoxSize = smallScreen ? 240 : 300;
-    const imageData = this.refs.cropper.getImageData();
-    const verticallyMovable = (imageData.height / cropBoxSize) > 1;
-    const horizontallyMovable = (imageData.width / cropBoxSize) > 1;
     const newZoomValue = e.detail.ratio;
     if (newZoomValue < 1.4 && newZoomValue > 0.1) {
-      let warningMessage = null;
-      if (!(this.state.verticallyMovable && this.state.horizontallyMovable)) {
-        warningMessage = 'Zooming in will enable you to move your picture.';
-      }
+      let warningMessage;
       if (this.state.zoomValue > 1) {
         warningMessage = 'Zooming in this close will make your ID picture less clear.';
       }
-      return this.setState({ zoomValue: newZoomValue, verticallyMovable, horizontallyMovable, warningMessage }, () => {
+      return this.setState({ zoomValue: newZoomValue, warningMessage }, () => {
         this.refs.slider.value = this.state.zoomValue;
       });
     }
@@ -248,12 +238,7 @@ export default class PhotoField extends React.Component {
 
   render() {
     const smallScreen = isSmallScreen(this.state.windowWidth);
-    const verticalControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link', {
-      disabled: !this.state.verticallyMovable
-    });
-    const horizontalControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link', {
-      disabled: !this.state.horizontallyMovable
-    });
+    const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
@@ -332,11 +317,11 @@ export default class PhotoField extends React.Component {
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                <button className={verticalControlClass} type="button" onClick={this.moveUp}>
+                <button className={moveControlClass} type="button" onClick={this.moveUp}>
                   <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
 
                 </button>
-                <button className={horizontalControlClass} type="button" onClick={this.moveLeft}>
+                <button className={moveControlClass} type="button" onClick={this.moveLeft}>
                   <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
 
                 </button>
@@ -345,11 +330,11 @@ export default class PhotoField extends React.Component {
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
-                <button className={verticalControlClass} type="button" onClick={this.moveDown}>
+                <button className={moveControlClass} type="button" onClick={this.moveDown}>
                   <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
 
                 </button>
-                <button className={horizontalControlClass} type="button" onClick={this.moveRight}>
+                <button className={moveControlClass} type="button" onClick={this.moveRight}>
                   <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
                 </button>
               </div>
