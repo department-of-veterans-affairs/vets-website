@@ -105,6 +105,7 @@ class ErrorableRadioButtons extends React.Component {
             id={`${this.inputId}-${index}`}
             name={this.props.name}
             type="radio"
+            onKeyDown={this.props.onKeyDown}
             value={optionValue}
             onChange={this.handleChange}/>
           <label
@@ -196,6 +197,7 @@ ErrorableRadioButtons.propTypes = {
     value: PropTypes.string,
     dirty: PropTypes.bool
   }).isRequired,
+  onKeyDown: PropTypes.func,
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };

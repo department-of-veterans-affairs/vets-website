@@ -21,13 +21,34 @@ class FormQuestions extends React.Component {
   updateField(name, value) {
     this.props.updateField(name, value);
     this.forceUpdate();
+  }
+
+  scrollToNext = () => {
+    const el = this.props.formValues.questions.slice(-1)[0];
     setTimeout(() => {
-      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], window.VetsGov.scroll || {
+      scroller.scrollTo(el, window.VetsGov.scroll || {
         duration: 1000,
         smooth: true,
-        offset: -150,
       });
     }, 100);
+  }
+
+  handleKeyDown = (e) => {
+    // only scroll to next question if user tabs out of the current one
+    if (!e.shiftKey && e.keyCode === 9 && ['INPUT', 'SELECT'].includes(document.activeElement.tagName)) {
+      const next = this.props.formValues.questions.slice(-1)[0];
+      const curr = e.target.name;
+
+      if (next && curr && parseInt(next.charAt(0), 10) > parseInt(curr.charAt(0), 10)) {
+        const el = this.props.formValues.questions.slice(-1)[0];
+        setTimeout(() => {
+          scroller.scrollTo(el, window.VetsGov.scroll || {
+            duration: 1000,
+            smooth: true,
+          });
+        }, 100);
+      }
+    }
   }
 
   handleScrollTo = (e) => {
@@ -38,6 +59,7 @@ class FormQuestions extends React.Component {
     scroller.scrollTo(e.target.name, window.VetsGov.scroll || {
       duration: 1000,
       smooth: true,
+      offset: -150,
     });
 
     (this[e.target.name].querySelector('input') || this[e.target.name].querySelector('select')).focus();
@@ -54,6 +76,7 @@ class FormQuestions extends React.Component {
           this.updateField(name, v.value);
         }
       },
+      onKeyDown: this.handleKeyDown,
       value: {
         value: this.props.formValues[name],
       }
@@ -141,6 +164,7 @@ class FormQuestions extends React.Component {
           label={label}
           name={key}
           options={yearOptions}
+          onKeyDown={this.handleKeyDown}
           value={{ value: dischargeYear }}
           onValueChange={(update) => { this.updateField(key, update.value); }}/>
       </fieldset>
