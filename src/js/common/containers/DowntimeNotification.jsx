@@ -78,7 +78,7 @@ class DowntimeNotification extends React.Component {
     if (firstLoad) {
       const downtimeMap = this.calculateDowntime(newProps.dependencies, newProps.scheduledDowntime);
       const status = this.determineStatus(downtimeMap);
-      const downtimeWindow = this.getDowntimeWindow(downtimeMap[status]);
+      const downtimeWindow = this.getDowntimeWindow(downtimeMap.get(status));
       const cache = { downtimeMap, status, downtimeWindow };
       this.setState({ cache });
     }
@@ -119,36 +119,42 @@ class DowntimeNotification extends React.Component {
 
   // Converts the array of dependencies/service names into key/value pairs, with service statuses as keys and a list of
   // downtime information (each downtime corresponding to a dependency/service name) as the values.
+  // Ultimately a Map that looks like this (but as a Map):
+  // {
+  //   "ok": []
+  //   "downApproaching": [{ serviceName: "arcgis", description: "We never show this anyway", startTime: new Date("Sometime within the hour"), endTime: new Date() }],
+  //   "down": []
+  // }
   calculateDowntime(dependencies, scheduledDowntime) {
-    const downtimeMap = {
-      [serviceStatus.down]: [],
-      [serviceStatus.downtimeApproaching]: [],
-      [serviceStatus.ok]: [],
-    };
+    const downtimeMap = new Map();
 
-    return dependencies
+    // Initialize each status to an empty array so that we don't have to check for null values
+    // when we pass the map along to other functions.
+    for (const status of objectValues(serviceStatus)) {
+      downtimeMap.set(status, []);
+    }
 
-      // Get the corresponding downtime value by the name of the service/dependency
-      .map((serviceName) => scheduledDowntime.find(downtime => downtime.service === serviceName))
-
-      // Remove null values (services that have no known downtime)
-      .filter(downtime => !!downtime)
-
-      // Put each value into the corresponding status of the downtimeMap
-      .reduce((map, downtime) => {
+    // Loop through the dependencies, which is just a string of service names.
+    // Find the corresponding downtime using that service name value.
+    // Then, determine the status of that downtime by using a helper function.
+    // Finally, add that downtime into the array of the corresponding status in the map.
+    for (const serviceName of dependencies) {
+      const downtime = scheduledDowntime.find(d => d.service === serviceName);
+      if (downtime) {
         const status = this.getStatusForDowntime(downtime);
-        return {
-          ...map,
-          [status]: map[status].concat(downtime)
-        };
-      }, downtimeMap);
+        const downtimesForStatus = downtimeMap.get(status).concat(downtime);
+        downtimeMap.set(status, downtimesForStatus);
+      }
+    }
+
+    return downtimeMap;
   }
 
   determineStatus(downtimeMap) {
     if (this.props.determineStatus) return this.props.determineStatus(downtimeMap);
 
-    const statusDown = downtimeMap[serviceStatus.down].length > 0;
-    const statusDownApproaching = downtimeMap[serviceStatus.downtimeApproaching].length > 0;
+    const statusDown = downtimeMap.get(serviceStatus.down).length > 0;
+    const statusDownApproaching = downtimeMap.get(serviceStatus.downtimeApproaching).length > 0;
     const statusOk = !statusDown && !statusDownApproaching;
 
     if (statusOk) return serviceStatus.ok;
