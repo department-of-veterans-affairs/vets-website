@@ -134,6 +134,8 @@ describe('Schemaform <RoutedSavableApp>', () => {
     };
     const routes = [{
       pageList: [{
+        path: 'intro'
+      }, {
         path: 'test-path'
       }]
     }];
