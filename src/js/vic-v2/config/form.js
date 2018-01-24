@@ -4,11 +4,13 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
+import DD214Description from '../components/DD214Description';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import * as addressDefinition from '../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
+import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
 import { validateMatch } from '../../common/schemaform/validation';
 
@@ -17,7 +19,8 @@ const {
   veteranSocialSecurityNumber,
   veteranFullName,
   email,
-  serviceBranch
+  serviceBranch,
+  dd214
 } = fullSchemaVIC.properties;
 
 const {
@@ -176,6 +179,25 @@ const formConfig = {
               photo: {
                 type: 'any'
               }
+            }
+          }
+        },
+        dd214Upload: {
+          path: 'documents/dd214',
+          title: 'DD214 upload',
+          depends: form => !form.verified,
+          editModeOnReviewPage: true,
+          uiSchema: {
+            'ui:description': DD214Description,
+            dd214: fileUploadUI('Upload your DD214', {
+              endpoint: '/v0/vic/vic_attachments'
+            })
+          },
+          schema: {
+            type: 'object',
+            required: ['dd214'],
+            properties: {
+              dd214
             }
           }
         }
