@@ -45,14 +45,6 @@ class FormQuestions extends React.Component {
 
       if (next && curr && parseInt(next.charAt(0), 10) > parseInt(curr.charAt(0), 10)) {
         const el = this.props.formValues.questions.slice(-1)[0];
-        // setTimeout(() => {
-        //   scroller.scrollTo(el, window.VetsGov.scroll || {
-        //     duration: 1000,
-        //     smooth: true,
-        //   });
-        //   // focus is in timeout to ensure next Q is rendered and reconcile timing with when the scroll is triggered
-        //   (this[el].querySelector('input') || this[el].querySelector('select')).focus();
-        // }, 100);
         this.scrollToLast(() => {
           (this[el].querySelector('input') || this[el].querySelector('select')).focus();
         });
