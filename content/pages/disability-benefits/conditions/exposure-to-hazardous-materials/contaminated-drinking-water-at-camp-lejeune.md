@@ -56,7 +56,7 @@ You’ll need to apply for benefits.
 **or**
 - [Get help at a VA regional benefit office](/facilities/)
 
-**When you apply, you’ll need to give us:**
+**When you apply, you’ll also need to give us:**
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
@@ -85,7 +85,9 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 
 ### How do I get these benefits as a family member?
 
-You’ll need to apply for benefits:
+You’ll need to apply for benefits.
+
+**You can apply in 1 of 2 ways:**
 
 -	[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant), **or**
 
@@ -100,7 +102,7 @@ PO Box 149200<br>
 Austin, TX 78714-9200<br>
 </p>
 
-When you apply, please provide:
+**When you apply, you'll also need to give us:**
 
 - Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
 
