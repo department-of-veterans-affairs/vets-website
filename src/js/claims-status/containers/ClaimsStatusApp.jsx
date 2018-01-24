@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
@@ -29,11 +28,9 @@ class ClaimsStatusApp extends React.Component {
         userProfile={this.props.profile}
         loginUrl={this.props.loginUrl}
         verifyUrl={this.props.verifyUrl}>
-        <DowntimeNotification appTitle="claims status tool" dependencies={[services.evss]}>
-          <AppContent>
-            {this.props.children}
-          </AppContent>
-        </DowntimeNotification>
+        <AppContent>
+          {this.props.children}
+        </AppContent>
       </RequiredLoginView>
     );
   }
