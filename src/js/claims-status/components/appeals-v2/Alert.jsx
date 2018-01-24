@@ -23,7 +23,7 @@ const Alert = ({ title, description, displayType }) => {
 
 Alert.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.object.isRequired, // nullable JSX snippet
+  description: PropTypes.element,
   displayType: PropTypes.string.isRequired,
 };
 
