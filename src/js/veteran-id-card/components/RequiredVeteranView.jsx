@@ -14,7 +14,7 @@ class RequiredVeteranView extends React.Component {
     } else if (this.props.userProfile.veteranStatus === 'NOT_FOUND') {
       // If eMIS status is "not found", show message that we cannot find the user
       // in our system.
-      view = <SystemDownView messageLine1="We’re sorry, but we need more information to process your Veteran ID Card request." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>;
+      view = <SystemDownView messageLine1="We’re sorry. We can’t process your request right now. We’re working on a change to the application that will let you submit your VIC request." messageLine2="Please email vic@va.gov to learn more about what to do next."/>;
     } else if (this.props.userProfile.veteranStatus === 'OK') {
       if (!serviceAvailable) {
         // If all above conditions are true and service is still not present in user profile, then user
