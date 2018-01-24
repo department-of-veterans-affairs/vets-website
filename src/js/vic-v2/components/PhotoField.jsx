@@ -30,7 +30,11 @@ const FILE_TYPES = [
   'jpg',
   'bmp'
 ];
+
 const MIN_SIZE = 350;
+const MIN_RATIO = 0.2;
+const MAX_RATIO = 1.7;
+const WARN_RATIO = 1.3;
 
 function isSmallScreen(width) {
   return  width < 1201;
@@ -143,9 +147,9 @@ export default class PhotoField extends React.Component {
 
   onZoom = (e) => {
     const newZoomValue = e.detail.ratio;
-    if (newZoomValue < 1.4 && newZoomValue > 0.1) {
+    if (newZoomValue < MAX_RATIO && newZoomValue > MIN_RATIO) {
       let warningMessage;
-      if (this.state.zoomValue > 1) {
+      if (this.state.zoomValue >= WARN_RATIO) {
         warningMessage = 'Zooming in this close will make your ID picture less clear.';
       }
       return this.setState({ zoomValue: newZoomValue, warningMessage }, () => {
@@ -214,19 +218,19 @@ export default class PhotoField extends React.Component {
   }
 
   zoom = (e) => {
-    if (e.target.value < 1.4 && e.target.value > 0.1) {
+    if (e.target.value < MAX_RATIO && e.target.value > MIN_RATIO) {
       this.refs.cropper.zoomTo(e.target.value);
     }
   }
 
   zoomIn = () => {
-    if (this.state.zoomValue < 1.4) {
+    if (this.state.zoomValue < MAX_RATIO) {
       this.refs.cropper.zoom(0.1);
     }
   }
 
   zoomOut = () => {
-    if (this.state.zoomValue > 0.1) {
+    if (this.state.zoomValue > MIN_RATIO) {
       this.refs.cropper.zoom(-0.1);
     }
   }
@@ -299,12 +303,12 @@ export default class PhotoField extends React.Component {
               <input type="range"
                 ref="slider"
                 className="cropper-zoom-slider"
-                min="0.2"
-                max="1.3"
+                min={MIN_RATIO}
+                max={MAX_RATIO}
                 defaultValue="0.4"
                 step="0.01"
-                aria-valuemin="0.2"
-                aria-valuemax="1.3"
+                aria-valuemin={MIN_RATIO}
+                aria-valuemax={MAX_RATIO}
                 aria-valuenow={this.state.zoomValue}
                 onInput={this.zoom}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
