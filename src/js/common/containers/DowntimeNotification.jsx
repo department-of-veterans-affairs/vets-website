@@ -230,7 +230,6 @@ class DowntimeNotification extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    // The presenation varies based on the user's authentication status, so we wait for the profile.loading flag as well.
     isReady: state.scheduledDowntime.isReady,
     scheduledDowntime: state.scheduledDowntime.values
   };
