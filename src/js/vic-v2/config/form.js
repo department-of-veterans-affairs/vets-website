@@ -5,6 +5,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
+import { prefillTransform } from '../helpers';
+
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import * as addressDefinition from '../../common/schemaform/definitions/address';
@@ -40,6 +42,7 @@ const formConfig = {
   formId: 'VIC',
   version: 0,
   prefillEnabled: true,
+  prefillTransform,
   savedFormMessages: {
     notFound: 'Please start over to apply for a veteran id card.',
     noAuth: 'Please sign in again to resume your application for a veteran id card.'
