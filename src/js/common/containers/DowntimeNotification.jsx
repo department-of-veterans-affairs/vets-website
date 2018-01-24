@@ -91,13 +91,10 @@ class DowntimeNotification extends React.Component {
     return nextState.cache.status !== serviceStatus.down;
   }
 
-  getStatusForDowntime(downtime, current = moment(), warning = moment().add(1, 'hour')) {
+  getStatusForDowntime(downtime, now = moment()) {
     const inclusive = '[]';
-
-    if (!downtime) return serviceStatus.ok;
-    if (current.isBetween(downtime.startTime, downtime.endTime, inclusive)) return serviceStatus.down;
-    if (warning.isBetween(downtime.startTime, downtime.endTime, inclusive)) return serviceStatus.downtimeApproaching;
-
+    if (now.isBetween(downtime.startTime, downtime.endTime, inclusive)) return serviceStatus.down;
+    if (now.add(1, 'hour').isAfter(downtime.startTime)) return serviceStatus.downtimeApproaching;
     return serviceStatus.ok;
   }
 
@@ -116,12 +113,11 @@ class DowntimeNotification extends React.Component {
   // Converts the array of dependencies/service names into key/value pairs, with service statuses as keys and a list of
   // downtime information (each downtime corresponding to a dependency/service name) as the values.
   calculateDowntime(dependencies, scheduledDowntime) {
-    const now = moment();
-    const nextHour = moment().add(1, 'hour');
-    const downtimeMap = {};
-
-    // Create a map with the service statuses as keys { ok, down, downApproaching }
-    Object.keys(serviceStatus).forEach((status) => { downtimeMap[status] = []; });
+    const downtimeMap = {
+      [serviceStatus.down]: [],
+      [serviceStatus.downtimeApproaching]: [],
+      [serviceStatus.ok]: [],
+    };
 
     return dependencies
 
@@ -133,7 +129,7 @@ class DowntimeNotification extends React.Component {
 
       // Put each value into the corresponding status of the downtimeMap
       .reduce((map, downtime) => {
-        const status = this.getStatusForDowntime(downtime, now, nextHour);
+        const status = this.getStatusForDowntime(downtime);
         return {
           ...map,
           [status]: map[status].concat(downtime)
