@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getAlertContent } from '../../utils/appeals-v2-helpers';
 
-const Alert = ({ alert }) => {
-  const { title, description, cssClass } = getAlertContent(alert);
+const Alert = ({ title, description, displayType }) => {
+  let cssClass;
+  if (displayType === 'take_action') {
+    cssClass = 'usa-alert-warning';
+  } else if (displayType === 'info') {
+    cssClass = 'usa-alert-info';
+  }
+
   return (
     <li>
       <div className={`usa-alert ${cssClass}`}>
         <div className="usa-alert-body">
           <h4 className="usa-alert-heading">{title}</h4>
-          <p className="usa-alert-text">{description}</p>
+          <div className="usa-alert-text">{description}</div>
         </div>
       </div>
     </li>
@@ -17,10 +22,9 @@ const Alert = ({ alert }) => {
 };
 
 Alert.propTypes = {
-  alert: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    details: PropTypes.object
-  })
+  title: PropTypes.string.isRequired,
+  description: PropTypes.element,
+  displayType: PropTypes.string.isRequired,
 };
 
 export default Alert;

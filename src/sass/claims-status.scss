@@ -914,21 +914,30 @@ h1:focus {
   }
 }
 
-.alerts-list {
-  list-style: none;
-
-  li {
-    margin-left: -.4em;
+.alerts-list-container {
+  h3 {
+    // left-align heading with alert box
+    padding-left: .85em;
   }
 
-  .usa-alert {
-    // Shift alert icon and text over so that triangle lines
-    // up with CurrentStatus's title & description content
-    background-position: 2.5rem 2.8rem;
-    padding-left: 2.5em;
+  .alerts-list {
+    list-style: none;
 
-    .usa-alert-text {
-      margin-top: 1em;
+    li {
+      margin-left: -.4em;
+    }
+
+    .usa-alert {
+      h4 {
+        margin-top: 0;
+      }
+      // Remove icons from standard USWDS alert styles
+      background-image: none;
+      padding-left: 1em;
+
+      .usa-alert-text {
+        margin-top: 1em;
+      }
     }
   }
 }

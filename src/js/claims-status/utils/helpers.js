@@ -284,11 +284,21 @@ export const mockData = {
         ],
         alerts: [
           {
-            type: 'form9_due',
+            type: 'form9_needed',
             details: {
               date: '2018-01-28'
             }
-          }
+          },
+          {
+            type: 'ramp_eligible',
+            details: {
+              date: '2016-05-30'
+            },
+          },
+          {
+            type: 'decision_soon',
+            details: {},
+          },
         ],
         events: [
           {
