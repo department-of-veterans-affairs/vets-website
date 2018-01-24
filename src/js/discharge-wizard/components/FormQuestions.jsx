@@ -23,13 +23,17 @@ class FormQuestions extends React.Component {
     this.forceUpdate();
   }
 
-  scrollToNext = () => {
-    const el = this.props.formValues.questions.slice(-1)[0];
+  scrollToLast = (action) => {
     setTimeout(() => {
+      const el = this.props.formValues.questions.slice(-1)[0];
       scroller.scrollTo(el, window.VetsGov.scroll || {
         duration: 1000,
         smooth: true,
       });
+
+      if (typeof action === 'function') {
+        action();
+      }
     }, 100);
   }
 
@@ -41,12 +45,17 @@ class FormQuestions extends React.Component {
 
       if (next && curr && parseInt(next.charAt(0), 10) > parseInt(curr.charAt(0), 10)) {
         const el = this.props.formValues.questions.slice(-1)[0];
-        setTimeout(() => {
-          scroller.scrollTo(el, window.VetsGov.scroll || {
-            duration: 1000,
-            smooth: true,
-          });
-        }, 100);
+        // setTimeout(() => {
+        //   scroller.scrollTo(el, window.VetsGov.scroll || {
+        //     duration: 1000,
+        //     smooth: true,
+        //   });
+        //   // focus is in timeout to ensure next Q is rendered and reconcile timing with when the scroll is triggered
+        //   (this[el].querySelector('input') || this[el].querySelector('select')).focus();
+        // }, 100);
+        this.scrollToLast(() => {
+          (this[el].querySelector('input') || this[el].querySelector('select')).focus();
+        });
       }
     }
   }
@@ -76,6 +85,7 @@ class FormQuestions extends React.Component {
           this.updateField(name, v.value);
         }
       },
+      onMouseDown: this.scrollToLast,
       onKeyDown: this.handleKeyDown,
       value: {
         value: this.props.formValues[name],
@@ -166,7 +176,7 @@ class FormQuestions extends React.Component {
           options={yearOptions}
           onKeyDown={this.handleKeyDown}
           value={{ value: dischargeYear }}
-          onValueChange={(update) => { this.updateField(key, update.value); }}/>
+          onValueChange={(update) => { this.updateField(key, update.value); this.scrollToLast(); }}/>
       </fieldset>
     );
   }
@@ -188,9 +198,10 @@ class FormQuestions extends React.Component {
           autocomplete="false"
           label={monthLabel}
           name={key}
+          onKeyDown={this.handleKeyDown}
           options={months}
           value={{ value: this.props.formValues[key] }}
-          onValueChange={(update) => { this.updateField(key, update.value); }}/>
+          onValueChange={(update) => { this.updateField(key, update.value); this.scrollToLast(); }}/>
       </fieldset>
     );
   }
