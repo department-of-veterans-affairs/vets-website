@@ -275,7 +275,7 @@ export default class PhotoField extends React.Component {
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {instruction}
             {description && <p>{description}</p>}
-            {this.state.warningMessage && <div className="va-callout">{this.state.warningMessage}</div>}
+            {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
           </div>
           {!this.state.done && this.state.src && <div className="cropper-container-outer">

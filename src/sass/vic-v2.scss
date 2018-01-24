@@ -377,3 +377,10 @@ input[type=range] {
     margin: 10px;
   }
 }
+
+.photo-warning {
+  background: $color-gold-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
+}
