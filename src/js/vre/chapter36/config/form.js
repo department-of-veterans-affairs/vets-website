@@ -1,19 +1,19 @@
-import _ from 'lodash/fp';
-
-// import { transform } from '../helpers';
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import ssnUI from '../../../common/schemaform/definitions/ssn';
 
 const {
-  applicantFullName
+  seekingRestorativeTraining,
+  seekingVocationalTraining,
+  receivedPamphlet
 } = fullSchema36.properties;
 
 const {
-  fullName
+  ssn,
+  gender
 } = fullSchema36.definitions;
 
 const formConfig = {
@@ -32,60 +32,46 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
-    fullName
   },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
+      initialData: {
+        socialSecurityNumber: '424242424'
+      },
       pages: {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
           uiSchema: {
-            'view:isVeteran': {
-              'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
+            socialSecurityNumber: ssnUI,
+            gender: {
+              'ui:title': 'Gender',
+              'ui:widget': 'radio'
+            },
+            seekingRestorativeTraining: {
+              'ui:title': 'Are you a child who is at least 14 years old, a spouse, or a surviving spouse with a disability and looking for special restorative training?',
               'ui:widget': 'yesNo'
             },
-            applicantFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:required': formData => formData['view:isVeteran'] === false,
-              },
-              last: {
-                'ui:required': formData => formData['view:isVeteran'] === false,
-              },
-              'ui:options': {
-                expandUnder: 'view:isVeteran',
-                expandUnderCondition: false
-              }
-            }),
-            applicantRelationshipToVeteran: {
-              'ui:title': 'What is your relationship to the Servicemember or Veteran?',
-              'ui:widget': 'radio',
-              'ui:required': formData => formData['view:isVeteran'] === false,
-              'ui:options': {
-                expandUnder: 'view:isVeteran',
-                expandUnderCondition: false
-              }
+            seekingVocationalTraining: {
+              'ui:title': 'Are you a child, a spouse, or a surviving spouse with a disability and looking for special vocational training',
+              'ui:widget': 'yesNo'
+            },
+            receivedPamphlet: {
+              'ui:title': 'Have you received a pamphlet explaining survivors\' and dependents\' educational assistance benefits?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
             type: 'object',
-            required: ['view:isVeteran'],
+            definitions: {
+              seekingRestorativeTraining,
+              seekingVocationalTraining,
+              receivedPamphlet
+            },
             properties: {
-              'view:isVeteran': {
-                type: 'boolean'
-              },
-              applicantFullName: _.unset('required', applicantFullName),
-              applicantRelationshipToVeteran: {
-                type: 'string',
-                'enum': [
-                  'Spouse',
-                  'Surviving spouse',
-                  'Child',
-                  'Stepchild',
-                  'Adopted child'
-                ]
-              }
+              socialSecurityNumber: ssn,
+              gender
             }
           }
         }
