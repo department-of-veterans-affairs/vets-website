@@ -2,16 +2,21 @@ import org.kohsuke.github.GitHub
 
 def envNames = ['development', 'staging', 'production']
 
+def devBranch = 'master'
+def stagingBranch = 'master'
+def prodBranch = 'master'
+
 def isReviewable = {
-  env.BRANCH_NAME != 'production' &&
-    env.BRANCH_NAME != 'master'
+  env.BRANCH_NAME != devBranch &&
+    env.BRANCH_NAME != stagingBranch &&
+    env.BRANCH_NAME != prodBranch
 }
 
 env.CONCURRENCY = 10
 
 def isDeployable = {
-  (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production') &&
+  (env.BRANCH_NAME == devBranch ||
+    env.BRANCH_NAME == stagingBranch) &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
 }
@@ -29,8 +34,9 @@ def buildDetails = { vars ->
 }
 
 def notify = { message, color='good' ->
-    if (env.BRANCH_NAME == 'master' ||
-        env.BRANCH_NAME == 'production') {
+    if (env.BRANCH_NAME == devBranch ||
+        env.BRANCH_NAME == stagingBranch ||
+        env.BRANCH_NAME == prodBranch) {
         slackSend message: message,
                   color: color,
                   failOnError: true
@@ -211,30 +217,24 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Deploy') {
+  stage('Deploy dev or staging') {
     try {
       if (!isDeployable()) {
         return
-      }
-
-      // Create a new GitHub release for this merge to production
-      if (env.BRANCH_NAME == 'production') {
-        build job: 'releases/vets-website', parameters: [
-          stringParam(name: 'ref', value: ref),
-        ], wait: true
-      }
-
-      def targets = [
-        'master': [ 'dev', 'staging' ],
-        'production': [ 'prod' ],
-      ][env.BRANCH_NAME]
-
-      // Deploy the build associated with this ref. To deploy from a release use
-      // the `deploys/vets-website-env-from-build` jobs from the Jenkins web console.
-      for (int i=0; i<targets.size(); i++) {
-        build job: "deploys/vets-website-${targets.get(i)}-from-build", parameters: [
-          stringParam(name: 'ref', value: ref),
-        ], wait: false
+      } else if (env.BRANCH_NAME == devBranch) {
+        steps {
+          build job: 'deploys/vets-website-dev', parameters: [
+            booleanParam(name: 'notify_slack', value: true),
+            stringParam(name: 'ref', value: commit),
+          ], wait: false
+        }
+      } else if (env.BRANCH_NAME == stagingBranch) {
+        steps {
+          build job: 'deploys/vets-website-staging', parameters: [
+            booleanParam(name: 'notify_slack', value: true),
+            stringParam(name: 'ref', value: commit),
+          ], wait: false
+        }
       }
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
