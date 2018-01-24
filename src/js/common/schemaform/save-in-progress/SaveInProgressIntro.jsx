@@ -13,7 +13,8 @@ export default class SaveInProgressIntro extends React.Component {
     let alert;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    const prefillEnabled = this.props.prefillEnabled;
+    const { renderSignInMessage, prefillEnabled } = this.props;
+
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -57,6 +58,8 @@ export default class SaveInProgressIntro extends React.Component {
           </div>
         );
       }
+    } else if (renderSignInMessage) {
+      alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled) {
       alert = (
         <div>
@@ -140,7 +143,8 @@ SaveInProgressIntro.propTypes = {
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
   startText: PropTypes.string,
-  toggleLoginModal: PropTypes.func.isRequired
+  toggleLoginModal: PropTypes.func.isRequired,
+  renderSignInMessage: PropTypes.func
 };
 
 export const introSelector = getIntroState;
