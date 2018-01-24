@@ -230,7 +230,6 @@ export function getStatusContents(statusType, details) {
               corrected for the following {pluralize.remand}
             </p>
             <ul>{remandIssues}</ul>
-            <p>The case is returned to the VBA to complete a remand order. </p>
           </div>
         );
       }
