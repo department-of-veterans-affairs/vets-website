@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { shallow } from 'enzyme';
 
 import {
   groupTimelineActivity,
@@ -16,6 +17,7 @@ import {
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
   getClaimType,
+  mockData,
 } from '../../../src/js/claims-status/utils/helpers';
 
 import {
@@ -458,17 +460,62 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
-      const type = STATUS_TYPES.nod;
-      const details = { regionalOffice: 'Chicago Regional Office' };
+      const type = STATUS_TYPES.scheduledHearing;
+      const details = {};
+      const expectedDescSnippet = 'Your [TYPE] hearing is scheduled for [DATE] at [LOCATION]';
       const contents = getStatusContents(type, details);
-      expect(contents.title).to.equal('The Chicago Regional Office is reviewing your appeal');
+      expect(contents.title).to.equal('Your hearing has been scheduled');
+      // TO-DO: Update with real content
+      const descText = contents.description.props.children;
+      expect(descText).to.contain(expectedDescSnippet);
     });
 
     it('returns sane object when given unknown type', () => {
       const type = 123;
       const contents = getStatusContents(type);
-      expect(contents.title).to.equal('Current Status Unknown');
+      expect(contents.title).to.equal('Current Appeal Status Unknown');
       expect(contents.description.props.children).to.equal('Your current appeal status is unknown at this time');
+    });
+
+    // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
+    // so we should test them specifically to ensure we're getting the desired output
+    it('returns the right number of allowed / denied / remand items for remand status', () => {
+      const details = {
+        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+      };
+      const contents = getStatusContents('remand', details);
+      expect(contents.title).to.equal('The Board made a decision on your appeal');
+
+      const wrapper = shallow(contents.description);
+      const allowedList = wrapper.find('.allowed-items ~ ul');
+      const deniedList = wrapper.find('.denied-items ~ ul');
+      const remandList = wrapper.find('.remand-items ~ ul');
+
+      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
+      const remandDisposition = details.decisionIssues.filter(i => i.disposition === 'remand');
+
+      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
+      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
+      expect(remandList.find('li').length).to.equal(remandDisposition.length);
+    });
+
+    it('returns the right number of allowed / denied items for bva_decision status', () => {
+      const details = {
+        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+      };
+      const contents = getStatusContents('bva_decision', details);
+      expect(contents.title).to.equal('The Board made a decision on your appeal');
+
+      const wrapper = shallow(contents.description);
+      const allowedList = wrapper.find('.allowed-items ~ ul');
+      const deniedList = wrapper.find('.denied-items ~ ul');
+
+      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
+
+      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
+      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
     });
   });
 
