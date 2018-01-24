@@ -29,7 +29,7 @@ const Alerts = ({ alerts }) => {
     });
 
   return (
-    <div>
+    <div className="alerts-container">
       {takeActionHeader}
       <ul className="alerts-list">
         {alertsList}
