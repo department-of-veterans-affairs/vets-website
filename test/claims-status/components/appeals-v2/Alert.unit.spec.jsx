@@ -3,11 +3,9 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import Alert from '../../../../src/js/claims-status/components/appeals-v2/Alert';
 
-const defaultProps = {};
-
 describe('<Alert/>', () => {
   it('should render', () => {
-    const wrapper = shallow(<Alert {...defaultProps}/>);
+    const wrapper = shallow(<Alert/>);
     expect(wrapper.type()).to.equal('li');
   });
 
