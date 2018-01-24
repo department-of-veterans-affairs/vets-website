@@ -319,10 +319,12 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'Additional evidence',
-          description: `VBA must reveiw any additional evidence you submit prios to certifying
-          your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
-          to grant your appeal, but if not, they will need to produce an additional
-          Statement of the Case.`,
+          description: (
+            <p>VBA must reveiw any additional evidence you submit prios to certifying
+            your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
+            to grant your appeal, but if not, they will need to produce an additional
+            Statement of the Case.</p>
+          ),
           durationText: '11 months',
           cardDescription: 'The Oakland regional office takes about 11 months to produce additional Statements of the Case.'
         }, {
@@ -336,21 +338,25 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'The Board receives your appeal',
-          description: `If you send the Form 9 without new evidence, the Veterans Benefits
+          description: (
+            <p>If you send the Form 9 without new evidence, the Veterans Benefits
             Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
+            Veterans’ Appeals.</p>
+          ),
           durationText: '2 months',
           cardDescription: 'VBA takes about 2 months to certify appeals to the Board'
         }, {
           title: 'VBA prepares a Statement of the Case (SOC)',
-          description: `If you send the Form 9 with new evidence, the Veterans Benefits
+          description: (
+            <p>If you send the Form 9 with new evidence, the Veterans Benefits
             Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
+            Veterans’ Appeals.</p>
+          ),
           durationText: '11 months',
           cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
         }, {
           title: 'You withdraw your appeal',
-          description: 'If you do not send the Form 9 within 60 days, your appeal will be closed.',
+          description: (<p>If you do not send the Form 9 within 60 days, your appeal will be closed.</p>),
           durationText: '2 months',
           cardDescription: 'You have 60 days to submit your appeal before it is closed'
         }
@@ -359,7 +365,7 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'Awaiting hearing date',
-          description: 'VBA is in the process of scheduling your hearing date',
+          description: (<p>VBA is in the process of scheduling your hearing date</p>),
           durationText: '2 months',
           cardDescription: 'The Oakland regional office takes about 2 months to schedule a hearing date.'
         }
@@ -368,7 +374,7 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'Board decision reached',
-          description: 'Your appeal decision is being sent to your mailing address',
+          description: (<p>Your appeal decision is being sent to your mailing address</p>),
           durationText: '2 weeks',
           cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
         }
@@ -377,9 +383,11 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'VBA prepares a Statement of the Case (SOC)',
-          description: `If you send the Form 9 with new evidence, the Veterans Benefits
+          description: (
+            <p>If you send the Form 9 with new evidence, the Veterans Benefits
             Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
+            Veterans’ Appeals.</p>
+          ),
           durationText: '11 months',
           cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
         }
@@ -407,7 +415,7 @@ export function getNextEvents(currentStatus) {
                     decision
                 </li>
               </ul>
-              <div><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</div>
+              <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
             </div>
           ),
           durationText: '10 months',
@@ -419,7 +427,7 @@ export function getNextEvents(currentStatus) {
       return [
         {
           title: 'Unknown event',
-          description: 'We could not find the next event in your appeal',
+          description: (<p>We could not find the next event in your appeal</p>),
           durationText: 'Unknown',
           cardDescription: 'No description found'
         }
@@ -430,7 +438,7 @@ export function getNextEvents(currentStatus) {
 /**
  *
  * @param {string} type each alert can have one of two types as defined by ALERT_TYPES
- * @returns {object} containing dynamically-generated title & description properties
+ * @returns {HTMLElement} containing dynamically-generated title & description properties
  */
 export function getAlertContent(alert) {
   const { type, details } = alert;
@@ -438,11 +446,13 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.waitingOnAction:
       return {
         title: 'Your appeal is waiting on action by your representative',
-        description: `Your appeal is near the front of the line, but it is not
+        description: (
+          <p>Your appeal is near the front of the line, but it is not
           ready to go to a judge. It is currently waiting on your
-          representative, the ${details.representative}, to complete an
+          representative, the {details.representative}, to complete an
           informal hearing presentation (IHP). Please contact your
-          representative for more information.`,
+          representative for more information.</p>
+        ),
         cssClass: 'usa-alert-warning',
         type
       };
@@ -468,7 +478,7 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.hearingScheduled:
       return {
         title: `Your hearing has been scheduled for ${details.date}`,
-        description: '',
+        description: null,
         cssClass: 'usa-alert-info',
         type,
       };
@@ -494,7 +504,7 @@ export function getAlertContent(alert) {
     default:
       return {
         title: '',
-        description: '',
+        description: null,
         cssClass: '',
         type,
       };
