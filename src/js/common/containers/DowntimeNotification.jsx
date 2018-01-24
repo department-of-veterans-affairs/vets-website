@@ -98,16 +98,23 @@ class DowntimeNotification extends React.Component {
     return serviceStatus.ok;
   }
 
+  // This is used to calculate the timeframe of the current or impending downtime.
+  // To keep things simple, it finds the downtime with the soonest start time and uses those
+  // start/end times.
   getDowntimeWindow(downtimes) {
-    return downtimes.reduce((result, downtime) => {
-      if (!downtime.startTime || !downtime.endTime) return result;
-      const startTime = moment(downtime.startTime);
-      const endTime = moment(downtime.endTime);
-      return {
-        startTime: result.startTime && result.startTime.isBefore(startTime) ? result.startTime : startTime,
-        endTime: result.endTime && result.endTime.isAfter(endTime) ? result.endTime : endTime,
-      };
-    }, {});
+    // Cycle through the array of downtimes and find the downtime with the soonest start time.
+    const soonestDowntime = downtimes.reduce((currentSoonest, downtime) => {
+      if (!currentSoonest) return downtime;
+
+      const isEarlier = moment(downtime.startTime).isBefore(currentSoonest.startTime);
+      return isEarlier ? downtime : currentSoonest;
+    }, null);
+
+    // Return the startTime/endTime as moment objects for the soonest downtime.
+    return {
+      startTime: soonestDowntime && moment(soonestDowntime.startTime),
+      endTime: soonestDowntime && moment(soonestDowntime.endTime)
+    };
   }
 
   // Converts the array of dependencies/service names into key/value pairs, with service statuses as keys and a list of
@@ -192,7 +199,9 @@ class DowntimeNotification extends React.Component {
   }
 
   render() {
-    if (!this.props.isReady) return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
+    if (!this.props.isReady) {
+      return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
+    }
 
     const { downtimeMap, status, downtimeWindow } = this.state.cache;
     const children = this.props.children || this.props.content;
