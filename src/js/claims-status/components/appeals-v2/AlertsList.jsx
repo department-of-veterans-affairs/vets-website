@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Alert from './Alert';
 import { getAlertContent } from '../../utils/appeals-v2-helpers';
 
-const Alerts = ({ alerts }) => {
+const AlertsList = ({ alerts }) => {
   if (typeof alerts === 'undefined' || alerts.length === 0) {
     return null;
   }
@@ -29,7 +29,7 @@ const Alerts = ({ alerts }) => {
     });
 
   return (
-    <div className="alerts-container">
+    <div className="alerts-list-container">
       {takeActionHeader}
       <ul className="alerts-list">
         {alertsList}
@@ -38,11 +38,11 @@ const Alerts = ({ alerts }) => {
   );
 };
 
-Alerts.propTypes = {
+AlertsList.propTypes = {
   alerts: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
     details: PropTypes.object
   }))
 };
 
-export default Alerts;
+export default AlertsList;
