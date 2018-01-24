@@ -32,12 +32,8 @@ const FILE_TYPES = [
 ];
 const MIN_SIZE = 350;
 
-function detectDragAndDrop() {
-  const div = document.createElement('div');
-  const supportsDragAndDrop = ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
-  const iOS = !!navigator.userAgent.match('iPhone OS') || !!navigator.userAgent.match('iPad');
-  const dragAndDropDetected = supportsDragAndDrop && window.FileReader;
-  return dragAndDropDetected && !iOS;
+function isSmallScreen(width) {
+  return  width < 1201;
 }
 
 function isValidFileType(fileName) {
@@ -83,27 +79,19 @@ export default class PhotoField extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.detectWidthAndDrag();
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.detectWidthAndDrag);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const newView = this.state.src && prevState.src !== this.state.src;
     const cropper = this.refs.cropper;
-    const slider = this.refs.slider;
-    if (newView && cropper) {
-      setTimeout(() => {
-        const { width, naturalWidth } = this.refs.cropper.getImageData();
-        slider.value = width / naturalWidth;
-        const containerData = cropper.getContainerData();
-        const containerWidth = containerData.width;
-        const smallScreen = window.innerWidth < 1201;
-        const cropBoxSize = smallScreen ? 240 : 300;
-        const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
-        const cropBoxData = {
-          left: cropBoxLeftOffset,
-          top: 0,
-          width: cropBoxSize,
-          height: cropBoxSize
-        };
-        cropper.setCropBoxData(cropBoxData);
-      }, 0);
+    if (cropper && newView) {
+      this.setCropBox();
     }
   }
 
@@ -156,7 +144,7 @@ export default class PhotoField extends React.Component {
   }
 
   onZoom = (e) => {
-    const smallScreen = window.innerWidth < 1201;
+    const smallScreen = isSmallScreen(this.state.windowWidth);
     const cropBoxSize = smallScreen ? 240 : 300;
     const imageData = this.refs.cropper.getImageData();
     const verticallyMovable = (imageData.height / cropBoxSize) > 1;
@@ -165,7 +153,7 @@ export default class PhotoField extends React.Component {
     if (newZoomValue < 1.4 && newZoomValue > 0.1) {
       let warningMessage = null;
       if (!(this.state.verticallyMovable && this.state.horizontallyMovable)) {
-        warningMessage = 'Zooming out will enable you to move your picture.';
+        warningMessage = 'Zooming in will enable you to move your picture.';
       }
       if (this.state.zoomValue > 1) {
         warningMessage = 'Zooming in this close will make your ID picture less clear.';
@@ -177,8 +165,46 @@ export default class PhotoField extends React.Component {
     return e.preventDefault();
   }
 
+  setCropBox = () => {
+    const cropper = this.refs.cropper;
+    const slider = this.refs.slider;
+    setTimeout(() => {
+      const { width, naturalWidth } = this.refs.cropper.getImageData();
+      slider.value = width / naturalWidth;
+      const containerData = cropper.getContainerData();
+      const containerWidth = containerData.width;
+      const smallScreen = isSmallScreen(this.state.windowWidth);
+      const cropBoxSize = smallScreen ? 240 : 300;
+      const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
+      const cropBoxData = {
+        left: cropBoxLeftOffset,
+        top: 0,
+        width: cropBoxSize,
+        height: cropBoxSize
+      };
+      cropper.setCropBoxData(cropBoxData);
+    }, 0);
+  }
+
+
   getErrorMessage = () => {
     return this.state.errorMessage;
+  }
+
+  detectWidthAndDrag = () => {
+    const windowWidth = window.innerWidth;
+    const div = document.createElement('div');
+    const supportsDragAndDrop = ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+    const iOS = !!navigator.userAgent.match('iPhone OS') || !!navigator.userAgent.match('iPad');
+    const dragAndDropSupported = supportsDragAndDrop && window.FileReader;
+    const previousWidth = this.state.windowWidth;
+    this.setState({ windowWidth, dragAndDropSupported: dragAndDropSupported && !iOS }, () => {
+      const newWidth = this.state.windowWidth !== previousWidth;
+      const cropper = this.refs.cropper;
+      if (cropper && newWidth) {
+        this.setCropBox();
+      }
+    });
   }
 
   moveUp = () => {
@@ -221,7 +247,7 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
-    const smallScreen = window.innerWidth < 1201;
+    const smallScreen = isSmallScreen(this.state.windowWidth);
     const verticalControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link', {
       disabled: !this.state.verticallyMovable
     });
@@ -236,11 +262,20 @@ export default class PhotoField extends React.Component {
     } else {
       uploadMessage = 'Upload Your Photo';
     }
-    const dragAndDropSupported = detectDragAndDrop();
-    let instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
-    let description = 'Drag and drop your image into the square or click the upload button.';
+    let instruction;
+    if (!this.state.done) {
+      if (!this.state.src) {
+        instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
+      }
+      if (this.state.src) {
+        instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
+      }
+    }
+    let description;
+    if (this.state.dragAndDropSupported) {
+      description = 'Drag and drop your image into the square or click the upload button.';
+    }
     if (this.state.src) {
-      instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
       description = 'Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.';
     }
     if (this.state.done) description = 'Success! This photo will be printed on your Veteran ID card.';
@@ -253,15 +288,15 @@ export default class PhotoField extends React.Component {
         <div className={this.state.errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
-            {!this.state.done && instruction}
-            {(dragAndDropSupported || this.state.src || this.state.done) && <p>{description}</p>}
+            {instruction}
+            {description && <p>{description}</p>}
             {this.state.warningMessage && <div className="va-callout">{this.state.warningMessage}</div>}
             {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
           </div>
           {!this.state.done && this.state.src && <div className="cropper-container-outer">
             <Cropper
               ref="cropper"
-              responsive={false}
+              responsive
               src={this.state.src}
               aspectRatio={1 / 1}
               cropBoxMovable={false}
