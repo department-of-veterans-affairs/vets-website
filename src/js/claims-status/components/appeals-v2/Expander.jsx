@@ -14,7 +14,7 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
   const title = expanded ? 'Hide past events' : 'See past events';
   const cssClass = expanded ? 'section-expanded' : 'section-unexpanded';
   const separator = (expanded && !missingEvents) ?  <div className="separator"/> : null;
-  const alert = missingEvents ? missingEventsAlert : null;
+  const alert = (expanded && missingEvents) ? missingEventsAlert : null;
 
   return (
     <li className={`process-step ${cssClass}`}>
@@ -23,7 +23,7 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
         <h3 style={{ color: 'inherit' }}>{title}</h3>
       </button>
       <div className="appeal-event-date">{dateRange}</div>
-      {expanded && alert}
+      {alert}
       {separator}
     </li>
   );
