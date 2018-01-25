@@ -164,7 +164,7 @@ export default class PhotoField extends React.Component {
     if (newZoomValue < MAX_RATIO && newZoomValue > MIN_RATIO) {
       let warningMessage;
       if (this.state.zoomValue >= WARN_RATIO) {
-        warningMessage = 'Zooming in this close will make your ID picture less clear.';
+        warningMessage = 'If you zoom in this close, your ID photo will be less clear.';
       }
       return this.setState({ zoomValue: newZoomValue, warningMessage });
     }
