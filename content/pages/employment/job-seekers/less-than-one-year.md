@@ -53,7 +53,7 @@ relatedlinks:
 
 ##### 6 Months Before Leaving Active Duty
 
-- Complete the [Preseparation Counseling Checklist](https://www.esd.whs.mil/Directives/forms/dd2500_2999/) (Form DD2648).
+- Complete the Preseparation Counseling Checklist found on Form DD2648.
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
 Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/). Treatment records are not required for registration or treament at VA.
 - Compile private medical records and hospital reports.
