@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
+import { getStatusContents, getNextEvents, EVENT_TYPES } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
@@ -17,6 +17,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
   const nextEvents = getNextEvents(type);
+  const form9Date = events.find(e => e.type === EVENT_TYPES.form9, null);
   return (
     <div>
       <Timeline events={events}/>
