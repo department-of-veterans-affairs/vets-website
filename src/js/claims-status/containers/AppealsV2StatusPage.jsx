@@ -17,7 +17,11 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
   const nextEvents = getNextEvents(type);
-  const form9Date = events.find(e => e.type === EVENT_TYPES.form9, null);
+  const form9Event = events.find(e => e.type === EVENT_TYPES.form9, null);
+  // Presumably we just won't even show the docket without this event, but that needs to be
+  //  verified first. For now, we'll just make sure form9 event exists first.
+  const form9Date = form9Event && form9Event.date;
+
   return (
     <div>
       <Timeline events={events}/>
@@ -26,7 +30,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
         description={currentStatus.description}/>
       <Alerts alerts={alerts}/>
       <WhatsNext nextEvents={nextEvents}/>
-      <Docket {...docket}/>
+      <Docket {...docket} form9Date={form9Date}/>
     </div>
   );
 };
