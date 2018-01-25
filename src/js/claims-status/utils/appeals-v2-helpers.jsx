@@ -575,7 +575,8 @@ export function getNextEvents(currentStatus) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc:
       return {
-        header: 'What happens next depends on whether the Decision Review Officer has enough evidence to decide in your favor.',
+        header: `What happens next depends on whether the Decision Review Officer has enough 
+          evidence to decide in your favor.`,
         events: [
           {
             title: 'The Veterans Benefits Administration will grant some or all of your appeal',
@@ -606,7 +607,8 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.pendingForm9:
       return {
-        header: '',
+        header: `If you return a Form 9 within 60 days, what happens next depends on whether you 
+          also send in new evidence.`,
         events: [
           {
             title: 'Your appeal will be sent to the Board',
@@ -637,7 +639,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.pendingCertification:
       return {
-        header: '',
+        header: 'What happens next depends on whether you send in new evidence.',
         events: [
           {
             title: 'Your appeal will be sent to the Board',
@@ -668,7 +670,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.pendingCertificationSsoc:
       return  {
-        header: '',
+        header: 'What happens next depends on whether you send in new evidence.',
         events: [
           {
             title: 'Your appeal will be sent to the Board',
@@ -699,7 +701,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.remandSsoc:
       return {
-        header: '',
+        header: 'What happens next depends on whether you send in new evidence.',
         events: [
           {
             title: 'Your appeal will be returned to the Board',
@@ -728,7 +730,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.pendingHearingScheduling:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'You will have your [TYPE] hearing',
@@ -748,7 +750,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.scheduledHearing:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'You will have your [TYPE] hearing',
@@ -768,7 +770,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.onDocket: {
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
@@ -781,7 +783,7 @@ export function getNextEvents(currentStatus) {
     }
     case STATUS_TYPES.atVso:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
@@ -793,7 +795,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.decisionInProgress:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
@@ -805,7 +807,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.bvaDevelopment:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
@@ -817,7 +819,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.stayed:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
@@ -829,7 +831,7 @@ export function getNextEvents(currentStatus) {
       };
     case STATUS_TYPES.remand:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'The Veterans Benefits Administration completes the remand instructions',
@@ -848,7 +850,7 @@ export function getNextEvents(currentStatus) {
       };
     default:
       return {
-        header: '',
+        header: '', // intentionally empty
         events: [
           {
             title: 'Unknown event',
