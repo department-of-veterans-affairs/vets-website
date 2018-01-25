@@ -583,8 +583,8 @@ export function getNextEvents(currentStatus) {
             title: 'The Veterans Benefits Administration will grant some or all of your appeal',
             description: (
               <p>
-                <em>If the Decision Review Officer determines that there is enough evidence to grant
-                one or more of the issues on your appeal</em>, they will make a new decision. If this
+                <strong>If the Decision Review Officer determines that there is enough evidence to grant
+                one or more of the issues on your appeal</strong>, they will make a new decision. If this
                 decision changes your disability rating or eligibility for VA benefits, you should
                 expect this change to be made in 1 to 2 months.
               </p>
@@ -595,8 +595,8 @@ export function getNextEvents(currentStatus) {
             title: 'The Veterans Benefits Administration will send you a Statement of the Case',
             description: (
               <p>
-                <em>If the Decision Review Officer determines that there is not enough evidence to
-                fully grant your appeal</em>, they will send you their findings in a document called
+                <strong>If the Decision Review Officer determines that there is not enough evidence to
+                fully grant your appeal</strong>, they will send you their findings in a document called
                 a Statement of the Case. You can then decide whether to continue your appeal to the
                 Board of Veterans’ Appeals.
               </p>
@@ -615,7 +615,7 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+                <strong>If you don’t send in new evidence after the Statement of the Case on [date]</strong>,
                 the Decision Review Officer will finish their review and transfer your case to the
                 Board of Veterans’ Appeals.
               </p>
@@ -626,7 +626,7 @@ export function getNextEvents(currentStatus) {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <em>If you send in new evidence after the Statement of the Case on [DATE]</em>, the
+                <strong>If you send in new evidence after the Statement of the Case on [DATE]</strong>, the
                 Decision Review Officer will need to write a new Statement of the Case before
                 transferring your case to the Board of Veterans’ Appeals. Once your appeal is
                 transferred, new evidence can be sent directly to the Board and will not be reviewed
@@ -646,7 +646,7 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+                <strong>If you don’t send in new evidence after the Statement of the Case on [date]</strong>,
                 the Decision Review Officer will finish their review and transfer your case to the
                 Board of Veterans’ Appeals.
               </p>
@@ -657,7 +657,7 @@ export function getNextEvents(currentStatus) {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <em>If you send in new evidence after the Statement of the Case on [date]</em>, the
+                <strong>If you send in new evidence after the Statement of the Case on [date]</strong>, the
                 Decision Review Officer will need to write a new Statement of the Case before
                 transferring your case to the Board of Veterans’ Appeals. Once your appeal is
                 transferred, new evidence can be sent directly to the Board and will not be reviewed
@@ -677,7 +677,7 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+                <strong>If you don’t send in new evidence after the Statement of the Case on [date]</strong>,
                 the Decision Review Officer will finish their review and transfer your case to the
                 Board of Veterans’ Appeals.
               </p>
@@ -688,7 +688,7 @@ export function getNextEvents(currentStatus) {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <em>If you send new evidence after the Statement of the Case on [date]</em>, the
+                <strong>If you send new evidence after the Statement of the Case on [date]</strong>, the
                 Decision Review Officer will need to write a new Statement of the Case before
                 transferring your case to the Board of Veterans’ Appeals. Once your appeal is
                 transferred, new evidence can be sent directly to the Board and will not be reviewed
@@ -708,7 +708,7 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be returned to the Board',
             description: (
               <p>
-                <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+                <strong>If you don’t send in new evidence after the Statement of the Case on [date]</strong>,
                 the Veterans Benefits Administration will finish their work on the remand and return
                 your case to the Board of Veterans’ Appeals.
               </p>
@@ -719,7 +719,7 @@ export function getNextEvents(currentStatus) {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <em>If you send in new evidence after the Statement of the Case on [date]</em>, the
+                <strong>If you send in new evidence after the Statement of the Case on [date]</strong>, the
                 Veterans Benefits Administration will need to write a new Statement of the Case
                 before returning your case to the Board of Veterans’ Appeals.
               </p>
