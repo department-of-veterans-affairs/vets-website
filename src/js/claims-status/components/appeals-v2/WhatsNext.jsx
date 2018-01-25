@@ -13,7 +13,7 @@ const WhatsNext = ({ nextEvents }) => {
         durationText={event.durationText}
         cardDescription={event.cardDescription}
         // show a separator after all events except the last one
-        showSeparator={(index !== eventsList.length - 1)}/>
+        showSeparator={(index !== events.length - 1)}/>
     );
   });
 
