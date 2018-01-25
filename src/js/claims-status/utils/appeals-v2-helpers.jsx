@@ -530,6 +530,30 @@ export function getEventContent(event) {
   }
 }
 
+// This static piece of content gets reused throughout getNextEvents()
+const DECISION_REVIEW_CONTENT = (
+  <div>
+    <p>
+      A Veterans Law Judge, working with their team of attorneys, will review all of the
+      available evidence and write a decision. For each issue you are appealing, they can
+      decide to:
+    </p>
+    <ul>
+      <li>
+        <strong>Allow:</strong> The judge overrules the original decision and decides in
+        your favor.
+      </li>
+      <li><strong>Deny:</strong> The judge upholds the original decision.</li>
+      <li>
+        <strong>Remand:</strong> The judge is sending the issue back to the Veterans
+        Benefits Administration to gather more evidence or to fix a mistake before
+        making a decision.
+      </li>
+    </ul>
+    <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
+  </div>
+);
+
 /**
  * Gets 'what's next' content for a given current status type
  * @typedef {Object} nextEventText
@@ -547,43 +571,82 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.pendingSoc:
       return [
         {
-          title: '',
+          title: 'The Veterans Benefits Administration will grant some or all of your appeal',
           description: (
-            <p></p>
+            <p>
+              <em>If the Decision Review Officer determines that there is enough evidence to grant
+              one or more of the issues on your appeal</em>, they will make a new decision. If this
+              decision changes your disability rating or eligibility for VA benefits, you should
+              expect this change to be made in 1 to 2 months.
+            </p>
           ),
           durationText: '',
           cardDescription: '',
-        }
+        }, {
+          title: 'The Veterans Benefits Administration will send you a Statement of the Case',
+          description: (
+            <p>
+              <em>If the Decision Review Officer determines that there is not enough evidence to
+              fully grant your appeal</em>, they will send you their findings in a document called
+              a Statement of the Case. You can then decide whether to continue your appeal to the
+              Board of Veterans’ Appeals.
+            </p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        },
       ];
     case STATUS_TYPES.pendingForm9:
       return [
         {
-          title: 'The Board receives your appeal',
-          description: `If you send the Form 9 without new evidence, the Veterans Benefits
-            Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
-          durationText: '2 months',
-          cardDescription: 'VBA takes about 2 months to certify appeals to the Board'
+          title: 'Your appeal will be sent to the Board',
+          description: (
+            <p>
+              <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+              the Decision Review Officer will finish their review and transfer your case to the
+              Board of Veterans’ Appeals.
+            </p>
+          ),
+          durationText: '',
+          cardDescription: ''
         }, {
-          title: 'VBA prepares a Statement of the Case (SOC)',
-          description: `If you send the Form 9 with new evidence, the Veterans Benefits
-            Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
-          durationText: '11 months',
-          cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
-        }, {
-          title: 'You withdraw your appeal',
-          description: 'If you do not send the Form 9 within 60 days, your appeal will be closed.',
-          durationText: '2 months',
-          cardDescription: 'You have 60 days to submit your appeal before it is closed'
-        }
+          title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
+          description: (
+            <p>
+              <em>If you send in new evidence after the Statement of the Case on [DATE]</em>, the
+              Decision Review Officer will need to write a new Statement of the Case before
+              transferring your case to the Board of Veterans’ Appeals. Once your appeal is
+              transferred, new evidence can be sent directly to the Board and will not be reviewed
+              by the Veterans Benefits Administration.
+            </p>
+          ),
+          durationText: '',
+          cardDescription: ''
+        },
       ];
     case STATUS_TYPES.pendingCertification:
       return [
         {
-          title: '',
+          title: 'Your appeal will be sent to the Board',
           description: (
-            <p></p>
+            <p>
+              <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+              the Decision Review Officer will finish their review and transfer your case to the
+              Board of Veterans’ Appeals.
+            </p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }, {
+          title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
+          description: (
+            <p>
+              <em>If you send in new evidence after the Statement of the Case on [date]</em>, the
+              Decision Review Officer will need to write a new Statement of the Case before
+              transferring your case to the Board of Veterans’ Appeals. Once your appeal is
+              transferred, new evidence can be sent directly to the Board and will not be reviewed
+              by the Veterans Benefits Administration.
+            </p>
           ),
           durationText: '',
           cardDescription: '',
@@ -592,9 +655,26 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.pendingCertificationSsoc:
       return [
         {
-          title: '',
+          title: 'Your appeal will be sent to the Board',
           description: (
-            <p></p>
+            <p>
+              <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+              the Decision Review Officer will finish their review and transfer your case to the
+              Board of Veterans’ Appeals.
+            </p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }, {
+          title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
+          description: (
+            <p>
+              <em>If you send new evidence after the Statement of the Case on [date]</em>, the
+              Decision Review Officer will need to write a new Statement of the Case before
+              transferring your case to the Board of Veterans’ Appeals. Once your appeal is
+              transferred, new evidence can be sent directly to the Board and will not be reviewed
+              by the Veterans Benefits Administration.
+            </p>
           ),
           durationText: '',
           cardDescription: '',
@@ -603,9 +683,24 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.remandSsoc:
       return [
         {
-          title: '',
+          title: 'Your appeal will be returned to the Board',
           description: (
-            <p></p>
+            <p>
+              <em>If you don’t send in new evidence after the Statement of the Case on [date]</em>,
+              the Veterans Benefits Administration will finish their work on the remand and return
+              your case to the Board of Veterans’ Appeals.
+            </p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }, {
+          title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
+          description: (
+            <p>
+              <em>If you send in new evidence after the Statement of the Case on [date]</em>, the
+              Veterans Benefits Administration will need to write a new Statement of the Case
+              before returning your case to the Board of Veterans’ Appeals.
+            </p>
           ),
           durationText: '',
           cardDescription: '',
@@ -614,9 +709,15 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.pendingHearingScheduling:
       return [
         {
-          title: '',
+          title: 'You will have your [TYPE] hearing',
           description: (
-            <p></p>
+            <p>
+              At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
+              transcript of your hearing will be taken and added to your appeal file. The judge
+              will not make a decision about your appeal at the hearing. Learn more about hearings,
+              including how to request a different kind of hearing or withdraw your hearing
+              request.
+            </p>
           ),
           durationText: '',
           cardDescription: '',
@@ -625,9 +726,15 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.scheduledHearing:
       return [
         {
-          title: '',
+          title: 'You will have your [TYPE] hearing',
           description: (
-            <p></p>
+            <p>
+              Your hearing is scheduled for [DATE] at [LOCATION]. At your hearing, a Veterans Law
+              Judge will ask you questions about your appeal. A transcript of your hearing will be
+              taken and added to your appeal file. The judge will not make a decision about your
+              appeal at the hearing. Learn more about hearings, including how to prepare for your
+              hearing.
+            </p>
           ),
           durationText: '',
           cardDescription: '',
@@ -636,29 +743,8 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.onDocket: {
       return [
         {
-          title: 'Judge Decides Your Appeal',
-          description: (
-            <div>
-              <div>
-                A Veterans Law Judge, working with one of the Board attorneys, will review all of
-                the available evidence and write a decision. For each issue you are appealing, they
-                can decide to:
-              </div>
-              <ul>
-                <li>
-                  <strong>Allow - </strong>The judge overrules the Regional Office and makes a decision
-                  on your rating
-                </li>
-                <li><strong>Deny - </strong>The judge agrees with the Regional Office decision</li>
-                <li>
-                  <strong>Remand - </strong>The judge sends the issue to Veterans Benefits
-                    Administration (VBA) for more evidence or to fix a mistake before making a
-                    decision
-                </li>
-              </ul>
-              <div><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</div>
-            </div>
-          ),
+          title: 'The Board will make a decision',
+          description: DECISION_REVIEW_CONTENT,
           durationText: '10 months',
           cardDescription: 'A Veterans Law Judge typically takes 10 months to write a decision.'
         }
@@ -667,10 +753,8 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.atVso:
       return [
         {
-          title: '',
-          description: (
-            <p></p>
-          ),
+          title: 'The Board will make a decision',
+          description: DECISION_REVIEW_CONTENT,
           durationText: '',
           cardDescription: '',
         }
@@ -678,10 +762,8 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.decisionInProgress:
       return [
         {
-          title: '',
-          description: (
-            <p></p>
-          ),
+          title: 'The Board will make a decision',
+          description: DECISION_REVIEW_CONTENT,
           durationText: '',
           cardDescription: '',
         }
@@ -689,10 +771,8 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.bvaDevelopment:
       return [
         {
-          title: '',
-          description: (
-            <p></p>
-          ),
+          title: 'The Board will make a decision',
+          description: DECISION_REVIEW_CONTENT,
           durationText: '',
           cardDescription: '',
         }
@@ -700,10 +780,8 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.stayed:
       return [
         {
-          title: '',
-          description: (
-            <p></p>
-          ),
+          title: 'The Board will make a decision',
+          description: DECISION_REVIEW_CONTENT,
           durationText: '',
           cardDescription: '',
         }
@@ -711,30 +789,17 @@ export function getNextEvents(currentStatus) {
     case STATUS_TYPES.remand:
       return [
         {
-          title: 'VBA prepares a Statement of the Case (SOC)',
-          description: `If you send the Form 9 with new evidence, the Veterans Benefits
-            Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
+          title: 'The Veterans Benefits Administration completes the remand instructions',
+          description: (
+            <p>
+              They may contact you to request additional evidence or medical examinations, as
+              needed. When they have completed the remand instructions, they will determine whether
+              or not they can grant your appeal. If not, your appeal will return to the Board of
+              Veterans’ Appeals for a new decision.
+            </p>
+          ),
           durationText: '11 months',
           cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
-        }
-      ];
-    case STATUS_TYPES.bvaDecision:
-      return [
-        {
-          title: 'Board decision reached',
-          description: 'Your appeal decision is being sent to your mailing address',
-          durationText: '2 weeks',
-          cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
-        }
-      ];
-    case STATUS_TYPES.awaitingHearingDate:
-      return [
-        {
-          title: 'Awaiting hearing date',
-          description: 'VBA is in the process of scheduling your hearing date',
-          durationText: '2 months',
-          cardDescription: 'The Oakland regional office takes about 2 months to schedule a hearing date.'
         }
       ];
     default:
