@@ -571,6 +571,7 @@ const DECISION_REVIEW_CONTENT = (
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
+// TO-DO: Add 'details' to args list once they're complete in the API
 export function getNextEvents(currentStatus) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc:
