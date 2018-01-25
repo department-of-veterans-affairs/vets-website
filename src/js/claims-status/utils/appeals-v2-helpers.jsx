@@ -398,7 +398,7 @@ export const EVENT_TYPES = {
   hearingCancelled: 'hearing_cancelled',
   hearingNoShow: 'hearing_no_show',
   bvaDecision: 'bva_decision',
-  bvaRemand: 'bva_remandu',
+  bvaRemand: 'bva_remand',
   withdrawn: 'withdrawn',
   merged: 'merged',
   cavcDecision: 'cavc_decision',
