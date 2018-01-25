@@ -83,11 +83,12 @@ export default class PhotoField extends React.Component {
   }
 
   componentWillMount() {
-    this.detectWidthAndDrag();
+    this.detectDrag();
+    this.detectWidth();
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.detectWidthAndDrag);
+    window.addEventListener('resize', this.detectWidth);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -186,14 +187,18 @@ export default class PhotoField extends React.Component {
     return this.state.errorMessage;
   }
 
-  detectWidthAndDrag = () => {
-    const windowWidth = window.innerWidth;
+  detectDrag = () => {
     const div = document.createElement('div');
     const supportsDragAndDrop = ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
     const iOS = !!navigator.userAgent.match('iPhone OS') || !!navigator.userAgent.match('iPad');
     const dragAndDropSupported = supportsDragAndDrop && window.FileReader;
+    this.setState({ dragAndDropSupported: dragAndDropSupported && !iOS });
+  }
+
+  detectWidth = () => {
+    const windowWidth = window.innerWidth;
     const previousWidth = this.state.windowWidth;
-    this.setState({ windowWidth, dragAndDropSupported: dragAndDropSupported && !iOS }, () => {
+    this.setState({ windowWidth }, () => {
       const newWidth = this.state.windowWidth !== previousWidth;
       const cropper = this.refs.cropper;
       if (cropper && newWidth) {
