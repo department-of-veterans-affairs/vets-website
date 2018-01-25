@@ -531,26 +531,28 @@ export function getEventContent(event) {
 }
 
 /**
+ * Gets 'what's next' content for a given current status type
+ * @typedef {Object} nextEventText
+ * @property {string} title header for each NextEvent
+ * @property {HTMLElement} description formatted content for each NextEvent
+ * @property {string} durationText descriptor of how long this NextEvent usually takes
+ * @property {string} cardDescription info about why this NextEvent takes as long as it does
+ * ----------------------------------------------------------------------------------------------
  * @param {string} currentStatus an appeal's current status, one of STATUS_TYPES
- * @returns {array} of objects that each contain text details of a next event
+ * @param {Object} details can contain dynamic info to fill in for certain NextEvent descriptions
+ * @returns {nextEventText[]} each contain text content for a NextEvent component
  */
 export function getNextEvents(currentStatus) {
   switch (currentStatus) {
-    case STATUS_TYPES.nod:
+    case STATUS_TYPES.pendingSoc:
       return [
         {
-          title: 'Additional evidence',
-          description: `VBA must reveiw any additional evidence you submit prios to certifying
-          your appeal to the Board of Veterans’ Appeals. This evidence could cause VBA
-          to grant your appeal, but if not, they will need to produce an additional
-          Statement of the Case.`,
-          durationText: '11 months',
-          cardDescription: 'The Oakland regional office takes about 11 months to produce additional Statements of the Case.'
-        }, {
-          title: 'Appeal certified to the Board',
-          description: 'Your appeal will be sent to the Board of Veterans’ Appeals in Washington, D.C.',
-          durationText: '2 months',
-          cardDescription: 'The Oakland regional office takes about 2 months to certify your appeal to the Board.'
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
         }
       ];
     case STATUS_TYPES.pendingForm9:
@@ -576,33 +578,59 @@ export function getNextEvents(currentStatus) {
           cardDescription: 'You have 60 days to submit your appeal before it is closed'
         }
       ];
-    case STATUS_TYPES.awaitingHearingDate:
+    case STATUS_TYPES.pendingCertification:
       return [
         {
-          title: 'Awaiting hearing date',
-          description: 'VBA is in the process of scheduling your hearing date',
-          durationText: '2 months',
-          cardDescription: 'The Oakland regional office takes about 2 months to schedule a hearing date.'
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
         }
       ];
-    case STATUS_TYPES.bvaDecision:
+    case STATUS_TYPES.pendingCertificationSsoc:
       return [
         {
-          title: 'Board decision reached',
-          description: 'Your appeal decision is being sent to your mailing address',
-          durationText: '2 weeks',
-          cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
         }
       ];
-    case STATUS_TYPES.remand:
+    case STATUS_TYPES.remandSsoc:
       return [
         {
-          title: 'VBA prepares a Statement of the Case (SOC)',
-          description: `If you send the Form 9 with new evidence, the Veterans Benefits
-            Administration (VBA) will finish its review and transfer your case to the Board of
-            Veterans’ Appeals.`,
-          durationText: '11 months',
-          cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }
+      ];
+    case STATUS_TYPES.pendingHearingScheduling:
+      return [
+        {
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }
+      ];
+    case STATUS_TYPES.scheduledHearing:
+      return [
+        {
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
         }
       ];
     case STATUS_TYPES.onDocket: {
@@ -636,6 +664,79 @@ export function getNextEvents(currentStatus) {
         }
       ];
     }
+    case STATUS_TYPES.atVso:
+      return [
+        {
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }
+      ];
+    case STATUS_TYPES.decisionInProgress:
+      return [
+        {
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }
+      ];
+    case STATUS_TYPES.bvaDevelopment:
+      return [
+        {
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }
+      ];
+    case STATUS_TYPES.stayed:
+      return [
+        {
+          title: '',
+          description: (
+            <p></p>
+          ),
+          durationText: '',
+          cardDescription: '',
+        }
+      ];
+    case STATUS_TYPES.remand:
+      return [
+        {
+          title: 'VBA prepares a Statement of the Case (SOC)',
+          description: `If you send the Form 9 with new evidence, the Veterans Benefits
+            Administration (VBA) will finish its review and transfer your case to the Board of
+            Veterans’ Appeals.`,
+          durationText: '11 months',
+          cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
+        }
+      ];
+    case STATUS_TYPES.bvaDecision:
+      return [
+        {
+          title: 'Board decision reached',
+          description: 'Your appeal decision is being sent to your mailing address',
+          durationText: '2 weeks',
+          cardDescription: 'The Oakland regional office takes about 2 weeks to mail your decision.'
+        }
+      ];
+    case STATUS_TYPES.awaitingHearingDate:
+      return [
+        {
+          title: 'Awaiting hearing date',
+          description: 'VBA is in the process of scheduling your hearing date',
+          durationText: '2 months',
+          cardDescription: 'The Oakland regional office takes about 2 months to schedule a hearing date.'
+        }
+      ];
     default:
       return [
         {
