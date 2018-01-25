@@ -18,10 +18,13 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`,
       'X-Key-Inflection': 'camel'
     }
   };
+
+  if (sessionStorage.userToken) {
+    defaultSettings.headers.Authorization = `Token token=${sessionStorage.userToken}`;
+  }
 
   const settings = merge(defaultSettings, optionalSettings);
 

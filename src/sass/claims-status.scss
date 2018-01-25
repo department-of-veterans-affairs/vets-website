@@ -547,6 +547,12 @@ h1:focus {
   }
 }
 
+.usa-alert {
+  // Remove icons from standard USWDS alert styles
+  background-image: none;
+  padding-left: 1em;
+}
+
 // Slimmed version of .claim-timeline with appeals-specific stuff
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
@@ -922,18 +928,28 @@ h1:focus {
   }
 }
 
-.alerts-list {
-  list-style: none;
-
-  li {
-    margin-left: -.4em;
+.alerts-list-container {
+  h3 {
+    // left-align heading with alert box
+    padding-left: .85em;
   }
 
-  .usa-alert {
-    // Shift alert icon and text over so that triangle lines
-    // up with CurrentStatus's title & description content
-    background-position: 2.5rem 2.8rem;
-    padding-left: 2.5em;
+  .alerts-list {
+    list-style: none;
+
+    li {
+      margin-left: -.4em;
+    }
+
+    .usa-alert {
+      h4 {
+        margin-top: 0;
+      }
+
+      .usa-alert-text {
+        margin-top: 1em;
+      }
+    }
   }
 }
 
@@ -944,9 +960,6 @@ h1:focus {
     }
     &.denied-items {
       color: $color-red;
-    }
-    &.remand-items {
-      color: $color-primary;
     }
     font-weight: bold;
   }

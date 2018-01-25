@@ -83,7 +83,7 @@ class FormStartControls extends React.Component {
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
           buttonText={this.props.startText || 'Get Started'}
-          buttonClass="usa-button-primary"
+          buttonClass="usa-button-primary schemaform-start-button"
           afterText="»"/>
       </div>
     );
