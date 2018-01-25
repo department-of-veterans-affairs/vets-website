@@ -78,7 +78,7 @@ class DowntimeNotification extends React.Component {
     if (firstLoad) {
       const downtimeMap = this.calculateDowntime(newProps.dependencies, newProps.scheduledDowntime);
       const status = this.determineStatus(downtimeMap);
-      const downtimeWindow = this.getDowntimeWindow(downtimeMap.get(status));
+      const downtimeWindow = status !== serviceStatus.ok ? this.getDowntimeWindow(downtimeMap.get(status)) : {};
       const cache = { downtimeMap, status, downtimeWindow };
       this.setState({ cache });
     }
@@ -92,8 +92,14 @@ class DowntimeNotification extends React.Component {
   }
 
   getStatusForDowntime(downtime, now = moment()) {
-    const inclusive = '[]';
-    if (now.isBetween(downtime.startTime, downtime.endTime, inclusive)) return serviceStatus.down;
+    // If the current time is after the start...
+    if (now.isSameOrAfter(downtime.startTime)) {
+      // endTime is not required - so if it's omitted or if the current time is before endTime,
+      // we know the status is down.
+      if (!downtime.endTime || now.isBefore(downtime.endTime)) {
+        return serviceStatus.down;
+      }
+    }
     if (now.add(1, 'hour').isAfter(downtime.startTime)) return serviceStatus.downtimeApproaching;
     return serviceStatus.ok;
   }
@@ -110,10 +116,10 @@ class DowntimeNotification extends React.Component {
       return isEarlier ? downtime : currentSoonest;
     }, null);
 
-    // Return the startTime/endTime as moment objects for the soonest downtime.
+    // Return the soonest startTime and the corresponding endTime as moment objects.
     return {
-      startTime: soonestDowntime && moment(soonestDowntime.startTime),
-      endTime: soonestDowntime && moment(soonestDowntime.endTime)
+      startTime: moment(soonestDowntime.startTime),
+      endTime: soonestDowntime.endTime && moment(soonestDowntime.endTime)
     };
   }
 
@@ -165,7 +171,7 @@ class DowntimeNotification extends React.Component {
 
   renderStatusDown({ endTime }) {
     const title = `The ${this.props.appTitle} is down for maintenance.`;
-    let message = <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
+    let message = <p>We’re making some updates to the {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
       message = (
         <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now, and we hope to be finished by {endTime.format('MMMM Do, LT')}. Please check back soon.</p>
@@ -206,7 +212,7 @@ class DowntimeNotification extends React.Component {
 
   render() {
     if (!this.props.isReady) {
-      return this.props.loadingIndicator || <LoadingIndicator message={`Checking ${this.props.appTitle} status...`}/>;
+      return this.props.loadingIndicator || <LoadingIndicator message={`Checking the ${this.props.appTitle} status...`}/>;
     }
 
     const { downtimeMap, status, downtimeWindow } = this.state.cache;

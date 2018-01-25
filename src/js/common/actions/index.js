@@ -5,7 +5,12 @@ export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
 function receiveScheduledDowntime(dispatch, data) {
   const services = data.map(({ attributes: { externalService: service, description, startTime, endTime } }) => {
-    return { service, description, startTime: new Date(startTime), endTime: new Date(endTime) };
+    return {
+      service,
+      description,
+      startTime: new Date(startTime),
+      endTime: endTime && new Date(endTime) // endTime is optional for indefinite outages
+    };
   });
   dispatch({ type: RECEIVE_SCHEDULED_DOWNTIME, value: services });
 }
