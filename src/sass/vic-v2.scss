@@ -7,6 +7,10 @@
 @import "modules/m-modal";
 @import "modules/m-form-confirmation";
 
+.vic-intro-indent {
+  margin-left: 1.25em;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
