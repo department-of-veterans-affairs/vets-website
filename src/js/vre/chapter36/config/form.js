@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import {
@@ -7,16 +9,19 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import ssnUI from '../../../common/schemaform/definitions/ssn';
+import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 const {
+  applicantFullName,
   seekingRestorativeTraining,
   seekingVocationalTraining,
   receivedPamphlet
 } = fullSchema36.properties;
 
 const {
-  ssn,
-  gender
+  fullName,
+  gender,
+  ssn
 } = fullSchema36.definitions;
 
 const formConfig = {
@@ -35,19 +40,81 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
-    ssn,
-    gender
+    fullName,
+    gender,
+    ssn
   },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
-      initialData: {
-        socialSecurityNumber: '424242424'
-      },
       pages: {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
+          initialData: {
+            applicantFullName: {
+              first: 'testFirst',
+              last: 'testLast'
+            },
+            applicantRelationshipToVeteran: 'Spouse'
+          },
+          uiSchema: {
+            'view:isVeteran': {
+              'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
+              'ui:widget': 'yesNo'
+            },
+            applicantFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:required': formData => formData['view:isVeteran'] === false,
+              },
+              last: {
+                'ui:required': formData => formData['view:isVeteran'] === false,
+              },
+              'ui:options': {
+                expandUnder: 'view:isVeteran',
+                expandUnderCondition: false
+              }
+            }),
+            applicantRelationshipToVeteran: {
+              'ui:title': 'What is your relationship to the Servicemember or Veteran?',
+              'ui:widget': 'radio',
+              'ui:required': formData => formData['view:isVeteran'] === false,
+              'ui:options': {
+                expandUnder: 'view:isVeteran',
+                expandUnderCondition: false
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:isVeteran'],
+            properties: {
+              'view:isVeteran': {
+                type: 'boolean'
+              },
+              applicantFullName: _.unset('required', applicantFullName),
+              applicantRelationshipToVeteran: {
+                type: 'string',
+                'enum': [
+                  'Spouse',
+                  'Surviving spouse',
+                  'Child',
+                  'Stepchild',
+                  'Adopted child'
+                ]
+              }
+            }
+          }
+        },
+        nonVeteranInformation: {
+          title: 'Applicant information',
+          path: 'non-veteran-information',
+          depends: {
+            'view:isVeteran': false
+          },
+          initialData: {
+            socialSecurityNumber: '424242424'
+          },
           uiSchema: {
             socialSecurityNumber: ssnUI,
             gender: {
@@ -81,30 +148,32 @@ const formConfig = {
               receivedPamphlet
             }
           }
-        }
-      }
-    },
-    veteranInformation: {
-      title: 'Veteran Information',
-      pages: {
-      }
-    },
-    additionalInformation: {
-      title: 'Additional Information',
-      pages: {
-      }
-    },
-    militaryHistory: {
-      title: 'Military History',
-      pages: {
-      }
-    },
-    contactInformation: {
-      title: 'Contact Information',
-      pages: {
+        },
+        /*
+        veteranInformation: {
+          title: 'Veteran Information',
+          pages: {
+          }
+        },
+        additionalInformation: {
+          title: 'Additional Information',
+          pages: {
+          }
+        },
+        militaryHistory: {
+          title: 'Military History',
+          pages: {
+          }
+        },
+        contactInformation: {
+          title: 'Contact Information',
+          pages: {
+          }
+        }*/
       }
     }
   }
 };
+
 
 export default formConfig;
