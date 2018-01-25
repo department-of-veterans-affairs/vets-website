@@ -13,6 +13,7 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 const {
   applicantFullName,
+  applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
   receivedPamphlet
@@ -20,7 +21,6 @@ const {
 
 const {
   fullName,
-  gender,
   ssn
 } = fullSchema36.definitions;
 
@@ -40,7 +40,8 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
-    fullName
+    fullName,
+    ssn
   },
   chapters: {
     applicantInformation: {
@@ -49,13 +50,8 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
-          initialData: {
-            applicantFullName: {
-              first: 'testFirst',
-              last: 'testLast'
-            },
-            applicantRelationshipToVeteran: 'Spouse'
-          },
+          initialData: {},
+          applicantRelationshipToVeteran: 'Spouse',
           uiSchema: {
             'view:isVeteran': {
               'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
@@ -110,12 +106,10 @@ const formConfig = {
           depends: {
             'view:isVeteran': false
           },
-          initialData: {
-            socialSecurityNumber: '424242424'
-          },
+          initialData: {},
           uiSchema: {
-            socialSecurityNumber: ssnUI,
-            gender: {
+            applicantSocialSecurityNumber: ssnUI,
+            applicantGender: {
               'ui:title': 'Gender',
               'ui:widget': 'radio'
             },
@@ -135,8 +129,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              socialSecurityNumber: ssn,
-              gender: {
+              applicantSocialSecurityNumber,
+              applicantGender: {
                 type: 'string',
                 'enum': genders.map(genderItem => genderItem.value),
                 enumNames: genders.map(genderItem => genderItem.label)
@@ -146,28 +140,27 @@ const formConfig = {
               receivedPamphlet
             }
           }
-        },
-        /*
-        veteranInformation: {
-          title: 'Veteran Information',
-          pages: {
-          }
-        },
-        additionalInformation: {
-          title: 'Additional Information',
-          pages: {
-          }
-        },
-        militaryHistory: {
-          title: 'Military History',
-          pages: {
-          }
-        },
-        contactInformation: {
-          title: 'Contact Information',
-          pages: {
-          }
-        }*/
+        }
+      },
+      veteranInformation: {
+        title: 'Veteran Information',
+        pages: {
+        }
+      },
+      additionalInformation: {
+        title: 'Additional Information',
+        pages: {
+        }
+      },
+      militaryHistory: {
+        title: 'Military History',
+        pages: {
+        }
+      },
+      contactInformation: {
+        title: 'Contact Information',
+        pages: {
+        }
       }
     }
   }
