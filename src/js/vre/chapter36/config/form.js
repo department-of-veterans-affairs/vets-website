@@ -1,19 +1,27 @@
 import _ from 'lodash/fp';
 
-// import { transform } from '../helpers';
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
+import {
+  genders
+} from '../../../common/utils/options-for-select';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import ssnUI from '../../../common/schemaform/definitions/ssn';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 const {
-  applicantFullName
+  applicantFullName,
+  seekingRestorativeTraining,
+  seekingVocationalTraining,
+  receivedPamphlet
 } = fullSchema36.properties;
 
 const {
-  fullName
+  fullName,
+  gender,
+  ssn
 } = fullSchema36.definitions;
 
 const formConfig = {
@@ -41,6 +49,13 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
+          initialData: {
+            applicantFullName: {
+              first: 'testFirst',
+              last: 'testLast'
+            },
+            applicantRelationshipToVeteran: 'Spouse'
+          },
           uiSchema: {
             'view:isVeteran': {
               'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
@@ -88,30 +103,75 @@ const formConfig = {
               }
             }
           }
-        }
-      }
-    },
-    veteranInformation: {
-      title: 'Veteran Information',
-      pages: {
-      }
-    },
-    additionalInformation: {
-      title: 'Additional Information',
-      pages: {
-      }
-    },
-    militaryHistory: {
-      title: 'Military History',
-      pages: {
-      }
-    },
-    contactInformation: {
-      title: 'Contact Information',
-      pages: {
+        },
+        nonVeteranInformation: {
+          title: 'Applicant information',
+          path: 'non-veteran-information',
+          depends: {
+            'view:isVeteran': false
+          },
+          initialData: {
+            socialSecurityNumber: '424242424'
+          },
+          uiSchema: {
+            socialSecurityNumber: ssnUI,
+            gender: {
+              'ui:title': 'Gender',
+              'ui:widget': 'radio'
+            },
+            seekingRestorativeTraining: {
+              'ui:title': 'Are you a child who is at least 14 years old, a spouse, or a surviving spouse with a disability and looking for special restorative training?',
+              'ui:widget': 'yesNo'
+            },
+            seekingVocationalTraining: {
+              'ui:title': 'Are you a child, a spouse, or a surviving spouse with a disability and looking for special vocational training',
+              'ui:widget': 'yesNo'
+            },
+            receivedPamphlet: {
+              'ui:title': 'Have you received a pamphlet explaining survivors\' and dependents\' educational assistance benefits?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              socialSecurityNumber: ssn,
+              gender: {
+                type: 'string',
+                'enum': genders.map(genderItem => genderItem.value),
+                enumNames: genders.map(genderItem => genderItem.label)
+              },
+              seekingRestorativeTraining,
+              seekingVocationalTraining,
+              receivedPamphlet
+            }
+          }
+        },
+        /*
+        veteranInformation: {
+          title: 'Veteran Information',
+          pages: {
+          }
+        },
+        additionalInformation: {
+          title: 'Additional Information',
+          pages: {
+          }
+        },
+        militaryHistory: {
+          title: 'Military History',
+          pages: {
+          }
+        },
+        contactInformation: {
+          title: 'Contact Information',
+          pages: {
+          }
+        }*/
       }
     }
   }
 };
+
 
 export default formConfig;
