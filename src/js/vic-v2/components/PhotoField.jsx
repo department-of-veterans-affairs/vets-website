@@ -195,7 +195,6 @@ export default class PhotoField extends React.Component {
     }, 0);
   }
 
-
   getErrorMessage = () => {
     return this.state.errorMessage;
   }
