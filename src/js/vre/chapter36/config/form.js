@@ -40,9 +40,7 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
-    fullName,
-    gender,
-    ssn
+    fullName
   },
   chapters: {
     applicantInformation: {
