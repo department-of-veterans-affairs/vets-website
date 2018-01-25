@@ -855,7 +855,7 @@ export function getNextEvents(currentStatus) {
         events: [
           {
             title: 'Unknown event',
-            description: 'We could not find the next event in your appeal',
+            description: (<p>We could not find the next event in your appeal</p>),
             durationText: 'Unknown',
             cardDescription: 'No description found'
           }
