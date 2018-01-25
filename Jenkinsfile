@@ -16,7 +16,7 @@ env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == devBranch ||
-    env.BRANCH_NAME == stagingBranch) &&
+   env.BRANCH_NAME == stagingBranch) &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
 }
@@ -34,13 +34,13 @@ def buildDetails = { vars ->
 }
 
 def notify = { message, color='good' ->
-    if (env.BRANCH_NAME == devBranch ||
-        env.BRANCH_NAME == stagingBranch ||
-        env.BRANCH_NAME == prodBranch) {
-        slackSend message: message,
-                  color: color,
-                  failOnError: true
-    }
+  if (env.BRANCH_NAME == devBranch ||
+      env.BRANCH_NAME == stagingBranch ||
+      env.BRANCH_NAME == prodBranch) {
+    slackSend message: message,
+    color: color,
+    failOnError: true
+  }
 }
 
 def comment_broken_links = {
@@ -49,9 +49,9 @@ def comment_broken_links = {
 
   // Find all lines with broken links in production build
   def broken_links = sh (
-          script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
-          returnStdout: true
-      ).trim()
+    script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
+    returnStdout: true
+  ).trim()
 
   def github = GitHub.connect()
   def repo = github.getRepository('department-of-veterans-affairs/vets-website')
@@ -60,8 +60,8 @@ def comment_broken_links = {
 
   // Post our comment with broken links formatted as a Markdown table
   pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +
-              broken_links.replaceAll(/\[production\] |>>> href: |,/,"|") +
-              "\n\n _Note: Long file names or URLs may be cut-off_")
+             broken_links.replaceAll(/\[production\] |>>> href: |,/,"|") +
+             "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
 node('vetsgov-general-purpose') {
@@ -221,15 +221,19 @@ node('vetsgov-general-purpose') {
     try {
       if (!isDeployable()) {
         return
-      } else if (env.BRANCH_NAME == devBranch) {
-        steps {
+      }
+
+      steps {
+        script {
+          commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
+        }
+        if (env.BRANCH_NAME == devBranch) {
           build job: 'deploys/vets-website-dev', parameters: [
             booleanParam(name: 'notify_slack', value: true),
             stringParam(name: 'ref', value: commit),
           ], wait: false
         }
-      } else if (env.BRANCH_NAME == stagingBranch) {
-        steps {
+        if (env.BRANCH_NAME == devBranch) {
           build job: 'deploys/vets-website-staging', parameters: [
             booleanParam(name: 'notify_slack', value: true),
             stringParam(name: 'ref', value: commit),
