@@ -35,9 +35,10 @@ const MIN_SIZE = 350;
 const MIN_RATIO = 0.2;
 const MAX_RATIO = 1.7;
 const WARN_RATIO = 1.3;
+const LARGE_SCREEN = 1201;
 
 function isSmallScreen(width) {
-  return  width < 1201;
+  return  width < LARGE_SCREEN;
 }
 
 function isValidFileType(fileName) {
