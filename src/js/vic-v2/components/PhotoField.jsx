@@ -99,7 +99,10 @@ export default class PhotoField extends React.Component {
       }
     }
     if (nextState.zoomValue !== this.state.zoomValue) {
-      this.refs.slider.value = nextState.zoomValue;
+      const slider = this.refs.slider;
+      if (slider) {
+        slider.value = nextState.zoomValue;
+      }
     }
   }
 
