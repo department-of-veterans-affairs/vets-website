@@ -168,7 +168,7 @@ class DowntimeNotification extends React.Component {
     let message = <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
       message = (
-        <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now, and we hope to be finished by {endTime.format('MMMM Mo, LT')}. Please check back soon.</p>
+        <p>We’re making some updates to {this.props.appTitle}. We’re sorry it’s not working right now, and we hope to be finished by {endTime.format('MMMM Do, LT')}. Please check back soon.</p>
       );
     }
 
@@ -183,7 +183,7 @@ class DowntimeNotification extends React.Component {
 
   renderStatusDownApproaching({ startTime, endTime }) {
     const title = `The ${this.props.appTitle} will be down for maintenance soon`;
-    const message = <p>We’ll be doing some work on {this.props.appTitle} on {startTime.format('MMMM Mo')} between {startTime.format('LT')} and {endTime.format('LT')}. If you have trouble using this tool during that time, please check back soon.</p>;
+    const message = <p>We’ll be doing some work on {this.props.appTitle} on {startTime.format('MMMM Do')} between {startTime.format('LT')} and {endTime.format('LT')}. If you have trouble using this tool during that time, please check back soon.</p>;
     let downtimeNotification = null;
     if (!this.state.modalDismissed) {
       const close = () => this.setState({ modalDismissed: true });
