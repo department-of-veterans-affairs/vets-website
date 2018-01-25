@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import moment from 'moment';
 
 import { focusElement } from '../../common/utils/helpers';
+
+import VeteranIDCard from '../components/VeteranIDCard';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -34,20 +37,38 @@ class ConfirmationPage extends React.Component {
     const response = form.submission.response
       ? form.submission.response.attributes
       : {};
+    const { veteranFullName, verified } = form.data;
+    const submittedAt = moment(form.submission.submittedAt);
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We process claims in the order we receive them.</p>
-        <p>
-          We may contact you for more information or documents.<br/>
-          <i>Please print this page for your records.</i>
-        </p>
+        <p>You have completed your application.<br/>
+        We process applications and print cards in the order we receive them.</p>
+
+        <h4>What happens after I apply?</h4>
+        {!verified && <div>
+          <p>We’ll review your application to verify your eligibility. We may contact you if we have any questions or need more information.</p>
+          <p>You must have separated under honorable conditions to be eligible for a Veteran ID Card. If you have an other than honorable discharge, you can apply for an upgrade or correction. If your application goes through and your discharge is upgraded, you’ll be eligible for the Veteran ID Card. <a href="/discharge-upgrade-instructions" target="_blank">Find out how to apply for a discharge upgrade</a>.</p>
+          <p>If you uploaded a copy of your DD214, we can use it to review your application and verify that you were honorably discharged.</p>
+        </div>}
+        {verified && <div>
+          <p>You should receive your Veteran ID Card in the mail in about 60 days.<br/>
+          In the meantime, you can print and download a temporary digital Veteran ID Card.</p>
+          <VeteranIDCard/>
+          <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
+        </div>}
+        <p><em>Please print this page for your records</em></p>
         <div className="inset">
+          <h4>Veteran ID Card claim</h4>
+          <span>for {veteranFullName.first} {veteranFullName.middle} {veteranFullName.last} {veteranFullName.suffix}</span>
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
               <span>{response.confirmationNumber}</span>
+            </li>
+            <li>
+              <strong>Date received</strong><br/>
+              <span>{submittedAt.format('MMM D, YYYY')}</span>
             </li>
           </ul>
         </div>
