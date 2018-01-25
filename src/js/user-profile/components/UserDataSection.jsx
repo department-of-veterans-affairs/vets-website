@@ -137,6 +137,7 @@ class UserDataSection extends React.Component {
     return (
       <div className="profile-section">
         <h4 className="section-header">Account information</h4>
+        {this.accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
         {this.renderMultifactorMessage()}
         <div className="info-container">
           {content}
