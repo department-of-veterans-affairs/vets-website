@@ -91,6 +91,18 @@ export default class PhotoField extends React.Component {
     window.addEventListener('resize', this.detectWidth);
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.windowWidth !== this.state.windowWidth) {
+      const cropper = this.refs.cropper;
+      if (cropper) {
+        this.setCropBox();
+      }
+    }
+    if (nextState.zoomValue !== this.state.zoomValue) {
+      this.refs.slider.value = nextState.zoomValue;
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const newView = this.state.src && (prevState.src !== this.state.src || (prevState.done && !this.state.done));
     const cropper = this.refs.cropper;
@@ -154,9 +166,7 @@ export default class PhotoField extends React.Component {
       if (this.state.zoomValue >= WARN_RATIO) {
         warningMessage = 'Zooming in this close will make your ID picture less clear.';
       }
-      return this.setState({ zoomValue: newZoomValue, warningMessage }, () => {
-        this.refs.slider.value = this.state.zoomValue;
-      });
+      return this.setState({ zoomValue: newZoomValue, warningMessage });
     }
     return e.preventDefault();
   }
@@ -197,14 +207,7 @@ export default class PhotoField extends React.Component {
 
   detectWidth = () => {
     const windowWidth = window.innerWidth;
-    const previousWidth = this.state.windowWidth;
-    this.setState({ windowWidth }, () => {
-      const newWidth = this.state.windowWidth !== previousWidth;
-      const cropper = this.refs.cropper;
-      if (cropper && newWidth) {
-        this.setCropBox();
-      }
-    });
+    this.setState({ windowWidth });
   }
 
   moveUp = () => {
