@@ -28,7 +28,7 @@ export const serviceStatus = {
 };
 
 function DowntimeNotificationWrapper({ status, children }) {
-  return <div id="downtime-notification" data-status={status} style={{ marginBottom: '1em' }} className="row-padded">{children}</div>;
+  return <div className="downtime-notification" data-status={status}>{children}</div>;
 }
 
 class DowntimeNotification extends React.Component {
@@ -170,19 +170,20 @@ class DowntimeNotification extends React.Component {
   }
 
   renderStatusDown({ endTime }) {
-    const title = `The ${this.props.appTitle} is down for maintenance.`;
     let message = <p>We’re making some updates to the {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
       message = (
         <p>We’re making some updates to the {this.props.appTitle}. We’re sorry it’s not working right now, and we hope to be finished by {endTime.format('MMMM Do, LT')} Please check back soon.</p>
       );
     }
-
-    const downtimeNotification = <div><h2>{title}</h2>{message}</div>;
-
     return (
       <DowntimeNotificationWrapper status={serviceStatus.down}>
-        {downtimeNotification}
+        <div className="usa-content">
+          <div className="row-padded">
+            <h3>The {this.props.appTitle} is down for maintenance</h3>
+            {message}
+          </div>
+        </div>
       </DowntimeNotificationWrapper>
     );
   }
