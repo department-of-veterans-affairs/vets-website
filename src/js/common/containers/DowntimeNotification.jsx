@@ -27,8 +27,28 @@ export const serviceStatus = {
   ok: 'ok'
 };
 
+// Simple data structure that abstracts away add/removing dismissed flags in the session.
+// The Downtime Approaching warning should only be shown once, so we store that flag in the session.
+// We store it using the appTitle (which should be unique to the app) in an array so that other apps
+// that may be experiencing downtime will still have the warning.
+const dismissedDowntimeNotifications = (() => {
+  const key = 'downtime-notifications-dismissed';
+  const rawData = window.sessionStorage.getItem(key);
+  const _dismissedDowntimeNotifications = rawData ? JSON.parse(rawData) : [];
+
+  return {
+    contains(appTitle) {
+      return _dismissedDowntimeNotifications.find(_appTitle => _appTitle === appTitle);
+    },
+    push(appTitle) {
+      _dismissedDowntimeNotifications.push(appTitle);
+      window.sessionStorage.setItem(key, JSON.stringify(_dismissedDowntimeNotifications));
+    }
+  };
+})();
+
 function DowntimeNotificationWrapper({ status, children }) {
-  return <div className="downtime-notification" data-status={status}>{children}</div>;
+  return <div className="downtime-notification row-padded" data-status={status}>{children}</div>;
 }
 
 class DowntimeNotification extends React.Component {
@@ -60,7 +80,7 @@ class DowntimeNotification extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalDismissed: false,
+      modalDismissed: dismissedDowntimeNotifications.contains(props.appTitle),
       cache: {}
     };
   }
@@ -169,6 +189,11 @@ class DowntimeNotification extends React.Component {
     return serviceStatus.downtimeApproaching;
   }
 
+  dismissModal = () => {
+    dismissedDowntimeNotifications.push(this.props.appTitle);
+    this.setState({ modalDismissed: true });
+  }
+
   renderStatusDown({ endTime }) {
     let message = <p>We’re making some updates to the {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
@@ -179,10 +204,8 @@ class DowntimeNotification extends React.Component {
     return (
       <DowntimeNotificationWrapper status={serviceStatus.down}>
         <div className="usa-content">
-          <div className="row-padded">
-            <h3>The {this.props.appTitle} is down for maintenance</h3>
-            {message}
-          </div>
+          <h3>The {this.props.appTitle} is down for maintenance</h3>
+          {message}
         </div>
       </DowntimeNotificationWrapper>
     );
@@ -191,14 +214,13 @@ class DowntimeNotification extends React.Component {
   renderStatusDownApproaching({ startTime, endTime }) {
     let downtimeNotification = null;
     if (!this.state.modalDismissed) {
-      const close = () => this.setState({ modalDismissed: true });
       downtimeNotification = (
         <Modal id="downtime-approaching-modal"
-          onClose={close}
+          onClose={this.dismissModal}
           visible={!this.state.modalDismissed}>
           <h3>The {this.props.appTitle} will be down for maintenance soon</h3>
           <p>We’ll be doing some work on the {this.props.appTitle} on {startTime.format('MMMM Do')} between {startTime.format('LT')} and {endTime.format('LT')} If you have trouble using this tool during that time, please check back soon.</p>
-          <button type="button" className="usa-button-secondary" onClick={close}>Dismiss</button>
+          <button type="button" className="usa-button-secondary" onClick={this.dismissModal}>Dismiss</button>
         </Modal>);
     }
     return (
