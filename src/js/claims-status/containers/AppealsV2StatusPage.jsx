@@ -5,7 +5,7 @@ import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
-import Alerts from '../components/appeals-v2/Alerts';
+import AlertsList from '../components/appeals-v2/AlertsList';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
 import Docket from '../components/appeals-v2/Docket';
 
@@ -13,7 +13,7 @@ import Docket from '../components/appeals-v2/Docket';
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
 const AppealsV2StatusPage = ({ appeal }) => {
-  const { events, alerts, status } = appeal.attributes;
+  const { events, alerts, status, docket } = appeal.attributes;
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
   const nextEvents = getNextEvents(type);
@@ -23,17 +23,15 @@ const AppealsV2StatusPage = ({ appeal }) => {
       <CurrentStatus
         title={currentStatus.title}
         description={currentStatus.description}/>
-      <Alerts alerts={alerts}/>
+      <AlertsList alerts={alerts}/>
       <WhatsNext nextEvents={nextEvents}/>
-      <Docket/>
+      <Docket {...docket}/>
     </div>
   );
 };
 
 AppealsV2StatusPage.propTypes = {
   appeal: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     attributes: PropTypes.shape({
       events: PropTypes.array,
       alerts: PropTypes.array,

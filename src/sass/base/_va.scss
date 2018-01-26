@@ -607,7 +607,7 @@ ol {
 
   // Gate / Sign-in pages only
   &--gate {
-    margin-bottom: -2em;
+    margin-bottom: -1em;
   }
 
   li {
@@ -1452,4 +1452,11 @@ p.info-message {
 
 [itemprop=acceptedAnswer] {
   // margin-bottom: 3em;
+}
+
+// Error standardization
+.usa-alert {
+  .alert-actions {
+    margin-top: 0.5em;
+  }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import sinon from 'sinon';
 
 import SaveInProgressIntro from '../../../../src/js/common/schemaform/save-in-progress/SaveInProgressIntro';
 
@@ -235,6 +236,38 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.subTree('.usa-alert').text()).to.contain('You can save this form in progress');
+    expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
+  });
+  it('should render sign in message from render prop', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          { form: '1010ez', metadata: { last_updated: 3000, expires_at: moment().unix() + 2000 } } // eslint-disable-line camelcase
+        ],
+        prefillsAvailable: []
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl'
+        }
+      }
+    };
+    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
+
+    const tree = SkinDeep.shallowRender(
+      <SaveInProgressIntro
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        renderSignInMessage={renderSpy}
+        toggleLoginModal={toggleLoginModal}/>
+    );
+
+    expect(renderSpy.called).to.be.true;
+    expect(tree.text()).to.contain('Render prop info');
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
 });

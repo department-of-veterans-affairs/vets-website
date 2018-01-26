@@ -1,7 +1,7 @@
 import { isValidUSZipCode } from '../../common/utils/validations';
 import { ADDRESS_TYPES, MILITARY_CITIES } from './constants';
 
-const requiredMessage = 'Please enter a valid address'; // Change me! 
+const requiredMessage = 'Please enter a valid address'; // Change me!
 
 /**
  * Ensures the input isn't blank

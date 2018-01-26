@@ -40,6 +40,8 @@ You must have been discharged under conditions other than dishonorable and have 
 
 *Indicates that there are exceptions to how we decide if these illnesses qualify you for benefits and these conditions may be covered even after a year has passed.
 
+[Find out what other health risks may be connected to your service in Afghanistan](/health-care/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/).
+
 <br>
 
 ### Who’s covered?

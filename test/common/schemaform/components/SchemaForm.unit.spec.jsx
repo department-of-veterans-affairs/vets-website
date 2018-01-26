@@ -149,4 +149,35 @@ describe('Schemaform <SchemaForm>', () => {
 
     expect(instance.state.formContext.submitted).to.be.false;
   });
+  it('should merge state with new form context', () => {
+    const name = 'testPage';
+    const schema = {};
+    const uiSchema = {};
+    const data = {};
+
+    const tree = SkinDeep.shallowRender(
+      <SchemaForm
+        name={name}
+        title={name}
+        schema={schema}
+        uiSchema={uiSchema}
+        pageData={data}/>
+    );
+
+    const instance = tree.getMountedInstance();
+
+    expect(instance.state.formContext.submitted).to.be.false;
+
+    instance.componentWillReceiveProps({
+      name,
+      formContext: { test: true },
+      title: name,
+      schema,
+      uiSchema,
+      data,
+    });
+
+    expect(instance.state.formContext.test).to.be.true;
+    expect(instance.state.formContext.submitted).to.be.false;
+  });
 });
