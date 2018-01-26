@@ -30,18 +30,18 @@ class FacilityLocatorApp extends React.Component {
   render() {
     return (
       <div>
-        <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
-          <div className="row">
-            <div className="title-section">
-              <nav className="va-nav-breadcrumbs">
-                {this.renderBreadcrumbs()}
-              </nav>
-            </div>
+        <div className="row">
+          <div className="title-section">
+            <nav className="va-nav-breadcrumbs">
+              {this.renderBreadcrumbs()}
+            </nav>
+          </div>
+          <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
             <div className="facility-locator">
               {this.props.children}
             </div>
-          </div>
-        </DowntimeNotification>
+          </DowntimeNotification>
+        </div>
       </div>
     );
   }
