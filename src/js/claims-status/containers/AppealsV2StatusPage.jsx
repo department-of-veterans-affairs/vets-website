@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
+import { getStatusContents, getNextEvents, CLOSED_STATUSES } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
@@ -17,6 +17,10 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
   const nextEvents = getNextEvents(type);
+
+  // Gates the What's Next and Docket chunks
+  const appealIsClosed = CLOSED_STATUSES.includes(type);
+
   return (
     <div>
       <Timeline events={events}/>
@@ -24,8 +28,9 @@ const AppealsV2StatusPage = ({ appeal }) => {
         title={currentStatus.title}
         description={currentStatus.description}/>
       <AlertsList alerts={alerts}/>
-      <WhatsNext nextEvents={nextEvents}/>
-      <Docket {...docket}/>
+      {!appealIsClosed && <WhatsNext nextEvents={nextEvents}/>}
+      {!appealIsClosed && <Docket {...docket}/>}
+      {appealIsClosed && <div className="closed-appeal-notice">This appeal is now closed</div>}
     </div>
   );
 };
