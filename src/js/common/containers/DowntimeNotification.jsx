@@ -33,7 +33,7 @@ export const serviceStatus = {
 // that may be experiencing downtime will still have the warning.
 const dismissedDowntimeNotifications = (() => {
   const key = 'downtime-notifications-dismissed';
-  const rawData = window.sessionStorage.getItem(key);
+  const rawData = window.sessionStorage[key];
   const _dismissedDowntimeNotifications = rawData ? JSON.parse(rawData) : [];
 
   return {
@@ -42,7 +42,7 @@ const dismissedDowntimeNotifications = (() => {
     },
     push(appTitle) {
       _dismissedDowntimeNotifications.push(appTitle);
-      window.sessionStorage.setItem(key, JSON.stringify(_dismissedDowntimeNotifications));
+      window.sessionStorage[key] = JSON.stringify(_dismissedDowntimeNotifications);
     }
   };
 })();
