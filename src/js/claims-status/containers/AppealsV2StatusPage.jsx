@@ -5,7 +5,7 @@ import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
-import Alerts from '../components/appeals-v2/Alerts';
+import AlertsList from '../components/appeals-v2/AlertsList';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
 import Docket from '../components/appeals-v2/Docket';
 
@@ -23,7 +23,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
       <CurrentStatus
         title={currentStatus.title}
         description={currentStatus.description}/>
-      <Alerts alerts={alerts}/>
+      <AlertsList alerts={alerts}/>
       <WhatsNext nextEvents={nextEvents}/>
       <Docket {...docket}/>
     </div>
