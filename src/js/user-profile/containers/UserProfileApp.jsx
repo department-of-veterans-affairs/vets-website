@@ -9,6 +9,7 @@ import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
@@ -67,7 +68,9 @@ class UserProfileApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          {view}
+          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
+            {view}
+          </DowntimeNotification>
         </RequiredLoginView>
       </div>
     );
