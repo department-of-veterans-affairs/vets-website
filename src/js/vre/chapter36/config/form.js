@@ -1,19 +1,29 @@
 import _ from 'lodash/fp';
 
-// import { transform } from '../helpers';
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
+import {
+  genderLabels
+} from '../../../common/utils/labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import ssnUI from '../../../common/schemaform/definitions/ssn';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 const {
-  applicantFullName
+  applicantFullName,
+  applicantGender,
+  applicantSocialSecurityNumber,
+  seekingRestorativeTraining,
+  seekingVocationalTraining,
+  receivedPamphlet
 } = fullSchema36.properties;
 
 const {
-  fullName
+  fullName,
+  gender,
+  ssn
 } = fullSchema36.definitions;
 
 const formConfig = {
@@ -32,7 +42,9 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
-    fullName
+    fullName,
+    gender,
+    ssn
   },
   chapters: {
     applicantInformation: {
@@ -41,6 +53,7 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
+          applicantRelationshipToVeteran: 'Spouse',
           uiSchema: {
             'view:isVeteran': {
               'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
@@ -88,30 +101,70 @@ const formConfig = {
               }
             }
           }
+        },
+        dependentInformation: {
+          title: 'Applicant information',
+          path: 'dependent-information',
+          depends: {
+            'view:isVeteran': false
+          },
+          uiSchema: {
+            applicantSocialSecurityNumber: ssnUI,
+            applicantGender: {
+              'ui:title': 'Gender',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: genderLabels
+              }
+            },
+            seekingRestorativeTraining: {
+              'ui:title': 'Are you a child who is at least 14 years old, a spouse, or a surviving spouse with a disability and looking for special restorative training?',
+              'ui:widget': 'yesNo'
+            },
+            seekingVocationalTraining: {
+              'ui:title': 'Are you a child, a spouse, or a surviving spouse with a disability and looking for special vocational training',
+              'ui:widget': 'yesNo'
+            },
+            receivedPamphlet: {
+              'ui:title': 'Have you received a pamphlet explaining survivors’ and dependents’ educational assistance benefits?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicantSocialSecurityNumber,
+              applicantGender,
+              seekingRestorativeTraining,
+              seekingVocationalTraining,
+              receivedPamphlet
+            }
+          }
         }
-      }
-    },
-    veteranInformation: {
-      title: 'Veteran Information',
-      pages: {
-      }
-    },
-    additionalInformation: {
-      title: 'Additional Information',
-      pages: {
-      }
-    },
-    militaryHistory: {
-      title: 'Military History',
-      pages: {
-      }
-    },
-    contactInformation: {
-      title: 'Contact Information',
-      pages: {
+      },
+      veteranInformation: {
+        title: 'Veteran Information',
+        pages: {
+        }
+      },
+      additionalInformation: {
+        title: 'Additional Information',
+        pages: {
+        }
+      },
+      militaryHistory: {
+        title: 'Military History',
+        pages: {
+        }
+      },
+      contactInformation: {
+        title: 'Contact Information',
+        pages: {
+        }
       }
     }
   }
 };
+
 
 export default formConfig;
