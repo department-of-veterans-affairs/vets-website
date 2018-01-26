@@ -84,7 +84,7 @@ class FormPage extends React.Component {
       params,
       form,
       contentAfterButtons,
-      prefilled
+      formContext
     } = this.props;
 
     let {
@@ -113,7 +113,7 @@ class FormPage extends React.Component {
           schema={schema}
           uiSchema={uiSchema}
           pagePerItemIndex={params ? params.index : undefined}
-          prefilled={prefilled}
+          formContext={formContext}
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}>
@@ -164,6 +164,7 @@ FormPage.propTypes = {
       path: PropTypes.string.isRequired
     }))
   }),
+  contentAfterButtons: PropTypes.element,
   setData: PropTypes.func
 };
 

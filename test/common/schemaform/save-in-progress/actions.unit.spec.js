@@ -417,6 +417,25 @@ describe('Schemaform save / load actions:', () => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
       });
+      it('calls prefill transform when response is prefilled', () => {
+        const prefillTransform = sinon.spy();
+        const thunk = fetchInProgressForm('1010ez', {}, true, prefillTransform);
+        const dispatch = sinon.spy();
+        global.fetch.returns(Promise.resolve({
+          ok: true,
+          json: () => ({
+            formData: {},
+            metadata: {
+              prefill: true
+            }
+          })
+        }));
+
+        return thunk(dispatch, getState).then(() => {
+          expect(prefillTransform.called).to.be.true;
+          expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
+        });
+      });
     });
   });
   describe('removeInProgressForm', () => {

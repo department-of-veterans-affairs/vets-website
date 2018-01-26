@@ -14,6 +14,14 @@ body {
   .row {
     max-width: 62.5em;
   }
+
+  // We have no container element, so elements that are full width have to redefine the container layout every time
+  // if they want to line up.
+  .row-padded {
+    max-width: 100rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+  }
 }
 
 .form-panel {
@@ -245,14 +253,14 @@ form {
 
 // .usa-alert shame moved to _m_alert.scss
 
-#hurricane-warning-container {
+#top-of-page-alert-container {
 
   width: 100%;
   background-color: $color-gibill-accent;
 
 }
 
-#hurricane-warning {
+#top-of-page-alert {
 
   max-width: 62.5em;
   margin: 0 auto;

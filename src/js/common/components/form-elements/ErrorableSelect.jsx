@@ -46,7 +46,11 @@ class ErrorableSelect extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.selectId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`} role="alert">{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
     }
 
     // Addes ToolTip if text is provided.
@@ -98,6 +102,7 @@ class ErrorableSelect extends React.Component {
           name={this.props.name}
           autoComplete={this.props.autocomplete}
           value={selectedValue}
+          onKeyDown={this.props.onKeyDown}
           onChange={this.handleChange}>
           {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
           {optionElements}
@@ -133,6 +138,7 @@ ErrorableSelect.propTypes = {
     dirty: PropTypes.bool
   }).isRequired,
   onValueChange: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func,
   additionalClass: PropTypes.string,
   emptyDescription: PropTypes.string
 };

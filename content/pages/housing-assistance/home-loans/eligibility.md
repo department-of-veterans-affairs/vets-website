@@ -89,6 +89,14 @@ You may still be able to get a COE if you were discharged due to:
 
 <br>
 
+### If I have a less than honorable discharge, can I try to get my discharge upgraded so I can get a VA home loan?
+
+Yes. You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <br>
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+
+<br>
+
 ### Can I get a COE as the spouse of a Veteran? 
 
 You may be able to get a COE if you’re the spouse of a Veteran who:

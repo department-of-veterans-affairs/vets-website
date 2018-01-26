@@ -56,7 +56,11 @@ class ErrorableRadioButtons extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
     }
 
     // Addes ToolTip if text is provided.
@@ -101,6 +105,8 @@ class ErrorableRadioButtons extends React.Component {
             id={`${this.inputId}-${index}`}
             name={this.props.name}
             type="radio"
+            onMouseDown={this.props.onMouseDown}
+            onKeyDown={this.props.onKeyDown}
             value={optionValue}
             onChange={this.handleChange}/>
           <label
@@ -109,6 +115,7 @@ class ErrorableRadioButtons extends React.Component {
             {optionLabel}
           </label>
           {matchingSubSection}
+          {obj.content}
         </div>
       );
 
@@ -177,6 +184,10 @@ ErrorableRadioButtons.propTypes = {
           PropTypes.string,
           PropTypes.bool
         ]),
+        content: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
+        ]),
         additional: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.element
@@ -187,6 +198,8 @@ ErrorableRadioButtons.propTypes = {
     value: PropTypes.string,
     dirty: PropTypes.bool
   }).isRequired,
+  onMouseDown: PropTypes.func,
+  onKeyDown: PropTypes.func,
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };
