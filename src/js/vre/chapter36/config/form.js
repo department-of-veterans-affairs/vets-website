@@ -50,7 +50,6 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
-          initialData: {},
           applicantRelationshipToVeteran: 'Spouse',
           uiSchema: {
             'view:isVeteran': {
@@ -106,7 +105,6 @@ const formConfig = {
           depends: {
             'view:isVeteran': false
           },
-          initialData: {},
           uiSchema: {
             applicantSocialSecurityNumber: ssnUI,
             applicantGender: {
