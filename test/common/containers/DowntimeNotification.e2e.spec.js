@@ -12,7 +12,6 @@ const endTime = moment().add(6, 'hour').toISOString();
 
 const selectors = {
   app: '.facility-locator',
-  downtimeNotification: '#downtime-notification',
   statusDown: '[data-status="down"]',
   statusDownApproachingModal: '[data-status="downtimeApproaching"] #downtime-approaching-modal'
 };
