@@ -872,8 +872,9 @@ h1:focus {
 
   li.next-event {
     &:before { // styles the bullets to mimic bullets in Timeline
-      display: inline-block;
-      vertical-align: middle;
+      display: block;
+      float: left;
+      // vertical-align: middle;
       width: 1em;
       height: 1em;
       content: "";
@@ -881,12 +882,15 @@ h1:focus {
       border-radius: 50%;
       background: $color-gray-medium;
       margin-left: -.6em;
+      position: relative;
+      top: .33em;
     }
 
     h3 {
+      clear: none;
       margin-left: 1.5em;
-      display: inline;
-      vertical-align: middle;
+      margin-top: 0;
+      display: block;
     }
 
     p {
