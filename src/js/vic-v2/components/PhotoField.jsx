@@ -213,19 +213,19 @@ export default class PhotoField extends React.Component {
   }
 
   moveUp = () => {
-    this.refs.cropper.move(0, 5);
-  }
-
-  moveDown = () => {
     this.refs.cropper.move(0, -5);
   }
 
+  moveDown = () => {
+    this.refs.cropper.move(0, 5);
+  }
+
   moveRight = () => {
-    this.refs.cropper.move(5, 0);
+    this.refs.cropper.move(-5, 0);
   }
 
   moveLeft = () => {
-    this.refs.cropper.move(-5, 0);
+    this.refs.cropper.move(5, 0);
   }
 
   zoom = (e) => {
