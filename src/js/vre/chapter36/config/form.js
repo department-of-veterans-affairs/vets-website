@@ -3,8 +3,8 @@ import _ from 'lodash/fp';
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
 import {
-  genders
-} from '../../../common/utils/options-for-select';
+  genderLabels
+} from '../../../common/utils/labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -13,6 +13,7 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 const {
   applicantFullName,
+  applicantGender,
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
@@ -21,6 +22,7 @@ const {
 
 const {
   fullName,
+  gender,
   ssn
 } = fullSchema36.definitions;
 
@@ -41,6 +43,7 @@ const formConfig = {
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
     fullName,
+    gender,
     ssn
   },
   chapters: {
@@ -109,7 +112,10 @@ const formConfig = {
             applicantSocialSecurityNumber: ssnUI,
             applicantGender: {
               'ui:title': 'Gender',
-              'ui:widget': 'radio'
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: genderLabels
+              }
             },
             seekingRestorativeTraining: {
               'ui:title': 'Are you a child who is at least 14 years old, a spouse, or a surviving spouse with a disability and looking for special restorative training?',
@@ -128,11 +134,7 @@ const formConfig = {
             type: 'object',
             properties: {
               applicantSocialSecurityNumber,
-              applicantGender: {
-                type: 'string',
-                'enum': genders.map(genderItem => genderItem.value),
-                enumNames: genders.map(genderItem => genderItem.label)
-              },
+              applicantGender,
               seekingRestorativeTraining,
               seekingVocationalTraining,
               receivedPamphlet

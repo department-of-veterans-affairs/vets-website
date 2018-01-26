@@ -7,7 +7,7 @@ import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
 
 describe('VRE chapter 36 dependent information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.nonVeteranInformation;
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.dependentInformation;
   it('should render dependent information fields', () => {
     const form = mount(
       <DefinitionTester
