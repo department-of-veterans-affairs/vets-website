@@ -31,21 +31,22 @@ export const serviceStatus = {
 // The Downtime Approaching warning should only be shown once, so we store that flag in the session.
 // We store it using the appTitle (which should be unique to the app) in an array so that other apps
 // that may be experiencing downtime will still have the warning.
-const dismissedDowntimeNotifications = (() => {
-  const key = 'downtime-notifications-dismissed';
-  const rawData = window.sessionStorage[key];
-  const _dismissedDowntimeNotifications = rawData ? JSON.parse(rawData) : [];
-
-  return {
-    contains(appTitle) {
-      return _dismissedDowntimeNotifications.find(_appTitle => _appTitle === appTitle);
-    },
-    push(appTitle) {
-      _dismissedDowntimeNotifications.push(appTitle);
-      window.sessionStorage[key] = JSON.stringify(_dismissedDowntimeNotifications);
-    }
-  };
-})();
+const dismissedDowntimeNotifications = {
+  key: 'downtime-notifications-dismissed',
+  // A setup method is used so that sessionStorage is evaluated during the constructor instead of at module import.
+  // This is smoother for backfilling during unit tests.
+  setup() {
+    const rawData = window.sessionStorage[this.key];
+    this._dismissedDowntimeNotifications = rawData ? JSON.parse(rawData) : [];
+  },
+  contains(appTitle) {
+    return this._dismissedDowntimeNotifications.find(_appTitle => _appTitle === appTitle);
+  },
+  push(appTitle) {
+    this._dismissedDowntimeNotifications.push(appTitle);
+    window.sessionStorage[this.key] = JSON.stringify(this._dismissedDowntimeNotifications);
+  }
+};
 
 function DowntimeNotificationWrapper({ status, children }) {
   return <div className="downtime-notification row-padded" data-status={status}>{children}</div>;
@@ -79,6 +80,7 @@ class DowntimeNotification extends React.Component {
 
   constructor(props) {
     super(props);
+    dismissedDowntimeNotifications.setup();
     this.state = {
       modalDismissed: dismissedDowntimeNotifications.contains(props.appTitle),
       cache: {}

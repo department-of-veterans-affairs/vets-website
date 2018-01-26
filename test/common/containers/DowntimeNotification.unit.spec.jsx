@@ -22,6 +22,16 @@ function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
 
 describe('<DowntimeNotification/>', () => {
 
+  const old = { sessionStorage: window.sessionStorage };
+
+  before(() => {
+    window.sessionStorage = {};
+  });
+
+  after(() => {
+    window.sessionStorage = old.sessionStorage;
+  });
+
   it('calls getScheduledDowntime when rendered', () => {
     const getScheduledDowntime = sinon.spy();
     getComponent([], getScheduledDowntime);
