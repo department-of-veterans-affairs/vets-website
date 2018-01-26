@@ -92,7 +92,7 @@ describe('<DowntimeNotification/>', () => {
       const innerWrapper = wrapper.find('DowntimeNotificationWrapper').dive();
       expect(innerWrapper.text()).to.not.contain(innerText, 'The message was not rendered');
       expect(innerWrapper.find(`[data-status="${serviceStatus.down}"]`)).to.have.lengthOf(1, 'The correct status was rendered');
-      expect(innerWrapper.find('h2')).to.have.lengthOf(1, 'Authenticated users will see a plain <h2>');
+      expect(innerWrapper.find('h3')).to.have.lengthOf(1, 'Authenticated users will see a plain <h2>');
     });
 
   });
