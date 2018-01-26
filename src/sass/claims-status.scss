@@ -5,6 +5,8 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
+$color-inactive: #9B9B9B;
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -663,10 +665,21 @@ h1:focus {
 }
 
 .current-status {
+  &.closed {
+    .current-status-content {
+      border-left-color: transparent;
+
+      &::before {
+        background-color: $color-inactive;
+        color: $color-inactive;
+      }
+    }
+  }
 
   h2 {
     margin-top: 1em;
   }
+  
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -1056,4 +1069,5 @@ $marker-text-width: 9rem;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
+  margin-bottom: 2em;
 }

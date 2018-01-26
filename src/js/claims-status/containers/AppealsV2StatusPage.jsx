@@ -26,7 +26,8 @@ const AppealsV2StatusPage = ({ appeal }) => {
       <Timeline events={events}/>
       <CurrentStatus
         title={currentStatus.title}
-        description={currentStatus.description}/>
+        description={currentStatus.description}
+        isClosed={appealIsClosed}/>
       <AlertsList alerts={alerts}/>
       {!appealIsClosed && <WhatsNext nextEvents={nextEvents}/>}
       {!appealIsClosed && <Docket {...docket}/>}
