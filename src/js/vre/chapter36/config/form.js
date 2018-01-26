@@ -122,7 +122,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             receivedPamphlet: {
-              'ui:title': 'Have you received a pamphlet explaining survivors\' and dependents\' educational assistance benefits?',
+              'ui:title': 'Have you received a pamphlet explaining survivors’ and dependents’ educational assistance benefits?',
               'ui:widget': 'yesNo'
             }
           },
