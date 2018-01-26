@@ -99,9 +99,9 @@ const formConfig = {
             }
           }
         },
-        nonVeteranInformation: {
+        dependentInformation: {
           title: 'Applicant information',
-          path: 'non-veteran-information',
+          path: 'dependent-information',
           depends: {
             'view:isVeteran': false
           },

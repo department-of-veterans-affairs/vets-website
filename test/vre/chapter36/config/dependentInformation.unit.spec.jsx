@@ -6,9 +6,9 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
 
-describe('VRE chapter 36 non-veteran information', () => {
+describe('VRE chapter 36 dependent information', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.nonVeteranInformation;
-  it('should render non-veteran applicaton fields', () => {
+  it('should render dependent information fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
