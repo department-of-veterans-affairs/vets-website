@@ -181,14 +181,15 @@ class DowntimeNotification extends React.Component {
   determineStatus(downtimeMap) {
     if (this.props.determineStatus) return this.props.determineStatus(downtimeMap);
 
-    const statusDown = downtimeMap.get(serviceStatus.down).length > 0;
-    const statusDownApproaching = downtimeMap.get(serviceStatus.downtimeApproaching).length > 0;
-    const statusOk = !statusDown && !statusDownApproaching;
+    if (downtimeMap.get(serviceStatus.down).length > 0) {
+      return serviceStatus.down;
+    }
 
-    if (statusOk) return serviceStatus.ok;
-    if (statusDown) return serviceStatus.down;
+    if (downtimeMap.get(serviceStatus.downtimeApproaching).length > 0) {
+      return serviceStatus.downtimeApproaching;
+    }
 
-    return serviceStatus.downtimeApproaching;
+    return serviceStatus.ok;
   }
 
   dismissModal = () => {
