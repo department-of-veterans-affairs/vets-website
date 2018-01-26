@@ -35,7 +35,9 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you injured yourself or became sick while you were in the military, and it caused you to have a disability, you may be eligible for compensation for that disability. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). Even when a condition doesn’t appear until years after your service ends, if it was the result of an injury or illness that happened during active military service, you may qualify for disability compensation. Or, if you had an injury before you joined the military that your service worsened, you may also qualify for disability compensation. Find out if you can get financial support and other benefits like health care.
+If you got injured or became sick while on active military service, you may be eligible for monthly VA disability payments. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). 
+Even if your disability didn’t appear until years after your service ended, or if your service worsened a condition you had before joining the military, you may qualify for disability payments. Find out if you can get VA disability compensation. 
+
 
 </div>
 
