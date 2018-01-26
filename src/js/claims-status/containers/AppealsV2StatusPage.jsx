@@ -38,7 +38,12 @@ AppealsV2StatusPage.propTypes = {
       status: PropTypes.shape({
         type: PropTypes.string,
         details: PropTypes.object,
-      }).isRequired
+      }).isRequired,
+      docket: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        ahead: PropTypes.number.isRequired,
+        eta: PropTypes.string.isRequired
+      })
     }).isRequired,
   })
 };
