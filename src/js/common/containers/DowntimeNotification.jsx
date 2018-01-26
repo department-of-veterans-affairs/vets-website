@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import moment from '../utils/moment-setup';
 import objectValues from 'lodash/fp/values';
 import { connect } from 'react-redux';
 import { getScheduledDowntime } from '../actions';
