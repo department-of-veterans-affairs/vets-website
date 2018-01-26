@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
@@ -68,9 +69,11 @@ class VeteranIDCard extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <RequiredVeteranView userProfile={this.props.profile}>
-            {this.props.children}
-          </RequiredVeteranView>
+          <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[services.vic]}>
+            <RequiredVeteranView userProfile={this.props.profile}>
+              {this.props.children}
+            </RequiredVeteranView>
+          </DowntimeNotification>
         </RequiredLoginView>
       </div>
     );

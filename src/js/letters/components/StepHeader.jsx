@@ -5,14 +5,14 @@ class StepHeader extends React.Component {
   render() {
     const { current, steps, name } = this.props;
     return (
-      <div className="schemaform-chapter-progress">
+      <div className="section-content">
         <div
           role="progressbar"
           aria-valuenow={this.props.current}
           aria-valuemin="1"
           aria-valuetext={`Step ${current} of ${steps}: ${name}`}
           aria-valuemax={steps}
-          className="nav-header nav-header-schemaform">
+          className="nav-header">
           <h4>
             <span className="form-process-step current">{current}</span>
             <span className="form-process-total">of {steps}</span>
