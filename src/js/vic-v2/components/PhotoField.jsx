@@ -163,13 +163,13 @@ export default class PhotoField extends React.Component {
   }
 
   onZoom = (e) => {
-    const newZoomValue = e.detail.ratio;
-    if (newZoomValue < MAX_RATIO && newZoomValue > MIN_RATIO) {
+    const zoomValue = e.detail.ratio;
+    if (zoomValue < MAX_RATIO && zoomValue > MIN_RATIO) {
       let warningMessage = null;
-      if (newZoomValue >= WARN_RATIO) {
+      if (zoomValue >= WARN_RATIO) {
         warningMessage = 'If you zoom in this close, your ID photo will be less clear.';
       }
-      return this.setState({ zoomValue: newZoomValue, warningMessage });
+      return this.setState({ zoomValue, warningMessage });
     }
     return e.preventDefault();
   }
@@ -273,12 +273,12 @@ export default class PhotoField extends React.Component {
     }
     let description;
     if (this.state.dragAndDropSupported) {
-      description = 'Drag and drop your image into the square or click the upload button.';
+      description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
     if (this.state.src) {
-      description = 'Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.';
+      description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
     }
-    if (this.state.done) description = 'Success! This photo will be printed on your Veteran ID card.';
+    if (this.state.done) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
 
     return (
       <div>
@@ -289,7 +289,7 @@ export default class PhotoField extends React.Component {
           <div style={{ margin: '1em 1em 4em' }}>
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {instruction}
-            {description && <p>{description}</p>}
+            {description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
           </div>
