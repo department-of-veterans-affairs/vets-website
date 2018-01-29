@@ -60,8 +60,9 @@ RUN \
     echo "===> install Java"  && \
     echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections  && \
     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections  && \
-    DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes libnss3 libgconf-2-4 libxss1 libxtst6 libgtk2.0-0 libasound2 xvfb netcat oracle-java8-installer oracle-java8-set-default
-
-RUN mkdir -p /application && chown jenkins:jenkins /application
+    DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes libnss3 libgconf-2-4 libxss1 libxtst6 libgtk2.0-0 libasound2 xvfb netcat oracle-java8-installer oracle-java8-set-default && \
+    \
+    \
+    mkdir -p /application && chown jenkins:jenkins /application
 
 USER jenkins
