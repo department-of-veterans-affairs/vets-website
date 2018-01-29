@@ -192,7 +192,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': DD214Description,
-            dd214: fileUploadUI('Upload your DD214', {
+            dd214: fileUploadUI('Upload your discharge document', {
               endpoint: '/v0/vic/vic_attachments'
             })
           },
