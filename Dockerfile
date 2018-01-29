@@ -62,7 +62,7 @@ RUN \
     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections  && \
     DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes libnss3 libgconf-2-4 libxss1 libxtst6 libgtk2.0-0 libasound2 xvfb netcat oracle-java8-installer oracle-java8-set-default
 
-RUN mkdir -p /application
+RUN mkdir -p /application && chown jenkins:jenkins /application
 
 WORKDIR /application
 
@@ -78,10 +78,4 @@ COPY .yarnrc .
 # skips all dev dependencies if NODE_ENV=production.. so..
 RUN yarn install --production=false
 
-# Copy application source to image
-
-COPY . .
-RUN chown -R jenkins:jenkins /application
-RUN chmod -R 777 /application
-RUN chmod -R 777 /home/jenkins
 USER jenkins
