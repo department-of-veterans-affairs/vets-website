@@ -100,7 +100,7 @@ export default class PhotoField extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const newView = this.state.src && (prevState.src !== this.state.src || ((this.state.progress === 100) && (this.state.progress < 100)));
+    const newView = this.state.src && (prevState.src !== this.state.src || ((prevState.progress === 100) && (this.state.progress < 100)));
     const cropper = this.refs.cropper;
     if (cropper && newView) {
       this.setCropBox();
