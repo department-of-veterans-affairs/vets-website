@@ -1,8 +1,8 @@
 # Field library
 
-We have many common field and widgets that are available for use in forms. Stick with these common fields and definitions if at all possible.
+We have many common field and widgets that are available for use in forms. You should stick with these common fields and definitions if at all possible.
 
-There are generally two forms of common definitions: schema/uiSchema objects and functions that return schema/uiSchema objects. For the function versions, there will be documentation below for the parameters
+There are generally two forms of common definitions: schema/uiSchema objects and functions that return schema/uiSchema objects. For the function versions, there will be documentation in the fields for the parameters.
 
 ## Widgets
 
