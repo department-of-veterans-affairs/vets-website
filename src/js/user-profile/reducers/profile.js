@@ -1,4 +1,4 @@
-import { assign, set } from 'lodash/fp';
+import { merge, set } from 'lodash/fp';
 
 import {
   UPDATE_PROFILE_FIELDS,
@@ -46,7 +46,7 @@ const initialState = {
 function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS:
-      return assign(state, action.newState);
+      return merge(state, action.newState);
 
     case PROFILE_LOADING_FINISHED:
     case FETCH_LOGIN_URLS_FAILED:
