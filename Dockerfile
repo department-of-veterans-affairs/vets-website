@@ -64,18 +64,4 @@ RUN \
 
 RUN mkdir -p /application && chown jenkins:jenkins /application
 
-WORKDIR /application
-
-# Create empty directory for selenium logs
-
-RUN mkdir -p logs/selenium
-
-# Install required npm dependencies
-
-COPY package.json .
-COPY yarn.lock .
-COPY .yarnrc .
-# skips all dev dependencies if NODE_ENV=production.. so..
-RUN yarn install --production=false
-
 USER jenkins
