@@ -52,7 +52,7 @@ class ConfirmationPage extends React.Component {
           <p>We’ll review your application to verify your eligibility. We may contact you if we have any questions or need more information.</p>
           <p>To be eligible for a Veteran ID Card, you must have separated under honorable conditions. If you have an other than honorable discharge, you can apply for an upgrade or correction.<br/>
             <a href="/discharge-upgrade-instructions" target="_blank">Find out how to apply for a discharge upgrade</a>.</p>
-          <p>If you upload a copy of your discharge document, we can use it to verify that you were honorably discharged.</p>
+          <p>If you uploaded a copy of your discharge document, we'll use it to verify that you were honorably discharged.</p>
         </div>}
         {verified && <div>
           <p>You should receive your Veteran ID Card in the mail in about 60 days.<br/>
