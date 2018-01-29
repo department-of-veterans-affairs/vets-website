@@ -9,4 +9,9 @@ describe('<AppealsV2DetailPage/>', () => {
     const wrapper = shallow(<AppealsV2DetailPage/>);
     expect(wrapper.type()).to.equal('div');
   });
+
+  it('renders the <Issues/> component', () => {
+    const wrapper = shallow(<AppealsV2DetailPage/>);
+    expect(wrapper.find('Issues').length).to.equal(1);
+  });
 });
