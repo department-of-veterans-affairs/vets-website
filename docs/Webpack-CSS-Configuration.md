@@ -58,6 +58,9 @@ entryname: my-application
 <div id="react-entry"></div>
 ```
 
+## Static Assets
+The `root/assets/` directory is used for storing images, fonts, and other files you may want to have reside outside of the Webpack build system. During build time, the contents of that directory will be moved as-is to the build output, so `root/assets/js/something.js` will be moved to `root/build/development/js/something.js`, which means it can be linked to in the website with `/js/something.js`.
+
 ##### src/js/my-application/entry.jsx
 ```js
 // Our Webpack configuration will use the file extension to determine how to handle that import, which in our case is to compile it into a CSS file.
