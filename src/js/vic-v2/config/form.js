@@ -1,4 +1,5 @@
 // import { transform } from '../helpers';
+import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -22,7 +23,8 @@ const {
   veteranFullName,
   email,
   serviceBranch,
-  dd214
+  dd214,
+  photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -170,18 +172,25 @@ const formConfig = {
           title: 'Photo upload',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
-            photo: {
-              'ui:field': PhotoField,
-              'ui:title': 'Please upload a current photo of yourself that’ll appear on your Veteran ID Card.',
-
-            }
+            photo: _.assign(fileUploadUI('Select files to upload', {
+              endpoint: '/v0/vic/vic_attachments',
+              fileTypes: [
+                'png',
+                'tiff',
+                'tif',
+                'jpeg',
+                'jpg',
+                'bmp'
+              ]
+            }), {
+              'ui:field': PhotoField
+            })
           },
           schema: {
             type: 'object',
+            required: ['photo'],
             properties: {
-              photo: {
-                type: 'any'
-              }
+              photo
             }
           }
         },
