@@ -79,7 +79,7 @@ class IntroductionPage extends React.Component {
               <div><h6>When you apply, be sure to have these on hand:</h6></div>
               <ul>
                 <li>Your Social Security number</li>
-                <li>A digital copy of your DD214 or other military discharge papers that you can upload</li>
+                <li>A digital copy of your military discharge papers, for example, a DD214, DD256, DD257, or NGB22, that you can upload</li>
                 <li>A current color photo of yourself</li>
               </ul>
               <div className="vic-intro-indent">
