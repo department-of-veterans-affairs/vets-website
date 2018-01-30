@@ -10,10 +10,10 @@ body.va-pos-fixed {
 #vetnav, [role="menu"] [role="menu"] {
   // The main menu takes up the whole screen under the Menu button for xsmall & small screens
   // Sub menus also take up the whole screen to cover the main menu
-  height: calc(100vh - #{$height-offset-xsmall});
+  min-height: calc(100vh - #{$height-offset-xsmall});
 
   @include media($small-screen){
-    height: calc(100vh - #{$height-offset-small});
+    min-height: calc(100vh - #{$height-offset-small});
   }
 
   // For medium and large screens, they're just as big as they need to be
