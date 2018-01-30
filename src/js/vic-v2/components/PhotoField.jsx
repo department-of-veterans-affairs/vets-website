@@ -278,6 +278,7 @@ export default class PhotoField extends React.Component {
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const isDone = this.state.progress === 100 && !this.state.errorMessage;
+    const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
     if (smallScreen) {
@@ -318,7 +319,7 @@ export default class PhotoField extends React.Component {
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             {isDone && <img className="photo-preview" src={this.state.cropResult.src} alt="cropped"/>}
           </div>
-          {this.state.uploading && <div className="schemaform-file-uploading">
+          {this.state.uploading && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
           </div>}

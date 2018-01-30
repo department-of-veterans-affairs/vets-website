@@ -109,6 +109,14 @@ input[type=range] {
   font-size: 1.07em !important;
 }
 
+.progress-bar-container {
+  margin: 0 auto;
+  width: 240px;
+  @media (min-width: $large-screen) {
+    width: 300px;
+  }
+}
+
 .progress-box.progress-box-schemaform {
   padding: unset;
 }
