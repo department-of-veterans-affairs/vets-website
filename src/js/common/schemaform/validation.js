@@ -343,6 +343,32 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
   }
 }
 
+export function validateFile(errors, file) {
+  let error;
+  if (file.errorMessage) {
+    error = file.errorMessage;
+  } else if (file.uploading) {
+    error = 'Uploading file...';
+  } else if (!file.confirmationCode) {
+    error = 'Something went wrong...';
+  }
+
+  if (error && !errors[0]) {
+    /* eslint-disable no-param-reassign */
+    errors = {
+      __errors: [],
+      addError(msg) {
+        this.__errors.push(msg);
+      }
+    };
+    /* eslint-enable no-param-reassign */
+  }
+
+  if (error) {
+    errors.addError(error);
+  }
+}
+
 export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
     let error;

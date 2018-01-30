@@ -132,7 +132,7 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, filePath, uiOptions, progressCallback) {
+export function uploadFile(file, filePath, uiOptions, progressCallback, errorCallback) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       dispatch(
@@ -194,6 +194,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
               errorMessage: req.statusText
             }, getState().form.data))
           );
+          if (errorCallback) errorCallback(req.statusText);
           Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
           reject();
         }
@@ -207,6 +208,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
             errorMessage
           }, getState().form.data))
         );
+        if (errorCallback) errorCallback('Check our network settings and try again');
         Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
           extra: {
             statusText: req.statusText
@@ -222,6 +224,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
             errorMessage: 'Upload aborted'
           }, getState().form.data))
         );
+        if (errorCallback) errorCallback('Upload aborted');
         Raven.captureMessage('vets_upload_error: Upload aborted');
         reject();
       });

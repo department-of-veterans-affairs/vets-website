@@ -106,19 +106,22 @@ export default class PhotoField extends React.Component {
       this.setCropBox();
     }
   }
+  onError = (error) => {
+    this.setState({ errorMessage: error });
+  }
 
   onEdit = () => {
     this.setState({ progress: 0, warningMessage: null });
   }
 
   onDone = () => {
-    const filePath = 'data.photo';
+    const filePath = this.props.idSchema.$id.split('_').slice(1);
     this.props.formContext.uploadFile(
       this.state.cropResult.file,
       filePath,
       this.props.uiSchema['ui:options'],
       this.updateProgress,
-      false
+      this.onError
     ).catch(() => {
       // rather not use the promise here, but seems better than trying to pass
       // a blur function
@@ -274,7 +277,7 @@ export default class PhotoField extends React.Component {
   render() {
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = this.state.progress === 100;
+    const isDone = this.state.progress === 100 && !this.state.errorMessage;
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
     if (smallScreen) {

@@ -15,7 +15,7 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
-import { validateMatch } from '../../common/schemaform/validation';
+import { validateFile, validateMatch } from '../../common/schemaform/validation';
 
 const {
   veteranDateOfBirth,
@@ -23,8 +23,8 @@ const {
   veteranFullName,
   email,
   serviceBranch,
-  dd214,
-  photo
+  dd214
+  // photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -183,14 +183,30 @@ const formConfig = {
                 'bmp'
               ]
             }), {
-              'ui:field': PhotoField
+              'ui:field': PhotoField,
+              'ui:validations': [
+                validateFile
+              ]
             })
           },
           schema: {
             type: 'object',
             required: ['photo'],
             properties: {
-              photo
+              photo: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string'
+                  },
+                  size: {
+                    type: 'integer'
+                  },
+                  confirmationCode: {
+                    type: 'string'
+                  }
+                }
+              }
             }
           }
         },
