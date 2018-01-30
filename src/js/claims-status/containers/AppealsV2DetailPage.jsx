@@ -1,10 +1,12 @@
 import React from 'react';
-import Issues from './AppealsV2Issues';
+import Issues from '../components/appeals-v2/Issues';
+import { categorizeIssues } from '../utils/appeals-v2-helpers';
 
-const AppealsV2DetailPage = () => {
+const AppealsV2DetailPage = ({ appeal }) => {
+  const issues = categorizeIssues(appeal.attributes.issues);
   return (
     <div>
-      <Issues/>
+      <Issues issues={issues}/>
     </div>
   );
 };
