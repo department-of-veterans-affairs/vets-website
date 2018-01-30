@@ -224,7 +224,7 @@ class FormQuestions extends React.Component {
       { label: 'Navy', value: 'navy' },
       { label: 'Air Force', value: 'airForce' },
       { label: 'Coast Guard', value: 'coastGuard' },
-      { label: 'Marines', value: 'marines' },
+      { label: 'Marine Corps', value: 'marines' },
     ];
 
     return this.renderQuestion(key, label, options);
