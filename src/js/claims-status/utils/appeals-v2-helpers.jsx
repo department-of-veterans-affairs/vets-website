@@ -29,6 +29,15 @@ export const STATUS_TYPES = {
   otherClose: 'other_close',
 };
 
+export const ISSUE_STATUS = {
+  fieldGrant: 'field_grant',
+  withdrawn: 'withdrawn',
+  allowed: 'allowed',
+  denied: 'denied',
+  remand: 'remand',
+  cavcRemand: 'cavc_remand',
+};
+
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
   scheduledHearing: 'scheduled_hearing',
@@ -42,6 +51,55 @@ export const ALERT_TYPES = {
   scheduledDroHearing: 'scheduled_dro_hearing',
   droHearingNoShow: 'dro_hearing_no_show',
 };
+
+/**
+ * Takes an array of appeals and returns another array of issue descriptions
+ * and where in the appeal lifecycle each issue is (open, remand, granted, denied)
+ * @typedef {Object} issue an individual issue - many issues can be a part of a single appeal
+ * @property {bool} active indicates whether an appeal is open or closed
+ * @property {string} description more info about the specific injury in the issue
+ * @property {string} diagnosticCode a codified version of the description
+ * @property {('field_grant'|'withdrawn'|'allowed'|'denied'|'remand'|'cavc_remand')} lastAction
+ * @property {string} date TO-DO: unsure of what this date siginifies
+ * ------------------------------------------------------------------------------------------------
+ * @typedef {Object} segmentedIssue issue with descriptor and status information
+ * @property {('granted'|'remand'|'allowed'|'denied')} status lifecycle stage of an issue
+ * @property {string} description pass-through for the description info of passed in issue object
+ * ------------------------------------------------------------------------------------------------
+ * @param {issue[]} issues all the individual issues that are attached to an appeal
+ * @returns {segmentedIssue[]} an array of issue objects with stuses and descriptions
+ */
+export function categorizeIssues(issues) {
+  return issues.map((issue) => {
+    let status = '';
+    switch (issue.lastAction) {
+      case ISSUE_STATUS.fieldGrant:
+        status = 'granted';
+        break;
+      case ISSUE_STATUS.withdrawn:
+        status = 'denied';
+        break;
+      case ISSUE_STATUS.allowed:
+        status = 'allowed';
+        break;
+      case ISSUE_STATUS.denied:
+        status = 'denied';
+        break;
+      case ISSUE_STATUS.remand:
+        status = 'remand';
+        break;
+      case ISSUE_STATUS.cavcRemand:
+        status = 'remand';
+        break;
+      default:
+        // if an issue's lastAction isn't one of the above, it's null,
+        // which signifies that it's still open
+        status = 'open';
+        break;
+    }
+    return { status, description: issue.description };
+  });
+}
 
 /**
  * Finds an appeal from the Redux store with ID matching arg ID
