@@ -5,7 +5,7 @@ import Issues from '../../../../src/js/claims-status/components/appeals-v2/Issue
 import { categorizeIssues } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 import { mockData } from '../../../../src/js/claims-status/utils/helpers';
 
-describe.only('<Issues/>', () => {
+describe('<Issues/>', () => {
   const emptyIssues = { issues: categorizeIssues(mockData.data[0].attributes.issues) };
   const oneIssues = { issues: categorizeIssues(mockData.data[1].attributes.issues) };
   const manyIssues = { issues: categorizeIssues(mockData.data[2].attributes.issues) };
