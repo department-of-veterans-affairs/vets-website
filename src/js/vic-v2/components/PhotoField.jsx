@@ -36,6 +36,7 @@ const MIN_RATIO = 0.2;
 const MAX_RATIO = 1.7;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
+const MAX_DIMENSION = 1024;
 
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
@@ -45,11 +46,17 @@ function isValidFileType(fileName) {
   return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
 }
 
+// data urls start with data:image/jpg; and we need to pull out the
+// image/jpg part so canvas doesn't change the file type
 function getMimeType(dataUrl) {
+  // limit to 2 so we don't try to split a giant data url string
   const prefix = dataUrl.split(';', 2)[0];
   return prefix.replace('data:', '');
 }
 
+// If any of the image dimensions are greater than the max specified, 
+// resize it down to that dimension while keeping the aspect ratio
+// intact
 function resizeToMaxDimension(img, mimeType, maxDimension) {
   const oc = document.createElement('canvas');
   const octx = oc.getContext('2d');
@@ -73,7 +80,6 @@ function resizeToMaxDimension(img, mimeType, maxDimension) {
   }
 
   return img.src;
-
 }
 
 function isValidImageSize(img) {
@@ -166,7 +172,7 @@ export default class PhotoField extends React.Component {
                 });
               } else {
                 this.setState({
-                  src: resizeToMaxDimension(img, getMimeType(reader.result), 1024),
+                  src: resizeToMaxDimension(img, getMimeType(reader.result), MAX_DIMENSION),
                   done: false,
                   cropResult: null,
                   errorMessage: null
@@ -178,7 +184,7 @@ export default class PhotoField extends React.Component {
                 src: null,
                 done: false,
                 cropResult: null,
-                errorMessage: 'Sorry, we weren\'t able to load the image you selected'
+                errorMessage: 'Sorry, we weren’t able to load the image you selected'
               });
             });
         };
