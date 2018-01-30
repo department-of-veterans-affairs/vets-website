@@ -24,6 +24,7 @@ import {
   getAlertContent,
   getStatusContents,
   getNextEvents,
+  categorizeIssues,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -554,6 +555,21 @@ describe('Disability benefits helpers: ', () => {
       expect(alertContent.description).to.exist;
       expect(alertContent.displayType).to.exist;
       expect(alertContent.type).to.exist;
+    });
+  });
+
+  describe('categorizeIssues', () => {
+    it('returns an array of same length as input array', () => {
+      const { issues } = mockData.data[1].attributes;
+      const formattedIssues = categorizeIssues(issues);
+      expect(formattedIssues.length).to.equal(issues.length);
+    });
+
+    it('returns an array of objects with status and description', () => {
+      const { issues } = mockData.data[1].attributes;
+      const formattedIssues = categorizeIssues(issues);
+      expect(formattedIssues[0].status).to.exist;
+      expect(formattedIssues[0].description).to.exist;
     });
   });
 });
