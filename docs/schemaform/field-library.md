@@ -16,7 +16,7 @@ RadioWidget |
 CheckboxWidget | type: boolean
 yesNo |
 
-There are more widgets that just these, but we normally use definitions they're included in, rather than just the field. These are the ones you're likely to have to set at some point in a config file.
+There are more widgets than just these, but we normally use definitions they're included in, rather than just the field. These are the ones you're likely to have to set at some point in a config file.
 
 ## Definitions
 
