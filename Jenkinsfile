@@ -82,7 +82,10 @@ node('vetsgov-general-purpose') {
       def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
       dockerImage = docker.build("vets-website:${imageTag}")
-      args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
+      args = "-v ${pwd()}:/application"
+      dockerImage.inside(args) {
+        sh "cd /application && yarn install --production=false"
+      }
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
       throw error
