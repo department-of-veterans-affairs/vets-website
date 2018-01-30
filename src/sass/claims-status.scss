@@ -1055,6 +1055,10 @@ $marker-text-width: 9rem;
 .issues-container {
   margin-bottom: 2em;
 
+  &>h2 {
+    margin-top: 0;
+  }
+
   .usa-accordion-button {
     font-size: 2rem; // match standard h3
   }
