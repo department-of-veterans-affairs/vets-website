@@ -79,9 +79,9 @@ describe('VRE chapter 36 veteran information', () => {
     fillData(form, 'select#root_veteranDateOfBirthDay', '3');
     fillData(form, 'input#root_veteranDateOfBirthYear', '1950');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '424242424');
-    fillData(form, '[id="root_view:veteranDateOfDeathMIAPOW_veteranDateOfDeathMIAPOWMonth"]', '1');
-    fillData(form, '[id="root_view:veteranDateOfDeathMIAPOW_veteranDateOfDeathMIAPOWDay"]', '3');
-    fillData(form, '[id="root_view:veteranDateOfDeathMIAPOW_veteranDateOfDeathMIAPOWYear"]', '1950');
+    fillData(form, 'select#root_veteranDateOfDeathMIAPOWMonth', '1');
+    fillData(form, 'select#root_veteranDateOfDeathMIAPOWDay', '3');
+    fillData(form, 'input#root_veteranDateOfDeathMIAPOWYear', '1950');
 
     form.find('form').simulate('submit');
 

@@ -169,12 +169,14 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            'view:veteranDateOfDeathMIAPOW': {
-              'ui:options': {
-                hideIf: (formData) => formData['view:isVeteran'] === true,
-              },
-              veteranDateOfDeathMIAPOW: currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW')
-            }
+            veteranDateOfDeathMIAPOW: _.merge(
+              currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW'),
+              {
+                'ui:options': {
+                  hideIf: (formData) => formData['view:isVeteran'] === true,
+                }
+              }
+            )
           },
           schema: {
             type: 'object',
@@ -184,12 +186,7 @@ const formConfig = {
               veteranDateOfBirth,
               veteranSocialSecurityNumber,
               veteranVaFileNumber,
-              'view:veteranDateOfDeathMIAPOW': {
-                type: 'object',
-                properties: {
-                  veteranDateOfDeathMIAPOW
-                }
-              }
+              veteranDateOfDeathMIAPOW
             }
           }
         }
