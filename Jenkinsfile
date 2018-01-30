@@ -107,7 +107,7 @@ node('vetsgov-general-purpose') {
 
   stage('pre-build (lint, security, unit)') {
     try {
-      parallel {
+      parallel (
         dockerImage.inside(args) {
           sh "cd /application && npm --no-color run test:coverage"
           sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
@@ -121,7 +121,7 @@ node('vetsgov-general-purpose') {
         dockerImage.inside(args) {
           sh "cd /application && nsp check"
         }
-      }
+      )
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in pre-build stage!", 'danger')
       throw error
