@@ -108,18 +108,24 @@ node('vetsgov-general-purpose') {
   stage('pre-build (lint, security, unit)') {
     try {
       parallel (
-        dockerImage.inside(args) {
-          sh "cd /application && npm --no-color run test:coverage"
-          sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+        coverage: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+          }
         }
 
-        dockerImage.inside(args) {
-          sh "cd /application && npm --no-color run lint"
+        lint: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run lint"
+          }
         }
 
         // Check package.json for known vulnerabilities
-        dockerImage.inside(args) {
-          sh "cd /application && nsp check"
+        security: {
+          dockerImage.inside(args) {
+            sh "cd /application && nsp check"
+          }
         }
       )
     } catch (error) {
