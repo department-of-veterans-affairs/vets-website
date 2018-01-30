@@ -105,27 +105,25 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  // Check source for syntax issues
-
-  stage('Lint') {
+  stage('pre-build (lint, security, unit)') {
     try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run lint"
+      parallel {
+        dockerImage.inside(args) {
+          sh "cd /application && npm --no-color run test:coverage"
+          sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+        }
+
+        dockerImage.inside(args) {
+          sh "cd /application && npm --no-color run lint"
+        }
+
+        // Check package.json for known vulnerabilities
+        dockerImage.inside(args) {
+          sh "cd /application && nsp check"
+        }
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint stage!", 'danger')
-      throw error
-    }
-  }
-
-  stage('Unit') {
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run test:coverage"
-        sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
-      }
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in unit stage!", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in pre-build stage!", 'danger')
       throw error
     }
   }
