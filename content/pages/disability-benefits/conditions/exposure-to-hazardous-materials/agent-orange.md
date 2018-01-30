@@ -40,7 +40,7 @@ The U.S. military used Agent Orange to clear plants and trees during the Vietnam
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if:
+You may be able to get disability benefits if both of the following are true for you:
 
 - You have an illness believed to be caused by Agent Orange, **and**
 - You came into contact with Agent Orange while serving in the military
