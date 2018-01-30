@@ -66,9 +66,7 @@ Write tests as you go! New functionality added in a PR should ideally be covered
 6. Mocks, spies, stubs
 - **sinon**: test spies, stubs, and mocks
 
-7. Code coverage reports
-
-8. Browser environment
+7. Browser environment
 - **chromedriver**: a server that links the browser (Chrome) to the test driver (Selenium), enabling you to execute actions in the browser through a test
 - **electron-prebuilt**: provides a headless browser to run nightwatch tests on, supposedly faster than using Chrome
 - **jsdom**: JS headless browser that creates a realistic testing environment with a DOM to which elements can be mounted
@@ -76,7 +74,7 @@ Write tests as you go! New functionality added in a PR should ideally be covered
 - **saucelabs**: automated cross-browser testing, allows you to run tests on a server
 - **selenium-server**: automates browsers
 
-9. Linting
+8. Linting
 - **eslint**: for linting purposes
 - **eslint-config-airbnb**: Airbnb's lint rules
 - **eslint-plugin-jsx-a11y**: catches potential accessibility issues
@@ -85,14 +83,14 @@ Write tests as you go! New functionality added in a PR should ideally be covered
 - **eslint-plugin-scanjs-rules**: static analysis of JS code
 - **sass-lint**: linter for sass and scss
 
-10. Visual regression testing
+9. Visual regression testing
 - **nightwatch**: Node.js framework for e2e tests that runs on a selenium server
 - **resemble**: Image analysis
 
-11. Accessibility testing
+10. Accessibility testing
 - **axe-core**: automated accessibility testing
 
-12. Original libraries
+11. Original libraries
 - **jsonschema**: JSON Schema specification
 - **react**: JS front-end framework
 - **react-jsonschema-form**: react-jsonschema-form library
@@ -126,3 +124,9 @@ One benefit of Saucelabs is that it can be used to test on specific browsers to 
 We use both manual tests (VoiceOver, typically) and automated tests (using aXe).
 
 NVDA another option for manual testing and is supposed to be a better tool than VoiceOver, but it is only available on Windows. It would be a huge lift to get NVDA set up using Browserstack or some other virtual environment.
+
+5. How do you measure code coverage?
+
+It is possible to measure code coverage by running the command line script `npm run test:coverage`.
+
+We are planning to turn off code climate, which is currently run before merging to master during the PR review stage. However, it might be useful to replace it with something like coveralls in order to more consistently measure our code coverage with each addition of code.
