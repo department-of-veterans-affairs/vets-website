@@ -28,7 +28,7 @@ const Issues = ({ issues }) => {
   if (remandListItems.length) {
     remandSection = (
       <div>
-        <h4>Remand</h4>
+        <h5>Remand</h5>
         <ul>{remandListItems}</ul>
       </div>
     );
@@ -38,7 +38,8 @@ const Issues = ({ issues }) => {
   if (grantedListItems.length) {
     grantedSection = (
       <div>
-        <h4>Granted</h4>
+        {/* USWDS $color-green */}
+        <h5 style={{ color: '#2e8540' }}>Granted</h5>
         <ul>{grantedListItems}</ul>
       </div>
     );
@@ -48,7 +49,8 @@ const Issues = ({ issues }) => {
   if (deniedListItems.length) {
     deniedSection = (
       <div>
-        <h4>Denied</h4>
+        {/* USWDS $color-secondary (red) */}
+        <h5 style={{ color: '#e31c3d' }}>Denied</h5>
         <ul>{deniedListItems}</ul>
       </div>
     );
@@ -75,7 +77,7 @@ const Issues = ({ issues }) => {
   }
 
   return (
-    <div>
+    <div className="issues-container">
       <h2>Issues</h2>
       {activeItems}
       {closedItems}
@@ -90,7 +92,7 @@ Issues.propTypes = {
         PropTypes.shape({
           active: PropTypes.bool.isRequired,
           description: PropTypes.string.isRequired,
-          lastAction: PropTypes.isRequired
+          lastAction: PropTypes.string
         }),
       ),
     }),
