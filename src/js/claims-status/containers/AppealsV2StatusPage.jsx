@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getStatusContents, getNextEvents } from '../utils/appeals-v2-helpers';
+import { getStatusContents, getNextEvents, CLOSED_STATUSES } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
@@ -16,17 +16,24 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { events, alerts, status, docket } = appeal.attributes;
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
+
+  // Gates the What's Next and Docket chunks
+  const appealIsClosed = CLOSED_STATUSES.includes(type);
+
   // NB: 'details' doesn't do anything in getNextEvents for the time being
   const nextEvents = getNextEvents(type, details);
+
   return (
     <div>
       <Timeline events={events}/>
       <CurrentStatus
         title={currentStatus.title}
-        description={currentStatus.description}/>
+        description={currentStatus.description}
+        isClosed={appealIsClosed}/>
       <AlertsList alerts={alerts}/>
-      <WhatsNext nextEvents={nextEvents}/>
-      <Docket {...docket}/>
+      {!appealIsClosed && <WhatsNext nextEvents={nextEvents}/>}
+      {!appealIsClosed && <Docket {...docket}/>}
+      {appealIsClosed && <div className="closed-appeal-notice">This appeal is now closed</div>}
     </div>
   );
 };
@@ -39,7 +46,12 @@ AppealsV2StatusPage.propTypes = {
       status: PropTypes.shape({
         type: PropTypes.string,
         details: PropTypes.object,
-      }).isRequired
+      }).isRequired,
+      docket: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        ahead: PropTypes.number.isRequired,
+        eta: PropTypes.string.isRequired
+      })
     }).isRequired,
   })
 };
