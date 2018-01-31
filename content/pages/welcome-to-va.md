@@ -42,8 +42,8 @@ Based on where you are in life, your VA benefits and services can support you in
 
 Feel free to share this guide with friends or family members who need help with their benefits too. Download your VA Welcome Kit and print out copies for yourself and others:
 
-[Download a black-and-white version](/WelcomeVA_Guide_print_version_final.pdf).
+[Download your VA Welcome Kit in black and white](/WelcomeVA_Guide_print_version_final.pdf).
 
-[Download a color version](/va_welcomekit_color.pdf).
+[Download your VA Welcome Kit in color](/va_welcomekit_color.pdf).
 
 </div>
