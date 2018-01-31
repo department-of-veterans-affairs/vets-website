@@ -82,8 +82,5 @@ describe('profile helpers:', () => {
     it('should push error into window if a form is missing title or link information', () => {
       expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
     });
-    it('should throw an error if a form is not included the list of sipEnabledForms', () => {
-      expect(() => isSIPEnabledForm({ form: '40-10007' })).to.throw('Could not find form');
-    });
   });
 });
