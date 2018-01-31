@@ -29,24 +29,6 @@ export function profileLoadingFinished() {
   };
 }
 
-export function removingSavedForm() {
-  return {
-    type: REMOVING_SAVED_FORM
-  };
-}
-
-export function removingSavedFormSuccess() {
-  return {
-    type: REMOVING_SAVED_FORM_SUCCESS
-  };
-}
-
-export function removingSavedFormFailure() {
-  return {
-    type: REMOVING_SAVED_FORM_FAILURE
-  };
-}
-
 export function fetchLatestTerms(termsName) {
   return dispatch => {
     dispatch({ type: FETCHING_LATEST_MHV_TERMS });
@@ -90,12 +72,12 @@ export function acceptTerms(termsName) {
 
 export function removeSavedForm(formId) {
   return dispatch => {
-    dispatch(removingSavedForm());
+    dispatch({ type: REMOVING_SAVED_FORM });
     return removeFormApi(formId)
       .then(() => {
-        dispatch(removingSavedFormSuccess());
+        dispatch({ type: REMOVING_SAVED_FORM_SUCCESS });
         getUserData(dispatch);
       })
-      .catch(() => dispatch(removingSavedFormFailure()));
+      .catch(() => dispatch({ type: REMOVING_SAVED_FORM_FAILURE }));
   };
 }
