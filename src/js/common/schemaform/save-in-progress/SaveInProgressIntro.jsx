@@ -120,7 +120,7 @@ export default class SaveInProgressIntro extends React.Component {
           formId={this.props.formId}
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
-          prefillTransform={this.props.prefillTransform}
+          prefillTransformer={this.props.prefillTransformer}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
