@@ -20,6 +20,7 @@ describe('<Timeline/>', () => {
         details: {}
       }
     ],
+    missingEvents: false
   };
 
   const formattedDateRange = 'May 30, 2016 - June 10, 2016';
@@ -97,17 +98,16 @@ describe('<Timeline/>', () => {
   it('should pass all required props to Expander', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
     const expanderProps = wrapper.find('Expander').props();
-    expect(expanderProps.title).to.equal('See past events');
+    expect(expanderProps.expanded).to.be.false;
+    expect(expanderProps.missingEvents).to.be.false;
     expect(expanderProps.dateRange).to.equal(formattedDateRange);
     expect(expanderProps.onToggle).to.equal(wrapper.instance().toggleExpanded);
-    expect(expanderProps.cssClass).to.equal('section-unexpanded');
   });
 
   it('should pass updated props to Expander when state toggled', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
     wrapper.setState({ expanded: true });
     const expanderProps = wrapper.find('Expander').props();
-    expect(expanderProps.title).to.equal('Hide past events');
-    expect(expanderProps.cssClass).to.equal('section-expanded');
+    expect(expanderProps.expanded).to.be.true;
   });
 });

@@ -1,5 +1,5 @@
 ---
-title: Apply for veteran id card
+title: Apply for a Veteran ID Card
 entryname: vic-v2
 layout: page-react.html
 ---

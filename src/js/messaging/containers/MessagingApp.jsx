@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import AlertBox from '../../common/components/AlertBox';
 import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
@@ -57,28 +58,30 @@ class MessagingApp extends React.Component {
         authRequired={3}
         serviceRequired="messaging"
         userProfile={this.props.profile}>
-        <RequiredTermsAcceptanceView
-          termsName="mhvac"
-          cancelPath="/health-care/"
-          termsNeeded={!this.props.profile.healthTermsCurrent}>
-          <AppContent>
-            <div id="messaging-app-header">
-              <AlertBox
-                headline={this.props.alert.headline}
-                content={this.props.alert.content}
-                isVisible={this.props.alert.visible}
-                onCloseAlert={this.props.closeAlert}
-                scrollOnShow
-                status={this.props.alert.status}/>
-              <div id="messaging-app-title">
-                <h1>Message your health care team</h1>
-                <ButtonSettings/>
+        <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
+          <RequiredTermsAcceptanceView
+            termsName="mhvac"
+            cancelPath="/health-care/"
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
+            <AppContent>
+              <div id="messaging-app-header">
+                <AlertBox
+                  headline={this.props.alert.headline}
+                  content={this.props.alert.content}
+                  isVisible={this.props.alert.visible}
+                  onCloseAlert={this.props.closeAlert}
+                  scrollOnShow
+                  status={this.props.alert.status}/>
+                <div id="messaging-app-title">
+                  <h1>Message your health care team</h1>
+                  <ButtonSettings/>
+                </div>
+                {this.renderWarningBanner()}
               </div>
-              {this.renderWarningBanner()}
-            </div>
-            {this.props.children}
-          </AppContent>
-        </RequiredTermsAcceptanceView>
+              {this.props.children}
+            </AppContent>
+          </RequiredTermsAcceptanceView>
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }

@@ -37,11 +37,11 @@ describe('<AppealsV2StatusPage/>', () => {
     expect(statusProps.description).to.exist;
   });
 
-  it('should render an <Alerts/> with alerts', () => {
+  it('should render an <AlertsList/> with alerts', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps}/>);
-    const alerts = wrapper.find('Alerts');
-    const alertsProps = alerts.props();
-    expect(alerts.length).to.equal(1);
+    const alertsList = wrapper.find('AlertsList');
+    const alertsProps = alertsList.props();
+    expect(alertsList.length).to.equal(1);
     expect(alertsProps.alerts.length).to.equal(defaultProps.appeal.attributes.alerts.length);
   });
 

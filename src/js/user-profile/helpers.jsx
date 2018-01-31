@@ -63,7 +63,8 @@ export const sipEnabledForms = new Set([
   '22-1990N',
   '22-1995',
   '22-5490',
-  '22-5495'
+  '22-5495',
+  '40-10007'
 ]);
 
 export function isSIPEnabledForm(savedForm) {

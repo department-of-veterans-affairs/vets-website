@@ -254,7 +254,7 @@ export const mockData = {
       attributes: {
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
-        incompleteHistory: false,
+        incompleteHistory: true,
         aoj: 'vba',
         programArea: 'compensation',
         description: 'Service connection for tinnitus, hearing loss, and two more',
@@ -284,11 +284,21 @@ export const mockData = {
         ],
         alerts: [
           {
-            type: 'form9_due',
+            type: 'form9_needed',
             details: {
               date: '2018-01-28'
             }
-          }
+          },
+          {
+            type: 'ramp_eligible',
+            details: {
+              date: '2016-05-30'
+            },
+          },
+          {
+            type: 'decision_soon',
+            details: {},
+          },
         ],
         events: [
           {
@@ -411,7 +421,7 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'remand',
+          type: 'bva_decision',
           details: {
             regionalOffice: 'Chicago Regional Office',
             decisionIssues: [
@@ -419,16 +429,29 @@ export const mockData = {
                 description: 'Heel, increased rating',
                 disposition: 'allowed',
                 date: '2016-05-30'
-              }, {
+              },
+              {
                 description: 'Knee, increased rating',
                 disposition: 'allowed',
                 date: '2016-05-30'
-              }, {
+              },
+              {
+                description: 'Tinnitus, increased rating',
+                disposition: 'denied',
+                date: '2016-05-30'
+              },
+              {
                 description: 'Leg, service connection',
                 disposition: 'denied',
                 date: '2016-05-30'
-              }, {
+              },
+              {
                 description: 'Diabetes, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Shoulder, service connection',
                 disposition: 'remand',
                 date: '2016-05-30'
               },

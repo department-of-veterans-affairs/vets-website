@@ -17,6 +17,13 @@ export const schema = {
   }
 };
 
+/*
+ * Create uiSchema for autosuggest
+ *
+ * @param {string} label - Label for the field
+ * @param {function} getOptions - Function that fetchs options to be shown and returns a promise
+ * @param {object} options - Any other options to override the uiSchema defaults with
+ */
 export function uiSchema(label, getOptions, options = {}) {
   return _.merge({
     'ui:title': label,

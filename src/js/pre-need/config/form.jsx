@@ -71,9 +71,13 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
+  version: 0,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for pre-need eligibility.',
+    noAuth: 'Please sign in again to resume your application for pre-need eligibility.'
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: true,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,

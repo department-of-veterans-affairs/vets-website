@@ -97,6 +97,14 @@ input[type=range] {
   }
 }
 
+.va-button-link {
+  &.disabled {
+    text-decoration: none;
+    color: $color-gray !important;
+  }
+}
+
+
 .fa {
   font-size: 1.07em !important;
 }
@@ -110,7 +118,7 @@ input[type=range] {
 }
 
 .cropper-container-outer {
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     padding: 10px 50px;
   }
 }
@@ -118,7 +126,7 @@ input[type=range] {
 .cropper-container {
   height: 240px !important;
   width: 100% !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: 300px !important;
     width: 100% !important;
   }
@@ -131,22 +139,10 @@ input[type=range] {
 .cropper-view-box:after {
   content: " ";
   position: absolute;
-  z-index: 2;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 1px;
-  border: 4px solid $color-black;
-}
-
-.cropper-view-box:before {
-  content: " ";
-  position: absolute;
-  z-index: 2;
   top: 4px;
   left: 4px;
   right: 4px;
-  bottom: 5px;
+  bottom: 4px;
   border: 4px solid $color-primary;
 }
 
@@ -155,7 +151,28 @@ input[type=range] {
 }
 
 .cropper-line {
-  background-color: transparent;
+  background-color: $color-black;
+  opacity: 1;
+}
+
+.cropper-line.line-n {
+  top: 0;
+  height: 4px;
+}
+
+.cropper-line.line-e {
+  right: 0;
+  width: 4px;
+}
+
+.cropper-line.line-s {
+  bottom: 0;
+  height: 4px;
+}
+
+.cropper-line.line-w {
+  left: 0;
+  width: 4px;
 }
 
 .cropper-bg {
@@ -172,7 +189,7 @@ input[type=range] {
 .cropper-control-column {
   display: flex;
   flex-direction: column;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     flex-direction: row;
   }
 }
@@ -204,7 +221,7 @@ input[type=range] {
 .cropper-zoom-slider {
   display: inline-block;
   width: 240px !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: unset;
     width: 340px !important;
     padding: 0 5px 5px 5px;
@@ -214,7 +231,7 @@ input[type=range] {
 .cropper-control.cropper-control-zoom {
   width: unset !important;
   padding: 0 10px !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     padding: 0px !important;
     width: 25% !important;
   }
@@ -224,7 +241,7 @@ input[type=range] {
       margin-right: 20px;
     }
     .cropper-control-label {
-      @media (min-width: $medium-screen) {
+      @media (min-width: $large-screen) {
         float: right;
       }
     }
@@ -237,14 +254,14 @@ input[type=range] {
 }
 
 .fa {
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     padding: 0 15px 0 5px !important;
   }
 }
 
 .fa-search-plus {
   font-size: 2em !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     font-size: 1.07em !important;
     padding: 0  5px !important;
     float: left;
@@ -253,7 +270,7 @@ input[type=range] {
 
 .fa-search-minus {
   font-size: 2em !important;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     font-size: 1.07em !important;
     padding: 0 4px 0 4px !important;
     float: right;
@@ -294,7 +311,7 @@ input[type=range] {
   height: 240px;
   width: 240px;
   margin: 0 auto 80px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;
   }
@@ -304,7 +321,7 @@ input[type=range] {
   position: absolute;
   height: 240px;
   width: 240px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;
   }
@@ -340,7 +357,7 @@ input[type=range] {
 
 .photo-preview {
   width: 240px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     width: 300px;
   }
 }
@@ -360,7 +377,14 @@ input[type=range] {
 .example-photo {
   width: 150px;
   margin: 5px;
-  @media (min-width: $medium-screen) {
+  @media (min-width: $large-screen) {
     margin: 10px;
   }
+}
+
+.photo-warning {
+  background: $color-gold-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
 }
