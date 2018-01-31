@@ -30,7 +30,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
 
   // Function called after data migrations are run, for prefilled data, to make updates
   // to the data or form schema before a user starts filling in a prefilled form
-  prefillTransform: (pages, formData, metadata ) => { pages, formData, metadata }
+  prefillTransformer: (pages, formData, metadata ) => { pages, formData, metadata }
 
   // Object containing the configuration for each chapter. Each property is the key for a chapter
   chapters: {

@@ -29,6 +29,17 @@ export const STATUS_TYPES = {
   otherClose: 'other_close',
 };
 
+export const CLOSED_STATUSES = [
+  STATUS_TYPES.bvaDecision,
+  STATUS_TYPES.fieldGrant,
+  STATUS_TYPES.withdrawn,
+  STATUS_TYPES.ftr,
+  STATUS_TYPES.ramp,
+  STATUS_TYPES.reconsideration,
+  STATUS_TYPES.death,
+  STATUS_TYPES.otherClose
+];
+
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
   scheduledHearing: 'scheduled_hearing',

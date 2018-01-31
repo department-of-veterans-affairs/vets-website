@@ -418,8 +418,8 @@ describe('Schemaform save / load actions:', () => {
         });
       });
       it('calls prefill transform when response is prefilled', () => {
-        const prefillTransform = sinon.spy();
-        const thunk = fetchInProgressForm('1010ez', {}, true, prefillTransform);
+        const prefillTransformer = sinon.spy();
+        const thunk = fetchInProgressForm('1010ez', {}, true, prefillTransformer);
         const dispatch = sinon.spy();
         global.fetch.returns(Promise.resolve({
           ok: true,
@@ -432,7 +432,7 @@ describe('Schemaform save / load actions:', () => {
         }));
 
         return thunk(dispatch, getState).then(() => {
-          expect(prefillTransform.called).to.be.true;
+          expect(prefillTransformer.called).to.be.true;
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
         });
       });

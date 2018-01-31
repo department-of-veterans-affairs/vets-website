@@ -195,7 +195,7 @@ export function saveAndRedirectToReturnUrl(...args) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransform = null) {
+export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null) {
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
@@ -257,8 +257,8 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
         let pages = getState().form.pages;
-        if (metadata.prefill && prefillTransform) {
-          ({ formData, pages, metadata } = prefillTransform(pages, formData, metadata));
+        if (metadata.prefill && prefillTransformer) {
+          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata));
         }
 
         dispatch(setInProgressForm({ formData, metadata }, pages));
