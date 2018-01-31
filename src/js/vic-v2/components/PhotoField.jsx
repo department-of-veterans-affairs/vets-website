@@ -46,14 +46,6 @@ function isValidFileType(fileName) {
   return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
 }
 
-// data urls start with data:image/jpg; and we need to pull out the
-// image/jpg part so canvas doesn't change the file type
-function getMimeType(dataUrl) {
-  // limit to 2 so we don't try to split a giant data url string
-  const prefix = dataUrl.split(';', 2)[0];
-  return prefix.replace('data:', '');
-}
-
 // If any of the image dimensions are greater than the max specified, 
 // resize it down to that dimension while keeping the aspect ratio
 // intact
@@ -139,7 +131,7 @@ export default class PhotoField extends React.Component {
   }
 
   onDone = () => {
-    const cropResult = this.refs.cropper.getCroppedCanvas().toDataURL();
+    const cropResult = this.refs.cropper.getCroppedCanvas().toDataURL(this.state.fileType);
     this.setState({ cropResult, done: true, warningMessage: null });
   }
 
@@ -153,6 +145,7 @@ export default class PhotoField extends React.Component {
       if (!isValidFileType(file.name)) {
         this.setState({
           src: null,
+          fileType: null,
           done: false,
           cropResult: null,
           errorMessage: 'Please choose a file from one of the accepted types.'
@@ -166,13 +159,15 @@ export default class PhotoField extends React.Component {
               if (!isValidImageSize(img)) {
                 this.setState({
                   src: null,
+                  fileType: null,
                   done: false,
                   cropResult: null,
                   errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
                 });
               } else {
                 this.setState({
-                  src: resizeToMaxDimension(img, getMimeType(reader.result), MAX_DIMENSION),
+                  src: resizeToMaxDimension(img, file.type, MAX_DIMENSION),
+                  fileType: file.type,
                   done: false,
                   cropResult: null,
                   errorMessage: null
@@ -182,6 +177,7 @@ export default class PhotoField extends React.Component {
             .catch(() => {
               this.setState({
                 src: null,
+                fileType: null,
                 done: false,
                 cropResult: null,
                 errorMessage: 'Sorry, we weren’t able to load the image you selected'
