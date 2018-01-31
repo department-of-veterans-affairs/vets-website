@@ -44,6 +44,6 @@ Feel free to share this guide with friends or family members who need help with 
 
 [Download and print out your black-and-white VA Welcome Kit](/WelcomeVA_Guide_print_version_final.pdf).
 
-[Download and print out your color VA Welcome Kit](/va_welcomekit_dec2017_noletter.pdf).
+[Download and print out your color VA Welcome Kit](/va_welcomekit_color.pdf).
 
 </div>
