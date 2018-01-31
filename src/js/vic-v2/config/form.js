@@ -193,7 +193,30 @@ const formConfig = {
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
-              endpoint: '/v0/vic/vic_attachments'
+              endpoint: '/v0/vic/supporting_documentation_attachments',
+              fileTypes: [
+                'pdf',
+                'png',
+                'tiff',
+                'tif',
+                'jpeg',
+                'jpg',
+                'bmp'
+              ],
+              maxSize: 15728640,
+              hideLabelText: true,
+              createPayload: (file) => {
+                const payload = new FormData();
+                payload.append('supporting_documentation_attachment[file_data]', file);
+
+                return payload;
+              },
+              parseResponse: (response, file) => {
+                return {
+                  name: file.name,
+                  confirmationCode: response.data.attributes.guid
+                };
+              }
             })
           },
           schema: {
