@@ -48,4 +48,4 @@ You’ll need to apply for benefits. When you apply, you’ll have to show that 
 Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship allows us to conclude that you had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
 ### Need help?
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+Want to connect with a trained professional who can help you with VA-related claims? [Get help filing your claim](/disability-benefits/apply/help/).

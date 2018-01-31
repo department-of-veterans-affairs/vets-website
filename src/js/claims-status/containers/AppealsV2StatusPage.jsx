@@ -16,10 +16,12 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { events, alerts, status, docket } = appeal.attributes;
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
-  const nextEvents = getNextEvents(type);
 
   // Gates the What's Next and Docket chunks
   const appealIsClosed = CLOSED_STATUSES.includes(type);
+
+  // NB: 'details' doesn't do anything in getNextEvents for the time being
+  const nextEvents = getNextEvents(type, details);
 
   return (
     <div>
