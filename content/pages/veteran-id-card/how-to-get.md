@@ -31,7 +31,7 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">What can I use my Veteran ID Card for, and what can I not use it for?</button>
-<div id="replace" class="usa-accordion-content">
+<div id="instead" class="usa-accordion-content">
 
 You can use your Veteran ID Card to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. 
 
@@ -43,10 +43,9 @@ You can use your Veteran ID Card to get discounts offered to Veterans at many re
 
 </div>
 </li>
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">Will my Veteran ID Card replace my other military ID cards?</button>
-<div id="replace" class="usa-accordion-content">
+<div id="instead" class="usa-accordion-content">
 
 No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
 
@@ -107,10 +106,10 @@ When you sign in to Vets.gov, we need to verify your identity to make sure you�
 
 We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.
 
-<a class="usa-button-primary va-button-primary" href="/veteran-id-card/index/">Apply for Your VIC</a>
-
 If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
 [Learn more about signing in to Vets.gov](/faq/).
+
+<a class="usa-button-primary va-button-primary" href="/veteran-id-card/index/">Apply for Your VIC</a>
 
 <br>
 
