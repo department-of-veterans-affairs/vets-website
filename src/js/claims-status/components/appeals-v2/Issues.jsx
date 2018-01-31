@@ -86,17 +86,12 @@ const Issues = ({ issues }) => {
 };
 
 Issues.propTypes = {
-  appeal: PropTypes.shape({
-    attributes: PropTypes.shape({
-      issues: PropTypes.arrayOf(
-        PropTypes.shape({
-          active: PropTypes.bool.isRequired,
-          description: PropTypes.string.isRequired,
-          lastAction: PropTypes.string
-        }),
-      ),
+  issues: PropTypes.arrayOf(
+    PropTypes.shape({
+      status: PropTypes.oneOf(['open', 'remand', 'granted', 'denied']).isRequired,
+      description: PropTypes.string.isRequired,
     }),
-  }),
+  ).isRequired,
 };
 
 export default Issues;
