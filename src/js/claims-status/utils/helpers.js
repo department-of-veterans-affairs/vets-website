@@ -312,8 +312,13 @@ export const mockData = {
             details: {}
           },
           {
-            type: 'soc',
+            type: 'form9',
             date: '2016-09-12',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2016-12-15',
             details: {}
           }
         ],

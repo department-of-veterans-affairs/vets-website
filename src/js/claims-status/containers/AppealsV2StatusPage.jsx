@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getStatusContents, getNextEvents, CLOSED_STATUSES } from '../utils/appeals-v2-helpers';
+import { getStatusContents, getNextEvents, EVENT_TYPES, CLOSED_STATUSES } from '../utils/appeals-v2-helpers';
 
 import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
@@ -17,11 +17,18 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
 
-  // Gates the What's Next and Docket chunks
-  const appealIsClosed = CLOSED_STATUSES.includes(type);
-
   // NB: 'details' doesn't do anything in getNextEvents for the time being
   const nextEvents = getNextEvents(type, details);
+
+  // TODO: This will change. We'll be getting the date from the docket object in the api.
+  const form9Event = events.find(e => e.type === EVENT_TYPES.form9, null);
+
+  // Presumably we just won't even show the docket without this event, but that needs to be
+  //  verified first. For now, we'll just make sure form9 event exists first.
+  const form9Date = form9Event && form9Event.date;
+
+  // Gates the What's Next and Docket chunks
+  const appealIsClosed = CLOSED_STATUSES.includes(type);
 
   return (
     <div>
@@ -32,7 +39,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
         isClosed={appealIsClosed}/>
       <AlertsList alerts={alerts}/>
       {!appealIsClosed && <WhatsNext nextEvents={nextEvents}/>}
-      {!appealIsClosed && <Docket {...docket}/>}
+      {!appealIsClosed && <Docket {...docket} form9Date={form9Date}/>}
       {appealIsClosed && <div className="closed-appeal-notice">This appeal is now closed</div>}
     </div>
   );
