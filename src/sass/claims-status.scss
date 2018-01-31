@@ -549,6 +549,12 @@ h1:focus {
   }
 }
 
+.usa-alert {
+  // Remove icons from standard USWDS alert styles
+  background-image: none;
+  padding-left: 1em;
+}
+
 // Slimmed version of .claim-timeline with appeals-specific stuff
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
@@ -647,6 +653,10 @@ h1:focus {
 
   .appeal-event-date {
     color: $color-gray-medium;
+
+    & + .usa-alert {
+      margin-top: 1em;
+    }
   }
 
   & + .down-arrow {
@@ -724,6 +734,10 @@ h1:focus {
 
 .va-appeals-content {
   padding-top: 1em;
+
+  .usa-alert-text {
+    margin-top: 1em;
+  }
 }
 
 .appeals-tabs-item {
@@ -947,9 +961,6 @@ h1:focus {
       h4 {
         margin-top: 0;
       }
-      // Remove icons from standard USWDS alert styles
-      background-image: none;
-      padding-left: 1em;
 
       .usa-alert-text {
         margin-top: 1em;
