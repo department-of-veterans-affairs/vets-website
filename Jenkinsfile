@@ -116,7 +116,7 @@ node('vetsgov-general-purpose') {
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in pre-build stage!", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint|security|unit stage!", 'danger')
       throw error
     }
   }
