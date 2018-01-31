@@ -92,16 +92,9 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Coverage|Lint|Security') {
+  stage('Lint|Security|Unit') {
     try {
       parallel (
-        coverage: {
-          dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run test:coverage"
-            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
-          }
-        },
-
         lint: {
           dockerImage.inside(args) {
             sh "cd /application && npm --no-color run lint"
@@ -112,6 +105,13 @@ node('vetsgov-general-purpose') {
         security: {
           dockerImage.inside(args) {
             sh "cd /application && nsp check"
+          }
+        },
+
+        unit: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
           }
         }
       )
