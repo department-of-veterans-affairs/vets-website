@@ -15,6 +15,6 @@ function createSettings(options) {
       rateLimitUnauthed: 1
     }
   };
-}
+}  
 
 module.exports = createSettings;
