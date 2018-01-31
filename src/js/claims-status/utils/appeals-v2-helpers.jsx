@@ -426,7 +426,7 @@ export function getEventContent(event) {
   switch (event.type) {
     case EVENT_TYPES.claim:
       return {
-        title: 'VA sent the original claim decision to you',
+        title: 'VA made a decision you are appealing',
         description: '',
         liClass: 'section-complete'
       };
@@ -439,19 +439,20 @@ export function getEventContent(event) {
     case EVENT_TYPES.droHearing:
       return {
         // TODO: Verify property names these are correct
+        // TODO: Delete this whole case
         title: `Your ${event.details.type} hearing was held at ${event.details.location} with a Decision Review Officer`,
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
-        title: 'You received a Field Grant',
+        title: 'VA granted one or more issues',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
-        title: 'VA prepared a Statement of the Case (SOC)',
+        title: 'VA sent you a Statement of the Case',
         description: '',
         liClass: 'section-complete'
       };
@@ -463,24 +464,24 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.ssoc:
       return {
-        title: 'VA prepared a new Statement of the Case',
+        title: 'VA sent you a Supplemental Statement of the Case',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.certified:
       return {
-        title: 'The Board received your appeal',
+        title: 'Your appeal was transferred to the Board of Veterans’ Appeals',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        // TODO: Verify property names these are correct
-        title: `Your ${event.details.type} hearing was held ${event.details.regionalOffice}`,
+        title: 'You attended a hearing with a Veterans Law Judge',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingCancelled:
+      // TODO: Delete this whole case
       return {
         title: 'Your hearing was cancelled',
         description: '',
@@ -488,17 +489,18 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingNoShow:
       return {
-        title: 'You missed your hearing',
+        title: 'You missed your hearing with a Veterans Law Judge',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
-        title: 'The Board made a decision on your appeal',
+        title: 'Board of Veterans’ Appeals made a decision',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaRemand:
+      // TODO: Loop back around and figure out if this is getting pulled or replaced with `remand_return`
       return {
         title: 'BVA is collecting more evidence',
         description: '',
@@ -506,13 +508,13 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.withdrawn:
       return {
-        title: 'You withdrew your appeal ',
+        title: 'You withdrew your appeal',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
-        title: 'Your appeals have been merged',
+        title: 'Your appeals were merged',
         description: '',
         liClass: 'section-complete'
       };
@@ -523,6 +525,7 @@ export function getEventContent(event) {
         liClass: 'section-complete'
       };
     case EVENT_TYPES.recordDesignation:
+      // TODO: Delete this case entirely
       return {
         // TODO: Verify this property is correct
         title: `${event.details.name} submitted a motion to continue this appeal`,
@@ -531,7 +534,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.reconsideration:
       return {
-        title: 'The Board has denied your motion for reconsideration',
+        title: 'Your motion for reconsideration was denied',
         description: '',
         liClass: 'section-complete'
       };
