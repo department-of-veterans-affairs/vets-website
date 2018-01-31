@@ -16,9 +16,13 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const { events, alerts, status, docket, incompleteHistory } = appeal.attributes;
   const { type, details } = status;
   const currentStatus = getStatusContents(type, details);
+
   // NB: 'details' doesn't do anything in getNextEvents for the time being
   const nextEvents = getNextEvents(type, details);
+
+  // TODO: This will change. We'll be getting the date from the docket object in the api.
   const form9Event = events.find(e => e.type === EVENT_TYPES.form9, null);
+
   // Presumably we just won't even show the docket without this event, but that needs to be
   //  verified first. For now, we'll just make sure form9 event exists first.
   const form9Date = form9Event && form9Event.date;
