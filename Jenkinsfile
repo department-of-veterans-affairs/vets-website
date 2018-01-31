@@ -92,19 +92,6 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  // Check package.json for known vulnerabilities
-
-  stage('Security') {
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && nsp check"
-      }
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in security stage!", 'danger')
-      throw error
-    }
-  }
-
   stage('pre-build (lint, security, unit)') {
     try {
       parallel (
