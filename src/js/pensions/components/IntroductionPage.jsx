@@ -62,7 +62,7 @@ class IntroductionPage extends React.Component {
               <br/>
               <p><strong>You might quality for Aid and Attendance and Housebound benefits</strong></p>
               <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about Aid and Attendance and Housebound Benefits</a>.<br/><br/>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <h6>Learn about Veterans pension rates</h6>
               <a href="/pension/rates/" target="_blank">Find out how we decide pension rates.</a>
             </li>

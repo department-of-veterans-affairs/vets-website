@@ -520,14 +520,21 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('getNextEvents', () => {
-    it('returns an array of next event objects', () => {
-      const type = STATUS_TYPES.nod;
-      // 'nod' status has 2 nextEvents in the array
+    it('returns an object with a header property', () => {
+      const type = STATUS_TYPES.pendingCertificationSsoc;
       const nextEvents = getNextEvents(type);
-      expect(nextEvents.length).to.equal(2);
-      const firstEvent = nextEvents[0];
-      const secondEvent = nextEvents[1];
-      // each of the 2 'nod' nextEvents has 4 properties
+      expect(nextEvents.header).to.equal('What happens next depends on whether you send in new evidence.');
+    });
+
+    it('returns an object with an events array property', () => {
+      const type = STATUS_TYPES.remandSsoc;
+      // 'remandSsoc' status has 2 nextEvents in the array
+      const nextEvents = getNextEvents(type);
+      const { events } = nextEvents;
+      expect(events.length).to.equal(2);
+      const firstEvent = events[0];
+      const secondEvent = events[1];
+      // each of the 2 'remandSsoc' nextEvents has 4 properties
       expect(Object.keys(firstEvent).length).to.equal(4);
       expect(Object.keys(secondEvent).length).to.equal(4);
     });
