@@ -399,21 +399,17 @@ export function getStatusContents(statusType, details) {
 export const EVENT_TYPES = {
   claim: 'claim',
   nod: 'nod',
-  droHearing: 'dro_hearing',
   fieldGrant: 'field_grant',
   soc: 'soc',
   form9: 'form9',
   ssoc: 'ssoc',
   certified: 'certified',
   hearingHeld: 'hearing_held',
-  hearingCancelled: 'hearing_cancelled',
   hearingNoShow: 'hearing_no_show',
   bvaDecision: 'bva_decision',
-  bvaRemand: 'bva_remand',
   withdrawn: 'withdrawn',
   merged: 'merged',
   cavcDecision: 'cavc_decision',
-  recordDesignation: 'record_designation',
   reconsideration: 'reconsideration'
 };
 
@@ -433,14 +429,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.nod:
       return {
         title: 'VA received your Notice of Disagreement',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.droHearing:
-      return {
-        // TODO: Verify property names these are correct
-        // TODO: Delete this whole case
-        title: `Your ${event.details.type} hearing was held at ${event.details.location} with a Decision Review Officer`,
         description: '',
         liClass: 'section-complete'
       };
@@ -480,13 +468,6 @@ export function getEventContent(event) {
         description: '',
         liClass: 'section-complete'
       };
-    case EVENT_TYPES.hearingCancelled:
-      // TODO: Delete this whole case
-      return {
-        title: 'Your hearing was cancelled',
-        description: '',
-        liClass: 'section-complete'
-      };
     case EVENT_TYPES.hearingNoShow:
       return {
         title: 'You missed your hearing with a Veterans Law Judge',
@@ -496,13 +477,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.bvaDecision:
       return {
         title: 'Board of Veterans’ Appeals made a decision',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.bvaRemand:
-      // TODO: Loop back around and figure out if this is getting pulled or replaced with `remand_return`
-      return {
-        title: 'BVA is collecting more evidence',
         description: '',
         liClass: 'section-complete'
       };
@@ -521,14 +495,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'The Court of Appeals for Veterans Claims made a decision',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.recordDesignation:
-      // TODO: Delete this case entirely
-      return {
-        // TODO: Verify this property is correct
-        title: `${event.details.name} submitted a motion to continue this appeal`,
         description: '',
         liClass: 'section-complete'
       };
