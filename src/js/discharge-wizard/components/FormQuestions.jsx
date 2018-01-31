@@ -21,13 +21,35 @@ class FormQuestions extends React.Component {
   updateField(name, value) {
     this.props.updateField(name, value);
     this.forceUpdate();
+  }
+
+  scrollToLast = (action) => {
     setTimeout(() => {
-      scroller.scrollTo(this.props.formValues.questions.slice(-1)[0], window.VetsGov.scroll || {
+      const el = this.props.formValues.questions.slice(-1)[0];
+      scroller.scrollTo(el, window.VetsGov.scroll || {
         duration: 1000,
         smooth: true,
-        offset: -150,
       });
+
+      if (typeof action === 'function') {
+        action();
+      }
     }, 100);
+  }
+
+  handleKeyDown = (e) => {
+    // only scroll to next question if user tabs out of the current one
+    if (!e.shiftKey && e.keyCode === 9 && ['INPUT', 'SELECT'].includes(document.activeElement.tagName)) {
+      const next = this.props.formValues.questions.slice(-1)[0];
+      const curr = e.target.name;
+
+      if (next && curr && parseInt(next.charAt(0), 10) > parseInt(curr.charAt(0), 10)) {
+        const el = this.props.formValues.questions.slice(-1)[0];
+        this.scrollToLast(() => {
+          (this[el].querySelector('input') || this[el].querySelector('select')).focus();
+        });
+      }
+    }
   }
 
   handleScrollTo = (e) => {
@@ -38,6 +60,7 @@ class FormQuestions extends React.Component {
     scroller.scrollTo(e.target.name, window.VetsGov.scroll || {
       duration: 1000,
       smooth: true,
+      offset: -150,
     });
 
     (this[e.target.name].querySelector('input') || this[e.target.name].querySelector('select')).focus();
@@ -54,6 +77,8 @@ class FormQuestions extends React.Component {
           this.updateField(name, v.value);
         }
       },
+      onMouseDown: this.scrollToLast,
+      onKeyDown: this.handleKeyDown,
       value: {
         value: this.props.formValues[name],
       }
@@ -141,8 +166,9 @@ class FormQuestions extends React.Component {
           label={label}
           name={key}
           options={yearOptions}
+          onKeyDown={this.handleKeyDown}
           value={{ value: dischargeYear }}
-          onValueChange={(update) => { this.updateField(key, update.value); }}/>
+          onValueChange={(update) => { this.updateField(key, update.value); this.scrollToLast(); }}/>
       </fieldset>
     );
   }
@@ -164,9 +190,10 @@ class FormQuestions extends React.Component {
           autocomplete="false"
           label={monthLabel}
           name={key}
+          onKeyDown={this.handleKeyDown}
           options={months}
           value={{ value: this.props.formValues[key] }}
-          onValueChange={(update) => { this.updateField(key, update.value); }}/>
+          onValueChange={(update) => { this.updateField(key, update.value); this.scrollToLast(); }}/>
       </fieldset>
     );
   }
@@ -197,7 +224,7 @@ class FormQuestions extends React.Component {
       { label: 'Navy', value: 'navy' },
       { label: 'Air Force', value: 'airForce' },
       { label: 'Coast Guard', value: 'coastGuard' },
-      { label: 'Marines', value: 'marines' },
+      { label: 'Marine Corps', value: 'marines' },
     ];
 
     return this.renderQuestion(key, label, options);

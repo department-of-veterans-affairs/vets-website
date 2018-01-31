@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(
       .element('.claim-list-item-header')
       .text.to.equal('Disability Compensation Claim – Received September 23, 2008');
 
-    // Click to detail view 
+    // Click to detail view
     client
       .click('a.claim-list-item:first-child')
       .assert.urlContains('/your-claims/11/status');

@@ -75,10 +75,11 @@ export function setFetchFormPending(prefill) {
   };
 }
 
-export function setInProgressForm(data) {
+export function setInProgressForm(data, pages) {
   return {
     type: SET_IN_PROGRESS_FORM,
-    data
+    data,
+    pages
   };
 }
 
@@ -194,7 +195,7 @@ export function saveAndRedirectToReturnUrl(...args) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations, prefill = false) {
+export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null) {
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
@@ -255,7 +256,12 @@ export function fetchInProgressForm(formId, migrations, prefill = false) {
 
         ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-        dispatch(setInProgressForm({ formData, metadata }, prefill));
+        let pages = getState().form.pages;
+        if (metadata.prefill && prefillTransformer) {
+          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata));
+        }
+
+        dispatch(setInProgressForm({ formData, metadata }, pages));
 
         window.dataLayer.push({
           event: `${trackingPrefix}sip-form-loaded`

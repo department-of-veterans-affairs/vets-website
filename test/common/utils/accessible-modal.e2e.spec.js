@@ -44,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
       .keys(TAB)
       .assert.isActiveElement(closeControl);
 
-    // Escape modal 
+    // Escape modal
     client
       .keys(ESCAPE)
       .assert.cssClassNotPresent(overlay, 'va-overlay--open')

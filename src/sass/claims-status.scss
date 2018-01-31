@@ -5,6 +5,8 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
+$color-inactive: #9B9B9B;
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -547,6 +549,12 @@ h1:focus {
   }
 }
 
+.usa-alert {
+  // Remove icons from standard USWDS alert styles
+  background-image: none;
+  padding-left: 1em;
+}
+
 // Slimmed version of .claim-timeline with appeals-specific stuff
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
@@ -645,6 +653,10 @@ h1:focus {
 
   .appeal-event-date {
     color: $color-gray-medium;
+
+    & + .usa-alert {
+      margin-top: 1em;
+    }
   }
 
   & + .down-arrow {
@@ -663,10 +675,21 @@ h1:focus {
 }
 
 .current-status {
+  &.closed {
+    .current-status-content {
+      border-left-color: transparent;
+
+      &::before {
+        background-color: $color-inactive;
+        color: $color-inactive;
+      }
+    }
+  }
 
   h2 {
     margin-top: 1em;
   }
+  
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -711,6 +734,10 @@ h1:focus {
 
 .va-appeals-content {
   padding-top: 1em;
+
+  .usa-alert-text {
+    margin-top: 1em;
+  }
 }
 
 .appeals-tabs-item {
@@ -872,8 +899,8 @@ h1:focus {
 
   li.next-event {
     &:before { // styles the bullets to mimic bullets in Timeline
-      display: inline-block;
-      vertical-align: middle;
+      display: block;
+      float: left;
       width: 1em;
       height: 1em;
       content: "";
@@ -881,12 +908,15 @@ h1:focus {
       border-radius: 50%;
       background: $color-gray-medium;
       margin-left: -.6em;
+      position: relative;
+      top: .33em;
     }
 
     h3 {
+      clear: none;
       margin-left: 1.5em;
-      display: inline;
-      vertical-align: middle;
+      margin-top: 0;
+      display: block;
     }
 
     p {
@@ -914,21 +944,27 @@ h1:focus {
   }
 }
 
-.alerts-list {
-  list-style: none;
-
-  li {
-    margin-left: -.4em;
+.alerts-list-container {
+  h3 {
+    // left-align heading with alert box
+    padding-left: .85em;
   }
 
-  .usa-alert {
-    // Shift alert icon and text over so that triangle lines
-    // up with CurrentStatus's title & description content
-    background-position: 2.5rem 2.8rem;
-    padding-left: 2.5em;
+  .alerts-list {
+    list-style: none;
 
-    .usa-alert-text {
-      margin-top: 1em;
+    li {
+      margin-left: -.4em;
+    }
+
+    .usa-alert {
+      h4 {
+        margin-top: 0;
+      }
+
+      .usa-alert-text {
+        margin-top: 1em;
+      }
     }
   }
 }
@@ -941,10 +977,111 @@ h1:focus {
     &.denied-items {
       color: $color-red;
     }
-    &.remand-items {
-      color: $color-primary;
-    }
     font-weight: bold;
   }
 }
 
+
+$end-of-docket-width: 4px;
+$docket-bar-width: calc(100% - #{$end-of-docket-width});
+$marker-width: 3rem;
+$marker-text-width: 9rem;
+
+.docket-container {
+  // This is slightly darker than the cards above it
+  background-color: $color-gray-light-alt;
+  padding: 16px;
+  margin: 3em 0px;
+
+  p {
+    margin: 0px;
+  }
+
+  .appeals-ahead {
+    font-family: Source Sans Pro, sans serif;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $color-gray-light;
+    width: 80%;
+    max-width: 24rem;
+
+    & + p {
+      margin-top: 6px;
+    }
+  }
+
+  .marker-container {
+    // Same width as .docket-bar so we can more easily line the marker
+    //  up with .docket-bar .completed
+    width: $docket-bar-width;
+    margin-bottom: -16px;
+
+    .marker-text-spacer {
+      display: inline-block;
+      min-width: $marker-text-width / 2;
+      max-width: calc(100% - #{$marker-text-width} / 2);
+    }
+
+    .spacer {
+      display: inline-block;
+    }
+
+    .marker {
+      display: inline-block;
+      width: $marker-width;
+      margin: 0px $marker-width / -2;
+    }
+
+    span.marker-text {
+      font-weight: bold;
+      color: $color-primary;
+      width: $marker-text-width;
+      margin: 0px $marker-text-width / -2;
+    }
+  }
+
+  .docket-bar {
+    display: inline-block;
+    // 100% - width of .end-of-docket
+    width: $docket-bar-width;
+    height: 40px;
+    border: 1px solid $color-gray-light;
+    // abuts the .end-of-docket
+    border-right: 0px;
+    background-color: $color-white;
+
+    .completed {
+      background-color: $color-primary-darker;
+      height: 100%;
+    }
+  }
+
+  .end-of-docket {
+    display: inline-block;
+    background-color: $color-gold;
+    height: 64px;
+    width: $end-of-docket-width;
+  }
+
+  .front-of-docket-text {
+    display: flex;
+    flex-direction: row-reverse;
+
+    p {
+      width: 8rem;
+      text-align: right;
+    }
+  }
+}
+
+.closed-appeal-notice {
+  line-height: 40px;
+  text-align: center;
+  font-family:  "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  background-color: $color-gray-lightest;
+  margin-bottom: 2em;
+}

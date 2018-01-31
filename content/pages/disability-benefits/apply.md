@@ -80,7 +80,7 @@ For all disability claims, please provide:
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
@@ -100,7 +100,7 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-[Go to a regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).
+Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 

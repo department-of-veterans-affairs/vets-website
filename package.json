@@ -208,8 +208,10 @@
     "eslint-stats": "^1.0.0",
     "fast-levenshtein": "^2.0.6",
     "nyc": "^11.1.0",
+    "react-cropper": "^1.0.1",
+    "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c381e35ebce270276fc7fbff04653cc74a71d231"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#218a49397b12ebf43d2a6786a1a4ab55bc20399f"
   }
 }

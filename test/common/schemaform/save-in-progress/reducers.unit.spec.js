@@ -132,7 +132,8 @@ describe('schemaform createSaveInProgressInitialState', () => {
         pages: {}
       }, {
         type: SET_IN_PROGRESS_FORM,
-        data
+        data,
+        pages: {}
       });
 
       expect(state.loadedStatus).to.equal(LOAD_STATUSES.success);
@@ -147,6 +148,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
       }, {
         type: SET_IN_PROGRESS_FORM,
         data,
+        pages: {}
       });
 
       expect(state.data.existingProp).to.be.true;
@@ -160,7 +162,8 @@ describe('schemaform createSaveInProgressInitialState', () => {
         pages: {}
       }, {
         type: SET_IN_PROGRESS_FORM,
-        data: _.set('formData', {}, data)
+        data: _.set('formData', {}, data),
+        pages: {}
       });
 
       expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs() {
@@ -29,16 +30,18 @@ class FacilityLocatorApp extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="title-section">
-            <nav className="va-nav-breadcrumbs">
-              {this.renderBreadcrumbs()}
-            </nav>
+        <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
+          <div className="row">
+            <div className="title-section">
+              <nav className="va-nav-breadcrumbs">
+                {this.renderBreadcrumbs()}
+              </nav>
+            </div>
+            <div className="facility-locator">
+              {this.props.children}
+            </div>
           </div>
-          <div className="facility-locator">
-            {this.props.children}
-          </div>
-        </div>
+        </DowntimeNotification>
       </div>
     );
   }

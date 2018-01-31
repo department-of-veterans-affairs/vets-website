@@ -235,7 +235,7 @@ function closeAll(menuElement) {
   const allMenus = Array.from(menuElement.querySelectorAll('[aria-expanded=true]'))
     .map(e => findNearestLi(e));
 
-  // Add the top-level 
+  // Add the top-level
   if (menuElement.getAttribute('aria-expanded') === true) {
     allMenus.push(findNearestLi(menuElement));
   }
@@ -246,7 +246,7 @@ function closeAll(menuElement) {
 
 /**
  * Attaches event listeners to a menu or menu bar to make it keyboard navigable.
- * 
+ *
  * If the mobile buttons are provided, this will also handle the opening and closing
  *  of the menu on small screens when there's just a "Menu" button.
  *

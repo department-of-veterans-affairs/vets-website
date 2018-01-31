@@ -52,7 +52,7 @@ class IntroductionPage extends React.Component {
                 <li>A copy of the Veteran’s death certificate</li>
                 <li>Documentation for transportation costs (if you’re claiming costs for the transportation of the Veteran’s remains)</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <h6>Learn about other survivor and dependent benefits</h6>
               <p>If you’re the survivor or dependent of a Veteran who died in the line of duty or from a service-related illness, you may be able to get a benefit called <a href="/burials-and-memorials/survivor-and-dependent-benefits/compensation/">Dependency and Indemnity Compensation</a>.</p>
             </li>

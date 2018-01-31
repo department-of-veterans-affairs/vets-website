@@ -516,12 +516,10 @@ legend.schemaform-label.schemaform-file-label {
   background: $color-white;
   border: 1px solid $color-gray;
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 0px 3px 3px -3px $color-focus,
-              3px 0 3px -3px $color-focus,
-              -3px 0 3px -3px $color-focus,
-              0 7px 7px -7px $color-focus,
-              7px 0 7px -7px $color-focus,
-              -7px 0 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px $color-focus,
+              -3px 3px 3px -3px $color-focus,
+              7px 7px 7px -7px $color-focus,
+              -7px 7px 7px -7px $color-focus;
   list-style: none;
   margin-top: -.5rem;
   max-width: 46rem;
@@ -561,4 +559,13 @@ legend.schemaform-label.schemaform-file-label {
   background-image: inherit !important;
   background-repeat: inherit !important;
   background-size: inherit !important;
+}
+
+.schemaform-confirmation-section-header {
+  font-size: $h3-font-size;
+}
+
+.schemaform-confirmation-claim-header {
+  font-size: $h4-font-size;
+  margin-top: 1em;
 }
