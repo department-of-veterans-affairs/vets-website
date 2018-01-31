@@ -32,7 +32,7 @@ const initialState = {
   mhv: {
     account: {
       loading: false,
-      accountState: 'unknown'
+      state: 'unknown'
     },
     errors: null,
     terms: {
@@ -93,6 +93,8 @@ function profileInformation(state = initialState, action) {
     }
 
     case FETCH_MHV_ACCOUNT_SUCCESS:
+      return set('mhv.account.state', action.data.attributes.accountState, state);
+
     case CREATE_MHV_ACCOUNT_SUCCESS:
       return set('mhv.account.loading', false, state);
 
