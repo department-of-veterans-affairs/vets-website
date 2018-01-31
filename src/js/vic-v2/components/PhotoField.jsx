@@ -49,7 +49,7 @@ function isValidFileType(fileName) {
 // If any of the image dimensions are greater than the max specified, 
 // resize it down to that dimension while keeping the aspect ratio
 // intact
-function resizeToMaxDimension(img, mimeType, maxDimension) {
+function resizeIfAboveMaxDimension(img, mimeType, maxDimension) {
   const oc = document.createElement('canvas');
   const octx = oc.getContext('2d');
   let height = img.height;
@@ -166,7 +166,7 @@ export default class PhotoField extends React.Component {
                 });
               } else {
                 this.setState({
-                  src: resizeToMaxDimension(img, file.type, MAX_DIMENSION),
+                  src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
                   fileType: file.type,
                   done: false,
                   cropResult: null,
