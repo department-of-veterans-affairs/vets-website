@@ -225,23 +225,20 @@ node('vetsgov-general-purpose') {
       if (!isDeployable()) {
         return
       }
-
-      steps {
-        script {
-          commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
-        }
-        if (env.BRANCH_NAME == devBranch) {
-          build job: 'deploys/vets-website-dev', parameters: [
-            booleanParam(name: 'notify_slack', value: true),
-            stringParam(name: 'ref', value: commit),
-          ], wait: false
-        }
-        if (env.BRANCH_NAME == devBranch) {
-          build job: 'deploys/vets-website-staging', parameters: [
-            booleanParam(name: 'notify_slack', value: true),
-            stringParam(name: 'ref', value: commit),
-          ], wait: false
-        }
+      script {
+        commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
+      }
+      if (env.BRANCH_NAME == devBranch) {
+        build job: 'deploys/vets-website-dev', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
+        ], wait: false
+      }
+      if (env.BRANCH_NAME == stagingBranch) {
+        build job: 'deploys/vets-website-staging', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
+        ], wait: false
       }
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
