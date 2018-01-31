@@ -30,8 +30,8 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">What can I use my Veteran ID Card for, and what can I not use it for?</button>
-<div id="instead" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can I use my Veteran ID Card for, and what can I not use it for?</button>
+<div id="use-veteran-id-card" class="usa-accordion-content">
 
 You can use your Veteran ID Card to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. 
 
@@ -44,8 +44,8 @@ You can use your Veteran ID Card to get discounts offered to Veterans at many re
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">Will my Veteran ID Card replace my other military ID cards?</button>
-<div id="instead" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
+<div id="replace-other-cards" class="usa-accordion-content">
 
 No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
 
@@ -54,8 +54,8 @@ Also, you can’t use your Veteran ID Card to prove your eligibility for any fed
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get discounts at businesses?</button>
-<div id="instead" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="cards-used-instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get discounts at businesses?</button>
+<div id="cards-used-instead" class="usa-accordion-content">
 
 Yes.
 
