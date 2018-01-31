@@ -44,7 +44,7 @@ You can use your Veteran ID Card to get discounts offered to Veterans at many re
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my Veteran Health Identification Card or other military ID cards?</button>
 <div id="replace-other-cards" class="usa-accordion-content">
 
 No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
