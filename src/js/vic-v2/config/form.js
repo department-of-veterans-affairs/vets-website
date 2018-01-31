@@ -194,7 +194,15 @@ const formConfig = {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
               endpoint: '/v0/vic/supporting_documentation_attachments',
-              fileTypes: ['pdf'],
+              fileTypes: [
+                'pdf',
+                'png',
+                'tiff',
+                'tif',
+                'jpeg',
+                'jpg',
+                'bmp'
+              ],
               maxSize: 15728640,
               hideLabelText: true,
               createPayload: (file) => {
