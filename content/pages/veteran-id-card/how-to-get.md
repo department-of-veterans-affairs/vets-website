@@ -9,7 +9,7 @@ order: 1
 
 <div class="va-introtext">
 
-A Veteran ID Card is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. With this card, you won’t need to carry around your DD214 or share sensitive personal information to receive these discounts. Find out if you’re eligible for a Veteran ID Card—and how to apply.
+A Veteran ID Card is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. With this card, you won’t need to carry around your DD214 or other military discharge papers (like your DD256, DD257, or NG22) or share sensitive personal information to receive these discounts. Find out if you’re eligible for a Veteran ID Card—and how to apply.
 
 </div>
 
@@ -18,8 +18,10 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 ### Can I get a Veteran ID Card?
 
 **You may be eligible for a Veteran ID Card if you:**
-- Served on active duty, **and**
+- Served on active duty or in the military reserves, **and**
 - Separated under honorable conditions
+
+**Note:** Service in Universal Health Services (UHS) or the National Oceanic and Atmospheric Administration (NOAA) doesn't make you eligible for a Veteran ID Card.
 
 </div>
 
@@ -27,6 +29,21 @@ A Veteran ID Card is a form of photo ID you can use to get discounts offered to 
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">What can I use my Veteran ID Card for, and what can I not use it for?</button>
+<div id="replace" class="usa-accordion-content">
+
+You can use your Veteran ID Card to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. 
+
+**You can't use your Veteran ID Card to:**
+- Replace your Veteran Health Identification Card
+- Replace your Department of Defense ID Card
+- Prove your eligibility for any federal benefits
+- Access military installations
+
+</div>
+</li>
+
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace">Will my Veteran ID Card replace my other military ID cards?</button>
 <div id="replace" class="usa-accordion-content">
@@ -64,18 +81,17 @@ You’ll need to apply online.
 
 **When you apply, be sure to have these on hand:**
 - Your Social Security number
-- A digital copy of your DD214 or other military discharge papers that you can upload
-- A current color photo of yourself <br>
+- A digital copy of your DD214 or other military discharge papers (DD256, DD257, or NG22). You'll need to upload this as a .pdf file or photo file, like a .jpeg or .png.
+- A digital color photo of yourself<br>
 <br>
 **The photo has to follow all the standards listed below. It must:**
   - Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
   - Be cropped from your shoulders up (much like a passport photo), **and**
   - Show you with your eyes open and a neutral expression, **and**
   - Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
+  - Be taken within the past 10 years to show your current appearance, **and**
   - Be uploaded as a .jpeg, .png, .bmp, or .tiff file
-  
- <a class="usa-button-primary va-button-primary" href="/veteran-id-card/index/">Apply for Your VIC</a>
-
+   
 ### Do I need to sign in to Vets.gov to apply for a Veteran ID Card?
 
 No. But signing in can make applying easier—and help you get a decision faster.
@@ -89,7 +105,9 @@ No. But signing in can make applying easier—and help you get a decision faster
 
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft. 
 
-We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. 
+We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.
+
+<a class="usa-button-primary va-button-primary" href="/veteran-id-card/index/">Apply for Your VIC</a>
 
 If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me.<br>
 [Learn more about signing in to Vets.gov](/faq/).
