@@ -14,7 +14,8 @@ const CurrentStatus = ({ title, description, isClosed }) => (
 
 CurrentStatus.PropTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.element.isRequired
+  description: PropTypes.element.isRequired,
+  isClosed: PropTypes.bool
 };
 
 export default CurrentStatus;
