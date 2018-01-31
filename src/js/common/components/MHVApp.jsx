@@ -39,8 +39,6 @@ export class MHVApp extends React.Component {
       this.props.fetchLatestTerms(TERMS_NAME);
     } else if (!this.isAccessible()) {
       this.props.createMHVAccount();
-      // Poll for account state.
-      this.props.fetchMHVAccount();
     }
   }
 
