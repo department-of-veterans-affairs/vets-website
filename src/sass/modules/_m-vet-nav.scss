@@ -18,7 +18,7 @@ body.va-pos-fixed {
 
   // For medium and large screens, they're just as big as they need to be
   @include media($medium-large-screen) {
-    height: 100%;
+    min-height: 100%;
   }
 }
 
