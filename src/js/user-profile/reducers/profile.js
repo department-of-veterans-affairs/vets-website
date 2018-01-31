@@ -35,6 +35,7 @@ const initialState = {
       accountState: 'unknown'
     },
     terms: {
+      accepted: false,
       loading: false
     }
   },
