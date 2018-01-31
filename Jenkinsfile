@@ -92,7 +92,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('pre-build (lint, security, unit)') {
+  stage('Coverage|Lint|Security') {
     try {
       parallel (
         coverage: {
