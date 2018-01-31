@@ -61,7 +61,19 @@ export class MHVApp extends React.Component {
       return mhvAccessError;
     }
 
-    return this.props.children;
+    const enabled = this.props.isDataAvailable === true || typeof this.props.isDataAvailable === 'undefined';
+
+    const view = React.Children.map(this.props.children,
+      (child) => {
+        let props = null;
+        if (typeof child.type === 'function') {
+          props = { isDataAvailable: enabled };
+        }
+        return React.cloneElement(child, props);
+      }
+    );
+
+    return <div>{view}</div>;
   }
 }
 
