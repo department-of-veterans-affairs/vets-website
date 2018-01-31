@@ -34,6 +34,7 @@ const initialState = {
       loading: false,
       accountState: 'unknown'
     },
+    errors: null,
     terms: {
       accepted: false,
       loading: false
@@ -72,26 +73,28 @@ function profileInformation(state = initialState, action) {
       }, state);
     }
 
-    case ACCEPTING_LATEST_MHV_TERMS: {
+    case ACCEPTING_LATEST_MHV_TERMS:
       return set('mhv.terms.loading', true, state);
-    }
 
     case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
-    case ACCEPTING_LATEST_MHV_TERMS_FAILURE: {
+    case ACCEPTING_LATEST_MHV_TERMS_FAILURE:
       return set('mhv.terms.loading', false, state);
-    }
 
     case FETCHING_MHV_ACCOUNT:
     case CREATING_MHV_ACCOUNT: {
-      return set('mhv.account.loading', true, state);
+      const newState = set('mhv.account.loading', true, state);
+      return set('mhv.errors', null, newState);
     }
 
     case FETCH_MHV_ACCOUNT_FAILURE:
-    case FETCH_MHV_ACCOUNT_SUCCESS:
-    case CREATE_MHV_ACCOUNT_FAILURE:
-    case CREATE_MHV_ACCOUNT_SUCCESS: {
-      return set('mhv.account.loading', false, state);
+    case CREATE_MHV_ACCOUNT_FAILURE: {
+      const newState = set('mhv.account.loading', false, state);
+      return set('mhv.errors', action.errors, newState);
     }
+
+    case FETCH_MHV_ACCOUNT_SUCCESS:
+    case CREATE_MHV_ACCOUNT_SUCCESS:
+      return set('mhv.account.loading', false, state);
 
     default:
       return state;

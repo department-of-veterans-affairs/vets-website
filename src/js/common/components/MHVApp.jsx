@@ -43,7 +43,11 @@ export class MHVApp extends React.Component {
   }
 
   render() {
-    const { account, terms } = this.props;
+    const { account, errors, terms } = this.props;
+
+    if (errors) {
+      return mhvAccessError;
+    }
 
     if (account.loading || terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
@@ -66,8 +70,8 @@ MHVApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { account, terms } = state.user.profile.mhv;
-  return { account, terms };
+  const { account, errors, terms } = state.user.profile.mhv;
+  return { account, errors, terms };
 };
 
 const mapDispatchToProps = {
