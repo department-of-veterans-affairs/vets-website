@@ -124,7 +124,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillStatus: PREFILL_STATUSES.notAttempted,
     isStartingOver: false,
     migrations: formConfig.migrations,
-    prefillTransform: formConfig.prefillTransform,
+    prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix
   });
 }

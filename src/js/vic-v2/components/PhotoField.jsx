@@ -28,6 +28,7 @@ const MIN_RATIO = 0.2;
 const MAX_RATIO = 1.7;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
+const MAX_DIMENSION = 1024;
 
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
@@ -37,29 +38,48 @@ function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
 }
 
-function isValidImageSize(result) {
+// If any of the image dimensions are greater than the max specified, 
+// resize it down to that dimension while keeping the aspect ratio
+// intact
+function resizeIfAboveMaxDimension(img, mimeType, maxDimension) {
+  const oc = document.createElement('canvas');
+  const octx = oc.getContext('2d');
+  let height = img.height;
+  let width = img.width;
+
+  if (Math.max(img.width, img.height) > maxDimension) {
+    if (img.width > img.height) {
+      height = (height / width) * maxDimension;
+      width = maxDimension;
+    } else {
+      width = (width / height) * maxDimension;
+      height = maxDimension;
+    }
+
+    oc.width = width;
+    oc.height = height;
+    octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+    return oc.toDataURL(mimeType);
+  }
+
+  return img.src;
+}
+
+function isValidImageSize(img) {
+  return img.width >= MIN_SIZE && img.height >= MIN_SIZE;
+}
+
+function loadImage(dataUrl) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.src = result;
+    img.src = dataUrl;
     img.onerror = (e) => reject(e);
     img.onload = () => {
-      const isValidSize = img.width >= MIN_SIZE && img.height >= MIN_SIZE;
-      resolve(isValidSize);
+      resolve(img);
     };
   });
 }
-
-function isValidImage(result, fileName, fileTypes) {
-  return new Promise((resolve, reject) => {
-    isValidImageSize(result)
-      .then(isValidSize => {
-        const isValidType = isValidFileType(fileName, fileTypes);
-        resolve(isValidSize && isValidType);
-      })
-      .catch((e) => reject(e));
-  });
-}
-
 
 export default class PhotoField extends React.Component {
   constructor(props) {
@@ -99,13 +119,6 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const newView = this.state.src && (prevState.src !== this.state.src || ((prevState.progress === 100) && (this.state.progress < 100)));
-    const cropper = this.refs.cropper;
-    if (cropper && newView) {
-      this.setCropBox();
-    }
-  }
   onError = (error) => {
     this.setState({ errorMessage: error });
   }
@@ -116,58 +129,77 @@ export default class PhotoField extends React.Component {
 
   onDone = () => {
     const filePath = this.props.idSchema.$id.split('_').slice(1);
-    this.props.formContext.uploadFile(
-      this.state.cropResult.file,
-      filePath,
-      this.props.uiSchema['ui:options'],
-      this.updateProgress,
-      this.onError
-    ).catch(() => {
-      // rather not use the promise here, but seems better than trying to pass
-      // a blur function
-      // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-    });
+    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
+      const file = blob;
+      file.lastModifiedDate = new Date();
+      file.name = this.state.fileName;
+      this.props.formContext.uploadFile(
+        file,
+        filePath,
+        this.props.uiSchema['ui:options'],
+        this.updateProgress,
+        this.onError
+      ).catch(() => {
+        // rather not use the promise here, but seems better than trying to pass
+        // a blur function
+        // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
+      });
 
-    this.setState({ uploading: true, warningMessage: null });
+      this.setState({ uploading: true, warningMessage: null });
+    });
   }
 
   onChange = (files) => {
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (files && files[0]) {
       const file = files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const fileName = file.name;
-        isValidImage(reader.result, fileName, fileTypes)
-          .then((isValid) => {
-            if (isValid) {
-              this.setState({
-                src: reader.result,
-                fileName,
-                cropResult: null,
-                errorMessage: null
-              });
-            } else if (!isValidFileType(file.name, fileTypes)) {
+      const fileName = file.name;
+      if (file.preview) {
+        // dropzone recommendation
+        window.URL.revokeObjectURL(file.preview);
+      }
+      if (!isValidFileType(file.name, fileTypes)) {
+        this.setState({
+          src: null,
+          done: false,
+          cropResult: null,
+          errorMessage: 'Please choose a file from one of the accepted types.'
+        });
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          loadImage(reader.result)
+            .then((img) => {
+              if (!isValidImageSize(img)) {
+                this.setState({
+                  src: null,
+                  done: false,
+                  cropResult: null,
+                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
+                });
+              } else {
+                this.setState({
+                  src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
+                  fileName,
+                  done: false,
+                  cropResult: null,
+                  errorMessage: null
+                });
+              }
+            })
+            .catch(() => {
               this.setState({
                 src: null,
+                fileType: null,
+                done: false,
                 cropResult: null,
-                errorMessage: 'Please choose a file from one of the accepted types.'
+                errorMessage: 'Sorry, we weren’t able to load the image you selected'
               });
-            } else if (isValidFileType(file.name, fileTypes)) {
-              this.setState({
-                src: null,
-                cropResult: null,
-                errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
-              });
-            }
-          });
-      };
+            });
+        };
+      }
     }
-  }
-
-  onDrop = (files) => {
-    this.setState({ src: files[0].preview });
   }
 
   onZoom = (e) => {
@@ -185,22 +217,20 @@ export default class PhotoField extends React.Component {
   setCropBox = () => {
     const cropper = this.refs.cropper;
     const slider = this.refs.slider;
-    setTimeout(() => {
-      const { width, naturalWidth } = this.refs.cropper.getImageData();
-      slider.value = width / naturalWidth;
-      const containerData = cropper.getContainerData();
-      const containerWidth = containerData.width;
-      const smallScreen = isSmallScreen(this.state.windowWidth);
-      const cropBoxSize = smallScreen ? 240 : 300;
-      const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
-      const cropBoxData = {
-        left: cropBoxLeftOffset,
-        top: 0,
-        width: cropBoxSize,
-        height: cropBoxSize
-      };
-      cropper.setCropBoxData(cropBoxData);
-    }, 0);
+    const { width, naturalWidth } = this.refs.cropper.getImageData();
+    slider.value = width / naturalWidth;
+    const containerData = cropper.getContainerData();
+    const containerWidth = containerData.width;
+    const smallScreen = isSmallScreen(this.state.windowWidth);
+    const cropBoxSize = smallScreen ? 240 : 300;
+    const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
+    const cropBoxData = {
+      left: cropBoxLeftOffset,
+      top: 0,
+      width: cropBoxSize,
+      height: cropBoxSize
+    };
+    cropper.setCropBoxData(cropBoxData);
   }
 
   getErrorMessage = () => {
@@ -261,19 +291,6 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  cropImage = () => {
-    const cropResult = {};
-    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
-      const file = blob;
-      file.lastModifiedDate = new Date();
-      file.name = this.state.fileName;
-      cropResult.file = file;
-      cropResult.src = this.refs.cropper.getCroppedCanvas().toDataURL(blob.type);
-      this.setState({ cropResult });
-    });
-
-  }
-
   render() {
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
@@ -326,16 +343,16 @@ export default class PhotoField extends React.Component {
           {!isDone && this.state.src && <div className="cropper-container-outer">
             <Cropper
               ref="cropper"
+              ready={this.setCropBox}
               responsive
               src={this.state.src}
-              aspectRatio={1 / 1}
+              aspectRatio={1}
               cropBoxMovable={false}
               toggleDragModeOnDblclick={false}
               dragMode="move"
               guides={false}
               viewMode={1}
-              zoom={this.onZoom}
-              crop={this.cropImage}/>
+              zoom={this.onZoom}/>
             <div className="cropper-zoom-container">
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}><i className="fa fa-search-minus"></i></button>}
               {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>

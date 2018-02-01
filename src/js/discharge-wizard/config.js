@@ -42,7 +42,7 @@ export const questionLabels = {
     navy: 'Navy',
     airForce: 'Air Force',
     coastGuard: 'Coast Guard',
-    marines: 'Marines',
+    marines: 'Marine Corps',
   },
   '8_prevApplication': {
     '1': 'I have previously applied for a discharge upgrade for this period of service.',

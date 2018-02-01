@@ -254,7 +254,7 @@ export const mockData = {
       attributes: {
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
-        incompleteHistory: false,
+        incompleteHistory: true,
         aoj: 'vba',
         programArea: 'compensation',
         description: 'Service connection for tinnitus, hearing loss, and two more',
@@ -312,8 +312,13 @@ export const mockData = {
             details: {}
           },
           {
-            type: 'soc',
+            type: 'form9',
             date: '2016-09-12',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2016-12-15',
             details: {}
           }
         ],
