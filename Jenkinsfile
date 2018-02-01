@@ -18,7 +18,7 @@ def isDeployable = {
   (env.BRANCH_NAME == devBranch ||
    env.BRANCH_NAME == stagingBranch) &&
     !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
+    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
 }
 
 def shouldBail = {
