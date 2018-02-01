@@ -172,6 +172,7 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
+              maxSize: 26214400,
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('profile_photo_attachments[file_data]', file);
@@ -230,7 +231,7 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: 15728640,
+              maxSize: 26214400,
               hideLabelText: true,
               createPayload: (file) => {
                 const payload = new FormData();
