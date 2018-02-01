@@ -403,14 +403,22 @@ export const EVENT_TYPES = {
   soc: 'soc',
   form9: 'form9',
   ssoc: 'ssoc',
-  certified: 'certified',
+  certification: 'certification',
   hearingHeld: 'hearing_held',
   hearingNoShow: 'hearing_no_show',
   bvaDecision: 'bva_decision',
   withdrawn: 'withdrawn',
   merged: 'merged',
   cavcDecision: 'cavc_decision',
-  reconsideration: 'reconsideration'
+  reconsideration: 'reconsideration',
+  transcript: 'transcript',
+  remandReturn: 'remand_return',
+  rampNotice: 'ramp_notice',
+  ftr: 'ftr',
+  ramp: 'ramp',
+  death: 'death',
+  vacated: 'vacated',
+  otherClose: 'other_close',
 };
 
 /**
@@ -456,7 +464,7 @@ export function getEventContent(event) {
         description: '',
         liClass: 'section-complete'
       };
-    case EVENT_TYPES.certified:
+    case EVENT_TYPES.certification:
       return {
         title: 'Your appeal was transferred to the Board of Veterans’ Appeals',
         description: '',
@@ -501,6 +509,54 @@ export function getEventContent(event) {
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Your motion for reconsideration was denied',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.transcript:
+      return {
+        title: 'VA sent you a transcript of your hearing',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.remandReturn:
+      return {
+        title: 'Your appeal was returned to the Board of Veterans’ Appeals',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.rampNotice:
+      return {
+        title: 'VA sent you a letter about the Rapid Appeals Modernization Program',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.ftr:
+      return {
+        title: 'Your appeal was closed',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.ramp:
+      return {
+        title: 'You opted in to the Rapid Appeals Modernization Program',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.death:
+      return {
+        title: 'Your appeal was closed',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.vacated:
+      return {
+        title: 'Board of Veterans’ Appeals vacated a previous decision',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.otherClose:
+      return {
+        title: 'Your appeal was closed',
         description: '',
         liClass: 'section-complete'
       };
@@ -915,34 +971,6 @@ export function getAlertContent(alert) {
         ),
         displayType: 'take_action',
         type
-      };
-    case ALERT_TYPES.rampEligible:
-      return {
-        title: 'You have opted-in to the Rapid Appeals Modernization Program (RAMP)',
-        description: (
-          <div>
-            <p>You chose to participate in the new supplemental claim or
-            higher-level review lanes. This does not mean that your appeal has
-            been closed. If you didn’t choose this, please call your VSO or
-            representative as soon as possible.</p>
-            <p>At this time, Vets.gov Appeal Status is not able to get
-            information related to appeals that are part of RAMP.</p>
-          </div>
-        ),
-        displayType: 'info',
-        type,
-      };
-    case ALERT_TYPES.rampIneligible:
-      return {
-        title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
-        description: (
-          <p>This appeal is not eligible for RAMP because it’s near the front
-          of the docket line and ready to be assigned to a Veterans Law Judge
-          at the Board. For more information, please call your VSO or
-          representative.</p>
-        ),
-        displayType: 'info',
-        type,
       };
     case ALERT_TYPES.decisionSoon:
       return {
