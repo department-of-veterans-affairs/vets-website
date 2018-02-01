@@ -17,7 +17,7 @@ Were you part of testing or storing Agent Orange on bases in the United States o
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if:
+You may be able to get disability benefits if **both of the following are true for you**:
 - You have 1 or more illnesses believed to be caused by Agent Orange, **and**
 - You were part of testing or storing Agent Orange during your military service
 
@@ -40,7 +40,8 @@ You may be able to get disability benefits if:
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
 ### Need help?
 
@@ -48,7 +49,8 @@ See these comprehensive lists for dates and locations of herbicide tests and sto
 [In the U.S.](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)<br>
 [Outside the U.S.](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
 
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+Want to connect with a trained professional who can help you with VA-related claims? <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 ### Get more information
 
