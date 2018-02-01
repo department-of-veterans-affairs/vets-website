@@ -38,9 +38,8 @@ const Issues = ({ issues }) => {
   let grantedSection = null;
   if (grantedListItems.length) {
     grantedSection = (
-      <div>
-        {/* USWDS $color-green */}
-        <h5 style={{ color: '#2e8540' }}>Granted</h5>
+      <div className="granted-section">
+        <h5>Granted</h5>
         <ul>{grantedListItems}</ul>
       </div>
     );
@@ -49,9 +48,8 @@ const Issues = ({ issues }) => {
   let deniedSection = null;
   if (deniedListItems.length) {
     deniedSection = (
-      <div>
-        {/* USWDS $color-secondary (red) */}
-        <h5 style={{ color: '#e31c3d' }}>Denied</h5>
+      <div className="denied-section">
+        <h5>Denied</h5>
         <ul>{deniedListItems}</ul>
       </div>
     );
@@ -61,7 +59,7 @@ const Issues = ({ issues }) => {
   if (withdrawnListItems.length) {
     withdrawnSection = (
       <div>
-        <h5>Withdrawn</h5>
+        <h5 className="withdrawn-section">Withdrawn</h5>
         <ul>{withdrawnListItems}</ul>
       </div>
     );

@@ -1062,4 +1062,16 @@ $marker-text-width: 9rem;
   .usa-accordion-button {
     font-size: 2rem; // match standard h3
   }
+
+  .granted-section {
+    h5 {
+      color: $color-green;
+    }
+  }
+
+  .denied-section {
+    h5 {
+      color: $color-secondary;
+    }
+  }
 }
