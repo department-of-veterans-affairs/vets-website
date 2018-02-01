@@ -67,9 +67,9 @@ export const ALERT_TYPES = {
  * @property {string} description pass-through for the description info of passed in issue object
  * ------------------------------------------------------------------------------------------------
  * @param {issue[]} issues all the individual issues that are attached to an appeal
- * @returns {segmentedIssue[]} an array of issue objects with stuses and descriptions
+ * @returns {segmentedIssue[]} an array of issue objects with statuses and descriptions
  */
-export function categorizeIssues(issues) {
+export function addStatusToIssues(issues) {
   return issues.map((issue) => {
     let status = '';
     switch (issue.lastAction) {

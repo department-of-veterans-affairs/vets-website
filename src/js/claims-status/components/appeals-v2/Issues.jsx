@@ -11,7 +11,7 @@ const Issues = ({ issues }) => {
 
   const getListItems = (item, i) => {
     return (
-      <li key={`${item}-${i}`}>
+      <li key={`${item.status}-${i}`}>
         {item.description}
       </li>
     );
@@ -70,7 +70,7 @@ const Issues = ({ issues }) => {
   let activeItems = null;
   if (openListItems.length || remandListItems.length) {
     activeItems = (
-      <CollapsiblePanel panelName={'Currently On Appeal'}>
+      <CollapsiblePanel panelName={'Currently on appeal'}>
         {openSection}
         {remandSection}
       </CollapsiblePanel>

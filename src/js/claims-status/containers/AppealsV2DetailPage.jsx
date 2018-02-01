@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Issues from '../components/appeals-v2/Issues';
-import { categorizeIssues } from '../utils/appeals-v2-helpers';
+import { addStatusToIssues } from '../utils/appeals-v2-helpers';
 
 const AppealsV2DetailPage = ({ appeal }) => {
-  const issues = categorizeIssues(appeal.attributes.issues);
+  const issues = addStatusToIssues(appeal.attributes.issues);
   return (
     <div>
       <Issues issues={issues}/>
