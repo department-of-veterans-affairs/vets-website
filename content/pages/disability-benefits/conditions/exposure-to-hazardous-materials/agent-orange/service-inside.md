@@ -17,7 +17,7 @@ Did you serve in Vietnam (including aboard a ship on the inland waterways) or in
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you served in:
+You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you served in **one or both** of the following places:
 
 - Vietnam (including aboard a ship on the inland waterways) for any length of time between January 9, 1962, and May 7, 1975, **or**
 - The Korean Demilitarized Zone for any length of time between April 1, 1968, and August 31, 1971
@@ -43,9 +43,12 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you served in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the time periods listed above. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. When you apply, you’ll have to show that you served in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the time periods listed above. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
-Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship allows us to conclude that you had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
+Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship allows us to conclude that you had contact with Agent Orange. <br>
+[See the list of ships that had contact with Agent Orange](https://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
 ### Need help?
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+Want to connect with a trained professional who can help you with VA-related claims? <br>
+[Find an accredited representative](/disability-benefits/apply/help/).
