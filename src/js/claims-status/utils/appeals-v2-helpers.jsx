@@ -399,26 +399,22 @@ export function getStatusContents(statusType, details) {
 export const EVENT_TYPES = {
   claim: 'claim',
   nod: 'nod',
+  droHearing: 'dro_hearing',
   fieldGrant: 'field_grant',
   soc: 'soc',
   form9: 'form9',
   ssoc: 'ssoc',
-  certification: 'certification',
+  certified: 'certified',
   hearingHeld: 'hearing_held',
+  hearingCancelled: 'hearing_cancelled',
   hearingNoShow: 'hearing_no_show',
   bvaDecision: 'bva_decision',
+  bvaRemand: 'bva_remand',
   withdrawn: 'withdrawn',
   merged: 'merged',
   cavcDecision: 'cavc_decision',
-  reconsideration: 'reconsideration',
-  transcript: 'transcript',
-  remandReturn: 'remand_return',
-  rampNotice: 'ramp_notice',
-  ftr: 'ftr',
-  ramp: 'ramp',
-  death: 'death',
-  vacated: 'vacated',
-  otherClose: 'other_close',
+  recordDesignation: 'record_designation',
+  reconsideration: 'reconsideration'
 };
 
 /**
@@ -430,133 +426,109 @@ export function getEventContent(event) {
   switch (event.type) {
     case EVENT_TYPES.claim:
       return {
-        title: 'VA made a decision you are appealing',
+        title: 'VBA sent the original claim decision to you',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
-        title: 'VA received your Notice of Disagreement',
+        title: 'VBA received your Notice of Disagreement',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.droHearing:
+      return {
+        title: 'Dro Hearing',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
-        title: 'VA granted one or more issues',
+        title: 'Field grant',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
-        title: 'VA sent you a Statement of the Case',
+        title: 'VBA prepared a Statement of the Case (SOC)',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
-        title: 'VA received your Form 9',
+        title: 'Form 9 Recieved',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
-        title: 'VA sent you a Supplemental Statement of the Case',
+        title: 'Supplemental Statement of the Case',
         description: '',
         liClass: 'section-complete'
       };
-    case EVENT_TYPES.certification:
+    case EVENT_TYPES.certified:
       return {
-        title: 'Your appeal was transferred to the Board of Veterans’ Appeals',
+        title: 'The Board received your appeal',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: 'You attended a hearing with a Veterans Law Judge',
+        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.hearingCancelled:
+      return {
+        title: 'Hearing Cancelled',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
-        title: 'You missed your hearing with a Veterans Law Judge',
+        title: 'Hearing No Show',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
-        title: 'Board of Veterans’ Appeals made a decision',
+        title: 'The Board made a decision on your appeal',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.bvaRemand:
+      return {
+        title: 'Board Remand',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
-        title: 'You withdrew your appeal',
+        title: 'Withdrawn',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
-        title: 'Your appeals were merged',
+        title: 'Merged',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
-        title: 'The Court of Appeals for Veterans Claims made a decision',
+        title: 'CAVC Decision',
+        description: '',
+        liClass: 'section-complete'
+      };
+    case EVENT_TYPES.recordDesignation:
+      return {
+        title: 'Designation of Record',
         description: '',
         liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
-        title: 'Your motion for reconsideration was denied',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.transcript:
-      return {
-        title: 'VA sent you a transcript of your hearing',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.remandReturn:
-      return {
-        title: 'Your appeal was returned to the Board of Veterans’ Appeals',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.rampNotice:
-      return {
-        title: 'VA sent you a letter about the Rapid Appeals Modernization Program',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.ftr:
-      return {
-        title: 'Your appeal was closed',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.ramp:
-      return {
-        title: 'You opted in to the Rapid Appeals Modernization Program',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.death:
-      return {
-        title: 'Your appeal was closed',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.vacated:
-      return {
-        title: 'Board of Veterans’ Appeals vacated a previous decision',
-        description: '',
-        liClass: 'section-complete'
-      };
-    case EVENT_TYPES.otherClose:
-      return {
-        title: 'Your appeal was closed',
+        title: 'Reconsideration by Letter',
         description: '',
         liClass: 'section-complete'
       };
@@ -971,6 +943,34 @@ export function getAlertContent(alert) {
         ),
         displayType: 'take_action',
         type
+      };
+    case ALERT_TYPES.rampEligible:
+      return {
+        title: 'You have opted-in to the Rapid Appeals Modernization Program (RAMP)',
+        description: (
+          <div>
+            <p>You chose to participate in the new supplemental claim or
+            higher-level review lanes. This does not mean that your appeal has
+            been closed. If you didn’t choose this, please call your VSO or
+            representative as soon as possible.</p>
+            <p>At this time, Vets.gov Appeal Status is not able to get
+            information related to appeals that are part of RAMP.</p>
+          </div>
+        ),
+        displayType: 'info',
+        type,
+      };
+    case ALERT_TYPES.rampIneligible:
+      return {
+        title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
+        description: (
+          <p>This appeal is not eligible for RAMP because it’s near the front
+          of the docket line and ready to be assigned to a Veterans Law Judge
+          at the Board. For more information, please call your VSO or
+          representative.</p>
+        ),
+        displayType: 'info',
+        type,
       };
     case ALERT_TYPES.decisionSoon:
       return {
