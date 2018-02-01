@@ -125,6 +125,7 @@ node('vetsgov-general-purpose') {
 
   stage('Build') {
     if (currentBuild.nextBuild) {
+      currentBuild.result = 'ABORTED'
       return // bail early if a newer build is going in this branch
     }
     try {
