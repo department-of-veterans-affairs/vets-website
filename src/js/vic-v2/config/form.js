@@ -173,7 +173,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             photo: _.assign(fileUploadUI('Select files to upload', {
-              endpoint: '/v0/vic/vic_attachments',
+              endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
                 'png',
                 'tiff',
@@ -181,7 +181,19 @@ const formConfig = {
                 'jpeg',
                 'jpg',
                 'bmp'
-              ]
+              ],
+              createPayload: (file) => {
+                const payload = new FormData();
+                payload.append('profile_photo_attachments[file_data]', file);
+
+                return payload;
+              },
+              parseResponse: (response, file) => {
+                return {
+                  name: file.name,
+                  confirmationCode: response.data.attributes.guid
+                };
+              }
             }), {
               'ui:field': PhotoField,
               'ui:validations': [
