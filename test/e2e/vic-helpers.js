@@ -36,9 +36,9 @@ function initApplicationSubmitMock() {
   });
 }
 
-function initDocumentUploadMock() {
+function initPhotoUploadMock() {
   mock(null, {
-    path: '/v0/vic/vic_attachments',
+    path: '/v0/vic/profile_photo_attachments',
     verb: 'post',
     value: {
       data: {
@@ -52,8 +52,24 @@ function initDocumentUploadMock() {
   });
 }
 
+function initDocumentUploadMock() {
+  mock(null, {
+    path: '/v0/vic/supporting_documentation_attachments',
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          name: 'VA40-10007.pdf',
+          confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
+        }
+      }
+    }
+  });
+}
+
 module.exports = {
   initApplicationSubmitMock,
+  initPhotoUploadMock,
   initDocumentUploadMock,
   completeAddressInformation,
   completeApplicantInformation,

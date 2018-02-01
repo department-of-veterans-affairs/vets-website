@@ -45,6 +45,34 @@ const runTest = E2eHelpers.createE2eTest(
         .click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/contact-information');
 
+      // Photo page
+      client.waitForElementVisible('[id="root_photo-label"]', Timeouts.normal);
+      client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+      // if (!process.env.SAUCE_ACCESS_KEY) {
+      // Looks like there are issues with uploads in nightwatch and Selenium
+      // https://github.com/nightwatchjs/nightwatch/issues/890
+      // client
+      // .setValue('input#root_application_preneedAttachments', require('path').resolve(`${__dirname}/VA40-10007.pdf`));
+      // client.selectDropdown('root_application_preneedAttachments_0_atachmentId', 1)
+      // }
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/photo');
+
+      // Discharge Documents page
+      client.waitForElementVisible('label[for="root_dd214"]', Timeouts.normal);
+      client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+
+      // Disable upload button style to reveal input for test
+      client
+        .execute("document.getElementById('root_dd214').style.display = 'block';")
+        .waitForElementVisible('#root_dd214', Timeouts.normal);
+
+      client
+        .setValue('input#root_dd214', require('path').resolve(`${__dirname}/VA40-10007.pdf`));
+      client.waitForElementVisible('ul[id="schemaform-file-list"]', Timeouts.normal);
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/dd214');
+
       // Review and Submit Page.
       // client
       //   .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
