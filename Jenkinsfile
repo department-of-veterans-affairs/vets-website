@@ -124,6 +124,9 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
 
   stage('Build') {
+    if (currentBuild.nextBuild) {
+      return // bail early if a newer build is going in this branch
+    }
     try {
       def builds = [:]
 
@@ -153,6 +156,9 @@ node('vetsgov-general-purpose') {
   // Run E2E and accessibility tests
 
   stage('Integration') {
+    if (currentBuild.nextBuild) {
+      return // bail early if a newer build is going in this branch
+    }
     try {
       parallel (
         e2e: {
