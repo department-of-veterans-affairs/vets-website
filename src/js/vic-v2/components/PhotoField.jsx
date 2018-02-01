@@ -236,37 +236,71 @@ export default class PhotoField extends React.Component {
     this.setState({ windowWidth });
   }
 
+  updateMoveButtonsEnabledStates = (canvasData, cropboxData) => {
+    const { height: canvasHeight, width: canvasWidth, left: canvasLeft, top: canvasTop } = canvasData;
+    const { height: cropboxHeight, width: cropboxWidth, left: cropboxLeft, top: cropboxTop } = cropboxData;
+
+    // origin is at center
+    // coodinates are for canvas's container
+    const canvasBoundaries = {
+      minLeft: -canvasWidth + cropboxLeft + cropboxWidth,
+      maxLeft: cropboxLeft,
+      minTop: -canvasHeight + cropboxTop + cropboxHeight,
+      maxTop: cropboxTop
+    };
+
+    const buttonStates = {
+      moveUpDisabled: canvasTop === canvasBoundaries.minTop,
+      moveDownDisabled: canvasTop === canvasBoundaries.maxTop,
+      moveLeftDisabled: canvasLeft === canvasBoundaries.maxLeft,
+      moveRightDisabled: canvasLeft === canvasBoundaries.minLeft
+    };
+    this.setState(buttonStates);
+  }
+
+  cropend = () => {
+    this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
+  }
+
   moveUp = () => {
     this.refs.cropper.move(0, -5);
+
+    this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
   }
 
   moveDown = () => {
     this.refs.cropper.move(0, 5);
+    this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
   }
 
   moveRight = () => {
     this.refs.cropper.move(-5, 0);
+    this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
   }
 
   moveLeft = () => {
     this.refs.cropper.move(5, 0);
+    this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
   }
 
   zoom = (e) => {
     if (e.target.value < MAX_RATIO && e.target.value > MIN_RATIO) {
       this.refs.cropper.zoomTo(e.target.value);
+      this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
     }
   }
 
   zoomIn = () => {
     if (this.state.zoomValue < MAX_RATIO) {
       this.refs.cropper.zoom(0.1);
+      this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
     }
   }
 
   zoomOut = () => {
     if (this.state.zoomValue > MIN_RATIO) {
       this.refs.cropper.zoom(-0.1);
+      this.updateMoveButtonsEnabledStates(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
     }
   }
 
@@ -320,6 +354,7 @@ export default class PhotoField extends React.Component {
               src={this.state.src}
               aspectRatio={1}
               cropBoxMovable={false}
+              cropend={this.cropend}
               toggleDragModeOnDblclick={false}
               dragMode="move"
               guides={false}
@@ -351,11 +386,11 @@ export default class PhotoField extends React.Component {
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                <button className={moveControlClass} type="button" onClick={this.moveUp}>
+                <button className={`${moveControlClass} ${classNames({ disabled: this.state.moveUpDisabled })}`} type="button" onClick={this.moveUp}>
                   <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
 
                 </button>
-                <button className={moveControlClass} type="button" onClick={this.moveLeft}>
+                <button className={`${moveControlClass} ${classNames({ disabled: this.state.moveLeftDisabled })}`} type="button" onClick={this.moveLeft}>
                   <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
 
                 </button>
@@ -364,11 +399,11 @@ export default class PhotoField extends React.Component {
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
-                <button className={moveControlClass} type="button" onClick={this.moveDown}>
+                <button  className={`${moveControlClass} ${classNames({ disabled: this.state.moveDownDisabled })}`} type="button" onClick={this.moveDown}>
                   <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
 
                 </button>
-                <button className={moveControlClass} type="button" onClick={this.moveRight}>
+                <button className={`${moveControlClass} ${classNames({ disabled: this.state.moveRightDisabled })}`} type="button" onClick={this.moveRight}>
                   <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
                 </button>
               </div>
