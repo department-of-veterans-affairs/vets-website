@@ -160,7 +160,7 @@ node('vetsgov-general-purpose') {
       parallel (
         e2e: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 CONCURRENCY=20 npm --no-color run test:e2e"
+            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
           }
         },
 
