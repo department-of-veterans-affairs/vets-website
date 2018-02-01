@@ -79,8 +79,8 @@ class IntroductionPage extends React.Component {
               <div><h6>When you apply, be sure to have these on hand:</h6></div>
               <ul>
                 <li>Your Social Security number</li>
-                <li>A digital copy of your military discharge papers, for example, a DD214, DD256, DD257, or NGB22, that you can upload</li>
-                <li>A current color photo of yourself</li>
+                <li>A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be a .pdf or other photo file format, like a .jpeg or .png</li>
+                <li>A digital color photo of yourself</li>
               </ul>
               <div className="vic-intro-indent">
                 <div><h6>The photo has to follow all the standards listed below. It must:</h6></div>
@@ -88,28 +88,23 @@ class IntroductionPage extends React.Component {
                   <li>Show a full front view of your face and neck, with full visibility of the face and no shadows, <strong>and</strong></li>
                   <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
                   <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
-                  <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
-                  <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
+                  <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo), <strong>and</strong></li>
+                  <li>Be in a .jpeg, .png, .bmp, or .tiff file format</li>
                 </ul>
               </div>
             </li>
             {!signedIn && <li className="process-step list-two">
               <div><h5>Sign In and Verify Your Identity</h5></div>
-              <p>Sign in to Vets.gov using your DS Logon or ID.me accounts. When you sign in to your account, we can verify your identity to make sure you’re you before we give you access to your personal information. This also helps to keep your information safe and prevent fraud and identity theft.</p>
-              <strong>If you’re signed in to your account, the application process can go more smoothly. Here’s why:</strong>
+              <p>You have a choice for how you complete this application.</p>
+              <p>Choice 1: Sign In to Vets.gov and Verify Your Identity: We suggest you apply for a Veteran ID Card by first signing in to Vets.gov with either an existing DS Logon (the same one you use for eBenefits or MilConnect) or an ID.me account.</p>
+              <p>If you don’t have an account on Vets.gov, you can create one using ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity verification system available.</p>
+              <p>When you’re signed in, we can verify your identity to make sure you’re you. This also helps to keep your information safe and prevent fraud and identity theft.</p>
               {accountBenefits}
-              <p>If you don’t have a DS Logon account, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available.</p>
+              <p>Verifying your identity is a one-time process that’ll take about 5-10 minutes. Once you’ve gone through the identity process, you won't need to do it again. To go through the ID.me identity-proofing process, you’ll need:</p>
+              <strong>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</strong>
               {idProofingReqs}
-              <p><button className="usa-button usa-button-primary" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign In or Create an Account</button></p>
-              <p><a href="/faq">Get more information about signing in to Vets.gov</a>.</p>
-              <div className="usa-alert usa-alert-info">
-                <div className="usa-alert-body">
-                  <h4 className="usa-alert-heading">Do I have to sign in to Vets.gov to apply for a Veteran ID Card?</h4>
-                  <div className="usa-alert-text">
-                    <p>No, but if you don’t sign in, it’ll take us longer to verify your identity and will delay a decision on your application. The fastest way to get your application processed is to sign in to your DS Logon or ID.me accounts.</p>
-                  </div>
-                </div>
-              </div>
+              <p>Choice 2: Apply anonymously without signing in.</p>
+              <p>You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a DS Logon or ID.me account.</p>
             </li>}
             {signedIn && !idProofed && <li className="process-step list-two">
               <div><h5>Verify Your Identity</h5></div>
@@ -126,7 +121,7 @@ class IntroductionPage extends React.Component {
             </li>}
             <li className="process-step list-three">
               <div><h5>Apply</h5></div>
-              <p>Complete this VIC application.</p>
+              <p>Complete this Veteran ID Card application.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-four">
@@ -136,16 +131,23 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-five">
               <div><h5>Decision</h5></div>
-              <p>Once we verify your application, you should receive your Veteran ID Card in the mail in about 60 days.</p>
+              <p>Once we verify your application, you should receive your Veteran ID Card by mail in about 60 days.</p>
             </li>
           </ol>
         </div>
+        {!signedIn && <div>
+          <p>Sign in or create an account before you apply for a Veteran ID Card.
+            <button className="usa-button usa-button-primary" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign In or Create an Account</button>
+          </p>
+          Begin the Veteran ID Card application without signing in.
+        </div>}
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
+        <p><a href="/faq">Get more information about signing in to Vets.gov</a>.</p>
         <a href="/privacy">Privacy Act Statement</a>
       </div>
     );
