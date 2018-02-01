@@ -24,7 +24,7 @@ import {
   getAlertContent,
   getStatusContents,
   getNextEvents,
-  categorizeIssues,
+  addStatusToIssues,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -558,18 +558,17 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('categorizeIssues', () => {
+  describe('addStatusToIssues', () => {
     it('returns an array of same length as input array', () => {
-      const { issues } = mockData.data[1].attributes;
-      const formattedIssues = categorizeIssues(issues);
+      const { issues } = mockData.data[2].attributes;
+      const formattedIssues = addStatusToIssues(issues);
       expect(formattedIssues.length).to.equal(issues.length);
     });
 
-    it('returns an array of objects with status and description', () => {
-      const { issues } = mockData.data[1].attributes;
-      const formattedIssues = categorizeIssues(issues);
-      expect(formattedIssues[0].status).to.exist;
-      expect(formattedIssues[0].description).to.exist;
+    it('returns an array of objects, each with status and description', () => {
+      const { issues } = mockData.data[2].attributes;
+      const formattedIssues = addStatusToIssues(issues);
+      expect(formattedIssues.every(i => i.status && i.description)).to.be.true;
     });
   });
 });
