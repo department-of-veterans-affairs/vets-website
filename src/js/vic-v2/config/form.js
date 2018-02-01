@@ -5,7 +5,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -35,7 +35,7 @@ const {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vic',
+  submit,
   trackingPrefix: 'veteran-id-card-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
