@@ -20,7 +20,7 @@ If you think you had contact with Agent Orange, a toxic chemical used to clear t
 
 You can get an Agent Orange Registry health exam if you served in Vietnam between 1962 and 1975 for any length of time.
 
-You can also get a health exam if you served **in any of these ways**:
+You can also get a health exam if you served **in any of the following ways**:
 
   - On smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”), **or** 
   - In Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971, **or**
