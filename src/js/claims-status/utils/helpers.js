@@ -264,7 +264,9 @@ export const mockData = {
         status: {
           type: 'pending_form9',
           details: {
-            regionalOffice: 'Chicago Regional Office'
+            lastSocDate: '2015-09-12',
+            certificationTimeliness: [1, 4],
+            ssocTimeliness: [2, 16],
           }
         },
         docket: {
