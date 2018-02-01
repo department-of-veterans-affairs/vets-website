@@ -181,6 +181,9 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Archive') {
+    if (currentBuild.nextBuild) {
+      return // bail early if a newer build is going in this branch
+    }
     try {
       def builds = [ 'development', 'staging', 'production' ]
 
@@ -200,6 +203,9 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Review') {
+    if (currentBuild.nextBuild) {
+      return // bail early if a newer build is going in this branch
+    }
     try {
       if (!isReviewable()) {
         return
