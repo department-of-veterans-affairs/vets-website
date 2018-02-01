@@ -124,10 +124,8 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
 
   stage('Build') {
-    if (currentBuild.nextBuild) {
-      currentBuild.result = 'ABORTED'
-      return // bail early if a newer build is going in this branch
-    }
+    if (currentBuild.nextBuild) { return } // bail early if a newer build is going in this branch
+
     try {
       def builds = [:]
 
@@ -156,9 +154,8 @@ node('vetsgov-general-purpose') {
 
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (currentBuild.nextBuild) {
-      return // bail early if a newer build is going in this branch
-    }
+    if (currentBuild.nextBuild) { return } // bail early if a newer build is going in this branch
+
     try {
       parallel (
         e2e: {
@@ -182,9 +179,8 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Archive') {
-    if (currentBuild.nextBuild) {
-      return // bail early if a newer build is going in this branch
-    }
+    if (currentBuild.nextBuild) { return } // bail early if a newer build is going in this branch
+
     try {
       def builds = [ 'development', 'staging', 'production' ]
 
@@ -205,8 +201,10 @@ node('vetsgov-general-purpose') {
 
   stage('Review') {
     if (currentBuild.nextBuild) {
-      return //  bail early if a newer build is going in this branch
+      currentBuild.result = 'ABORTED'
+      return // bail early if a newer build is going in this branch
     }
+
     try {
       if (!isReviewable()) {
         return
