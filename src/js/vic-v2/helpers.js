@@ -1,13 +1,25 @@
 import _ from 'lodash/fp';
 
-export function prefillTransform(pages, formData, metadata) {
-  if (formData && Array.isArray(formData.serviceBranches) && formData.serviceBranches.length) {
+export function prefillTransformer(pages, formData, metadata) {
+  if (formData && formData.serviceBranches) {
+    // Mostly we'll be getting branch lists of one or two branches, creating a Set seems like overkill
+    const allowedBranches = pages.veteranInformation.schema.properties.serviceBranch.enum;
+    const validUserBranches = formData.serviceBranches.filter(branch => allowedBranches.includes(branch));
+
     const newData = _.unset('serviceBranches', formData);
-    newData.serviceBranch = formData.serviceBranches[0];
+    if (validUserBranches.length > 0) {
+      newData.serviceBranch = validUserBranches[0];
+      return {
+        metadata,
+        formData: newData,
+        pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages)
+      };
+    }
+
     return {
       metadata,
       formData: newData,
-      pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', formData.serviceBranches, pages)
+      pages
     };
   }
 

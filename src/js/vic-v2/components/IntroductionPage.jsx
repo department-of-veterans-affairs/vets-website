@@ -79,7 +79,7 @@ class IntroductionPage extends React.Component {
               <div><h6>When you apply, be sure to have these on hand:</h6></div>
               <ul>
                 <li>Your Social Security number</li>
-                <li>A digital copy of your DD214 or other military discharge papers that you can upload</li>
+                <li>A digital copy of your military discharge papers, for example, a DD214, DD256, DD257, or NGB22, that you can upload</li>
                 <li>A current color photo of yourself</li>
               </ul>
               <div className="vic-intro-indent">
@@ -116,7 +116,7 @@ class IntroductionPage extends React.Component {
               <p>Verifying your identity is a security measure that helps us ensure that only you can access your Veteran ID Card. To do this, we use ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity verification system available. ID.me helps people like you easily prove your identity.</p>
               <p>If you use your DS Logon account to sign in, we’ll connect your account to Vets.gov through ID.me.</p>
               {idProofingReqs}
-              <p><a className="usa-button usa-button-primary" href="/verify?next=%2Fvic-v2">Verify Your Identity</a></p>
+              <p><a className="usa-button usa-button-primary" href="/verify?next=%2Fveteran-id-card%2Fapply">Verify Your Identity</a></p>
               <p><a href="/faq">Get more information about signing in to Vets.gov</a>.</p>
             </li>}
             {signedIn && idProofed && <li className="process-step list-two">

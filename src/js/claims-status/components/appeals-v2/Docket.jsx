@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 // TODO: Depending on when this gets rendered, we may want to return null if either
 //  `ahead` or `total` don't exist (or if `total` === 0 because of the divide by 0  error)
-function Docket({ ahead, total }) {
+function Docket({ ahead, total, form9Date }) {
   const completedWidth = { width: `${((total - ahead) / total) * 100}%` };
+  const date = moment(form9Date, 'YYYY-MM-DD').format('MMMM YYYY');
 
   // TODO: Assess how accessible this is
-  // TODO: Replace [Month + year of form 9] with actual date
   return (
     <div>
       <h2>How long until a judge is ready to write your decision?</h2>
-      <p>The Board of Veterans’ Appeals hears cases in the order they are received. When you completed a Form 9 in [Month + year of form 9], you secured your spot in line. Your appeal is near the front of the line.</p>
+      <p>The Board of Veterans’ Appeals hears cases in the order they are received. When you completed a Form 9 in {date}, you secured your spot in line. Your appeal is near the front of the line.</p>
       <div className="docket-container">
         <p className="appeals-ahead">{ahead.toLocaleString()}</p>
         <p>Appeals ahead of you</p>
@@ -53,7 +54,8 @@ function Docket({ ahead, total }) {
 
 Docket.propTypes = {
   ahead: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired
+  total: PropTypes.number.isRequired,
+  form9Date: PropTypes.string.isRequired
 };
 
 export default Docket;
