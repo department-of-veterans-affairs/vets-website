@@ -154,7 +154,6 @@ node('vetsgov-general-purpose') {
   }
 
   // Run E2E and accessibility tests
-
   stage('Integration') {
     if (currentBuild.nextBuild) {
       return // bail early if a newer build is going in this branch
