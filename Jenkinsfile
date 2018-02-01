@@ -21,6 +21,15 @@ def isDeployable = {
     !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
 }
 
+def shouldBail = {
+  // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
+  env.BRANCH_NAME != devBranch &&
+  env.BRANCH_NAME != stagingBranch &&
+  env.BRANCH_NAME != prodBranch &&
+  !env.CHANGE_TARGET &&
+  currentBuild.nextBuild
+}
+
 def buildDetails = { vars ->
   """
     BUILDTYPE=${vars['buildtype']}
@@ -124,7 +133,7 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
 
   stage('Build') {
-    if (currentBuild.nextBuild) { return } // bail early if a newer build is going in this branch
+    if (shouldBail()) { return }
 
     try {
       def builds = [:]
@@ -154,7 +163,7 @@ node('vetsgov-general-purpose') {
 
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (currentBuild.nextBuild) { return } // bail early if a newer build is going in this branch
+    if (shouldBail()) { return }
 
     try {
       parallel (
@@ -179,7 +188,7 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Archive') {
-    if (currentBuild.nextBuild) { return } // bail early if a newer build is going in this branch
+    if (shouldBail()) { return }
 
     try {
       def builds = [ 'development', 'staging', 'production' ]
@@ -200,9 +209,9 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Review') {
-    if (currentBuild.nextBuild) {
+    if (shouldBail()) {
       currentBuild.result = 'ABORTED'
-      return // bail early if a newer build is going in this branch
+      return
     }
 
     try {
