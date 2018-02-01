@@ -432,139 +432,116 @@ export function getEventContent(event) {
       return {
         title: 'VA made a decision you are appealing',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
         title: 'VA received your Notice of Disagreement',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
         title: 'VA granted one or more issues',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
         title: 'VA sent you a Statement of the Case',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
         title: 'VA received your Form 9',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
         title: 'VA sent you a Supplemental Statement of the Case',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.certification:
       return {
         title: 'Your appeal was transferred to the Board of Veterans’ Appeals',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
         title: 'You attended a hearing with a Veterans Law Judge',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
         title: 'You missed your hearing with a Veterans Law Judge',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
         title: 'Board of Veterans’ Appeals made a decision',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
         title: 'You withdrew your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
         title: 'Your appeals were merged',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'The Court of Appeals for Veterans Claims made a decision',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Your motion for reconsideration was denied',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.transcript:
       return {
         title: 'VA sent you a transcript of your hearing',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.remandReturn:
       return {
         title: 'Your appeal was returned to the Board of Veterans’ Appeals',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.rampNotice:
       return {
         title: 'VA sent you a letter about the Rapid Appeals Modernization Program',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.ftr:
       return {
         title: 'Your appeal was closed',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.ramp:
       return {
         title: 'You opted in to the Rapid Appeals Modernization Program',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.death:
       return {
         title: 'Your appeal was closed',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.vacated:
       return {
         title: 'Board of Veterans’ Appeals vacated a previous decision',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.otherClose:
       return {
         title: 'Your appeal was closed',
         description: '',
-        liClass: 'section-complete'
       };
     default:
       return {
         title: 'Unknown Event',
         description: '',
-        liClass: 'section-complete'
       };
   }
 }
