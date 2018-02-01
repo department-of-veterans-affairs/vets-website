@@ -57,7 +57,7 @@ module.exports = {
       'RX99',
       'VA900',
     ],
-    accountcreation: [
+    accountCreation: [
       'MHVAC1',
     ],
   },

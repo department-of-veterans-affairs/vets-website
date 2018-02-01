@@ -85,7 +85,7 @@ module.exports = {
     access: [
       'SM105'
     ],
-    accountcreation: [
+    accountCreation: [
       'MHVAC1',
     ]
   }

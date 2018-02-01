@@ -9,7 +9,7 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
@@ -71,9 +71,13 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
+  version: 0,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for pre-need eligibility.',
+    noAuth: 'Please sign in again to resume your application for pre-need eligibility.'
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: true,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
@@ -481,11 +485,11 @@ const formConfig = {
                   updateSchema: (formData) => {
                     let title;
                     if (isVeteran(formData)) {
-                    /* eslint-disable no-param-reassign */ 
+                    /* eslint-disable no-param-reassign */
                       title = 'Is there anyone currently buried in a VA national cemetery under your eligibility?';
                     } else {
                       title = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
-                    /* eslint-enable no-param-reassign */ 
+                    /* eslint-enable no-param-reassign */
                     }
                     return { title };
                   },
@@ -556,6 +560,7 @@ const formConfig = {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 endpoint: '/v0/preneeds/preneed_attachments',
                 fileTypes: ['pdf'],
+                maxSize: 15728640,
                 hideLabelText: true,
                 createPayload: (file) => {
                   const payload = new FormData();
@@ -698,9 +703,12 @@ const formConfig = {
                   'ui:widget': 'radio',
                   'ui:options': {
                     updateSchema: (formData) => {
-                      const applicantName = formatName(formData.application.claimant.name);
+                      const nameData = _.get('application.claimant.name', formData);
+                      const applicantName = nameData
+                        ? formatName(nameData)
+                        : null;
+
                       return {
-                        'enum': ['Self', 'Authorized Agent/Rep'],
                         enumNames: [applicantName || 'Myself', 'Someone else']
                       };
                     },
@@ -715,7 +723,9 @@ const formConfig = {
                     expandUnderCondition: 'Authorized Agent/Rep'
                   },
                   name: _.merge(nonRequiredFullNameUI, {
-                    'ui:title': 'Preparer information'
+                    'ui:title': 'Preparer information',
+                    first: { 'ui:required': isAuthorizedAgent },
+                    last: { 'ui:required': isAuthorizedAgent },
                   }),
                   mailingAddress: _.merge(address.uiSchema('Mailing address'), {
                     country: { 'ui:required': isAuthorizedAgent },

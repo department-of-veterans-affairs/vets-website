@@ -84,4 +84,16 @@ describe('Schemaform review: <SubmitButtons>', () => {
     // Reset buildtype
     __BUILDTYPE__ = buildtype;
   });
+  it('should render error prop', () => {
+    const submission = {
+      status: 'error'
+    };
+    const tree = SkinDeep.shallowRender(
+      <SubmitButtons
+        renderErrorMessage={() => <span className="message">Error message</span>}
+        submission={submission}/>
+    );
+
+    expect(tree.subTree('.message').text()).to.equal('Error message');
+  });
 });

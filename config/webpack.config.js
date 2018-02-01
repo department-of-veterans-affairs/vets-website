@@ -40,6 +40,8 @@ const entryFiles = {
   pensions: './src/js/pensions/pensions-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
   verify: './src/js/login/verify-entry.jsx',
+  'chapter36-vre': './src/js/vre/chapter36/chapter36-entry.jsx',
+  'vic-v2': './src/js/vic-v2/veteran-id-card-entry.jsx',
   style: './src/sass/style.scss'
 };
 
@@ -209,7 +211,14 @@ const configGenerator = (options) => {
   };
 
   if (options.buildtype === 'production' || options.buildtype === 'staging') {
-    baseConfig.devtool = '#source-map';
+    let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
+    if (options.buildtype === 'production') {
+      sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+    }
+    baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
+      append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
+      filename: '[file].map',
+    }));
     baseConfig.module.rules.push({
       test: /debug\/PopulateVeteranButton/,
       use: {

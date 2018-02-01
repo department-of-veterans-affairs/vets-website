@@ -40,7 +40,7 @@ All Veterans receive coverage for most care and services, but only some will qua
 - The advice of your VA primary care provider (your main doctor, nurse practitioner, or physician’s assistant), **and**
 - The medical standards for treating any health conditions you may have
 
-[Learn more about priority groups](/health-care/eligibility#priority-groups).
+[Learn more about priority groups](/health-care/eligibility/#priority-groups).
 
 You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 </div>
@@ -119,7 +119,7 @@ We may cover services that your VA primary care provider concludes you need to s
 You may be able to get help with some non-medical services, like:
 
 - [Beneficiary travel benefits (help paying for travel related to treatment)](https://www.va.gov/healthbenefits/vtp/beneficiary_travel.asp)
-- [Caregiver support (help for the person who cares for you)](http://www.caregiver.va.gov/)
+- [Caregiver support (help for the person who cares for you)](https://www.caregiver.va.gov/)
 - [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp)
 
 </div>

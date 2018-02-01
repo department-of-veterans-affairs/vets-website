@@ -7,12 +7,15 @@ import FormQuestions from '../components/FormQuestions';
 class FormPage extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
+    if (!sessionStorage.getItem('dw-session-started')) {
+      this.props.router.push('/');
+    }
   }
 
   render() {
     return (
       <div>
-        <h1>Guidance on Upgrading Your Discharge</h1>
+        <h1>How to Apply for a Discharge Upgrade</h1>
         <div className="medium-8">
           <FormQuestions formValues={this.props.formValues} updateField={this.props.updateField}/>
         </div>

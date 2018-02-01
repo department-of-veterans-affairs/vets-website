@@ -248,6 +248,16 @@ export const deductibleExpensesDescription = (
     </div>
   </div>
 );
+export const isEssentialAcaCoverageDescription = (
+  <div>
+    I’m enrolling to get minimum essential coverage under the Affordable Care Act.
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Learn more about minimum essential coverage.">
+        To avoid the penalty for not having insurance, you must be enrolled in a health plan that qualifies as minimum essential coverage. Being signed up for VA health care meets the minimum essential coverage requirement under the Affordable Care Act.
+      </AdditionalInfo>
+    </div>
+  </div>
+);
 export const medicaidDescription = (
   <div>
     <div className="hca-tooltip-wrapper">

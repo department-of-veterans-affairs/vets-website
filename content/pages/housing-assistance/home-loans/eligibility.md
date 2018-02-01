@@ -73,7 +73,7 @@ You may be able to get a COE if you were discharged under conditions other than 
 
 ### Ready to apply?
 
-[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility).
+[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 <br>
 
@@ -86,6 +86,14 @@ You may still be able to get a COE if you were discharged due to:
 - Reduction in force, **or**
 - Certain medical conditions, **or**
 - A service-connected disability (a disability related to your military service)
+
+<br>
+
+### If I have a less than honorable discharge, can I try to get my discharge upgraded so I can get a VA home loan?
+
+Yes. You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <br>
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
 
 <br>
 
@@ -127,7 +135,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 
 To request an entitlement restoration, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and send it to the VA regional loan center for your state. <br>
 [Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br>
-[Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
+[Find your state’s VA regional loan center](https://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 

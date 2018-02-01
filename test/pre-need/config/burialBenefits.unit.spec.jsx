@@ -110,6 +110,7 @@ describe('Pre-need burial benefits', () => {
     setTimeout(() => {
       cemeteryField
         .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
+        .simulate('keyDown', { key: 'Enter', keyCode: 13 })
         .simulate('blur');
 
       // have to pull this again, doesn't work if we use cemeteryField

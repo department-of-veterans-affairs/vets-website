@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { intersection } from 'lodash';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import AlertBox from '../../common/components/AlertBox';
 
 import {
   addDraftAttachments,
@@ -301,19 +302,21 @@ export class Thread extends React.Component {
     return form;
   }
 
-  renderNotice(disabled = false) {
-    if (disabled) {
+  renderHealthCareTeamNotice(shouldShow) {
+    if (shouldShow) {
       return (
-        <div>
-          <h4>Health care team has changed</h4>
-          <p>
-            You are no longer associated with this health care team and cannot reply to this message. Please contact the help desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) if you have any questions.
-          </p>
-        </div>
+        <AlertBox
+          content={<div>
+            <h4 className="usa-alert-heading">Health care team has changed</h4>
+            <p>
+              You are no longer associated with this health care team and cannot reply to this message. Please contact the help desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) if you have any questions.
+            </p>
+          </div>}
+          isVisible
+          status="warning"/>
       );
     }
-
-    return <NoticeBox/>;
+    return null;
   }
 
   render() {
@@ -400,9 +403,10 @@ export class Thread extends React.Component {
               Send
             </button>
           </div>
+          {this.renderHealthCareTeamNotice(disabled)}
           {form}
         </div>
-        {this.renderNotice(disabled)}
+        {!disabled && <NoticeBox/>}
         <ModalConfirmDelete
           cssClass="messaging-modal"
           onClose={this.props.toggleConfirmDelete}

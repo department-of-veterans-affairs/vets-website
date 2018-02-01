@@ -7,7 +7,7 @@ class Breadcrumbs extends React.Component {
 
     const crumbs = [
       <a href="/" key="home">Home</a>,
-      <a href="/health-care" key="healthcare">Health Care</a>,
+      <a href="/health-care/" key="healthcare">Health Care</a>,
     ];
 
     if (pathname.match(/download\/?$/)) {

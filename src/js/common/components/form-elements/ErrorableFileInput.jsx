@@ -29,7 +29,11 @@ class ErrorableFileInput extends React.Component {
 
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className={`usa-input-error-message ${this.props.additionalErrorClass}`} id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className={`usa-input-error-message ${this.props.additionalErrorClass}`} role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
       inputErrorClass = 'usa-input-error';
       labelErrorClass = 'usa-input-error-label';
     }

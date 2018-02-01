@@ -66,6 +66,10 @@ describe('prescriptions reducer', () => {
       data: {
         data: ['item1', 'item2'],
         meta: {
+          pagination: {
+            currentPage: 1,
+            totalPages: 1
+          },
           sort: { prescriptionName: 'ASC' }
         }
       }

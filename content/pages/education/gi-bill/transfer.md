@@ -14,7 +14,7 @@ order: 4
 
 Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to your spouse or dependent children.
 
-**Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
+**Note:** The Department of Defense (DoD) determines whether or not you can transfer benefits to your family.
 
 </div>
 
@@ -56,7 +56,7 @@ Qualified dependents
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for:
+If the DoD approves the Transfer of Entitlement (TOE), your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for:
 
 - Tuition
 - Housing
@@ -104,10 +104,10 @@ Your dependents may still qualify even if a child marries or you and your spouse
 
 While you’re still on active duty, you’ll request to transfer, change, or revoke a Transfer of Entitlement (TOE) through milConnect. You can’t apply for a TOE through us. [Transfer, change, or revoke a TOE](https://www.dmdc.osd.mil/milconnect/).
 
-If DOD approves the TOE, family members may apply for benefits.
+If the DoD approves the TOE, family members may apply for benefits.
 
 - [Apply online now](/education/apply-for-education-benefits/application/1990e/introduction), **or**
-- Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
+- Apply by mail. You’ll need to fill out and mail an Application for Family Member to Use Transferred Benefits (VA Form 22-1990E) to the nearest VA regional office. [Download VA Form 22-1990E](https://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf).
 
 [Find a nearby VA facility](/facilities/).
 
@@ -123,7 +123,7 @@ Once you leave active duty, you can still provide a future effective date that t
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-- [DOD website for information on transferring benefits](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
+- [DoD website for information on transferring benefits](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
 - [Fact sheet on transferring Post-9/11 GI Bill benefits](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
 - To find out if you qualify, the status of your transfer request, and how to use the TEB Portlet (for service-specific questions), please contact the right career counselor or personnel center from this list:
   - Army Active-Duty Officer  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)

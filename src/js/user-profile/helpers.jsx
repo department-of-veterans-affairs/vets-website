@@ -1,3 +1,4 @@
+import React from 'react';
 import Raven from 'raven-js';
 
 export const formBenefits = {
@@ -37,7 +38,7 @@ export const formLinks = {
   '22-1995': '/education/apply-for-education-benefits/application/1995/',
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
   '22-5495': '/education/apply-for-education-benefits/application/5495/',
-  '40-10007': '/burials-and-memorials/burial-planning/application/'
+  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/'
 };
 
 export const trackingPrefixes = {
@@ -62,7 +63,8 @@ export const sipEnabledForms = new Set([
   '22-1990N',
   '22-1995',
   '22-5490',
-  '22-5495'
+  '22-5495',
+  '40-10007'
 ]);
 
 export function isSIPEnabledForm(savedForm) {
@@ -76,3 +78,8 @@ export function isSIPEnabledForm(savedForm) {
   }
   return true;
 }
+
+export const disabledForms = {
+  '21P-527EZ': <div><span className="error">We’re sorry. We can’t give you access to your saved form right now. We’re working on ways to make it easier for you to apply for benefits online. Please check back later or apply by mail.</span><a href="/pension/apply/">Find out how to apply by mail</a>.</div>,
+  '21P-530': <div><span className="error">We’re sorry. We can’t give you access to your saved form right now. We’re working on ways to make it easier for you to apply for benefits online. Please check back later or apply by mail.</span><a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">Find out how to apply by mail</a>.</div>
+};

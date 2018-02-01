@@ -1,4 +1,4 @@
-import { removeFormApi } from '../../common/schemaform/sip-api';
+import { removeFormApi } from '../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
 

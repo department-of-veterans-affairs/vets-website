@@ -7,7 +7,7 @@ title: Privacy
 <div class="section">
 <div class="row" markdown="1">
 
-#### Vets.gov Privacy Policy
+# Vets.gov Privacy Policy
 Thank you for visiting Vets.gov and reviewing our Privacy Policy.  The Department of Veterans Affairs (VA) applies leading privacy practices and adheres to data stewardship principles in managing our Web user data.  The data stewardship principles guiding our efforts include the following goals:
 -	protection of Web user privacy;
 -	maintaining the confidentiality of Web user data; and
@@ -23,7 +23,7 @@ Key features of our privacy policy include:
 -	This General Privacy Policy and each Limited Privacy Policy promotes the privacy, confidentiality, security, and responsible handling of any information collected by Vets.gov  over the Web.
 
 #### Privacy Act Rights
-VA follows the requirements of the Privacy Act, which protects your personal information that VA maintains in “systems of records”.  A system of records is a file, database, or program from which personal information is retrieved by name or other personal identifier.  The Privacy Act provides a number of protections for your personal information.  These typically include how information is collected, used, disclosed, stored, and disposed.  VA System of Records Notices are available at:  [Department of Veterans Affairs Privacy Act Systems of Records](http://www.oprm.va.gov/ers/).  Vets.gov is a platform that uses your data from VA Systems of Record and is itself not a system of record.
+VA follows the requirements of the Privacy Act, which protects your personal information that VA maintains in “systems of records”.  A system of records is a file, database, or program from which personal information is retrieved by name or other personal identifier.  The Privacy Act provides a number of protections for your personal information.  These typically include how information is collected, used, disclosed, stored, and disposed.  VA System of Records Notices are available at:  [Department of Veterans Affairs Privacy Act Systems of Records](https://www.oprm.va.gov/ers/).  Vets.gov is a platform that uses your data from VA Systems of Record and is itself not a system of record.
 
 Vets.gov is a Department of Veterans Affairs computer system. This computer system, including all related equipment, networks, and network devices (specifically including Internet access) are provided only for authorized uses. VA computer systems may be monitored for all lawful purposes, including ensuring that their use is authorized, managing the system, protecting against unauthorized access, and verifying security procedures, survivability, and operational security. During monitoring, information may be examined, recorded, copied and used for authorized purposes.
 

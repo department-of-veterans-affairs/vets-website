@@ -74,7 +74,7 @@
     "body-parser": "^1.15.2",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
-    "chromedriver": "2.29",
+    "chromedriver": "^2.33.2",
     "chunk-manifest-webpack-plugin": "^1.0.0",
     "classlist-polyfill": "^1.0.3",
     "classnames": "^2.2.5",
@@ -203,11 +203,15 @@
   "private": true,
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
+    "downshift": "^1.22.5",
     "eslint-plugin-import": "^2.7.0",
     "eslint-stats": "^1.0.0",
+    "fast-levenshtein": "^2.0.6",
     "nyc": "^11.1.0",
+    "react-cropper": "^1.0.1",
+    "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d49c54324e53a59afe5998a9f52666b08aa49888"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#218a49397b12ebf43d2a6786a1a4ab55bc20399f"
   }
 }

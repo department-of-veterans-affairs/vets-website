@@ -45,13 +45,13 @@ You’ll need to apply for benefits. When you apply, you’ll have to show that 
 ### Need help?
 
 See these comprehensive lists for dates and locations of herbicide tests and storage:<br>
-[In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)<br>
-[Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
+[In the U.S.](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)<br>
+[Outside the U.S.](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
 
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+Want to connect with a trained professional who can help you with VA-related claims? [Get help filing your claim](/disability-benefits/apply/help/).
 
 ### Get more information
 
 Want to figure out where you may have come into contact with Agent Orange? See all the dates and locations of herbicide tests and storage:
-- [In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
-- [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp) 
+- [In the U.S.](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
+- [Outside the U.S.](https://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp) 

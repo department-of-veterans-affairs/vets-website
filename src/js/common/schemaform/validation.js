@@ -283,6 +283,7 @@ export function validateCurrentOrPastYear(errors, year) {
   }
 }
 
+const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 export function validateAddress(errors, address, formData, schema) {
   let isValidPostalCode = true;
 
@@ -296,7 +297,7 @@ export function validateAddress(errors, address, formData, schema) {
 
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
+  if (stateRequiredCountries.has(address.country)
     && address.state === undefined
     && schema.required.length) {
     errors.state.addError('Please select a state or province');
@@ -375,5 +376,14 @@ export function validateBooleanGroup(errors, userGroup, form, schema, errorMessa
   const group = userGroup || {};
   if (!Object.keys(group).filter(item => group[item] === true).length) {
     errors.addError(atLeastOne);
+  }
+}
+
+export function validateAutosuggestOption(errors, formData) {
+  if (formData &&
+    formData.widget === 'autosuggest' &&
+    !formData.id &&
+    formData.label) {
+    errors.addError('Please select an option from the suggestions');
   }
 }

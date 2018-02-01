@@ -5,16 +5,45 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
+$color-inactive: #9B9B9B;
+
 .claim-list {
   margin-bottom: 2em;
 }
 
 .claim-file-border, .help-heading {
   border-bottom: 3px solid $color-primary;
-  margin: 0 0 0.3em;
+  margin: 10px 0 10px;
+  padding-bottom: 9px;
   font-size: 1.35em;
   line-height: 1.5;
   font-weight: bold;
+  max-width: 22.5rem;
+}
+
+.claims-status-content  {
+  .help-sidebar {
+    // Line up the bottom border under "Need help?" with the tab list bottom border
+    margin-top: calc(3rem - 16px);
+    margin-bottom: 50px;
+  }
+
+  // The claims container has a sizeable padding; don't make the whitespace bigger
+  .claims-container .help-sidebar {
+    margin-bottom: 0px;
+  }
+}
+
+.help-sidebar {
+  p {
+    margin: 0 0 4px;
+  }
+}
+
+@media (max-width: $medium-screen) {
+  .claims-status-content .help-sidebar {
+    margin-top: 0px;
+  }
 }
 
 .submit-additional-evidence {
@@ -233,11 +262,6 @@
   margin-left: 3.25rem;
 }
 
-.help-talk {
-  margin: 0.5em 0;
-  padding: 0;
-}
-
 .help-phone-number {
   margin: 0.5em 0;
 }
@@ -261,14 +285,6 @@
     width: 100px;
     margin: 2rem auto;
     display: block;
-  }
-}
-
-.claims-alert-checkbox {
-  > label {
-    margin-top: 0;
-    margin-bottom: 0;
-    max-width: 100%;
   }
 }
 
@@ -352,29 +368,6 @@
   margin-bottom: 2em;
 }
 
-.claims-alert {
-  position: relative;
-  &.usa-alert {
-    background-size: 4.1rem;
-    background-position: 2rem 1.9rem;
-  }
-  .usa-alert-heading {
-    padding-bottom: 0 !important;
-  }
-  > .usa-alert-body {
-    padding-left: 4.2rem;
-  }
-  &:focus {
-    outline: none;
-  }
-}
-
-.claims-alert.phase-back-alert {
-  margin-top: 0;
-  margin-bottom: 0;
-  background-position: 1rem 1.4rem;
-}
-
 .claims-header {
   margin: 0;
 }
@@ -402,13 +395,6 @@
   @include media($medium-large-screen) {
     float: left;
     width: 63%;
-  }
-}
-
-.need-files-alert {
-  padding-bottom: 4em;
-  @include media($medium-large-screen) {
-    padding-bottom: 1em;
   }
 }
 
@@ -449,16 +435,6 @@ h1:focus {
   @media (max-width: $small-screen) {
     margin: -5px 5px 0 0;
     width: 0;
-  }
-}
-
-.alert-with-details {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  @include media($medium-large-screen) {
-    flex-direction: row;
   }
 }
 
@@ -505,23 +481,7 @@ h1:focus {
   }
 }
 
-.claims-list-alert {
-  margin-bottom: 1em;
-  margin-top: 0;
 
-  &.usa-alert {
-    background-size: 3.4rem;
-    background-position: 1rem 1.9rem;
-  }
-
-  > .usa-alert-body {
-    padding-left: 3.7rem;
-  }
-}
-
-.va-alert-close-icon {
-  font-size: 1.1em !important;
-}
 
 .claims-closed-text {
   margin-top: 1em;
@@ -540,15 +500,6 @@ h1:focus {
   padding: 0.5em 0 0 !important;
 }
 
-.claims-alert-status {
-  margin-top: 0;
-  margin-bottom: 2em;
-}
-
-.claims-alert-header {
-  padding-bottom: 0 !important;
-  margin-top: 0;
-}
 
 .claim-title {
   margin: 0;
@@ -598,11 +549,22 @@ h1:focus {
   }
 }
 
+.usa-alert {
+  // Remove icons from standard USWDS alert styles
+  background-image: none;
+  padding-left: 1em;
+}
+
 // Slimmed version of .claim-timeline with appeals-specific stuff
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
   padding-top: 0;
   padding-left: 0;
+
+  &.form-process {
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
 
   // To get all the li's to flow together, remove the top margin of the titles
   h2, h3, h4, h5 {
@@ -640,60 +602,69 @@ h1:focus {
 
   // Child <li>s are expected to have .process-step as well as a .section-*
   .process-step {
-    border-left: 5px solid $color-gray-lighter;
-    margin-left: -2.65em;
     padding-bottom: 1em;
 
-    &:before {
-      margin-left: -2.65em;
+    &:last-child {
+      padding-left: 2em;
+    }
+
+    .va-button-link {
+      h3 {
+        padding-top: 0;
+      }
     }
   }
 
-  .section-complete:before {
-    font-family: FontAwesome;
-    content: "\f00c";
-    margin-top: 5px; // Aligns the check bullets to their headers better
+  .section-complete {
+    border-left: 5px solid $color-gray-lighter;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f00c";
+      margin-top: 5px; // Aligns the check bullets to their headers better
+    }
   }
 
-  .section-unexpanded:before {
-    font-family: FontAwesome;
-    content: "\f067";
+  .section-unexpanded {
+
+    // offset left border with padding so element doesn't move while toggling expander
+    &.process-step {
+      padding-left: calc(2em + 5px);
+    }
+
+    &::before {
+      font-family: FontAwesome;
+      content: "\f067";
+      color: $color-primary;
+      background-color: $color-white;
+      border-color: $color-primary;
+    }
   }
 
-  .section-expanded:before {
-    font-family: FontAwesome;
-    content: "\f068";
-  }
-
-  .section-current {
-    // Align the bullet horizontally
-    padding-left: calc(2em + 2px);
-
-    // Make sure the arrowhead lines up better
-    padding-bottom: 0px;
-
-    &:before {
-      // \2022 = unicode code point for bullet, then just color it green like the background
-      //  to make it "disappear"
-      content: "\2022";
-      color: $color-green;
-      font-size: 0.8em;
-      line-height: 1.4em;
-      margin-left: -3.85em;
-      margin-top: 11px; // Pull the bullet down to align it better
+  .section-expanded {
+    border-left: 5px solid $color-gray-lighter;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f068";
+      color: $color-primary;
+      background-color: $color-white;
+      border-color: $color-primary;
     }
   }
 
   .appeal-event-date {
     color: $color-gray-medium;
+
+    & + .usa-alert {
+      margin-top: 1em;
+    }
   }
 
   & + .down-arrow {
-    width: 0px;
+    width: 0;
     border-left: 0.6em solid transparent;
     border-right: 0.6em solid transparent;
     border-top: 1.2em solid $color-gray-lighter;
-    margin-top: -24px;
+    margin-top: -.9em;
     margin-left: 0.8em;
   }
 
@@ -703,8 +674,70 @@ h1:focus {
   }
 }
 
+.current-status {
+  &.closed {
+    .current-status-content {
+      border-left-color: transparent;
+
+      &::before {
+        background-color: $color-inactive;
+        color: $color-inactive;
+      }
+    }
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+  
+
+  .current-status-content {
+    border-left: 5px solid $color-gray-lighter;
+    margin-left: 20px;
+    padding-left: 2em;
+
+    h3 {
+      clear: none;
+      padding-bottom: 0;
+      position: relative;
+      top: -.2em;
+    }
+
+    + .down-arrow {
+      border-left: .6em solid transparent;
+      border-right: .6em solid transparent;
+      border-top: 1.2em solid $color-gray-lighter;
+      margin-left: .8em;
+      margin-top: -1em; // overlap flat part of arrowhead with bottom of gray line
+      width: 0;
+    }
+
+    &::before {
+      background: $color-green;
+      border: 4px solid $color-white;
+      border-radius: 50%;
+      color: $color-green;
+      content: "\2022";
+      display: block;
+      float: left;
+      font-size: .8em;
+      line-height: 1.4em;
+      margin-left: -3.64em;
+      position: relative;
+      top: -.2em;
+      width: 2em;
+
+    }
+  }
+
+}
+
 .va-appeals-content {
   padding-top: 1em;
+
+  .usa-alert-text {
+    margin-top: 1em;
+  }
 }
 
 .appeals-tabs-item {
@@ -864,10 +897,10 @@ h1:focus {
 .appeals-next-list {
   list-style-type: none;
 
-  li {
+  li.next-event {
     &:before { // styles the bullets to mimic bullets in Timeline
-      display: inline-block;
-      vertical-align: middle;
+      display: block;
+      float: left;
       width: 1em;
       height: 1em;
       content: "";
@@ -875,12 +908,15 @@ h1:focus {
       border-radius: 50%;
       background: $color-gray-medium;
       margin-left: -.6em;
+      position: relative;
+      top: .33em;
     }
 
     h3 {
+      clear: none;
       margin-left: 1.5em;
-      display: inline;
-      vertical-align: middle;
+      margin-top: 0;
+      display: block;
     }
 
     p {
@@ -899,17 +935,153 @@ h1:focus {
     }
 
     .sidelines {
-    // line up the horizontal divider with the li::before 'bullets'
+      // line up the horizontal divider with the li::before 'bullets'
+      font-family: $font-serif;
+      font-size: 3rem; // match h2 size
       margin-left: -.6em;
       width: 102%;
     }
   }
 }
 
-.alerts-list {
-  list-style: none;
-
-  li {
-    margin-left: -.4em;
+.alerts-list-container {
+  h3 {
+    // left-align heading with alert box
+    padding-left: .85em;
   }
+
+  .alerts-list {
+    list-style: none;
+
+    li {
+      margin-left: -.4em;
+    }
+
+    .usa-alert {
+      h4 {
+        margin-top: 0;
+      }
+
+      .usa-alert-text {
+        margin-top: 1em;
+      }
+    }
+  }
+}
+
+.decision-items {
+  h5 {
+    &.allowed-items {
+      color: $color-green;
+    }
+    &.denied-items {
+      color: $color-red;
+    }
+    font-weight: bold;
+  }
+}
+
+
+$end-of-docket-width: 4px;
+$docket-bar-width: calc(100% - #{$end-of-docket-width});
+$marker-width: 3rem;
+$marker-text-width: 9rem;
+
+.docket-container {
+  // This is slightly darker than the cards above it
+  background-color: $color-gray-light-alt;
+  padding: 16px;
+  margin: 3em 0px;
+
+  p {
+    margin: 0px;
+  }
+
+  .appeals-ahead {
+    font-family: Source Sans Pro, sans serif;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $color-gray-light;
+    width: 80%;
+    max-width: 24rem;
+
+    & + p {
+      margin-top: 6px;
+    }
+  }
+
+  .marker-container {
+    // Same width as .docket-bar so we can more easily line the marker
+    //  up with .docket-bar .completed
+    width: $docket-bar-width;
+    margin-bottom: -16px;
+
+    .marker-text-spacer {
+      display: inline-block;
+      min-width: $marker-text-width / 2;
+      max-width: calc(100% - #{$marker-text-width} / 2);
+    }
+
+    .spacer {
+      display: inline-block;
+    }
+
+    .marker {
+      display: inline-block;
+      width: $marker-width;
+      margin: 0px $marker-width / -2;
+    }
+
+    span.marker-text {
+      font-weight: bold;
+      color: $color-primary;
+      width: $marker-text-width;
+      margin: 0px $marker-text-width / -2;
+    }
+  }
+
+  .docket-bar {
+    display: inline-block;
+    // 100% - width of .end-of-docket
+    width: $docket-bar-width;
+    height: 40px;
+    border: 1px solid $color-gray-light;
+    // abuts the .end-of-docket
+    border-right: 0px;
+    background-color: $color-white;
+
+    .completed {
+      background-color: $color-primary-darker;
+      height: 100%;
+    }
+  }
+
+  .end-of-docket {
+    display: inline-block;
+    background-color: $color-gold;
+    height: 64px;
+    width: $end-of-docket-width;
+  }
+
+  .front-of-docket-text {
+    display: flex;
+    flex-direction: row-reverse;
+
+    p {
+      width: 8rem;
+      text-align: right;
+    }
+  }
+}
+
+.closed-appeal-notice {
+  line-height: 40px;
+  text-align: center;
+  font-family:  "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  background-color: $color-gray-lightest;
+  margin-bottom: 2em;
 }

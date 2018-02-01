@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+// import moment from 'moment';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 
@@ -14,7 +14,7 @@ import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
 
-const SESSION_REFRESH_INTERVAL_MINUTES = 45;
+// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 class Main extends React.Component {
   constructor(props) {
@@ -40,9 +40,9 @@ class Main extends React.Component {
     });
     this.bindNavbarLinks();
 
-    // If there is a window.opener, then this window was spawned by another instance of the website as the auth app.
-    // In this case, we don't need to actually login, because that data will be passed to the parent window and done there instead.
-    if (!window.opener) {
+    // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
+    // request, because that data will be passed to the parent window and done there instead.
+    if (!window.location.pathname.includes('auth/login/callback')) {
       window.onload = () => {
         this.loginUrlRequest.then(this.checkTokenStatus);
       };
@@ -144,17 +144,24 @@ class Main extends React.Component {
 
   checkTokenStatus() {
     if (sessionStorage.userToken) {
-      if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
-        // TODO(crew): make more customized prompt.
-        if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-          this.handleLogin();
-        } else {
-          this.handleLogout();
-        }
-      } else {
-        if (this.props.getUserData()) {
-          this.props.updateLoggedInStatus(true);
-        }
+
+      // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
+      // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
+      //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
+      //     this.handleLogin();
+      //   } else {
+      //     this.handleLogout();
+      //   }
+      // } else {
+      //   if (this.props.getUserData()) {
+      //     this.props.updateLoggedInStatus(true);
+      //   }
+      // }
+
+      // @todo after doing the above, remove this code.
+      if (this.props.getUserData()) {
+        window.dataLayer.push({ event: 'login-user-logged-in' });
+        this.props.updateLoggedInStatus(true);
       }
     } else {
       this.props.updateLoggedInStatus(false);
@@ -191,9 +198,11 @@ class Main extends React.Component {
   }
 
   render() {
+    let content;
+
     switch (this.props.renderType) {
       case 'navComponent': {
-        return (
+        content = (
           <div>
             <SearchHelpSignIn onUserLogout={this.handleLogout}/>
             <Modal
@@ -207,18 +216,26 @@ class Main extends React.Component {
             </Modal>
           </div>
         );
+        break;
       }
       case 'verifyPage':
-        return this.props.profile.loading ?
+        content = this.props.profile.loading ?
           (<LoadingIndicator message="Loading the application..."/>) :
           (<Verify
             shouldRedirect={this.props.shouldRedirect}
             login={this.props.login}
             profile={this.props.profile}
             handleLogin={this.handleLogin}/>);
+        break;
       default:
-        return null;
+        content = null;
     }
+
+    return (
+      <div>
+        {content}
+      </div>
+    );
   }
 }
 

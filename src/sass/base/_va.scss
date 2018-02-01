@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
 }
@@ -26,6 +27,7 @@ body {
   top: -10em;
   background: $color-white;
   padding: 1em;
+  margin: 1em;
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
@@ -51,6 +53,11 @@ body .row.full {
   float: left;
 }
 
+// Remove from print view, incidentally removes from screen readers as well
+.no-print-no-sr {
+  display: none !important;
+}
+
 // Abbr
 
 abbr {
@@ -67,14 +74,14 @@ a {
   text-decoration: underline;
 
   -webkit-transition-duration: 0.3s;
-          transition-duration: 0.3s;
+  transition-duration: 0.3s;
 
   -webkit-transition-timing-function: ease-in-out;
-          transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
 
   // Transition only these properties.
   -webkit-transition-property: color, background-color, border-color;
-          transition-property: color, background-color, border-color;
+  transition-property: color, background-color, border-color;
 
   &:hover {
     background-color: $color-link-default-hover;
@@ -113,8 +120,10 @@ ol {
   list-style-position: outside;
 }
 
-ul, ol {
-  > ul, ol {
+ul,
+ol {
+  > ul,
+  ol {
     margin: .5em 0 .5em 1.2em;
   }
 }
@@ -127,7 +136,6 @@ dd {
 dd + dt {
   margin-top: 1.5em;
 }
-
 
 // Figure / Caption
 figure {
@@ -145,7 +153,7 @@ figcaption {
   color: $color-primary-darker;
 }
 
-input::-webkit-input-placeholder{
+input::-webkit-input-placeholder {
   color: $color-gray;
 }
 input::-moz-placeholder {
@@ -157,7 +165,7 @@ input:-ms-input-placeholder {
 }
 
 // Visually clear placeholder text on focus
-input:focus::-webkit-input-placeholder{
+input:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
@@ -223,7 +231,7 @@ table {
 
   // This sets the height of the header on large mobile devices between 480 and 768.
   @include media($small-screen) {
-    min-height: 167.19px
+    min-height: 167.19px;
   }
 
   @include media($medium-screen) {
@@ -232,21 +240,20 @@ table {
     min-height: 159px;
   }
 
-.login-container {
-  z-index: 2;
-  background: $color-primary-darkest;
-  flex-wrap: wrap;
-  white-space: nowrap;
+  .login-container {
+    z-index: 2;
+    background: $color-primary-darkest;
+    flex-wrap: wrap;
+    white-space: nowrap;
 
-  .row {
-    padding: 0;
+    .row {
+      padding: 0;
+    }
+
+    @include media($medium-large-screen) {
+      flex: 1 0 100%;
+    }
   }
-
-   @include media($medium-large-screen) {
-    flex: 1 0 100%;
-  }
-}
-
 }
 
 #va-header-logo-menu {
@@ -301,7 +308,8 @@ table {
 
   &-vetsdotgov,
   &-va {
-    path, rect {
+    path,
+    rect {
       fill: $color-white;
     }
   }
@@ -443,7 +451,8 @@ article > h1 {
 
 // Usually call out boxes will be definition lists, but
 // sometimes they"re unordered lists.
-ul, ol {
+ul,
+ol {
   &.va-callout {
     li {
       margin-left: 3rem !important;
@@ -531,8 +540,7 @@ ul, ol {
 
 #content.interior .primary {
   li p:first-of-type,
-  ul+p
-   {
+  ul + p {
     font-weight: normal !important;
     color: $color-gray-dark;
     font-size: 1em;
@@ -544,10 +552,25 @@ ul, ol {
   background: none;
   padding: 2em 0;
   background: $color-primary;
-  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  p {color: $color-white;}
-  a {color: $color-white;}
-  ul li {list-style: square;}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li {
+    color: $color-white;
+  }
+  p {
+    color: $color-white;
+  }
+  a {
+    color: $color-white;
+  }
+  ul li {
+    list-style: square;
+  }
 }
 
 #content .section.secondary {
@@ -557,15 +580,12 @@ ul, ol {
   }
 }
 
-
-
 #content .panel {
   background: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
   clear: both;
 }
-
 
 // Action
 .action {
@@ -587,7 +607,7 @@ ul, ol {
 
   // Gate / Sign-in pages only
   &--gate {
-    margin-bottom: -2em;
+    margin-bottom: -1em;
   }
 
   li {
@@ -648,7 +668,7 @@ ul, ol {
     vertical-align: middle;
     font-size: 1.35em;
 
-    &:hover  {
+    &:hover {
       border-bottom: none;
       text-decoration: none;
     }
@@ -760,7 +780,9 @@ li {
     margin: 0 0 .5em 0;
     padding: .75em;
 
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       background: $color-link-default-hover;
     }
   }
@@ -847,31 +869,6 @@ li {
   }
 }
 
- // Feedback widget
-
-.feedback-widget {
-  text-align: center;
-  overflow: hidden;
-
-  &:hover {
-    color: $color-gold;
-  }
-
-  @include media($medium-large-screen) {
-    text-align: left;
-  }
-
-  .icon {
-    background: url("/img/design/sprites/sprite.png") no-repeat -43px 0;
-    background-size: 215px 72px;
-    display: inline-block;
-    width: 19px;
-    height: 17px;
-    vertical-align: middle;
-    margin: 0 .5em 0 0;
-  }
-}
-
 // Search
 
 .search-button {
@@ -895,7 +892,9 @@ li {
   margin: 0 0 1.5em 0;
   padding: 1em;
   border: 1px solid $color-gray-lightest;
-  dt {font-weight: 700;}
+  dt {
+    font-weight: 700;
+  }
   dd {
     padding: 0;
     margin: 0;
@@ -912,7 +911,8 @@ li {
     height: 0;
   }
 
-  h4, h5 {
+  h4,
+  h5 {
     margin-top: 0;
   }
 
@@ -932,7 +932,8 @@ li {
     border-bottom: 1px solid $color-gray-light;
   }
 
-  .heading, .description {
+  .heading,
+  .description {
     display: block;
   }
 
@@ -1014,7 +1015,6 @@ li {
     margin: .5em 0;
   }
 }
-
 
 // Highlight headings
 // TODO(css): Consolidate these rules, possibly into a new class name
@@ -1116,11 +1116,10 @@ li {
   }
 }
 
-
 // USDS component styles
 // Accordion
 .usa-accordion-content[aria-hidden=true] {
-    display: none !important;
+  display: none !important;
 }
 
 // Disclaimer
@@ -1210,7 +1209,7 @@ li {
   top: -110%;
 
   &:before {
-    border-bottom: 10px solid transparent;  // left arrow slant
+    border-bottom: 10px solid transparent; // left arrow slant
     border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
     content: "";
@@ -1247,13 +1246,21 @@ li {
 }
 
 html.no-touchevents {
-  .touch {display: none;}
-  .no-touch {display: block;}
+  .touch {
+    display: none;
+  }
+  .no-touch {
+    display: block;
+  }
 }
 
 html.touchevents {
-  .touch {display: block;}
-  .no-touch {display: none;}
+  .touch {
+    display: block;
+  }
+  .no-touch {
+    display: none;
+  }
 }
 
 @-webkit-keyframes fadeIn {
@@ -1283,7 +1290,7 @@ html.touchevents {
 
 .va-code-block,
 code[class*="language-"],
-pre[class*="language-"]  {
+pre[class*="language-"] {
   background-color: $color-gray-lightest !important;
   font-size: .9em;
   line-height: inherit !important;
@@ -1291,7 +1298,7 @@ pre[class*="language-"]  {
 
 .va-address-block {
   margin-left: 5rem;
-  border-left: 2px solid $color-primary;
+  border-left: 3px solid $color-primary;
   padding-left: 1rem;
 }
 
@@ -1341,7 +1348,6 @@ p.info-message {
   font-size: 1.5em;
 }
 
-
 //==================
 // New .plain rewrite
 //===================
@@ -1356,7 +1362,7 @@ p.info-message {
   margin-top: 0;
 
   li {
-    padding: .8rem 0
+    padding: .8rem 0;
   }
 }
 
@@ -1371,7 +1377,6 @@ p.info-message {
     color: $color-gray-dark !important;
   }
 }
-
 
 // ----------------------
 // Fixes an overly-broad ul selector
@@ -1405,7 +1410,7 @@ p.info-message {
   }
 }
 
-.vertical-list-group .list-group-item:last-child{
+.vertical-list-group .list-group-item:last-child {
   border-left: 3px solid transparent;
   padding-bottom: 0;
 }
@@ -1422,6 +1427,12 @@ p.info-message {
   width: 12px;
 }
 
+.legend-heading-wrapper {
+  max-width: 100%;
+  margin: 0.08em 0;
+  width: 100%;
+}
+
 .legend-label {
   display: block;
   margin-top: 3rem;
@@ -1434,8 +1445,18 @@ p.info-message {
 
 .fieldset-input {
   margin-top: 3rem;
+  .health-record-fieldset { //specificity used to override
+    margin-top: 1.5rem;
+  }
 }
 
 [itemprop=acceptedAnswer] {
   // margin-bottom: 3em;
+}
+
+// Error standardization
+.usa-alert {
+  .alert-actions {
+    margin-top: 0.5em;
+  }
 }

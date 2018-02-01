@@ -105,7 +105,7 @@ You may also be able to get benefits for:
 - Anxiety
 
 
-[Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
+[Get more information about conditions that may be covered](https://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
 
 </div>
 </div>

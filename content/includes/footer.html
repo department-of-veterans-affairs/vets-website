@@ -1,6 +1,9 @@
 <footer class="footer" role="contentinfo">
+  <!--
+    Uncomment this when the feedback tool is ready to go
+    <div id="feedback-root"></div>
+  -->
   <div class="footer-inner">
-    <a class="sr-only" href="#feedback-tool" name="feedback-tool">Give feedback on this page</a>
     <div class="row va-flex">
     <ul class="va-footer-linkgroup" id="footer-services">
       <li><h4 class="va-footer-linkgroup-title">Services and Benefits</h4></li>
@@ -30,14 +33,17 @@
       TTY:&nbsp;<a href="tel:+18008778339" onClick="footerNavClick(this);">1-800-877-8339</a><br>
 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</li>
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
+      <li><br></li>
+      <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
+      <li><a href="/welcome-to-va">Print Out Your VA Welcome Kit</a></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
     <div>
       <ul class="va-footer-linkgroup--inline" id="footer-supplemental">
         <li><a href="/playbook/" onClick="footerNavClick(this);">Vets.gov Playbook</a></li>
-        <li><a target="_blank" href="http://www.va.gov/oig/" onClick="footerNavClick(this);">Inspector General</a></li>
-        <li><a target="_blank" href="http://www.section508.va.gov/" onClick="footerNavClick(this);">Accessibility</a></li>
+        <li><a target="_blank" href="https://www.va.gov/oig/" onClick="footerNavClick(this);">Inspector General</a></li>
+        <li><a target="_blank" href="https://www.section508.va.gov/" onClick="footerNavClick(this);">Accessibility</a></li>
         <li><a href="/privacy/" onClick="footerNavClick(this);">Privacy</a></li>
         <li><a target="_blank" href="http://usa.gov" onClick="footerNavClick(this);">USA.gov</a></li>
       </ul>
@@ -51,18 +57,15 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     {% if body_class == 'page-playbook' or body_class == 'home' or body_class == 'fourohfour' %}
     {% else %}
       <div class="row disclaimer">
-        <p>Please note: Content on this Web page is for informational purposes only. It is not intended to provide legal advice or to be a comprehensive statement or analysis of applicable statutes, regulations, and case law governing this topic. Rather, it’s a plain-language summary. If you are seeking claims assistance, your local VA regional office, a VA-recognized Veterans Service Organization, or a VA-accredited attorney or agent can help. <a target="_blank" href="http://www.va.gov/ogc/apps/accreditation/index.asp">Search Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives</a>.</p>
+        <p>Please note: Content on this Web page is for informational purposes only. It is not intended to provide legal advice or to be a comprehensive statement or analysis of applicable statutes, regulations, and case law governing this topic. Rather, it’s a plain-language summary. If you are seeking claims assistance, your local VA regional office, a VA-recognized Veterans Service Organization, or a VA-accredited attorney or agent can help. <a target="_blank" href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives</a>.</p>
       </div>
     {% endif %}
   </div>
 
-
   <div class="va-notice--banner va-notice--banner--alt">
     <div class="usa-grid">
-      <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
-        <span class="icon"></span>
-        <span class="text">Provide feedback on Vets.gov</span>
-      </a>
+      <h4>A new way to give us feedback</h4>
+      <p>Check back soon to share your feedback on what you’d like to see on Vets.gov.</p>
     </div>
   </div>
 </footer>
@@ -97,13 +100,13 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   {% include "content/includes/modal.html" %}
 {% endif %}
 
-<script async src="/js/user-voice.js"></script>
-
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
   <script>
-    window.dataLayer = [];
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ environment: '{{ buildtype }}' });
   </script>
+  <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
   <script>

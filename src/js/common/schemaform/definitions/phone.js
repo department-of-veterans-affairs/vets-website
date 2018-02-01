@@ -1,6 +1,11 @@
 import PhoneNumberWidget from '../widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
+/*
+ * Phone uiSchema
+ *
+ * @param {string} title - The field label, defaults to Phone
+ */
 export default function uiSchema(title = 'Phone') {
   return {
     'ui:widget': PhoneNumberWidget,

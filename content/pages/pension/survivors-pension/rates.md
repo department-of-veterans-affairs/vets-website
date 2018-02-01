@@ -62,7 +62,7 @@ Your VA pension = $6,506 for the year (or $542 paid each month)
 | --- | --- | 
 | A qualified surviving child  | $2,205 |
 
-[Get historic rate charts from past years](http://www.benefits.va.gov/pension/current_rates_survivor_pen.asp).
+[Get historic rate charts from past years](https://www.benefits.va.gov/pension/current_rates_survivor_pen.asp).
 
 #### Read the full regulations from Title 38 Code of Federal Regulations
 

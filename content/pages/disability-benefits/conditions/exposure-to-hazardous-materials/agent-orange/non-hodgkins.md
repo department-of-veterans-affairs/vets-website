@@ -42,7 +42,7 @@ You may be able to get disability benefits if you have non-Hodgkin’s lymphoma 
 
 - Health care
 - Compensation (payments)
-- [An Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+- [An Agent Orange Registry health exam]( https://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 -----
 

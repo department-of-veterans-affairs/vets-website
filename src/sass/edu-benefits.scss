@@ -28,27 +28,3 @@
 .row .edu-intro-spacing {
   margin-bottom: 7rem;
 }
-
-.edu-benefits-alert {
-  margin-top: 0;
-  margin-bottom: 23px;
-}
-
-.edu-warning-single-line {
-  margin-top: 0;
-  > .usa-alert-body {
-    padding-left: 4rem;
-  }
-}
-
-@media screen and (min-width: 600px) {
-  .edu-warning-single-line {
-    background-size: 4.2rem;
-    background-position: 1.3rem 1.5rem;
-    > .usa-alert-body {
-      padding-left: 5rem;
-    }
-  }
-}
-
-

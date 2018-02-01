@@ -60,7 +60,7 @@ export class LetterList extends React.Component {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            <h2 className="usa-alert-heading">Some letters may not be available</h2>
+            <h4 className="usa-alert-heading">Some letters may not be available</h4>
             <p className="usa-alert-text">
               One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.
@@ -76,7 +76,7 @@ export class LetterList extends React.Component {
           To see an explanation about each letter, click on the (+) to expand the box. After you expand the box, you’ll be given the option to download the letter.
         </p>
         <p>
-          To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/" target="_blank">Get Adobe Reader</a>
+          To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download. <a href="https://get.adobe.com/reader/otherversions/" target="_blank">Get Adobe Reader</a>
         </p>
         <p>
           <Link to="confirm-address">Go back to edit address</Link>

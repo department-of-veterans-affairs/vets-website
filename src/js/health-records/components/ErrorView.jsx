@@ -16,7 +16,7 @@ class ErrorView extends React.Component {
     let detail;
     let alert;
 
-    if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
       alert = true;
       title = 'We couldn’t access your health tools';
       detail = (
@@ -26,18 +26,13 @@ class ErrorView extends React.Component {
       );
     }
 
-    const content = (
-      <div>
-        <h4 className="usa-alert-heading">{title}</h4>
-        <div>
-          {detail}
-        </div>
-      </div>
-    );
+    const headline = (<h4>{title}</h4>);
+    const content = { detail };
 
     if (alert) {
       return (
         <AlertBox
+          headline={headline}
           content={content}
           isVisible
           status="warning"/>
@@ -54,7 +49,7 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.accountcreation,
+      errorCodes.accountCreation,
     );
 
     // don’t block application if no errors, or errors not in the list above

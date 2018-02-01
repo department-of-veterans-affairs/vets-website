@@ -39,7 +39,7 @@ relatedlinks:
 ##### 12 Months Before Leaving Active Duty
 
 - Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The [GI Bill](/education/gi-bill/) may be used for some of this prior to exiting the service.
-- Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil), but you must have approval from your service branch to get credit. You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so [check documents related to your branch](https://dodtap.mil/index.html).
+- Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil), but you must have approval from your service branch to get credit. You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so [check documents related to your branch](https://dodtap.mil/my.policy).
 - Review [military transcripts](/employment/job-seekers/military-transcripts/) and service records for accuracy.
 - Think about which industries and careers interest you, using [tools](/employment/job-seekers/interest-profiler/) such as o*Net and CareerScope.
 - Start developing a resume by [translating military skills](/employment/job-seekers/skills-translator) into equivalent civilian skills. Import these using the [Resume Builder](/employment/job-seekers/create-resume).
@@ -59,8 +59,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 - Compile private medical records and hospital reports.
 - Finalize your resume and begin actively [searching for employment](https://www.careeronestop.org/JobSearch/job-search.aspx).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship.
-- Consider free [education and career counseling](/education/tools-programs/education-career-counseling/).
-- At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment).
+- At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment/).
 
 </div>
 </li>

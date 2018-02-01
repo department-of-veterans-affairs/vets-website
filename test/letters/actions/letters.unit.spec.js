@@ -27,6 +27,7 @@ import {
 
 import {
   getLetterList,
+  getLetterListAndBSLOptions,
   getMailingAddress,
   getBenefitSummaryOptions,
   getLetterPdf,
@@ -119,7 +120,8 @@ describe('saveAddress', () => {
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
-      }).then(done, done);
+        done();
+      });
   });
 
   it('dispatches SAVE_ADDRESS_SUCCESS on update success', (done) => {
@@ -146,7 +148,8 @@ describe('saveAddress', () => {
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(SAVE_ADDRESS_FAILURE);
-      }).then(done, done);
+        done();
+      });
   });
 });
 
@@ -174,9 +177,8 @@ describe('getLettersList', () => {
       ok: true,
       json: () => Promise.resolve(lettersResponse)
     }));
-    const thunk = getLetterList();
     const dispatch = sinon.spy();
-    thunk(dispatch, getState)
+    getLetterList(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_SUCCESS);
@@ -186,13 +188,15 @@ describe('getLettersList', () => {
 
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', (done) => {
     global.fetch.returns(Promise.reject(new Error('something went wrong')));
-    const thunk = getLetterList();
     const dispatch = sinon.spy();
-    thunk(dispatch, getState)
+    getLetterList(dispatch)
       .then(() => {
+        done(new Error('getLetterList should have rejected but resolved instead'));
+      }).catch(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_LETTERS_FAILURE);
-      }).then(done, done);
+        done();
+      });
   });
 
   const lettersErrors = {
@@ -209,13 +213,43 @@ describe('getLettersList', () => {
         errors: [{ status: `${code}` }]
       }));
 
-      const thunk = getLetterList();
       const dispatch = sinon.spy();
-      thunk(dispatch, getState)
+      getLetterList(dispatch)
+        // Just get to the test already!
+        // Note: This could swallow unexpected errors
+        .catch(() => Promise.resolve())
         .then(() => {
           const action = dispatch.firstCall.args[0];
           expect(action.type).to.equal(lettersErrors[code]);
         }).then(done, done);
+    });
+  });
+});
+
+describe('getLetterListAndBSLOptions', () => {
+  beforeEach(setup);
+  afterEach(teardown);
+
+  it('should make the call to get the BSL options after the letter list call is complete', (done) => {
+    const thunk = getLetterListAndBSLOptions();
+    const dispatch = () => {};
+
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).to.equal(2);
+      expect(global.fetch.firstCall.args[0].endsWith('/v0/letters')).to.be.true;
+      expect(global.fetch.secondCall.args[0].endsWith('/v0/letters/beneficiary')).to.be.true;
+      done();
+    });
+  });
+
+  it('should not make the call to get the BSL options if the letter list call fails', (done) => {
+    global.fetch.returns(Promise.reject());
+    const thunk = getLetterListAndBSLOptions();
+    const dispatch = () => {};
+
+    thunk(dispatch).then(() => {
+      expect(global.fetch.callCount).to.equal(1);
+      done();
     });
   });
 });
@@ -386,10 +420,9 @@ describe('getBenefitSummaryOptions', () => {
       ok: true,
       json: () => Promise.resolve(mockResponse)
     }));
-    const thunk = getBenefitSummaryOptions();
     const dispatch = sinon.spy();
 
-    thunk(dispatch, getState)
+    getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
         const action = dispatch.args[0][0]; // first call, first arg
         expect(action.type).to.equal(GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS);
@@ -399,13 +432,15 @@ describe('getBenefitSummaryOptions', () => {
 
   it('dispatches FAILURE action when GET fails', (done) => {
     global.fetch.returns(Promise.reject({}));
-    const thunk = getBenefitSummaryOptions();
     const dispatch = sinon.spy();
 
-    thunk(dispatch, getState)
+    getBenefitSummaryOptions(dispatch, getState)
       .then(() => {
+        done(new Error('getBenefitSummaryOptions should have rejected but resolved instead'));
+      }).catch(() => {
         expect(dispatch.calledWith({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE })).to.be.true;
-      }).then(done, done);
+        done();
+      });
   });
 });
 

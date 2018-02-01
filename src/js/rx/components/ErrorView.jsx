@@ -38,7 +38,7 @@ class ErrorView extends React.Component {
           Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
-    } else if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    } else if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
       alert = true;
       title = 'We couldn’t access your health tools';
       detail = (
@@ -49,12 +49,10 @@ class ErrorView extends React.Component {
     }
 
     content = content || (
-      <div>
+      <span>
         <h4>{title}</h4>
-        <div>
-          {detail}
-        </div>
-      </div>
+        <div>{detail}</div>
+      </span>
     );
 
     if (alert) {
@@ -79,7 +77,7 @@ class ErrorView extends React.Component {
       errorCodes.access,
       errorCodes.registration,
       errorCodes.prescriptions,
-      errorCodes.accountcreation,
+      errorCodes.accountCreation,
     );
 
     // don’t block application if no errors, or errors not in the list above

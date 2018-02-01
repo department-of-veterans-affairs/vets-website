@@ -24,6 +24,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Click on print page
     // Commenting out for now until we can figure out why this is failing in Jenkins
+    // NOTE: This no longer opens a new window
     // client
     //   .click('#print-button')
     //   .window_handles((result) => {

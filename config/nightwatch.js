@@ -13,6 +13,7 @@ module.exports = {
   src_folders: ['./test'],
   output_folder: './logs/nightwatch',
   custom_commands_path: './test/util/nightwatch-commands',
+  custom_assertions_path: './test/util/nightwatch-assertions',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',

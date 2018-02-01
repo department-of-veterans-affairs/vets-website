@@ -7,7 +7,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityAfterYouApply
 majorlinks:
-  - heading:
+  - heading: More information about disability ratings and payments
     links:
     - url: /disability-benefits/after-you-apply/date/
       title: Effective Date of Disability

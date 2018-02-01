@@ -26,7 +26,7 @@ class VerifyPrompt extends React.Component {
             </p>
             <h5>Having trouble verifying your identity?</h5>
             <p>
-              <a href="/faq">Get answers to Frequently Asked Questions (FAQs)</a>
+              <a href="/faq/">Get answers to Frequently Asked Questions (FAQs)</a>
             </p>
           </div>
         </div>
