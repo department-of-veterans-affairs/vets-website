@@ -63,7 +63,7 @@ export const ALERT_TYPES = {
  * @property {string} date TO-DO: unsure of what this date siginifies
  * ------------------------------------------------------------------------------------------------
  * @typedef {Object} segmentedIssue issue with descriptor and status information
- * @property {('granted'|'remand'|'allowed'|'denied')} status lifecycle stage of an issue
+ * @property {('granted'|'remand'|'allowed'|'denied'|'withdrawn')} status lifecycle stage of an issue
  * @property {string} description pass-through for the description info of passed in issue object
  * ------------------------------------------------------------------------------------------------
  * @param {issue[]} issues all the individual issues that are attached to an appeal
@@ -77,7 +77,7 @@ export function categorizeIssues(issues) {
         status = 'granted';
         break;
       case ISSUE_STATUS.withdrawn:
-        status = 'denied';
+        status = 'withdrawn';
         break;
       case ISSUE_STATUS.allowed:
         status = 'allowed';

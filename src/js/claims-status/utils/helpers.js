@@ -274,7 +274,14 @@ export const mockData = {
           ready: 22109,
           eta: '2019-08-31'
         },
-        issues: [],
+        issues: [
+          {
+            active: true,
+            description: 'Service connection for tinnitus',
+            lastAction: 'withdrawn',
+            date: '2016-05-30'
+          }
+        ],
         alerts: [
           {
             type: 'form9_needed',

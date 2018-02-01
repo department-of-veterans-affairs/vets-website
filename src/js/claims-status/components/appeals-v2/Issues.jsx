@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import CollapsiblePanel from '../../../common/components/CollapsiblePanel';
 
 const Issues = ({ issues }) => {
-  // TO-DO: think about whether it's crazy to run through the issues list 4 times
   const open = issues.filter(i => i.status === 'open');
   const remand = issues.filter(i => i.status === 'remand');
   const granted = issues.filter(i => i.status === 'granted');
   const denied = issues.filter(i => i.status === 'denied');
+  const withdrawn = issues.filter(i => i.status === 'withdrawn');
 
   const getListItems = (item, i) => {
     return (
@@ -21,6 +21,7 @@ const Issues = ({ issues }) => {
   const remandListItems = remand.map(getListItems);
   const grantedListItems = granted.map(getListItems);
   const deniedListItems = denied.map(getListItems);
+  const withdrawnListItems = withdrawn.map(getListItems);
 
   const openSection = (openListItems.length) ? <ul>{openListItems}</ul> : null;
 
@@ -56,6 +57,16 @@ const Issues = ({ issues }) => {
     );
   }
 
+  let withdrawnSection = null;
+  if (withdrawnListItems.length) {
+    withdrawnSection = (
+      <div>
+        <h5>Withdrawn</h5>
+        <ul>{withdrawnListItems}</ul>
+      </div>
+    );
+  }
+
   let activeItems = null;
   if (openListItems.length || remandListItems.length) {
     activeItems = (
@@ -67,11 +78,12 @@ const Issues = ({ issues }) => {
   }
 
   let closedItems = null;
-  if (grantedListItems.length || deniedListItems.length) {
+  if (grantedListItems.length || deniedListItems.length || withdrawnListItems.length) {
     closedItems = (
       <CollapsiblePanel panelName={'Closed'}>
         {grantedSection}
         {deniedSection}
+        {withdrawnSection}
       </CollapsiblePanel>
     );
   }
@@ -88,7 +100,9 @@ const Issues = ({ issues }) => {
 Issues.propTypes = {
   issues: PropTypes.arrayOf(
     PropTypes.shape({
-      status: PropTypes.oneOf(['open', 'remand', 'granted', 'denied']).isRequired,
+      status: PropTypes.oneOf(
+        ['open', 'remand', 'granted', 'denied', 'withdrawn']
+      ).isRequired,
       description: PropTypes.string.isRequired,
     }),
   ).isRequired,
