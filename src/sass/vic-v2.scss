@@ -181,21 +181,26 @@ input[type=range] {
 
 .cropper-control-container {
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
+  flex-flow: row wrap;
   margin-bottom: 30px;
+  @media (min-width: $large-screen) {
+    flex-flow: unset;
+  }
 }
 
-.cropper-control-column {
+.cropper-control-row {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
   @media (min-width: $large-screen) {
-    flex-direction: row;
+    width: unset;
   }
 }
 
 .cropper-control-label-container {
   margin: 10px;
+  min-width: 96px;
 }
 
 .cropper-control-zoom {
