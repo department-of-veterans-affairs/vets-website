@@ -62,15 +62,19 @@ You may be able to get disability benefits if both of the following are true for
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br>
+[Apply for disability benefits](/disability-benefits/apply/).
 
 **Note:**
-- If you have an illness believed to be caused by Agent Orange, you won’t need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+- If you have an illness believed to be caused by Agent Orange, you won’t need to show the problem started during—or got worse because of—your military service. <br>
+[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 - If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you’ll need to show the problem started during—or got worse because of—your military service.
 
 
 ### Get more information
 
-Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? <br>
+[Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
-Do you have non-Hodgkin’s lymphoma (a type of cancer)? You can get VA support. [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+Do you have non-Hodgkin’s lymphoma (a type of cancer)? You can get VA support. <br>
+[Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
