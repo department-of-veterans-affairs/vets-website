@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import Raven from 'raven-js';
 
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
@@ -566,6 +567,34 @@ const DECISION_REVIEW_CONTENT = (
 );
 
 /**
+ * Translates an array of two ints into a string that conveys a duration estimate
+ * @param {number[]} timeliness two integers that represent the low and high time durations
+ * (in months) of a given thing
+ * @returns {string} formatted to convey the estimated duration range, in months
+ */
+const makeDurationHeader = (timeliness) => {
+  if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
+    const durationError = new Error(
+      'vets_appeals_v2_helpers_makeDurationHeader_bad_timeliness_input'
+    );
+    Raven.captureException(durationError);
+    return 'No estimated duration for this step';
+  }
+
+  const lowEst = timeliness[0];
+  const highEst = timeliness[1];
+  const estIsExact = (lowEst === highEst);
+
+  if (estIsExact) {
+    return (lowEst === 1)
+      ? '1 Month'
+      : `${lowEst} Months`;
+  }
+
+  return `${lowEst}-${highEst} Months`;
+};
+
+/**
  * Gets 'what's next' content for a given current status type
  * @typedef {Object} nextEvent
  * @property {string} title header for each NextEvent
@@ -582,8 +611,7 @@ const DECISION_REVIEW_CONTENT = (
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
-// TO-DO: Add 'details' to args list once they're complete in the API
-export function getNextEvents(currentStatus) {
+export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc:
       return {
@@ -600,7 +628,7 @@ export function getNextEvents(currentStatus) {
                 expect this change to be made in 1 to 2 months.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.socTimeliness),
             cardDescription: '',
           }, {
             title: 'The Veterans Benefits Administration will send you a Statement of the Case',
@@ -631,7 +659,7 @@ export function getNextEvents(currentStatus) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.certificationTimeliness),
             cardDescription: ''
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
@@ -644,7 +672,7 @@ export function getNextEvents(currentStatus) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.ssocTimeliness),
             cardDescription: ''
           },
         ]
@@ -662,7 +690,7 @@ export function getNextEvents(currentStatus) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.certificationTimeliness),
             cardDescription: '',
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
@@ -675,7 +703,7 @@ export function getNextEvents(currentStatus) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.ssocTimeliness),
             cardDescription: '',
           }
         ]
@@ -693,7 +721,7 @@ export function getNextEvents(currentStatus) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.certificationTimeliness),
             cardDescription: '',
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
@@ -706,7 +734,7 @@ export function getNextEvents(currentStatus) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.ssocTimeliness),
             cardDescription: '',
           }
         ]
@@ -724,7 +752,7 @@ export function getNextEvents(currentStatus) {
                 your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.returnTimeliness),
             cardDescription: '',
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
@@ -735,7 +763,7 @@ export function getNextEvents(currentStatus) {
                 before returning your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
+            durationText: makeDurationHeader(details.remandSsocTimeliness),
             cardDescription: '',
           }
         ]
@@ -855,7 +883,7 @@ export function getNextEvents(currentStatus) {
                 Veterans’ Appeals for a new decision.
               </p>
             ),
-            durationText: '11 months',
+            durationText: makeDurationHeader(details.remandTimeliness),
             cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
           }
         ]
