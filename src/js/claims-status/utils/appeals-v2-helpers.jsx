@@ -575,7 +575,7 @@ const DECISION_REVIEW_CONTENT = (
  * (in months) of a given thing
  * @returns {durationText} formatted to convey the estimated duration range, in months
  */
-const makeDurationText = (timeliness) => {
+export const makeDurationText = (timeliness) => {
   const durationText = {
     header: 'unknown',
     description: 'unknown',
