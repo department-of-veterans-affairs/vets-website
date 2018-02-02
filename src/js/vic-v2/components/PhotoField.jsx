@@ -38,12 +38,68 @@ const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 const MAX_DIMENSION = 1024;
 
+function getCanvasCropBoundariesMet(canvasData, cropboxData) {
+  const { height: canvasHeight, width: canvasWidth, left: canvasLeft, top: canvasTop } = canvasData;
+  const { height: cropboxHeight, width: cropboxWidth, left: cropboxLeft, top: cropboxTop } = cropboxData;
+
+  // origin is at center
+  // coodinates are for canvas's container
+  const canvasBoundaries = {
+    minLeft: Math.round(-canvasWidth + cropboxLeft + cropboxWidth, 2),
+    maxLeft: Math.round(cropboxLeft, 2),
+    minTop: Math.round(-canvasHeight + cropboxTop + cropboxHeight, 2),
+    maxTop: Math.round(cropboxTop, 2),
+  };
+
+  return {
+    bottomBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.minTop,
+    topBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.maxTop,
+    leftBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.maxLeft,
+    rightBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.minLeft
+  };
+}
+
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
 }
 
 function isValidFileType(fileName) {
   return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
+}
+
+function makeBoundaryEdgeWarning(direction) {
+  return `You have reached the edge of your photo and cannot move it any farther ${direction}. Use the other arrows or the make larger and make smaller buttons to continue to edit.`;
+}
+
+function makeCropBoundaryWarningMessage({ zoomWarn = false, topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
+  let warningMessage;
+
+  if (zoomWarn) {
+    warningMessage = 'If you zoom in this close, your ID photo will be less clear';
+  } else if ((topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet)) {
+    warningMessage = 'Your photo currently fits within the square frame. Click ‘Make Larger’ if you would like to adjust the position of your photo';
+  } else if (topBoundaryMet) {
+    warningMessage = makeBoundaryEdgeWarning('down');
+  } else if (bottomBoundaryMet) {
+    warningMessage = makeBoundaryEdgeWarning('up');
+  } else if (leftBoundaryMet) {
+    warningMessage = makeBoundaryEdgeWarning('right');
+  } else if (rightBoundaryMet) {
+    warningMessage = makeBoundaryEdgeWarning('left');
+  } else {
+    warningMessage = '';
+  }
+
+  return warningMessage;
+}
+
+function makeMoveButtonsEnabledStates({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
+  return {
+    moveUpDisabled: bottomBoundaryMet,
+    moveDownDisabled: topBoundaryMet,
+    moveLeftDisabled: rightBoundaryMet,
+    moveRightDisabled: leftBoundaryMet
+  };
 }
 
 // If any of the image dimensions are greater than the max specified,
@@ -200,11 +256,13 @@ export default class PhotoField extends React.Component {
       this.setState({ zoomValue });
       this.updateBoundaryWarningAndButtonStates();
 
-      const canvasCropBoundariesMet = this.getCanvasCropBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
+      const canvasCropBoundariesMet = getCanvasCropBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
       const zoomWarn = zoomValue >= WARN_RATIO;
 
-      this.maybeShowCropBoundaryWarning({ zoomWarn, ...canvasCropBoundariesMet });
-      this.updateMoveButtonsEnabledStates(canvasCropBoundariesMet);
+      this.setState({
+        warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...canvasCropBoundariesMet }),
+        ...makeMoveButtonsEnabledStates(canvasCropBoundariesMet)
+      });
     } else {
       e.preventDefault();
     }
@@ -233,27 +291,6 @@ export default class PhotoField extends React.Component {
     return this.state.errorMessage;
   }
 
-  getCanvasCropBoundariesMet = (canvasData, cropboxData) => {
-    const { height: canvasHeight, width: canvasWidth, left: canvasLeft, top: canvasTop } = canvasData;
-    const { height: cropboxHeight, width: cropboxWidth, left: cropboxLeft, top: cropboxTop } = cropboxData;
-
-    // origin is at center
-    // coodinates are for canvas's container
-    const canvasBoundaries = {
-      minLeft: Math.round(-canvasWidth + cropboxLeft + cropboxWidth, 2),
-      maxLeft: Math.round(cropboxLeft, 2),
-      minTop: Math.round(-canvasHeight + cropboxTop + cropboxHeight, 2),
-      maxTop: Math.round(cropboxTop, 2),
-    };
-
-    return {
-      bottomBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.minTop,
-      topBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.maxTop,
-      leftBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.maxLeft,
-      rightBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.minLeft
-    };
-  }
-
   detectWidth = () => {
     const windowWidth = window.innerWidth;
     this.setState({ windowWidth });
@@ -268,83 +305,52 @@ export default class PhotoField extends React.Component {
   }
 
   updateBoundaryWarningAndButtonStates = () => {
-    const canvasCropBoundariesMet = this.getCanvasCropBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
+    const canvasCropBoundariesMet = getCanvasCropBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
 
-    this.updateMoveButtonsEnabledStates(canvasCropBoundariesMet);
-    this.maybeShowCropBoundaryWarning(canvasCropBoundariesMet);
-  }
-
-  updateMoveButtonsEnabledStates = ({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) => {
-    const buttonStates = {
-      moveUpDisabled: bottomBoundaryMet,
-      moveDownDisabled: topBoundaryMet,
-      moveLeftDisabled: rightBoundaryMet,
-      moveRightDisabled: leftBoundaryMet
-    };
-
-    this.setState(buttonStates);
-  }
-
-  makeBoundaryEdgeWarning = (direction) => `You have reached the edge of your photo and cannot move it any farther ${direction}. Use the other arrows or the make larger and make smaller buttons to continue to edit.`
-
-  maybeShowCropBoundaryWarning = ({ zoomWarn = false, topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) => {
-    let warningMessage;
-    if (zoomWarn) {
-      warningMessage = 'If you zoom in this close, your ID photo will be less clear';
-    } else if ((topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet)) {
-      warningMessage = 'Your photo currently fits within the square frame. Click ‘Make Larger’ if you would like to adjust the position of your photo';
-    } else if (topBoundaryMet) {
-      warningMessage = this.makeBoundaryEdgeWarning('down');
-    } else if (bottomBoundaryMet) {
-      warningMessage = this.makeBoundaryEdgeWarning('up');
-    } else if (leftBoundaryMet) {
-      warningMessage = this.makeBoundaryEdgeWarning('right');
-    } else if (rightBoundaryMet) {
-      warningMessage = this.makeBoundaryEdgeWarning('left');
-    } else {
-      warningMessage = '';
-    }
-
-    this.setState({ warningMessage });
+    this.setState({ ...makeMoveButtonsEnabledStates(canvasCropBoundariesMet) });
+    this.setState({
+      warningMessage: makeCropBoundaryWarningMessage(canvasCropBoundariesMet),
+      ...makeMoveButtonsEnabledStates(canvasCropBoundariesMet)
+    });
   }
 
   cropend = () => { // casing matches Cropper argument
     this.updateBoundaryWarningAndButtonStates();
   }
 
-  moveUp = () => {
-    this.refs.cropper.move(0, -5);
-
-    this.updateBoundaryWarningAndButtonStates();
-  }
-
-  moveDown = () => {
-    this.refs.cropper.move(0, 5);
-
-    this.updateBoundaryWarningAndButtonStates();
-  }
-
-  moveRight = () => {
-    this.refs.cropper.move(5, 0);
-
-    this.updateBoundaryWarningAndButtonStates();
-  }
-
-  moveLeft = () => {
-    this.refs.cropper.move(-5, 0);
-
-    this.updateBoundaryWarningAndButtonStates();
-  }
-
-  zoomIn = () => {
-    if (this.state.zoomValue < MAX_RATIO) {
-      this.refs.cropper.zoom(0.1);
+  handleMove = (direction) => {
+    switch (direction) {
+      case 'up':
+        this.refs.cropper.move(0, -5);
+        break;
+      case 'down':
+        this.refs.cropper.move(0, 5);
+        break;
+      case 'right':
+        this.refs.cropper.move(5, 0);
+        break;
+      case 'left':
+        this.refs.cropper.move(-5, 0);
+        break;
+      default:
     }
+
+    this.updateBoundaryWarningAndButtonStates();
   }
 
-  zoomOut = () => {
-    if (this.state.zoomValue > MIN_RATIO) {
-      this.refs.cropper.zoom(-0.1);
+  handleZoom = (direction) => {
+    switch (direction) {
+      case 'IN':
+        if (this.state.zoomValue < MAX_RATIO) {
+          this.refs.cropper.zoom(0.1);
+        }
+        break;
+      case 'OUT':
+        if (this.state.zoomValue > MIN_RATIO) {
+          this.refs.cropper.zoom(-0.1);
+        }
+        break;
+      default:
     }
   }
 
@@ -404,8 +410,8 @@ export default class PhotoField extends React.Component {
               viewMode={1}
               zoom={this.onZoom}/>
             <div className="cropper-zoom-container">
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}><i className="fa fa-search-minus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoom('OUT')}><i className="fa fa-search-minus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoom('OUT')}>
                 <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
               </button>}
               <input type="range"
@@ -419,48 +425,40 @@ export default class PhotoField extends React.Component {
                 aria-valuemax={MAX_RATIO}
                 aria-valuenow={this.state.zoomValue}
                 onInput={this.onZoomSliderChange}/>
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}>
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoom('IN')}><i className="fa fa-search-plus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoom('IN')}>
                 <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
               </button>}
             </div>
             <div className="cropper-control-container">
               <div className="cropper-control-row">
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
+                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoom('OUT')}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
+                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoom('IN')}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
               </div>
               {[
                 [{
-                  labelText: 'Move up',
-                  className: 'fa fa-arrow-up',
-                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveUpDisabled })}`,
-                  onClick: this.moveUp
+                  direction: 'up',
+                  disabled: this.state.moveUpDisabled
                 }, {
-                  labelText: 'Move down',
-                  className: 'fa fa-arrow-down',
-                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveDownDisabled })}`,
-                  onClick: this.moveDown
+                  direction: 'down',
+                  disabled: this.state.moveDownDisabled
                 }],
                 [{
-                  labelText: 'Move left',
-                  className: 'fa fa-arrow-left',
-                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveLeftDisabled })}`,
-                  onClick: this.moveLeft
+                  direction: 'left',
+                  disabled: this.state.moveLeftDisabled
                 }, {
-                  labelText: 'Move right',
-                  className: 'fa fa-arrow-right',
-                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveRightDisabled })}`,
-                  onClick: this.moveright
+                  direction: 'right',
+                  disabled: this.state.moveRightDisabled
                 }]
               ].map((row, index) => (
                 <div className="cropper-control-row" key={index}>
                   {row.map((button) => (
-                    <button className={button.moveControlClass} type="button" onClick={button.onClick} key={button.className}>
-                      <span className="cropper-control-label">{button.labelText}<i className={button.className}></i></span>
+                    <button className={`${moveControlClass} ${classNames({ disabled: button.disabled })}`} type="button" onClick={() => this.handleMove(button.direction)} key={button.direction}>
+                      <span className="cropper-control-label">{`Move ${button.direction}`}<i className={`fa fa-arrow-${button.direction}`}></i></span>
                     </button>))
                   }
                 </div>))
