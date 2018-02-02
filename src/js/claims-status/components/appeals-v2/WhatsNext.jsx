@@ -49,6 +49,10 @@ const WhatsNext = ({ nextEvents }) => {
 WhatsNext.propTypes = {
   nextEvents: PropTypes.shape({
     header: PropTypes.string.isRequired,
+    headerCard: PropTypes.shape({
+      durationText: PropTypes.string.isRequired,
+      cardDescription: PropTypes.string.isRequired,
+    }),
     events: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
       description: PropTypes.element.isRequired,
