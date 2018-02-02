@@ -46,7 +46,7 @@ function isValidFileType(fileName) {
   return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
 }
 
-// If any of the image dimensions are greater than the max specified, 
+// If any of the image dimensions are greater than the max specified,
 // resize it down to that dimension while keeping the aspect ratio
 // intact
 function resizeIfAboveMaxDimension(img, mimeType, maxDimension) {
@@ -425,31 +425,46 @@ export default class PhotoField extends React.Component {
               </button>}
             </div>
             <div className="cropper-control-container">
-              <div className="cropper-control-column">
+              <div className="cropper-control-row">
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                <button className={`${moveControlClass} ${classNames({ disabled: this.state.moveUpDisabled })}`} type="button" onClick={this.moveUp}>
-                  <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
-
-                </button>
-                <button className={`${moveControlClass} ${classNames({ disabled: this.state.moveLeftDisabled })}`} type="button" onClick={this.moveLeft}>
-                  <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
-
-                </button>
-              </div>
-              <div className="cropper-control-column">
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
-                <button  className={`${moveControlClass} ${classNames({ disabled: this.state.moveDownDisabled })}`} type="button" onClick={this.moveDown}>
-                  <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
-
-                </button>
-                <button className={`${moveControlClass} ${classNames({ disabled: this.state.moveRightDisabled })}`} type="button" onClick={this.moveRight}>
-                  <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
-                </button>
               </div>
+              {[
+                [{
+                  labelText: 'Move up',
+                  className: 'fa fa-arrow-up',
+                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveUpDisabled })}`,
+                  onClick: this.moveUp
+                }, {
+                  labelText: 'Move down',
+                  className: 'fa fa-arrow-down',
+                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveDownDisabled })}`,
+                  onClick: this.moveDown
+                }],
+                [{
+                  labelText: 'Move left',
+                  className: 'fa fa-arrow-left',
+                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveLeftDisabled })}`,
+                  onClick: this.moveLeft
+                }, {
+                  labelText: 'Move right',
+                  className: 'fa fa-arrow-right',
+                  moveControlClass: `${moveControlClass} ${classNames({ disabled: this.state.moveRightDisabled })}`,
+                  onClick: this.moveright
+                }]
+              ].map((row, index) => (
+                <div className="cropper-control-row" key={index}>
+                  {row.map((button) => (
+                    <button className={button.moveControlClass} type="button" onClick={button.onClick} key={button.className}>
+                      <span className="cropper-control-label">{button.labelText}<i className={button.className}></i></span>
+                    </button>))
+                  }
+                </div>))
+              }
             </div>
             <div style={{ margin: '1em 1em 4em' }}>
               {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
