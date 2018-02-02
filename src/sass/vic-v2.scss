@@ -185,7 +185,7 @@ input[type=range] {
   flex-flow: row wrap;
   margin-bottom: 30px;
   @media (min-width: $large-screen) {
-    flex-flow: unset;
+    flex-flow: inherit;
   }
 }
 
@@ -194,7 +194,7 @@ input[type=range] {
   width: 100%;
   justify-content: space-around;
   @media (min-width: $large-screen) {
-    width: unset;
+    width: inherit;
   }
 }
 
