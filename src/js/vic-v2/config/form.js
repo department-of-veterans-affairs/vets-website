@@ -35,7 +35,7 @@ const {
   gender
 } = fullSchemaVIC.definitions;
 
-const twentyFiveMB = 26214400;
+const TWENTY_FIVE_MB = 26214400;
 
 const formConfig = {
   urlPrefix: '/',
@@ -174,7 +174,7 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: twentyFiveMB,
+              maxSize: TWENTY_FIVE_MB,
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('profile_photo_attachments[file_data]', file);
@@ -233,7 +233,7 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: twentyFiveMB,
+              maxSize: TWENTY_FIVE_MB,
               hideLabelText: true,
               createPayload: (file) => {
                 const payload = new FormData();
