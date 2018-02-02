@@ -451,3 +451,14 @@ body.va-pos-fixed {
     align-items: center;
   }
 }
+
+.child-menu-opened {
+  height: 0;
+  overflow: hidden;
+}
+
+@include media($medium-screen) {
+  .child-menu-opened {
+    height: initial;
+  }
+}
