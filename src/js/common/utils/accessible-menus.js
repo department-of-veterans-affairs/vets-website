@@ -200,9 +200,6 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
   const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
   if (parentMenu) {
     parentMenu.classList.add('child-menu-opened');
-    console.log('parentMenu found:', parentMenu);
-  } else {
-    console.log('parentMenu not found');
   }
 
   if (stealFocus) {
