@@ -27,8 +27,17 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 
 #### Learn more about how the Veteran ID Card works
 
+
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
+<div id="replace-other-cards" class="usa-accordion-content">
+
+No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
+
+</div>
+</li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can't I use my Veteran ID Card for?</button>
 <div id="use-veteran-id-card" class="usa-accordion-content">
@@ -36,14 +45,6 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 You can't use your Veteran ID Card to:
 - Prove your eligibility for any federal benefits, **or**
 - Access military installations
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
-<div id="replace-other-cards" class="usa-accordion-content">
-
-No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
 
 </div>
 </li>
