@@ -487,115 +487,96 @@ export function getEventContent(event) {
       return {
         title: 'VBA sent the original claim decision to you',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
         title: 'VBA received your Notice of Disagreement',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.droHearing:
       return {
         title: 'Dro Hearing',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
         title: 'Field grant',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
         title: 'VBA prepared a Statement of the Case (SOC)',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
         title: 'Form 9 Recieved',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
         title: 'Supplemental Statement of the Case',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.certified:
       return {
         title: 'The Board received your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
         title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingCancelled:
       return {
         title: 'Hearing Cancelled',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
         title: 'Hearing No Show',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
         title: 'The Board made a decision on your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaRemand:
       return {
         title: 'Board Remand',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
         title: 'Withdrawn',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
         title: 'Merged',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'CAVC Decision',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.recordDesignation:
       return {
         title: 'Designation of Record',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Reconsideration by Letter',
         description: '',
-        liClass: 'section-complete'
       };
     default:
       return {
         title: 'Unknown Event',
         description: '',
-        liClass: 'section-complete'
       };
   }
 }
