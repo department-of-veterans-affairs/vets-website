@@ -19,7 +19,7 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 
 **You may be eligible for a Veteran ID Card if you:**
 - Served on active duty or in the military reserves or the National Guard, **and**
-- Separated under honorable conditions.
+- Separated under honorable conditions
 
 **Note:** Service in Public Health Service (PHS) or the National Oceanic and Atmospheric Administration (NOAA) doesn't make you eligible for a Veteran ID Card.
 
@@ -80,6 +80,8 @@ You’ll need to apply online.
   - Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
   - Show what you look like now (a photo taken sometime in the last 10 years), **and** 
   - Be uploaded as a .jpeg, .png, .bmp, or .tiff file
+  
+<a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply/">Apply for Your Veteran ID Card</a>
    
 ### Do I need to sign in to Vets.gov to apply for a Veteran ID Card?
 
@@ -98,8 +100,6 @@ We do this using ID.me—our trusted technology partner that provides the strong
 
 If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me. If you don’t have an account on Vets.gov, you can create one using ID.me.<br>
 [Learn more about signing in to Vets.gov](/faq/).
-
-<a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply/">Apply for Your Veteran ID Card</a>
 
 <br>
 
