@@ -575,7 +575,7 @@ const DECISION_REVIEW_CONTENT = (
  * (in months) of a given thing
  * @returns {durationText} formatted to convey the estimated duration range, in months
  */
-const makeDurationHeader = (timeliness) => {
+const makeDurationText = (timeliness) => {
   const durationText = {
     header: 'unknown',
     description: 'unknown',
@@ -583,7 +583,7 @@ const makeDurationHeader = (timeliness) => {
 
   if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
     const durationError = new Error(
-      'vets_appeals_v2_helpers_makeDurationHeader_bad_timeliness_input'
+      'vets_appeals_v2_helpers_makeDurationText_bad_timeliness_input'
     );
     Raven.captureException(durationError);
     return durationText;
@@ -631,7 +631,7 @@ const makeDurationHeader = (timeliness) => {
 export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
-      const socDuration = makeDurationHeader(details.ssocTimeliness);
+      const socDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough 
           evidence to decide in your favor.`,
@@ -669,8 +669,8 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.pendingForm9: {
-      const certDuration = makeDurationHeader(details.certificationTimeliness);
-      const ssocDuration = makeDurationHeader(details.ssocTimeliness);
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: `If you return a Form 9 within 60 days, what happens next depends on whether you 
           also send in new evidence.`,
@@ -704,8 +704,8 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.pendingCertification: {
-      const certDuration = makeDurationHeader(details.certificationTimeliness);
-      const ssocDuration = makeDurationHeader(details.ssocTimeliness);
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -738,8 +738,8 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.pendingCertificationSsoc: {
-      const certDuration = makeDurationHeader(details.certificationTimeliness);
-      const ssocDuration = makeDurationHeader(details.ssocTimeliness);
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
       return  {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -772,8 +772,8 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.remandSsoc: {
-      const returnSsocDuration = makeDurationHeader(details.returnTimeliness);
-      const remandSsocDuration = makeDurationHeader(details.remandSsocTimeliness);
+      const returnSsocDuration = makeDurationText(details.returnTimeliness);
+      const remandSsocDuration = makeDurationText(details.remandSsocTimeliness);
       return {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -869,7 +869,7 @@ export function getNextEvents(currentStatus, details) {
         ]
       };
     case STATUS_TYPES.decisionInProgress: {
-      const decisionDuration = makeDurationHeader(details.decisionTimeliness);
+      const decisionDuration = makeDurationText(details.decisionTimeliness);
       return {
         header: '', // intentionally empty
         events: [
@@ -907,7 +907,7 @@ export function getNextEvents(currentStatus, details) {
         ]
       };
     case STATUS_TYPES.remand: {
-      const remandDuration = makeDurationHeader(details.remandTimeliness);
+      const remandDuration = makeDurationText(details.remandTimeliness);
       return {
         header: '', // intentionally empty
         events: [
