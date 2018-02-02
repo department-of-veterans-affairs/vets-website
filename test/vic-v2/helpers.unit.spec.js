@@ -13,8 +13,10 @@ function setFetchResponse(stub, data) {
 
 describe('VIC helpers:', () => {
   describe('submit', () => {
-    window.sessionStorage = { userToken: 'testing' };
-    window.VetsGov.pollTimeout = 1;
+    beforeEach(() => {
+      window.VetsGov = { pollTimeout: 1 };
+      window.sessionStorage = { userToken: 'testing' };
+    });
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
