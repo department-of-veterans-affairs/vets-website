@@ -25,6 +25,7 @@ import {
   getStatusContents,
   getNextEvents,
   makeDurationText,
+  addStatusToIssues,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -611,6 +612,20 @@ describe('Disability benefits helpers: ', () => {
       expect(alertContent.description).to.exist;
       expect(alertContent.displayType).to.exist;
       expect(alertContent.type).to.exist;
+    });
+  });
+
+  describe('addStatusToIssues', () => {
+    it('returns an array of same length as input array', () => {
+      const { issues } = mockData.data[2].attributes;
+      const formattedIssues = addStatusToIssues(issues);
+      expect(formattedIssues.length).to.equal(issues.length);
+    });
+
+    it('returns an array of objects, each with status and description', () => {
+      const { issues } = mockData.data[2].attributes;
+      const formattedIssues = addStatusToIssues(issues);
+      expect(formattedIssues.every(i => i.status && i.description)).to.be.true;
     });
   });
 });

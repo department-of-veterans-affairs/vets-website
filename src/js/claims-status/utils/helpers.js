@@ -280,7 +280,7 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'field_grant',
+            lastAction: 'null',
             date: '2016-05-30'
           }
         ],
@@ -362,7 +362,7 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'field_grant',
+            lastAction: null,
             date: '2016-05-30'
           }
         ],
@@ -471,7 +471,55 @@ export const mockData = {
           {
             active: true,
             description: 'Tinnitus, service connection',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Head, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Shoulder, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Knee, service connection',
             lastAction: 'field_grant',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Toe, service connection',
+            lastAction: 'withdrawn',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'allowed',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'denied',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'remand',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'cavc_remand',
             date: '2016-05-30'
           }
         ],

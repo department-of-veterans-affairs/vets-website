@@ -54,13 +54,12 @@ describe('VRE chapter 36 veteran information', () => {
         uiSchema={uiSchema}/>
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
 
     expect(onSubmit.called).to.be.false;
   });
 
-
-  it('submits with only required information', () => {
+  it('submits with only required information with ssn', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -79,6 +78,35 @@ describe('VRE chapter 36 veteran information', () => {
     fillData(form, 'select#root_veteranDateOfBirthDay', '3');
     fillData(form, 'input#root_veteranDateOfBirthYear', '1950');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '424242424');
+    fillData(form, 'select#root_veteranDateOfDeathMIAPOWMonth', '1');
+    fillData(form, 'select#root_veteranDateOfDeathMIAPOWDay', '3');
+    fillData(form, 'input#root_veteranDateOfDeathMIAPOWYear', '1950');
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('submits with only required information with va file number', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          'view:isVeteran': false
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+    fillData(form, 'input#root_veteranFullName_first', 'test');
+    fillData(form, 'input#root_veteranFullName_last', 'test2');
+    fillData(form, 'select#root_veteranDateOfBirthMonth', '1');
+    fillData(form, 'select#root_veteranDateOfBirthDay', '3');
+    fillData(form, 'input#root_veteranDateOfBirthYear', '1950');
+    fillData(form, 'input#root_veteranVaFileNumber', 'c12345678');
     fillData(form, 'select#root_veteranDateOfDeathMIAPOWMonth', '1');
     fillData(form, 'select#root_veteranDateOfDeathMIAPOWDay', '3');
     fillData(form, 'input#root_veteranDateOfDeathMIAPOWYear', '1950');

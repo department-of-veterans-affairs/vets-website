@@ -92,40 +92,31 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  // Check package.json for known vulnerabilities
-
-  stage('Security') {
+  stage('Lint|Security|Unit') {
     try {
-      dockerImage.inside(args) {
-        sh "cd /application && nsp check"
-      }
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in security stage!", 'danger')
-      throw error
-    }
-  }
+      parallel (
+        lint: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run lint"
+          }
+        },
 
-  // Check source for syntax issues
+        // Check package.json for known vulnerabilities
+        security: {
+          dockerImage.inside(args) {
+            sh "cd /application && nsp check"
+          }
+        },
 
-  stage('Lint') {
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run lint"
-      }
+        unit: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+          }
+        }
+      )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint stage!", 'danger')
-      throw error
-    }
-  }
-
-  stage('Unit') {
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run test:coverage"
-        sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
-      }
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in unit stage!", 'danger')
+      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint|security|unit stage!", 'danger')
       throw error
     }
   }

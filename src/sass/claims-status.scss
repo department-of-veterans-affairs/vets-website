@@ -573,11 +573,11 @@ h1:focus {
   }
 
   li {
-    // Pull the first bullet point up just a hair to cover the top of the line
-    //  for when the viewport is small.
-    &:first-child:before {
-      // margin-top: 4px;
-    }
+  //   // Pull the first bullet point up just a hair to cover the top of the line
+  //   // for when the viewport is small.
+  //   &:first-child:before {
+  //     margin-top: 4px;
+  //   }
 
     &:before {
       background: $color-green;
@@ -1076,10 +1076,34 @@ $marker-text-width: 9rem;
   }
 }
 
+.issues-container {
+  margin-bottom: 2em;
+
+  &>h2 {
+    margin-top: 0;
+  }
+
+  .usa-accordion-button {
+    font-size: 2rem; // match standard h3
+  }
+
+  .granted-section {
+    h5 {
+      color: $color-green;
+    }
+  }
+
+  .denied-section {
+    h5 {
+      color: $color-secondary;
+    }
+  }
+}
+
 .closed-appeal-notice {
   line-height: 40px;
   text-align: center;
-  font-family:  "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-family:  $font-sans;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
