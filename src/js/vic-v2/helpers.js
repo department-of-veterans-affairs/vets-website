@@ -45,8 +45,13 @@ function checkStatus(guid) {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_vic_poll_client_error');
+
+        // keep polling because we know they submitted earlier
+        // and this is likely a network error
+        return Promise.resolve();
       }
 
+      // if we get here, it's likely that we hit a server error
       return Promise.reject(res);
     });
 }
@@ -56,11 +61,14 @@ const POLLING_INTERVAL = 1000;
 function pollStatus(guid, onDone, onError) {
   setTimeout(() => {
     checkStatus(guid)
-      .then((res) => {
-        if (res.data.attributes.state === 'pending') {
-          pollStatus(guid, onDone);
+      .then(res => {
+        if (!res || res.data.attributes.state === 'pending') {
+          pollStatus(guid, onDone, onError);
+        } else if (res.data.attributes.state === 'success') {
+          onDone(res.data.attributes.response);
         } else {
-          onDone(res);
+          // needs to start with this string to get the right message on the form
+          throw new Error(`vets_server_error_vic: status ${res.data.attributes.state}`);
         }
       })
       .catch(onError);
@@ -98,11 +106,7 @@ export function submit(form, formConfig) {
       return Promise.reject(res);
     }).then(resp => {
       const guid = resp.data.attributes.guid;
-      pollStatus(guid, res => {
-        resolve(res);
-      }, error => {
-        reject(error);
-      });
+      pollStatus(guid, resolve, reject);
     }).catch(reject);
   });
 }
