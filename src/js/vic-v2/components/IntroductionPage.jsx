@@ -21,16 +21,16 @@ class IntroductionPage extends React.Component {
     const signedIn = user.login.currentlyLoggedIn;
     const accountBenefits = (
       <ul>
+        <li>You can get your card sooner because we can confirm your Veteran status more quickly.</li>
         <li>We can prefill part of your application based on your account details.</li>
         <li>You can save your form in progress, and come back later to finish filling it out.</li>
-        <li>You can get your card sooner because we can confirm your Veteran status more quickly.</li>
       </ul>
     );
     const idProofingReqs = (
       <ul>
         <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection)</li>
         <li>Your Social Security number</li>
-        <li>Proof of your identity (which could be a driver’s license, passport, or the ability to answer questions based on private and public data (like your credit report))</li>
+        <li>Proof of your identity (which could be a driver’s license, a passport, or the ability to answer questions based on private and public data like your credit report)</li>
       </ul>
     );
 
@@ -64,9 +64,10 @@ class IntroductionPage extends React.Component {
                   <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
                   <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
                   <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo), <strong>and</strong></li>
+                  <li>Show what you look like now (a photo taken sometime in the last 10 years), <strong>and</strong></li>
                   <li>Be in a .jpeg, .png, .bmp, or .tiff file format</li>
                 </ul>
-                <h6>Examples of good ID photos</h6>
+                <h6>Examples of good photo IDs</h6>
                 <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
                 <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
               </div>
@@ -122,7 +123,7 @@ ID.me. To go through the ID.me identity-proofing process, you’ll need:</p>
           </ol>
         </div>
         {signedIn && !idProofed && <div>
-          <p><strong>Verify your identity before you apply for a Veteran ID Card.</strong>
+          <p><strong>Verify your identity before you apply for a Veteran ID Card.</strong><br/>
             <a className="usa-button usa-button-primary" href="/verify?next=%2Fveteran-id-card%2Fapply">Verify Your Identity</a>
           </p>
           Begin the Veteran ID Card application without verifying your identity.
@@ -136,7 +137,7 @@ ID.me. To go through the ID.me identity-proofing process, you’ll need:</p>
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
-          startText="Start the VIC Application"
+          startText="Start the Veteran ID Card Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
         {(!signedIn || !idProofed) && <p><a href="/faq">Get more information about signing in to Vets.gov</a>.</p>}
