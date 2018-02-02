@@ -78,11 +78,11 @@ function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, ri
   }
 
   if (leftBoundaryMet) {
-    direction = 'left';
+    direction = 'right';
   }
 
   if (rightBoundaryMet) {
-    direction = 'right';
+    direction = 'left';
   }
 
   return direction;
