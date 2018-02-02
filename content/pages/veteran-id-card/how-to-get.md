@@ -19,7 +19,7 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 
 **You may be eligible for a Veteran ID Card if you:**
 - Served on active duty or in the military reserves or the National Guard, **and**
-- Separated under honorable conditions
+- Separated under honorable conditions.
 
 **Note:** Service in Public Health Service (PHS) or the National Oceanic and Atmospheric Administration (NOAA) doesn't make you eligible for a Veteran ID Card.
 
