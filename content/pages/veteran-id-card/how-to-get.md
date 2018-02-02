@@ -25,51 +25,25 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 
 </div>
 
-#### Learn more about how the Veteran ID Card works
+### What can't I use my Veteran ID Card for?
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can I use my Veteran ID Card for, and what can't I use it for?</button>
-<div id="use-veteran-id-card" class="usa-accordion-content">
-
-You can use your Veteran ID Card to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. 
-
-**You can't use your Veteran ID Card to:**
-- Replace your Veteran Health Identification Card
-- Replace your Department of Defense ID Card
-- Prove your eligibility for any federal benefits
+You can't use your Veteran ID Card to:
+- Prove your eligibility for any federal benefits, **or**
 - Access military installations
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my Veteran Health Identification Card or other military ID cards?</button>
-<div id="replace-other-cards" class="usa-accordion-content">
+### Will my Veteran ID Card replace my other military ID cards?
 
 No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
 
-Also, you can’t use your Veteran ID Card to prove your eligibility for any federal benefits or to access military installations.
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="cards-used-instead">Are there any other forms of ID I can use instead of a Veteran ID Card to get discounts at businesses?</button>
-<div id="cards-used-instead" class="usa-accordion-content">
-
-Yes.
+### What other forms of ID can I use instead of a Veteran ID Card to get discounts at businesses?
 
 **You can use any of these forms of ID to get the same discounts:**
-- A Veterans Health Identification Card (VHIC), **or**
+- A Veteran Health Identification Card (VHIC), **or**
 - A Department of Defense (DoD) Identification Card—either a Common Access Card (CAC) or Uniformed Services ID Card, **or**
 - A Veterans Proof of Service Letter or Card
 
 If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
 
-</div>
-</li>
-</ul>
-</div>
 
 -----
 
