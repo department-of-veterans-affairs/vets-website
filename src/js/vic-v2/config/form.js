@@ -187,11 +187,8 @@ const formConfig = {
               fileTypes: [
                 'pdf',
                 'png',
-                'tiff',
-                'tif',
                 'jpeg',
                 'jpg',
-                'bmp'
               ],
               maxSize: 15728640,
               hideLabelText: true,
