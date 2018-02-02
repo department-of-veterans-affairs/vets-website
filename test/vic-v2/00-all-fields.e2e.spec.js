@@ -66,6 +66,8 @@ const runTest = E2eHelpers.createE2eTest(
 
       // Disable upload button style to reveal input for test
       client
+      /* HACK: style overridden so browser driver can find/interact with hidden inputs
+         (see https://github.com/nightwatchjs/nightwatch/issues/505) */
         .execute("document.getElementById('root_dd214').style.display = 'block';")
         .waitForElementVisible('#root_dd214', Timeouts.normal);
 
