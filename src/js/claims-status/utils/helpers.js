@@ -262,7 +262,7 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'pending_form9',
+          type: 'pending_soc',
           details: {
             lastSocDate: '2015-09-12',
             certificationTimeliness: [1, 4],
