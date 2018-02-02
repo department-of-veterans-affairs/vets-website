@@ -343,7 +343,7 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
   }
 }
 
-export function validateFile(errors, file) {
+function setError(file, index, errors) {
   let error;
   if (file.errorMessage) {
     error = file.errorMessage;
@@ -353,9 +353,9 @@ export function validateFile(errors, file) {
     error = 'Something went wrong...';
   }
 
-  if (error && !errors[0]) {
+  if (error && !errors[index]) {
     /* eslint-disable no-param-reassign */
-    errors = {
+    errors[index] = {
       __errors: [],
       addError(msg) {
         this.__errors.push(msg);
@@ -365,35 +365,17 @@ export function validateFile(errors, file) {
   }
 
   if (error) {
-    errors.addError(error);
+    errors[index].addError(error);
   }
+}
+
+export function validateFile(errors, file) {
+  setError(file, 0, errors);
 }
 
 export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
-    let error;
-    if (file.errorMessage) {
-      error = file.errorMessage;
-    } else if (file.uploading) {
-      error = 'Uploading file...';
-    } else if (!file.confirmationCode) {
-      error = 'Something went wrong...';
-    }
-
-    if (error && !errors[index]) {
-      /* eslint-disable no-param-reassign */
-      errors[index] = {
-        __errors: [],
-        addError(msg) {
-          this.__errors.push(msg);
-        }
-      };
-      /* eslint-enable no-param-reassign */
-    }
-
-    if (error) {
-      errors[index].addError(error);
-    }
+    setError(file, index, errors);
   });
 }
 
