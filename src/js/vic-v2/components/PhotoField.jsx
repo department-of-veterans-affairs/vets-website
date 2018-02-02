@@ -67,30 +67,42 @@ function isValidFileType(fileName) {
   return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
 }
 
+function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
+  if (topBoundaryMet) {
+    return 'down';
+  }
+
+  if (bottomBoundaryMet) {
+    return 'up';
+  }
+
+  if (leftBoundaryMet) {
+    return 'left';
+  }
+
+  if (rightBoundaryMet) {
+    return 'right';
+  }
+
+  return '';
+}
+
 function makeBoundaryEdgeWarning(direction) {
   return `You have reached the edge of your photo and cannot move it any farther ${direction}. Use the other arrows or the make larger and make smaller buttons to continue to edit.`;
 }
 
-function makeCropBoundaryWarningMessage({ zoomWarn = false, topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
-  let warningMessage;
+function hasParallelBoundariesMet({ topBoundaryMet, bottomBoundaryMet, leftBoundaryMet, rightBoundaryMet }) {
+  return (topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet);
+}
 
+function makeCropBoundaryWarningMessage({ zoomWarn = false, ...boundariesMet }) {
   if (zoomWarn) {
-    warningMessage = 'If you zoom in this close, your ID photo will be less clear';
-  } else if ((topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet)) {
-    warningMessage = 'Your photo currently fits within the square frame. Click ‘Make Larger’ if you would like to adjust the position of your photo';
-  } else if (topBoundaryMet) {
-    warningMessage = makeBoundaryEdgeWarning('down');
-  } else if (bottomBoundaryMet) {
-    warningMessage = makeBoundaryEdgeWarning('up');
-  } else if (leftBoundaryMet) {
-    warningMessage = makeBoundaryEdgeWarning('right');
-  } else if (rightBoundaryMet) {
-    warningMessage = makeBoundaryEdgeWarning('left');
-  } else {
-    warningMessage = '';
+    return 'If you zoom in this close, your ID photo will be less clear';
+  } else if (hasParallelBoundariesMet(boundariesMet)) {
+    return 'Your photo currently fits within the square frame. Click ‘Make Larger’ if you would like to adjust the position of your photo';
   }
 
-  return warningMessage;
+  return makeBoundaryEdgeWarning(getBoundaryEdgeWarningDirection(boundariesMet));
 }
 
 function makeMoveButtonsEnabledStates({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
