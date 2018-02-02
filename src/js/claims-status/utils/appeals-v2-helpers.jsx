@@ -568,30 +568,42 @@ const DECISION_REVIEW_CONTENT = (
 
 /**
  * Translates an array of two ints into a string that conveys a duration estimate
+ * @typedef {Object} durationText contains strings to fill in time snippets in NextEvents
+ * @property {string} header formatted time string to be used in the duration card header
+ * @property {string} description formatted time string to be used in the duration card description
  * @param {number[]} timeliness two integers that represent the low and high time durations
  * (in months) of a given thing
- * @returns {string} formatted to convey the estimated duration range, in months
+ * @returns {durationText} formatted to convey the estimated duration range, in months
  */
 const makeDurationHeader = (timeliness) => {
+  const durationText = {
+    header: 'unknown',
+    description: 'unknown',
+  };
+
   if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
     const durationError = new Error(
       'vets_appeals_v2_helpers_makeDurationHeader_bad_timeliness_input'
     );
     Raven.captureException(durationError);
-    return 'No estimated duration for this step';
+    return durationText;
   }
 
   const lowEst = timeliness[0];
   const highEst = timeliness[1];
   const estIsExact = (lowEst === highEst);
 
-  if (estIsExact) {
-    return (lowEst === 1)
-      ? '1 Month'
-      : `${lowEst} Months`;
+  if (estIsExact && lowEst === 1) {
+    durationText.header = '1 month';
+    durationText.description = 'about 1 month';
+  } else if (estIsExact) {
+    durationText.header = `${lowEst} months`;
+    durationText.description = `about ${lowEst} months`;
+  } else {
+    durationText.header = `${lowEst}–${highEst} months`;
+    durationText.description = `between ${lowEst}–${highEst} months`;
   }
-
-  return `${lowEst}-${highEst} Months`;
+  return durationText;
 };
 
 /**
@@ -624,8 +636,8 @@ export function getNextEvents(currentStatus, details) {
         header: `What happens next depends on whether the Decision Review Officer has enough 
           evidence to decide in your favor.`,
         headerCard: {
-          durationText: socDuration,
-          cardDescription: `The Veterans Benefits Administration typically takes ${socDuration} months to review new appeals.`,
+          durationText: socDuration.header,
+          cardDescription: `The Veterans Benefits Administration typically takes ${socDuration.description} to review new appeals.`,
         },
         events: [
           {
@@ -657,7 +669,7 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.pendingForm9: {
-      const certificationDuration = makeDurationHeader(details.certificationTimeliness);
+      const certDuration = makeDurationHeader(details.certificationTimeliness);
       const ssocDuration = makeDurationHeader(details.ssocTimeliness);
       return {
         header: `If you return a Form 9 within 60 days, what happens next depends on whether you 
@@ -672,8 +684,8 @@ export function getNextEvents(currentStatus, details) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: certificationDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${certificationDuration} months to transfer cases to the Board.`
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -685,14 +697,14 @@ export function getNextEvents(currentStatus, details) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: ssocDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration} months to write additional Statements of the Case.`
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           },
         ]
       };
     }
     case STATUS_TYPES.pendingCertification: {
-      const certificationDuration = makeDurationHeader(details.certificationTimeliness);
+      const certDuration = makeDurationHeader(details.certificationTimeliness);
       const ssocDuration = makeDurationHeader(details.ssocTimeliness);
       return {
         header: 'What happens next depends on whether you send in new evidence.',
@@ -706,8 +718,8 @@ export function getNextEvents(currentStatus, details) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: certificationDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${certificationDuration} months to transfer cases to the Board.`
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -719,14 +731,14 @@ export function getNextEvents(currentStatus, details) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: ssocDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration} months to write additional Statements of the Case.`
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           }
         ]
       };
     }
     case STATUS_TYPES.pendingCertificationSsoc: {
-      const certificationDuration = makeDurationHeader(details.certificationTimeliness);
+      const certDuration = makeDurationHeader(details.certificationTimeliness);
       const ssocDuration = makeDurationHeader(details.ssocTimeliness);
       return  {
         header: 'What happens next depends on whether you send in new evidence.',
@@ -740,8 +752,8 @@ export function getNextEvents(currentStatus, details) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: certificationDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${certificationDuration} months to transfer cases to the Board.`
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -753,8 +765,8 @@ export function getNextEvents(currentStatus, details) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: ssocDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration} months to write additional Statements of the Case.`
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           }
         ]
       };
@@ -774,8 +786,8 @@ export function getNextEvents(currentStatus, details) {
                 your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: returnSsocDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${returnSsocDuration} to return cases to the Board.`,
+            durationText: returnSsocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${returnSsocDuration.description} to return cases to the Board.`,
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -785,8 +797,8 @@ export function getNextEvents(currentStatus, details) {
                 before returning your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: remandSsocDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${remandSsocDuration} to write additional Statements of the Case.`,
+            durationText: remandSsocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${remandSsocDuration.description} to write additional Statements of the Case.`,
           }
         ]
       };
@@ -864,8 +876,8 @@ export function getNextEvents(currentStatus, details) {
           {
             title: 'The Board will make a decision',
             description: DECISION_REVIEW_CONTENT,
-            durationText: decisionDuration,
-            cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration} to decide appeals once a judge starts their review.`,
+            durationText: decisionDuration.header,
+            cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration.description} to decide appeals once a judge starts their review.`,
           }
         ]
       };
@@ -909,8 +921,8 @@ export function getNextEvents(currentStatus, details) {
                 Veterans’ Appeals for a new decision.
               </p>
             ),
-            durationText: remandDuration,
-            cardDescription: `The Veterans Benefits Administration typically takes ${remandDuration} to complete remand instructions.`
+            durationText: remandDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${remandDuration.description} to complete remand instructions.`
           }
         ]
       };
