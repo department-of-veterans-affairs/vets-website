@@ -102,6 +102,7 @@ class ErrorableSelect extends React.Component {
           name={this.props.name}
           autoComplete={this.props.autocomplete}
           value={selectedValue}
+          onKeyDown={this.props.onKeyDown}
           onChange={this.handleChange}>
           {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
           {optionElements}
@@ -137,6 +138,7 @@ ErrorableSelect.propTypes = {
     dirty: PropTypes.bool
   }).isRequired,
   onValueChange: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func,
   additionalClass: PropTypes.string,
   emptyDescription: PropTypes.string
 };

@@ -9,7 +9,8 @@ const appealIdParam = mockData.data[0].id;
 
 const defaultProps = {
   params: { id: appealIdParam },
-  appeal: mockData.data[0]
+  appeal: mockData.data[0],
+  appealsLoading: false,
 };
 
 describe('<AppealInfo/>', () => {
@@ -18,13 +19,26 @@ describe('<AppealInfo/>', () => {
     expect(wrapper.type()).to.equal('div');
   });
 
+  it('should render LoadingIndicator when appeals loading', () => {
+    const props = { params: { id: appealIdParam }, appealsLoading: true };
+    const wrapper = shallow(<AppealInfo {...props}/>, { disableLifecycleMethods: true });
+    const loadingIndicator = wrapper.find('LoadingIndicator');
+    expect(loadingIndicator.length).to.equal(1);
+  });
+
   it('should render the breadcrumbs', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps}/>);
     const breadcrumbs = wrapper.find('Breadcrumbs');
     expect(breadcrumbs.length).to.equal(1);
   });
 
-  it('should display a tabbed navigator', () => {
+  it('should render a header', () => {
+    const wrapper = shallow(<AppealInfo {...defaultProps}/>);
+    const header = wrapper.find('AppealHeader');
+    expect(header.length).to.equal(1);
+  });
+
+  it('should render a tabbed navigator', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps}/>);
     const tabNavs = wrapper.find('AppealsV2TabNav');
     expect(tabNavs.length).to.equal(1);

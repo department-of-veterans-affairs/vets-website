@@ -14,6 +14,14 @@ body {
   .row {
     max-width: 62.5em;
   }
+
+  // We have no container element, so elements that are full width have to redefine the container layout every time
+  // if they want to line up.
+  .row-padded {
+    max-width: 100rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+  }
 }
 
 .form-panel {

@@ -52,6 +52,7 @@ See these comprehensive lists for dates and locations of herbicide tests and sto
 Want to connect with a trained professional who can help you with VA-related claims? <br>
 [Get help filing your claim](/disability-benefits/apply/help/).
 
+
 ### Get more information
 
 Want to figure out where you may have come into contact with Agent Orange? See all the dates and locations of herbicide tests and storage:

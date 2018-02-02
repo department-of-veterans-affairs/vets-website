@@ -71,9 +71,13 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
+  version: 0,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for pre-need eligibility.',
+    noAuth: 'Please sign in again to resume your application for pre-need eligibility.'
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: true,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
@@ -481,11 +485,11 @@ const formConfig = {
                   updateSchema: (formData) => {
                     let title;
                     if (isVeteran(formData)) {
-                    /* eslint-disable no-param-reassign */ 
+                    /* eslint-disable no-param-reassign */
                       title = 'Is there anyone currently buried in a VA national cemetery under your eligibility?';
                     } else {
                       title = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
-                    /* eslint-enable no-param-reassign */ 
+                    /* eslint-enable no-param-reassign */
                     }
                     return { title };
                   },

@@ -1,5 +1,8 @@
 <footer class="footer" role="contentinfo">
-  <div id="feedback-root"></div>
+  <!--
+    Uncomment this when the feedback tool is ready to go
+    <div id="feedback-root"></div>
+  -->
   <div class="footer-inner">
     <div class="row va-flex">
     <ul class="va-footer-linkgroup" id="footer-services">
@@ -30,6 +33,9 @@
       TTY:&nbsp;<a href="tel:+18008778339" onClick="footerNavClick(this);">1-800-877-8339</a><br>
 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</li>
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
+      <li><br></li>
+      <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
+      <li><a href="/welcome-to-va">Print Out Your VA Welcome Kit</a></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
@@ -56,6 +62,12 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     {% endif %}
   </div>
 
+  <div class="va-notice--banner va-notice--banner--alt">
+    <div class="usa-grid">
+      <h4>A new way to give us feedback</h4>
+      <p>Check back soon to share your feedback on what you’d like to see on Vets.gov.</p>
+    </div>
+  </div>
 </footer>
 
 <!-- End mobile crisis line overlay. See desktop overlay at end of footer -->
@@ -91,8 +103,10 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
   <script>
-    window.dataLayer = [];
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ environment: '{{ buildtype }}' });
   </script>
+  <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
   <script>

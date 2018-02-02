@@ -26,6 +26,13 @@ function isMilitaryCity(city = '') {
 }
 
 const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
+
+/*
+ * Create schema for addresses
+ *
+ * @param {object} schema - Schema for a full form, including address definition in definitions
+ * @param {boolean} isRequired - If the address is required or not, defaults to false
+ */
 export function schema(currentSchema, isRequired = false) {
   return {
     type: 'object',

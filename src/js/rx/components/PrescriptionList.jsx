@@ -65,8 +65,8 @@ class PrescriptionList extends React.Component {
     const sortOptions = [
       { value: 'prescriptionName', label: 'Prescription name' },
       { value: 'facilityName', label: 'Facility name' },
-      { value: 'lastSubmitDate', label: 'Last submit date' },
-      { value: 'lastFillDate', label: 'Last fill date' },
+      { value: 'refillSubmitDate', label: 'Last submit date' },
+      { value: 'refillDate', label: 'Last fill date' },
     ];
 
     const sortMenu = (

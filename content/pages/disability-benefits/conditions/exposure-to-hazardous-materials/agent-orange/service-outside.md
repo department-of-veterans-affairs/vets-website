@@ -51,8 +51,9 @@ If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don’t need
 [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
 ### Need help?
+
 Want to connect with a trained professional who can help you with VA-related claims? <br>
-[Find an accredited representative](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 ### Get more information
 Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? <br>

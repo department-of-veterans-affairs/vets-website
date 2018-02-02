@@ -60,6 +60,7 @@ Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam t
 [See the list of ships that had contact with Agent Orange](https://www.benefits.va.gov/compensation/claims-postservice-agent_orange.asp).
 
 ### Need help?
+
 Want to connect with a trained professional who can help you with VA-related claims? <br>
 [Get help filing your claim](/disability-benefits/apply/help/).
 

@@ -7,12 +7,15 @@ import Main from './containers/Main';
 import initReact from '../common/init-react';
 
 export default function createFeedbackWidget(store) {
+  const feedbackRoot = document.getElementById('feedback-root');
+  if (!feedbackRoot) return;
+
   function init() {
     ReactDOM.render((
       <Provider store={store}>
         <Main/>
       </Provider>
-    ), document.getElementById('feedback-root'));
+    ), feedbackRoot);
   }
 
   initReact(init);

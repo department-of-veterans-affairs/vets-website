@@ -105,6 +105,8 @@ class ErrorableRadioButtons extends React.Component {
             id={`${this.inputId}-${index}`}
             name={this.props.name}
             type="radio"
+            onMouseDown={this.props.onMouseDown}
+            onKeyDown={this.props.onKeyDown}
             value={optionValue}
             onChange={this.handleChange}/>
           <label
@@ -113,6 +115,7 @@ class ErrorableRadioButtons extends React.Component {
             {optionLabel}
           </label>
           {matchingSubSection}
+          {obj.content}
         </div>
       );
 
@@ -181,6 +184,10 @@ ErrorableRadioButtons.propTypes = {
           PropTypes.string,
           PropTypes.bool
         ]),
+        content: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
+        ]),
         additional: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.element
@@ -191,6 +198,8 @@ ErrorableRadioButtons.propTypes = {
     value: PropTypes.string,
     dirty: PropTypes.bool
   }).isRequired,
+  onMouseDown: PropTypes.func,
+  onKeyDown: PropTypes.func,
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };

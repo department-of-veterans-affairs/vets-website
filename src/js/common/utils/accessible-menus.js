@@ -1,13 +1,10 @@
+import { isWideScreen } from './accessibility-helpers';
+
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
 const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const ESCAPE = 27;
-
-function isWideScreen() {
-  return matchMedia('(min-width: 768px)').matches;
-}
-
 
 /**
  * Finds the closest ancestor for which the callback returns true.
@@ -162,6 +159,7 @@ function closeMenu(menuLiOrStruct) {
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
+  menuButton.focus();
 }
 
 
@@ -183,7 +181,7 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
   const { menuButton, menu } = struct;
 
   // First, close all sibling menus
-  const openMenus = menuLi.parentElement.querySelectorAll('[aria-expanded=true]');
+  const openMenus = Array.from(menuLi.parentElement.querySelectorAll('[aria-expanded=true]'));
   openMenus.forEach(m => closeMenu(m.parentElement));
 
   // Open the menu
@@ -237,7 +235,7 @@ function closeAll(menuElement) {
   const allMenus = Array.from(menuElement.querySelectorAll('[aria-expanded=true]'))
     .map(e => findNearestLi(e));
 
-  // Add the top-level 
+  // Add the top-level
   if (menuElement.getAttribute('aria-expanded') === true) {
     allMenus.push(findNearestLi(menuElement));
   }
@@ -248,7 +246,7 @@ function closeAll(menuElement) {
 
 /**
  * Attaches event listeners to a menu or menu bar to make it keyboard navigable.
- * 
+ *
  * If the mobile buttons are provided, this will also handle the opening and closing
  *  of the menu on small screens when there's just a "Menu" button.
  *
@@ -374,7 +372,10 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
     // Handle opening (and closing) menus
-    if (inMenubar) {
+    if (e.target.classList.contains('back-button')) {
+      // Small menus with a "Back to menu" button in sub-menus
+      closeMenu(findNearestLi(targetLi));
+    } else if (inMenubar) {
       toggleMenu(targetLi);
     } else if (inMenu) {
       openMenu(targetLi);

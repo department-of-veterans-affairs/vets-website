@@ -86,6 +86,7 @@ export const saveInProgressReducers = {
 
     newState.loadedStatus = LOAD_STATUSES.success;
     newState.data = newState.loadedData.formData;
+    newState.pages = action.pages;
 
     return recalculateSchemaAndData(newState);
   },
@@ -123,6 +124,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillStatus: PREFILL_STATUSES.notAttempted,
     isStartingOver: false,
     migrations: formConfig.migrations,
+    prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix
   });
 }
