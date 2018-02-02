@@ -57,7 +57,7 @@ function pollStatus(guid, onDone, onError) {
   setTimeout(() => {
     checkStatus(guid)
       .then((res) => {
-        if (res.data.attributes.state !== 'pending') {
+        if (res.data.attributes.state === 'pending') {
           pollStatus(guid, onDone);
         } else {
           onDone(res);
