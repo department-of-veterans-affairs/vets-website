@@ -119,10 +119,6 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  onError = (error) => {
-    this.setState({ errorMessage: error });
-  }
-
   onEdit = () => {
     this.setState({ progress: 0, warningMessage: null });
   }
@@ -138,7 +134,6 @@ export default class PhotoField extends React.Component {
         filePath,
         this.props.uiSchema['ui:options'],
         this.updateProgress,
-        this.onError
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
@@ -233,10 +228,6 @@ export default class PhotoField extends React.Component {
     cropper.setCropBoxData(cropBoxData);
   }
 
-  getErrorMessage = () => {
-    return this.state.errorMessage;
-  }
-
   updateProgress = (progress) => {
     if (progress === 100) {
       this.setState({ progress, uploading: false });
@@ -292,9 +283,10 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
+    const errorMessage = this.props.formData.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = this.state.progress === 100 && !this.state.errorMessage;
+    const isDone = this.state.progress === 100 && !errorMessage;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
@@ -327,8 +319,8 @@ export default class PhotoField extends React.Component {
       <div>
         {PhotoDescription}
         {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
-        {this.state.errorMessage && <span className="usa-input-error-message">{this.state.errorMessage}</span>}
-        <div className={this.state.errorMessage ? 'error-box' : 'border-box'}>
+        {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
+        <div className={errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {instruction}
