@@ -88,7 +88,9 @@ function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, ri
 }
 
 function makeBoundaryEdgeWarning(direction) {
-  return `You have reached the edge of your photo and cannot move it any farther ${direction}. Use the other arrows or the make larger and make smaller buttons to continue to edit.`;
+  return direction ?
+    `You have reached the edge of your photo and cannot move it any farther ${direction}. Use the other arrows or the make larger and make smaller buttons to continue to edit.` :
+    '';
 }
 
 function hasParallelBoundariesMet({ topBoundaryMet, bottomBoundaryMet, leftBoundaryMet, rightBoundaryMet }) {
