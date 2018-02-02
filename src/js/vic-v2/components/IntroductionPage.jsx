@@ -15,26 +15,6 @@ class IntroductionPage extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
 
-  renderSignInMessage = () => {
-    return (
-      <div>
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            If you’re signed in to your account, the application process can go more smoothly. Here’s why:
-            <br/>
-            <ul>
-              <li>We can prefill part of your application based on your account details.</li>
-              <li>You can save your form in progress, and come back later to finish filling it out.</li>
-              <li>You could get your card sooner because we can confirm your Veteran status more quickly.</li>
-            </ul>
-            <p><button className="va-button-link" onClick={() => this.props.saveInProgressActions.toggleLoginModal(true)}>Sign in to your account.</button></p>
-          </div>
-        </div>
-        <br/>
-      </div>
-    );
-  }
-
   render() {
     const { user } = this.props.saveInProgress;
     const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
@@ -47,15 +27,11 @@ class IntroductionPage extends React.Component {
       </ul>
     );
     const idProofingReqs = (
-      <div>
-        <ul>
-          <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection)</li>
-          <li>Your Social Security number</li>
-          <li>Proof of your identity (which could be a driver’s license, passport, or the ability to answer questions based on private and public data (like your credit report))</li>
-        </ul>
-        <p>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</p>
-        {accountBenefits}
-      </div>
+      <ul>
+        <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection)</li>
+        <li>Your Social Security number</li>
+        <li>Proof of your identity (which could be a driver’s license, passport, or the ability to answer questions based on private and public data (like your credit report))</li>
+      </ul>
     );
 
     return (
@@ -66,7 +42,6 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
           resumeOnly
-          renderSignInMessage={this.renderSignInMessage}
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
           Please complete the VIC form to apply for a card
@@ -107,6 +82,8 @@ class IntroductionPage extends React.Component {
 the identity process, you won't need to do it again. To go through the ID.me identity-proofing process,
 you’ll need:</p>
               {idProofingReqs}
+              <p>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</p>
+              {accountBenefits}
               <h6>Choice 2: Apply anonymously without signing in.</h6>
               <p>You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a DS Logon or ID.me account.</p>
             </li>}
@@ -119,6 +96,9 @@ verification system available.</p>
               <p>If you signed in using your DS Logon account, we’ll connect your account to Vets.gov through
 ID.me. To go through the ID.me identity-proofing process, you’ll need:</p>
               {idProofingReqs}
+              <p>Verifying your identity is a one-time process that’ll take about 5-10 minutes. Once you’ve gone through the identity process, you won't need to do it again.</p>
+              <p>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</p>
+              {accountBenefits}
             </li>}
             {signedIn && idProofed && <li className="process-step list-two">
               <div><h5>Sign In</h5></div>
