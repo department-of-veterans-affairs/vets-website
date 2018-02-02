@@ -25,17 +25,31 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 
 </div>
 
-### What can't I use my Veteran ID Card for?
+#### Learn more about how the Veteran ID Card works
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can't I use my Veteran ID Card for?</button>
+<div id="use-veteran-id-card" class="usa-accordion-content">
 
 You can't use your Veteran ID Card to:
 - Prove your eligibility for any federal benefits, **or**
 - Access military installations
 
-### Will my Veteran ID Card replace my other military ID cards?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
+<div id="replace-other-cards" class="usa-accordion-content">
 
 No. Your Veteran ID Card won’t replace your Veteran Health Identification Card or your Department of Defense ID Card.
 
-### What other forms of ID can I use instead of a Veteran ID Card to get discounts at businesses?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="cards-used-instead">What other forms of ID can I use instead of a Veteran ID Card to get discounts at businesses?</button>
+<div id="cards-used-instead" class="usa-accordion-content">
 
 **You can use any of these forms of ID to get the same discounts:**
 - A Veteran Health Identification Card (VHIC), **or**
@@ -43,7 +57,10 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 - A Veterans Proof of Service Letter or Card
 
 If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
-
+</div>
+</li>
+</ul>
+</div>
 
 -----
 
