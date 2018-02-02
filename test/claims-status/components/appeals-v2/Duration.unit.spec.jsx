@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DurationCard from '../../../../src/js/claims-status/components/appeals-v2/DurationCard';
 
-describe.only('<DurationCard/>', () => {
+describe('<DurationCard/>', () => {
   const defaultProps = {
     durationText: '1-2 Months',
     cardDescription: 'Hey There, this is some text',
