@@ -48,6 +48,7 @@ const runTest = E2eHelpers.createE2eTest(
       // Photo page
       client.waitForElementVisible('[id="root_photo-label"]', Timeouts.normal);
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+      client.axeCheck('.main');
       // if (!process.env.SAUCE_ACCESS_KEY) {
       // Looks like there are issues with uploads in nightwatch and Selenium
       // https://github.com/nightwatchjs/nightwatch/issues/890
@@ -61,6 +62,7 @@ const runTest = E2eHelpers.createE2eTest(
       // Discharge Documents page
       client.waitForElementVisible('label[for="root_dd214"]', Timeouts.normal);
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+      client.axeCheck('.main');
 
       // Disable upload button style to reveal input for test
       client
@@ -69,7 +71,6 @@ const runTest = E2eHelpers.createE2eTest(
 
       client
         .setValue('input#root_dd214', require('path').resolve(`${__dirname}/VA40-10007.pdf`));
-      client.waitForElementVisible('ul[id="schemaform-file-list"]', Timeouts.normal);
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/dd214');
 

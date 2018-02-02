@@ -43,9 +43,7 @@ function initPhotoUploadMock() {
     value: {
       data: {
         attributes: {
-          attachmentId: '1',
-          name: 'VA40-10007.pdf',
-          confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
+          guid: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
         }
       }
     }
@@ -59,8 +57,7 @@ function initDocumentUploadMock() {
     value: {
       data: {
         attributes: {
-          name: 'VA40-10007.pdf',
-          confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
+          guid: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
         }
       }
     }
