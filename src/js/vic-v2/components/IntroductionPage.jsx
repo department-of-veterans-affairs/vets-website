@@ -17,8 +17,7 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { user } = this.props.saveInProgress;
-    // const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
-    const idProofed = false;
+    const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
     const signedIn = user.login.currentlyLoggedIn;
     const accountBenefits = (
       <ul>
