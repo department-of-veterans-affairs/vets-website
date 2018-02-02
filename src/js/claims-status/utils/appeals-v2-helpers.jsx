@@ -838,8 +838,8 @@ export function getNextEvents(currentStatus, details) {
           {
             title: 'The Board will make a decision',
             description: DECISION_REVIEW_CONTENT,
-            durationText: '10 months',
-            cardDescription: 'A Veterans Law Judge typically takes 10 months to write a decision.'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
