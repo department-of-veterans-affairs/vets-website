@@ -1103,7 +1103,7 @@ $marker-text-width: 9rem;
 .closed-appeal-notice {
   line-height: 40px;
   text-align: center;
-  font-family:  "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-family:  $font-sans;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
