@@ -68,23 +68,24 @@ function isValidFileType(fileName) {
 }
 
 function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
+  let direction = '';
   if (topBoundaryMet) {
-    return 'down';
+    direction = 'down';
   }
 
   if (bottomBoundaryMet) {
-    return 'up';
+    direction = 'up';
   }
 
   if (leftBoundaryMet) {
-    return 'left';
+    direction = 'left';
   }
 
   if (rightBoundaryMet) {
-    return 'right';
+    direction = 'right';
   }
 
-  return '';
+  return direction;
 }
 
 function makeBoundaryEdgeWarning(direction) {
