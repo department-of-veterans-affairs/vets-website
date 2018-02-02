@@ -24,12 +24,16 @@ describe('<Issues/>', () => {
 
   it('should render one panel when only an open issue is passed in', () => {
     const wrapper = shallow(<Issues {...oneOpenIssue}/>);
-    expect(wrapper.find('CollapsiblePanel').length).to.equal(1);
+    const openPanelButton = wrapper.find('CollapsiblePanel').dive().find('button');
+    const panelName = openPanelButton.render().text();
+    expect(panelName).to.equal('Currently on appeal');
   });
 
   it('should render one panel when only a closed issue is passed in', () => {
     const wrapper = shallow(<Issues {...oneClosedIssue}/>);
-    expect(wrapper.find('CollapsiblePanel').length).to.equal(1);
+    const closedPanelButton = wrapper.find('CollapsiblePanel').dive().find('button');
+    const panelName = closedPanelButton.render().text();
+    expect(panelName).to.equal('Closed');
   });
 
   it('should render two panels when both open *AND* closed issues are passed in', () => {

@@ -278,7 +278,7 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'withdrawn',
+            lastAction: 'null',
             date: '2016-05-30'
           }
         ],
@@ -360,7 +360,7 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'field_grant',
+            lastAction: null,
             date: '2016-05-30'
           }
         ],
