@@ -72,11 +72,11 @@ function pollStatus(guid, onDone, onError) {
         }
       })
       .catch(onError);
-  }, POLLING_INTERVAL);
+  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
 export function submit(form, formConfig) {
-  const userToken = sessionStorage.userToken;
+  const userToken = window.sessionStorage.userToken;
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
