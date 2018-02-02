@@ -601,7 +601,7 @@ export const makeDurationText = (timeliness) => {
     durationText.description = `about ${lowEst} months`;
   } else {
     durationText.header = `${lowEst}–${highEst} months`;
-    durationText.description = `between ${lowEst}–${highEst} months`;
+    durationText.description = `between ${lowEst} and ${highEst} months`;
   }
   return durationText;
 };

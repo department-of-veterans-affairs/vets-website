@@ -564,7 +564,7 @@ describe('Disability benefits helpers: ', () => {
     it('should format range time estimates', () => {
       const testText = makeDurationText(inputs.range);
       expect(testText.header).to.equal('1–8 months');
-      expect(testText.description).to.equal('between 1–8 months');
+      expect(testText.description).to.equal('between 1 and 8 months');
     });
   });
 
