@@ -39,7 +39,7 @@ class Timeline extends React.Component {
             title={title}
             date={date}
             description={description}
-            liClass={liClass}
+            liClass={liClass || 'section-complete'}
             hideSeparator={hideSeparator}/>
         );
       });
