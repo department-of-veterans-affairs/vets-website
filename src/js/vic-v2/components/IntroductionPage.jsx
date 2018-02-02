@@ -17,7 +17,8 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { user } = this.props.saveInProgress;
-    const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
+    // const idProofed = user.profile.services && user.profile.services.some(service => service === 'identity-proofed');
+    const idProofed = false;
     const signedIn = user.login.currentlyLoggedIn;
     const accountBenefits = (
       <ul>
@@ -126,7 +127,7 @@ ID.me. To go through the ID.me identity-proofing process, you’ll need:</p>
           <p><strong>Verify your identity before you apply for a Veteran ID Card.</strong><br/>
             <a className="usa-button usa-button-primary" href="/verify?next=%2Fveteran-id-card%2Fapply">Verify Your Identity</a>
           </p>
-          Begin the Veteran ID Card application without verifying your identity.
+          <strong>Begin the Veteran ID Card application without signing in.</strong>
         </div>}
         {!signedIn && <div>
           <p><strong>Sign in or create an account before you apply for a Veteran ID Card.</strong>
