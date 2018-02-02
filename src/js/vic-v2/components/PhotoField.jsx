@@ -90,7 +90,6 @@ export default class PhotoField extends React.Component {
       zoomValue: 0.4,
       errorMessage: null,
       warningMessage: null,
-      uploading: false,
       progress: 0
     };
   }
@@ -102,6 +101,16 @@ export default class PhotoField extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.detectWidth);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const newFile = newProps.formData || {};
+    const file = this.props.formData || {};
+    const isUploading = newFile.uploading;
+    const wasUploading = file.uploading;
+    if (isUploading && !wasUploading) {
+      this.setState({ progress: 0 });
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -133,14 +142,14 @@ export default class PhotoField extends React.Component {
         file,
         filePath,
         this.props.uiSchema['ui:options'],
-        this.updateProgress,
+        this.updateProgress
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
         // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
       });
 
-      this.setState({ uploading: true, warningMessage: null });
+      this.setState({ warningMessage: null });
     });
   }
 
@@ -229,9 +238,6 @@ export default class PhotoField extends React.Component {
   }
 
   updateProgress = (progress) => {
-    if (progress === 100) {
-      this.setState({ progress, uploading: false });
-    }
     this.setState({ progress });
   }
 
@@ -283,10 +289,11 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
+    const file = this.props.formData || {};
     const errorMessage = this.props.formData.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = this.state.progress === 100 && !errorMessage;
+    const isDone = !!file.confirmationCode;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
@@ -328,7 +335,7 @@ export default class PhotoField extends React.Component {
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             {isDone && <img className="photo-preview" src={this.state.cropResult.src} alt="cropped"/>}
           </div>
-          {this.state.uploading && <div className={progressBarContainerClass}>
+          {file.uploading && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
           </div>}
