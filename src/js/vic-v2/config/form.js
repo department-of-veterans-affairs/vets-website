@@ -164,10 +164,9 @@ const formConfig = {
         photoUpload: {
           path: 'documents/photo',
           title: 'Photo upload',
-          reviewTitle: 'Photo review',
+          reviewTitle: 'Review your photo',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
-            'ui:reviewTitle': 'Review Your Photo',
             photo: _.assign(fileUploadUI('Please upload a current photo of yourself that’ll appear on your Veteran ID Card.', {
               endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
@@ -221,11 +220,9 @@ const formConfig = {
         dd214Upload: {
           path: 'documents/dd214',
           title: 'Discharge document upload',
-          reviewTitle: 'Discharge document review',
+          reviewTitle: 'Review your discharge document',
           depends: form => !form.verified,
-          editModeOnReviewPage: true,
           uiSchema: {
-            'ui:reviewTitle': 'Review Your Photo',
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
               endpoint: '/v0/vic/supporting_documentation_attachments',
@@ -239,7 +236,6 @@ const formConfig = {
                 'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
-              hideLabelText: true,
               alternativeLabel: 'Upload your discharge document',
               createPayload: (file) => {
                 const payload = new FormData();
