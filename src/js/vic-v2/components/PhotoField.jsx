@@ -3,6 +3,7 @@ import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
+import ProgressBar from '../../common/components/ProgressBar';
 
 const PhotoDescription = (
   <div className="feature">
@@ -22,15 +23,6 @@ const PhotoDescription = (
     </div>
   </div>);
 
-const FILE_TYPES = [
-  'png',
-  'tiff',
-  'tif',
-  'jpeg',
-  'jpg',
-  'bmp'
-];
-
 const MIN_SIZE = 350;
 const MIN_RATIO = 0.2;
 const MAX_RATIO = 1.7;
@@ -42,8 +34,8 @@ function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
 }
 
-function isValidFileType(fileName) {
-  return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
+function isValidFileType(fileName, fileTypes) {
+  return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
 }
 
 // If any of the image dimensions are greater than the max specified,
@@ -95,10 +87,10 @@ export default class PhotoField extends React.Component {
     this.state = {
       src: null,
       cropResult: null,
-      done: false,
       zoomValue: 0.4,
       errorMessage: null,
-      warningMessage: null
+      warningMessage: null,
+      progress: 0
     };
   }
 
@@ -109,6 +101,16 @@ export default class PhotoField extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.detectWidth);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const newFile = newProps.formData || {};
+    const file = this.props.formData || {};
+    const isUploading = newFile.uploading;
+    const wasUploading = file.uploading;
+    if (isUploading && !wasUploading) {
+      this.setState({ progress: 0 });
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -127,25 +129,42 @@ export default class PhotoField extends React.Component {
   }
 
   onEdit = () => {
-    this.setState({ done: false, warningMessage: null });
+    this.setState({ progress: 0, warningMessage: null });
   }
 
   onDone = () => {
-    const cropResult = this.refs.cropper.getCroppedCanvas().toDataURL(this.state.fileType);
-    this.setState({ cropResult, done: true, warningMessage: null });
+    const filePath = this.props.idSchema.$id.split('_').slice(1);
+    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
+      const file = blob;
+      file.lastModifiedDate = new Date();
+      file.name = this.state.fileName;
+      this.props.formContext.uploadFile(
+        file,
+        filePath,
+        this.props.uiSchema['ui:options'],
+        this.updateProgress
+      ).catch(() => {
+        // rather not use the promise here, but seems better than trying to pass
+        // a blur function
+        // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
+      });
+
+      this.setState({ warningMessage: null });
+    });
   }
 
   onChange = (files) => {
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (files && files[0]) {
       const file = files[0];
+      const fileName = file.name;
       if (file.preview) {
         // dropzone recommendation
         window.URL.revokeObjectURL(file.preview);
       }
-      if (!isValidFileType(file.name)) {
+      if (!isValidFileType(fileName, fileTypes)) {
         this.setState({
           src: null,
-          fileType: null,
           done: false,
           cropResult: null,
           errorMessage: 'Please choose a file from one of the accepted types.'
@@ -159,7 +178,6 @@ export default class PhotoField extends React.Component {
               if (!isValidImageSize(img)) {
                 this.setState({
                   src: null,
-                  fileType: null,
                   done: false,
                   cropResult: null,
                   errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
@@ -167,7 +185,7 @@ export default class PhotoField extends React.Component {
               } else {
                 this.setState({
                   src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
-                  fileType: file.type,
+                  fileName,
                   done: false,
                   cropResult: null,
                   errorMessage: null
@@ -219,8 +237,8 @@ export default class PhotoField extends React.Component {
     cropper.setCropBoxData(cropBoxData);
   }
 
-  getErrorMessage = () => {
-    return this.state.errorMessage;
+  updateProgress = (progress) => {
+    this.setState({ progress });
   }
 
   detectDrag = () => {
@@ -271,7 +289,12 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
+    const file = this.props.formData || {};
+    const errorMessage = file.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const isDone = !!file.confirmationCode;
+    const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
     if (smallScreen) {
@@ -282,7 +305,7 @@ export default class PhotoField extends React.Component {
       uploadMessage = 'Upload Your Photo';
     }
     let instruction;
-    if (!this.state.done) {
+    if (!isDone) {
       if (!this.state.src) {
         instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
       }
@@ -297,22 +320,26 @@ export default class PhotoField extends React.Component {
     if (this.state.src) {
       description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
     }
-    if (this.state.done) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
+    if (isDone) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
 
     return (
       <div>
         {PhotoDescription}
         {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
-        {this.state.errorMessage && <span className="usa-input-error-message">{this.state.errorMessage}</span>}
-        <div className={this.state.errorMessage ? 'error-box' : 'border-box'}>
+        {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
+        <div className={errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {instruction}
             {description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
+            {isDone && <img className="photo-preview" src={this.state.cropResult.src} alt="cropped"/>}
           </div>
-          {!this.state.done && this.state.src && <div className="cropper-container-outer">
+          {file.uploading && <div className={progressBarContainerClass}>
+            <span>{this.state.fileName}</span><br/>
+            <ProgressBar percent={this.state.progress}/>
+          </div>}
+          {!isDone && this.state.src && <div className="cropper-container-outer">
             <Cropper
               ref="cropper"
               ready={this.setCropBox}
@@ -391,15 +418,15 @@ export default class PhotoField extends React.Component {
             </div>
           </div>
           }
-          {!this.state.src && !this.state.done && <div className="drop-target-container">
+          {!this.state.src && !isDone && <div className="drop-target-container">
             <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               <img alt="placeholder" src="/img/photo-placeholder.png"/>
             </Dropzone>
           </div>}
-          <div className={this.state.done ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
-            {this.state.done && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
+          <div className={isDone ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
+            {isDone && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
             <ErrorableFileInput
-              accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+              accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
               name="fileUpload"
