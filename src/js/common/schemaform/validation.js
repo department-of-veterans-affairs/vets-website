@@ -355,25 +355,6 @@ export function getFileError(file) {
   return null;
 }
 
-export function validateFile(errors, file) {
-  const error = getFileError(file);
-
-  if (error && !errors) {
-    /* eslint-disable no-param-reassign */
-    errors = {
-      __errors: [],
-      addError(msg) {
-        this.__errors.push(msg);
-      }
-    };
-    /* eslint-enable no-param-reassign */
-  }
-
-  if (error) {
-    errors.addError(error);
-  }
-}
-
 export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
     const error = getFileError(file);

@@ -15,7 +15,8 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
-import { validateFile, validateMatch } from '../../common/schemaform/validation';
+import { validateMatch } from '../../common/schemaform/validation';
+import { validateFile } from '../validation';
 
 const {
   veteranDateOfBirth,
