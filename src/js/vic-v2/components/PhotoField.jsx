@@ -162,7 +162,7 @@ export default class PhotoField extends React.Component {
         // dropzone recommendation
         window.URL.revokeObjectURL(file.preview);
       }
-      if (!isValidFileType(file.name, fileTypes)) {
+      if (!isValidFileType(fileName, fileTypes)) {
         this.setState({
           src: null,
           done: false,
