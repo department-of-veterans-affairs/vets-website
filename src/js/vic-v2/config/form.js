@@ -154,12 +154,15 @@ const formConfig = {
     },
     documentUpload: {
       title: 'Document Upload',
+      reviewTitle: 'Document Review',
       pages: {
         photoUpload: {
           path: 'documents/photo',
           title: 'Photo upload',
+          reviewTitle: 'Photo review',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
+            'ui:reviewTitle': 'Review Your Photo',
             photo: {
               'ui:field': PhotoField,
               'ui:title': 'Please upload a current photo of yourself that’ll appear on your Veteran ID Card.',
@@ -177,12 +180,14 @@ const formConfig = {
         },
         dd214Upload: {
           path: 'documents/dd214',
-          title: 'DD214 upload',
+          title: 'Discharge document upload',
+          reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
           editModeOnReviewPage: true,
           uiSchema: {
+            'ui:reviewTitle': 'Review Your Photo',
             'ui:description': DD214Description,
-            dd214: fileUploadUI('', {
+            dd214: fileUploadUI('Upload your discharge document', {
               endpoint: '/v0/vic/supporting_documentation_attachments',
               fileTypes: [
                 'pdf',
@@ -192,7 +197,7 @@ const formConfig = {
               ],
               maxSize: 15728640,
               alternativeLabel: 'Upload your discharge document',
-              hideLabelText: true,
+              hideLabelText: false,
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);

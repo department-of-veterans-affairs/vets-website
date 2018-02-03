@@ -151,7 +151,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {pageSchema &&
                   <SchemaForm
                     name={page.pageKey}
-                    title={page.title}
+                    title={page.reviewTitle || page.title}
                     data={pageData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
