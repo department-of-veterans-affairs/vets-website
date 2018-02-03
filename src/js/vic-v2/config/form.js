@@ -182,7 +182,7 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': DD214Description,
-            dd214: fileUploadUI('Upload your discharge document', {
+            dd214: fileUploadUI('', {
               endpoint: '/v0/vic/supporting_documentation_attachments',
               fileTypes: [
                 'pdf',
@@ -191,6 +191,7 @@ const formConfig = {
                 'jpg',
               ],
               maxSize: 15728640,
+              alternativeLabel: 'Upload your discharge document',
               hideLabelText: true,
               createPayload: (file) => {
                 const payload = new FormData();
