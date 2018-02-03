@@ -290,7 +290,7 @@ export default class PhotoField extends React.Component {
 
   render() {
     const file = this.props.formData || {};
-    const errorMessage = this.props.formData.errorMessage || this.state.errorMessage;
+    const errorMessage = file.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const isDone = !!file.confirmationCode;
