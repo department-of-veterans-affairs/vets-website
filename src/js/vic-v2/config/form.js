@@ -165,7 +165,7 @@ const formConfig = {
           title: 'Photo upload',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
-            photo: _.assign(fileUploadUI('Select files to upload', {
+            photo: _.assign(fileUploadUI('Please upload a current photo of yourself that’ll appear on your Veteran ID Card.', {
               endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
                 'png',
