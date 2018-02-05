@@ -45,6 +45,27 @@ describe('<WhatsNext/>', () => {
     expect(headerText).to.equal(testHeaderText);
   });
 
+  it('renders a header DurationCard if headerCard property exists', () => {
+    const props = {
+      nextEvents: {
+        header: '',
+        headerCard: {
+          durationText: 'Some duration text goes here',
+          cardDescription: 'Not sure how long this takes',
+        },
+        events: [],
+      },
+    };
+
+    const wrapper = shallow(<WhatsNext {...props}/>);
+    expect(wrapper.find('DurationCard').length).to.equal(1);
+  });
+
+  it('does not render a header DurationCard if no headerCard property exists', () => {
+    const wrapper = shallow(<WhatsNext {...defaultProps}/>);
+    expect(wrapper.find('DurationCard').length).to.equal(0);
+  });
+
   it('renders a list of all next events for a given currentStatus', () => {
     const props = {
       ...defaultProps,

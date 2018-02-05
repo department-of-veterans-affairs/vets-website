@@ -109,6 +109,14 @@ input[type=range] {
   font-size: 1.07em !important;
 }
 
+.progress-bar-container {
+  margin: 0 auto;
+  width: 240px;
+  @media (min-width: $large-screen) {
+    width: 300px;
+  }
+}
+
 .progress-box.progress-box-schemaform {
   padding: unset;
 }
@@ -181,21 +189,26 @@ input[type=range] {
 
 .cropper-control-container {
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
+  flex-flow: row wrap;
   margin-bottom: 30px;
+  @media (min-width: $large-screen) {
+    flex-flow: inherit;
+  }
 }
 
-.cropper-control-column {
+.cropper-control-row {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
   @media (min-width: $large-screen) {
-    flex-direction: row;
+    width: inherit;
   }
 }
 
 .cropper-control-label-container {
   margin: 10px;
+  min-width: 96px;
 }
 
 .cropper-control-zoom {
@@ -297,9 +310,11 @@ input[type=range] {
     display: flex;
     justify-content: center;
     margin: 0 0 80px 0;
+    flex-direction: column;
     &.photo-input-container-left {
       padding-left: 10px;
       justify-content: left;
+      flex-direction: row;
     }
     div[role="alert"] {
       display: flex;
@@ -310,7 +325,7 @@ input[type=range] {
 .drop-target-container {
   height: 240px;
   width: 240px;
-  margin: 0 auto 80px;
+  margin: 0 auto 40px;
   @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;

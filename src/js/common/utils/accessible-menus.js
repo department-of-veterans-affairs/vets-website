@@ -156,6 +156,13 @@ function closeMenu(menuLiOrStruct) {
 
   const { menuButton, menu } = struct;
 
+  // Tell the parent menu (if any) that this one is open
+  // This is so longer parent menus on mobile don't show up underneath shorter child menus
+  const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
+  if (parentMenu) {
+    parentMenu.classList.remove('child-menu-opened');
+  }
+
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
@@ -187,6 +194,13 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
   // Open the menu
   menuButton.setAttribute('aria-expanded', true);
   menu.removeAttribute('hidden');
+
+  // Tell the parent menu (if any) that this one is open
+  // This is so longer parent menus on mobile don't show up underneath shorter child menus
+  const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
+  if (parentMenu) {
+    parentMenu.classList.add('child-menu-opened');
+  }
 
   if (stealFocus) {
     const menuRole = (menu.getAttribute('role') || '').toLowerCase();
