@@ -1,0 +1,47 @@
+version: '3'
+services:
+  vets-website:
+    build:
+      context: .
+    volumes:
+      - .:/application
+      - /application/node_modules
+    links:
+      - selenium-hub
+    environment:
+      WEB_HOST: 'vets-website'
+      API_HOST: 'vets-mockapi'
+      INSTALL_HOOKS: 'no'
+    ports:
+      - 3000:3000
+    command: node src/test-support/test-server.js --buildtype=production --host=0.0.0.0 --port=3001
+  vets-mockapi:
+    build:
+      context: .
+    volumes:
+      - .:/application
+      - /application/node_modules
+    links:
+      - selenium-hub
+    environment:
+      WEB_HOST: 'vets-website'
+      API_HOST: 'vets-mockapi'
+    ports:
+      - 3000:3000
+    command: node src/test-support/test-server.js --buildtype=production --host=0.0.0.0 --port=3001
+  selenium-hub:
+    image: selenium/hub
+    ports:
+        - 4444:4444
+  selenium-chrome:
+    image: selenium/node-chrome
+    links:
+      - vets-website
+      - vets-mockapi
+      - selenium-hub
+    shm_size: 512MB
+    environment:
+      HUB_PORT_4444_TCP_ADDR: selenium-hub
+      HUB_PORT_4444_TCP_PORT: 4444
+    volumes:
+      - /dev/shm:/dev/shm
