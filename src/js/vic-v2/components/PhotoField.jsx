@@ -37,7 +37,7 @@ function getImageUrl(cropResult, guid) {
   return `https://${host}-vic.s3-us-gov-west-1.amazonaws.com/profile_photo_attachments/${guid}`;
 }
 
-// If any of the image dimensions are greater than the max specified, 
+// If any of the image dimensions are greater than the max specified,
 // resize it down to that dimension while keeping the aspect ratio
 // intact
 function resizeIfAboveMaxDimension(img, mimeType, maxDimension) {
@@ -89,7 +89,6 @@ export default class PhotoField extends React.Component {
       zoomValue: 0.4,
       errorMessage: null,
       warningMessage: null,
-      uploading: false,
       progress: 0
     };
   }
@@ -101,6 +100,16 @@ export default class PhotoField extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.detectWidth);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const newFile = newProps.formData || {};
+    const file = this.props.formData || {};
+    const isUploading = newFile.uploading;
+    const wasUploading = file.uploading;
+    if (isUploading && !wasUploading) {
+      this.setState({ progress: 0 });
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -132,23 +141,18 @@ export default class PhotoField extends React.Component {
         file,
         filePath,
         this.props.uiSchema['ui:options'],
-        this.updateProgress,
+        this.updateProgress
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
         // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
       });
 
-      this.setState({ uploading: true, warningMessage: null });
+      this.setState({ warningMessage: null });
     });
   }
 
   onChangeNoCropping = (files) => {
-    this.setState({
-      done: true,
-      uploading: true,
-    });
-
     const file = files[0];
     const filePath = this.props.idSchema.$id.split('_').slice(1);
     this.props.formContext.uploadFile(
@@ -172,10 +176,9 @@ export default class PhotoField extends React.Component {
         // dropzone recommendation
         window.URL.revokeObjectURL(file.preview);
       }
-      if (!isValidFileType(file.name, fileTypes)) {
+      if (!isValidFileType(fileName, fileTypes)) {
         this.setState({
           src: null,
-          done: false,
           cropResult: null,
           errorMessage: 'Please choose a file from one of the accepted types.'
         });
@@ -188,7 +191,6 @@ export default class PhotoField extends React.Component {
               if (!isValidImageSize(img)) {
                 this.setState({
                   src: null,
-                  done: false,
                   cropResult: null,
                   errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
                 });
@@ -196,7 +198,6 @@ export default class PhotoField extends React.Component {
                 this.setState({
                   src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
                   fileName,
-                  done: false,
                   cropResult: null,
                   errorMessage: null
                 });
@@ -206,7 +207,6 @@ export default class PhotoField extends React.Component {
               this.setState({
                 src: null,
                 fileType: null,
-                done: false,
                 cropResult: null,
                 errorMessage: 'Sorry, we weren’t able to load the image you selected'
               });
@@ -248,9 +248,6 @@ export default class PhotoField extends React.Component {
   }
 
   updateProgress = (progress) => {
-    if (progress === 100) {
-      this.setState({ progress, uploading: false });
-    }
     this.setState({ progress });
   }
 
@@ -302,13 +299,15 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
-    const errorMessage = this.props.formData.errorMessage || this.state.errorMessage;
+    const file = this.props.formData || {};
+    const errorMessage = file.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = !!this.props.formData.confirmationCode;
-    const showCropper = !isDone && this.state.src;
+    const isDone = !!file.confirmationCode;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
+    const showCropper = !isDone && this.state.src;
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
+
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
@@ -317,6 +316,7 @@ export default class PhotoField extends React.Component {
     } else {
       uploadMessage = 'Upload Your Photo';
     }
+
     let instruction;
     if (!isDone) {
       if (!this.state.src) {
@@ -326,13 +326,16 @@ export default class PhotoField extends React.Component {
         instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
       }
     }
+
     let description;
     if (this.state.dragAndDropSupported) {
       description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
+
     if (this.state.src) {
       description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
     }
+
     if (isDone) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
 
     return (
@@ -345,9 +348,9 @@ export default class PhotoField extends React.Component {
             {instruction}
             {description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            {isDone && <img className="photo-preview" src={getImageUrl(this.state.cropResult, this.props.formData.confirmationCode)} alt="cropped"/>}
+            {isDone && <img className="photo-preview" src={getImageUrl(this.state.cropResult, file.confirmationCode)} alt="cropped"/>}
           </div>
-          {this.state.uploading && <div className={progressBarContainerClass}>
+          {file.uploading && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
           </div>}
@@ -386,31 +389,42 @@ export default class PhotoField extends React.Component {
               </button>}
             </div>
             <div className="cropper-control-container">
-              <div className="cropper-control-column">
+              <div className="cropper-control-row">
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                <button className={moveControlClass} type="button" onClick={this.moveUp}>
-                  <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
-
-                </button>
-                <button className={moveControlClass} type="button" onClick={this.moveLeft}>
-                  <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
-
-                </button>
-              </div>
-              <div className="cropper-control-column">
                 {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
-                <button className={moveControlClass} type="button" onClick={this.moveDown}>
-                  <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
-
-                </button>
-                <button className={moveControlClass} type="button" onClick={this.moveRight}>
-                  <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
-                </button>
               </div>
+              {[
+                [{
+                  labelText: 'Move up',
+                  className: 'fa fa-arrow-up',
+                  onClick: this.moveUp
+                }, {
+                  labelText: 'Move down',
+                  className: 'fa fa-arrow-down',
+                  onClick: this.moveDown
+                }],
+                [{
+                  labelText: 'Move left',
+                  className: 'fa fa-arrow-left',
+                  onClick: this.moveLeft
+                }, {
+                  labelText: 'Move right',
+                  className: 'fa fa-arrow-right',
+                  onClick: this.moveright
+                }]
+              ].map((row, index) => (
+                <div className="cropper-control-row" key={index}>
+                  {row.map((button) => (
+                    <button className={moveControlClass} type="button" onClick={button.onClick} key={button.className}>
+                      <span className="cropper-control-label">{button.labelText}<i className={button.className}></i></span>
+                    </button>))
+                  }
+                </div>))
+              }
             </div>
             <div className="crop-button-container">
               <button type="button" className="usa-button-primary" onClick={this.onDone}>

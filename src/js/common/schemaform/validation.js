@@ -343,39 +343,36 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
   }
 }
 
-function setError(file, index, errors) {
-  let error;
+export function getFileError(file) {
   if (file.errorMessage) {
-    error = file.errorMessage;
+    return file.errorMessage;
   } else if (file.uploading) {
-    error = 'Uploading file...';
+    return 'Uploading file...';
   } else if (!file.confirmationCode) {
-    error = 'Something went wrong...';
+    return 'Something went wrong...';
   }
 
-  if (error && !errors[index]) {
-    /* eslint-disable no-param-reassign */
-    errors[index] = {
-      __errors: [],
-      addError(msg) {
-        this.__errors.push(msg);
-      }
-    };
-    /* eslint-enable no-param-reassign */
-  }
-
-  if (error) {
-    errors[index].addError(error);
-  }
-}
-
-export function validateFile(errors, file) {
-  setError(file, 0, errors);
+  return null;
 }
 
 export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
-    setError(file, index, errors);
+    const error = getFileError(file);
+
+    if (error && !errors[index]) {
+      /* eslint-disable no-param-reassign */
+      errors[index] = {
+        __errors: [],
+        addError(msg) {
+          this.__errors.push(msg);
+        }
+      };
+      /* eslint-enable no-param-reassign */
+    }
+
+    if (error) {
+      errors[index].addError(error);
+    }
   });
 }
 

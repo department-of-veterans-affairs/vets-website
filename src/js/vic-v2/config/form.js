@@ -16,7 +16,8 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
-import { validateFile, validateMatch } from '../../common/schemaform/validation';
+import { validateMatch } from '../../common/schemaform/validation';
+import validateFile from '../validation';
 
 const {
   veteranDateOfBirth,
@@ -36,7 +37,7 @@ const {
   gender
 } = fullSchemaVIC.definitions;
 
-const twentyFiveMB = 26214400;
+const TWENTY_FIVE_MB = 26214400;
 
 const formConfig = {
   urlPrefix: '/',
@@ -166,7 +167,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
-            photo: _.assign(fileUploadUI('Select files to upload', {
+            photo: _.assign(fileUploadUI('Please upload a current photo of yourself that’ll appear on your Veteran ID Card.', {
               endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
                 'png',
@@ -176,7 +177,7 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: twentyFiveMB,
+              maxSize: TWENTY_FIVE_MB,
               showFieldLabel: false,
               createPayload: (file) => {
                 const payload = new FormData();
@@ -236,7 +237,7 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: twentyFiveMB,
+              maxSize: TWENTY_FIVE_MB,
               hideLabelText: true,
               createPayload: (file) => {
                 const payload = new FormData();
