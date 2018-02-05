@@ -59,6 +59,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 - Compile private medical records and hospital reports.
 - Finalize your resume and begin actively [searching for employment](https://www.careeronestop.org/JobSearch/job-search.aspx).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship.
+- Consider free [education and career counseling](/education/tools-programs/education-career-counseling/).
 - At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment/).
 
 </div>
