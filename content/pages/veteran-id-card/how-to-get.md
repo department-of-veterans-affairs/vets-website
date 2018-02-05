@@ -24,7 +24,6 @@ A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offer
 
 </div>
 
------
 
 ### How do I get a Veteran ID Card?
 
