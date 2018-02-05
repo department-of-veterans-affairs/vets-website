@@ -112,7 +112,9 @@ If you already have one of these, you don’t need a Veteran ID Card, but you ca
 No. At this time, the Veteran ID Card isn’t available to those who served in PHS or NOAA.
 </div>
 </li>
-<li>
+</ul>
+</div>
+
 <br>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
