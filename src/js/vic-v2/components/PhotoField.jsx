@@ -328,7 +328,7 @@ export default class PhotoField extends React.Component {
     });
   }
 
-  cropend = () => { // casing matches Cropper argument
+  handleCropend = () => { // casing matches Cropper argument
     this.updateBoundaryWarningAndButtonStates();
   }
 
@@ -417,7 +417,7 @@ export default class PhotoField extends React.Component {
               src={this.state.src}
               aspectRatio={1}
               cropBoxMovable={false}
-              cropend={this.cropend}
+              cropend={this.handleCropend}
               toggleDragModeOnDblclick={false}
               dragMode="move"
               guides={false}
