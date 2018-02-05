@@ -38,7 +38,7 @@ class ErrorableFileInput extends React.Component {
       labelErrorClass = 'usa-input-error-label';
     }
 
-    // Calculate required.
+    // Calculate required
     let requiredSpan = undefined;
     if (this.props.required) {
       requiredSpan = <span className="form-required-span">*</span>;
@@ -71,7 +71,9 @@ class ErrorableFileInput extends React.Component {
 
 ErrorableFileInput.propTypes = {
   multiple: PropTypes.bool,
-  buttonText: PropTypes.string,
+  buttonText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object]),
   additionalClass: PropTypes.string,
   additionalErrorClass: PropTypes.string,
   onChange: PropTypes.func.isRequired,
