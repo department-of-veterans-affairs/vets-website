@@ -6,6 +6,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
+import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -164,6 +165,7 @@ const formConfig = {
           title: 'Photo upload',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
+            'ui:description': PhotoDescription,
             photo: _.assign(fileUploadUI('Select files to upload', {
               endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
@@ -175,9 +177,10 @@ const formConfig = {
                 'bmp'
               ],
               maxSize: twentyFiveMB,
+              showFieldLabel: false,
               createPayload: (file) => {
                 const payload = new FormData();
-                payload.append('profile_photo_attachments[file_data]', file);
+                payload.append('profile_photo_attachment[file_data]', file, file.name);
 
                 return payload;
               },

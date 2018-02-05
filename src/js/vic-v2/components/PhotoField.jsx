@@ -4,24 +4,7 @@ import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
-
-const PhotoDescription = (
-  <div className="feature">
-    <h3>What makes a good photo?</h3>
-    <div>
-      <p>To meet the requirements for a Veteran ID Card, your photo should follow the guidance listed below. It must:</p>
-      <ul>
-        <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
-        <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
-        <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
-        <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
-        <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
-      </ul>
-      <h3>Examples of good ID photos</h3>
-      <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
-      <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
-    </div>
-  </div>);
+import environment from '../../common/helpers/environment';
 
 const MIN_SIZE = 350;
 const MIN_RATIO = 0.2;
@@ -36,6 +19,22 @@ function isSmallScreen(width) {
 
 function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
+}
+
+function getImageUrl(cropResult, guid) {
+  if (cropResult) {
+    return cropResult.src;
+  }
+  let host;
+  if (environment.name === 'production') {
+    host = 'dsva-vetsgov-prod';
+  } else if (environment.name === 'staging') {
+    host = 'dsva-vetsgov-staging';
+  } else {
+    host = 'dsva-vetsgov-dev';
+  }
+
+  return `https://${host}-vic.s3-us-gov-west-1.amazonaws.com/profile_photo_attachments/${guid}`;
 }
 
 // If any of the image dimensions are greater than the max specified, 
@@ -141,6 +140,26 @@ export default class PhotoField extends React.Component {
       });
 
       this.setState({ uploading: true, warningMessage: null });
+    });
+  }
+
+  onChangeNoCropping = (files) => {
+    this.setState({
+      done: true,
+      uploading: true,
+    });
+
+    const file = files[0];
+    const filePath = this.props.idSchema.$id.split('_').slice(1);
+    this.props.formContext.uploadFile(
+      file,
+      filePath,
+      this.props.uiSchema['ui:options'],
+      this.updateProgress,
+    ).catch(() => {
+      // rather not use the promise here, but seems better than trying to pass
+      // a blur function
+      // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
     });
   }
 
@@ -286,7 +305,8 @@ export default class PhotoField extends React.Component {
     const errorMessage = this.props.formData.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = this.state.progress === 100 && !errorMessage;
+    const isDone = !!this.props.formData.confirmationCode;
+    const showCropper = !isDone && this.state.src;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
     let uploadMessage;
@@ -317,8 +337,7 @@ export default class PhotoField extends React.Component {
 
     return (
       <div>
-        {PhotoDescription}
-        {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
+        {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(*Required)</span></h3>}
         {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
         <div className={errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>
@@ -326,7 +345,7 @@ export default class PhotoField extends React.Component {
             {instruction}
             {description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            {isDone && <img className="photo-preview" src={this.state.cropResult.src} alt="cropped"/>}
+            {isDone && <img className="photo-preview" src={getImageUrl(this.state.cropResult, this.props.formData.confirmationCode)} alt="cropped"/>}
           </div>
           {this.state.uploading && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
@@ -411,8 +430,13 @@ export default class PhotoField extends React.Component {
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
-              name="fileUpload"
-              additionalErrorClass="claims-upload-input-error-message"/>
+              name="fileUpload"/>
+            {!isDone && !showCropper && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeNoCropping}
+              buttonText="Screen reader friendly photo upload tool"
+              triggerClass="va-button-link"
+              name="screenReaderFileUpload"/>}
           </div>
         </div>
       </div>

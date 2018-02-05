@@ -305,9 +305,11 @@ input[type=range] {
     display: flex;
     justify-content: center;
     margin: 0 0 80px 0;
+    flex-direction: column;
     &.photo-input-container-left {
       padding-left: 10px;
       justify-content: left;
+      flex-direction: row;
     }
     div[role="alert"] {
       display: flex;
@@ -318,7 +320,7 @@ input[type=range] {
 .drop-target-container {
   height: 240px;
   width: 240px;
-  margin: 0 auto 80px;
+  margin: 0 auto 40px;
   @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;
