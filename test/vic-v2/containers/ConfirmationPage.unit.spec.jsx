@@ -24,7 +24,7 @@ const form = {
 describe('<ConfirmationPage>', () => {
   it('should render unverified', () => {
     const tree = shallow(
-      <ConfirmationPage form={form} saveInProgress={{ user: { login: { currentlyLoggedIn: true } } }}/>
+      <ConfirmationPage form={form} userSignedIn/>
     );
 
     expect(tree.text()).to.contain('Jane  Doe');
@@ -42,7 +42,7 @@ describe('<ConfirmationPage>', () => {
   });
   it('should render verified and signed in', () => {
     const tree = shallow(
-      <ConfirmationPage form={_.set('data.verified', true, form)} saveInProgress={{ user: { login: { currentlyLoggedIn: true } } }}/>
+      <ConfirmationPage form={_.set('data.verified', true, form)} userSignedIn/>
     );
 
     expect(tree.text()).not.to.contain('We’ll review your application to verify your eligibility.');
