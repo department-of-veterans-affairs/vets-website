@@ -17,16 +17,17 @@ order: 1
 - Call 911.
 - Go to the nearest emergency room.
 
-Get more information and resources on the Veterans Crisis Line website. [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
+Get more information and resources on the Veterans Crisis Line website. <br>
+[Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
 
 
 #### Posttraumatic Stress Disorder (PTSD) Basics
 
 Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](https://www.ptsd.va.gov/public/index.asp).
 
-You may be able to get disability compensation or benefits if you have symptoms of PTSD and while serving in the military you: 
-- Suffered a serious injury, personal or sexual trauma, or sexual violation, **or** 
-- Were threatened with injury, sexual assault, or death
+You may be able to get disability compensation or benefits if you have symptoms of PTSD and, while serving in the military, **at least one of the following happened to you**: 
+- You suffered a serious injury, personal or sexual trauma, or sexual violation, **or** 
+- You were threatened with injury, sexual assault, or death
 
 
 <div class="feature" markdown="1">
@@ -35,7 +36,7 @@ You may be able to get disability compensation or benefits if you have symptoms 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:
+You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and **all of the following are true for you**:
 - The stressor happened during your service, **and**
 - You can’t function as well as you once could because of your symptoms, **and**
 - A doctor has diagnosed you with PTSD
@@ -57,10 +58,12 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br>
+[Apply for disability benefits](/disability-benefits/apply/).
 
 Please note that the screening process for disability benefits is geared toward getting a full understanding of your PTSD, not treating it. To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
 
 ### Get more information 
-We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. [Learn about our PTSD programs](https://www.mentalhealth.va.gov/PTSD.asp).
+We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. <br>
+[Learn about our PTSD programs](https://www.mentalhealth.va.gov/PTSD.asp).
 
