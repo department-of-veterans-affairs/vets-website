@@ -332,7 +332,7 @@ export default class PhotoField extends React.Component {
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             {hasFile && !isCropping && <img
               className="photo-preview"
-              src={`/profile_photo_attachments/${file.confirmationCode}`}
+              src={`/v0/vic/profile_photo_attachments/${file.confirmationCode}`}
               alt="cropped"/>
             }
           </div>
