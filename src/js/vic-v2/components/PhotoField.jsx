@@ -38,7 +38,7 @@ const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 const MAX_DIMENSION = 1024;
 
-function getCanvasCropBoundariesMet(canvasData, cropboxData) {
+function getMoveBoundariesMet(canvasData, cropboxData) {
   const { height: canvasHeight, width: canvasWidth, left: canvasLeft, top: canvasTop } = canvasData;
   const { height: cropboxHeight, width: cropboxWidth, left: cropboxLeft, top: cropboxTop } = cropboxData;
 
@@ -271,12 +271,12 @@ export default class PhotoField extends React.Component {
       this.setState({ zoomValue });
       this.updateBoundaryWarningAndButtonStates();
 
-      const canvasCropBoundariesMet = getCanvasCropBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
+      const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
       const zoomWarn = zoomValue >= WARN_RATIO;
 
       this.setState({
-        warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...canvasCropBoundariesMet }),
-        ...makeMoveButtonsEnabledStates(canvasCropBoundariesMet)
+        warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...moveBoundariesMet }),
+        ...makeMoveButtonsEnabledStates(moveBoundariesMet)
       });
     } else {
       e.preventDefault();
@@ -320,12 +320,12 @@ export default class PhotoField extends React.Component {
   }
 
   updateBoundaryWarningAndButtonStates = () => {
-    const canvasCropBoundariesMet = getCanvasCropBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
+    const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
 
-    this.setState({ ...makeMoveButtonsEnabledStates(canvasCropBoundariesMet) });
+    this.setState({ ...makeMoveButtonsEnabledStates(moveBoundariesMet) });
     this.setState({
-      warningMessage: makeCropBoundaryWarningMessage(canvasCropBoundariesMet),
-      ...makeMoveButtonsEnabledStates(canvasCropBoundariesMet)
+      warningMessage: makeCropBoundaryWarningMessage(moveBoundariesMet),
+      ...makeMoveButtonsEnabledStates(moveBoundariesMet)
     });
   }
 
