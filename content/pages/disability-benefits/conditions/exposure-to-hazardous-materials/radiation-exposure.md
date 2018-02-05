@@ -19,7 +19,7 @@ Find out if you can get disability compensation or benefits for illnesses—incl
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation—and if you had contact with ionizing radiation while serving in the military by:
+You may be able to get disability benefits if you have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation—and if you had contact with ionizing radiation while serving in the military **in at least one of the following ways**:
 
 - Being part of atmospheric nuclear weapons testing, **or**
 - Serving in the postwar occupation of Hiroshima or Nagasaki, **or**
@@ -27,7 +27,7 @@ You may be able to get disability benefits if you have an illness that’s on th
 - Working as an x-ray technician, in a reactor plant, or in nuclear medicine or radiography (while on active duty or during active or inactive duty for training in the Reserves), **or**
 - Doing tasks like those of a Department of Energy (DOE) employee that make them a member of the Special Exposure Cohort (See 42 U.S.C. 7384L(14))
 
-You may also be able to get disability benefits if you were:
+You may also be able to get disability benefits if you were **in at least one of the following positions**:
 - Part of underground nuclear weapons testing at Amchitka Island, Alaska, **or**
 - Assigned to a gaseous diffusion plant at Paducah, Kentucky, **or**
 - Assigned to a gaseous diffusion plant at Portsmouth, Ohio, **or**
@@ -49,7 +49,8 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
 Your service records must show that you were part of 1 of the radiation risk activities described above. You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
 
