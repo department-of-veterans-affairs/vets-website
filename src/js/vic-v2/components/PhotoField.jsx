@@ -75,7 +75,8 @@ export default class PhotoField extends React.Component {
       zoomValue: 0.4,
       warningMessage: null,
       progress: 0,
-      isCropping: false
+      isCropping: false,
+      screenReaderPath: false
     };
   }
 
@@ -133,6 +134,7 @@ export default class PhotoField extends React.Component {
     const file = files[0];
     const filePath = this.props.idSchema.$id.split('_').slice(1);
 
+    this.setState({ screenReaderPath: true });
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -287,16 +289,20 @@ export default class PhotoField extends React.Component {
 
   render() {
     const file = this.props.formData || {};
-    const { isCropping } = this.state;
+    const { isCropping, screenReaderPath } = this.state;
     const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage;
+    const screenReaderError = screenReaderPath && !!errorMessage;
+    const label = this.props.uiSchema['ui:title'];
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
 
     let uploadMessage;
-    if (smallScreen) {
+    if (screenReaderError) {
+      uploadMessage = 'Upload Again';
+    } else if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
     } else if (hasFile) {
       uploadMessage = 'Upload a New Photo';
@@ -321,14 +327,13 @@ export default class PhotoField extends React.Component {
     }
 
     return (
-      <div>
-        {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(*Required)</span></h3>}
-        {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
+      <fieldset>
+        <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
         <div className={errorMessage ? 'error-box' : 'border-box'}>
           <div style={{ margin: '1em 1em 4em' }}>
-            {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
-            {instruction}
-            {description}
+            {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
+            {!screenReaderError && instruction}
+            {!screenReaderError && description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             {hasFile && !isCropping && <img
               className="photo-preview"
@@ -419,13 +424,13 @@ export default class PhotoField extends React.Component {
             </div>
           </div>
           }
-          {!isCropping && !hasFile && <div className="drop-target-container">
+          {!isCropping && !hasFile && !screenReaderError && <div className="drop-target-container">
             <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               <img alt="placeholder" src="/img/photo-placeholder.png"/>
             </Dropzone>
           </div>}
           <div className={(hasFile && !isCropping) ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
-            {hasFile && !isCropping && <button
+            {hasFile && !isCropping && !screenReaderError && <button
               className="photo-edit-button usa-button"
               type="button"
               onClick={this.onEdit}>
@@ -436,7 +441,7 @@ export default class PhotoField extends React.Component {
               onChange={this.onChange}
               buttonText={uploadMessage}
               name="fileUpload"/>
-            {!hasFile && !isCropping && <ErrorableFileInput
+            {!hasFile && !isCropping && !screenReaderError && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeNoCropping}
               buttonText="Screen reader friendly photo upload tool"
@@ -444,7 +449,7 @@ export default class PhotoField extends React.Component {
               name="screenReaderFileUpload"/>}
           </div>
         </div>
-      </div>
+      </fieldset>
     );
   }
 }
