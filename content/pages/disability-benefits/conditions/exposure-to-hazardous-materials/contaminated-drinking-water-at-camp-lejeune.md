@@ -17,7 +17,7 @@ If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCA
 ### Can I get disability benefits from VA?
 
 
-You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and:
+You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and **both of the following are true for you**:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
 - You have a diagnosis of one or more of these presumptive conditions:
