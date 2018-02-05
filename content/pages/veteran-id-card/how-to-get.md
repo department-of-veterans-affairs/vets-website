@@ -79,10 +79,10 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can't I use my Veteran ID Card for?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can’t I use my Veteran ID Card for?</button>
 <div id="use-veteran-id-card" class="usa-accordion-content">
 
-You can't use your Veteran ID Card to:
+You can’t use your Veteran ID Card to:
 - Prove your eligibility for any federal benefits, **or**
 - Access military installations
 
@@ -109,12 +109,11 @@ If you already have one of these, you don’t need a Veteran ID Card, but you ca
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Am I eligible for a Veteran ID Card if I served in Public Health Service (PHS) or the National Oceanic and Atmospheric Administration (NOAA)?</button>
 <div id="replace-other-cards" class="usa-accordion-content">
 
-No. At this time, the Veteran ID Card isn't available to those who served in PHS or NOAA.
-
-<br>
+No. At this time, the Veteran ID Card isn’t available to those who served in PHS or NOAA.
 </div>
 </li>
 <li>
+<br>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
