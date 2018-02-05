@@ -21,10 +21,10 @@ const form = {
   }
 };
 
-describe.only('<ConfirmationPage>', () => {
+describe('<ConfirmationPage>', () => {
   it('should render unverified', () => {
     const tree = shallow(
-      <ConfirmationPage form={form} props={{ user: { login: { currentlyLoggedIn: true } } }}/>
+      <ConfirmationPage form={form} saveInProgress={{ user: { login: { currentlyLoggedIn: true } } }}/>
     );
 
     expect(tree.text()).to.contain('Jane  Doe');
