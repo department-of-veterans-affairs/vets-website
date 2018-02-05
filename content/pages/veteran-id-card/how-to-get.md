@@ -68,7 +68,6 @@ If you already have a premium DS Logon account, you can sign in with your DS Log
 
 #### Learn more about how the Veteran ID Card works
 
-
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -112,6 +111,7 @@ If you already have one of these, you don’t need a Veteran ID Card, but you ca
 
 No. At this time, the Veteran ID Card isn't available to those who served in PHS or NOAA.
 
+<br>
 </div>
 </li>
 <li>
