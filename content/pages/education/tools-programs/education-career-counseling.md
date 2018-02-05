@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Educational and Career Counseling
+title: Educational and Career Counseling (Chapter 36)
 plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 order: 1
@@ -9,7 +9,7 @@ order: 1
 
 <div class="va-introtext">
 
-If you’re leaving active service soon, find out how to get free educational and career counseling. 
+If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36). 
 
 </div>
 
