@@ -21,20 +21,20 @@ If you served in the Southwest Asia theater of military operations, you may suff
 
 You may be able to get disability benefits if you served in the Southwest Asia theater of military operations during the Gulf War period, and you have 1 or more illnesses or other conditions related to service in this region. To get benefits: 
 
-Your chronic illness or other condition must have:
+**All of the following must be true** for your chronic illness or other condition:
 -	Started while you were on active duty or before December 31, 2016, **and**
 -	Caused you to be ill for at least 6 months, **and**
 -	Qualified you for a disability rating of 10% or more, **and**
 -	Not been caused by anything except your service in the Southwest Asia theater of operations, **and** 
 
-You must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions: 
+You must have been discharged under conditions other than dishonorable and have a diagnosis of **at least 1 of the following conditions**: 
 - Functional gastrointestinal disorders
 - Chronic Fatigue Syndrome
 - Fibromyalgia
 - Other undiagnosed illnesses, including but not limited to cardiovascular disease, muscle and joint pain, and headaches
 
 ##### Presumed disabilities
-You can also get benefits if: 
+You can also get benefits if **both of the following are true for you**: 
 - You have a presumed disability that appeared within 1 year of your date of separation, **and** 
 - This presumed disability qualifies you for a disability rating of 10% or more
 
@@ -65,7 +65,8 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br>
+[Apply for disability benefits](/disability-benefits/apply/).
 
 [Learn more about service in Southwest Asia](https://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 
@@ -80,4 +81,5 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 
 ### What if I need help filing my disability claim?
 
-You can get help from a trained professional trusted to help with VA-related claims. [Get help filing your claim](/disability-benefits/apply/help/).
+You can get help from a trained professional trusted to help with VA-related claims. <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
