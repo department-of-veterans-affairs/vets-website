@@ -54,11 +54,19 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
+                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-2" itemprop="name">What's the easiest way to sign in to access all Vets.gov tools and services?</button>
+                    <div id="faq-vetsgov-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>Signing in to Vets.gov with your premium **DS Logon** or **My Health*e*Vet** account is the easiest way for you to access all the advanced tools on Vets.gov. When you sign in with an existing premium account, you won’t need to verify your identity again.</p>
+                      </div>
+                    </div>
+                  </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-2" itemprop="name">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-3" itemprop="name">
                       Why should I trust Vets.gov?
                     </button>
-                    <div id="faq-vetsgov-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-vetsgov-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>Vets.gov is an official, secure VA government website, built and maintained by U.S. Department of Veterans Affairs employees and contractors under the direction of the VA Office of the Secretary. As with all VA websites, we follow strict security policies and practices to make sure that your personal information is safe and protected.</p>
                         <p>When you sign in to Vets.gov, we'll protect your personal information by using the strongest identity verification system available to prevent fraud and identity theft. We’ll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they get your password.</p>
@@ -70,20 +78,20 @@ display_title: Frequently Asked Questions
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <a name="why-verify"></a>
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-3" itemprop="name">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-4" itemprop="name">
                       Why do I need to verify my identity to use advanced tools and services on Vets.gov?
                     </button>
-                    <div id="faq-vetsgov-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-vetsgov-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>We need to make sure you’re you—and not someone pretending to be you—before we give you access to your personal and health-related information. This helps to keep your information safe and prevent fraud and identity theft.</p>
                       </div>
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-4" itemprop="name">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-5" itemprop="name">
                       How do I verify my identity?
                     </button>
-                    <div id="faq-vetsgov-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-vetsgov-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you have a <strong>DS Logon</strong> account, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a></p>
@@ -104,10 +112,10 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-5" itemprop="name">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-6" itemprop="name">
                       How long does it take to create an account and verify my identity?
                     </button>
-                    <div id="faq-vetsgov-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-vetsgov-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>About 5-10 minutes.</p>
                         <p>It takes this long because we use the most secure process available to make sure you’re you (not someone pretending to be you)—and to protect your personal information. Once you’ve gone through the process, you won't need to do it again. Signing in next time will be much faster.</p>
@@ -115,22 +123,33 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-6" itemprop="name">
-                      What if I’m having trouble verifying my identity online?
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-7" itemprop="name">
+                      I can’t verify my identity with ID.me. What’s the problem—and what should I do now?
                     </button>
-                    <div id="faq-vetsgov-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-vetsgov-7" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you’re having trouble verifying your identity online through ID.me, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</p>
-                        <p>If you get an error code from ID.me, please write it down and read it to the Help Desk.</p>
+                      <p>There may be different reasons why you can’t verify your identity with ID.me. You may be inputting information (like your date of birth) or answering questions in a way that doesn’t match the records ID.me uses to confirm your identity. Or, there may be another error that’s happening when you try to complete the process.</p>
+                        <p>You can:
+                          - **Try using your driver’s license or passport to verify your identity.** Be sure to follow the image guidelines when you upload a copy of your driver’s license or passport.
+                          - **Try answering the personal security questions again, following these tips:**
+                            - Pull a copy of your credit report from Experian and use it to double check that the answers you’re providing to ID.me during the proofing process matches the information in your report.<br>
+                          [Go to Experian.com](www.experian.com).<br>
+                          If you think your credit report has the wrong information, you’ll need to file a dispute with Experian.<br>
+                          [Go to Experian to file a dispute](https://www.experian.com/ncaconline/dispute?intcmp=dispute_app_startNew).
+                            - If you’ve recently moved, changed names, or have a different permanent address, try using your previous information.
+                            - Make sure you’re entering a phone number that’s registered in your name.
+                          - **Use your premium DS Logon or My Health*e*Vet account to sign in to Vets.gov.** When you use your existing premium account to sign, we’ll connect your verified account to Vets.gov through ID.me.<br>
+                          If you don’t have a premium **DS Logon** or My HealtheVet** account, you can find out how to get one by reading the questions below.
+                          - **Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833) for more help.** We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
                         <p>Right now, you can only verify your identity online for Vets.gov. But soon, we’ll have in-person identity proofing options at VA facilities and other locations.</p>
                       </div>
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-7" itemprop="name">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-8" itemprop="name">
                       I live overseas. Can I use my international address and phone number to verify my identity?
                     </button>
-                    <div id="faq-vetsgov-7" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-vetsgov-8" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p><strong>If you’re signing in through your ID.me account</strong>, you’ll need to use your most recent official stateside address and phone number (the information that will match records like your credit history)—even if it’s not your current contact information.</p>
                         <p><strong>If you have a DS Logon premium account</strong>, you can sign in using those credentials and you won't need to verify your identity.</p>
