@@ -4,7 +4,6 @@ import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
-import environment from '../../common/helpers/environment';
 
 const MIN_SIZE = 350;
 const MIN_RATIO = 0.2;
@@ -19,22 +18,6 @@ function isSmallScreen(width) {
 
 function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
-}
-
-function getImageUrl(cropResult, guid) {
-  if (cropResult) {
-    return cropResult.src;
-  }
-  let host;
-  if (environment.name === 'production') {
-    host = 'dsva-vetsgov-prod';
-  } else if (environment.name === 'staging') {
-    host = 'dsva-vetsgov-staging';
-  } else {
-    host = 'dsva-vetsgov-dev';
-  }
-
-  return `https://${host}-vic.s3-us-gov-west-1.amazonaws.com/profile_photo_attachments/${guid}`;
 }
 
 // If any of the image dimensions are greater than the max specified,
@@ -85,11 +68,11 @@ export default class PhotoField extends React.Component {
     super(props);
     this.state = {
       src: null,
-      cropResult: null,
       zoomValue: 0.4,
       errorMessage: null,
       warningMessage: null,
-      progress: 0
+      progress: 0,
+      isCropping: false
     };
   }
 
@@ -100,16 +83,6 @@ export default class PhotoField extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.detectWidth);
-  }
-
-  componentWillReceiveProps(newProps) {
-    const newFile = newProps.formData || {};
-    const file = this.props.formData || {};
-    const isUploading = newFile.uploading;
-    const wasUploading = file.uploading;
-    if (isUploading && !wasUploading) {
-      this.setState({ progress: 0 });
-    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -128,11 +101,14 @@ export default class PhotoField extends React.Component {
   }
 
   onEdit = () => {
-    this.setState({ progress: 0, warningMessage: null });
+    this.setState({ isCropping: true, warningMessage: null });
   }
 
   onDone = () => {
     const filePath = this.props.idSchema.$id.split('_').slice(1);
+
+    this.setState({ isCropping: false, progress: 0, warningMessage: null });
+
     this.refs.cropper.getCroppedCanvas().toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
@@ -147,14 +123,15 @@ export default class PhotoField extends React.Component {
         // a blur function
         // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
       });
-
-      this.setState({ warningMessage: null });
     });
   }
 
   onChangeNoCropping = (files) => {
     const file = files[0];
     const filePath = this.props.idSchema.$id.split('_').slice(1);
+
+    this.setState({ progress: 0, warningMessage: null });
+
     this.props.formContext.uploadFile(
       file,
       filePath,
@@ -179,7 +156,6 @@ export default class PhotoField extends React.Component {
       if (!isValidFileType(fileName, fileTypes)) {
         this.setState({
           src: null,
-          cropResult: null,
           errorMessage: 'Please choose a file from one of the accepted types.'
         });
       } else {
@@ -191,14 +167,13 @@ export default class PhotoField extends React.Component {
               if (!isValidImageSize(img)) {
                 this.setState({
                   src: null,
-                  cropResult: null,
                   errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
                 });
               } else {
                 this.setState({
                   src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
                   fileName,
-                  cropResult: null,
+                  isCropping: true,
                   errorMessage: null
                 });
               }
@@ -207,7 +182,6 @@ export default class PhotoField extends React.Component {
               this.setState({
                 src: null,
                 fileType: null,
-                cropResult: null,
                 errorMessage: 'Sorry, we weren’t able to load the image you selected'
               });
             });
@@ -300,43 +274,38 @@ export default class PhotoField extends React.Component {
 
   render() {
     const file = this.props.formData || {};
+    const { isCropping } = this.state;
+    const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage || this.state.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = !!file.confirmationCode;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
-    const showCropper = !isDone && this.state.src;
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
 
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
-    } else if (this.state.src) {
+    } else if (hasFile) {
       uploadMessage = 'Upload a New Photo';
     } else {
       uploadMessage = 'Upload Your Photo';
     }
 
     let instruction;
-    if (!isDone) {
-      if (!this.state.src) {
-        instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
-      }
-      if (this.state.src) {
-        instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
-      }
+    if (isCropping) {
+      instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
+    } else if (!hasFile) {
+      instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
     }
 
     let description;
     if (this.state.dragAndDropSupported) {
       description = <p>Drag and drop your image into the square or click the upload button.</p>;
-    }
-
-    if (this.state.src) {
+    } else if (isCropping) {
       description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
+    } else if (hasFile) {
+      description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
     }
-
-    if (isDone) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
 
     return (
       <div>
@@ -348,13 +317,17 @@ export default class PhotoField extends React.Component {
             {instruction}
             {description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            {isDone && <img className="photo-preview" src={getImageUrl(this.state.cropResult, file.confirmationCode)} alt="cropped"/>}
+            {hasFile && !isCropping && <img
+              className="photo-preview"
+              src={`/profile_photo_attachments/${file.confirmationCode}`}
+              alt="cropped"/>
+            }
           </div>
           {file.uploading && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
           </div>}
-          {!isDone && this.state.src && <div className="cropper-container-outer">
+          {isCropping && <div className="cropper-container-outer">
             <Cropper
               ref="cropper"
               ready={this.setCropBox}
@@ -433,19 +406,24 @@ export default class PhotoField extends React.Component {
             </div>
           </div>
           }
-          {!this.state.src && !isDone && <div className="drop-target-container">
+          {!isCropping && !hasFile && <div className="drop-target-container">
             <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               <img alt="placeholder" src="/img/photo-placeholder.png"/>
             </Dropzone>
           </div>}
-          <div className={isDone ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
-            {isDone && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
+          <div className={(hasFile && !isCropping) ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
+            {hasFile && !isCropping && <button
+              className="photo-edit-button usa-button"
+              type="button"
+              onClick={this.onEdit}>
+              Edit Your Photo
+            </button>}
             <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
               name="fileUpload"/>
-            {!isDone && !showCropper && <ErrorableFileInput
+            {!hasFile && !isCropping && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeNoCropping}
               buttonText="Screen reader friendly photo upload tool"
