@@ -61,7 +61,7 @@ class ConfirmationPage extends React.Component {
             We’ll send you emails updating you on the status of your application. You can also print this page for your records.</p>
           <p>To be eligible for a Veteran ID Card, you must have separated under honorable conditions. If you have an other than honorable discharge, you can apply for an upgrade or correction.<br/>
             <a href="/discharge-upgrade-instructions" target="_blank">Find out how to apply for a discharge upgrade</a>.</p>
-          <p>If you uploaded a copy of your discharge document, we'll use it to verify that you were honorably discharged.</p>
+          <p>If you uploaded a copy of your discharge document, we’ll use it to verify that you were honorably discharged.</p>
           <p>You can use any of these forms of ID to get the same business and restaurant discounts while you wait for your card:
             <ul>
               <li>A Veterans Health Identification Card (VHIC)</li>
