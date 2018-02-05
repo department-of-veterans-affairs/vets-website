@@ -30,7 +30,7 @@ Getting a degree, certificate, or other professional license can help you make a
 
 ### What should I do while I wait?
 
-The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about education and career couseling](/education/tools-programs/education-career-counseling/).
+The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about educational and career couseling](/education/tools-programs/education-career-counseling/).
 
 ### What happens after I apply?
 
