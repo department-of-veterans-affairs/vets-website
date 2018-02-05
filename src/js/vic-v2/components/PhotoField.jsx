@@ -63,13 +63,16 @@ function loadImage(dataUrl) {
   });
 }
 
+function isSquareImage(img) {
+  return img.width === img.height;
+}
+
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       src: null,
       zoomValue: 0.4,
-      errorMessage: null,
       warningMessage: null,
       progress: 0,
       isCropping: false
@@ -130,18 +133,31 @@ export default class PhotoField extends React.Component {
     const file = files[0];
     const filePath = this.props.idSchema.$id.split('_').slice(1);
 
-    this.setState({ progress: 0, warningMessage: null });
 
-    this.props.formContext.uploadFile(
-      file,
-      filePath,
-      this.props.uiSchema['ui:options'],
-      this.updateProgress,
-    ).catch(() => {
-      // rather not use the promise here, but seems better than trying to pass
-      // a blur function
-      // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-    });
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      loadImage(reader.result)
+        .then((img) => {
+          if (isSquareImage(img)) {
+            this.setState({ progress: 0, warningMessage: null });
+            this.props.formContext.uploadFile(
+              file,
+              filePath,
+              this.props.uiSchema['ui:options'],
+              this.updateProgress,
+            ).catch(() => {
+              // rather not use the promise here, but seems better than trying to pass
+              // a blur function
+              this.props.onBlur(this.props.idSchema.$id);
+            });
+          } else {
+            this.props.onChange({
+              errorMessage: 'ID card photos must be square'
+            });
+          }
+        });
+    };
   }
 
   onChange = (files) => {
@@ -154,8 +170,7 @@ export default class PhotoField extends React.Component {
         window.URL.revokeObjectURL(file.preview);
       }
       if (!isValidFileType(fileName, fileTypes)) {
-        this.setState({
-          src: null,
+        this.props.onChange({
           errorMessage: 'Please choose a file from one of the accepted types.'
         });
       } else {
@@ -165,23 +180,21 @@ export default class PhotoField extends React.Component {
           loadImage(reader.result)
             .then((img) => {
               if (!isValidImageSize(img)) {
-                this.setState({
-                  src: null,
+                this.props.onChange({
                   errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
                 });
               } else {
+                // Clear any error messages
+                this.props.onChange();
                 this.setState({
                   src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
                   fileName,
-                  isCropping: true,
-                  errorMessage: null
+                  isCropping: true
                 });
               }
             })
             .catch(() => {
-              this.setState({
-                src: null,
-                fileType: null,
+              this.props.onChange({
                 errorMessage: 'Sorry, we weren’t able to load the image you selected'
               });
             });
@@ -276,7 +289,7 @@ export default class PhotoField extends React.Component {
     const file = this.props.formData || {};
     const { isCropping } = this.state;
     const hasFile = !!file.confirmationCode;
-    const errorMessage = file.errorMessage || this.state.errorMessage;
+    const errorMessage = file.errorMessage;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
