@@ -18,7 +18,7 @@ Do you have a disability related to your military service that prevents you from
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have a disability that’s related to your service (called a service-connected disability) and that includes at least one of these:
+You may be able to get disability benefits if you have a disability that’s related to your service (called a service-connected disability) and that includes **at least one of these**:
   - Loss, or permanent loss of use, of 1 or both feet, **or**
   - Loss, or permanent loss of use, of 1 or both hands, **or**
   - Permanent decreased vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye, **or**
@@ -41,7 +41,8 @@ You may be able to get disability benefits if you have a disability that’s rel
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
 When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
@@ -51,6 +52,7 @@ When you apply, you’ll need to show that your disability is service connected 
 - We’ll pay the vehicle’s seller directly. 
 
 #### For the adaptive-equipment grant
-- If you qualify for adaptive equipment only, you’ll need to fill out an Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394). [Download VA Form 10-1394](https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
+- If you qualify for adaptive equipment only, you’ll need to fill out an Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394). <br>
+[Download VA Form 10-1394](https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
 - We may pay you, or we may pay the equipment seller directly.  
 
