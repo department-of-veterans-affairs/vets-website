@@ -90,7 +90,7 @@ function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, ri
 
 function makeBoundaryEdgeWarning(direction) {
   return direction ?
-    `You have reached the edge of your photo and cannot move it any farther ${direction}. Use the other arrows or the make larger and make smaller buttons to continue to edit.` :
+    `You have reached the edge of your photo and can't move it any farther ${direction}. To continue to edit the photo, click on the other arrows to move it or to make it larger.` :
     '';
 }
 
@@ -102,7 +102,7 @@ function makeCropBoundaryWarningMessage({ zoomWarn = false, ...boundariesMet }) 
   if (zoomWarn) {
     return 'If you zoom in this close, your ID photo will be less clear';
   } else if (hasParallelBoundariesMet(boundariesMet)) {
-    return 'Your photo currently fits within the square frame. Click ‘Make Larger’ if you would like to adjust the position of your photo';
+    return 'Your photo currently fits within the square frame. If you’d like to adjust the position of your photo, click Make larger.';
   }
 
   return makeBoundaryEdgeWarning(getBoundaryEdgeWarningDirection(boundariesMet));
