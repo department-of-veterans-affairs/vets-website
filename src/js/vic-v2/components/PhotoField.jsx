@@ -322,7 +322,6 @@ export default class PhotoField extends React.Component {
   updateBoundaryWarningAndButtonStates = () => {
     const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
 
-    this.setState({ ...makeMoveButtonsEnabledStates(moveBoundariesMet) });
     this.setState({
       warningMessage: makeCropBoundaryWarningMessage(moveBoundariesMet),
       ...makeMoveButtonsEnabledStates(moveBoundariesMet)
