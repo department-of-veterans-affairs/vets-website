@@ -370,7 +370,7 @@ export default class PhotoField extends React.Component {
 
   render() {
     const smallScreen = isSmallScreen(this.state.windowWidth);
-    const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
+    const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
@@ -471,7 +471,7 @@ export default class PhotoField extends React.Component {
               ].map((row, index) => (
                 <div className="cropper-control-row" key={index}>
                   {row.map((button) => (
-                    <button className={`${moveControlClass} ${classNames({ disabled: button.disabled })}`} type="button" onClick={() => this.handleMove(button.direction)} key={button.direction}>
+                    <button className={classNames(moveControlClass, { disabled: button.disabled })} type="button" onClick={() => this.handleMove(button.direction)} key={button.direction}>
                       <span className="cropper-control-label">{`Move ${button.direction}`}<i className={`fa fa-arrow-${button.direction}`}></i></span>
                     </button>))
                   }
