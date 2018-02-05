@@ -100,8 +100,6 @@ You can’t use your Veteran ID Card to:
 If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
 </div>
 </li>
-</ul>
-</div>
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -109,13 +107,15 @@ If you already have one of these, you don’t need a Veteran ID Card, but you ca
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="eligible-for-card">Am I eligible for a Veteran ID Card if I served in Public Health Service (PHS) or the National Oceanic and Atmospheric Administration (NOAA)?</button>
 <div id="eligible-for-card" class="usa-accordion-content">
 
-No. At this time, the Veteran ID Card isn’t available to those who served in PHS or NOAA.
+No. At this time, you don't qualify for a Veteran ID Card based on your service in PHS or NOAA.
 </div>
 </li>
 </ul>
 </div>
 
+
 <br>
+
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
