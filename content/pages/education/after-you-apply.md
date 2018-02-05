@@ -12,12 +12,12 @@ relatedlinks:
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: Vocational Rehabilitation and Employment (VR&E)
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 ---
 
 <div class="va-introtext">
 
-Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits.
+Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits. 
 
 </div>
 
@@ -27,6 +27,10 @@ Getting a degree, certificate, or other professional license can help you make a
 <span class="number">30 days</span>
 <span class="description">Average time to process education claims</span>
 </div>
+
+### What should I do while I wait?
+
+The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about education and career couseling](/education/tools-programs/education-career-counseling/).
 
 ### What happens after I apply?
 
