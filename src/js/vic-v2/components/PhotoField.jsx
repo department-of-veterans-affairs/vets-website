@@ -352,7 +352,7 @@ export default class PhotoField extends React.Component {
     this.updateBoundaryWarningAndButtonStates();
   }
 
-  handleZoom = (direction) => {
+  handleZoomButtonClick = (direction) => {
     switch (direction) {
       case 'IN':
         if (this.state.zoomValue < MAX_RATIO) {
@@ -424,8 +424,8 @@ export default class PhotoField extends React.Component {
               viewMode={1}
               zoom={this.onZoom}/>
             <div className="cropper-zoom-container">
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoom('OUT')}><i className="fa fa-search-minus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoom('OUT')}>
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
                 <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
               </button>}
               <input type="range"
@@ -439,17 +439,17 @@ export default class PhotoField extends React.Component {
                 aria-valuemax={MAX_RATIO}
                 aria-valuenow={this.state.zoomValue}
                 onInput={this.onZoomSliderChange}/>
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoom('IN')}><i className="fa fa-search-plus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoom('IN')}>
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
                 <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
               </button>}
             </div>
             <div className="cropper-control-container">
               <div className="cropper-control-row">
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoom('OUT')}>
+                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
                   <span className="cropper-control-label">Make smaller</span>
                 </button>}
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoom('IN')}>
+                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
                   <span className="cropper-control-label">Make larger</span>
                 </button>}
               </div>
