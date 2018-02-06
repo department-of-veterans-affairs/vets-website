@@ -86,19 +86,6 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
-// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
-// export function getAppealsV2() {
-//   return (dispatch) => {
-//     dispatch({ type: FETCH_APPEALS_PENDING });
-
-//     // Fake the fetch by just returning a resolved promice with the object shape we expect
-//     //  to get from the api.
-//     return setTimeout(() => Promise.resolve(mockData)
-//       .then((response) => dispatch(fetchAppealsSuccess(response)))
-//       .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE })), 4000);
-//   };
-// }
-
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
