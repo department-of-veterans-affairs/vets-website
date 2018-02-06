@@ -2,7 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
 import { apiRequest } from '../../common/helpers/api';
-import { makeAuthRequest, mockData } from '../utils/helpers';
+import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
@@ -103,7 +103,7 @@ export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
     return apiRequest(
-      '/v2/appeals',
+      '/appeals_v2',
       null,
       (appeals) => dispatch(fetchAppealsSuccess(appeals)),
       (error) => {

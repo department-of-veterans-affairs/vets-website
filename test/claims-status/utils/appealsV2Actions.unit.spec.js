@@ -27,7 +27,7 @@ const teardown = () => {
   global.sessionStorage = oldSessionStorage;
 };
 
-describe.only('getAppealsV2', () => {
+describe('getAppealsV2', () => {
   beforeEach(setup);
   afterEach(teardown);
 
