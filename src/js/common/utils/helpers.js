@@ -141,8 +141,8 @@ export function getScrollOptions(additionalOptions) {
   return _.merge({}, defaults, globals.scroll, additionalOptions);
 }
 
-export function scrollToFirstError(errorSelector = '.usa-input-error, .input-error-date') {
-  const errorEl = document.querySelector(errorSelector);
+export function scrollToFirstError() {
+  const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;

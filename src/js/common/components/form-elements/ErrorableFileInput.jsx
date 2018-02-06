@@ -58,6 +58,7 @@ class ErrorableFileInput extends React.Component {
             role="button"
             tabIndex="0"
             htmlFor={this.inputId}
+            aria-describedby={this.props['aria-describedby']}
             className={this.props.triggerClass || 'usa-button usa-button-secondary'}>
             {this.props.buttonText}
           </label>
