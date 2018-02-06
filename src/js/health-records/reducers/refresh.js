@@ -31,9 +31,7 @@ export default function refresh(state = initialState, action) {
         }
         return 'failed';
       });
-      return {
-        statuses
-      };
+      return { ...state, statuses };
     }
     default:
       return state;
