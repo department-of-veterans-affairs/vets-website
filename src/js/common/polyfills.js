@@ -36,6 +36,7 @@ require('whatwg-fetch');
 import 'polyfill-function-prototype-bind';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
+// Required for IE and Edge
 if (!HTMLCanvasElement.prototype.toBlob) {
   Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
     value(callback, type, quality) {
