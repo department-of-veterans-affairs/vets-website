@@ -5,6 +5,8 @@ import { shallow } from 'enzyme';
 import { mockData } from '../../../../src/js/claims-status/utils/helpers';
 import AppealsV2StatusPage from '../../../../src/js/claims-status/containers/AppealsV2StatusPage';
 
+// TODO: Test the conditional logic for showing the docket
+
 describe('<AppealsV2StatusPage/>', () => {
   const defaultProps = { appeal: mockData.data[0] };
 
