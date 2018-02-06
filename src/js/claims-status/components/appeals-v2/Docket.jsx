@@ -14,7 +14,7 @@ import { APPEAL_TYPES } from '../../utils/appeals-v2-helpers';
  * @param {Bool}   aod - Whether the appeal is Advanced on Docket
  * @param {Bool}   frontOfDocket - Whether the appeal is at the front of the docket
  */
-function Docket({ ahead, total, form9Date, docketMonth, appealType, aod, frontOfDocket }) {
+function Docket({ ahead, total, form9Date, docketMonth, appealType, aod, front: frontOfDocket }) {
   // TODO: Assess how accessible this is
 
   const form9DateFormatted = moment(form9Date, 'YYYY-MM-DD').format('MMMM YYYY');
@@ -25,7 +25,7 @@ function Docket({ ahead, total, form9Date, docketMonth, appealType, aod, frontOf
   if (frontOfDocket) {
     yourPlaceText = <p>The Board is currently working on appeals from {docketMonthFormatted} or older. Your appeal is eligible to be assigned to a judge when it is ready for their review.</p>;
   } else {
-    yourPlaceText = <p>There are {total} appeals on the docket, not including Advanced on Docket and Court Remand appeals. Some of these appeals are not ready to be assigned to a judge. A judge will begin work on your appeal when it is among the oldest appeals that are ready for their review. The Board is currently working on appeals from {docketMonthFormatted} or older.</p>;
+    yourPlaceText = <p>There are {total.toLocaleString()} appeals on the docket, not including Advanced on Docket and Court Remand appeals. Some of these appeals are not ready to be assigned to a judge. A judge will begin work on your appeal when it is among the oldest appeals that are ready for their review. The Board is currently working on appeals from {docketMonthFormatted} or older.</p>;
   }
 
   // Start with the basic content...
