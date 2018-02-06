@@ -6,7 +6,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
-import { prefillTransformer, photoReviewDescription } from '../helpers';
+import { prefillTransformer, photoReviewDescription } from '../helpers.jsx';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';

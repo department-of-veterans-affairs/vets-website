@@ -200,6 +200,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
+    // const imageEndpoint = getState().form.imageEndpoint;
     const userToken = sessionStorage.userToken;
     // If we don’t have a userToken, fail safely
     if (!userToken) {
