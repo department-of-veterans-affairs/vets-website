@@ -132,7 +132,7 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, filePath, uiOptions, progressCallback) {
+export function uploadFile(file, filePath, uiOptions, progressCallback, imageData = {}) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       dispatch(
@@ -182,7 +182,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
       req.addEventListener('load', () => {
         if (req.status >= 200 && req.status < 300) {
           const body = 'response' in req ? req.response : req.responseText;
-          const fileData = uiOptions.parseResponse(JSON.parse(body), file);
+          const fileData = _.assign(uiOptions.parseResponse(JSON.parse(body), file), imageData);
           dispatch(
             setData(_.set(filePath, fileData, getState().form.data))
           );

@@ -142,7 +142,8 @@ export default class PhotoField extends React.Component {
         file,
         filePath,
         this.props.uiSchema['ui:options'],
-        this.updateProgress
+        this.updateProgress,
+        { 'view:dataURL': this.state.src }
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
