@@ -27,11 +27,11 @@ display_title: Frequently Asked Questions
           </div>
           <div class="row">
             <div class="small-12 columns">
-              <h4>Signing In to Vets.gov</h4>
+              <h4>How to sign in to Vets.gov</h4>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov—and what does signing in do for me? </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov?</button>
                     <div id="faq-vetsgov-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>There are 2 levels of access for Vets.gov.</p>
@@ -45,20 +45,37 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
+                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                  <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-1" itemprop="name">What's the easiest way to sign in to access all Vets.gov tools?</button>
+                    <div id="faq-vetsgov-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>Signing in to Vets.gov with your premium DS Logon account is the easiest way for you to access most of our tools on Vets.gov. When you sign in with an existing premium account, you won’t need to verify your identity again.</p> 
+                      </div>
+                    </div>
+                  </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                  <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-2" itemprop="name">How can I get a DS Logon account?</button>
+                    <div id="faq-vetsgov-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>Signing in to Vets.gov with your premium DS Logon account is the easiest way for you to access most of our tools on Vets.gov. When you sign in with an existing premium account, you won’t need to verify your identity again.</p> 
+                      </div>
+                    </div>
+                  </li>
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-1" itemprop="name">Do I have to sign in to Vets.gov to apply for benefits?</button>
                     <div id="faq-vetsgov-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>No. Even if you don't sign in, you can still apply for the benefits you’ve earned.</p>
                         <p>But without verifying your identity, you can’t use more advanced site tools to manage your benefits and services (like tracking your VA claims and appeals, downloading your VA health record, refilling your VA prescriptions, tracking how much of your Post-9/11 GI Bill benefits you’ve used, or messaging members of your VA health care team).</p>
-                      </div>
-                    </div>
-                  </li>
-                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-2" itemprop="name">What's the easiest way to sign in to access all Vets.gov tools and services?</button>
-                    <div id="faq-vetsgov-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                        <p>Signing in to Vets.gov with your premium **DS Logon** or **My Health*e*Vet** account is the easiest way for you to access all the advanced tools on Vets.gov. When you sign in with an existing premium account, you won’t need to verify your identity again.</p>
                       </div>
                     </div>
                   </li>
@@ -234,7 +251,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Signing in with your existing DS Logon account</h4>
+                <h4>Signing in with a DS Logon account</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-0" itemprop="name">
@@ -265,6 +282,22 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-2" itemprop="name">
+                      What’s a premium DS Logon account, and why would I want to get one?
+                    </button>
+                    <div id="faq-dslogon-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>A <strong>DS Logon</strong> account is a secure ID that gives you a single username and password to sign in to many different VA and Department of Defense (DoD) websites and apps. These include Vets.gov and other sites you can use to manage your benefits and services, like eBenefits, the TRICARE® patient portal, and milConnect.</p>
+                        <p>With a basic DS Logon account, you can access some features of these sites. But you’ll need a premium account to view your personal information in VA and DoD systems or to use any apps that connect to your VA health record.</p>
+                        <p>With a premium account, you can do things like:
+                          - View information from your VA health record
+                          - Check the status of your claims
+                          - Update your address and other personal information in VA and DoD records
+</p>
+                      </div>
+                    </div>
+                  </li>                  
                 </ul>
               </div>
             </div>
