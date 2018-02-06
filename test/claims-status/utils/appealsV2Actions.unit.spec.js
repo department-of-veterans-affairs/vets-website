@@ -32,8 +32,9 @@ describe.only('getAppealsV2', () => {
   afterEach(teardown);
 
   it('dispatches FETCH_APPEALS_PENDING', (done) => {
+    const thunk = getAppealsV2();
     const dispatch = sinon.spy();
-    getAppealsV2(dispatch)
+    thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(FETCH_APPEALS_PENDING);
@@ -47,8 +48,9 @@ describe.only('getAppealsV2', () => {
       json: () => Promise.resolve({})
     }));
 
+    const thunk = getAppealsV2();
     const dispatch = sinon.spy();
-    getAppealsV2(dispatch)
+    thunk(dispatch)
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(FETCH_APPEALS_SUCCESS);
@@ -57,8 +59,9 @@ describe.only('getAppealsV2', () => {
 
   it('dispatches FETCH_APPEALS_UNAVAILABLE', (done) => {
     global.fetch.returns(Promise.reject());
+    const thunk = getAppealsV2();
     const dispatch = sinon.spy();
-    getAppealsV2(dispatch)
+    thunk(dispatch)
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(SET_APPEALS_UNAVAILABLE);

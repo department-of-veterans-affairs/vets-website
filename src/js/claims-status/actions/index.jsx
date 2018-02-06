@@ -1,4 +1,5 @@
 import React from 'react';
+import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
 import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest, mockData } from '../utils/helpers';
@@ -98,14 +99,19 @@ export function fetchAppealsSuccess(response) {
 //   };
 // }
 
-export function getAppealsV2(dispatch) {
-  dispatch({ type: FETCH_APPEALS_PENDING });
-  return apiRequest(
-    '/v2/appeals',
-    null,
-    (appeals) => dispatch(fetchAppealsSuccess(appeals)),
-    () => dispatch({ type: SET_APPEALS_UNAVAILABLE })
-  );
+export function getAppealsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_APPEALS_PENDING });
+    return apiRequest(
+      '/v2/appeals',
+      null,
+      (appeals) => dispatch(fetchAppealsSuccess(appeals)),
+      (error) => {
+        Raven.captureException(`vets_appeals_v2_err_get_appeals ${error.message}`);
+        return dispatch({ type: SET_APPEALS_UNAVAILABLE });
+      }
+    );
+  };
 }
 
 export function filterClaims(filter) {
