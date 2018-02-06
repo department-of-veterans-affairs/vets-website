@@ -188,6 +188,7 @@ export default class PhotoField extends React.Component {
   onEdit = () => {
     this.setState({
       isCropping: true,
+      fileName: this.props.formData.name,
       src: this.state.src || this.state.previewSrc,
       warningMessage: null
     });
