@@ -480,7 +480,7 @@ export default class PhotoField extends React.Component {
             {fieldView === 'preview' && !!this.state.previewSrc && <img
               className="photo-preview"
               src={this.state.previewSrc}
-              alt="cropped"/>
+              alt="Photograph of you that will be displayed on the ID card"/>
             }
           </div>
           {file.uploading && <div className={progressBarContainerClass}>
