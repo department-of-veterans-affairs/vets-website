@@ -6,8 +6,6 @@ import { mockData } from '../../../../src/js/claims-status/utils/helpers';
 import { APPEAL_TYPES } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 import AppealsV2StatusPage from '../../../../src/js/claims-status/containers/AppealsV2StatusPage';
 
-// TODO: Test the conditional logic for showing the docket
-
 describe('<AppealsV2StatusPage/>', () => {
   const defaultProps = { appeal: mockData.data[0] };
   const onDocketProps = { appeal: mockData.data[1] };
