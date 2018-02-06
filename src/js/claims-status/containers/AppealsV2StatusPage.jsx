@@ -13,7 +13,7 @@ import Docket from '../components/appeals-v2/Docket';
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
 const AppealsV2StatusPage = ({ appeal }) => {
-  const { events, alerts, status, docket, incompleteHistory } = appeal.attributes;
+  const { events, alerts, status, docket, incompleteHistory, active: appealIsActive } = appeal.attributes;
   const currentStatus = getStatusContents(status.type, status.details);
 
   // NB: 'details' doesn't do anything in getNextEvents for the time being
@@ -27,7 +27,6 @@ const AppealsV2StatusPage = ({ appeal }) => {
   const form9Date = form9Event && form9Event.date;
 
   // Gates the What's Next and Docket chunks
-  const appealIsClosed = !appeal.active;
   const hideDocketStatusTypes = [
     STATUS_TYPES.pendingSoc,
     STATUS_TYPES.pendingForm9,
@@ -38,7 +37,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
     APPEAL_TYPES.reconsideration,
     APPEAL_TYPES.cue
   ];
-  const shouldShowDocket = !appealIsClosed &&
+  const shouldShowDocket = appealIsActive &&
     !hideDocketStatusTypes.includes(status.type) &&
     !hideDocketAppealTypes.includes(appeal.type);
 
@@ -48,11 +47,11 @@ const AppealsV2StatusPage = ({ appeal }) => {
       <CurrentStatus
         title={currentStatus.title}
         description={currentStatus.description}
-        isClosed={appealIsClosed}/>
+        isClosed={appealIsActive}/>
       <AlertsList alerts={alerts}/>
-      {!appealIsClosed && <WhatsNext nextEvents={nextEvents}/>}
+      {appealIsActive && <WhatsNext nextEvents={nextEvents}/>}
       {shouldShowDocket && <Docket {...docket} form9Date={form9Date} appealType={appeal.type}/>}
-      {appealIsClosed && <div className="closed-appeal-notice">This appeal is now closed</div>}
+      {!appealIsActive && <div className="closed-appeal-notice">This appeal is now closed</div>}
     </div>
   );
 };

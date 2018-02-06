@@ -3,12 +3,14 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { mockData } from '../../../../src/js/claims-status/utils/helpers';
+import { APPEAL_TYPES } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 import AppealsV2StatusPage from '../../../../src/js/claims-status/containers/AppealsV2StatusPage';
 
 // TODO: Test the conditional logic for showing the docket
 
 describe('<AppealsV2StatusPage/>', () => {
   const defaultProps = { appeal: mockData.data[0] };
+  const onDocketProps = { appeal: mockData.data[1] };
 
   it('should render', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps}/>);
@@ -48,7 +50,7 @@ describe('<AppealsV2StatusPage/>', () => {
   });
 
   it('should render a <WhatsNext/> with nextEvents', () => {
-    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps}/>);
+    const wrapper = shallow(<AppealsV2StatusPage {...onDocketProps}/>);
     const whatsNext = wrapper.find('WhatsNext');
     const whatsNextProps = whatsNext.props();
     expect(whatsNext.length).to.equal(1);
@@ -57,7 +59,31 @@ describe('<AppealsV2StatusPage/>', () => {
     expect(whatsNextProps.nextEvents).to.exist;
   });
 
-  it('should render a <Docket/>', () => {
-    // There's currently no docket, leave as placeholder
+  it('should render a <Docket/> when applicable', () => {
+    const wrapper = shallow(<AppealsV2StatusPage {...onDocketProps}/>);
+    expect(wrapper.find('Docket').length).to.equal(1);
+  });
+
+  it('should not render a <Docket/> when appeal status is a forbidden type', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const wrapper = shallow(<AppealsV2StatusPage {...defaultProps}/>);
+    expect(wrapper.find('Docket').length).to.equal(0);
+  });
+
+  it('should not render a <Docket/> when appeal type is a forbidden type', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const props = { ...defaultProps, type: APPEAL_TYPES.cue };
+    const wrapper = shallow(<AppealsV2StatusPage {...props}/>);
+    expect(wrapper.find('Docket').length).to.equal(0);
+  });
+
+  it('should not render a <Docket/> when appeal is closed', () => {
+    // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
+    const props = {
+      ...defaultProps,
+      attributes: { ...defaultProps, active: false }
+    };
+    const wrapper = shallow(<AppealsV2StatusPage {...props}/>);
+    expect(wrapper.find('Docket').length).to.equal(0);
   });
 });

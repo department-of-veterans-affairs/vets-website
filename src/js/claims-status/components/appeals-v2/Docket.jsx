@@ -63,15 +63,6 @@ function Docket({ ahead, total, form9Date, docketMonth, appealType, aod, frontOf
     </div>
   );
 }
-/**
- * @param {Number} ahead - The number of appeals ahead of this one
- * @param {Number} total - The total number of appeals in the docket line
- * @param {String} form9Date - The date the form 9 was sent in (or something)
- * @param {String} docketMonth- The month that the board is looking at (or older)
- * @param {String} appealType - The type of appeal
- * @param {Bool}   aod - Whether the appeal is Advanced on Docket
- * @param {Bool}   frontOfDocket - Whether the appeal is at the front of the docket
- */
 
 Docket.propTypes = {
   ahead: PropTypes.number.isRequired,
