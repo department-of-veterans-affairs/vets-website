@@ -13,7 +13,11 @@ import Docket from '../components/appeals-v2/Docket';
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
 const AppealsV2StatusPage = ({ appeal }) => {
-  const { events, alerts, status, docket, incompleteHistory, active: appealIsActive } = appeal.attributes;
+  const {
+    events, alerts, status, docket, incompleteHistory,
+    active: appealIsActive,
+    type: appealType
+  } = appeal.attributes;
   const currentStatus = getStatusContents(status.type, status.details);
 
   // NB: 'details' doesn't do anything in getNextEvents for the time being
@@ -39,7 +43,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
   ];
   const shouldShowDocket = appealIsActive &&
     !hideDocketStatusTypes.includes(status.type) &&
-    !hideDocketAppealTypes.includes(appeal.type);
+    !hideDocketAppealTypes.includes(appealType);
 
   return (
     <div>

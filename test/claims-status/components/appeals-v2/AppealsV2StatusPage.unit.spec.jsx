@@ -70,7 +70,13 @@ describe('<AppealsV2StatusPage/>', () => {
 
   it('should not render a <Docket/> when appeal type is a forbidden type', () => {
     // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
-    const props = { ...defaultProps, type: APPEAL_TYPES.cue };
+    const props = {
+      ...defaultProps,
+      attributes: {
+        ...defaultProps.attributes,
+        type: APPEAL_TYPES.cue
+      }
+    };
     const wrapper = shallow(<AppealsV2StatusPage {...props}/>);
     expect(wrapper.find('Docket').length).to.equal(0);
   });
