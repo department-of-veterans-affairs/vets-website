@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DocketCard = ({ total, ahead }) => {
+function DocketCard({ total, ahead }) {
   const completedWidth = { width: `${((total - ahead) / total) * 100}%` };
 
   return (
@@ -33,7 +33,7 @@ const DocketCard = ({ total, ahead }) => {
       <p><strong>{total.toLocaleString()}</strong> total appeals on the docket</p>
     </div>
   );
-};
+}
 
 DocketCard.propTypes = {
   ahead: PropTypes.number.isRequired,
