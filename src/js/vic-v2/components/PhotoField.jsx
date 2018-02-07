@@ -183,6 +183,7 @@ export default class PhotoField extends React.Component {
     if (this.state.previewSrc) {
       window.URL.revokeObjectURL(this.state.previewSrc);
     }
+    window.removeEventListener('resize', this.detectWidth);
   }
 
   onEdit = () => {
