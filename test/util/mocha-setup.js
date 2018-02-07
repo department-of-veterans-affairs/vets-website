@@ -1,7 +1,9 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
+import 'blob-polyfill';
 // import sinon from 'sinon'
+
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 global.__ALL_CLAIMS_ENABLED__ = (global.__BUILDTYPE__ === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true');
@@ -31,6 +33,8 @@ function setupJSDom() {
       smooth: false
     }
   };
+
+  global.Blob = window.Blob;
 
   // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
   function propagateToGlobal(window) {

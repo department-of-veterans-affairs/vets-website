@@ -54,7 +54,14 @@ class ErrorableFileInput extends React.Component {
             {requiredSpan}
           </label>
           {errorSpan}
-          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-secondary">{this.props.buttonText}</label>
+          <label
+            role="button"
+            tabIndex="0"
+            htmlFor={this.inputId}
+            aria-describedby={this.props['aria-describedby']}
+            className={this.props.triggerClass || 'usa-button usa-button-secondary'}>
+            {this.props.buttonText}
+          </label>
           <input
             multiple={this.props.multiple}
             style={{ display: 'none' }}
@@ -76,6 +83,7 @@ ErrorableFileInput.propTypes = {
     PropTypes.element]),
   additionalClass: PropTypes.string,
   additionalErrorClass: PropTypes.string,
+  triggerClass: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   accept: PropTypes.string,
   name: PropTypes.string.isRequired,
