@@ -77,7 +77,7 @@ If any of these apply to you, then you’ll file your disability claim on eBenef
 - I have a new condition to add to my rated disability claim, **or**
 - I have both a new and worsening condition to add to my rated disability claim
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Apply on eBenefits</a>
 
 If you have a worsening condition to add to your rated disability claim, then you'll file your claim using the online application. 
 
