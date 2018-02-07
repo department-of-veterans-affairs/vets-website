@@ -144,7 +144,7 @@ function isSquareImage(img) {
 }
 
 function getImageUrl({ serverPath, serverName } = {}) {
-  return `${environment.API_URL}/content/${serverPath}/${serverName}`;
+  return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
 }
 
 export default class PhotoField extends React.Component {
@@ -501,7 +501,7 @@ export default class PhotoField extends React.Component {
 
   render() {
     const { formData, formContext } = this.props;
-    const file = formData;
+    const file = formData || {};
     const onReview = formContext.reviewMode;
 
     if (onReview) return <PhotoReviewDescription url={getImageUrl(file)}/>;
