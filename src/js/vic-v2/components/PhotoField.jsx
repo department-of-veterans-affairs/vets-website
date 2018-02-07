@@ -54,10 +54,10 @@ function makeMovedCanvasData({ canvasData, cropBoxData, moveX, moveY }) {
     newCanvasData.bottomBoundaryMet = true;
   } else if (newCanvasData.top > boundaries.topMax) {
     newCanvasData.top = boundaries.topMax;
-    newCanvasData.bottomBoundaryMet = true;
+    newCanvasData.topBoundaryMet = true;
   } else if (newCanvasData.top  < boundaries.topMin) {
     newCanvasData.top = boundaries.topMin;
-    newCanvasData.topBoundaryMet = true;
+    newCanvasData.bottomBoundaryMet = true;
   }
 
   if (boundaries.leftMin === boundaries.leftMax) {
