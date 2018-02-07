@@ -92,7 +92,7 @@ export function addStatusToIssues(issues) {
         status = 'withdrawn';
         break;
       case ISSUE_STATUS.allowed:
-        status = 'allowed';
+        status = 'granted';
         break;
       case ISSUE_STATUS.denied:
         status = 'denied';
