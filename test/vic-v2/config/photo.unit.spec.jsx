@@ -6,13 +6,11 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-
 describe('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
-  const globalWindow = window;
-  window =  { addEventListener: sinon.spy() }; // eslint-disable-line no-global-assign
   it('should render', () => {
+    window.addEventListener = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -104,7 +102,4 @@ describe('VIC photo upload', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-
-  window = globalWindow; // eslint-disable-line no-global-assign
-
 });
