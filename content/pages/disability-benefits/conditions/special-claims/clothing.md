@@ -17,7 +17,7 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if:
+You may be able to get disability benefits if **both of the following are true for you**:
 
   - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes, **and**
   - You need this device or skin medicine because of an injury or illness related to your military service (called a service-connected condition)
@@ -46,8 +46,10 @@ To get your yearly payment, you’ll need to qualify by August 1 of that year. Y
 [View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
 
-To apply, fill out an Application for Annual Clothing Allowance (VA Form 10-8678), and give it to the prosthetic representative at your local VA medical center. [Download VA Form 10-8678](https://www.va.gov/vaforms/medical/pdf/10-8678-fill.pdf).
+To apply, fill out an Application for Annual Clothing Allowance (VA Form 10-8678), and give it to the prosthetic representative at your local VA medical center. <br>
+[Download VA Form 10-8678](https://www.va.gov/vaforms/medical/pdf/10-8678-fill.pdf).
 
-Use our facility locator to find your nearest VA medical center. [Find a VA medical center near you](https://www.vets.gov/facility-locator/).
+Use our facility locator to find your nearest VA medical center. <br>
+[Find a VA medical center near you](https://www.vets.gov/facility-locator/).
 
 For more information, call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). We collect applications throughout the year and hold them until the August 1 closing date.
