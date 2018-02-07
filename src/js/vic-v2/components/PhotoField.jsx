@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
+import { photoReviewDescription } from '../helpers.jsx';
 
 const PhotoDescription = (
   <div className="feature">
@@ -294,10 +295,16 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
-    const file = this.props.formData || {};
+    const {
+      uiSchema,
+      formData,
+      formContext,
+    } = this.props;
+    const { file } = formData || {};
+    const onReview = formContext.reviewMode;
     const errorMessage = file.errorMessage || this.state.errorMessage;
-    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
-    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(formContext.pageTitle);
+    const { fileTypes } = uiSchema['ui:options'];
     const isDone = !!file.confirmationCode;
     const uploadView = !this.state.src;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
@@ -334,6 +341,8 @@ export default class PhotoField extends React.Component {
       description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
     }
     if (isDone) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
+
+    if (onReview) return <photoReviewDescription formData={formData}/>;
 
     return (
       <div>

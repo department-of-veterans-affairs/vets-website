@@ -6,7 +6,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
-import { prefillTransformer, photoReviewDescription } from '../helpers.jsx';
+import { prefillTransformer } from '../helpers.jsx';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -191,7 +191,6 @@ const formConfig = {
               }
             }), {
               'ui:field': PhotoField,
-              'ui:reviewDescription': photoReviewDescription,
               'ui:validations': [
                 validateFile
               ]
@@ -204,9 +203,6 @@ const formConfig = {
               photo: {
                 type: 'object',
                 properties: {
-                  'view:dataURL': {
-                    type: 'string',
-                  },
                   name: {
                     type: 'string'
                   },
@@ -240,7 +236,7 @@ const formConfig = {
                 'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
-              alternativeLabel: 'Upload your discharge document',
+              buttonText: 'Upload your discharge document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);
