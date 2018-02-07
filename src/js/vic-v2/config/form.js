@@ -160,10 +160,12 @@ const formConfig = {
     },
     documentUpload: {
       title: 'Document Upload',
+      reviewTitle: 'Documents',
       pages: {
         photoUpload: {
           path: 'documents/photo',
           title: 'Photo upload',
+          reviewTitle: 'Photo review',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
@@ -208,9 +210,9 @@ const formConfig = {
         },
         dd214Upload: {
           path: 'documents/discharge',
-          title: 'Discharge documents',
+          title: 'Discharge document upload',
+          reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
-          editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
@@ -225,7 +227,7 @@ const formConfig = {
                 'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
-              hideLabelText: true,
+              buttonText: 'Upload your discharge document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);

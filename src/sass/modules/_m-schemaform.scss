@@ -569,3 +569,12 @@ legend.schemaform-label.schemaform-file-label {
   font-size: $h4-font-size;
   margin-top: 1em;
 }
+
+.usa-accordion, .usa-accordion-bordered {
+  > ul {
+    button {
+      border-radius: $button-border-radius;
+    }
+  }
+}
+
