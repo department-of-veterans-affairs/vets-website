@@ -234,7 +234,7 @@ export default class PhotoField extends React.Component {
             });
           } else if (!isValidImageSize(img)) {
             this.props.onChange({
-              errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
+              errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
             });
           } else {
             this.setState({ progress: 0, warningMessage: null });
@@ -266,7 +266,7 @@ export default class PhotoField extends React.Component {
       }
       if (!isValidFileType(fileName, fileTypes)) {
         this.props.onChange({
-          errorMessage: 'Please choose a file from one of the accepted types.'
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();
@@ -276,7 +276,7 @@ export default class PhotoField extends React.Component {
             .then((img) => {
               if (!isValidImageSize(img)) {
                 this.props.onChange({
-                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
+                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
                 });
               } else {
                 // Clear any error messages
@@ -472,7 +472,7 @@ export default class PhotoField extends React.Component {
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
         <div className={errorMessage ? 'error-box' : 'border-box'}>
           {fieldView === 'cropper' && <span className="sr-only">
-            This is a photo cropping tool, which requires sight to use. <button type="button" onClick={this.resetFile}>Go back and upload your photo without cropping</button>
+            This is a photo editing tool that requires sight to use. If you are using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
             {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">{errorMessage}</div>}
@@ -582,7 +582,7 @@ export default class PhotoField extends React.Component {
             {fieldView === 'preview' && <button
               className="photo-preview-link va-button-link"
               type="button"
-              aria-describedby="croppingToolDescription"
+              aria-describedby="editButtonDescription"
               onClick={this.onEdit}>
               Edit your photo
             </button>}
@@ -605,8 +605,9 @@ export default class PhotoField extends React.Component {
               buttonText="Upload Again"
               name="screenReaderFileUpload"/>}
           </div>
-          <span className="sr-only" id="croppingToolDescription">This button will take you into a photo cropping tool, which requires sight to use.</span>
-          <span className="sr-only" id="screenReaderPathDescription">This button will allow you to upload a file without using the cropping tool, which requires sight to use. You'll need to upload a square image that's at least 350 pixels wide</span>
+          <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>
+          <span className="sr-only" id="editButtonDescription">This button will take you into a photo cropping tool, which requires sight to use. This button is not recommended if you are using a screen reader.</span>
+          <span className="sr-only" id="screenReaderPathDescription">This is the recommended path if you are using a screen reader. It will allow you to upload your photo without having to crop, as long as you have a photo that is square and at least 350 pixels wide.</span>
         </div>
       </fieldset>
     );
