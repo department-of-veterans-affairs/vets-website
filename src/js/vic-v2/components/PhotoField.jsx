@@ -421,6 +421,15 @@ export default class PhotoField extends React.Component {
     this.maybeMoveCanvasWithinBounds();
   }
 
+  handleCropstart = (e) => {
+    const action = e.detail.action;
+    const allowedActions = ['crop', 'move', 'zoom', 'all'];
+
+    if (!allowedActions.includes(action)) {
+      e.preventDefault();
+    }
+  }
+
   handleMove = (direction) => {
     let moveData;
     switch (direction) {
@@ -509,7 +518,6 @@ export default class PhotoField extends React.Component {
           </div>}
           {!isDone && this.state.src && <div className="cropper-container-outer">
             <Cropper
-              cropBoxResizable={false}
               ref="cropper"
               key={smallScreen ? 'smallScreen' : 'largeScreen'}
               ready={this.setCropBox}
@@ -517,6 +525,7 @@ export default class PhotoField extends React.Component {
               src={this.state.src}
               aspectRatio={1}
               cropBoxMovable={false}
+              cropstart={this.handleCropstart}
               cropend={this.handleCropend}
               cropmove={this.handleCropMove}
               minContainerHeight={smallScreen ? 240 : 300}
