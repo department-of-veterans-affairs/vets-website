@@ -159,7 +159,7 @@ const formConfig = {
     },
     documentUpload: {
       title: 'Document Upload',
-      reviewTitle: 'Document Review',
+      reviewTitle: 'Documents',
       pages: {
         photoUpload: {
           path: 'documents/photo',
