@@ -31,7 +31,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll apply either using eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
+You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll apply using either eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
 
 </div>
 
