@@ -1,6 +1,8 @@
 import React from 'react';
+import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
-import { makeAuthRequest, mockData } from '../utils/helpers';
+import { apiRequest } from '../../common/helpers/api';
+import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
@@ -84,16 +86,18 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
-// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
-
-    // Fake the fetch by just returning a resolved promice with the object shape we expect
-    //  to get from the api.
-    return setTimeout(() => Promise.resolve(mockData)
-      .then((response) => dispatch(fetchAppealsSuccess(response)))
-      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE })), 4000);
+    return apiRequest(
+      '/appeals_v2',
+      null,
+      (appeals) => dispatch(fetchAppealsSuccess(appeals)),
+      (error) => {
+        Raven.captureMessage(`vets_appeals_v2_err_get_appeals ${error.message}`);
+        return dispatch({ type: SET_APPEALS_UNAVAILABLE });
+      }
+    );
   };
 }
 
