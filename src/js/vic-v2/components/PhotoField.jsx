@@ -501,11 +501,11 @@ export default class PhotoField extends React.Component {
 
   render() {
     const { formData, formContext } = this.props;
+    const file = formData;
     const onReview = formContext.reviewMode;
 
-    if (onReview) return <PhotoReviewDescription formData={formData}/>;
+    if (onReview) return <PhotoReviewDescription url={getImageUrl(file)}/>;
 
-    const file = this.props.formData || {};
     const { isCropping } = this.state;
     const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage;
