@@ -25,8 +25,8 @@ const {
   veteranFullName,
   email,
   serviceBranch,
-  dd214
-  // photo
+  dd214,
+  photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -202,26 +202,13 @@ const formConfig = {
             type: 'object',
             required: ['photo'],
             properties: {
-              photo: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  size: {
-                    type: 'integer'
-                  },
-                  confirmationCode: {
-                    type: 'string'
-                  }
-                }
-              }
+              photo
             }
           }
         },
         dd214Upload: {
-          path: 'documents/dd214',
-          title: 'DD214 upload',
+          path: 'documents/discharge',
+          title: 'Discharge documents',
           depends: form => !form.verified,
           editModeOnReviewPage: true,
           uiSchema: {
