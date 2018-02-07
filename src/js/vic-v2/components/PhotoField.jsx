@@ -24,6 +24,8 @@ const PhotoDescription = (
   </div>);
 
 const MIN_SIZE = 350;
+const SMALL_CROP_BOX_SIZE = 240;
+const LARGE_CROP_BOX_SIZE = 300;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 const MAX_DIMENSION = 1024;
@@ -348,8 +350,8 @@ export default class PhotoField extends React.Component {
       this.refs.cropper.setCropBoxData({
         top: 0,
         left,
-        height: smallScreen ? 240 : 300,
-        width: smallScreen ? 240 : 300
+        height: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE,
+        width: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE
       });
 
       // use the cropbox dimensions to force canvas into default position
@@ -540,7 +542,7 @@ export default class PhotoField extends React.Component {
               cropstart={this.handleCropstart}
               cropend={this.handleCropend}
               cropmove={this.handleCropMove}
-              minContainerHeight={smallScreen ? 240 : 300}
+              minContainerHeight={smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
               toggleDragModeOnDblclick={false}
               dragMode="move"
               guides={false}
