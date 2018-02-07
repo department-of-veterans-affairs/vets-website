@@ -66,10 +66,10 @@ function makeMovedCanvasData({ canvasData, cropBoxData, moveX, moveY }) {
     newCanvasData.rightBoundaryMet = true;
   } else if (newCanvasData.left > boundaries.leftMax) {
     newCanvasData.left = boundaries.leftMax;
-    newCanvasData.rightBoundaryMet = true;
+    newCanvasData.leftBoundaryMet = true;
   } else if (newCanvasData.left < boundaries.leftMin) {
     newCanvasData.left = boundaries.leftMin;
-    newCanvasData.leftBoundaryMet = true;
+    newCanvasData.rightBoundaryMet = true;
   }
 
   return newCanvasData;
@@ -340,7 +340,7 @@ export default class PhotoField extends React.Component {
 
   setCropBox = () => {
     // center the cropbox using container width
-    const containerWidth = this.refs.container.offsetWidth;
+    const containerWidth = this.refs.cropper.getContainerData().width;
     const smallScreen = isSmallScreen(this.state.windowWidth);
     const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
     this.refs.cropper.setCropBoxData({
@@ -510,24 +510,22 @@ export default class PhotoField extends React.Component {
             <ProgressBar percent={this.state.progress}/>
           </div>}
           {!isDone && this.state.src && <div className="cropper-container-outer">
-            <div ref="container">
-              <Cropper
-                ref="cropper"
-                key={smallScreen ? 'smallScreen' : 'largeScreen'}
-                ready={this.setCropBox}
-                responsive
-                src={this.state.src}
-                aspectRatio={1}
-                cropBoxMovable={false}
-                cropend={this.handleCropend}
-                cropmove={this.handleCropMove}
-                minContainerHeight={smallScreen ? 240 : 300}
-                toggleDragModeOnDblclick={false}
-                dragMode="move"
-                guides={false}
-                viewMode={0}
-                zoom={this.onZoom}/>
-            </div>
+            <Cropper
+              ref="cropper"
+              key={smallScreen ? 'smallScreen' : 'largeScreen'}
+              ready={this.setCropBox}
+              responsive
+              src={this.state.src}
+              aspectRatio={1}
+              cropBoxMovable={false}
+              cropend={this.handleCropend}
+              cropmove={this.handleCropMove}
+              minContainerHeight={smallScreen ? 240 : 300}
+              toggleDragModeOnDblclick={false}
+              dragMode="move"
+              guides={false}
+              viewMode={0}
+              zoom={this.onZoom}/>
             <div className="cropper-zoom-container">
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
               {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
