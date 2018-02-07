@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from '../utils/moment-setup';
 import objectValues from 'lodash/fp/values';
 import { connect } from 'react-redux';
-import { getScheduledDowntime } from '../actions';
+import { getScheduledDowntime, setCurrentStatus, unsetCurrentStatus } from '../actions';
 import Modal from '../components/Modal';
 import LoadingIndicator from '../components/LoadingIndicator';
 
@@ -27,10 +27,6 @@ export const serviceStatus = {
   ok: 'ok'
 };
 
-// Simple data structure that abstracts away add/removing dismissed flags in the session.
-// The Downtime Approaching warning should only be shown once, so we store that flag in the session.
-// We store it using the appTitle (which should be unique to the app) in an array so that other apps
-// that may be experiencing downtime will still have the warning.
 const dismissedDowntimeNotifications = {
   key: 'downtime-notifications-dismissed',
   // A setup method is used so that sessionStorage is evaluated during the constructor instead of at module import.
@@ -48,8 +44,8 @@ const dismissedDowntimeNotifications = {
   }
 };
 
-function DowntimeNotificationWrapper({ status, children }) {
-  return <div className="downtime-notification row-padded" data-status={status}>{children}</div>;
+export function DowntimeNotificationWrapper({ status, children, className = "row-padded" }) {
+  return <div className={"downtime-notification " + className} data-status={status}>{children}</div>;
 }
 
 class DowntimeNotification extends React.Component {
@@ -64,6 +60,8 @@ class DowntimeNotification extends React.Component {
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
     render: PropTypes.func,
+    renderDown: PropTypes.func,
+    renderDownApproaching: PropTypes.func,
     scheduledDowntime: PropTypes.arrayOf(
       PropTypes.shape({
         service: PropTypes.string,
@@ -71,7 +69,9 @@ class DowntimeNotification extends React.Component {
         startTime: PropTypes.instanceOf(Date),
         endTime: PropTypes.instanceOf(Date)
       })
-    )
+    ),
+    setCurrentStatus: PropTypes.func.isRequired,
+    unsetCurrentStatus: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -91,6 +91,10 @@ class DowntimeNotification extends React.Component {
     this.props.getScheduledDowntime();
   }
 
+  componentWillUnmount() {
+    this.props.unsetCurrentStatus();
+  }
+
   // This is here just for caching the result of calculateDowntime, so that it isn't run every time a prop changes.
   // Currently, this component should only do its calculations once, because it would be weird if in the middle of filling
   // out a form a modal or alert appears alerting them of downtime, or if it just shuts down the app because we entered
@@ -102,6 +106,7 @@ class DowntimeNotification extends React.Component {
       const status = this.determineStatus(downtimeMap);
       const downtimeWindow = status !== serviceStatus.ok ? this.getDowntimeWindow(downtimeMap.get(status)) : {};
       const cache = { downtimeMap, status, downtimeWindow };
+      this.props.setCurrentStatus({ status, ...downtimeWindow });
       this.setState({ cache });
     }
   }
@@ -246,9 +251,11 @@ class DowntimeNotification extends React.Component {
 
     switch (status) {
       case serviceStatus.down:
+        if (this.props.renderDown) return this.props.renderDown(this.props.appTitle, downtimeWindow, downtimeMap, children);
         return this.renderStatusDown(downtimeWindow);
 
       case serviceStatus.downtimeApproaching:
+        if (this.props.renderDownApproaching) return this.props.renderDownApproaching(this.props.appTitle, downtimeWindow, downtimeMap, children);
         return this.renderStatusDownApproaching(downtimeWindow);
 
       case serviceStatus.ok:
@@ -266,7 +273,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getScheduledDowntime
+  getScheduledDowntime,
+  setCurrentStatus,
+  unsetCurrentStatus
 };
 
 export { DowntimeNotification };

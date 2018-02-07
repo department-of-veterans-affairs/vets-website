@@ -1,10 +1,55 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
+  setCurrentStatus,
+  unsetCurrentStatus,
   getScheduledDowntime,
   RECEIVE_SCHEDULED_DOWNTIME,
-  RETREIVE_SCHEDULED_DOWNTIME
+  RETREIVE_SCHEDULED_DOWNTIME,
+  SET_CURRENT_DOWNTIME_STATUS,
+  UNSET_CURRENT_DOWNTIME_STATUS,
 } from '../../../src/js/common/actions';
+
+describe('setDowntimeStatus', () => {
+  const dispatch = sinon.spy();
+  const old = { sessionStorage: global.sessionStorage, fetch: global.fetch, dataLayer: global.window.dataLayer };
+
+  before(() => {
+    global.window.dataLayer = [];
+  });
+
+  after(() => {
+    global.window.dataLayer = old.dataLayer;
+  });
+
+  it('should dispatch the action', () => {
+    const actionCenter = setCurrentStatus('ok');
+    actionCenter(dispatch);
+    const action = dispatch.args[0][0];
+    expect(action.type).to.be.equal(SET_CURRENT_DOWNTIME_STATUS, 'SET_CURRENT_DOWNTIME_STATUS was disptached');
+    expect(action.value).to.be.equal('ok', 'Passed the correct status.');
+  });
+});
+
+describe('unsetDowntimeStatus', () => {
+  const dispatch = sinon.spy();
+  const old = { sessionStorage: global.sessionStorage, fetch: global.fetch, dataLayer: global.window.dataLayer };
+
+  before(() => {
+    global.window.dataLayer = [];
+  });
+
+  after(() => {
+    global.window.dataLayer = old.dataLayer;
+  });
+
+  it('should dispatch the action', () => {
+    const actionCenter = unsetCurrentStatus();
+    actionCenter(dispatch);
+    const action = dispatch.args[0][0];
+    expect(action.type).to.be.equal(UNSET_CURRENT_DOWNTIME_STATUS, 'UNSET_CURRENT_DOWNTIME_STATUS was disptached');
+  });
+});
 
 describe('getScheduledDowntime', () => {
   const dispatch = sinon.spy();

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import SubmitButtons from '../../../../src/js/common/schemaform/review/SubmitButtons';
+import { serviceStatus } from '../../../../src/js/common/containers/DowntimeNotification';
 
 describe('Schemaform review: <SubmitButtons>', () => {
   it('should render', () => {
@@ -16,6 +17,20 @@ describe('Schemaform review: <SubmitButtons>', () => {
 
     expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Submit Application');
+  });
+  it('should render down', () => {
+    const submission = {
+      status: false
+    };
+    const tree = SkinDeep.shallowRender(
+      <SubmitButtons
+        downtimeStatus={serviceStatus.down}
+        submission={submission}/>
+    );
+
+    expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
+    expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Submit Disabled');
+    expect(tree.everySubTree('ProgressButton')[1].props.disabled).to.be.true;
   });
   it('should render pending', () => {
     const submission = {

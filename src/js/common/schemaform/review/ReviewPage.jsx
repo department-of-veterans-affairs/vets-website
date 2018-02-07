@@ -129,7 +129,7 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { route, form, contentAfterButtons, renderErrorMessage } = this.props;
+    const { route, form, contentAfterButtons, renderErrorMessage, downtimeStatus } = this.props;
     const formConfig = route.formConfig;
     const chapters = getActiveChapters(formConfig, form.data);
 
@@ -162,6 +162,7 @@ class ReviewPage extends React.Component {
           onBack={this.goBack}
           onSubmit={this.handleSubmit}
           submission={form.submission}
+          downtimeStatus={downtimeStatus ? downtimeStatus.status : null}
           renderErrorMessage={renderErrorMessage}/>
         {contentAfterButtons}
       </div>
@@ -171,7 +172,8 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    downtimeStatus: state.scheduledDowntime.status
   };
 }
 
@@ -185,6 +187,7 @@ const mapDispatchToProps = {
 };
 
 ReviewPage.propTypes = {
+  downtimeStatus: PropTypes.string,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired

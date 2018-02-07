@@ -1,9 +1,15 @@
-import { RECEIVE_SCHEDULED_DOWNTIME, RETREIVE_SCHEDULED_DOWNTIME } from '../actions';
+import {
+  RECEIVE_SCHEDULED_DOWNTIME,
+  RETREIVE_SCHEDULED_DOWNTIME,
+  SET_CURRENT_DOWNTIME_STATUS,
+  UNSET_CURRENT_DOWNTIME_STATUS
+} from '../actions';
 
 const initialState = {
   scheduledDowntime: {
     isReady: false,
-    values: []
+    values: [],
+    status: {}
   }
 };
 
@@ -12,8 +18,15 @@ export function scheduledDowntime(state = initialState.scheduledDowntime, action
     case RECEIVE_SCHEDULED_DOWNTIME:
       return {
         isReady: true,
+        status: state.status,
         values: action.value
       };
+    case SET_CURRENT_DOWNTIME_STATUS:
+      state.status = action.value;
+      return state;
+    case UNSET_CURRENT_DOWNTIME_STATUS:
+      state.status = {};
+      return state;
     case RETREIVE_SCHEDULED_DOWNTIME:
     default:
       return state;

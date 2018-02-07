@@ -12,7 +12,8 @@ export const getSaveInProgressState = createStructuredSelector({
   isLoggedIn: state => state.user.login.currentlyLoggedIn,
   savedForms: state => state.user.profile.savedForms,
   prefillsAvailable: state => state.user.profile.prefillsAvailable,
-  profileIsLoading: state => state.user.profile.loading
+  profileIsLoading: state => state.user.profile.loading,
+  downtimeStatus: state => state.scheduledDowntime.status
 });
 
 export const getIntroState = createStructuredSelector({

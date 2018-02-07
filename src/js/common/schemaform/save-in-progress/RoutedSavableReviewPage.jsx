@@ -107,7 +107,8 @@ class RoutedSavableReviewPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    user: state.user
+    user: state.user,
+    downtimeStatus: state.scheduledDowntime.status
   };
 }
 

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
+import AlertBox from '../../components/AlertBox';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -14,6 +15,7 @@ import {
   fetchInProgressForm
 } from './actions';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import { serviceStatus } from '../../containers/DowntimeNotification';
 
 import { isInProgress } from '../../utils/helpers';
 import { getSaveInProgressState } from './selectors';
@@ -178,11 +180,35 @@ class RoutedSavableApp extends React.Component {
     window.removeEventListener('beforeunload', this.onbeforeunload);
   }
 
+  renderDowntimeAlert({ startTime, endTime }) {
+    let headline, alertContent;
+    if (endTime) {
+      headline = `We won't be able to accept applications from ${startTime.format('MMMM Do, LT')} to ${endTime.format('MMMM Do, LT')}`;
+      alertContent = (
+        <p>We’re going to be making some updates to this application from {startTime.format('MMMM Do, LT')} to {endTime.format('MMMM Do, LT')}** During this time, you’ll still be able to fill out the application. And, if you’re signed in to Vets.gov, you’ll be able to save your information. But you won’t be able to submit your application until we’re finished with our updates. Please save your application and come back after {endTime.format('MMMM Do, LT')} to submit it.</p>
+      );
+    } else {
+      headline = `Please save your application and come back to submit it after ${startTime.format('MMMM Do, LT')}`;
+      alertContent = (
+        <p>We’re making some updates to this application right now. You can still fill out the application. And, if you’re signed in to Vets.gov, you can save your information. But you won’t be able to submit your application until we’re finished with our updates. Please save your application and come back after {startTime.format('MMMM Do, LT')} to submit it.</p>
+      );
+    }
+    return (
+      <div className="form-warning-banner">
+        <AlertBox
+          headline={headline}
+          content={alertContent}
+          isVisible
+          status="warning"/>
+      </div>
+    );
+  }
+
   render() {
-    const { currentLocation, formConfig, children, formData, loadedStatus } = this.props;
+    const { currentLocation, formConfig, children, formData, loadedStatus, downtimeStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    let content;
+    let content, downtimeAlert;
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;
@@ -203,6 +229,9 @@ class RoutedSavableApp extends React.Component {
       );
     }
 
+    if (downtimeStatus && ((downtimeStatus.status === serviceStatus.down) || (downtimeStatus.status === serviceStatus.downtimeApproaching))) {
+      downtimeAlert = this.renderDowntimeAlert(downtimeStatus);
+    }
     return (
       <div>
         <Element name="topScrollElement"/>
@@ -212,6 +241,7 @@ class RoutedSavableApp extends React.Component {
           (!isIntroductionPage || this.props.loadedStatus !== LOAD_STATUSES.notAttempted) &&
             <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>
         }
+        {downtimeAlert}
         {content}
       </div>
     );

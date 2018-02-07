@@ -12,9 +12,14 @@ const moreThanHour = moment().add(1, 'hour').add(1, 'hour').toDate();
 const endTime = moment().add(6, 'hour').toDate();
 
 const innerText = 'This is the inner text';
-function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
+function getComponent(dependencies = [], getScheduledDowntime = () => {}, setCurrentStatus = () => {}, unsetCurrentStatus = () => {}) {
   return enzyme.shallow(
-    <DowntimeNotification dependencies={dependencies} scheduledDowntime={null} getScheduledDowntime={getScheduledDowntime}>
+    <DowntimeNotification
+      dependencies={dependencies}
+      scheduledDowntime={null}
+      setCurrentStatus={setCurrentStatus}
+      unsetCurrentStatus={unsetCurrentStatus}
+      getScheduledDowntime={getScheduledDowntime}>
       <span>{innerText}</span>
     </DowntimeNotification>
   );
