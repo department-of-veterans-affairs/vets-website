@@ -94,7 +94,7 @@ export function getAppealsV2() {
       null,
       (appeals) => dispatch(fetchAppealsSuccess(appeals)),
       (error) => {
-        Raven.captureException(`vets_appeals_v2_err_get_appeals ${error.message}`);
+        Raven.captureMessage(`vets_appeals_v2_err_get_appeals ${error.message}`);
         return dispatch({ type: SET_APPEALS_UNAVAILABLE });
       }
     );
