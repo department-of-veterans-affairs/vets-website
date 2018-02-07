@@ -509,6 +509,7 @@ export default class PhotoField extends React.Component {
           </div>}
           {!isDone && this.state.src && <div className="cropper-container-outer">
             <Cropper
+              cropBoxResizable={false}
               ref="cropper"
               key={smallScreen ? 'smallScreen' : 'largeScreen'}
               ready={this.setCropBox}
