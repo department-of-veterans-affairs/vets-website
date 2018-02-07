@@ -369,7 +369,7 @@ export default class PhotoField extends React.Component {
       });
     }
 
-    // with the canvas resized, use it's dimensions to determine the min zoom ratio
+    // with the canvas resized, use its dimensions to determine the min zoom ratio
     const { width: newCanvasWidth } = this.refs.cropper.getCanvasData();
     const minRatio = newCanvasWidth / naturalWidth;
     const slider = this.refs.slider;
