@@ -24,31 +24,55 @@ const PhotoDescription = (
   </div>);
 
 const MIN_SIZE = 350;
-const MIN_RATIO = 0.2;
-const MAX_RATIO = 1.7;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 const MAX_DIMENSION = 1024;
 
-function getMoveBoundariesMet(canvasData, cropboxData) {
-  const { height: canvasHeight, width: canvasWidth, left: canvasLeft, top: canvasTop } = canvasData;
-  const { height: cropboxHeight, width: cropboxWidth, left: cropboxLeft, top: cropboxTop } = cropboxData;
+function makeMovedCanvasData({ canvasData, cropBoxData, moveX, moveY }) {
+  const { left: canvasLeft, top: canvasTop, width: canvasWidth, height: canvasHeight } =  canvasData;
+  const { left: cropBoxLeft, top: cropBoxTop, width: cropBoxWidth, height: cropBoxHeight } =  cropBoxData;
 
-  // origin is at center
-  // coodinates are for canvas's container
-  const canvasBoundaries = {
-    minLeft: Math.round(-canvasWidth + cropboxLeft + cropboxWidth, 2),
-    maxLeft: Math.round(cropboxLeft, 2),
-    minTop: Math.round(-canvasHeight + cropboxTop + cropboxHeight, 2),
-    maxTop: Math.round(cropboxTop, 2),
+  const boundaries = {
+    leftMin: cropBoxLeft + cropBoxWidth - canvasWidth,
+    leftMax: cropBoxLeft,
+    topMin: cropBoxTop + cropBoxHeight - canvasHeight,
+    topMax: cropBoxTop
   };
 
-  return {
-    bottomBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.minTop,
-    topBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.maxTop,
-    leftBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.maxLeft,
-    rightBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.minLeft
+  const newCanvasData = {
+    left: moveX ? moveX + canvasLeft : canvasLeft,
+    top: moveY ? moveY + canvasTop : canvasTop,
+    bottomBoundaryMet: false,
+    topBoundaryMet: false,
+    leftBoundaryMet: false,
+    rightBoundaryMet: false
   };
+
+  if (boundaries.topMin === boundaries.topMax) {
+    newCanvasData.top = boundaries.topMin;
+    newCanvasData.topBoundaryMet = true;
+    newCanvasData.bottomBoundaryMet = true;
+  } else if (newCanvasData.top > boundaries.topMax) {
+    newCanvasData.top = boundaries.topMax;
+    newCanvasData.bottomBoundaryMet = true;
+  } else if (newCanvasData.top  < boundaries.topMin) {
+    newCanvasData.top = boundaries.topMin;
+    newCanvasData.topBoundaryMet = true;
+  }
+
+  if (boundaries.leftMin === boundaries.leftMax) {
+    newCanvasData.left = boundaries.leftMin;
+    newCanvasData.leftBoundaryMet = true;
+    newCanvasData.rightBoundaryMet = true;
+  } else if (newCanvasData.left > boundaries.leftMax) {
+    newCanvasData.left = boundaries.leftMax;
+    newCanvasData.rightBoundaryMet = true;
+  } else if (newCanvasData.left < boundaries.leftMin) {
+    newCanvasData.left = boundaries.leftMin;
+    newCanvasData.leftBoundaryMet = true;
+  }
+
+  return newCanvasData;
 }
 
 function isSmallScreen(width) {
@@ -156,12 +180,14 @@ export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      src: null,
       cropResult: null,
-      zoomValue: 0.4,
       errorMessage: null,
+      minRatio: 0.2,
+      maxRatio: 1.7,
+      progress: 0,
+      src: null,
       warningMessage: null,
-      progress: 0
+      zoomValue: 0.4
     };
   }
 
@@ -284,40 +310,87 @@ export default class PhotoField extends React.Component {
   }
 
   onZoom = (e) => {
+    // Cropper returns the attempted zoom value
     const zoomValue = e.detail.ratio;
-    if (zoomValue < MAX_RATIO && zoomValue > MIN_RATIO) {
-      this.setState({ zoomValue });
-      this.updateBoundaryWarningAndButtonStates();
 
-      const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
-      const zoomWarn = zoomValue >= WARN_RATIO;
-
-      this.setState({
-        warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...moveBoundariesMet }),
-        ...makeMoveButtonsEnabledStates(moveBoundariesMet)
-      });
-    } else {
-      e.preventDefault();
+    // check if zoom is out of bounds
+    let zoomToBoundaryRatio;
+    if (zoomValue < this.state.minRatio) {
+      zoomToBoundaryRatio = this.state.minRatio;
+    } else if (zoomValue > this.state.maxRatio) {
+      zoomToBoundaryRatio = this.state.maxRatio;
     }
+
+    // force zoom within zoom bounds
+    if (zoomToBoundaryRatio) {
+      this.refs.cropper.zoomTo(zoomToBoundaryRatio); // force zoom within constraints
+      e.preventDefault(); // prevents bad zoom attempt
+      return; // don't update state until the subsequent zoom attempt
+    }
+
+    // zoom value is good- update the state / messaging
+    this.setState({ zoomValue });
+
+    const zoomWarn = zoomValue >= WARN_RATIO;
+    // at this point, the onZoom event has not resized the canvas-
+    // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
+    //   after the canvas has rendered with new width values
+    window.requestAnimationFrame(this.maybeMoveCanvasWithinBounds.bind(this, {}, zoomWarn));
   }
 
   setCropBox = () => {
-    const cropper = this.refs.cropper;
-    const slider = this.refs.slider;
-    const { width, naturalWidth } = this.refs.cropper.getImageData();
-    slider.value = width / naturalWidth;
-    const containerData = cropper.getContainerData();
-    const containerWidth = containerData.width;
+    // center the cropbox using container width
+    const containerWidth = this.refs.container.offsetWidth;
     const smallScreen = isSmallScreen(this.state.windowWidth);
-    const cropBoxSize = smallScreen ? 240 : 300;
-    const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
-    const cropBoxData = {
-      left: cropBoxLeftOffset,
+    const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
+    this.refs.cropper.setCropBoxData({
       top: 0,
-      width: cropBoxSize,
-      height: cropBoxSize
-    };
-    cropper.setCropBoxData(cropBoxData);
+      left,
+      height: smallScreen ? 240 : 300,
+      width: smallScreen ? 240 : 300
+    });
+
+    // use the cropbox dimensions to force the into default position
+    const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } = this.refs.cropper.getCropBoxData();
+    const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = this.refs.cropper.getCanvasData();
+    // tall images take the full width of the cropBox
+    if (naturalHeight > naturalWidth) {
+      this.refs.cropper.setCanvasData({
+        width: cropBoxWidth,
+        left: cropBoxLeft
+      });
+      // wide images take the full height of the cropBox
+      // to center, uses the ratio of cropBoxHeight / cavasHeight
+    } else {
+      this.refs.cropper.setCanvasData({
+        height: cropBoxHeight,
+        top: 0,
+        left: (containerWidth - (cropBoxHeight / oldCanvasHeight * oldCanvasWidth)) / 2
+      });
+    }
+
+    // with the canvas resized, use it's dimensions to determine the min zoom ratio
+    const { width: newCanvasWidth } = this.refs.cropper.getCanvasData();
+    const minRatio = newCanvasWidth / naturalWidth;
+    const slider = this.refs.slider;
+    slider.value = minRatio;
+
+    this.setState({
+      zoomValue: minRatio,
+      minRatio
+    });
+  }
+
+  maybeMoveCanvasWithinBounds = (moveData, zoomWarn = false) => {
+    const newCanvasData = makeMovedCanvasData({
+      canvasData: this.refs.cropper.getCanvasData(),
+      cropBoxData: this.refs.cropper.getCropBoxData(),
+      ...moveData
+    });
+
+    this.refs.cropper.setCanvasData(newCanvasData);
+
+    this.updateBoundaryWarningAndButtonStates(newCanvasData, zoomWarn);
   }
 
   updateProgress = (progress) => {
@@ -337,48 +410,48 @@ export default class PhotoField extends React.Component {
     this.setState({ dragAndDropSupported: dragAndDropSupported && !iOS });
   }
 
-  updateBoundaryWarningAndButtonStates = () => {
-    const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
+  updateBoundaryWarningAndButtonStates = (moveBoundariesMet, zoomWarn = false) => {
+    // const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
 
     this.setState({
-      warningMessage: makeCropBoundaryWarningMessage(moveBoundariesMet),
+      warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...moveBoundariesMet }),
       ...makeMoveButtonsEnabledStates(moveBoundariesMet)
     });
   }
 
   handleCropend = () => { // casing matches Cropper argument
-    this.updateBoundaryWarningAndButtonStates();
+    this.maybeMoveCanvasWithinBounds();
   }
 
   handleMove = (direction) => {
+    let moveData;
     switch (direction) {
       case 'up':
-        this.refs.cropper.move(0, -5);
+        moveData = { moveX: 0, moveY: -5 };
         break;
       case 'down':
-        this.refs.cropper.move(0, 5);
+        moveData = { moveX: 0, moveY: 5 };
         break;
       case 'right':
-        this.refs.cropper.move(5, 0);
+        moveData = { moveX: 5, moveY: 0 };
         break;
       case 'left':
-        this.refs.cropper.move(-5, 0);
+        moveData = { moveX: -5, moveY: 0 };
         break;
       default:
     }
-
-    this.updateBoundaryWarningAndButtonStates();
+    this.maybeMoveCanvasWithinBounds(moveData);
   }
 
   handleZoomButtonClick = (direction) => {
     switch (direction) {
       case 'IN':
-        if (this.state.zoomValue < MAX_RATIO) {
+        if (this.state.zoomValue < this.state.maxRatio) {
           this.refs.cropper.zoom(0.1);
         }
         break;
       case 'OUT':
-        if (this.state.zoomValue > MIN_RATIO) {
+        if (this.state.zoomValue > this.state.minRatio) {
           this.refs.cropper.zoom(-0.1);
         }
         break;
@@ -437,19 +510,23 @@ export default class PhotoField extends React.Component {
             <ProgressBar percent={this.state.progress}/>
           </div>}
           {!isDone && this.state.src && <div className="cropper-container-outer">
-            <Cropper
-              ref="cropper"
-              ready={this.setCropBox}
-              responsive
-              src={this.state.src}
-              aspectRatio={1}
-              cropBoxMovable={false}
-              cropend={this.handleCropend}
-              toggleDragModeOnDblclick={false}
-              dragMode="move"
-              guides={false}
-              viewMode={1}
-              zoom={this.onZoom}/>
+            <div ref="container">
+              <Cropper
+                ref="cropper"
+                ready={this.setCropBox}
+                responsive
+                src={this.state.src}
+                aspectRatio={1}
+                cropBoxMovable={false}
+                cropend={this.handleCropend}
+                cropmove={this.handleCropMove}
+                minContainerHeight={smallScreen ? 240 : 300}
+                toggleDragModeOnDblclick={false}
+                dragMode="move"
+                guides={false}
+                viewMode={0}
+                zoom={this.onZoom}/>
+            </div>
             <div className="cropper-zoom-container">
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
               {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
@@ -458,12 +535,12 @@ export default class PhotoField extends React.Component {
               <input type="range"
                 ref="slider"
                 className="cropper-zoom-slider"
-                min={MIN_RATIO}
-                max={MAX_RATIO}
+                min={this.state.minRatio}
+                max={this.state.maxRatio}
                 defaultValue="0.4"
                 step="0.01"
-                aria-valuemin={MIN_RATIO}
-                aria-valuemax={MAX_RATIO}
+                aria-valuemin={this.state.minRatio}
+                aria-valuemax={this.state.maxRatio}
                 aria-valuenow={this.state.zoomValue}
                 onInput={this.onZoomSliderChange}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
