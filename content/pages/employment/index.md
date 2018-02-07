@@ -23,6 +23,9 @@ majorlinks:
     - url: /employment/job-seekers/register-your-business/
       title: Register Your Veteran-Owned Small Business
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
+     - url: /education/tools-programs/education-career-counseling/
+      title: Educational and Career Counseling
+      description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
   - heading: Other Resources
     links:
     - url: /employment/job-seekers/family-members/
