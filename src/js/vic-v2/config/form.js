@@ -6,6 +6,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
+import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -165,7 +166,8 @@ const formConfig = {
           title: 'Photo upload',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
-            photo: _.assign(fileUploadUI('Please upload a current photo of yourself that’ll appear on your Veteran ID Card.', {
+            'ui:description': PhotoDescription,
+            photo: _.assign(fileUploadUI('Upload a digital photo', {
               endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
                 'png',
@@ -176,9 +178,10 @@ const formConfig = {
                 'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
+              showFieldLabel: false,
               createPayload: (file) => {
                 const payload = new FormData();
-                payload.append('profile_photo_attachments[file_data]', file);
+                payload.append('profile_photo_attachment[file_data]', file, file.name);
 
                 return payload;
               },
