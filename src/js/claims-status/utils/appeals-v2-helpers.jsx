@@ -589,7 +589,7 @@ const DECISION_REVIEW_CONTENT = (
       available evidence and write a decision. For each issue you are appealing, they can
       decide to:
     </p>
-    <ul>
+    <ul className="decision-review-list">
       <li>
         <strong>Allow:</strong> The judge overrules the original decision and decides in
         your favor.
