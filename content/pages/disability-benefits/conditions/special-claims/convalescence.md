@@ -22,7 +22,7 @@ Are you recovering from surgery or a disability related to your military service
 
 You may be able to get disability benefits if you’ve had a surgery or other treatment performed at a VA hospital, approved hospital, or outpatient center for a disability related to your military service (called a service-connected disability).
 
-**If you had surgery**, you may be able to get disability benefits if:
+**If you had surgery**, you may be able to get disability benefits if **both of the following are true for you**:
   -	The surgery required a recovery time of at least 1 month **or** reports show that the surgery or treatment was for a service-connected disability, **and**
   -	The surgery resulted in severe issues, such as:
       - Surgical wounds that haven’t totally healed
@@ -51,8 +51,9 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits. <br>
+[Apply for benefits](/disability-benefits/apply/).
 
 Recovery time from either a surgery or the immobilization of a joint by a cast without surgery requires a temporary 100% disability rating for a service-connected disability. The temporary 100% rating may continue for 1 to 3 months—depending on your unique case. You may be able to get an extension for up to 3 more months if your case is severe.
 
-**Example:** A Veteran had a left knee injury that resulted in a 30% disability rating. As the knee problem got worse, the Veteran’s VA doctor recommended surgery to stop further damage. Since the success of the surgery wouldn’t be known for 3 months after the Veteran’s 1-week stay in the hospital, we granted the Veteran a temporary 100% disability rating for 3 months.
+**Example:** A Veteran had a left knee injury that resulted in a 30% disability rating. As the knee problem got worse, the Veteran’s VA doctor recommended surgery to stop more damage. Since doctors wouldn't know if the surgery was successful until 3 months after the Veteran’s 1-week stay in the hospital, we granted the Veteran a temporary 100% disability rating for 3 months.
