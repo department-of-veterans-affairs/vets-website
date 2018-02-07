@@ -7,7 +7,7 @@ function DefaultView({ revealForm }) {
       <div className="usa-width-one-half">
         <h4 className="feedback-widget-title">Tell us what you think</h4>
         <p className="feedback-widget-intro">
-          We are always looking for ways to make Vets.gov better.
+          We are always looking for ways to make the Vets.gov website better.
         </p>
       </div>
       <div className="usa-width-one-half">
