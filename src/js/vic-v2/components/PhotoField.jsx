@@ -7,6 +7,7 @@ import environment from '../../common/helpers/environment';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
+import { PhotoReviewDescription } from '../helpers.jsx';
 
 const MIN_SIZE = 350;
 const SMALL_CROP_BOX_SIZE = 240;
@@ -63,6 +64,10 @@ function getCanvasDataForMove({ canvasData, cropBoxData, moveX, moveY }) {
 
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
+}
+
+function onReviewPage(pageTitle) {
+  return pageTitle === 'Review your photo';
 }
 
 function isValidFileType(fileName, fileTypes) {
@@ -165,7 +170,9 @@ export default class PhotoField extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.detectWidth);
+    if (!onReviewPage(this.props.formContext.pageTitle)) {
+      window.addEventListener('resize', this.detectWidth);
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -352,7 +359,7 @@ export default class PhotoField extends React.Component {
       // center the cropbox using container width
       const containerWidth = this.refs.cropper.getContainerData().width;
       // const containerWidth = this.refs.container.offsetWidth;
-      const smallScreen = isSmallScreen(this.state.windowWidth);
+      const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
       const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
       this.refs.cropper.setCropBoxData({
         top: 0,
@@ -493,13 +500,18 @@ export default class PhotoField extends React.Component {
   }
 
   render() {
+    const { formData, formContext } = this.props;
+    const onReview = formContext.reviewMode;
+
+    if (onReview) return <PhotoReviewDescription formData={formData}/>;
+
     const file = this.props.formData || {};
     const { isCropping } = this.state;
     const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage;
     const screenReaderError = this.screenReaderPath && !!errorMessage;
     const label = this.props.uiSchema['ui:title'];
-    const smallScreen = isSmallScreen(this.state.windowWidth);
+    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
