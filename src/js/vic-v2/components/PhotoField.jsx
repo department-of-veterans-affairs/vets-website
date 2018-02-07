@@ -217,7 +217,7 @@ export default class PhotoField extends React.Component {
     });
   }
 
-  onChangeNoCropping = (files) => {
+  onChangeScreenReader = (files) => {
     const file = files[0];
     const filePath = this.props.idSchema.$id.split('_').slice(1);
 
@@ -594,14 +594,14 @@ export default class PhotoField extends React.Component {
               name="fileUpload"/>}
             {fieldView === 'initial' && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
-              onChange={this.onChangeNoCropping}
+              onChange={this.onChangeScreenReader}
               buttonText="Screen reader friendly photo upload tool"
               aria-describedby="screenReaderPathDescription"
               triggerClass="va-button-link"
               name="screenReaderFileUpload"/>}
             {fieldView === 'error' && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
-              onChange={this.onChangeNoCropping}
+              onChange={this.onChangeScreenReader}
               buttonText="Upload Again"
               name="screenReaderFileUpload"/>}
           </div>
