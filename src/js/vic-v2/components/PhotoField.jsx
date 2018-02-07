@@ -28,7 +28,7 @@ const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 const MAX_DIMENSION = 1024;
 
-function makeMovedCanvasData({ canvasData, cropBoxData, moveX, moveY }) {
+function getCanvasDataForMove({ canvasData, cropBoxData, moveX, moveY }) {
   const { left: canvasLeft, top: canvasTop, width: canvasWidth, height: canvasHeight } =  canvasData;
   const { left: cropBoxLeft, top: cropBoxTop, width: cropBoxWidth, height: cropBoxHeight } =  cropBoxData;
 
@@ -384,7 +384,7 @@ export default class PhotoField extends React.Component {
       });
 
       // update warning messages
-      const newCanvasData = makeMovedCanvasData({
+      const newCanvasData = getCanvasDataForMove({
         canvasData: this.refs.cropper.getCanvasData(),
         cropBoxData: this.refs.cropper.getCropBoxData(),
       });
@@ -394,7 +394,7 @@ export default class PhotoField extends React.Component {
   }
 
   maybeMoveCanvasWithinBounds = (moveData, zoomWarn = false) => {
-    const newCanvasData = makeMovedCanvasData({
+    const newCanvasData = getCanvasDataForMove({
       canvasData: this.refs.cropper.getCanvasData(),
       cropBoxData: this.refs.cropper.getCropBoxData(),
       ...moveData
