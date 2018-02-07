@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 class ErrorableFileInput extends React.Component {
   constructor() {
@@ -27,9 +26,6 @@ class ErrorableFileInput extends React.Component {
     let errorSpanId = undefined;
     let inputErrorClass = undefined;
     let labelErrorClass = undefined;
-    const labelClass = classNames('usa-button', 'usa-button-secondary', {
-      [this.props.additionalLabelClass]: !!this.props.additionalLabelClass
-    });
 
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
@@ -51,14 +47,14 @@ class ErrorableFileInput extends React.Component {
     return (
       <div className={this.props.additionalClass}>
         <div className={inputErrorClass} role="alert">
-          {!this.props.disableErrorLabel && <label
+          <label
             className={labelErrorClass}
             htmlFor={this.inputId}>
             {this.props.label}
             {requiredSpan}
-          </label>}
+          </label>
           {errorSpan}
-          <label role="button" tabIndex="0" htmlFor={this.inputId} className={labelClass}>{this.props.buttonText}</label>
+          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-secondary">{this.props.buttonText}</label>
           <input
             multiple={this.props.multiple}
             style={{ display: 'none' }}
@@ -76,9 +72,7 @@ class ErrorableFileInput extends React.Component {
 ErrorableFileInput.propTypes = {
   multiple: PropTypes.bool,
   buttonText: PropTypes.string,
-  disableErrorLabel: PropTypes.bool,
   additionalClass: PropTypes.string,
-  additionalLabelClass: PropTypes.string,
   additionalErrorClass: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   accept: PropTypes.string,

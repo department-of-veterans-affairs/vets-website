@@ -310,13 +310,9 @@ input[type=range] {
     display: flex;
     justify-content: center;
     margin: 0 0 80px 0;
-    &.photo-input-container-preview {
-      margin-left: 1em;
-      position: relative;
-      width: 240px;
-      @media (min-width: $large-screen) {
-        width: 300px;
-      }
+    &.photo-input-container-left {
+      padding-left: 10px;
+      justify-content: left;
     }
     div[role="alert"] {
       display: flex;
@@ -366,25 +362,20 @@ input[type=range] {
   border: 4px solid $color-primary;
 }
 
-.cropper-container-outer .crop-button-container {
+.crop-button-container {
   margin: 0 auto;
   max-width: 130px;
   width: 50%;
-  .usa-button-primary {
-    width: 100%; 
-    text-align: center; 
+}
+
+.photo-preview {
+  width: 240px;
+  @media (min-width: $large-screen) {
+    width: 300px;
   }
 }
 
-.photo-preview-control {
-  position: absolute;
-  right: 0;
-} 
-
-
 .photo-edit-button {
-  position: absolute;
-  left: 0;
   max-width: 150px;
 }
 
@@ -410,23 +401,6 @@ input[type=range] {
   clear: both;
   margin: 0 0 1.5em 0;
 }
-
-.photo-upload-container-inner {
-  margin: 1em 1em 4em;
-  &.preview {
-    margin: 0 1em;
-  }
-}
-
-.photo-preview {
-  width: 240px;
-  height: 240px;
-  @media (min-width: $large-screen) {
-    height: 300px;
-    width: 300px;
-  }
-}
-
 /* USWDS overrides */
 .usa-accordion, .usa-accordion-bordered {
   > ul {
@@ -438,4 +412,11 @@ input[type=range] {
 
 .usa-button.usa-button-secondary.va-button-link {
   box-shadow: none;
+}
+
+.cropper-container-outer .crop-button-container {
+  .usa-button-primary {
+    width: 100%; 
+    text-align: center; 
+  }
 }
