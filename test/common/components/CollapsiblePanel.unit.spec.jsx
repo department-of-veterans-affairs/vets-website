@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -43,7 +43,7 @@ describe('<CollapsiblePanel>', () => {
   it('should call scrollToTop on toggle open', () => {
     const scrollSpy = sinon.spy();
     CollapsiblePanel.prototype.scrollToTop = scrollSpy;
-    const wrapper = mount(<CollapsiblePanel panelName={'Test'}/>);
+    const wrapper = shallow(<CollapsiblePanel panelName={'Test'}/>);
     const button = wrapper.find('button');
     expect(scrollSpy.called).to.be.false;
 
