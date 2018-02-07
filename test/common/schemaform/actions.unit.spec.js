@@ -392,6 +392,10 @@ describe('Schemaform actions:', () => {
             fileField: [
               {
                 name: 'Test name',
+                file: {
+                  name: 'jpg',
+                  size: 0
+                },
                 size: 1234,
                 confirmationCode: 'Test code'
               }

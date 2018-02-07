@@ -53,12 +53,13 @@ relatedlinks:
 
 ##### 6 Months Before Leaving Active Duty
 
-- Complete the [Preseparation Counseling Checklist](http://www.dtic.mil/whs/directives/forms/eforms/dd2648t.pdf) (form DD2648).
+- Complete the Preseparation Counseling Checklist found on Form DD2648.
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
 Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/). Treatment records are not required for registration or treament at VA.
 - Compile private medical records and hospital reports.
 - Finalize your resume and begin actively [searching for employment](https://www.careeronestop.org/JobSearch/job-search.aspx).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship.
+- Consider free [education and career counseling](/education/tools-programs/education-career-counseling/).
 - At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment/).
 
 </div>

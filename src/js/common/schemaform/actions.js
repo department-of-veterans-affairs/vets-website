@@ -191,6 +191,7 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
         if (req.status >= 200 && req.status < 300) {
           const body = 'response' in req ? req.response : req.responseText;
           const fileData = uiOptions.parseResponse(JSON.parse(body), file);
+          fileData.file = file;
           dispatch(
             setData(_.set(filePath, fileData, getState().form.data))
           );
