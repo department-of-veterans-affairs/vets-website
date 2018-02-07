@@ -339,45 +339,48 @@ export default class PhotoField extends React.Component {
   }
 
   setCropBox = () => {
-    // center the cropbox using container width
-    const containerWidth = this.refs.cropper.getContainerData().width;
-    const smallScreen = isSmallScreen(this.state.windowWidth);
-    const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
-    this.refs.cropper.setCropBoxData({
-      top: 0,
-      left,
-      height: smallScreen ? 240 : 300,
-      width: smallScreen ? 240 : 300
-    });
-
-    // use the cropbox dimensions to force canvas into default position
-    const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } = this.refs.cropper.getCropBoxData();
-    const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = this.refs.cropper.getCanvasData();
-    // tall images take the full width of the cropBox
-    if (naturalHeight > naturalWidth) {
-      this.refs.cropper.setCanvasData({
-        width: cropBoxWidth,
-        left: cropBoxLeft
-      });
-      // wide images take the full height of the cropBox
-      // to center, uses the ratio of cropBoxHeight / cavasHeight
-    } else {
-      this.refs.cropper.setCanvasData({
-        height: cropBoxHeight,
+    window.requestAnimationFrame(() => {
+      // center the cropbox using container width
+      const containerWidth = this.refs.cropper.getContainerData().width;
+      // const containerWidth = this.refs.container.offsetWidth;
+      const smallScreen = isSmallScreen(this.state.windowWidth);
+      const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
+      this.refs.cropper.setCropBoxData({
         top: 0,
-        left: (containerWidth - (cropBoxHeight / oldCanvasHeight * oldCanvasWidth)) / 2
+        left,
+        height: smallScreen ? 240 : 300,
+        width: smallScreen ? 240 : 300
       });
-    }
 
-    // with the canvas resized, use its dimensions to determine the min zoom ratio
-    const { width: newCanvasWidth } = this.refs.cropper.getCanvasData();
-    const minRatio = newCanvasWidth / naturalWidth;
-    const slider = this.refs.slider;
-    slider.value = minRatio;
+      // use the cropbox dimensions to force canvas into default position
+      const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } = this.refs.cropper.getCropBoxData();
+      const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = this.refs.cropper.getCanvasData();
+      // tall images take the full width of the cropBox
+      if (naturalHeight > naturalWidth) {
+        this.refs.cropper.setCanvasData({
+          width: cropBoxWidth,
+          left: cropBoxLeft
+        });
+        // wide images take the full height of the cropBox
+        // to center, uses the ratio of cropBoxHeight / cavasHeight
+      } else {
+        this.refs.cropper.setCanvasData({
+          height: cropBoxHeight,
+          top: 0,
+          left: (containerWidth - (cropBoxHeight / oldCanvasHeight * oldCanvasWidth)) / 2
+        });
+      }
 
-    this.setState({
-      zoomValue: minRatio,
-      minRatio
+      // with the canvas resized, use its dimensions to determine the min zoom ratio
+      const { width: newCanvasWidth } = this.refs.cropper.getCanvasData();
+      const minRatio = newCanvasWidth / naturalWidth;
+      const slider = this.refs.slider;
+      slider.value = minRatio;
+
+      this.setState({
+        zoomValue: minRatio,
+        minRatio
+      });
     });
   }
 
