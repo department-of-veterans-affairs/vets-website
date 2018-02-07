@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-describe('VIC photo upload', () => {
+describe.only('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
   it('should render', () => {
@@ -19,7 +19,7 @@ describe('VIC photo upload', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(3);
   });
 
   // Disabled pending PR 7175 
@@ -36,7 +36,6 @@ describe('VIC photo upload', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -83,23 +82,4 @@ describe('VIC photo upload', () => {
   // it/ should accept valid file and render the preview
   // it/ should not allow the user to edit their photo
   // it/ should submit with a valid photo
-  it('should submit with all info filled in', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
-    );
-
-    fillData(form, 'input[name="root_email"]', 'test@test.com');
-    fillData(form, 'input[name="root_view:confirmEmail"]', 'test@test.com');
-    fillData(form, 'input[name="root_phone"]', '4445556767');
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
 });
