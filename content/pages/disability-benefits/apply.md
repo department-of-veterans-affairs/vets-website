@@ -31,7 +31,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll file your claim either using eBenefits or the online application. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll apply either using eBenefits or the online application. We’ve listed all the steps below. Find out how to apply for this tax-free monetary benefit. 
 
 </div>
 
@@ -67,15 +67,15 @@ For all disability claims, please provide:
 <h4 itemprop="name">Ready to apply?</h4>
 <div itemprop="itemListElement">
 If any of these apply to you, then you’ll file your disability claim on eBenefits:
-* This is the first time I’m filing a disability claim, **or**
-* I have a new condition to add to my already rated disability claim, **or**
-* I have both a new and worsening condition to add to my already rated disability claim.
+- This is the first time I’m filing a disability claim, **or**
+- I have a new condition to add to my already rated disability claim, **or**
+- I have both a new and worsening condition to add to my already rated disability claim.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
 If you have a worsening condition to add to your rated disability claim, then you'll file your claim using the online application. 
 
-<a class="usa-button-primary va-button-primary" href="/disability-benefits">Go to the Disability Compensation Application</a>
+<a class="usa-button-primary va-button-primary" href="/disability-benefits/URL">Apply for Disability Compensation</a>
 
 
 </div>
