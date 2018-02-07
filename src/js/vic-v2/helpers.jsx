@@ -31,9 +31,9 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
-export function photoReviewDescription(props) {
+export function PhotoReviewDescription(props) {
   return (
     <div className="va-growable-background">
-      <img className={'photo-preview'} src={`/v0/vic/profile_photo_attachments${props.confirmationCode}`} alt="review"/>
+      <img className={'photo-review'} src={`/v0/vic/profile_photo_attachments/${props.formData.confirmationCode}`} alt="review"/>
     </div>);
 }

@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
-import { photoReviewDescription } from '../helpers.jsx';
+import { PhotoReviewDescription } from '../helpers.jsx';
 
 const PhotoDescription = (
   <div className="feature">
@@ -395,7 +395,7 @@ export default class PhotoField extends React.Component {
     const { formData, formContext } = this.props;
     const onReview = formContext.reviewMode;
 
-    if (onReview) return <photoReviewDescription formData={formData}/>;
+    if (onReview) return <PhotoReviewDescription formData={formData}/>;
 
     const file = this.props.formData || {};
     const errorMessage = file.errorMessage || this.state.errorMessage;

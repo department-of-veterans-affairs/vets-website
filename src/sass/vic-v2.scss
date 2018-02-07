@@ -368,6 +368,10 @@ input[type=range] {
   width: 50%;
 }
 
+.photo-review {
+  width: 150px;
+}
+
 .photo-preview {
   width: 240px;
   @media (min-width: $large-screen) {
