@@ -359,7 +359,8 @@ export default class PhotoField extends React.Component {
       if (naturalHeight > naturalWidth) {
         this.refs.cropper.setCanvasData({
           width: cropBoxWidth,
-          left: cropBoxLeft
+          left: cropBoxLeft,
+          top: 0
         });
         // wide images take the full height of the cropBox
         // to center, uses the ratio of cropBoxHeight / cavasHeight
@@ -381,6 +382,14 @@ export default class PhotoField extends React.Component {
         zoomValue: minRatio,
         minRatio
       });
+
+      // update warning messages
+      const newCanvasData = makeMovedCanvasData({
+        canvasData: this.refs.cropper.getCanvasData(),
+        cropBoxData: this.refs.cropper.getCropBoxData(),
+      });
+
+      this.updateBoundaryWarningAndButtonStates(newCanvasData);
     });
   }
 
