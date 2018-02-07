@@ -19,7 +19,7 @@ majorlinks:
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
     - url: /disability-benefits/apply/help/
-      title: Get Help Filing a Claim
+      title: Get Help Filing Your Claim
       description: Find out how to work with a trained professional called an accredited representative to file your claim.
 relatedlinks:
   - heading: Other VA benefits you may want to explore
@@ -31,7 +31,7 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-You can apply for disability benefits online. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+You can apply for disability benefits online. Depending on what type of disability claim you’re filing, you’ll file your claim either using eBenefits or the online application. We’ve listed all the steps below so when you’re ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
 
 </div>
 
@@ -66,8 +66,17 @@ For all disability claims, please provide:
 
 <h4 itemprop="name">Ready to apply?</h4>
 <div itemprop="itemListElement">
+If any of these apply to you, then you’ll file your disability claim on eBenefits:
+* This is the first time I’m filing a disability claim, **or**
+* I have a new condition to add to my already rated disability claim, **or**
+* I have both a new and worsening condition to add to my already rated disability claim.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+
+If you have a worsening condition to add to your rated disability claim, then you'll file your claim using the online application. 
+
+<a class="usa-button-primary va-button-primary" href="/disability-benefits">Go to the Disability Compensation Application</a>
+
 
 </div>
 </div>
@@ -77,13 +86,6 @@ For all disability claims, please provide:
 
 <h3 itemprop="name">Other ways to apply</h3>
 <div itemprop="itemListElement">
-
-#### With the help of a trained professional
-
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
-
-</div>
-</div>
 
 #### By mail
 
@@ -101,6 +103,14 @@ Janesville, WI 53547-4444<br>
 #### In person
 
 Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+
+
+#### With the help of a trained professional
+
+You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+
+</div>
+</div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
