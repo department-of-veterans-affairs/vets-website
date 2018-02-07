@@ -46,11 +46,9 @@ describe('<Issues/>', () => {
     const wrapper = mount(<Issues {...props }/>);
     const panelButton = wrapper.find('.usa-accordion-button');
     expect(panelButton.html()).to.contain('Currently on appeal');
-    // expand the collapsed accordion to reveal child HTML
-    panelButton.simulate('click');
-    const expandedPanel = wrapper.find('.usa-accordion-bordered');
+    // no need to click, panel should be auto-expanded
     // open items are in the first ul within the first accordion's content
-    const openContentList = expandedPanel.find('.usa-accordion-content > ul');
+    const openContentList = wrapper.find('.usa-accordion-content > ul');
     expect(openContentList.find('li').length).to.equal(props.issues.length);
   });
 
@@ -59,11 +57,37 @@ describe('<Issues/>', () => {
     const wrapper = mount(<Issues {...props }/>);
     const panelButton = wrapper.find('.usa-accordion-button');
     expect(panelButton.html()).to.contain('Closed');
-    // expand the collapsed accordion to reveal child HTML
-    panelButton.simulate('click');
-    const expandedPanel = wrapper.find('.usa-accordion-bordered');
+    // no need to click, panel should be auto-expanded
     // closed items are in accordion > div > ul > li
-    const remandDiv = expandedPanel.find('.usa-accordion-content > div');
+    const remandDiv = wrapper.find('.usa-accordion-content > div');
     expect(remandDiv.find('ul > li').length).to.equal(props.issues.length);
+  });
+
+  it('should pass auto-expand prop to active panel when both active and closed panels present', () => {
+    const wrapper = shallow(<Issues {...manyIssues}/>);
+    const activePanelProps = wrapper.find('CollapsiblePanel').first().props();
+    expect(activePanelProps.panelName).to.equal('Currently on appeal');
+    expect(activePanelProps.startOpen).to.be.true;
+  });
+
+  it('should pass auto-expand prop to active panel when only active panel present', () => {
+    const wrapper = shallow(<Issues {...oneOpenIssue}/>);
+    const activePanelProps = wrapper.find('CollapsiblePanel').props();
+    expect(activePanelProps.panelName).to.equal('Currently on appeal');
+    expect(activePanelProps.startOpen).to.be.true;
+  });
+
+  it('should pass auto-expand prop to closed panel when no active panel present', () => {
+    const wrapper = shallow(<Issues {...oneClosedIssue}/>);
+    const closedPanelProps = wrapper.find('CollapsiblePanel').first().props();
+    expect(closedPanelProps.panelName).to.equal('Closed');
+    expect(closedPanelProps.startOpen).to.be.true;
+  });
+
+  it('should not pass auto-expand prop to closed panel when active panel present', () => {
+    const wrapper = shallow(<Issues {...manyIssues}/>);
+    const closedPanelProps = wrapper.find('CollapsiblePanel').at(1).props();
+    expect(closedPanelProps.panelName).to.equal('Closed');
+    expect(closedPanelProps.startOpen).to.be.false;
   });
 });
