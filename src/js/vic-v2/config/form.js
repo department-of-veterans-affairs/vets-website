@@ -164,7 +164,7 @@ const formConfig = {
         photoUpload: {
           path: 'documents/photo',
           title: 'Photo upload',
-          reviewTitle: 'Review your photo',
+          reviewTitle: 'Photo review',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             photo: _.assign(fileUploadUI('Please upload a current photo of yourself that’ll appear on your Veteran ID Card.', {
@@ -220,7 +220,7 @@ const formConfig = {
         dd214Upload: {
           path: 'documents/dd214',
           title: 'Discharge document upload',
-          reviewTitle: 'Review your discharge document',
+          reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
           uiSchema: {
             'ui:description': DD214Description,
