@@ -39,7 +39,7 @@ If you have a disability that was caused by—or got worse because of—your act
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and **at least one of the following is true for you**:
 
 - You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
 - You had an illness or injury before you joined the military—and serving made it worse
