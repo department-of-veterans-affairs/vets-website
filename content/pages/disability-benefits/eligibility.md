@@ -28,7 +28,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description"  class="va-introtext">
 
-If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get VA disability benefits and compensation. Find out if you can get financial support and other benefits like health care.
 
 </div>
 
@@ -71,7 +71,18 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
+If any of these apply to you, then you’ll file your disability claim on eBenefits:
+
+- This is the first time I’m filing a disability claim, **or**
+- I have a new condition to add to my rated disability claim, **or**
+- I have both a new and worsening condition to add to my rated disability claim
+
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+
+If you have a worsening condition to add to your rated disability claim, then you'll file your claim using the online application. 
+
+<a class="usa-button-primary va-button-primary" href="/disability-benefits/URL">Apply for Disability Compensation</a>
+
 
 [Learn about the application process](/disability-benefits/apply/).
 
