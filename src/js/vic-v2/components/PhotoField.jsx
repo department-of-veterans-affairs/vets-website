@@ -350,7 +350,7 @@ export default class PhotoField extends React.Component {
       width: smallScreen ? 240 : 300
     });
 
-    // use the cropbox dimensions to force the into default position
+    // use the cropbox dimensions to force canvas into default position
     const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } = this.refs.cropper.getCropBoxData();
     const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = this.refs.cropper.getCanvasData();
     // tall images take the full width of the cropBox
