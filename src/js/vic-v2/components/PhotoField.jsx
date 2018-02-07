@@ -34,6 +34,10 @@ function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
 }
 
+function onReviewPage(pageTitle) {
+  return pageTitle === 'Review your photo';
+}
+
 function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
 }
@@ -226,7 +230,7 @@ export default class PhotoField extends React.Component {
     slider.value = width / naturalWidth;
     const containerData = cropper.getContainerData();
     const containerWidth = containerData.width;
-    const smallScreen = isSmallScreen(this.state.windowWidth);
+    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const cropBoxSize = smallScreen ? 240 : 300;
     const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
     const cropBoxData = {
@@ -292,15 +296,23 @@ export default class PhotoField extends React.Component {
   render() {
     const file = this.props.formData || {};
     const errorMessage = file.errorMessage || this.state.errorMessage;
-    const smallScreen = isSmallScreen(this.state.windowWidth);
+    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const isDone = !!file.confirmationCode;
+    const uploadView = !this.state.src;
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
     const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
+    const photoInputContainerClass = classNames('photo-input-container', {
+      'photo-input-container-preview': isDone
+    });
+    const photoUploadContainerInnerClass = classNames('photo-upload-container-inner', {
+      preview: isDone
+    });
+    const editMessage = smallScreen ? 'Edit Photo' : 'Edit Your Photo';
     let uploadMessage;
-    if (smallScreen) {
+    if (smallScreen && uploadView) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
-    } else if (this.state.src) {
+    } else if (!uploadView) {
       uploadMessage = 'Upload a New Photo';
     } else {
       uploadMessage = 'Upload Your Photo';
@@ -329,12 +341,12 @@ export default class PhotoField extends React.Component {
         {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
         {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
         <div className={errorMessage ? 'error-box' : 'border-box'}>
-          <div style={{ margin: '1em 1em 4em' }}>
+          <div className={photoUploadContainerInnerClass}>
             {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
             {instruction}
             {description}
             {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            {isDone && <img className="photo-preview" src={this.state.cropResult.src} alt="cropped"/>}
+            {isDone && <img className="photo-preview" src={this.state.src} alt="cropped"/>}
           </div>
           {file.uploading && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
@@ -419,18 +431,21 @@ export default class PhotoField extends React.Component {
             </div>
           </div>
           }
-          {!this.state.src && !isDone && <div className="drop-target-container">
+          {uploadView && <div className="drop-target-container">
             <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               <img alt="placeholder" src="/img/photo-placeholder.png"/>
             </Dropzone>
           </div>}
-          <div className={isDone ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
-            {isDone && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
+          <div className={photoInputContainerClass}>
+            {isDone && <button className="photo-edit-button usa-button va-button-link" onClick={this.onEdit}>{editMessage}</button>}
             <ErrorableFileInput
+              additionalClass={isDone && 'photo-preview-control'}
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
               name="fileUpload"
+              disableErrorLabel
+              additionalLabelClass={!uploadView && 'va-button-link'}
               additionalErrorClass="claims-upload-input-error-message"/>
           </div>
         </div>
