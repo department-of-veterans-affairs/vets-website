@@ -73,7 +73,7 @@ ErrorableFileInput.propTypes = {
   multiple: PropTypes.bool,
   buttonText: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object]),
+    PropTypes.element]),
   additionalClass: PropTypes.string,
   additionalErrorClass: PropTypes.string,
   onChange: PropTypes.func.isRequired,
