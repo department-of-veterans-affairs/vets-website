@@ -40,4 +40,4 @@ You may be able to get VA disability benefits if you got sick or injured, or dev
 
 </div>
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
+
