@@ -62,7 +62,7 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-form-container">
             <div className="feedback-widget-desc-container">
               <ErrorableTextarea
-                label="What can we do to make Vets.gov better?"
+                label="What can we do to make the Vets.gov website better?"
                 name="description"
                 onValueChange={this.setDescription}
                 errorMessage={this.descriptionErrorMessage()}
@@ -72,7 +72,7 @@ class FeedbackForm extends React.Component {
             </div>
             <ErrorableCheckbox
               name="should-send-response"
-              label="I would like to receive a response about my feedback."
+              label="Would you like for us to follow up with you about your ideas?"
               checked={this.props.formValues.shouldSendResponse}
               onValueChange={(shouldSendResponse) => this.props.setFormValues({ shouldSendResponse })}/>
             <div className="usa-grid-full">
@@ -104,10 +104,10 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
               <h3>Need help?</h3>
-              Calls the Vets.gov Help Desk<br/>
+              Call the Vets.gov Help Desk<br/>
               <a href="tel:18555747286">1-855-574-7286</a><br/>
               TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
-              Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)
+              We're here Monday–Friday, 8:00 a.m.–8:00 p.m. (<abbr title="eastern time">ET</abbr>)
             </div>
           </div>
         </div>
