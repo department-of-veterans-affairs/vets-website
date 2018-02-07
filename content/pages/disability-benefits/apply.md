@@ -40,6 +40,7 @@ You can apply for disability benefits online. Depending on what type of disabili
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Check if you need to turn in additional forms with your claim, for example, if you're claiming a dependent or benefits for a seriously disabled child. [See the list of required forms for these special situations](/disability-benefits/apply/evidence/). 
 
 <div markdown="0"><br></div>
 
@@ -71,7 +72,7 @@ If any of these apply to you, then you’ll file your disability claim on eBenef
 
 - This is the first time I’m filing a disability claim, **or**
 - I have a new condition to add to my rated disability claim, **or**
-- I have both a new and worsening condition to add to my rated disability claim.
+- I have both a new and worsening condition to add to my rated disability claim
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
