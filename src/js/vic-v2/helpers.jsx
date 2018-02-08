@@ -42,7 +42,18 @@ export function PhotoReviewDescription({ url }) {
 }
 
 function checkStatus(guid) {
-  return fetch(`${environment.API_URL}/v0/vic/vic_submissions/${guid}`)
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+  return fetch(`${environment.API_URL}/v0/vic/vic_submissions/${guid}`, {
+    headers
+  })
     .then(res => {
       if (res.ok) {
         return res.json();
@@ -94,7 +105,7 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transformForSubmit(formConfig, form);
+  const formData = transformForSubmit(formConfig, _.unset('data.verified', form));
   const body = JSON.stringify({
     vicSubmission: {
       form: formData
