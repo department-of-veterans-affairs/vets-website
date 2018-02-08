@@ -8,6 +8,7 @@ import ErrorableFileInput from '../../common/components/form-elements/ErrorableF
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
 import { PhotoReviewDescription } from '../helpers.jsx';
+import _ from 'lodash/fp';
 
 const MIN_SIZE = 350;
 const SMALL_CROP_BOX_SIZE = 240;
@@ -15,7 +16,37 @@ const LARGE_CROP_BOX_SIZE = 300;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 
-function getCanvasDataForMove({ canvasData, cropBoxData, moveX, moveY }) {
+function getCanvasDataForDefaultPosition({ canvasData, cropBoxData, containerWidth }) {
+  // use the cropbox dimensions to force canvas into default position
+  const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } =  cropBoxData;
+  const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = canvasData;
+  // wide images are centered and set to the height of the crop box
+  if (naturalHeight < naturalWidth) {
+    return {
+      height: cropBoxHeight,
+      top: 0,
+      left: (containerWidth - (cropBoxHeight / oldCanvasHeight * oldCanvasWidth)) / 2,
+      bottomBoundaryMet: true,
+      topBoundaryMet: true,
+      leftBoundaryMet: false,
+      rightBoundaryMet: false
+    };
+  }
+
+  // narrow images are move to the top and set to the width of the cropbox
+  return {
+    width: cropBoxWidth,
+    left: cropBoxLeft,
+    top: 0,
+    bottomBoundaryMet: false,
+    topBoundaryMet: true,
+    leftBoundaryMet: true,
+    rightBoundaryMet: true
+  };
+}
+
+
+function getBoundedCanvasPositionData({ canvasData, cropBoxData, moveX, moveY }) {
   const { left: canvasLeft, top: canvasTop, width: canvasWidth, height: canvasHeight } =  canvasData;
   const { left: cropBoxLeft, top: cropBoxTop, width: cropBoxWidth, height: cropBoxHeight } =  cropBoxData;
 
@@ -350,46 +381,35 @@ export default class PhotoField extends React.Component {
     // at this point, the onZoom event has not resized the canvas-
     // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
     //   after the canvas has rendered with new width values
-    window.requestAnimationFrame(() => this.maybeMoveCanvasWithinBounds({}, zoomValue));
+    this.moveCanvasWithinBounds({}, zoomValue);
   }
 
   setCropBox = () => {
     window.requestAnimationFrame(() => {
-      // center the cropbox using container width
-      const containerWidth = this.refs.cropper.getContainerData().width;
-      // const containerWidth = this.refs.container.offsetWidth;
-      const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
-      const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
-      this.refs.cropper.setCropBoxData({
-        top: 0,
-        left,
-        height: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE,
-        width: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE
-      });
-
-      // use the cropbox dimensions to force canvas into default position
-      const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } = this.refs.cropper.getCropBoxData();
-      const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = this.refs.cropper.getCanvasData();
-      // tall images take the full width of the cropBox
-      if (naturalHeight > naturalWidth) {
-        this.refs.cropper.setCanvasData({
-          width: cropBoxWidth,
-          left: cropBoxLeft,
-          top: 0
-        });
-        // wide images take the full height of the cropBox
-        // to center, uses the ratio of cropBoxHeight / cavasHeight
-      } else {
-        this.refs.cropper.setCanvasData({
-          height: cropBoxHeight,
+      // sometimes this callback is called before the new cropper has mounted
+      // check if the cropper instance has canvasData before setting its values
+      if (!_.isEmpty(this.refs.cropper.getCanvasData())) {
+        // center the cropbox using container width
+        const containerWidth = this.refs.cropper.getContainerData().width;
+        const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
+        const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
+        this.refs.cropper.setCropBoxData({
           top: 0,
-          left: (containerWidth - (cropBoxHeight / oldCanvasHeight * oldCanvasWidth)) / 2
+          left,
+          height: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE,
+          width: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE
         });
-      }
 
+        this.moveCanvasToDefaultPosition();
+      }
+    });
+  }
+
+  setZoomToDefaultRatio = () => {
+    window.requestAnimationFrame(() => {
       // with the canvas resized, use its dimensions to determine the min zoom ratio
-      const { width: newCanvasWidth } = this.refs.cropper.getCanvasData();
-      const minRatio = newCanvasWidth / naturalWidth;
+      const { width: canvasWidth, naturalWidth } = this.refs.cropper.getCanvasData();
+      const minRatio = canvasWidth / naturalWidth;
       const slider = this.refs.slider;
       slider.value = minRatio;
 
@@ -397,31 +417,45 @@ export default class PhotoField extends React.Component {
         zoomValue: minRatio,
         minRatio
       });
-
-      // update warning messages
-      const newCanvasData = getCanvasDataForMove({
-        canvasData: this.refs.cropper.getCanvasData(),
-        cropBoxData: this.refs.cropper.getCropBoxData(),
-      });
-
-      this.updateBoundaryWarningAndButtonStates(newCanvasData);
     });
   }
 
-  maybeMoveCanvasWithinBounds = (moveData, zoomValue = null) => {
-    const newCanvasData = getCanvasDataForMove({
-      canvasData: this.refs.cropper.getCanvasData(),
-      cropBoxData: this.refs.cropper.getCropBoxData(),
-      ...moveData
+  moveCanvasToDefaultPosition = () => {
+    window.requestAnimationFrame(() => {
+
+      const containerWidth = this.refs.cropper.getContainerData().width;
+      const defaultCanvasData = getCanvasDataForDefaultPosition({
+        canvasData: this.refs.cropper.getCanvasData(),
+        cropBoxData: this.refs.cropper.getCropBoxData(),
+        containerWidth
+      });
+
+      this.refs.cropper.setCanvasData(defaultCanvasData);
+
+      this.setZoomToDefaultRatio();
+
+      this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
     });
+  }
+  moveCanvasWithinBounds = (moveData, zoomValue = null) => {
+    window.requestAnimationFrame(() => {
+      const boundedCanvasData = getBoundedCanvasPositionData({
+        canvasData: this.refs.cropper.getCanvasData(),
+        cropBoxData: this.refs.cropper.getCropBoxData(),
+        ...moveData
+      });
+      this.refs.cropper.setCanvasData(boundedCanvasData);
 
-    const currentZoomValue = zoomValue || this.state.zoomValue;
-
-    this.refs.cropper.setCanvasData(newCanvasData);
-
-    const zoomWarn = this.refs.cropper.getData().width < MIN_SIZE
+      const currentZoomValue = zoomValue || this.state.zoomValue;
+      const zoomWarn = this.refs.cropper.getData().width < MIN_SIZE
       || currentZoomValue > WARN_RATIO;
-    this.updateBoundaryWarningAndButtonStates(newCanvasData, zoomWarn);
+      this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
+    });
+  }
+
+  rotateCanvas = (moveData) => {
+    // rotate
+    this.refs.cropper.rotate(moveData.moveDegree);
   }
 
   resetFile = () => {
@@ -454,7 +488,7 @@ export default class PhotoField extends React.Component {
   }
 
   handleCropend = () => { // casing matches Cropper argument
-    this.maybeMoveCanvasWithinBounds();
+    this.moveCanvasWithinBounds();
   }
 
   handleCropstart = (e) => {
@@ -466,24 +500,37 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  handleMove = (direction) => {
+  handleMoveOrRotate = (direction) => {
     let moveData;
     switch (direction) {
-      case 'up':
+      case 'Move up':
         moveData = { moveX: 0, moveY: -5 };
         break;
-      case 'down':
+      case 'Move down':
         moveData = { moveX: 0, moveY: 5 };
         break;
-      case 'right':
+      case 'Move right':
         moveData = { moveX: 5, moveY: 0 };
         break;
-      case 'left':
+      case 'Move left':
         moveData = { moveX: -5, moveY: 0 };
         break;
+      case 'Rotate left':
+        moveData = { moveDegree: -90 };
+        break;
+      case 'Rotate right':
+        moveData = { moveDegree: 90 };
+        break;
       default:
+        moveData = {};
     }
-    this.maybeMoveCanvasWithinBounds(moveData);
+
+    if ('moveDegree' in moveData) {
+      this.rotateCanvas(moveData);
+      this.moveCanvasToDefaultPosition();
+    } else {
+      this.moveCanvasWithinBounds(moveData);
+    }
   }
 
   handleZoomButtonClick = (direction) => {
@@ -633,24 +680,43 @@ export default class PhotoField extends React.Component {
               </div>
               {[
                 [{
+                  action: 'Move',
+                  icon: 'arrow',
                   direction: 'up',
                   disabled: this.state.moveUpDisabled
                 }, {
+                  action: 'Move',
+                  icon: 'arrow',
                   direction: 'down',
                   disabled: this.state.moveDownDisabled
                 }],
                 [{
+                  action: 'Move',
+                  icon: 'arrow',
                   direction: 'left',
                   disabled: this.state.moveLeftDisabled
                 }, {
+                  action: 'Move',
+                  icon: 'arrow',
                   direction: 'right',
                   disabled: this.state.moveRightDisabled
+                }],
+                [{
+                  action: 'Rotate',
+                  icon: 'rotate',
+                  direction: 'left',
+                  disabled: false
+                }, {
+                  action: 'Rotate',
+                  icon: 'rotate',
+                  direction: 'right',
+                  disabled: false
                 }]
               ].map((row, index) => (
                 <div className="cropper-control-row" key={index}>
                   {row.map((button) => (
-                    <button className={classNames(moveControlClass, { disabled: button.disabled })} type="button" onClick={() => this.handleMove(button.direction)} key={button.direction}>
-                      <span className="cropper-control-label">{`Move ${button.direction}`}<i className={`fa fa-arrow-${button.direction}`}></i></span>
+                    <button className={classNames(moveControlClass, { disabled: button.disabled })} type="button" onClick={() => this.handleMoveOrRotate(`${button.action} ${button.direction}`)} key={button.direction}>
+                      <span className="cropper-control-label">{`${button.action} ${button.direction}`}<i className={`fa fa-${button.icon}-${button.direction}`}></i></span>
                     </button>))
                   }
                 </div>))
