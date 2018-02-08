@@ -43,7 +43,9 @@ function initPhotoUploadMock() {
     value: {
       data: {
         attributes: {
-          guid: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20'
+          guid: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
+          filename: 'examplephoto.png',
+          path: '/test/vic-v2/'
         }
       }
     }

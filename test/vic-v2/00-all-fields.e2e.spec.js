@@ -11,7 +11,7 @@ const runTest = E2eHelpers.createE2eTest(
     if (process.env.BUILDTYPE !== 'production') {
     // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/veteran-id-card/apply/documents/photo`)
+        .url(`${E2eHelpers.baseUrl}/veteran-id-card/apply`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for a Veteran ID Card: Vets.gov')
         .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
