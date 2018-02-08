@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DurationCard from './DurationCard';
 
 const NextEvent = ({ title, description, durationText, cardDescription, showSeparator }) => {
   return (
     <li className="next-event">
       <h3>{title}</h3>
-      <p>{description}</p>
-      <div className="card information">
-        <span className="number">{durationText}</span>
-        <span className="description">{cardDescription}</span>
-      </div>
+      <div>{description}</div>
+      <DurationCard
+        durationText={durationText}
+        cardDescription={cardDescription}/>
       { showSeparator && <span className="sidelines">or</span>}
     </li>
   );
@@ -17,10 +17,7 @@ const NextEvent = ({ title, description, durationText, cardDescription, showSepa
 
 NextEvent.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  description: PropTypes.element.isRequired,
   durationText: PropTypes.string.isRequired,
   cardDescription: PropTypes.string.isRequired,
   showSeparator: PropTypes.bool.isRequired

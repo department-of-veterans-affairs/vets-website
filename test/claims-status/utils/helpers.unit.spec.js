@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { shallow } from 'enzyme';
 
 import {
   groupTimelineActivity,
@@ -16,12 +17,15 @@ import {
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
   getClaimType,
+  mockData,
 } from '../../../src/js/claims-status/utils/helpers';
 
 import {
   getAlertContent,
   getStatusContents,
   getNextEvents,
+  makeDurationText,
+  addStatusToIssues,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -458,38 +462,146 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
-      const type = STATUS_TYPES.nod;
-      const details = { regionalOffice: 'Chicago Regional Office' };
+      const type = STATUS_TYPES.scheduledHearing;
+      const details = {};
+      const expectedDescSnippet = 'Your [TYPE] hearing is scheduled for [DATE] at [LOCATION]';
       const contents = getStatusContents(type, details);
-      expect(contents.title).to.equal('The Chicago Regional Office is reviewing your appeal');
+      expect(contents.title).to.equal('Your hearing has been scheduled');
+      // TO-DO: Update with real content
+      const descText = contents.description.props.children;
+      expect(descText).to.contain(expectedDescSnippet);
     });
 
     it('returns sane object when given unknown type', () => {
       const type = 123;
       const contents = getStatusContents(type);
-      expect(contents.title).to.equal('Current Status Unknown');
+      expect(contents.title).to.equal('Current Appeal Status Unknown');
       expect(contents.description.props.children).to.equal('Your current appeal status is unknown at this time');
+    });
+
+    // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
+    // so we should test them specifically to ensure we're getting the desired output
+    it('returns the right number of allowed / denied / remand items for remand status', () => {
+      const details = {
+        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+      };
+      const contents = getStatusContents('remand', details);
+      expect(contents.title).to.equal('The Board made a decision on your appeal');
+
+      const wrapper = shallow(contents.description);
+      const allowedList = wrapper.find('.allowed-items ~ ul');
+      const deniedList = wrapper.find('.denied-items ~ ul');
+      const remandList = wrapper.find('.remand-items ~ ul');
+
+      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
+      const remandDisposition = details.decisionIssues.filter(i => i.disposition === 'remand');
+
+      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
+      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
+      expect(remandList.find('li').length).to.equal(remandDisposition.length);
+    });
+
+    it('returns the right number of allowed / denied items for bva_decision status', () => {
+      const details = {
+        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+      };
+      const contents = getStatusContents('bva_decision', details);
+      expect(contents.title).to.equal('The Board made a decision on your appeal');
+
+      const wrapper = shallow(contents.description);
+      const allowedList = wrapper.find('.allowed-items ~ ul');
+      const deniedList = wrapper.find('.denied-items ~ ul');
+
+      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
+
+      expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
+      expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
+    });
+  });
+
+  describe('makeDurationText', () => {
+    const inputs = {
+      exactSingular: [1, 1],
+      exactPlural: [2, 2],
+      range: [1, 8],
+      empty: [],
+      nonsense: 'danger, danger',
+    };
+
+    it('should return an object with header and description properties', () => {
+      const testText = makeDurationText(inputs.exactSingular);
+      expect(!!testText.header && !!testText.description).to.be.true;
+    });
+
+    it('should return an object with header and description properties with nonsense input', () => {
+      const testText = makeDurationText(inputs.nonsense);
+      expect(!!testText.header && !!testText.description).to.be.true;
+    });
+
+    it('should return an object with header and description properties with empty array input', () => {
+      const testText = makeDurationText(inputs.empty);
+      expect(!!testText.header && !!testText.description).to.be.true;
+    });
+
+    it('should return an object with header and description properties with no input', () => {
+      const testText = makeDurationText();
+      expect(!!testText.header && !!testText.description).to.be.true;
+    });
+
+    it('should format exact singular time estimates', () => {
+      const testText = makeDurationText(inputs.exactSingular);
+      expect(testText.header).to.equal('1 month');
+      expect(testText.description).to.equal('about 1 month');
+    });
+
+    it('should format exact plural time estimates', () => {
+      const testText = makeDurationText(inputs.exactPlural);
+      expect(testText.header).to.equal('2 months');
+      expect(testText.description).to.equal('about 2 months');
+    });
+
+    it('should format range time estimates', () => {
+      const testText = makeDurationText(inputs.range);
+      expect(testText.header).to.equal('1–8 months');
+      expect(testText.description).to.equal('between 1 and 8 months');
     });
   });
 
   describe('getNextEvents', () => {
-    it('returns an array of next event objects', () => {
-      const type = STATUS_TYPES.nod;
-      // 'nod' status has 2 nextEvents in the array
-      const nextEvents = getNextEvents(type);
-      expect(nextEvents.length).to.equal(2);
-      const firstEvent = nextEvents[0];
-      const secondEvent = nextEvents[1];
-      // each of the 2 'nod' nextEvents has 4 properties
+    it('returns an object with a header property', () => {
+      const type = STATUS_TYPES.pendingCertificationSsoc;
+      const details = {
+        certificationTimeliness: [1, 2],
+        ssocTimeliness: [1, 1],
+      };
+      const nextEvents = getNextEvents(type, details);
+      expect(nextEvents.header).to.equal('What happens next depends on whether you send in new evidence.');
+    });
+
+    it('returns an object with an events array property', () => {
+      const type = STATUS_TYPES.remandSsoc;
+      // 'remandSsoc' status has 2 nextEvents in the array
+      const details = {
+        returnTimeliness: [1, 2],
+        remandSsocTimeliness: [1, 1],
+      };
+      const nextEvents = getNextEvents(type, details);
+      const { events } = nextEvents;
+      expect(events.length).to.equal(2);
+      const firstEvent = events[0];
+      const secondEvent = events[1];
+      // each of the 2 'remandSsoc' nextEvents has 4 properties
       expect(Object.keys(firstEvent).length).to.equal(4);
       expect(Object.keys(secondEvent).length).to.equal(4);
     });
   });
 
   describe('getAlertContent', () => {
-    it('returns an object with title, desc, type, and date', () => {
+    it('returns an object with title, desc, displayType, and type', () => {
       const alert = {
-        type: 'waiting_on_action',
+        type: 'ramp_eligible',
         details: {
           representative: 'Mr. Spock'
         }
@@ -498,8 +610,22 @@ describe('Disability benefits helpers: ', () => {
       const alertContent = getAlertContent(alert);
       expect(alertContent.title).to.exist;
       expect(alertContent.description).to.exist;
-      expect(alertContent.cssClass).to.exist;
+      expect(alertContent.displayType).to.exist;
       expect(alertContent.type).to.exist;
+    });
+  });
+
+  describe('addStatusToIssues', () => {
+    it('returns an array of same length as input array', () => {
+      const { issues } = mockData.data[2].attributes;
+      const formattedIssues = addStatusToIssues(issues);
+      expect(formattedIssues.length).to.equal(issues.length);
+    });
+
+    it('returns an array of objects, each with status and description', () => {
+      const { issues } = mockData.data[2].attributes;
+      const formattedIssues = addStatusToIssues(issues);
+      expect(formattedIssues.every(i => i.status && i.description)).to.be.true;
     });
   });
 });

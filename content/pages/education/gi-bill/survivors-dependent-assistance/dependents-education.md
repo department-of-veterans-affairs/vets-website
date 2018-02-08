@@ -74,12 +74,11 @@ First, contact your school’s certifying official to make sure your program is 
 <br>
 
 #### If you haven’t started school or a training program:
-- Get help from a trained professional trusted to help with VA-related claims. [Learn about accredited representatives](/disability-benefits/apply/help/index.html).
+- Get help from a trained professional trusted to help with VA-related claims. [Get help filing your claim](/disability-benefits/apply/help/index.html).
 - Get more information about schools and see if we’ve approved your program. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
 #### If you’ve already started your program:
 - Take your application to your school or employer.
-- Ask your school to fill out a VA Enrollment Certification (VA Form 22-1999) and send it to us along with your application. [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
-
+- Ask your school to fill out a VA Enrollment Certification (VA Form 22-1999) and send it to us along with your application.
 ### Get more information
 - Read the [DEA pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).

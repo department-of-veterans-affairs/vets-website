@@ -39,7 +39,7 @@ function wrapWithRouterContext(component) {
  * @param {string} partialID The ID of the date elements without 'Month', 'Day', or 'Year'
  *                           e.g. 'root_children_0_childDateOfBirth'
  * @param {string} dateString A string representation of the date.
- *                           e.g. '2012-12-28'
+ *                           e.g. '2012-1-28'
  */
 function fillDate(formDOM, partialId, dateString) {
   const date = dateString.split('-');

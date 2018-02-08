@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import Modal from '../../common/components/Modal';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
@@ -31,28 +32,30 @@ export class HealthRecordsApp extends React.Component {
         authRequired={3}
         serviceRequired="health-records"
         userProfile={this.props.profile}>
-        <RequiredTermsAcceptanceView
-          termsName="mhvac"
-          cancelPath="/health-care/"
-          termsNeeded={!this.props.profile.healthTermsCurrent}>
-          <AppContent>
-            <div>
-              <div className="row">
-                <div className="columns small-12">
-                  <Breadcrumbs location={this.props.location}/>
-                  {this.props.children}
+        <DowntimeNotification appTitle="health records tool" dependencies={[services.mhv]}>
+          <RequiredTermsAcceptanceView
+            termsName="mhvac"
+            cancelPath="/health-care/"
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
+            <AppContent>
+              <div>
+                <div className="row">
+                  <div className="columns small-12">
+                    <Breadcrumbs location={this.props.location}/>
+                    {this.props.children}
+                  </div>
                 </div>
+                <Modal
+                  cssClass="bb-modal"
+                  contents={this.props.modal.content}
+                  id="bb-glossary-modal"
+                  onClose={this.props.closeModal}
+                  title={this.props.modal.title}
+                  visible={this.props.modal.visible}/>
               </div>
-              <Modal
-                cssClass="bb-modal"
-                contents={this.props.modal.content}
-                id="bb-glossary-modal"
-                onClose={this.props.closeModal}
-                title={this.props.modal.title}
-                visible={this.props.modal.visible}/>
-            </div>
-          </AppContent>
-        </RequiredTermsAcceptanceView>
+            </AppContent>
+          </RequiredTermsAcceptanceView>
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }

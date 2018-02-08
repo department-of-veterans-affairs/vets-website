@@ -229,10 +229,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            'ui:options': {
-              showPrefillMessage: true
-            }
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth')
           },
           schema: {
             type: 'object',

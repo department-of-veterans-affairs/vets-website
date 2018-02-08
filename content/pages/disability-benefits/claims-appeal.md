@@ -118,7 +118,7 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4">How do I get a representative to help me?</button>
       <div id="dbq4" class="usa-accordion-content">
-        <p>If you want to, you can choose a representative to help you with your appeal. This person may be a lawyer, a claims agent, or from a Veterans Service Organization (VSO). <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search for an accredited representative</a>.</p>
+        <p>If you want to, you can have a representative help you with your appeal. This person may be a lawyer, a claims agent, or a Veterans Service Officer (VSO). <a href="/disability-benefits/apply/help">Learn how to get help filing your claim</a>.</p>
         <p>Once you have a representative, you’ll need to let VA know they have permission to represent you by completing a form.</p>
         <ul>
           <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download VA Form 21-22A</a></li>

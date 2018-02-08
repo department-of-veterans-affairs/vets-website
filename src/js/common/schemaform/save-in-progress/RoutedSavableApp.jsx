@@ -102,7 +102,7 @@ class RoutedSavableApp extends React.Component {
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
     } else if (newProps.prefillStatus !== this.props.prefillStatus
       && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
-      newProps.router.push(newProps.routes[this.props.routes.length - 1].pageList[0].path);
+      newProps.router.push(newProps.routes[this.props.routes.length - 1].pageList[1].path);
     } else if (status !== LOAD_STATUSES.notAttempted
       && status !== LOAD_STATUSES.pending
       && status !== this.props.loadedStatus

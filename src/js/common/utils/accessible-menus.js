@@ -156,9 +156,17 @@ function closeMenu(menuLiOrStruct) {
 
   const { menuButton, menu } = struct;
 
+  // Tell the parent menu (if any) that this one is open
+  // This is so longer parent menus on mobile don't show up underneath shorter child menus
+  const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
+  if (parentMenu) {
+    parentMenu.classList.remove('child-menu-opened');
+  }
+
   // Close the menu
   menuButton.removeAttribute('aria-expanded');
   menu.setAttribute('hidden', 'hidden');
+  menuButton.focus();
 }
 
 
@@ -186,6 +194,13 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
   // Open the menu
   menuButton.setAttribute('aria-expanded', true);
   menu.removeAttribute('hidden');
+
+  // Tell the parent menu (if any) that this one is open
+  // This is so longer parent menus on mobile don't show up underneath shorter child menus
+  const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
+  if (parentMenu) {
+    parentMenu.classList.add('child-menu-opened');
+  }
 
   if (stealFocus) {
     const menuRole = (menu.getAttribute('role') || '').toLowerCase();
@@ -234,7 +249,7 @@ function closeAll(menuElement) {
   const allMenus = Array.from(menuElement.querySelectorAll('[aria-expanded=true]'))
     .map(e => findNearestLi(e));
 
-  // Add the top-level 
+  // Add the top-level
   if (menuElement.getAttribute('aria-expanded') === true) {
     allMenus.push(findNearestLi(menuElement));
   }
@@ -245,7 +260,7 @@ function closeAll(menuElement) {
 
 /**
  * Attaches event listeners to a menu or menu bar to make it keyboard navigable.
- * 
+ *
  * If the mobile buttons are provided, this will also handle the opening and closing
  *  of the menu on small screens when there's just a "Menu" button.
  *
@@ -371,7 +386,10 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
     // Handle opening (and closing) menus
-    if (inMenubar) {
+    if (e.target.classList.contains('back-button')) {
+      // Small menus with a "Back to menu" button in sub-menus
+      closeMenu(findNearestLi(targetLi));
+    } else if (inMenubar) {
       toggleMenu(targetLi);
     } else if (inMenu) {
       openMenu(targetLi);
@@ -386,3 +404,4 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     }
   });
 }
+
