@@ -25,11 +25,11 @@ relatedlinks:
 
 <div class="va-introtext">
 
-After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). <br>
+After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). 
 
-This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program. <br>
+This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program. 
 
-Get answers to commonly asked questions about the VA claim exam below. <br>
+Get answers to commonly asked questions about the VA claim exam below. 
  
 
 </div>
@@ -48,13 +48,12 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 
 <div class="feature" markdown=“1”>
 
+### Does everyone who files a claim need to have a VA claim exam?
 
-### How long does it take VA to make a decision?
+No. We’ll ask you to have a claim exam only if we need more information to decide your claim. 
 
-<div class="card information" markdown="0">
-<span class="number">107.5 days</span>
-<span class="description">Average number of days to complete disability-related claims in January 2018</span>
-</div>
+If you have enough medical evidence in your file to support your claim, we won't ask you to have a claim exam. Medical evidence may include doctor and hospital reports, test results, and other documents.
+
 
 #### The amount of time it takes to review your claim depends on:
 
