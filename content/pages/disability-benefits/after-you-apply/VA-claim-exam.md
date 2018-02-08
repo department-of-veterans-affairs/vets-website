@@ -81,26 +81,26 @@ If you can’t make it to your appointment, let us know right away. You can resc
 
 Bring to your exam any new non-VA medical records that you haven't given us yet. These might include records from a recent surgery or illness. 
 
-What happens at a VA claim exam?
+### What happens at a VA claim exam?
 
 A VA claim exam isn’t like a normal medical exam or other VA health care visits. The doctor won’t treat you for any illness or injury, give you referrals to other health care providers, or prescribe medicine. That’s because the purpose of the exam is to gather information that will help us make a decision on your claim. Each exam is different, depending on the information we need. 
 
 During your exam, the doctor may do any or all of these things:
 
-•	Review your claim file with you
+ -	Review your claim file with you
 
-•	Ask you questions based on the medical records in your claim file. This may include questions from the Disability Benefits Questionnaire about each service-connected condition you’re claiming. 
+ -	Ask you questions based on the medical records in your claim file. This may include questions from the Disability Benefits Questionnaire about each service-connected condition you’re claiming. <br>
 [Take a look at the Disability Benefits Questionnaire (DBQ)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
 
-•	Perform a basic physical exam
+ - Perform a basic physical exam
 
-•	Ask you to get other tests—like X-rays or blood work—if needed
+ - Ask you to get other tests—like X-rays or blood work—if needed
 
 If you have any questions about what’s happening during your exam, feel free to ask the doctor. But keep in mind that the doctor’s job is to examine you, not to make any decisions about your claim. They won’t be able to answer questions about the claims process.
 
 After your exam, the doctor will write up a report and send it to a VA claims processor to be added to your claim file.
 
-How long will the exam take?
+### How long will the exam take?
 
 Your exam may be very short, or it may last an hour or more. It all depends on the conditions you’ve claimed and whether we need more information to make a decision. 
 
@@ -108,19 +108,19 @@ For example, the required questions the doctor asks about a knee injury may take
 
 It’s important to remember that your in-person visit is only one part of the claim review process. Your doctor will also spend time outside the exam carefully reviewing your records.
 
-Who will examine me?
+### Who will examine me?
 
-Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. You can also have your own doctor examine you and fill out the necessary forms. 
+Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. You can also have your own doctor examine you and fill out the necessary forms. <br>
 [Get instructions for your doctor to fill out exam forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).
 
-Will I get my exam results at the VA claim exam?
+### Will I get my exam results at the VA claim exam?
 
 No. The doctor will give the exam results to VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
-If you have questions about the claims process, call your nearest VA regional office.
+If you have questions about the claims process, call your nearest VA regional office. <br>
 [Find contact information for your nearest VA regional office] (https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0).
 
-What should I do if I miss my VA claim exam?
+### What should I do if I miss my VA claim exam?
 
 If you miss your claim exam, contact us right away to let us know why you didn’t make it so we can help you figure out what to do next.
 
@@ -129,9 +129,9 @@ If you have what we consider to be a good reason for missing your exam (called �
 [Find contact information for your nearest VA regional office] (https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0).
 
 
-[subhead] After your exam
+### After your exam
 
-What happens after my exam?
+#### What happens after my exam?
 
 We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating). 
 
@@ -142,22 +142,21 @@ Every claim is different, but it usually takes us about 3 to 4 months to process
 [Sign in to Vets.gov to track your claim](link to Sign In).
 
 
-Can I get a copy of the report from my claim exam?
+#### Can I get a copy of the report from my claim exam?
 
 Yes. You can get a copy of the final report from the claim exam in any of these ways:
 
-•	[Contact your nearest VA regional office] (https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), or
-•	Call us at 1-800-827-1000 and request an appointment to view your file
+ - [Contact your nearest VA regional office] (https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), **or**
+ - Call us at 1-800-827-1000 and request an appointment to view your file
 
 
-What information does the VA claims processor have when making a decision?   
+#### What information does the VA claims processor have when making a decision?   
 
 Your VA claims processor will review the medical records you’ve given us, statements from you and others about your claim, and your military medical and personnel records. 
 
+#### Will I ever need to have another claim exam?
 
-Will I ever need to have another claim exam?
-
-We may ask you to have a claim exam if you appeal your disability benefits decision.
+We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
 [Learn more about appealing a decision](/disability-benefits/claims-appeal/).
 
 [Find out more about VA claim exams]( https://www.benefits.va.gov/COMPENSATION/claimexam.asp).
