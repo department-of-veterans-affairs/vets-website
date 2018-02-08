@@ -202,7 +202,9 @@ class DowntimeNotification extends React.Component {
     this.setState({ modalDismissed: true });
   }
 
-  renderStatusDown({ endTime }) {
+  renderStatusDown(downtimeWindow, downtimeMap, children) {
+    if (this.props.renderDown) return this.props.renderDown(this.props.appTitle, downtimeWindow, downtimeMap, children);
+    const { endTime } = downtimeWindow;
     let message = <p>We’re making some updates to the {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
       message = (
@@ -219,7 +221,9 @@ class DowntimeNotification extends React.Component {
     );
   }
 
-  renderStatusDownApproaching({ startTime, endTime }) {
+  renderStatusDownApproaching(downtimeWindow, downtimeMap, children) {
+    if (this.props.renderDownApproaching) return this.props.renderDownApproaching(this.props.appTitle, downtimeWindow, downtimeMap, children);
+    const { startTime, endTime } = downtimeWindow;
     let downtimeNotification = null;
     if (!this.state.modalDismissed) {
       downtimeNotification = (
@@ -234,14 +238,18 @@ class DowntimeNotification extends React.Component {
     return (
       <DowntimeNotificationWrapper status={serviceStatus.downtimeApproaching}>
         {downtimeNotification}
-        {this.props.children || this.props.content}
+        {children}
       </DowntimeNotificationWrapper>
     );
   }
 
+  renderLoading() {
+    return this.props.loadingIndicator || <LoadingIndicator message={`Checking the ${this.props.appTitle} status...`}/>;
+  }
+
   render() {
     if (!this.props.isReady) {
-      return this.props.loadingIndicator || <LoadingIndicator message={`Checking the ${this.props.appTitle} status...`}/>;
+      return this.renderLoading();
     }
 
     const { downtimeMap, status, downtimeWindow } = this.state.cache;
@@ -251,12 +259,10 @@ class DowntimeNotification extends React.Component {
 
     switch (status) {
       case serviceStatus.down:
-        if (this.props.renderDown) return this.props.renderDown(this.props.appTitle, downtimeWindow, downtimeMap, children);
-        return this.renderStatusDown(downtimeWindow);
+        return this.renderStatusDown(downtimeWindow, downtimeMap, children);
 
       case serviceStatus.downtimeApproaching:
-        if (this.props.renderDownApproaching) return this.props.renderDownApproaching(this.props.appTitle, downtimeWindow, downtimeMap, children);
-        return this.renderStatusDownApproaching(downtimeWindow);
+        return this.renderStatusDownApproaching(downtimeWindow, downtimeMap, children);
 
       case serviceStatus.ok:
       default:
