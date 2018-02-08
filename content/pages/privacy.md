@@ -7,7 +7,7 @@ title: Privacy
 <div class="section">
 <div class="row" markdown="1">
 
-#### Vets.gov Privacy Policy
+# Vets.gov Privacy Policy
 Thank you for visiting Vets.gov and reviewing our Privacy Policy.  The Department of Veterans Affairs (VA) applies leading privacy practices and adheres to data stewardship principles in managing our Web user data.  The data stewardship principles guiding our efforts include the following goals:
 -	protection of Web user privacy;
 -	maintaining the confidentiality of Web user data; and

@@ -560,3 +560,21 @@ legend.schemaform-label.schemaform-file-label {
   background-repeat: inherit !important;
   background-size: inherit !important;
 }
+
+.schemaform-confirmation-section-header {
+  font-size: $h3-font-size;
+}
+
+.schemaform-confirmation-claim-header {
+  font-size: $h4-font-size;
+  margin-top: 1em;
+}
+
+.usa-accordion, .usa-accordion-bordered {
+  > ul {
+    button {
+      border-radius: $button-border-radius;
+    }
+  }
+}
+

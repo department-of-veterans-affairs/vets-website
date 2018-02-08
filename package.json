@@ -25,7 +25,7 @@
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
-    "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:unit": "./script/run-unit-test.sh",
     "test:unit:edu": "BABEL_ENV=test mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
     "test:unit:hca": "BABEL_ENV=test mocha --recursive 'test/hca/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "BABEL_ENV=test mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
@@ -202,6 +202,7 @@
   },
   "private": true,
   "dependencies": {
+    "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
     "downshift": "^1.22.5",
     "eslint-plugin-import": "^2.7.0",
@@ -212,6 +213,6 @@
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c750137420ae9799fc2f53ab13244de7aca83ef0"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#218a49397b12ebf43d2a6786a1a4ab55bc20399f"
   }
 }

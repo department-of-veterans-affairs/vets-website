@@ -5,6 +5,8 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
+$color-inactive: #9B9B9B;
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -547,6 +549,12 @@ h1:focus {
   }
 }
 
+.usa-alert {
+  // Remove icons from standard USWDS alert styles
+  background-image: none;
+  padding-left: 1em;
+}
+
 // Slimmed version of .claim-timeline with appeals-specific stuff
 // To be used in conjunction with .process .form-process
 .appeal-timeline {
@@ -565,11 +573,11 @@ h1:focus {
   }
 
   li {
-    // Pull the first bullet point up just a hair to cover the top of the line
-    //  for when the viewport is small.
-    &:first-child:before {
-      // margin-top: 4px;
-    }
+  //   // Pull the first bullet point up just a hair to cover the top of the line
+  //   // for when the viewport is small.
+  //   &:first-child:before {
+  //     margin-top: 4px;
+  //   }
 
     &:before {
       background: $color-green;
@@ -645,6 +653,10 @@ h1:focus {
 
   .appeal-event-date {
     color: $color-gray-medium;
+
+    & + .usa-alert {
+      margin-top: 1em;
+    }
   }
 
   & + .down-arrow {
@@ -663,10 +675,21 @@ h1:focus {
 }
 
 .current-status {
+  &.closed {
+    .current-status-content {
+      border-left-color: transparent;
+
+      &::before {
+        background-color: $color-inactive;
+        color: $color-inactive;
+      }
+    }
+  }
 
   h2 {
     margin-top: 1em;
   }
+  
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -711,6 +734,10 @@ h1:focus {
 
 .va-appeals-content {
   padding-top: 1em;
+
+  .usa-alert-text {
+    margin-top: 1em;
+  }
 }
 
 .appeals-tabs-item {
@@ -872,8 +899,8 @@ h1:focus {
 
   li.next-event {
     &:before { // styles the bullets to mimic bullets in Timeline
-      display: inline-block;
-      vertical-align: middle;
+      display: block;
+      float: left;
       width: 1em;
       height: 1em;
       content: "";
@@ -881,12 +908,15 @@ h1:focus {
       border-radius: 50%;
       background: $color-gray-medium;
       margin-left: -.6em;
+      position: relative;
+      top: .33em;
     }
 
     h3 {
+      clear: none;
       margin-left: 1.5em;
-      display: inline;
-      vertical-align: middle;
+      margin-top: 0;
+      display: block;
     }
 
     p {
@@ -912,6 +942,12 @@ h1:focus {
       width: 102%;
     }
   }
+
+  .decision-review-list {
+    li {
+      margin-left: .5em;
+    }
+  }
 }
 
 .alerts-list-container {
@@ -931,9 +967,6 @@ h1:focus {
       h4 {
         margin-top: 0;
       }
-      // Remove icons from standard USWDS alert styles
-      background-image: none;
-      padding-left: 1em;
 
       .usa-alert-text {
         margin-top: 1em;
@@ -1047,4 +1080,38 @@ $marker-text-width: 9rem;
       text-align: right;
     }
   }
+}
+
+.issues-container {
+  margin-bottom: 2em;
+
+  &>h2 {
+    margin-top: 0;
+  }
+
+  .usa-accordion-button {
+    font-size: 2rem; // match standard h3
+  }
+
+  .granted-section {
+    h5 {
+      color: $color-green;
+    }
+  }
+
+  .denied-section {
+    h5 {
+      color: $color-secondary;
+    }
+  }
+}
+
+.closed-appeal-notice {
+  line-height: 40px;
+  text-align: center;
+  font-family:  $font-sans;
+  font-weight: 700;
+  font-size: 2rem;
+  background-color: $color-gray-lightest;
+  margin-bottom: 2em;
 }

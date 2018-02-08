@@ -1217,6 +1217,10 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
+blob-polyfill@^2.0.20171115:
+  version "2.0.20171115"
+  resolved "https://registry.yarnpkg.com/blob-polyfill/-/blob-polyfill-2.0.20171115.tgz#8e5c2659dda443365fafd6dd421517653f1d5ffd"
+
 block-stream@*:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
@@ -9651,9 +9655,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c750137420ae9799fc2f53ab13244de7aca83ef0":
-  version "3.17.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c750137420ae9799fc2f53ab13244de7aca83ef0"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#218a49397b12ebf43d2a6786a1a4ab55bc20399f":
+  version "3.17.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#218a49397b12ebf43d2a6786a1a4ab55bc20399f"
 
 vinyl-assign@^1.0.1:
   version "1.2.1"
