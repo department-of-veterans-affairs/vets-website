@@ -162,9 +162,13 @@ const formConfig = {
           uiSchema: {
             veteranFullName: fullNameUI,
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            veteranSocialSecurityNumber: ssnUI,
+            veteranSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:title': 'Social Security number (must have this or a VA file number)',
+              'ui:required': form => !form.veteranVaFileNumber,
+            }),
             veteranVaFileNumber: {
-              'ui:title': 'VA File Number',
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.veteranSocialSecurityNumber,
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
@@ -180,7 +184,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
+            required: ['veteranDateOfBirth'],
             properties: {
               veteranFullName,
               veteranDateOfBirth,

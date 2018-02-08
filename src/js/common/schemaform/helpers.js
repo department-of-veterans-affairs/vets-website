@@ -252,6 +252,11 @@ export function stringifyFormReplacer(key, value) {
     if (value.widget === 'autosuggest') {
       return value.id;
     }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
+    }
   }
 
   // Clean up empty objects in arrays

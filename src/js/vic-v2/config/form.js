@@ -1,11 +1,13 @@
 // import { transform } from '../helpers';
+import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
-import { prefillTransformer } from '../helpers';
+import PhotoDescription from '../components/PhotoDescription';
+import { prefillTransformer } from '../helpers.jsx';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -15,6 +17,7 @@ import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
 import { validateMatch } from '../../common/schemaform/validation';
+import validateFile from '../validation';
 
 const {
   veteranDateOfBirth,
@@ -23,6 +26,7 @@ const {
   email,
   serviceBranch,
   dd214
+  // photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -32,6 +36,8 @@ const {
   phone,
   gender
 } = fullSchemaVIC.definitions;
+
+const TWENTY_FIVE_MB = 26214400;
 
 const formConfig = {
   urlPrefix: '/',
@@ -154,32 +160,72 @@ const formConfig = {
     },
     documentUpload: {
       title: 'Document Upload',
+      reviewTitle: 'Documents',
       pages: {
         photoUpload: {
           path: 'documents/photo',
           title: 'Photo upload',
+          reviewTitle: 'Photo review',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
-            photo: {
-              'ui:field': PhotoField,
-              'ui:title': 'Please upload a current photo of yourself that’ll appear on your Veteran ID Card.',
+            'ui:description': PhotoDescription,
+            photo: _.assign(fileUploadUI('Upload a digital photo', {
+              endpoint: '/v0/vic/profile_photo_attachments',
+              fileTypes: [
+                'png',
+                'tiff',
+                'tif',
+                'jpeg',
+                'jpg',
+                'bmp'
+              ],
+              maxSize: TWENTY_FIVE_MB,
+              showFieldLabel: false,
+              createPayload: (file) => {
+                const payload = new FormData();
+                payload.append('profile_photo_attachment[file_data]', file, file.name);
 
-            }
+                return payload;
+              },
+              parseResponse: (response, file) => {
+                return {
+                  name: file.name,
+                  confirmationCode: response.data.attributes.guid
+                };
+              }
+            }), {
+              'ui:field': PhotoField,
+              'ui:validations': [
+                validateFile
+              ]
+            })
           },
           schema: {
             type: 'object',
+            required: ['photo'],
             properties: {
               photo: {
-                type: 'any'
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string'
+                  },
+                  size: {
+                    type: 'integer'
+                  },
+                  confirmationCode: {
+                    type: 'string'
+                  }
+                }
               }
             }
           }
         },
         dd214Upload: {
           path: 'documents/dd214',
-          title: 'DD214 upload',
+          title: 'Discharge document upload',
+          reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
-          editModeOnReviewPage: true,
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
@@ -193,8 +239,8 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: 15728640,
-              hideLabelText: true,
+              maxSize: TWENTY_FIVE_MB,
+              buttonText: 'Upload your discharge document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);

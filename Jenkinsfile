@@ -18,7 +18,16 @@ def isDeployable = {
   (env.BRANCH_NAME == devBranch ||
    env.BRANCH_NAME == stagingBranch) &&
     !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
+    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
+}
+
+def shouldBail = {
+  // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
+  env.BRANCH_NAME != devBranch &&
+  env.BRANCH_NAME != stagingBranch &&
+  env.BRANCH_NAME != prodBranch &&
+  !env.CHANGE_TARGET &&
+  currentBuild.nextBuild
 }
 
 def buildDetails = { vars ->
@@ -124,6 +133,8 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
 
   stage('Build') {
+    if (shouldBail()) { return }
+
     try {
       def builds = [:]
 
@@ -151,8 +162,9 @@ node('vetsgov-general-purpose') {
   }
 
   // Run E2E and accessibility tests
-
   stage('Integration') {
+    if (shouldBail()) { return }
+
     try {
       parallel (
         e2e: {
@@ -176,6 +188,8 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Archive') {
+    if (shouldBail()) { return }
+
     try {
       def builds = [ 'development', 'staging', 'production' ]
 
@@ -195,6 +209,11 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Review') {
+    if (shouldBail()) {
+      currentBuild.result = 'ABORTED'
+      return
+    }
+
     try {
       if (!isReviewable()) {
         return

@@ -343,16 +343,21 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
   }
 }
 
+export function getFileError(file) {
+  if (file.errorMessage) {
+    return file.errorMessage;
+  } else if (file.uploading) {
+    return 'Uploading file...';
+  } else if (!file.confirmationCode) {
+    return 'Something went wrong...';
+  }
+
+  return null;
+}
+
 export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
-    let error;
-    if (file.errorMessage) {
-      error = file.errorMessage;
-    } else if (file.uploading) {
-      error = 'Uploading file...';
-    } else if (!file.confirmationCode) {
-      error = 'Something went wrong...';
-    }
+    const error = getFileError(file);
 
     if (error && !errors[index]) {
       /* eslint-disable no-param-reassign */

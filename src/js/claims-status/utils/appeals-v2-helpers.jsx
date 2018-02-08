@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import Raven from 'raven-js';
 
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
@@ -29,6 +30,15 @@ export const STATUS_TYPES = {
   otherClose: 'other_close',
 };
 
+export const ISSUE_STATUS = {
+  fieldGrant: 'field_grant',
+  withdrawn: 'withdrawn',
+  allowed: 'allowed',
+  denied: 'denied',
+  remand: 'remand',
+  cavcRemand: 'cavc_remand',
+};
+
 export const CLOSED_STATUSES = [
   STATUS_TYPES.bvaDecision,
   STATUS_TYPES.fieldGrant,
@@ -53,6 +63,55 @@ export const ALERT_TYPES = {
   scheduledDroHearing: 'scheduled_dro_hearing',
   droHearingNoShow: 'dro_hearing_no_show',
 };
+
+/**
+ * Takes an array of appeals and returns another array of issue descriptions
+ * and where in the appeal lifecycle each issue is (open, remand, granted, denied)
+ * @typedef {Object} issue an individual issue - many issues can be a part of a single appeal
+ * @property {bool} active indicates whether an appeal is open or closed
+ * @property {string} description more info about the specific injury in the issue
+ * @property {string} diagnosticCode a codified version of the description
+ * @property {('field_grant'|'withdrawn'|'allowed'|'denied'|'remand'|'cavc_remand')} lastAction
+ * @property {string} date TO-DO: unsure of what this date siginifies
+ * ------------------------------------------------------------------------------------------------
+ * @typedef {Object} segmentedIssue issue with descriptor and status information
+ * @property {('granted'|'remand'|'allowed'|'denied'|'withdrawn')} status lifecycle stage of an issue
+ * @property {string} description pass-through for the description info of passed in issue object
+ * ------------------------------------------------------------------------------------------------
+ * @param {issue[]} issues all the individual issues that are attached to an appeal
+ * @returns {segmentedIssue[]} an array of issue objects with statuses and descriptions
+ */
+export function addStatusToIssues(issues) {
+  return issues.map((issue) => {
+    let status = '';
+    switch (issue.lastAction) {
+      case ISSUE_STATUS.fieldGrant:
+        status = 'granted';
+        break;
+      case ISSUE_STATUS.withdrawn:
+        status = 'withdrawn';
+        break;
+      case ISSUE_STATUS.allowed:
+        status = 'allowed';
+        break;
+      case ISSUE_STATUS.denied:
+        status = 'denied';
+        break;
+      case ISSUE_STATUS.remand:
+        status = 'remand';
+        break;
+      case ISSUE_STATUS.cavcRemand:
+        status = 'remand';
+        break;
+      default:
+        // if an issue's lastAction isn't one of the above, it's null,
+        // which signifies that it's still open
+        status = 'open';
+        break;
+    }
+    return { status, description: issue.description };
+  });
+}
 
 /**
  * Finds an appeal from the Redux store with ID matching arg ID
@@ -428,115 +487,96 @@ export function getEventContent(event) {
       return {
         title: 'VBA sent the original claim decision to you',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
         title: 'VBA received your Notice of Disagreement',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.droHearing:
       return {
         title: 'Dro Hearing',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
         title: 'Field grant',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
         title: 'VBA prepared a Statement of the Case (SOC)',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
         title: 'Form 9 Recieved',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
         title: 'Supplemental Statement of the Case',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.certified:
       return {
         title: 'The Board received your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        title: 'Your hearing was held at the regional office',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingCancelled:
       return {
         title: 'Hearing Cancelled',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
         title: 'Hearing No Show',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
         title: 'The Board made a decision on your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaRemand:
       return {
         title: 'Board Remand',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
         title: 'Withdrawn',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
         title: 'Merged',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'CAVC Decision',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.recordDesignation:
       return {
         title: 'Designation of Record',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Reconsideration by Letter',
         description: '',
-        liClass: 'section-complete'
       };
     default:
       return {
         title: 'Unknown Event',
         description: '',
-        liClass: 'section-complete'
       };
   }
 }
@@ -549,7 +589,7 @@ const DECISION_REVIEW_CONTENT = (
       available evidence and write a decision. For each issue you are appealing, they can
       decide to:
     </p>
-    <ul>
+    <ul className="decision-review-list">
       <li>
         <strong>Allow:</strong> The judge overrules the original decision and decides in
         your favor.
@@ -566,6 +606,46 @@ const DECISION_REVIEW_CONTENT = (
 );
 
 /**
+ * Translates an array of two ints into a string that conveys a duration estimate
+ * @typedef {Object} durationText contains strings to fill in time snippets in NextEvents
+ * @property {string} header formatted time string to be used in the duration card header
+ * @property {string} description formatted time string to be used in the duration card description
+ * @param {number[]} timeliness two integers that represent the low and high time durations
+ * (in months) of a given thing
+ * @returns {durationText} formatted to convey the estimated duration range, in months
+ */
+export const makeDurationText = (timeliness) => {
+  const durationText = {
+    header: '',
+    description: '',
+  };
+
+  if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
+    const durationError = new Error(
+      'vets_appeals_v2_helpers_makeDurationText_bad_timeliness_input'
+    );
+    Raven.captureException(durationError);
+    return durationText;
+  }
+
+  const lowEst = timeliness[0];
+  const highEst = timeliness[1];
+  const estIsExact = (lowEst === highEst);
+
+  if (estIsExact && lowEst === 1) {
+    durationText.header = '1 month';
+    durationText.description = 'about 1 month';
+  } else if (estIsExact) {
+    durationText.header = `${lowEst} months`;
+    durationText.description = `about ${lowEst} months`;
+  } else {
+    durationText.header = `${lowEst}–${highEst} months`;
+    durationText.description = `between ${lowEst} and ${highEst} months`;
+  }
+  return durationText;
+};
+
+/**
  * Gets 'what's next' content for a given current status type
  * @typedef {Object} nextEvent
  * @property {string} title header for each NextEvent
@@ -573,8 +653,13 @@ const DECISION_REVIEW_CONTENT = (
  * @property {string} durationText descriptor of how long this NextEvent usually takes
  * @property {string} cardDescription info about why this NextEvent takes as long as it does
  * ----------------------------------------------------------------------------------------------
+ * @typedef {Object} headerCard some NextEvent sections have one card displayed above the event list
+ * @property {string} durationText descriptor of how long these NextEvents usually take
+ * @property {string} cardDescription info about why these NextEvents take as long as they does
+ * ----------------------------------------------------------------------------------------------
  * @typedef {Object} allNextEvents
  * @property {string} header a short description to introduce all of the nextEvents
+ * @property {headerCard} [headerCard] containing info for top-level duration cards
  * @property {nextEvent[]} events each contain text content for a NextEvent component
  * ----------------------------------------------------------------------------------------------
  * @param {string} currentStatus an appeal's current status, one of STATUS_TYPES
@@ -582,13 +667,17 @@ const DECISION_REVIEW_CONTENT = (
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
-// TO-DO: Add 'details' to args list once they're complete in the API
-export function getNextEvents(currentStatus) {
+export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
-    case STATUS_TYPES.pendingSoc:
+    case STATUS_TYPES.pendingSoc: {
+      const socDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough 
           evidence to decide in your favor.`,
+        headerCard: {
+          durationText: socDuration.header,
+          cardDescription: `The Veterans Benefits Administration typically takes ${socDuration.description} to review new appeals.`,
+        },
         events: [
           {
             title: 'The Veterans Benefits Administration will grant some or all of your appeal',
@@ -617,7 +706,10 @@ export function getNextEvents(currentStatus) {
           },
         ]
       };
-    case STATUS_TYPES.pendingForm9:
+    }
+    case STATUS_TYPES.pendingForm9: {
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: `If you return a Form 9 within 60 days, what happens next depends on whether you 
           also send in new evidence.`,
@@ -631,8 +723,8 @@ export function getNextEvents(currentStatus) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: ''
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -644,12 +736,15 @@ export function getNextEvents(currentStatus) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
-            cardDescription: ''
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           },
         ]
       };
-    case STATUS_TYPES.pendingCertification:
+    }
+    case STATUS_TYPES.pendingCertification: {
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -662,8 +757,8 @@ export function getNextEvents(currentStatus) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -675,12 +770,15 @@ export function getNextEvents(currentStatus) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           }
         ]
       };
-    case STATUS_TYPES.pendingCertificationSsoc:
+    }
+    case STATUS_TYPES.pendingCertificationSsoc: {
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
       return  {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -693,8 +791,8 @@ export function getNextEvents(currentStatus) {
                 Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -706,12 +804,15 @@ export function getNextEvents(currentStatus) {
                 by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           }
         ]
       };
-    case STATUS_TYPES.remandSsoc:
+    }
+    case STATUS_TYPES.remandSsoc: {
+      const returnSsocDuration = makeDurationText(details.returnTimeliness);
+      const remandSsocDuration = makeDurationText(details.remandSsocTimeliness);
       return {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -724,8 +825,8 @@ export function getNextEvents(currentStatus) {
                 your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: returnSsocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${returnSsocDuration.description} to return cases to the Board.`,
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
@@ -735,11 +836,12 @@ export function getNextEvents(currentStatus) {
                 before returning your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: remandSsocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${remandSsocDuration.description} to write additional Statements of the Case.`,
           }
         ]
       };
+    }
     case STATUS_TYPES.pendingHearingScheduling:
       return {
         header: '', // intentionally empty
@@ -787,8 +889,8 @@ export function getNextEvents(currentStatus) {
           {
             title: 'The Board will make a decision',
             description: DECISION_REVIEW_CONTENT,
-            durationText: '10 months',
-            cardDescription: 'A Veterans Law Judge typically takes 10 months to write a decision.'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
@@ -805,18 +907,20 @@ export function getNextEvents(currentStatus) {
           }
         ]
       };
-    case STATUS_TYPES.decisionInProgress:
+    case STATUS_TYPES.decisionInProgress: {
+      const decisionDuration = makeDurationText(details.decisionTimeliness);
       return {
         header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
             description: DECISION_REVIEW_CONTENT,
-            durationText: '',
-            cardDescription: '',
+            durationText: decisionDuration.header,
+            cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration.description} to decide appeals once a judge starts their review.`,
           }
         ]
       };
+    }
     case STATUS_TYPES.bvaDevelopment:
       return {
         header: '', // intentionally empty
@@ -841,7 +945,8 @@ export function getNextEvents(currentStatus) {
           }
         ]
       };
-    case STATUS_TYPES.remand:
+    case STATUS_TYPES.remand: {
+      const remandDuration = makeDurationText(details.remandTimeliness);
       return {
         header: '', // intentionally empty
         events: [
@@ -855,11 +960,12 @@ export function getNextEvents(currentStatus) {
                 Veterans’ Appeals for a new decision.
               </p>
             ),
-            durationText: '11 months',
-            cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
+            durationText: remandDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${remandDuration.description} to complete remand instructions.`
           }
         ]
       };
+    }
     default:
       return {
         header: '', // intentionally empty
@@ -867,8 +973,8 @@ export function getNextEvents(currentStatus) {
           {
             title: 'Unknown event',
             description: (<p>We could not find the next event in your appeal</p>),
-            durationText: 'Unknown',
-            cardDescription: 'No description found'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
