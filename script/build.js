@@ -596,6 +596,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
+        '/veteran-id-card/apply',
         '/letters'].join('|'))
   }));
 }
