@@ -396,7 +396,7 @@ export default class PhotoField extends React.Component {
     // at this point, the onZoom event has not resized the canvas-
     // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
     //   after the canvas has rendered with new width values
-    window.requestAnimationFrame(() => this.moveCanvasWithinBounds({}, zoomWarn));
+    this.moveCanvasWithinBounds({}, zoomWarn);
   }
 
   setCropBox = () => {
@@ -416,7 +416,6 @@ export default class PhotoField extends React.Component {
         });
 
         this.moveCanvasToDefaultPosition();
-
       }
     });
   }
@@ -454,21 +453,22 @@ export default class PhotoField extends React.Component {
     });
   }
   moveCanvasWithinBounds = (moveData, zoomWarn = false) => {
-    const boundedCanvasData = getBoundedCanvasPositionData({
-      canvasData: this.refs.cropper.getCanvasData(),
-      cropBoxData: this.refs.cropper.getCropBoxData(),
-      ...moveData
+    window.requestAnimationFrame(() => {
+      const boundedCanvasData = getBoundedCanvasPositionData({
+        canvasData: this.refs.cropper.getCanvasData(),
+        cropBoxData: this.refs.cropper.getCropBoxData(),
+        ...moveData
+      });
+
+      this.refs.cropper.setCanvasData(boundedCanvasData);
+
+      this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
     });
-
-    this.refs.cropper.setCanvasData(boundedCanvasData);
-
-    this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
   }
 
   rotateCanvas = (moveData) => {
     // rotate
     this.refs.cropper.rotate(moveData.moveDegree);
-
   }
 
   resetFile = () => {
