@@ -1,5 +1,8 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import Raven from 'raven-js';
+import environment from '../common/helpers/environment.js';
+import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
   if (formData && formData.serviceBranches) {
@@ -36,4 +39,82 @@ export function PhotoReviewDescription({ url }) {
     <div className="va-growable-background">
       <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
     </div>);
+}
+
+function checkStatus(guid) {
+  return fetch(`${environment.API_URL}/v0/vic/vic_submissions/${guid}`)
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res);
+    }).catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_vic_poll_client_error');
+
+        // keep polling because we know they submitted earlier
+        // and this is likely a network error
+        return Promise.resolve();
+      }
+
+      // if we get here, it's likely that we hit a server error
+      return Promise.reject(res);
+    });
+}
+
+const POLLING_INTERVAL = 1000;
+
+function pollStatus(guid, onDone, onError) {
+  setTimeout(() => {
+    checkStatus(guid)
+      .then(res => {
+        if (!res || res.data.attributes.state === 'pending') {
+          pollStatus(guid, onDone, onError);
+        } else if (res.data.attributes.state === 'success') {
+          onDone(res.data.attributes.response);
+        } else {
+          // needs to start with this string to get the right message on the form
+          throw new Error(`vets_server_error_vic: status ${res.data.attributes.state}`);
+        }
+      })
+      .catch(onError);
+  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
+}
+
+export function submit(form, formConfig) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+
+  const formData = transformForSubmit(formConfig, form);
+  const body = JSON.stringify({
+    vicSubmission: {
+      form: formData
+    }
+  });
+
+  return new Promise((resolve, reject) => {
+    fetch(`${environment.API_URL}/v0/vic/vic_submissions`, {
+      method: 'POST',
+      headers,
+      body
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res);
+    }).then(resp => {
+      const guid = resp.data.attributes.guid;
+      pollStatus(guid, resolve, reject);
+    }).catch(reject);
+  });
 }
