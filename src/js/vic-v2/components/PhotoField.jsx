@@ -37,7 +37,7 @@ function getCanvasDataForDefaultPosition({ canvasData, cropBoxData, containerWid
     left: cropBoxLeft,
     top: 0,
     bottomBoundaryMet: false,
-    topBoundaryMet: false,
+    topBoundaryMet: true,
     leftBoundaryMet: true,
     rightBoundaryMet: true
   };
@@ -415,23 +415,8 @@ export default class PhotoField extends React.Component {
           width: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE
         });
 
-        const defaultCanvasData = getCanvasDataForDefaultPosition({
-          canvasData: this.refs.cropper.getCanvasData(),
-          cropBoxData: this.refs.cropper.getCropBoxData(),
-          containerWidth
-        });
+        this.moveCanvasToDefaultPosition();
 
-        this.refs.cropper.setCanvasData(defaultCanvasData);
-
-        this.setZoomToDefaultRatio();
-
-        // update warning messages
-        const boundedCanvasData = getBoundedCanvasPositionData({
-          canvasData: this.refs.cropper.getCanvasData(),
-          cropBoxData: this.refs.cropper.getCropBoxData(),
-        });
-
-        this.updateBoundaryWarningAndButtonStates(boundedCanvasData);
       }
     });
   }
@@ -451,6 +436,23 @@ export default class PhotoField extends React.Component {
     });
   }
 
+  moveCanvasToDefaultPosition = () => {
+    window.requestAnimationFrame(() => {
+
+      const containerWidth = this.refs.cropper.getContainerData().width;
+      const defaultCanvasData = getCanvasDataForDefaultPosition({
+        canvasData: this.refs.cropper.getCanvasData(),
+        cropBoxData: this.refs.cropper.getCropBoxData(),
+        containerWidth
+      });
+
+      this.refs.cropper.setCanvasData(defaultCanvasData);
+
+      this.setZoomToDefaultRatio();
+
+      this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
+    });
+  }
   moveCanvasWithinBounds = (moveData, zoomWarn = false) => {
     const boundedCanvasData = getBoundedCanvasPositionData({
       canvasData: this.refs.cropper.getCanvasData(),
@@ -463,26 +465,10 @@ export default class PhotoField extends React.Component {
     this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
   }
 
-  rotateCanvasToDefaultPosition = (moveData) => {
+  rotateCanvas = (moveData) => {
     // rotate
     this.refs.cropper.rotate(moveData.moveDegree);
 
-    // after rotating, set canvas to default position
-    window.requestAnimationFrame(() => {
-
-      const containerWidth = this.refs.cropper.getContainerData().width;
-      const defaultCanvasData = getCanvasDataForDefaultPosition({
-        canvasData: this.refs.cropper.getCanvasData(),
-        cropBoxData: this.refs.cropper.getCropBoxData(),
-        containerWidth
-      });
-
-      this.setZoomToDefaultRatio();
-
-      this.refs.cropper.setCanvasData(defaultCanvasData);
-
-      this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
-    });
   }
 
   resetFile = () => {
@@ -552,7 +538,8 @@ export default class PhotoField extends React.Component {
     }
 
     if (moveData && 'moveDegree' in moveData) {
-      this.rotateCanvasToDefaultPosition(moveData);
+      this.rotateCanvas(moveData);
+      this.moveCanvasToDefaultPosition();
     } else {
       this.moveCanvasWithinBounds(moveData);
     }
