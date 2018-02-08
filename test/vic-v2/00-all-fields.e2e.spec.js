@@ -60,17 +60,32 @@ const runTest = E2eHelpers.createE2eTest(
       client.elementIdDisplayed('errorable-file-input-11');
 
       // upload photo
+      // sighted path
       client
         .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
 
       // crop photo
-      // client.axeCheck('.main');
       client.waitForElementVisible('.cropper-container-outer', Timeouts.normal);
       client.click('.form-panel .usa-button-primary');
 
       // preview photo
-      // client.axeCheck('.main');
       client.waitForElementVisible('.photo-preview', Timeouts.normal);
+      client.axeCheck('.main');
+
+      // nonsighted path
+      // upload photo
+      client.click('.photo-preview-link');
+      client
+        .execute("document.getElementsByName('screenReaderFileUpload')[0].style.display = 'block';");
+      // HACK: waitforElementVisible did not work but this does 
+      client.elementIdDisplayed('errorable-file-input-12');
+
+      client
+        .setValue('input[name="screenReaderFileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
+
+      // preview photo
+      client.waitForElementVisible('.photo-preview', Timeouts.normal);
+      client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/photo');
 
