@@ -48,7 +48,7 @@ No. The health care law doesn’t change your VA health benefits or your out-of-
 ### If I’m not signed up for a VA or Department of Defense health care program, how do I get health coverage to meet the requirement?
 If you’re not signed up for a health care program—and you don’t meet the health care law coverage standards—you’ll need to get coverage through the Health Insurance Marketplace.
 
-Through the Marketplace, you can shop for and buy private health insurance (health plans that aren't provided by VA) to fit your budget and meets your needs. You may be able to get financial assistance, like lower costs on monthly premiums or out-of-pocket costs. You may also qualify for free or low-cost coverage through Medicaid or the Children’s Health Insurance Program (CHIP). 
+Through the Marketplace, you can shop for and buy private health insurance (health plans that aren't provided by VA) to fit your budget and meet your needs. You may be able to get financial assistance, like lower costs on monthly premiums or out-of-pocket costs. You may also qualify for free or low-cost coverage through Medicaid or the Children’s Health Insurance Program (CHIP). 
 
 The 2018 Health Insurance Marketplace open enrollment period is November 1, 2017, to December 15, 2017. You can also enroll at other times if you have life changes—like losing your coverage, getting married, or having a baby—or if you qualify for Medicaid or CHIP.<br>
 [Get more details on enrollment dates](https://www.healthcare.gov/quick-guide/dates-and-deadlines/).<br>
