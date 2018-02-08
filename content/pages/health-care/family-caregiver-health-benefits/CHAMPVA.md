@@ -9,7 +9,7 @@ order: 1
 
 <div class="va-introtext">
 
-Are you the current or surviving spouse of—or a child of—a Veteran with disabilities or a Veteran who has died? If you don’t qualify for TRICARE (the Department of Defense’s health care program for active-duty and retired Servicemembers and their families), you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we cover the cost of some of your health care services and supplies. This is called cost sharing. Find out if you qualify for CHAMPVA and how to apply.
+Are you the spouse or surviving spouse of—or a child of—a Veteran with disabilities or a Veteran who has died? If you don’t qualify for TRICARE (the Department of Defense’s health care program for active-duty and retired Servicemembers and their families), you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we cover the cost of some of your health care services and supplies. This is called cost sharing. Find out if you qualify for CHAMPVA and how to apply.
 
 </div>
 
