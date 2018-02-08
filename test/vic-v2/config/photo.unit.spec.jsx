@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-describe('VIC photo upload', () => {
+describe.only('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
   it('should render', () => {
@@ -78,7 +78,23 @@ describe('VIC photo upload', () => {
   // it/ should submit with a valid photo
 
   // non-sighted path
-  // it/ should display an errorfor an invalid file
+  // it/ 
+  it('should display an error for an invalid file', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+  });
   // it/ should accept valid file and render the preview
   // it/ should not allow the user to edit their photo
   // it/ should submit with a valid photo
