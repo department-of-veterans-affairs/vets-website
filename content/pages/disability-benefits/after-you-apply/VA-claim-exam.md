@@ -66,7 +66,7 @@ Make sure both the VA regional office and the VA medical center near you have yo
 
 Call the number provided right away to confirm the time and location of your exam. It’s important not to miss your scheduled exam, so you’ll want to double check that you have the right place and time.
 
-What if I can’t make it to the scheduled exam?
+#### What if I can’t make it to the scheduled exam?
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
 
@@ -77,63 +77,10 @@ If you can’t make it to your appointment, let us know right away. You can resc
   [Find your local regional benefit office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0).	
 
 
-### What should I do while I wait?
+### What should I bring to my VA claim exam?
 
-You don’t need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check the status of your claim online. The time frame you see there may vary based on how complex your claim is.
+Bring to your exam any new non-VA medical records that you haven't given us yet. These might include records from a recent surgery or illness. 
 
-<a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
-
-<div markdown="0"><br></div>
-
-### What happens after I apply?
-
-<ol class="process">
-<li class="process-step list-one">
-
-#### Claim Received
-
-You’ll see a notice from us in your claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
-
-</li>
-
-<li class="process-step list-two">
-
-#### Initial Review
-
-A Veterans Service Representative (VSR) will review your claim. It’ll move to step 3 if we don’t need any more evidence to support it.
-
-</li>
-
-<li class="process-step list-three">
-
-#### Evidence Gathering, Review, and Decision
-
-During this step, the VSR will do 3 things:
-
-- Ask for evidence from you, health care providers, governmental agencies, or others
-- Review the evidence
-- Make a decision
-
-If we need more evidence during the review, your claim may return to this step more than once.
-
-</li>
-
-<li class="process-step list-four"> 
-
-#### Preparation for Notification
-
-We’ll get your entire claim decision packet ready to be mailed.
-
-</li>
-
-<li class="process-step list-five">
-
-#### Claim Complete
-
-We’ll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
-
-</li>
-</ol>
 
 ### What should I do if I disagree with your decision on my claim?
 
