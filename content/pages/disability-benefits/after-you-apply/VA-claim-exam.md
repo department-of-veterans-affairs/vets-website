@@ -54,6 +54,22 @@ No. We’ll ask you to have a claim exam only if we need more information to dec
 
 If you have enough medical evidence in your file to support your claim, we won't ask you to have a claim exam. Medical evidence may include doctor and hospital reports, test results, and other documents.
 
+### How to schedule your exam
+
+#### How will you contact me to schedule the exam?
+
+The staff at your local VA medical center or a local doctor’s office that we partner with will contact you. They’ll either send you a letter by mail with the date and time of your exam, or call you to find a time that works for you.
+
+Make sure both the VA regional office and the VA medical center near you have your up-to-date address, phone number, and email address so you get your exam notice in time.
+
+#### What should I do when I receive my exam letter or phone call?
+
+Call the number provided right away to confirm the time and location of your exam. It’s important not to miss your scheduled exam, so you’ll want to double check that you have the right place and time.
+
+What if I can’t make it to the scheduled exam?
+
+If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
+
 
 #### The amount of time it takes to review your claim depends on:
 
