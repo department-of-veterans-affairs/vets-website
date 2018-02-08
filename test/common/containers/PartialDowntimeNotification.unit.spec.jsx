@@ -1,14 +1,12 @@
 import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment';
 
 import { services, serviceStatus } from '../../../src/js/common/containers/DowntimeNotification';
 import { PartialDowntimeNotification, renderPartialDowntime } from '../../../src/js/common/containers/PartialDowntimeNotification';
 
 const beforeNow = moment().subtract(1, 'minute').toDate();
-const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toDate();
 const moreThanHour = moment().add(1, 'hour').add(1, 'hour').toDate();
 const endTime = moment().add(6, 'hour').toDate();
 
@@ -27,7 +25,7 @@ function getComponent(dependencies = [], getScheduledDowntime = () => {}, setCur
 }
 
 function renderDown() {
-  return enzyme.shallow(renderPartialDowntime("Test Service", { endTime: moment(endTime) }, {}, innerText));
+  return enzyme.shallow(renderPartialDowntime('Test Service', { endTime: moment(endTime) }, {}, innerText));
 }
 
 describe('renderPartialDowntime', () => {

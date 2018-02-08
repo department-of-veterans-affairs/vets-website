@@ -34,7 +34,7 @@ export function setCurrentStatus(status) {
   };
 }
 
-export function unsetCurrentStatus(status) {
+export function unsetCurrentStatus() {
   return (dispatch) => {
     dispatch({ type: UNSET_CURRENT_DOWNTIME_STATUS });
   };

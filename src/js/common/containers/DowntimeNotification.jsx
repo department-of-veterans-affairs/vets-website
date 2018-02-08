@@ -44,8 +44,8 @@ const dismissedDowntimeNotifications = {
   }
 };
 
-export function DowntimeNotificationWrapper({ status, children, className = "row-padded" }) {
-  return <div className={"downtime-notification " + className} data-status={status}>{children}</div>;
+export function DowntimeNotificationWrapper({ status, children, className = 'row-padded' }) {
+  return <div className={`downtime-notification ${className}`} data-status={status}>{children}</div>;
 }
 
 class DowntimeNotification extends React.Component {
@@ -91,10 +91,6 @@ class DowntimeNotification extends React.Component {
     this.props.getScheduledDowntime();
   }
 
-  componentWillUnmount() {
-    this.props.unsetCurrentStatus();
-  }
-
   // This is here just for caching the result of calculateDowntime, so that it isn't run every time a prop changes.
   // Currently, this component should only do its calculations once, because it would be weird if in the middle of filling
   // out a form a modal or alert appears alerting them of downtime, or if it just shuts down the app because we entered
@@ -116,6 +112,10 @@ class DowntimeNotification extends React.Component {
     if (nextProps.isReady && !this.props.isReady) return true;
 
     return nextState.cache.status !== serviceStatus.down;
+  }
+
+  componentWillUnmount() {
+    this.props.unsetCurrentStatus();
   }
 
   getStatusForDowntime(downtime, now = moment()) {

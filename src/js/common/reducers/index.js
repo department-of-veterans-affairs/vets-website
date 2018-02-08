@@ -22,11 +22,17 @@ export function scheduledDowntime(state = initialState.scheduledDowntime, action
         values: action.value
       };
     case SET_CURRENT_DOWNTIME_STATUS:
-      state.status = action.value;
-      return state;
+      return {
+        isReady: true,
+        status: action.value,
+        values: state.values
+      };
     case UNSET_CURRENT_DOWNTIME_STATUS:
-      state.status = {};
-      return state;
+      return {
+        isReady: true,
+        status: {},
+        values: state.values
+      };
     case RETREIVE_SCHEDULED_DOWNTIME:
     default:
       return state;

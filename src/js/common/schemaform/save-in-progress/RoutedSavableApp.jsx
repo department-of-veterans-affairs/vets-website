@@ -181,7 +181,8 @@ class RoutedSavableApp extends React.Component {
   }
 
   renderDowntimeAlert({ startTime, endTime }) {
-    let headline, alertContent;
+    let headline;
+    let alertContent;
     if (endTime) {
       headline = `We won't be able to accept applications from ${startTime.format('MMMM Do, LT')} to ${endTime.format('MMMM Do, LT')}`;
       alertContent = (
@@ -208,7 +209,8 @@ class RoutedSavableApp extends React.Component {
     const { currentLocation, formConfig, children, formData, loadedStatus, downtimeStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    let content, downtimeAlert;
+    let content;
+    let downtimeAlert;
     const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
     if (!formConfig.disableSave && loadingForm) {
       content = <LoadingIndicator message="Retrieving your saved form..."/>;

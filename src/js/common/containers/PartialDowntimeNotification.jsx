@@ -2,9 +2,8 @@ import React from 'react';
 import { DowntimeNotification, DowntimeNotificationWrapper, serviceStatus } from './DowntimeNotification';
 import { connect } from 'react-redux';
 import { getScheduledDowntime, setCurrentStatus, unsetCurrentStatus } from '../actions';
-import LoadingIndicator from '../components/LoadingIndicator';
 
-export function renderPartialDowntime(appTitle, { endTime }, downtimeMap, children) {
+export function renderPartialDowntime(appTitle, downtimeWindow, downtimeMap, children) {
   return (
     <DowntimeNotificationWrapper status={serviceStatus.down} className="">
       {children}
@@ -16,7 +15,7 @@ export function PartialDowntimeNotification(props) {
   return (
     <DowntimeNotification
       renderDown={renderPartialDowntime}
-      {...props} />
+      {...props}/>
   );
 }
 
