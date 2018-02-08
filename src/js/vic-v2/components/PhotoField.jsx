@@ -396,7 +396,7 @@ export default class PhotoField extends React.Component {
     // at this point, the onZoom event has not resized the canvas-
     // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
     //   after the canvas has rendered with new width values
-    window.requestAnimationFrame(() => this.maybeMoveCanvasWithinBounds({}, zoomWarn));
+    window.requestAnimationFrame(() => this.moveCanvasWithinBounds({}, zoomWarn));
   }
 
   setCropBox = () => {
@@ -445,28 +445,7 @@ export default class PhotoField extends React.Component {
     });
   }
 
-  maybeMoveCanvasWithinBounds = (moveData, zoomWarn = false) => {
-    // rotate
-    if (moveData && 'moveDegree' in moveData) {
-      this.refs.cropper.rotate(moveData.moveDegree);
-
-      // after rotating, set canvas to default position
-      window.requestAnimationFrame(() => {
-
-        const containerWidth = this.refs.cropper.getContainerData().width;
-        const defaultCanvasData = getCanvasDataForDefaultPosition({
-          canvasData: this.refs.cropper.getCanvasData(),
-          cropBoxData: this.refs.cropper.getCropBoxData(),
-          containerWidth
-        });
-
-        this.refs.cropper.setCanvasData(defaultCanvasData);
-
-        this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
-      });
-      return;
-    }
-
+  moveCanvasWithinBounds = (moveData, zoomWarn = false) => {
     const boundedCanvasData = getBoundedCanvasPositionData({
       canvasData: this.refs.cropper.getCanvasData(),
       cropBoxData: this.refs.cropper.getCropBoxData(),
@@ -476,6 +455,26 @@ export default class PhotoField extends React.Component {
     this.refs.cropper.setCanvasData(boundedCanvasData);
 
     this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
+  }
+
+  rotateCanvasToDefaultPosition = (moveData) => {
+    // rotate
+    this.refs.cropper.rotate(moveData.moveDegree);
+
+    // after rotating, set canvas to default position
+    window.requestAnimationFrame(() => {
+
+      const containerWidth = this.refs.cropper.getContainerData().width;
+      const defaultCanvasData = getCanvasDataForDefaultPosition({
+        canvasData: this.refs.cropper.getCanvasData(),
+        cropBoxData: this.refs.cropper.getCropBoxData(),
+        containerWidth
+      });
+
+      this.refs.cropper.setCanvasData(defaultCanvasData);
+
+      this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
+    });
   }
 
   resetFile = () => {
@@ -508,7 +507,7 @@ export default class PhotoField extends React.Component {
   }
 
   handleCropend = () => { // casing matches Cropper argument
-    this.maybeMoveCanvasWithinBounds();
+    this.moveCanvasWithinBounds();
   }
 
   handleCropstart = (e) => {
@@ -520,7 +519,7 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  handleMove = (direction) => {
+  handleMoveOrRotate = (direction) => {
     let moveData;
     switch (direction) {
       case 'Move up':
@@ -543,7 +542,12 @@ export default class PhotoField extends React.Component {
         break;
       default:
     }
-    this.maybeMoveCanvasWithinBounds(moveData);
+
+    if (moveData && 'moveDegree' in moveData) {
+      this.rotateCanvasToDefaultPosition(moveData);
+    } else {
+      this.moveCanvasWithinBounds(moveData);
+    }
   }
 
   handleZoomButtonClick = (direction) => {
@@ -728,7 +732,7 @@ export default class PhotoField extends React.Component {
               ].map((row, index) => (
                 <div className="cropper-control-row" key={index}>
                   {row.map((button) => (
-                    <button className={classNames(moveControlClass, { disabled: button.disabled })} type="button" onClick={() => this.handleMove(`${button.action} ${button.direction}`)} key={button.direction}>
+                    <button className={classNames(moveControlClass, { disabled: button.disabled })} type="button" onClick={() => this.handleMoveOrRotate(`${button.action} ${button.direction}`)} key={button.direction}>
                       <span className="cropper-control-label">{`${button.action} ${button.direction}`}<i className={`fa fa-${button.icon}-${button.direction}`}></i></span>
                     </button>))
                   }
