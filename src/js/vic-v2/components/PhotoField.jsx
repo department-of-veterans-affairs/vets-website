@@ -423,16 +423,7 @@ export default class PhotoField extends React.Component {
 
         this.refs.cropper.setCanvasData(defaultCanvasData);
 
-        // with the canvas resized, use its dimensions to determine the min zoom ratio
-        const { width: newCanvasWidth, naturalWidth } = this.refs.cropper.getCanvasData();
-        const minRatio = newCanvasWidth / naturalWidth;
-        const slider = this.refs.slider;
-        slider.value = minRatio;
-
-        this.setState({
-          zoomValue: minRatio,
-          minRatio
-        });
+        this.setZoomToDefaultRatio();
 
         // update warning messages
         const boundedCanvasData = getBoundedCanvasPositionData({
@@ -442,6 +433,21 @@ export default class PhotoField extends React.Component {
 
         this.updateBoundaryWarningAndButtonStates(boundedCanvasData);
       }
+    });
+  }
+
+  setZoomToDefaultRatio = () => {
+    window.requestAnimationFrame(() => {
+      // with the canvas resized, use its dimensions to determine the min zoom ratio
+      const { width: canvasWidth, naturalWidth } = this.refs.cropper.getCanvasData();
+      const minRatio = canvasWidth / naturalWidth;
+      const slider = this.refs.slider;
+      slider.value = minRatio;
+
+      this.setState({
+        zoomValue: minRatio,
+        minRatio
+      });
     });
   }
 
@@ -470,6 +476,8 @@ export default class PhotoField extends React.Component {
         cropBoxData: this.refs.cropper.getCropBoxData(),
         containerWidth
       });
+
+      this.setZoomToDefaultRatio();
 
       this.refs.cropper.setCanvasData(defaultCanvasData);
 
