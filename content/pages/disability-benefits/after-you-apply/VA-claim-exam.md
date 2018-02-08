@@ -39,11 +39,7 @@ Get answers to commonly asked questions about the VA claim exam below. <br>
 
 ##### Be sure not to miss your scheduled exam.
 
-- Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text <a href="sms:838255">838255</a> to get help right away.
-- Call <a href="tel:911">911</a>.
-- Go to the nearest emergency room.
+If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or, if you don’t reschedule, we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
 
 </div>
 </div>
@@ -51,11 +47,6 @@ Get answers to commonly asked questions about the VA claim exam below. <br>
 <br>
 
 <div class="feature" markdown=“1”>
-
-Be sure not to miss your scheduled exam
-
-If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or, if you don’t reschedule, we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
-[end alert box]
 
 
 ### How long does it take VA to make a decision?
