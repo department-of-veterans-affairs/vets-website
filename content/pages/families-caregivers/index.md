@@ -43,7 +43,7 @@ Find out if you qualify for:
 
 - [Survivors’ and Dependents’ Assistance
 (education and training opportunities, plus help paying for school)](/education/gi-bill/survivors-dependent-assistance/)<br>
-- [Free educational and career counseling services](/education/tools-programs/)<br>
+- [Free educational and career counseling services](/education/tools-programs/education-career-counseling/)<br>
 - [Work study (a part-time job while you're in school)](/education/work-learn/workstudy/)<br>
 
 [Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/gi-bill-comparison-tool/).<br>
@@ -56,7 +56,7 @@ Find out if you qualify for:
 <span id="careers">
 
 ### Careers and Employment
-If you’re the current or surviving spouse of a Servicemember or Veteran, you may qualify for career and employment services, like:
+If you’re the spouse or surviving spouse of a Servicemember or Veteran, you may qualify for career and employment services, like:
 
 - Employment counseling
 - Networking and connections with employers committed to hiring military spouses
@@ -65,7 +65,7 @@ If you’re the current or surviving spouse of a Servicemember or Veteran, you m
 - Workshops focused on building resumes and cover letters as well as networking and interviewing skills
 - Entrepreneurship training to help you start your own business
 
-[Explore resources for Military and Veteran family members](/employment/job-seekers/family-members/).
+[Explore resources for military and Veteran family members](/employment/job-seekers/family-members/).
 
 **Looking for careers and employment information on behalf of a Servicemember or Veteran?**<br>
 [Learn about career and employment benefits for Servicemembers and Veterans](/employment/).
