@@ -208,6 +208,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-stats": "^1.0.0",
     "fast-levenshtein": "^2.0.6",
+    "file-api": "^0.10.4",
     "nyc": "^11.1.0",
     "react-cropper": "^1.0.1",
     "react-dropzone": "^4.2.5",

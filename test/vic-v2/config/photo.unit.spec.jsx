@@ -79,6 +79,20 @@ describe.only('VIC photo upload', () => {
 
   // non-sighted path
   // it/ 
+  function FileReader() { }
+  FileReader.prototype.readAsDataURL = function readAsDataURL(file) {
+    setTimeout(() => {
+      this.result = file.data;
+      this.onload();
+    });
+  };
+
+  function Image() {
+    setTimeout(() => {
+      this.onload();
+    });
+  }
+
   it('should display an error for an invalid file', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -89,6 +103,16 @@ describe.only('VIC photo upload', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
+    global.Image = Image;
+    global.FileReader = FileReader;
+
+    form.find('#errorable-file-input-21').simulate('change', {
+      files: [
+        {
+          name: 'testfile.jpg'
+        }
+      ]
+    });
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
 
