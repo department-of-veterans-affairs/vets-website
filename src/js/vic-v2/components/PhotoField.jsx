@@ -2,6 +2,8 @@ import React from 'react';
 import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
+
+import environment from '../../common/helpers/environment';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
@@ -172,14 +174,13 @@ function isSquareImage(img) {
   return img.width === img.height;
 }
 
+function getImageUrl({ serverPath, serverName } = {}) {
+  return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+}
+
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
-    const formData = props.formData || {};
-    let previewSrc;
-    if (formData.file instanceof Blob) {
-      previewSrc = window.URL.createObjectURL(formData.file);
-    }
 
     this.state = {
       minRatio: 0.2,
@@ -188,8 +189,7 @@ export default class PhotoField extends React.Component {
       src: null,
       warningMessage: null,
       zoomValue: 0.4,
-      isCropping: false,
-      previewSrc
+      isCropping: false
     };
 
     this.screenReaderPath = false;
@@ -203,17 +203,6 @@ export default class PhotoField extends React.Component {
   componentDidMount() {
     if (!onReviewPage(this.props.formContext.pageTitle)) {
       window.addEventListener('resize', this.detectWidth);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const nextFormData = nextProps.formData || {};
-    const prevFormData = this.props.formData || {};
-    if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
-      if (this.state.previewSrc) {
-        window.URL.revokeObjectURL(this.state.previewSrc);
-      }
-      this.setState({ previewSrc: window.URL.createObjectURL(nextFormData.file) });
     }
   }
 
@@ -246,9 +235,6 @@ export default class PhotoField extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.state.previewSrc) {
-      window.URL.revokeObjectURL(this.state.previewSrc);
-    }
     window.removeEventListener('resize', this.detectWidth);
   }
 
@@ -256,7 +242,7 @@ export default class PhotoField extends React.Component {
     this.setState({
       isCropping: true,
       fileName: this.props.formData.name,
-      src: this.state.src || this.state.previewSrc,
+      src: getImageUrl(this.props.formData),
       warningMessage: null
     });
   }
@@ -392,11 +378,10 @@ export default class PhotoField extends React.Component {
     // zoom value is good- update the state / messaging
     this.setState({ zoomValue });
 
-    const zoomWarn = zoomValue >= WARN_RATIO;
     // at this point, the onZoom event has not resized the canvas-
     // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
     //   after the canvas has rendered with new width values
-    this.moveCanvasWithinBounds({}, zoomWarn);
+    this.moveCanvasWithinBounds({}, zoomValue);
   }
 
   setCropBox = () => {
@@ -452,16 +437,18 @@ export default class PhotoField extends React.Component {
       this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
     });
   }
-  moveCanvasWithinBounds = (moveData, zoomWarn = false) => {
+  moveCanvasWithinBounds = (moveData, zoomValue = null) => {
     window.requestAnimationFrame(() => {
       const boundedCanvasData = getBoundedCanvasPositionData({
         canvasData: this.refs.cropper.getCanvasData(),
         cropBoxData: this.refs.cropper.getCropBoxData(),
         ...moveData
       });
-
       this.refs.cropper.setCanvasData(boundedCanvasData);
 
+      const currentZoomValue = zoomValue || this.state.zoomValue;
+      const zoomWarn = this.refs.cropper.getData().width < MIN_SIZE
+      || currentZoomValue > WARN_RATIO;
       this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
     });
   }
@@ -564,11 +551,11 @@ export default class PhotoField extends React.Component {
 
   render() {
     const { formData, formContext } = this.props;
+    const file = formData || {};
     const onReview = formContext.reviewMode;
 
-    if (onReview) return <PhotoReviewDescription formData={formData}/>;
+    if (onReview) return <PhotoReviewDescription url={getImageUrl(file)}/>;
 
-    const file = this.props.formData || {};
     const { isCropping } = this.state;
     const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage;
@@ -633,9 +620,9 @@ export default class PhotoField extends React.Component {
             {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">{errorMessage}</div>}
             {instruction}
             {description}
-            {fieldView === 'preview' && !!this.state.previewSrc && <img
+            {fieldView === 'preview' && hasFile && <img
               className="photo-preview"
-              src={this.state.previewSrc}
+              src={getImageUrl(file)}
               alt="Photograph of you that will be displayed on the ID card"/>
             }
           </div>
