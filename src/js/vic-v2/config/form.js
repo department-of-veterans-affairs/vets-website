@@ -7,7 +7,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
-import { prefillTransformer } from '../helpers.jsx';
+import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -25,8 +25,8 @@ const {
   veteranFullName,
   email,
   serviceBranch,
-  dd214
-  // photo
+  dd214,
+  photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -41,7 +41,7 @@ const TWENTY_FIVE_MB = 26214400;
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vic',
+  submit,
   trackingPrefix: 'veteran-id-card-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -190,7 +190,9 @@ const formConfig = {
               parseResponse: (response, file) => {
                 return {
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid
+                  confirmationCode: response.data.attributes.guid,
+                  serverName: response.data.attributes.filename,
+                  serverPath: response.data.attributes.path
                 };
               }
             }), {
@@ -204,25 +206,12 @@ const formConfig = {
             type: 'object',
             required: ['photo'],
             properties: {
-              photo: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  size: {
-                    type: 'integer'
-                  },
-                  confirmationCode: {
-                    type: 'string'
-                  }
-                }
-              }
+              photo
             }
           }
         },
         dd214Upload: {
-          path: 'documents/dd214',
+          path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
           depends: form => !form.verified,

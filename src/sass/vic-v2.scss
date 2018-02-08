@@ -193,7 +193,7 @@ input[type=range] {
   flex-flow: row wrap;
   margin-bottom: 30px;
   @media (min-width: $large-screen) {
-    flex-flow: inherit;
+    min-width: 600px;
   }
 }
 
@@ -208,7 +208,7 @@ input[type=range] {
 
 .cropper-control-label-container {
   margin: 10px;
-  min-width: 96px;
+  min-width: 106px;
 }
 
 .cropper-control-zoom {
@@ -291,19 +291,27 @@ input[type=range] {
 }
 
 .fa-arrow-up {
-  padding: 0 12px 0 5px !important; 
+  padding: 0 12px 0 5px !important;
 }
 
 .fa-arrow-down {
-  padding: 0 0px 0 5px !important; 
+  padding: 0 0px 0 5px !important;
 }
 
 .fa-arrow-left {
-  padding: 0 10px 0 5px !important; 
+  padding: 0 10px 0 5px !important;
 }
 
 .fa-arrow-right {
-  padding: 0 7px 0 5px !important; 
+  padding: 0 7px 0 5px !important;
+}
+
+.fa-rotate-left {
+  padding: 0 10px 0 5px !important;
+}
+
+.fa-rotate-right {
+  padding: 0 7px 0 5px !important;
 }
 
 .photo-input-container {
@@ -439,7 +447,7 @@ input[type=range] {
 
 .cropper-container-outer .crop-button-container {
   .usa-button-primary {
-    width: 100%; 
-    text-align: center; 
+    width: 100%;
+    text-align: center;
   }
 }

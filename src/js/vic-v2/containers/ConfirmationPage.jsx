@@ -38,11 +38,9 @@ class ConfirmationPage extends React.Component {
     const userSignedIn = this.props.userSignedIn;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
-    const response = form.submission.response
-      ? form.submission.response.attributes
-      : {};
+    const response = form.submission.response || {};
     const { veteranFullName, verified } = form.data;
-    const submittedAt = moment(form.submission.submittedAt);
+    const submittedAt = moment();
 
     return (
       <div>
@@ -74,7 +72,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.confirmationNumber}</span>
+              <span>{response.caseId}</span>
             </li>
             <li>
               <strong>Date received</strong><br/>
