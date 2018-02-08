@@ -70,12 +70,12 @@ What if I can’t make it to the scheduled exam?
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
 
+#### To reschedule your appointment: 
 
-#### The amount of time it takes to review your claim depends on:
+- Call 1-800-827-1000, **or**
+- Go to your nearest regional benefit office. <br>
+  [Find your local regional benefit office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0).	
 
-- The type of claim you filed
-- How many injuries or disabilities you claimed and how complex they are
-- How long it takes us to collect the evidence needed to decide your claim
 
 ### What should I do while I wait?
 
