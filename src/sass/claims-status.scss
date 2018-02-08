@@ -1094,7 +1094,10 @@ $marker-text-width: 9rem;
     }
 
     .usa-accordion-content {
+      padding-top: 1.25em;
+
       h5 {
+        font-family: $font-sans;
         margin-top: 0;
       }
     }
