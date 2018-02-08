@@ -11,7 +11,7 @@ const runTest = E2eHelpers.createE2eTest(
     if (process.env.BUILDTYPE !== 'production') {
     // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/veteran-id-card/apply`)
+        .url(`${E2eHelpers.baseUrl}/veteran-id-card/apply/documents/photo`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for a Veteran ID Card: Vets.gov')
         .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
@@ -46,16 +46,28 @@ const runTest = E2eHelpers.createE2eTest(
       E2eHelpers.expectNavigateAwayFrom(client, '/contact-information');
 
       // Photo page
-      client.waitForElementVisible('[id="root_photo-label"]', Timeouts.normal);
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+      client.waitForElementVisible('label.usa-button.usa-button-secondary', Timeouts.normal);
       client.axeCheck('.main');
-      // if (!process.env.SAUCE_ACCESS_KEY) {
-      // Looks like there are issues with uploads in nightwatch and Selenium
-      // https://github.com/nightwatchjs/nightwatch/issues/890
-      // client
-      // .setValue('input#root_application_preneedAttachments', require('path').resolve(`${__dirname}/VA40-10007.pdf`));
-      // client.selectDropdown('root_application_preneedAttachments_0_atachmentId', 1)
-      // }
+
+      // Disable upload button style to reveal input for test
+      /* HACK: style overridden so browser driver can find/interact with hidden inputs
+         (see https://github.com/nightwatchjs/nightwatch/issues/505) */
+      client
+        .execute("document.getElementsByName('fileUpload')[0].style.display = 'block';");
+      // HACK: waitforElementVisible did not work but this does 
+      client.elementIdDisplayed('errorable-file-input-11');
+
+      // upload photo
+      client
+        .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
+
+      // crop photo
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+
+      // preview photo
+      client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/photo');
 
@@ -77,20 +89,19 @@ const runTest = E2eHelpers.createE2eTest(
       E2eHelpers.expectNavigateAwayFrom(client, '/dd214');
 
       // Review and Submit Page.
-      // client
-      //   .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
-      //   .pause(1000)
-      //   .click('input[type="checkbox"]')
-      //   .axeCheck('.main')
-      //   .click('.form-progress-buttons .usa-button-primary');
-      // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-      // client.expect.element('.js-test-location').attribute('data-location')
-      //   .to.not.contain('/review-and-submit').before(Timeouts.slow);
-      //
-      // // Submit message
-      // client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
-      //
-      // client.axeCheck('.main');
+      client
+        .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+      client.expect.element('.js-test-location').attribute('data-location')
+        .to.not.contain('/review-and-submit').before(Timeouts.slow);
+
+      // Submit message
+      client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
+
+      client.axeCheck('.main');
     }
     client.end();
   }
