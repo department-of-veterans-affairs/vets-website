@@ -535,9 +535,10 @@ export default class PhotoField extends React.Component {
         moveData = { moveDegree: 90 };
         break;
       default:
+        moveData = {};
     }
 
-    if (moveData && 'moveDegree' in moveData) {
+    if ('moveDegree' in moveData) {
       this.rotateCanvas(moveData);
       this.moveCanvasToDefaultPosition();
     } else {
