@@ -361,11 +361,10 @@ export default class PhotoField extends React.Component {
     // zoom value is good- update the state / messaging
     this.setState({ zoomValue });
 
-    const zoomWarn = zoomValue >= WARN_RATIO;
     // at this point, the onZoom event has not resized the canvas-
     // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
     //   after the canvas has rendered with new width values
-    window.requestAnimationFrame(() => this.maybeMoveCanvasWithinBounds({}, zoomWarn));
+    window.requestAnimationFrame(() => this.maybeMoveCanvasWithinBounds({}, zoomValue));
   }
 
   setCropBox = () => {
@@ -423,15 +422,19 @@ export default class PhotoField extends React.Component {
     });
   }
 
-  maybeMoveCanvasWithinBounds = (moveData, zoomWarn = false) => {
+  maybeMoveCanvasWithinBounds = (moveData, zoomValue = null) => {
     const newCanvasData = getCanvasDataForMove({
       canvasData: this.refs.cropper.getCanvasData(),
       cropBoxData: this.refs.cropper.getCropBoxData(),
       ...moveData
     });
 
+    const currentZoomValue = zoomValue || this.state.zoomValue;
+
     this.refs.cropper.setCanvasData(newCanvasData);
 
+    const zoomWarn = this.refs.cropper.getData().width < MIN_SIZE
+      || currentZoomValue > WARN_RATIO;
     this.updateBoundaryWarningAndButtonStates(newCanvasData, zoomWarn);
   }
 
