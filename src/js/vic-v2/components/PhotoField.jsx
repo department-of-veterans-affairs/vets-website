@@ -10,7 +10,6 @@ import { PhotoReviewDescription } from '../helpers.jsx';
 const MIN_SIZE = 350;
 const SMALL_CROP_BOX_SIZE = 240;
 const LARGE_CROP_BOX_SIZE = 300;
-const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
 
 function getCanvasDataForMove({ canvasData, cropBoxData, moveX, moveY }) {
@@ -361,7 +360,8 @@ export default class PhotoField extends React.Component {
     // zoom value is good- update the state / messaging
     this.setState({ zoomValue });
 
-    const zoomWarn = zoomValue >= WARN_RATIO;
+    const currentWidth = this.refs.cropper.getData().width;
+    const zoomWarn = currentWidth < MIN_SIZE;
     // at this point, the onZoom event has not resized the canvas-
     // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
     //   after the canvas has rendered with new width values
