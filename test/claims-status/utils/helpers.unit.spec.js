@@ -537,17 +537,20 @@ describe('Disability benefits helpers: ', () => {
 
     it('should return an object with header and description properties with nonsense input', () => {
       const testText = makeDurationText(inputs.nonsense);
-      expect(!!testText.header && !!testText.description).to.be.true;
+      expect(testText.header).to.equal('');
+      expect(testText.description).to.equal('');
     });
 
     it('should return an object with header and description properties with empty array input', () => {
       const testText = makeDurationText(inputs.empty);
-      expect(!!testText.header && !!testText.description).to.be.true;
+      expect(testText.header).to.equal('');
+      expect(testText.description).to.equal('');
     });
 
     it('should return an object with header and description properties with no input', () => {
       const testText = makeDurationText();
-      expect(!!testText.header && !!testText.description).to.be.true;
+      expect(testText.header).to.equal('');
+      expect(testText.description).to.equal('');
     });
 
     it('should format exact singular time estimates', () => {

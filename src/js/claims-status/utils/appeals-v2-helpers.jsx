@@ -525,7 +525,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        title: 'Your hearing was held at the regional office',
         description: '',
       };
     case EVENT_TYPES.hearingCancelled:
@@ -616,8 +616,8 @@ const DECISION_REVIEW_CONTENT = (
  */
 export const makeDurationText = (timeliness) => {
   const durationText = {
-    header: 'unknown',
-    description: 'unknown',
+    header: '',
+    description: '',
   };
 
   if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
@@ -973,8 +973,8 @@ export function getNextEvents(currentStatus, details) {
           {
             title: 'Unknown event',
             description: (<p>We could not find the next event in your appeal</p>),
-            durationText: 'Unknown',
-            cardDescription: 'No description found'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
