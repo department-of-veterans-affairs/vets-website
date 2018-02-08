@@ -52,7 +52,7 @@ No. You can complete the application without signing in, but it’ll take us lon
 - **Save time** because we may be able to prefill your application for you
 -	**Be able to save your in-progress application** and come back later to finish filling it out
 
-<a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply/">Apply for Your Veteran ID Card</a>
+<a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply">Apply for Your Veteran ID Card</a>
 
 #### A note on verifying your identity	
 
