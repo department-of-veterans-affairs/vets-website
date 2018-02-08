@@ -21,7 +21,7 @@ You may qualify for CHAMPVA if you don’t qualify for TRICARE and you’re:
 
 - The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional benefit office, **or**
 - The surviving spouse or child of a Veteran who died from a VA-rated service-connected disability, **or**
-- The surviving spouse or child of a Veteran who was at the time death rated permanently and totally disabled from a service-connected disability, **or**
+- The surviving spouse or child of a Veteran who was at the time of death rated permanently and totally disabled from a service-connected disability, **or**
 - The surviving spouse or child of a Servicemember who died in the line of duty, not due to misconduct (in most of these cases, family members qualify for TRICARE, not CHAMPVA).
 
 A service-connected disability is a disability that we’ve concluded was caused—or made worse—by the Veteran’s active-duty service. A permanent disability is one that's not expected to improve.
@@ -70,9 +70,9 @@ There are other factors that may affect whether you or other family members qual
       </div>
     </li>
     <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="stepchild">A Veteran's stepchild who leaves the Veteran’s household</button>
+      <button class="usa-button-unstyled usa-accordion-button" aria-controls="stepchild">A Veteran’s stepchild who leaves the Veteran’s household</button>
       <div id="stepchild" class="usa-accordion-content">
-        If you were covered under CHAMPVA as the stepchild of a Veteran, and you leave the Veteran's household because of a divorce or remarriage, you no longer qualify for CHAMPVA.
+        If you were covered under CHAMPVA as the stepchild of a Veteran, and you leave the Veteran’s household because of a divorce or remarriage, you no longer qualify for CHAMPVA.
       </div>
     </li>
     <li>
@@ -80,7 +80,7 @@ There are other factors that may affect whether you or other family members qual
       <div id="caregiver" class="usa-accordion-content">
         <p>If you’re a family member caring for a Veteran with disabilities, and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
         <p><a href='https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_11-01.pdf'>Download a fact sheet on CHAMPVA for primary family caregivers</a>.</p>
-        <p>If the Veteran you're caring for was seriously injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
+        <p>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
         <p><a href='/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
     </li>
