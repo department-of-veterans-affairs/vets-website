@@ -31,10 +31,9 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
 
 Expander.propTypes = {
   expanded: PropTypes.bool.isRequired,
-  missingEvents: PropTypes.bool.isRequired,
   dateRange: PropTypes.string.isRequired,
   onToggle: PropTypes.func.isRequired,
-  cssClass: PropTypes.string.isRequired,
+  missingEvents: PropTypes.bool.isRequired,
 };
 
 export default Expander;

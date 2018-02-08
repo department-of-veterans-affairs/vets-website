@@ -34,10 +34,10 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
-export function PhotoReviewDescription(props) {
+export function PhotoReviewDescription({ url }) {
   return (
     <div className="va-growable-background">
-      <img className={'photo-review'} src={`/v0/vic/profile_photo_attachments/${props.formData.confirmationCode}`} alt="review"/>
+      <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
     </div>);
 }
 
