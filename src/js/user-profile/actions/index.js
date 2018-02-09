@@ -36,11 +36,11 @@ export function fetchLatestTerms(termsName) {
     apiRequest(
       `/terms_and_conditions/${termsName}/versions/latest`,
       null,
-      response => dispatch({
+      ({ data }) => dispatch({
         type: FETCHING_LATEST_MHV_TERMS_SUCCESS,
-        terms: response.data.attributes
+        terms: data.attributes
       }),
-      () => dispatch({ type: FETCHING_LATEST_MHV_TERMS_FAILURE })
+      ({ errors }) => dispatch({ type: FETCHING_LATEST_MHV_TERMS_FAILURE, errors })
     );
   };
 }
@@ -65,7 +65,7 @@ export function acceptTerms(termsName) {
         dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
         getUserData(dispatch);
       },
-      () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
+      ({ errors }) => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE, errors })
     );
   };
 }

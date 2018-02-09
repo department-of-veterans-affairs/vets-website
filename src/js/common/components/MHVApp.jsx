@@ -26,8 +26,13 @@ export class MHVApp extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const accountStateChanged = prevProps.account.state !== this.props.account.state;
+    const { account } = this.props;
+
+    const accountStateChanged = prevProps.account.state !== account.state;
     if (accountStateChanged) { this.handleAccountState(); }
+
+    const shouldPollAccount = account.polling && !account.loading;
+    if (shouldPollAccount) { this.props.fetchMHVAccount(); }
   }
 
   needsTermsAcceptance = () => this.props.account.state === 'needs_terms_acceptance';
@@ -43,14 +48,22 @@ export class MHVApp extends React.Component {
   }
 
   render() {
-    const { account, errors, terms } = this.props;
-
-    if (errors) {
-      return mhvAccessError;
-    }
+    const { account, terms } = this.props;
 
     if (account.loading || terms.loading) {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
+    }
+
+    if (account.polling) {
+      return <LoadingIndicator setFocus message="Creating your MHV account..."/>;
+    }
+
+    if (account.errors) {
+      return <p>There was an error with your MHV account.</p>;
+    }
+
+    if (terms.errors) {
+      return <p>There was an error fetching or accepting MHV terms and conditions.</p>;
     }
 
     if (this.needsTermsAcceptance()) {
@@ -82,8 +95,8 @@ MHVApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { account, errors, terms } = state.user.profile.mhv;
-  return { account, errors, terms };
+  const { account, terms } = state.user.profile.mhv;
+  return { account, terms };
 };
 
 const mapDispatchToProps = {

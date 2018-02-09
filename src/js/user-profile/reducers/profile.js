@@ -31,12 +31,14 @@ const initialState = {
   accountType: null,
   mhv: {
     account: {
+      errors: null,
       loading: false,
+      polling: false,
       state: 'unknown'
     },
-    errors: null,
     terms: {
       accepted: false,
+      errors: null,
       loading: false
     }
   },
@@ -55,48 +57,64 @@ function profileInformation(state = initialState, action) {
     case UPDATE_LOGGEDIN_STATUS:
       return set('loading', false, state);
 
+    case ACCEPTING_LATEST_MHV_TERMS:
     case FETCHING_LATEST_MHV_TERMS:
-      return set('mhv.terms.loading', true, state);
+    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
+      return set('mhv.terms', {
+        ...state.mhv.terms,
+        errors: null,
+        loading: false,
+      }, state);
 
     case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
       return set('mhv.terms', {
-        ...initialState.mhv.terms,
+        ...state.mhv.terms,
         ...action.terms,
         loading: false,
       }, state);
     }
 
-    case FETCHING_LATEST_MHV_TERMS_FAILURE: {
+    case ACCEPTING_LATEST_MHV_TERMS_FAILURE:
+    case FETCHING_LATEST_MHV_TERMS_FAILURE:
       return set('mhv.terms', {
-        ...initialState.mhv.terms,
+        ...state.mhv.terms,
+        errors: action.errors,
         loading: false,
+      }, state);
+
+    case FETCHING_MHV_ACCOUNT:
+    case CREATING_MHV_ACCOUNT:
+      return set('mhv.account', {
+        ...state.mhv.account,
+        errors: null,
+        loading: true
+      });
+
+    case FETCH_MHV_ACCOUNT_FAILURE:
+    case CREATE_MHV_ACCOUNT_FAILURE:
+      return set('mhv.account', {
+        ...state.mhv.account,
+        errors: action.errors,
+        loading: false
+      }, state);
+
+    case FETCH_MHV_ACCOUNT_SUCCESS: {
+      const { accountState } = action.data.attributes;
+      return set('mhv.account', {
+        errors: null,
+        loading: false,
+        polling: state.polling && accountState !== 'upgraded',
+        state: accountState
       }, state);
     }
 
-    case ACCEPTING_LATEST_MHV_TERMS:
-      return set('mhv.terms.loading', true, state);
-
-    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
-    case ACCEPTING_LATEST_MHV_TERMS_FAILURE:
-      return set('mhv.terms.loading', false, state);
-
-    case FETCHING_MHV_ACCOUNT:
-    case CREATING_MHV_ACCOUNT: {
-      const newState = set('mhv.account.loading', true, state);
-      return set('mhv.errors', null, newState);
-    }
-
-    case FETCH_MHV_ACCOUNT_FAILURE:
-    case CREATE_MHV_ACCOUNT_FAILURE: {
-      const newState = set('mhv.account.loading', false, state);
-      return set('mhv.errors', action.errors, newState);
-    }
-
-    case FETCH_MHV_ACCOUNT_SUCCESS:
-      return set('mhv.account.state', action.data.attributes.accountState, state);
-
     case CREATE_MHV_ACCOUNT_SUCCESS:
-      return set('mhv.account.loading', false, state);
+      return set('mhv.account', {
+        ...state.mhv.account,
+        errors: null,
+        loading: false,
+        polling: true
+      }, state);
 
     default:
       return state;
