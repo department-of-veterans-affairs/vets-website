@@ -168,11 +168,11 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         e2e: {
-          sh "docker-compose up -d && docker-compose run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
+          sh "docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker && dkc -p e2e stop"
         },
 
         accessibility: {
-          sh "docker-compose up -d && docker-compose run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
+          sh "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility && dkc -p accessibility stop"
         }
       )
     } catch (error) {

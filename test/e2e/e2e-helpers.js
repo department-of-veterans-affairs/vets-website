@@ -68,6 +68,7 @@ function createE2eTest(beginApplication) {
     'Begin application': (client) => {
       overrideSmoothScrolling(client);
       beginApplication(client);
+      client.end();
     }
   };
 }
