@@ -63,7 +63,7 @@ const runTest = E2eHelpers.createE2eTest(
       // sighted path
       // upload photo
       client
-        .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
+        .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.jpg`));
 
       // crop photo
       client.waitForElementVisible('.cropper-container-outer', Timeouts.normal);
@@ -81,7 +81,7 @@ const runTest = E2eHelpers.createE2eTest(
       // HACK: waitforElementVisible did not work but this does 
       client.elementIdDisplayed('errorable-file-input-12');
       client
-        .setValue('input[name="screenReaderFileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
+        .setValue('input[name="screenReaderFileUpload"]', require('path').resolve(`${__dirname}/examplephoto.jpg`));
 
       // preview photo
       client.waitForElementVisible('.photo-preview', Timeouts.normal);

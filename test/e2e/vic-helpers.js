@@ -60,7 +60,7 @@ function initPhotoUploadMock() {
       data: {
         attributes: {
           guid: '123fake-submission-id-567',
-          filename: 'examplephoto.png',
+          filename: 'examplephoto.jpg',
           path: '/test/vic-v2/'
         }
       }
