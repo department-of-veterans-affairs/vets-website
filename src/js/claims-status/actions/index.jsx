@@ -87,6 +87,12 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
+const USER_FORBIDDEN = 'USER_FORBIDDEN';
+const RECORD_NOT_FOUND = 'RECORD_NOT_FOUND';
+const VALIDATION_ERROR = 'VALIDATION_ERROR';
+const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
+const APPEALS_FETCH_ERROR = 'APPEALS_FETCH_ERREOR';
+
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
@@ -98,11 +104,20 @@ export function getAppealsV2() {
         const status = getStatus(response);
         const action = { type: '' };
         switch (status) {
-          case '504': // should be mapped constant
-            action.type = 'SOME_MAPPED_CONSTANT';
+          case '403':
+            action.type = USER_FORBIDDEN;
+            break;
+          case '404':
+            action.type = RECORD_NOT_FOUND;
+            break;
+          case '422':
+            action.type = VALIDATION_ERROR;
+            break;
+          case '504':
+            action.type = BACKEND_SERVICE_ERROR;
             break;
           default:
-            action.type = 'SOME_DEFAULT_CONSTANT';
+            action.type = APPEALS_FETCH_ERROR;
             break;
         }
         Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
