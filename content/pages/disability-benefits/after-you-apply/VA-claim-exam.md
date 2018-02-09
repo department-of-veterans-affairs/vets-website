@@ -82,11 +82,13 @@ If you can’t make it to your appointment, let us know right away. You can resc
 - Go to your nearest regional benefit office. <br>
   [Find your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).	
 
-<div>
+<div markdown="0"><br></div>
 
 ### What should I bring to my VA claim exam?
 
-Bring to your exam any new non-VA medical records that you haven't given us yet. These might include records from a recent surgery or illness. 
+- Bring to your exam any new non-VA medical records that you haven't given us yet. These might include records from a recent surgery or illness. 
+- Please wear comfortable clothing that allows you to move freely on the day of the exam. 
+- Please plan for childcare during your exam. Because of the sensitive nature of VA claims exams, it is not appropriate for children to be present. 
 
 <br>
 
@@ -176,8 +178,6 @@ Your VA claims processor will review the medical records you’ve given us, stat
 We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
 [Learn more about appealing a decision](/disability-benefits/claims-appeal/).
 
-[Find out more about VA claim exams](https://www.benefits.va.gov/COMPENSATION/claimexam.asp).
-
 <br>
 
 ### What if I have more questions about my exam?
@@ -188,4 +188,4 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 
 
-<div markdown="0"><br></div>
+
