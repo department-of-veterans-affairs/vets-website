@@ -168,15 +168,11 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
-          }
+          sh "docker-compose -f docker-compose.e2e.yml up"
         },
 
         accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
-          }
+          sh "docker-compose -f docker-compose.accessibility.yml up"
         }
       )
     } catch (error) {

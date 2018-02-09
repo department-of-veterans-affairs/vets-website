@@ -1,0 +1,37 @@
+version: '3'
+services:
+  vets-website:
+    build:
+      context: .
+    volumes:
+      - .:/application
+      - /application/node_modules
+    links:
+      - selenium-hub
+    environment:
+      WEB_HOST: 'vets-website'
+      WEB_PORT: 3001
+      API_HOST: 'vets-website'
+    ports:
+      - 3001:3001
+      - 3000:3000
+    entrypoint: ./script/run-docker-nightwatch.sh
+    command: "--env accessibility"
+  selenium-hub:
+    image: selenium/hub
+    environment:
+      GRID_MAX_SESSION: '10'
+    ports:
+      - 4444:4444
+  selenium-chrome:
+    image: selenium/node-chrome
+    links:
+      - vets-website
+      - selenium-hub
+    shm_size: 512MB
+    environment:
+      HUB_PORT_4444_TCP_ADDR: selenium-hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      DBUS_SESSION_BUS_ADDRESS: /dev/null
+    volumes:
+      - /dev/shm:/dev/shm

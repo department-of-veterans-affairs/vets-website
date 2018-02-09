@@ -15,7 +15,7 @@ services:
     ports:
       - 3001:3001
       - 3000:3000
-    command: ./script/run-docker-nightwatch.sh
+    entrypoint: ./script/run-docker-nightwatch.sh
   selenium-hub:
     image: selenium/hub
     environment:
