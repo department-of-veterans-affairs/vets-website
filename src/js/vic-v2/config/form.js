@@ -118,7 +118,7 @@ const formConfig = {
           path: 'address-information',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: addressDefinition.uiSchema(),
+            veteranAddress: addressDefinition.uiSchema('Please provide the address where you would like us to ship your Veteran ID Card.'),
           },
           schema: {
             type: 'object',
