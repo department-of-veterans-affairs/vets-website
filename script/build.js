@@ -598,6 +598,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
         '/veteran-id-card/apply',
+        '/veteran-id-card/how-to-get',
         '/letters'].join('|'))
   }));
 }
