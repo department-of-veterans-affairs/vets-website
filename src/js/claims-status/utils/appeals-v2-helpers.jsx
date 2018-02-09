@@ -49,9 +49,7 @@ export const CLOSED_STATUSES = [
   STATUS_TYPES.otherClose
 ];
 
-// Action Types
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+// Error Action Types
 export const USER_FORBIDDEN = 'USER_FORBIDDEN';
 export const RECORD_NOT_FOUND = 'RECORD_NOT_FOUND';
 export const VALIDATION_ERROR = 'VALIDATION_ERROR';

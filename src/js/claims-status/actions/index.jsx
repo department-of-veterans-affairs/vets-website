@@ -5,8 +5,6 @@ import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
   getStatus,
-  FETCH_APPEALS_PENDING,
-  FETCH_APPEALS_SUCCESS,
   USER_FORBIDDEN,
   RECORD_NOT_FOUND,
   VALIDATION_ERROR,
@@ -14,6 +12,8 @@ import {
   APPEALS_FETCH_ERROR
 } from '../utils/appeals-v2-helpers';
 
+export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';

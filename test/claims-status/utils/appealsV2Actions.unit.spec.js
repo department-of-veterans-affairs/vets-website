@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getAppealsV2 } from '../../../src/js/claims-status/actions';
 import {
+  getAppealsV2,
   FETCH_APPEALS_PENDING,
   FETCH_APPEALS_SUCCESS,
-  SET_APPEALS_UNAVAILABLE,
+} from '../../../src/js/claims-status/actions';
+import {
   USER_FORBIDDEN,
   RECORD_NOT_FOUND,
   VALIDATION_ERROR,

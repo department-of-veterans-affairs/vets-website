@@ -29,9 +29,18 @@ export class AppealInfo extends React.Component {
   }
 
   render() {
-    const { params, appeal, appealsLoading, children } = this.props;
+    const { params, appeal, appealsLoading, availabilityError, children } = this.props;
     let appealContent;
-    if (appeal) {
+    if (!appeal && !appealsLoading) {
+      // Appeals finished loading but appeal not found, so the ID passed in the params
+      // doesn't match any appeals in Redux appeals array (at least not for this user)
+      // TO-DO: Get input from content team
+      appealContent = <AppealNotFound/>;
+    } else if (appealsLoading) {
+      appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
+    } else if (availabilityError) {
+      // some nested logic to display stuff
+    } else if (appeal) {
       const claimHeading = this.createHeading();
       appealContent = (
         <div>
@@ -60,15 +69,7 @@ export class AppealInfo extends React.Component {
           </div>
         </div>
       );
-    } else if (appealsLoading) {
-      appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
-    } else {
-      // Appeals finished loading but appeal not found, so the ID passed in the params
-      // doesn't match any appeals in Redux appeals array (at least not for this user)
-      // TO-DO: Get input from content team
-      appealContent = <AppealNotFound/>;
-    }
-
+    } 
     return (appealContent);
   }
 }
@@ -85,7 +86,7 @@ AppealInfo.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { appealsLoading } = state.disability.status.appeals;
+  const { appealsLoading, availabilityError } = state.disability.status.appeals;
   // appealsLoading is not initialized in Redux, it's added once fetch starts. We
   // need it to be available immediately to know whether to show the loading spinner
   const computedLoading = (typeof appealsLoading === 'undefined')
@@ -94,6 +95,7 @@ function mapStateToProps(state, ownProps) {
   return {
     appeal: isolateAppeal(state, ownProps.params.id),
     appealsLoading: computedLoading,
+    availabilityError,
   };
 }
 
