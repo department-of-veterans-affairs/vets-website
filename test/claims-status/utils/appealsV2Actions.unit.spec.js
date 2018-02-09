@@ -62,17 +62,6 @@ describe('getAppealsV2', () => {
       }).then(done, done);
   });
 
-  it('dispatches FETCH_APPEALS_UNAVAILABLE', (done) => {
-    global.fetch.returns(Promise.reject());
-    const thunk = getAppealsV2();
-    const dispatch = sinon.spy();
-    thunk(dispatch)
-      .then(() => {
-        const action = dispatch.secondCall.args[0];
-        expect(action.type).to.equal(SET_APPEALS_UNAVAILABLE);
-      }).then(done, done);
-  });
-
   const appealsErrors = {
     403: USER_FORBIDDEN,
     404: RECORD_NOT_FOUND,
@@ -93,8 +82,6 @@ describe('getAppealsV2', () => {
           const action = dispatch.secondCall.args[0];
           expect(action.type).to.equal(appealsErrors[code]);
         }).then(done, done);
-
     });
-
   });
 });
