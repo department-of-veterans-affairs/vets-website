@@ -68,4 +68,28 @@ describe('getAppealsV2', () => {
       }).then(done, done);
   });
 
+  const appealsErrors = {
+    401: 'SHOULD COME FROM CONSTANTS MAPPING',
+    403: '',
+    404: '',
+    422: '',
+    502: '',
+  };
+
+  Object.keys(appealsErrors).forEach((code) => {
+    it(`Dispatches ${appealsErrors[code]} when GET fails with ${code}`, (done) => {
+      global.fetch.returns(Promise.reject({
+        errors: [{ status: `${code}` }],
+      }));
+      const thunk = getAppealsV2();
+      const dispatch = sinon.spy();
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.secondCall.args[0];
+          expect(action.type).to.equal(appealsErrors[code]);
+        }).then(done, done);
+
+    });
+
+  });
 });

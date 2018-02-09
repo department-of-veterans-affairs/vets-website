@@ -3,6 +3,7 @@ import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
 import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
+import { getStatus } from '../utils/appeals-v2-helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
@@ -93,9 +94,19 @@ export function getAppealsV2() {
       '/appeals_v2',
       null,
       (appeals) => dispatch(fetchAppealsSuccess(appeals)),
-      (error) => {
-        Raven.captureMessage(`vets_appeals_v2_err_get_appeals ${error.message}`);
-        return dispatch({ type: SET_APPEALS_UNAVAILABLE });
+      (response) => {
+        const status = getStatus(response);
+        const action = { type: '' };
+        switch (status) {
+          case '504': // should be mapped constant
+            action.type = 'SOME_MAPPED_CONSTANT';
+            break;
+          default:
+            action.type = 'SOME_DEFAULT_CONSTANT';
+            break;
+        }
+        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+        return dispatch(action);
       }
     );
   };

@@ -1117,3 +1117,15 @@ export function getAlertContent(alert) {
       };
   }
 }
+
+/**
+ * Tests an http error response for an errors array and status property for the
+ * first error in the array. Returns the status code or 'unknown'
+ * @param {Object} response error response object from vets-api
+ * @returns {string} status code or 'unknown'
+ */
+export const getStatus = (response) => {
+  return (response.errors && response.errors.length)
+    ? response.errors[0].status
+    : 'unknown';
+};
