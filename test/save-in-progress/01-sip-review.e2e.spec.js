@@ -44,6 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.assert.urlContains('review-and-submit');
 
+    client.waitForElementVisible('.usa-alert-error', Timeouts.normal);
     client.expect.element('.usa-alert-error').text.to.contain('We’re sorry. Something went wrong when saving your form');
 
     client.end();

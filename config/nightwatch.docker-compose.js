@@ -43,10 +43,6 @@ module.exports = {
         host: 'selenium-hub',
         port: selenium_server_port,
       },
-      test_workers: {
-        enabled: false,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10)
-      },
     },
     accessibility: {
       filter: './test/accessibility/*.spec.js'
