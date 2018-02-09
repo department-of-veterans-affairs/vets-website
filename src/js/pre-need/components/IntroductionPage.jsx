@@ -1,10 +1,12 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import { focusElement } from '../../common/utils/helpers';
 import AlertBox from '../../common/components/AlertBox';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import OMBInfo from '../../common/components/OMBInfo';
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -28,6 +30,15 @@ class IntroductionPage extends React.Component {
         <p>
           Equal to VA Form 40-10007 (Application for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery)
         </p>
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the Pre-need Eligibility Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 40-10007 form to apply for pre-need eligibility.
+        </SaveInProgressIntro>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -54,8 +65,8 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>
                   <strong>If you’re applying as the legally married spouse or surviving spouse or the unmarried adult child of a Servicemember or Veteran</strong>, you’ll need your personal information (including Social Security number and date of birth).
+                  <br/>
                 </li>
-                <br/>
                 <li>
                   <strong>If you’re applying on behalf of someone else</strong>, you’ll need to upload supporting documents or an affidavit (a written statement of facts confirmed by an oath or affirmation) showing that you’re:
                   <ul>
@@ -75,7 +86,7 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help">Find an accredited representative.</a>
+                <strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/">Get help filing your claim.</a>
               </p>
               <AlertBox
                 content={infoBoxContent}
@@ -89,7 +100,6 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <h5>VA Review</h5>
-              <p>We usually process claims within 90 days.</p>
               <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
@@ -98,15 +108,13 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="end columns">
-            <ProgressButton
-              onButtonClick={this.goForward}
-              buttonText="Start the Pre-Need Application"
-              buttonClass="usa-button-primary"
-              afterText="»"/>
-          </div>
-        </div>
+        <SaveInProgressIntro
+          buttonOnly
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the pre-need eligibility determination application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>
         <div className="omb-info--container">
           <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="11/30/2018"/>
         </div>
@@ -115,6 +123,18 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default withRouter(IntroductionPage);
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveInProgressActions: bindActionCreators(introActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 
 export { IntroductionPage };

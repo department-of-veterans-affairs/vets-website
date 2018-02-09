@@ -186,6 +186,39 @@ describe('Schemaform actions:', () => {
 
       return promise;
     });
+    it('should use submit function instead of url when provided', () => {
+      const response = { data: {} };
+      const formConfig = {
+        submit: sinon.stub().resolves(response),
+        chapters: {}
+      };
+      const form = {
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
+        }
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+
+      const promise = thunk(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_SUBMISSION,
+          field: 'status',
+          value: 'submitPending'
+        });
+        expect(formConfig.submit.called).to.be.true;
+        expect(requests).to.be.empty;
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_SUBMITTED,
+          response: response.data
+        });
+      });
+
+      return promise;
+    });
   });
   describe('uploadFile', () => {
     let xhr;
@@ -318,6 +351,7 @@ describe('Schemaform actions:', () => {
         });
       });
     });
+
     it('should call set data on success', () => {
       const thunk = uploadFile(
         {

@@ -47,7 +47,7 @@ We’ll give you up to $368 per month in compensation (payments) for these types
   - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
 
 
-[See current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+[See current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
 
 
 ------

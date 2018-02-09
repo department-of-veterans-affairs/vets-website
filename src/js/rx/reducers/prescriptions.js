@@ -11,6 +11,8 @@ const initialState = {
       value: 'prescriptionName',
       order: 'ASC',
     },
+    page: 1,
+    pages: 1
   },
   history: {
     loading: false,
@@ -100,6 +102,8 @@ export default function prescriptions(state = initialState, action) {
         newState.active = {
           loading: false,
           sort: { value: sortValue, order: sortOrder },
+          page: pagination.currentPage,
+          pages: pagination.totalPages
         };
       } else {
         newState.history = {

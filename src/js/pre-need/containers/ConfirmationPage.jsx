@@ -27,12 +27,11 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.application.claimant.name;
-    const submittedAt = moment(form.submission.timestamp);
+    const submittedAt = moment(form.submission.submittedAt);
 
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within 90 days.</p>
         <p>
           We’ll let you know by mail or phone if we need more information.<br/>
           <i>Please print this page for your records.</i>

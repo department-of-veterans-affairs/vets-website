@@ -5,13 +5,13 @@ import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
-import { fillDate } from './unit-helpers';
+import SchemaForm from '../../src/js/common/schemaform/components/SchemaForm';
+import { fillDate as oldFillDate } from './unit-helpers';
 
 import {
   replaceRefSchemas,
   updateSchemaAndData
-} from '../../src/js/common/schemaform/formState';
+} from '../../src/js/common/schemaform/state/helpers';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {
@@ -158,7 +158,7 @@ export function getFormDOM(form) {
     return element;
   };
 
-  formDOM.fillData = function fillData(id, value) {
+  formDOM.fillData = function fillDataFn(id, value) {
     ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
         value
@@ -196,7 +196,7 @@ export function getFormDOM(form) {
     });
   };
 
-  formDOM.selectRadio = function selectRadio(fieldName, value) {
+  formDOM.selectRadio = function selectRadioFn(fieldName, value) {
     ReactTestUtils.Simulate.change(this.getElement(`input[name*="${fieldName}"][value="${value}"]`), {
       target: { value }
     });
@@ -206,9 +206,8 @@ export function getFormDOM(form) {
     ReactTestUtils.Simulate.click(this.getElement(selector));
   };
 
-  // TODO: Remove fillDate from unit-helpers and prefer this one
   formDOM.fillDate = function populateDate(partialId, dateString) {
-    fillDate(this, partialId, dateString);
+    oldFillDate(this, partialId, dateString);
   };
 
   /**
@@ -220,4 +219,36 @@ export function getFormDOM(form) {
   };
 
   return formDOM;
+}
+
+export function fillData(form, selector, value) {
+  form.find(selector).simulate('change', {
+    target: {
+      value
+    }
+  });
+}
+
+export function selectRadio(form, fieldName, value) {
+  form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
+    target: { value }
+  });
+}
+
+export function fillDate(form, partialId, dateString) {
+  const date = dateString.split('-');
+  const month = form.find(`select#${partialId}Month`);
+  const day = form.find(`select#${partialId}Day`);
+  const year = form.find(`input#${partialId}Year`);
+
+  month.simulate('change', {
+    target: { value: date[1] }
+  });
+
+  day.simulate('change', {
+    target: { value: date[2] }
+  });
+  year.simulate('change', {
+    target: { value: date[0] }
+  });
 }

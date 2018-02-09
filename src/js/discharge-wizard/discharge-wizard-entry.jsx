@@ -15,7 +15,7 @@ import initCommon from '../common/init-common';
 const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/discharge-wizard'
+  basename: '/discharge-upgrade-instructions'
 });
 
 function init() {

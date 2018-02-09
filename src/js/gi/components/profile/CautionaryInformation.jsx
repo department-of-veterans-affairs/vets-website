@@ -39,9 +39,17 @@ export class CautionaryInformation extends React.Component {
     const it = this.props.institution;
     if (!it.complaints) { return null; }
 
+    // If Ashford, show specific link.
+    const schoolSpecificLink =
+      (it.facilityCode === '21007103' || it.website === 'http://www.ashford.edu') && (
+        <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#AshfordSAA" target="_blank">More information on Ashford University</a>
+      );
+
     const flagContent = (
       <div>
-        {it.cautionFlagReason}
+        <p>
+          {it.cautionFlagReason} {schoolSpecificLink}
+        </p>
         <p>
           <a onClick={this.props.onShowModal.bind(this, 'cautionInfo')}>
             Learn more about these warnings
@@ -51,7 +59,7 @@ export class CautionaryInformation extends React.Component {
     );
 
     const allCampusesLink = (
-      <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+      <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
         All campuses
       </a>
     );
@@ -98,10 +106,10 @@ export class CautionaryInformation extends React.Component {
           <div className="link-header">
             <h3>
               {+it.complaints.mainCampusRollUp}&nbsp;
-              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
+              <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
             </h3>
             <span>
-              &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
+              &nbsp;(<a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
             </span>
           </div>
         </div>

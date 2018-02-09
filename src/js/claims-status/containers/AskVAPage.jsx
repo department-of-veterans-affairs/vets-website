@@ -82,7 +82,7 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <AskVAQuestions/>
           </div>
         </div>

@@ -4,7 +4,7 @@ template: detail-page
 title: Health Care Benefits Eligibility
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate: 2017-06-28
+lastupdate: 2018-01-02
 collection: healthCare
 order: 2
 widgets:
@@ -40,10 +40,13 @@ You should know:
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
 - **If you separated under conditions other than honorable:**
-
-  - You can use VA’s Health Benefits Explorer to find out if any exceptions apply to you. [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
-  - Or, you can visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/).
-
+  - You may be able to apply for a discharge upgrade or access some VA benefits through the Character of Discharge review process.<br/>
+  [Learn more about this process](#discharge-upgrade).
+  - Or, you can use VA’s Health Benefits Explorer to find out if any exceptions apply to you.<br/>
+  [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
+  - Or, you can visit healthcare.gov to find out if you qualify for health insurance.<br/>
+  [Go to healthcare.gov](https://www.healthcare.gov/). <br/>
+  
 <br>
 
 #### Enhanced Eligibility Status
@@ -70,7 +73,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 <div markdown="0"><br></div>
 
-<div id="react-applicationStatus">
+<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
@@ -97,6 +100,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
+- [If I have a less than honorable discharge, can I still get VA health care benefits?](#discharge-upgrade)
 - [I need vision care. Can I get it through VA?](#vision-care)
 - [I need dental care. Can I get it through VA?](#dental-care)
 - [I think I may have a service-connected disability. Can I get disability compensation (monthly payments)?](#disability-compensation)
@@ -113,7 +117,8 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
 
-Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
+Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care.<br/>
+[Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
 
 Your priority group will be based on:
 
@@ -123,7 +128,7 @@ Your priority group will be based on:
 - Whether or not you qualify for Medicaid, **and**
 - Other benefits you may be receiving (like pension benefits)
 
-We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
+We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).<br/>
 [View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp).
 
 </div>
@@ -139,7 +144,44 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. <br/>
+[Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
+
+</div>
+</div>
+</div>
+<br>
+
+<span id="discharge-upgrade"></span>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">If I have a less than honorable discharge, can I still get VA health care benefits?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+You have 2 options to try to qualify for VA health care benefits:
+
+- **Apply for a discharge upgrade.**<br/>
+If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service.<br/>
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+
+- **Go through the Character of Discharge review process.**<br/>
+Even if you don't get a discharge upgrade, you still may be able to access some VA health care benefits. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you'd send with an application to upgrade your discharge. <br/>
+<br/>
+You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you.<br/>
+[Find a VSO near you](https://www.benefits.va.gov/vso/varo.asp).
+
+**Note:** You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
+
+**How to get mental health care even without VA health care benefits:** <br>
+
+If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (<a href="tel:+1-800-827-1000">1-800-827-1000</a>), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
+
+Learn more about accessing VA health services for:<br/>
+- [Mental health problems](/health-care/health-conditions/mental-health/)
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
+- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 
 </div>
 </div>
@@ -154,7 +196,8 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
+We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. <br/>
+[Learn more about vision care through VA](/health-care/about-va-health-care/vision-care/).
 
 </div>
 </div>
@@ -169,7 +212,8 @@ We cover routine eye exams and preventive tests under VA health care benefits. I
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
+In certain cases, you may receive dental care as part of your VA health benefits. <br/>
+[Find out if you can get dental care through VA](/health-care/about-va-health-care/dental-care/).
 
 </div>
 </div>
@@ -184,7 +228,8 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
+If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. <br/>
+[Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
 
 </div>
 </div>

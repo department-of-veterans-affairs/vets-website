@@ -20,7 +20,7 @@ exports.command = function selectDropdown(name, value) {
     element.value = clientValue;
     element.dispatchEvent(evt);
     return element.value;
-    /* eslint-disable */
+    /* eslint-enable */
   },
   [select, value]);
 

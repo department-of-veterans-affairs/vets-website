@@ -46,15 +46,17 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. You can do this in 1 of 3 ways:
+You’ll need to apply for benefits. 
+
+**You can apply in 1 of 3 ways:**
 
 - [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results),
 **or**
-- [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp),
+- [Get help from an accredited representative, like a Veterans Service Officers (VSO)](/disability-benefits/apply/help/),
 **or**
-- [Get help at a VA regional office](https://www.vets.gov/facility-locator/)
+- [Get help at a VA regional benefit office](/facilities/)
 
-When you apply, you’ll need to give us:
+**When you apply, you’ll also need to give us:**
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
@@ -83,9 +85,11 @@ Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumul
 
 ### How do I get these benefits as a family member?
 
-You’ll need to apply for benefits:
+You’ll need to apply for benefits.
 
--	[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/App/StepApplicant), **or**
+**You can apply in 1 of 2 ways:**
+
+-	[Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant), **or**
 
 - [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). 
 <br>
@@ -98,7 +102,7 @@ PO Box 149200<br>
 Austin, TX 78714-9200<br>
 </p>
 
-When you apply, please provide:
+**When you apply, you'll also need to give us:**
 
 - Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
 

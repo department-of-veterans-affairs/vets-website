@@ -1,19 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { focusElement } from '../../common/utils/helpers';
 
-import FormTitle from '../../common/schemaform/FormTitle';
+import FormTitle from '../../common/schemaform/components/FormTitle';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
 
 class StatusPage extends React.Component {
-  constructor() {
-    super();
-    this.navigateToPrint = this.navigateToPrint.bind(this);
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs-list');
   }
 
-  navigateToPrint() {
-    window.open('/education/gi-bill/post-9-11/ch-33-benefit/print', '_blank');
+  navigateToPrint = () => {
+    this.props.router.push('/print');
   }
 
   render() {
@@ -36,7 +36,7 @@ class StatusPage extends React.Component {
       printButton = (
         <div className="section">
           <button onClick={this.navigateToPrint} className="usa-button-primary" id="print-button">
-            Print Statement of Benefits
+            Get Printable Statement of Benefits
           </button>
         </div>
       );

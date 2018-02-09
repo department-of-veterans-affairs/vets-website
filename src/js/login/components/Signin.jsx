@@ -66,7 +66,7 @@ class Signin extends React.Component {
           </div>
           <div className="row hide-for-medium-up mobile-explanation">
             <div className="columns small-12">
-              <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
+              <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
           <div className="row">
@@ -81,10 +81,10 @@ class Signin extends React.Component {
                   <h5>Sign in with an existing account</h5>
                   <div>
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
-                      <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
+                      <img alt="DS Logon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
                     {enableMHVLogin && <button className="mhv" onClick={this.handleLogin('mhv')}>
-                      <img alt="MyHealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with MyHealtheVet</strong>
+                      <img alt="My HealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with My HealtheVet</strong>
                     </button>}
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
@@ -117,7 +117,7 @@ class Signin extends React.Component {
                   <strong>A secure account powered by ID.me</strong><br/>
                   ID.me is our trusted technology partner in helping to keep your personal information safe. They specialize in digital identity protection and help us make sure you're you—and not someone pretending to be you—before we give you access to your information.
                 </p>
-                <p><a href="/faq#what-is-idme" target="_blank">Learn more about ID.me</a></p>
+                <p><a href="/faq/#what-is-idme" target="_blank">Learn more about ID.me</a></p>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@ class Signin extends React.Component {
             <div className="columns small-12">
               <div className="help-info">
                 <h4>Having trouble signing in?</h4>
-                <p><a href="/faq" target="_blank">Get answers to Frequently Asked Questions</a></p>
+                <p><a href="/faq/" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
                 Call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
                 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)

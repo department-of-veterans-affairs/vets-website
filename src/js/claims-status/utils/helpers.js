@@ -248,10 +248,95 @@ export function getClaimType(claim) {
 //  is just an example of what evss(?) is returning to the api.
 export const mockData = {
   data: [
-    {
-      id: '7387389', // Apparently this is a string...
+    { // Status: Review your statement of the case - pending_form9
+      id: '7387389',
       type: 'appealSeries',
       attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
+        active: true,
+        incompleteHistory: true,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'pending_soc',
+          details: {
+            lastSocDate: '2015-09-12',
+            certificationTimeliness: [1, 4],
+            ssocTimeliness: [2, 16],
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Service connection for tinnitus',
+            lastAction: 'null',
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [
+          {
+            type: 'form9_needed',
+            details: {
+              date: '2018-01-28'
+            }
+          },
+          {
+            type: 'ramp_eligible',
+            details: {
+              date: '2016-05-30'
+            },
+          },
+          {
+            type: 'decision_soon',
+            details: {},
+          },
+        ],
+        events: [
+          {
+            type: 'claim',
+            date: '2016-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2016-06-10',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2016-09-12',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2016-12-15',
+            details: {}
+          }
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    },
+    { // Status: Waiting to be assigned to a judge - on_docket
+      id: '7387390',
+      type: 'appealSeries',
+      attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
@@ -261,8 +346,8 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'nod', // This may or may not be a real status type
-          details: { // Don't actually know what's in here
+          type: 'on_docket',
+          details: {
             regionalOffice: 'Chicago Regional Office'
           }
         },
@@ -277,27 +362,206 @@ export const mockData = {
           {
             active: true,
             description: 'Service connection for tinnitus',
-            lastAction: 'field_grant',
+            lastAction: null,
             date: '2016-05-30'
           }
         ],
-        alerts: [
-          {
-            type: 'tbd', // Need to get a real status type
-            details: {}
-          }
-        ],
+        alerts: [],
         events: [
           {
             type: 'claim',
-            date: '2016-05-30',
+            date: '2010-05-30',
             details: {}
           },
           {
             type: 'nod',
+            date: '2012-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2013-06-01',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2014-06-12',
+            details: {}
+          },
+          {
+            type: 'certified',
+            date: '2014-09-21',
+            details: {}
+          },
+          {
+            type: 'hearing_held',
+            date: '2015-05-06',
+            details: {
+              regionalOffice: 'Chicago'
+            }
+          }
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    },
+    { // Status: The Board has made a decision on your appeal - bva_decision
+      id: '7387391',
+      type: 'appealSeries',
+      attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
+        active: true,
+        incompleteHistory: false,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'bva_decision',
+          details: {
+            regionalOffice: 'Chicago Regional Office',
+            decisionIssues: [
+              {
+                description: 'Heel, increased rating',
+                disposition: 'allowed',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Knee, increased rating',
+                disposition: 'allowed',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Tinnitus, increased rating',
+                disposition: 'denied',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Leg, service connection',
+                disposition: 'denied',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Diabetes, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Shoulder, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+            ]
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Head, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Shoulder, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Knee, service connection',
+            lastAction: 'field_grant',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Toe, service connection',
+            lastAction: 'withdrawn',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'allowed',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'denied',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'remand',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'cavc_remand',
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [],
+        events: [
+          {
+            type: 'claim',
+            date: '2010-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2011-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2012-06-10',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2013-06-10',
+            details: {}
+          },
+          {
+            type: 'certified',
+            date: '2014-06-10',
+            details: {}
+          },
+          {
+            type: 'hearing_held',
+            date: '2015-06-10',
+            details: {
+              regionalOffice: 'Chicago'
+            }
+          },
+          {
+            type: 'bva_decision',
             date: '2016-06-10',
             details: {}
-          }
+          },
         ],
         evidence: [
           {

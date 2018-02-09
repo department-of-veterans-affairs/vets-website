@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
@@ -12,6 +13,8 @@ import { makeField } from '../../model/fields.js';
  *
  * Validation has the following props.
 
+ * `additionalFieldsetClass` - String for any additional fieldset classes.
+ * `additionalLegendClass` - String for any additional legend classes.
  * `label` - String for the group field label.
  * `name` - String for the name attribute.
  * `toolTipText` - String with help text for user.
@@ -53,7 +56,11 @@ class ErrorableRadioButtons extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
     }
 
     // Addes ToolTip if text is provided.
@@ -98,6 +105,8 @@ class ErrorableRadioButtons extends React.Component {
             id={`${this.inputId}-${index}`}
             name={this.props.name}
             type="radio"
+            onMouseDown={this.props.onMouseDown}
+            onKeyDown={this.props.onKeyDown}
             value={optionValue}
             onChange={this.handleChange}/>
           <label
@@ -106,6 +115,7 @@ class ErrorableRadioButtons extends React.Component {
             {optionLabel}
           </label>
           {matchingSubSection}
+          {obj.content}
         </div>
       );
 
@@ -127,10 +137,20 @@ class ErrorableRadioButtons extends React.Component {
       return output;
     });
 
+    const fieldsetClass = classNames('fieldset-input', {
+      'usa-input-error': this.props.errorMessage,
+      [this.props.additionalFieldsetClass]: this.props.additionalFieldsetClass
+    });
+
+    const legendClass = classNames('legend-label', {
+      'usa-input-error-label': this.props.errorMessage,
+      [this.props.additionalLegendClass]: this.props.additionalLegendClass
+    });
+
     return (
-      <fieldset className={this.props.errorMessage ? 'fieldset-input usa-input-error' : 'fieldset-input'}>
+      <fieldset className={fieldsetClass}>
         <legend
-          className={this.props.errorMessage ? 'legend-label usa-input-error-label' : 'legend-label'}>
+          className={legendClass}>
           {this.props.label}
           {requiredSpan}
         </legend>
@@ -143,6 +163,8 @@ class ErrorableRadioButtons extends React.Component {
 }
 
 ErrorableRadioButtons.propTypes = {
+  additionalFieldsetClass: PropTypes.string,
+  additionalLegendClass: PropTypes.string,
   errorMessage: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -162,6 +184,10 @@ ErrorableRadioButtons.propTypes = {
           PropTypes.string,
           PropTypes.bool
         ]),
+        content: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
+        ]),
         additional: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.element
@@ -172,6 +198,8 @@ ErrorableRadioButtons.propTypes = {
     value: PropTypes.string,
     dirty: PropTypes.bool
   }).isRequired,
+  onMouseDown: PropTypes.func,
+  onKeyDown: PropTypes.func,
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };

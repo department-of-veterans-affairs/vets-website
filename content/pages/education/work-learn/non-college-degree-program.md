@@ -42,7 +42,7 @@ You’ll need to apply for benefits. [Apply for education benefits](/education/a
 
 ### How much money will I get? 
 
-The amount you get depends on which GI Bill program you use and which school you go to. We pay you at the end of each month for the hours you’ve spent training, and we give you a monthly housing allowance based on the location of the school. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+The amount you get depends on which GI Bill program you use and which school you go to. We pay you at the end of each month for the hours you’ve spent training, and we give you a monthly housing allowance based on the location of the school. [View current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 - **Post-9/11 GI Bill:** For training offered at non-degree schools, we pay the in-state tuition and fees up to the national maximum. 
 

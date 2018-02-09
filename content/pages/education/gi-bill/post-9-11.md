@@ -4,6 +4,7 @@ template: detail-page
 title: Post-9/11 GI Bill
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
+gibsAlert: true
 order: 3
 ---
 
@@ -154,7 +155,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 
 - Compare benefits by school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
 - [See the current payment rates for the Post-9/11 GI Bill](/education/rates/).
-- [Read the Post-9/11 GI Bill pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
+- [Read the Post-9/11 GI Bill pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).
 
 </div>
@@ -162,4 +163,4 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 </div>
 </div>
 
-GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).

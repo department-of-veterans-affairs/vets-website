@@ -28,7 +28,7 @@ Used to display a side navigation bar of pages in a collection.
       {% unless relatedPages.metadata.name == page.display_title or relatedPages.metadata.name == page.title %}
         <li>
           <a {% if page.path == path %}class="usa-current"{% endif %}
-              href="/{{ page.path }}">
+              href="/{{ page.path }}" onClick="window.dataLayer.push({ event: 'nav-sidenav' });">
             {% if page.display_title != empty %}
               {{ page.display_title }}
             {% else %}
@@ -41,7 +41,7 @@ Used to display a side navigation bar of pages in a collection.
               {% for cpage in childPages %}
                 <li>
                   <a {% if cpage.path == path %}class="usa-current"{% endif %}
-                      href="/{{ cpage.path }}">
+                      href="/{{ cpage.path }}" onClick="window.dataLayer.push({ event: 'nav-sidenav-child' });">
                     {% if cpage.display_title != empty %}
                       {{ cpage.display_title }}
                     {% else %}

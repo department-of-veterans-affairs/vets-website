@@ -13,4 +13,4 @@ The [Small Business Administration](https://www.sba.gov/content/veteran-service-
 
 These resources help you with business-plan writing, funding, licensure and permits, mentoring, marketing, how to contract with the government, and more.
 
-Your SBA representative may also be able to help you find and register for other state and federal start-up assistance, such as [Veteran-owned small-business preference](/employment/job-seekers/service-disabled).
+Your SBA representative may also be able to help you find and register for other state and federal start-up assistance, such as [Veteran-owned small-business preference](/employment/job-seekers/service-disabled/).

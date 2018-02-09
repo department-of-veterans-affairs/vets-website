@@ -1,69 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import moment from 'moment';
-
-import { getEventContent } from '../../utils/appeals-v2-helpers';
-import CurrentStatus from './CurrentStatus';
-
-function formatDate(date) {
-  return moment(date, 'YYYY-MM-DD').format('MMMM d, YYYY');
-}
+import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
+import Expander from './Expander';
+import PastEvent from './PastEvent';
 
 /**
- * Timeline is in charge of the past events and current status.
+ * Timeline is in charge of the past events.
  */
 class Timeline extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      expanded: false
-    };
+    this.state = { expanded: false };
   }
 
-  getPastEvents = () => {
-    return this.props.events.map((event, index) => {
-      const { title, description, liClass } = getEventContent(event);
-      return (
-        <li key={index} role="presentation" className={`process-step ${liClass}`}>
-          <h3>{title || 'Title here'}</h3>
-          <div className="appeal-event-date">on {formatDate(event.date)}</div>
-          <p>{description}</p>
-          <div className="separator"/>
-        </li>
-      );
-    });
-  }
+  formatDateRange = () => {
+    const { events } = this.props;
+    if (!events.length) {
+      return '';
+    }
+    const first = formatDate(events[0].date);
+    const last = formatDate(events[events.length - 1].date);
+    return `${first} - ${last}`;
+  };
 
-  toggleExpanded = () => {
-    this.setState((prevState) => ({ expanded: !prevState.expanded }));
-  }
+  toggleExpanded = () => this.setState((prevState) => ({ expanded: !prevState.expanded }));
 
   render() {
-    const eventList = this.state.expanded ? this.getPastEvents() : [];
-    const dateRange = this.props.events[0] ? `${formatDate(this.props.events[0].date)} - ${formatDate(this.props.events[this.props.events.length - 1].date)}` : '';
+    const { events, missingEvents } = this.props;
+    let pastEventsList = [];
+    if (events.length) {
+      pastEventsList = events.map((event, index) => {
+        const { title, description, liClass } = getEventContent(event);
+        const date = formatDate(event.date);
+        const hideSeparator = (index === events.length - 1);
+        return (
+          <PastEvent
+            key={`past-event-${index}`}
+            title={title}
+            date={date}
+            description={description}
+            liClass={liClass}
+            hideSeparator={hideSeparator}/>
+        );
+      });
+    }
 
-    // Add the expander
-    const expanderClassName = this.state.expanded ? 'section-expanded' : 'section-unexpanded';
-    eventList.push(
-      <li key={eventList.length} className={`process-step ${expanderClassName}`}>
-        {/* Giving this a margin top to help center the text to the li bullet */}
-        <button onClick={this.toggleExpanded} className="va-button-link">
-          <h4 style={{ color: 'inherit' }}>{this.state.expanded ? 'Hide past events' : 'See past events'}</h4>
-        </button>
-        <div className="appeal-event-date">{dateRange}</div>
-        <div className="separator"/>
-      </li>
-    );
-
-    // Add the current status
-    const { title, description } = this.props.currentStatus;
-    eventList.push(<CurrentStatus key={eventList.length} title={title} description={description}/>);
+    const downArrow = this.state.expanded ? <div className="down-arrow"/> : null;
+    const displayedEvents = this.state.expanded ? pastEventsList : [];
 
     return (
       <div>
-        <ol className="form-process appeal-timeline">{eventList}</ol>
-        <div className="down-arrow"/>
+        <ol className="form-process appeal-timeline">
+          <Expander
+            expanded={this.state.expanded}
+            key="expander"
+            dateRange={this.formatDateRange()}
+            onToggle={this.toggleExpanded}
+            missingEvents={missingEvents}/>
+          {displayedEvents}
+        </ol>
+        {downArrow}
       </div>
     );
   }
@@ -71,15 +67,11 @@ class Timeline extends React.Component {
 
 Timeline.propTypes = {
   events: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string,
-    date: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
     details: PropTypes.object
-  })),
-  currentStatus: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
-  }).isRequired
+  })).isRequired,
+  missingEvents: PropTypes.bool.isRequired
 };
 
 export default Timeline;
-

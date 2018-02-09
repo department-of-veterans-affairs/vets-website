@@ -51,7 +51,7 @@ As a woman Veteran, you’re part of the fastest-growing group within our Vetera
 - Treatment for sexual problems, urinary incontinence, and other issues
 - Prosthetic and sensory aid (PSA) services, like prosthetic limbs, hearing aids, and post-mastectomy items. [Download our fact sheet on prosthetic and sensory services for women Veterans](https://www.prosthetics.va.gov/factsheet/PSAS-FactSheet-WomenVets.pdf).
 - Referrals for physical therapy, occupational therapy, speech-language therapy, and other rehabilitation therapies
-- [Homebound and long-term care for those who meet specific requirements](/health-care/about-va-health-care/assisted-living-and-home-health-care)
+- [Homebound and long-term care for those who meet specific requirements](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 
 Please note that we cannot, by law, provide abortion services.
 

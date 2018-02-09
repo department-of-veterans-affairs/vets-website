@@ -29,18 +29,18 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert va-crisis-alert">
+<div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	<h4 class="va-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
-	  <div class="expander-content-inner">
+	  <div class="expander-content-inner usa-alert-text">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-		  <li>Call <a href="tel:911">911</a>.</li>
-		  <li>Go to the nearest emergency room.</li>
-		</ul>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+  		  <li>Call <a href="tel:911">911</a>.</li>
+  		  <li>Go to the nearest emergency room.</li>
+		  </ul>
 	  </div>
   	</div>
   </div>
@@ -89,12 +89,12 @@ You can also call the VA general information hotline at <a href="tel:+1-800-827-
 
 ### Can I get disability compensation (monthly payments) or other benefits from VA?
 
-You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd#ptsd-disability-eligibility).
+You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST). [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
 
 Or, get help applying for disability compensation by:
 
 - Reading our fact sheet on disability compensation for conditions related to MST. [Read the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
-- Talking to the MST coordinator at your local VA regional benefits office. [Find an MST coordinator near you](http://www.benefits.va.gov/benefits/mstcoordinators.asp).
+- Talking to the MST coordinator at your local VA regional benefit office. [Find an MST coordinator near you](http://www.benefits.va.gov/benefits/mstcoordinators.asp).
 
 <br>
 
@@ -105,7 +105,7 @@ Or, get help applying for disability compensation by:
   - [In Spanish](https://www.mentalhealth.va.gov/docs/MST-BrochureforVeterans-Spanish-Sep2010.pdf).
 - Watch a video about MST, its effects on survivors, and VA services available to Veterans who’ve experienced MST. [Watch the video](https://www.youtube.com/watch?v=b9snig5gZfk).
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
-- Go to the Department of Defense (DOD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
+- Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
 
 <script type="text/javascript">
 

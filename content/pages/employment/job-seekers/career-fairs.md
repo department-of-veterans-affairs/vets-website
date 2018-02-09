@@ -33,9 +33,9 @@ Career fairs are an important first step in the search for employment. In-person
 - Dress professionally.
 - Research the companies that will be in attendance, and find out what jobs they have open.
 - Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
-- Bring multiple copies of your résumé and any relevant military transcripts.
+- Bring multiple copies of your resume and any relevant military transcripts.
 - Bring business cards to encourage follow-up conversations with prospective employers.
-- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
+- For virtual or online events, fill out all necessary online profile requirements (including resume, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
 
 </div>
 </div>
@@ -45,7 +45,7 @@ Career fairs are an important first step in the search for employment. In-person
 <h3 itemprop="name">Find a career fair near you</h3>
 <div itemprop="itemListElement">
 
-[Corporate Gray military-friendly job fairs](http://www.corporategray.com/jobfairs) take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
+[Corporate Gray military-friendly job fairs](https://www.corporategray.com/jobfairs) take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
 
 [Hiring Our Heroes](https://www.uschamberfoundation.org/events/hiringfairs) organizes hiring fairs and other events to help Veterans, transitioning Servicemembers, and military spouses find meaningful employment opportunities.
 

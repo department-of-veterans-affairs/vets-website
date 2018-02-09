@@ -7,7 +7,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityAfterYouApply
 majorlinks:
-  - heading:
+  - heading: More information about disability ratings and payments
     links:
     - url: /disability-benefits/after-you-apply/date/
       title: Effective Date of Disability
@@ -32,8 +32,8 @@ Find out what happens to your claim after you apply for disability benefits.
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">92.6 days</span>
-<span class="description">Average number of days to complete disability-related claims in October 2017</span>
+<span class="number">107.5 days</span>
+<span class="description">Average number of days to complete disability-related claims in January 2018</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:

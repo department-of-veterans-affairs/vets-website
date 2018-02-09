@@ -11,7 +11,7 @@ template: detail-page
 
 If you served in the Southwest Asia theater of military operations, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
-[Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan).  
+[Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/).  
 
 </div>
 
@@ -67,7 +67,7 @@ Veterans
 
 You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
-[Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
+[Learn more about service in Southwest Asia](https://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 
 ### What’s included in the Southwest Asia theater of military operations?
 - Iraq, Kuwait, Saudi Arabia
@@ -80,4 +80,4 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 
 ### What if I need help filing my disability claim?
 
-You can get help from a trained professional trusted to help with VA-related claims. [Find an accredited representative](/disability-benefits/apply/help/).
+You can get help from a trained professional trusted to help with VA-related claims. [Get help filing your claim](/disability-benefits/apply/help/).

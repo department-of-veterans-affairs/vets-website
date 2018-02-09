@@ -6,9 +6,11 @@ import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
-import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
+import ServicePeriodView from '../components/ServicePeriodView';
+import { serviceLabels } from './labels';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
 import environment from '../../common/helpers/environment.js';
+import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -111,8 +113,6 @@ export function transform(formConfig, form) {
     return !isAuthorizedAgent({ application }) ?
       merge(application, {
         applicant: {
-          applicantEmail: application.claimant.email,
-          applicantPhoneNumber: application.claimant.phoneNumber,
           mailingAddress: application.claimant.address,
           name: application.claimant.name
         }
@@ -124,6 +124,10 @@ export function transform(formConfig, form) {
     return merge(application, {
       veteran: {
         serviceName: application.veteran.serviceName || application.veteran.currentName
+      },
+      applicant: {
+        applicantEmail: application.claimant.email,
+        applicantPhoneNumber: application.claimant.phoneNumber
       }
     });
   };
@@ -249,7 +253,10 @@ export const veteranUI = {
     'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
   },
   vaClaimNumber: {
-    'ui:title': 'VA claim number (if known)'
+    'ui:title': 'VA claim number (if known)',
+    'ui:errorMessages': {
+      pattern: 'Your VA claim number must be between 7 to 9 digits'
+    }
   },
   placeOfBirth: {
     'ui:title': 'Place of birth'
@@ -298,68 +305,11 @@ export const serviceRecordsUI = {
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
-    serviceBranch: {
-      'ui:title': 'Branch of service',
+    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
-        labels: {
-          AC: 'US ARMY AIR CORPS',
-          AF: 'US AIR FORCE',
-          AR: 'US ARMY',
-          CG: 'US COAST GUARD',
-          CV: 'CIVILIAN WAKE ISLAND NAS',
-          FP: 'CIVILIAN FERRY PILOT',
-          MM: 'US MERCHANT MARINE',
-          PH: 'US PUBLIC HEALTH SERVICE',
-          NN: 'NAVY NURSE CORPS',
-          WA: 'WOMEN\'S ARMY AUX CORPS',
-          WS: 'WOMEN\'S ARMY CORPS',
-          CF: 'ROYAL CANADIAN AIR FORCE',
-          RO: 'ROTC OF ARMY NAVY OR AF',
-          CA: 'US CITIZEN WHO SERVED W/ ALLIES',
-          WR: 'WOMEN\'S RESERVE OF NAVY,MC,CG',
-          CS: 'CIVILIAN W/STRATEGIC SVC (OSS)',
-          KC: 'QRTRMASTER CORPS KESWICK CREW',
-          CB: 'DEFENSE OF BATAAN',
-          CO: 'US ARMY TRANSPORT SERVICE',
-          CI: 'CIV ID FRIEND/FOE (IFF) TECH',
-          CC: 'US CIV OF AFS WWII',
-          GS: 'CIV CREW OF USCGS VESSELS',
-          FT: 'AMERICAN VOL GRP FLYING TIGERS',
-          CE: 'ROYAL CANADIAN CORPS SIGNAL',
-          C2: 'CIV AIR TRANSPORT CMD (UNITED)',
-          C3: 'CIV AIR TRANSPORT CMD (TWA)',
-          C4: 'CIV AIR TRANSPORT CMD (VULTEE)',
-          C5: 'CIV AIR TRANSPRT CMD(AMERICAN)',
-          C7: 'CIV AIR TRANSPORT COMMAND (NORTHWEST)',
-          CD: 'US NAVY TRANSPORT SERVICE',
-          NM: 'NON-MILITARY CIVILIAN',
-          AL: 'ALLIED FORCES',
-          AA: 'US ARMY AIR FORCES',
-          AT: 'US ARMY AIR FORCES (ATC)',
-          GP: 'GUAM COMBAT PATROL',
-          MC: 'US MARINE CORPS',
-          NO: 'NATIONAL OCEAN/ATMOSPHER ADMIN',
-          PS: 'REGULAR PHILIPPINE SCOUTS',
-          CM: 'CADET OR MIDSHIPMAN',
-          WP: 'WOMEN AIR FORCE SERVICE PILOTS',
-          GU: 'WAKE ISLAND DEFENDERS-GUAM',
-          MO: 'MERCHANT SN IN OPER MULBERRY',
-          FS: 'AMERICAN FIELD SERVICE',
-          ES: 'AMERICAN VOLUNTEER GUARD',
-          FF: 'FOREIGN FORCES',
-          GC: 'US COAST & GEODETIC SURVEY',
-          PA: 'PHILIPPINE ARMY',
-          AG: 'US AIR NATIONAL GUARD',
-          NG: 'US ARMY NATIONAL GUARD',
-          PG: 'PHILIPPINE GUERILLA',
-          XA: 'US NAVY RESERVE',
-          XR: 'US ARMY RESERVE',
-          XF: 'US AIR FORCE RESERVE',
-          XC: 'US MARINE CORP RESERVE',
-          XG: 'COAST GUARD RESERVE'
-        }
+        labels: serviceLabels
       }
-    },
+    }),
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',

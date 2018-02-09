@@ -1,13 +1,15 @@
 import _ from 'lodash/fp';
-import FormPage from './FormPage';
-import ReviewPage from './review/ReviewPage';
 import shouldUpdate from 'recompose/shouldUpdate';
-
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
+import FormPage from './containers/FormPage';
+import ReviewPage from './review/ReviewPage';
+import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
+import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage';
+import FormSaved from './save-in-progress/FormSaved';
+import SaveInProgressErrorPage from './save-in-progress/SaveInProgressErrorPage';
+
 import { getInactivePages, getActivePages } from '../utils/helpers';
-import FormSaved from './FormSaved';
-import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -71,11 +73,12 @@ export function createPageList(formConfig, formPages) {
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
+  const Page = formConfig.disableSave ? FormPage : RoutedSavablePage;
   let routes = formPages
     .map(page => {
       return {
         path: page.path,
-        component: page.component || FormPage,
+        component: page.component || Page,
         pageConfig: page,
         pageList,
         urlPrefix: formConfig.urlPrefix
@@ -123,7 +126,7 @@ export function createRoutes(formConfig) {
     {
       path: 'review-and-submit',
       formConfig,
-      component: ReviewPage,
+      component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
       pageList
     },
     {
@@ -248,6 +251,11 @@ export function stringifyFormReplacer(key, value) {
     // autosuggest widgets save value and label info, but we should just return the value
     if (value.widget === 'autosuggest') {
       return value.id;
+    }
+
+    // Exclude file data
+    if (value.confirmationCode && value.serverPath) {
+      return _.omit(['serverPath', 'serverName'], value);
     }
   }
 

@@ -23,10 +23,13 @@ majorlinks:
       description: If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history. 
   - heading: Manage Your Health
     links:
-    - url: /health-care/prescriptions/
+    - url: /health-care/health-conditions/conditions-related-to-service-era/
+      title: Learn About Health Concerns Related to Your Service History
+      description: Learn about service-connected health concerns you should be aware of based on when and where you served.
+    - url: /health-care/prescriptions
       title: Refill Prescriptions
       description: Refill prescriptions online, and track the status of your refills.
-    - url: /health-care/messaging/
+    - url: /health-care/messaging
       title: Send a Secure Message to Your Health Care Team
       description: Send a secure, private note to your primary care provider or other members of your VA health care team.
     - url: /health-care/schedule-an-appointment
@@ -57,24 +60,20 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 </div>
 
-<div id="react-applicationStatus" data-hide-apply-button></div>
+<div id="react-applicationStatus" data-hide-apply-button class="static-page-widget"></div>
 
-<div class="va-alert usa-alert usa-alert-warning">
+<div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-  <h4 class="va-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.
-  </h4>
-  <div id="crisis-expander-content" class="expander-content expander-content-closed">
-    <div class="expander-content-inner">
-    <br>
-      <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. Find the support you need:  </p>
-      <ul>
-        <li>Contact your local VA medical center for help getting connected with services you may qualify for in your community. <a href="/facilities/">Find the nearest VA medical center</a>.</li>
-        <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
-        <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
-      </ul>
-<br>
-<p>We can also connect you with other non-VA resources in your community.</p>
-<br>
+    <h4 class="usa-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.</h4>
+    <div id="crisis-expander-content" class="expander-content expander-content-closed">
+      <div class="expander-content-inner usa-alert-text">
+        <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. Find the support you need:  </p>
+        <ul>
+          <li>Contact your local VA medical center for help getting connected with services you may qualify for in your community. <a href="/facilities/">Find the nearest VA medical center</a>.</li>
+          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
+          <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
+        </ul>
+      <p>We can also connect you with other non-VA resources in your community.</p>
       <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
 
   </div>

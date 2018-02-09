@@ -1,19 +1,34 @@
 // The distance from the top of the sceen that the mobile navigation menu should appear
-$height-offset: 121.16px;
+$height-offset-small: 131.16px;
+$height-offset-xsmall: 153.16px;
 
 body.va-pos-fixed {
   width: 100%;
   height: 100%;
 }
 
+#vetnav, [role="menu"] [role="menu"] {
+  // The main menu takes up the whole screen under the Menu button for xsmall & small screens
+  // Sub menus also take up the whole screen to cover the main menu
+  min-height: calc(100vh - #{$height-offset-xsmall});
+
+  @include media($small-screen){
+    min-height: calc(100vh - #{$height-offset-small});
+  }
+
+  // For medium and large screens, they're just as big as they need to be
+  @include media($medium-large-screen) {
+    min-height: 100%;
+  }
+}
+
 #vetnav {
   background-color: $color-primary-darkest;
-  height: calc(100% - #{$height-offset});
 
   // This value should be equal to the default y-position of the menu so that removing it
   // shouldn't affect anything. However, it's here to show how the height is offset by the
   // vertical positioning.
-  top: $height-offset;
+  // top: $height-offset;
   left: -0.9rem;
   overflow-y: scroll;
   position: absolute;
@@ -33,18 +48,13 @@ body.va-pos-fixed {
     }
   }
 
+
   @include media($medium-large-screen) {
     margin-top: 1rem;
     overflow-y: visible;
     position: relative;
     width: auto;
     top: 0;
-    height: 100%;
-  }
-
-  .va-wip-message {
-    padding: 0 1.6rem;
-    white-space: normal;
   }
 }
 
@@ -208,7 +218,7 @@ body.va-pos-fixed {
     }
   }
 
-  &[aria-expanded=false] {
+  &[aria-haspopup]:not([aria-expanded=true]) {
     background-image: url(/img/plus-white.svg);
 
     &:hover {
@@ -295,7 +305,7 @@ body.va-pos-fixed {
   }
 }
 
-.vetnav-back {
+#vetnav .back-button {
   background: $color-primary-darker url(/img/arrow-left-white.svg) right 3rem center no-repeat;
   background-position: left 1rem center;
   background-size: 1.4rem auto;
@@ -313,6 +323,8 @@ body.va-pos-fixed {
 
 .vetnav-panel {
   a {
+    @include no-sr-content;
+
     background-image: none;
     color: $color-white;
     display: block;
@@ -347,7 +359,6 @@ body.va-pos-fixed {
     left: 0;
     visibility: visible;
     margin: 0;
-    height: auto;
 
     @include media($medium-large-screen) {
       border-left: 1px solid $color-gray-warm-light;
@@ -438,5 +449,16 @@ body.va-pos-fixed {
 
   > .va-flex {
     align-items: center;
+  }
+}
+
+.child-menu-opened {
+  height: 0;
+  overflow: hidden;
+}
+
+@include media($medium-screen) {
+  .child-menu-opened {
+    height: initial;
   }
 }

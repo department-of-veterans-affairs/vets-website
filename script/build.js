@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -22,6 +23,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const createSettings = require('../config/create-settings');
 
 const sourceDir = '../content/pages';
 
@@ -92,7 +94,10 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/burial-planning/application.md');
+  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
+  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
+  ignoreList.push('veteran-id-card/apply.md');
+  ignoreList.push('veteran-id-card/how-to-get.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -325,7 +330,7 @@ smith.use(collections({
     pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Conditions Related to Service Era'
+      name: 'Concerns Related to Service Era'
     }
   },
   housing: {
@@ -435,6 +440,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
         { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/discharge-upgrade-instructions(.*)', to: '/discharge-upgrade-instructions/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
         { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
@@ -444,7 +450,9 @@ if (options.watch) {
         { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
+        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
+        { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -596,6 +604,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
+        '/veteran-id-card/apply',
         '/letters'].join('|'))
   }));
 }
@@ -674,9 +683,19 @@ smith.use(redirect({
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
+function generateStaticSettings() {
+  const settings = createSettings(options);
+  const settingsPath = path.join(destination, 'js/settings.js');
+  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
+  fs.writeFileSync(settingsPath, settingsContent);
+}
+
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
+
+  generateStaticSettings();
+
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {

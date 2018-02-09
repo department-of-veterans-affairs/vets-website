@@ -114,7 +114,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
               type="checkbox"
               onChange={this.handleChange}/>
             <label
-              className="schemaform-label"
               name="militaryService-label"
               htmlFor="militaryService">
               Include military service information
@@ -162,16 +161,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
-  const { profile } = state.user;
 
   return {
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo
     },
-    // default isVeteran to true if service for determining this is down
-    // this decision may need to be revisited.
-    isVeteran: (profile.veteranStatus === 'OK' ? profile.isVeteran : true),
+    // default isVeteran to true for now - please see vets.gov-team issue #6250
+    // isVeteran: (state.user.profile.veteranStatus === 'OK' ? state.user.profile.isVeteran : true),
+    isVeteran: true,
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions
   };

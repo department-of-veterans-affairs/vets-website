@@ -15,18 +15,18 @@ If you qualify for VA health care, you can get high-quality mental health servic
 
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert va-crisis-alert">
+<div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	<h4 class="va-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
-	  <div class="expander-content-inner">
+	  <div class="expander-content-inner usa-alert-text">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-		  <li>Call <a href="tel:911">911</a>.</li>
-		  <li>Go to the nearest emergency room.</li>
-		</ul>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+  		  <li>Call <a href="tel:911">911</a>.</li>
+  		  <li>Go to the nearest emergency room.</li>
+		  </ul>
 	  </div>
   	</div>
   </div>
@@ -116,9 +116,9 @@ You may still be able to get care:
 
 ### Where can I find more information or support?
 
-[Get resources and support to help you readjust after returning from deployment](http://www.mentalhealth.va.gov/returningservicevets.asp).<br />
-[Find more resources for help in a crisis](http://www.mentalhealth.va.gov/gethelp.asp).<br />
-[Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp).
+[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
+[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
+[Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 
 <script type="text/javascript">
 

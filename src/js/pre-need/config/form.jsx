@@ -9,7 +9,7 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import phoneUI from '../../common/schemaform/definitions/phone';
 
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
@@ -17,6 +17,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
+import { validateSponsorDeathDate } from '../validation';
 
 import {
   GetFormHelp,
@@ -46,7 +47,7 @@ const {
   veteran,
   applicant,
   hasCurrentlyBuried,
-  // currentlyBuriedPersons,
+  currentlyBuriedPersons,
   preneedAttachments
 } = fullSchemaPreNeed.properties.application.properties;
 
@@ -70,10 +71,14 @@ const formConfig = {
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: '40-10007',
+  version: 0,
+  savedFormMessages: {
+    notFound: 'Please start over to apply for pre-need eligibility.',
+    noAuth: 'Please sign in again to resume your application for pre-need eligibility.'
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  disableSave: true,
-  title: 'Apply online for pre-need determination of eligibility in a VA national cemetery',
+  title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -91,7 +96,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation1: {
+        applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
           uiSchema: {
@@ -148,8 +153,9 @@ const formConfig = {
             }
           }
         },
-        applicantInformation2: {
+        veteranInformation: {
           path: 'veteran-applicant-information',
+          title: 'Veteran Information',
           depends: isVeteran,
           uiSchema: {
             application: {
@@ -216,7 +222,10 @@ const formConfig = {
                   'ui:title': 'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)'
                 },
                 vaClaimNumber: {
-                  'ui:title': 'Sponsor’s VA claim number (if known)'
+                  'ui:title': 'Sponsor’s VA claim number (if known)',
+                  'ui:errorMessages': {
+                    pattern: 'Your VA claim number must be between 7 to 9 digits'
+                  }
                 },
                 ssn: {
                   ...ssnDashesUI,
@@ -256,7 +265,10 @@ const formConfig = {
                     expandUnder: 'isDeceased',
                     expandUnderCondition: 'yes'
                   }
-                })
+                }),
+                'ui:validations': [
+                  validateSponsorDeathDate
+                ]
               })
             }
           },
@@ -473,11 +485,11 @@ const formConfig = {
                   updateSchema: (formData) => {
                     let title;
                     if (isVeteran(formData)) {
-                    /* eslint-disable no-param-reassign */ 
+                    /* eslint-disable no-param-reassign */
                       title = 'Is there anyone currently buried in a VA national cemetery under your eligibility?';
                     } else {
                       title = 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
-                    /* eslint-enable no-param-reassign */ 
+                    /* eslint-enable no-param-reassign */
                     }
                     return { title };
                   },
@@ -498,12 +510,10 @@ const formConfig = {
                   name: _.merge(fullNameUI, {
                     'ui:title': 'Name of deceased'
                   }),
-                  'view:cemeteryNumber': {
-                    'ui:title': 'VA national cemetery where they’re buried'
-                    // TODO: Create widget with validation message...
-                    // It should map hundreds of cemetery numbers to names.
-                    // 'ui:widget': CemeteryNumberWidget
-                  }
+                  cemeteryNumber: autosuggest.uiSchema(
+                    'VA national cemetery where they’re buried',
+                    getCemeteries
+                  )
                 }
               }
             }
@@ -526,17 +536,11 @@ const formConfig = {
                     }
                   },
                   hasCurrentlyBuried,
-                  currentlyBuriedPersons: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      required: ['name'],
-                      properties: {
-                        name: fullName,
-                        'view:cemeteryNumber': { type: 'string' }
-                      }
-                    }
-                  }
+                  currentlyBuriedPersons: _.set(
+                    'items.properties.cemeteryNumber',
+                    autosuggest.schema,
+                    currentlyBuriedPersons
+                  )
                 }
               }
             }
@@ -556,6 +560,7 @@ const formConfig = {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 endpoint: '/v0/preneeds/preneed_attachments',
                 fileTypes: ['pdf'],
+                maxSize: 15728640,
                 hideLabelText: true,
                 createPayload: (file) => {
                   const payload = new FormData();
@@ -643,6 +648,7 @@ const formConfig = {
                 properties: {
                   claimant: {
                     type: 'object',
+                    required: ['email', 'phoneNumber'],
                     properties: {
                       address: address.schema(fullSchemaPreNeed, true),
                       'view:contactInfoDescription': {
@@ -697,9 +703,12 @@ const formConfig = {
                   'ui:widget': 'radio',
                   'ui:options': {
                     updateSchema: (formData) => {
-                      const applicantName = formatName(formData.application.claimant.name);
+                      const nameData = _.get('application.claimant.name', formData);
+                      const applicantName = nameData
+                        ? formatName(nameData)
+                        : null;
+
                       return {
-                        'enum': ['Self', 'Authorized Agent/Rep'],
                         enumNames: [applicantName || 'Myself', 'Someone else']
                       };
                     },
@@ -714,7 +723,9 @@ const formConfig = {
                     expandUnderCondition: 'Authorized Agent/Rep'
                   },
                   name: _.merge(nonRequiredFullNameUI, {
-                    'ui:title': 'Preparer information'
+                    'ui:title': 'Preparer information',
+                    first: { 'ui:required': isAuthorizedAgent },
+                    last: { 'ui:required': isAuthorizedAgent },
                   }),
                   mailingAddress: _.merge(address.uiSchema('Mailing address'), {
                     country: { 'ui:required': isAuthorizedAgent },

@@ -31,23 +31,43 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 </div>
 
+<div class="feature" markdown=“1”>
+  
+### Are there any health concerns I should be aware of based on my service history?
+
+Yes. Certain health concerns may be more likely to affect Veterans who served in a specific time and place. Find out which health concerns you should be aware of depending on when and where you served. <br>
+
+[Get health information by service dates and locations](/health-care/health-conditions/conditions-related-to-service-era/). 
+
+</div>
+
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Access services for:</h3>
+<h4 itemprop="name">How do I find out how to get health services for a specific condition or need?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="text"> 
 
-- [Conditions related to when and where you served](/health-care/health-conditions/conditions-related-to-service-era/)
+**Mental health problems**
 
-- [Mental health](/health-care/health-conditions/mental-health/), such as:
+- [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-conditions/mental-health/)
 
-  - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
 
-  - [Depression](/health-care/health-conditions/mental-health/depression/)
+- [Depression](/health-care/health-conditions/mental-health/depression/)
 
-  - [Suicide prevention](/health-care/health-conditions/mental-health/suicide-prevention/)
+- [Suicide prevention](/health-care/health-conditions/mental-health/suicide-prevention/)
 
-  - [Substance use problems](/health-care/health-conditions/substance-use-problems/)
+- [Substance use problems](/health-care/health-conditions/substance-use-problems/)
+
+**Conditions of the eyes, ears, and teeth**
+
+- [Vision care](/health-care/about-va-health-care/vision-care/)
+
+- [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp)
+
+- [Dental care](/health-care/about-va-health-care/dental-care/)
+
+**Other health conditions and needs**
 
 - [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 
@@ -55,13 +75,8 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 - [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-conditions/exposure-to-hazardous-materials/)
 
-- [Dental care](/health-care/about-va-health-care/dental-care/)
-
-- [Vision care](/health-care/about-va-health-care/vision-care/)
-
-- [Hearing loss](https://www.prosthetics.va.gov/psas/Hearing_Aids.asp)
-
 - [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
+
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
 
@@ -76,7 +91,6 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 <h4 itemprop="name">What if I need help understanding my benefits or accessing services?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 

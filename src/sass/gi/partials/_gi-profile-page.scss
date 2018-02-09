@@ -18,9 +18,7 @@
   }
 
   .caution-flag {
-    .va-alert {
-      background-color: $color-gold;
-    }
+    background-color: $color-gold;
   }
 
   .additional-resources {
@@ -109,10 +107,6 @@
     }
   }
 
-  .usa-alert {
-    background-size: 3rem;
-  }
-
   .outcomes .graph-component {
     margin: 1em auto;
     clear: both;
@@ -127,9 +121,6 @@
   }
 
   .cautionary-information {
-    .va-alert {
-      margin: 0 0 1.5em 0;
-    }
 
     .table {
       table {

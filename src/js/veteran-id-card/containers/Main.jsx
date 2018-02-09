@@ -50,22 +50,18 @@ class Main extends React.Component {
     }
     return (
       <button className="usa-button-primary va-button-primary" onClick={this.handleSubmit}>
-        Request your Veteran ID card<span className="exit-icon">&nbsp;</span>
+        Request a Veteran ID card<span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
 
   renderVicError() {
-    const content = (
-      <div>
-        <h4>We're sorry. Something went wrong when loading the page.</h4>
-        <div>
-          <p>Please refresh the page or try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
-        </div>
-      </div>
-    );
+    const headline = (<h4>We're sorry. Something went wrong when loading the page.</h4>);
+    const content = (<p>Please refresh the page or try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>);
+
     return (
       <AlertBox
+        headline={headline}
         content={content}
         isVisible
         status="error"/>
@@ -108,13 +104,14 @@ class Main extends React.Component {
           <p>You <b>do not</b> need to request this card if you have one of these:</p>
           <ul>
             <li>Veterans Health Identification Card (VHIC), <b>or</b></li>
-            <li>Department of Defense (DoD) Identification Card (Common Access Card (CAC) or Uniformed Services ID Card, <b>or</b></li>
-            <li>State-issued ID (Driver’s license) with a Veteran designation or a state-issued Veteran ID Card.
-Check with your state to see if they issue a Veteran ID Card.</li>
+            <li>Department of Defense Identification Card&#8212;either a Common Access Card (CAC) or a Uniformed Services ID Card, <b>or</b></li>
+            <li>State-issued ID (driver’s license) with a Veteran designation or a state-issued Veteran ID Card. Check with your state to see if they issue Veteran ID Cards.</li>
           </ul>
           <p>You can use any of these cards to get the same discounts. If you already have one of them, you don’t need a VIC, but you can still apply for it if you’d like.</p>
           <p>If you don’t have one of these cards, you should request a Veteran ID Card.</p>
-          <h3>Ready to request or want to check the status of your application?</h3>
+          <h3>Ready to request a Veteran ID Card?</h3>
+          <p>You can request your card online now—or check the status of your request. </p>
+          <p><strong>Note:</strong> To continue, you'll need a government-issued ID (like your driver's license) and a photo of yourself from the shoulders up. Make sure you have what you need for this next step.</p>
           <div>
             {this.renderButton()}
             <div>{message}</div>

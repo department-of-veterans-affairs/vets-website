@@ -270,7 +270,7 @@ export function appealStatusDescriptions(lastEvent, previousHistory = []) {
 
   switch (lastEvent.type) {
     case 'ssoc':
-      prevType = ['bva_remand', 'cavc_decision'].includes(previousEventType) ? previousEventType : 'soc';
+      prevType = ['form9', 'activated'].includes(previousEventType) ? previousEventType : 'soc';
 
       return {
         ...eventContent,

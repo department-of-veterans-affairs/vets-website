@@ -37,7 +37,7 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 ### Prepare
 
-- [Check your eligibility](/disability-benefits/eligibility).
+- [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
@@ -78,23 +78,36 @@ For all disability claims, please provide:
 <h3 itemprop="name">Other ways to apply</h3>
 <div itemprop="itemListElement">
 
-#### Work with a trained professional
+#### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
 
-#### Apply in person
+#### By mail
 
-[Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp).
+Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+
+Print the form, fill it out, and send it to this address:
+
+<p class="va-address-block">
+Department of Veterans Affairs<br>
+Claims Intake Center<br>
+PO Box 4444<br>
+Janesville, WI 53547-4444<br>
+</p>
+
+#### In person
+
+Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h3 itemprop="name">What happens after I apply?</h3>
 <div itemprop="itemListElement">
 
-[Find out what happens after you apply](/disability-benefits/after-you-apply).
+[Find out what happens after you apply](/disability-benefits/after-you-apply/).
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
@@ -103,8 +116,8 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">92.6 days</span>
-<span class="description">Average number of days to complete disability-related claims in October 2017</span>
+<span class="number">107.5 days</span>
+<span class="description">Average number of days to complete disability-related claims in January 2018</span>
 </div>
 </div>
 </div>

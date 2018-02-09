@@ -51,7 +51,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
@@ -59,7 +59,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 </div>
 </div>
 
-<div id="react-applicationStatus">
+<div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
@@ -87,7 +87,7 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 
 ##### By mail
 
-[Download an Application for Health Benefits (VA Form 10-10EZ)](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+Apply by mail using an Application for Health Benefits (VA Form 10-10EZ). [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -101,7 +101,7 @@ Atlanta, GA 30329<br>
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br />
 [Find a VA medical center or clinic near you](/facilities/).<br />
-[Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 </div>
 </div>

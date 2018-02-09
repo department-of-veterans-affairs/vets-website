@@ -1,13 +1,11 @@
 import React from 'react';
 
-export default function DischargeWizardApp({ children, location }) {
+export default function DischargeWizardApp({ children }) {
   return (
     <div className="discharge-wizard">
       <nav className="va-nav-breadcrumbs">
         <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li>{location.pathname === '/' ? <strong>Discharge</strong> : <a href="/discharge-wizard">Discharge</a>}</li>
-          {location.pathname === '/guidance' && <li><strong>Guidance</strong></li>}
+          <li><a href="/" id="dw-home-link">Home</a></li>
         </ul>
       </nav>
       <div className="row">
