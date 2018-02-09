@@ -87,8 +87,8 @@ function expectInputToNotBeSelected(client, field) {
 }
 
 module.exports = {
-  baseUrl: `http://${process.env.WEB_HOST || "localhost"}:${process.env.WEB_PORT || 3333}`,
-  apiUrl: `http://${process.env.API_HOST || "localhost"}:${process.env.API_PORT || 3000}`,
+  baseUrl: `http://${process.env.WEB_HOST || 'localhost'}:${process.env.WEB_PORT || 3333}`,
+  apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env.API_PORT || 3000}`,
   createE2eTest,
   expectNavigateAwayFrom,
   expectValueToBeBlank,

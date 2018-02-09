@@ -1,9 +1,6 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const chromedriver = require('chromedriver');
-const seleniumServer = require('selenium-server');
-
 require('babel-core/register');
 
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
@@ -16,8 +13,7 @@ module.exports = {
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
-    test_workers: false,
-
+  test_workers: false,
   test_settings: {
     'default': {
       launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
