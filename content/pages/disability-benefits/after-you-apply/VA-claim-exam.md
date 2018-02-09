@@ -165,7 +165,7 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 - Our VA claim exam website gives you the latest information about what to expect from your visit. [Visit the claim exam website](https://www.benefits.va.gov/compensation/claimexam.asp).
 - You can also download a factsheet to answer your questions about the VA claim exam. [Download the VA claim exam factsheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
-- Our VA claim exam tipsheet can help answer questions about the claim exam process. [Download the VA claim exam tipsheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipsheet.pdf#).
+- Our VA claim exam tipsheet can help answer questions about the claim exam process. [Download the VA claim exam tipsheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
 
 
 
