@@ -17,7 +17,6 @@ const runTest = E2eHelpers.createE2eTest(
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for a Veteran ID Card: Vets.gov')
         .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
-        .waitForElementVisible('.schemaform-start-button', Timeouts.slow)  // First render of React may be slow.
         .click('.schemaform-start-button');
 
       E2eHelpers.overrideVetsGovApi(client);
@@ -51,7 +50,7 @@ const runTest = E2eHelpers.createE2eTest(
       // Photo page
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
       client.waitForElementVisible('label.usa-button.usa-button-secondary', Timeouts.normal);
-      // client.axeCheck('.main');
+      client.axeCheck('.main');
 
       // Disable upload button style to reveal input for test
       /* HACK: style overridden so browser driver can find/interact with hidden inputs
@@ -61,8 +60,8 @@ const runTest = E2eHelpers.createE2eTest(
       // HACK: waitforElementVisible did not work but this does 
       client.elementIdDisplayed('errorable-file-input-11');
 
-      // upload photo
       // sighted path
+      // upload photo
       client
         .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
 
@@ -81,7 +80,6 @@ const runTest = E2eHelpers.createE2eTest(
         .execute("document.getElementsByName('screenReaderFileUpload')[0].style.display = 'block';");
       // HACK: waitforElementVisible did not work but this does 
       client.elementIdDisplayed('errorable-file-input-12');
-
       client
         .setValue('input[name="screenReaderFileUpload"]', require('path').resolve(`${__dirname}/examplephoto.png`));
 
@@ -119,7 +117,6 @@ const runTest = E2eHelpers.createE2eTest(
       client.axeCheck('.main');
       client.click('input[type="checkbox"]');
       client.click('.form-progress-buttons .usa-button-primary');
-      client.pause(5000);
       E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
       client.expect.element('.js-test-location').attribute('data-location')
         .to.not.contain('/review-and-submit').before(Timeouts.slow);
