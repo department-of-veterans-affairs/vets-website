@@ -14,22 +14,13 @@ RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/reposito
 ENV YARN_VERSION 0.27.5
 ENV NODE_ENV production
 
-RUN npm install -g yarn@$YARN_VERSION \
-    && npm install -g nsp \
-    && npm install -g s3-cli \
-    && npm install -g codeclimate-test-reporter
+RUN apk --no-cache add git make python g++ \
+  && npm install -g yarn@$YARN_VERSION \
+  && npm install -g nsp \
+  && npm install -g s3-cli \
+  && npm install -g codeclimate-test-reporter
 
 RUN mkdir -p /application
 
 WORKDIR /application
-
-# Install required npm dependencies
-
-COPY package.json .
-COPY yarn.lock .
-COPY .yarnrc .
-# skips all dev dependencies if NODE_ENV=production.. so..
-RUN apk --no-cache add git make python g++ \
-  && yarn install --production=false
-
-COPY . .
+USER jenkins
