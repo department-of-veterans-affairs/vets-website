@@ -3,7 +3,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 
-// TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
   pendingSoc: 'pending_soc',
@@ -49,6 +48,13 @@ export const CLOSED_STATUSES = [
   STATUS_TYPES.death,
   STATUS_TYPES.otherClose
 ];
+
+// Action Types
+export const USER_FORBIDDEN = 'USER_FORBIDDEN';
+export const RECORD_NOT_FOUND = 'RECORD_NOT_FOUND';
+export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
+export const APPEALS_FETCH_ERROR = 'APPEALS_FETCH_ERREOR';
 
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',

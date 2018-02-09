@@ -3,14 +3,21 @@ import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
 import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
-import { getStatus } from '../utils/appeals-v2-helpers';
+import {
+  getStatus,
+  FETCH_APPEALS_PENDING,
+  FETCH_APPEALS_SUCCESS,
+  USER_FORBIDDEN,
+  RECORD_NOT_FOUND,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  APPEALS_FETCH_ERROR
+} from '../utils/appeals-v2-helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -86,12 +93,6 @@ export function fetchAppealsSuccess(response) {
     appeals: response.data
   };
 }
-
-const USER_FORBIDDEN = 'USER_FORBIDDEN';
-const RECORD_NOT_FOUND = 'RECORD_NOT_FOUND';
-const VALIDATION_ERROR = 'VALIDATION_ERROR';
-const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
-const APPEALS_FETCH_ERROR = 'APPEALS_FETCH_ERREOR';
 
 export function getAppealsV2() {
   return (dispatch) => {
