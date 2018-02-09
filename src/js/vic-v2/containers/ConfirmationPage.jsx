@@ -35,13 +35,15 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const userSignedIn = this.props.userSignedIn;
+    // const userSignedIn = this.props.userSignedIn;
+    const userSignedIn = true;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
     const response = form.submission.response
       ? form.submission.response.attributes
       : {};
-    const { veteranFullName, verified } = form.data;
+    let { veteranFullName, verified } = form.data;
+    verified = true;
     const submittedAt = moment(form.submission.submittedAt);
 
     return (
