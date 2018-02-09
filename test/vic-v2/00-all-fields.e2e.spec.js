@@ -5,8 +5,10 @@ const testData = require('./schema/maximal-test.json');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
-    PageHelpers.initApplicationSubmitMock();
+    PageHelpers.initPhotoUploadMock();
     PageHelpers.initDocumentUploadMock();
+    PageHelpers.initApplicationSubmitMock();
+    PageHelpers.initApplicationPollMock();
 
     if (process.env.BUILDTYPE !== 'production') {
     // Ensure introduction page renders.
@@ -117,14 +119,15 @@ const runTest = E2eHelpers.createE2eTest(
       client.axeCheck('.main');
       client.click('input[type="checkbox"]');
       client.click('.form-progress-buttons .usa-button-primary');
-      // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-      // client.expect.element('.js-test-location').attribute('data-location')
-      // .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      client.pause(5000);
+      E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+      client.expect.element('.js-test-location').attribute('data-location')
+        .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
-      // //Submit message
-      // client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
+      // Submit message
+      client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
 
-      // client.axeCheck('.main');
+      client.axeCheck('.main');
     }
     client.end();
   }
