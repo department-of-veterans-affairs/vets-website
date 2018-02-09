@@ -113,7 +113,7 @@ export function getAppealsV2() {
           case '422':
             action.type = VALIDATION_ERROR;
             break;
-          case '504':
+          case '502':
             action.type = BACKEND_SERVICE_ERROR;
             break;
           default:
