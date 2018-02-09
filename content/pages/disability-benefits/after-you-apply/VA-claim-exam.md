@@ -82,7 +82,7 @@ If you can’t make it to your appointment, let us know right away. You can resc
 - Go to your nearest regional benefit office. <br>
   [Find your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).	
 
-<div markdown="0"><br></div>
+<div>
 
 ### What should I bring to my VA claim exam?
 
