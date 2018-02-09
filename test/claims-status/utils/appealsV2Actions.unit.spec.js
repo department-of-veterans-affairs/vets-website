@@ -1,11 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { getAppealsV2 } from '../../../src/js/claims-status/actions';
 import {
-  getAppealsV2,
   FETCH_APPEALS_PENDING,
   FETCH_APPEALS_SUCCESS,
-  SET_APPEALS_UNAVAILABLE
-} from '../../../src/js/claims-status/actions';
+  SET_APPEALS_UNAVAILABLE,
+  USER_FORBIDDEN,
+  RECORD_NOT_FOUND,
+  VALIDATION_ERROR,
+  APPEALS_FETCH_ERROR,
+  BACKEND_SERVICE_ERROR,
+} from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
 let oldFetch;
 let oldSessionStorage;
@@ -69,11 +74,11 @@ describe('getAppealsV2', () => {
   });
 
   const appealsErrors = {
-    401: 'SHOULD COME FROM CONSTANTS MAPPING',
-    403: '',
-    404: '',
-    422: '',
-    502: '',
+    403: USER_FORBIDDEN,
+    404: RECORD_NOT_FOUND,
+    422: VALIDATION_ERROR,
+    502: BACKEND_SERVICE_ERROR,
+    504: APPEALS_FETCH_ERROR // works for any unspecified error code
   };
 
   Object.keys(appealsErrors).forEach((code) => {
