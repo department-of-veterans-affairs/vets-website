@@ -163,10 +163,9 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 ### What if I have more questions about my exam?
 
-- Our women’s health website gives you the latest information about how we help women Veterans stay well. [Visit the women’s health website](https://www.womenshealth.va.gov/).
-- Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/).
-- Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential guidance. Call the Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>).
-
+- Our VA claim exam website gives you the latest information about what to expect from your visit. [Visit the claim exam website](https://www.benefits.va.gov/compensation/claimexam.asp).
+- You can also download a factsheet to answer your questions about the VA claim exam. [Download the VA claim exam factsheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
+- Our VA claim exam tipsheet can help answer questions about the claim exam process. [Download the VA claim exam tipsheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipsheet.pdf#).
 
 
 
