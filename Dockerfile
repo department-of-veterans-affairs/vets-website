@@ -29,8 +29,7 @@ COPY package.json .
 COPY yarn.lock .
 COPY .yarnrc .
 # skips all dev dependencies if NODE_ENV=production.. so..
-RUN apk --no-cache --virtual .yarn add git make python g++ \
-  && yarn install --production=false \
-  && apk del .yarn
+RUN apk --no-cache add git make python g++ \
+  && yarn install --production=false
 
 COPY . .
