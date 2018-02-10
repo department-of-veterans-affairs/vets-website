@@ -429,14 +429,15 @@ input[type=range] {
   outline: none;
 }
 
-.photo-preview-link {
-  margin-right: 10px;
-}
 /* USWDS overrides */
 .usa-accordion, .usa-accordion-bordered {
   > ul {
     button.cropper-control, button.photo-edit-button {
       font-weight: $font-normal;
+    }
+    .photo-preview-link {
+      margin-right: 10px;
+      font-weight: 400;
     }
   }
 }
