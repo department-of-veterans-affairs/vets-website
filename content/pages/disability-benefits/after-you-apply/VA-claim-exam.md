@@ -1,11 +1,10 @@
 ---
 layout: page-breadcrumbs.html
 title: VA Claim Exam (C&P Exam)
-display_title: What to Expect During your Claim Exam
+display_title: VA Claim Exam (C&P Exam)
 order: 3
-plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
+plainlanguage: 02-09-18 certified in compliance with the Plain Writing Act
 template: detail-page
-children: disabilityAfterYouApply
 majorlinks:
   - heading: More information about disability ratings and payments
     links:
