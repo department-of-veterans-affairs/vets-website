@@ -45,8 +45,6 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 
 <br>
 
-<div class="feature" markdown=“1”>
-
 ### Does everyone who files a claim need to have a VA claim exam?
 
 No. We’ll ask you to have a claim exam only if we need more information to decide your claim. 
