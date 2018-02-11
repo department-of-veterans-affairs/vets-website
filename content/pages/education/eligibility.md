@@ -46,10 +46,10 @@ You can check to see if you have Post-9/11 GI Bill benefits. <br>
 
 You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: the Montgomery GI Bill Active Duty (MGIB-AD) or the Montgomery GI Bill Selected Reserve (MGIB-SR).
 
-You can get benefits through MGIB-AD if you served at least 2 years on active duty, and you:
-- Were honorably discharged, **and**
-- Have a high school diploma, GED, or 12 hours of college credit, **and**
-- Meet other requirements
+You can get benefits through MGIB-AD if you served at least 2 years on active duty, and **all of the following are true for you**:
+- You were honorably discharged, **and**
+- You have a high school diploma, GED, or 12 hours of college credit, **and**
+- You meet other requirements
 
 [Learn more about MGIB-AD](/education/gi-bill/montgomery-active-duty/).
 
@@ -105,9 +105,11 @@ Yes. You can apply for a discharge upgrade. If your application goes through and
 
 In some cases, the dependent or surviving spouse and children of a Veteran can get educational assistance through a GI Bill program. <br> [Learn more about Survivors’ and Dependents’ Assistance](/education/gi-bill/survivors-dependent-assistance/).
 
-Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> [Learn more about transferring benefits](/education/gi-bill/transfer/).
+Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> 
+[Learn more about transferring benefits](/education/gi-bill/transfer/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. [Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
+If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. <br>
+[Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
 
 </div>
 </div>
