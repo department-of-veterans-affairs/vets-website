@@ -79,11 +79,7 @@ Call the number provided right away to confirm the time and location of your exa
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-reschedule">To reschedule your appointment:</button>
-<div id="claim-exam-reschedule" class="usa-accordion-content">
+**To reschedule your appointment**
 
 - Call 1-800-827-1000, **or**
 - Go to your nearest regional benefit office. <br>
