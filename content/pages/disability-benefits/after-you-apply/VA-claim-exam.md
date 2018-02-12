@@ -213,7 +213,7 @@ Yes. To get a copy of the final report from the claim exam:
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-information">What information does the VA claims processor have when making a decision?</button>
-<div id="VA-claim-exam-miss" class="usa-accordion-information">
+<div id="VA-claim-exam-information" class="usa-accordion-content">
 
 Your VA claims processor will review the medical records you’ve given us, statements from you and others about your claim, and your military medical and personnel records. 
 
