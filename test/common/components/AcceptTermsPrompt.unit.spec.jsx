@@ -15,11 +15,12 @@ const defaultProps = {
   onAccept: sinon.spy(),
 };
 
-before(() => {
-  window.dataLayer = [];
-});
-
 describe('<AcceptTermsPrompt>', () => {
+  before(() => {
+    window.dataLayer = [];
+    window.scrollTo = () => {};
+  });
+
   it('should be an empty div if there is no content', () => {
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt
