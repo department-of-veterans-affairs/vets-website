@@ -42,7 +42,7 @@ class FormStartControls extends React.Component {
 
   startOver = () => {
     this.toggleModal();
-    this.props.removeInProgressForm(this.props.formId, this.props.migrations);
+    this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
   }
 
   render() {

@@ -254,8 +254,8 @@ export function stringifyFormReplacer(key, value) {
     }
 
     // Exclude file data
-    if (value.confirmationCode && value.file) {
-      return _.omit('file', value);
+    if (value.confirmationCode && value.serverPath) {
+      return _.omit(['serverPath', 'serverName'], value);
     }
   }
 
