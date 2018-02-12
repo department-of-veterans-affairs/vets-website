@@ -19,6 +19,8 @@ services:
     image: selenium/hub
     environment:
       GRID_MAX_SESSION: '10'
+      GRID_BROWSER_TIMEOUT: 120000
+      GRID_TIMEOUT: 120000
     expose:
       - 4444
   selenium-chrome:
@@ -26,10 +28,8 @@ services:
     links:
       - vets-website
       - selenium-hub
-    shm_size: 1024MB 
+    shm_size: 2g
     environment:
       HUB_PORT_4444_TCP_ADDR: selenium-hub
       HUB_PORT_4444_TCP_PORT: 4444
       DBUS_SESSION_BUS_ADDRESS: /dev/null
-    volumes:
-      - /dev/shm:/dev/shm
