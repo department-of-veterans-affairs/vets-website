@@ -54,6 +54,9 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 ### How to schedule your exam
 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-schedule">How will you contact me to schedule the exam?</button>
 <div id="claim-exam-schedule" class="usa-accordion-content">
 
