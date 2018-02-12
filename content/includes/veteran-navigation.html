@@ -114,38 +114,14 @@
                   hidden>
                 <li>
                   <button
-                    class="vetnav-back vetnav-trigger"
-                    aria-controls="vetnav-edu"
-                    aria-expanded="true">Back to menu</button>
-                  <div class="vetnav-level2-heading">Education &amp; training</div>
-                </li>
-                <li><a href="/education/">Education benefits overview</a></li>
-                <li><a href="/education/eligibility">Eligibility</a></li>
-                <li><a href="/education/apply/">Application process</a></li>
-                <li><a href="/education/gi-bill/">GI Bill programs</a></li>
-                <li><a href="/gi-bill-comparison-tool/">Compare GI Bill benefits</a></li>
-                <li><a href="/education/apply/" class="usa-button va-button-primary">Apply now</a></li>
-               </ul>
-            </li>
-
-            <li>
-              <button
-                 class="vetnav-level2 vetnav-trigger"
-                 aria-controls="vetnav-housing"
-                 aria-expanded="false">Housing assistance</button>
-              <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-housing" hidden>
-               <li>
-                 <button
-                 class="vetnav-level2 vetnav-trigger vetnav-back"
-                 aria-controls="vetnav-housing"
-                 aria-expanded="true">Back to menu</button>
-                 <div class="vetnav-level2-heading">Housing assistance</div>
-                 <li><a href="/housing-assistance/">Housing assistance overview</a></li>
-                 <li><a href="/housing-assistance/home-loans/">Home loans</a></li>
-                 <li><a href="/housing-assistance/adaptive-housing-grants/">Adaptive housing grants</a></li>
-               </li>
-              </ul>
-            </li>
+                  class="vetnav-level2 back-button"
+                  aria-controls="vetnav-housing">Back to menu</button>
+                  <div class="vetnav-level2-heading">Housing assistance</div>
+                  <li><a href="/housing-assistance/" onClick="reportHeaderNav('Explore Benefits->Housing Assistance');">Housing assistance overview</a></li>
+                  <li><a href="/housing-assistance/home-loans/" onClick="reportHeaderNav('Explore Benefits->Housing Assistance');">Home loans</a></li>
+                  <li><a href="/housing-assistance/adaptive-housing-grants/" onClick="reportHeaderNav('Explore Benefits->Housing Assistance');">Adaptive housing grants</a></li>
+                </ul>
+              </li>
 
               <li>
                 <button
@@ -224,9 +200,35 @@
                   <li><a href="/pension/survivors-pension/" onClick="reportHeaderNav('Explore Benefits->Pension');">Survivors pension</a></li>
                 </ul>
               </li>
-            <li><a href='/families-caregivers/' class="vetnav-level2 vetnav-trigger">Family &amp; caregiver benefits</a></li>
 
-          </ul>
+              <li>
+                <button
+                  class="vetnav-level2"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-controls="vetnav-burials"
+                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Burials &amp; memorials</button>
+                <ul
+                  class="vetnav-panel vetnav-panel--submenu"
+                  id="vetnav-burials"
+                  role="menu"
+                  aria-label="Burials and memorials"
+                  hidden>
+                  <li>
+                    <button
+                      class="back-button"
+                      aria-controls="vetnav-burials">Back to menu</button>
+                    <div class="vetnav-level2-heading">Burials &amp; memorials</div>
+                  </li>
+                  <li><a href="/burials-and-memorials/" onClick="reportHeaderNav('Explore Benefits->Burials Memorials');">Burials &amp; memorials overview</a></li>
+                  <li><a href="/burials-and-memorials/eligibility/" onClick="reportHeaderNav('Explore Benefits->Burials Memorials');">Eligibility</a></li>
+                  <li><a href="/burials-and-memorials/burial-planning/" onClick="reportHeaderNav('Explore Benefits->Burials Memorials');">Plan a burial</a></li>
+                  <li><a href="/burials-and-memorials/survivor-and-dependent-benefits/" onClick="reportHeaderNav('Explore Benefits->Burials Memorials');">Allowances &amp; survivor compensation</a></li>
+                  <li><a href="/burials-and-memorials/find-a-cemetery/" onClick="reportHeaderNav('Explore Benefits->Burials Memorials');">Find a cemetery</a></li>
+                </ul>
+              </li>
+              <li><a href='/families-caregivers/' class="vetnav-level2 vetnav-trigger">Family &amp; caregiver benefits</a></li>
+            </ul>
           </div>
         </li>
 
