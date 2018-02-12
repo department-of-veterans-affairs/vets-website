@@ -9,7 +9,7 @@ import {
   RECORD_NOT_FOUND,
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  APPEALS_FETCH_ERROR
+  FETCH_APPEALS_ERROR,
 } from '../utils/appeals-v2-helpers';
 
 export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
@@ -118,7 +118,7 @@ export function getAppealsV2() {
             action.type = BACKEND_SERVICE_ERROR;
             break;
           default:
-            action.type = APPEALS_FETCH_ERROR;
+            action.type = FETCH_APPEALS_ERROR;
             break;
         }
         Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
