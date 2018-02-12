@@ -98,6 +98,13 @@ If you can’t make it to your appointment, let us know right away. You can resc
 - Call 1-800-827-1000, **or**
 - Go to your nearest regional benefit office. <br>
   [Find your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).	
+  
+</div>
+</li>
+</ul>
+</div>
+
+<br>  
 
 ### What to expect at your exam
 
