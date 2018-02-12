@@ -38,8 +38,6 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 </div>
 </div>
 
-<br>
-
 ### Why might I need a VA claim exam?
 
 This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
@@ -175,7 +173,7 @@ If you have what we consider to be a good reason for missing your exam (called �
 
 ### After your exam
 
-#### What happens after my exam?
+What happens after my exam?
 
 We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating). 
 
