@@ -7,13 +7,23 @@ import moment from 'moment';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import { systemDownMessage } from '../../common/utils/error-messages';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 
-import { EVENT_TYPES, isolateAppeal } from '../utils/appeals-v2-helpers';
+import {
+  EVENT_TYPES,
+  isolateAppeal,
+  USER_FORBIDDEN,
+  RECORD_NOT_FOUND,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
+  AVAILABLE,
+} from '../utils/appeals-v2-helpers';
 
 export class AppealInfo extends React.Component {
   componentDidMount() {
@@ -29,18 +39,11 @@ export class AppealInfo extends React.Component {
   }
 
   render() {
-    const { params, appeal, appealsLoading, availabilityError, children } = this.props;
+    const { params, appeal, appealsLoading, v2Availability, children } = this.props;
     let appealContent;
-    if (!appeal && !appealsLoading) {
-      // Appeals finished loading but appeal not found, so the ID passed in the params
-      // doesn't match any appeals in Redux appeals array (at least not for this user)
-      // TO-DO: Get input from content team
-      appealContent = <AppealNotFound/>;
-    } else if (appealsLoading) {
+    if (appealsLoading) {
       appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
-    } else if (availabilityError) {
-      // some nested logic to display stuff
-    } else if (appeal) {
+    } else if (v2Availability === AVAILABLE && appeal) {
       const claimHeading = this.createHeading();
       appealContent = (
         <div>
@@ -69,7 +72,61 @@ export class AppealInfo extends React.Component {
           </div>
         </div>
       );
-    } 
+    } else if (v2Availability === AVAILABLE && !appeal) {
+      appealContent = <AppealNotFound/>;
+    } else if (v2Availability === USER_FORBIDDEN) {
+      appealContent = <div>Thou shal not pass!</div>;
+    } else if (v2Availability === RECORD_NOT_FOUND) {
+      appealContent = <div>Record Not Found!</div>;
+    } else if (v2Availability === VALIDATION_ERROR) {
+      appealContent = <div>Validation Error!</div>;
+    } else if (v2Availability === BACKEND_SERVICE_ERROR) {
+      appealContent = <div>Backend service error!</div>;
+    } else if (v2Availability === FETCH_APPEALS_ERROR) {
+      appealContent = systemDownMessage;
+    } else {
+      appealContent = systemDownMessage;
+    }
+    // if (!appeal && !appealsLoading) {
+    //   // Appeals finished loading but appeal not found, so the ID passed in the params
+    //   // doesn't match any appeals in Redux appeals array (at least not for this user)
+    //   appealContent = <AppealNotFound/>;
+    // } else if (appealsLoading) {
+    //   appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
+    // } else if (v2Availability) {
+    //   // some nested logic to display stuff
+    // } else if (appeal) {
+    //   const claimHeading = this.createHeading();
+    //   appealContent = (
+    //     <div>
+    //       <div className="row">
+    //         <Breadcrumbs>
+    //           <li><Link to="your-claims">Your Claims and Appeals</Link></li>
+    //           <li><strong>{claimHeading}</strong></li>
+    //         </Breadcrumbs>
+    //       </div>
+    //       <div className="row">
+    //         <AppealHeader
+    //           heading={claimHeading}
+    //           lastUpdated={appeal.attributes.updated}/>
+    //       </div>
+    //       <div className="row">
+    //         <div className="medium-8 columns">
+    //           <AppealsV2TabNav
+    //             appealId={params.id}/>
+    //           <div className="va-tab-content va-appeals-content">
+    //             {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
+    //           </div>
+    //         </div>
+    //         <div className="medium-4 columns help-sidebar">
+    //           {appeal && <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // }
+    console.log(appealContent);
+    console.log(appeal);
     return (appealContent);
   }
 }
@@ -86,7 +143,7 @@ AppealInfo.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { appealsLoading, availabilityError } = state.disability.status.appeals;
+  const { appealsLoading, v2Availability } = state.disability.status.appeals;
   // appealsLoading is not initialized in Redux, it's added once fetch starts. We
   // need it to be available immediately to know whether to show the loading spinner
   const computedLoading = (typeof appealsLoading === 'undefined')
@@ -95,7 +152,7 @@ function mapStateToProps(state, ownProps) {
   return {
     appeal: isolateAppeal(state, ownProps.params.id),
     appealsLoading: computedLoading,
-    availabilityError,
+    v2Availability,
   };
 }
 
