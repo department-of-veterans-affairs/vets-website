@@ -168,17 +168,19 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         e2e: {
-          sh "docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker && docker-compose -p e2e stop"
+          sh "docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
         },
 
         accessibility: {
-          sh "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop"
+          sh "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
         }
       )
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
       throw error
     } finally {
+      sh "docker-compose -p e2e down"
+      sh "docker-compose -p accessibility down"
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
