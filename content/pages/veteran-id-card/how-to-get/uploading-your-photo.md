@@ -3,8 +3,6 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Uploading Your Photo For Your Veteran ID Card
 display_title: Uploading Your Photo
-collection: how-to-get
-order: 1
 relatedlinks:
   - heading: 
     links:
