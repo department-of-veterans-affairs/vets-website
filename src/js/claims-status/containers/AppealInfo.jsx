@@ -125,8 +125,6 @@ export class AppealInfo extends React.Component {
     //     </div>
     //   );
     // }
-    console.log(appealContent);
-    console.log(appeal);
     return (appealContent);
   }
 }

@@ -1134,7 +1134,6 @@ export function getAlertContent(alert) {
  * @returns {string} status code or 'unknown'
  */
 export const getStatus = (response) => {
-  console.log(response);
   return (response.errors && response.errors.length)
     ? response.errors[0].status
     : 'unknown';
