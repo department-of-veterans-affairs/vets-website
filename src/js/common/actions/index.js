@@ -2,6 +2,8 @@ import { apiRequest } from '../helpers/api';
 
 export const RETREIVE_SCHEDULED_DOWNTIME = 'RETREIVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
+export const SET_CURRENT_DOWNTIME_STATUS = 'SET_CURRENT_DOWNTIMW_STATUS';
+export const UNSET_CURRENT_DOWNTIME_STATUS = 'UNSET_CURRENT_DOWNTIMW_STATUS';
 
 function receiveScheduledDowntime(dispatch, data) {
   const services = data.map(({ attributes: { externalService: service, description, startTime, endTime } }) => {
@@ -23,5 +25,17 @@ export function getScheduledDowntime() {
       undefined,
       (json) => { receiveScheduledDowntime(dispatch, json.data); },
       () => { receiveScheduledDowntime(dispatch, []); });
+  };
+}
+
+export function setCurrentStatus(status) {
+  return (dispatch) => {
+    dispatch({ type: SET_CURRENT_DOWNTIME_STATUS, value: status });
+  };
+}
+
+export function unsetCurrentStatus() {
+  return (dispatch) => {
+    dispatch({ type: UNSET_CURRENT_DOWNTIME_STATUS });
   };
 }

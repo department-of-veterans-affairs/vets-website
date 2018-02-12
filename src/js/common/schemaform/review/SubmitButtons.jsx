@@ -1,4 +1,5 @@
 import React from 'react';
+import { serviceStatus } from '../../containers/DowntimeNotification';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
 export default function SubmitButtons(props) {
@@ -6,11 +7,20 @@ export default function SubmitButtons(props) {
     onBack,
     onSubmit,
     submission,
+    downtimeStatus,
     renderErrorMessage
   } = props;
   let submitButton;
   let submitMessage;
-  if (submission.status === false) {
+  if (downtimeStatus === serviceStatus.down) {
+    submitButton = (
+      <ProgressButton
+        onButtonClick={onSubmit}
+        buttonText="Submit Disabled"
+        disabled
+        buttonClass="usa-button-disabled"/>
+    );
+  } else if (submission.status === false) {
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
