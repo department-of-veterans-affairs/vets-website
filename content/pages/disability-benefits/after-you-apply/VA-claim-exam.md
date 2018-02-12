@@ -9,16 +9,16 @@ majorlinks:
   - heading: More information about what happens after you file your claim:
     - url: /?next=%2Ftrack-claims%2F/
       title: Check Claim and Appeal Status
-      description: Track the status of your disability claims and appeals.
+      description: "Track the status of your disability claims and appeals."
     - url: /disability-benefits/claims-appeal/
       title: Appeals Process
-      description: Find out what to do if you disagree with your disability rating decision.
+      description: "Find out what to do if you disagree with your disability rating decision."
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
     - url: /health-care/
       title: Health Care Benefits
-      description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
+      description: "Apply for VA health care, find out how to access services, and manage your health and benefits online."
 ---
 
 <div class="va-introtext">
@@ -39,7 +39,15 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 
 <br>
 
-### Why might I need a VA claim exam?
+### What do I need to know about my VA claim exam?
+
+Click on the questions below to get the answers you need:
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-need">Why might I need a VA claim exam?</button>
+<div id="dental-care-disability" class="usa-accordion-content">
 
 This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
 
