@@ -549,6 +549,11 @@ export default class PhotoField extends React.Component {
     }
   }
 
+  handleDrag(state) {
+    console.info('set state ', state);
+    this.setState(state);
+  }
+
   render() {
     const { formData, formContext } = this.props;
     const file = formData || {};
@@ -733,8 +738,14 @@ export default class PhotoField extends React.Component {
           </div>
           }
           {fieldView === 'initial' && <div className="drop-target-container">
-            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
-              <img alt="placeholder" src="/img/photo-placeholder.png"/>
+            <Dropzone
+              className={`drop-target ${this.state.dragging && 'dragging'}`}
+              onDragEnter={() => this.handleDrag({dragging: true})}
+              onDragLeave={() => this.handleDrag({dragging: false})}
+              onDrop={this.onChange}
+              accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              {!this.state.dragging && <img alt="placeholder" src="/img/photo-placeholder.png"/>}
+              {this.state.dragging && <div className='dragging-text'><span>DROP IMAGE</span></div>}
             </Dropzone>
           </div>}
           <div className={uploadControlClass}>

@@ -371,6 +371,19 @@ input[type=range] {
   border: 4px solid $color-primary;
 }
 
+.dragging.drop-target:after {
+  border: 4px dotted green;
+}
+
+.dragging-text {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  padding-top: 110px;
+  text-align: center;
+  z-index: 10;
+}
+
 .crop-button-container {
   margin: 0 auto;
   max-width: 130px;
