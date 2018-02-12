@@ -36,6 +36,7 @@ After you file your disability benefits claim, we may ask you to have a claim ex
 If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or, if you don’t reschedule, we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
 
 </div>
+</div>
 
 <br>
 
