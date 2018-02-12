@@ -24,13 +24,8 @@ relatedlinks:
 
 <div class="va-introtext">
 
-After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). 
-
-This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program. 
-
-Get answers to commonly asked questions about the VA claim exam below. 
+After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). Get answers to commonly asked questions about the VA claim exam below. 
  
-
 </div>
 
 <div class="usa-alert usa-alert-warning va-alert">
@@ -44,6 +39,10 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 </div>
 
 <br>
+
+### Why might I need a VA claim exam?
+
+This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
 
 ### Does everyone who files a claim need to have a VA claim exam?
 
@@ -85,9 +84,13 @@ If you can’t make it to your appointment, let us know right away. You can resc
 
 #### What should I bring to my VA claim exam?
 
-- Bring to your exam any new non-VA medical records that you haven't given us yet. These might include records from a recent surgery or illness. 
-- Please wear comfortable clothing that allows you to move freely on the day of the exam. 
-- Please plan for childcare during your exam. Because of the sensitive nature of VA claims exams, it is not appropriate for children to be present. 
+Bring to your exam any new non-VA medical records that you haven’t given us yet. These might include records from a recent surgery or illness.
+
+#### What else do I need to do to prepare for my exam?
+
+If you have children, you’ll need to plan ahead for childcare during your exam. Because you and the doctor may discuss sensitive topics, children shouldn’t be in the room with you.
+
+On the day of the exam, you’ll want to wear comfortable clothes so you can move freely while the doctor exams you.
 
 <br>
 
