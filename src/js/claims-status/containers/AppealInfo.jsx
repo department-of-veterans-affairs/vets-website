@@ -41,9 +41,15 @@ export class AppealInfo extends React.Component {
   render() {
     const { params, appeal, appealsLoading, v2Availability, children } = this.props;
     let appealContent;
+
+    // Availability is determined by whether or not the API returned an appeals array
+    // for this user. However, it doesn't speak to whether the appeal that's been
+    // requested is available in the array. This is why we have to check for both
+    // AVAILABLE statuses as well as whether or not the appeal exists.
     if (appealsLoading) {
       appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
     } else if (v2Availability === AVAILABLE && appeal) {
+      // Maybe could simplify this to just check if (appeal) instead
       const claimHeading = this.createHeading();
       appealContent = (
         <div>
@@ -73,6 +79,7 @@ export class AppealInfo extends React.Component {
         </div>
       );
     } else if (v2Availability === AVAILABLE && !appeal) {
+      // Yes, we have your appeals. No, the one you requested isn't one of them.
       appealContent = <AppealNotFound/>;
     } else if (v2Availability === USER_FORBIDDEN) {
       appealContent = <div>Thou shal not pass!</div>;
@@ -83,48 +90,12 @@ export class AppealInfo extends React.Component {
     } else if (v2Availability === BACKEND_SERVICE_ERROR) {
       appealContent = <div>Backend service error!</div>;
     } else if (v2Availability === FETCH_APPEALS_ERROR) {
+      // Making this one explicit, but really it's the same as the default condition
       appealContent = systemDownMessage;
     } else {
       appealContent = systemDownMessage;
     }
-    // if (!appeal && !appealsLoading) {
-    //   // Appeals finished loading but appeal not found, so the ID passed in the params
-    //   // doesn't match any appeals in Redux appeals array (at least not for this user)
-    //   appealContent = <AppealNotFound/>;
-    // } else if (appealsLoading) {
-    //   appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
-    // } else if (v2Availability) {
-    //   // some nested logic to display stuff
-    // } else if (appeal) {
-    //   const claimHeading = this.createHeading();
-    //   appealContent = (
-    //     <div>
-    //       <div className="row">
-    //         <Breadcrumbs>
-    //           <li><Link to="your-claims">Your Claims and Appeals</Link></li>
-    //           <li><strong>{claimHeading}</strong></li>
-    //         </Breadcrumbs>
-    //       </div>
-    //       <div className="row">
-    //         <AppealHeader
-    //           heading={claimHeading}
-    //           lastUpdated={appeal.attributes.updated}/>
-    //       </div>
-    //       <div className="row">
-    //         <div className="medium-8 columns">
-    //           <AppealsV2TabNav
-    //             appealId={params.id}/>
-    //           <div className="va-tab-content va-appeals-content">
-    //             {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
-    //           </div>
-    //         </div>
-    //         <div className="medium-4 columns help-sidebar">
-    //           {appeal && <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
+
     return (appealContent);
   }
 }
