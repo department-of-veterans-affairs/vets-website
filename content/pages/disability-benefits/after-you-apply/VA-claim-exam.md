@@ -79,21 +79,27 @@ Call the number provided right away to confirm the time and location of your exa
 
 <br>
 
-#### What if I can’t make it to the scheduled exam?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-cant">What if I can't make it to the scheduled exam?</button>
+<div id="claim-exam-cant" class="usa-accordion-content">
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
 
-#### To reschedule your appointment: 
+<br>
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-reschedule">To reschedule your appointment:</button>
+<div id="claim-exam-reschedule" class="usa-accordion-content">
 
 - Call 1-800-827-1000, **or**
 - Go to your nearest regional benefit office. <br>
   [Find your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).	
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-expect">What to expect at your exam</button>
-<div id="claim-exam-expect" class="usa-accordion-content">
+### What to expect at your exam
 
 #### What should I bring to my VA claim exam?
 
