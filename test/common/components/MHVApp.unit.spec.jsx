@@ -33,10 +33,6 @@ describe('<MHVApp>', () => {
     props.fetchMHVAccount.reset();
   };
 
-  before(() => {
-    window.dataLayer = [];
-  });
-
   beforeEach(setup);
 
   it('should show a loading indicator when fetching terms', () => {
