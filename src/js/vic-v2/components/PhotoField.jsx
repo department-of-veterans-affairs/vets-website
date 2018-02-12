@@ -745,7 +745,7 @@ export default class PhotoField extends React.Component {
               onDrop={this.onChange}
               accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               {this.state.dragging ?
-                <div className="dragging-text"><span>DROP IMAGE</span></div> :
+                <div className="dragging-text"><span>DROP PHOTO</span></div> :
                 <img alt="placeholder" src="/img/photo-placeholder.png"/>}
             </Dropzone>
           </div>}
