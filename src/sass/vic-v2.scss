@@ -371,11 +371,11 @@ input[type=range] {
   border: 4px solid $color-primary;
 }
 
-.dragging.drop-target:after {
+.drag-active.drop-target:after {
   border: 4px dotted $color-green;
 }
 
-.dragging-text {
+.drag-active-text {
   position: absolute;
   width: 240px;
   height: 240px;

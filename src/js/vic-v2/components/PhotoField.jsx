@@ -307,7 +307,7 @@ export default class PhotoField extends React.Component {
 
   onChange = (files) => {
     this.screenReaderPath = false;
-    this.setState({ dragging: false });
+    this.setState({ dragActive: false });
 
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (files && files[0]) {
@@ -550,8 +550,8 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  handleDrag(dragging) {
-    this.setState({ dragging });
+  handleDrag(dragActive) {
+    this.setState(dragActive);
   }
 
   render() {
@@ -739,13 +739,13 @@ export default class PhotoField extends React.Component {
           }
           {fieldView === 'initial' && <div className="drop-target-container">
             <Dropzone
-              className={`drop-target ${this.state.dragging && 'dragging'}`}
-              onDragEnter={() => this.handleDrag(true)}
-              onDragLeave={() => this.handleDrag(false)}
+              className={`drop-target ${this.state.dragActive && 'drag-active'}`}
+              onDragEnter={() => this.handleDrag({ dragActive: true })}
+              onDragLeave={() => this.handleDrag({ dragActive: false })}
               onDrop={this.onChange}
               accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
-              {this.state.dragging ?
-                <div className="dragging-text"><span>DROP PHOTO</span></div> :
+              {this.state.dragActive ?
+                <div className="drag-active-text"><span>DROP PHOTO</span></div> :
                 <img alt="placeholder" src="/img/photo-placeholder.png"/>}
             </Dropzone>
           </div>}
