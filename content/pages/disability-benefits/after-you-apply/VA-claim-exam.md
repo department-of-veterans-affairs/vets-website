@@ -95,6 +95,9 @@ If you can’t make it to your appointment, let us know right away. You can resc
 
 ### What to expect at your exam
 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-bring">What should I bring to my VA claim exam?</button>
 <div id="claim-exam-bring" class="usa-accordion-content">
 
@@ -176,7 +179,11 @@ If you have what we consider to be a good reason for missing your exam (called �
 
 ### After your exam
 
-What happens after my exam?
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-happens">What happens after my exam?</button>
+<div id="claim-exam-happens" class="usa-accordion-content">
 
 We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating). 
 
@@ -186,25 +193,38 @@ Every claim is different, but it usually takes us about 3 to 4 months to process
 
 [Sign in to Vets.gov to track your claim](link to Sign In).
 
-<br>
-
-#### Can I get a copy of the report from my claim exam?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-copy">Can I get a copy of the report from my claim exam?</button>
+<div id="claim-exam-copy" class="usa-accordion-content">
 
 Yes. To get a copy of the final report from the claim exam:
 
  - [Contact your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), **or**
  - Call us at 1-800-827-1000 and request an appointment to view your file
 
-#### What information does the VA claims processor have when making a decision?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-information">What information does the VA claims processor have when making a decision?</button>
+<div id="claim-exam-miss" class="usa-accordion-information">
 
 Your VA claims processor will review the medical records you’ve given us, statements from you and others about your claim, and your military medical and personnel records. 
 
-#### Will I ever need to have another claim exam?</button>
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-another">Will I ever need to have another claim exam?</button>
+<div id="claim-exam-another" class="usa-accordion-content">
 
 We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
 [Learn more about appealing a decision](/disability-benefits/claims-appeal/).
 
-#### What if I have more questions about my exam?</button>
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-questions">What if I have more questions about my exam?</button>
 <div id="claim-exam-questions" class="usa-accordion-content">
 
 - [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
@@ -215,8 +235,6 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 </li>
 </ul>
 </div>
-
-<br>
 
 
 
