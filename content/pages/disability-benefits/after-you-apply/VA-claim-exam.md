@@ -162,7 +162,7 @@ Every claim is different, but it usually takes us about 3 to 4 months to process
 
 #### Can I get a copy of the report from my claim exam?
 
-Yes. You can get a copy of the final report from the claim exam in any of these ways:
+Yes. To get a copy of the final report from the claim exam:
 
  - [Contact your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), **or**
  - Call us at 1-800-827-1000 and request an appointment to view your file
