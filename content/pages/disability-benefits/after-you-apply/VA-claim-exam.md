@@ -6,20 +6,19 @@ order: 3
 plainlanguage: 02-09-18 certified in compliance with the Plain Writing Act
 template: detail-page
 majorlinks:
-  - heading: More information about disability ratings and payments
-    links:
-    - url: /disability-benefits/after-you-apply/date/
-      title: Effective Date of Disability
-      description: "Find out when you’ll start getting your disability payments."
-    - url: /disability-benefits/after-you-apply/what-happens-after-rating/
-      title: What to Expect After You Get a Disability Rating
-      description: "Find out what happens after you get your decision notice with your rating."
+  - heading: More information about what happens after you file your claim:
+    - url: /?next=%2Ftrack-claims%2F
+      title: Check Claim and Appeal Status
+      description: "Track the status of your disability claims and appeals."
+    - url: /disability-benefits/claims-appeal/
+      title: Appeals Process
+      description: "Find out what to do if you disagree with your disability rating decision."
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
-    - url: /employment/vocational-rehab-and-employment/
-      title: Vocational Rehabilitation and Employment (VR&E)
-      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+    - url: /health-care/
+      title: Health Care Benefits
+      description: "Apply for VA health care, find out how to access services, and manage your health and benefits online."
 ---
 
 <div class="va-introtext">
