@@ -31,8 +31,12 @@ export class MHVApp extends React.Component {
     const accountStateChanged = prevProps.account.state !== account.state;
     if (accountStateChanged) { this.handleAccountState(); }
 
-    const shouldPollAccount = account.polling && !account.loading;
-    if (shouldPollAccount) { this.props.fetchMHVAccount(); }
+    const shouldPollAccount = account.polling && !account.loading && !this.isAccessible();
+    if (shouldPollAccount) {
+      setTimeout(() => {
+        this.props.fetchMHVAccount();
+      }, 1000 * account.polledTimes);
+    }
   }
 
   needsTermsAcceptance = () => this.props.account.state === 'needs_terms_acceptance';

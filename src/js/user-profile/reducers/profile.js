@@ -18,6 +18,8 @@ import {
 } from '../actions';
 import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 
+const MAX_POLL_TIMES = 10;
+
 const initialState = {
   userFullName: {
     first: null,
@@ -34,6 +36,7 @@ const initialState = {
       errors: null,
       loading: false,
       polling: false,
+      polledTimes: 0,
       state: 'unknown'
     },
     terms: {
@@ -100,10 +103,17 @@ function profileInformation(state = initialState, action) {
 
     case FETCH_MHV_ACCOUNT_SUCCESS: {
       const { accountState } = action.data.attributes;
+      const { polling, polledTimes } = state.mhv.account;
+      const shouldPoll =
+        accountState !== 'upgraded' &&
+        polling &&
+        polledTimes < MAX_POLL_TIMES;
+
       return set('mhv.account', {
         errors: null,
         loading: false,
-        polling: state.polling && accountState !== 'upgraded',
+        polling: shouldPoll,
+        polledTimes: shouldPoll ? polledTimes + 1 : 0,
         state: accountState
       }, state);
     }
@@ -113,7 +123,8 @@ function profileInformation(state = initialState, action) {
         ...state.mhv.account,
         errors: null,
         loading: false,
-        polling: true
+        polling: true,
+        polledTimes: 0
       }, state);
 
     default:
