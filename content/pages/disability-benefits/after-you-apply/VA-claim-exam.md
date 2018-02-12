@@ -6,7 +6,8 @@ order: 3
 plainlanguage: 02-09-18 certified in compliance with the Plain Writing Act
 template: detail-page
 majorlinks:
-  - heading: More information about what happens after you file your claim:
+  - heading: More information about what happens after you file your claim
+    links:
     - url: /?next=%2Ftrack-claims%2F/
       title: Check Claim and Appeal Status
       description: "Track the status of your disability claims and appeals."
