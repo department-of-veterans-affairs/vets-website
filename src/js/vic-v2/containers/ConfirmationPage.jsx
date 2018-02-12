@@ -70,7 +70,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.caseId}</span>
+              <span>{response.caseNumber}</span>
             </li>
             <li>
               <strong>Date received</strong><br/>
