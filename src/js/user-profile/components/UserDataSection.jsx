@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 
