@@ -17,7 +17,7 @@ Are you the spouse or surviving spouse of—or a child of—a Veteran with disab
 
 ### Can I get health care through CHAMPVA?
 
-You may qualify for CHAMPVA if you don’t qualify for TRICARE and you fit into one of the descriptions below.
+**If you don’t qualify for TRICARE,** you may qualify for CHAMPVA if you fit into one of the descriptions below.
 
 **One of these must be true. You’re:**
 
@@ -148,7 +148,7 @@ To speed up the processing of your application, you can also send copies (*not* 
   - A copy of each child’s birth certificate or adoption papers
   - School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
 
-**If you’re a surviving spouse who remarried but is once again single**, also send a copy of the legal document that ended your marriage. This may be a divorce decree, death certificate, or annulment decree.
+**If you’re a surviving spouse who remarried but is once again single,** also send a copy of the legal document that ended your marriage. This may be a divorce decree, death certificate, or annulment decree.
 
 Be sure to sign and date your application. If your Veteran is applying for you as a spouse, be sure to also include the date of the marriage on the application.
 
@@ -161,7 +161,7 @@ PO Box 469028 <br>
 Denver, CO 80246-9028
 </p>
 
-Or, fax it to: 1-303-331-7809
+Or fax it to: 1-303-331-7809
 
 
 ### What happens after I apply?
