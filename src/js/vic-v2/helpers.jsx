@@ -37,7 +37,10 @@ export function prefillTransformer(pages, formData, metadata) {
 export function PhotoReviewDescription({ url }) {
   return (
     <div className="va-growable-background">
-      <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
+      {url
+        ? <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
+        : <span>No photo chosen</span>
+      }
     </div>);
 }
 
