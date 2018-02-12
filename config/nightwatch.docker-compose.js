@@ -34,15 +34,15 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          args: ['--window-size=1024,768']
+          args: ['--headless', '--no-sandbox', '--disable-gpu', '--window-size=1024,768']
         }
       },
       selenium: {
         start_process: false,
         log_path: './logs/selenium',
         host: 'selenium-hub',
-        port: selenium_server_port,
-      },
+        port: selenium_server_port
+      }
     },
     accessibility: {
       filter: './test/accessibility/*.spec.js'
