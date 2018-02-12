@@ -9,16 +9,16 @@ majorlinks:
   - heading: More information about what happens after you file your claim:
     - url: /?next=%2Ftrack-claims%2F/
       title: Check Claim and Appeal Status
-      description: "Track the status of your disability claims and appeals."
+      description: Track the status of your disability claims and appeals.
     - url: /disability-benefits/claims-appeal/
       title: Appeals Process
-      description: "Find out what to do if you disagree with your disability rating decision."
+      description: Find out what to do if you disagree with your disability rating decision.
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
     - url: /health-care/
       title: Health Care Benefits
-      description: "Apply for VA health care, find out how to access services, and manage your health and benefits online."
+      description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
 ---
 
 <div class="va-introtext">
