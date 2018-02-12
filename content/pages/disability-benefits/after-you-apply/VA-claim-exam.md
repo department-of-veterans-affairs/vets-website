@@ -175,6 +175,13 @@ If you have what we consider to be a good reason for missing your exam (called â
 
 [Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
 
+</div>
+</li>
+</ul>
+</div>
+
+<br>  
+
 ### After your exam
 
 <div class="usa-accordion">
