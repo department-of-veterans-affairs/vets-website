@@ -37,12 +37,15 @@ module.exports = E2eHelpers.createE2eTest(
 
     // fail to find in progress form
     client
+      .url(url)
+      .waitForElementVisible('body', Timeouts.normal)
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'get',
         value: {},
         status: 404
       }, token)
+      .pause(500)
       .click('.usa-button-primary');
 
     client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
@@ -60,6 +63,7 @@ module.exports = E2eHelpers.createE2eTest(
         value: {},
         status: 401
       }, token)
+      .pause(500)
       .click('.usa-button-primary');
 
     client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
