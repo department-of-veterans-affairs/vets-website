@@ -1,6 +1,5 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
 title: VA Claim Exam (C&P Exam)
 display_title: VA Claim Exam (C&P Exam)
 order: 3
@@ -8,7 +7,7 @@ plainlanguage: 02-09-18 certified in compliance with the Plain Writing Act
 template: detail-page
 majorlinks:
   - heading: More information about what happens after you file your claim:
-    - url: /?next=%2Ftrack-claims%2F
+    - url: /?next=%2Ftrack-claims%2F/
       title: Check Claim and Appeal Status
       description: "Track the status of your disability claims and appeals."
     - url: /disability-benefits/claims-appeal/
