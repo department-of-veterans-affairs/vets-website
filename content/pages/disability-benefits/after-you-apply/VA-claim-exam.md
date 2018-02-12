@@ -40,22 +40,11 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 
 <br>
 
-### What do I need to know about my VA claim exam?
-
-Click on the questions below to get the answers before your claim exam:
-
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-need">Why might I need a VA claim exam?</button>
-<div id="claim-exam-name" class="usa-accordion-content">
+### Why might I need a VA claim exam?
 
 This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-everyone">Does everyone who files a claim need to have a VA claim exam?</button>
+### Does everyone who files a claim need to have a VA claim exam?</button>
 <div id="claim-exam-everyone" class="usa-accordion-content">
 
 No. We’ll ask you to have a claim exam only if we need more information to decide your claim. 
@@ -65,7 +54,7 @@ If you have enough medical evidence in your file to support your claim, we won't
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-schedule">How do I schedule my exam?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-schedule">How to schedule your exam</button>
 <div id="claim-exam-schedule" class="usa-accordion-content">
 
 #### How will you contact me to schedule the exam?
@@ -95,10 +84,8 @@ If you can’t make it to your appointment, let us know right away. You can resc
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-expect">What should I expect at my exam?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-expect">What to expect at your exam</button>
 <div id="claim-exam-expect" class="usa-accordion-content">
-
-### What to expect at your exam
 
 #### What should I bring to my VA claim exam?
 
@@ -108,9 +95,7 @@ Bring to your exam any new non-VA medical records that you haven’t given us ye
 
 If you have children, you’ll need to plan ahead for childcare during your exam. Because you and the doctor may discuss sensitive topics, children shouldn’t be in the room with you.
 
-On the day of the exam, you’ll want to wear comfortable clothes so you can move freely while the doctor exams you.
-
-<br>
+On the day of the exam, you’ll want to wear comfortable clothes so you can move freely while the doctor exams you.<br>
 
 #### What happens at a VA claim exam?
 
@@ -165,10 +150,8 @@ If you have what we consider to be a good reason for missing your exam (called �
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-after">What happens after my exam?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-after">After your exam</button>
 <div id="claim-exam-after" class="usa-accordion-content">
-
-### After your exam
 
 #### What happens after my exam?
 
@@ -189,27 +172,16 @@ Yes. To get a copy of the final report from the claim exam:
  - [Contact your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), **or**
  - Call us at 1-800-827-1000 and request an appointment to view your file
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-information">What information does the VA claims processor have when making a decision?</button>
-<div id="claim-exam-information" class="usa-accordion-content"> 
+#### What information does the VA claims processor have when making a decision?
 
 Your VA claims processor will review the medical records you’ve given us, statements from you and others about your claim, and your military medical and personnel records. 
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-another">Will I ever need to have another claim exam?</button>
-<div id="claim-exam-another" class="usa-accordion-content">
+#### Will I ever need to have another claim exam?</button>
 
 We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
 [Learn more about appealing a decision](/disability-benefits/claims-appeal/).
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-questions">What if I have more questions about my exam?</button>
+#### What if I have more questions about my exam?</button>
 <div id="claim-exam-questions" class="usa-accordion-content">
 
 - [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
