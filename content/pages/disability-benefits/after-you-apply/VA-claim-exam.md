@@ -48,11 +48,15 @@ Click on the questions below to get the answers you need:
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-need">Why might I need a VA claim exam?</button>
-<div id="dental-care-disability" class="usa-accordion-content">
+<div id="claim-exam-name" class="usa-accordion-content">
 
 This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
 
-### Does everyone who files a claim need to have a VA claim exam?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-everyone">Does everyone who files a claim need to have a VA claim exam?</button>
+<div id="claim-exam-everyone" class="usa-accordion-content">
 
 No. We’ll ask you to have a claim exam only if we need more information to decide your claim. 
 
