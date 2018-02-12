@@ -129,7 +129,7 @@ Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. Y
 No. The doctor will give the exam results to VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
 If you have questions about the claims process, call your nearest VA regional office. <br>
-[Find contact information for your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0).
+[Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
 
 <br>
 
@@ -139,7 +139,7 @@ If you miss your claim exam, contact us right away to let us know why you didn�
 
 If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of this might be an illness or the death of someone in your immediate family.
 
-[Find contact information for your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0).
+[Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
 
 <br>
 
