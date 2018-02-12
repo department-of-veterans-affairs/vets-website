@@ -175,7 +175,11 @@ function isSquareImage(img) {
 }
 
 function getImageUrl({ serverPath, serverName } = {}) {
-  return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+  if (serverName) {
+    return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+  }
+
+  return null;
 }
 
 export default class PhotoField extends React.Component {
