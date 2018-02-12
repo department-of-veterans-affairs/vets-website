@@ -45,9 +45,8 @@ module.exports = E2eHelpers.createE2eTest(
       }, token)
       .click('.usa-button-primary');
 
-    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
+    client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
     client.assert.urlContains('error');
-
     client.expect.element('.usa-alert-error').text.to.contain('Something went wrong when we tried to find your application');
 
     // Signed out when loading form
@@ -63,7 +62,7 @@ module.exports = E2eHelpers.createE2eTest(
       }, token)
       .click('.usa-button-primary');
 
-    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
+    client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
 
     client.expect.element('.usa-alert-error').text.to.contain('You have been signed out');
 

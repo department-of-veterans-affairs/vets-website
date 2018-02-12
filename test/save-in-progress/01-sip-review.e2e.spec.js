@@ -33,18 +33,18 @@ module.exports = E2eHelpers.createE2eTest(
     // server error when saving in progress form
     client
       .url(reviewUrl)
-      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'put',
         value: {},
         status: 500
       }, token)
-      .click('.schemaform-sip-save-link');
+      .pause(500)
+      .click('.schemaform-sip-save-link')
+      .waitForElementVisible('.usa-alert-error', Timeouts.normal);
 
     client.assert.urlContains('review-and-submit');
-
-    client.waitForElementVisible('.usa-alert-error', Timeouts.normal);
     client.expect.element('.usa-alert-error').text.to.contain('We’re sorry. Something went wrong when saving your form');
 
     client.end();

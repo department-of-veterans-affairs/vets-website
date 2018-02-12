@@ -12,7 +12,7 @@
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
-    "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3 -- test/save-in-progress/01-sip-review.e2e.spec.js",
+    "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
     "nightwatch-visual": "nightwatch test/visual-regression/index.js -c config/nightwatch.js",
