@@ -8,7 +8,6 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
-import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
