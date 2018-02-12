@@ -8,8 +8,9 @@ import {
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import ssnUI from '../../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import ssnUI from '../../../common/schemaform/definitions/ssn';
 
 const {
   applicantFullName,
@@ -17,13 +18,20 @@ const {
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
-  receivedPamphlet
+  receivedPamphlet,
+  veteranDateOfBirth,
+  veteranDateOfDeathMIAPOW,
+  veteranFullName,
+  veteranSocialSecurityNumber,
+  veteranVaFileNumber
 } = fullSchema36.properties;
 
 const {
+  date,
   fullName,
   gender,
-  ssn
+  ssn,
+  vaFileNumber
 } = fullSchema36.definitions;
 
 const formConfig = {
@@ -42,9 +50,11 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
+    date,
     fullName,
     gender,
-    ssn
+    ssn,
+    vaFileNumber
   },
   chapters: {
     applicantInformation: {
@@ -141,26 +151,64 @@ const formConfig = {
             }
           }
         }
-      },
-      veteranInformation: {
-        title: 'Veteran Information',
-        pages: {
+      }
+    },
+    veteranInformation: {
+      title: 'Veteran Information',
+      pages: {
+        veteranInformation: {
+          title: 'Veteran Inforation',
+          path: 'veteran-information',
+          uiSchema: {
+            veteranFullName: fullNameUI,
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
+            veteranSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:title': 'Social Security number (must have this or a VA file number)',
+              'ui:required': form => !form.veteranVaFileNumber,
+            }),
+            veteranVaFileNumber: {
+              'ui:title': 'VA file number (must have this or a Social Security number)',
+              'ui:required': form => !form.veteranSocialSecurityNumber,
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              }
+            },
+            veteranDateOfDeathMIAPOW: _.merge(
+              currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW'),
+              {
+                'ui:options': {
+                  hideIf: (formData) => formData['view:isVeteran'] === true,
+                }
+              }
+            )
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranDateOfBirth'],
+            properties: {
+              veteranFullName,
+              veteranDateOfBirth,
+              veteranSocialSecurityNumber,
+              veteranVaFileNumber,
+              veteranDateOfDeathMIAPOW
+            }
+          }
         }
-      },
-      additionalInformation: {
-        title: 'Additional Information',
-        pages: {
-        }
-      },
-      militaryHistory: {
-        title: 'Military History',
-        pages: {
-        }
-      },
-      contactInformation: {
-        title: 'Contact Information',
-        pages: {
-        }
+      }
+    },
+    additionalInformation: {
+      title: 'Additional Information',
+      pages: {
+      }
+    },
+    militaryHistory: {
+      title: 'Military History',
+      pages: {
+      }
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
       }
     }
   }

@@ -40,8 +40,10 @@ Whether you're just getting out of the service or you've been a civilian for yea
 
 Based on where you are in life, your VA benefits and services can support you in different ways. Keep your welcome kit handy so you can turn to it throughout your life—like when it’s time to go to school, get a job, buy a house, get health care, retire, or make plans for your care as you age.
 
-Feel free to share this guide with friends or family members who need help with their benefits too.
+Feel free to share this guide with friends or family members who need help with their benefits too. Download your VA Welcome Kit and print out copies for yourself and others:
 
-[Download and print out your VA Welcome Kit](/WelcomeVA_Guide_print_version_final.pdf).
+[Download your VA Welcome Kit in black and white](/WelcomeVA_Guide_print_version_final.pdf).
+
+[Download your VA Welcome Kit in color](/va_welcomekit_color.pdf).
 
 </div>

@@ -49,8 +49,8 @@ class PrescriptionTable extends React.Component {
             <span>Prescription #: {item.id}</span>
           </div>
         ),
-        lastSubmitDate: formatDate(attrs.refillSubmitDate),
-        lastFillDate: formatDate(attrs.refillDate),
+        refillSubmitDate: formatDate(attrs.refillSubmitDate),
+        refillDate: formatDate(attrs.refillDate),
         facilityName: attrs.facilityName,
         refillsLeft: attrs.refillRemaining,
         refillStatus: <RefillStatus {...item} glossaryModalHandler={this.props.glossaryModalHandler} refillModalHandler={this.props.refillModalHandler}/>,

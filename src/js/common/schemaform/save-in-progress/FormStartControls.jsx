@@ -24,7 +24,7 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     if (this.props.prefillAvailable) {
-      this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransform);
+      this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
     } else {
       this.goToBeginning();
     }
@@ -42,7 +42,7 @@ class FormStartControls extends React.Component {
 
   startOver = () => {
     this.toggleModal();
-    this.props.removeInProgressForm(this.props.formId, this.props.migrations);
+    this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
   }
 
   render() {

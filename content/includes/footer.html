@@ -18,7 +18,11 @@
     </ul>
     <ul class="va-footer-linkgroup" id="footer-popular">
       <li><h4 class="va-footer-linkgroup-title">Popular on Vets.gov</h4></li>
+      {% if buildtype != 'production' %}
+      <li><a href="/veteran-id-card/how-to-get" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      {% else %}
       <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      {% endif %}
       <li><a href="/health-care/apply/" onClick="footerNavClick(this);">Apply for health care</a></li>
       <li><a href="/education/apply-for-education-benefits/" onClick="footerNavClick(this);">Apply for education benefits</a></li>
       <li><a href="/track-claims/" onClick="footerNavClick(this);">Check your claim and appeal status</a></li>
@@ -33,9 +37,15 @@
       TTY:&nbsp;<a href="tel:+18008778339" onClick="footerNavClick(this);">1-800-877-8339</a><br>
 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</li>
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
+<<<<<<< HEAD
       <br>
       <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
       <li><a href="">Print Out Your VA Welcome Kit</a></li>
+=======
+      <li><br></li>
+      <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
+      <li><a href="/welcome-to-va">Print Out Your VA Welcome Kit</a></li>
+>>>>>>> d8fe5ee489000c53ec05b86d0f179a1bdb1073bd
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">

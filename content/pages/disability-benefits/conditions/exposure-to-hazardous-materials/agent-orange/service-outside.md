@@ -49,7 +49,7 @@ You’ll need to apply for benefits. When you apply, you’ll have to show that 
 If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don’t need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
 ### Need help?
-Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
+Want to connect with a trained professional who can help you with VA-related claims? [Get help filing your claim](/disability-benefits/apply/help/).
 
 ### Get more information
 Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn more about Agent Orange benefits](https://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).

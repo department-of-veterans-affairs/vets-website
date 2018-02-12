@@ -73,9 +73,21 @@ class Modal extends React.Component {
 
   render() {
     const { id, title, visible } = this.props;
+    const alertClass = classNames(
+      'usa-alert',
+      `usa-alert-${this.props.status}`
+    );
+
+    const titleClass = classNames(
+      'va-modal-title',
+      `va-modal-title-${this.props.status}`
+    );
+
     const modalCss = classNames('va-modal', this.props.cssClass);
     const modalTitle = title && (
-      <h3 id={`${id}-title`} className="va-modal-title">{title}</h3>
+      <div className={alertClass}>
+        <h3 id={`${id}-title`} className={titleClass}>{title}</h3>
+      </div>
     );
 
     if (!visible) { return <div/>; }
@@ -97,8 +109,15 @@ class Modal extends React.Component {
           {modalTitle}
           {closeButton}
           <div className="va-modal-body">
-            {this.props.contents || this.props.children}
+            <div>
+              {this.props.contents || this.props.children}
+            </div>
+            <div className="alert-actions">
+              {this.props.primaryButton && <button className="usa-button" onClick={this.props.primaryButton.action}>{this.props.primaryButton.text}</button>}
+              {this.props.secondaryButton && <button className="usa-button-secondary" onClick={this.props.secondaryButton.action}>{this.props.secondaryButton.text}</button>}
+            </div>
           </div>
+
         </div>
       </div>
     );
@@ -113,7 +132,21 @@ Modal.propTypes = {
   title: PropTypes.string,
   visible: PropTypes.bool.isRequired,
   hideCloseButton: PropTypes.bool,
-  focusSelector: PropTypes.string
+  focusSelector: PropTypes.string,
+  primaryButton: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
+  secondaryButton: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
+  status: PropTypes.oneOf([
+    'info',
+    'error',
+    'success',
+    'warning'
+  ])
 };
 
 Modal.defaultProps = {
