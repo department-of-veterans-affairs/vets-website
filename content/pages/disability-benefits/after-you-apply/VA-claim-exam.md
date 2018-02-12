@@ -73,8 +73,8 @@ Call the number provided right away to confirm the time and location of your exa
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-cant">What if I can't make it to the scheduled exam?</button>
-<div id="claim-exam-cant" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">What if I can't make it to the scheduled exam?</button>
+<div id="VA-claim-exam-cant" class="usa-accordion-content">
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
 
@@ -96,16 +96,16 @@ If you can’t make it to your appointment, let us know right away. You can resc
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-bring">What should I bring to my VA claim exam?</button>
-<div id="claim-exam-bring" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-bring">What should I bring to my VA claim exam?</button>
+<div id="VA-claim-exam-bring" class="usa-accordion-content">
 
 Bring to your exam any new non-VA medical records that you haven’t given us yet. These might include records from a recent surgery or illness.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-prepare">What else do I need to do to prepare for my exam?</button>
-<div id="claim-exam-prepare" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-prepare">What else do I need to do to prepare for my exam?</button>
+<div id="VA-claim-exam-prepare" class="usa-accordion-content">
 
 If you have children, you’ll need to plan ahead for childcare during your exam. Because you and the doctor may discuss sensitive topics, children shouldn’t be in the room with you.
 
@@ -114,8 +114,8 @@ On the day of the exam, you’ll want to wear comfortable clothes so you can mov
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-happens">What happens at a VA claim exam?</button>
-<div id="claim-exam-happens" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happens">What happens at a VA claim exam?</button>
+<div id="VA-claim-exam-happens" class="usa-accordion-content">
 
 A VA claim exam isn’t like a normal medical exam or other VA health care visits. The doctor won’t treat you for any illness or injury, give you referrals to other health care providers, or prescribe medicine. That’s because the purpose of the exam is to gather information that will help us make a decision on your claim. Each exam is different, depending on the information we need. 
 
@@ -134,8 +134,8 @@ After your exam, the doctor will write up a report and send it to a VA claims pr
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-long">How long will the exam take?</button>
-<div id="claim-exam-long" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-long">How long will the exam take?</button>
+<div id="VA-claim-exam-long" class="usa-accordion-content">
 
 Your exam may be very short, or it may last an hour or more. It all depends on the conditions you’ve claimed and whether we need more information to make a decision. 
 
@@ -146,8 +146,8 @@ It’s important to remember that your in-person visit is only one part of the c
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-who">Who will examine me?</button>
-<div id="claim-exam-who" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-who">Who will examine me?</button>
+<div id="VA-claim-exam-who" class="usa-accordion-content">
 
 Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. You can also have your own doctor examine you and fill out the necessary forms. <br>
 [Get instructions for your doctor to fill out exam forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).
@@ -155,8 +155,8 @@ Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. Y
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-results">Will I get my exam results at the VA claim exam?</button>
-<div id="claim-exam-results" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-results">Will I get my exam results at the VA claim exam?</button>
+<div id="VA-claim-exam-results" class="usa-accordion-content">
 
 No. The doctor will give the exam results to VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
@@ -166,8 +166,8 @@ If you have questions about the claims process, call your nearest VA regional of
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-miss">What should I do if I miss my VA claim exam?</button>
-<div id="claim-exam-miss" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-miss">What should I do if I miss my VA claim exam?</button>
+<div id="VA-claim-exam-miss" class="usa-accordion-content">
 
 If you miss your claim exam, contact us right away to let us know why you didn’t make it so we can help you figure out what to do next.
 
@@ -187,8 +187,8 @@ If you have what we consider to be a good reason for missing your exam (called �
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-happens">What happens after my exam?</button>
-<div id="claim-exam-happens" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happens">What happens after my exam?</button>
+<div id="VA-claim-exam-happens" class="usa-accordion-content">
 
 We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating). 
 
@@ -201,8 +201,8 @@ Every claim is different, but it usually takes us about 3 to 4 months to process
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-copy">Can I get a copy of the report from my claim exam?</button>
-<div id="claim-exam-copy" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-copy">Can I get a copy of the report from my claim exam?</button>
+<div id="VA-claim-exam-copy" class="usa-accordion-content">
 
 Yes. To get a copy of the final report from the claim exam:
 
@@ -212,16 +212,16 @@ Yes. To get a copy of the final report from the claim exam:
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-information">What information does the VA claims processor have when making a decision?</button>
-<div id="claim-exam-miss" class="usa-accordion-information">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-information">What information does the VA claims processor have when making a decision?</button>
+<div id="VA-claim-exam-miss" class="usa-accordion-information">
 
 Your VA claims processor will review the medical records you’ve given us, statements from you and others about your claim, and your military medical and personnel records. 
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-another">Will I ever need to have another claim exam?</button>
-<div id="claim-exam-another" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-another">Will I ever need to have another claim exam?</button>
+<div id="VA-claim-exam-another" class="usa-accordion-content">
 
 We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
 [Learn more about appealing a decision](/disability-benefits/claims-appeal/).
@@ -229,8 +229,8 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-questions">What if I have more questions about my exam?</button>
-<div id="claim-exam-questions" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-questions">What if I have more questions about my exam?</button>
+<div id="VA-claim-exam-questions" class="usa-accordion-content">
 
 - [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
 - [Download the VA claim exam factsheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
