@@ -44,8 +44,7 @@ If you miss your exam, we may not be able to reschedule you right away, and your
 
 This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
 
-### Does everyone who files a claim need to have a VA claim exam?</button>
-<div id="claim-exam-everyone" class="usa-accordion-content">
+### Does everyone who files a claim need to have a VA claim exam?
 
 No. We’ll ask you to have a claim exam only if we need more information to decide your claim. 
 
