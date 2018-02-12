@@ -56,17 +56,12 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 ### How to schedule your exam
 
-</div>
-</li>
-<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-schedule">How will you contact me to schedule the exam?</button>
 <div id="claim-exam-schedule" class="usa-accordion-content">
 
 The staff at your local VA medical center or a local doctor’s office that we partner with will contact you. They’ll either send you a letter by mail with the date and time of your exam, or call you to find a time that works for you.
 
 Make sure both the VA regional office and the VA medical center near you have your up-to-date address, phone number, and email address so you get your exam notice in time.
-
-<br>
 
 </div>
 </li>
@@ -76,8 +71,6 @@ Make sure both the VA regional office and the VA medical center near you have yo
 
 Call the number provided right away to confirm the time and location of your exam. It’s important not to miss your scheduled exam, so you’ll want to double check that you have the right place and time.
 
-<br>
-
 </div>
 </li>
 <li>
@@ -85,8 +78,6 @@ Call the number provided right away to confirm the time and location of your exa
 <div id="claim-exam-cant" class="usa-accordion-content">
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
-
-<br>
 
 </div>
 </li>
@@ -107,6 +98,8 @@ If you can’t make it to your appointment, let us know right away. You can resc
 
 ### What to expect at your exam
 
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-bring">What should I bring to my VA claim exam?</button>
+<div id="claim-exam-bring" class="usa-accordion-content">
 #### What should I bring to my VA claim exam?
 
 Bring to your exam any new non-VA medical records that you haven’t given us yet. These might include records from a recent surgery or illness.
