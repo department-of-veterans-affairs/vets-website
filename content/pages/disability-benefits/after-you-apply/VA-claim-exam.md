@@ -48,8 +48,6 @@ No. We’ll ask you to have a claim exam only if we need more information to dec
 
 If you have enough medical evidence in your file to support your claim, we won't ask you to have a claim exam. Medical evidence may include doctor and hospital reports, test results, and other documents.
 
-</div>
-
 <br>
 
 ### How to schedule your exam
