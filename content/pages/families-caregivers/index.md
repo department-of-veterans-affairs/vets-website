@@ -20,7 +20,7 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 - [Careers and Employment](#careers)
 - [Vocational Rehabilitation and Employment (VR&E)](#voc-rehab)
 - [Survivors Pension](#survivors-pension)
-- [Burials](#burials)
+- [Burials and Memorials](#burials)
 - [Housing Assistance](#housing-assistance)
 - [Caregiver Support](#caregiver-support)
 
@@ -29,7 +29,8 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 <span id="health-care">
 
 ### Health Care Benefits
-If you’re the spouse, surviving spouse, or dependent child of—or a family member caring for—a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
+If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. <br>
+[Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
@@ -38,7 +39,7 @@ If you’re the spouse, surviving spouse, or dependent child of—or a family me
 <span id="education-benefits">
 
 ### Education Benefits
-If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits. And if your Veteran qualifies for the Post-9/11 GI Bill but doesn’t use all their benefits, they may be able to transfer up to 36 months of those unused benefits to you.
+If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits. 
 Find out if you qualify for:
 
 - [Survivors’ and Dependents’ Assistance
@@ -47,8 +48,10 @@ Find out if you qualify for:
 - [Work study (a part-time job while you're in school)](/education/work-learn/workstudy/)<br>
 
 [Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/gi-bill-comparison-tool/).<br>
-[Apply for education benefits](/education/apply/).<br>
-[Find out if your Veteran can transfer benefits to you](/education/gi-bill/transfer/).<br>
+[Find out how to apply for education benefits](/education/apply/).<br>
+
+If your Veteran qualifies for the Post-9/11 GI Bill but doesn’t use all their benefits, they may be able to transfer up to 36 months of those unused benefits to you. <br>
+[Find out if your Veteran can transfer benefits to you](/education/gi-bill/transfer/).
 
 **Looking for education and training information on behalf of a Servicemember or Veteran?**<br>
 [Learn about education and training benefits for Servicemembers and Veterans](/education/).
@@ -67,7 +70,7 @@ If you’re the spouse or surviving spouse of a Servicemember or Veteran, you ma
 
 [Explore resources for military and Veteran family members](/employment/job-seekers/family-members/).
 
-**Looking for careers and employment information on behalf of a Servicemember or Veteran?**<br>
+**Looking for career and employment information on behalf of a Servicemember or Veteran?**<br>
 [Learn about career and employment benefits for Servicemembers and Veterans](/employment/).
 
 <span id="voc-rehab">
