@@ -1,5 +1,6 @@
 ---
 layout: page-breadcrumbs.html
+template: detail-page
 title: VA Claim Exam (C&P Exam)
 display_title: VA Claim Exam (C&P Exam)
 order: 3
