@@ -12,7 +12,8 @@ import {
   RECORD_NOT_FOUND,
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  APPEALS_FETCH_ERROR
+  FETCH_APPEALS_ERROR,
+  AVAILABLE
 } from '../utils/appeals-v2-helpers';
 
 const initialState = {
@@ -49,6 +50,7 @@ export default function appealsReducer(state = initialState, action) {
       return _.merge(state, {
         appealsLoading: false,
         available: true,
+        v2Availability: AVAILABLE
       });
     case SET_APPEALS: // Appeals v1
       return _.set('available', true, state);
@@ -58,32 +60,27 @@ export default function appealsReducer(state = initialState, action) {
     case USER_FORBIDDEN:
       return _.merge(state, {
         appealsLoading: false,
-        available: false,
-        availabilityError: USER_FORBIDDEN,
+        v2Availability: USER_FORBIDDEN,
       });
     case RECORD_NOT_FOUND:
       return _.merge(state, {
         appealsLoading: false,
-        available: false,
-        availabilityError: RECORD_NOT_FOUND,
+        v2Availability: RECORD_NOT_FOUND,
       });
     case VALIDATION_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        available: false,
-        availabilityError: VALIDATION_ERROR,
+        v2Availability: VALIDATION_ERROR,
       });
     case BACKEND_SERVICE_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        available: false,
-        availabilityError: BACKEND_SERVICE_ERROR,
+        v2Availability: BACKEND_SERVICE_ERROR,
       });
-    case APPEALS_FETCH_ERROR:
+    case FETCH_APPEALS_ERROR:
       return _.merge(state, {
         appealsLoading: false,
-        available: false,
-        availabilityError: APPEALS_FETCH_ERROR,
+        v2Availability: FETCH_APPEALS_ERROR,
       });
     default:
       return state;
