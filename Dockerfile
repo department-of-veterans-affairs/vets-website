@@ -9,7 +9,8 @@ RUN groupadd --gid 504 jenkins \
 ENV YARN_VERSION 0.27.5
 ENV NODE_ENV production
 
-RUN npm install -g yarn@$YARN_VERSION \
+RUN apt-get update && apt-get install -y netcat \
+  && npm install -g yarn@$YARN_VERSION \
   && npm install -g nsp \
   && npm install -g s3-cli \
   && npm install -g codeclimate-test-reporter
@@ -17,4 +18,5 @@ RUN npm install -g yarn@$YARN_VERSION \
 RUN mkdir -p /application
 
 WORKDIR /application
+
 USER jenkins

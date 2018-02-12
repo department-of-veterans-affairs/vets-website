@@ -18,7 +18,7 @@ module.exports = {
     'default': {
       launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
       filter: './test/**/*.e2e.spec.js',
-      selenium_host: 'selenium-hub',
+      selenium_host: 'selenium-chrome',
       selenium_port: selenium_server_port,
       use_ssl: false,
       silent: true,
@@ -40,7 +40,7 @@ module.exports = {
       selenium: {
         start_process: false,
         log_path: './logs/selenium',
-        host: 'selenium-hub',
+        host: 'selenium-chrome',
         port: selenium_server_port
       }
     },

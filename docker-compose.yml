@@ -5,8 +5,6 @@ services:
       context: .
     volumes:
       - .:/application
-    links:
-      - selenium-hub
     environment:
       WEB_HOST: 'vets-website'
       WEB_PORT: 3001
@@ -15,21 +13,14 @@ services:
       - 3001
       - 3000
     command: ./script/run-docker-nightwatch.sh
-  selenium-hub:
-    image: selenium/hub
-    environment:
-      GRID_MAX_SESSION: '10'
-      GRID_BROWSER_TIMEOUT: 120000
-      GRID_TIMEOUT: 120000
-    expose:
-      - 4444
   selenium-chrome:
-    image: selenium/node-chrome
+    image: selenium/standalone-chrome
     links:
       - vets-website
-      - selenium-hub
     shm_size: 2g
+    expose:
+      - 4444
     environment:
-      HUB_PORT_4444_TCP_ADDR: selenium-hub
-      HUB_PORT_4444_TCP_PORT: 4444
+      GRID_BROWSER_TIMEOUT: 10000
+      GRID_TIMEOUT: 12000
       DBUS_SESSION_BUS_ADDRESS: /dev/null

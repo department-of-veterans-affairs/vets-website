@@ -66,7 +66,6 @@ class RoutedSavablePage extends React.Component {
         contentAfterButtons={contentAfterButtons}/>
     );
   }
-
 }
 
 function mapStateToProps(state) {
