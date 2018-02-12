@@ -567,7 +567,9 @@ export default class PhotoField extends React.Component {
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
-    if (isCropping) {
+    if (file.uploading) {
+      fieldView = 'progress';
+    } else if (isCropping) {
       fieldView = 'cropper';
     } else if (screenReaderError) {
       fieldView = 'error';
@@ -626,7 +628,7 @@ export default class PhotoField extends React.Component {
               alt="Photograph of you that will be displayed on the ID card"/>
             }
           </div>
-          {file.uploading && <div className={progressBarContainerClass}>
+          {fieldView === 'progress' && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
           </div>}
