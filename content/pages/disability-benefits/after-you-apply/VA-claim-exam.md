@@ -55,8 +55,8 @@ If you have enough medical evidence in your file to support your claim, we won't
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-schedule">How will you contact me to schedule the exam?</button>
-<div id="claim-exam-schedule" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-schedule">How will you contact me to schedule the exam?</button>
+<div id="VA-claim-exam-schedule" class="usa-accordion-content">
 
 The staff at your local VA medical center or a local doctor’s office that we partner with will contact you. They’ll either send you a letter by mail with the date and time of your exam, or call you to find a time that works for you.
 
@@ -65,8 +65,8 @@ Make sure both the VA regional office and the VA medical center near you have yo
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-exam-receive">What should I do when I receive my exam letter or phone call?</button>
-<div id="claim-exam-receive" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-receive">What should I do when I receive my exam letter or phone call?</button>
+<div id="VA-claim-exam-receive" class="usa-accordion-content">
 
 Call the number provided right away to confirm the time and location of your exam. It’s important not to miss your scheduled exam, so you’ll want to double check that you have the right place and time.
 
