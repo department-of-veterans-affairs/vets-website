@@ -111,6 +111,7 @@ input[type=range] {
 
 .progress-bar-container {
   margin: 0 auto;
+  text-align: center;
   width: 240px;
   @media (min-width: $large-screen) {
     width: 300px;
