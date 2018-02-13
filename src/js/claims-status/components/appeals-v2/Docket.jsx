@@ -12,7 +12,7 @@ import { APPEAL_TYPES } from '../../utils/appeals-v2-helpers';
  * @param {String} docketMonth- The month that the board is looking at (or older)
  * @param {String} appealType - The type of appeal
  * @param {Bool}   aod - Whether the appeal is Advanced on Docket
- * @param {Bool}   frontOfDocket - Whether the appeal is at the front of the docket
+ * @param {Bool}   front - Whether the appeal is at the front of the docket
  */
 function Docket({ ahead, total, form9Date, docketMonth, appealType, aod, front: frontOfDocket }) {
   // TODO: Assess how accessible this is
@@ -70,8 +70,8 @@ Docket.propTypes = {
   form9Date: PropTypes.string.isRequired,
   docketMonth: PropTypes.string,
   appealType: PropTypes.string,
-  aos: PropTypes.bool,
-  frontOfDocket: PropTypes.bool,
+  aod: PropTypes.bool,
+  front: PropTypes.bool,
 };
 
 export default Docket;
