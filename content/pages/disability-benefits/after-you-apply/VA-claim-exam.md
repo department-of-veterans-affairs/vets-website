@@ -53,7 +53,7 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 <br>
 
-### How to schedule your exam
+### How to schedule your VA claim exam
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -79,7 +79,7 @@ Call the number provided right away to confirm the time and location of your exa
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">What if I can't make it to the scheduled exam?</button>
 <div id="VA-claim-exam-cant" class="usa-accordion-content">
 
-If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
+If you can’t make it to your appointment, let us know right away. You can most likely reschedule, but this may delay your claim.
 
 **To reschedule your appointment:**
 
@@ -94,7 +94,7 @@ If you can’t make it to your appointment, let us know right away. You can resc
 
 <br>  
 
-### What to expect at your exam
+### What to expect at your VA claim exam
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -204,10 +204,12 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-copy">Can I get a copy of the report from my claim exam?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-copy">Can I get a copy of the report from my VA claim exam?</button>
 <div id="VA-claim-exam-copy" class="usa-accordion-content">
 
-Yes. To get a copy of the final report from the claim exam:
+Yes.
+
+**To get a copy of the final report from your exam:**
 
  - [Contact your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), **or**
  - Call us at 1-800-827-1000 and request an appointment to view your file
@@ -220,7 +222,7 @@ Yes. To get a copy of the final report from the claim exam:
 
 Our VA claims processors will review:
 - The medical records you’ve given us
-- The report from the doctor who handled your claim exam
+- The report from the doctor who handled your claim exam, and the results of any ordered medical tests
 - Statements from you and others about your claim
 - Your military medical and personnel records 
 
