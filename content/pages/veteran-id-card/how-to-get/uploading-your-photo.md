@@ -137,7 +137,7 @@ You can scan your photo into your computer or phone, or use your phone’s camer
 1. Place your photo face down on the scanner.
 2. Press <strong>Scan</strong> on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
    <ul>
-   <li>To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in height and width.</li>
+   <li>To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To make sure the photo isn’t blurry when printed, we recommend making it at least 350 pixels in height and width.</li>
    <li>You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card.</li>
    </ul>
 3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
