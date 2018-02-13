@@ -298,6 +298,13 @@ smith.use(collections({
       name: 'VA Health Care Coverage'
     }
   },
+  healthCareCoverageFamily: {
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Health Benefits'
+    }
+  },
   healthCareCoverageVision: {
     pattern: 'health-care/about-va-health-care/vision-care/*.md',
     sortBy: 'order',
