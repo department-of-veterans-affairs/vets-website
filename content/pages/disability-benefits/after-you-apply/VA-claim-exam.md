@@ -8,6 +8,9 @@ template: detail-page
 majorlinks:
   - heading: More information about what happens after you file your claim
     links:
+     - url: /disability-benefits/eligibility/ratings/
+      title: How VA Assigns Disability Ratings
+      description: "Learn how we assign severity ratings and how they affect your disability payments."
     - url: /?next=%2Ftrack-claims%2F/
       title: Check Claim and Appeal Status
       description: "Track the status of your disability claims and appeals."
@@ -15,11 +18,11 @@ majorlinks:
       title: Appeals Process
       description: "Find out what to do if you disagree with your disability rating decision."
 relatedlinks:
-  - heading: Other VA benefits you may want to explore
+  - heading: More information about VA benefits you may receive
     links:
-    - url: /health-care/
-      title: Health Care Benefits
-      description: "Apply for VA health care, find out how to access services, and manage your health and benefits online."
+    - url: /health-care/about-va-health-care/
+      title: About VA Health Care Coverage
+      description: "Learn more about your VA health care benefits, your health care team, and where you'll go for care."    
 ---
 
 <div class="va-introtext">
@@ -232,9 +235,10 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 </div>
 </li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-questions">What if I have more questions about my exam?</button>
-<div id="VA-claim-exam-questions" class="usa-accordion-content">
+</ul>
+</div>
+
+### What if I have more questions about my exam?
 
 - [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
 - [Download the VA claim exam factsheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
