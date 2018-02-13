@@ -11,7 +11,7 @@ majorlinks:
     - url: /disability-benefits/eligibility/ratings/
       title: How VA Assigns Disability Ratings
       description: "Learn how we assign severity ratings and how they affect your disability payments."
-    - url: /?next=%2Ftrack-claims%2F/
+    - url: /track-claims/
       title: Check Claim and Appeal Status
       description: "Track the status of your disability claims and appeals."
     - url: /disability-benefits/claims-appeal/
@@ -199,7 +199,7 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 [See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/#days-to-complete-claim).
 
-[Sign in to Vets.gov to track your claim](/?next=%2F/).
+[Sign in to Vets.gov to track your claim](/track-claims/).
 
 </div>
 </li>
