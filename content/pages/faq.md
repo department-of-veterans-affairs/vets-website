@@ -213,13 +213,11 @@ display_title: Frequently Asked Questions
                  </ul>
              </div>   
              <hr>
-             <h3>More questions about using ID.me</h3>
+             <h3>Verifying your identity with ID.me</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">
-                      How long does it take to create an account and verify my identity through ID.me?
-                    </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How long does it take to create an account and verify my identity through ID.me?</button>
                     <div id="faq-vetsgov-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>About 5-10 minutes.</p>
