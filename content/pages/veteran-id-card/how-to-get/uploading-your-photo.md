@@ -20,20 +20,72 @@ Find out how to take and upload a good quality photo for your Veteran ID Card.
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="resolution">How do I tell if my photo is the right size and resolution?</button>
-<div id="resolution" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="size">How do I know if my photo is the right size?</button>
+<div id="size" class="usa-accordion-content">
  
-Your photo should be at least 350 pixels. This ensures that your photo won’t be blurry when it’s printed on your card.  
+Your photo needs to be a square size to meet our photo requirements. This means the height and width of the photo must be equal. To make sure your photo doesn't print out blurry on your card, the photo needs to be at least 350 pixels in both height and width. Follow these steps to check your photo's dimensions on either a PC or Mac computer.
 
-To check your photo’s size and resolution:  
-1. **If your photo is on a PC,** place your cursor over your photo and right-click.<br>
-**If your photo is on a Mac,** place your cursor over your photo and hit Ctrl-click. 
-2. Choose Properties.
-3. Click on Details.
-4. To find your photo’s resolution, look under the Image section. To find your photo’s file size, look under the File section. 
+**To check your photo’s dimensions on a PC:**
+
+1. Find your photo file and right-click on your mouse.
+2. A list of options will appear. Choose **Properties**.
+3. A window will open with information about the photo. Choose the **Details** tab.
+4. Under the "Image" heading, you'll see the image's measurements:<br>
+- **Dimensions** should be at least 350 x 350.
+- **Width** and **Height** should be equal and at least 350 pixels.
+
+**To check your photo's dimensions on a Mac:**
+
+1. Find your photo file and click on it while pressing the **control** key.
+2. A list of options will appear. Choose **Get Info**.
+3. A window will open with information about the photo. Click on the **More info:** arrow beneath the general file information.
+4. The information will expand and you'll see **Dimensions**. These should be equal numbers and should be at least 350 x 350.
 
 </div>
 </li>
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="change-size">If my photo isn't the right size, how do I change it to meet the size requirements?</button>
+<div id="change-size" class="usa-accordion-content">
+ 
+Follow these steps to change your photo's size on either a PC or Mac computer. 
+ 
+**To change your photo's size on a PC:**
+
+1. Find your photo file and right-click on your mouse.
+2. A list of options will appear. Choose **Open With**.
+3. Another list of options will appear. Choose **Paint**.
+4. Your image will open in the Paint program. In the **Image** section in the tool bar, choose **Resize**.
+5. A window will appear with resizing options:<br>
+ - Choose the **Pixels** radio button.
+ - The **Maintain aspect ratio** check box will be automatically checked. Click on the box to uncheck it.
+ - Type in new numbers for the image in the boxes for **Horizontal** and **Vertical**. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement and must be at least 350 pixels for each.
+ 6. Click the **OK** button.
+ 7. Choose **Save As** and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over.
+ 
+ **To change your photo's size on a Mac:**
+ 
+1. Find your photo file and click on it while pressing the **control** key.
+2. A list of options will appear. Choose **Open With**.
+3. Another list of options will appear. Choose **Preview.app**.
+4. 
+ 
+
+
+1. **If your photo is on a PC,** place your cursor over your photo and right-click.<br>
+**If your photo is on a Mac,** place your cursor over your photo and hit Ctrl-click. 
+2. A list of options will appear. Choose **Properties**.
+3. A window will open with information about the photo. Choose the **Details** tab.
+4. Under the "Image" heading, you'll see the image's measurements:<br>
+- **Dimensions** should be at least 350 x 350.
+- **Width** and **Height** should be equal and at least 350 pixels.
+
+</div>
+</li>
+
+
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="smartphone">How do I upload a photo from my smartphone?</button>
