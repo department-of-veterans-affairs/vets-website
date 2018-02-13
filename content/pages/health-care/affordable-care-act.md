@@ -27,7 +27,7 @@ Under this law, if you’re a U.S. taxpayer, you and your family members must:�
 [Learn more about the individual shared responsibility payment from the Internal Revenue Service]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).<br>
 
 #### Does my health coverage through VA meet the ACA’s minimum essential coverage requirement? 
-Your health coverage meets the minimum essential coverage requirement if you’re signed up for: 
+Your health coverage meets the minimum essential coverage requirement if you’re signed up for one of these: 
 - [The VA health care program](/health-care/about-va-health-care/), **or** 
 - [The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)](/health-care/family-caregiver-health-benefits/CHAMPVA/), **or** 
 - [CHAMPVA through the Program of Comprehensive Assistance to Family Caregivers]( /health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers/), **or** 
@@ -50,7 +50,7 @@ If you’re not signed up for a health care program—and you don’t meet the h
 
 Through the Marketplace, you can shop for and buy private health insurance (health plans that aren't provided by VA) to fit your budget and meet your needs. You may be able to get financial assistance, like lower costs on monthly premiums or out-of-pocket costs. You may also qualify for free or low-cost coverage through Medicaid or the Children’s Health Insurance Program (CHIP). 
 
-The 2018 Health Insurance Marketplace open enrollment period is November 1, 2017, to December 15, 2017. You can also enroll at other times if you have life changes—like losing your coverage, getting married, or having a baby—or if you qualify for Medicaid or CHIP.<br>
+The 2018 Health Insurance Marketplace open enrollment period was November 1, 2017, to December 15, 2017. You can enroll after open enrollment only if you have life changes—like losing your coverage, getting married, or having a baby—or if you qualify for Medicaid or CHIP.<br>
 [Get more details on enrollment dates](https://www.healthcare.gov/quick-guide/dates-and-deadlines/).<br>
 [Apply for health coverage and find out if you qualify for assistance](https://www.healthcare.gov/).
 <br>
