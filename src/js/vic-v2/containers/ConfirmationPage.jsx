@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
+import environment from '../../common/helpers/environment';
 
 import { focusElement } from '../../common/utils/helpers';
 
@@ -16,6 +17,10 @@ const scrollToTop = () => {
     smooth: true,
   });
 };
+
+function getImageUrl({ serverPath, serverName } = {}) {
+  return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+}
 
 class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -34,14 +39,35 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
-    const userSignedIn = this.props.userSignedIn;
+    const form = {
+      ...this.props.form,
+      ...{
+        data: {
+          ...this.props.form.data,
+          photo: {
+            serverName: 'bleep',
+            serverPath: 'blorp'
+          },
+          veteranFullName: {
+            first: 'Debra',
+            middle: 'Angela',
+            last: 'Saxon-McAlister'
+          },
+          verified: true,
+          serviceBranch: 'A'
+        }
+      }
+    };
+    const userSignedIn = true || this.props.userSignedIn;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
     const response = form.submission.response
       ? form.submission.response.attributes
       : {};
-    const { veteranFullName, verified } = form.data;
+    const { veteranFullName, serviceBranch, verified} = form.data;
+    console.info(form);
+    const photoUrl = getImageUrl(form.data.photo);
+    console.log(photoUrl);
     const submittedAt = moment(form.submission.submittedAt);
 
     return (
@@ -53,7 +79,12 @@ class ConfirmationPage extends React.Component {
         {verified && userSignedIn && <div>
           <p>We’ll send you emails updating you on the status of your application. You can also print this page for your records. You should receive your Veteran ID Card by mail in about 60 days.<br/>
             In the meantime, you can print a temporary digital Veteran ID Card.</p>
-          <VeteranIDCard/>
+          <VeteranIDCard
+            veteranFirstName={veteranFullName.first}
+            veteranLastName={veteranFullName.last}
+            veteranBranchCode={serviceBranch}
+            veteranID="05P3400000000pz"
+            veteranPhotoUrl="/img/example-photo-1.png"/>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}
         {(!verified || !userSignedIn) && <div>
