@@ -7,10 +7,9 @@ import { validateAddress } from '../validation';
 const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
 
 /*
- * Create schema for addresses
+ * Create schema for VIC addresses
  *
  * @param {object} schema - Schema for a full form, including address definition in definitions
- * @param {boolean} isRequired - If the address is required or not, defaults to false
  */
 export function schema(currentSchema) {
   return {
@@ -37,14 +36,10 @@ export function schema(currentSchema) {
 }
 
 /*
- * Create uiSchema for addresses
+ * Create uiSchema for VIC addresses
  *
+ * @param {object} schema - Schema for a full form, including address definition in definitions
  * @param {string} label - Block label for the address
- * @param {boolean} useStreet3 - Show a third line in the address
- * @param {function} isRequired - A function for conditionally setting if an address is required.
- *   Receives formData and an index (if in an array item)
- * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
- *   customizations
  */
 export function uiSchema(currentSchema, label = 'Address') {
   const fieldOrder = ['country', 'street', 'street2', 'city', 'state', 'postalCode'];
