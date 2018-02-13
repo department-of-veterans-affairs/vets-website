@@ -21,7 +21,8 @@ You’ll qualify for this program based on your Veteran’s qualifications. You 
 - Needs personal care services because they can’t perform one or more activities of daily living, **and/or**
 - Needs supervision or protection based on symptoms or lasting neurological damage or injury
 
-Answer a few questions to find out if you meet the criteria for this program. [Find out if you qualify and download an application](https://www.va.gov/healthbenefits/resources/Caregiver_Eligibility_Check.asp).<br>
+Answer a few questions to find out if you meet the criteria for this program. <br>
+[Find out if you qualify and download an application](https://www.va.gov/healthbenefits/resources/Caregiver_Eligibility_Check.asp).<br>
 [Download our fact sheet for more eligibility information](https://www.caregiver.va.gov/pdfs/PCAFC%20Eligibility%20Fact%20Sheet%205.2016-%20508%20Compliant.pdf).
 
 </div>
@@ -58,4 +59,4 @@ Or apply in person by bringing the application to your local VA Medical Center C
 - Contact the Caregiver Support Line at <a href='tel:+1-855-260-3274'>1-855-260-3274</a>, **or** 
 - [Use our online Caregiver Support Coordinator search tool](https://www.caregiver.va.gov/help_landing.asp)
 
-If you need help filling out the form, you can contact your local coordinator, or call our main VA information line at <a href='tel:+1-877-222-8387'>1-877-222-VETS</a> (<a href='tel:+1-877-222-8387'>1-877-222-8387</a>).
+If you need help filling out the form, you can contact your local coordinator, or call our main VA information line at 1-877-222-VETS (<a href='tel:+1-877-222-8387'>1-877-222-8387</a>).
