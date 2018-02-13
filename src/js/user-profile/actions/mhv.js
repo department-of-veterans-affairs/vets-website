@@ -29,10 +29,7 @@ export function createMHVAccount() {
     apiRequest(
       baseUrl,
       { method: 'POST' },
-      () => {
-        dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS });
-        dispatch(fetchMHVAccount());
-      },
+      () => dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS }),
       ({ errors }) => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE, errors })
     );
   };
