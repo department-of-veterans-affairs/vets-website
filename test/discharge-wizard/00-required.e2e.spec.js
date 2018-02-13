@@ -20,6 +20,8 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-button-primary')
       .waitForElementVisible('.dw-questions', Timeouts.normal);
 
+    E2eHelpers.overrideScrolling(client);
+
     client
       .setValue('input[name="1_branchOfService"]', '1')
       .click('input[name="1_branchOfService"]')

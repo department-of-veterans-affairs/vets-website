@@ -38,14 +38,18 @@ module.exports = E2eHelpers.createE2eTest(
     // fail to find in progress form
     client
       .url(url)
-      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible('body', Timeouts.normal);
+
+    E2eHelpers.overrideScrolling(client);
+
+    client
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'get',
         value: {},
         status: 404
       }, token)
-      .pause(500)
+      .waitForElementPresent('.usa-button-primary', Timeouts.normal)
       .click('.usa-button-primary');
 
     client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
@@ -56,14 +60,18 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.overrideVetsGovApi(client);
     client
       .url(url)
-      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible('body', Timeouts.normal);
+
+    E2eHelpers.overrideScrolling(client);
+
+    client
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'get',
         value: {},
         status: 401
       }, token)
-      .pause(500)
+      .waitForElementPresent('.usa-button-primary', Timeouts.normal)
       .click('.usa-button-primary');
 
     client.waitForElementPresent('.usa-alert-error', Timeouts.slow);

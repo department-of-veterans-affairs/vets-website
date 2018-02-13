@@ -28,6 +28,13 @@ function overrideSmoothScrolling(client) {
   });
 }
 
+function overrideScrolling(client) {
+  overrideSmoothScrolling(client);
+  client.execute(() => {
+    window.scrollTo = () => null;
+  });
+}
+
 // via http://stackoverflow.com/questions/11131875
 function overrideAnimations(client) {
   const styles = `* {
@@ -96,5 +103,6 @@ module.exports = {
   expectInputToNotBeSelected,
   overrideVetsGovApi,
   overrideSmoothScrolling,
-  overrideAnimations
+  overrideAnimations,
+  overrideScrolling
 };
