@@ -33,7 +33,7 @@ After you file your disability benefits claim, we may ask you to have a claim ex
 
 ##### Be sure not to miss your scheduled exam.
 
-If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or, if you don’t reschedule, we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
+If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or, we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
 
 </div>
 </div>
@@ -60,7 +60,7 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 The staff at your local VA medical center or a local doctor’s office that we partner with will contact you. They’ll either send you a letter by mail with the date and time of your exam, or call you to find a time that works for you.
 
-Make sure both the VA regional office and the VA medical center near you have your up-to-date address, phone number, and email address so you get your exam notice in time.
+Make sure both the VA regional office and the VA medical center nearest you have your up-to-date address, phone number, and email address so you get your exam notice in time.
 
 </div>
 </li>
@@ -78,7 +78,7 @@ Call the number provided right away to confirm the time and location of your exa
 
 If you can’t make it to your appointment, let us know right away. You can reschedule, but this may delay your claim.
 
-**To reschedule your appointment**
+**To reschedule your appointment:**
 
 - Call 1-800-827-1000, **or**
 - Go to your nearest regional benefit office. <br>
@@ -119,10 +119,10 @@ On the day of the exam, you’ll want to wear comfortable clothes so you can mov
 
 A VA claim exam isn’t like a normal medical exam or other VA health care visits. The doctor won’t treat you for any illness or injury, give you referrals to other health care providers, or prescribe medicine. That’s because the purpose of the exam is to gather information that will help us make a decision on your claim. Each exam is different, depending on the information we need. 
 
-During your exam, the doctor may do any or all of these things:
+**During your exam, the doctor may do any or all of these things:**
 
  -	Review your claim file with you
- -	Ask you questions based on the medical records in your claim file. This may include questions from the Disability Benefits Questionnaire about each service-connected condition you’re claiming. <br>
+ -	Ask you questions based on the medical records in your claim file. These may include questions from the Disability Benefits Questionnaire about each service-connected condition you’re claiming. <br>
 [Take a look at the Disability Benefits Questionnaire (DBQ)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
  - Perform a basic physical exam
  - Ask you to get other tests—like X-rays or blood work—if needed
@@ -141,7 +141,7 @@ Your exam may be very short, or it may last an hour or more. It all depends on t
 
 For example, the required questions the doctor asks about a knee injury may take only a few minutes. But the questions for a more complex illness or injury could take much longer. A mental health evaluation usually lasts 2 to 4 hours.
 
-It’s important to remember that your in-person visit is only one part of the claim review process. Your doctor will also spend time outside the exam carefully reviewing your records.
+It’s important to remember that your in-person visit is only one part of the claim review process. The doctor will also spend time outside the exam carefully reviewing your records.
 
 </div>
 </li>
@@ -149,8 +149,8 @@ It’s important to remember that your in-person visit is only one part of the c
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-who">Who will examine me?</button>
 <div id="VA-claim-exam-who" class="usa-accordion-content">
 
-Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. You can also have your own doctor examine you and fill out the necessary forms. <br>
-[Get instructions for your doctor to fill out exam forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).
+Either a VA doctor or a non-VA doctor who we’ve contracted with will do the exam. You can also have your own doctor examine you and fill out the necessary forms. <br>
+[Get instructions for your doctor to fill out VA claim exam forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).
 
 </div>
 </li>
@@ -158,7 +158,7 @@ Either a VA doctor or a non-VA doctor who we’ve contracted will do the exam. Y
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-results">Will I get my exam results at the VA claim exam?</button>
 <div id="VA-claim-exam-results" class="usa-accordion-content">
 
-No. The doctor will give the exam results to VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
+No. The doctor will give the exam results to our VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
 If you have questions about the claims process, call your nearest VA regional office. <br>
 [Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
@@ -171,7 +171,7 @@ If you have questions about the claims process, call your nearest VA regional of
 
 If you miss your claim exam, contact us right away to let us know why you didn’t make it so we can help you figure out what to do next.
 
-If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of this might be an illness or the death of someone in your immediate family.
+If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" reasons might be an illness or the death of someone in your immediate family.
 
 [Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
 
@@ -182,21 +182,21 @@ If you have what we consider to be a good reason for missing your exam (called �
 
 <br>  
 
-### After your exam
+### After your VA claim exam
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happens">What happens after my exam?</button>
-<div id="VA-claim-exam-happens" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happen">What happens after my exam?</button>
+<div id="VA-claim-exam-happen" class="usa-accordion-content">
 
 We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating). 
 
-Every claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed. 
+Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed. 
 
 [See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/).
 
-[Sign in to Vets.gov to track your claim](link to Sign In).
+[Sign in to Vets.gov to track your claim](/?next=%2F/).
 
 </div>
 </li>
@@ -212,10 +212,14 @@ Yes. To get a copy of the final report from the claim exam:
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-information">What information does the VA claims processor have when making a decision?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-information">What information will the VA claims processors have when making a decision?</button>
 <div id="VA-claim-exam-information" class="usa-accordion-content">
 
-Your VA claims processor will review the medical records you’ve given us, statements from you and others about your claim, and your military medical and personnel records. 
+Our VA claims processors will review:
+- The medical records you’ve given us
+- The report from the doctor who handled your claim exam
+- Statements from you and others about your claim
+- Your military medical and personnel records 
 
 </div>
 </li>
