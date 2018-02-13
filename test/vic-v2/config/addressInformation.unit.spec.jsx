@@ -58,4 +58,24 @@ describe('VIC address information', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+  it('should submit without state if allowed', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    fillData(form, 'select#root_veteranAddress_country', 'AFG');
+    fillData(form, 'input#root_veteranAddress_street', '123 1st st');
+    fillData(form, 'input#root_veteranAddress_city', 'Northampton');
+    fillData(form, 'input#root_veteranAddress_postalCode', '01040');
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
 });
