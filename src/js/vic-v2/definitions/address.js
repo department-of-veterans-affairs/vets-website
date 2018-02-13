@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 import { countryLabels, countryValues, states } from '../labels';
-import { validateAddress } from '../validation';
+import { validatePostalCodes } from '../../common/schemaform/validation';
 
 const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
 
@@ -75,19 +75,19 @@ export function uiSchema(currentSchema, label = 'Address') {
 
       if (stateSchemas[country]) {
         // We have a list and it’s different, so we need to make schema updates
-        if (addressSchema.properties.state !== stateSchemas[country]) {
+        if (addressSchema.properties.state.enum !== stateSchemas[country].enum) {
           schemaUpdate.properties = _.set('state', stateSchemas[country], schemaUpdate.properties);
 
           // all the countries with state lists require the state field, so add that if necessary
           if (!addressSchema.required.some(field => field === 'state')) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
-        }
-        // Canada has a different title than others, so set that when necessary
-        if (country === 'CAN' && addressSchema.properties.state.title !== 'Province') {
-          schemaUpdate.properties = _.set('state.title', 'Province', schemaUpdate.properties);
-        } else if (country !== 'CAN' && addressSchema.properties.state.title !== 'State') {
-          schemaUpdate.properties = _.set('state.title', 'State', schemaUpdate.properties);
+          // Canada has a different title than others, so set that when necessary
+          if (country === 'CAN' && addressSchema.properties.state.title !== 'Province') {
+            schemaUpdate.properties = _.set('state.title', 'Province', schemaUpdate.properties);
+          } else if (country !== 'CAN' && addressSchema.properties.state.title !== 'State') {
+            schemaUpdate.properties = _.set('state.title', 'State', schemaUpdate.properties);
+          }
         }
       } else if (addressSchema.properties.state.enum) {
         schemaUpdate.properties = _.set('state', hiddenState, schemaUpdate.properties);
@@ -101,7 +101,7 @@ export function uiSchema(currentSchema, label = 'Address') {
   return {
     'ui:title': label,
     'ui:validations': [
-      validateAddress
+      validatePostalCodes
     ],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
