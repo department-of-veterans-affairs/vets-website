@@ -27,7 +27,7 @@ display_title: Frequently Asked Questions
           </div>
           <div class="row">
             <div class="small-12 columns">
-              <h4>How to sign in to Vets.gov</h4>
+              <h3>How to sign in to Vets.gov</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -90,7 +90,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
               </div>    
-            <h4>How to get a premium DS Logon account</h4>
+            <h3>How to get a premium DS Logon account</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -145,7 +145,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
               </div>
-              <h4>How to verify your identity</h4>
+              <h3>How to verify your identity</h3>
                <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -219,7 +219,7 @@ display_title: Frequently Asked Questions
                   </li>
                  </ul>
              </div>   
-             <h4>More questions about using ID.me</h4>
+             <h3>More questions about using ID.me</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -269,7 +269,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
               </div>  
-            <h4>More questions about the security of Vets.gov and ID.me</h4>
+            <h3>More questions about the security of Vets.gov and ID.me</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -293,8 +293,7 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-2" itemprop="name">
-                      What is ID.me?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-2" itemprop="name">What is ID.me?</button>
                     <div id="faq-security-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me is a digital identity platform that helps people like you easily prove your identity so you can access advanced online services—while keeping your personal information safe.</p>
@@ -303,8 +302,7 @@ display_title: Frequently Asked Questions
                     </div>
                    </li>
                    <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-3" itemprop="name">
-                      Why am I using ID.me to sign in to Vets.gov?
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-3" itemprop="name">Why am I using ID.me to sign in to Vets.gov?
                     </button>
                     <div id="faq-security-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
