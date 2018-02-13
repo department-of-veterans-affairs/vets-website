@@ -109,11 +109,11 @@ input[type=range] {
 }
 
 .progress-box.progress-box-schemaform {
-  padding: unset;
+  padding: auto;
 }
 
 .form-panel {
-  max-width: unset;
+  max-width: auto;
 }
 
 .cropper-container-outer {
@@ -233,7 +233,7 @@ input[type=range] {
 }
 
 .cropper-control.cropper-control-zoom {
-  width: unset !important;
+  width: auto !important;
   padding: 0 10px !important;
   @media (min-width: $large-screen) {
     padding: 0px !important;
