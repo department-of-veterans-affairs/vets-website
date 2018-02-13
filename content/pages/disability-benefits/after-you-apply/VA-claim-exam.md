@@ -76,7 +76,7 @@ Call the number provided right away to confirm the time and location of your exa
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">What if I can't make it to the scheduled exam?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">What if I can’t make it to the scheduled exam?</button>
 <div id="VA-claim-exam-cant" class="usa-accordion-content">
 
 If you can’t make it to your appointment, let us know right away. You can most likely reschedule, but this may delay your claim.
@@ -172,7 +172,7 @@ If you have questions about the claims process, call your nearest VA regional of
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-miss">What should I do if I miss my VA claim exam?</button>
 <div id="VA-claim-exam-miss" class="usa-accordion-content">
 
-If you miss your claim exam, contact us right away to let us know why you didn’t make it so we can help you figure out what to do next.
+If you miss your claim exam, contact us right away to let us know why you didn't make it. We can help you figure out what to do next.
 
 If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" reasons might be an illness or the death of someone in your immediate family.
 
