@@ -16,7 +16,7 @@ widgets:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you served in the active military, naval, or air service and separated under conditions other than dishonorable, you may qualify for VA health care benefits. Find out if you can get VA health care.
+Find out if you can get VA health care as a Veteran.
 
 </div>
 
@@ -26,8 +26,7 @@ If you served in the active military, naval, or air service and separated under 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-
-You may be able to get VA health care benefits if you served on active duty and separated under conditions other than dishonorable.
+You may be able to get VA health care benefits if you served in the active military, naval, or air service. 
 
 You should know:
 
@@ -47,11 +46,15 @@ You should know:
   - Or, you can visit healthcare.gov to find out if you qualify for health insurance.<br/>
   [Go to healthcare.gov](https://www.healthcare.gov/). <br/>
   
-<br>
+</div>
+</div>
+</div>
 
-#### Enhanced Eligibility Status
+<div markdown="0"><br></div>
 
-You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
+### Is there anything that makes me more likely to qualify for VA health care benefits?
+
+Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
 
 - You receive financial compensation (payments) from VA for a service-connected disability
 - You were discharged for a disability resulting from something that happened to you in the line of duty
@@ -67,11 +70,14 @@ You may qualify for enhanced eligibility status (meaning you’ll be placed in a
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
-</div>
-</div>
-</div>
+### Can I still get these benefits if I have a less than honorable discharge?
 
-<div markdown="0"><br></div>
+You may be able to access some VA benefits through our Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.”
+
+You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+
+**Note:** If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (1-800-827-1000), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
