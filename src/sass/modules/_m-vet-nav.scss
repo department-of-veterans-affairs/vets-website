@@ -459,6 +459,6 @@ body.va-pos-fixed {
 
 @include media($medium-screen) {
   .child-menu-opened {
-    height: initial;
+    height: auto;
   }
 }
