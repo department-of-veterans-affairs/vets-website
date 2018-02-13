@@ -58,10 +58,12 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 3. Another list of options will appear. Choose **Paint**.
 4. Your image will open in the Paint program. In the **Image** section in the tool bar, choose **Resize**.
 5. A window will appear with resizing options:<br>
-  - Choose the **Pixels** radio button.
-  - The **Maintain aspect ratio** check box will be automatically checked. Click on the box to uncheck it.
-  - Type in new numbers for the image in the boxes for **Horizontal** and **Vertical**. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.
-  - Click the **OK** button to close the window and save your changes.
+   <ul>
+   <li> Choose the **Pixels** radio button.</li>
+   <li>The **Maintain aspect ratio** check box will be automatically checked. Click on the box to uncheck it.</li>
+   <li>Type in new numbers for the image in the boxes for **Horizontal** and **Vertical**. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
+   <li>Click the **OK** button to close the window and save your changes.</li>
+   </ul>
  7. Choose **Save As** and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over.
  
  **To change your photo's size on a Mac:**
@@ -71,25 +73,26 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 3. Another list of options will appear. Choose **Preview.app**.
 4. The image will open within the Preview app. In the top tool bar, select **Tools** and then **Adjust Size**.
 5. A window will appear with your image's dimensions:<br>
- - The **Scale proportionally** check box will be automatically checked. Click on the box to uncheck it.
- - For the measurement options, choose **pixels**.
- - Type in your new measurements. Remember, both width and height need to be equal. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.
- - Click the **OK** button to close the window and save your changes.
+   <ul>
+   <li>The **Scale proportionally** check box will be automatically checked. Click on the box to uncheck it.</li>
+   <li>For the measurement options, choose **pixels**.</li>
+   <li>Type in your new measurements. Remember, both width and height need to be equal. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
+   <li>Click the **OK** button to close the window and save your changes.</li>
 7. In the top tool bar, select **File** and press the **option** key. The option to **Save As** will appear. Choose this option and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over. 
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="smartphone">How do I upload a photo from my smartphone?</button>
-<div id="smartphone" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-smartphone">How do I upload a photo from my smartphone?</button>
+<div id="upload-smartphone" class="usa-accordion-content">
 
 Open your phone’s Photos app and choose the picture you want to use. Then tap the share icon and choose how you want to upload your photo. 
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="computer">How do I upload a photo that’s on my smartphone, tablet, or digital camera to my computer?</button>
-<div id="computer" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-computer">How do I upload a photo that’s on my smartphone, tablet, or digital camera to my computer?</button>
+<div id="upload-computer" class="usa-accordion-content">
 
 **To upload your photo to a PC:** 
 1.	Connect your device to your PC. 
@@ -107,26 +110,27 @@ Open your phone’s Photos app and choose the picture you want to use. Then tap 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="computer">I have a physical photo. How do I upload it to my phone or computer?</button>
-<div id="computer" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-physical">What if I don't have a digital copy of my photo?</button>
+<div id="upload-physical" class="usa-accordion-content">
 
-If you don’t have a digital copy of your photo, you can scan or take a picture of it.
+You can scan your photo into your computer or phone, or use your phone's camera to take a picture of your photo and save it to your phone.
 
 **To scan your photo using a flatbed scanner:**
 1. Place your photo face down on the scanner.
 2. Press **Scan** on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
-  - To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in height and width.
-  - You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card. 
+   <ul>
+   <li>To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in height and width.</li>
+   <li>You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card.</li>
 3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
 
 **To scan your photo with your phone, you can use your phone’s camera or photo-scanning app.**
 
-**To use a camera:**
+**To use your phone's camera:**
 1. Open the **Camera app** and take a picture of your photo.
 2. Once you take a picture the photo will appear in the **Photos app**.
 3. Find the photo you want to upload. Then tap the share icon and choose how you want to upload your photo. 
 
-**To use a photo-scanning app:**
+**To use your phone's photo-scanning app:**
 1. Open the app and point your photo at your phone. 
 2. Follow the instructions onscreen to scan your photo. 
 3. Once you’re done scanning your photo, you can  choose where to save it. Find the photo you want to upload. Then tap the **Share icon** and choose how you want to upload your photo.   
