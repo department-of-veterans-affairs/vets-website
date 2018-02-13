@@ -128,6 +128,7 @@ If a Servicemember, Veteran, or eligible spouse or dependent child in your famil
 [Learn about how to plan a burial for a deceased family member](/burials-and-memorials/burial-planning/).<br>
 [See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-and-memorials/eligibility/).<br>
 [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). <br>
+[Get support through bereavement counseling after the death of a loved one](/burials-and-memorials/bereavement-counseling/).
 
 #### Survivor and Dependent Benefits
 If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
