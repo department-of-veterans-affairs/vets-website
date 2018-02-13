@@ -356,6 +356,20 @@ export default class PhotoField extends React.Component {
     this.refs.cropper.zoomTo(e.target.value);
   }
 
+  onZoomMouseMove = (e) => {
+    if (this.state.mouseDown) {
+      this.onZoomSliderChange(e);
+    }
+  }
+
+  onZoomMouseDown = () => {
+    this.setState({ mouseDown: true });
+  }
+
+  onZoomMouseUp = () => {
+    this.setState({ mouseDown: false });
+  }
+
   onZoom = (e) => {
     // Cropper returns the attempted zoom value
     const zoomValue = e.detail.ratio;
@@ -665,6 +679,9 @@ export default class PhotoField extends React.Component {
                 aria-valuemin={this.state.minRatio}
                 aria-valuemax={this.state.maxRatio}
                 aria-valuenow={this.state.zoomValue}
+                onMouseDown={this.onZoomMouseDown}
+                onMouseUp={this.onZoomMouseUp}
+                onMouseMove={this.onZoomMouseMove}
                 onInput={this.onZoomSliderChange}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
               {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
