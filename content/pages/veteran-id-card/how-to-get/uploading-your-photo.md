@@ -33,7 +33,7 @@ Your photo needs to be a square size to meet our photo requirements. This means 
 4. Under the "Image" heading, you'll see the image's measurements:
    <ul>
    <li><strong>Dimensions</strong> should be at least 350 x 350.</li>
-   <li><strong>Width<strong> and <strong>Height</strong> should be equal and at least 350 pixels.</li>
+   <li><strong>Width</strong> and <strong>Height</strong> should be equal and at least 350 pixels.</li>
    </ul>
 
 **To check your photo's dimensions on a Mac:**
