@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Uploading Your Photo For Your Veteran ID Card
+title: Uploading Your Veteran ID Card Photo
 display_title: Uploading Your Photo
 relatedlinks:
   - heading: 
@@ -13,12 +13,26 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out how to upload a good quality photo for your Veteran ID Card.
+Find out how to upload a good quality photo that meets our standards for your Veteran ID Card.
 
 </div>
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="standards">What are the standards I need to follow for this photo?</button>
+<div id="standards" class="usa-accordion-content">
+The photo has to follow all the standards listed below. It must:
+- Be a color digital photo, **and**
+- Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
+- Be cropped from your shoulders up (much like a passport photo), **and**
+- Show you with your eyes open and a neutral expression, **and**
+- Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
+- Show what you look like now (a photo taken sometime in the last 10 years), **and**
+- Be uploaded as a .jpeg, .png, .bmp, or .tiff file  
+
+</div>
+</li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="size">How do I know if my photo is the right size?</button>
 <div id="size" class="usa-accordion-content">
