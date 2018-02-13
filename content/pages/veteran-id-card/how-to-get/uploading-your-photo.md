@@ -32,8 +32,8 @@ Your photo needs to be a square size to meet our photo requirements. This means 
 3. A window will open with information about the photo. Choose the **Details** tab.
 4. Under the "Image" heading, you'll see the image's measurements:
    <ul>
-   <li>**Dimensions** should be at least 350 x 350.</li>
-   <li>**Width** and **Height** should be equal and at least 350 pixels.</li>
+   <li><strong>Dimensions</strong> should be at least 350 x 350.</li>
+   <li><strong>Width<strong> and <strong>Height</strong> should be equal and at least 350 pixels.</li>
    </ul>
 
 **To check your photo's dimensions on a Mac:**
@@ -57,12 +57,12 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 2. A list of options will appear. Choose **Open With**.
 3. Another list of options will appear. Choose **Paint**.
 4. Your image will open in the Paint program. In the **Image** section in the tool bar, choose **Resize**.
-5. A window will appear with resizing options:<br>
+5. A window will appear with resizing options:
    <ul>
-   <li> Choose the **Pixels** radio button.</li>
-   <li>The **Maintain aspect ratio** check box will be automatically checked. Click on the box to uncheck it.</li>
-   <li>Type in new numbers for the image in the boxes for **Horizontal** and **Vertical**. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
-   <li>Click the **OK** button to close the window and save your changes.</li>
+   <li> Choose the <strong>Pixels</strong> radio button.</li>
+   <li>The <strong>Maintain aspect ratio</strong> check box will be automatically checked. Click on the box to uncheck it.</li>
+   <li>Type in new numbers for the image in the boxes for <strong>Horizontal</strong> and <strong>Vertical</strong>. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
+   <li>Click the <strong>OK</strong> button to close the window and save your changes.</li>
    </ul>
  7. Choose **Save As** and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over.
  
@@ -72,12 +72,13 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 2. A list of options will appear. Choose **Open With**.
 3. Another list of options will appear. Choose **Preview.app**.
 4. The image will open within the Preview app. In the top tool bar, select **Tools** and then **Adjust Size**.
-5. A window will appear with your image's dimensions:<br>
+5. A window will appear with your image's dimensions:
    <ul>
-   <li>The **Scale proportionally** check box will be automatically checked. Click on the box to uncheck it.</li>
-   <li>For the measurement options, choose **pixels**.</li>
+   <li>The <strong>Scale proportionally</strong> check box will be automatically checked. Click on the box to uncheck it.</li>
+   <li>For the measurement options, choose <strong>pixels</strong>.</li>
    <li>Type in your new measurements. Remember, both width and height need to be equal. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
-   <li>Click the **OK** button to close the window and save your changes.</li>
+   <li>Click the <strong>OK</strong> button to close the window and save your changes.</li>
+   </ul>
 7. In the top tool bar, select **File** and press the **option** key. The option to **Save As** will appear. Choose this option and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over. 
 
 </div>
@@ -117,10 +118,11 @@ You can scan your photo into your computer or phone, or use your phone's camera 
 
 **To scan your photo using a flatbed scanner:**
 1. Place your photo face down on the scanner.
-2. Press **Scan** on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
+2. Press <strong>Scan</strong> on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
    <ul>
    <li>To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in height and width.</li>
    <li>You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card.</li>
+   <ul>
 3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
 
 **To scan your photo with your phone, you can use your phone’s camera or photo-scanning app.**
