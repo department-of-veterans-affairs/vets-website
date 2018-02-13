@@ -113,6 +113,7 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 
 <a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 
+<span id="decision-time"></span>
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
