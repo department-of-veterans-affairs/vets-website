@@ -17,12 +17,6 @@ majorlinks:
     - url: /disability-benefits/claims-appeal/
       title: Appeals Process
       description: "Find out what to do if you disagree with your disability rating decision."
-relatedlinks:
-  - heading: More information about VA benefits you may receive
-    links:
-    - url: /health-care/about-va-health-care/
-      title: About VA Health Care Coverage
-      description: "Learn more about your VA health care benefits, your health care team, and where you'll go for care."    
 ---
 
 <div class="va-introtext">
