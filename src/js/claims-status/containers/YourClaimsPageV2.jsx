@@ -37,7 +37,7 @@ const sortOptions = [
   }
 ];
 
-class YourClaimsPage extends React.Component {
+class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
@@ -51,7 +51,7 @@ class YourClaimsPage extends React.Component {
     }
 
     if (this.props.canAccessAppeals) {
-      this.props.getAppeals(this.getFilter(this.props));
+      this.props.getAppealsV2();
     }
 
     if (this.props.claimsLoading && this.props.appealsLoading) {
@@ -277,6 +277,6 @@ const mapDispatchToProps = {
   hide30DayNotice
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
 
-export { YourClaimsPage };
+export { YourClaimsPageV2 };
