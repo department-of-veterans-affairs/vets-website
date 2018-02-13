@@ -40,14 +40,14 @@ Find out how to upload a good quality photo that meets our standards for your Ve
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="size">How do I know if my photo is the right size?</button>
 <div id="size" class="usa-accordion-content">
  
-Your photo needs to be a square size to meet our photo requirements. This means the height and width of the photo must be equal. To make sure your photo doesn't print out blurry on your card, we recommend making it at least 350 pixels in both height and width. Follow these steps to check your photo's dimensions on either a PC or Mac computer.
+Your photo needs to be a square size to meet our photo requirements. This means the height and width of the photo must be equal. To help make sure your photo doesn't look blurry when printed on your card, we recommend making it at least 350 pixels in both height and width. Follow these steps to check your photo's dimensions on either a PC or Mac computer.
 
 **To check your photo’s dimensions on a PC:**
 
 1. Find your photo file and right-click on your mouse.
 2. A list of options will appear. Choose **Properties**.
 3. A window will open with information about the photo. Choose the **Details** tab.
-4. Under the "Image" heading, you'll see the image's measurements:
+4. Under the **Image** heading, you'll see the image's measurements:
    <ul>
    <li><strong>Dimensions</strong> should be at least 350 x 350.</li>
    <li><strong>Width</strong> and <strong>Height</strong> should be equal and at least 350 pixels.</li>
@@ -57,7 +57,7 @@ Your photo needs to be a square size to meet our photo requirements. This means 
 
 1. Find your photo file and click on it while pressing the **control** key.
 2. A list of options will appear. Choose **Get Info**.
-3. A window will open with information about the photo. Click on the **More info:** arrow beneath the general file information.
+3. A window will open with information about the photo. Click on the **More info arrow** beneath the general file information.
 4. The information will expand and you'll see **Dimensions**. These should be equal numbers and should be at least 350 x 350.
 
 </div>
@@ -104,7 +104,7 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-smartphone">How do I upload a photo from my smartphone?</button>
 <div id="upload-smartphone" class="usa-accordion-content">
 
-Open your phone’s Photos app and choose the picture you want to use. Then tap the share icon and choose how you want to upload your photo. 
+Open your phone’s **Photos app** and choose the picture you want to use. Then tap the **Share icon** and choose how you want to upload your photo. 
 
 </div>
 </li>
