@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Explore benefits menu items
     const firstMenuItem = 'button[aria-controls="vetnav-disability"]';
     const secondMenuItem = 'button[aria-controls="vetnav-healthcare"]';
-    const lastMenuItem = 'button[aria-controls="vetnav-burials"]';
+    const lastMenuItem = 'a[href="/families-caregivers/"]';
 
     const testOpenExploreMenu = (key, focusedOn, keyName) => {
       if (keyName) {
