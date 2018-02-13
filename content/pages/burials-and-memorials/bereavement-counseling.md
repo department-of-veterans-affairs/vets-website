@@ -61,7 +61,7 @@ We provide these services at our community-based Vet Centers, or in your home or
 
 To access bereavement counseling services, contact our Readjustment Counseling Service staff:
 
-By phone: <a href='tel:+1-202-461-6530'>1-202-461-6530</a>, **or**<br>
-By email: <a href='mailto:vetcenter.bereavement@va.gov'>vetcenter.bereavement@va.gov</a>
+- By phone at <a href='tel:+1-202-461-6530'>1-202-461-6530</a>, **or**<br>
+- By email at <a href='mailto:vetcenter.bereavement@va.gov'>vetcenter.bereavement@va.gov</a>
 
 Our staff will help you contact your nearest Vet Center to arrange for counseling services in the location of your choice.
