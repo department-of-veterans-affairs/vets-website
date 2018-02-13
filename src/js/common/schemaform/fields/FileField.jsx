@@ -90,12 +90,8 @@ export default class FileField extends React.Component {
       : false;
 
     const isUploading = files.some(file => file.uploading);
-    let uploadButtonText = 'Upload';
-    if (files.length > 0) {
-      uploadButtonText = uiOptions.addAnotherLabel;
-    } else if (uiOptions.alternativeLabel) {
-      uploadButtonText = uiOptions.alternativeLabel;
-    }
+    let { buttonText = 'Upload' } = uiOptions;
+    if (files.length > 0) buttonText =  uiOptions.addAnotherLabel;
 
     return (
       <div className={formContext.reviewMode ? 'schemaform-file-upload-review' : undefined}>
@@ -164,7 +160,7 @@ export default class FileField extends React.Component {
               id={`${idSchema.$id}_add_label`}
               htmlFor={idSchema.$id}
               className="usa-button usa-button-secondary">
-              {uploadButtonText}
+              {buttonText}
             </label>
             <input
               type="file"
