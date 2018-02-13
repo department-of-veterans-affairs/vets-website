@@ -90,6 +90,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
               </div>    
+            <hr>
             <h3>How to get a premium DS Logon account</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
@@ -134,17 +135,9 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-2" itemprop="name">Do I have to sign in to Vets.gov to apply for benefits?</button>
-                    <div id="faq-dslogon-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                        <p>No. Even if you don't sign in, you can still apply for the benefits you’ve earned.</p>
-                        <p>But without verifying your identity, you can’t use more advanced site tools to manage your benefits and services (like tracking your VA claims and appeals, downloading your VA health record, refilling your VA prescriptions, tracking how much of your Post-9/11 GI Bill benefits you’ve used, or messaging members of your VA health care team).</p>
-                      </div>
-                    </div>
-                  </li>
                 </ul>
               </div>
+              <hr>
               <h3>How to verify your identity</h3>
                <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
@@ -219,6 +212,7 @@ display_title: Frequently Asked Questions
                   </li>
                  </ul>
              </div>   
+             <hr>
              <h3>More questions about using ID.me</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
@@ -269,7 +263,8 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
               </div>  
-            <h3>More questions about the security of Vets.gov and ID.me</h3>
+            <hr>
+            <h3>About Vets.gov</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -293,8 +288,21 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-2" itemprop="name">What is ID.me?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-2" itemprop="name">Do I have to sign in to Vets.gov to apply for benefits?</button>
                     <div id="faq-security-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>No. Even if you don't sign in, you can still apply for the benefits you’ve earned.</p>
+                        <p>But without verifying your identity, you can’t use more advanced site tools to manage your benefits and services (like tracking your VA claims and appeals, downloading your VA health record, refilling your VA prescriptions, tracking how much of your Post-9/11 GI Bill benefits you’ve used, or messaging members of your VA health care team).</p>
+                      </div>
+                    </div>
+                  </li>
+            <hr>      
+            <h3>About ID.me</h3>
+              <div class="usa-accordion">
+                <ul class="usa-unstyled-list">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-0" itemprop="name">What is ID.me?</button>
+                    <div id="faq-idme-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me is a digital identity platform that helps people like you easily prove your identity so you can access advanced online services—while keeping your personal information safe.</p>
                         <p>ID.me is a trusted VA partner and 1 of only 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.</p>
@@ -302,9 +310,9 @@ display_title: Frequently Asked Questions
                     </div>
                    </li>
                    <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-3" itemprop="name">Why am I using ID.me to sign in to Vets.gov?
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-1" itemprop="name">Why am I using ID.me to sign in to Vets.gov?
                     </button>
-                    <div id="faq-security-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-idme-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>We’re using technology to provide you with better access to the benefits and services you’ve earned. But before we share your personal information, we need to make sure you’re you—and not someone pretending to be you.</p>
                         <p>ID.me helps us do this in a way that’s simple and secure. In fact, ID.me offers the strongest identity verification system available to prevent fraud and identity theft. ID.me is a trusted VA partner and 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.</p>
@@ -312,8 +320,8 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-4" itemprop="name">Why should I trust ID.me?</button>
-                    <div id="faq-security-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-2" itemprop="name">Why should I trust ID.me?</button>
+                    <div id="faq-idme-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me is a trusted VA technology partner that provides the strongest identity verification system available to prevent fraud and identity theft. This service uses bank-grade encryption to keep your personal information safe. And they give you control over which services and businesses can share your information.</p>
                         <p>ID.me is a Veteran-owned digital identity platform. Hundreds of well-known private-sector companies (like Verizon, Dell, and Ford) and other government agencies and nonprofits (like the U.S. Chamber of Commerce's Hiring Our Heroes initiative) have also chosen ID.me to help keep their customers’ personal information safe.</p>
@@ -321,10 +329,10 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-5" itemprop="name">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-3" itemprop="name">
                       How does ID.me work with Vets.gov?
                     </button>
-                    <div id="faq-security-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-idme-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you use your existing <strong>DS Logon</strong> account to sign in, we’ll connect your account to Vets.gov through ID.me. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
                         <p>If you create an ID.me account with Vets.gov—or if you sign in with a basic or advanced (non-premium) a basic <strong>DS Logon</strong> account—you’ll go through a process that makes sure you're you (not someone pretending to be you). You’ll need to provide your Social Security number and either upload pictures of your ID card (your driver's license or passport) or answer questions based on your public and private data (like your credit report) that only you'd know how to answer.</p>
@@ -332,9 +340,13 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
+              <hr>
+              <h3>Your privacy and security with ID.me</h3>
+              <div class="usa-accordion">
+                <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-6" itemprop="name">What information does ID.me collect, and do they share it with anyone else?</button>
-                    <div id="faq-security-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-0" itemprop="name">What information does ID.me collect, and do they share it with anyone else?</button>
+                    <div id="faq-idme-security-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>When you create an account, ID.me will ask you to provide personal information, like your name, date of birth, address, or other details. ID.me will also ask you to either upload a picture of your driver’s license or passport or answer questions based on your public and private data (like your credit report) that only you’d know how to answer. This is to help make sure you're you—and not someone pretending to be you.</p>
                         <p>With your permission, ID.me will share this information with the Department of Veterans Affairs so we can give you access to your VA health records and benefit information. ID.me will never share your information with anyone else without asking for your permission.</p>
@@ -345,8 +357,8 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-7" itemprop="name">How will ID.me protect my personal information?</button>
-                    <div id="faq-security-7" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-1" itemprop="name">How will ID.me protect my personal information?</button>
+                    <div id="faq-idme-security-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me protects all sensitive data with AES 256-bit encryption at rest and RSA 2048-bit encryption in transit. Their information security protections are stronger than many financial institutions.</p>
                       </div>
