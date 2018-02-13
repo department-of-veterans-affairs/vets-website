@@ -222,11 +222,8 @@ const formConfig = {
               fileTypes: [
                 'pdf',
                 'png',
-                'tiff',
-                'tif',
                 'jpeg',
                 'jpg',
-                'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload your discharge document',
