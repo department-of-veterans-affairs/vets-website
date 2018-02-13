@@ -362,8 +362,11 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  onZoomMouseDown = () => {
+  onZoomMouseDown = (e) => {
     this.setState({ mouseDown: true });
+    if (e.target.value !== this.state.zoomValue) {
+      this.onZoomSliderChange(e);
+    }
   }
 
   onZoomMouseUp = () => {
