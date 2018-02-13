@@ -179,8 +179,8 @@ node('vetsgov-general-purpose') {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
       throw error
     } finally {
-      sh "docker-compose -p e2e down"
-      sh "docker-compose -p accessibility down"
+      sh "docker-compose -p e2e down --remove-orphans"
+      sh "docker-compose -p accessibility down --remove-orphans"
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
