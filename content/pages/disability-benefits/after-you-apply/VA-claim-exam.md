@@ -8,7 +8,7 @@ template: detail-page
 majorlinks:
   - heading: More information about what happens after you file your claim
     links:
-     - url: /disability-benefits/eligibility/ratings/
+    - url: /disability-benefits/eligibility/ratings/
       title: How VA Assigns Disability Ratings
       description: "Learn how we assign severity ratings and how they affect your disability payments."
     - url: /?next=%2Ftrack-claims%2F/
