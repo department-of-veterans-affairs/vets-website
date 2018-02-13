@@ -211,7 +211,7 @@ Yes.
 
 **To get a copy of the final report from your exam:**
 
- - [Contact your nearest VA regional office](https://www.va.gov/directory/guide/division.asp?dnum=3&isFlash=0), **or**
+ - [Contact your nearest VA regional office](/facilities/), **or**
  - Call us at 1-800-827-1000 and request an appointment to view your file
 
 </div>
