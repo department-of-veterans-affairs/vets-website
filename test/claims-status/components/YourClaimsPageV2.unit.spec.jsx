@@ -3,16 +3,16 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { YourClaimsPage } from '../../../src/js/claims-status/containers/YourClaimsPageV2';
+import { YourClaimsPageV2 } from '../../../src/js/claims-status/containers/YourClaimsPageV2';
 
-describe('<YourClaimsPage>', () => {
+describe('<YourClaimsPageV2>', () => {
   it('should render tabs', () => {
     const claims = [];
     const routeParams = {
       showClosedClaims: true
     };
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         route={routeParams}
         list={claims}/>
     );
@@ -24,7 +24,7 @@ describe('<YourClaimsPage>', () => {
       showClosedClaims: true
     };
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         route={routeParams}
         list={claims}/>
     );
@@ -39,7 +39,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         claimsLoading
         appealsLoading
         claims={claims}
@@ -58,7 +58,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         claimsLoading
         claims={claims}
         page={page}
@@ -76,7 +76,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [{}, {}];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         claimsLoading
         list={claims}
         page={page}
@@ -96,7 +96,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         list={claims}
         page={page}
         pages={pages}
@@ -115,7 +115,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         loading
         list={claims}
         page={page}
@@ -140,7 +140,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         canAccessAppeals
         canAccessClaims
         appealsAvailable={false}
@@ -168,7 +168,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         canAccessClaims
         claimsAvailable={false}
         list={claims}
@@ -194,7 +194,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         canAccessClaims
         claimsAvailable
         claimsAuthorized={false}
@@ -221,7 +221,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         list={claims}
         page={page}
         pages={pages}
@@ -240,7 +240,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [{}, {}];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         list={claims}
         page={page}
         pages={pages}
@@ -260,7 +260,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [{}, {}];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         unfilteredClaims={claims}
         unfilteredAppeals={claims}
         list={claims}
@@ -281,7 +281,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [{}, {}];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         list={claims}
         page={page}
         pages={pages}
@@ -299,7 +299,7 @@ describe('<YourClaimsPage>', () => {
     const claims = [{}, {}];
 
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage
+      <YourClaimsPageV2
         list={claims}
         page={page}
         pages={pages}
