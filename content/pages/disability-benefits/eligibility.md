@@ -79,6 +79,18 @@ You may be able to get disability benefits if you have a current illness or inju
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">If I have a less than honorable discharge, can I try to get my discharge upgraded so I can receive VA disability benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Yes. You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
+[Find out how to apply for a discharge upgrade](https://www.vets.gov/discharge-upgrade-instructions/).
+
+</div>
+</div>
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
