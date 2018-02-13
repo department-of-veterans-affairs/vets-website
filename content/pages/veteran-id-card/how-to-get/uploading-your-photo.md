@@ -22,14 +22,17 @@ Find out how to upload a good quality photo that meets our standards for your Ve
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="standards">What are the standards I need to follow for this photo?</button>
 <div id="standards" class="usa-accordion-content">
-The photo has to follow all the standards listed below. It must:
-- Be a color digital photo, **and**
-- Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
-- Be cropped from your shoulders up (much like a passport photo), **and**
-- Show you with your eyes open and a neutral expression, **and**
-- Be a square size and have a white or plain-color background (with no scenery or other people in the photo), **and**
-- Show what you look like now (a photo taken sometime in the last 10 years), **and**
-- Be uploaded as a .jpeg, .png, .bmp, or .tiff file  
+
+<strong>The photo needs to follow all the standards listed below. It must:</strong>
+<ul>
+<li>Be a color photo, <strong>and</strong></li>
+<li>Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
+<li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
+<li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
+<li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo), <strong>and</strong></li>
+<li>Show what you look like now (a photo taken sometime in the last 10 years), <strong>and</strong></li>
+<li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
+</ul>
 
 </div>
 </li>
