@@ -54,12 +54,12 @@ export class MHVApp extends React.Component {
   render() {
     const { account, terms } = this.props;
 
-    if (account.loading || terms.loading) {
-      return <LoadingIndicator setFocus message="Loading your information..."/>;
-    }
-
     if (account.polling) {
       return <LoadingIndicator setFocus message="Creating your MHV account..."/>;
+    }
+
+    if (account.loading || terms.loading) {
+      return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
     if (account.errors) {

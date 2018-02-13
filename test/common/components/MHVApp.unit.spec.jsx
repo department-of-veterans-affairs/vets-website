@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { set } from 'lodash/fp';
+import { merge, set } from 'lodash/fp';
 import sinon from 'sinon';
 
 import { MHVApp } from '../../../src/js/common/components/MHVApp.jsx';
@@ -46,6 +46,16 @@ describe('<MHVApp>', () => {
     const wrapper = shallow(<MHVApp {...newProps}/>);
     expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
   });
+
+  it('should show a loading indicator when polling and override generic loading', () => {
+    const newProps = merge(props, {
+      account: { loading: true, polling: true }
+    });
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    const loadingIndicator = wrapper.find('LoadingIndicator').dive();
+    expect(loadingIndicator.text()).to.equal('Creating your MHV account...');
+  });
+
 
   it('should fetch terms if the user needs to accept terms', () => {
     const newProps = set('account.state', 'needs_terms_acceptance', props);
