@@ -13,7 +13,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out how to take and upload a good quality photo for your Veteran ID Card.
+Find out how to upload a good quality photo for your Veteran ID Card.
 
 </div>
 
@@ -30,9 +30,9 @@ Your photo needs to be a square size to meet our photo requirements. This means 
 1. Find your photo file and right-click on your mouse.
 2. A list of options will appear. Choose **Properties**.
 3. A window will open with information about the photo. Choose the **Details** tab.
-4. Under the "Image" heading, you'll see the image's measurements:<br>
-- **Dimensions** should be at least 350 x 350.
-- **Width** and **Height** should be equal and at least 350 pixels.
+4. Under the "Image" heading, you'll see the image's measurements:
+ - **Dimensions** should be at least 350 x 350.
+ - **Width** and **Height** should be equal and at least 350 pixels.
 
 **To check your photo's dimensions on a Mac:**
 
@@ -43,9 +43,6 @@ Your photo needs to be a square size to meet our photo requirements. This means 
 
 </div>
 </li>
-
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="change-size">If my photo isn't the right size, how do I change it to meet the size requirements?</button>
 <div id="change-size" class="usa-accordion-content">
@@ -59,10 +56,10 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 3. Another list of options will appear. Choose **Paint**.
 4. Your image will open in the Paint program. In the **Image** section in the tool bar, choose **Resize**.
 5. A window will appear with resizing options:<br>
- - Choose the **Pixels** radio button.
- - The **Maintain aspect ratio** check box will be automatically checked. Click on the box to uncheck it.
- - Type in new numbers for the image in the boxes for **Horizontal** and **Vertical**. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.
- - Click the **OK** button to close the window and save your changes.
+  - Choose the **Pixels** radio button.
+  - The **Maintain aspect ratio** check box will be automatically checked. Click on the box to uncheck it.
+  - Type in new numbers for the image in the boxes for **Horizontal** and **Vertical**. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.
+  - Click the **OK** button to close the window and save your changes.
  7. Choose **Save As** and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over.
  
  **To change your photo's size on a Mac:**
@@ -72,10 +69,10 @@ Follow these steps to change your photo's size on either a PC or Mac computer.
 3. Another list of options will appear. Choose **Preview.app**.
 4. The image will open within the Preview app. In the top tool bar, select **Tools** and then **Adjust Size**.
 5. A window will appear with your image's dimensions:<br>
-- The **Scale proportionally** check box will be automatically checked. Click on the box to uncheck it.
-- For the measurement options, choose **pixels**.
-- Type in your new measurements. Remember, both width and height need to be equal. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.
-- Click the **OK** button to close the window and save your changes.
+ - The **Scale proportionally** check box will be automatically checked. Click on the box to uncheck it.
+ - For the measurement options, choose **pixels**.
+ - Type in your new measurements. Remember, both width and height need to be equal. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in width and height.
+ - Click the **OK** button to close the window and save your changes.
 7. In the top tool bar, select **File** and press the **option** key. The option to **Save As** will appear. Choose this option and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo too just in case you need to start over. 
 
 </div>
@@ -116,8 +113,8 @@ If you don’t have a digital copy of your photo, you can scan or take a picture
 **To scan your photo using a flatbed scanner:**
 1. Place your photo face down on the scanner.
 2. Press **Scan** on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
-- To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in height and width.
-- You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card. 
+  - To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To help make sure the photo isn't blurry when printed, we recommend making it at least 350 pixels in height and width.
+  - You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card. 
 3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
 
 **To scan your photo with your phone, you can use your phone’s camera or photo-scanning app.**
