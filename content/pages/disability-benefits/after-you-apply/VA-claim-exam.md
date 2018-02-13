@@ -85,7 +85,7 @@ If you can’t make it to your appointment, let us know right away. You can most
 
 - Call 1-800-827-1000, **or**
 - Go to your nearest regional benefit office. <br>
-  [Find your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp).	
+  [Find your local regional benefit office](/facilities/).	
   
 </div>
 </li>
@@ -164,7 +164,7 @@ Either a VA doctor or a non-VA doctor who we’ve contracted with will do the ex
 No. The doctor will give the exam results to our VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
 If you have questions about the claims process, call your nearest VA regional office. <br>
-[Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
+[Find contact information for your nearest VA regional office](/facilities/).
 
 </div>
 </li>
@@ -176,7 +176,7 @@ If you miss your claim exam, contact us right away to let us know why you didn�
 
 If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" reasons might be an illness or the death of someone in your immediate family.
 
-[Find contact information for your nearest VA regional office](https://www.benefits.va.gov/benefits/offices.asp).
+[Find contact information for your nearest VA regional office](/facilities/).
 
 </div>
 </li>
