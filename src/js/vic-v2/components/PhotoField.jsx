@@ -292,11 +292,11 @@ export default class PhotoField extends React.Component {
           .then((img) => {
             if (!isSquareImage(img)) {
               this.props.onChange({
-                errorMessage: 'The photo you uploaded is not a square photo. Please upload a new one that fits the requirements.'
+                errorMessage: 'The photo you uploaded isn't a square photo. Please upload a new one that fits the requirements.'
               });
             } else if (!isValidImageSize(img)) {
               this.props.onChange({
-                errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
+                errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn't be uploaded. Please try to upload a different photo.'
               });
             } else {
               this.setState({ progress: 0, warningMessage: null });
@@ -340,7 +340,7 @@ export default class PhotoField extends React.Component {
             .then((img) => {
               if (!isValidImageSize(img)) {
                 this.props.onChange({
-                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
+                  errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn't be uploaded. Please try to upload a different photo.'
                 });
               } else {
                 // Clear any error messages
@@ -354,7 +354,7 @@ export default class PhotoField extends React.Component {
             })
             .catch(() => {
               this.props.onChange({
-                errorMessage: 'Sorry, we weren’t able to load the image you selected'
+                errorMessage: 'Sorry, we weren’t able to load the image you selected.'
               });
             });
         };
@@ -606,7 +606,7 @@ export default class PhotoField extends React.Component {
 
     let instruction;
     if (fieldView === 'cropper') {
-      instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</span>;
+      instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame.</span>;
     } else if (fieldView === 'initial') {
       instruction = <span><strong>Step 1 of 2:</strong> Upload a digital photo.</span>;
     }
@@ -632,7 +632,7 @@ export default class PhotoField extends React.Component {
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
         <div className={errorMessage ? 'error-box' : 'border-box'}>
           {fieldView === 'cropper' && <span className="sr-only">
-            This is a photo editing tool that requires sight to use. If you are using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
+            This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
             {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">
