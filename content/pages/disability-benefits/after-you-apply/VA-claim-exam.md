@@ -197,7 +197,7 @@ We’ll review all the evidence in your file, assign your disability rating, and
 
 Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed. 
 
-[See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/).
+[See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/#days-to-complete-claim).
 
 [Sign in to Vets.gov to track your claim](/?next=%2F/).
 
