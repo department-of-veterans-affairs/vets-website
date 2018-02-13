@@ -1,6 +1,7 @@
 version: '3'
 services:
   vets-website:
+    image: vets_website:${IMAGE_TAG:-latest}
     build:
       context: .
     volumes:
