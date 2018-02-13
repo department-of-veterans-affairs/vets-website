@@ -236,7 +236,9 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
 
       req.upload.addEventListener('progress', (evt) => {
         if (evt.lengthComputable && progressCallback) {
-          progressCallback((evt.loaded / evt.total) * 100);
+          // setting this at 80, because there's some time after we get to 100%
+          // where the backend is uploading to s3
+          progressCallback((evt.loaded / evt.total) * 80);
         }
       });
 
