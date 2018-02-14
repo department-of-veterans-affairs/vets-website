@@ -11,6 +11,8 @@ export const APPEAL_TYPES = {
   cue: 'cue'
 };
 
+export const APPEAL_V2_TYPE = 'appealSeries';
+
 // TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
