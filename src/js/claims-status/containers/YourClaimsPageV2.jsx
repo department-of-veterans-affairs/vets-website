@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
 import { getAppeals, getAppealsV2, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
+import { APPEAL_V2_TYPE } from '../utils/appeals-v2-helpers';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -82,7 +83,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === 'appeals_status_models_appeals') {
+    if (claim.type === APPEAL_V2_TYPE) {
       return <AppealListItem key={claim.id} appeal={claim}/>;
     }
 
@@ -121,6 +122,8 @@ class YourClaimsPageV2 extends React.Component {
     const {
       unfilteredAppeals,
       unfilteredClaims,
+      // TODO: Grab the claims list and the appeals list separately, then combine them together
+      //  Preferably not in the render function. Maybe in componentWillReceiveProps()?
       list,
       pages,
       page,

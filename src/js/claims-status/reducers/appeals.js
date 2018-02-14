@@ -11,15 +11,24 @@ const initialState = {
   available: true,
 };
 
+// Sort by the date of the last event
+function sortAppeals(list) {
+}
+
 export default function appealsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_APPEALS_PENDING:
       return _.set('appealsLoading', true, state);
-    case FETCH_APPEALS_SUCCESS:
+    case FETCH_APPEALS_SUCCESS: {
+      const list = sortAppeals(action.appeals);
+
       return _.merge(state, {
         appealsLoading: false,
         available: true,
+        appealsList: list
       });
+    }
+    // TODO: Verify that this isn't actually needed and then remove it
     case SET_APPEALS:
       return _.set('available', true, state);
     case SET_APPEALS_UNAVAILABLE:
