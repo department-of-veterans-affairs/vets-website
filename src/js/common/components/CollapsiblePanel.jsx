@@ -7,10 +7,12 @@ const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 export default class CollapsiblePanel extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = { open: !!(props.startOpen) };
+
     this.toggleChapter = this.toggleChapter.bind(this);
-    this.state = { open: false };
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   componentWillMount() {
@@ -27,7 +29,7 @@ export default class CollapsiblePanel extends React.Component {
 
   toggleChapter() {
     const isOpening = !this.state.open;
-    this.setState({ open: !this.state.open }, () => {
+    this.setState((prevState) => ({ open: !prevState.open }), () => {
       if (isOpening) {
         this.scrollToTop();
       }

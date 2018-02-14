@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
@@ -34,19 +33,16 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
-    const userSignedIn = this.props.userSignedIn;
+    const { form, userSignedIn } = this.props;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
-    const response = form.submission.response
-      ? form.submission.response.attributes
-      : {};
+    const response = form.submission.response || {};
     const { veteranFullName, verified } = form.data;
-    const submittedAt = moment(form.submission.submittedAt);
+    const submittedAt = moment();
 
     return (
       <div>
-        <p>We’ve received your application. Thank you for applying for a Veteran ID Card.<br/>
+        <p><strong>We’ve received your application.</strong> Thank you for applying for a Veteran ID Card.<br/>
           We process applications and print cards in the order we receive them.</p>
 
         <h2 className="schemaform-confirmation-section-header">What happens after I apply?</h2>
@@ -74,7 +70,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.confirmationNumber}</span>
+              <span>{response.caseNumber}</span>
             </li>
             <li>
               <strong>Date received</strong><br/>
@@ -99,10 +95,9 @@ class ConfirmationPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userSignedIn = _.get(state, 'user.login.currentlyLoggedIn', false);
   return {
     form: state.form,
-    userSignedIn
+    userSignedIn: state.user.login.currentlyLoggedIn
   };
 }
 

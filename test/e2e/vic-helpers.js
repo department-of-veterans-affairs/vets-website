@@ -23,13 +23,45 @@ function completeContactInformation(client, data) {
 
 function initApplicationSubmitMock() {
   mock(null, {
-    path: '/v0/vic',
+    path: '/v0/vic/vic_submissions',
     verb: 'post',
     value: {
       data: {
         attributes: {
-          confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16'
+          guid: '123fake-submission-id-567'
+        }
+      }
+    }
+  });
+}
+
+function initApplicationPollMock() {
+  mock(null, {
+    path: '/v0/vic/vic_submissions/123fake-submission-id-567',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          state: 'success',
+          response: {
+            caseNumber: '123fake-submission-id-567' // eslint-disable-line camelcase
+          }
+        }
+      }
+    }
+  });
+}
+
+function initPhotoUploadMock() {
+  mock(null, {
+    path: '/v0/vic/profile_photo_attachments',
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          guid: '123fake-submission-id-567',
+          filename: 'examplephoto.jpg',
+          path: '/test/vic-v2/'
         }
       }
     }
@@ -38,14 +70,12 @@ function initApplicationSubmitMock() {
 
 function initDocumentUploadMock() {
   mock(null, {
-    path: '/v0/vic/vic_attachments',
+    path: '/v0/vic/supporting_documentation_attachments',
     verb: 'post',
     value: {
       data: {
         attributes: {
-          attachmentId: '1',
-          name: 'VA40-10007.pdf',
-          confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
+          guid: '123fake-submission-id-567'
         }
       }
     }
@@ -54,6 +84,8 @@ function initDocumentUploadMock() {
 
 module.exports = {
   initApplicationSubmitMock,
+  initApplicationPollMock,
+  initPhotoUploadMock,
   initDocumentUploadMock,
   completeAddressInformation,
   completeApplicantInformation,

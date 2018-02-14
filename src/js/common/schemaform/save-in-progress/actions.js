@@ -320,7 +320,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
   };
 }
 
-export function removeInProgressForm(formId, migrations) {
+export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
 
@@ -342,7 +342,7 @@ export function removeInProgressForm(formId, migrations) {
           event: `${trackingPrefix}sip-form-start-over`
         });
         // after deleting, go fetch prefill info if they’ve got it
-        return dispatch(fetchInProgressForm(formId, migrations, true));
+        return dispatch(fetchInProgressForm(formId, migrations, true, prefillTransformer));
       })
       .catch(() => {
         dispatch(logOut());

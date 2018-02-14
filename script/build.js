@@ -97,6 +97,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
   ignoreList.push('veteran-id-card/apply.md');
+  ignoreList.push('veteran-id-card/how-to-get.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -162,7 +163,7 @@ smith.use(collections({
     pattern: 'disability-benefits/after-you-apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'After You Apply'
     }
   },
   disabilityApply: {
@@ -295,6 +296,13 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'VA Health Care Coverage'
+    }
+  },
+  healthCareCoverageFamily: {
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Health Benefits'
     }
   },
   healthCareCoverageVision: {
@@ -596,6 +604,8 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
+        '/veteran-id-card/apply',
+        '/veteran-id-card/how-to-get',
         '/letters'].join('|'))
   }));
 }

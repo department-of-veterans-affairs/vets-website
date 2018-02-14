@@ -7,11 +7,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
-import { prefillTransformer } from '../helpers.jsx';
+import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressDefinition from '../../common/schemaform/definitions/address';
+import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
@@ -25,8 +25,8 @@ const {
   veteranFullName,
   email,
   serviceBranch,
-  dd214
-  // photo
+  dd214,
+  photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -41,7 +41,7 @@ const TWENTY_FIVE_MB = 26214400;
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vic',
+  submit,
   trackingPrefix: 'veteran-id-card-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -118,7 +118,7 @@ const formConfig = {
           path: 'address-information',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: addressDefinition.uiSchema(),
+            veteranAddress: addressDefinition.uiSchema(fullSchemaVIC, 'Please provide the address where you would like us to ship your Veteran ID Card.'),
           },
           schema: {
             type: 'object',
@@ -206,25 +206,12 @@ const formConfig = {
             type: 'object',
             required: ['photo'],
             properties: {
-              photo: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  size: {
-                    type: 'integer'
-                  },
-                  confirmationCode: {
-                    type: 'string'
-                  }
-                }
-              }
+              photo
             }
           }
         },
         dd214Upload: {
-          path: 'documents/dd214',
+          path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
@@ -235,11 +222,8 @@ const formConfig = {
               fileTypes: [
                 'pdf',
                 'png',
-                'tiff',
-                'tif',
                 'jpeg',
                 'jpg',
-                'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload your discharge document',
