@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from './LoadingIndicator';
 
 /*
+ * Expects a settings object that looks like:
+ *
  * settings: {
  *   rateLimits: {
  *     [id]: {
@@ -15,14 +18,14 @@ export class RateLimiter extends React.Component {
   constructor(props) {
     super(props);
     const rateLimit = window.settings.rateLimits
-      ? {}
-      : window.settings.rateLimits[props.id];
+      ? window.settings.rateLimits[props.id]
+      : { unauthed: 1, authed: 1 };
     const randomizer = Math.random();
 
     this.state = {
       disableRateLimit: window.sessionStorage.getItem(`rateLimits_${props.id}_disableRateLimit`),
-      rateLimitedUnauthed: randomizer > rateLimit.unauthed || 0,
-      rateLimitedAuthed: randomizer > rateLimit.authed || 0
+      rateLimitedUnauthed: randomizer > (rateLimit.unauthed || 1),
+      rateLimitedAuthed: randomizer > (rateLimit.authed || 1)
     };
   }
 
@@ -35,16 +38,24 @@ export class RateLimiter extends React.Component {
   }
 
   disableRateLimitIfNecessary = () => {
-    if (!this.props.state.user.profile.inProgress && (
-      (this.props.state.user.login.currentlyLoggedIn && !this.state.rateLimitedAuthed) ||
-      (!this.props.state.user.login.currentlyLoggedIn && !this.state.rateLimitedUnauthed)
+    const { state, waitForProfile, id } = this.props;
+    const { rateLimitedUnauthed, rateLimitedAuthed } = this.state;
+
+    if ((!state.user.profile.loading || !waitForProfile) && (
+      (state.user.login.currentlyLoggedIn && !rateLimitedAuthed) ||
+      (!state.user.login.currentlyLoggedIn && !rateLimitedUnauthed)
     )) {
-      window.sessionStorage.setItem(`rateLimits_${this.props.id}_disableRateLimit`, 'true');
+      window.sessionStorage.setItem(`rateLimits_${id}_disableRateLimit`, 'true');
     }
   }
 
   render() {
-    const { state, bypassLimiter, renderLimitedContent, children } = this.props;
+    const { state, bypassLimiter, renderLimitedContent, waitForProfile, children } = this.props;
+
+    if (waitForProfile && state.user.profile.loading) {
+      return <LoadingIndicator message="Loading your profile information..."/>;
+    }
+
     const rateLimited = state.user.login.currentlyLoggedIn
       ? this.state.rateLimitedAuthed
       : this.state.rateLimitedUnauthed;
@@ -58,7 +69,7 @@ export class RateLimiter extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return state;
+  return { state };
 }
 
 export default connect(mapStateToProps)(RateLimiter);
