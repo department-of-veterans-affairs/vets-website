@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
+import { getAppeals, getAppealsV2, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -37,7 +37,7 @@ const sortOptions = [
   }
 ];
 
-class YourClaimsPage extends React.Component {
+class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
@@ -51,7 +51,7 @@ class YourClaimsPage extends React.Component {
     }
 
     if (this.props.canAccessAppeals) {
-      this.props.getAppeals(this.getFilter(this.props));
+      this.props.getAppealsV2();
     }
 
     if (this.props.claimsLoading && this.props.appealsLoading) {
@@ -268,6 +268,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAppeals,
+  getAppealsV2,
   getClaims,
   filterClaims,
   changePage,
@@ -276,6 +277,6 @@ const mapDispatchToProps = {
   hide30DayNotice
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
 
-export { YourClaimsPage };
+export { YourClaimsPageV2 };

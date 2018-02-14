@@ -3,6 +3,14 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 
+export const APPEAL_TYPES = {
+  original: 'original',
+  postRemand: 'post_remand',
+  postCavcRemand: 'post_cavc_remand',
+  reconsideration: 'reconsideration',
+  cue: 'cue'
+};
+
 // TO DO: Replace made up properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
@@ -38,17 +46,6 @@ export const ISSUE_STATUS = {
   remand: 'remand',
   cavcRemand: 'cavc_remand',
 };
-
-export const CLOSED_STATUSES = [
-  STATUS_TYPES.bvaDecision,
-  STATUS_TYPES.fieldGrant,
-  STATUS_TYPES.withdrawn,
-  STATUS_TYPES.ftr,
-  STATUS_TYPES.ramp,
-  STATUS_TYPES.reconsideration,
-  STATUS_TYPES.death,
-  STATUS_TYPES.otherClose
-];
 
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
