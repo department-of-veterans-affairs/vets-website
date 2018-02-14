@@ -368,6 +368,23 @@ export default class PhotoField extends React.Component {
     this.refs.cropper.zoomTo(e.target.value);
   }
 
+  onZoomMouseMove = (e) => {
+    if (this.mouseDown) {
+      this.onZoomSliderChange(e);
+    }
+  }
+
+  onZoomMouseDown = (e) => {
+    this.mouseDown = true;
+    if (e.target.value !== this.state.zoomValue) {
+      this.onZoomSliderChange(e);
+    }
+  }
+
+  onZoomMouseUp = () => {
+    this.mouseDown = false;
+  }
+
   onZoom = (e) => {
     // Cropper returns the attempted zoom value
     const zoomValue = e.detail.ratio;
@@ -684,7 +701,10 @@ export default class PhotoField extends React.Component {
                 aria-valuemin={this.state.minRatio}
                 aria-valuemax={this.state.maxRatio}
                 aria-valuenow={this.state.zoomValue}
-                onInput={this.onZoomSliderChange}/>
+                onMouseDown={this.onZoomMouseDown}
+                onMouseUp={this.onZoomMouseUp}
+                onMouseMove={this.onZoomMouseMove}
+                onChange={this.onZoomSliderChange}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
               {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
                 <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
