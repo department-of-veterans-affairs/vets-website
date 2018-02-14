@@ -30,7 +30,7 @@ After you file your disability benefits claim, we may ask you to have a claim ex
 
 ##### Be sure not to miss your scheduled exam.
 
-If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or, we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
+If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
 
 </div>
 </div>
@@ -119,8 +119,8 @@ A VA claim exam isn’t like a normal medical exam or other VA health care visit
 **During your exam, the doctor may do any or all of these things:**
 
  -	Review your claim file with you
- -	Ask you questions based on the medical records in your claim file. These may include questions from the Disability Benefits Questionnaire about each service-connected condition you’re claiming. <br>
-[Take a look at the Disability Benefits Questionnaire (DBQ)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
+ -	Ask you questions based on the medical records in your claim file. These may include questions from the Disability Benefits Questionnaire for each service-connected condition you’re claiming. <br>
+[Take a look at the Disability Benefits Questionnaires (DBQs)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
  - Perform a basic physical exam
  - Ask you to get other tests—like X-rays or blood work—if needed
 
@@ -168,7 +168,7 @@ If you have questions about the claims process, call your nearest VA regional of
 
 If you miss your claim exam, contact us right away to let us know why you didn't make it. We can help you figure out what to do next.
 
-If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" reasons might be an illness or the death of someone in your immediate family.
+If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" might be an illness or the death of someone in your immediate family.
 
 [Find contact information for your nearest VA regional office](/facilities/).
 
