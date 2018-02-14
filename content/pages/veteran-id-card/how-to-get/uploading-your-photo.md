@@ -13,7 +13,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out how to upload a good quality photo that meets our standards for your Veteran ID Card.
+Find out how to upload a good quality photo that meets the requirements for a Veteran ID Card.
 
 </div>
 
@@ -37,66 +37,48 @@ Find out how to upload a good quality photo that meets our standards for your Ve
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="size">How do I know if my photo is the right size?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="size">I have a photo saved on my computer. How do I know if my photo is the right size?</button>
 <div id="size" class="usa-accordion-content">
  
-Your photo needs to be a square size to meet our photo requirements. This means the height and width of the photo must be equal. To make sure your photo doesn’t look blurry when printed on your card, we recommend making it at least 350 pixels in both height and width. Follow these steps to check your photo’s dimensions on either a PC or Mac computer.
+To make sure your photo doesn’t look blurry when it’s printed on your card, it should be at least 350 pixels on each side. A pixel is a digital unit of measurement for screens, like a computer or television. Most photos taken with smartphones and digital cameras meet this requirement. 
+If you’re unsure if your photo is big enough, follow these steps to check your photo’s dimensions on a PC or Mac computer. 
 
 **To check your photo’s dimensions on a PC:**
 
-1. Find your photo file and right-click on your mouse.
+1. Find your photo file and press the **shift** key, then F10. 
 2. A list of options will appear. Choose **Properties**.
 3. A window will open with information about the photo. Choose the **Details** tab.
 4. Under the **Image** heading, you’ll see the image’s measurements:
    <ul>
-   <li><strong>Dimensions</strong> should be at least 350 x 350.</li>
-   <li><strong>Width</strong> and <strong>Height</strong> should be equal and at least 350 pixels.</li>
+   <li><strong>Dimensions</strong> should be at least 350 x 350. It’s ok if the photo is larger. </li>
    </ul>
 
-**To check your photo's dimensions on a Mac:**
+**To check your photo’s dimensions on a Mac:**
 
 1. Find your photo file and click on it while pressing the **control** key.
 2. A list of options will appear. Choose **Get Info**.
 3. A window will open with information about the photo. Click on the **More info arrow** beneath the general file information.
-4. The information will expand and you’ll see **Dimensions**. These should be equal numbers and should be at least 350 x 350.
+4. The information will expand and you’ll see **Dimensions**. These should be equal numbers and should be at least 350 x 350. It’s ok if the photo is larger. 
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="change-size">If my photo isn’t the right size, how do I change it to meet the size requirements?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="change-size">What if my photo isn’t the right size?</button>
 <div id="change-size" class="usa-accordion-content">
  
-Follow these steps to change your photo’s size on either a PC or Mac computer. 
- 
-**To change your photo’s size on a PC:**
+If your photo dimensions are less than 350 pixels on any side, we suggest you choose a different photo or take a new photo with a smartphone or digital camera. If you don’t have a smartphone or digital camera, you can get a passport photo taken at your local drugstore or shipping center. 
 
-1. Find your photo file and right-click on your mouse.
-2. A list of options will appear. Choose **Open With**.
-3. Another list of options will appear. Choose **Paint**.
-4. Your image will open in the Paint program. In the **Image** section in the toolbar, choose **Resize**.
-5. A window will appear with resizing options:
-   <ul>
-   <li> Choose the <strong>Pixels</strong> radio button.</li>
-   <li>The <strong>Maintain aspect ratio</strong> check box will be automatically checked. Click on the box to uncheck it.</li>
-   <li>Type in new numbers for the image in the boxes for <strong>Horizontal</strong> and <strong>Vertical</strong>. Remember, to meet our image requirements, the photo must have an equal horizontal and vertical measurement. To make sure the photo isn’t blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
-   <li>Click the <strong>OK</strong> button to close the window and save your changes.</li>
-   </ul>
- 7. Choose **Save As** and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo in case you need to start over.
- 
- **To change your photo’s size on a Mac:**
- 
-1. Find your photo file and click on it while pressing the **control** key.
-2. A list of options will appear. Choose **Open With**.
-3. Another list of options will appear. Choose **Preview.app**.
-4. The image will open within the Preview app. In the top tool bar, select **Tools** and then **Adjust Size**.
-5. A window will appear with your image’s dimensions:
-   <ul>
-   <li>The <strong>Scale proportionally</strong> check box will be automatically checked. Click on the box to uncheck it.</li>
-   <li>For the measurement options, choose <strong>pixels</strong>.</li>
-   <li>Type in your new measurements. Remember, both width and height need to be equal. To help make sure the photo isn’t blurry when printed, we recommend making it at least 350 pixels in width and height.</li>
-   <li>Click the <strong>OK</strong> button to close the window and save your changes.</li>
-   </ul>
-7. In the top toolbar, select **File** and press the **option** key. The option to **Save As** will appear. Choose this option and save your file as a new .jpeg, .png, .bmp, or .tiff file. Be sure to give the file a new name. This will keep your original photo in case you need to start over. 
+If your photo isn't square, the Veteran ID Card application includes a tool to help you resize your photo. We recommend applicants using screen readers to start with a square photo, like a passport photo. This will make the application easier to use.  
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="access-smartphone">I have access to a smartphone. How can I take my Veteran ID Card photo?</button>
+<div id="upload-smartphone" class="usa-accordion-content">
+
+We recommend that you have someone else take the photo for you. Stand or sit in front of a white or off-white wall without any decorations behind you. The photo should focus on your head and shoulders. 
+
+Some smartphones and digital cameras have a setting that lets users take square photos. The Veteran ID Card application also includes a tool to help you resize your photo. 
 
 </div>
 </li>
@@ -104,26 +86,9 @@ Follow these steps to change your photo’s size on either a PC or Mac computer.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-smartphone">How do I upload a photo from my smartphone?</button>
 <div id="upload-smartphone" class="usa-accordion-content">
 
-Open your phone’s **Photos app** and choose the picture you want to use. Then tap the **Share icon** and choose how you want to upload your photo. 
+You can complete the entire application from your mobile device, if you choose to do so. You can select a photo that’s on your smartphone directly from the Veteran ID Card application. 
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-computer">How do I upload a photo that’s on my smartphone, tablet, or digital camera to my computer?</button>
-<div id="upload-computer" class="usa-accordion-content">
-
-**To upload your photo to a PC:** 
-1.	Connect your device to your PC. 
-2.	After you connect your device, select **Start** and then **Photos** to open the Photos app on your PC. 
-3.	Select **Import**, and choose **From a USB Device**. 
-4.	Follow the instructions onscreen to pick the photo you want to upload. You can also choose where to save your photo. 
-
-**To upload your photo to a Mac:**
-1. Make sure you have the latest version of iTunes on your Mac.
-2. Connect your device to your Mac.
-3. After you connect your device, the **Photos app** should automatically open. If it doesn’t, then click on the **Photos app icon**. 
-4. An Import screen will appear, showing all the photos that are on your connected device. If the Import screen doesn’t automatically appear, click the **Import** tab at the top of the Photos app. 
-5. Follow the instructions onscreen to pick the photo you want to upload. You can also choose where to save your photo. 
+If you prefer to complete the application on a PC or Mac, you can transfer your photo from your smartphone or digital camera to your computer. You can do this by sharing photos using your phone’s photo application tool or by connecting your device to your computer.  
 
 </div>
 </li>
@@ -131,14 +96,16 @@ Open your phone’s **Photos app** and choose the picture you want to use. Then 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-physical">What if I don’t have a digital copy of my photo?</button>
 <div id="upload-physical" class="usa-accordion-content">
 
-You can scan your photo into your computer or phone, or use your phone’s camera to take a picture of your photo and save it to your phone.
+You can scan a physical photo into your computer or phone using a flatbed scanner, or use your phone’s camera to take a picture of the physical photo.
 
 **To scan your photo using a flatbed scanner:**
 1. Place your photo face down on the scanner.
 2. Press <strong>Scan</strong> on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
    <ul>
-   <li>To meet our image requirements, the photo needs to be a square size. This means it needs to be equal in height and width. To make sure the photo isn’t blurry when printed, we recommend making it at least 350 pixels in height and width.</li>
    <li>You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card.</li>
+   <li>The photo you’re trying to scan should be at least 2 inches on each side, so the photo isn’t blurry when printed on your card.</li>
+   <li>Your photo will be printed as a square on the card, meaning it’ll be the same height and width on either side. You may scan a rectangular photo and use the tool within the Veteran ID Card application to crop it. If you’re using a screen reader, we recommend that you scan a square photo. This will make it easier to complete the application.</li>
+   <li>Your scanner might have a setting for resolution. To make sure the photo isn’t blurry when printed, we recommend scanning at 300 dots per inch (dpi) or higher. <strong>Don’t select a resolution less than 300 dpi.</strong></li>
    </ul>
 3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
 
