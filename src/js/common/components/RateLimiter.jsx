@@ -42,7 +42,7 @@ export class RateLimiter extends React.Component {
       (state.user.login.currentlyLoggedIn && !rateLimitedAuthed) ||
       (!state.user.login.currentlyLoggedIn && !rateLimitedUnauthed)
     )) {
-      window.sessionStorage.setItem(`rateLimits_${id}_disableRateLimit`, 'true');
+      window.sessionStorage.setItem(`${id}_disableRateLimit`, 'true');
     }
   }
 
