@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Upload Your Veteran ID Card Photo
-display_title: Uploading Your VIC Photo
+title: How to Upload Your Photo
+display_title: Uploading Your Photo
 relatedlinks:
   - heading: 
     links:
