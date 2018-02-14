@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import Modal from '../../common/components/Modal';
-import MHVApp from '../../common/components/MHVApp';
+import MHVApp from '../../common/containers/MHVApp';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeModal } from '../actions/modal';

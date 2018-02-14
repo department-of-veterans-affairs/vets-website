@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AcceptTermsPrompt from './AcceptTermsPrompt';
-import AlertBox from './AlertBox';
-import LoadingIndicator from './LoadingIndicator';
+import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
+import AlertBox from '../components/AlertBox';
+import LoadingIndicator from '../components/LoadingIndicator';
 import { mhvAccessError } from '../utils/error-messages';
 import {
   acceptTerms,

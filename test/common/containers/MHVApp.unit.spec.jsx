@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { merge, set } from 'lodash/fp';
 import sinon from 'sinon';
 
-import { MHVApp } from '../../../src/js/common/components/MHVApp.jsx';
+import { MHVApp } from '../../../src/js/common/containers/MHVApp.jsx';
 
 describe('<MHVApp>', () => {
   const props = {

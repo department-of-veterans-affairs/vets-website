@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import MHVApp from '../../common/components/MHVApp';
+import MHVApp from '../../common/containers/MHVApp';
 import AlertBox from '../../common/components/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
