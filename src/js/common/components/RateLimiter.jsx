@@ -6,25 +6,22 @@ import LoadingIndicator from './LoadingIndicator';
  * Expects a settings object that looks like:
  *
  * settings: {
- *   rateLimits: {
- *     [id]: {
- *       authed: .7
- *       unauthed: .6
- *     }
+ *   [id]: {
+ *     rateLimitAuthed: 1,
+ *     rateLimitUnauthed: 1
  *   }
  * }
  */
 export class RateLimiter extends React.Component {
   constructor(props) {
     super(props);
-    const rateLimits = window.settings.rateLimits || {};
-    const { authed = 1, unauthed = 1 } = rateLimits[props.id] || {};
+    const { rateLimitAuthed = 1, rateLimitUnauthed = 1 } = window.settings[props.id] || {};
     const randomizer = Math.random();
 
     this.state = {
-      disableRateLimit: window.sessionStorage.getItem(`rateLimits_${props.id}_disableRateLimit`),
-      rateLimitedUnauthed: randomizer > unauthed,
-      rateLimitedAuthed: randomizer > authed
+      disableRateLimit: window.sessionStorage.getItem(`${props.id}_disableRateLimit`),
+      rateLimitedUnauthed: randomizer > rateLimitUnauthed,
+      rateLimitedAuthed: randomizer > rateLimitAuthed
     };
   }
 
@@ -59,7 +56,7 @@ export class RateLimiter extends React.Component {
       ? this.state.rateLimitedAuthed
       : this.state.rateLimitedUnauthed;
 
-    if (!rateLimited || this.state.disableRateLimit || bypassLimiter(state)) {
+    if (!rateLimited || this.state.disableRateLimit || (bypassLimiter && bypassLimiter(state))) {
       return children;
     }
 
