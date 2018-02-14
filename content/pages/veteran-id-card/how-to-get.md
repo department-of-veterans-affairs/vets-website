@@ -58,9 +58,10 @@ No. You can complete the application without signing in, but it’ll take us lon
 
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft. 
 
-We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.
+If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me. If you don’t have an account on Vets.gov, you can create one using ID.me.
 
-If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me. If you don’t have an account on Vets.gov, you can create one using ID.me.<br>
+ID.me is our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.<br>
+
 [Learn more about signing in to Vets.gov](/faq/).
 
 <br>
