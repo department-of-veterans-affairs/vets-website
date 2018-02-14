@@ -54,8 +54,16 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 **Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
 
 <br>
-
 </div>
+
+### Can I get still get these benefits if I have a less than honorable discharge?
+
+You may be able to get VR&E benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
+
+You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+
+<br>
 
 ### Ready to apply?
 
