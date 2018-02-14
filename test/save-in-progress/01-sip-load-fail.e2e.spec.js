@@ -64,7 +64,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
 
-    client.expect.element('.usa-alert-error').text.to.contain('You have been signed out');
+    client.expect.element('.usa-alert-error').text.to.contain('You’re signed out of your account');
 
     client.end();
   });

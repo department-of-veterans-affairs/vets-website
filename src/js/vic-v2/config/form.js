@@ -76,7 +76,7 @@ const formConfig = {
                 labels: genderLabels
               },
               'ui:errorMessages': {
-                required: 'Please select the response that most closely aligns with how you identify'
+                required: 'Please select the response that most closely aligns with how you identify.'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
