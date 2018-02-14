@@ -17,15 +17,14 @@ import LoadingIndicator from './LoadingIndicator';
 export class RateLimiter extends React.Component {
   constructor(props) {
     super(props);
-    const rateLimit = window.settings.rateLimits
-      ? window.settings.rateLimits[props.id]
-      : { unauthed: 1, authed: 1 };
+    const rateLimits = window.settings.rateLimits || {};
+    const { authed = 1, unauthed = 1 } = rateLimits[props.id] || {};
     const randomizer = Math.random();
 
     this.state = {
       disableRateLimit: window.sessionStorage.getItem(`rateLimits_${props.id}_disableRateLimit`),
-      rateLimitedUnauthed: randomizer > (rateLimit.unauthed || 1),
-      rateLimitedAuthed: randomizer > (rateLimit.authed || 1)
+      rateLimitedUnauthed: randomizer > unauthed,
+      rateLimitedAuthed: randomizer > authed
     };
   }
 
