@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AcceptTermsPrompt from './AcceptTermsPrompt';
+import AlertBox from './AlertBox';
 import LoadingIndicator from './LoadingIndicator';
 import { mhvAccessError } from '../utils/error-messages';
 import {
@@ -62,13 +63,26 @@ export class MHVApp extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    if (account.errors) {
-      return <p>There was an error with your MHV account.</p>;
+    if (account.errors || terms.errors) {
+      const headline = terms.errors ?
+        'We\'re not able to process the MHV terms and conditions' :
+        'We\'re not able to process your MHV account';
+
+      const content = (
+        <p>
+          Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+        </p>
+      );
+
+      return (
+        <AlertBox
+          headline={headline}
+          content={content}
+          isVisible
+          status="error"/>
+      );
     }
 
-    if (terms.errors) {
-      return <p>There was an error fetching or accepting MHV terms and conditions.</p>;
-    }
 
     if (this.needsTermsAcceptance()) {
       return <AcceptTermsPrompt terms={terms} cancelPath="/health-care/" onAccept={this.props.acceptTerms}/>;
