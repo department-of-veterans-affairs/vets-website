@@ -21,7 +21,6 @@ import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import MainTabNav from '../components/MainTabNav';
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealListItem';
 import NoClaims from '../components/NoClaims';
@@ -146,11 +145,6 @@ class YourClaimsPageV2 extends React.Component {
       synced
     } = this.props;
 
-    const tabs = [
-      'OpenClaims',
-      'ClosedClaims'
-    ];
-
     let content;
     let innerContent;
     const bothRequestsLoaded = !claimsLoading && !appealsLoading;
@@ -179,34 +173,23 @@ class YourClaimsPageV2 extends React.Component {
         innerContent = <NoClaims/>;
       }
 
-      const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
         <div>
-          <MainTabNav/>
-          {tabs.map(tab => (
-            <div
-              key={tab}
-              role="tabpanel"
-              id={`tabPanel${tab}`}
-              aria-labelledby={`tab${tab}`}
-              aria-hidden={currentTab !== tab}>
-              {currentTab === tab &&
-                <div className="va-tab-content">
-                  <div className="claims-list-sort">
-                    <ErrorableSelect
-                      label="Sort by"
-                      labelClass="claims-list-sort-label"
-                      selectClass="claims-list-sort-select"
-                      includeBlankOption={false}
-                      options={sortOptions}
-                      value={{ value: this.props.sortProperty }}
-                      onValueChange={this.handleSort}/>
-                  </div>
-                  {innerContent}
-                </div>
-              }
+          <div>
+            <div className="va-tab-content">
+              <div className="claims-list-sort">
+                <ErrorableSelect
+                  label="Sort by"
+                  labelClass="claims-list-sort-label"
+                  selectClass="claims-list-sort-select"
+                  includeBlankOption={false}
+                  options={sortOptions}
+                  value={{ value: this.props.sortProperty }}
+                  onValueChange={this.handleSort}/>
+              </div>
+              {innerContent}
             </div>
-          ))}
+          </div>
         </div>
       );
     }
