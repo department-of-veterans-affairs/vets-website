@@ -292,11 +292,11 @@ export default class PhotoField extends React.Component {
           .then((img) => {
             if (!isSquareImage(img)) {
               this.props.onChange({
-                errorMessage: 'The photo you uploaded isn't a square photo. Please upload a new one that fits the requirements.'
+                errorMessage: 'The photo you uploaded isn’t a square photo. Please upload a new one that fits the requirements.'
               });
             } else if (!isValidImageSize(img)) {
               this.props.onChange({
-                errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn't be uploaded. Please try to upload a different photo.'
+                errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
               });
             } else {
               this.setState({ progress: 0, warningMessage: null });
@@ -340,7 +340,7 @@ export default class PhotoField extends React.Component {
             .then((img) => {
               if (!isValidImageSize(img)) {
                 this.props.onChange({
-                  errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn't be uploaded. Please try to upload a different photo.'
+                  errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
                 });
               } else {
                 // Clear any error messages
@@ -795,7 +795,7 @@ export default class PhotoField extends React.Component {
             {fieldView === 'error' && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeScreenReader}
-              buttonText="Re-upload Photo"
+              buttonText="Upload Photo Again"
               name="screenReaderFileUpload"/>}
           </div>
           <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>

@@ -51,7 +51,7 @@ const formConfig = {
   prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for a Veteran ID Card.',
-    noAuth: 'Please sign in again to resume your application for a Veteran ID Card.'
+    noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'
   },
   title: 'Apply for a Veteran ID Card',
   defaultDefinitions: {
