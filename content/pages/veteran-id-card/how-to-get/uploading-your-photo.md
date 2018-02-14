@@ -37,8 +37,8 @@ Find out how to upload a good quality photo that meets the requirements for a Ve
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="size">I have a photo saved on my computer. How do I know if my photo is the right size?</button>
-<div id="size" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="saved-photo">I have a photo saved on my computer. How do I know if my photo is the right size?</button>
+<div id="saved-photo" class="usa-accordion-content">
  
 To make sure your photo doesn’t look blurry when it’s printed on your card, it should be at least 350 pixels on each side. A pixel is a digital unit of measurement for screens, like a computer or television. Most photos taken with smartphones and digital cameras meet this requirement. 
 If you’re unsure if your photo is big enough, follow these steps to check your photo’s dimensions on a PC or Mac computer. 
@@ -63,8 +63,8 @@ If you’re unsure if your photo is big enough, follow these steps to check your
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="change-size">What if my photo isn’t the right size?</button>
-<div id="change-size" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="right-size">What if my photo isn’t the right size?</button>
+<div id="right-size" class="usa-accordion-content">
  
 If your photo dimensions are less than 350 pixels on any side, we suggest you choose a different photo or take a new photo with a smartphone or digital camera. If you don’t have a smartphone or digital camera, you can get a passport photo taken at your local drugstore or shipping center. 
 
@@ -74,7 +74,7 @@ If your photo isn't square, the Veteran ID Card application includes a tool to h
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="access-smartphone">I have access to a smartphone. How can I take my Veteran ID Card photo?</button>
-<div id="upload-smartphone" class="usa-accordion-content">
+<div id="access-smartphone" class="usa-accordion-content">
 
 We recommend that you have someone else take the photo for you. Stand or sit in front of a white or off-white wall without any decorations behind you. The photo should focus on your head and shoulders. 
 
