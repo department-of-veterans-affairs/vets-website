@@ -41,17 +41,14 @@ Find out how to upload a good quality photo that meets the requirements for a Ve
 <div id="saved-photo" class="usa-accordion-content">
  
 To make sure your photo doesn’t look blurry when it’s printed on your card, it should be at least 350 pixels on each side. A pixel is a digital unit of measurement for screens, like a computer or television. Most photos taken with smartphones and digital cameras meet this requirement. 
-If you’re unsure if your photo is big enough, follow these steps to check your photo’s dimensions on a PC or Mac computer. 
+If you’re not sure your photo is big enough, follow these steps to check your photo’s dimensions on a PC or Mac computer. 
 
 **To check your photo’s dimensions on a PC:**
 
 1. Find your photo file and press the **shift** key, then F10. 
 2. A list of options will appear. Choose **Properties**.
 3. A window will open with information about the photo. Choose the **Details** tab.
-4. Under the **Image** heading, you’ll see the image’s measurements:
-   <ul>
-   <li><strong>Dimensions</strong> should be at least 350 x 350. It’s ok if the photo is larger. </li>
-   </ul>
+4. Under the **Image** heading, you’ll see the image’s measurements. **Dimensions** should be at least 350 x 350. It’s ok if the photo 
 
 **To check your photo’s dimensions on a Mac:**
 
@@ -68,7 +65,7 @@ If you’re unsure if your photo is big enough, follow these steps to check your
  
 If your photo dimensions are less than 350 pixels on any side, we suggest you choose a different photo or take a new photo with a smartphone or digital camera. If you don’t have a smartphone or digital camera, you can get a passport photo taken at your local drugstore or shipping center. 
 
-If your photo isn't square, the Veteran ID Card application includes a tool to help you resize your photo. We recommend applicants using screen readers to start with a square photo, like a passport photo. This will make the application easier to use.  
+If your photo isn't square, the Veteran ID Card application includes a tool to help you resize your photo. If you’re using a screen reader, we recommend you start with a square photo, like a passport photo. This will make the application easier to use.  
 
 </div>
 </li>
@@ -78,7 +75,7 @@ If your photo isn't square, the Veteran ID Card application includes a tool to h
 
 We recommend that you have someone else take the photo for you. Stand or sit in front of a white or off-white wall without any decorations behind you. The photo should focus on your head and shoulders. 
 
-Some smartphones and digital cameras have a setting that lets users take square photos. The Veteran ID Card application also includes a tool to help you resize your photo. 
+Some smartphones and digital cameras have a setting that lets you take square photos. The Veteran ID Card application also includes a tool to help you resize your photo. 
 
 </div>
 </li>
@@ -96,15 +93,15 @@ If you prefer to complete the application on a PC or Mac, you can transfer your 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-physical">What if I don’t have a digital copy of my photo?</button>
 <div id="upload-physical" class="usa-accordion-content">
 
-You can scan a physical photo into your computer or phone using a flatbed scanner, or use your phone’s camera to take a picture of the physical photo.
+You can scan a physical photo onto your computer or phone using a flatbed scanner, or use your phone’s camera to take a picture of the physical photo.
 
 **To scan your photo using a flatbed scanner:**
 1. Place your photo face down on the scanner.
 2. Press <strong>Scan</strong> on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
    <ul>
    <li>You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card.</li>
-   <li>The photo you’re trying to scan should be at least 2 inches on each side, so the photo isn’t blurry when printed on your card.</li>
-   <li>Your photo will be printed as a square on the card, meaning it’ll be the same height and width on either side. You may scan a rectangular photo and use the tool within the Veteran ID Card application to crop it. If you’re using a screen reader, we recommend that you scan a square photo. This will make it easier to complete the application.</li>
+   <li>The photo you’re trying to scan should be at least 2 inches on each side so the photo isn’t blurry when printed on your card.</li>
+   <li>Your photo will be printed as a square on the card, meaning it’ll be the same height and width on either side. You may scan a rectangular photo and use the tool within the Veteran ID Card application to crop it. If you’re using a screen reader, we recommend you scan a square photo. This will make it easier to complete the application.</li>
    <li>Your scanner might have a setting for resolution. To make sure the photo isn’t blurry when printed, we recommend scanning at 300 dots per inch (dpi) or higher. <strong>Don’t select a resolution less than 300 dpi.</strong></li>
    </ul>
 3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
