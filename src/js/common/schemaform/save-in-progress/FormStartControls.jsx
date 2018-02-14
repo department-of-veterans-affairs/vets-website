@@ -67,7 +67,7 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start over"
+              buttonText="Start Over"
               buttonClass="usa-button-primary"/>
             <ProgressButton
               onButtonClick={this.toggleModal}

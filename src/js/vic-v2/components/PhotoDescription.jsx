@@ -10,8 +10,7 @@ export default function PhotoDescription() {
           <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
           <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
           <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
-          <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo), <strong>and</strong></li>
-          <li>Show what you look like now (a photo taken sometime in the last 10 years), <strong>and</strong></li>
+          <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
           <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
         </ul>
         <h3>Examples of good ID photos</h3>
