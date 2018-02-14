@@ -63,7 +63,7 @@ If you’re not sure your photo is big enough, follow these steps to check your 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="right-size">What if my photo isn’t the right size?</button>
 <div id="right-size" class="usa-accordion-content">
  
-If your photo dimensions are less than 350 pixels on any side, we suggest you choose a different photo or take a new photo with a smartphone or digital camera. If you don’t have a smartphone or digital camera, you can get a passport photo taken at your local drugstore or shipping center. 
+If your photo dimensions are less than 350 pixels on any side, we suggest you choose a different photo or take a new photo with a smartphone or digital camera. If you don’t have a smartphone or digital camera, you can get a passport photo taken at your local retail pharmacy or shipping center. 
 
 If your photo isn't square, the Veteran ID Card application includes a tool to help you resize your photo. If you’re using a screen reader, we recommend you start with a square photo, like a passport photo. This will make the application easier to use.  
 
