@@ -16,6 +16,8 @@ const scroller = Scroll.scroller;
 class FormQuestions extends React.Component {
   componentDidMount() {
     Scroll.animateScroll.scrollToTop();
+    const focusElement = document.getElementById('dw-home-link');
+    if (focusElement) { focusElement.focus(); }
   }
 
   updateField(name, value) {
