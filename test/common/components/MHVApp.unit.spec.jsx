@@ -107,4 +107,39 @@ describe('<MHVApp>', () => {
     wrapper.setProps({ account });
     expect(props.fetchMHVAccount.calledOnce).to.be.false;
   });
+
+  it('should show MHV access error if nothing is loading and terms do not have to be accepted', () => {
+    const wrapper = shallow(<MHVApp {...props}/>);
+    expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
+  });
+
+  it('should show account error', () => {
+    const errors = [
+      {
+        title: 'Account error',
+        detail: 'There was a problem with your account',
+        code: '500',
+        status: '500'
+      }
+    ];
+
+    const newProps = set('account.errors', errors, props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    expect(wrapper.find('AlertBox').prop('headline')).to.eq('We\'re not able to process your MHV account');
+  });
+
+  it('should show terms and conditions error', () => {
+    const errors = [
+      {
+        title: 'Terms and conditions error',
+        detail: 'There was a problem with T&C',
+        code: '500',
+        status: '500'
+      }
+    ];
+
+    const newProps = set('terms.errors', errors, props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    expect(wrapper.find('AlertBox').prop('headline')).to.eq('We\'re not able to process the MHV terms and conditions');
+  });
 });
