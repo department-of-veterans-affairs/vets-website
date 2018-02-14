@@ -73,9 +73,9 @@ class IntroductionPage extends React.Component {
               </div>
             </li>
             {!signedIn && <li className="process-step list-two">
-              <div><h5>Sign in and verify your identity</h5></div>
+              <div><h5>Sign In and Verify Your Identity</h5></div>
               <p>You have a choice for how you complete this application.</p>
-              <h6>Choice 1: Sign In to Vets.gov and Verify Your Identity</h6>
+              <h6>Choice 1: Sign in to Vets.gov and verify your identity</h6>
               <p>Sign in to Vets.gov with either an existing DS Logon (the same one you use for eBenefits or MilConnect) or an ID.me account.</p>
               <p>If you don’t have an account on Vets.gov, you can create one using ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity verification system available.</p>
               <p>When you’re signed in, we can verify your identity to make sure you’re you. This also helps to keep your information safe, and prevent fraud and identity theft.</p>
