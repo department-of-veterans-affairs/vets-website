@@ -22,6 +22,8 @@ relatedlinks:
 
 Find out what happens after you apply for a pre-need eligibility determination for burial in a VA national cemetery.
 
+**Note**: We have received a record number of applications for pre-need eligibility, and it's slowing down our approval process. We will let you know that we've received your application, as well as when we expect to make a decision. We're sorry for the delay.
+
 </div>
 
 ### How long does it take VA to make a decision?
