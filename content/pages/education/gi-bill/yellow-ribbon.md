@@ -9,7 +9,7 @@ order: 9
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
+The Yellow Ribbon Program can help you pay for higher out-of-state, private or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
 </div>
 
@@ -18,7 +18,7 @@ The Yellow Ribbon Program can help you pay for higher out-of-state, private, or 
 <h3 itemprop="name">Can I get this benefit?</h3>
 <div itemprop="itemListElement">
 
-You can get this benefit if:
+You can get this benefit if **both of the following are true for you**:
 - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
 - Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us. 
 
@@ -61,7 +61,8 @@ Money for tuition
 
 ##### Apply for benefits
 
-[Apply for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). If you qualify for benefits, you’ll get a Certificate of Eligibility (COE).
+[Apply for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). <br>
+If you qualify for benefits, you’ll get a Certificate of Eligibility (COE).
 
 </li>
 
@@ -69,7 +70,7 @@ Money for tuition
 
 ##### Turn in your COE
 
-Bring your COE to your school’s certifying official, or to the financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
+Bring your COE to your school’s certifying official, or to the financial aid, military liaison or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 
 </li>
 
@@ -79,7 +80,7 @@ Bring your COE to your school’s certifying official, or to the financial aid, 
 
 ###### Your school will decide:
 -  Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
--  How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
+-  How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants, as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
 
 </li>
 
