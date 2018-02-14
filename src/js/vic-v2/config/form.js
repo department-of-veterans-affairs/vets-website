@@ -11,7 +11,7 @@ import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressDefinition from '../../common/schemaform/definitions/address';
+import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
@@ -118,7 +118,7 @@ const formConfig = {
           path: 'address-information',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: addressDefinition.uiSchema('Please provide the address where you would like us to ship your Veteran ID Card.'),
+            veteranAddress: addressDefinition.uiSchema(fullSchemaVIC, 'Please provide the address where you would like us to ship your Veteran ID Card.'),
           },
           schema: {
             type: 'object',
