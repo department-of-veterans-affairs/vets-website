@@ -34,7 +34,7 @@ You’ll need to apply online.
 - A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be a .pdf or other photo file format, like a .jpeg or .png 
 - A digital color photo of yourself<br>
 <br>
-**The photo has to follow all the standards listed below. It must:**
+**The photo has to follow all the standards listed here. It must:**
   - Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
   - Be cropped from your shoulders up (much like a passport photo), **and**
   - Show you with your eyes open and a neutral expression, **and**
@@ -53,6 +53,9 @@ No. You can complete the application without signing in, but it’ll take us lon
 -	**Be able to save your in-progress application** and come back later to finish filling it out
 
 <a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply">Apply for Your Veteran ID Card</a>
+
+### When will I hear back about my application?
+If your application for a Veteran ID Card went through and you haven’t heard back yet, please don’t apply again. We process applications in the order we receive them.
 
 #### A note on verifying your identity	
 
