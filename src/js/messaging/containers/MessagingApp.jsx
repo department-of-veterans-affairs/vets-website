@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import MHVApp from '../../common/components/MHVApp';
 import AlertBox from '../../common/components/AlertBox';
-import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeAlert } from '../actions';
@@ -59,10 +59,7 @@ class MessagingApp extends React.Component {
         serviceRequired="messaging"
         userProfile={this.props.profile}>
         <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
-          <RequiredTermsAcceptanceView
-            termsName="mhvac"
-            cancelPath="/health-care/"
-            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          <MHVApp>
             <AppContent>
               <div id="messaging-app-header">
                 <AlertBox
@@ -80,7 +77,7 @@ class MessagingApp extends React.Component {
               </div>
               {this.props.children}
             </AppContent>
-          </RequiredTermsAcceptanceView>
+          </MHVApp>
         </DowntimeNotification>
       </RequiredLoginView>
     );

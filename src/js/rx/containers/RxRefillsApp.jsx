@@ -3,12 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
+import MHVApp from '../../common/components/MHVApp';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
-import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
@@ -37,19 +36,13 @@ function AppContent({ children, isDataAvailable }) {
 
 class RxRefillsApp extends React.Component {
   render() {
-    const breadcrumbs = <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>;
-
     return (
       <RequiredLoginView
         authRequired={3}
         serviceRequired="rx"
         userProfile={this.props.profile}>
         <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
-          <RequiredTermsAcceptanceView
-            termsName="mhvac"
-            cancelPath="/health-care/"
-            topContent={breadcrumbs}
-            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          <MHVApp>
             <AppContent>
               {this.props.children}
               <ConfirmRefillModal
@@ -63,7 +56,7 @@ class RxRefillsApp extends React.Component {
                 isVisible={this.props.glossaryModal.visible}
                 onCloseModal={this.props.closeGlossaryModal}/>
             </AppContent>
-          </RequiredTermsAcceptanceView>
+          </MHVApp>
         </DowntimeNotification>
       </RequiredLoginView>
     );
