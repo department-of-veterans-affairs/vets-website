@@ -3,7 +3,7 @@
 ## What is this?
 
 This is the combined frontend repository for www.vets.gov. With this repository, it is possible to
-build all of the client-side (ie, anything that gets downloaded to the browser) code for
+build all of the client-side (i.e., anything that gets downloaded to the browser) code for
 www.vets.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
 
@@ -14,7 +14,8 @@ very secret.
 
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
-| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. |
+| fetch all dependencies                   | `yarn install`; run this any time `package.json` changes
 | deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
@@ -236,9 +237,9 @@ run on real browser, either because the tests is exercising browser quirks or be
 the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
 
-TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
-run on all browsers. That's wasteful. How do we determine what should be run on
-multiple browsers as opposed to on PhantomJS in Jenkins?
+### End-to-end Test -- Sauce Labs
+
+TODO: Translate internal documentation on running tests with Sauce Labs into something public.
 
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
@@ -260,12 +261,9 @@ There are some [limitations](https://github.com/department-of-veterans-affairs/v
 
 ### Automated Accessibility Testing -- aXe
 
-The automated accessibility tests are contained within the `test/accessibility`
-directory. All URLs from the generated sitemap are scanned with aXe
-rules for 508 compliance.
+Most of our e2e tests include automated accessibility and 508 checks using the aXe API. In addition, there are tests in the `test/accessibility` directory that scan all URLs from the generated sitemap serving static content with aXe rules for WCAG 2.0 and 508 compliance.
 
-Automated accessibility tests are run by Jenkins on PRs for the production build
-type.
+Automated accessibility tests are run by Jenkins on PRs for the production build type.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
