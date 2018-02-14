@@ -9,7 +9,6 @@ import {
   USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
-  APPEALS_FETCH_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
