@@ -52,8 +52,8 @@ export const CLOSED_STATUSES = [
 // Action Types & Availability statuses
 // Note: excludes FETCH_APPEALS_SUCCESS / UNAVAILABLE because there are defined in actions
 // and used in v1 as well
-export const USER_FORBIDDEN = 'USER_FORBIDDEN';
-export const RECORD_NOT_FOUND = 'RECORD_NOT_FOUND';
+export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
+export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
 export const VALIDATION_ERROR = 'VALIDATION_ERROR';
 export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
 export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';

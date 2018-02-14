@@ -6,11 +6,12 @@ import {
   FETCH_APPEALS_SUCCESS,
 } from '../../../src/js/claims-status/actions';
 import {
-  USER_FORBIDDEN,
-  RECORD_NOT_FOUND,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
   APPEALS_FETCH_ERROR,
   BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
 let oldFetch;
@@ -64,11 +65,11 @@ describe('getAppealsV2', () => {
   });
 
   const appealsErrors = {
-    403: USER_FORBIDDEN,
-    404: RECORD_NOT_FOUND,
+    403: USER_FORBIDDEN_ERROR,
+    404: RECORD_NOT_FOUND_ERROR,
     422: VALIDATION_ERROR,
     502: BACKEND_SERVICE_ERROR,
-    504: APPEALS_FETCH_ERROR // works for any unspecified error code
+    504: FETCH_APPEALS_ERROR // works for any unspecified error code
   };
 
   Object.keys(appealsErrors).forEach((code) => {

@@ -5,8 +5,8 @@ import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
   getStatus,
-  USER_FORBIDDEN,
-  RECORD_NOT_FOUND,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
@@ -106,10 +106,10 @@ export function getAppealsV2() {
         const action = { type: '' };
         switch (status) {
           case '403':
-            action.type = USER_FORBIDDEN;
+            action.type = USER_FORBIDDEN_ERROR;
             break;
           case '404':
-            action.type = RECORD_NOT_FOUND;
+            action.type = RECORD_NOT_FOUND_ERROR;
             break;
           case '422':
             action.type = VALIDATION_ERROR;

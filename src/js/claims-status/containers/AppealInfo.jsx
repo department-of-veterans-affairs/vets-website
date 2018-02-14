@@ -17,8 +17,8 @@ import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import {
   EVENT_TYPES,
   isolateAppeal,
-  USER_FORBIDDEN,
-  RECORD_NOT_FOUND,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
@@ -45,7 +45,7 @@ export class AppealInfo extends React.Component {
     // Availability is determined by whether or not the API returned an appeals array
     // for this user. However, it doesn't speak to whether the appeal that's been
     // requested is available in the array. This is why we have to check for both
-    // AVAILABLE statuses as well as whether or not the appeal exists.
+    // AVAILABLE status as well as whether or not the appeal exists.
     if (appealsLoading) {
       appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
     } else if (v2Availability === AVAILABLE && appeal) {
@@ -81,16 +81,15 @@ export class AppealInfo extends React.Component {
     } else if (v2Availability === AVAILABLE && !appeal) {
       // Yes, we have your appeals. No, the one you requested isn't one of them.
       appealContent = <AppealNotFound/>;
-    } else if (v2Availability === USER_FORBIDDEN) {
-      appealContent = <div>Thou shal not pass!</div>;
-    } else if (v2Availability === RECORD_NOT_FOUND) {
-      appealContent = <div>Record Not Found!</div>;
+    } else if (v2Availability === USER_FORBIDDEN_ERROR) {
+      appealContent = <h1>We couldn’t find your records</h1>;
+    } else if (v2Availability === RECORD_NOT_FOUND_ERROR) {
+      appealContent = <h1>We couldn’t find your records</h1>;
     } else if (v2Availability === VALIDATION_ERROR) {
-      appealContent = <div>Validation Error!</div>;
+      appealContent = systemDownMessage;
     } else if (v2Availability === BACKEND_SERVICE_ERROR) {
-      appealContent = <div>Backend service error!</div>;
+      appealContent = systemDownMessage;
     } else if (v2Availability === FETCH_APPEALS_ERROR) {
-      // Making this one explicit, but really it's the same as the default condition
       appealContent = systemDownMessage;
     } else {
       appealContent = systemDownMessage;
