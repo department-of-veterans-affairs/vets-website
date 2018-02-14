@@ -43,7 +43,7 @@ If you’re covered under one of these programs, you don’t need to do anything
 
 </div>
 
-### Does the ACA change my VA health benefits?
+### Does the ACA change my VA health benefits? 
 No. The health care law doesn’t change your VA health benefits or your out-of-pocket costs. 
 
 ### If I’m not signed up for a VA or Department of Defense health care program, how do I get health coverage to meet the requirement?
