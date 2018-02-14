@@ -11,7 +11,7 @@ export const APPEAL_TYPES = {
   cue: 'cue'
 };
 
-// TO DO: Replace made up properties and content with real versions once finalized.
+// TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
   pendingSoc: 'pending_soc',
@@ -46,6 +46,16 @@ export const ISSUE_STATUS = {
   remand: 'remand',
   cavcRemand: 'cavc_remand',
 };
+
+// Action Types & Availability statuses
+// Note: excludes FETCH_APPEALS_SUCCESS / UNAVAILABLE because there are defined in actions
+// and used in v1 as well
+export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
+export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
+export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
+export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';
+export const AVAILABLE = 'AVAILABLE';
 
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
@@ -1114,3 +1124,15 @@ export function getAlertContent(alert) {
       };
   }
 }
+
+/**
+ * Tests an http error response for an errors array and status property for the
+ * first error in the array. Returns the status code or 'unknown'
+ * @param {Object} response error response object from vets-api
+ * @returns {string} status code or 'unknown'
+ */
+export const getStatus = (response) => {
+  return (response.errors && response.errors.length)
+    ? response.errors[0].status
+    : 'unknown';
+};
