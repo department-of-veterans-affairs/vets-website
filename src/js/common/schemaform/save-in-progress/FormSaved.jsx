@@ -72,6 +72,7 @@ class FormSaved extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           fetchInProgressForm={this.props.fetchInProgressForm}
+          prefillTransformer={this.props.prefillTransformer}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
           formSaved/>
@@ -97,6 +98,7 @@ function mapStateToProps(state) {
     lastSavedDate: state.form.lastSavedDate,
     expirationDate: state.form.expirationDate,
     migrations: state.form.migrations,
+    prefillTransformer: state.form.prefillTransformer,
     user: state.user
   };
 }

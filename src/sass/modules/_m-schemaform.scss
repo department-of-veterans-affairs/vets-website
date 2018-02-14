@@ -9,6 +9,13 @@ legend {
   padding: 0 0 .5em 0;
 }
 
+// Override IE
+fieldset {
+  display: inline-block;
+  width: 100%;
+  max-width: 750px;
+}
+
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;
@@ -569,3 +576,12 @@ legend.schemaform-label.schemaform-file-label {
   font-size: $h4-font-size;
   margin-top: 1em;
 }
+
+.usa-accordion, .usa-accordion-bordered {
+  > ul {
+    button {
+      border-radius: $button-border-radius;
+    }
+  }
+}
+

@@ -942,6 +942,12 @@ h1:focus {
       width: 102%;
     }
   }
+
+  .decision-review-list {
+    li {
+      margin-left: .5em;
+    }
+  }
 }
 
 .alerts-list-container {
@@ -1082,20 +1088,30 @@ $marker-text-width: 9rem;
   &>h2 {
     margin-top: 0;
   }
-
-  .usa-accordion-button {
-    font-size: 2rem; // match standard h3
-  }
-
-  .granted-section {
-    h5 {
-      color: $color-green;
+  .usa-accordion-bordered {
+    .usa-accordion-button {
+      font-size: 2rem; // match standard h3
     }
-  }
 
-  .denied-section {
-    h5 {
-      color: $color-secondary;
+    .usa-accordion-content {
+      padding-top: 1.25em;
+
+      h5 {
+        font-family: $font-sans;
+        margin-top: 0;
+      }
+    }
+
+    .granted-section {
+      h5 {
+        color: $color-green;
+      }
+    }
+  
+    .denied-section {
+      h5 {
+        color: $color-secondary;
+      }
     }
   }
 }

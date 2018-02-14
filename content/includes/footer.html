@@ -18,12 +18,17 @@
     </ul>
     <ul class="va-footer-linkgroup" id="footer-popular">
       <li><h4 class="va-footer-linkgroup-title">Popular on Vets.gov</h4></li>
+      {% if buildtype != 'production' %}
+      <li><a href="/veteran-id-card/how-to-get" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      {% else %}
       <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      {% endif %}
       <li><a href="/health-care/apply/" onClick="footerNavClick(this);">Apply for health care</a></li>
       <li><a href="/education/apply-for-education-benefits/" onClick="footerNavClick(this);">Apply for education benefits</a></li>
       <li><a href="/track-claims/" onClick="footerNavClick(this);">Check your claim and appeal status</a></li>
       <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Education benefits by school</a></li>
       <li><a href="/health-care/prescriptions/" onClick="footerNavClick(this);">Refill prescriptions</a></li>
+      <li><a href="/letters/" onClick="footerNavClick(this);">VA Letters</a></li>
     </ul>
     <ul class="va-footer-linkgroup va-list--plain" id="footer-contact">
       <li><h4 class="va-footer-linkgroup-title">Contact</h4></li>

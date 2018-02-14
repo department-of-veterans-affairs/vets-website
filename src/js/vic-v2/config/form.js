@@ -1,20 +1,23 @@
 // import { transform } from '../helpers';
+import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PhotoField from '../components/PhotoField';
 import DD214Description from '../components/DD214Description';
-import { prefillTransformer } from '../helpers';
+import PhotoDescription from '../components/PhotoDescription';
+import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressDefinition from '../../common/schemaform/definitions/address';
+import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
 import { validateMatch } from '../../common/schemaform/validation';
+import validateFile from '../validation';
 
 const {
   veteranDateOfBirth,
@@ -22,7 +25,8 @@ const {
   veteranFullName,
   email,
   serviceBranch,
-  dd214
+  dd214,
+  photo
 } = fullSchemaVIC.properties;
 
 const {
@@ -33,9 +37,11 @@ const {
   gender
 } = fullSchemaVIC.definitions;
 
+const TWENTY_FIVE_MB = 26214400;
+
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vic',
+  submit,
   trackingPrefix: 'veteran-id-card-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -112,7 +118,7 @@ const formConfig = {
           path: 'address-information',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: addressDefinition.uiSchema(),
+            veteranAddress: addressDefinition.uiSchema(fullSchemaVIC, 'Please provide the address where you would like us to ship your Veteran ID Card.'),
           },
           schema: {
             type: 'object',
@@ -154,38 +160,18 @@ const formConfig = {
     },
     documentUpload: {
       title: 'Document Upload',
+      reviewTitle: 'Documents',
       pages: {
         photoUpload: {
           path: 'documents/photo',
           title: 'Photo upload',
+          reviewTitle: 'Photo review',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
-            photo: {
-              'ui:field': PhotoField,
-              'ui:title': 'Please upload a current photo of yourself that’ll appear on your Veteran ID Card.',
-
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              photo: {
-                type: 'any'
-              }
-            }
-          }
-        },
-        dd214Upload: {
-          path: 'documents/dd214',
-          title: 'DD214 upload',
-          depends: form => !form.verified,
-          editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:description': DD214Description,
-            dd214: fileUploadUI('Upload your discharge document', {
-              endpoint: '/v0/vic/supporting_documentation_attachments',
+            'ui:description': PhotoDescription,
+            photo: _.assign(fileUploadUI('Upload a digital photo', {
+              endpoint: '/v0/vic/profile_photo_attachments',
               fileTypes: [
-                'pdf',
                 'png',
                 'tiff',
                 'tif',
@@ -193,8 +179,54 @@ const formConfig = {
                 'jpg',
                 'bmp'
               ],
-              maxSize: 15728640,
-              hideLabelText: true,
+              maxSize: TWENTY_FIVE_MB,
+              showFieldLabel: false,
+              createPayload: (file) => {
+                const payload = new FormData();
+                payload.append('profile_photo_attachment[file_data]', file, file.name);
+
+                return payload;
+              },
+              parseResponse: (response, file) => {
+                return {
+                  name: file.name,
+                  confirmationCode: response.data.attributes.guid,
+                  serverName: response.data.attributes.filename,
+                  serverPath: response.data.attributes.path
+                };
+              }
+            }), {
+              'ui:field': PhotoField,
+              'ui:validations': [
+                validateFile
+              ]
+            })
+          },
+          schema: {
+            type: 'object',
+            required: ['photo'],
+            properties: {
+              photo
+            }
+          }
+        },
+        dd214Upload: {
+          path: 'documents/discharge',
+          title: 'Discharge document upload',
+          reviewTitle: 'Discharge document review',
+          depends: form => !form.verified,
+          uiSchema: {
+            'ui:description': DD214Description,
+            dd214: fileUploadUI('Upload your discharge document', {
+              endpoint: '/v0/vic/supporting_documentation_attachments',
+              fileTypes: [
+                'pdf',
+                'png',
+                'jpeg',
+                'jpg',
+              ],
+              maxSize: TWENTY_FIVE_MB,
+              buttonText: 'Upload your discharge document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);

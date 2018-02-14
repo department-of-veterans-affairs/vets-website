@@ -3,7 +3,15 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 
-// TO DO: Replace made up properties and content with real versions once finalized.
+export const APPEAL_TYPES = {
+  original: 'original',
+  postRemand: 'post_remand',
+  postCavcRemand: 'post_cavc_remand',
+  reconsideration: 'reconsideration',
+  cue: 'cue'
+};
+
+// TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
   pendingSoc: 'pending_soc',
@@ -39,16 +47,15 @@ export const ISSUE_STATUS = {
   cavcRemand: 'cavc_remand',
 };
 
-export const CLOSED_STATUSES = [
-  STATUS_TYPES.bvaDecision,
-  STATUS_TYPES.fieldGrant,
-  STATUS_TYPES.withdrawn,
-  STATUS_TYPES.ftr,
-  STATUS_TYPES.ramp,
-  STATUS_TYPES.reconsideration,
-  STATUS_TYPES.death,
-  STATUS_TYPES.otherClose
-];
+// Action Types & Availability statuses
+// Note: excludes FETCH_APPEALS_SUCCESS / UNAVAILABLE because there are defined in actions
+// and used in v1 as well
+export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
+export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
+export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
+export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';
+export const AVAILABLE = 'AVAILABLE';
 
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
@@ -92,7 +99,7 @@ export function addStatusToIssues(issues) {
         status = 'withdrawn';
         break;
       case ISSUE_STATUS.allowed:
-        status = 'allowed';
+        status = 'granted';
         break;
       case ISSUE_STATUS.denied:
         status = 'denied';
@@ -525,7 +532,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        title: 'Your hearing was held at the regional office',
         description: '',
       };
     case EVENT_TYPES.hearingCancelled:
@@ -589,7 +596,7 @@ const DECISION_REVIEW_CONTENT = (
       available evidence and write a decision. For each issue you are appealing, they can
       decide to:
     </p>
-    <ul>
+    <ul className="decision-review-list">
       <li>
         <strong>Allow:</strong> The judge overrules the original decision and decides in
         your favor.
@@ -616,8 +623,8 @@ const DECISION_REVIEW_CONTENT = (
  */
 export const makeDurationText = (timeliness) => {
   const durationText = {
-    header: 'unknown',
-    description: 'unknown',
+    header: '',
+    description: '',
   };
 
   if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
@@ -973,8 +980,8 @@ export function getNextEvents(currentStatus, details) {
           {
             title: 'Unknown event',
             description: (<p>We could not find the next event in your appeal</p>),
-            durationText: 'Unknown',
-            cardDescription: 'No description found'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
@@ -1117,3 +1124,15 @@ export function getAlertContent(alert) {
       };
   }
 }
+
+/**
+ * Tests an http error response for an errors array and status property for the
+ * first error in the array. Returns the status code or 'unknown'
+ * @param {Object} response error response object from vets-api
+ * @returns {string} status code or 'unknown'
+ */
+export const getStatus = (response) => {
+  return (response.errors && response.errors.length)
+    ? response.errors[0].status
+    : 'unknown';
+};

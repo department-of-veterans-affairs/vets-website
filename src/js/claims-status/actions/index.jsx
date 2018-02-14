@@ -1,13 +1,23 @@
 import React from 'react';
+import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
-import { makeAuthRequest, mockData } from '../utils/helpers';
+import { apiRequest } from '../../common/helpers/api';
+import { makeAuthRequest } from '../utils/helpers';
+import {
+  getStatus,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
+} from '../utils/appeals-v2-helpers';
 
+export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -84,16 +94,37 @@ export function fetchAppealsSuccess(response) {
   };
 }
 
-// To test this functionality, go to http://localhost:3001/track-claims/appeals-v2/7387389/status
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
-
-    // Fake the fetch by just returning a resolved promice with the object shape we expect
-    //  to get from the api.
-    return setTimeout(() => Promise.resolve(mockData)
-      .then((response) => dispatch(fetchAppealsSuccess(response)))
-      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE })), 4000);
+    return apiRequest(
+      '/appeals_v2',
+      null,
+      (appeals) => dispatch(fetchAppealsSuccess(appeals)),
+      (response) => {
+        const status = getStatus(response);
+        const action = { type: '' };
+        switch (status) {
+          case '403':
+            action.type = USER_FORBIDDEN_ERROR;
+            break;
+          case '404':
+            action.type = RECORD_NOT_FOUND_ERROR;
+            break;
+          case '422':
+            action.type = VALIDATION_ERROR;
+            break;
+          case '502':
+            action.type = BACKEND_SERVICE_ERROR;
+            break;
+          default:
+            action.type = FETCH_APPEALS_ERROR;
+            break;
+        }
+        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+        return dispatch(action);
+      }
+    );
   };
 }
 

@@ -259,6 +259,7 @@ body.va-pos-fixed {
   padding: 1.6rem;
   text-align: left;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
 
   @include media($medium-large-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
@@ -459,6 +460,6 @@ body.va-pos-fixed {
 
 @include media($medium-screen) {
   .child-menu-opened {
-    height: initial;
+    height: auto;
   }
 }
