@@ -64,7 +64,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Can I still get these benefits if I have a less than honorable discharge?
 
-You may be able to access some VA benefits through our Character of Discharge review process. When you apply for VA benefits, we'll review your record to determine if your service was “honorable for VA purposes.”
+You may be able to get VA health care benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
 
 You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
