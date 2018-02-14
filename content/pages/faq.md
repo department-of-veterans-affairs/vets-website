@@ -31,7 +31,9 @@ display_title: Frequently Asked Questions
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">
+                      How do I sign in to Vets.gov?
+                    </button>
                     <div id="faq-vetsgov-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>There are 2 levels of access for Vets.gov.</p>
@@ -46,7 +48,9 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                    <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                  <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-1" itemprop="name">What's the easiest way to sign in to access all Vets.gov tools?</button>
+                  <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-1" itemprop="name">
+                    What's the easiest way to sign in to access all Vets.gov tools?
+                  </button>
                     <div id="faq-vetsgov-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>Signing in to Vets.gov with your premium <strong>DS Logon</strong> account is the easiest way for you to access most of our tools on Vets.gov. When you sign in with an existing premium account, you won’t need to verify your identity again.</p> 
@@ -54,7 +58,9 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-2" itemprop="name">Can I sign in to Vets.gov with my DS Logon account (used for eBenefits and milConnect)?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-2" itemprop="name">
+                      Can I sign in to Vets.gov with my DS Logon account (used for eBenefits and milConnect)?
+                    </button>
                     <div id="faq-vetsgov-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>Yes. You can use your DS Logon information to sign in and connect your account to Vets.gov.</p>
@@ -62,11 +68,13 @@ display_title: Frequently Asked Questions
                         <p>To access more advanced tools—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—you’ll need to go through the ID.me process to verify your identity. This is because the benefits and services you’re signing up for on Vets.gov require a higher level of security since they use your personal information. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to this information.</p>
                         <p><strong>If you have a premium DS Logon account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
-                       </div>
+                      </div>
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-3" itemprop="name">If I sign in with my DS Logon account, why do I still need to go through ID.me?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-3" itemprop="name">
+                      If I sign in with my DS Logon account, why do I still need to go through ID.me?
+                    </button>
                     <div id="faq-vetsgov-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p><strong>If you have a basic DS Logon account</strong>, you’ll still need to go through the ID.me process to verify your identity if you want to use all the advanced tools on Vets.gov—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits.</p>
@@ -79,7 +87,9 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-4" itemprop="name">What if I already have an ID.me account?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-4" itemprop="name">
+                      What if I already have an ID.me account?
+                    </button>
                     <div id="faq-vetsgov-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>Sign in and enter your ID.me username and password.</p>
@@ -91,59 +101,60 @@ display_title: Frequently Asked Questions
                 </ul>
               </div>    
             <hr>
+            <br/><br/>
             <h3>How to get a premium DS Logon account</h3>
-              <div class="usa-accordion">
-                <ul class="usa-unstyled-list">
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                  <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-0" itemprop="name">What's a premium DS Logon account, and why would I want one?</button>
-                    <div id="faq-dslogon-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                      <p>A <strong>DS Logon</strong> account is a U.S. government-owned secure ID that gives you a single username and password to sign in to many different VA and Department of Defense (DoD) websites and apps. These include Vets.gov and other sites you can use to manage your benefits and services, like eBenefits, the TRICARE(r) patient portal, and milconnect.</p> 
-                      <p>With a basic <strong>DS Logon</strong> account, you can access some features of these sites. But you'll need a premium account to view your personal information in VA and DoD systems or to use any apps that connect to your VA health record.
-                      <p>With a premium account, you can do things like:
-                       <ul>
-                        <li>View your medical test results and other personal information from your VA health record</li>
-                        <li>Check the status of your claims</li>
-                        <li>Send secure emails to your VA doctor</li>
-                       </ul>
-                      </p>
-                      </div>
-                    </div>
-                  </li>
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                  <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-1" itemprop="name">How can I get a premium DS Logon account so I can use it to sign in to Vets.gov?</button>
-                    <div id="faq-dslogon-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                      <p>Follow these 2 steps to sign up for a <strong>DS Logon</strong> account.</p>
-                      <p><strong>1. First, make sure you're enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.
-                       <ul>
-                        <li><strong>If you're a Veteran or Servicemember or qualified family caregiver, survivor, or dependent of a Veteran or Servicemember who's served since 1982,</strong> you should already be enrolled in DEERS.</li>
-                        <li><strong>If you're a Veteran or the qualified family caregiver, survivor, or dependent of a Veteran who served before 1982,</strong> you may not be enrolled. To enroll, call us at 1-800-827-1000 and choose "Option 7." Tell the operator you need to be enrolled in DEERS and ask for an email confirming when enrollment is complete.</li>
-                       <ul>
-                      </p>
-                      <p><strong>2. Then, register for your basic DS Logon account online.</strong></p>
-                      <p>Go to the DS Logon self-service site and click on the button labeled "More DS Logon Options." From the choices that appear, select "Need a DS Logon?"</p>
-                      <p>You'll then be asked to select your registration method:
-                       <ul>
-                        <li><strong>If you have a Common Access Card (CAC) with accessible card reader,</strong> choose this option. It's the easiest way to get a DS Logon account and upgrade to a premium account right away.</li>
-                        <li><strong>If you have a Defense Finance and Account Service (DFAS) myPay account,</strong> you can select this option. You'll be able to upgrade to a premium account right away.</li>
-                        <li><strong>If you don't have a CAC or DFAS myPay account,</strong> select the "None of the above conditions apply" option.</li>
-                       </ul>
-                      </p>
-                      <p>The registration tool will direct you on how to sign up for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you'll be asked a series of questions to prove you're you—and not someone pretending to be you—to help protect the personal information you'll have access to with a premium account.</p>
-                      <p><a href="https://myaccess.dmdc.osd.mil/">Go to the DS Logon self-service site</a>.</p>                    
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <hr>
-              <h3>How to verify your identity</h3>
-               <div class="usa-accordion">
-                <ul class="usa-unstyled-list">
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">
-                      How do I verify my identity online?</button>
+            <ul class="usa-unstyled-list">
+              <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-0" itemprop="name">
+                  What's a premium DS Logon account, and why would I want one?
+                </button>
+                <div id="faq-dslogon-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                  <div itemprop="text">
+                    <p>A <strong>DS Logon</strong> account is a U.S. government-owned secure ID that gives you a single username and password to sign in to many different VA and Department of Defense (DoD) websites and apps. These include Vets.gov and other sites you can use to manage your benefits and services, like eBenefits, the TRICARE&reg; patient portal, and milconnect.</p> 
+                    <p>With a basic <strong>DS Logon</strong> account, you can access some features of these sites. But you'll need a premium account to view your personal information in VA and DoD systems or to use any apps that connect to your VA health record.
+                    <p>With a premium account, you can do things like:</p>
+                    <ul>
+                      <li>View your medical test results and other personal information from your VA health record</li>
+                      <li>Check the status of your claims</li>
+                      <li>Send secure emails to your VA doctor</li>
+                    </ul>               
+                  </div>
+                </div>
+              </li>
+              <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-1" itemprop="name">
+                  How can I get a premium DS Logon account so I can use it to sign in to Vets.gov?
+                </button>
+                <div id="faq-dslogon-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                  <div itemprop="text">
+                    <p>Follow these 2 steps to sign up for a <strong>DS Logon</strong> account.</p>
+                    <p><strong>1. First, make sure you're enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
+                    <ul>
+                      <li><strong>If you're a Veteran or Servicemember or qualified family caregiver, survivor, or dependent of a Veteran or Servicemember who's served since 1982,</strong> you should already be enrolled in DEERS.</li>
+                      <li><strong>If you're a Veteran or the qualified family caregiver, survivor, or dependent of a Veteran who served before 1982,</strong> you may not be enrolled. To enroll, call us at 1-800-827-1000 and choose "Option 7." Tell the operator you need to be enrolled in DEERS and ask for an email confirming when enrollment is complete.</li>
+                    </ul>
+                    <p><strong>2. Then, register for your basic DS Logon account online.</strong></p>
+                    <p>Go to the DS Logon self-service site and click on the button labeled "More DS Logon Options." From the choices that appear, select "Need a DS Logon?"</p>
+                    <p>You'll then be asked to select your registration method:</p>
+                    <ul>
+                      <li><strong>If you have a Common Access Card (CAC) with accessible card reader,</strong> choose this option. It's the easiest way to get a DS Logon account and upgrade to a premium account right away.</li>
+                      <li><strong>If you have a Defense Finance and Account Service (DFAS) myPay account,</strong> you can select this option. You'll be able to upgrade to a premium account right away.</li>
+                      <li><strong>If you don't have a CAC or DFAS myPay account,</strong> select the "None of the above conditions apply" option.</li>
+                    </ul>
+                    <p>The registration tool will direct you on how to sign up for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you'll be asked a series of questions to prove you're you—and not someone pretending to be you—to help protect the personal information you'll have access to with a premium account.</p>
+                    <p><a href="https://myaccess.dmdc.osd.mil/">Go to the DS Logon self-service site</a>.</p>                    
+                  </div>
+                </div>
+              </li>
+            </ul>              
+            <hr>
+            <br/></br>  
+            <h3>How to verify your identity</h3>
+            <ul class="usa-unstyled-list">
+              <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">
+                  How do I verify my identity online?
+                </button>
                     <div id="faq-verify-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you have a <strong>DS Logon</strong> account, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
