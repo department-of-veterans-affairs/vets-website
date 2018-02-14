@@ -27,6 +27,10 @@ class RoutedSavablePage extends React.Component {
     this.debouncedAutoSave();
   }
 
+  onSubmit = () => {
+    this.debouncedAutoSave();
+  }
+
   autoSave() {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
@@ -62,6 +66,7 @@ class RoutedSavablePage extends React.Component {
         {...this.props}
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
+        onSubmit={this.onSubmit}
         formContext={getFormContext(form)}
         contentAfterButtons={contentAfterButtons}/>
     );
