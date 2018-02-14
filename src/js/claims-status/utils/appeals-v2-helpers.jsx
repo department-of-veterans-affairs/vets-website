@@ -11,7 +11,7 @@ export const APPEAL_TYPES = {
   cue: 'cue'
 };
 
-// TO DO: Replace made up properties and content with real versions once finalized.
+// TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
   pendingSoc: 'pending_soc',
