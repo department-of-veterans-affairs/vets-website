@@ -15,13 +15,14 @@ import LoadingIndicator from './LoadingIndicator';
 export class RateLimiter extends React.Component {
   constructor(props) {
     super(props);
-    const { rateLimitAuthed = 1, rateLimitUnauthed = 1 } = window.settings[props.id] || {};
+    // 0 is nothing gets through, 1 is everything gets through
+    const { rateLimitAuthed = 0, rateLimitUnauthed = 0 } = window.settings[props.id] || {};
     const randomizer = Math.random();
 
     this.state = {
       disableRateLimit: window.sessionStorage.getItem(`${props.id}_disableRateLimit`),
-      rateLimitedUnauthed: randomizer > rateLimitUnauthed,
-      rateLimitedAuthed: randomizer > rateLimitAuthed
+      rateLimitedUnauthed: randomizer >= rateLimitUnauthed,
+      rateLimitedAuthed: randomizer >= rateLimitAuthed
     };
   }
 
