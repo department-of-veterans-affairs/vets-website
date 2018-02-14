@@ -25,9 +25,14 @@ You may qualify for burial and memorial benefits if you're:
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
 
-**Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you may be able to get VA burial and memorial benefits. [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
 </div>
+
+### Can I still get these benefits if I have a less than honorable discharge?
+
+You may be able to get burial and memorial benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
+
+You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
 
 ### What do burial benefits include?
 
