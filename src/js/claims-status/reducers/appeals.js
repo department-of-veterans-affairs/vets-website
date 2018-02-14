@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+// import moment from 'moment';
 
 import {
   SET_APPEALS,
@@ -8,24 +9,47 @@ import {
 } from '../actions/index.jsx';
 
 const initialState = {
-  available: true,
+  appealsList: [],
+  appealsLoading: false, // They're loading only after the fetch action
+  available: true
 };
 
-// Sort by the date of the last event
-function sortAppeals(list) {
-}
+
+// Sort by the latest event in each appeal
+// Commented out because it's not necessary now, but will be when we refactor the reducers
+// function sortAppeals(list) {
+//   // const list = [
+//   //   {
+//   //     events: [
+//   //       { date: '2015-10-20' },
+//   //       { date: '2015-02-19' },
+//   //       { date: '2015-11-30' }
+//   //     ]
+//   //   }
+//   // ];
+// 
+//   return _.orderBy([appeal => {
+//     const dates = appeal.events.map(e => moment(e.date).unix());
+//     const latestDate = dates.reduce((latest, date) => {
+//       return date > latest ? date : latest;
+//     }, 0);
+// 
+//     return latestDate;
+//   }], 'desc', list);
+// }
+
 
 export default function appealsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_APPEALS_PENDING:
       return _.set('appealsLoading', true, state);
     case FETCH_APPEALS_SUCCESS: {
-      const list = sortAppeals(action.appeals);
-
+      // TODO: When we refactor the reducers, make sure to combine the claims and appeals.
+      //  It doesn't need to be done here (and probably shouldn't be), but I think it makes
+      //  sense to do it in a reducer or action creator.
       return _.merge(state, {
         appealsLoading: false,
         available: true,
-        appealsList: list
       });
     }
     // TODO: Verify that this isn't actually needed and then remove it
