@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Upload Your Photo
+title: Tips for Uploading a Photo to Your Veteran ID Card 
 display_title: Uploading Your Photo
 relatedlinks:
   - heading: 
@@ -48,13 +48,13 @@ If you’re not sure your photo is big enough, follow these steps to check your 
 1. Find your photo file and press the **shift** key, then F10. 
 2. A list of options will appear. Choose **Properties**.
 3. A window will open with information about the photo. Choose the **Details** tab.
-4. Under the **Image** heading, you’ll see the image’s measurements. **Dimensions** should be at least 350 x 350. It’s ok if the photo 
+4. Under the **Image** heading, you’ll see the image’s measurements. **Dimensions** should be at least 350 x 350. It’s ok if the photo is larger.  
 
 **To check your photo’s dimensions on a Mac:**
 
 1. Find your photo file and click on it while pressing the **control** key.
-2. A list of options will appear. Choose **Get Info**.
-3. A window will open with information about the photo. Click on the **More info arrow** beneath the general file information.
+2. A list of options will appear. Choose **Get info**.
+3. A window will open with information about the photo. Click on the **More info** arrow beneath the general file information.
 4. The information will expand and you’ll see **Dimensions**. These should be equal numbers and should be at least 350 x 350. It’s ok if the photo is larger. 
 
 </div>
@@ -83,7 +83,7 @@ Some smartphones and digital cameras have a setting that lets you take square ph
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-smartphone">How do I upload a photo from my smartphone?</button>
 <div id="upload-smartphone" class="usa-accordion-content">
 
-You can complete the entire application from your mobile device, if you choose to do so. You can select a photo that’s on your smartphone directly from the Veteran ID Card application. 
+You can complete the entire application from your mobile device if you want to. You can select a photo that’s on your smartphone directly from the Veteran ID Card application. 
 
 If you prefer to complete the application on a PC or Mac, you can transfer your photo from your smartphone or digital camera to your computer. You can do this by sharing photos using your phone’s photo application tool or by connecting your device to your computer.  
 
@@ -109,14 +109,14 @@ You can scan a physical photo onto your computer or phone using a flatbed scanne
 **To scan your photo with your phone, you can use your phone’s camera or photo-scanning app.**
 
 **To use your phone’s camera:**
-1. Open the **Camera app** and take a picture of your photo.
-2. Once you take a picture the photo will appear in the **Photos app**.
-3. Find the photo you want to upload. Then tap the **Share icon** and choose how you want to upload your photo. 
+1. Open the Camera app and take a picture of your photo.
+2. After you take a picture, the photo will appear in the Photos app.
+3. Find the photo you want to upload. Then tap the share icon and choose how you want to upload your photo. 
 
 **To use your phone’s photo-scanning app:**
 1. Open the app and position your phone over your photo. 
 2. Follow the instructions onscreen to scan your photo. 
-3. Once you’re done scanning your photo, you can choose where to save it. Find the photo you want to upload. Then tap the **Share icon** and choose how you want to upload your photo.   
+3. Once you’re done scanning your photo, you can choose where to save it. Find the photo you want to upload. Then tap the share icon and choose how you want to upload your photo.   
 
 </div>
 </li>
