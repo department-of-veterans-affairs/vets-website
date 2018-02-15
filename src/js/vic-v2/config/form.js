@@ -82,7 +82,7 @@ const formConfig = {
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             serviceBranch: {
               'ui:title': 'Branch of service',
-              'ui:description': 'If you have more than one branch of service, choose the one you want represented on the Veteran ID Card.',
+              'ui:description': 'If you have more than one branch of service, choose the one you want printed on your Veteran ID Card.',
               'ui:options': {
                 labels: {
                   F: 'Air Force',
@@ -229,7 +229,7 @@ const formConfig = {
                 'jpg',
               ],
               maxSize: TWENTY_FIVE_MB,
-              buttonText: 'Upload your discharge document',
+              buttonText: 'Upload Your Discharge Document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);
