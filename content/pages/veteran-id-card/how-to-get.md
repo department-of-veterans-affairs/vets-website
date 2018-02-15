@@ -55,7 +55,7 @@ No. You can complete the application without signing in, but it’ll take us lon
 <a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply">Apply for Your Veteran ID Card</a>
 
 ### When will I hear back about my application?
-If your application for a Veteran ID Card went through and you haven’t heard back yet, please don’t apply again. We process applications in the order we receive them.
+It depends. We process applications in the order we receive them. If your application for a Veteran ID Card went through and you haven’t heard back yet, please don’t apply again. 
 
 #### A note on verifying your identity	
 
