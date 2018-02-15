@@ -20,20 +20,28 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.usa-button-primary')
       .waitForElementVisible('.dw-questions', Timeouts.normal);
 
+    E2eHelpers.overrideScrolling(client);
+
     client
       .setValue('input[name="1_branchOfService"]', '1')
       .click('input[name="1_branchOfService"]')
       .selectDropdown('2_dischargeYear', '2016')
+      .waitForElementPresent('input[name="4_reason"]', Timeouts.normal)
       .setValue('input[name="4_reason"]', '1')
       .click('input[name="4_reason"]')
+      .waitForElementPresent('input[name="6_intention"]', Timeouts.normal)
       .setValue('input[name="6_intention"]', '1')
       .click('input[name="6_intention"]')
+      .waitForElementPresent('input[name="7_courtMartial"]', Timeouts.normal)
       .setValue('input[name="7_courtMartial"]', '1')
       .click('input[name="7_courtMartial"]')
+      .waitForElementPresent('input[name="8_prevApplication"]', Timeouts.normal)
       .setValue('input[name="8_prevApplication"]', '1')
       .click('input[name="8_prevApplication"]')
+      .waitForElementPresent('input[name="9_prevApplicationYear"]', Timeouts.normal)
       .setValue('input[name="9_prevApplicationYear"]', '1')
       .click('input[name="9_prevApplicationYear"]')
+      .waitForElementPresent('input[name="12_priorService"]', Timeouts.normal)
       .setValue('input[name="12_priorService"]', '1')
       .click('input[name="12_priorService"]');
 
