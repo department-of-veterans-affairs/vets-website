@@ -39,6 +39,18 @@ function initMHVTermsMocks(token, termsName = 'mhvac', bypass = true) {
       data: {}
     }
   });
+
+  mock(token, {
+    path: '/v0/mhv_account',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          accountStatus: bypass ? 'upgraded' : 'needs_terms_acceptance'
+        }
+      }
+    }
+  });
 }
 
 module.exports = {
