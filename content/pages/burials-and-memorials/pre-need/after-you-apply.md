@@ -22,20 +22,18 @@ relatedlinks:
 
 Find out what happens after you apply for a pre-need eligibility determination for burial in a VA national cemetery.
 
-
 </div>
 
 ### How long does it take VA to make a decision?
-We’ve received a large number of pre-need eligibility applications. Because of this increase in applications, we’ll be focusing on letting each person know we’ve received their application and when they can expect a pre-need decision.  
-
-This may slow down our application review process. We’re sorry for the delay.
 
 The amount of time it takes to review your application depends on:
 - The number of applications we’re reviewing, **and**
 - How much information you provided in your application, **and**
 - Whether you provided your (or your sponsor’s) DD214 or other separation documents along with your application
 
-**Note:** For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
+**Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
+
+For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
 <br>
 
