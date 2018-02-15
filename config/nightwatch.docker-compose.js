@@ -1,10 +1,6 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const electron = require('electron');
-const chromedriver = require('chromedriver');
-const seleniumServer = require('selenium-server');
-
 require('babel-core/register');
 
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
@@ -20,9 +16,9 @@ module.exports = {
   test_workers: false,
   test_settings: {
     'default': {
-      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
+      launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
       filter: './test/**/*.e2e.spec.js',
-      selenium_host: 'localhost',
+      selenium_host: 'selenium-chrome',
       selenium_port: selenium_server_port,
       use_ssl: false,
       silent: true,
@@ -38,24 +34,15 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          binary: electron,
-          args: ['--window-size=1024,768']
+          args: ['--headless', '--no-sandbox', '--disable-gpu', '--window-size=1024,768']
         }
       },
       selenium: {
-        cli_args: {
-          'webdriver.chrome.driver': chromedriver.path
-        },
-        start_process: true,
-        server_path: seleniumServer.path,
+        start_process: false,
         log_path: './logs/selenium',
-        host: '127.0.0.1',
-        port: selenium_server_port,
-      },
-      test_workers: {
-        enabled: false,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10)
-      },
+        host: 'selenium-chrome',
+        port: selenium_server_port
+      }
     },
     accessibility: {
       filter: './test/accessibility/*.spec.js'
