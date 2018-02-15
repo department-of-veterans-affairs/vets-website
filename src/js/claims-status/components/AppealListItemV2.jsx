@@ -14,6 +14,7 @@ const renderNextAction = (lastEvent, previousHistory) => {
   return nextAction && nextAction.title;
 };
 
+
 export default function AppealListItem({ appeal }) {
   // always show merged event on top
   const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
@@ -21,11 +22,11 @@ export default function AppealListItem({ appeal }) {
   const firstEvent = events[events.length - 1];
   const previousHistory = events.slice(1);
 
-  // TODO: Make it "Appeal of [claim type]" instead of just "Compensation Claim"
+  // TODO: Map the programArea to what should be output
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        Appeal of Compensation Claim
+        Appeal of <span style={{ textTransform: 'capitalize' }}>{appeal.attributes.programArea}</span>
         <br/>
         Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
         {/* <strong>Last changed: </strong> {moment(lastEvent.date).format('MMMM D, YYYY')} */}
