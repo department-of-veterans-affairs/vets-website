@@ -125,6 +125,10 @@ $color-inactive: #9B9B9B;
   margin-top: 0;
 }
 
+.claim-list-item-header-v2 {
+  margin-top: -2rem;
+}
+
 .claim-list-item:hover .claim-list-item-header {
   color: $color-primary-darker;
 }

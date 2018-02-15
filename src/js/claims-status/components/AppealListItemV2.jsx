@@ -21,10 +21,16 @@ export default function AppealListItem({ appeal }) {
   const firstEvent = events[events.length - 1];
   const previousHistory = events.slice(1);
 
+  // TODO: Make it "Appeal of [claim type]" instead of just "Compensation Claim"
+  // TODO: Figure out if it should always read "Decision Received"
   return (
     <div className="claim-list-item-container">
-      <div className="last-changed-label"><strong>Last changed: </strong> {moment(lastEvent.date).format('MMM D, YYYY')}</div>
-      <h4 className="claim-list-item-header">Compensation Appeal – Received {moment(firstEvent.date).format('MMM D, YYYY')}</h4>
+      <h3 className="claim-list-item-header-v2">
+        Appeal of Compensation Claim
+        <br/>
+        Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
+        {/* <strong>Last changed: </strong> {moment(lastEvent.date).format('MMMM D, YYYY')} */}
+      </h3>
       <p className="status"><span className="claim-item-label">Status:</span> {appealStatusDescriptions(lastEvent, previousHistory).status.title}</p>
       <div className="communications">
         {renderNextAction(lastEvent, previousHistory)}

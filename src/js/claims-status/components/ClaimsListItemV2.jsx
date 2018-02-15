@@ -13,7 +13,11 @@ export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   return (
     <div className="claim-list-item-container">
-      <h4 className="claim-list-item-header">{getClaimType(claim)} Claim – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</h4>
+      <h4 className="claim-list-item-header-v2">
+        Claim for {getClaimType(claim)}
+        <br/>
+        Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
+      </h4>
       <p className="status"><span className="claim-item-label">Status:</span> {listPhase(claim.attributes.phase)}</p>
       <ul className="communications">
         {inProgress && claim.attributes.developmentLetterSent
