@@ -35,10 +35,9 @@ export default class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      const filePath = this.props.idSchema.$id.split('_').slice(1).concat(idx);
       this.props.formContext.uploadFile(
         event.target.files[0],
-        filePath,
+        (file) => this.props.onChange(_.set(idx, file, this.props.formData || [])),
         this.props.uiSchema['ui:options'],
         this.updateProgress
       ).catch(() => {
