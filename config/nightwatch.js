@@ -62,7 +62,7 @@ module.exports = {
     },
     wcag2a: {
       globals: {
-        rules: ['section508', 'wcag2aa']
+        rules: ['section508', 'wcag2a', 'wcag2aa']
       }
     }
   }
