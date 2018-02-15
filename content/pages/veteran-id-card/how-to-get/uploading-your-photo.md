@@ -97,7 +97,7 @@ You can scan a physical photo onto your computer or phone using a flatbed scanne
 
 **To scan your photo using a flatbed scanner:**
 1. Place your photo face down on the scanner.
-2. Press <strong>Scan</strong> on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
+2. Press Scan on the scanner or use your computer’s scan function to decide the photo’s file format, orientation, and resolution.  
    <ul>
    <li>You can upload a photo in a jpeg, .png, .bmp, or .tiff file format for your Veteran ID Card.</li>
    <li>The photo you’re trying to scan should be at least 2 inches on each side so the photo isn’t blurry when printed on your card.</li>
