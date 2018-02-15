@@ -2,7 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getAppeals, getAppealsV2, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
+import {
+  changePage,
+  filterClaims,
+  getAppealsV2,
+  getClaims,
+  hide30DayNotice,
+  showConsolidatedMessage,
+  sortClaims
+} from '../actions/index.jsx';
+import { APPEAL_V2_TYPE } from '../utils/appeals-v2-helpers';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -43,6 +52,7 @@ class YourClaimsPageV2 extends React.Component {
     this.changePage = this.changePage.bind(this);
     this.handleSort = this.handleSort.bind(this);
   }
+
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
 
@@ -60,29 +70,34 @@ class YourClaimsPageV2 extends React.Component {
       setUpPage();
     }
   }
+
   componentWillReceiveProps(newProps) {
     if (this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
       this.props.filterClaims(this.getFilter(newProps));
     }
   }
+
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
   }
+
   getFilter(props) {
     return props.route.showClosedClaims ? 'closed' : 'open';
   }
+
   handleSort(sortObject) {
     this.props.sortClaims(sortObject.value);
   }
+
   changePage(page) {
     this.props.changePage(page);
     scrollToTop();
   }
 
   renderListItem(claim) {
-    if (claim.type === 'appeals_status_models_appeals') {
+    if (claim.type === APPEAL_V2_TYPE) {
       return <AppealListItem key={claim.id} appeal={claim}/>;
     }
 
@@ -267,7 +282,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getAppeals,
   getAppealsV2,
   getClaims,
   filterClaims,

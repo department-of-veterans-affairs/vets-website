@@ -392,6 +392,11 @@ input[type=range] {
   }
 }
 
+.photo-preview-link {
+  margin-right: 10px;
+  font-weight: $font-normal;
+}
+
 .photo-edit-button {
   max-width: 150px;
 }
@@ -440,7 +445,7 @@ input[type=range] {
     }
     .photo-preview-link {
       margin-right: 10px;
-      font-weight: 400;
+      font-weight: $font-normal;
     }
   }
 }
