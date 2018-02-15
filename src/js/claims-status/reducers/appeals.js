@@ -47,7 +47,6 @@ const initialState = {
 //   }], 'desc', list);
 // }
 
-
 // TO-DO: Break out v2 into its own reducer
 export default function appealsReducer(state = initialState, action) {
   switch (action.type) {

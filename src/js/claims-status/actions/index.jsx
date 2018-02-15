@@ -10,10 +10,15 @@ import {
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR
 } from '../utils/appeals-v2-helpers';
 
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+// -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+// -------------------- v1 --------------------
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
@@ -124,6 +129,26 @@ export function getAppealsV2() {
         Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         return dispatch(action);
       }
+    );
+  };
+}
+
+export function fetchClaimsSuccess(response) {
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims: response.data
+  };
+}
+
+export function getClaimsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+    return apiRequest(
+      '/evss_claims',
+      null,
+      (response) => dispatch(fetchClaimsSuccess(response)),
+      // TO-DO: parse out errors, log in Sentry
+      () => dispatch({ type: FETCH_CLAIMS_ERROR })
     );
   };
 }
