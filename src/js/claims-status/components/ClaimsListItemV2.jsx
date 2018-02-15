@@ -13,11 +13,11 @@ export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   return (
     <div className="claim-list-item-container">
-      <h4 className="claim-list-item-header-v2">
+      <h3 className="claim-list-item-header-v2">
         Claim for {getClaimType(claim)}
         <br/>
         Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
-      </h4>
+      </h3>
       <div className="card-status">
         <div className={`status-circle ${claim.attributes.open ? 'open' : 'closed'}`}/>
         <p><strong>Status:</strong> {listPhase(claim.attributes.phase)}</p>
