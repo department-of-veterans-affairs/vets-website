@@ -50,8 +50,8 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for a veteran id card.',
-    noAuth: 'Please sign in again to resume your application for a veteran id card.'
+    notFound: 'Please start over to apply for a Veteran ID Card.',
+    noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'
   },
   title: 'Apply for a Veteran ID Card',
   defaultDefinitions: {
@@ -74,6 +74,9 @@ const formConfig = {
               'ui:title': 'Gender',
               'ui:options': {
                 labels: genderLabels
+              },
+              'ui:errorMessages': {
+                required: 'Please select the response that most closely aligns with how you identify.'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),

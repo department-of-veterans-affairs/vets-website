@@ -59,7 +59,7 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.noAuth:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">You have been signed out. {noAuth}</div>
+            <div className="usa-alert usa-alert-error no-background-image">You’re signed out of your account. {noAuth}</div>
             <div>
               <div style={{ marginTop: '30px' }}>
                 {this.getBackButton()}
@@ -69,7 +69,7 @@ class SaveInProgressErrorPage extends React.Component {
                   onLogin={this.reloadForm}
                   isLoggedIn={this.props.isLoggedIn}
                   showLoginModal={this.props.showLoginModal}
-                  toggleLoginModal={this.props.toggleLoginModal}>Sign in</SignInLink>
+                  toggleLoginModal={this.props.toggleLoginModal}>Sign In</SignInLink>
               </div>
             </div>
           </div>
