@@ -6,16 +6,11 @@ import { removeSavedForm } from '../actions';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 
-const accordionIds = {
-  veteranInformation: 'veteranInformation',
-  militaryService: 'militaryService'
-};
-
 class UserProfileApp extends React.Component {
   constructor() {
     super();
     this.state = {
-      activeAccordionId: accordionIds.veteranInformation
+      activeAccordionId: 'veteranInformation'
     };
   }
 
