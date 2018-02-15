@@ -100,8 +100,10 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                 </ul>
+              </div>  
                 <hr>
-                <h3>How to sign in to Vets.gov</h3>
+              <h3>How to sign in to Vets.gov</h3>
+              <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">
@@ -172,8 +174,9 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                 </ul>
-                <hr>
-                <h3>How to get a premium DS Logon account</h3>
+              </div>  
+              <hr>
+              <h3>How to get a premium DS Logon account</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-0" itemprop="name">
@@ -217,9 +220,35 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                </ul>              
-                <hr>
-                <h3>How to verify your identity</h3>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-2" itemprop="name">
+                      How do I upgrade my basic DS Logon account to a premium account?
+                    </button>
+                    <div id="faq-dslogon-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>To upgrade your basic <strong>DS Logon/<strong> account to a premium account, you’ll need to verify your identity. This means you’ll need to prove you’re you—and not someone pretending to be you—to help protect the personal information you’ll have access to with a premium account.</p>
+                        <p><strong>1. First, make sure you're enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
+                        <ul>
+                          <li><strong>If you're a Veteran or Servicemember or qualified family caregiver, survivor, or dependent of a Veteran or Servicemember who's served since 1982,</strong> you should already be enrolled in DEERS.</li>
+                          <li><strong>If you're a Veteran or the qualified family caregiver, survivor, or dependent of a Veteran who served before 1982,</strong> you may not be enrolled. To enroll, call us at 1-800-827-1000 and choose "Option 7." Tell the operator you need to be enrolled in DEERS and ask for an email confirming when enrollment is complete.</li>
+                        </ul>
+                        <p><strong>2. Then, register for your basic DS Logon account online.</strong></p>
+                        <p>Go to the DS Logon self-service site and click on the button labeled "More DS Logon Options." From the choices that appear, select "Need a DS Logon?"</p>
+                        <p>You'll then be asked to select your registration method:</p>
+                        <ul>
+                          <li><strong>If you have a Common Access Card (CAC) with accessible card reader,</strong> choose this option. It's the easiest way to get a DS Logon account and upgrade to a premium account right away.</li>
+                          <li><strong>If you have a Defense Finance and Account Service (DFAS) myPay account,</strong> you can select this option. You'll be able to upgrade to a premium account right away.</li>
+                          <li><strong>If you don't have a CAC or DFAS myPay account,</strong> select the "None of the above conditions apply" option.</li>
+                        </ul>
+                        <p>The registration tool will direct you on how to sign up for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you'll be asked a series of questions to prove you're you—and not someone pretending to be you—to help protect the personal information you'll have access to with a premium account.</p>
+                        <p><a href="https://myaccess.dmdc.osd.mil/">Go to the DS Logon self-service site</a>.</p>                    
+                      </div>
+                    </div>
+                  </li>                  
+                </ul>
+              </div>
+              <hr>
+              <h3>Ways to verify your identity</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">
@@ -280,9 +309,10 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                </ul>              
-                <hr>
-                <h3>Verifying your identity with ID.me</h3>
+                </ul>
+              </div>
+              <hr>
+              <h3>Verifying your identity with ID.me</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-0" itemprop="name">
@@ -345,8 +375,9 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                 </ul>
-                <hr>
-                <h3>Your privacy and security with ID.me</h3>
+              </div>
+              <hr>
+              <h3>Your privacy and security with ID.me</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-0" itemprop="name">
