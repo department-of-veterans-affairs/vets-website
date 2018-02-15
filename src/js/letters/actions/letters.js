@@ -136,6 +136,10 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
 
   return (dispatch) => {
+    window.dataLayer.push({
+      event: 'letter-pdf-pending',
+      'letter-type': letterType
+    });
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
 
     // We handle IE10 separately but assume all other vets.gov-supported
@@ -180,6 +184,10 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl);
+        window.dataLayer.push({
+          event: 'letter-pdf-success',
+          'letter-type': letterType
+        });
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
       (response) => {
