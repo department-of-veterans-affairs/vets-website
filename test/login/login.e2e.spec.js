@@ -2,6 +2,10 @@ const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts.js');
 const LoginHelpers = require('../e2e/login-helpers');
 
+const selectors = {
+  signOut: '#accountMenu > ul > li:nth-child(2) > a'
+};
+
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     const token = LoginHelpers.getUserToken();
@@ -16,14 +20,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('#login-root button[aria-controls="accountMenu"]');
 
     // logout button is there
-    client.expect.element('#accountMenu > ul > li:nth-child(2) > a').to.be.visible;
+    client.expect.element(selectors.signOut).to.be.visible;
 
     // log out button reads "Sign Out"
-    client.expect.element('#accountMenu > ul > li:nth-child(2) > a').text.to.equal('Sign Out');
+    client.expect.element(selectors.signOut).text.to.equal('Sign Out');
 
     // click Sign Out & verify new window is opened & has correct logout URL
     client
-      .click('#accountMenu > ul > li:nth-child(2) > a')
+      .click(selectors.signOut)
       .pause(500)
       .windowHandles(function windowHandlesCallback(result) {
         this.verify.equal(result.value.length, 2, 'There should be 2 windows open');
