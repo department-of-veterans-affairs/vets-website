@@ -50,13 +50,13 @@ class ConfirmationPage extends React.Component {
             serverPath: 'blorp'
           },
           veteranFullName: {
-            first: 'Will',
-            middle: '',
-            last: 'Saxon',
-            suffix: 'Jr.'
+            first: 'WWWWW',
+            middle: 'WWWW',
+            last: 'WWWWWWWWWWWW',
+            suffix: 'Sr.'
           },
           verified: true,
-          serviceBranch: 'A'
+          serviceBranch: 'C'
         }
       }
     };
@@ -68,9 +68,9 @@ class ConfirmationPage extends React.Component {
       : {};
     const {
       veteranFullName: {
-        first: firstName = '',
-        middle: middleName = '',
-        last: lastName = '',
+        first = '',
+        middle = '',
+        last = '',
         suffix = ''
       },
       serviceBranch,
@@ -78,8 +78,12 @@ class ConfirmationPage extends React.Component {
     } = form.data;
 
     // const photoUrl = getImageUrl(form.data.photo);
-    const photoUrl = "/img/example-photo-2.png"
+    const photoUrl = '/img/example-photo-2.png';
     const submittedAt = moment(form.submission.submittedAt);
+
+    const veteranFullNameStr =
+      `${first.toUpperCase()} ${middle.toUpperCase()} ${last.toUpperCase()} ${suffix.toUpperCase()}` // upper case name
+      .replace(/ +(?= )/g,''); // remove extra spaces from absent name parts
 
     return (
       <div>
@@ -91,12 +95,9 @@ class ConfirmationPage extends React.Component {
           <p>We’ll send you emails updating you on the status of your application. You can also print this page for your records. You should receive your Veteran ID Card by mail in about 60 days.<br/>
             In the meantime, you can print a temporary digital Veteran ID Card.</p>
           <VeteranIDCard
-            veteranFirstName={firstName.toUpperCase()}
-            veteranMiddleName={middleName.toUpperCase()}
-            veteranLastName={lastName.toUpperCase()}
-            verteranSuffix={suffix.toUpperCase()}
+            veteranFullName={veteranFullNameStr}
             veteranBranchCode={serviceBranch}
-            veteranID="05P3400000000pz"
+            caseId="05P3400000000pz"
             veteranPhotoUrl={photoUrl}/>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}
@@ -114,7 +115,7 @@ class ConfirmationPage extends React.Component {
         </div>}
         <div className="inset">
           <h3 className="schemaform-confirmation-claim-header">Veteran ID Card claim</h3>
-          <span>for {firstName} {middleName} {lastName} {suffix}</span>
+          <span>for {first} {middle} {last} {suffix}</span>
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>

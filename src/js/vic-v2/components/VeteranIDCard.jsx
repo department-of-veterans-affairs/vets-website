@@ -4,8 +4,10 @@ const FONT_FAMILY = 'Arial, Helvetica, sans-serif';
 // sets the aspect ratio of svg
 const VIEW_BOX = '0 0 2048 1284';
 // height of font top to bottom bounding box in the above viewbox
-const LARGE_FONT_SIZE = 90;
+const X_LARGE_FONT_SIZE = 90;
+const LARGE_FONT_SIZE = 80;
 const SMALL_FONT_SIZE = 60;
+const X_SMALL_FONT_SIZE = 55;
 
 const branchCodeLabels = {
   A: 'Army',
@@ -38,46 +40,53 @@ function isLongName(name) {
   }
 }
 
-
-function getFullNameDisplay({ first, middle, last }) {
-  let topName = `${first} ${middle} ${last}`;
-  let bottomName = '';
-
-  if (isLongName(topName)) {
-    topName = `${first} ${middle}`;
-    bottomName = last;
+function getTopAndBottomName([firstPart, nextPart, ...rest]) {
+  // name is short enough to fit on first line
+  if (!nextPart) {
+    return {
+      top: firstPart,
+      bottom: ''
+    };
   }
 
-  if (isLongName(topName)) {
-    topName = first;
-    bottomName = `${middle} ${last}`;
+  const newFirstPart = `${firstPart} ${nextPart}`;
+
+  // name must be split
+  if (isLongName(newFirstPart)) {
+    return {
+      top: firstPart,
+      bottom: `${nextPart} ${rest.join(' ')}`
+    };
   }
 
-  return bottomName ?
-    [
-      (
-        <text fontSize={LARGE_FONT_SIZE} key="firstName" x="6.5%" y="50.6%">
-          {topName}
-        </text>
-      ),
-      (
-        <text fontSize={LARGE_FONT_SIZE} key="lastName" x="6.5%" y="58.8%">
-          {bottomName}
-        </text>
-      )
-    ] : (
-      <text fontSize={LARGE_FONT_SIZE} x="6.5%" y="55.2%">
-        {topName}
+  // keep testing length of combined name parts
+  return getTopAndBottomName([newFirstPart, ...rest]);
+}
+
+function getFullNameDisplay(fullName) {
+
+  const { top, bottom } = getTopAndBottomName(fullName.split(' '));
+
+  if (bottom) {
+    return [
+      <text fontSize={X_LARGE_FONT_SIZE} key="firstName" x="6.5%" y="50.6%">
+        {top}
+      </text>,
+      <text fontSize={X_LARGE_FONT_SIZE} key="lastName" x="6.5%" y="58.8%">
+        {bottom}
       </text>
-    );
+    ];
+  }
+
+  return (<text fontSize={X_LARGE_FONT_SIZE} x="6.5%" y="55.2%">
+    {top}
+  </text>);
 }
 
 const VeteranIDCard = ({
   veteranBranchCode,
-  veteranFirstName,
-  veteranMiddleName,
-  veteranLastName,
-  veteranID,
+  veteranFullName,
+  caseId,
   veteranPhotoUrl
 }) => (
   // svg preserves aspect ratio
@@ -91,36 +100,33 @@ const VeteranIDCard = ({
     <image href={imagePaths.previewBackground} width="100%"/>
 
     <image height="28.5%" href={imagePaths.VASeal} x="6.5%" y="7.3%"/>
-    <text fontSize={LARGE_FONT_SIZE} x="26.3%" y="24.3%">
+
+    <text fontSize={LARGE_FONT_SIZE - 1} x="70%" y="12.5%">
+      TEMPORARY
+    </text>
+
+    <text fontSize={X_LARGE_FONT_SIZE} x="26.3%" y="24.3%">
       Veteran Identification Card
     </text>
 
-    {getFullNameDisplay({ first: veteranFirstName, middle: veteranMiddleName, last: veteranLastName })}
+    {getFullNameDisplay(veteranFullName)}
 
     <image height="21.1%" href={imagePaths[veteranBranchCode]} x="6.5%" y="70%"/>
-    <text fontSize={SMALL_FONT_SIZE} x="22.8%" y="78.9%">
-      {branchCodeLabels[veteranBranchCode]}
-    </text>
-    <text fontSize={SMALL_FONT_SIZE} x="22.8%" y="85.2%">
-      Honorable Discharge
+    <text fontSize={SMALL_FONT_SIZE} x="22.8%" y="82.05%">
+      {branchCodeLabels[veteranBranchCode]} Veteran
     </text>
 
     <image height="51.8%" href={veteranPhotoUrl} x="62.1%" y="34.1%"/>
-    <text
-      fontSize={SMALL_FONT_SIZE}
-      x="62.1%"
-      y="91.9%">
-      ID no: {veteranID}
+    <text fontSize={X_SMALL_FONT_SIZE} x="62.1%" y="91.9%">
+      ID no: {caseId}
     </text>
   </svg>
 );
 
 VeteranIDCard.propTypes = {
   veteranBranchCode: React.PropTypes.oneOf(['F', 'A', 'C', 'M', 'N']),
-  veteranFirstName: React.PropTypes.string.isRequired,
-  veteranMiddleName: React.PropTypes.string.isRequired,
-  veteranLastName: React.PropTypes.string.isRequired,
-  veteranID: React.PropTypes.string.isRequired,
+  veteranFullName: React.PropTypes.string.isRequired,
+  caseId: React.PropTypes.string.isRequired,
   veteranPhotoUrl: React.PropTypes.string.isRequired
 };
 
