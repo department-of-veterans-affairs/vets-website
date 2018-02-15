@@ -18,7 +18,10 @@ export default function ClaimsListItem({ claim }) {
         <br/>
         Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
       </h4>
-      <p className="status"><span className="claim-item-label">Status:</span> {listPhase(claim.attributes.phase)}</p>
+      <div className="card-status">
+        <div className={`status-circle ${claim.attributes.open ? 'open' : 'closed'}`}/>
+        <p><strong>Status:</strong> {listPhase(claim.attributes.phase)}</p>
+      </div>
       <ul className="communications">
         {inProgress && claim.attributes.developmentLetterSent
           ? <li className="claim-list-item-text"><i className="fa fa-envelope claim-list-item-icon"></i>We sent you a development letter</li>

@@ -95,6 +95,33 @@ $color-inactive: #9B9B9B;
   margin: 0 0 0.5em;
 }
 
+// Index page V2
+.claim-list-item-container .card-status {
+  margin: 0 0 0.5em;
+  display: flex;
+
+  .status-circle {
+    flex-shrink: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
+
+    &.open {
+      background-color: $color-green;
+    }
+
+    &.closed {
+      background-color: $color-gray-light;
+    }
+  }
+
+  p {
+    margin-top: 0;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -1135,3 +1162,4 @@ $marker-text-width: 9rem;
   margin-right: -0.6rem;
   font-size: 80%;
 }
+

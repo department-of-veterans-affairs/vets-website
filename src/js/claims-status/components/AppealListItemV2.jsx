@@ -31,7 +31,10 @@ export default function AppealListItem({ appeal }) {
         Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
         {/* <strong>Last changed: </strong> {moment(lastEvent.date).format('MMMM D, YYYY')} */}
       </h3>
-      <p className="status"><span className="claim-item-label">Status:</span> {appealStatusDescriptions(lastEvent, previousHistory).status.title}</p>
+      <div className="card-status">
+        <div className={`status-circle ${appeal.attributes.active ? 'open' : 'closed'}`}/>
+        <p><strong>Status:</strong> {appealStatusDescriptions(lastEvent, previousHistory).status.title}</p>
+      </div>
       <div className="communications">
         {renderNextAction(lastEvent, previousHistory)}
       </div>
