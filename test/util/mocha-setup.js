@@ -12,10 +12,10 @@ global.__SAMPLE_ENABLED__ = (process.env.SAMPLE_ENABLED === 'true');
 chai.use(chaiAsPromised);
 
 // Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
-function setupJSDom() {
-  if (global.document || global.window) {
-    throw new Error('Refusing to override existing document and window.');
-  }
+export default function setupJSDom() {
+  // if (global.document || global.window) {
+  //   throw new Error('Refusing to override existing document and window.');
+  // }
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
@@ -34,6 +34,10 @@ function setupJSDom() {
     }
   };
 
+  win.dataLayer = [];
+  win.scrollTo = () => {};
+  win.sessionStorage = {};
+
   global.Blob = window.Blob;
 
   // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
@@ -51,8 +55,6 @@ function setupJSDom() {
     // This was causing some tests to fail, so we'll have to loop back around to it later
     // global.fetch = sinon.stub();
 
-    // Mock sessionStorage
-    // global.sessionStorage = {};
   }
 
   propagateToGlobal(win);

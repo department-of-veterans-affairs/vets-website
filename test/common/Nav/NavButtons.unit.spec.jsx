@@ -5,6 +5,8 @@ import sinon from 'sinon';
 
 import NavButtons from '../../../src/js/common/components/NavButtons';
 
+let tree;
+
 describe('<NavButtons>', () => {
   describe('should render', () => {
     const path = '/some-url';
@@ -17,17 +19,19 @@ describe('<NavButtons>', () => {
     const onNavigate = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
     it('two buttons', () => {
       expect(tree.everySubTree('ProgressButton').length).to.equal(2);
     });
@@ -47,17 +51,19 @@ describe('<NavButtons>', () => {
     const onNavigate = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
     it('one button that says get started', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Get Started');
     });
@@ -73,17 +79,19 @@ describe('<NavButtons>', () => {
     const onNavigate = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
     });
@@ -102,17 +110,19 @@ describe('<NavButtons>', () => {
     const onNavigate = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
     });
@@ -132,17 +142,19 @@ describe('<NavButtons>', () => {
     const onNavigate = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
     });
@@ -162,17 +174,19 @@ describe('<NavButtons>', () => {
     const onNavigate = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
     it('a back button', () => {
       expect(tree.everySubTree('ProgressButton')[0].props.buttonText).to.equal('Back');
     });
@@ -197,7 +211,7 @@ describe('<NavButtons>', () => {
     const onSubmit = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
+    tree = SkinDeep.shallowRender(
       <NavButtons
         submission={submission}
         path={path}
@@ -230,18 +244,20 @@ describe('<NavButtons>', () => {
     const onSubmit = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={false}
-        canSubmit={canSubmit}
-        dirtyPage={dirtyPage}
-        onNavigate={onNavigate}
-        onSubmit={onSubmit}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={false}
+          canSubmit={canSubmit}
+          dirtyPage={dirtyPage}
+          onNavigate={onNavigate}
+          onSubmit={onSubmit}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
 
     it('should submit', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
@@ -265,19 +281,21 @@ describe('<NavButtons>', () => {
     const onComplete = sinon.spy();
     const onAttemptedSubmit = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onSubmit={onSubmit}
-        onComplete={onComplete}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onSubmit={onSubmit}
+          onComplete={onComplete}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
 
     it('should navigate forward', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
@@ -301,11 +319,19 @@ describe('<NavButtons>', () => {
     ];
     const submission = { status: false };
     const isValid = true;
-    const dirtyPage = sinon.spy();
-    const onNavigate = sinon.spy();
-    const onSubmit = sinon.spy();
-    const onComplete = sinon.spy();
-    const onAttemptedSubmit = sinon.spy();
+    let dirtyPage;
+    let onSubmit;
+    let onComplete;
+    let onAttemptedSubmit;
+    let onNavigate;
+
+    beforeEach(() => {
+      onNavigate = sinon.spy();
+      dirtyPage = sinon.spy();
+      onSubmit = sinon.spy();
+      onComplete = sinon.spy();
+      onAttemptedSubmit = sinon.spy();
+    });
 
     const render = (path, data) => {
       return SkinDeep.shallowRender(
@@ -367,23 +393,29 @@ describe('<NavButtons>', () => {
       status: false
     };
     const isValid = false;
-    const dirtyPage = sinon.spy();
-    const onNavigate = sinon.spy();
-    const onSubmit = sinon.spy();
-    const onAttemptedSubmit = sinon.spy();
+    let onNavigate;
+    let dirtyPage;
+    let onSubmit;
+    let onAttemptedSubmit;
 
-    const tree = SkinDeep.shallowRender(
-      <NavButtons
-        submission={submission}
-        path={path}
-        pages={pages}
-        isValid={isValid}
-        dirtyPage={dirtyPage}
-        canSubmit={false}
-        onNavigate={onNavigate}
-        onSubmit={onSubmit}
-        onAttemptedSubmit={onAttemptedSubmit}/>
-    );
+    beforeEach(() => {
+      onNavigate = sinon.spy();
+      dirtyPage = sinon.spy();
+      onSubmit = sinon.spy();
+      onAttemptedSubmit = sinon.spy();
+      tree = SkinDeep.shallowRender(
+        <NavButtons
+          submission={submission}
+          path={path}
+          pages={pages}
+          isValid={isValid}
+          dirtyPage={dirtyPage}
+          canSubmit={false}
+          onNavigate={onNavigate}
+          onSubmit={onSubmit}
+          onAttemptedSubmit={onAttemptedSubmit}/>
+      );
+    });
 
     it('should not navigate forward', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
