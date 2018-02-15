@@ -9,7 +9,9 @@ class SignInProfileMenu extends React.Component {
 
     const dropDownContents = (
       <ul>
-        <li><a href="/profile">Account</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/account">Account</a></li>
         <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
       </ul>
     );

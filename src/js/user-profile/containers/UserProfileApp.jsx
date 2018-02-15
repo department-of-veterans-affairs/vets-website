@@ -5,7 +5,6 @@ import moment from 'moment';
 import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../login/actions';
 import { removeSavedForm } from '../actions';
-import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
@@ -45,7 +44,7 @@ class UserProfileApp extends React.Component {
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1>Your Account</h1>
+          <h1>Your Profile</h1>
           <div>
             <FormList
               userProfile={this.props.profile}
@@ -54,7 +53,6 @@ class UserProfileApp extends React.Component {
             <AuthApplicationSection
               userProfile={this.props.profile}
               verifyUrl={this.props.verifyUrl}/>
-            <UserDataSection/>
           </div>
         </div>
       </div>
