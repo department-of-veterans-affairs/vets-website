@@ -25,32 +25,15 @@ class UserProfileApp extends React.Component {
     }
   }
 
-  getAccordionToggle(accordionId) {
-    return () => {
-      const activeAccordionId = this.state.activeAccordionId === accordionId ? '' : accordionId;
-      this.setState({ activeAccordionId });
-    };
-  }
-
-  accordionButton(buttonText, accordionId) {
-    return (
-      <div className="accordion-header">
-        <button className="usa-accordion-button usa-button-unstyled"
-          onClick={this.getAccordionToggle(accordionId)}
-          aria-expanded={this.state.activeAccordionId === accordionId}
-          aria-controls={accordionId}>
-          {buttonText}
-        </button>
-      </div>
-    );
-  }
-
   accordionSection(accordionId, title, content) {
     return (
       <li>
         <div className="accordion-header">
           <button className="usa-accordion-button usa-button-unstyled"
-            onClick={this.getAccordionToggle(accordionId)}
+            onClick={() => {
+              const activeAccordionId = this.state.activeAccordionId === accordionId ? '' : accordionId;
+              this.setState({ activeAccordionId });
+            }}
             aria-expanded={this.state.activeAccordionId === accordionId}
             aria-controls={accordionId}>
             {title}
