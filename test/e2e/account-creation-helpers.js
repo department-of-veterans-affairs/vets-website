@@ -46,7 +46,7 @@ function initMHVTermsMocks(token, termsName = 'mhvac', bypass = true) {
     value: {
       data: {
         attributes: {
-          accountStatus: bypass ? 'upgraded' : 'needs_terms_acceptance'
+          accountState: bypass ? 'upgraded' : 'needs_terms_acceptance'
         }
       }
     }
