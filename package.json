@@ -206,6 +206,7 @@
   "dependencies": {
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
+    "choma": "^1.1.0",
     "downshift": "^1.22.5",
     "electron": "^1.7.12",
     "eslint-plugin-import": "^2.7.0",
