@@ -106,6 +106,7 @@ describe('<MHVApp>', () => {
 
     wrapper.setProps({ account });
     expect(props.fetchMHVAccount.calledOnce).to.be.false;
+    clock.restore();
   });
 
   it('should show MHV access error if nothing is loading and terms do not have to be accepted', () => {
