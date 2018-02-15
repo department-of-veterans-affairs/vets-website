@@ -213,6 +213,6 @@
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6d69509c51475f7eede47ef2aa8a62b1374df0aa"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b9ba6bf1837a9389788b5d4f94ac977d505c9e0b"
   }
 }

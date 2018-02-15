@@ -42,7 +42,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <p>We’ve received your application. Thank you for applying for a Veteran ID Card.<br/>
+        <p><strong>We’ve received your application.</strong> Thank you for applying for a Veteran ID Card.<br/>
           We process applications and print cards in the order we receive them.</p>
 
         <h2 className="schemaform-confirmation-section-header">What happens after I apply?</h2>
@@ -70,7 +70,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.caseId}</span>
+              <span>{response.caseNumber}</span>
             </li>
             <li>
               <strong>Date received</strong><br/>

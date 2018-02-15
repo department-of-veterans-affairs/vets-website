@@ -44,7 +44,7 @@ function initApplicationPollMock() {
         attributes: {
           state: 'success',
           response: {
-            case_id: '123fake-submission-id-567' // eslint-disable-line camelcase
+            caseNumber: '123fake-submission-id-567' // eslint-disable-line camelcase
           }
         }
       }

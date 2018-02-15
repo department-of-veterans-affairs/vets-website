@@ -163,7 +163,7 @@ smith.use(collections({
     pattern: 'disability-benefits/after-you-apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'After You Apply'
     }
   },
   disabilityApply: {
@@ -296,6 +296,13 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'VA Health Care Coverage'
+    }
+  },
+  healthCareCoverageFamily: {
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Health Benefits'
     }
   },
   healthCareCoverageVision: {
