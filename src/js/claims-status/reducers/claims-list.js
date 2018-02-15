@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
 import moment from 'moment';
+import { APPEAL_V2_TYPE } from '../utils/appeals-v2-helpers';
 
 import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
   FETCH_APPEALS, FETCH_APPEALS_SUCCESS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions/index.jsx';
@@ -51,7 +52,7 @@ function filterList(list, filter) {
   if (filter) {
     const open = filter === 'open';
     filteredList = filteredList.filter((claim) => {
-      if (claim.type === 'appeals_status_models_appeals') {
+      if (claim.type === 'appeals_status_models_appeals' || claim.type === APPEAL_V2_TYPE) {
         return claim.attributes.active === open;
       }
       return claim.attributes.open === open;
@@ -63,7 +64,7 @@ function filterList(list, filter) {
 function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
   const sortFunc = (el) => {
-    if (el.type === 'appeals_status_models_appeals') {
+    if (el.type === 'appeals_status_models_appeals' || el.type === APPEAL_V2_TYPE) {
       const events = _.orderBy([e => moment(e.date).unix()], 'desc', el.attributes.events);
       const lastEvent = events[0];
       const firstEvent = events[events.length - 1];
@@ -104,8 +105,8 @@ export default function claimsReducer(state = initialState, action) {
         claimsLoading: false,
       });
     }
+    // Fall-through until we handle v2 appeals solely in the appeals reducer
     case FETCH_APPEALS_SUCCESS:
-      return _.set('appeals', action.appeals, state);
     case SET_APPEALS: {
       const visibleAppeals = sortList(filterList(action.appeals, action.filter), state.sortProperty);
       const visibleList = sortList(filterList(state.claims, action.filter).concat(visibleAppeals), state.sortProperty);

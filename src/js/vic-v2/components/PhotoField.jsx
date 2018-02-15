@@ -625,7 +625,7 @@ export default class PhotoField extends React.Component {
     if (fieldView === 'cropper') {
       description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
     } else if (fieldView === 'preview') {
-      description = <div>Success! This photo will be printed on your Veteran ID card.</div>;
+      description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
     } else if (fieldView === 'initial' && this.state.dragAndDropSupported) {
       description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
@@ -758,7 +758,7 @@ export default class PhotoField extends React.Component {
             </div>
             <div className="crop-button-container">
               <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I’m done
+                I’m Done
               </button>
             </div>
           </div>
@@ -798,7 +798,7 @@ export default class PhotoField extends React.Component {
             {fieldView === 'initial' && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeScreenReader}
-              buttonText="Screen reader friendly photo upload tool"
+              buttonText="Use our screen reader-friendly photo upload tool."
               aria-describedby="screenReaderPathDescription"
               triggerClass="va-button-link"
               name="screenReaderFileUpload"/>}
