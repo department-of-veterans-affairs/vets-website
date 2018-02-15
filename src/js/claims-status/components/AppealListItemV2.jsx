@@ -22,7 +22,6 @@ export default function AppealListItem({ appeal }) {
   const previousHistory = events.slice(1);
 
   // TODO: Make it "Appeal of [claim type]" instead of just "Compensation Claim"
-  // TODO: Figure out if it should always read "Decision Received"
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">

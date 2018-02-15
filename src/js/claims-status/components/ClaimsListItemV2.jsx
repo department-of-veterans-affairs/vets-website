@@ -33,8 +33,6 @@ export default function ClaimsListItem({ claim }) {
           ? <li className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</li>
           : null}
       </ul>
-      {claim.attributes.phaseChangeDate &&
-      <p className="claim-list-item-text"><span className="claim-item-label">Last update:</span> {moment(claim.attributes.phaseChangeDate).format('MMM D, YYYY')}</p>}
       <Link className="usa-button usa-button-primary" to={`your-claims/${claim.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
     </div>
   );
