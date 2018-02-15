@@ -11,7 +11,7 @@ export default function VeteranIDCard({ location, children }) {
       id="vic2"
       waitForProfile
       renderLimitedContent={RateLimitContent}
-      bypassLimiter={({ user }) => user.profile.savedForms.some(f => f.form === 'VIC')}>
+      bypassLimit={({ user }) => user.profile.savedForms.some(f => f.form === 'VIC')}>
       <FormApp formConfig={formConfig} currentLocation={location}>
         {children}
       </FormApp>

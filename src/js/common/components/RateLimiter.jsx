@@ -20,9 +20,9 @@ export class RateLimiter extends React.Component {
     const randomizer = Math.random();
 
     this.state = {
-      disableRateLimit: window.sessionStorage.getItem(`${props.id}_disableRateLimit`),
-      rateLimitedUnauthed: randomizer >= rateLimitUnauthed,
-      rateLimitedAuthed: randomizer >= rateLimitAuthed
+      rateLimitDisabled: window.sessionStorage.getItem(`${props.id}_rateLimitDisabled`),
+      passedUnauthedRateLimit: randomizer < rateLimitUnauthed,
+      passedAuthedRateLimit: randomizer < rateLimitAuthed
     };
   }
 
@@ -36,28 +36,28 @@ export class RateLimiter extends React.Component {
 
   disableRateLimitIfNecessary = () => {
     const { state, waitForProfile, id } = this.props;
-    const { rateLimitedUnauthed, rateLimitedAuthed } = this.state;
+    const { passedAuthedRateLimit, passedUnauthedRateLimit } = this.state;
 
     if ((!state.user.profile.loading || !waitForProfile) && (
-      (state.user.login.currentlyLoggedIn && !rateLimitedAuthed) ||
-      (!state.user.login.currentlyLoggedIn && !rateLimitedUnauthed)
+      (state.user.login.currentlyLoggedIn && passedAuthedRateLimit) ||
+      (!state.user.login.currentlyLoggedIn && passedUnauthedRateLimit)
     )) {
-      window.sessionStorage.setItem(`${id}_disableRateLimit`, 'true');
+      window.sessionStorage.setItem(`${id}_rateLimitDisabled`, 'true');
     }
   }
 
   render() {
-    const { state, bypassLimiter, renderLimitedContent, waitForProfile, children } = this.props;
+    const { state, bypassLimit, renderLimitedContent, waitForProfile, children } = this.props;
 
     if (waitForProfile && state.user.profile.loading) {
       return <LoadingIndicator message="Loading your profile information..."/>;
     }
 
-    const rateLimited = state.user.login.currentlyLoggedIn
-      ? this.state.rateLimitedAuthed
-      : this.state.rateLimitedUnauthed;
+    const passedRateLimit = state.user.login.currentlyLoggedIn
+      ? this.state.passedAuthedRateLimit
+      : this.state.passedUnauthedRateLimit;
 
-    if (!rateLimited || this.state.disableRateLimit || (bypassLimiter && bypassLimiter(state))) {
+    if (passedRateLimit || this.state.rateLimitDisabled || (bypassLimit && bypassLimit(state))) {
       return children;
     }
 

@@ -8,7 +8,8 @@ import { RateLimiter } from '../../../src/js/common/components/RateLimiter';
 describe('<RateLimiter>', () => {
   it('should display limited content when under threshold', () => {
     window.sessionStorage = {
-      getItem: sinon.spy()
+      getItem: sinon.spy(),
+      setItem: sinon.spy()
     };
     window.settings = {
       app: {
@@ -37,12 +38,14 @@ describe('<RateLimiter>', () => {
       </RateLimiter>
     );
 
-    expect(window.sessionStorage.getItem.firstCall.args[0]).to.eql('app_disableRateLimit');
+    expect(window.sessionStorage.getItem.firstCall.args[0]).to.eql('app_rateLimitDisabled');
+    expect(window.sessionStorage.setItem.called).to.be.false;
     expect(tree.text()).to.contain('Limited content');
   });
   it('should display loading indicator when waiting for profile', () => {
     window.sessionStorage = {
-      getItem: sinon.spy()
+      getItem: sinon.spy(),
+      setItem: sinon.spy()
     };
     window.settings = {
       app: {
@@ -73,6 +76,7 @@ describe('<RateLimiter>', () => {
     );
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(window.sessionStorage.setItem.called).to.be.false;
   });
   it('should display real content when over threshold', () => {
     window.sessionStorage = {
@@ -109,9 +113,10 @@ describe('<RateLimiter>', () => {
     expect(tree.text()).to.contain('Real content');
     expect(window.sessionStorage.setItem.called).to.be.true;
   });
-  it('should display real content when bypassLimiter returns true', () => {
+  it('should display real content when bypassLimit returns true', () => {
     window.sessionStorage = {
-      getItem: sinon.spy()
+      getItem: sinon.spy(),
+      setItem: sinon.spy()
     };
     window.settings = {
       app: {
@@ -135,7 +140,7 @@ describe('<RateLimiter>', () => {
       <RateLimiter
         id="app"
         state={state}
-        bypassLimiter={() => true}
+        bypassLimit={() => true}
         renderLimitedContent={() => <div>Limited content</div>}>
         <div>Real content</div>
       </RateLimiter>
@@ -145,7 +150,8 @@ describe('<RateLimiter>', () => {
   });
   it('should display real content when disabled through session storage', () => {
     window.sessionStorage = {
-      getItem: sinon.stub().returns('true')
+      getItem: sinon.stub().returns('true'),
+      setItem: sinon.spy()
     };
     window.settings = {
       app: {
@@ -169,12 +175,16 @@ describe('<RateLimiter>', () => {
       <RateLimiter
         id="app"
         state={state}
-        bypassLimiter={() => true}
+        bypassLimit={() => false}
         renderLimitedContent={() => <div>Limited content</div>}>
         <div>Real content</div>
       </RateLimiter>
     );
 
     expect(tree.text()).to.contain('Real content');
+  });
+  afterEach(() => {
+    delete window.sessionStorage;
+    delete window.settings;
   });
 });
