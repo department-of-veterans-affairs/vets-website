@@ -30,8 +30,10 @@ const entryFiles = {
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
   'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
+  account: './src/js/account/account-entry.jsx',
   auth: './src/js/auth/auth-entry.jsx',
   burials: './src/js/burials/burials-entry.jsx',
+  dashboard: './src/js/dashboard/dashboard-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
@@ -42,7 +44,7 @@ const entryFiles = {
   verify: './src/js/login/verify-entry.jsx',
   'chapter36-vre': './src/js/vre/chapter36/chapter36-entry.jsx',
   'vic-v2': './src/js/vic-v2/veteran-id-card-entry.jsx',
-  style: './src/sass/style.scss'
+  style: './src/sass/style.scss',
 };
 
 const configGenerator = (options) => {
