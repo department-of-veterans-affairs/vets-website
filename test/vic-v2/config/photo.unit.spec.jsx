@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import DataUri from 'datauri';
 
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
@@ -81,19 +82,19 @@ describe.only('VIC photo upload', () => {
   // it/ 
   function FileReader() { }
   FileReader.prototype.readAsDataURL = function readAsDataURL(file) {
-    setTimeout(() => {
-      this.result = file.data;
-      this.onload();
-    });
+    this.result = file.data;
+    this.onload();
   };
 
   function Image() {
-    setTimeout(() => {
-      this.onload();
-    });
+    return {
+      set onload(callback) {
+        callback();
+      }
+    };
   }
 
-  it('should display an error for an invalid file', () => {
+  it('should display an error for an invalid file', (done) => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -106,18 +107,22 @@ describe.only('VIC photo upload', () => {
     global.Image = Image;
     global.FileReader = FileReader;
 
-    form.find('#errorable-file-input-21').simulate('change', {
-      files: [
-        {
-          name: 'testfile.jpg'
-        }
-      ]
+    const dataUri = new DataUri(__dirname + '/../examplephoto.jpg');
+    form.find('input[name="screenReaderFileUpload"]').simulate('change', {
+      target: {
+        files: [
+          {
+            name: 'examplephoto.jpg',
+            data: dataUri
+          }
+        ]
+      }
     });
 
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
+    setTimeout(() => {
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      done();
+    });
   });
   // it/ should accept valid file and render the preview
   // it/ should not allow the user to edit their photo

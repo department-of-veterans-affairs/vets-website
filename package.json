@@ -204,6 +204,7 @@
   "dependencies": {
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
+    "datauri": "^1.1.0",
     "downshift": "^1.22.5",
     "eslint-plugin-import": "^2.7.0",
     "eslint-stats": "^1.0.0",

@@ -165,6 +165,7 @@ function loadImage(dataUrl) {
     img.src = dataUrl;
     img.onerror = (e) => reject(e);
     img.onload = () => {
+      console.log('image load');
       resolve(img);
     };
   });
@@ -279,20 +280,23 @@ export default class PhotoField extends React.Component {
 
     this.screenReaderPath = true;
 
+    console.log('reader start');
     const reader = new FileReader();
-    reader.readAsDataURL(file);
     reader.onload = () => {
       loadImage(reader.result)
         .then((img) => {
           if (!isSquareImage(img)) {
+            console.log('not square');
             this.props.onChange({
               errorMessage: 'The photo you uploaded is not a square photo. Please upload a new one that fits the requirements.'
             });
           } else if (!isValidImageSize(img)) {
+            console.log('not size');
             this.props.onChange({
               errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
             });
           } else {
+            console.log('else');
             this.setState({ progress: 0, warningMessage: null });
             this.props.formContext.uploadFile(
               file,
@@ -307,6 +311,7 @@ export default class PhotoField extends React.Component {
           }
         });
     };
+    reader.readAsDataURL(file);
   }
 
   onChange = (files) => {
@@ -636,6 +641,7 @@ export default class PhotoField extends React.Component {
         'photo-input-container-left': fieldView === 'error' || fieldView === 'preview',
       }
     );
+    console.log(errorMessage);
 
     return (
       <fieldset>
