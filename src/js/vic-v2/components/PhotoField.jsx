@@ -286,7 +286,6 @@ export default class PhotoField extends React.Component {
       });
     } else {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
       reader.onload = () => {
         loadImage(reader.result)
           .then((img) => {
@@ -313,6 +312,7 @@ export default class PhotoField extends React.Component {
             }
           });
       };
+      reader.readAsDataURL(file);
     }
   }
 
