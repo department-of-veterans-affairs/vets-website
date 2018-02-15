@@ -50,8 +50,8 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for a veteran id card.',
-    noAuth: 'Please sign in again to resume your application for a veteran id card.'
+    notFound: 'Please start over to apply for a Veteran ID Card.',
+    noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'
   },
   title: 'Apply for a Veteran ID Card',
   defaultDefinitions: {
@@ -74,12 +74,15 @@ const formConfig = {
               'ui:title': 'Gender',
               'ui:options': {
                 labels: genderLabels
+              },
+              'ui:errorMessages': {
+                required: 'Please select the response that most closely aligns with how you identify.'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             serviceBranch: {
               'ui:title': 'Branch of service',
-              'ui:description': 'If you have more than one branch of service, choose the one you want represented on the Veteran ID Card.',
+              'ui:description': 'If you have more than one branch of service, choose the one you want printed on your Veteran ID Card.',
               'ui:options': {
                 labels: {
                   F: 'Air Force',
@@ -226,7 +229,7 @@ const formConfig = {
                 'jpg',
               ],
               maxSize: TWENTY_FIVE_MB,
-              buttonText: 'Upload your discharge document',
+              buttonText: 'Upload Your Discharge Document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);

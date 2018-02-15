@@ -63,11 +63,11 @@ class FormStartControls extends React.Component {
             id="start-over-modal"
             onClose={this.toggleModal}
             visible={this.state.modalOpen}>
-            <h4>Starting over would delete your in progress form.</h4>
+            <h4>Starting over will delete your in-progress form.</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start over"
+              buttonText="Start Over"
               buttonClass="usa-button-primary"/>
             <ProgressButton
               onButtonClick={this.toggleModal}
