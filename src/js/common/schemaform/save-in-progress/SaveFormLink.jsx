@@ -97,7 +97,7 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || saveLinkMessage}</button>}
+          <span><button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || saveLinkMessage}</button>.</span>}
       </div>
     );
   }

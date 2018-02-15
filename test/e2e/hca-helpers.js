@@ -58,8 +58,8 @@ function completeMilitaryService(client, data) {
   client
     .selectDropdown('root_lastServiceBranch', data.lastServiceBranch)
     .fillDate('root_lastEntryDate', data.lastEntryDate)
-    .selectDropdown('root_dischargeType', data.dischargeType)
-    .fillDate('root_lastDischargeDate', data.lastDischargeDate);
+    .fillDate('root_lastDischargeDate', data.lastDischargeDate)
+    .selectDropdown('root_dischargeType', data.dischargeType);
 }
 
 function completeAdditionalInformation(client) {
