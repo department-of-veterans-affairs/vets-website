@@ -252,8 +252,6 @@ export default class PhotoField extends React.Component {
   }
 
   onDone = () => {
-    const filePath = this.props.idSchema.$id.split('_').slice(1);
-
     this.setState({ isCropping: false, progress: 0, warningMessage: null });
 
     this.refs.cropper.getCroppedCanvas().toBlob(blob => {
@@ -262,20 +260,19 @@ export default class PhotoField extends React.Component {
       file.name = this.state.fileName;
       this.props.formContext.uploadFile(
         file,
-        filePath,
+        this.props.onChange,
         this.props.uiSchema['ui:options'],
         this.updateProgress
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
-        this.props.onBlur(this.props.idSchema.$id);
+        // this.props.onBlur(this.props.idSchema.$id);
       });
     });
   }
 
   onChangeScreenReader = (files) => {
     const file = files[0];
-    const filePath = this.props.idSchema.$id.split('_').slice(1);
 
     this.screenReaderPath = true;
 
@@ -301,7 +298,7 @@ export default class PhotoField extends React.Component {
               this.setState({ progress: 0, warningMessage: null });
               this.props.formContext.uploadFile(
                 file,
-                filePath,
+                this.props.onChange,
                 this.props.uiSchema['ui:options'],
                 this.updateProgress,
               ).catch(() => {

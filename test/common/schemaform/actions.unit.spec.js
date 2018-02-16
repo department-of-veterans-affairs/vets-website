@@ -242,12 +242,13 @@ describe('Schemaform actions:', () => {
     });
 
     it('should reject if file is too big', (done) => {
+      const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
           size: 10
         },
-        ['fileField', 0],
+        onChange,
         {
           fileTypes: ['jpg'],
           maxSize: 5
@@ -263,28 +264,22 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState).then(() => {
         done('Should have failed on a file that is too big');
       }).catch(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                errorMessage: 'File is too large to be uploaded'
-              }
-            ]
-          }
+        expect(onChange.firstCall.args[0]).to.eql({
+          name: 'jpg',
+          errorMessage: 'File is too large to be uploaded'
         });
         done();
       });
     });
 
     it('should reject if file is too small', (done) => {
+      const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
           size: 1
         },
-        ['fileField', 0],
+        onChange,
         {
           minSize: 5,
           fileTypes: ['jpg'],
@@ -301,28 +296,22 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState).then(() => {
         done('Should have failed on a file that is too small');
       }).catch(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                errorMessage: 'File is too small to be uploaded'
-              }
-            ]
-          }
+        expect(onChange.firstCall.args[0]).to.eql({
+          name: 'jpg',
+          errorMessage: 'File is too small to be uploaded'
         });
         done();
       });
     });
 
     it('should reject if file is wrong type', () => {
+      const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
           size: 5
         },
-        ['fileField', 0],
+        onChange,
         {
           fileTypes: ['jpeg'],
           maxSize: 5
@@ -338,27 +327,21 @@ describe('Schemaform actions:', () => {
       return thunk(dispatch, getState).then(() => {
         throw new Error('Should have failed on non-allowed file type');
       }).catch(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                errorMessage: 'File is not one of the allowed types',
-                name: 'jpg'
-              }
-            ]
-          }
+        expect(onChange.firstCall.args[0]).to.eql({
+          errorMessage: 'File is not one of the allowed types',
+          name: 'jpg'
         });
       });
     });
 
     it('should call set data on success', () => {
+      const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
           size: 0
         },
-        ['fileField', 0],
+        onChange,
         {
           endpoint: '/v0/endpoint',
           fileTypes: ['JPG'],
@@ -375,28 +358,14 @@ describe('Schemaform actions:', () => {
       });
 
       const promise = thunk(dispatch, getState).then(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                uploading: true
-              }
-            ]
-          }
+        expect(onChange.firstCall.args[0]).to.eql({
+          name: 'jpg',
+          uploading: true
         });
-        expect(dispatch.secondCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'Test name',
-                size: 1234,
-                confirmationCode: 'Test code'
-              }
-            ]
-          }
+        expect(onChange.secondCall.args[0]).to.eql({
+          name: 'Test name',
+          size: 1234,
+          confirmationCode: 'Test code'
         });
       });
 
@@ -414,12 +383,13 @@ describe('Schemaform actions:', () => {
     });
 
     it('should set error on failure', () => {
+      const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
           size: 0
         },
-        ['fileField', 0],
+        onChange,
         {
           fileTypes: ['jpg'],
           maxSize: 5,
@@ -435,27 +405,13 @@ describe('Schemaform actions:', () => {
       });
 
       const promise = thunk(dispatch, getState).catch(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                uploading: true
-              }
-            ]
-          }
+        expect(onChange.firstCall.args[0]).to.eql({
+          name: 'jpg',
+          uploading: true
         });
-        expect(dispatch.secondCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                errorMessage: 'Bad Request'
-              }
-            ]
-          }
+        expect(onChange.secondCall.args[0]).to.eql({
+          name: 'jpg',
+          errorMessage: 'Bad Request'
         });
       });
 
@@ -464,12 +420,13 @@ describe('Schemaform actions:', () => {
       return promise;
     });
     it('should set error on network issue', () => {
+      const onChange = sinon.spy();
       const thunk = uploadFile(
         {
           name: 'jpg',
           size: 0
         },
-        ['fileField', 0],
+        onChange,
         {
           fileTypes: ['jpg'],
           maxSize: 5,
@@ -485,27 +442,13 @@ describe('Schemaform actions:', () => {
       });
 
       const promise = thunk(dispatch, getState).catch(() => {
-        expect(dispatch.firstCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                uploading: true
-              }
-            ]
-          }
+        expect(onChange.firstCall.args[0]).to.eql({
+          name: 'jpg',
+          uploading: true
         });
-        expect(dispatch.secondCall.args[0]).to.eql({
-          type: SET_DATA,
-          data: {
-            fileField: [
-              {
-                name: 'jpg',
-                errorMessage: 'Network request failed'
-              }
-            ]
-          }
+        expect(onChange.secondCall.args[0]).to.eql({
+          name: 'jpg',
+          errorMessage: 'Network request failed'
         });
       });
 
