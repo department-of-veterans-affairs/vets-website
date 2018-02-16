@@ -9,6 +9,13 @@ legend {
   padding: 0 0 .5em 0;
 }
 
+// Override IE
+fieldset {
+  display: inline-block;
+  width: 100%;
+  max-width: 750px;
+}
+
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;

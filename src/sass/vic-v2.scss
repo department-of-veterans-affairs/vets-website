@@ -14,7 +14,8 @@
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
-  padding: unset;
+  height: 30px; // necessary to allow IE thumb to be taller than track
+  padding: 0;
   margin: 7.3px 0;
   &:focus {
     outline: none;
@@ -24,7 +25,6 @@ input[type=range] {
     height: 11.4px;
     cursor: pointer;
     background: $color-gray-medium;
-    border: 0.2px solid $color-gray-medium;
   }
   &::-webkit-slider-thumb {
     border: 1.2px solid $color-gray-medium;
@@ -43,18 +43,14 @@ input[type=range] {
     width: 100%;
     height: 11.4px;
     cursor: pointer;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: rgba(48, 113, 169, 0.78);
-    border-radius: 1.3px;
-    border: 0.2px solid #010101;
+    background: $color-gray-medium;
   }
   &::-moz-range-thumb {
-    box-shadow: 0.9px 0.9px 1px #000031, 0px 0px 0.9px #00004b;
-    border: 1.8px solid #00001e;
-    height: 26px;
-    width: 26px;
-    border-radius: 15px;
-    background: #ffffff;
+    border: 1.2px solid $color-gray-medium;
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    background: $color-primary-darker;
     cursor: pointer;
   }
   &::-ms-track {
@@ -66,33 +62,27 @@ input[type=range] {
     color: transparent;
   }
   &::-ms-fill-lower {
-    background: rgba(42, 100, 149, 0.78);
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: $color-gray-medium;
+    border-radius: 0;
   }
   &::-ms-fill-upper {
-    background: rgba(48, 113, 169, 0.78);
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: $color-gray-medium;
+    border-radius: 0;
   }
   &::-ms-thumb {
-    box-shadow: 0.9px 0.9px 1px #000031, 0px 0px 0.9px #00004b;
-    border: 1.8px solid #00001e;
-    height: 26px;
-    width: 26px;
-    border-radius: 15px;
-    background: #ffffff;
+    border: 1.2px solid $color-gray-medium;
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    background: $color-primary-darker;
     cursor: pointer;
-    height: 11.4px;
   }
   &:focus {
     &::-ms-fill-lower {
-      background: rgba(48, 113, 169, 0.78);
+      background: $color-gray-medium;
     }
     &::-ms-fill-upper {
-      background: rgba(54, 126, 189, 0.78);
+      background: $color-gray-medium;
     }
   }
 }
@@ -109,6 +99,11 @@ input[type=range] {
   font-size: 1.07em !important;
 }
 
+.id-card-preview {
+  width: 500px;
+  height: 350px;
+}
+
 .progress-bar-container {
   margin: 0 auto;
   text-align: center;
@@ -119,11 +114,11 @@ input[type=range] {
 }
 
 .progress-box.progress-box-schemaform {
-  padding: unset;
+  padding: auto;
 }
 
 .form-panel {
-  max-width: unset;
+  max-width: auto;
 }
 
 .cropper-container-outer {
@@ -243,7 +238,7 @@ input[type=range] {
 }
 
 .cropper-control.cropper-control-zoom {
-  width: unset !important;
+  width: auto !important;
   padding: 0 10px !important;
   @media (min-width: $large-screen) {
     padding: 0px !important;
@@ -402,6 +397,11 @@ input[type=range] {
   }
 }
 
+.photo-preview-link {
+  margin-right: 10px;
+  font-weight: $font-normal;
+}
+
 .photo-edit-button {
   max-width: 150px;
 }
@@ -442,13 +442,14 @@ input[type=range] {
   outline: none;
 }
 
-.photo-preview-link {
-  margin-right: 10px;
-}
 /* USWDS overrides */
 .usa-accordion, .usa-accordion-bordered {
   > ul {
     button.cropper-control, button.photo-edit-button {
+      font-weight: $font-normal;
+    }
+    .photo-preview-link {
+      margin-right: 10px;
       font-weight: $font-normal;
     }
   }
@@ -463,4 +464,12 @@ input[type=range] {
     width: 100%;
     text-align: center;
   }
+}
+
+.usa-button {
+  width: auto;
+}
+
+.vic-layover {
+  margin-bottom: 2em;
 }

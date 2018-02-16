@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
+import environment from '../../common/helpers/environment';
 
 import { focusElement } from '../../common/utils/helpers';
 
@@ -15,6 +16,10 @@ const scrollToTop = () => {
     smooth: true,
   });
 };
+
+function getImageUrl({ serverPath, serverName } = {}) {
+  return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+}
 
 class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -36,20 +41,40 @@ class ConfirmationPage extends React.Component {
     const { form, userSignedIn } = this.props;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
+    const {
+      first: firstName = '',
+      middle: middleName = '',
+      last: lastName = '',
+      suffix = ''
+    } = form.data.veteranFullName;
+
+    const { serviceBranch, verified } = form.data;
+
+    const photoUrl = getImageUrl(form.data.photo);
+
     const response = form.submission.response || {};
-    const { veteranFullName, verified } = form.data;
     const submittedAt = moment();
+
+    const veteranFullNameStr =
+      `${firstName.toUpperCase()} ${middleName.toUpperCase()} ${lastName.toUpperCase()} ${suffix.toUpperCase()}` // upper case name
+        .replace(/ +(?= )/g, ''); // remove extra spaces from absent name parts
 
     return (
       <div>
-        <p>We’ve received your application. Thank you for applying for a Veteran ID Card.<br/>
+        <p><strong>We’ve received your application.</strong> Thank you for applying for a Veteran ID Card.<br/>
           We process applications and print cards in the order we receive them.</p>
 
         <h2 className="schemaform-confirmation-section-header">What happens after I apply?</h2>
         {verified && userSignedIn && <div>
           <p>We’ll send you emails updating you on the status of your application. You can also print this page for your records. You should receive your Veteran ID Card by mail in about 60 days.<br/>
             In the meantime, you can print a temporary digital Veteran ID Card.</p>
-          <VeteranIDCard/>
+          <div className="id-card-preview">
+            <VeteranIDCard
+              veteranFullName={veteranFullNameStr}
+              veteranBranchCode={serviceBranch}
+              caseId={response.caseId}
+              veteranPhotoUrl={photoUrl}/>
+          </div>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}
         {(!verified || !userSignedIn) && <div>
@@ -66,7 +91,7 @@ class ConfirmationPage extends React.Component {
         </div>}
         <div className="inset">
           <h3 className="schemaform-confirmation-claim-header">Veteran ID Card claim</h3>
-          <span>for {veteranFullName.first} {veteranFullName.middle} {veteranFullName.last} {veteranFullName.suffix}</span>
+          <span>for {firstName} {middleName} {lastName} {suffix}</span>
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>

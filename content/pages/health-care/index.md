@@ -11,13 +11,16 @@ widgets:
     errorMessage: <strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes.
 majorlinks:
   - heading: Apply for Health Care Benefits
-    links:
+    links:    
     - url: /health-care/eligibility/
       title: Eligibility
       description: Find out if you can get VA health care benefits.
     - url: /health-care/apply/
       title: Application Process
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
+    - url: /health-care/family-caregiver-health-benefits/
+      title: Family and Caregiver Health Benefits
+      description: If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history. 
   - heading: Manage Your Health
     links:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
@@ -40,9 +43,15 @@ majorlinks:
     - url: /health-care/about-va-health-care/
       title: About VA Health Care Coverage
       description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
-    - url: /health-care/health-conditions/
-      title: Health Needs and Conditions 
+    - url: /health-care/health-conditions
+      title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
+    - url: /health-care/health-conditions/conditions-related-to-service-era/
+      title: Conditions Related to When and Where You Served
+      description: Find out which service-connected health concerns you should be aware of, based on when and where you served.
+    - url: /health-care/affordable-care-act/
+      title: Affordable Care Act (ACA)
+      description: Find out what you need to know about the ACA and your health coverage.
 ---
 
 <div class="va-introtext">
