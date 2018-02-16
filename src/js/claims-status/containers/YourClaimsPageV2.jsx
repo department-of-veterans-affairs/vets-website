@@ -87,7 +87,7 @@ class YourClaimsPageV2 extends React.Component {
       canAccessAppeals,
       canAccessClaims,
       claimsAvailable,
-      claimsAuthorized
+      // claimsAuthorized
     } = this.props;
 
     if (claimsLoading || appealsLoading) {
@@ -101,12 +101,17 @@ class YourClaimsPageV2 extends React.Component {
       }
     }
 
-    if (canAccessClaims) {
-      if (claimsAvailable !== claimsAvailability.AVAILABLE) {
-        return <ClaimsUnavailable/>;
-      } else if (!claimsAuthorized) {
-        return <ClaimsUnauthorized/>;
-      }
+    // TO-DO: Figure out if this is still something we want
+    // if (canAccessClaims) {
+    //   if (claimsAvailable !== claimsAvailability.AVAILABLE) {
+    //     return <ClaimsUnavailable/>;
+    //   } else if (!claimsAuthorized) {
+    //     return <ClaimsUnauthorized/>;
+    //   }
+    // }
+
+    if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
+      return <ClaimsUnavailable/>;
     }
 
     if (canAccessAppeals && appealsAvailable !== appealsAvailability.AVAILABLE) {
