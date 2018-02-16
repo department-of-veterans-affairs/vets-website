@@ -138,7 +138,6 @@ export function getAppealsV2() {
 export function fetchClaimsSuccess(response) {
   const claims = response.data;
   const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
-  console.log(pages);
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims,

@@ -90,7 +90,7 @@ class YourClaimsPageV2 extends React.Component {
       claimsAuthorized
     } = this.props;
 
-    if (claimsLoading && appealsLoading) {
+    if (claimsLoading || appealsLoading) {
       return null;
     }
 
@@ -193,23 +193,25 @@ class YourClaimsPageV2 extends React.Component {
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claimsRoot = claimsState.claims;
+  const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
-  const sortedList = claimsRoot.appeals
-    .concat(claimsState.claimsV2.claims)
+  // TO-DO: Implement with reselect to save cycles
+  const sortedList = claimsV2Root.appeals
+    .concat(claimsV2Root.claims)
     .sort(sortByLastUpdated);
-  const list = getVisibleRows(sortedList, claimsState.claimsV2.page);
+  const list = getVisibleRows(sortedList, claimsV2Root.page);
 
   return {
-    appealsAvailable: claimsState.appeals.v2Availability,
+    appealsAvailable: claimsV2Root.appealsAvailability,
+    claimsAvailable: claimsV2Root.claimsAvailability,
     claimsAuthorized: claimsState.claimSync.authorized,
-    claimsAvailable: claimsState.claimsV2.claimsAvailability,
-    claimsLoading: claimsState.claimsV2.claimsLoading,
-    appealsLoading: claimsState.appeals.appealsLoading,
+    claimsLoading: claimsV2Root.claimsLoading,
+    appealsLoading: claimsV2Root.appealsLoading,
     list,
-    page: claimsState.claimsV2.page,
-    pages: claimsState.claimsV2.pages,
+    page: claimsV2Root.page,
+    pages: claimsV2Root.pages,
     sortProperty: claimsRoot.sortProperty,
     consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
