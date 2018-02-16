@@ -5,6 +5,39 @@ import { updateVerifyUrl } from '../../login/actions';
 import { removeSavedForm } from '../actions';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import Accordion, { AccordionTab } from '../../common/components/Accordion';
+
+class ProfileAccordion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { activeAccordionId: 'veteran-information' };
+  }
+  onAccordionTabClick = (accordionId) => {
+    const activeAccordionId = this.state.activeAccordionId === accordionId ? '' : accordionId;
+    this.setState({ activeAccordionId });
+  }
+  render() {
+    return (
+      <Accordion>
+        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="veteran-information" title="Veteran Information">
+          <h3>Veteran Information</h3>
+        </AccordionTab>
+        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="military-service" title="Military Service">
+          <h3>Military Service</h3>
+        </AccordionTab>
+        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="va-benefits" title="VA Benefits">
+          <h3>VA Benefits</h3>
+        </AccordionTab>
+        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="household-information" title="Household Information">
+          <h3>Household Information</h3>
+        </AccordionTab>
+        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="insurance-information" title="Insurance Information">
+          <h3>Insurance Information</h3>
+        </AccordionTab>
+      </Accordion>
+    );
+  }
+}
 
 class UserProfileApp extends React.Component {
   constructor() {
@@ -20,41 +53,6 @@ class UserProfileApp extends React.Component {
     }
   }
 
-  accordionSection(accordionId, title, content) {
-    return (
-      <li>
-        <div className="accordion-header">
-          <button className="usa-accordion-button usa-button-unstyled"
-            onClick={() => {
-              const activeAccordionId = this.state.activeAccordionId === accordionId ? '' : accordionId;
-              this.setState({ activeAccordionId });
-            }}
-            aria-expanded={this.state.activeAccordionId === accordionId}
-            aria-controls={accordionId}>
-            {title}
-          </button>
-        </div>
-        <div className="usa-accordion-content"
-          id={accordionId}
-          aria-hidden={this.state.activeAccordionId !== accordionId}>
-          {content}
-        </div>
-      </li>
-    );
-  }
-
-  renderAccordion() {
-    return (
-      <ul className="usa-accordion usa-accordion-bordered form-review-panel">
-        { this.accordionSection('veteranInformation', 'Veteran Information', 'My veteran information') }
-        { this.accordionSection('militaryService', 'Military Service', 'My military service') }
-        { this.accordionSection('vaBenefits', 'VA Benefits', 'My va benefits') }
-        { this.accordionSection('householdInformation', 'Household Information', 'My household information') }
-        { this.accordionSection('insuranceInformation', 'Insurance Information', 'My insurance information') }
-      </ul>
-    );
-  }
-
   render() {
     return (
       <div>
@@ -68,9 +66,7 @@ class UserProfileApp extends React.Component {
             <div className="row user-profile-row">
               <div className="usa-width-two-thirds medium-8 small-12 columns">
                 <h1>Your Profile</h1>
-                <div>
-                  {this.renderAccordion()}
-                </div>
+                <ProfileAccordion/>
               </div>
             </div>
           </DowntimeNotification>
