@@ -57,6 +57,7 @@ export const ISSUE_STATUS = {
 // Note: excludes FETCH_APPEALS_SUCCESS because there are defined in actions
 // and used in v1 as well
 export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
 export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
 export const VALIDATION_ERROR = 'VALIDATION_ERROR';
