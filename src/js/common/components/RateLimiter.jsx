@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from './LoadingIndicator';
 
@@ -64,6 +65,13 @@ export class RateLimiter extends React.Component {
     return renderLimitedContent(state);
   }
 }
+
+RateLimiter.propTypes = {
+  id: PropTypes.string.isRequired,
+  bypassLimit: PropTypes.func,
+  waitForProfile: PropTypes.bool,
+  state: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   return { state };
