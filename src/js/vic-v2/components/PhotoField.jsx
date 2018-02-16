@@ -15,6 +15,7 @@ const SMALL_CROP_BOX_SIZE = 240;
 const LARGE_CROP_BOX_SIZE = 300;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
+const MAX_CROPPED_HEIGHT_WIDTH = 600;
 
 function getCanvasDataForDefaultPosition({ canvasData, cropBoxData, containerWidth }) {
   // use the cropbox dimensions to force canvas into default position
@@ -254,7 +255,11 @@ export default class PhotoField extends React.Component {
   onDone = () => {
     this.setState({ isCropping: false, progress: 0, warningMessage: null });
 
-    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
+    const croppedCanvasOptions = this.refs.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
+      { width: MAX_CROPPED_HEIGHT_WIDTH, height: MAX_CROPPED_HEIGHT_WIDTH } :
+      {};
+
+    this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
       file.name = this.state.fileName;
