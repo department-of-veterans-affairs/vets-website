@@ -7,6 +7,7 @@ import Scroll from 'react-scroll';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
+import { focusElement } from '../../common/utils/helpers';
 import { questionLabels, prevApplicationYearCutoff, answerReview } from '../config';
 import { shouldShowQuestion } from '../utils';
 
@@ -16,8 +17,8 @@ const scroller = Scroll.scroller;
 class FormQuestions extends React.Component {
   componentDidMount() {
     Scroll.animateScroll.scrollToTop();
-    const focusElement = document.getElementById('dw-home-link');
-    if (focusElement) { focusElement.focus(); }
+    const el = document.getElementById('dw-home-link');
+    focusElement(el);
   }
 
   updateField(name, value) {
