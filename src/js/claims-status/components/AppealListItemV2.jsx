@@ -14,6 +14,21 @@ const renderNextAction = (lastEvent, previousHistory) => {
   return nextAction && nextAction.title;
 };
 
+// TODO: Get a proper mapping of programArea -> display output
+const appealTypeMap = {
+  compensation: 'Compensation',
+  pension: 'Pension',
+  insurance: 'Insurance',
+  loan_guaranty: 'Loan Guaranty', // eslint-disable-line
+  education: 'Education',
+  vre: 'VRE',
+  medical: 'Medical',
+  burial: 'Burial',
+  bva: 'BVA',
+  other: 'Other',
+  multiple: 'Multiple',
+};
+
 
 export default function AppealListItem({ appeal }) {
   // always show merged event on top
@@ -22,11 +37,10 @@ export default function AppealListItem({ appeal }) {
   const firstEvent = events[events.length - 1];
   const previousHistory = events.slice(1);
 
-  // TODO: Map the programArea to what should be output
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        Appeal of <span style={{ textTransform: 'capitalize' }}>{appeal.attributes.programArea}</span>
+        Appeal of {appealTypeMap[appeal.attributes.programArea]}
         <br/>
         Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
         {/* <strong>Last changed: </strong> {moment(lastEvent.date).format('MMMM D, YYYY')} */}
