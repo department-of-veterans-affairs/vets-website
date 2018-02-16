@@ -6,17 +6,11 @@ import sinon from 'sinon';
 import { YourClaimsPageV2 } from '../../../src/js/claims-status/containers/YourClaimsPageV2';
 
 describe('<YourClaimsPageV2>', () => {
-  const defaultProps = {
-    claimsLoading: true,
-    appealsLoading: true,
-    list: [],
-  };
-
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPageV2 {...defaultProps}/>
+      <YourClaimsPageV2/>
     );
-    expect(tree.length).to.equal(1);
+    expect(tree.type).to.equal('div');
   });
   // it('should render sort select ', () => {
   //   const claims = [];
