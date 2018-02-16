@@ -1158,3 +1158,39 @@ export const getStatus = (response) => {
     ? response.errors[0].status
     : 'unknown';
 };
+
+const getAppealDate = (appeal) => {
+  const { events } = appeal.attributes;
+  const dateString = (events && events.length)
+    ? events[events.length - 1].date
+    : '0';
+  return dateString;
+};
+
+const getClaimDate = (claim) => {
+  const { phaseChangeDate } = claim.attributes;
+  const dateString = phaseChangeDate || '0';
+  return dateString;
+};
+
+const getDate = (item) => {
+  if (!item.attributes) {
+    return '0';
+  }
+
+  return (item.type === APPEAL_V2_TYPE)
+    ? getAppealDate(item)
+    : getClaimDate(item);
+};
+
+export function sortByLastUpdated(item1, item2) {
+  const lastUpdatedDate1 = getDate(item1);
+  const lastUpdatedDate2 = getDate(item2);
+
+  if (moment(lastUpdatedDate1).isAfter(lastUpdatedDate2)) {
+    return -1;
+  } else if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
+    return 1;
+  }
+  return 0;
+}

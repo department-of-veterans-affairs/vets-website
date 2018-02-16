@@ -13,7 +13,8 @@ import {
 import {
   APPEAL_V2_TYPE,
   claimsAvailability,
-  appealsAvailability
+  appealsAvailability,
+  sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
@@ -195,14 +196,17 @@ function mapStateToProps(state) {
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
-  console.log(claimsState);
+  const list = claimsRoot.appeals
+    .concat(claimsState.claimsV2.claims)
+    .sort(sortByLastUpdated);
+
   return {
     appealsAvailable: claimsState.appeals.v2Availability,
     claimsAuthorized: claimsState.claimSync.authorized,
     claimsAvailable: claimsState.claimsV2.claimsAvailability,
     claimsLoading: claimsState.claimsV2.claimsLoading,
     appealsLoading: claimsState.appeals.appealsLoading,
-    list: claimsRoot.appeals.concat(claimsState.claimsV2.claims),
+    list,
     page: claimsRoot.page,
     pages: claimsRoot.pages,
     sortProperty: claimsRoot.sortProperty,
@@ -226,87 +230,3 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
 
 export { YourClaimsPageV2 };
-
-// class YourClaimsPageV2 extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.changePage = this.changePage.bind(this);
-//   }
-
-//   componentDidMount() {
-//     document.title = 'Track Claims: Vets.gov';
-//     if (this.props.canAccessClaims) {
-//       this.props.getClaimsV2();
-//     }
-
-//     if (this.props.canAccessAppeals) {
-//       this.props.getAppealsV2();
-//     }
-
-//     if (this.props.claimsLoading && this.props.appealsLoading) {
-//       scrollToTop();
-//     } else {
-//       setUpPage();
-//     }
-//   }
-
-//   renderErrorMessages() {
-//     const {
-//       claimsLoading,
-//       appealsLoading,
-//       appealsAvailable,
-//       canAccessAppeals,
-//       canAccessClaims,claimsAvailable, claimsAuthorized } = this.props;
-
-//     if (claimsLoading && appealsLoading) {
-//       return null;
-//     }
-
-//     if (canAccessAppeals && canAccessClaims) {
-//       if (!claimsAvailable && !appealsAvailable) {
-//         return <ClaimsAppealsUnavailable/>;
-//       }
-//     }
-
-//     if (canAccessClaims && !claimsAvailable) {
-//         return <ClaimsUnavailable/>;
-//       } else if (!canAccessClaims) {
-//         return <ClaimsUnauthorized/>;
-//       }
-//     }
-
-//     if (canAccessAppeals && !appealsAvailable) {
-//       return <AppealsUnavailable/>;
-//     }
-
-//     return null;
-//   }
-
-//   render() {
-//     // if claims or appeals loading, display loading spinner
-//     return null;
-//   }
-// }
-
-// function mapStateToProps(state) {
-//   const claimsState = state.disability.status;
-//   const profileState = state.user.profile;
-//   const canAccessAppeals = profileState.services.includes('appeals-status');
-//   const canAccessClaims = profileState.services.includes('evss-claims');
-//   return {
-//     appealsAvailable: claimsState.appeals.v2Availability,
-//     claimsAvailable: claimsState.claimsV2.availability,
-//     appealsLoading: claimsState.appeals.appealsLoading,
-//     appeals: claimsState.claims.appeals,
-//     claims: claimsState.claims.claims,
-//     canAccessAppeals,
-//     canAccessClaims
-//   };
-// }
-
-// const mapDispatchToProps = {
-//   getAppealsV2,
-//   getClaimsV2
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
