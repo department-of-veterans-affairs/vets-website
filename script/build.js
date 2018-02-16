@@ -98,6 +98,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
   ignoreList.push('veteran-id-card/apply.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
+  ignoreList.push('veteran-id-card/how-to-upload-photo.md');
 }
 smith.use(ignore(ignoreList));
 
