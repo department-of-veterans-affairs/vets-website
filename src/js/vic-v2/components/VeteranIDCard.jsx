@@ -4,12 +4,14 @@ import { branchCodeLabels } from '../labels';
 const FONT_FAMILY = 'Arial, Helvetica, sans-serif';
 // sets the aspect ratio of svg
 const VIEW_BOX = '0 0 2048 1284';
-// height of font top to bottom bounding box in the above viewbox
+// height of font top to bottom bounding box in the viewbox
 const X_LARGE_FONT_SIZE = 90;
 const LARGE_FONT_SIZE = 80;
 const SMALL_FONT_SIZE = 60;
 const X_SMALL_FONT_SIZE = 55;
 
+// this is a canvas size (not a viewbox size)
+const MAX_NAME_WIDTH = 120;
 
 const imagePaths = {
   A: '/img/vic-army-symbol.png',
@@ -28,7 +30,7 @@ function isLongName(name) {
       .getContext('2d')
       .measureText(name)
     // manually determined max width
-      .width > 120;
+      .width > MAX_NAME_WIDTH;
   } catch (e) {
     return true;
   }
