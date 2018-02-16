@@ -36,7 +36,6 @@ class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    console.log(props);
   }
 
   componentDidMount() {
@@ -132,7 +131,6 @@ class YourClaimsPageV2 extends React.Component {
     const bothRequestsLoading = claimsLoading && appealsLoading;
     const atLeastOneRequestLoading = claimsLoading || appealsLoading;
     const emptyList = !list || !list.length;
-
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = <LoadingIndicator message="Loading your claims and appeals..." setFocus/>;
     } else {
@@ -198,13 +196,12 @@ function mapStateToProps(state) {
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
-
   return {
     appealsAvailable: claimsState.appeals.v2Availability,
     claimsAuthorized: claimsState.claimSync.authorized,
     claimsAvailable: claimsState.claimsV2.claimsAvailability,
-    claimsLoading: claimsRoot.claimsLoading,
-    appealsLoading: claimsRoot.appealsLoading,
+    claimsLoading: claimsState.claimsV2.claimsLoading,
+    appealsLoading: claimsState.appeals.appealsLoading,
     list: claimsRoot.appeals.concat(claimsState.claimsV2.claims),
     page: claimsRoot.page,
     pages: claimsRoot.pages,

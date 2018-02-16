@@ -4,11 +4,11 @@ import _ from 'lodash/fp';
 import {
   SET_APPEALS,
   SET_APPEALS_UNAVAILABLE,
-  FETCH_APPEALS_PENDING,
   FETCH_APPEALS_SUCCESS,
 } from '../actions/index.jsx';
 
 import {
+  FETCH_APPEALS_PENDING,
   USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
