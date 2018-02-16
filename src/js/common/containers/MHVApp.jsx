@@ -83,7 +83,6 @@ export class MHVApp extends React.Component {
       );
     }
 
-
     if (this.needsTermsAcceptance()) {
       return <AcceptTermsPrompt terms={terms} cancelPath="/health-care/" onAccept={this.props.acceptTerms}/>;
     }

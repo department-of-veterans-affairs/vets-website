@@ -4,7 +4,6 @@ layout: page-react.html
 entryname: rx
 collection: healthCare
 order: 6
-includeBreadcrumbs: true
 ---
 
 <div id="main">
