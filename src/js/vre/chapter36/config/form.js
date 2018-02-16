@@ -5,6 +5,8 @@ import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 import {
   genderLabels
 } from '../../../common/utils/labels.jsx';
+
+import { dischargeTypeLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -58,7 +60,10 @@ const serviceHistoryUI = {
       'End of service must be after start of service'
     ),
     dischargeType: {
-      'ui:title': 'Character of discharge'
+      'ui:title': 'Character of discharge',
+      'ui:options': {
+        labels: dischargeTypeLabels
+      }
     }
   }
 };
@@ -254,22 +259,22 @@ const formConfig = {
           path: 'military-history',
           title: 'Military History',
           uiSchema: {
-            applicantServiceHistory: serviceHistoryUI
+            veteranServiceHistory: serviceHistoryUI
           },
           schema: {
             type: 'object',
             properties: {
-              applicantServiceHistory
+              veteranServiceHistory: applicantServiceHistory
             }
           }
         },
         militaryHistory: {
-          depends: (formData) => !!formData['view:isVeteran'],
+          depends: (formData) => !formData['view:isVeteran'],
           path: 'military-history-applicant',
           title: 'Military History',
           uiSchema: {
             'view:hasMilitaryHistory': {
-              'ui:title': 'Have you served on ative duty in the Armed Forces? (This can include active duty for training for 3 months or more, or subsequent periods of active duty for training of 6 months or more.)',
+              'ui:title': 'Have you served on active duty in the Armed Forces? (This can include active duty for training for 3 months or more, or subsequent periods of active duty for training of 6 months or more.)',
               'ui:widget': 'yesNo'
             },
             applicantServiceHistory: _.merge(serviceHistoryUI, {
