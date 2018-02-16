@@ -13,7 +13,9 @@ import {
   FETCH_APPEALS_PENDING,
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
-  FETCH_CLAIMS_ERROR
+  FETCH_CLAIMS_ERROR,
+  ROWS_PER_PAGE,
+  CHANGE_INDEX_PAGE
 } from '../utils/appeals-v2-helpers';
 
 // -------------------- v2 and v1 -------------
@@ -134,9 +136,13 @@ export function getAppealsV2() {
 }
 
 export function fetchClaimsSuccess(response) {
+  const claims = response.data;
+  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
+  console.log(pages);
   return {
     type: FETCH_CLAIMS_SUCCESS,
-    claims: response.data
+    claims,
+    pages
   };
 }
 
@@ -169,6 +175,13 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
+    page
+  };
+}
+
+export function changePageV2(page) {
+  return {
+    type: CHANGE_INDEX_PAGE,
     page
   };
 }

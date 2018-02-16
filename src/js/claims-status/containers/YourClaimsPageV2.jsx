@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
 import {
-  changePage,
+  changePageV2,
   getAppealsV2,
   getClaimsV2,
   hide30DayNotice,
@@ -15,6 +15,7 @@ import {
   claimsAvailability,
   appealsAvailability,
   sortByLastUpdated,
+  getVisibleRows,
 } from '../utils/appeals-v2-helpers';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
@@ -55,10 +56,9 @@ class YourClaimsPageV2 extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    // TO-DO: filter for changes in list and re-sort if necessary
-    // an initial sort needs to happen in componentDidMount
-  }
+  // componentWillReceiveProps(newProps) {
+  // an initial sort needs to happen in componentDidMount
+  // }
 
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
@@ -67,7 +67,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   changePage(page) {
-    this.props.changePage(page);
+    this.props.changePageV2(page);
     scrollToTop();
   }
 
@@ -196,9 +196,10 @@ function mapStateToProps(state) {
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
-  const list = claimsRoot.appeals
+  const sortedList = claimsRoot.appeals
     .concat(claimsState.claimsV2.claims)
     .sort(sortByLastUpdated);
+  const list = getVisibleRows(sortedList, claimsState.claimsV2.page);
 
   return {
     appealsAvailable: claimsState.appeals.v2Availability,
@@ -207,8 +208,8 @@ function mapStateToProps(state) {
     claimsLoading: claimsState.claimsV2.claimsLoading,
     appealsLoading: claimsState.appeals.appealsLoading,
     list,
-    page: claimsRoot.page,
-    pages: claimsRoot.pages,
+    page: claimsState.claimsV2.page,
+    pages: claimsState.claimsV2.pages,
     sortProperty: claimsRoot.sortProperty,
     consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
@@ -221,7 +222,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getAppealsV2,
   getClaimsV2,
-  changePage,
+  changePageV2,
   sortClaims,
   showConsolidatedMessage,
   hide30DayNotice

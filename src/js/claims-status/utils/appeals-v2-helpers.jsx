@@ -3,6 +3,9 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 
+// This literally determines how many rows are displayed per page on the v2 index page
+export const ROWS_PER_PAGE = 10;
+
 export const APPEAL_TYPES = {
   original: 'original',
   postRemand: 'post_remand',
@@ -63,6 +66,7 @@ export const AVAILABLE = 'AVAILABLE';
 export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
 export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
 export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
+export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
 
 export const claimsAvailability = {
   AVAILABLE: 'AVAILABLE',
@@ -1159,6 +1163,12 @@ export const getStatus = (response) => {
     : 'unknown';
 };
 
+// Series of utility functions to sort claims and appeals by last updated date
+/**
+ * 
+ * @param {Object} appeal
+ * @returns {string}
+ */
 const getAppealDate = (appeal) => {
   const { events } = appeal.attributes;
   const dateString = (events && events.length)
@@ -1167,12 +1177,22 @@ const getAppealDate = (appeal) => {
   return dateString;
 };
 
+/**
+ * 
+ * @param {Object} claim
+ * @returns {string}
+ */
 const getClaimDate = (claim) => {
   const { phaseChangeDate } = claim.attributes;
   const dateString = phaseChangeDate || '0';
   return dateString;
 };
 
+/**
+ * 
+ * @param {Object} item
+ * @returns {string}
+ */
 const getDate = (item) => {
   if (!item.attributes) {
     return '0';
@@ -1183,6 +1203,12 @@ const getDate = (item) => {
     : getClaimDate(item);
 };
 
+/**
+ * 
+ * @param {Object} item1
+ * @param {Object} item2
+ * @returns {-1|1|0}
+ */
 export function sortByLastUpdated(item1, item2) {
   const lastUpdatedDate1 = getDate(item1);
   const lastUpdatedDate2 = getDate(item2);
@@ -1193,4 +1219,12 @@ export function sortByLastUpdated(item1, item2) {
     return 1;
   }
   return 0;
+}
+
+export function getVisibleRows(list, currentPage) {
+  const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  if (!list.length) {
+    return list;
+  }
+  return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }
