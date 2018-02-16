@@ -38,7 +38,7 @@ export default function AppealListItem({ appeal }) {
       <div className="communications">
         {renderNextAction(lastEvent, previousHistory)}
       </div>
-      <Link className="usa-button usa-button-primary" to={`appeals/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
+      <Link className="usa-button usa-button-primary" to={`appeals-v2/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
     </div>
   );
 }
