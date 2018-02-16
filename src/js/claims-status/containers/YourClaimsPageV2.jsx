@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Modal from '../../common/components/Modal';
 import {
   changePage,
-  // filterClaims,
   getAppealsV2,
   getClaimsV2,
   hide30DayNotice,
@@ -196,6 +195,7 @@ function mapStateToProps(state) {
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
+  console.log(claimsState);
   return {
     appealsAvailable: claimsState.appeals.v2Availability,
     claimsAuthorized: claimsState.claimSync.authorized,

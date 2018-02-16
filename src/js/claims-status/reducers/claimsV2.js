@@ -19,7 +19,7 @@ export default function claimsV2Reducer(state = initialState, action) {
       return _.set('claimsLoading', true, state);
     case FETCH_CLAIMS_SUCCESS:
       return _.merge(state, {
-        claimsV2: action.claims,
+        claims: action.claims,
         claimsLoading: false,
         claimsAvailability: claimsAvailability.AVAILABLE
       });
