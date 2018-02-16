@@ -3,7 +3,15 @@ import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
   FETCH_CLAIMS_ERROR,
+  FETCH_APPEALS_SUCCESS,
+  FETCH_APPEALS_PENDING,
+  FETCH_APPEALS_ERROR,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
   claimsAvailability,
+  appealsAvailability,
   CHANGE_INDEX_PAGE
 } from '../utils/appeals-v2-helpers';
 
@@ -11,7 +19,9 @@ import {
 
 const initialState = {
   claims: [],
+  appeals: [],
   claimsLoading: false,
+  appealsLoading: false,
   page: 1,
   pages: 1
 };
@@ -33,6 +43,41 @@ export default function claimsV2Reducer(state = initialState, action) {
         claimsLoading: false,
         claimsAvailability: claimsAvailability.UNAVAILABLE
       });
+    case FETCH_APPEALS_PENDING:
+      return _.set('appealsLoading', true, state);
+    case FETCH_APPEALS_SUCCESS:
+      return _.merge(state, {
+        appeals: action.appeals,
+        appealsLoading: false,
+        available: true,
+        appealsAvailability: appealsAvailability.AVAILABLE
+      });
+    case USER_FORBIDDEN_ERROR:
+      return _.merge(state, {
+        appealsLoading: false,
+        v2Availability: USER_FORBIDDEN_ERROR,
+      });
+    case RECORD_NOT_FOUND_ERROR:
+      return _.merge(state, {
+        appealsLoading: false,
+        v2Availability: RECORD_NOT_FOUND_ERROR,
+      });
+    case VALIDATION_ERROR:
+      return _.merge(state, {
+        appealsLoading: false,
+        v2Availability: VALIDATION_ERROR,
+      });
+    case BACKEND_SERVICE_ERROR:
+      return _.merge(state, {
+        appealsLoading: false,
+        v2Availability: BACKEND_SERVICE_ERROR,
+      });
+    case FETCH_APPEALS_ERROR:
+      return _.merge(state, {
+        appealsLoading: false,
+        v2Availability: FETCH_APPEALS_ERROR,
+      });
+
     case CHANGE_INDEX_PAGE:
       return _.set('page', action.page, state);
     default:
