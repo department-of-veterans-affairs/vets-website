@@ -72,7 +72,7 @@ class ConfirmationPage extends React.Component {
             <VeteranIDCard
               veteranFullName={veteranFullNameStr}
               veteranBranchCode={serviceBranch}
-              caseId={this.props.caseId}
+              caseId={response.caseId}
               veteranPhotoUrl={photoUrl}/>
           </div>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
