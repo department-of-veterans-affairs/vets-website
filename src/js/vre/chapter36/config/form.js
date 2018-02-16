@@ -8,6 +8,8 @@ import {
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
@@ -31,8 +33,47 @@ const {
   fullName,
   gender,
   ssn,
-  vaFileNumber
+  vaFileNumber,
+  dateRange,
+  serviceHistory
 } = fullSchema36.definitions;
+
+const requiredDateRange = _.merge(dateRange, {
+  required: ['to', 'from']
+});
+
+const serviceHistoryUI = {
+  'ui:options': {
+    itemName: 'Service Period',
+    viewField: ServicePeriodView,
+    hideTitle: true
+  },
+  items: {
+    serviceBranch: {
+      'ui:title': 'Branch of service'
+    },
+    dateRange: dateRangeUI(
+      'Service start date',
+      'Service end date',
+      'End of service must be after start of service'
+    ),
+    dischargeType: {
+      'ui:title': 'Character of discharge'
+    }
+  }
+};
+
+const applicantServiceHistory = _.merge(serviceHistory, {
+  minItems: 1,
+  items: {
+    required: ['serviceBranch', 'dateRange', 'dischargeType'],
+    properties: {
+      dateRange: {
+        $ref: '#/definitions/requiredDateRange'
+      }
+    }
+  }
+});
 
 const formConfig = {
   urlPrefix: '/',
@@ -54,7 +95,9 @@ const formConfig = {
     fullName,
     gender,
     ssn,
-    vaFileNumber
+    vaFileNumber,
+    dateRange,
+    requiredDateRange
   },
   chapters: {
     applicantInformation: {
@@ -204,6 +247,48 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
+        militaryHistoryVeteran: {
+          depends: {
+            'view:isVeteran': true
+          },
+          path: 'military-history',
+          title: 'Military History',
+          uiSchema: {
+            applicantServiceHistory: serviceHistoryUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicantServiceHistory
+            }
+          }
+        },
+        militaryHistory: {
+          depends: (formData) => !!formData['view:isVeteran'],
+          path: 'military-history-applicant',
+          title: 'Military History',
+          uiSchema: {
+            'view:hasMilitaryHistory': {
+              'ui:title': 'Have you served on ative duty in the Armed Forces? (This can include active duty for training for 3 months or more, or subsequent periods of active duty for training of 6 months or more.)',
+              'ui:widget': 'yesNo'
+            },
+            applicantServiceHistory: _.merge(serviceHistoryUI, {
+              'ui:options': {
+                expandUnder: 'view:hasMilitaryHistory'
+              }
+            })
+          },
+          schema: {
+            type: 'object',
+            required: ['view:hasMilitaryHistory'],
+            properties: {
+              'view:hasMilitaryHistory': {
+                type: 'boolean'
+              },
+              applicantServiceHistory
+            }
+          }
+        }
       }
     },
     contactInformation: {
