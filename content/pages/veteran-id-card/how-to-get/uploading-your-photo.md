@@ -41,21 +41,21 @@ Find out how to upload a good quality photo that meets the requirements for a Ve
 <div id="saved-photo" class="usa-accordion-content">
  
 To make sure your photo doesn’t look blurry when it’s printed on your card, it should be at least 350 pixels on each side. A pixel is a digital unit of measurement for screens, like a computer or television. Most photos taken with smartphones and digital cameras meet this requirement. 
-If you’re not sure your photo is big enough, follow these steps to check your photo’s dimensions on a PC or Mac computer. 
+If you’re not sure your photo is big enough, follow these steps to check the dimensions on a PC or Mac. 
 
 **To check your photo’s dimensions on a PC:**
 
-1. Find your photo file and press the **shift** key, then F10. 
+1. Find your photo file and press the Shift key, then F10. 
 2. A list of options will appear. Choose **Properties**.
 3. A window will open with information about the photo. Choose the **Details** tab.
-4. Under the **Image** heading, you’ll see the image’s measurements. **Dimensions** should be at least 350 x 350. It’s ok if the photo is larger.  
+4. Under the Image heading, you’ll see the image’s measurements. Dimensions should be at least 350 x 350. It’s ok if the photo is larger.  
 
 **To check your photo’s dimensions on a Mac:**
 
-1. Find your photo file and click on it while pressing the **control** key.
+1. Find your photo file and click on it while pressing the Control key.
 2. A list of options will appear. Choose **Get info**.
 3. A window will open with information about the photo. Click on the **More info** arrow beneath the general file information.
-4. The information will expand and you’ll see **Dimensions**. These should be equal numbers and should be at least 350 x 350. It’s ok if the photo is larger. 
+4. The information will expand and you’ll see the dimensions. These should be equal numbers and should be at least 350 x 350. It’s ok if the photo is larger. 
 
 </div>
 </li>
@@ -70,10 +70,10 @@ If your photo isn't square, the Veteran ID Card application includes a tool to h
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="access-smartphone">I have access to a smartphone. How can I take my Veteran ID Card photo?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="access-smartphone">I have access to a smartphone. Can I use it to take my Veteran ID Card photo?</button>
 <div id="access-smartphone" class="usa-accordion-content">
 
-We recommend that you have someone else take the photo for you. Stand or sit in front of a white or off-white wall without any decorations behind you. The photo should focus on your head and shoulders. 
+Yes. We recommend that you have someone else take the photo for you. Stand or sit in front of a white or off-white wall without any decorations behind you. The photo should focus on your head and shoulders. 
 
 Some smartphones and digital cameras have a setting that lets you take square photos. The Veteran ID Card application also includes a tool to help you resize your photo. 
 
@@ -83,9 +83,9 @@ Some smartphones and digital cameras have a setting that lets you take square ph
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="upload-smartphone">How do I upload a photo from my smartphone?</button>
 <div id="upload-smartphone" class="usa-accordion-content">
 
-You can complete the entire application from your mobile device if you want to. You can select a photo that’s on your smartphone directly from the Veteran ID Card application. 
+You can complete the entire Veteran ID Card application from your mobile device if you want to. When you fill out the application, you can select a photo directly from your smartphone. 
 
-If you prefer to complete the application on a PC or Mac, you can transfer your photo from your smartphone or digital camera to your computer. You can do this by sharing photos using your phone’s photo application tool or by connecting your device to your computer.  
+If you prefer to fill out the application on a PC or Mac, you'll need to transfer your photo from your smartphone or digital camera to your computer. You can do this by sharing photos using your phone’s photo application tool or by connecting your device to your computer.  
 
 </div>
 </li>
@@ -104,9 +104,9 @@ You can scan a physical photo onto your computer or phone using a flatbed scanne
    <li>Your photo will be printed as a square on the card, meaning it’ll be the same height and width on either side. You may scan a rectangular photo and use the tool within the Veteran ID Card application to crop it. If you’re using a screen reader, we recommend you scan a square photo. This will make it easier to complete the application.</li>
    <li>Your scanner might have a setting for resolution. To make sure the photo isn’t blurry when printed, we recommend scanning at 300 dots per inch (dpi) or higher. <strong>Don’t select a resolution less than 300 dpi.</strong></li>
    </ul>
-3. Once you’ve chosen the settings, click to scan. You can save the photo and choose where to save it on your computer. 
+3. Once you’ve chosen the settings, click to scan. You can then save the photo to your computer. 
 
-**To scan your photo with your phone, you can use your phone’s camera or photo-scanning app.**
+**To scan your photo with your phone, use your phone’s camera or photo-scanning app.**
 
 **To use your phone’s camera:**
 1. Open the Camera app and take a picture of your photo.
@@ -115,7 +115,7 @@ You can scan a physical photo onto your computer or phone using a flatbed scanne
 
 **To use your phone’s photo-scanning app:**
 1. Open the app and position your phone over your photo. 
-2. Follow the instructions onscreen to scan your photo. 
+2. Follow the on-screen instructions to scan your photo. 
 3. Once you’re done scanning your photo, you can choose where to save it. Find the photo you want to upload. Then tap the share icon and choose how you want to upload your photo.   
 
 </div>
