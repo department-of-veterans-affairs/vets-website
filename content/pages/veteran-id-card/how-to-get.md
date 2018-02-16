@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Get a Veteran ID Card
-display_title: 
+display_title: How to Get a Veteran ID Card
 collection: veteran-id-card
 order: 1
 ---
