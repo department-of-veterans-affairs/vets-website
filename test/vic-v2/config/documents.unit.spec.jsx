@@ -67,7 +67,7 @@ describe('VIC document upload', () => {
     const form = mount(<DefinitionTester
       schema={schema}
       data={{
-        files: [{
+        dd214: [{
           confirmationCode: 'testing',
           name: 'test.pdf'
         }, {
