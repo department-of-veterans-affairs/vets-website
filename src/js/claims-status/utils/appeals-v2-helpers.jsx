@@ -154,7 +154,7 @@ export function addStatusToIssues(issues) {
  * @returns {object} One appeal object or undefined if not found in the array
  */
 export function isolateAppeal(state, id) {
-  return _.find(state.disability.status.claims.appeals, (a) => a.id === id);
+  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id);
 }
 
 export function formatDate(date) {
