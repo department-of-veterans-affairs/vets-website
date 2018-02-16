@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   getAppealsV2,
-  FETCH_APPEALS_PENDING,
-  FETCH_APPEALS_SUCCESS,
 } from '../../../src/js/claims-status/actions';
 import {
+  FETCH_APPEALS_PENDING,
+  FETCH_APPEALS_SUCCESS,
   USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
