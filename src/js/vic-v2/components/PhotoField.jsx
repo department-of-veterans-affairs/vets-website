@@ -7,7 +7,7 @@ import environment from '../../common/helpers/environment';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
-import { PhotoReviewDescription } from '../helpers.jsx';
+import PhotoPreview from '../components/PhotoPreview';
 import _ from 'lodash/fp';
 
 const MIN_SIZE = 350;
@@ -185,6 +185,11 @@ function getImageUrl({ serverPath, serverName } = {}) {
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
+    const formData = props.formData || {};
+    let previewSrc;
+    if (formData.file instanceof Blob) {
+      previewSrc = window.URL.createObjectURL(formData.file);
+    }
 
     this.state = {
       minRatio: 0.2,
@@ -193,7 +198,8 @@ export default class PhotoField extends React.Component {
       src: null,
       warningMessage: null,
       zoomValue: 0.4,
-      isCropping: false
+      isCropping: false,
+      previewSrc
     };
 
     this.screenReaderPath = false;
@@ -207,6 +213,17 @@ export default class PhotoField extends React.Component {
   componentDidMount() {
     if (!onReviewPage(this.props.formContext.pageTitle)) {
       window.addEventListener('resize', this.detectWidth);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextFormData = nextProps.formData || {};
+    const prevFormData = this.props.formData || {};
+    if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
+      if (this.state.previewSrc) {
+        window.URL.revokeObjectURL(this.state.previewSrc);
+      }
+      this.setState({ previewSrc: window.URL.createObjectURL(nextFormData.file) });
     }
   }
 
@@ -240,13 +257,16 @@ export default class PhotoField extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.detectWidth);
+    if (this.state.previewSrc) {
+      window.URL.revokeObjectURL(this.state.previewSrc);
+    }
   }
 
   onEdit = () => {
     this.setState({
       isCropping: true,
       fileName: this.props.formData.name,
-      src: getImageUrl(this.props.formData),
+      src: this.state.previewSrc || getImageUrl(this.props.formData),
       warningMessage: null
     });
   }
@@ -260,7 +280,15 @@ export default class PhotoField extends React.Component {
       file.name = this.state.fileName;
       this.props.formContext.uploadFile(
         file,
-        this.props.onChange,
+        (formData) => {
+          if (formData.confirmationCode) {
+            this.props.onChange(Object.assign({}, formData, {
+              file
+            }));
+          } else {
+            this.props.onChange(formData);
+          }
+        },
         this.props.uiSchema['ui:options'],
         this.updateProgress
       ).catch(() => {
@@ -584,7 +612,15 @@ export default class PhotoField extends React.Component {
     const file = formData || {};
     const onReview = formContext.reviewMode;
 
-    if (onReview) return <PhotoReviewDescription url={getImageUrl(file)}/>;
+    if (onReview) {
+      return (
+        <div className="va-growable-background">
+          <PhotoPreview
+            className="photo-review"
+            src={this.state.previewSrc || getImageUrl(file)}/>
+        </div>
+      );
+    }
 
     const { isCropping } = this.state;
     const hasFile = !!file.confirmationCode;
@@ -655,10 +691,10 @@ export default class PhotoField extends React.Component {
             </div>}
             {instruction}
             {description}
-            {fieldView === 'preview' && hasFile && <img
-              className="photo-preview"
-              src={getImageUrl(file)}
-              alt="Photograph of you that will be displayed on the ID card"/>
+            {fieldView === 'preview' && hasFile &&
+              <PhotoPreview
+                className="photo-preview"
+                src={this.state.previewSrc || getImageUrl(file)}/>
             }
           </div>
           {fieldView === 'progress' && <div className={progressBarContainerClass}>
