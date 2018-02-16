@@ -96,6 +96,7 @@ const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
+  ignoreList.push('education/gi-bill/post-9-11/ch-33-benefit-backup.md');
   ignoreList.push('veteran-id-card/apply.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
