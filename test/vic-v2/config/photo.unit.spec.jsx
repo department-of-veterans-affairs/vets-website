@@ -78,8 +78,5 @@ describe('VIC photo upload', () => {
   // it/ should submit with a valid photo
 
   // non-sighted path
-  // it/ should display an errorfor an invalid file
-  // it/ should accept valid file and render the preview
-  // it/ should not allow the user to edit their photo
   // it/ should submit with a valid photo
 });
