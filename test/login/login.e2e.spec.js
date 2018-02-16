@@ -3,7 +3,8 @@ const Timeouts = require('../e2e/timeouts.js');
 const LoginHelpers = require('../e2e/login-helpers');
 
 const selectors = {
-  signOut: '#accountMenu > ul > li:nth-child(2) > a'
+  menu: '#login-root button[aria-controls="accountMenu"]',
+  signOut: '#accountMenu > ul > li:nth-child(4) > a'
 };
 
 module.exports = E2eHelpers.createE2eTest(
@@ -14,10 +15,10 @@ module.exports = E2eHelpers.createE2eTest(
     // log in & wait for little person icon to appear next to the username
     LoginHelpers.logIn(token, client, '/', 3)
       .assert.title('Vets.gov')
-      .waitForElementVisible('#login-root button[aria-controls="accountMenu"]', Timeouts.slow);
+      .waitForElementVisible(selectors.menu, Timeouts.slow);
 
     // click dropdown on username
-    client.click('#login-root button[aria-controls="accountMenu"]');
+    client.click(selectors.menu);
 
     // logout button is there
     client.expect.element(selectors.signOut).to.be.visible;
