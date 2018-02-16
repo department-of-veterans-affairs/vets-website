@@ -57,7 +57,7 @@ class FormPage extends React.Component {
   }
 
   onSubmit = ({ formData }) => {
-    const { form, params, route, location, onSubmit } = this.props;
+    const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
@@ -69,10 +69,6 @@ class FormPage extends React.Component {
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
     this.props.router.push(path);
-
-    if (onSubmit) {
-      onSubmit();
-    }
   }
 
   goBack = () => {
