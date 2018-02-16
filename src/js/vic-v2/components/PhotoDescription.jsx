@@ -17,6 +17,9 @@ export default function PhotoDescription() {
         <h3>Examples of good ID photos</h3>
         <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
         <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
+        <p>
+          <a href="/veteran-id-card/how-to-upload-photo" target="_blank">Learn more about uploading a photo for your Veteran ID Card</a>.
+        </p>
       </div>
     </div>
   );
