@@ -7,10 +7,10 @@ in_maintenance: false
 ---
 <div id="main">
   <div class="section">
-    <div class="row">
-      <div class="usa-width-two-thirds">
-        <h1>We're sorry, the GI Bill Comparison Tool is down right now.</h1>
-        <p>It's gonna be a while. Sorry for the trouble.</p>
+    <div class="row" id="systemDownMessage">
+      <div class="small-12 columns">
+        <h1>Sorry, our system is temporarily down while we fix a few things. Please try again later.</h1>
+        <a href="/" class="usa-button-primary" style="margin-bottom: 3rem;">Go Back to Vets.gov</a>
       </div>
     </div>
   </div>
