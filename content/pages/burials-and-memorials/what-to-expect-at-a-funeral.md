@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: What to Expect at a Memorial Service
 template: detail-page
 collection: burials
-order: 6
+order: 7
 ---
 
 <div class="va-introtext">

@@ -64,7 +64,6 @@ function getTopAndBottomName([firstPart, nextPart, ...rest]) {
 }
 
 function getFullNameDisplay(fullName) {
-
   const { top, bottom } = getTopAndBottomName(fullName.split(' '));
 
   if (bottom) {
