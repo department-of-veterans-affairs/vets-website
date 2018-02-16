@@ -18,7 +18,7 @@ import {
   getVisibleRows,
 } from '../utils/appeals-v2-helpers';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
+// import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -211,7 +211,7 @@ function mapStateToProps(state) {
   return {
     appealsAvailable: claimsV2Root.appealsAvailability,
     claimsAvailable: claimsV2Root.claimsAvailability,
-    claimsAuthorized: claimsState.claimSync.authorized,
+    // claimsAuthorized: claimsState.claimSync.authorized,
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
     list,
