@@ -65,7 +65,7 @@ display_title: Frequently Asked Questions
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-about-3" itemprop="name">What is ID.me, and why should I trust this service? </button>
-                    <div id="faq-about-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-about-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me is a digital identity platform that helps people like you easily prove your identity so you can access advanced online services—while keeping your personal information safe.</p>
                         <p>ID.me is a trusted VA partner and 1 of only 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication. ID.me provides the strongest identity verification system available to prevent fraud and identity theft. This service uses bank-grade encryption to keep your personal information safe. And they give you control over which services and businesses can share your information.</p>
@@ -163,7 +163,7 @@ display_title: Frequently Asked Questions
                     <div id="faq-dslogon-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>A <strong>DS Logon</strong> account is a U.S. government-owned secure ID that gives you a single username and password to sign in to many different VA and Department of Defense (DoD) websites and apps. These include Vets.gov and other sites you can use to manage your benefits and services, like eBenefits, the TRICARE&reg; patient portal, and milconnect.</p> 
-                        <p>With a basic <strong>DS Logon</strong> account, you can access some features of these sites. But you'll need a premium account to view your personal information in VA and DoD systems or to use any apps that connect to your VA health record.
+                        <p>With a basic <strong>DS Logon</strong> account, you can access some features of these sites. But you'll need a premium account to view your personal information in VA and DoD systems or to use any apps that connect to your VA health record.</p>
                         <p>With a premium account, you can do things like:</p>
                         <ul>
                           <li>View your medical test results and other personal information from your VA health record</li>
@@ -193,6 +193,63 @@ display_title: Frequently Asked Questions
                         </ul>
                            <p>The registration tool will direct you on how to sign up for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you'll be asked a series of questions to prove you're you—and not someone pretending to be you—to help protect the personal information you'll have access to with a premium account.</p>
                            <p><a href="https://myaccess.dmdc.osd.mil/">Go to the DS Logon self-service site</a>.</p>                    
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <br/><br/>
+                <h4>How to get a premium My Health<em>e</em>Vet account</h4>
+                <ul class="usa-unstyled-list">
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-mhv-0" itemprop="name">What's a premium My Health<em>e</em>Vet account, and why would I want one? </button>
+                    <div id="faq-mhv-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p><strong>My Health<em>e</em>Vet</strong> is an online personal health record that gives you tools and information to help you improve your health.</p> 
+                        <p>With a basic or advanced account, you can use some of the My HealtheVet site’s tools. But you’ll need a premium account before you can view your personal information or access your VA health record.</p>
+                        <p>With a premium account, you can do things like:</p>
+                        <ul>
+                          <li>Refill your VA prescriptions and track their delivery</li>
+                          <li>Get email reminders for your upcoming VA health appointments</li>
+                          <li>View, print, or download your VA lab test results and other information from your VA health record</li>
+                          <li>Use secure messaging to communicate with your VA health care team</li>
+                        </ul>
+                        <p>You can also use your premium <strong>My Health<em>e</em>Vet</strong> account to sign in to Vets.gov and access all the site’s advanced tools.
+                      </div>
+                    </div>
+                  </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-mhv-1" itemprop="name">How do I get a My Health<em>e</em>Vet account so I can use it to sign in to Vets.gov? </button>
+                    <div id="faq-mhv-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>You can sign up for an account on the My HealtheVet website. You’ll need to have your Social Security number on hand.</p>
+                        <p>If you’d like to be able to upgrade to a premium account, be sure to sign up as a VA patient.</p>
+                        <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-mhv-1" itemprop="name">How do I upgrade my basic or advanced My Health<em>e</em>Vet account to a premium account? </button>
+                    <div id="faq-mhv-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>To upgrade to a premium <strong>My Health<em>e</em>Vet</strong> account, you’ll need to complete and sign a VA Release of Information (VA Form 10-5345a-MHV). This form gives us permission to share an electronic copy of your health record with your online account.</p>
+                        <p><strong>You can submit this form to us in 1 of 2 ways:</strong></p>
+                        <strong><strong>In person at a local VA health care facility</strong>
+                        <p>You'll need to bring:</p>
+                        <ul>
+                          <li><strong>Your VA Form 10-5345a-MHV</strong>. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
+                            <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
+                          <li><strong>A government-issued photo ID</strong>. This can be either your Veteran Health Identification Card or valid driver's license.</li>
+                        </ul>
+                        <p>A VA staff member will verify your identity. They’ll then record your information in the My HealtheVet system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
+                        <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
+                        <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
+                        <strong>By mail</strong>
+                        <p>First, log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p> 
+                        <p>The site will ask if you’d like to start to upgrade to a premium account.</p>
+                        <p>If you have an advanced account already, a page called “Authorize VA to Release Electronic Copies of your VA Record” will appear. Choose the radio button labeled “By Mail—Print, fill out and mail your signed form,” and select “Continue.”</p>
+                        <p>Print, complete, and sign the VA Release of Information (VA Form 10-5345a-MHV). Mail it to your local VA health care facility. When you address the envelope, include “Attention: Release of Information Office.”</p>
+                        <p><a href="https://www.myhealth.va.gov/">Log in at My Health<em>e</em>Vet</a>.  
+                        <p><a href="/facilities/">Find contact information for a VA health facility near you</a>.
                       </div>
                     </div>
                   </li>
