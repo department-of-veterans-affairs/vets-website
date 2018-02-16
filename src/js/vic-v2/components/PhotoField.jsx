@@ -266,7 +266,7 @@ export default class PhotoField extends React.Component {
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
-        this.props.onBlur(this.props.idSchema.$id);
+        // this.props.onBlur(this.props.idSchema.$id);
       });
     });
   }
