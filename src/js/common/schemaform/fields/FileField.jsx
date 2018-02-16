@@ -37,7 +37,9 @@ export default class FileField extends React.Component {
       }
       this.props.formContext.uploadFile(
         event.target.files[0],
-        (file) => this.props.onChange(_.set(idx, file, this.props.formData || [])),
+        (file) => {
+          this.props.onChange(_.set(idx, file, this.props.formData || []));
+        },
         this.props.uiSchema['ui:options'],
         this.updateProgress
       ).catch(() => {
