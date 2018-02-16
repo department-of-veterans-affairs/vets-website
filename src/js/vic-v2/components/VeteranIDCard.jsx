@@ -1,4 +1,5 @@
 import React from 'react';
+import { branchCodeLabels } from '../labels';
 
 const FONT_FAMILY = 'Arial, Helvetica, sans-serif';
 // sets the aspect ratio of svg
@@ -9,13 +10,6 @@ const LARGE_FONT_SIZE = 80;
 const SMALL_FONT_SIZE = 60;
 const X_SMALL_FONT_SIZE = 55;
 
-const branchCodeLabels = {
-  A: 'Army',
-  C: 'Coast Guard',
-  F: 'Air Force',
-  N: 'Navy',
-  M: 'Marine Corps'
-};
 
 const imagePaths = {
   A: '/img/vic-army-symbol.png',
