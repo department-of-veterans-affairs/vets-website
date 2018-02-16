@@ -26,7 +26,8 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 </div>
 
-**Note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
+**Note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. <br>
+[Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
 
 ### How long does it take VA to make a decision?
 
@@ -35,7 +36,7 @@ The amount of time it takes to review your application depends on:
 - How much information you provided in your application, **and**
 - Whether you provided your (or your sponsor’s) DD214 or other separation documents along with your application
 
-**Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
+We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 
 <br>
 
