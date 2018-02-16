@@ -57,7 +57,7 @@ const runTest = E2eHelpers.createE2eTest(
          (see https://github.com/nightwatchjs/nightwatch/issues/505) */
       client
         .execute("document.getElementsByName('fileUpload')[0].style.display = 'block';");
-      // HACK: waitforElementVisible did not work but this does 
+      // HACK: waitforElementVisible did not work but this does
       client.elementIdDisplayed('errorable-file-input-11');
 
       // sighted path
@@ -78,7 +78,7 @@ const runTest = E2eHelpers.createE2eTest(
       client.click('.photo-preview-link');
       client
         .execute("document.getElementsByName('screenReaderFileUpload')[0].style.display = 'block';");
-      // HACK: waitforElementVisible did not work but this does 
+      // HACK: waitforElementVisible did not work but this does
       client.elementIdDisplayed('errorable-file-input-12');
       client
         .setValue('input[name="screenReaderFileUpload"]', require('path').resolve(`${__dirname}/examplephoto.jpg`));
