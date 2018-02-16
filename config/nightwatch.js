@@ -62,7 +62,10 @@ module.exports = {
     },
     wcag2a: {
       globals: {
-        rules: ['section508', 'wcag2a', 'wcag2aa']
+        runOnly: {
+          type: 'tag',
+          values: ['section508', 'wcag2a', 'wcag2aa']
+        }
       }
     }
   }
