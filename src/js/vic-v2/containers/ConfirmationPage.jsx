@@ -68,11 +68,13 @@ class ConfirmationPage extends React.Component {
         {verified && userSignedIn && <div>
           <p>We’ll send you emails updating you on the status of your application. You can also print this page for your records. You should receive your Veteran ID Card by mail in about 60 days.<br/>
             In the meantime, you can print a temporary digital Veteran ID Card.</p>
-          <VeteranIDCard
-            veteranFullName={veteranFullNameStr}
-            veteranBranchCode={serviceBranch}
-            caseId={this.props.caseId}
-            veteranPhotoUrl={photoUrl}/>
+          <div className="id-card-preview">
+            <VeteranIDCard
+              veteranFullName={veteranFullNameStr}
+              veteranBranchCode={serviceBranch}
+              caseId={'adfadf'}
+              veteranPhotoUrl={photoUrl}/>
+          </div>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}
         {(!verified || !userSignedIn) && <div>

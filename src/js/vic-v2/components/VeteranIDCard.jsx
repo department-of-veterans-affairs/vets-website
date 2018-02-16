@@ -92,13 +92,16 @@ const VeteranIDCard = ({
   <svg
     fill="white"
     fontFamily={FONT_FAMILY}
+    height="100%"
     preserveAspectRatio="xMidYMid meet"
     stroke="none"
-    viewBox={VIEW_BOX}>
+    viewBox={VIEW_BOX}
+    width="100%"
+  >
 
-    <image href={imagePaths.previewBackground} width="100%"/>
+    <image href={imagePaths.previewBackground} width="100%" height="100%"></image>
 
-    <image height="28.5%" href={imagePaths.VASeal} x="6.5%" y="7.3%"/>
+    <image height="28.5%" width="18.1%" href={imagePaths.VASeal} x="6.5%" y="7.3%"></image>
 
     <text fontSize={LARGE_FONT_SIZE - 1} x="70%" y="12.5%">
       TEMPORARY
@@ -110,12 +113,12 @@ const VeteranIDCard = ({
 
     {getFullNameDisplay(veteranFullName)}
 
-    <image height="21.1%" href={imagePaths[veteranBranchCode]} x="6.5%" y="70%"/>
+    <image height="21.1%" width="13.6%" href={imagePaths[veteranBranchCode]} x="6.5%" y="70%"></image>
     <text fontSize={SMALL_FONT_SIZE} x="22.8%" y="82.05%">
       {branchCodeLabels[veteranBranchCode]} Veteran
     </text>
 
-    <image height="51.8%" href={veteranPhotoUrl} x="62.1%" y="34.1%"/>
+    <image height="51.8%" width="32.8%" href={veteranPhotoUrl} x="62.1%" y="34.1%"></image>
     <text fontSize={X_SMALL_FONT_SIZE} x="62.1%" y="91.9%">
       ID no: {caseId}
     </text>
