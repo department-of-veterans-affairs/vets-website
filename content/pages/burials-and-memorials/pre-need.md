@@ -85,6 +85,7 @@ The amount of time it takes to review your application depends on:
 
 **Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 
+<br>
 
 <div class="feature" markdown=“1”>
 
