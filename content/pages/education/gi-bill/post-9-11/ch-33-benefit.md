@@ -9,7 +9,7 @@ in_maintenance: false
   <div class="section">
     <div class="row" id="systemDownMessage">
       <div class="small-12 columns">
-        <h1>Sorry, our system is temporarily down while we fix a few things. Please try again later.</h1>
+        <h1>We’re sorry, our system is temporarily down while we fix a few things. Please try again later.</h1>
         <a href="/" class="usa-button-primary" style="margin-bottom: 3rem;">Go Back to Vets.gov</a>
       </div>
     </div>
