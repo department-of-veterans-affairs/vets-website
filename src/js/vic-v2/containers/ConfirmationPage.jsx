@@ -39,51 +39,29 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    console.log(this.props.form);
-    const form = {
-      ...this.props.form,
-      ...{
-        data: {
-          ...this.props.form.data,
-          photo: {
-            serverName: 'bleep',
-            serverPath: 'blorp'
-          },
-          veteranFullName: {
-            first: 'WWWWW',
-            middle: 'WWWW',
-            last: 'WWWWWWWWWWWW',
-            suffix: 'Sr.'
-          },
-          verified: true,
-          serviceBranch: 'C'
-        }
-      }
-    };
-    const userSignedIn = true || this.props.userSignedIn;
+    const form = this.props.form;
+    const userSignedIn = this.props.userSignedIn;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
     const response = form.submission.response
       ? form.submission.response.attributes
       : {};
     const {
-      veteranFullName: {
-        first = '',
-        middle = '',
-        last = '',
-        suffix = ''
-      },
-      serviceBranch,
-      verified
-    } = form.data;
+      first: firstName = '',
+      middle: middleName = '',
+      last: lastName = '',
+      suffix = ''
+    } = form.data.veteranFullName;
 
-    // const photoUrl = getImageUrl(form.data.photo);
-    const photoUrl = '/img/example-photo-2.png';
+    const { serviceBranch, verified } = form.data;
+
+    const photoUrl = getImageUrl(form.data.photo);
+
     const submittedAt = moment(form.submission.submittedAt);
 
     const veteranFullNameStr =
-      `${first.toUpperCase()} ${middle.toUpperCase()} ${last.toUpperCase()} ${suffix.toUpperCase()}` // upper case name
-      .replace(/ +(?= )/g,''); // remove extra spaces from absent name parts
+      `${firstName.toUpperCase()} ${middleName.toUpperCase()} ${lastName.toUpperCase()} ${suffix.toUpperCase()}` // upper case name
+        .replace(/ +(?= )/g, ''); // remove extra spaces from absent name parts
 
     return (
       <div>
@@ -97,7 +75,7 @@ class ConfirmationPage extends React.Component {
           <VeteranIDCard
             veteranFullName={veteranFullNameStr}
             veteranBranchCode={serviceBranch}
-            caseId="05P3400000000pz"
+            caseId={this.props.caseId}
             veteranPhotoUrl={photoUrl}/>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}
@@ -115,7 +93,7 @@ class ConfirmationPage extends React.Component {
         </div>}
         <div className="inset">
           <h3 className="schemaform-confirmation-claim-header">Veteran ID Card claim</h3>
-          <span>for {first} {middle} {last} {suffix}</span>
+          <span>for {firstName} {middleName} {lastName} {suffix}</span>
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
