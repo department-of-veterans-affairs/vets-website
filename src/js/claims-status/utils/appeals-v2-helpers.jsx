@@ -490,7 +490,7 @@ export function getStatusContents(statusType, details) {
 }
 
 export const EVENT_TYPES = {
-  claim: 'claim',
+  claimDecision: 'claim_decision',
   nod: 'nod',
   droHearing: 'dro_hearing',
   fieldGrant: 'field_grant',
@@ -517,7 +517,7 @@ export const EVENT_TYPES = {
  */
 export function getEventContent(event) {
   switch (event.type) {
-    case EVENT_TYPES.claim:
+    case EVENT_TYPES.claimDecision:
       return {
         title: 'VBA sent the original claim decision to you',
         description: '',
