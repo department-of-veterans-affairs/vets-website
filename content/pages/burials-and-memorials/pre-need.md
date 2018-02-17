@@ -76,17 +76,6 @@ If both you and your spouse are applying, you’ll each need to fill out your ow
 </li>
 </ol>
 
-### How long does it take VA to make a decision?
-
-The amount of time it takes to review your application depends on:
-- The number of applications we’re reviewing, **and**
-- How much information you provided in your application, **and**
-- Whether you provided your (or your sponsor’s) DD214 or other separation documents along with your application
-
-**Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
-
-<br>
-
 <div class="feature" markdown=“1”>
 
 ### What documents and information do I need to apply?
@@ -148,7 +137,9 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 [Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
 
-**Note:** For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
+**Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.[Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
+
+For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
 
 <div markdown="0"><br></div>
