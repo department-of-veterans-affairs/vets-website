@@ -60,12 +60,9 @@ module.exports = {
     accessibility: {
       filter: './test/accessibility/*.spec.js'
     },
-    wcag2a: {
+    bestpractice: {
       globals: {
-        runOnly: {
-          type: 'tag',
-          values: ['section508', 'wcag2a', 'wcag2aa']
-        }
+        rules: ['section508', 'wcag2a', 'wcag2aa', 'best-practice']
       }
     }
   }

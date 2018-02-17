@@ -23,7 +23,7 @@
     "test:e2e:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker && docker-compose -p e2e stop",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
-    "test:wcag2a": "./script/run-nightwatch.sh --env wcag2a",
+    "test:bestpractice": "./script/run-nightwatch.sh --env best-practice",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' test/helper.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
