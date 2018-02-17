@@ -4,7 +4,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { appealStatusDescriptions } from '../utils/appeal-helpers.jsx';
+import { appealStatusDescriptions } from '../utils/appeal-helpers';
+import { getStatusContents } from '../utils/appeals-v2-helpers';
 
 const renderNextAction = (lastEvent, previousHistory) => {
   if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
@@ -31,6 +32,7 @@ const appealTypeMap = {
 
 
 export default function AppealListItem({ appeal }) {
+  const { status } = appeal.attributes;
   // always show merged event on top
   const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
   const lastEvent = events[0];
@@ -43,11 +45,10 @@ export default function AppealListItem({ appeal }) {
         Appeal of {appealTypeMap[appeal.attributes.programArea]}
         <br/>
         Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
-        {/* <strong>Last changed: </strong> {moment(lastEvent.date).format('MMMM D, YYYY')} */}
       </h3>
       <div className="card-status">
         <div className={`status-circle ${appeal.attributes.active ? 'open' : 'closed'}`}/>
-        <p><strong>Status:</strong> {appealStatusDescriptions(lastEvent, previousHistory).status.title}</p>
+        <p><strong>Status:</strong> {getStatusContents(status.type, status.details).title}</p>
       </div>
       <div className="communications">
         {renderNextAction(lastEvent, previousHistory)}
