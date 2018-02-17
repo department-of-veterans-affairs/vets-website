@@ -5,6 +5,9 @@ const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
+    // Short-circuit the test while the page is in maintenance mode
+    client.end();
+
     const token = LoginHelpers.getUserToken();
 
     GibsHelpers.initApplicationMock(token);
