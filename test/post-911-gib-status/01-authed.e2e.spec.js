@@ -8,6 +8,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Short-circuit the test while the page is in maintenance mode
     client.end();
 
+    /*
     const token = LoginHelpers.getUserToken();
 
     GibsHelpers.initApplicationMock(token);
@@ -47,5 +48,6 @@ module.exports = E2eHelpers.createE2eTest(
     //   });
 
     client.end();
+    */
   }
 );
