@@ -127,7 +127,6 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 **Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
 
-<br>
 
 #### By fax to 1-855-840-8299.
 
