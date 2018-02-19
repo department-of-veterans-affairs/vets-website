@@ -35,15 +35,16 @@ class ConfirmationPage extends React.Component {
     const response = form.submission.response
       ? form.submission.response.attributes
       : {};
+    const formData = this.props.form.data || {};
 
-    const name = form['view:isVeteran']
-      ? form.veteranFullName || {}
-      : form.applicantFullName || {};
+    const name = formData['view:isVeteran']
+      ? formData.veteranFullName || {}
+      : formData.applicantFullName || {};
 
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We process claims in the order we receive them.</p>
+        <p>We usually process claims within a week.</p>
         <p>
           We may contact you for more information or documents.<br/>
         </p>
