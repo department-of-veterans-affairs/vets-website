@@ -20,7 +20,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           buttonOnly
           pageList={this.props.route.pageList}
-          startText="Start the Chapter 36 application"
+          startText="Start the Chapter 31 application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>
       </div>
