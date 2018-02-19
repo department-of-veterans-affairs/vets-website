@@ -32,10 +32,13 @@ export function getLetterList(dispatch) {
   return apiRequest(
     '/v0/letters',
     null,
-    response => dispatch({
-      type: GET_LETTERS_SUCCESS,
-      data: response,
-    }),
+    response => {
+      window.dataLayer.push({ event: 'letter-list-success' });
+      dispatch({
+        type: GET_LETTERS_SUCCESS,
+        data: response,
+      });
+    },
     (response) => {
       window.dataLayer.push({ event: 'letter-list-failure' });
       const status = getStatus(response);
@@ -90,7 +93,7 @@ export function getLetterListAndBSLOptions() {
 }
 
 export function getAddressFailure() {
-  window.dataLayer.push({ event: 'letter-update-address-notfound' });
+  window.dataLayer.push({ event: 'letter-get-address-failure' });
   return { type: GET_ADDRESS_FAILURE };
 }
 
@@ -100,6 +103,7 @@ export function getMailingAddress() {
       '/v0/address',
       null,
       (response) => {
+        window.dataLayer.push({ event: 'letter-get-address-success' });
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
         responseCopy.data.attributes.address = toGenericAddress(response.data.attributes.address);
@@ -274,12 +278,16 @@ export function getAddressCountries() {
     return apiRequest(
       '/v0/address/countries',
       null,
-      (response) => dispatch({
-        type: GET_ADDRESS_COUNTRIES_SUCCESS,
-        countries: response,
-      }),
+      (response) => {
+        window.dataLayer.push({ event: 'letter-get-address-countries-success' });
+        dispatch({
+          type: GET_ADDRESS_COUNTRIES_SUCCESS,
+          countries: response,
+        });
+      },
       (response) => {
         const status = getStatus(response);
+        window.dataLayer.push({ event: 'letter-get-address-countries-failure' });
         Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
       }
@@ -292,12 +300,16 @@ export function getAddressStates() {
     return apiRequest(
       '/v0/address/states',
       null,
-      (response) => dispatch({
-        type: GET_ADDRESS_STATES_SUCCESS,
-        states: response,
-      }),
+      (response) => {
+        window.dataLayer.push({ event: 'letter-get-address-states-success' });
+        dispatch({
+          type: GET_ADDRESS_STATES_SUCCESS,
+          states: response,
+        });
+      },
       (response) => {
         const status = getStatus(response);
+        window.dataLayer.push({ event: 'letter-get-address-states-success' });
         Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
       }
