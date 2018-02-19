@@ -612,9 +612,8 @@ export default class PhotoField extends React.Component {
     this.setState(dragActive);
   }
 
-  updateFileMetadata = (fileData) => {
-    const file = this.props.uiSchema['ui:options'].parseResponse(fileData, this.props.formData);
-    this.props.onChange(file);
+  updatePreviewSrc = (src) => {
+    this.setState({ previewSrc: src });
   }
 
   render() {
@@ -630,8 +629,8 @@ export default class PhotoField extends React.Component {
             className="photo-review"
             isLoggedIn={formContext.isLoggedIn}
             processing={this.state.previewProcessing}
-            src={this.state.previewSrc || getImageUrl(file)}
-            onUpdateFile={this.updateFileMetadata}
+            src={this.state.previewSrc}
+            onUpdatePreview={this.updatePreviewSrc}
             onError={this.onPreviewError}/>
         </div>
       );
@@ -712,8 +711,8 @@ export default class PhotoField extends React.Component {
                 className="photo-preview"
                 isLoggedIn={formContext.isLoggedIn}
                 processing={this.state.previewProcessing}
-                src={this.state.previewSrc || getImageUrl(file)}
-                onUpdateFile={this.updateFileMetadata}
+                src={this.state.previewSrc}
+                onUpdatePreview={this.updatePreviewSrc}
                 onError={this.onPreviewError}/>
             }
           </div>

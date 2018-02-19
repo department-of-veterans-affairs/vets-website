@@ -29,7 +29,6 @@ describe('<PhotoPreview>', () => {
     );
 
     expect(tree.find('img').props().src).to.equal('testing');
-    expect(tree.find('img').props().onError).to.be.a('function');
   });
 
   it('should fetch file metadata and update', (done) => {
@@ -43,7 +42,7 @@ describe('<PhotoPreview>', () => {
     };
     setFetchResponse(global.fetch.onFirstCall(), response);
 
-    function updateFile(file) {
+    function updatePreview(file) {
       expect(file).to.equal(response);
       resetFetch();
       done();
@@ -51,7 +50,7 @@ describe('<PhotoPreview>', () => {
 
     const tree = shallow(
       <PhotoPreview
-        onUpdateFile={updateFile}
+        onUpdatePreview={updatePreview}
         isLoggedIn
         id="guid"/>
     );

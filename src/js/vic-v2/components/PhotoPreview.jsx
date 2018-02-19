@@ -18,18 +18,20 @@ export default class PhotoPreview extends React.Component {
         headers
       }).then(resp => {
         if (resp.ok) {
-          return resp.json();
+          return resp.blob();
         }
 
         return new Error(resp.responseText);
-      }).then(resp => {
-        this.props.onUpdateFile(resp);
+      }).then(blob => {
+        this.props.onUpdatePreview(window.URL.createObjectURL(blob));
+      }).catch(() => {
+        this.props.onError();
       });
     }
   }
 
   render() {
-    const { src, id, className, isLoggedIn, processing, onError } = this.props;
+    const { src, id, className, isLoggedIn, processing } = this.props;
 
     if (processing) {
       return (
@@ -53,7 +55,6 @@ export default class PhotoPreview extends React.Component {
     return (
       <img
         className={className}
-        onError={onError}
         src={src}
         alt="Photograph of you that will be displayed on the ID card"/>
     );
@@ -67,5 +68,5 @@ PhotoPreview.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   processing: PropTypes.bool.isRequired,
   onError: PropTypes.func.isRequired,
-  onUpdateFile: PropTypes.func.isRequired
+  onUpdatePreview: PropTypes.func.isRequired
 };
