@@ -199,7 +199,8 @@ export default class PhotoField extends React.Component {
       warningMessage: null,
       zoomValue: 0.4,
       isCropping: false,
-      previewSrc
+      previewSrc,
+      previewProcessing: false
     };
 
     this.screenReaderPath = false;
@@ -387,6 +388,10 @@ export default class PhotoField extends React.Component {
     }
 
     this.setState({ warningMessage: '' });
+  }
+
+  onPreviewError = () => {
+    this.setState({ previewProcessing: true });
   }
 
   onZoomSliderChange = (e) => {
@@ -607,6 +612,11 @@ export default class PhotoField extends React.Component {
     this.setState(dragActive);
   }
 
+  updateFileMetadata = (fileData) => {
+    const file = this.props.uiSchema['ui:options'].parseResponse(fileData, this.props.formData);
+    this.props.onChange(file);
+  }
+
   render() {
     const { formData, formContext } = this.props;
     const file = formData || {};
@@ -616,9 +626,13 @@ export default class PhotoField extends React.Component {
       return (
         <div className="va-growable-background">
           <PhotoPreview
-            isLoggedIn={formContext.isLoggedIn}
+            id={file.confirmationCode}
             className="photo-review"
-            src={this.state.previewSrc || getImageUrl(file)}/>
+            isLoggedIn={formContext.isLoggedIn}
+            processing={this.state.previewProcessing}
+            src={this.state.previewSrc || getImageUrl(file)}
+            onUpdateFile={this.updateFileMetadata}
+            onError={this.onPreviewError}/>
         </div>
       );
     }
@@ -691,12 +705,16 @@ export default class PhotoField extends React.Component {
               <p>{errorMessage}</p>
             </div>}
             {instruction}
-            {description}
+            {!this.state.previewProcessing && description}
             {fieldView === 'preview' && hasFile &&
               <PhotoPreview
-                isLoggedIn={formContext.isLoggedIn}
+                id={file.confirmationCode}
                 className="photo-preview"
-                src={this.state.previewSrc || getImageUrl(file)}/>
+                isLoggedIn={formContext.isLoggedIn}
+                processing={this.state.previewProcessing}
+                src={this.state.previewSrc || getImageUrl(file)}
+                onUpdateFile={this.updateFileMetadata}
+                onError={this.onPreviewError}/>
             }
           </div>
           {fieldView === 'progress' && <div className={progressBarContainerClass}>
@@ -827,7 +845,7 @@ export default class PhotoField extends React.Component {
               onClick={this.resetFile}>
               Go back and change your photo
             </button>}
-            {fieldView === 'preview' && <button
+            {fieldView === 'preview' && !this.state.previewProcessing && <button
               className="photo-preview-link va-button-link"
               type="button"
               aria-describedby="editButtonDescription"

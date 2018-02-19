@@ -1,75 +1,49 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import environment from '../../common/helpers/environment';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 export default class PhotoPreview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      processing: false,
-      loading: false,
-      src: null,
-      error: null
-    };
 
-    if (props.isLoggedIn && props.id) {
+    if (props.isLoggedIn && props.id && !props.src) {
       const userToken = window.sessionStorage.userToken;
       const headers = {
         'X-Key-Inflection': 'camel',
         Authorization: `Token token=${userToken}`
       };
 
-      this.state.loading = true;
       fetch(`${environment.API_URL}/v0/vic/profile_photo_attachments/${props.id}`, {
         headers
       }).then(resp => {
         if (resp.ok) {
-          return resp.blob();
+          return resp.json();
         }
 
         return new Error(resp.responseText);
-      }).then(image => {
-        const blob = new Blob([image]);
-        this.setState({ src: window.URL.createObjectURL(blob), error: null, loading: false });
-      }).catch(resp => {
-        this.setState({ loading: false, error: resp.responseText || resp.message });
+      }).then(resp => {
+        this.props.onUpdateFile(resp);
       });
     }
   }
 
-  componentWillUnmount() {
-    if (this.state.src) {
-      window.URL.revokeObjectURL(this.state.src);
-    }
-  }
-
-  onError = () => {
-    this.setState({ processing: true });
-  }
-
   render() {
-    const { src, id, className } = this.props;
+    const { src, id, className, isLoggedIn, processing, onError } = this.props;
 
-    if (this.state.loading) {
-      return <LoadingIndicator message="Loading your profile photo..."/>;
-    }
-
-    if (this.state.processing) {
-      return <em>Your photo is saved, but we're still processing it.</em>;
-    }
-
-    if (this.state.error) {
-      return <em>Sorry, something went wrong when loading your profile photo.</em>;
-    }
-
-    if (this.state.src) {
+    if (processing) {
       return (
-        <img
-          className={className}
-          onError={this.onError}
-          src={this.state.src}
-          alt="Photograph of you that will be displayed on the ID card"/>
+        <div className="usa-alert usa-alert-warning vic-processing-warning">
+          <div className="usa-alert-body">
+            <h4 className="usa-alert-title">We're still processing your preview photo</h4>
+            This does not affect your application. You can continue down the form while we process your photo in the meantime.
+          </div>
+        </div>
       );
+    }
+
+    if (!src && id && isLoggedIn) {
+      return <LoadingIndicator message="Loading your profile photo..."/>;
     }
 
     if (!src && !id) {
@@ -79,8 +53,19 @@ export default class PhotoPreview extends React.Component {
     return (
       <img
         className={className}
+        onError={onError}
         src={src}
         alt="Photograph of you that will be displayed on the ID card"/>
     );
   }
 }
+
+PhotoPreview.propTypes = {
+  id: PropTypes.string.isRequired,
+  src: PropTypes.string,
+  className: PropTypes.string.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  processing: PropTypes.bool.isRequired,
+  onError: PropTypes.func.isRequired,
+  onUpdateFile: PropTypes.func.isRequired
+};

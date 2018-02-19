@@ -25,7 +25,7 @@ export const getIntroState = createStructuredSelector({
 });
 
 export const getFormContext = createStructuredSelector({
-  isLoggedIn: state => state.user.profile.currentlyLoggedIn,
+  isLoggedIn: state => state.user.login.currentlyLoggedIn,
   prefilled: state => state.form.prefillStatus === PREFILL_STATUSES.success
 });
 
