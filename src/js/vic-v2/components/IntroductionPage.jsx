@@ -89,7 +89,7 @@ the identity-proofing process, you won't need to do it again. To verify your ide
             </li>}
             {signedIn && !idProofed && <li className="process-step list-two">
               <div><h5>Verify Your Identity</h5></div>
-              <p>Afer you gather the documents needed to apply, we suggest you verify your identity as an extra
+              <p>After you gather the documents needed to apply, we suggest you verify your identity as an extra
 security measure to make sure only you can access your Veteran ID Card. To do this, you’ll need to
 use ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity
 verification system available.</p>
