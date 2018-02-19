@@ -3,13 +3,28 @@ import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
 import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
+import {
+  getStatus,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  ROWS_PER_PAGE,
+  CHANGE_INDEX_PAGE
+} from '../utils/appeals-v2-helpers';
 
+// -------------------- v2 and v1 -------------
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+// -------------------- v1 --------------------
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -93,10 +108,52 @@ export function getAppealsV2() {
       '/appeals_v2',
       null,
       (appeals) => dispatch(fetchAppealsSuccess(appeals)),
-      (error) => {
-        Raven.captureMessage(`vets_appeals_v2_err_get_appeals ${error.message}`);
-        return dispatch({ type: SET_APPEALS_UNAVAILABLE });
+      (response) => {
+        const status = getStatus(response);
+        const action = { type: '' };
+        switch (status) {
+          case '403':
+            action.type = USER_FORBIDDEN_ERROR;
+            break;
+          case '404':
+            action.type = RECORD_NOT_FOUND_ERROR;
+            break;
+          case '422':
+            action.type = VALIDATION_ERROR;
+            break;
+          case '502':
+            action.type = BACKEND_SERVICE_ERROR;
+            break;
+          default:
+            action.type = FETCH_APPEALS_ERROR;
+            break;
+        }
+        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+        return dispatch(action);
       }
+    );
+  };
+}
+
+export function fetchClaimsSuccess(response) {
+  const claims = response.data;
+  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims,
+    pages
+  };
+}
+
+export function getClaimsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+    return apiRequest(
+      '/evss_claims',
+      null,
+      (response) => dispatch(fetchClaimsSuccess(response)),
+      // TO-DO: parse out errors, log in Sentry
+      () => dispatch({ type: FETCH_CLAIMS_ERROR })
     );
   };
 }
@@ -117,6 +174,13 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
+    page
+  };
+}
+
+export function changePageV2(page) {
+  return {
+    type: CHANGE_INDEX_PAGE,
     page
   };
 }

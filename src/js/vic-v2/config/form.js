@@ -11,7 +11,7 @@ import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressDefinition from '../../common/schemaform/definitions/address';
+import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
@@ -50,8 +50,8 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for a veteran id card.',
-    noAuth: 'Please sign in again to resume your application for a veteran id card.'
+    notFound: 'Please start over to apply for a Veteran ID Card.',
+    noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'
   },
   title: 'Apply for a Veteran ID Card',
   defaultDefinitions: {
@@ -74,12 +74,15 @@ const formConfig = {
               'ui:title': 'Gender',
               'ui:options': {
                 labels: genderLabels
+              },
+              'ui:errorMessages': {
+                required: 'Please select the response that most closely aligns with how you identify.'
               }
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             serviceBranch: {
               'ui:title': 'Branch of service',
-              'ui:description': 'If you have more than one branch of service, choose the one you want represented on the Veteran ID Card.',
+              'ui:description': 'If you have more than one branch of service, choose the one you want printed on your Veteran ID Card.',
               'ui:options': {
                 labels: {
                   F: 'Air Force',
@@ -118,7 +121,7 @@ const formConfig = {
           path: 'address-information',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: addressDefinition.uiSchema(),
+            veteranAddress: addressDefinition.uiSchema(fullSchemaVIC, 'Please provide the address where you would like us to ship your Veteran ID Card.'),
           },
           schema: {
             type: 'object',
@@ -222,14 +225,11 @@ const formConfig = {
               fileTypes: [
                 'pdf',
                 'png',
-                'tiff',
-                'tif',
                 'jpeg',
                 'jpg',
-                'bmp'
               ],
               maxSize: TWENTY_FIVE_MB,
-              buttonText: 'Upload your discharge document',
+              buttonText: 'Upload Your Discharge Document',
               createPayload: (file) => {
                 const payload = new FormData();
                 payload.append('supporting_documentation_attachment[file_data]', file);

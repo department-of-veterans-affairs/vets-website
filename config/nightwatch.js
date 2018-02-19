@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const electron = require('electron-prebuilt');
+const electron = require('electron');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 

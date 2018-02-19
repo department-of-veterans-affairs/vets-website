@@ -74,7 +74,7 @@ def comment_broken_links = {
 }
 
 node('vetsgov-general-purpose') {
-  def dockerImage, args, ref
+  def dockerImage, args, ref, imageTag
 
   // Checkout source, create output directories, build container
 
@@ -88,7 +88,7 @@ node('vetsgov-general-purpose') {
       sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
 
-      def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+      imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
       dockerImage = docker.build("vets-website:${imageTag}")
       args = "-v ${pwd()}:/application"
@@ -168,21 +168,19 @@ node('vetsgov-general-purpose') {
     try {
       parallel (
         e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
-          }
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
         },
 
         accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
-          }
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
         }
       )
     } catch (error) {
       notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
       throw error
     } finally {
+      sh "docker-compose -p e2e down --remove-orphans"
+      sh "docker-compose -p accessibility down --remove-orphans"
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }

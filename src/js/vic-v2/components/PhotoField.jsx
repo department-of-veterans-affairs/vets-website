@@ -15,6 +15,7 @@ const SMALL_CROP_BOX_SIZE = 240;
 const LARGE_CROP_BOX_SIZE = 300;
 const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
+const MAX_CROPPED_HEIGHT_WIDTH = 600;
 
 function getCanvasDataForDefaultPosition({ canvasData, cropBoxData, containerWidth }) {
   // use the cropbox dimensions to force canvas into default position
@@ -175,7 +176,11 @@ function isSquareImage(img) {
 }
 
 function getImageUrl({ serverPath, serverName } = {}) {
-  return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+  if (serverName) {
+    return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
+  }
+
+  return null;
 }
 
 export default class PhotoField extends React.Component {
@@ -248,65 +253,76 @@ export default class PhotoField extends React.Component {
   }
 
   onDone = () => {
-    const filePath = this.props.idSchema.$id.split('_').slice(1);
-
     this.setState({ isCropping: false, progress: 0, warningMessage: null });
 
-    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
+    const croppedCanvasOptions = this.refs.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
+      { width: MAX_CROPPED_HEIGHT_WIDTH, height: MAX_CROPPED_HEIGHT_WIDTH } :
+      {};
+
+    croppedCanvasOptions.imageSmoothingQuality = 'high';
+
+    this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
       file.name = this.state.fileName;
       this.props.formContext.uploadFile(
         file,
-        filePath,
+        this.props.onChange,
         this.props.uiSchema['ui:options'],
         this.updateProgress
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
-        this.props.onBlur(this.props.idSchema.$id);
+        // this.props.onBlur(this.props.idSchema.$id);
       });
     });
   }
 
   onChangeScreenReader = (files) => {
     const file = files[0];
-    const filePath = this.props.idSchema.$id.split('_').slice(1);
 
     this.screenReaderPath = true;
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      loadImage(reader.result)
-        .then((img) => {
-          if (!isSquareImage(img)) {
-            this.props.onChange({
-              errorMessage: 'The photo you uploaded is not a square photo. Please upload a new one that fits the requirements.'
-            });
-          } else if (!isValidImageSize(img)) {
-            this.props.onChange({
-              errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
-            });
-          } else {
-            this.setState({ progress: 0, warningMessage: null });
-            this.props.formContext.uploadFile(
-              file,
-              filePath,
-              this.props.uiSchema['ui:options'],
-              this.updateProgress,
-            ).catch(() => {
-              // rather not use the promise here, but seems better than trying to pass
-              // a blur function
-              this.props.onBlur(this.props.idSchema.$id);
-            });
-          }
-        });
-    };
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    if (!isValidFileType(file.name, fileTypes)) {
+      this.props.onChange({
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+      });
+    } else {
+      const reader = new FileReader();
+      reader.onload = () => {
+        loadImage(reader.result)
+          .then((img) => {
+            if (!isSquareImage(img)) {
+              this.props.onChange({
+                errorMessage: 'The photo you uploaded isn’t a square photo. Please upload a new one that fits the requirements.'
+              });
+            } else if (!isValidImageSize(img)) {
+              this.props.onChange({
+                errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
+              });
+            } else {
+              this.setState({ progress: 0, warningMessage: null });
+              this.props.formContext.uploadFile(
+                file,
+                this.props.onChange,
+                this.props.uiSchema['ui:options'],
+                this.updateProgress,
+              ).catch(() => {
+                // rather not use the promise here, but seems better than trying to pass
+                // a blur function
+                this.props.onBlur(this.props.idSchema.$id);
+              });
+            }
+          });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onChange = (files) => {
     this.screenReaderPath = false;
+    this.setState({ dragActive: false });
 
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (files && files[0]) {
@@ -328,7 +344,7 @@ export default class PhotoField extends React.Component {
             .then((img) => {
               if (!isValidImageSize(img)) {
                 this.props.onChange({
-                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be uploaded. Please try to upload a different photo.'
+                  errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
                 });
               } else {
                 // Clear any error messages
@@ -342,7 +358,7 @@ export default class PhotoField extends React.Component {
             })
             .catch(() => {
               this.props.onChange({
-                errorMessage: 'Sorry, we weren’t able to load the image you selected'
+                errorMessage: 'Sorry, we weren’t able to load the image you selected.'
               });
             });
         };
@@ -354,6 +370,23 @@ export default class PhotoField extends React.Component {
 
   onZoomSliderChange = (e) => {
     this.refs.cropper.zoomTo(e.target.value);
+  }
+
+  onZoomMouseMove = (e) => {
+    if (this.mouseDown) {
+      this.onZoomSliderChange(e);
+    }
+  }
+
+  onZoomMouseDown = (e) => {
+    this.mouseDown = true;
+    if (e.target.value !== this.state.zoomValue) {
+      this.onZoomSliderChange(e);
+    }
+  }
+
+  onZoomMouseUp = () => {
+    this.mouseDown = false;
   }
 
   onZoom = (e) => {
@@ -549,6 +582,10 @@ export default class PhotoField extends React.Component {
     }
   }
 
+  handleDrag(dragActive) {
+    this.setState(dragActive);
+  }
+
   render() {
     const { formData, formContext } = this.props;
     const file = formData || {};
@@ -590,7 +627,7 @@ export default class PhotoField extends React.Component {
 
     let instruction;
     if (fieldView === 'cropper') {
-      instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</span>;
+      instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame.</span>;
     } else if (fieldView === 'initial') {
       instruction = <span><strong>Step 1 of 2:</strong> Upload a digital photo.</span>;
     }
@@ -599,7 +636,7 @@ export default class PhotoField extends React.Component {
     if (fieldView === 'cropper') {
       description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
     } else if (fieldView === 'preview') {
-      description = <div>Success! This photo will be printed on your Veteran ID card.</div>;
+      description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
     } else if (fieldView === 'initial' && this.state.dragAndDropSupported) {
       description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
@@ -616,10 +653,13 @@ export default class PhotoField extends React.Component {
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
         <div className={errorMessage ? 'error-box' : 'border-box'}>
           {fieldView === 'cropper' && <span className="sr-only">
-            This is a photo editing tool that requires sight to use. If you are using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
+            This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
-            {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">{errorMessage}</div>}
+            {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">
+              We’ve run into a problem.
+              <p>{errorMessage}</p>
+            </div>}
             {instruction}
             {description}
             {fieldView === 'preview' && hasFile && <img
@@ -665,7 +705,10 @@ export default class PhotoField extends React.Component {
                 aria-valuemin={this.state.minRatio}
                 aria-valuemax={this.state.maxRatio}
                 aria-valuenow={this.state.zoomValue}
-                onInput={this.onZoomSliderChange}/>
+                onMouseDown={this.onZoomMouseDown}
+                onMouseUp={this.onZoomMouseUp}
+                onMouseMove={this.onZoomMouseMove}
+                onChange={this.onZoomSliderChange}/>
               {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
               {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
                 <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
@@ -729,14 +772,21 @@ export default class PhotoField extends React.Component {
             </div>
             <div className="crop-button-container">
               <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I’m done
+                I’m Done
               </button>
             </div>
           </div>
           }
           {fieldView === 'initial' && <div className="drop-target-container">
-            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
-              <img alt="placeholder" src="/img/photo-placeholder.png"/>
+            <Dropzone
+              className={`drop-target ${this.state.dragActive && 'drag-active'}`}
+              onDragEnter={() => this.handleDrag({ dragActive: true })}
+              onDragLeave={() => this.handleDrag({ dragActive: false })}
+              onDrop={this.onChange}
+              accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              {this.state.dragActive ?
+                <div className="drag-active-text"><span>DROP PHOTO</span></div> :
+                <img alt="placeholder" src="/img/photo-placeholder.png"/>}
             </Dropzone>
           </div>}
           <div className={uploadControlClass}>
@@ -762,14 +812,14 @@ export default class PhotoField extends React.Component {
             {fieldView === 'initial' && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeScreenReader}
-              buttonText="Screen reader friendly photo upload tool"
+              buttonText="Use our screen reader-friendly photo upload tool."
               aria-describedby="screenReaderPathDescription"
               triggerClass="va-button-link"
               name="screenReaderFileUpload"/>}
             {fieldView === 'error' && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeScreenReader}
-              buttonText="Upload Again"
+              buttonText="Upload Photo Again"
               name="screenReaderFileUpload"/>}
           </div>
           <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>

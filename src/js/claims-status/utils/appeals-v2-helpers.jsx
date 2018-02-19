@@ -3,7 +3,20 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 
-// TO DO: Replace made up properties and content with real versions once finalized.
+// This literally determines how many rows are displayed per page on the v2 index page
+export const ROWS_PER_PAGE = 10;
+
+export const APPEAL_TYPES = {
+  original: 'original',
+  postRemand: 'post_remand',
+  postCavcRemand: 'post_cavc_remand',
+  reconsideration: 'reconsideration',
+  cue: 'cue'
+};
+
+export const APPEAL_V2_TYPE = 'appealSeries';
+
+// TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
   pendingSoc: 'pending_soc',
@@ -39,16 +52,37 @@ export const ISSUE_STATUS = {
   cavcRemand: 'cavc_remand',
 };
 
-export const CLOSED_STATUSES = [
-  STATUS_TYPES.bvaDecision,
-  STATUS_TYPES.fieldGrant,
-  STATUS_TYPES.withdrawn,
-  STATUS_TYPES.ftr,
-  STATUS_TYPES.ramp,
-  STATUS_TYPES.reconsideration,
-  STATUS_TYPES.death,
-  STATUS_TYPES.otherClose
-];
+// Action Types & Availability statuses
+// TO-DO: Separate action types and availability statuses
+// Note: excludes FETCH_APPEALS_SUCCESS because there are defined in actions
+// and used in v1 as well
+export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
+export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
+export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
+export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';
+export const AVAILABLE = 'AVAILABLE';
+export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
+export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
+export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
+export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
+
+export const claimsAvailability = {
+  AVAILABLE: 'AVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE'
+};
+
+// TO-DO: Ensure availability refs point to this instead of the actions above
+export const appealsAvailability = {
+  USER_FORBIDDEN_ERROR: 'USER_FORBIDDEN_ERROR',
+  RECORD_NOT_FOUND_ERROR: 'RECORD_NOT_FOUND_ERROR',
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  BACKEND_SERVICE_ERROR: 'BACKEND_SERVICE_ERROR',
+  FETCH_APPEALS_ERROR: 'FETCH_APPEALS_ERROR',
+  AVAILABLE: 'AVAILABLE'
+};
 
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
@@ -120,7 +154,7 @@ export function addStatusToIssues(issues) {
  * @returns {object} One appeal object or undefined if not found in the array
  */
 export function isolateAppeal(state, id) {
-  return _.find(state.disability.status.claims.appeals, (a) => a.id === id);
+  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id);
 }
 
 export function formatDate(date) {
@@ -456,7 +490,7 @@ export function getStatusContents(statusType, details) {
 }
 
 export const EVENT_TYPES = {
-  claim: 'claim',
+  claimDecision: 'claim_decision',
   nod: 'nod',
   droHearing: 'dro_hearing',
   fieldGrant: 'field_grant',
@@ -483,7 +517,7 @@ export const EVENT_TYPES = {
  */
 export function getEventContent(event) {
   switch (event.type) {
-    case EVENT_TYPES.claim:
+    case EVENT_TYPES.claimDecision:
       return {
         title: 'VBA sent the original claim decision to you',
         description: '',
@@ -1116,4 +1150,82 @@ export function getAlertContent(alert) {
         type,
       };
   }
+}
+
+/**
+ * Tests an http error response for an errors array and status property for the
+ * first error in the array. Returns the status code or 'unknown'
+ * @param {Object} response error response object from vets-api
+ * @returns {string} status code or 'unknown'
+ */
+export const getStatus = (response) => {
+  return (response.errors && response.errors.length)
+    ? response.errors[0].status
+    : 'unknown';
+};
+
+// Series of utility functions to sort claims and appeals by last updated date
+/**
+ * 
+ * @param {Object} appeal
+ * @returns {string}
+ */
+const getAppealDate = (appeal) => {
+  const { events } = appeal.attributes;
+  const dateString = (events && events.length)
+    ? events[events.length - 1].date
+    : '0';
+  return dateString;
+};
+
+/**
+ * 
+ * @param {Object} claim
+ * @returns {string}
+ */
+const getClaimDate = (claim) => {
+  const { phaseChangeDate } = claim.attributes;
+  const dateString = phaseChangeDate || '0';
+  return dateString;
+};
+
+/**
+ * 
+ * @param {Object} item
+ * @returns {string}
+ */
+const getDate = (item) => {
+  if (!item.attributes) {
+    return '0';
+  }
+
+  return (item.type === APPEAL_V2_TYPE)
+    ? getAppealDate(item)
+    : getClaimDate(item);
+};
+
+/**
+ * 
+ * @param {Object} item1
+ * @param {Object} item2
+ * @returns {-1|1|0}
+ */
+export function sortByLastUpdated(item1, item2) {
+  const lastUpdatedDate1 = getDate(item1);
+  const lastUpdatedDate2 = getDate(item2);
+
+  if (moment(lastUpdatedDate1).isAfter(lastUpdatedDate2)) {
+    return -1;
+  } else if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
+    return 1;
+  }
+  return 0;
+}
+
+export function getVisibleRows(list, currentPage) {
+  const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  if (!list.length) {
+    return list;
+  }
+  return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }

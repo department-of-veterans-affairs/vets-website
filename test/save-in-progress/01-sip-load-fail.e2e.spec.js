@@ -37,34 +37,46 @@ module.exports = E2eHelpers.createE2eTest(
 
     // fail to find in progress form
     client
+      .url(url)
+      .waitForElementVisible('body', Timeouts.normal);
+
+    E2eHelpers.overrideScrolling(client);
+
+    client
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'get',
         value: {},
         status: 404
       }, token)
+      .waitForElementPresent('.usa-button-primary', Timeouts.normal)
       .click('.usa-button-primary');
 
+    client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
     client.assert.urlContains('error');
-
     client.expect.element('.usa-alert-error').text.to.contain('Something went wrong when we tried to find your application');
 
     // Signed out when loading form
     E2eHelpers.overrideVetsGovApi(client);
     client
       .url(url)
-      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible('body', Timeouts.normal);
+
+    E2eHelpers.overrideScrolling(client);
+
+    client
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'get',
         value: {},
         status: 401
       }, token)
+      .waitForElementPresent('.usa-button-primary', Timeouts.normal)
       .click('.usa-button-primary');
 
-    client.waitForElementVisible('.usa-alert-error', Timeouts.slow);
+    client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
 
-    client.expect.element('.usa-alert-error').text.to.contain('You have been signed out');
+    client.expect.element('.usa-alert-error').text.to.contain('You’re signed out of your account');
 
     client.end();
   });

@@ -16,6 +16,7 @@ const winston = require('winston');
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
+  { name: 'host', type: String, defaultValue: 'localhost' },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -84,7 +85,7 @@ options.logger = winston;
 const app = express();
 app.use(bodyParser.json());
 app.use(makeMockApiRouter(options));
-app.listen(options.port, () => {
+app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(`Mock API server listening on port ${options.port}`);
 });
