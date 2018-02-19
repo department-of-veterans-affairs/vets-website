@@ -616,6 +616,7 @@ export default class PhotoField extends React.Component {
       return (
         <div className="va-growable-background">
           <PhotoPreview
+            isLoggedIn={formContext.isLoggedIn}
             className="photo-review"
             src={this.state.previewSrc || getImageUrl(file)}/>
         </div>
@@ -693,6 +694,7 @@ export default class PhotoField extends React.Component {
             {description}
             {fieldView === 'preview' && hasFile &&
               <PhotoPreview
+                isLoggedIn={formContext.isLoggedIn}
                 className="photo-preview"
                 src={this.state.previewSrc || getImageUrl(file)}/>
             }
