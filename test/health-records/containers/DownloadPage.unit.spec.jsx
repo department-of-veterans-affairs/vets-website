@@ -52,7 +52,7 @@ describe('<DownloadPage>', () => {
     expect(alertBox.props.status).to.equal('error');
   });
 
-  it('should render skipped update warning corrserectly', () => {
+  it('should render skipped update warning correctly', () => {
     const errorProps = Object.assign({}, props());
     errorProps.form.ready = true;
     errorProps.refresh.statuses.incomplete.push({ id: 0 });
