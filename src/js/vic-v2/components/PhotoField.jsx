@@ -259,6 +259,8 @@ export default class PhotoField extends React.Component {
       { width: MAX_CROPPED_HEIGHT_WIDTH, height: MAX_CROPPED_HEIGHT_WIDTH } :
       {};
 
+    croppedCanvasOptions.imageSmoothingQuality = 'high';
+
     this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
