@@ -10,16 +10,20 @@ import * as address from '../../../common/schemaform/definitions/address';
 import { dischargeTypeLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
+import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
+  applicantEmail,
   applicantFullName,
   applicantGender,
+  applicantHomePhone,
+  applicantMobilePhone,
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
@@ -35,6 +39,7 @@ const {
   date,
   fullName,
   gender,
+  phone,
   ssn,
   vaFileNumber,
   dateRange,
@@ -101,6 +106,7 @@ const formConfig = {
     date,
     fullName,
     gender,
+    phone,
     ssn,
     vaFileNumber,
     dateRange,
@@ -312,6 +318,35 @@ const formConfig = {
             required: ['applicantAddress'],
             properties: {
               applicantAddress: address.schema(fullSchema36, true)
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact information',
+          uiSchema: {
+            applicantHomePhone: phoneUI('Daytime phone number'),
+            applicantMobilePhone: phoneUI('Evening phone number'),
+            applicantEmail: {
+              'ui:title': 'Email address'
+            },
+            'view:confirmEmail': {
+              'ui:title': 'Re-enter email address',
+              'ui:options': {
+                hideOnReview: true
+              }
+            },
+            'ui:validations': [
+              validateMatch('applicantEmail', 'view:confirmEmail')
+            ]
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicantHomePhone,
+              applicantMobilePhone,
+              applicantEmail,
+              'view:confirmEmail': applicantEmail,
             }
           }
         }
