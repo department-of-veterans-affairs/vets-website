@@ -24,8 +24,8 @@ export default class PhotoPreview extends React.Component {
         return new Error(resp.responseText);
       }).then(blob => {
         this.props.onUpdatePreview(window.URL.createObjectURL(blob));
-      }).catch(() => {
-        this.props.onError();
+      }).catch(err => {
+        this.props.onError(err);
       });
     }
   }

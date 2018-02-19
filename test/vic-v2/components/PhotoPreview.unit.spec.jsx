@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import { mockFetch, resetFetch } from '../../util/unit-helpers.js';
 
@@ -9,7 +10,7 @@ import PhotoPreview from '../../../src/js/vic-v2/components/PhotoPreview.jsx';
 function setFetchResponse(stub, data) {
   const response = new Response();
   response.ok = true;
-  response.json = () => Promise.resolve(data);
+  response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
@@ -33,24 +34,28 @@ describe('<PhotoPreview>', () => {
 
   it('should fetch file metadata and update', (done) => {
     mockFetch();
-    const response = {
-      data: {
-        attributes: {
-          guid: 'test'
-        }
-      }
-    };
+    const response = new Blob();
     setFetchResponse(global.fetch.onFirstCall(), response);
 
-    function updatePreview(file) {
-      expect(file).to.equal(response);
+    window.URL.createObjectURL = sinon.stub().returns('test');
+
+    function updatePreview(src) {
+      expect(src).to.equal('test');
       resetFetch();
+      delete window.URL.createObjectURL;
+      done();
+    }
+
+    function onError() {
+      expect.fail();
+      delete window.URL.createObjectURL;
       done();
     }
 
     const tree = shallow(
       <PhotoPreview
         onUpdatePreview={updatePreview}
+        onError={onError}
         isLoggedIn
         id="guid"/>
     );
