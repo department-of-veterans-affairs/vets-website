@@ -64,11 +64,15 @@ export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
     '/v0/letters/beneficiary',
     null,
-    (response) => dispatch({
-      type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
-      data: response,
-    }),
     (response) => {
+      window.dataLayer.push({ event: 'letter-get-bsl-success' });
+      dispatch({
+        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+        data: response,
+      });
+    },
+    (response) => {
+      window.dataLayer.push({ event: 'letter-get-bsl-failure' });
       dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
       const status = getStatus(response);
       throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
