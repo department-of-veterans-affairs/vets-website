@@ -6,6 +6,7 @@ import {
   genderLabels
 } from '../../../common/utils/labels.jsx';
 
+import * as address from '../../../common/schemaform/definitions/address';
 import { dischargeTypeLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -96,6 +97,7 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
+    address,
     date,
     fullName,
     gender,
@@ -299,6 +301,20 @@ const formConfig = {
     contactInformation: {
       title: 'Contact Information',
       pages: {
+        applicantAddress: {
+          path: 'applicant-address',
+          title: 'Address information',
+          uiSchema: {
+            applicantAddress: address.uiSchema('Please provide a mailing address where we could reach you in the next 30 to 60 days.'),
+          },
+          schema: {
+            type: 'object',
+            required: ['applicantAddress'],
+            properties: {
+              applicantAddress: address.schema(fullSchema36, true)
+            }
+          }
+        }
       }
     }
   }
