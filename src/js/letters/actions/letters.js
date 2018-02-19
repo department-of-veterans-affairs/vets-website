@@ -34,7 +34,7 @@ export function getLetterList(dispatch) {
     null,
     response => {
       window.dataLayer.push({ event: 'letter-list-success' });
-      dispatch({
+      return dispatch({
         type: GET_LETTERS_SUCCESS,
         data: response,
       });
@@ -69,7 +69,7 @@ export function getBenefitSummaryOptions(dispatch) {
     null,
     (response) => {
       window.dataLayer.push({ event: 'letter-get-bsl-success' });
-      dispatch({
+      return dispatch({
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
       });
@@ -280,7 +280,7 @@ export function getAddressCountries() {
       null,
       (response) => {
         window.dataLayer.push({ event: 'letter-get-address-countries-success' });
-        dispatch({
+        return dispatch({
           type: GET_ADDRESS_COUNTRIES_SUCCESS,
           countries: response,
         });
@@ -302,7 +302,7 @@ export function getAddressStates() {
       null,
       (response) => {
         window.dataLayer.push({ event: 'letter-get-address-states-success' });
-        dispatch({
+        return dispatch({
           type: GET_ADDRESS_STATES_SUCCESS,
           states: response,
         });
