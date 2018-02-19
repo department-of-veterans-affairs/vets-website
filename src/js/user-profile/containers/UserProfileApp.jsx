@@ -5,48 +5,55 @@ import { updateVerifyUrl } from '../../login/actions';
 import { removeSavedForm } from '../actions';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import Accordion, { AccordionTab } from '../../common/components/Accordion';
 
-class ProfileAccordion extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { activeAccordionId: 'veteran-information' };
-  }
-  onAccordionTabClick = (accordionId) => {
-    const activeAccordionId = this.state.activeAccordionId === accordionId ? '' : accordionId;
-    this.setState({ activeAccordionId });
-  }
+class ProfileView extends React.Component {
   render() {
+    // const { profile } = this.props;
     return (
-      <Accordion>
-        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="veteran-information" title="Veteran Information">
-          <h3>Veteran Information</h3>
-        </AccordionTab>
-        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="military-service" title="Military Service">
-          <h3>Military Service</h3>
-        </AccordionTab>
-        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="va-benefits" title="VA Benefits">
-          <h3>VA Benefits</h3>
-        </AccordionTab>
-        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="household-information" title="Household Information">
-          <h3>Household Information</h3>
-        </AccordionTab>
-        <AccordionTab onClick={this.onAccordionTabClick} activeAccordionId={this.state.activeAccordionId} id="insurance-information" title="Insurance Information">
-          <h3>Insurance Information</h3>
-        </AccordionTab>
-      </Accordion>
+      <div>
+        <div className="profile-hero" style={{ display: 'flex' }}>
+          <div>
+            <div style={{ background: '#ccc', height: '8em', width: '8em' }}>&nbsp;</div>
+          </div>
+          <div style={{ marginLeft: 25 }}>
+            <h2 style={{ marginTop: 0 }}>Kim Washington</h2>
+            United States Army<br/>
+            First Lieutenant
+          </div>
+        </div>
+        <h2>Contact Information</h2>
+        <h3>Mailing Address</h3>
+        1234 Anywhere Drive<br/>
+        Anytown, MA 000000
+        <h3>Residential Address</h3>
+        1234 Anywhere Drive<br/>
+        Anytown, MA 000000
+        <h3>Primary Phone Number</h3>
+        555-555-5555
+        <h3>Alternate Phone Number</h3>
+        555-555-5555
+        <h3>Email Address</h3>
+        example@example.com
+        <h2>Personal Information</h2>
+        <h3>Gender</h3>
+        Female
+        <h3>Birth date</h3>
+        Jan 1, 1900
+        <h3>Social security number</h3>
+        xxx-xx-0000
+        <h2>Military Service</h2>
+        <h3>Army</h3>
+        Mar 2, 2011 - Jan 12, 2016
+        <h3>Air Force</h3>
+        Mar 2, 2011 - Jan 12, 2016
+        <h3>Service Awards</h3>
+        Example Recogition
+      </div>
     );
   }
 }
 
 class UserProfileApp extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      activeAccordionId: 'veteranInformation'
-    };
-  }
-
   componentDidMount() {
     if (!this.props.verifyUrl) {
       getVerifyUrl(this.props.updateVerifyUrl);
@@ -66,7 +73,7 @@ class UserProfileApp extends React.Component {
             <div className="row user-profile-row">
               <div className="usa-width-two-thirds medium-8 small-12 columns">
                 <h1>Your Profile</h1>
-                <ProfileAccordion/>
+                <ProfileView profile={this.props.profile}/>
               </div>
             </div>
           </DowntimeNotification>
