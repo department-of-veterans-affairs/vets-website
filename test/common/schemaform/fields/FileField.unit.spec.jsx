@@ -338,7 +338,7 @@ describe('Schemaform <FileField>', () => {
     formDOM.files('input[type=file]', [{}]);
 
     expect(uploadFile.firstCall.args[0]).to.eql({});
-    expect(uploadFile.firstCall.args[1]).to.eql(['fileField', 0]);
+    expect(uploadFile.firstCall.args[1]).to.be.a('function');
     expect(uploadFile.firstCall.args[2]).to.eql(uiSchema['ui:options']);
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
   });

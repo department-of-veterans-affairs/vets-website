@@ -153,10 +153,12 @@ export function scrollToFirstError() {
 }
 
 export function scrollAndFocus(errorEl) {
-  const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  const position = errorEl.getBoundingClientRect().top + currentPosition;
-  Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-  focusElement(errorEl);
+  if (errorEl) {
+    const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const position = errorEl.getBoundingClientRect().top + currentPosition;
+    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    focusElement(errorEl);
+  }
 }
 
 export function displayFileSize(size) {

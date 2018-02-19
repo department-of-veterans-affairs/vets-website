@@ -140,26 +140,22 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, filePath, uiOptions, progressCallback) {
+export function uploadFile(file, onChange, uiOptions, progressCallback) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
-      dispatch(
-        setData(_.set(filePath, {
-          name: file.name,
-          errorMessage: 'File is too large to be uploaded'
-        }, getState().form.data))
-      );
+      onChange({
+        name: file.name,
+        errorMessage: 'File is too large to be uploaded'
+      });
 
       return Promise.reject();
     }
 
     if (file.size < uiOptions.minSize) {
-      dispatch(
-        setData(_.set(filePath, {
-          name: file.name,
-          errorMessage: 'File is too small to be uploaded'
-        }, getState().form.data))
-      );
+      onChange({
+        name: file.name,
+        errorMessage: 'File is too small to be uploaded'
+      });
 
       return Promise.reject();
     }
@@ -167,19 +163,18 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
     // we limit file types, but it’s not respected on mobile and desktop
     // users can bypass it without much effort
     if (!uiOptions.fileTypes.some(fileType => file.name.toLowerCase().endsWith(fileType.toLowerCase()))) {
-      dispatch(
-        setData(_.set(filePath, {
-          name: file.name,
-          errorMessage: 'File is not one of the allowed types'
-        }, getState().form.data))
-      );
+      onChange({
+        name: file.name,
+        errorMessage: 'File is not one of the allowed types'
+      });
 
       return Promise.reject();
     }
 
-    dispatch(
-      setData(_.set(filePath, { name: file.name, uploading: true }, getState().form.data))
-    );
+    onChange({
+      name: file.name,
+      uploading: true
+    });
 
     const payload = uiOptions.createPayload(file, getState().form.formId);
 
@@ -191,17 +186,13 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
         if (req.status >= 200 && req.status < 300) {
           const body = 'response' in req ? req.response : req.responseText;
           const fileData = uiOptions.parseResponse(JSON.parse(body), file);
-          dispatch(
-            setData(_.set(filePath, fileData, getState().form.data))
-          );
+          onChange(fileData);
           resolve(fileData);
         } else {
-          dispatch(
-            setData(_.set(filePath, {
-              name: file.name,
-              errorMessage: req.statusText
-            }, getState().form.data))
-          );
+          onChange({
+            name: file.name,
+            errorMessage: req.statusText
+          });
           Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
           reject();
         }
@@ -209,12 +200,10 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
 
       req.addEventListener('error', () => {
         const errorMessage = 'Network request failed';
-        dispatch(
-          setData(_.set(filePath, {
-            name: file.name,
-            errorMessage
-          }, getState().form.data))
-        );
+        onChange({
+          name: file.name,
+          errorMessage
+        });
         Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
           extra: {
             statusText: req.statusText
@@ -224,12 +213,10 @@ export function uploadFile(file, filePath, uiOptions, progressCallback) {
       });
 
       req.addEventListener('abort', () => {
-        dispatch(
-          setData(_.set(filePath, {
-            name: file.name,
-            errorMessage: 'Upload aborted'
-          }, getState().form.data))
-        );
+        onChange({
+          name: file.name,
+          errorMessage: 'Upload aborted'
+        });
         Raven.captureMessage('vets_upload_error: Upload aborted');
         reject();
       });

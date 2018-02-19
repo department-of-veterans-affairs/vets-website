@@ -1,3 +1,11 @@
+export const branchCodeLabels = {
+  A: 'Army',
+  C: 'Coast Guard',
+  F: 'Air Force',
+  N: 'Navy',
+  M: 'Marine Corps'
+};
+
 export const countryValues = [
   'AFG',
   'ALA',
