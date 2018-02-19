@@ -15,7 +15,7 @@ import reducer from './reducer';
 const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/employment/vocational-rehab-and-employment/application/chapter36'
+  basename: '/employment/vocational-rehab-and-employment/application/chapter31'
 });
 
 function init() {
