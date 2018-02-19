@@ -1,15 +1,13 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
-import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
+// import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const {
-} = fullSchema31.properties;
+// const {} = fullSchema31.properties;
 
-const {
-} = fullSchema31.definitions;
+// const {} = fullSchema31.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -46,7 +44,8 @@ const formConfig = {
     },
     contactInformation: {
       title: 'Contact Information',
-    },
+    }
+  }
 };
 
 
