@@ -144,7 +144,7 @@ class UserDataSection extends React.Component {
           {content}
           <p><span className="label">Email address:</span> {email}</p>
           {this.renderMultifactorMessage()}
-          {this.accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
+          {accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>

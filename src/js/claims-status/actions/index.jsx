@@ -10,10 +10,17 @@ import {
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  ROWS_PER_PAGE,
+  CHANGE_INDEX_PAGE
 } from '../utils/appeals-v2-helpers';
 
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+// -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+// -------------------- v1 --------------------
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
@@ -128,6 +135,29 @@ export function getAppealsV2() {
   };
 }
 
+export function fetchClaimsSuccess(response) {
+  const claims = response.data;
+  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims,
+    pages
+  };
+}
+
+export function getClaimsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+    return apiRequest(
+      '/evss_claims',
+      null,
+      (response) => dispatch(fetchClaimsSuccess(response)),
+      // TO-DO: parse out errors, log in Sentry
+      () => dispatch({ type: FETCH_CLAIMS_ERROR })
+    );
+  };
+}
+
 export function filterClaims(filter) {
   return {
     type: FILTER_CLAIMS,
@@ -144,6 +174,13 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
+    page
+  };
+}
+
+export function changePageV2(page) {
+  return {
+    type: CHANGE_INDEX_PAGE,
     page
   };
 }
