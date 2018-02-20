@@ -50,6 +50,7 @@ export default function AppealListItem({ appeal }) {
         <div className={`status-circle ${appeal.attributes.active ? 'open' : 'closed'}`}/>
         <p><strong>Status:</strong> {getStatusContents(status.type, status.details).title}</p>
       </div>
+      {appeal.attributes.description && <span><strong>Issues on appeal:</strong> {appeal.attributes.description}</span>}
       <div className="communications">
         {renderNextAction(lastEvent, previousHistory)}
       </div>
