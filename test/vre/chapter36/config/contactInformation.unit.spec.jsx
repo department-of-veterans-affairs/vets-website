@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
 
-describe.only('VRE chapter 36 contact information', () => {
+describe('VRE chapter 36 contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.contactInformation;
   it('renders applicant address form', () => {
     const form = mount(
