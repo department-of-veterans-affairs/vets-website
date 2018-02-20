@@ -6,7 +6,7 @@ import {
   genderLabels
 } from '../../../common/utils/labels.jsx';
 
-import { dischargeTypeLabels } from '../labels';
+import { dischargeTypeLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 

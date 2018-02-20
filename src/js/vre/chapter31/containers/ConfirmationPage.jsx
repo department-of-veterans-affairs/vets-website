@@ -10,11 +10,6 @@ class ConfirmationPage extends React.Component {
   componentDidMount() {
   }
 
-  toggleExpanded = (e) => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  }
-
   render() {
     return (
       <div>
