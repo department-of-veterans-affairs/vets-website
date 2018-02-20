@@ -6,7 +6,7 @@ import {
   genderLabels
 } from '../../../common/utils/labels.jsx';
 
-import { dischargeTypeLabels } from '../labels';
+import { benefitsLabels, dischargeTypeLabels } from '../labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -44,6 +44,14 @@ const requiredDateRange = _.merge(dateRange, {
   required: ['to', 'from']
 });
 
+export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
+  const { noneOrSome = 'Please choose "None" or a combination of other options' } = errorMessages;
+  const group = userGroup || {};
+  if (group.none && Object.keys(group).filter(item => !!group[item]).length > 1) {
+    errors.addError(noneOrSome);
+  }
+}
+
 const serviceHistoryUI = {
   'ui:options': {
     itemName: 'Service Period',
@@ -79,6 +87,29 @@ const applicantServiceHistory = _.merge(serviceHistory, {
     }
   }
 });
+
+const previousBenefitApplicationsUI = {
+  'ui:title': 'Have you ever applied for any of the following VA benefits? (Check all that apply.)',
+  'ui:validations': [validateBooleanGroup],
+  'ui:errorMessages': {
+    noneOrSome: 'Please choose "None" or a combination of other options'
+  },
+  'ui:options': {
+    showFieldLabel: true
+  },
+  chapter31: {
+    'ui:title': benefitsLabels.chapter31
+  },
+  ownServiceBenefits: {
+    'ui:title': benefitsLabels.ownServiceBenefits
+  },
+  other: {
+    'ui:title': benefitsLabels.other
+  },
+  none: {
+    'ui:title': benefitsLabels.none
+  }
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -119,10 +150,10 @@ const formConfig = {
             },
             applicantFullName: _.merge(fullNameUI, {
               first: {
-                'ui:required': formData => formData['view:isVeteran'] === false,
+                'ui:required': formData => formData['view:isVeteran'] === false
               },
               last: {
-                'ui:required': formData => formData['view:isVeteran'] === false,
+                'ui:required': formData => formData['view:isVeteran'] === false
               },
               'ui:options': {
                 expandUnder: 'view:isVeteran',
@@ -212,7 +243,7 @@ const formConfig = {
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             veteranSocialSecurityNumber: _.assign(ssnUI, {
               'ui:title': 'Social Security number (must have this or a VA file number)',
-              'ui:required': form => !form.veteranVaFileNumber,
+              'ui:required': form => !form.veteranVaFileNumber
             }),
             veteranVaFileNumber: {
               'ui:title': 'VA file number (must have this or a Social Security number)',
@@ -225,7 +256,7 @@ const formConfig = {
               currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW'),
               {
                 'ui:options': {
-                  hideIf: (formData) => formData['view:isVeteran'] === true,
+                  hideIf: formData => formData['view:isVeteran'] === true
                 }
               }
             )
@@ -247,6 +278,226 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional Information',
       pages: {
+        additionalInformationVeteran: {
+          title: 'Additional Information',
+          path: 'additional-information',
+          depends: {
+            'view:isVeteran': true
+          },
+          uiSchema: {
+            previousBenefitApplications: previousBenefitApplicationsUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              previousBenefitApplications: {
+                type: 'object',
+                properties: {
+                  chapter31: {
+                    type: 'boolean'
+                  },
+                  ownServiceBenefits: {
+                    type: 'boolean'
+                  },
+                  other: {
+                    type: 'boolean'
+                  },
+                  none: {
+                    type: 'boolean'
+                  }
+                }
+              }
+            }
+          }
+        },
+        additionalInformationCurrentSpouse: {
+          title: 'Additional Information',
+          path: 'additional-information-spouse',
+          depends: {
+            applicantRelationshipToVeteran: 'Spouse'
+          },
+          uiSchema: {
+            divorceOrAnnulmentPending: {
+              'ui:title': 'If you are the spouse of a disabled Veteran is a divorce or annulment pending?',
+              'ui:widget': 'yesNo'
+            },
+            previousBenefitApplications: _.merge(
+              _.unset(
+                ['chapter31', 'ownServiceBenefits'],
+                previousBenefitApplicationsUI
+              ),
+              {
+                dic: {
+                  'ui:title': benefitsLabels.dic
+                },
+                other: {
+                  'ui:title': benefitsLabels.other
+                },
+                none: {
+                  'ui:title': benefitsLabels.none
+                }
+              }
+            ),
+            previousVeteranBenefitsFullName: _.merge(fullNameUI, {
+              'ui:description': "Veteran's name under whom you've claimed benefits",
+
+              first: {
+                'ui:required': () => false
+              },
+              last: {
+                'ui:required': () => false
+              },
+              'ui:options': {
+                expandUnder: 'previousBenefitApplications',
+                expandUnderCondition: applications =>
+                  _.some(Boolean, applications) && !applications.none
+              }
+            }),
+            previousVeteranBenefitsSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:title':
+                'Social Security number (must have this or a VA file number)',
+              'ui:options': {
+                expandUnder: 'previousBenefitApplications',
+                expandUnderCondition: applications =>
+                  _.some(Boolean, applications) && !applications.none
+              }
+            }),
+            previousVeteranBenefitsVaFileNumber: {
+              'ui:title':
+                'VA file number (must have this or a Social Security number)',
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              },
+              'ui:options': {
+                expandUnder: 'previousBenefitApplications',
+                expandUnderCondition: applications =>
+                  _.some(Boolean, applications) && !applications.none
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              divorceOrAnnulmentPending: {
+                type: 'boolean'
+              },
+              previousBenefitApplications: {
+                type: 'object',
+                properties: {
+                  dic: {
+                    type: 'boolean'
+                  },
+                  other: {
+                    type: 'boolean'
+                  },
+                  none: {
+                    type: 'boolean'
+                  }
+                }
+              },
+              previousVeteranBenefitsFullName: _.unset(
+                'required',
+                veteranFullName
+              ),
+              previousVeteranBenefitsSocialSecurityNumber: veteranSocialSecurityNumber,
+              previousVeteranBenefitsVaFileNumber: veteranVaFileNumber
+            }
+          }
+        },
+        additionalInformationSurvivingSpouse: {
+          title: 'Additional Information',
+          path: 'additional-information-surviving-spouse',
+          depends: {
+            applicantRelationshipToVeteran: 'Surviving spouse'
+          },
+          uiSchema: {
+            remarried: {
+              'ui:title': 'Did you remarry?',
+              'ui:widget': 'yesNo'
+            },
+            previousBenefitApplications: _.merge(
+              _.unset(
+                ['chapter31', 'ownServiceBenefits'],
+                previousBenefitApplicationsUI
+              ),
+              {
+                dic: {
+                  'ui:title': benefitsLabels.dic
+                },
+                other: {
+                  'ui:title': benefitsLabels.other
+                },
+                none: {
+                  'ui:title': benefitsLabels.none
+                }
+              }
+            ),
+            previousVeteranBenefitsFullName: _.merge(fullNameUI, {
+              'ui:description':
+                "Veteran's name under whom you've claimed benefits",
+              first: {
+                'ui:required': () => false
+              },
+              last: {
+                'ui:required': () => false
+              },
+              'ui:options': {
+                expandUnder: 'previousBenefitApplications',
+                expandUnderCondition: applications =>
+                  _.some(Boolean, applications) && !applications.none
+              }
+            }),
+            previousVeteranBenefitsSocialSecurityNumber: _.assign(ssnUI, {
+              'ui:title':
+                'Social Security number (must have this or a VA file number)',
+              'ui:options': {
+                expandUnder: 'previousBenefitApplications',
+                expandUnderCondition: applications =>
+                  _.some(Boolean, applications) && !applications.none
+              }
+            }),
+            previousVeteranBenefitsVaFileNumber: {
+              'ui:title':
+                'VA file number (must have this or a Social Security number)',
+              'ui:errorMessages': {
+                pattern: 'Your VA file number must be between 7 to 9 digits'
+              },
+              'ui:options': {
+                expandUnder: 'previousBenefitApplications',
+                expandUnderCondition: applications =>
+                  _.some(Boolean, applications) && !applications.none
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              remarried: {
+                type: 'boolean'
+              },
+              previousBenefitApplications: {
+                type: 'object',
+                properties: {
+                  dic: {
+                    type: 'boolean'
+                  },
+                  other: {
+                    type: 'boolean'
+                  },
+                  none: {
+                    type: 'boolean'
+                  }
+                }
+              },
+              previousVeteranBenefitsFullName: _.unset(
+                'required',
+                veteranFullName
+              ),
+              previousVeteranBenefitsSocialSecurityNumber: veteranSocialSecurityNumber,
+              previousVeteranBenefitsVaFileNumber: veteranVaFileNumber
+            }
+          }
+        }
       }
     },
     militaryHistory: {
@@ -269,7 +520,7 @@ const formConfig = {
           }
         },
         militaryHistory: {
-          depends: (formData) => !formData['view:isVeteran'],
+          depends: formData => !formData['view:isVeteran'],
           path: 'military-history-applicant',
           title: 'Military History',
           uiSchema: {
@@ -298,8 +549,7 @@ const formConfig = {
     },
     contactInformation: {
       title: 'Contact Information',
-      pages: {
-      }
+      pages: {}
     }
   }
 };
