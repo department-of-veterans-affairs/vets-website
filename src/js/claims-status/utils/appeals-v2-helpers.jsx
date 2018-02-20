@@ -168,11 +168,16 @@ export function formatDate(date) {
  * @property {string} title a current status type's title
  * @property {HTMLElement} description details about the current status, can be any element
  * ----------------------------------------------------------------------------------------------
+ * @typedef {Object} Name
+ * @property {string} [first] first name
+ * @property {string} [middle] middle name
+ * @property {string} [last] last
  * @param {string} statusType the status type of a claim appeal as returned by the api
- * @param {Object} details optional, properties vary depending on the status type
+ * @param {Object} [details] optional, properties vary depending on the status type
+ * @param {Name} [name] used for death status type, includes first/middle/last properties
  * @returns {Contents}
  */
-export function getStatusContents(statusType, details) {
+export function getStatusContents(statusType, details = {}, name = {}) {
   const contents = {};
   switch (statusType) {
     case STATUS_TYPES.pendingSoc:
@@ -474,14 +479,18 @@ export function getStatusContents(statusType, details) {
         Veteran Service Organization or representative for more information.</p>
       );
       break;
-    case STATUS_TYPES.death:
+    case STATUS_TYPES.death: {
+      const { first, middle, last } = name;
+      const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
+      console.log(nameString);
       contents.title = 'The appeal was closed';
       contents.description = (
-        <p>VA records indicate that {} is deceased, so this appeal has been closed. If
+        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If
         this information is incorrect, please contact your Veteran Service Organization or
         representative as soon as possible.</p>
       );
       break;
+    }
     case STATUS_TYPES.otherClose:
       contents.title = 'Your appeal was closed';
       contents.description = (
@@ -1068,7 +1077,6 @@ export function getAlertContent(alert) {
               If you need help with understanding your Statement of the Case or completing the Form
               9, contact your VSO or representative.
             </p>
-            <p><a href="#">[LINK] Learn more about completing the Form 9</a>.</p>
           </div>
         ),
         displayType: 'take_action',
@@ -1078,10 +1086,8 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.scheduledHearing: {
       const formattedDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
-        title: 'A hearing has been scheduled',
-        description: (
-          <p>Your [TYPE] hearing has been scheduled for {formattedDate} at [LOCATION].</p>
-        ),
+        title: `Your hearing is scheduled for ${formattedDate}`,
+        description: null,
         displayType: 'take_action',
         type
       };
