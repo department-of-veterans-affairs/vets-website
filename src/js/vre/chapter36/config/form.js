@@ -10,6 +10,8 @@ import * as address from '../../../common/schemaform/definitions/address';
 import { dischargeTypeLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { transform } from '../helpers';
+
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -92,6 +94,7 @@ const formConfig = {
   trackingPrefix: 'vre-chapter-36',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: '28-8832',
   version: 0,
   prefillEnabled: true,
