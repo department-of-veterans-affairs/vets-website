@@ -31,8 +31,8 @@ describe('VRE chapter 36 contact information', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    fillData(form, 'input#root_applicantHomePhone', '8017777777');
-    fillData(form, 'input#root_applicantMobilePhone', '8017777777');
+    fillData(form, 'input#root_applicantPrimaryPhone', '8017777777');
+    fillData(form, 'input#root_applicantOtherPhone', '8017777777');
     fillData(form, 'input#root_applicantEmail', 'test@test.com');
     fillData(form, 'input[name="root_view:confirmEmail"]', 'test@test.com');
 
