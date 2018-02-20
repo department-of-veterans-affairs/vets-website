@@ -62,7 +62,7 @@ export default class PhotoPreview extends React.Component {
 }
 
 PhotoPreview.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   src: PropTypes.string,
   className: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,

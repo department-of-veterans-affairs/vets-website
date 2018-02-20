@@ -37,18 +37,22 @@ describe('<PhotoPreview>', () => {
     const response = new Blob();
     setFetchResponse(global.fetch.onFirstCall(), response);
 
-    window.URL.createObjectURL = sinon.stub().returns('test');
+    window.URL = {
+      createObjectURL: sinon.stub().returns('test')
+    };
 
     function updatePreview(src) {
-      expect(src).to.equal('test');
       resetFetch();
-      delete window.URL.createObjectURL;
+      delete window.URL;
+      expect(src).to.equal('test');
       done();
     }
 
+    // If this is failing, you'll see a timeout
     function onError() {
+      resetFetch();
+      delete window.URL;
       expect.fail();
-      delete window.URL.createObjectURL;
       done();
     }
 
