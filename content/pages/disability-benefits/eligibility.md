@@ -69,7 +69,8 @@ You may be able to get disability benefits if you have a current illness or inju
 
 You may be able to get disability compensation through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
 
-You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
+You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
+
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
 
 **Note:** If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health care benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (1-800-827-1000), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
