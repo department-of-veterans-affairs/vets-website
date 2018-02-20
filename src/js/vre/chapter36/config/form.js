@@ -9,6 +9,7 @@ import {
 import { dischargeTypeLabels } from '../labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { transform } from '../helpers';
 
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
@@ -86,6 +87,7 @@ const formConfig = {
   trackingPrefix: 'vre-chapter-36',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: '28-8832',
   version: 0,
   prefillEnabled: true,
