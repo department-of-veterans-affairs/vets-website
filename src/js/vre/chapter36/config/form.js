@@ -7,7 +7,7 @@ import {
 } from '../../../common/utils/labels.jsx';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import { dischargeTypeLabels } from '../labels';
+import { dischargeTypeLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { transform } from '../helpers';
