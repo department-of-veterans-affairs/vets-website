@@ -37,6 +37,34 @@ describe('<PhotoField>', () => {
     expect(tree.text()).to.contain('Step 1');
     expect(tree.find('ErrorableFileInput').length).to.equal(2);
   });
+  it('should render preview while processing', () => {
+    const formContext = {};
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        formData={{
+          confirmationCode: 'asdfasdf'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
+
+    tree.instance().onPreviewError();
+    tree.update();
+
+    const text = tree.text();
+    expect(tree.find('PhotoPreview').exists()).to.be.true;
+    expect(text).not.to.contain('Edit your photo');
+    expect(text).to.contain('Go back and change');
+    expect(text).not.to.contain('Success!');
+  });
   describe('screen reader path', () => {
     function FileReader() { }
     FileReader.prototype.readAsDataURL = function readAsDataURL(file) {
