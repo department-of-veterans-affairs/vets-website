@@ -32,8 +32,6 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
-    console.info(tree);
-
     expect(tree.find('Cropper').exists()).to.be.false;
     expect(tree.find('.drop-target').exists()).to.be.true;
     expect(tree.text()).to.contain('Step 1');
