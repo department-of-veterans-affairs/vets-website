@@ -424,7 +424,7 @@ display_title: Frequently Asked Questions
                           </ul>
                           <li><strong>Use your premium My Health<em>e</em>Vet or DS Logon account to sign in to Vets.gov</strong>. When you use your existing premium account to sign, we’ll connect your verified account to Vets.gov through ID.me.<br/>
                             If you don’t have a premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, you can find out how to get one by reading the questions above.</li>
-                          <li>Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: <a href="tel:+1phonenumber">1-800-829-4833</a>) for more help. We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</li>
+                          <li><strong>Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: <a href="tel:+1phonenumber">1-800-829-4833</a>) for more help</strong>. We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</li>
                         </ul>
                       </div>
                     </div>
