@@ -482,7 +482,6 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.death: {
       const { first, middle, last } = name;
       const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
-      console.log(nameString);
       contents.title = 'The appeal was closed';
       contents.description = (
         <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If
