@@ -222,9 +222,6 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                      </div>
-                    </div>
-                  </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-mhv-3" itemprop="name">Does it cost anything to get a premium My Health<em>e</em>Vet account? </button>
                     <div id="faq-mhv-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
