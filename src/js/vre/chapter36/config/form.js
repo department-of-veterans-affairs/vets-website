@@ -24,8 +24,8 @@ const {
   applicantEmail,
   applicantFullName,
   applicantGender,
-  applicantHomePhone,
-  applicantMobilePhone,
+  applicantPrimaryPhone,
+  applicantOtherPhone,
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
@@ -328,8 +328,8 @@ const formConfig = {
           path: 'contact-information',
           title: 'Contact information',
           uiSchema: {
-            applicantHomePhone: phoneUI('Daytime phone number'),
-            applicantMobilePhone: phoneUI('Evening phone number'),
+            applicantPrimaryPhone: phoneUI('Primary phone number where a message can be left'),
+            applicantOtherPhone: phoneUI('Other phone number'),
             applicantEmail: {
               'ui:title': 'Email address'
             },
@@ -346,8 +346,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              applicantHomePhone,
-              applicantMobilePhone,
+              applicantPrimaryPhone,
+              applicantOtherPhone,
               applicantEmail,
               'view:confirmEmail': applicantEmail,
             }
