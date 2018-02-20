@@ -6,19 +6,26 @@ import {
   genderLabels
 } from '../../../common/utils/labels.jsx';
 
-import { benefitsLabels, dischargeTypeLabels } from '../labels.jsx';
+import * as address from '../../../common/schemaform/definitions/address';
+import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { transform } from '../helpers';
 
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
+import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
+  applicantEmail,
   applicantFullName,
   applicantGender,
+  applicantPrimaryPhone,
+  applicantOtherPhone,
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
@@ -34,6 +41,7 @@ const {
   date,
   fullName,
   gender,
+  phone,
   ssn,
   vaFileNumber,
   dateRange,
@@ -117,6 +125,7 @@ const formConfig = {
   trackingPrefix: 'vre-chapter-36',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: '28-8832',
   version: 0,
   prefillEnabled: true,
@@ -127,9 +136,11 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
+    address,
     date,
     fullName,
     gender,
+    phone,
     ssn,
     vaFileNumber,
     dateRange,
@@ -549,7 +560,51 @@ const formConfig = {
     },
     contactInformation: {
       title: 'Contact Information',
-      pages: {}
+      pages: {
+        applicantAddress: {
+          path: 'applicant-address',
+          title: 'Address information',
+          uiSchema: {
+            applicantAddress: address.uiSchema('Please provide a mailing address where we could reach you in the next 30 to 60 days.'),
+          },
+          schema: {
+            type: 'object',
+            required: ['applicantAddress'],
+            properties: {
+              applicantAddress: address.schema(fullSchema36, true)
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact information',
+          uiSchema: {
+            applicantPrimaryPhone: phoneUI('Primary phone number where a message can be left'),
+            applicantOtherPhone: phoneUI('Other phone number'),
+            applicantEmail: {
+              'ui:title': 'Email address'
+            },
+            'view:confirmEmail': {
+              'ui:title': 'Re-enter email address',
+              'ui:options': {
+                hideOnReview: true
+              }
+            },
+            'ui:validations': [
+              validateMatch('applicantEmail', 'view:confirmEmail')
+            ]
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicantPrimaryPhone,
+              applicantOtherPhone,
+              applicantEmail,
+              'view:confirmEmail': applicantEmail,
+            }
+          }
+        }
+      }
     }
   }
 };
