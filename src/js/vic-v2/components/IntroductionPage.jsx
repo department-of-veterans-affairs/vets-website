@@ -44,7 +44,7 @@ class IntroductionPage extends React.Component {
           resumeOnly
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}>
-          Please complete the VIC form to apply for a card.
+          Please complete the Veteran ID Card form to apply for a card.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for a Veteran ID Card.</h4>
         <div className="process schemaform-process schemaform-process-sip">
@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
               <div className="vic-intro-indent">
                 <div><h6>The photo has to follow all the standards listed here. It must:</h6></div>
                 <ul>
-                  <li>Show a full front view of your face and neck, with full visibility of the face and no shadows, <strong>and</strong></li>
+                  <li>Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
                   <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
                   <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
                   <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo), <strong>and</strong></li>
@@ -70,17 +70,20 @@ class IntroductionPage extends React.Component {
                 <h6>Examples of good ID photos</h6>
                 <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
                 <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
+                <p>
+                  <a href="/veteran-id-card/how-to-upload-photo" target="_blank">Learn more about uploading a photo for your Veteran ID Card</a>.
+                </p>
               </div>
             </li>
             {!signedIn && <li className="process-step list-two">
               <div><h5>Sign In and Verify Your Identity</h5></div>
               <p>You have a choice for how you complete this application.</p>
-              <h6>Choice 1: Sign In to Vets.gov and Verify Your Identity</h6>
+              <h6>Choice 1: Sign in to Vets.gov and verify your identity</h6>
               <p>Sign in to Vets.gov with either an existing DS Logon (the same one you use for eBenefits or MilConnect) or an ID.me account.</p>
               <p>If you don’t have an account on Vets.gov, you can create one using ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity verification system available.</p>
               <p>When you’re signed in, we can verify your identity to make sure you’re you. This also helps to keep your information safe, and prevent fraud and identity theft.</p>
               <p>Verifying your identity is a one-time process that’ll take about 5-10 minutes. Once you’ve gone through
-the identity process, you won't need to do it again. To verify your identity through ID.me, you’ll need:</p>
+the identity-proofing process, you won't need to do it again. To verify your identity through ID.me, you’ll need:</p>
               {idProofingReqs}
               <p>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</p>
               {accountBenefits}
@@ -89,7 +92,7 @@ the identity process, you won't need to do it again. To verify your identity thr
             </li>}
             {signedIn && !idProofed && <li className="process-step list-two">
               <div><h5>Verify Your Identity</h5></div>
-              <p>Afer you gather the documents needed to apply, we suggest you verify your identity as an extra
+              <p>After you gather the documents needed to apply, we suggest you verify your identity as an extra
 security measure to make sure only you can access your Veteran ID Card. To do this, you’ll need to
 use ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity
 verification system available.</p>
