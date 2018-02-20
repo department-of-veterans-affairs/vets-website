@@ -13,7 +13,8 @@ class FeedbackForm extends React.Component {
     super(props);
     this.state = {
       suppressDescriptionErrors: true,
-      suppressEmailErrors: true
+      suppressEmailErrors: true,
+      shouldSendResponse: null,
     };
   }
 
@@ -42,9 +43,8 @@ class FeedbackForm extends React.Component {
   }
 
   setResponse = ({ value: shouldSendResponse, dirty }) => {
-    console.log(typeof shouldSendResponse + '!!');
+    if(dirty) this.setState({ shouldSendResponse })
     this.props.setFormValues({ shouldSendResponse });
-    console.log(shouldSendResponse, dirty, this.props.formValues);
   }
 
   sendFeedback = (event) => {
@@ -81,16 +81,16 @@ class FeedbackForm extends React.Component {
               id="shouldSendResponse"
               label="Would you like us to follow up with you about your ideas?"
               options={[
-                { label: 'Yes', value: true },
-                { label: 'No', value: false }
+                { label: 'Yes', value: 'yes' },
+                { label: 'No', value: 'no' }
               ]}
               onValueChange={this.setResponse}
-              value={{ value: 'shouldSendResponse' }}
+              value={{ value: this.state.shouldSendResponse }}
               required/>
 
             <div className="usa-grid-full">
               <div className="usa-width-two-thirds">
-                {this.props.formValues.shouldSendResponse === 'true' && (
+                {this.props.formValues.shouldSendResponse === 'yes' && (
                   <div className="feedback-email-container">
                     <ErrorableTextInput
                       label="Your email address"

@@ -46,7 +46,6 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   handleChange(domEvent) {
-    console.log('handle change fires', domEvent.target.value, typeof domEvent.target.value);
     this.props.onValueChange(makeField(domEvent.target.value, true));
   }
 
@@ -96,6 +95,7 @@ class ErrorableRadioButtons extends React.Component {
           optionAdditional = (<div>{obj.additional}</div>);
         }
       }
+      console.log('optionValue', optionValue, 'storedValue', storedValue);
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
       const radioButton = (
