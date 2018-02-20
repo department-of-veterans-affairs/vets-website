@@ -29,7 +29,7 @@ display_title: Frequently Asked Questions
             <div class="small-12 columns">
               <a name="why-verify"></a>
               <a name="what-is-idme"></a>
-              <h4>About Vets.gov and ID.me</h4>
+              <h3>About Vets.gov and ID.me</h3>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -87,14 +87,14 @@ display_title: Frequently Asked Questions
                     <div id="faq-about-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you use your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account to sign in, we’ll connect your account to Vets.gov through ID.me. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
-                        <p>If you create an ID.me account with Vets.gov—or if you sign in with a basic or advanced (non-premium <strong>My Health<em>e</em>Vet</strong>a basic <strong>DS Logon</strong> account—you’ll go through a process that makes sure you're you (not someone pretending to be you). You’ll need to provide your Social Security number and either upload pictures of your ID card (your driver's license or passport) or answer questions based on your public and private data (like your credit report) that only you'd know how to answer.</p>
+                        <p>If you create an ID.me account with Vets.gov—or if you sign in with a basic or advanced (non-premium <strong>My Health<em>e</em>Vet</strong> basic <strong>DS Logon</strong> account—you’ll go through a process that makes sure you're you (not someone pretending to be you). You’ll need to provide your Social Security number and either upload pictures of your ID card (your driver's license or passport) or answer questions based on your public and private data (like your credit report) that only you'd know how to answer.</p>
                         <p>You can then use this login to securely access your VA benefits and personal health information online. You can also use your ID.me online dashboard to monitor activity linked to your ID.me account and to change what information is shared with Vets.gov.</p>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>How to sign in to Vets.gov</h4>
+                <h3>How to sign in to Vets.gov</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov? </button>
@@ -160,14 +160,14 @@ display_title: Frequently Asked Questions
                     <div id="faq-vetsgov-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>Sign in and enter your ID.me username and password.</p>
-                        <p>If you’ve set up 2-factor authentication, ID.me will send a 6-digit verification code to your mobile or home phone. Enter this code where we ask you for it on the site to proceed with setting up your account on Vets.gov.</p>
-                        <p>If you haven’t set up 2-factor authentication yet, you can do so any time from your Vets.gov profile page. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.</p>
+                        <p><strong>If you’ve set up 2-factor authentication</strong>, ID.me will send a 6-digit verification code to your mobile or home phone. Enter this code where we ask you for it on the site to proceed with setting up your account on Vets.gov.</p>
+                        <p><strong>If you haven’t set up 2-factor authentication yet</strong>, you can do so any time from your Vets.gov profile page. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.</p>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>How to get a premium My Health<em>e</em>Vet account</h4>
+                <h3>How to get a premium My Health<em>e</em>Vet account</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-mhv-0" itemprop="name">What's a premium My Health<em>e</em>Vet account, and why would I want one? </button>
@@ -175,7 +175,7 @@ display_title: Frequently Asked Questions
                       <div itemprop="text">
                         <p><strong>My Health<em>e</em>Vet</strong> is a secure online VA personal health record that gives you tools and information to help you improve your health.</p> 
                         <p>With a basic or advanced account, you can use some of the <strong>My Health<em>e</em>Vet</strong> site’s tools. But you’ll need a premium account before you can view your personal information or access your VA health record.</p>
-                        <p>With a premium account, you can do things like:</p>
+                        <p><strong>With a premium account, you can do things like:</strong></p>
                         <ul>
                           <li>Refill your VA prescriptions and track their delivery</li>
                           <li>Get email reminders for your upcoming VA health appointments</li>
@@ -190,7 +190,7 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-mhv-1" itemprop="name">How do I get a My Health<em>e</em>Vet account so I can use it to sign in to Vets.gov? </button>
                     <div id="faq-mhv-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>You can sign up for an account on the <strong>My Health<em>e</em>Vet website. You’ll need to have your Social Security number on hand.</p>
+                        <p>You can sign up for an account on the <strong>My Health<em>e</em>Vet</strong> website. You’ll need to have your Social Security number on hand.</p>
                         <p>If you’d like to be able to upgrade to a premium account, be sure to sign up as a VA patient. Then, follow the instructions in the next question to upgrade your account.</p>
                         <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
                       </div>
@@ -232,7 +232,7 @@ display_title: Frequently Asked Questions
                   </li>         
                 </ul>
                 <br/><br/> 
-                <h4>How to get a premium DS Logon account</h4>
+                <h3>How to get a premium DS Logon account</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-0" itemprop="name">What's a premium DS Logon account, and why would I want one? </button>
@@ -318,7 +318,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Ways to verify your identity</h4>
+                <h3>Ways to verify your identity</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">How do I verify my identity online? </button>
@@ -375,7 +375,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Verifying your identity with ID.me</h4>
+                <h3>Verifying your identity with ID.me</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-0" itemprop="name">How long does it take to create an account and verify my identity through ID.me? </button>
@@ -431,7 +431,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Your privacy and security with ID.me</h4>
+                <h3>Your privacy and security with ID.me</h3>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-0" itemprop="name">What information does ID.me collect, and do they share it with anyone else? </button>
