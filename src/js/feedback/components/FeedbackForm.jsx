@@ -5,7 +5,7 @@ import { focusElement } from '../../common/utils/helpers';
 import AlertBox from '../../common/components/AlertBox';
 import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 
 class FeedbackForm extends React.Component {
 
@@ -41,6 +41,11 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ email });
   }
 
+  setResponse = ({ value: shouldSendResponse, dirty }) => {
+    this.props.setFormValues({ shouldSendResponse });
+    console.log(shouldSendResponse, dirty, this.props.formValues);
+  }
+
   sendFeedback = (event) => {
     event.preventDefault();
     if (this.props.formIsSubmittable) this.props.sendFeedback(this.props.formValues);
@@ -57,12 +62,11 @@ class FeedbackForm extends React.Component {
   render() {
     return (
       <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback}>
-        <h4 className="feedback-widget-title">Tell us what you think</h4>
         <div className="va-flex">
           <div className="feedback-widget-form-container">
             <div className="feedback-widget-desc-container">
               <ErrorableTextarea
-                label="What can we do to make Vets.gov better?"
+                label="Tell us about your ideas to make Vets.gov better."
                 name="description"
                 onValueChange={this.setDescription}
                 errorMessage={this.descriptionErrorMessage()}
@@ -70,14 +74,22 @@ class FeedbackForm extends React.Component {
                 ref={component => { this.descriptionComp = component; }}
                 required/>
             </div>
-            <ErrorableCheckbox
-              name="should-send-response"
-              label="I would like to receive a response about my feedback."
-              checked={this.props.formValues.shouldSendResponse}
-              onValueChange={(shouldSendResponse) => this.props.setFormValues({ shouldSendResponse })}/>
+
+            <ErrorableRadioButtons
+              name="shouldSendResponse"
+              id="shouldSendResponse"
+              label="Would you like us to follow up with you about your ideas?"
+              options={[
+                { label: 'Yes', value: true },
+                { label: 'No', value: false }
+              ]}
+              onValueChange={this.setResponse}
+              value={{ value: 'shouldSendResponse' }}
+              required/>
+
             <div className="usa-grid-full">
               <div className="usa-width-two-thirds">
-                {this.props.formValues.shouldSendResponse && (
+                {this.props.formValues.shouldSendResponse === 'true' && (
                   <div className="feedback-email-container">
                     <ErrorableTextInput
                       label="Your email address"
@@ -93,9 +105,8 @@ class FeedbackForm extends React.Component {
                 <div className="feedback-submit-container">
                   <button
                     type="submit"
-                    disabled={this.props.requestPending || !this.props.formIsSubmittable}
-                    className="usa-button-primary usa-width-one-whole feedback-submit-button">
-                    {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
+                    className="usa-button-secondary-inverse usa-width-one-fourth feedback-submit-button">
+                    {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send Us Your Ideas'}
                   </button>
                 </div>
               </div>
