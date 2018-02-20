@@ -46,6 +46,7 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   handleChange(domEvent) {
+    console.log('handle change fires', domEvent.target.value, typeof domEvent.target.value);
     this.props.onValueChange(makeField(domEvent.target.value, true));
   }
 

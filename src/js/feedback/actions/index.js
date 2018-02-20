@@ -15,6 +15,7 @@ export function revealForm() {
 
 export function setFormValues(formValues) {
   const formErrors = {};
+  if (formValues.shouldSendResponse) console.log(typeof formValues.shouldSendResponse)
   if (formValues.description !== undefined) formErrors.description = formValues.description.length > 0 ? '' : 'Please enter a description';
   if (formValues.email !== undefined) formErrors.email = isValidEmail(formValues.email) ? '' : 'Please enter a valid email';
 

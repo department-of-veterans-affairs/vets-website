@@ -42,6 +42,7 @@ class FeedbackForm extends React.Component {
   }
 
   setResponse = ({ value: shouldSendResponse, dirty }) => {
+    console.log(typeof shouldSendResponse + '!!');
     this.props.setFormValues({ shouldSendResponse });
     console.log(shouldSendResponse, dirty, this.props.formValues);
   }
