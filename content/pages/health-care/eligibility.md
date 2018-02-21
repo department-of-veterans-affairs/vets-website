@@ -26,9 +26,7 @@ Find out if you can get VA health care as a Veteran.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get VA health care benefits if you served in the active military, naval, or air service. 
-
-You should know:
+You may be able to get VA health care benefits if you served in the active military, naval, or air service and didn't receive a dishonorable discharge. 
 
 - **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
 
@@ -38,15 +36,12 @@ You should know:
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
-</div>
-</div>
+<br>
 
-<h3 itemprop="name"></h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">What if I have an other than honorable, bad conduct, or dishonorable discharge?
-<div itemprop="text">
+### What if I have an other than honorable, bad conduct, or dishonorable discharge?
 
-[Learn about your options to qualify for VA benefits](#not-honorable).
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+[Find out about other options for getting benefits](/discharge-upgrade-instructions/#other-options).
 
 </div>
 </div>
@@ -109,7 +104,6 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
-- [If I have an other than honorable, bad conduct, or dishonorable discharge, can I get VA health care benefits?](#not-honorable)
 - [If I can't get VA health care benefits, how else can I get health insurance?](#cannot-get)
 - [I need vision care. Can I get it through VA?](#vision-care)
 - [I need dental care. Can I get it through VA?](#dental-care)
@@ -156,42 +150,6 @@ We assign Veterans with service-connected disabilities the highest priority. We 
 
 No. Whether or not you have other health insurance coverage doesn’t affect the VA health care benefits you can get. <br/>
 [Learn more about how VA works with other insurance](/health-care/about-va-health-care/va-health-care-and-other-insurance/).
-
-</div>
-</div>
-</div>
-<br>
-
-<span id="not-honorable"></span>
-
-<div itemscope itemtype="http://schema.org/Question">
-
-<h4 itemprop="name">If I have an other than honorable, bad conduct, or dishonorable discharge, can I get VA health care benefits?</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-You have 2 options to try to qualify for VA health care benefits:
-
-- <strong>Apply for a discharge upgrade.</strong><br>
-If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
-- <strong>Go through the Character of Discharge review process.</strong><br>
-Even if you don’t get a discharge upgrade, you still may be able to access some VA health care benefits. When you apply, we’ll review your record to determine if your service was “honorable for VA purposes.” This review can take up to a year. Please provide us with documents supporting your case, similar to the evidence you’d send with an application to upgrade your discharge. <br>
-You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you.<br>
-[Find a VSO near you](https://www.benefits.va.gov/vso/varo.asp).
-
-**Note:** You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.
-
-**How to get mental health care even without VA health care benefits:**
-
-If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (1-800-827-1000), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
-
-**Learn more about accessing VA health services for:**
-
-- [Mental health problems](/health-care/health-conditions/mental-health/)
-- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
-- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
 
 </div>
 </div>
