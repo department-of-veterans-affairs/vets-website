@@ -47,15 +47,24 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
-        veteranInformation: {
-          path: 'military-information',
-          title: 'Military Information',
+        militaryHistoryVeteran: {
+          depends: {
+            'view:isVeteran': true
+          },
+          path: 'military-history',
+          title: 'Military History',
+          uiSchema: {
+            // serviceHistory: serviceHistoryUI,
+            // serviceFlags: {}
+          },
           schema: {
             type: 'object',
             properties: {
+              // serviceHistory,
+              // serviceFlags
             }
           }
-        }
+        },
       }
     },
     workInformation: {
