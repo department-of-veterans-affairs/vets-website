@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-describe.only('VIC photo upload', () => {
+describe('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
   it('should render', (done) => {
