@@ -76,7 +76,7 @@ describe('profile helpers:', () => {
       const allMappedIds = Object.keys(schemaToConfigIds);
       const sipEnabledConfigs = configs.filter(config => !config.disableSave);
       const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
-      expect(allFormIds).to.deep.equal(allMappedIds);
+      expect(allFormIds).to.include.members(allMappedIds);
       expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });
   });
