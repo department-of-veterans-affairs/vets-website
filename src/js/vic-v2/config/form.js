@@ -4,7 +4,7 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import PhotoField from '../components/PhotoField';
+import asyncLoader from '../../common/components/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit } from '../helpers';
@@ -199,7 +199,7 @@ const formConfig = {
                 };
               }
             }), {
-              'ui:field': PhotoField,
+              'ui:field': asyncLoader(() => import('../components/PhotoField').then(m => m.default)),
               'ui:validations': [
                 validateFile
               ]
