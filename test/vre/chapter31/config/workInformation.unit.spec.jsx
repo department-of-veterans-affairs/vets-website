@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, selectRadio } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter31/config/form.js';
 
-describe.only('VRE chapter 31 work information', () => {
+describe('VRE chapter 31 work information', () => {
   const { schema, uiSchema } = formConfig.chapters.workInformation.pages.workInformation;
   it('renders work information form', () => {
     const form = mount(<DefinitionTester
@@ -31,7 +31,7 @@ describe.only('VRE chapter 31 work information', () => {
 
     selectRadio(form, 'root_view:isWorking', 'Y');
 
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(2);
   });
 

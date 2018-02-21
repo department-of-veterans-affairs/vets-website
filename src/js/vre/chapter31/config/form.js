@@ -10,7 +10,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   employer,
-  employerAddress,
   jobDuties,
   monthlyIncome
 } = fullSchema31.properties;
@@ -23,7 +22,7 @@ const expandIfWorking = {
   'ui:options': {
     expandUnder: 'view:isWorking',
   }
-}
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -88,6 +87,10 @@ const formConfig = {
               'ui:title': 'Employer name',
               ...expandIfWorking
             },
+            jobDuties: {
+              'ui:title': 'Job duties',
+              ...expandIfWorking
+            },
             monthlyIncome: _.merge(
               currencyUI('Monthly pay'),
               expandIfWorking
@@ -105,6 +108,7 @@ const formConfig = {
                 type: 'boolean'
               },
               employer,
+              jobDuties,
               monthlyIncome,
               employerAddress: address.schema(fullSchema31)
             }
