@@ -1093,7 +1093,6 @@ export function getAlertContent(alert) {
     }
     case ALERT_TYPES.hearingNoShow: {
       const formattedDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
-      // const formattedDueDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
         title: `You have 14 days to reschedule your hearing from ${formattedDate}`,
         description: (

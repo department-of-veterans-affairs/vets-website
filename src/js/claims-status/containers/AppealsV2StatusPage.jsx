@@ -19,7 +19,6 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
     type: appealType
   } = appeal.attributes;
   const currentStatus = getStatusContents(status.type, status.details, fullName);
-  // TODO: Might be a good idea to consolidate these two
   const nextEvents = getNextEvents(status.type, status.details);
 
   // TODO: This will change. We'll be getting the date from the docket object in the api.
