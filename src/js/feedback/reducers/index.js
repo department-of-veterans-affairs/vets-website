@@ -47,7 +47,7 @@ function feedbackReducer(state = initialState, action) {
       // else if NO is selected, form is submittable
       else if (formValues.shouldSendResponse) formIsSubmittable = true;
 
-      console.log("form is submittable: " , formIsSubmittable, '|| should send response: ', formValues.shouldSendResponse, ' || email: ', formValues.email, 'email errors: ', formErrors.email);
+      // console.log("form is submittable: " , formIsSubmittable, '|| should send response: ', formValues.shouldSendResponse, ' || email: ', formValues.email, 'email errors: ', formErrors.email);
 
       return {
         ...state,

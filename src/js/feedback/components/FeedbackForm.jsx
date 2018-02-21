@@ -32,9 +32,12 @@ class FeedbackForm extends React.Component {
     }
   }
 
-  setDescription = ({ value: description, dirty }) => {
-    if (dirty) this.setState({ suppressDescriptionErrors: false });
-    this.props.setFormValues({ description });
+  onSubmit = (event) => {
+    event.preventDefault();
+    if (this.props.formValues.shouldSendResponse) return this.props.sendFeedback(this.props.formValues);
+    // Set the redux error message
+    this.props.setFormValues({ shouldSendResponse: null });
+    this.setState({ suppressResponseErrors: false });
   }
 
   setEmail = ({ value: email, dirty }) => {
@@ -42,18 +45,14 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ email });
   }
 
-  setResponse = ({ value: shouldSendResponse, dirty }) => {
-    //console.log('value: ', value, 'dirty:', dirty)
-    this.setState({ suppressResponseErrors: true })
+  setResponse = ({ value: shouldSendResponse }) => {
+    this.setState({ suppressResponseErrors: true });
     this.props.setFormValues({ shouldSendResponse });
   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
-    if (this.props.formValues.shouldSendResponse) return this.props.sendFeedback();
-    //Set the redux error message
-    this.props.setFormValues({shouldSendResponse: null});
-    this.setState({ suppressResponseErrors: false });
+  setDescription = ({ value: description, dirty }) => {
+    if (dirty) this.setState({ suppressDescriptionErrors: false });
+    this.props.setFormValues({ description });
   }
 
   descriptionErrorMessage = () => {
@@ -95,7 +94,7 @@ class FeedbackForm extends React.Component {
               ]}
               onValueChange={this.setResponse}
               errorMessage={this.responseErrorMessage()}
-              value={{ value: shouldSendResponse , dirty: false}}
+              value={{ value: shouldSendResponse, dirty: false }}
               required/>
 
             <div className="usa-grid-full">
