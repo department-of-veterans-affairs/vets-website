@@ -73,7 +73,7 @@ class YourClaimsPageV2 extends React.Component {
 
   renderListItem(claim) {
     if (claim.type === APPEAL_V2_TYPE) {
-      return <AppealListItem key={claim.id} appeal={claim}/>;
+      return <AppealListItem key={claim.id} appeal={claim} name={this.props.fullName}/>;
     }
 
     return <ClaimsListItem claim={claim} key={claim.id}/>;
@@ -223,6 +223,7 @@ function mapStateToProps(state) {
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
+    fullName: state.user.profile.userFullName
   };
 }
 

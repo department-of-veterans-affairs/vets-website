@@ -31,7 +31,7 @@ const appealTypeMap = {
 };
 
 
-export default function AppealListItem({ appeal }) {
+export default function AppealListItem({ appeal, name }) {
   const { status } = appeal.attributes;
   // always show merged event on top
   const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
@@ -48,7 +48,7 @@ export default function AppealListItem({ appeal }) {
       </h3>
       <div className="card-status">
         <div className={`status-circle ${appeal.attributes.active ? 'open' : 'closed'}`}/>
-        <p><strong>Status:</strong> {getStatusContents(status.type, status.details).title}</p>
+        <p><strong>Status:</strong> {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       {appeal.attributes.description &&
         <span><strong>{appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on appeal:</strong> {appeal.attributes.description}</span>}
@@ -74,5 +74,10 @@ AppealListItem.propTypes = {
       programArea: PropTypes.string.isRequired,
       active: PropTypes.string.isRequired
     })
+  }),
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string
   })
 };
