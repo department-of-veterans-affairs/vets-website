@@ -39,7 +39,7 @@ You may be able to get VA health care benefits if you served in the active milit
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
-[Find out about other options for getting benefits](/discharge-upgrade-instructions/#other-options).
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 </div>
@@ -103,6 +103,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
 - [If I can't get VA health care benefits, how else can I get health insurance?](#cannot-get)
+- [If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?](#certain-needs)
 - [I need vision care. Can I get it through VA?](#vision-care)
 - [I need dental care. Can I get it through VA?](#dental-care)
 - [I think I may have a service-connected disability. Can I get disability compensation (monthly payments)?](#disability-compensation)
@@ -169,6 +170,26 @@ Visit healthcare.gov to find out if you qualify for health insurance.<br/>
 </div>
 </div>
 <br>
+
+<span id="certain-needs"></span>
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Yes. Find out how you may still be able to get care for:
+
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/#no-benefits)
+- [Other mental health problems (like depression or substance abuse)](/health-care/health-conditions/mental-health/#no-benefits)
+- [Mental and physical health problems linked to military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/#no-benefits)
+
+Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
+
+</div>
+</div>
+</div>
+<br>  
 
 <span id="vision-care"></span>
 
