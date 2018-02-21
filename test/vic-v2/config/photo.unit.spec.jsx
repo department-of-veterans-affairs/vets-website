@@ -22,7 +22,6 @@ describe('VIC photo upload', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  // Disabled pending PR 7175 
   it('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -40,8 +39,7 @@ describe('VIC photo upload', () => {
   });
 
   // Sighted path
-  // Disabled pending PR 7175 
-  it('it should reject an invalid file type', () => {
+  it('it should reject an invalid file', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -78,8 +76,5 @@ describe('VIC photo upload', () => {
   // it/ should submit with a valid photo
 
   // non-sighted path
-  // it/ should display an errorfor an invalid file
-  // it/ should accept valid file and render the preview
-  // it/ should not allow the user to edit their photo
   // it/ should submit with a valid photo
 });

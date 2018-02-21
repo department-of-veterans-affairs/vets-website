@@ -4,6 +4,7 @@ template: detail-page
 title: The Program of Comprehensive Assistance to Family Caregivers of Post-9/11 Veterans
 display_title: Comprehensive Assistance to Family Caregivers
 concurrence: complete
+lastupdate: 2018-02-13
 order: 2
 ---
 <div class="va-introtext">
@@ -33,7 +34,7 @@ Your Veteran can appoint 1 primary (main) caregiver and up to 2 secondary caregi
 
 If you’re the primary caregiver, you may receive:
 - Caregiver education and training
-- A monthly stipend (payment) 
+- A monthly stipend (payment)
 - Travel, lodging, and financial assistance when traveling with the Veteran to receive care
 - Access to health care benefits through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)—if you don't already qualify for care or services under another health care plan. [Learn more about CHAMPVA](/health-care/family-caregiver-health-benefits/CHAMPVA/).
 - Mental health services and counseling

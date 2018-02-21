@@ -4,6 +4,7 @@ template: detail-page
 title: CHAMPVA
 display_title:
 concurrence: complete
+lastupdate: 2018-02-13
 order: 1
 ---
 
@@ -17,7 +18,7 @@ Are you the spouse or surviving spouse of—or a child of—a Veteran with disab
 
 ### Can I get health care through CHAMPVA?
 
-**You can only get health care through CHAMPVA if you don’t qualify for TRICARE.** 
+**You can only get health care through CHAMPVA if you don’t qualify for TRICARE.**
 
 **And one of these must be true. You’re:**
 
@@ -91,7 +92,7 @@ There are other factors that may affect whether you or other family members qual
       <div id="champva" class="usa-accordion-content">
         <p>CHAMPVA is always the second payer to Medicare. Here are some requirements you need to know:</p>
         <p><b>If you’re under 65 years old,</b> you’re eligible for CHAMPVA if you:</p>
-        <ul> 
+        <ul>
           <li>Have both Medicare Parts A and B, <b>and</b></li>
           <li>Are otherwise eligible for CHAMPVA</li>
           </ul>
@@ -108,7 +109,7 @@ There are other factors that may affect whether you or other family members qual
 
 ### What benefits do I get with CHAMPVA?
 
-With CHAMPVA, you’ll be covered for services and supplies when we determine they are medically necessary and were received from an authorized provider. When providers are performing services within the scope of their license or certification, we consider them to be authorized. 
+With CHAMPVA, you’ll be covered for services and supplies when we determine they are medically necessary and were received from an authorized provider. When providers are performing services within the scope of their license or certification, we consider them to be authorized.
 
 **Covered services include:**
 - Ambulance service

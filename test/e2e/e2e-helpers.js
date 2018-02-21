@@ -11,7 +11,7 @@ function overrideVetsGovApi(client) {
     });
     return window.VetsGov;
   },
-  [`http://localhost:${process.env.API_PORT || 3000}`]);
+  [`http://${process.env.API_HOST}:${process.env.API_PORT || 3000}`]);
 }
 
 function overrideSmoothScrolling(client) {
@@ -25,6 +25,13 @@ function overrideSmoothScrolling(client) {
       }
     });
     return window.VetsGov;
+  });
+}
+
+function overrideScrolling(client) {
+  overrideSmoothScrolling(client);
+  client.execute(() => {
+    window.scrollTo = () => null;
   });
 }
 
@@ -68,6 +75,7 @@ function createE2eTest(beginApplication) {
     'Begin application': (client) => {
       overrideSmoothScrolling(client);
       beginApplication(client);
+      client.end();
     }
   };
 }
@@ -87,13 +95,14 @@ function expectInputToNotBeSelected(client, field) {
 }
 
 module.exports = {
-  baseUrl: `http://localhost:${process.env.WEB_PORT || 3333}`,
-  apiUrl: `http://localhost:${process.env.API_PORT || 3000}`,
+  baseUrl: `http://${process.env.WEB_HOST || 'localhost'}:${process.env.WEB_PORT || 3333}`,
+  apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env.API_PORT || 3000}`,
   createE2eTest,
   expectNavigateAwayFrom,
   expectValueToBeBlank,
   expectInputToNotBeSelected,
   overrideVetsGovApi,
   overrideSmoothScrolling,
-  overrideAnimations
+  overrideAnimations,
+  overrideScrolling
 };
