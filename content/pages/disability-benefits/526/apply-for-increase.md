@@ -1,6 +1,6 @@
 ---
 title: Apply for education benefits
-entryname: 526-claims-increase
+entryname: 526EZ-claims-increase
 layout: page-react.html
 description: Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.
 ---
@@ -9,7 +9,7 @@ description: Use your VA education benefits to pay for college or training progr
     <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Disability Benefits</a></li>
-      <li class="parent"><a href="/disability-benefits/apply-for-increase/526">Apply for Increase</a></li>
+      <li class="parent"><a href="/disability-benefits/526/apply-for-increase/">Apply for Increase</a></li>
     </ul>
   </nav>
   <div class="section">

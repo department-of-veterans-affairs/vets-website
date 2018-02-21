@@ -1,5 +1,5 @@
 import 'core-js';
-import '../../sass/edu-benefits.scss';
+import '../../../sass/edu-benefits.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,10 +7,10 @@ import { createHistory } from 'history';
 import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import initReact from '../common/init-react';
+import initReact from '../../common/init-react';
 import routes from './routes';
 import reducer from './reducer';
-import initCommon from '../common/init-common';
+import initCommon from '../../common/init-common';
 
 const store = initCommon(reducer);
 

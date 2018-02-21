@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../common/utils/helpers';
 
 
 const scroller = Scroll.scroller;
