@@ -38,6 +38,7 @@ class FeedbackForm extends React.Component {
     // Set the redux error message
     this.props.setFormValues({ shouldSendResponse: null });
     this.setState({ suppressResponseErrors: false });
+    return null;
   }
 
   setEmail = ({ value: email, dirty }) => {

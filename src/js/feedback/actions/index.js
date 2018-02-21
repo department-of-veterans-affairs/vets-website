@@ -45,9 +45,6 @@ function errorMessage(status) {
 }
 
 export function sendFeedback(formValues) {
-
-  console.log(formValues);
-
   return (dispatch) => {
 
     const { description, shouldSendResponse, email: ownerEmail } = formValues;

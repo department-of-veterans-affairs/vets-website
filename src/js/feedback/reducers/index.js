@@ -38,9 +38,9 @@ function feedbackReducer(state = initialState, action) {
       const formErrors = { ...state.formErrors, ...action.formErrors };
 
       let formIsSubmittable = true;
-      //if no description is entered, or an error has displayed, form cannot be submitted
+      // if no description is entered, or an error has displayed, form cannot be submitted
       if (!formValues.description || formErrors.description) formIsSubmittable = false;
-      //else if no radio has been selected (Y/N) and no e-mail has been entered or an email error is displayed, form cannot be submitted
+      // else if no radio has been selected (Y/N) and no e-mail has been entered or an email error is displayed, form cannot be submitted
       else if (!formValues.shouldSendResponse && (!formValues.email || formErrors.email)) formIsSubmittable = false;
       // else if YES is selected but no e-mail has been entered or an e-mail error is displayed, form cannot be submitted
       else if (formValues.shouldSendResponse === 'yes' && (!formValues.email || formErrors.email)) formIsSubmittable = false;
