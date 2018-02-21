@@ -29,6 +29,11 @@
     font-weight: bold;
   }
 
+  .form-required-span {
+    color: $color-white;
+    margin-left:0;
+  }
+
   > .row {
     padding: 0 0.9375rem 1.543rem 0.9375rem;
     border-bottom: 1px solid $color-white;
