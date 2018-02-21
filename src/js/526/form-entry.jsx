@@ -16,7 +16,7 @@ const store = initCommon(reducer);
 
 // TODO: Get the real url
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/disability-benefits/apply-for-increase/526'
+  basename: '/disability-benefits/526/apply-for-increase'
 });
 
 function init() {
