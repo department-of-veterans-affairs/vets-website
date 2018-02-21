@@ -19,11 +19,11 @@ const {
   fullName
 } = fullSchema31.definitions;
 
-const hideIfNotWorking = {
+const expandIfWorking = {
   'ui:options': {
-    hideIf: (formData) => formData['view:isWorking'] === undefined || formData['view:isWorking'] === false
+    expandUnder: 'view:isWorking',
   }
-};
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -84,19 +84,17 @@ const formConfig = {
               'ui:title': 'Are you working?',
               'ui:widget': 'yesNo'
             },
-            employer: _.merge(
-              {
-                'ui:title': 'Employer name'
-              },
-              hideIfNotWorking,
-            ),
+            employer: {
+              'ui:title': 'Employer name',
+              ...expandIfWorking
+            },
             monthlyIncome: _.merge(
               currencyUI('Monthly pay'),
-              hideIfNotWorking
+              expandIfWorking
             ),
             employerAddress: _.merge(
               address.uiSchema('Employer address'),
-              hideIfNotWorking
+              expandIfWorking
             )
           },
           schema: {
