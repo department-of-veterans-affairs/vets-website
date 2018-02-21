@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import environment from '../common/helpers/environment.js';
@@ -32,16 +31,6 @@ export function prefillTransformer(pages, formData, metadata) {
     formData,
     pages
   };
-}
-
-export function PhotoReviewDescription({ url }) {
-  return (
-    <div className="va-growable-background">
-      {url
-        ? <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
-        : <span>No photo chosen</span>
-      }
-    </div>);
 }
 
 function checkStatus(guid) {

@@ -95,6 +95,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
+  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
   ignoreList.push('veteran-id-card/apply.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
@@ -452,6 +453,7 @@ if (options.watch) {
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
         { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter31(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter31/' },
         { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
         { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }

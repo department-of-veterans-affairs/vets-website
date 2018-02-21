@@ -129,7 +129,7 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { route, form, contentAfterButtons, renderErrorMessage } = this.props;
+    const { route, form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
     const formConfig = route.formConfig;
     const chapters = getActiveChapters(formConfig, form.data);
 
@@ -149,6 +149,7 @@ class ReviewPage extends React.Component {
                 chapter={formConfig.chapters[chapter]}
                 viewedPages={this.state.viewedPages}
                 setPagesViewed={this.setPagesViewed}
+                formContext={formContext}
                 form={form}/>
             ))}
           </div>
@@ -196,7 +197,8 @@ ReviewPage.propTypes = {
   uploadFile: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.element,
-  renderErrorMessage: PropTypes.func
+  renderErrorMessage: PropTypes.func,
+  formContext: PropTypes.object
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));
