@@ -7,6 +7,8 @@ import React from 'react';
 import { appealStatusDescriptions } from '../../utils/appeal-helpers';
 import { getStatusContents } from '../../utils/appeals-v2-helpers';
 
+// TODO: Remove this function and the related 'communications' div once
+// confirmed that this is no longer relevant
 const renderNextAction = (lastEvent, previousHistory) => {
   if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
     return null;
