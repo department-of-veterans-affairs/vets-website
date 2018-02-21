@@ -61,5 +61,18 @@ export default function AppealListItem({ appeal }) {
 }
 
 AppealListItem.propTypes = {
-  appeal: PropTypes.object
+  appeal: PropTypes.shape({
+    attributes: PropTypes.shape({
+      status: PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        details: PropTypes.object,
+      }).isRequired,
+      events: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired
+      })),
+      programArea: PropTypes.string.isRequired,
+      active: PropTypes.string.isRequired
+    })
+  })
 };
