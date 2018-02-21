@@ -45,9 +45,9 @@ You should know:
 You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
 
-If you don't have a dishonorable discharge, you may be able to get VA health care benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
+**If you don't have a dishonorable discharge**, you may be able to get VA health care benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
 
-If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
+**If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service**, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
 </div>
 </div>
 </div>
