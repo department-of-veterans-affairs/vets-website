@@ -4,8 +4,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { appealStatusDescriptions } from '../utils/appeal-helpers';
-import { getStatusContents } from '../utils/appeals-v2-helpers';
+import { appealStatusDescriptions } from '../../utils/appeal-helpers';
+import { getStatusContents } from '../../utils/appeals-v2-helpers';
 
 const renderNextAction = (lastEvent, previousHistory) => {
   if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {

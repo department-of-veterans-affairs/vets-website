@@ -25,7 +25,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
 import ClaimsListItem from '../components/ClaimsListItemV2';
-import AppealListItem from '../components/AppealListItemV2';
+import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
