@@ -7,15 +7,21 @@ import currencyUI from '../../../common/schemaform/definitions/currency';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import createVeteranInfoPage from '../../pages/veteranInfo';
+import { facilityLocatorLink } from '../helpers';
 
 const {
   employer,
   jobDuties,
-  monthlyIncome
+  monthlyIncome,
+  vaRecordsOffice
 } = fullSchema31.properties;
 
 const {
-  fullName
+  fullName,
+  date,
+  ssn,
+  vaFileNumber
 } = fullSchema31.definitions;
 
 const expandIfWorking = {
@@ -37,31 +43,36 @@ const formConfig = {
     notFound: '',
     noAuth: ''
   },
-  title: '',
+  title: 'Apply for Vocational Rehabilitation',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
     address,
-    fullName
+    date,
+    fullName,
+    ssn,
+    vaFileNumber,
   },
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: {
-          path: 'veteran-information',
-          title: 'Veteran Information',
-          schema: {
-            type: 'object',
-            properties: {
+        veteranInformation: createVeteranInfoPage(fullSchema31, {
+          uiSchema: {
+            vaRecordsOffice: {
+              'ui:title': 'VA benefit office where your records are located',
+              'ui:help': facilityLocatorLink
             }
+          },
+          schema: {
+            vaRecordsOffice
           }
-        }
+        })
       }
     },
     militaryHistory: {
       title: 'Military History',
       pages: {
-        veteranInformation: {
+        militaryHistory: {
           path: 'military-information',
           title: 'Military Information',
           schema: {
@@ -119,7 +130,7 @@ const formConfig = {
     educationAndVREInformation: {
       title: 'Education and Vocational Rehab Information',
       pages: {
-        veteranInformation: {
+        educationAndVREInformation: {
           path: 'education-vre-information',
           title: 'Education and Vocational Rehab Information',
           schema: {
@@ -133,7 +144,7 @@ const formConfig = {
     disabilityInformation: {
       title: 'Disability Information',
       pages: {
-        veteranInformation: {
+        disabilityInformation: {
           path: 'Disability-information',
           title: 'Disability Information',
           schema: {
