@@ -37,11 +37,10 @@ class IntroductionPage extends React.Component {
                 <li>Disability rating</li>
               </ul>
               <p><strong>What if I need help filling out my application?</strong><br/>An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
-              <p><strong>What if I don’t yet have a service connected disability rating?</strong><br/>You don’t need to wait for a rating to apply for VR&E benefits. <a href="/TODO">Learn how to apply for VR&E services if you haven’t yet received a service-connected disability rating</a>.</p>
+              <p><strong>What if I don’t yet have a service connected disability rating?</strong><br/>You don’t need to wait for a rating to apply for VR&E benefits. <a href="/employment/vocational-rehab-and-employment/apply-vre/">Learn how to apply for VR&E services if you haven’t yet received a service-connected disability rating</a>.</p>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-
               <p>Complete this vocational rehabilitation form.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
