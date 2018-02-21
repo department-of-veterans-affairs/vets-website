@@ -22,7 +22,7 @@ describe('<FeedbackForm/>', () => {
   it('should render', () => {
     const wrapper = enzyme.shallow(<FeedbackForm {...defaultProps}/>);
     const text = wrapper.text();
-    expect(text.includes('Tell us about your ideas')).to.be.true;
+    expect(text.includes('Send Us Your Ideas')).to.be.true;
   });
 
   it('should render with an error message', () => {

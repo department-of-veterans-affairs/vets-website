@@ -43,4 +43,3 @@ function setup(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(setup);
-module.exports['@disabled'] = true;
