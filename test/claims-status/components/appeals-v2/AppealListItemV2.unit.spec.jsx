@@ -23,6 +23,6 @@ describe.only('<AppealListItemV2/>', () => {
 
   it('should render', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps}/>);
-    expect(wrapper.type()).to.equal('div');s
+    expect(wrapper.type()).to.equal('div');
   });
 });
