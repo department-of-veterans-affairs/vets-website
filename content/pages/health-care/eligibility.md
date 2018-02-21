@@ -38,6 +38,16 @@ You should know:
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
+<h3 itemprop="name">What if I have an other than honorable, bad conduct, or dishonorable discharge?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+
+If you don't have a dishonorable discharge, you may be able to get VA health care benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
+
+If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.
 </div>
 </div>
 </div>
@@ -61,15 +71,6 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
-
-### Can I still get these benefits if I have a less than honorable discharge?
-
-You may be able to get VA health care benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
-
-You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
-**Note:** If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (1-800-827-1000), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
