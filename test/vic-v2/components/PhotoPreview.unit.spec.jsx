@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import 'isomorphic-fetch';
 
 import { mockFetch, resetFetch } from '../../util/unit-helpers.js';
 
