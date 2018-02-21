@@ -36,11 +36,9 @@ You may be able to get VA health care benefits if you served in the active milit
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
-<br>
-
 ### What if I have an other than honorable, bad conduct, or dishonorable discharge?
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
 [Find out about other options for getting benefits](/discharge-upgrade-instructions/#other-options).
 
 </div>
