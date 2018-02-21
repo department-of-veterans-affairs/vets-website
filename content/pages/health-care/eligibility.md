@@ -38,6 +38,9 @@ You should know:
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
+</div>
+</div>
+
 <h3 itemprop="name"></h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">What if I have an other than honorable, bad conduct, or dishonorable discharge?
 <div itemprop="text">
@@ -51,9 +54,13 @@ You should know:
 
 <div markdown="0"><br></div>
 
-### Is there anything that makes me more likely to qualify for VA health care benefits?
+<div class="feature" markdown=“1” itemscope itemtype="http://schema.org/Question">
 
-Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
+<h3 itemprop="name">Is there anything that will make me more likely to get these benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+  
+  Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
 
 - You receive financial compensation (payments) from VA for a service-connected disability
 - You were discharged for a disability resulting from something that happened to you in the line of duty
@@ -68,6 +75,12 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
+
+</div>
+</div>
+</div>
+
+<div markdown="0"><br></div>
 
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
