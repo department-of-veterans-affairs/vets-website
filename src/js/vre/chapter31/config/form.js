@@ -1,15 +1,29 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
+
+import * as address from '../../../common/schemaform/definitions/address';
+import currencyUI from '../../../common/schemaform/definitions/currency';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const {} = fullSchema31.properties;
+const {
+  employer,
+  employerAddress,
+  jobDuties,
+  monthlyIncome
+} = fullSchema31.properties;
 
 const {
   fullName
 } = fullSchema31.definitions;
+
+const hideIfNotWorking = {
+  'ui:options': {
+    hideIf: (formData) => formData['view:isWorking'] === undefined || formData['view:isWorking'] === false
+  }
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -27,6 +41,7 @@ const formConfig = {
   title: '',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
+    address,
     fullName
   },
   chapters: {
@@ -61,12 +76,39 @@ const formConfig = {
     workInformation: {
       title: 'Work Information',
       pages: {
-        veteranInformation: {
+        workInformation: {
           path: 'work-information',
           title: 'Work Information',
+          uiSchema: {
+            'view:isWorking': {
+              'ui:title': 'Are you working?',
+              'ui:widget': 'yesNo'
+            },
+            employer: _.merge(
+              {
+                'ui:title': 'Employer name'
+              },
+              hideIfNotWorking,
+            ),
+            monthlyIncome: _.merge(
+              currencyUI('Monthly pay'),
+              hideIfNotWorking
+            ),
+            employerAddress: _.merge(
+              address.uiSchema('Employer address'),
+              hideIfNotWorking
+            )
+          },
           schema: {
             type: 'object',
+            required: ['view:isWorking'],
             properties: {
+              'view:isWorking': {
+                type: 'boolean'
+              },
+              employer,
+              monthlyIncome,
+              employerAddress: address.schema(fullSchema31)
             }
           }
         }
