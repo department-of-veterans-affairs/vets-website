@@ -48,9 +48,9 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ shouldSendResponse });
   }
 
-  sendFeedback = (event) => {
+  onSubmit = (event) => {
     event.preventDefault();
-    if (this.props.formValues.shouldSendResponse) return this.sendFeedback();
+    if (this.props.formValues.shouldSendResponse) return this.props.sendFeedback();
     //Set the redux error message
     this.props.setFormValues({shouldSendResponse: null});
     this.setState({ suppressResponseErrors: false });
@@ -71,7 +71,7 @@ class FeedbackForm extends React.Component {
   render() {
     const { shouldSendResponse } = this.props.formValues;
     return (
-      <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback}>
+      <form id="feedback-form" className="feedback-form" onSubmit={this.onSubmit}>
         <div className="va-flex">
           <div className="feedback-widget-form-container">
             <div className="feedback-widget-desc-container">
