@@ -174,7 +174,7 @@ Visit healthcare.gov to find out if you qualify for health insurance.<br/>
 <span id="certain-needs"></span>
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?
+<h4 itemprop="name">If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
