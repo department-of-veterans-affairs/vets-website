@@ -100,7 +100,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('veteran-id-card/apply.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-  ignoreList.push('disability-benefits/apply-for-increase/526.md');
+  ignoreList.push('disability-benefits/526/apply-for-increase.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -457,7 +457,7 @@ if (options.watch) {
         { from: '^/employment/vocational-rehab-and-employment/application/chapter31(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter31/' },
         { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
         { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
-        { from: '^/disability-benefits/apply-for-increase(.*)', to: '/disability-benefits/apply-for-increase/526/' },
+        { from: '^/disability-benefits/526/apply-for-increase(.*)', to: '/disability-benefits/526/apply-for-increase/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },

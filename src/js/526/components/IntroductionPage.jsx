@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="This page needs attention"/>
-        <p>Equal to VA Form 21-526.</p>
+        <p>Equal to VA Form 21-526EZ.</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}

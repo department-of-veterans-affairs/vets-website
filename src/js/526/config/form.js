@@ -1,4 +1,4 @@
-// import fullSchema526 from 'vets-json-schema/dist/21-526-schema.json';
+// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -11,9 +11,9 @@ import {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/21-526',
-  trackingPrefix: 'disability-526-',
-  formId: '21-526',
+  submitUrl: '/v0/21-526EZ',
+  trackingPrefix: 'disability-526EZ-',
+  formId: '21-526EZ',
   version: 1,
   migrations: [],
   savedFormMessages: {
@@ -25,7 +25,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {},
   title: 'Disability Claims for Increase',
-  subTitle: 'Form 21-526',
+  subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {
