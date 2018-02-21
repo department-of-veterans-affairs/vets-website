@@ -95,7 +95,6 @@ class ErrorableRadioButtons extends React.Component {
           optionAdditional = (<div>{obj.additional}</div>);
         }
       }
-      console.log('optionValue', optionValue, 'storedValue', storedValue);
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
       const radioButton = (

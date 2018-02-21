@@ -16,11 +16,12 @@ const initialState = {
   formValues: {
     description: '',
     email: '',
-    shouldSendResponse: false
+    shouldSendResponse: ''
   },
   formErrors: {
     description: '',
-    email: ''
+    email: '',
+    shouldSendResponse: ''
   }
 };
 
@@ -38,7 +39,7 @@ function feedbackReducer(state = initialState, action) {
 
       let formIsSubmittable = true;
       if (!formValues.description || formErrors.description) formIsSubmittable = false;
-      else if (formValues.shouldSendResponse && (!formValues.email || formErrors.email)) formIsSubmittable = false;
+      else if (!formValues.shouldSendResponse && (!formValues.email || formErrors.email)) formIsSubmittable = false;
 
       return {
         ...state,

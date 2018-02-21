@@ -14,7 +14,6 @@ class FeedbackForm extends React.Component {
     this.state = {
       suppressDescriptionErrors: true,
       suppressEmailErrors: true,
-      shouldSendResponse: null,
     };
   }
 
@@ -42,8 +41,7 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ email });
   }
 
-  setResponse = ({ value: shouldSendResponse, dirty }) => {
-    if(dirty) this.setState({ shouldSendResponse })
+  setResponse = ({ value: shouldSendResponse }) => {
     this.props.setFormValues({ shouldSendResponse });
   }
 
@@ -61,6 +59,7 @@ class FeedbackForm extends React.Component {
   }
 
   render() {
+    const { shouldSendResponse } = this.props.formValues;
     return (
       <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback}>
         <div className="va-flex">
@@ -85,7 +84,8 @@ class FeedbackForm extends React.Component {
                 { label: 'No', value: 'no' }
               ]}
               onValueChange={this.setResponse}
-              value={{ value: this.state.shouldSendResponse }}
+              errorMessage={this.props.formErrors.shouldSendResponse}
+              value={{ value: shouldSendResponse }}
               required/>
 
             <div className="usa-grid-full">
