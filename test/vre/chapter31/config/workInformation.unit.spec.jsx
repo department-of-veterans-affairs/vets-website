@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectRadio } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectRadio } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter31/config/form.js';
 
 describe('VRE chapter 31 work information', () => {
@@ -47,6 +47,7 @@ describe('VRE chapter 31 work information', () => {
     );
 
     selectRadio(form, 'root_view:isWorking', 'Y');
+    fillData(form, 'input#root_employer', 'foo employer');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -63,6 +64,8 @@ describe('VRE chapter 31 work information', () => {
         data={{}}
         uiSchema={uiSchema}/>
     );
+
+    selectRadio(form, 'root_view:isWorking', 'Y');
 
     form.find('form').simulate('submit');
 

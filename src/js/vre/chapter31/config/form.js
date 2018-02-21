@@ -96,6 +96,7 @@ const formConfig = {
             },
             employer: {
               'ui:title': 'Employer name',
+              'ui:required': (formData) => formData['view:isWorking'],
               ...expandIfWorking
             },
             jobDuties: {
