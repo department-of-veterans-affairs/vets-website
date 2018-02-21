@@ -121,3 +121,23 @@ export function submit(form, formConfig) {
     }).catch(reject);
   });
 }
+
+export function fetchPreview(id) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'X-Key-Inflection': 'camel',
+    Authorization: `Token token=${userToken}`
+  };
+
+  return fetch(`${environment.API_URL}/v0/vic/profile_photo_attachments/${id}`, {
+    headers
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.blob();
+    }
+
+    return new Error(resp.responseText);
+  }).then(blob => {
+    return window.URL.createObjectURL(blob);
+  });
+}
