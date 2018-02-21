@@ -1,5 +1,5 @@
 import 'core-js';
-import '../../../sass/edu-benefits.scss';
+import '../../../sass/disability-benefits.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
