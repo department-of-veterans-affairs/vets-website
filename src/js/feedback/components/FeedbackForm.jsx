@@ -43,13 +43,17 @@ class FeedbackForm extends React.Component {
   }
 
   setResponse = ({ value: shouldSendResponse, dirty }) => {
-    if(dirty) this.setState({ suppressResponseErrors: true })
+    //console.log('value: ', value, 'dirty:', dirty)
+    this.setState({ suppressResponseErrors: true })
     this.props.setFormValues({ shouldSendResponse });
   }
 
   sendFeedback = (event) => {
     event.preventDefault();
-    if (this.props.formIsSubmittable) this.props.sendFeedback(this.props.formValues);
+    if (this.props.formValues.shouldSendResponse) return this.sendFeedback();
+    //Set the redux error message
+    this.props.setFormValues({shouldSendResponse: null});
+    this.setState({ suppressResponseErrors: false });
   }
 
   descriptionErrorMessage = () => {
@@ -91,7 +95,7 @@ class FeedbackForm extends React.Component {
               ]}
               onValueChange={this.setResponse}
               errorMessage={this.responseErrorMessage()}
-              value={{ value: shouldSendResponse }}
+              value={{ value: shouldSendResponse , dirty: false}}
               required/>
 
             <div className="usa-grid-full">
