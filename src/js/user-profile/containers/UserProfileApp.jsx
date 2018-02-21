@@ -8,7 +8,7 @@ import DowntimeNotification, { services } from '../../common/containers/Downtime
 
 class ProfileView extends React.Component {
   render() {
-    // const { profile } = this.props;
+    const { profile } = this.props;
     return (
       <div>
         <div className="profile-hero" style={{ display: 'flex' }}>
@@ -16,7 +16,7 @@ class ProfileView extends React.Component {
             <div style={{ background: '#ccc', height: '8em', width: '8em' }}>&nbsp;</div>
           </div>
           <div style={{ marginLeft: 25 }}>
-            <h2 style={{ marginTop: 0 }}>Kim Washington</h2>
+            <h2 style={{ marginTop: 0 }}>{profile.userFullName.first} {profile.userFullName.last}</h2>
             United States Army<br/>
             First Lieutenant
           </div>
