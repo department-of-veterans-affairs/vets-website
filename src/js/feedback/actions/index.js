@@ -15,7 +15,10 @@ export function revealForm() {
 
 export function setFormValues(formValues) {
   const formErrors = {};
-  if (!formValues.shouldSendResponse) formErrors.shouldSendResponse = 'Please select yes or no';
+  console.log(formValues, formValues.shouldSendResponse)
+  if (formValues.shouldSendResponse !== 'yes' && formValues.shouldSendResponse !== 'no') formErrors.shouldSendResponse = 'Please select yes or no';
+
+  console.log(formValues.description, 'description')
   if (formValues.description !== undefined) formErrors.description = formValues.description.length > 0 ? '' : 'Please enter a description';
   if (formValues.email !== undefined) formErrors.email = isValidEmail(formValues.email) ? '' : 'Please enter a valid email';
 

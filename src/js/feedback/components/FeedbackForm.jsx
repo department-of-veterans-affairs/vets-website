@@ -14,6 +14,7 @@ class FeedbackForm extends React.Component {
     this.state = {
       suppressDescriptionErrors: true,
       suppressEmailErrors: true,
+      suppressResponseErrors: true,
     };
   }
 
@@ -41,7 +42,8 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ email });
   }
 
-  setResponse = ({ value: shouldSendResponse }) => {
+  setResponse = ({ value: shouldSendResponse, dirty }) => {
+    if(dirty) this.setState({ suppressResponseErrors: true })
     this.props.setFormValues({ shouldSendResponse });
   }
 
@@ -56,6 +58,10 @@ class FeedbackForm extends React.Component {
 
   emailErrorMessage = () => {
     return !this.state.suppressEmailErrors ? this.props.formErrors.email : '';
+  }
+
+  responseErrorMessage = () => {
+    return !this.state.suppressResponseErrors ? this.props.formErrors.shouldSendResponse : '';
   }
 
   render() {
@@ -84,7 +90,7 @@ class FeedbackForm extends React.Component {
                 { label: 'No', value: 'no' }
               ]}
               onValueChange={this.setResponse}
-              errorMessage={this.props.formErrors.shouldSendResponse}
+              errorMessage={this.responseErrorMessage()}
               value={{ value: shouldSendResponse }}
               required/>
 
