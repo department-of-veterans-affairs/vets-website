@@ -206,6 +206,7 @@
   },
   "private": true,
   "dependencies": {
+    "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
     "choma": "^1.1.0",

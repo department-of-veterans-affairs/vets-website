@@ -6,10 +6,10 @@ import { mount } from 'enzyme';
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
-describe('VIC photo upload', () => {
+describe.only('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
-  it('should render', () => {
+  it('should render', (done) => {
     window.addEventListener = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -19,7 +19,11 @@ describe('VIC photo upload', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(3);
+    form.find('AsyncComponent').instance().componentPromise.then(() => {
+      form.update();
+      expect(form.find('input').length).to.equal(3);
+      done();
+    });
   });
 
   it('should not submit without required info', () => {
