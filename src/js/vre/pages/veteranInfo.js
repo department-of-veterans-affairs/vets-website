@@ -13,7 +13,7 @@ export default function createVeteranInfoPage(schema, extra) {
   } = schema.properties;
 
   return {
-    title: 'Veteran Inforation',
+    title: 'Veteran Information',
     path: 'veteran-information',
     uiSchema: _.merge({
       veteranFullName: fullNameUI,
