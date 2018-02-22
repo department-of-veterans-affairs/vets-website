@@ -50,6 +50,18 @@ const requiredDateRange = _.merge(dateRange, {
   required: ['to', 'from']
 });
 
+function isVeteran({ 'view:isVeteran': isVeteranApplicant }) {
+  return isVeteranApplicant;
+}
+
+function isNotVeteran({ 'view:isVeteran': isVeteranApplicant }) {
+  return !isVeteranApplicant;
+}
+
+function isVeteranOrHasApplications({ 'view:isVeteran': isVeteranApplicant, previousBenefitApplications: applications }) {
+  return isVeteranApplicant || !_.some(Boolean, applications);
+}
+
 const serviceHistoryUI = {
   'ui:options': {
     itemName: 'Service Period',
@@ -94,19 +106,19 @@ const previousBenefitApplicationsUI = {
   chapter31: {
     'ui:title': benefitsLabels.chapter31,
     'ui:options': {
-      hideIf: ({ 'view:isVeteran': isVeteran }) => !isVeteran
+      hideIf: isNotVeteran
     }
   },
   ownServiceBenefits: {
     'ui:title': benefitsLabels.ownServiceBenefits,
     'ui:options': {
-      hideIf: ({ 'view:isVeteran': isVeteran }) => !isVeteran
+      hideIf: isNotVeteran
     }
   },
   dic: {
     'ui:title': benefitsLabels.dic,
     'ui:options': {
-      hideIf: ({ 'view:isVeteran': isVeteran }) => isVeteran
+      hideIf: isVeteran
     }
   },
   other: {
@@ -183,10 +195,10 @@ const formConfig = {
             },
             applicantFullName: _.merge(fullNameUI, {
               first: {
-                'ui:required': formData => formData['view:isVeteran'] === false
+                'ui:required': isNotVeteran
               },
               last: {
-                'ui:required': formData => formData['view:isVeteran'] === false
+                'ui:required': isNotVeteran
               },
               'ui:options': {
                 expandUnder: 'view:isVeteran',
@@ -196,7 +208,7 @@ const formConfig = {
             applicantRelationshipToVeteran: {
               'ui:title': 'What is your relationship to the Servicemember or Veteran?',
               'ui:widget': 'radio',
-              'ui:required': formData => formData['view:isVeteran'] === false,
+              'ui:required': isNotVeteran,
               'ui:options': {
                 expandUnder: 'view:isVeteran',
                 expandUnderCondition: false
@@ -274,7 +286,7 @@ const formConfig = {
               currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW'),
               {
                 'ui:options': {
-                  hideIf: formData => formData['view:isVeteran'] === true
+                  hideIf: isVeteran
                 }
               }
             )
@@ -311,17 +323,13 @@ const formConfig = {
               'ui:description': "Veteran’s name under whom you've claimed benefits",
               'ui:options': {
                 classNames: 'schemaform-field-template',
-                hideIf: ({ 'view:isVeteran': isVeteran, previousBenefitApplications: applications }) => {
-                  return isVeteran || !_.some(Boolean, applications);
-                }
+                hideIf: isVeteranOrHasApplications
               }
             }),
             previousVeteranBenefitsSocialSecurityNumber: _.assign(ssnUI, {
               'ui:title': 'Social Security number (must have this or a VA file number)',
               'ui:options': {
-                hideIf: ({ 'view:isVeteran': isVeteran, previousBenefitApplications: applications }) => {
-                  return isVeteran || !_.some(Boolean, applications);
-                }
+                hideIf: isVeteranOrHasApplications
               }
             }),
             previousVeteranBenefitsVaFileNumber: {
@@ -330,9 +338,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               },
               'ui:options': {
-                hideIf: ({ 'view:isVeteran': isVeteran, previousBenefitApplications: applications }) => {
-                  return isVeteran || !_.some(Boolean, applications);
-                }
+                hideIf: isVeteranOrHasApplications
               }
             }
           },
