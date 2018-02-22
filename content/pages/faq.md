@@ -39,18 +39,20 @@ display_title: Frequently Asked Questions
                           <li> With your existing DS Logon account, **or**
                           <li> By creating an account through ID.me, our trusted technology partner
                         </ul>
-                        <h4>Verifying your identity for access to more tools and services</h4>                                                                   
-                        <p>To access all the advanced tools of Vets.gov—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—you'll need to verify your identity. This is because the benefits and services you’re signing up for require a higher level of security since they use your personal information. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to this information.</p>
-                        <p><strong>If you sign in with ID.me or with a basic or advanced My Health<em>e</em>Vet or basic DS Logon account</strong>, you'll need to go through the ID.me identity-proofing process. To go through this process, you’ll need:</strong></p>
+                        <h4>Verifying your identity for access to more tools and services</h4>
+                        <p>Before we can give you access to all the advanced Vets.gov tools—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—we need to verify your identity. This is because the benefits and services you’re signing up for require a higher level of security since they use your personal information. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to this information.</p>
+                        <p><strong>If you sign in with a premium My Health<em>e</em>Vet or DS Logon account</strong>, you can access all the advanced tools right away. ID.me will receive your verified information to sign you in to Vets.gov so you won't have to . We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
+                        <p><strong>If you sign in with ID.me or with a basic or advanced My Health<em>e</em>Vet or basic DS Logon account</strong>, you'll need to go through the ID.me identity-proofing process before you can access the advanced tools of Vets.gov.</p>
+                        <p>To go through this process, you’ll need:</p>
                         <ul>
                           <li>A smartphone (or a landline or mobile phone and a computer with an internet connection), <strong>and</strong></li>
                           <li>Your Social Security number, <strong>and</strong></li>
                           <li>Proof of your identity. <strong>This can be either:</strong></li>
                           <ul>
-                          <li>Your driver’s license or passport, <strong>or</strong></li>
-                          <li>The ability to answer questions based on private and public data (like your credit report) to prove you're you</li>
+                            <li>Your driver’s license or passport, <strong>or</strong></li>
+                            <li>The ability to answer questions based on private and public data (like your credit report) to prove you're you</li>
+                          </ul>  
                         </ul>
-                        <p><strong>If you sign in with a premium My Health<em>e</em>Vet or DS Logon account</strong>, you won't have to go through this process. ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>                        
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
@@ -70,8 +72,9 @@ display_title: Frequently Asked Questions
                           <li>Your Social Security number, <strong>and</strong></li>
                           <li>Proof of your identity. <strong>This can be either:</strong></li>
                           <ul>
-                          <li>Your driver’s license or passport, <strong>or</strong></li>
-                          <li>The ability to answer questions based on private and public data (like your credit report) to prove you're you</li>
+                            <li>Your driver’s license or passport, <strong>or</strong></li>
+                            <li>The ability to answer questions based on private and public data (like your credit report) to prove you're you</li>
+                          </ul>  
                         </ul>
                         <p><a href="/faq/" class="login-required">Sign in now</a></p>
                       </div>
