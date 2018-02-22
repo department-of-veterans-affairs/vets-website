@@ -27,7 +27,7 @@ display_title: Frequently Asked Questions
           </div>
           <div class="row">
             <div class="small-12 columns">
-                <h3>How to sign in to Vets.gov</h3>
+                <h4>How to sign in to Vets.gov</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov? </button>
@@ -57,8 +57,9 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   </li>
-                </ul>  
-                <h3>How to verify your identity</h3>
+                </ul>
+                <br/><br/>
+                <h4>How to verify your identity</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">How do I verify my identity online? </button>
@@ -116,7 +117,7 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h3>Other common questions about signing in and verifying your identity</h3>
+                <h4>Other common questions about signing in and verifying your identity</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-0" itemprop="name">How do I get a premium My Health<em>e</em>Vet account? </button>
@@ -236,7 +237,7 @@ display_title: Frequently Asked Questions
                 <br/><br/>
                 <a name="why-verify"></a>
                 <a name="what-is-idme"></a>
-                <h3>Other common questions about your privacy and security</h3>
+                <h4>Other common questions about your privacy and security</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-0" itemprop="name">Why should I trust Vets.gov? </button>
