@@ -26,7 +26,7 @@ const failProps = {
   errorMessage: null,
   requestPending: null,
   formIsSubmittable: false
-}
+};
 
 describe('<FeedbackForm/>', () => {
 
