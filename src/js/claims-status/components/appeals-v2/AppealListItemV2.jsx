@@ -59,7 +59,9 @@ AppealListItem.propTypes = {
         date: PropTypes.string.isRequired
       })),
       programArea: PropTypes.string.isRequired,
-      active: PropTypes.string.isRequired
+      active: PropTypes.string.isRequired,
+      issues: PropTypes.array.isRequired,
+      description: PropTypes.string.isRequired
     })
   }),
   name: PropTypes.shape({
