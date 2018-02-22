@@ -27,7 +27,7 @@ const {
   fullName,
   phone,
   ssn,
-  vaFileNumber,
+  vaFileNumber
 } = fullSchema31.definitions;
 
 const expandIfWorking = {
