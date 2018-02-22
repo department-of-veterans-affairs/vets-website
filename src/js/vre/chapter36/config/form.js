@@ -227,7 +227,7 @@ const formConfig = {
               'ui:required': formData => formData['view:isVeteran'] === true,
               'ui:options': {
                 labels: genderLabels,
-                hideIf: ({ 'view:isVeteran': isVeteran }) => !isVeteran
+                hideIf: formData => formData['view:isVeteran'] === false
               }
             },
           },
