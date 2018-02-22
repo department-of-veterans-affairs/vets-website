@@ -2,9 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
-import {
-  genderLabels
-} from '../../../common/utils/labels.jsx';
+import { genderLabels } from '../../../common/utils/labels.jsx';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';
@@ -339,8 +337,7 @@ const formConfig = {
               },
               'ui:options': {
                 expandUnder: 'previousBenefitApplications',
-                expandUnderCondition: applications =>
-                  _.some(Boolean, applications) && !applications.none
+                expandUnderCondition: applications => _.some(Boolean, applications)
               }
             }),
             previousVeteranBenefitsSocialSecurityNumber: _.assign(ssnUI, {
@@ -348,8 +345,7 @@ const formConfig = {
                 'Social Security number (must have this or a VA file number)',
               'ui:options': {
                 expandUnder: 'previousBenefitApplications',
-                expandUnderCondition: applications =>
-                  _.some(Boolean, applications) && !applications.none
+                expandUnderCondition: applications => _.some(Boolean, applications)
               }
             }),
             previousVeteranBenefitsVaFileNumber: {
@@ -360,8 +356,7 @@ const formConfig = {
               },
               'ui:options': {
                 expandUnder: 'previousBenefitApplications',
-                expandUnderCondition: applications =>
-                  _.some(Boolean, applications) && !applications.none
+                expandUnderCondition: applications => _.some(Boolean, applications)
               }
             }
           },
@@ -427,8 +422,7 @@ const formConfig = {
               },
               'ui:options': {
                 expandUnder: 'previousBenefitApplications',
-                expandUnderCondition: applications =>
-                  _.some(Boolean, applications) && !applications.none
+                expandUnderCondition: applications => _.some(Boolean, applications)
               }
             }),
             previousVeteranBenefitsSocialSecurityNumber: _.assign(ssnUI, {
@@ -436,8 +430,7 @@ const formConfig = {
                 'Social Security number (must have this or a VA file number)',
               'ui:options': {
                 expandUnder: 'previousBenefitApplications',
-                expandUnderCondition: applications =>
-                  _.some(Boolean, applications) && !applications.none
+                expandUnderCondition: applications => _.some(Boolean, applications)
               }
             }),
             previousVeteranBenefitsVaFileNumber: {
@@ -448,8 +441,7 @@ const formConfig = {
               },
               'ui:options': {
                 expandUnder: 'previousBenefitApplications',
-                expandUnderCondition: applications =>
-                  _.some(Boolean, applications) && !applications.none
+                expandUnderCondition: applications => _.some(Boolean, applications)
               }
             }
           },
