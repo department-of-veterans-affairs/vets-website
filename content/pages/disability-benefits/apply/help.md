@@ -121,9 +121,9 @@ You can set up an accredited representative or a VSO to work on your behalf in 1
 
 - Use eBenefits to let us know you’ll be working with a representative or to change your current representation.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/representative), **or** 
-- Or, to have a VSO help you, fill out a form called an Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22) <br>
+- To have a VSO help you, fill out the Appointment of Veterans Service Organization as Claimant’s Representative form (VA Form 21-22) <br>
 [Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf), **or**
-- To have a claims agent or attorney help you, fill out a form called an Appointment of Individual as Claimant's Representative (VA Form 21-22a) <br>
+- To have a claims agent or attorney help you, fill out the Appointment of Individual as Claimant's Representative form (VA Form 21-22a) <br>
 [Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf)
 
 
