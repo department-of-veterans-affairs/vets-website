@@ -99,6 +99,12 @@ const previousBenefitApplicationsUI = {
   },
   other: {
     'ui:title': benefitsLabels.other
+  },
+  otherExplanation: {
+    'ui:title': benefitsLabels.otherExplanation,
+    'ui:options': {
+      expandUnder: 'other'
+    }
   }
 };
 
@@ -295,7 +301,10 @@ const formConfig = {
                   },
                   other: {
                     type: 'boolean'
-                  }
+                  },
+                  otherExplanation: {
+                    type: 'string'
+                  } 
                 }
               }
             }
@@ -374,7 +383,10 @@ const formConfig = {
                   },
                   other: {
                     type: 'boolean'
-                  }
+                  },
+                  otherExplanation: {
+                    type: 'string'
+                  }                  
                 }
               },
               previousVeteranBenefitsFullName: _.unset(
@@ -459,6 +471,9 @@ const formConfig = {
                   },
                   other: {
                     type: 'boolean'
+                  },
+                  otherExplanation: {
+                    type: 'string'
                   }
                 }
               },
