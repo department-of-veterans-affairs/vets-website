@@ -31,8 +31,8 @@ describe('VRE chapter 31 work information', () => {
 
     selectRadio(form, 'root_view:isWorking', 'Y');
 
-    expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('input').length).to.equal(10);
+    expect(form.find('select').length).to.equal(1);
   });
 
   it('submits with required information', () => {
