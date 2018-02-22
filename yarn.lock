@@ -9653,9 +9653,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#896608d6295c10bda058157d8959981402327a20":
-  version "3.22.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#896608d6295c10bda058157d8959981402327a20"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#4b68dbffeb8b233d2282af90b75ff573e280a5e2":
+  version "3.25.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4b68dbffeb8b233d2282af90b75ff573e280a5e2"
 
 vinyl-assign@^1.0.1:
   version "1.2.1"
