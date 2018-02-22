@@ -170,13 +170,13 @@ const formConfig = {
           path: 'veteran-address',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: address.uiSchema(),
+            veteranAddress: address.uiSchema(''),
             'view:isMoving': {
               'ui:title': 'Are you moving within the next 30 days?',
               'ui:widget': 'yesNo'
             },
             veteranNewAddress: _.merge(
-              address.uiSchema('', false, (formData) => formData['view:isMoving']),
+              address.uiSchema('New address', false, (formData) => formData['view:isMoving']),
               {
                 'ui:options': {
                   expandUnder: 'view:isMoving'
@@ -186,7 +186,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranAddress'],
+            required: ['veteranAddress', 'view:isMoving'],
             properties: {
               veteranAddress: address.schema(fullSchema31, true),
               'view:isMoving': {
