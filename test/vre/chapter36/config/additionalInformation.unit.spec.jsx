@@ -7,7 +7,7 @@ import { DefinitionTester, selectCheckbox } from '../../../util/schemaform-utils
 import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant additional information', () => {
-  const { schema: veteranSchema, uiSchema: veteranUiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformationVeteran;
+  const { schema: veteranSchema, uiSchema: veteranUiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformation;
   it('renders previous benefits applications question', () => {
     const form = mount(
       <DefinitionTester
@@ -21,7 +21,7 @@ describe('VRE chapter 36 applicant additional information', () => {
     expect(form.find('input').length).to.equal(4);
   });
 
-  const { schema: spouseSchema, uiSchema: spouseUiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformationCurrentSpouse;
+  const { schema: spouseSchema, uiSchema: spouseUiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformation;
   it('renders previous benefits veteran fields if has applied', () => {
     const form = mount(
       <DefinitionTester
