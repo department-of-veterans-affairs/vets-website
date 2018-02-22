@@ -7,7 +7,7 @@ import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
 import AlertBox from '../../../src/js/common/components/AlertBox';
 
 const defaultProps = {
-  formValues: {shouldSendResponse: 'no'},
+  formValues: { shouldSendResponse: 'no' },
   formErrors: {},
   sendFeedback() {},
   clearError() {},
