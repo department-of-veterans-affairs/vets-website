@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { removeFormApi } from '../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
@@ -98,70 +100,84 @@ export function removeSavedForm(formId) {
   };
 }
 
+const profileMocked = {
+  extended: true,
+  // email: profile.email,
+  // userFullName: profile.userFullName,
+  ssn: '123121232',
+  dob: new Date().toISOString(),
+  // gender: 'Male',
+  telephones: [
+    {
+      type: 'primary',
+      value: '1231231232'
+    },
+    {
+      type: 'alternate',
+      value: '2342342343'
+    }
+  ],
+  addresses: [
+    {
+      type: 'residential',
+      addressOne: '1432 Bayfield Ct',
+      addressTwo: null,
+      addressThree: null,
+      city: 'Florence',
+      stateCode: 'KY',
+      zipCode: '41042',
+      countryName: 'USA'
+    },
+    {
+      type: 'mailing',
+      addressOne: '1432 Bayfield Mailing Ct',
+      addressTwo: null,
+      addressThree: null,
+      city: 'Florence',
+      stateCode: 'KY',
+      zipCode: '41042',
+      countryName: 'USA'
+    }
+  ],
+  toursOfDuty: [
+    {
+      serviceBranch: 'Navy',
+      rank: 'First Lieutenant',
+      dateRange: {
+        start: new Date(new Date().valueOf() - (5 * 24 * 60 * 60 * 1000)).toISOString(),
+        end: new Date().toISOString()
+      }
+    },
+    {
+      serviceBranch: 'Army',
+      rank: 'Second Lieutenant',
+      dateRange: {
+        start: new Date(new Date().valueOf() - (25 * 24 * 60 * 60 * 1000)).toISOString(),
+        end: new Date(new Date().valueOf() - (10 * 24 * 60 * 60 * 1000)).toISOString()
+      }
+    }
+  ]
+};
+
+function formExtendedProfile(profile, address, formPrefill) {
+  console.log(address);
+  console.log(formPrefill);
+  return { ...profileMocked, ...profile };
+}
+
 export function fetchExtendedProfile() {
   return (dispatch, getState) => {
 
     const { user: { profile } } = getState();
-    const extendedProfile = {
-      ...profile,
-      extended: true,
-      email: profile.email,
-      userFullName: profile.userFullName,
-      ssn: '123121232',
-      dob: new Date().toISOString(),
-      gender: 'Male',
-      telephones: [
-        {
-          type: 'primary',
-          value: '1231231232'
-        },
-        {
-          type: 'alternate',
-          value: '2342342343'
-        }
-      ],
-      addresses: [
-        {
-          type: 'residential',
-          addressOne: '1432 Bayfield Ct',
-          addressTwo: null,
-          addressThree: null,
-          city: 'Florence',
-          stateCode: 'KY',
-          zipCode: '41042',
-          countryName: 'USA'
-        },
-        {
-          type: 'mailing',
-          addressOne: '1432 Bayfield Mailing Ct',
-          addressTwo: null,
-          addressThree: null,
-          city: 'Florence',
-          stateCode: 'KY',
-          zipCode: '41042',
-          countryName: 'USA'
-        }
-      ],
-      toursOfDuty: [
-        {
-          serviceBranch: 'Navy',
-          rank: 'First Lieutenant',
-          dateRange: {
-            start: new Date(new Date().valueOf() - (5 * 24 * 60 * 60 * 1000)).toISOString(),
-            end: new Date().toISOString()
-          }
-        },
-        {
-          serviceBranch: 'Army',
-          rank: 'Second Lieutenant',
-          dateRange: {
-            start: new Date(new Date().valueOf() - (25 * 24 * 60 * 60 * 1000)).toISOString(),
-            end: new Date(new Date().valueOf() - (10 * 24 * 60 * 60 * 1000)).toISOString()
-          }
-        }
-      ]
-    };
+    const requests = [
+      apiRequest('/address'),
+      apiRequest('/in_progress_forms/1010ez')
+    ];
 
-    setTimeout(() => dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile }), 100);
+    Promise.all(requests)
+      .then(data => formExtendedProfile(profile, ...data))
+      .then(extendedProfile => {
+        dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile });
+      });
   };
 }
