@@ -34,7 +34,7 @@ describe('VRE chapter 31 applicant address', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
 
     expect(onSubmit.called).to.be.false;
   });
