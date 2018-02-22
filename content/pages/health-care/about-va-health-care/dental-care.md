@@ -33,7 +33,13 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get VA dental care benefits for some or all of my dental care?
 
-This depends on a number of factors, like your military service history and your current health and living situation. Click on the statement or statements below that describe you best to find out the dental benefits you may qualify for:
+This depends on a number of factors, like your military service history and your current health and living situation.  See the section below for more information.
+
+<div markdown="0"><br></div>
+
+### What dental care benefits do I qualify for?
+
+Click on the statement or statements below that describe you best to find out the dental benefits you may qualify for:
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
