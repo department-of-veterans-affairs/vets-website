@@ -24,21 +24,6 @@ describe('VRE chapter 36 veteran information', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  it('renders veteran gender field when view:isVeteran is true', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          'view:isVeteran': true
-        }}
-        formData={{}}
-        uiSchema={uiSchema}/>
-    );
-
-    expect(form.find('input').length).to.equal(8);
-    expect(form.find('select').length).to.equal(5);
-  });
   it('does not submit without required veteran information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
