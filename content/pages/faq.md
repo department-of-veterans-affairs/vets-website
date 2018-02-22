@@ -40,10 +40,9 @@ display_title: Frequently Asked Questions
                           <li>With your existing DS Logon account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (our trusted technology partner)</li>
                         </ul>
-                        <h4>Fastest way to sign in for expanded access to all Vets.gov tools</h4>
-                        <p>Before we can give you access to all the advanced Vets.gov tools—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—we need to verify your identity. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to your personal information.</p>
-                          <p>If you sign in with a premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, you can access all the advanced tools right away. ID.me will receive your verified information to sign you in to Vets.gov so you won't have to prove your identity again.</p>
-                        <h4>How to sign in for expanded access if you don't have an existing premium account</h4>
+                        <h4>Fastest way to get access to all Vets.gov tools</h4>
+                        <p>Before you can use Vets.gov tools that access your personal information, we need to make sure you're you (and not someone pretending to be you). If you sign in with your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, this proves your identity and you won't need to do anything else.</p>
+                        <h4>What to do if you don't have an existing premium account</h4>
                         <p>If you sign in by creating an account with ID.me or with a basic or advanced <strong>My Health<em>e</em>Vet</strong> or basic <strong>DS Logon</strong>, you'll need to go through the ID.me identity-proofing process before accessing these tools.</p>
                         <p>To go through this process, you’ll need:</p>
                         <ul>
