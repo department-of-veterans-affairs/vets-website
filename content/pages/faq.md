@@ -27,7 +27,8 @@ display_title: Frequently Asked Questions
           </div>
           <div class="row">
             <div class="small-12 columns">
-                <h4>How to sign in to Vets.gov</h4>
+              <h4>How to sign in to Vets.gov</h4>
+              <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov? </button>
