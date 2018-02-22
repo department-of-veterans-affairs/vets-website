@@ -156,8 +156,8 @@ describe('Schemaform <FileField>', () => {
         requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.find('ProgressBar').isEmpty()).to.be.false;
-    expect(tree.find('button').isEmpty()).to.be.true;
+    expect(tree.find('ProgressBar').exists()).to.be.true;
+    expect(tree.find('button').exists()).to.be.false;
   });
 
   it('should update progress', () => {
@@ -279,7 +279,7 @@ describe('Schemaform <FileField>', () => {
         requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.find('label').isEmpty()).to.be.true;
+    expect(tree.find('label').exists()).to.be.false;
   });
 
   it('should delete file', () => {

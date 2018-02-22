@@ -23,7 +23,7 @@
     "test:e2e:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker && docker-compose -p e2e stop",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
-    "test:wcag2a": "./script/run-nightwatch.sh --env wcag2a",
+    "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' test/helper.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
@@ -217,6 +217,6 @@
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b9ba6bf1837a9389788b5d4f94ac977d505c9e0b"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#896608d6295c10bda058157d8959981402327a20"
   }
 }
