@@ -168,7 +168,7 @@ const formConfig = {
       pages: {
         veteranAddress: {
           path: 'veteran-address',
-          title: 'Address information',
+          title: 'Address Information',
           uiSchema: {
             veteranAddress: address.uiSchema(''),
             'view:isMoving': {
@@ -198,7 +198,7 @@ const formConfig = {
         },
         contactInformation: {
           path: 'contact-information',
-          title: 'Contact information',
+          title: 'Contact Information',
           uiSchema: {
             daytimePhone: phoneUI('Daytime phone number'),
             eveningPhone: phoneUI('Evening phone number'),
