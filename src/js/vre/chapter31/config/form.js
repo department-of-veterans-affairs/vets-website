@@ -4,12 +4,76 @@ import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
+import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 
 // const {} = fullSchema31.properties;
 
 const {
-  fullName
+  fullName,
+  serviceFlags,
+  serviceHistory
 } = fullSchema31.definitions;
+
+const serviceHistoryUI = {
+  'ui:options': {
+    itemName: 'Service Period',
+    viewField: ServicePeriodView,
+    hideTitle: true
+  },
+  items: {
+    serviceBranch: {
+      'ui:title': 'Branch of service'
+    },
+    dateRange: dateRangeUI(
+      'Service start date',
+      'Service end date',
+      'End of service must be after start of service'
+    ),
+    dischargeType: {
+      'ui:title': 'Character of discharge',
+      'ui:options': {
+        labels: dischargeTypeLabels
+      }
+    }
+  }
+};
+
+const serviceFlagsUI = {
+  'ui:title': 'Did you serve in:',
+  'ui:options': {
+    showFieldLabel: true
+  },
+  ww2: {
+    'ui:title': serviceFlagLabels.ww2
+  },
+  postWw2: {
+    'ui:title': serviceFlagLabels.postWw2
+  },
+  korea: {
+    'ui:title': serviceFlagLabels.korea
+  },
+  postKorea: {
+    'ui:title': serviceFlagLabels.postKorea
+  },
+  vietnam: {
+    'ui:title': serviceFlagLabels.vietnam
+  },
+  postVietnam: {
+    'ui:title': serviceFlagLabels.postVietnam
+  },
+  gulf: {
+    'ui:title': serviceFlagLabels.gulf
+  },
+  operationEnduringFreedom: {
+    'ui:title': serviceFlagLabels.operationEnduringFreedom
+  },
+  operationIraqiFreedom: {
+    'ui:title': serviceFlagLabels.operationIraqiFreedom
+  },
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -54,14 +118,14 @@ const formConfig = {
           path: 'military-history',
           title: 'Military History',
           uiSchema: {
-            // serviceHistory: serviceHistoryUI,
-            // serviceFlags: {}
+            serviceHistory: serviceHistoryUI,
+            serviceFlags: serviceFlagsUI
           },
           schema: {
             type: 'object',
             properties: {
-              // serviceHistory,
-              // serviceFlags
+              serviceHistory,
+              serviceFlags
             }
           }
         },
