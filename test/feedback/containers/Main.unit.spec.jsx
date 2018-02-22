@@ -10,7 +10,7 @@ import FeedbackSubmitted from '../../../src/js/feedback/components/FeedbackSubmi
 
 const defaultProps = {
   formIsVisible: false,
-  formValues: {},
+  formValues: {shouldSendResponse: 'no'},
   formErrors: {},
   setFormValues() {},
   revealForm() {},
