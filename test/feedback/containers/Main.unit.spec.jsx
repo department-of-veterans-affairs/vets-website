@@ -31,7 +31,7 @@ describe('<Main/>', () => {
 
   it('should render FeedbackForm with correct props', () => {
     const sendFeedback = sinon.spy();
-    const formValues = { description: 'test', email: 'test@test.com' };
+    const formValues = { description: 'test', email: 'test@test.com', shouldSendResponse: 'yes' };
     const overrides = { formIsVisible: true, formValues, sendFeedback };
     const props = { ...defaultProps, ...overrides };
     const wrapper = enzyme.shallow(<Main {...props}/>);
