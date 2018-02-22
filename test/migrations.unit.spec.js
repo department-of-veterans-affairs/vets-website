@@ -43,6 +43,7 @@ const configs = [
 
 const excludedForms = new Set([
   '28-1900',
+  '21-526EZ',
   '28-8832',
   'VIC'
 ]);
@@ -54,7 +55,7 @@ describe('form migrations:', () => {
     reformattedIds.splice(0, 1, '1010ez');
     reformattedIds.pop();
     const includedFormIds = configs.map(form => form.formId);
-    expect(allFormIds).to.include.members(mappedIds);
+    expect(allFormIds).to.deep.equal(mappedIds);
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
   it('should have a length equal to the version number', () => {

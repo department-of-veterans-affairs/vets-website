@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
@@ -103,14 +103,14 @@ const formConfig = {
               'ui:title': 'Job duties',
               ...expandIfWorking
             },
-            monthlyIncome: _.merge(
-              currencyUI('Monthly pay'),
-              expandIfWorking
-            ),
-            employerAddress: _.merge(
-              address.uiSchema('Employer address'),
-              expandIfWorking
-            )
+            monthlyIncome: {
+              ...currencyUI('Monthly pay'),
+              ...expandIfWorking
+            },
+            employerAddress: {
+              ...address.uiSchema('Employer address'),
+              ...expandIfWorking
+            }
           },
           schema: {
             type: 'object',

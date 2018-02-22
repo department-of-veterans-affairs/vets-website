@@ -39,6 +39,7 @@ const schemaToConfigIds = {
 
 const excludedForms = new Set([
   '28-1900',
+  '21-526EZ',
   '28-8832'
 ]);
 
@@ -76,7 +77,7 @@ describe('profile helpers:', () => {
       const allMappedIds = Object.keys(schemaToConfigIds);
       const sipEnabledConfigs = configs.filter(config => !config.disableSave);
       const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
-      expect(allFormIds).to.include.members(allMappedIds);
+      expect(allFormIds).to.deep.equal(allMappedIds);
       expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });
   });
