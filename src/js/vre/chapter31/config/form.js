@@ -3,6 +3,7 @@
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import currencyUI from '../../../common/schemaform/definitions/currency';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,6 +13,9 @@ import { facilityLocatorLink } from '../helpers';
 const {
   disabilityRating,
   hospitalAddress,
+  employer,
+  jobDuties,
+  monthlyIncome,
   vaRecordsOffice
 } = fullSchema31.properties;
 
@@ -21,6 +25,12 @@ const {
   ssn,
   vaFileNumber
 } = fullSchema31.definitions;
+
+const expandIfWorking = {
+  'ui:options': {
+    expandUnder: 'view:isWorking',
+  }
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -38,8 +48,9 @@ const formConfig = {
   title: 'Apply for Vocational Rehabilitation',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
-    fullName,
+    address,
     date,
+    fullName,
     ssn,
     vaFileNumber,
   },
@@ -80,9 +91,40 @@ const formConfig = {
         workInformation: {
           path: 'work-information',
           title: 'Work Information',
+          uiSchema: {
+            'view:isWorking': {
+              'ui:title': 'Are you working?',
+              'ui:widget': 'yesNo'
+            },
+            employer: {
+              'ui:title': 'Employer name',
+              'ui:required': (formData) => formData['view:isWorking'],
+              ...expandIfWorking
+            },
+            jobDuties: {
+              'ui:title': 'Job duties',
+              ...expandIfWorking
+            },
+            monthlyIncome: {
+              ...currencyUI('Monthly pay'),
+              ...expandIfWorking
+            },
+            employerAddress: {
+              ...address.uiSchema('Employer address'),
+              ...expandIfWorking
+            }
+          },
           schema: {
             type: 'object',
+            required: ['view:isWorking'],
             properties: {
+              'view:isWorking': {
+                type: 'boolean'
+              },
+              employer,
+              jobDuties,
+              monthlyIncome,
+              employerAddress: address.schema(fullSchema31)
             }
           }
         }
@@ -126,9 +168,15 @@ const formConfig = {
             },
             hospital: {
               name: {
-                'ui:title': 'Hospital name'
+                'ui:title': 'Hospital name',
+                'ui:options': {
+                  expandUnder: 'view:inHospital'
+                }
               },
-              address: address.uiSchema('Hospital address')
+              address: address.uiSchema('Hospital address'),
+              'ui:options': {
+                expandUnder: 'view:inHospital'
+              }
             }
           },
           schema: {
