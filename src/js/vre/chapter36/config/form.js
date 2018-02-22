@@ -119,7 +119,6 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
-          applicantRelationshipToVeteran: 'Spouse', // is this a typo?
           uiSchema: {
             'view:isVeteran': {
               'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
