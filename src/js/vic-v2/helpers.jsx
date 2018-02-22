@@ -86,42 +86,6 @@ function pollStatus(guid, onDone, onError) {
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-export function submit(form, formConfig) {
-  const userToken = window.sessionStorage.userToken;
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
-
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-
-  const formData = transformForSubmit(formConfig, _.unset('data.verified', form));
-  const body = JSON.stringify({
-    vicSubmission: {
-      form: formData
-    }
-  });
-
-  return new Promise((resolve, reject) => {
-    fetch(`${environment.API_URL}/v0/vic/vic_submissions`, {
-      method: 'POST',
-      headers,
-      body
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).then(resp => {
-      const guid = resp.data.attributes.guid;
-      pollStatus(guid, resolve, reject);
-    }).catch(reject);
-  });
-}
-
 export function fetchPreview(id) {
   const userToken = window.sessionStorage.userToken;
   const headers = {
@@ -141,3 +105,61 @@ export function fetchPreview(id) {
     return window.URL.createObjectURL(blob);
   });
 }
+
+export function submit(form, formConfig) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+
+  const formData = transformForSubmit(formConfig, _.unset('data.verified', form));
+  const body = JSON.stringify({
+    vicSubmission: {
+      form: formData
+    }
+  });
+
+  return new Promise((resolve, reject) => {
+    let photo = form.data.photo.file;
+    let photoPromise;
+
+    if (photo instanceof Blob) {
+      photoPromise = Promise.resolve(window.URL.createObjectURL(photo));
+    } else {
+      photoPromise = fetchPreview(form.data.photo.confirmationCode);
+    }
+
+    photoPromise.catch(err => {
+      // It's possible that we don't have the photo yet but there's nothing we can do about
+      // that. We will not show the card preview, but let the submit go through in that case,
+      // since the backend will wait for the photo to process
+      Raven.captureException(err);
+      return null;
+    }).then(photoSrc => {
+      photo = photoSrc;
+      return fetch(`${environment.API_URL}/v0/vic/vic_submissions`, {
+        method: 'POST',
+        headers,
+        body
+      });
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res);
+    }).then(resp => {
+      const guid = resp.data.attributes.guid;
+      pollStatus(guid, response => {
+        resolve(_.set('photo', photo, response));
+      }, reject);
+    })
+      .catch(reject);
+  });
+}
+
