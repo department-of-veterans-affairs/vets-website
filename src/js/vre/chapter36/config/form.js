@@ -119,7 +119,7 @@ const formConfig = {
         applicantInformation: {
           title: 'Applicant information',
           path: 'applicant-information',
-          applicantRelationshipToVeteran: 'Spouse',
+          applicantRelationshipToVeteran: 'Spouse', // is this a typo?
           uiSchema: {
             'view:isVeteran': {
               'ui:title': 'Are you a Servicemember or Veteran applying for counseling service?',
@@ -221,10 +221,20 @@ const formConfig = {
                   hideIf: (formData) => formData['view:isVeteran'] === true,
                 }
               }
-            )
+            ),
+            applicantGender: {
+              'ui:title': 'Gender',
+              'ui:widget': 'radio',
+              'ui:required': formData => formData['view:isVeteran'] === true,
+              'ui:options': {
+                labels: genderLabels,
+                hideIf: ({ 'view:isVeteran': isVeteran }) => !isVeteran
+              }
+            },
           },
           schema: {
-            veteranDateOfDeathMIAPOW
+            veteranDateOfDeathMIAPOW,
+            applicantGender
           }
         })
       }
