@@ -2,12 +2,16 @@
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
+import * as address from '../../../common/schemaform/definitions/address';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 
 const {
+  disabilityRating,
+  hospitalAddress,
   vaRecordsOffice
 } = fullSchema31.properties;
 
@@ -104,24 +108,64 @@ const formConfig = {
         disabilityInformation: {
           path: 'Disability-information',
           title: 'Disability Information',
+          uiSchema: {
+            type: 'object',
+            disabilityRating: {
+              'ui:title': 'Disability rating'
+            },
+            disabilities: {
+              'ui:title': 'Please describe disability or disabilities:',
+            },
+            vaRecordsOffice: {
+              'ui:title': 'VA office where your disability records are located',
+              'ui:help': facilityLocatorLink
+            },
+            'view:inHospital': {
+              'ui:title': 'Are you currently in the hospital?',
+              'ui:widget': 'yesNo'
+            },
+            hospital: {
+              name: {
+                'ui:title': 'Hospital name'
+              },
+              address: address.uiSchema('Hospital address')
+            }
+          },
           schema: {
             type: 'object',
             properties: {
+              disabilityRating,
+              disabilities: {
+                type: 'string'
+              },
+              vaRecordsOffice,
+              'view:inHospital': {
+                type: 'boolean'
+              },
+              hospital: {
+                type: 'object',
+                properties: {
+                  hospitalName: {
+                    type: 'string'
+                  },
+                  hospitalAddress
+                }
+              }
             }
           }
         }
       }
-    },
-    contactInformation: {
-      title: 'Contact Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          schema: {
-            type: 'object',
-            properties: {
-            }
+    }
+  },
+  contactInformation: {
+    title: 'Contact Information',
+    pages: {
+      contactInformation: {
+        path: 'contact-information',
+        title: 'Contact Information',
+        schema: {
+          type: 'object',
+          properties: {
           }
         }
       }
