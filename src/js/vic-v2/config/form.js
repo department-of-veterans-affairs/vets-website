@@ -193,9 +193,7 @@ const formConfig = {
               parseResponse: (response, file) => {
                 return {
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                  serverName: response.data.attributes.filename,
-                  serverPath: response.data.attributes.path
+                  confirmationCode: response.data.attributes.guid
                 };
               }
             }), {
@@ -240,9 +238,7 @@ const formConfig = {
               parseResponse: (response, file) => {
                 return {
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                  serverPath: response.data.attributes.path,
-                  serverName: response.data.attributes.filename
+                  confirmationCode: response.data.attributes.guid
                 };
               }
             })

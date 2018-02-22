@@ -74,6 +74,7 @@ def comment_broken_links = {
 }
 
 node('vetsgov-general-purpose') {
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
   def dockerImage, args, ref, imageTag
 
   // Checkout source, create output directories, build container

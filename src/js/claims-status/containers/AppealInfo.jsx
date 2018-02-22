@@ -39,7 +39,7 @@ export class AppealInfo extends React.Component {
   }
 
   render() {
-    const { params, appeal, appealsLoading, appealsAvailability, children } = this.props;
+    const { params, appeal, fullName, appealsLoading, appealsAvailability, children } = this.props;
     let appealContent;
 
     // Availability is determined by whether or not the API returned an appeals array
@@ -69,7 +69,7 @@ export class AppealInfo extends React.Component {
               <AppealsV2TabNav
                 appealId={params.id}/>
               <div className="va-tab-content va-appeals-content">
-                {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
+                {React.Children.map(children, child => React.cloneElement(child, { appeal, fullName }))}
               </div>
             </div>
             <div className="medium-4 columns help-sidebar">
@@ -107,7 +107,12 @@ AppealInfo.propTypes = {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     attributes: PropTypes.object.isRequired,
-  })
+  }),
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state, ownProps) {
@@ -116,6 +121,7 @@ function mapStateToProps(state, ownProps) {
     appeal: isolateAppeal(state, ownProps.params.id),
     appealsLoading,
     appealsAvailability,
+    fullName: state.user.profile.userFullName
   };
 }
 
