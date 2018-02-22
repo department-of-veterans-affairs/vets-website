@@ -97,3 +97,71 @@ export function removeSavedForm(formId) {
       .catch(() => dispatch(removingSavedFormFailure()));
   };
 }
+
+export function fetchExtendedProfile() {
+  return (dispatch, getState) => {
+
+    const { user: { profile } } = getState();
+    const extendedProfile = {
+      ...profile,
+      extended: true,
+      email: profile.email,
+      userFullName: profile.userFullName,
+      ssn: '123121232',
+      dob: new Date().toISOString(),
+      gender: 'Male',
+      telephones: [
+        {
+          type: 'primary',
+          value: '1231231232'
+        },
+        {
+          type: 'alternate',
+          value: '2342342343'
+        }
+      ],
+      addresses: [
+        {
+          type: 'residential',
+          addressOne: '1432 Bayfield Ct',
+          addressTwo: null,
+          addressThree: null,
+          city: 'Florence',
+          stateCode: 'KY',
+          zipCode: '41042',
+          countryName: 'USA'
+        },
+        {
+          type: 'mailing',
+          addressOne: '1432 Bayfield Mailing Ct',
+          addressTwo: null,
+          addressThree: null,
+          city: 'Florence',
+          stateCode: 'KY',
+          zipCode: '41042',
+          countryName: 'USA'
+        }
+      ],
+      toursOfDuty: [
+        {
+          serviceBranch: 'Navy',
+          rank: 'First Lieutenant',
+          dateRange: {
+            start: new Date(new Date().valueOf() - (5 * 24 * 60 * 60 * 1000)).toISOString(),
+            end: new Date().toISOString()
+          }
+        },
+        {
+          serviceBranch: 'Army',
+          rank: 'Second Lieutenant',
+          dateRange: {
+            start: new Date(new Date().valueOf() - (25 * 24 * 60 * 60 * 1000)).toISOString(),
+            end: new Date(new Date().valueOf() - (10 * 24 * 60 * 60 * 1000)).toISOString()
+          }
+        }
+      ]
+    };
+
+    setTimeout(() => dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile }), 100);
+  };
+}
