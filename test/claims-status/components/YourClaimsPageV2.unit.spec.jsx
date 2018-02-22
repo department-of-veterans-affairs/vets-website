@@ -1,17 +1,107 @@
 import React from 'react';
+import { shallow } from 'enzyme';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import _ from 'lodash/fp';
 
 import { YourClaimsPageV2 } from '../../../src/js/claims-status/containers/YourClaimsPageV2';
 
-describe('<YourClaimsPageV2>', () => {
+describe.only('<YourClaimsPageV2', () => {
+  const defaultProps = {
+    canAccessClaims: true,
+    canAccessAppeals: true,
+    claimsLoading: false,
+    appealsLoading: false,
+    loading: false,
+    appealsAvailable: 'AVAILABLE',
+    claimsAvailable: 'AVAILABLE',
+    claimsAuthorized: true,
+    list: [
+      {
+        type: 'claimSeries',
+        id: '1122334455',
+      },
+      {
+        type: 'appealSeries',
+        id: '1122334455',
+      }
+    ],
+    pages: 1,
+    page: 1,
+    show30DayNotice: false,
+    hide30DayNotice: true,
+    consolidatedModal: false
+  };
+
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(
-      <YourClaimsPageV2/>
-    );
-    expect(tree.type).to.equal('div');
+    const wrapper = shallow(<YourClaimsPageV2/>);
+    expect(wrapper.type()).to.equal('div');
   });
+
+  it('should render a loading indicator if both requests loading', () => {
+    const props = _.merge(defaultProps, { claimsLoading: true, appealsLoading: true });
+    const wrapper = shallow(<YourClaimsPageV2 {...props}/>, { disableLifecycleMethods: true });
+    expect(wrapper.find('LoadingIndicator').length).to.equal(1);
+  });
+
+  it('should render a loading indicator if one list empty and other loading', () => {
+    const props = _.merge(defaultProps, { appealsLoading: true, list: [] });
+    const wrapper = shallow(<YourClaimsPageV2 {...props}/>, { disableLifecycleMethods: true });
+    expect(wrapper.find('LoadingIndicator').length).to.equal(1);
+  });
+
+  it('should render a list of claims and appeals', () => {
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps}/>, { disableLifecycleMethods: true });
+    expect(wrapper.find('AppealListItem').length).to.equal(1);
+    expect(wrapper.find('ClaimsListItem').length).to.equal(1);
+  });
+
+  it('should render a closed claim message if show30DayNotice is true', () => {
+    const props = _.set('show30DayNotice', true, defaultProps);
+    const wrapper = shallow(<YourClaimsPageV2 {...props}/>, { disableLifecycleMethods: true });
+    expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
+  });
+
+  it('should render Pagination', () => {
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps}/>, { disableLifecycleMethods: true });
+    expect(wrapper.find('Pagination').length).to.equal(1);
+  });
+
+  it('should render a no claims message when no claims or appeals present', () => {
+
+  });
+
+  it('should not render error messages if either list is loading', () => {
+
+  });
+
+  it('should render claims and appeals unavailable when neither is unavailable', () => {
+
+  });
+
+  it('should render claims unavailable when claims are unavailable', () => {
+
+  });
+
+  it('should render appeals unavailable when appeals are unavailable', () => {
+
+  });
+
+  it('should render a consolidated claims modal when the relevant button is clicked', () => {
+
+  });
+
+  it('should render a FeaturesWarning component', () => {
+
+  });
+
+  it('should render an AskVAQuestions warning component', () => {
+
+  });
+});
+
+describe('<YourClaimsPageV2>', () => {
   // it('should render sort select ', () => {
   //   const claims = [];
   //   const routeParams = {
