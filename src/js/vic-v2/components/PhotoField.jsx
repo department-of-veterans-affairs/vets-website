@@ -3,7 +3,6 @@ import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 
-import environment from '../../common/helpers/environment';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
@@ -175,14 +174,6 @@ function isSquareImage(img) {
   return img.width === img.height;
 }
 
-function getImageUrl({ serverPath, serverName } = {}) {
-  if (serverName) {
-    return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
-  }
-
-  return null;
-}
-
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
@@ -268,7 +259,7 @@ export default class PhotoField extends React.Component {
     this.setState({
       isCropping: true,
       fileName: this.props.formData.name,
-      src: this.state.previewSrc || getImageUrl(this.props.formData),
+      src: this.state.previewSrc,
       warningMessage: null
     });
   }

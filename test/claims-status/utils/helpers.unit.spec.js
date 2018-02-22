@@ -463,12 +463,12 @@ describe('Disability benefits helpers: ', () => {
   describe('getStatusContents', () => {
     it('returns an object with correct title & description', () => {
       const type = STATUS_TYPES.scheduledHearing;
-      const details = {};
-      const expectedDescSnippet = 'Your [TYPE] hearing is scheduled for [DATE] at [LOCATION]';
+      const details = { date: '2018-04-01' };
+      const expectedDescSnippet = 'hearing is scheduled for April 1st, 2018';
       const contents = getStatusContents(type, details);
       expect(contents.title).to.equal('Your hearing has been scheduled');
       // TO-DO: Update with real content
-      const descText = contents.description.props.children;
+      const descText = shallow(contents.description).render().text();
       expect(descText).to.contain(expectedDescSnippet);
     });
 
