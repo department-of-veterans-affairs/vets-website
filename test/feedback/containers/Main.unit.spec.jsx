@@ -46,9 +46,10 @@ describe('<Main/>', () => {
     expect(event.preventDefault.calledOnce).to.be.true;
 
     const calledWith = sendFeedback.args[0][0];
-    expect(calledWith).to.contain.all.keys('description', 'email');
+    expect(calledWith).to.contain.all.keys('description', 'email', 'shouldSendResponse');
   });
 
+  
   it('should render FeedbackSubmitted', () => {
     const props = { ...defaultProps, feedbackReceived: true };
     const wrapper = enzyme.shallow(<Main {...props}/>);
