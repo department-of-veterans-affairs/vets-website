@@ -350,7 +350,7 @@ const formConfig = {
               }
             ),
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:description': "Veteran's name under whom you've claimed benefits",
+              'ui:description': 'Veteran’s name under whom you’ve claimed benefits',
 
               first: {
                 'ui:required': () => false
@@ -445,7 +445,7 @@ const formConfig = {
             ),
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
               'ui:description':
-                "Veteran's name under whom you've claimed benefits",
+                "Veteran’s name under whom you've claimed benefits",
               first: {
                 'ui:required': () => false
               },
