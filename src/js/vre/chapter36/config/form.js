@@ -52,14 +52,6 @@ const requiredDateRange = _.merge(dateRange, {
   required: ['to', 'from']
 });
 
-export function validateBooleanGroup(errors, userGroup, form, schema, errorMessages = {}) {
-  const { noneOrSome = 'Please choose "None" or a combination of other options' } = errorMessages;
-  const group = userGroup || {};
-  if (group.none && Object.keys(group).filter(item => !!group[item]).length > 1) {
-    errors.addError(noneOrSome);
-  }
-}
-
 const serviceHistoryUI = {
   'ui:options': {
     itemName: 'Service Period',
@@ -98,10 +90,6 @@ const applicantServiceHistory = _.merge(serviceHistory, {
 
 const previousBenefitApplicationsUI = {
   'ui:title': 'Have you ever applied for any of the following VA benefits? (Check all that apply.)',
-  'ui:validations': [validateBooleanGroup],
-  'ui:errorMessages': {
-    noneOrSome: 'Please choose "None" or a combination of other options'
-  },
   'ui:options': {
     showFieldLabel: true
   },
@@ -113,9 +101,6 @@ const previousBenefitApplicationsUI = {
   },
   other: {
     'ui:title': benefitsLabels.other
-  },
-  none: {
-    'ui:title': benefitsLabels.none
   }
 };
 
@@ -312,9 +297,6 @@ const formConfig = {
                   },
                   other: {
                     type: 'boolean'
-                  },
-                  none: {
-                    type: 'boolean'
                   }
                 }
               }
@@ -343,9 +325,6 @@ const formConfig = {
                 },
                 other: {
                   'ui:title': benefitsLabels.other
-                },
-                none: {
-                  'ui:title': benefitsLabels.none
                 }
               }
             ),
@@ -400,9 +379,6 @@ const formConfig = {
                   },
                   other: {
                     type: 'boolean'
-                  },
-                  none: {
-                    type: 'boolean'
                   }
                 }
               },
@@ -437,9 +413,6 @@ const formConfig = {
                 },
                 other: {
                   'ui:title': benefitsLabels.other
-                },
-                none: {
-                  'ui:title': benefitsLabels.none
                 }
               }
             ),
@@ -493,9 +466,6 @@ const formConfig = {
                     type: 'boolean'
                   },
                   other: {
-                    type: 'boolean'
-                  },
-                  none: {
                     type: 'boolean'
                   }
                 }
