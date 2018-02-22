@@ -17,6 +17,17 @@ const defaultProps = {
   formIsSubmittable: true
 };
 
+const failProps = {
+  formValues: { shouldSendResponse: 'no' },
+  formErrors: {},
+  sendFeedback() {},
+  clearError() {},
+  setFormValues() {},
+  errorMessage: null,
+  requestPending: null,
+  formIsSubmittable: false
+}
+
 describe('<FeedbackForm/>', () => {
 
   it('should render', () => {
@@ -30,6 +41,17 @@ describe('<FeedbackForm/>', () => {
     const props = { ...defaultProps, errorMessage };
     const wrapper = enzyme.shallow(<FeedbackForm {...props}/>);
     expect(wrapper.find(AlertBox)).to.have.lengthOf(1);
+  });
+
+  it('should not submit if shouldSendResponse is missing', () => {
+    const sendFeedback = sinon.spy();
+    const wrapper = enzyme.shallow(<FeedbackForm {...failProps}/>);
+    const event = { preventDefault: sinon.spy() };
+
+    wrapper.find('form').simulate('submit', event);
+
+    expect(event.preventDefault.calledOnce).to.be.true;
+    expect(sendFeedback.calledOnce).to.be.false;
   });
 
   it('submits the form information', () => {
