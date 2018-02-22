@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import currencyUI from '../../../common/schemaform/definitions/currency';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -15,6 +16,9 @@ const {
   daytimePhone,
   email,
   eveningPhone,
+  employer,
+  jobDuties,
+  monthlyIncome,
   vaRecordsOffice
 } = fullSchema31.properties;
 
@@ -25,6 +29,12 @@ const {
   ssn,
   vaFileNumber,
 } = fullSchema31.definitions;
+
+const expandIfWorking = {
+  'ui:options': {
+    expandUnder: 'view:isWorking',
+  }
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -42,9 +52,10 @@ const formConfig = {
   title: 'Apply for Vocational Rehabilitation',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
-    fullName,
+    address,
     date,
     phone,
+    fullName,
     ssn,
     vaFileNumber,
   },
@@ -85,9 +96,40 @@ const formConfig = {
         workInformation: {
           path: 'work-information',
           title: 'Work Information',
+          uiSchema: {
+            'view:isWorking': {
+              'ui:title': 'Are you working?',
+              'ui:widget': 'yesNo'
+            },
+            employer: {
+              'ui:title': 'Employer name',
+              'ui:required': (formData) => formData['view:isWorking'],
+              ...expandIfWorking
+            },
+            jobDuties: {
+              'ui:title': 'Job duties',
+              ...expandIfWorking
+            },
+            monthlyIncome: {
+              ...currencyUI('Monthly pay'),
+              ...expandIfWorking
+            },
+            employerAddress: {
+              ...address.uiSchema('Employer address'),
+              ...expandIfWorking
+            }
+          },
           schema: {
             type: 'object',
+            required: ['view:isWorking'],
             properties: {
+              'view:isWorking': {
+                type: 'boolean'
+              },
+              employer,
+              jobDuties,
+              monthlyIncome,
+              employerAddress: address.schema(fullSchema31)
             }
           }
         }
