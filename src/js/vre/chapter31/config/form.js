@@ -12,14 +12,15 @@ import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 
 const {
-  vaRecordsOffice
+  vaRecordsOffice,
+  serviceFlags
 } = fullSchema31.properties;
 
 const {
   fullName,
-  serviceFlags,
   serviceHistory,
   date,
+  dateRange,
   ssn,
   vaFileNumber
 } = fullSchema31.definitions;
@@ -79,7 +80,7 @@ const serviceFlagsUI = {
   },
   operationIraqiFreedom: {
     'ui:title': serviceFlagLabels.operationIraqiFreedom
-  },
+  }
 };
 
 const formConfig = {
@@ -100,6 +101,7 @@ const formConfig = {
   defaultDefinitions: {
     fullName,
     date,
+    dateRange,
     ssn,
     vaFileNumber,
   },
@@ -124,8 +126,8 @@ const formConfig = {
       title: 'Military History',
       pages: {
         militaryHistory: {
-          path: 'military-information',
-          title: 'Military Information',
+          path: 'military-history',
+          title: 'Military History',
           uiSchema: {
             serviceHistory: serviceHistoryUI,
             serviceFlags: serviceFlagsUI
