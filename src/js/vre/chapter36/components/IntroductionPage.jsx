@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
   }
   goForward = () => {
     this.props.router.push(this.props.route.pageList[1].path);
-  };
+  }
   render() {
     return (
       <div className="schemaform-intro">
