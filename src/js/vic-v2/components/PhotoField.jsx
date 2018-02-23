@@ -306,7 +306,7 @@ export default class PhotoField extends React.Component {
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (!isValidFileType(file.name, fileTypes)) {
       this.props.onChange({
-        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, or .tiff file and try again.'
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a gif, jpeg, .png, or .tiff file and try again.'
       });
     } else {
       const reader = new FileReader();
@@ -354,7 +354,7 @@ export default class PhotoField extends React.Component {
       }
       if (!isValidFileType(fileName, fileTypes)) {
         this.props.onChange({
-          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff, or .bmp file and try again.'
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a gif, jpeg, .png, .tiff, or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();
@@ -830,7 +830,7 @@ export default class PhotoField extends React.Component {
               onDragEnter={() => this.handleDrag({ dragActive: true })}
               onDragLeave={() => this.handleDrag({ dragActive: false })}
               onDrop={this.onChange}
-              accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               {this.state.dragActive ?
                 <div className="drag-active-text"><span>DROP PHOTO</span></div> :
                 <img alt="placeholder" src="/img/photo-placeholder.png"/>}
