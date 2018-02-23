@@ -31,9 +31,30 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 <div class="feature" markdown=“1”>
 
-### Can I get VA dental care benefits for some or all of my dental care?
+### Can I get VA dental care benefits for all of my dental care needs?
 
-It depends on a number of factors, like your military service history and your current health and living situation. Based on these factors, VA places you into a benefits class—and you get the specific benefits assigned to that class. See the section below for more information.
+It depends on a number of factors, like your military service history and your current health and living situation. 
+
+**You may be eligible for any needed dental care if you if any one of these is true:**
+
+- You get VA disability compensation (monthly payments) for a service-connected disability, **or**
+- You're a former Prisoner of War, **or**
+- You have one or more service-connected disabilities that are rated 100% disabling, **or**
+- You're unable to work (called unemployable), and you get disability compensation at the 100% disabling rate due to service-connected conditions
+
+**Note:** If you're being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn't qualify you for this benefit.
+
+**You may be eligible for one-time dental care if you served on active duty for 90 days or longer during the Persion Gulf War era and all of these are true for you:
+
+- You didn't get a dishonorable discharge when you were discharged or released from service, **and**
+- You apply for dental care within 180 days of discharge or release, **and**
+- Your DD214 certificate of discharge doesn't show that you had a complete dental exam and all needed dental treatment before you were discharged
+
+**Note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
+
+
+
+Based on these factors, VA places you into a benefits class—and you get the specific benefits assigned to that class. See the section below for more information.
 
 </div>
 
