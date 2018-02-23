@@ -30,7 +30,7 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>To fill out this application, you’ll need your or your sponsor’s:</h6></div>
+              <div><h6>To fill out this application, you’ll need your:</h6></div>
               <ul>
                 <li>Social Security number or VA file number (required)</li>
                 <li>Military status and service history</li>
