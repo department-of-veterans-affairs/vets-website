@@ -37,6 +37,23 @@ describe('<PhotoField>', () => {
     expect(tree.text()).to.contain('Step 1');
     expect(tree.find('ErrorableFileInput').length).to.equal(2);
   });
+  it('should use small screen layout if on review page', () => {
+    const formContext = { pageTitle: 'Photo review' };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        formContext={formContext}/>
+    );
+    const wrapper = shallow(tree.find('ErrorableFileInput').first().props().buttonText);
+    expect(wrapper.type()).to.equal('span');
+  });
   it('should render preview while processing', () => {
     const formContext = {};
     const uiSchema = {
