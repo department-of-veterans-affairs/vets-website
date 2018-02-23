@@ -13,6 +13,8 @@ export default function asyncLoader(getComponent, message) {
           AsyncComponent.Component = Component;
           this.setState({ Component });
         });
+      } else if (!this.componentPromise) {
+        this.componentPromise = Promise.resolve();
       }
     }
     render() {
