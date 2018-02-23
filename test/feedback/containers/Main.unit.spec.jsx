@@ -42,7 +42,6 @@ describe('<Main/>', () => {
     const event = { preventDefault: sinon.spy() };
     feedbackFormWrapper.dive().find('form').simulate('submit', event);
 
-    //console.log(sendFeedback);
     expect(sendFeedback.calledOnce).to.be.true;
     expect(event.preventDefault.calledOnce).to.be.true;
 
