@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import environment from '../common/helpers/environment.js';
@@ -32,16 +31,6 @@ export function prefillTransformer(pages, formData, metadata) {
     formData,
     pages
   };
-}
-
-export function PhotoReviewDescription({ url }) {
-  return (
-    <div className="va-growable-background">
-      {url
-        ? <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
-        : <span>No photo chosen</span>
-      }
-    </div>);
 }
 
 function checkStatus(guid) {
@@ -130,5 +119,25 @@ export function submit(form, formConfig) {
       const guid = resp.data.attributes.guid;
       pollStatus(guid, resolve, reject);
     }).catch(reject);
+  });
+}
+
+export function fetchPreview(id) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'X-Key-Inflection': 'camel',
+    Authorization: `Token token=${userToken}`
+  };
+
+  return fetch(`${environment.API_URL}/v0/vic/profile_photo_attachments/${id}`, {
+    headers
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.blob();
+    }
+
+    return new Error(resp.responseText);
+  }).then(blob => {
+    return window.URL.createObjectURL(blob);
   });
 }

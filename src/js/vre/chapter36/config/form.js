@@ -5,34 +5,85 @@ import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 import {
   genderLabels
 } from '../../../common/utils/labels.jsx';
+
+import * as address from '../../../common/schemaform/definitions/address';
+import { dischargeTypeLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { transform } from '../helpers';
+import createVeteranInfoPage from '../../pages/veteranInfo';
 
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
+import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
+  applicantEmail,
   applicantFullName,
   applicantGender,
+  applicantPrimaryPhone,
+  applicantOtherPhone,
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
   receivedPamphlet,
-  veteranDateOfBirth,
-  veteranDateOfDeathMIAPOW,
-  veteranFullName,
-  veteranSocialSecurityNumber,
-  veteranVaFileNumber
+  veteranDateOfDeathMIAPOW
 } = fullSchema36.properties;
 
 const {
   date,
   fullName,
   gender,
+  phone,
   ssn,
-  vaFileNumber
+  vaFileNumber,
+  dateRange,
+  serviceHistory
 } = fullSchema36.definitions;
+
+const requiredDateRange = _.merge(dateRange, {
+  required: ['to', 'from']
+});
+
+const serviceHistoryUI = {
+  'ui:options': {
+    itemName: 'Service Period',
+    viewField: ServicePeriodView,
+    hideTitle: true
+  },
+  items: {
+    serviceBranch: {
+      'ui:title': 'Branch of service'
+    },
+    dateRange: dateRangeUI(
+      'Service start date',
+      'Service end date',
+      'End of service must be after start of service'
+    ),
+    dischargeType: {
+      'ui:title': 'Character of discharge',
+      'ui:options': {
+        labels: dischargeTypeLabels
+      }
+    }
+  }
+};
+
+const applicantServiceHistory = _.merge(serviceHistory, {
+  minItems: 1,
+  items: {
+    required: ['serviceBranch', 'dateRange', 'dischargeType'],
+    properties: {
+      dateRange: {
+        $ref: '#/definitions/requiredDateRange'
+      }
+    }
+  }
+});
 
 const formConfig = {
   urlPrefix: '/',
@@ -40,6 +91,7 @@ const formConfig = {
   trackingPrefix: 'vre-chapter-36',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit: transform,
   formId: '28-8832',
   version: 0,
   prefillEnabled: true,
@@ -50,11 +102,15 @@ const formConfig = {
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
   defaultDefinitions: {
+    address,
     date,
     fullName,
     gender,
+    phone,
     ssn,
-    vaFileNumber
+    vaFileNumber,
+    dateRange,
+    requiredDateRange
   },
   chapters: {
     applicantInformation: {
@@ -156,23 +212,8 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran Inforation',
-          path: 'veteran-information',
+        veteranInformation: createVeteranInfoPage(fullSchema36, {
           uiSchema: {
-            veteranFullName: fullNameUI,
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            veteranSocialSecurityNumber: _.assign(ssnUI, {
-              'ui:title': 'Social Security number (must have this or a VA file number)',
-              'ui:required': form => !form.veteranVaFileNumber,
-            }),
-            veteranVaFileNumber: {
-              'ui:title': 'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSocialSecurityNumber,
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
-              }
-            },
             veteranDateOfDeathMIAPOW: _.merge(
               currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW'),
               {
@@ -183,17 +224,9 @@ const formConfig = {
             )
           },
           schema: {
-            type: 'object',
-            required: ['veteranDateOfBirth'],
-            properties: {
-              veteranFullName,
-              veteranDateOfBirth,
-              veteranSocialSecurityNumber,
-              veteranVaFileNumber,
-              veteranDateOfDeathMIAPOW
-            }
+            veteranDateOfDeathMIAPOW
           }
-        }
+        })
       }
     },
     additionalInformation: {
@@ -204,11 +237,96 @@ const formConfig = {
     militaryHistory: {
       title: 'Military History',
       pages: {
+        militaryHistoryVeteran: {
+          depends: {
+            'view:isVeteran': true
+          },
+          path: 'military-history',
+          title: 'Military History',
+          uiSchema: {
+            veteranServiceHistory: serviceHistoryUI
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranServiceHistory: applicantServiceHistory
+            }
+          }
+        },
+        militaryHistory: {
+          depends: (formData) => !formData['view:isVeteran'],
+          path: 'military-history-applicant',
+          title: 'Military History',
+          uiSchema: {
+            'view:hasMilitaryHistory': {
+              'ui:title': 'Have you served on active duty in the Armed Forces? (This can include active duty for training for 3 months or more, or subsequent periods of active duty for training of 6 months or more.)',
+              'ui:widget': 'yesNo'
+            },
+            applicantServiceHistory: _.merge(serviceHistoryUI, {
+              'ui:options': {
+                expandUnder: 'view:hasMilitaryHistory'
+              }
+            })
+          },
+          schema: {
+            type: 'object',
+            required: ['view:hasMilitaryHistory'],
+            properties: {
+              'view:hasMilitaryHistory': {
+                type: 'boolean'
+              },
+              applicantServiceHistory
+            }
+          }
+        }
       }
     },
     contactInformation: {
       title: 'Contact Information',
       pages: {
+        applicantAddress: {
+          path: 'applicant-address',
+          title: 'Address information',
+          uiSchema: {
+            applicantAddress: address.uiSchema('Please provide a mailing address where we could reach you in the next 30 to 60 days.'),
+          },
+          schema: {
+            type: 'object',
+            required: ['applicantAddress'],
+            properties: {
+              applicantAddress: address.schema(fullSchema36, true)
+            }
+          }
+        },
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact information',
+          uiSchema: {
+            applicantPrimaryPhone: phoneUI('Primary phone number where a message can be left'),
+            applicantOtherPhone: phoneUI('Other phone number'),
+            applicantEmail: {
+              'ui:title': 'Email address'
+            },
+            'view:confirmEmail': {
+              'ui:title': 'Re-enter email address',
+              'ui:options': {
+                hideOnReview: true
+              }
+            },
+            'ui:validations': [
+              validateMatch('applicantEmail', 'view:confirmEmail')
+            ]
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicantPrimaryPhone,
+              applicantOtherPhone,
+              applicantEmail,
+              'view:confirmEmail': applicantEmail,
+            }
+          }
+        }
       }
     }
   }

@@ -1455,7 +1455,7 @@ p.info-message {
 }
 
 // Error standardization
-.usa-alert {
+.usa-alert, .plaintext-message {
   .alert-actions {
     margin-top: 0.5em;
   }

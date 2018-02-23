@@ -99,6 +99,11 @@ input[type=range] {
   font-size: 1.07em !important;
 }
 
+.id-card-preview {
+  width: 500px;
+  height: 350px;
+}
+
 .progress-bar-container {
   margin: 0 auto;
   text-align: center;
@@ -367,11 +372,10 @@ input[type=range] {
 }
 
 .drag-active-text {
-  position: absolute;
-  width: 240px;
-  height: 240px;
-  padding-top: 110px;
-  text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .crop-button-container {
@@ -390,6 +394,11 @@ input[type=range] {
   @media (min-width: $large-screen) {
     width: 300px;
   }
+}
+
+.photo-preview-link {
+  margin-right: 10px;
+  font-weight: $font-normal;
 }
 
 .photo-edit-button {
@@ -440,7 +449,7 @@ input[type=range] {
     }
     .photo-preview-link {
       margin-right: 10px;
-      font-weight: 400;
+      font-weight: $font-normal;
     }
   }
 }
@@ -459,3 +468,11 @@ input[type=range] {
 .usa-button {
   width: auto;
 }
+
+.vic-layover {
+  margin-bottom: 2em;
+}
+
+.vic-processing-warning {
+  margin-bottom: 2em;
+} 
