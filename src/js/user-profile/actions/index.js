@@ -105,7 +105,7 @@ const profileMocked = {
   // email: profile.email,
   // userFullName: profile.userFullName,
   ssn: '123121232',
-  dob: new Date().toISOString(),
+  // dob: new Date().toISOString(),
   // gender: 'Male',
   telephones: [
     {
@@ -144,22 +144,30 @@ const profileMocked = {
       serviceBranch: 'Navy',
       rank: 'First Lieutenant',
       dateRange: {
-        start: new Date(new Date().valueOf() - (5 * 24 * 60 * 60 * 1000)).toISOString(),
-        end: new Date().toISOString()
+        start: '2018-02-17T20:31:57.286Z',
+        end: '2018-02-18T20:31:57.286Z'
       }
     },
     {
       serviceBranch: 'Army',
       rank: 'Second Lieutenant',
       dateRange: {
-        start: new Date(new Date().valueOf() - (25 * 24 * 60 * 60 * 1000)).toISOString(),
-        end: new Date(new Date().valueOf() - (10 * 24 * 60 * 60 * 1000)).toISOString()
+        start: '2016-02-18T20:31:57.286Z',
+        end: '2017-02-18T20:31:57.286Z'
       }
     }
   ]
 };
 
-function formExtendedProfile(profile, address, formPrefill) {
+// The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
+function sendProfileRequests() {
+  return [
+    apiRequest('/address'),
+    apiRequest('/in_progress_forms/1010ez')
+  ];
+}
+
+function getExtendedProfile(profile, address, formPrefill) {
   console.log(address);
   console.log(formPrefill);
   return { ...profileMocked, ...profile };
@@ -167,15 +175,11 @@ function formExtendedProfile(profile, address, formPrefill) {
 
 export function fetchExtendedProfile() {
   return (dispatch, getState) => {
-
     const { user: { profile } } = getState();
-    const requests = [
-      apiRequest('/address'),
-      apiRequest('/in_progress_forms/1010ez')
-    ];
+    const requests = sendProfileRequests();
 
     Promise.all(requests)
-      .then(data => formExtendedProfile(profile, ...data))
+      .then(data => getExtendedProfile(profile, ...data))
       .then(extendedProfile => {
         dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile });
       });
