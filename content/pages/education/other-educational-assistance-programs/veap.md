@@ -16,7 +16,7 @@ You can continue your education by using part of your military pay to help cover
 <div class="feature" markdown="1">
 
 ### Can I get this benefit?
-You can get this benefit if you went into the service for the first time between January 1, 1977, and June 30, 1985, and:
+You can get this benefit if you went into the service for the first time between January 1, 1977, and June 30, 1985, and **all of the following are true for you**:
   - You opened and put money into your VEAP account before April 1, 1987, **and**
   - You put in $25–$2,700 on your own, **and**
   - You finished your first period of service and were discharged or released from service under conditions other than dishonorable.
@@ -32,7 +32,8 @@ Money for tuition
 
 ### How do I get this benefit?
 
-You’ll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
+You’ll need to apply. <br>
+[Apply for benefits](/education/apply-for-education-benefits/). 
 
 You can use VEAP benefits for these programs:
 
