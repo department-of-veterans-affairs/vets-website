@@ -276,7 +276,7 @@ export default class PhotoField extends React.Component {
     this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
-      file.name = this.state.fileName;
+      file.name = 'profile_photo.png';
       this.props.formContext.uploadFile(
         file,
         (formData) => {
@@ -306,7 +306,7 @@ export default class PhotoField extends React.Component {
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (!isValidFileType(file.name, fileTypes)) {
       this.props.onChange({
-        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, or .tiff file and try again.'
       });
     } else {
       const reader = new FileReader();
@@ -344,7 +344,7 @@ export default class PhotoField extends React.Component {
     this.screenReaderPath = false;
     this.setState({ dragActive: false });
 
-    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
       const file = files[0];
       const fileName = file.name;
@@ -354,7 +354,7 @@ export default class PhotoField extends React.Component {
       }
       if (!isValidFileType(fileName, fileTypes)) {
         this.props.onChange({
-          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff, or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();
@@ -642,6 +642,7 @@ export default class PhotoField extends React.Component {
     const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const cropperTypes = fileTypes.concat('bmp');
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
@@ -850,7 +851,7 @@ export default class PhotoField extends React.Component {
               Edit your photo
             </button>}
             {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
-              accept={fileTypes.map(type => `.${type}`).join(',')}
+              accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
               aria-describedby="croppingToolDescription"

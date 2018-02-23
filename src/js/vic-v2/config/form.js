@@ -178,9 +178,9 @@ const formConfig = {
                 'png',
                 'tiff',
                 'tif',
+                'gif',
                 'jpeg',
-                'jpg',
-                'bmp'
+                'jpg'
               ],
               maxSize: TWENTY_FIVE_MB,
               showFieldLabel: false,
@@ -226,6 +226,9 @@ const formConfig = {
                 'png',
                 'jpeg',
                 'jpg',
+                'gif',
+                'tif',
+                'tiff'
               ],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload Your Discharge Document',
