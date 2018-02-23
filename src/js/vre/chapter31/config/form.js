@@ -25,64 +25,6 @@ const {
   vaFileNumber
 } = fullSchema31.definitions;
 
-const serviceHistoryUI = {
-  'ui:options': {
-    itemName: 'Service Period',
-    viewField: ServicePeriodView,
-    hideTitle: true
-  },
-  items: {
-    serviceBranch: {
-      'ui:title': 'Branch of service'
-    },
-    dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
-      'End of service must be after start of service'
-    ),
-    dischargeType: {
-      'ui:title': 'Character of discharge',
-      'ui:options': {
-        labels: dischargeTypeLabels
-      }
-    }
-  }
-};
-
-const serviceFlagsUI = {
-  'ui:title': 'Did you serve in:',
-  'ui:options': {
-    showFieldLabel: true
-  },
-  ww2: {
-    'ui:title': serviceFlagLabels.ww2
-  },
-  postWw2: {
-    'ui:title': serviceFlagLabels.postWw2
-  },
-  korea: {
-    'ui:title': serviceFlagLabels.korea
-  },
-  postKorea: {
-    'ui:title': serviceFlagLabels.postKorea
-  },
-  vietnam: {
-    'ui:title': serviceFlagLabels.vietnam
-  },
-  postVietnam: {
-    'ui:title': serviceFlagLabels.postVietnam
-  },
-  gulf: {
-    'ui:title': serviceFlagLabels.gulf
-  },
-  operationEnduringFreedom: {
-    'ui:title': serviceFlagLabels.operationEnduringFreedom
-  },
-  operationIraqiFreedom: {
-    'ui:title': serviceFlagLabels.operationIraqiFreedom
-  }
-};
-
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/vre',
@@ -129,8 +71,62 @@ const formConfig = {
           path: 'military-history',
           title: 'Military History',
           uiSchema: {
-            serviceHistory: serviceHistoryUI,
-            serviceFlags: serviceFlagsUI
+            serviceHistory: {
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                hideTitle: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                ),
+                dischargeType: {
+                  'ui:title': 'Character of discharge',
+                  'ui:options': {
+                    labels: dischargeTypeLabels
+                  }
+                }
+              }
+            },
+            serviceFlags: {
+              'ui:title': 'Did you serve in:',
+              'ui:options': {
+                showFieldLabel: true
+              },
+              ww2: {
+                'ui:title': serviceFlagLabels.ww2
+              },
+              postWw2: {
+                'ui:title': serviceFlagLabels.postWw2
+              },
+              korea: {
+                'ui:title': serviceFlagLabels.korea
+              },
+              postKorea: {
+                'ui:title': serviceFlagLabels.postKorea
+              },
+              vietnam: {
+                'ui:title': serviceFlagLabels.vietnam
+              },
+              postVietnam: {
+                'ui:title': serviceFlagLabels.postVietnam
+              },
+              gulf: {
+                'ui:title': serviceFlagLabels.gulf
+              },
+              operationEnduringFreedom: {
+                'ui:title': serviceFlagLabels.operationEnduringFreedom
+              },
+              operationIraqiFreedom: {
+                'ui:title': serviceFlagLabels.operationIraqiFreedom
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -139,7 +135,7 @@ const formConfig = {
               serviceFlags
             }
           }
-        },
+        }
       }
     },
     workInformation: {
