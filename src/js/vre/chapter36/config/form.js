@@ -58,7 +58,7 @@ function isNotVeteran({ 'view:isVeteran': isVeteranApplicant }) {
   return !isVeteranApplicant;
 }
 
-function isVeteranOrHasApplications({ 'view:isVeteran': isVeteranApplicant, previousBenefitApplications: applications }) {
+function isVeteranOrNoApplications({ 'view:isVeteran': isVeteranApplicant, previousBenefitApplications: applications }) {
   return isVeteranApplicant || !_.some(Boolean, applications);
 }
 
@@ -320,16 +320,16 @@ const formConfig = {
               }
             },
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:description': "Veteran’s name under whom you've claimed benefits",
+              'ui:description': 'Veteran’s name under whom you‘ve claimed benefits',
               'ui:options': {
                 classNames: 'schemaform-field-template',
-                hideIf: isVeteranOrHasApplications
+                hideIf: isVeteranOrNoApplications
               }
             }),
             previousVeteranBenefitsSocialSecurityNumber: _.assign(ssnUI, {
               'ui:title': 'Social Security number (must have this or a VA file number)',
               'ui:options': {
-                hideIf: isVeteranOrHasApplications
+                hideIf: isVeteranOrNoApplications
               }
             }),
             previousVeteranBenefitsVaFileNumber: {
@@ -338,7 +338,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               },
               'ui:options': {
-                hideIf: isVeteranOrHasApplications
+                hideIf: isVeteranOrNoApplications
               }
             }
           },
