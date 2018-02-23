@@ -161,6 +161,16 @@ export function formatDate(date) {
   return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
 }
 
+function getHearingType(type) {
+  const typeMaps = {
+    video: 'video conference',
+    travel: 'travel board',
+    central_office: 'Washington, DC central office' // eslint-disable-line
+  };
+
+  return typeMaps[type] || type;
+}
+
 // TO DO: Replace made up properties and content with real versions once finalized.
 /**
  * Grabs the matching title and dynamically-generated description for a given current status type
@@ -248,13 +258,15 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     }
-    case STATUS_TYPES.pendingHearingScheduling:
+    case STATUS_TYPES.pendingHearingScheduling: {
+      const hearingType = getHearingType(details.type);
       contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
-        <p>You requested a {details.type} hearing on your Form 9. When your hearing is scheduled, you will
+        <p>You requested a {hearingType} hearing on your Form 9. When your hearing is scheduled, you will
         receive a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
+    }
     case STATUS_TYPES.scheduledHearing: {
       const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Your hearing has been scheduled';
