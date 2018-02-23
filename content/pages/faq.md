@@ -140,7 +140,7 @@ display_title: Frequently Asked Questions
                         <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
                         <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
                         <h4>By mail</h4>
-                        <p>Log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p> 
+                        <p>Log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p>
                         <p>The site will ask if you’d like to upgrade to a premium account.</p>
                         <p>If you have an advanced account already, a page called “Authorize VA to Release Electronic Copies of your VA Record” will appear. Choose the radio button labeled “By Mail—Print, fill out and mail your signed form,” and select “Continue.”</p>
                         <p>Print, complete, and sign the VA Release of Information (VA Form 10-5345a-MHV). Mail it to your local VA health care facility. When you address the envelope, include “Attention: Release of Information Office.”</p>
@@ -148,7 +148,7 @@ display_title: Frequently Asked Questions
                         <p><a href="/facilities/">Find contact information for a VA health facility near you</a>.</p>
                       </div>
                     </div>
-                  </li>	
+                  </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-1" itemprop="name">How do I get a premium DS Logon account? </button>
                     <div id="faq-other-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -282,7 +282,7 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-4" itemprop="name">How will ID.me protect my personal information? </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-4" itemprop="name">How will ID.me protect my personal information?</button>
                     <div id="faq-idme-security-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me protects all sensitive data with AES 256-bit encryption at rest and RSA 2048-bit encryption in transit. Their information security protections are stronger than many financial institutions.</p>
