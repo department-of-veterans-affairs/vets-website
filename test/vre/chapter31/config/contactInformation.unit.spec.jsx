@@ -4,9 +4,9 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester, fillData } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
+import formConfig from '../../../../src/js/vre/chapter31/config/form.js';
 
-describe('VRE chapter 36 contact information', () => {
+describe('VRE chapter 31 contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.contactInformation;
   it('renders contact information form', () => {
     const form = mount(
@@ -31,9 +31,9 @@ describe('VRE chapter 36 contact information', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    fillData(form, 'input#root_applicantPrimaryPhone', '8017777777');
-    fillData(form, 'input#root_applicantOtherPhone', '8017777777');
-    fillData(form, 'input#root_applicantEmail', 'test@test.com');
+    fillData(form, 'input#root_daytimePhone', '8017777777');
+    fillData(form, 'input#root_eveningPhone', '8017777777');
+    fillData(form, 'input#root_email', 'test@test.com');
     fillData(form, 'input[name="root_view:confirmEmail"]', 'test@test.com');
 
     form.find('form').simulate('submit');
@@ -53,7 +53,7 @@ describe('VRE chapter 36 contact information', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    fillData(form, 'input#root_applicantEmail', 'test@test.com');
+    fillData(form, 'input#root_email', 'test@test.com');
     fillData(form, 'input[name="root_view:confirmEmail"]', 'test@nottest.com');
 
     form.find('form').simulate('submit');

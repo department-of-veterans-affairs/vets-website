@@ -11,6 +11,7 @@ import { dischargeTypeLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { transform } from '../helpers';
+import createVeteranInfoPage from '../../pages/veteranInfo';
 
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
@@ -30,11 +31,7 @@ const {
   seekingRestorativeTraining,
   seekingVocationalTraining,
   receivedPamphlet,
-  veteranDateOfBirth,
-  veteranDateOfDeathMIAPOW,
-  veteranFullName,
-  veteranSocialSecurityNumber,
-  veteranVaFileNumber
+  veteranDateOfDeathMIAPOW
 } = fullSchema36.properties;
 
 const {
@@ -215,23 +212,8 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: {
-          title: 'Veteran Inforation',
-          path: 'veteran-information',
+        veteranInformation: createVeteranInfoPage(fullSchema36, {
           uiSchema: {
-            veteranFullName: fullNameUI,
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            veteranSocialSecurityNumber: _.assign(ssnUI, {
-              'ui:title': 'Social Security number (must have this or a VA file number)',
-              'ui:required': form => !form.veteranVaFileNumber,
-            }),
-            veteranVaFileNumber: {
-              'ui:title': 'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSocialSecurityNumber,
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
-              }
-            },
             veteranDateOfDeathMIAPOW: _.merge(
               currentOrPastDateUI('Date of Veteran’s death or date listed as missing in action or POW'),
               {
@@ -242,17 +224,9 @@ const formConfig = {
             )
           },
           schema: {
-            type: 'object',
-            required: ['veteranDateOfBirth'],
-            properties: {
-              veteranFullName,
-              veteranDateOfBirth,
-              veteranSocialSecurityNumber,
-              veteranVaFileNumber,
-              veteranDateOfDeathMIAPOW
-            }
+            veteranDateOfDeathMIAPOW
           }
-        }
+        })
       }
     },
     additionalInformation: {
