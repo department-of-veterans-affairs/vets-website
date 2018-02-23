@@ -34,17 +34,18 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to Vets.gov? </button>
                     <div id="faq-vetsgov-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>You can sign in to Vets.gov in 1 of 3 ways:</p>
+                        <p><strong>You can sign in to Vets.gov in 1 of 3 ways:</strong></p>
                         <ul>
-                          <li>With your existing My Health<em>e</em>Vet account, <strong>or</strong></li>
-                          <li>With your existing DS Logon account, <strong>or</strong></li>
+                          <li>With your existing <strong>My Health<em>e</em>Vet</strong> account, <strong>or</strong></li>
+                          <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (our trusted technology partner)</li>
                         </ul>
                         <h4>Fastest way to get access to all Vets.gov tools</h4>
                         <p>Before you can use Vets.gov tools that access your personal information, we need to make sure you're you (and not someone pretending to be you). If you sign in with your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, this proves your identity and you won't need to do anything else.</p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                         <h4>What to do if you don't have an existing premium account</h4>
                         <p>If you sign in by creating an account with ID.me or with a basic or advanced <strong>My Health<em>e</em>Vet</strong> or basic <strong>DS Logon</strong>, you'll need to go through the ID.me identity-proofing process before accessing these tools.</p>
-                        <p>To go through this process, you’ll need:</p>
+                        <p><strong>To go through this process, you’ll need:</strong></p>
                         <ul>
                           <li>A smartphone (or a landline or mobile phone and a computer with an internet connection), <strong>and</strong></li>
                           <li>Your Social Security number, <strong>and</strong></li>
@@ -84,22 +85,36 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-1" itemprop="name">How do I verify my identity in person? </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-1" itemprop="name">Can I verify my identity in person? </button>
                     <div id="faq-verify-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you have a basic <strong>DS Logon</strong> account, you can verify your identity in person and upgrade to a premium account. When you use your existing premium account to sign in to Vets.gov, you won't have to verify your identity again.</p>
-                        <p>To verify your identity in person and upgrade to a premium <strong>DS Logon</strong> account, go to a VA regional office near you. <strong>You'll need to:</strong></p>
+                        <p>If you have a basic or advanced <strong>My Health<em>e</em>Vet</strong> account or a basic <strong>DS Logon</strong> account, you can verify your identity in person and upgrade to a premium account. When you use your existing premium account to sign in to Vets.gov, you won't have to verify your identity again.</p>                        
+                        <h4>To verify your identity in person and upgrade to a premium My Health<em>e</em>Vet account</h4>
+                        <p>Go to your local VA health care facility.</p>
+                        <p><strong>You'll need to bring:</strong>
+                        <ul>
+                          <li><strong>Your VA Release of Information (VA Form 10-5345a-MHV).</strong> You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
+                           <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
+                          <li><strong>A government-issued photo ID.</strong> This can be either your Veteran Health Identification Card or valid driver's license.</li>
+                        </ul>
+                        <p>A VA staff member will verify your identity. They’ll then record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
+                        <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
+                        <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>                        
+                        <h4>To verify your identity in person and upgrade to a premium DS Logon account</h4>
+                        <p>Go to a VA regional office near you.</p>
+                        <p><strong>You'll need to:</strong></p>
                         <ul>
                           <li>Bring 2 forms of ID that meet the requirements of the U.S. Citizenship and Immigrations Services Form I-9. Accepted forms of ID include an unexpired U.S. passport and driver's license.<br/>
                             <a href="https://www.uscis.gov/i-9-central/acceptable-documents/list-documents/form-i-9-acceptable-documents" class="login-required">See what other documents are accepted</a>.</li>
                           <li>Make sure the office staff have your current address on file</li>
                         </ul>
                         <p><a href="/facilities/">Find a VA regional office near you</a>.</p>
+                        <p>Soon, we’ll offer other ways to verify your identity in person at VA facilities and other locations.</p>
                       </div>
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-2" itemprop="name">How do I verify my identity by phone? </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-2" itemprop="name">Can I verify my identity by phone? </button>
                     <div id="faq-verify-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you have a basic <strong>DS Logon</strong> account, you may be able to verify your identity by phone and upgrade to a premium account. When you use your existing premium account to sign in to Vets.gov, you won't have to verify your identity again.</p>
@@ -161,7 +176,7 @@ display_title: Frequently Asked Questions
                         </ul>
                         <p><strong>2. Then, register for your basic DS Logon account online.</strong></p>
                         <p>Go to the DS Logon self-service site and click on the button labeled "More DS Logon Options." From the choices that appear, select "Need a DS Logon?"</p>
-                        <p>You’ll then be asked to choose how you want to register:</p>
+                        <p><strong>You’ll then be asked to choose how you want to register:</strong></p>
                         <ul>
                           <li><strong>If you have a Common Access Card (CAC) with accessible card reader</strong>, select this option. It’s the easiest way to get a DS Logon account and upgrade to a premium account right away.</li>
                           <li><strong>If you have a Defense Finance and Account Service (DFAS) myPay account</strong>, you can select this option. You’ll be able to upgrade to a premium account right away.</li>
@@ -227,7 +242,7 @@ display_title: Frequently Asked Questions
                             <li>If you’ve recently moved, changed names, or have a different permanent address, try using your previous information.</li>
                             <li>Make sure you’re entering a phone number that’s registered in your name.</li>
                           </ul>
-                          <li><strong>Use your premium My Health<em>e</em>Vet or DS Logon account to sign in to Vets.gov</strong>. When you use your existing premium account to sign, we’ll connect your verified account to Vets.gov through ID.me.<br/>
+                          <li><strong>Use your premium My Health<em>e</em>Vet or DS Logon account to sign in to Vets.gov</strong>. When you use your existing premium account to sign, we’ll connect your verified account to Vets.gov through ID.me.<br>
                             If you don’t have a premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, you can find out how to get one by reading the questions above.</li>
                           <li><strong>Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: <a href="tel:+1phonenumber">1-800-829-4833</a>) for more help</strong>. We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</li>
                         </ul>
