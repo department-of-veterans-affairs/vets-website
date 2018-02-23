@@ -258,20 +258,18 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     }
-    case STATUS_TYPES.pendingHearingScheduling: {
-      const hearingType = getHearingType(details.type);
+    case STATUS_TYPES.pendingHearingScheduling:
       contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
-        <p>You requested a {hearingType} hearing on your Form 9. When your hearing is scheduled, you will
+        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you will
         receive a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
-    }
     case STATUS_TYPES.scheduledHearing: {
       const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Your hearing has been scheduled';
       contents.description = (
-        <p>Your {details.type} hearing is scheduled for {formattedDate} at {details.location}. If you need to change this
+        <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}. If you need to change this
         date, please contact your Veteran Service Organization or representative as soon as
         possible.</p>
       );
@@ -918,7 +916,7 @@ export function getNextEvents(currentStatus, details) {
         header: '', // intentionally empty
         events: [
           {
-            title: `You will have your ${details.type} hearing`,
+            title: `You will have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
                 At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
@@ -939,7 +937,7 @@ export function getNextEvents(currentStatus, details) {
         header: '', // intentionally empty
         events: [
           {
-            title: `You will have your ${details.type} hearing`,
+            title: `You will have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
                 Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing,
