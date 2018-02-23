@@ -152,7 +152,7 @@ const formConfig = {
               'ui:title': 'Disability rating'
             },
             disabilities: {
-              'ui:title': 'Please describe disability or disabilities:',
+              'ui:title': 'Please describe your disability or disabilities:',
             },
             vaRecordsOffice: {
               'ui:title': 'VA office where your disability records are located',
