@@ -40,7 +40,7 @@ display_title: Frequently Asked Questions
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (our trusted technology partner)</li>
                         </ul>
-                        Before you can use Vets.gov tools that access your personal information, we need to make sure you're you (and not someone pretending to be you). 
+                        <p>Before you can use Vets.gov tools that access your personal information, we also need to verify your identity. This means we'll make sure you're you (and not someone pretending to be you).</p> 
                         <h4>Fastest way to get access to all Vets.gov tools</h4>
                         <p>Sign in with your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account. This proves your identity and you won't need to do anything else.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
