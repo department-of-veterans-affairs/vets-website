@@ -4,42 +4,46 @@ const Timeouts = require('../e2e/timeouts');
 
 const selectors = {
   root: '#feedback-root',
-  revealFormButton: '.feedback-button',
+  revealFormButton: '#feedback-tool',
   form: '.feedback-form',
   formDescription: '.feedback-form textarea',
-  formShouldSendResponse: 'input[name=should-send-response]',
+  formShouldSendResponse: '#shouldSendResponse-0',
   formEmail: '.feedback-form input[name=email]',
   formSubmit: '.feedback-form button[type=submit]',
   formSubmitted: '#feedback-submitted'
 };
 
-function begin(browser) {
-  browser.url(E2eHelpers.baseUrl)
-    .waitForElementVisible(selectors.root, Timeouts.slow)
-    .axeCheck('document');
+const runTest = E2eHelpers.createE2eTest(
+  (client) => {
 
-  // Click the feedback button to reveal the form
-  browser.click(selectors.revealFormButton);
-  browser.waitForElementVisible(selectors.form, Timeouts.normal);
+  // Ensure introduction page renders.
+    client
+      .url(`${E2eHelpers.baseUrl}`)
+      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible(selectors.root, Timeouts.slow)
 
-  // Set actual feedback value
-  browser.setValue(selectors.formDescription, 'This is my feedback');
+    client.axeCheck('document');
 
-  // Set the email value
-  browser.click(selectors.formShouldSendResponse);
-  browser.waitForElementPresent(selectors.formEmail, Timeouts.normal);
-  browser.setValue(selectors.formEmail, 'test@adhocteam.us');
+    // Click the feedback button to reveal the form
+    client.click(selectors.revealFormButton);
+    client.waitForElementVisible(selectors.form, Timeouts.normal);
 
-  // Click the submit button
-  browser.click(selectors.formSubmit);
-  browser.waitForElementPresent(selectors.formSubmitted, Timeouts.normal);
+    // Set actual feedback value
+    client.setValue(selectors.formDescription, 'This is my feedback');
 
-  browser.end();
-}
+    // Set the email value
+     client.click(selectors.formShouldSendResponse);
 
-function setup(browser) {
-  mock(null, { path: '/v0/feedback', verb: 'post', value: { data: {} } })
-    .then(() => begin(browser));
-}
+      // client.pause();
+    client.waitForElementPresent(selectors.formEmail, Timeouts.normal);
+    client.setValue(selectors.formEmail, 'test@adhocteam.us');
 
-module.exports = E2eHelpers.createE2eTest(setup);
+    // Click the submit button
+    client.click(selectors.formSubmit);
+    client.waitForElementPresent(selectors.formSubmitted, Timeouts.normal);
+
+    client.end();
+  }
+);
+
+module.exports = runTest;
