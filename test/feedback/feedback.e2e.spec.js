@@ -1,4 +1,3 @@
-const mock = require('../e2e/mock-helpers');
 const E2eHelpers = require('../e2e/e2e-helpers');
 const Timeouts = require('../e2e/timeouts');
 
@@ -20,7 +19,7 @@ const runTest = E2eHelpers.createE2eTest(
     client
       .url(`${E2eHelpers.baseUrl}`)
       .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible(selectors.root, Timeouts.slow)
+      .waitForElementVisible(selectors.root, Timeouts.slow);
 
     client.axeCheck('document');
 
@@ -32,9 +31,9 @@ const runTest = E2eHelpers.createE2eTest(
     client.setValue(selectors.formDescription, 'This is my feedback');
 
     // Set the email value
-     client.click(selectors.formShouldSendResponse);
+    client.click(selectors.formShouldSendResponse);
 
-      // client.pause();
+    // client.pause();
     client.waitForElementPresent(selectors.formEmail, Timeouts.normal);
     client.setValue(selectors.formEmail, 'test@adhocteam.us');
 
