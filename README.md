@@ -262,7 +262,7 @@ There are some [limitations](https://github.com/department-of-veterans-affairs/v
 
 ### Automated Accessibility Testing -- aXe
 
-Most of our e2e tests include automated accessibility and 508 checks using the aXe API. In addition, there are tests in the `test/accessibility` directory that scan all URLs from the generated sitemap serving static content with aXe rules for WCAG 2.0 and 508 compliance.
+Most of our e2e tests include automated accessibility and 508 checks using the aXe API. In addition, there are tests in the `test/accessibility` directory that scan all URLs from the generated sitemap serving static content with aXe rules for WCAG 2.0 Level AA and 508 compliance.
 
 Automated accessibility tests are run by Jenkins on PRs for the production build type.
 
