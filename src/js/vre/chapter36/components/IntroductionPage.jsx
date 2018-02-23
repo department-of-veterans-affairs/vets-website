@@ -71,14 +71,6 @@ class IntroductionPage extends React.Component {
                   Get help filing your claim
                 </a>.
               </p>
-              <p>
-                <strong>Learn about other VR&E benefits</strong>
-                <br/>
-                <a href="/employment/vocational-rehab-and-employment/family-members/">
-                  See what other VR&E benefits you may be eligible for as a
-                  dependent
-                </a>.
-              </p>
             </li>
             <li className="process-step list-two">
               <div>
