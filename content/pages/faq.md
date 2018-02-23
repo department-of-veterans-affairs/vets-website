@@ -27,7 +27,7 @@ display_title: Frequently Asked Questions
           </div>
           <div class="row">
             <div class="small-12 columns">
-              <h4>How to sign in to Vets.gov</h4>
+              <h4>Signing in to Vets.gov</h4>
               <div class="usa-accordion">
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -40,37 +40,24 @@ display_title: Frequently Asked Questions
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (our trusted technology partner)</li>
                         </ul>
-                        <p>Before you can use Vets.gov tools that access your personal information, we also need to verify your identity. This means we'll make sure you're you (and not someone pretending to be you).</p> 
-                        <h4>Fastest way to get access to all Vets.gov tools</h4>
-                        <p>Sign in with your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account. This proves your identity and you won't need to do anything else.</p>
-                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
-                        <h4>What to do if you don't have an existing premium account</h4>
-                        <p>If you sign in by creating an account with ID.me or with a basic or advanced <strong>My Health<em>e</em>Vet</strong> or basic <strong>DS Logon</strong>, you'll need to go through the ID.me identity-proofing process before accessing these tools.</p>
-                        <p><strong>To go through this process, you’ll need:</strong></p>
-                        <ul>
-                          <li>A smartphone (or a landline or mobile phone and a computer with an internet connection), <strong>and</strong></li>
-                          <li>Your Social Security number, <strong>and</strong></li>
-                          <li>Proof of your identity, either:</li>
-                          <ul>
-                            <li>Your driver’s license or passport, <strong>or</strong></li>
-                            <li>The ability to answer questions based on private and public data (like your credit report) to prove you're you</li>
-                          </ul>  
-                        </ul>
+                        <p><strong>Note:</strong> If you have a <strong>premium My Health<em>e</em> Vet</strong> or <premium DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to prove your identity again.</p> 
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>How to verify your identity</h4>
+                <h4>Verifying your identity on Vets.gov</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">How do I verify my identity online? </button>
                     <div id="faq-verify-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p><strong>If you have a premium My Health<em>e</em>Vet or DS Logon account</strong>, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. You won't need to prove your identity again. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
+                        <h4>Fastest way to verify your identity online</h4>
+                        <p>If you have a <strong>premium My Health<em>e</em>Vet</strong> or <strong>premium DS Logon</strong> account, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. You won't need to prove your identity again. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a></p>
-                        <p><strong>If you don’t have a premium My Health<em>e</em>Vet or DS Logon</strong> account, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
+                        <h4>How to verify your identity online if you don't have an existing premium account</h4>
+                        <p>If you don’t have a <strong>premium My Health<em>e</em>Vet</strong> or <strong>premium DS Logon</strong> account, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
                         <p><strong>To go through the ID.me identity-proofing process, you’ll need:</strong></p>
                         <ul>
                           <li>A smartphone (or a landline or mobile phone and a computer with an internet connection), <strong>and</strong></li>
@@ -89,9 +76,20 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-1" itemprop="name">Can I verify my identity in person? </button>
                     <div id="faq-verify-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you have a basic or advanced <strong>My Health<em>e</em>Vet</strong> account or a basic <strong>DS Logon</strong> account, you can verify your identity in person and upgrade to a premium account. When you use your existing premium account to sign in to Vets.gov, you won't have to verify your identity again.</p>                        
-                        <h4>To verify your identity in person for a premium My Health<em>e</em>Vet account</h4>
-                        <p>Go to your local VA health care facility.</p>
+                        <p>Yes. You can verify your identity in person at your nearest VA Regional Office. If you're a VA patient, you can also verify your identity in person at your local VA health care facility.</p>
+                        <h4>Verifying your identity in person at a VA Regional Office</p>
+                        <p>You can verify your identity at your nearest VA Regional Office as part of the process of getting a premium <strong>DS Logon</strong> account. You can then use this account to sign in to Vets.gov without having to verify your identity online.</p>
+                        <p>You'll need to:</strong></p>
+                        <ul>
+                          <li>Bring 2 forms of ID that meet the requirements of the U.S. Citizenship and Immigrations Services Form I-9. Accepted forms of ID include an unexpired U.S. passport and driver's license.<br/>
+                            <a href="https://www.uscis.gov/i-9-central/acceptable-documents/list-documents/form-i-9-acceptable-documents" class="login-required">See what other documents are accepted</a>.</li>
+                          <li>Make sure the office staff have your current address on file</li>
+                        </ul>
+                        <p>Once your <strong>DS Logon</strong> request is completed, you'll receive a <strong>DS Logon</strong> activation letter by mail in 7-12 business days. You'll then use the information from the letter to activate your account on the DS Logon self-service website.</p>  
+                        <p><a href="/facilities/">Find a VA regional office near you</a>.</p>
+                        <p><a href="https://myaccess.dmdc.osd.mil/identitymanagement/consent?continueToUrl=%2Fidentitymanagement%2Fauthenticate.do%3Fexecution%3De4s1">Visit the DS Logon self-service website</a>.               
+                        <h4>Verifying your identity in person if you're a VA patient</h4>
+                        <p>If you're a VA patient, you can verify your identity at your loca VA health care facility as part of the process of getting a premium <strong>My Health<em>e</em>Vet</strong> account. You can then use this account to sign in to Vets.gov without having to verify your identity online.</p>
                         <p><strong>You'll need to bring:</strong>
                         <ul>
                           <li><strong>Your VA Release of Information (VA Form 10-5345a-MHV).</strong> You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
@@ -100,17 +98,7 @@ display_title: Frequently Asked Questions
                         </ul>
                         <p>A VA staff member will verify your identity. They’ll then record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
                         <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
-                        <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>                        
-                        <h4>To verify your identity in person for a premium DS Logon account</h4>
-                        <p>Go to a VA regional office near you.</p>
-                        <p><strong>You'll need to:</strong></p>
-                        <ul>
-                          <li>Bring 2 forms of ID that meet the requirements of the U.S. Citizenship and Immigrations Services Form I-9. Accepted forms of ID include an unexpired U.S. passport and driver's license.<br/>
-                            <a href="https://www.uscis.gov/i-9-central/acceptable-documents/list-documents/form-i-9-acceptable-documents" class="login-required">See what other documents are accepted</a>.</li>
-                          <li>Make sure the office staff have your current address on file</li>
-                        </ul>
-                        <p><a href="/facilities/">Find a VA regional office near you</a>.</p>
-                        <p>Soon, we’ll offer other ways to verify your identity in person at VA facilities and other locations.</p>
+                        <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
                       </div>
                     </div>
                   </li>
@@ -118,8 +106,8 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-2" itemprop="name">Can I verify my identity by phone? </button>
                     <div id="faq-verify-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you have a basic <strong>DS Logon</strong> account, you may be able to verify your identity by phone and upgrade to a premium account. When you use your existing premium account to sign in to Vets.gov, you won't have to verify your identity again.</p>
-                        <p>You can verify your identity by phone if you've received a VA direct deposit payment by Electronic Fund Transfer (EFT) and you can't get to a VA regional office.</p>
+                        <p>If you can't verify your identity online and can't get to a VA regional office to verify your identity in person, you may be able to verify your identity by phone as part of the process of getting a premium <strong>DS Logon</strong> account. You can then use this account to sign in to Vets.gov without having to verify your identity online.</p>
+                        <p>You can only use this method to verify your identity if you've received a VA direct deposit payment by Electronic Fund Transfer (EFT).</p>
                         <p>To get started, call us at <a href="tel:+1phonenumber">1-800-827-1000</a>. When you're prompted to give a reason for your call, say, "eBenefits."</p>
                         <p><strong>You'll need to have this information ready:</strong></p>
                         <ul>
@@ -134,18 +122,20 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Other common questions about signing in and verifying your identity</h4>
+                <h4>Troubleshooting issues with verifying your identity</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-0" itemprop="name">How do I get a premium My Health<em>e</em>Vet account? </button>
-                    <div id="faq-other-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-0" itemprop="name">If I can't or don't want to verify my identity through ID.me, what are my other options? </button>
+                    <div id="faq-trouble-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
+                        <p>You can use a premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account to sign in to Vets.gov. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to prove your identity again.
+                        <h4>How to get a premium My Health<em>e</em>Vet account</h4>  
                         <p>Follow these 2 steps to sign up for a <strong>My Health<em>e</em>Vet</strong> account.</p>
                         <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. To make sure you can upgrade your account to premium, sign up as a VA patient.</p>
                         <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
                         <p><strong>2. Then, complete and sign a VA Release of Information (VA Form 10-5345a-MHV).</strong> This form gives us permission to share an electronic copy of your health record with your online account.</p>
                         <p><strong>You can submit this form to us in 1 of 2 ways:</strong></p>
-                        <h4>In person at a local VA health care facility</h4>
+                        <p><strong>In person at a local VA health care facility</strong></p>
                         <p>You'll need to bring:</p>
                         <ul>
                           <li><strong>Your VA Form 10-5345a-MHV</strong>. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
@@ -155,20 +145,14 @@ display_title: Frequently Asked Questions
                         <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
                         <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
                         <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
-                        <h4>By mail</h4>
+                        <p><strong>By mail</strong></p>
                         <p>Log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p>
                         <p>The site will ask if you’d like to upgrade to a premium account.</p>
                         <p>If you have an advanced account already, a page called “Authorize VA to Release Electronic Copies of your VA Record” will appear. Choose the radio button labeled “By Mail—Print, fill out and mail your signed form,” and select “Continue.”</p>
                         <p>Print, complete, and sign the VA Release of Information (VA Form 10-5345a-MHV). Mail it to your local VA health care facility. When you address the envelope, include “Attention: Release of Information Office.”</p>
                         <p><a href="https://www.myhealth.va.gov/">Log in at My Health<em>e</em>Vet</a>.</p>  
                         <p><a href="/facilities/">Find contact information for a VA health facility near you</a>.</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-1" itemprop="name">How do I get a premium DS Logon account? </button>
-                    <div id="faq-other-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
+                        <h4>How to get a premium DS Logon account</h4>                      
                         <p>Follow these 2 steps to sign up for a premium <strong>DS Logon</strong> account.</p>
                         <p><strong>1. First, make sure you’re enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
                         <ul>
@@ -189,37 +173,18 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>           
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-2" itemprop="name">How long does it take to create an account and verify my identity through ID.me? </button>
-                    <div id="faq-other-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-1" itemprop="name">What should I do if my credit is frozen and I'm trying to verify my identity? </button>
+                    <div id="faq-trouble-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>About 5-10 minutes.</p>
-                        <p>It takes this long because we use the most secure process available to make sure you’re you (not someone pretending to be you)—and to protect your personal information. Once you’ve gone through the process, you won't need to do it again. Signing in next time will be much faster.</p>
-                      </div>
-                    </div>
-                  </li>
-                 <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-3" itemprop="name">What if I already have an ID.me account? </button>
-                    <div id="faq-other-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                        <p>Sign in and enter your ID.me username and password.</p>
-                        <p><strong>If you’ve set up 2-factor authentication</strong>, ID.me will send a 6-digit verification code to your mobile or home phone. Enter this code where we ask you for it on the site, then you'll be able to move forward with setting up your account on Vets.gov.</p>
-                        <p><strong>If you haven’t set up 2-factor authentication yet</strong>, you can do so any time from your Vets.gov profile page. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-4" itemprop="name">Can I verify my identity through ID.me even if my credit is frozen? </button>
-                    <div id="faq-other-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-                      <div itemprop="text">
-                        <p>Yes. If we find that your credit is frozen while we’re trying to verify your identity, we’ll give you a link to an Experian page that offers you a free single-use personal identification number (PIN). This PIN will let you give us one-time access to the credit information we need to verify your identity.</p>
+                        <p>If we find that your credit is frozen while we’re trying to verify your identity, we’ll give you a link to an Experian page that offers you a free single-use personal identification number (PIN). This PIN will let you give us one-time access to the credit information we need to verify your identity.</p>
                         <p>Your credit freeze will stay active. Verifying your identity doesn’t affect your credit score.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a></p>
                       </div>
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-5" itemprop="name">I live overseas. Can I use my international address and phone number to verify my identity? </button>
-                    <div id="faq-other-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-2" itemprop="name">What address should I use to verify my identity if I live overseas? </button>
+                    <div id="faq-trouble-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p><strong>If you’re signing in through your ID.me account</strong>, you’ll need to use your most recent official stateside address and phone number (the information that will match records like your credit history)—even if it’s not your current contact information.</p>
                         <p><strong>If you have a premium My Health<em>e</em>Vet or DS Logon account</strong>, you can sign in using those credentials and you won't need to verify your identity.</p>
@@ -227,26 +192,27 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-6" itemprop="name">I can’t verify my identity with ID.me. What’s the problem—and what should I do now? </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-3" itemprop="name">I'm having trouble answering the ID.me security questions. What should I do? </button>
+                    <div id="faq-trouble-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p><strong>Try answering the personal security questions again, following these tips:</strong></p>
+                        <ul>
+                          <li>Pull a copy of your credit report from Experian and use it to double check that the answers you’re providing to ID.me during the proofing process matches the information in your report.<br/>
+                          <a href="https://www.experian.com">Go to Experian.com</a>.</li>
+                          <li> If you think your credit report has the wrong information, you’ll need to file a dispute with Experian.<br/>
+                          <a href="https://www.experian.com/ncaconline/dispute?intcmp=dispute_app_startNew">Go to Experian to file a dispute</a>.</li>
+                          <li>If you’ve recently moved, changed names, or have a different permanent address, try using your previous information.</li>
+                          <li>Make sure you’re entering a phone number that’s registered in your name.</li>
+                        </ul>                                         
+                      </div>
+                    </div>
+                  </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-6" itemprop="name">I can't verify my identity by answering the security questions. What should I do now? </button>
                     <div id="faq-other-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>There may be different reasons why you can’t verify your identity with ID.me. You may be inputting information (like your date of birth) or answering questions in a way that doesn’t match the records ID.me uses to confirm your identity. Or, there may be another error that’s happening when you try to complete the process.</p>
-                        <p><strong>You can:</strong></p>
-                        <ul>
-                          <li><strong>Try using your driver’s license or passport to verify your identity.</strong> Be sure to follow the image guidelines when you upload a copy of your driver’s license or passport.</li>
-                          <li><strong>Try answering the personal security questions again, following these tips:</strong></li>
-                          <ul>
-                            <li>Pull a copy of your credit report from Experian and use it to double check that the answers you’re providing to ID.me during the proofing process matches the information in your report.<br/>
-                              <a href="https://www.experian.com">Go to Experian.com</a>.</li>
-                            <li> If you think your credit report has the wrong information, you’ll need to file a dispute with Experian.<br/>
-                              <a href="https://www.experian.com/ncaconline/dispute?intcmp=dispute_app_startNew">Go to Experian to file a dispute</a>.</li>
-                            <li>If you’ve recently moved, changed names, or have a different permanent address, try using your previous information.</li>
-                            <li>Make sure you’re entering a phone number that’s registered in your name.</li>
-                          </ul>
-                          <li><strong>Use your premium My Health<em>e</em>Vet or DS Logon account to sign in to Vets.gov</strong>. When you use your existing premium account to sign, we’ll connect your verified account to Vets.gov through ID.me.<br>
-                            If you don’t have a premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, you can find out how to get one by reading the questions above.</li>
-                          <li><strong>Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: <a href="tel:+1phonenumber">1-800-829-4833</a>) for more help</strong>. We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</li>
-                        </ul>
+                        <p>You can try using your driver’s license or passport to verify your identity.</strong> Be sure to follow the image guidelines when you upload a copy of your driver’s license or passport. If you still can't verify your identity, call the Vets.gov Help Desk at 1-855-574-7286 (TTY: <a href="tel:+1phonenumber">1-800-829-4833</a>) for more help</strong>. We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p></p>
+                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, you can sign in using those credentials and you won't need to verify your identity. If you don’t have an existing premium account, you can find out how to get one by reading the question about other options for verifying your identity above.</p>                          
                       </div>
                     </div>
                   </li>
@@ -254,7 +220,7 @@ display_title: Frequently Asked Questions
                 <br/><br/>
                 <a name="why-verify"></a>
                 <a name="what-is-idme"></a>
-                <h4>Other common questions about your privacy and security</h4>
+                <h4>Privacy and security on Vets.gov</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-0" itemprop="name">Why should I trust Vets.gov? </button>
@@ -291,21 +257,22 @@ display_title: Frequently Asked Questions
                       <div itemprop="text">
                         <p>When you create an account, ID.me will ask you to provide personal information, like your name, date of birth, address, or other details. ID.me will also ask you to either upload a picture of your driver’s license or passport or answer questions based on your public and private data (like your credit report) that only you’d know how to answer. This is to help make sure you're you—and not someone pretending to be you.</p>
                         <p>With your permission, ID.me will share this information with the Department of Veterans Affairs so we can give you access to your VA health records and benefit information. ID.me will never share your information with anyone else without asking for your permission.</p>
-                        <p>To learn more about how your personal information will be kept safe, read our privacy policy and ID.me’s privacy policy.</p>
+                        <p>ID.me protects all sensitive data with AES 256-bit encryption at rest and RSA 2048-bit encryption in transit. Their information security protections are stronger than many financial institutions. To learn more about how your personal information will be kept safe, read our privacy policy and ID.me’s privacy policy.</p>
                         <p><a href="/privacy/">View the Vets.gov privacy policy</a>.</p>
                         <p><a href="https://wallet.id.me/privacy">View the ID.me privacy policy</a>.</p>
                       </div>
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-4" itemprop="name">How will ID.me protect my personal information?</button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-4" itemprop="name">What is the 6-digit security code that ID.me is asking me for? </button>
                     <div id="faq-idme-security-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>ID.me protects all sensitive data with AES 256-bit encryption at rest and RSA 2048-bit encryption in transit. Their information security protections are stronger than many financial institutions.</p>
+                        <p>When you set up a verified Vets.gov account through ID.me, you'll need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>                        
+                        <p>If you sign in to Vets.gov using your existing premium <strong>My Health <em>e</em>Vet</strong> or <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.<p>          
                       </div>
                     </div>
-                  </li>                  
-                </ul>
+                  </li>
+                 </ul>
               </div>
             </div>
           </div>
