@@ -43,7 +43,7 @@ describe('VIC photo upload', () => {
   });
 
   // Sighted path
-  it('it should reject an invalid file', () => {
+  it('it should reject an invalid file', (done) => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -58,10 +58,11 @@ describe('VIC photo upload', () => {
         uiSchema={uiSchema}/>
     );
 
-    // form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    // expect(onSubmit.called).to.be.false;
+    form.find('AsyncComponent').instance().componentPromise.then(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      done();
+    });
   });
 
   // it/ should accept a valid file and render the cropper
