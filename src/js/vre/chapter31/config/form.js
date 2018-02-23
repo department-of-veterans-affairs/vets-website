@@ -12,7 +12,6 @@ import { facilityLocatorLink } from '../helpers';
 
 const {
   disabilityRating,
-  hospitalAddress,
   employer,
   jobDuties,
   monthlyIncome,
@@ -167,13 +166,13 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             hospital: {
-              name: {
+              hospitalName: {
                 'ui:title': 'Hospital name',
                 'ui:options': {
                   expandUnder: 'view:inHospital'
                 }
               },
-              address: address.uiSchema('Hospital address'),
+              hospitalAddress: address.uiSchema('Hospital address'),
               'ui:options': {
                 expandUnder: 'view:inHospital'
               }
@@ -196,7 +195,7 @@ const formConfig = {
                   hospitalName: {
                     type: 'string'
                   },
-                  hospitalAddress
+                  hospitalAddress: address.schema(fullSchema31)
                 }
               }
             }
