@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bourbon = require('bourbon').includePaths;
 // const neat = require('bourbon-neat').includePaths;
 const path = require('path');
@@ -257,6 +258,13 @@ const configGenerator = (options) => {
     }));
   } else {
     baseConfig.devtool = '#eval-source-map';
+  }
+
+  if (options.analyzer) {
+    baseConfig.plugins.push(new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true
+    }));
   }
 
   return baseConfig;
