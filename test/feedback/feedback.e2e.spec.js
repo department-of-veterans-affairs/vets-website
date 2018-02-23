@@ -39,6 +39,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // Click the submit button
     client.click(selectors.formSubmit);
+    client.pause();
     client.waitForElementPresent(selectors.formSubmitted, Timeouts.normal);
 
     client.end();

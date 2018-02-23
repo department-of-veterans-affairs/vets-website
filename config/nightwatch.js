@@ -37,10 +37,10 @@ module.exports = {
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        chromeOptions: {
+        /*chromeOptions: {
           binary: electron,
           args: ['--window-size=1024,768']
-        }
+        }*/
       },
       selenium: {
         cli_args: {
