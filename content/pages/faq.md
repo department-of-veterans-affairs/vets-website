@@ -89,7 +89,7 @@ display_title: Frequently Asked Questions
                     <div id="faq-verify-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>If you have a basic or advanced <strong>My Health<em>e</em>Vet</strong> account or a basic <strong>DS Logon</strong> account, you can verify your identity in person and upgrade to a premium account. When you use your existing premium account to sign in to Vets.gov, you won't have to verify your identity again.</p>                        
-                        <h4>To verify your identity in person and upgrade to a premium My Health<em>e</em>Vet account</h4>
+                        <h4>To verify your identity in person for a premium My Health<em>e</em>Vet account</h4>
                         <p>Go to your local VA health care facility.</p>
                         <p><strong>You'll need to bring:</strong>
                         <ul>
@@ -100,7 +100,7 @@ display_title: Frequently Asked Questions
                         <p>A VA staff member will verify your identity. They’ll then record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
                         <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
                         <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>                        
-                        <h4>To verify your identity in person and upgrade to a premium DS Logon account</h4>
+                        <h4>To verify your identity in person for a premium DS Logon account</h4>
                         <p>Go to a VA regional office near you.</p>
                         <p><strong>You'll need to:</strong></p>
                         <ul>
