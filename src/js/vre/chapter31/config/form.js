@@ -1,6 +1,10 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
+
+import * as address from '../../../common/schemaform/definitions/address';
+import currencyUI from '../../../common/schemaform/definitions/currency';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,20 +14,34 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
+import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
-  vaRecordsOffice,
-  serviceFlags
+  serviceFlags,
+  daytimePhone,
+  email,
+  eveningPhone,
+  employer,
+  jobDuties,
+  monthlyIncome,
+  vaRecordsOffice
 } = fullSchema31.properties;
 
 const {
-  fullName,
-  serviceHistory,
   date,
   dateRange,
+  fullName,
+  phone,
+  serviceHistory,
   ssn,
   vaFileNumber
 } = fullSchema31.definitions;
+
+const expandIfWorking = {
+  'ui:options': {
+    expandUnder: 'view:isWorking',
+  }
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -41,9 +59,11 @@ const formConfig = {
   title: 'Apply for Vocational Rehabilitation',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
-    fullName,
+    address,
     date,
     dateRange,
+    phone,
+    fullName,
     ssn,
     vaFileNumber,
   },
@@ -144,9 +164,40 @@ const formConfig = {
         workInformation: {
           path: 'work-information',
           title: 'Work Information',
+          uiSchema: {
+            'view:isWorking': {
+              'ui:title': 'Are you working?',
+              'ui:widget': 'yesNo'
+            },
+            employer: {
+              'ui:title': 'Employer name',
+              'ui:required': (formData) => formData['view:isWorking'],
+              ...expandIfWorking
+            },
+            jobDuties: {
+              'ui:title': 'Job duties',
+              ...expandIfWorking
+            },
+            monthlyIncome: {
+              ...currencyUI('Monthly pay'),
+              ...expandIfWorking
+            },
+            employerAddress: {
+              ...address.uiSchema('Employer address'),
+              ...expandIfWorking
+            }
+          },
           schema: {
             type: 'object',
+            required: ['view:isWorking'],
             properties: {
+              'view:isWorking': {
+                type: 'boolean'
+              },
+              employer,
+              jobDuties,
+              monthlyIncome,
+              employerAddress: address.schema(fullSchema31)
             }
           }
         }
@@ -183,12 +234,62 @@ const formConfig = {
     contactInformation: {
       title: 'Contact Information',
       pages: {
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Address Information',
+          uiSchema: {
+            veteranAddress: address.uiSchema(''),
+            'view:isMoving': {
+              'ui:title': 'Are you moving within the next 30 days?',
+              'ui:widget': 'yesNo'
+            },
+            veteranNewAddress: _.merge(
+              address.uiSchema('New address', false, (formData) => formData['view:isMoving']),
+              {
+                'ui:options': {
+                  expandUnder: 'view:isMoving'
+                }
+              }
+            )
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress', 'view:isMoving'],
+            properties: {
+              veteranAddress: address.schema(fullSchema31, true),
+              'view:isMoving': {
+                type: 'boolean'
+              },
+              veteranNewAddress: address.schema(fullSchema31)
+            }
+          }
+        },
         contactInformation: {
           path: 'contact-information',
           title: 'Contact Information',
+          uiSchema: {
+            daytimePhone: phoneUI('Daytime phone number'),
+            eveningPhone: phoneUI('Evening phone number'),
+            email: {
+              'ui:title': 'Email address'
+            },
+            'view:confirmEmail': {
+              'ui:title': 'Re-enter email address',
+              'ui:options': {
+                hideOnReview: true
+              }
+            },
+            'ui:validations': [
+              validateMatch('email', 'view:confirmEmail')
+            ]
+          },
           schema: {
             type: 'object',
             properties: {
+              daytimePhone,
+              eveningPhone,
+              email,
+              'view:confirmEmail': email,
             }
           }
         }
