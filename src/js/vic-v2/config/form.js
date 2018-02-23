@@ -4,6 +4,7 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+// import PhotoField from '../components/PhotoField';
 import asyncLoader from '../../common/components/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
@@ -193,12 +194,13 @@ const formConfig = {
               parseResponse: (response, file) => {
                 return {
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid
+                  confirmationCode: response.data.attributes.guid,
+                  serverName: response.data.attributes.filename,
+                  serverPath: response.data.attributes.path
                 };
               }
             }), {
-              'ui:field': asyncLoader(() => import(/* webpackChunkName: "photo-field" */'../components/PhotoField')
-                .then(m => m.default)),
+              'ui:field': asyncLoader(() => import('../components/PhotoField').then(m => m.default)),
               'ui:validations': [
                 validateFile
               ]
@@ -238,7 +240,9 @@ const formConfig = {
               parseResponse: (response, file) => {
                 return {
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid
+                  confirmationCode: response.data.attributes.guid,
+                  serverPath: response.data.attributes.path,
+                  serverName: response.data.attributes.filename
                 };
               }
             })

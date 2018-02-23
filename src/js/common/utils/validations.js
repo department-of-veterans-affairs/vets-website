@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { states } from './options-for-select';
 import { dateToMoment } from './helpers';
 
 /**
@@ -261,14 +260,6 @@ function isValidMonetaryValue(value) {
   return true;
 }
 
-function isValidUSZipCode(value) {
-  return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);
-}
-
-function isValidCanPostalCode(value) {
-  return /^[a-zA-Z]\d[a-zA-Z][ -]{0,1}\d[a-zA-Z]\d$/.test(value);
-}
-
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
@@ -281,40 +272,6 @@ function isValidEmail(value) {
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
   // eslint-disable-next-line no-useless-escape
   return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
-}
-
-function isValidAddressField(field) {
-  const initialOk = isNotBlank(field.street.value) &&
-    isNotBlank(field.city.value) &&
-    isNotBlank(field.country.value);
-
-  let isValidPostalCode = true;
-
-  if (field.country.value === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.postalCode);
-  }
-
-  if (field.country.value === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.postalCode);
-  }
-
-  // if we have a defined list of values, they will
-  // be set as the state and zipcode keys
-  if (_.hasIn(states, field.country.value)) {
-    return initialOk &&
-      isNotBlank(field.state.value) &&
-      isValidPostalCode;
-  }
-  // if the entry was non-USA/CAN/MEX, only postal is
-  // required, not provinceCode
-  return initialOk && isNotBlank(field.postalCode.value);
-}
-
-function isBlankAddress(address) {
-  return isBlank(address.city.value)
-    && isBlank(address.state.value)
-    && isBlank(address.street.value)
-    && isBlank(address.postalCode.value);
 }
 
 // Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
@@ -334,15 +291,12 @@ function isValidRoutingNumber(value) {
 export {
   isBlank,
   isBlankDateField,
-  isBlankAddress,
   isBlankMonthYear,
   isDirtyDate,
   isFullDate,
   isNotBlank,
   isNotBlankDateField,
-  isValidAddressField,
   isValidAnyDate,
-  isValidCanPostalCode,
   isValidCurrentOrPastYear,
   isValidCurrentOrPastDate,
   isValidCurrentOrFutureMonthYear,
@@ -365,7 +319,6 @@ export {
   isValidPartialMonthYearRange,
   isValidRequiredField,
   isValidSSN,
-  isValidUSZipCode,
   isValidValue,
   isValidYear,
   isValidYearOrBlank,
