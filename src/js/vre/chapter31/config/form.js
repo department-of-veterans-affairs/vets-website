@@ -64,17 +64,7 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: createVeteranInfoPage(fullSchema31, {
-          uiSchema: {
-            vaRecordsOffice: {
-              'ui:title': 'VA benefit office where your records are located',
-              'ui:help': facilityLocatorLink
-            }
-          },
-          schema: {
-            vaRecordsOffice
-          }
-        })
+        veteranInformation: createVeteranInfoPage(fullSchema31)
       }
     },
     militaryHistory: {
@@ -175,11 +165,8 @@ const formConfig = {
             hospital: {
               hospitalName: {
                 'ui:title': 'Hospital name',
-                'ui:options': {
-                  expandUnder: 'view:inHospital'
-                }
               },
-              hospitalAddress: address.uiSchema('Hospital address'),
+              hospitalAddress: address.uiSchema('Hospital address', false, form => form['view:inHospital']),
               'ui:options': {
                 expandUnder: 'view:inHospital'
               }
