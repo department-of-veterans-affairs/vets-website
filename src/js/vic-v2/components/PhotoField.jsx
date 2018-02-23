@@ -98,7 +98,7 @@ function isSmallScreen(width) {
 }
 
 function onReviewPage(pageTitle) {
-  return pageTitle === 'Review your photo';
+  return pageTitle === 'Photo review';
 }
 
 function isValidFileType(fileName, fileTypes) {
