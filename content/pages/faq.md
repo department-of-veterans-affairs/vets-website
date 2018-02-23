@@ -40,8 +40,9 @@ display_title: Frequently Asked Questions
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (our trusted technology partner)</li>
                         </ul>
+                        Before you can use Vets.gov tools that access your personal information, we need to make sure you're you (and not someone pretending to be you). 
                         <h4>Fastest way to get access to all Vets.gov tools</h4>
-                        <p>Before you can use Vets.gov tools that access your personal information, we need to make sure you're you (and not someone pretending to be you). If you sign in with your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, this proves your identity and you won't need to do anything else.</p>
+                        <p>Sign in with your existing premium <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account. This proves your identity and you won't need to do anything else.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                         <h4>What to do if you don't have an existing premium account</h4>
                         <p>If you sign in by creating an account with ID.me or with a basic or advanced <strong>My Health<em>e</em>Vet</strong> or basic <strong>DS Logon</strong>, you'll need to go through the ID.me identity-proofing process before accessing these tools.</p>
@@ -49,7 +50,7 @@ display_title: Frequently Asked Questions
                         <ul>
                           <li>A smartphone (or a landline or mobile phone and a computer with an internet connection), <strong>and</strong></li>
                           <li>Your Social Security number, <strong>and</strong></li>
-                          <li>Proof of your identity. <strong>This can be either:</strong></li>
+                          <li>Proof of your identity, either:</li>
                           <ul>
                             <li>Your driver’s license or passport, <strong>or</strong></li>
                             <li>The ability to answer questions based on private and public data (like your credit report) to prove you're you</li>
