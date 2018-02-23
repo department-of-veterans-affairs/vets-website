@@ -267,3 +267,18 @@ export function sortListByFuzzyMatch(value, list, prop = 'label') {
     })
     .map(sorted => sorted.original);
 }
+
+export function sanitizeForm(formData) {
+  try {
+    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
+    return JSON.stringify(formData, (key, value) => {
+      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+        return 'removed';
+      }
+
+      return value;
+    });
+  } catch (e) {
+    return null;
+  }
+}
