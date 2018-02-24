@@ -70,8 +70,6 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-
-
 The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
 
 Once you have nvm installed you should now install node.js version 6.11.1 by running:
@@ -237,10 +235,6 @@ for starting up and controlling web browser.  For mocha tests that we want to
 run on real browser, either because the tests is exercising browser quirks or because
 the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
-
-### End-to-end Test -- Sauce Labs
-
-TODO: Translate internal documentation on running tests with Sauce Labs into something public.
 
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
