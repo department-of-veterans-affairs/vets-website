@@ -54,6 +54,11 @@ export default function setupJSDom() {
     // Mock fetch
     // This was causing some tests to fail, so we'll have to loop back around to it later
     // global.fetch = sinon.stub();
+    Object.defineProperty(window, 'innerWidth', {
+      get() { return 1201; },
+      enumerable: true,
+      configurable: true
+    });
 
   }
 
