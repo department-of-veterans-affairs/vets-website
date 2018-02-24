@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import PhotoField from '../../../src/js/vic-v2/components/PhotoField';
 
 describe('<PhotoField>', () => {
@@ -31,31 +32,10 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
-    expect(tree.find('ErrorableFileInput').first().props().buttonText).to.equal('Upload Your Photo');
     expect(tree.find('Cropper').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.true;
     expect(tree.text()).to.contain('Step 1');
     expect(tree.find('ErrorableFileInput').length).to.equal(2);
-  });
-  it('should use small screen layout if on review page', () => {
-
-    // run the rest
-    const formContext = { pageTitle: 'Photo review' };
-    const uiSchema = {
-      'ui:title': 'Title',
-      'ui:options': {
-        fileTypes: ['jpg']
-      }
-    };
-
-    const tree = shallow(
-      <PhotoField
-        uiSchema={uiSchema}
-        formContext={formContext}/>
-    );
-
-    const wrapper = tree.find('ErrorableFileInput').first().props().buttonText;
-    expect(shallow(wrapper).text()).to.equal('Upload ');
   });
   it('should render preview while processing', () => {
     const formContext = {};

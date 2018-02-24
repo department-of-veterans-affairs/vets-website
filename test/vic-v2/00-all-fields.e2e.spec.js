@@ -115,6 +115,7 @@ const runTest = E2eHelpers.createE2eTest(
         .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
       client.axeCheck('.main');
+      client.click('button[aria-controls="collapsible-3"]');
       client.click('input[type="checkbox"]');
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
