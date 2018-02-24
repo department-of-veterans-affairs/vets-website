@@ -182,7 +182,7 @@ describe('<PhotoField>', () => {
       }]);
 
       setTimeout(() => {
-        expect(onChange.firstCall.args[0].errorMessage).to.contain('make sure the file you’re uploading is a gif, jpeg');
+        expect(onChange.firstCall.args[0].errorMessage).to.contain('make sure the file you’re uploading is a jpeg');
         done();
       });
     });

@@ -306,7 +306,7 @@ export default class PhotoField extends React.Component {
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (!isValidFileType(file.name, fileTypes)) {
       this.props.onChange({
-        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a gif, jpeg, .png, or .tiff file and try again.'
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, or .png file and try again.'
       });
     } else {
       const reader = new FileReader();
@@ -354,7 +354,7 @@ export default class PhotoField extends React.Component {
       }
       if (!isValidFileType(fileName, fileTypes)) {
         this.props.onChange({
-          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a gif, jpeg, .png, .tiff, or .bmp file and try again.'
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, .png, or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();

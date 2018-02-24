@@ -38,6 +38,7 @@ const {
 } = fullSchemaVIC.definitions;
 
 const TWENTY_FIVE_MB = 26214400;
+const TEN_MB = 10485760;
 
 const formConfig = {
   urlPrefix: '/',
@@ -182,7 +183,7 @@ const formConfig = {
                 'jpeg',
                 'jpg'
               ],
-              maxSize: TWENTY_FIVE_MB,
+              maxSize: TEN_MB,
               showFieldLabel: false,
               createPayload: (file) => {
                 const payload = new FormData();
