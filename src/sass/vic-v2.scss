@@ -202,7 +202,7 @@ input[type=range] {
     min-width: 600px;
   }
   .form-review-panel-page & {
-    min-width: unset;
+    min-width: auto;
   }
 }
 
@@ -279,7 +279,7 @@ input[type=range] {
           float: right;
         }
         .form-review-panel-page & {
-          float: unset;
+          float: auto;
         }
       }
     }
@@ -301,7 +301,7 @@ input[type=range] {
       padding: 0 15px 0 5px !important;
     }
     .form-review-panel-page & {
-      padding: unset !important;
+      padding: 0 !important;
     }
   }
 
@@ -314,8 +314,8 @@ input[type=range] {
     }
     .form-review-panel-page & {
       font-size: 2em !important;
-      padding: unset !important;
-      float: unset;
+      padding: 0 !important;
+      float: auto;
     }
   }
   
@@ -328,8 +328,8 @@ input[type=range] {
     }
     .form-review-panel-page & {
       font-size: 2em !important;
-      padding: unset !important;
-      float: unset;
+      padding: auto !important;
+      float: auto;
     }
   }
   
@@ -363,7 +363,7 @@ input[type=range] {
     margin: 0;
     flex-direction: column;
     &.photo-input-container-left {
-      justify-content: left;
+      justify-content: flex-start;
       flex-direction: row;
     }
     div[role="alert"] {
