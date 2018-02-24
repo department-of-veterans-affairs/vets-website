@@ -437,7 +437,7 @@ describe('Validations unit tests', () => {
       expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
     });
     it('should validate month and year that is current', () => {
-      expect(isValidPartialMonthYearInPast(moment().month().toString(),
+      expect(isValidPartialMonthYearInPast(moment().add(1, 'month').month().toString(),
         moment().year().toString())).to.be.true;
     });
     it('should not validate month and year that is in the future', () => {

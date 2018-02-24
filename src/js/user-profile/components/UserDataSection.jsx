@@ -90,25 +90,22 @@ class UserDataSection extends React.Component {
   renderMultifactorMessage() {
     if (this.props.profile.multifactor) { return null; }
 
+    const headline = 'Add extra security to your account';
     const content = (
-      <div className="mfa-message">
-        <div className="medium-8 column">
-          <h4 className="usa-alert-heading">Add extra security to your account</h4>
-          <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
-        </div>
-        <div className="medium-4 column">
-          <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
-        </div>
+      <div>
+        <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
+        <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
       </div>
     );
 
     return (
-      <div>
+      <p>
         <AlertBox
+          headline={headline}
           content={content}
           isVisible
           status="warning"/>
-      </div>
+      </p>
     );
   }
 
@@ -143,10 +140,11 @@ class UserDataSection extends React.Component {
     return (
       <div className="profile-section">
         <h4 className="section-header">Account information</h4>
-        {this.renderMultifactorMessage()}
         <div className="info-container">
           {content}
           <p><span className="label">Email address:</span> {email}</p>
+          {this.renderMultifactorMessage()}
+          {accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>

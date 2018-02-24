@@ -49,7 +49,11 @@ class ErrorableNumberInput extends React.Component {
     // is not clear right now
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
     }
 
     // Calculate required.

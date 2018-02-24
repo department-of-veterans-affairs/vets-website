@@ -7,9 +7,23 @@ body.va-pos-fixed {
   height: 100%;
 }
 
+#vetnav, [role="menu"] [role="menu"] {
+  // The main menu takes up the whole screen under the Menu button for xsmall & small screens
+  // Sub menus also take up the whole screen to cover the main menu
+  min-height: calc(100vh - #{$height-offset-xsmall});
+
+  @include media($small-screen){
+    min-height: calc(100vh - #{$height-offset-small});
+  }
+
+  // For medium and large screens, they're just as big as they need to be
+  @include media($medium-large-screen) {
+    min-height: 100%;
+  }
+}
+
 #vetnav {
   background-color: $color-primary-darkest;
-  height: calc(100% - #{$height-offset-xsmall});
 
   // This value should be equal to the default y-position of the menu so that removing it
   // shouldn't affect anything. However, it's here to show how the height is offset by the
@@ -34,9 +48,6 @@ body.va-pos-fixed {
     }
   }
 
-  @include media($small-screen){
-    height: calc(100% - #{$height-offset-small});
-  }
 
   @include media($medium-large-screen) {
     margin-top: 1rem;
@@ -44,7 +55,6 @@ body.va-pos-fixed {
     position: relative;
     width: auto;
     top: 0;
-    height: 100%;
   }
 }
 
@@ -249,6 +259,7 @@ body.va-pos-fixed {
   padding: 1.6rem;
   text-align: left;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
 
   @include media($medium-large-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
@@ -295,7 +306,7 @@ body.va-pos-fixed {
   }
 }
 
-.vetnav-back {
+#vetnav .back-button {
   background: $color-primary-darker url(/img/arrow-left-white.svg) right 3rem center no-repeat;
   background-position: left 1rem center;
   background-size: 1.4rem auto;
@@ -349,7 +360,6 @@ body.va-pos-fixed {
     left: 0;
     visibility: visible;
     margin: 0;
-    height: auto;
 
     @include media($medium-large-screen) {
       border-left: 1px solid $color-gray-warm-light;
@@ -440,5 +450,16 @@ body.va-pos-fixed {
 
   > .va-flex {
     align-items: center;
+  }
+}
+
+.child-menu-opened {
+  height: 0;
+  overflow: hidden;
+}
+
+@include media($medium-screen) {
+  .child-menu-opened {
+    height: auto;
   }
 }

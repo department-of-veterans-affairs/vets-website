@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { scrollToFirstError } from '../../common/utils/helpers';
+import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 
@@ -65,6 +65,10 @@ export class AddressSection extends React.Component {
       // If we start with an empty address, go straight to editing
       this.state.isEditingAddress = (isAddressEmpty(this.state.editableAddress) && this.props.canUpdate);
     }
+  }
+
+  componentDidMount() {
+    focusElement('#content');
   }
 
   /* editableAddress is initialized from redux store in the constructor

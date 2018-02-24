@@ -50,7 +50,6 @@ export class CautionaryInformation extends React.Component {
         <p>
           {it.cautionFlagReason} {schoolSpecificLink}
         </p>
-        <br/>
         <p>
           <a onClick={this.props.onShowModal.bind(this, 'cautionInfo')}>
             Learn more about these warnings

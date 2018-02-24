@@ -3,6 +3,13 @@
 .discharge-wizard {
   padding-bottom: 3em;
 
+  .form-radio-buttons {
+    position: relative;
+     input {
+       top: -15px;
+     }
+  }
+
   fieldset {
     margin: 0;
     padding: 0 1.5em;

@@ -1,5 +1,7 @@
 import React from 'react';
-import { board, venueAddress, branchOfService } from '../utils';
+import { Link } from 'react-router';
+
+import AlertBox from '../../common/components/AlertBox';
 
 const reasonStatement = (props) => {
   const reason = props.formValues['4_reason'];
@@ -9,26 +11,26 @@ const reasonStatement = (props) => {
     case '1':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI or PTSD or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI, PTSD, or mental health conditions.
+          Because you answered that your discharge was related to posttraumatic stress disorder (PTSD) or other mental health conditions, the DoD will apply "liberal consideration" to your case. In 2014, the DoD recognized that many Veterans had received discharges due to behavior connected to their previously undiagnosed or undocumented PTSD or mental health condition.
         </p>
       );
     case '2':
       return (
         <p>
-          Because you answered that your discharge was related to a TBI, the DoD will apply "liberal consideration" to your case. In 2014, DoD recognized that many Veterans received discharges due to behavior connected to their previously undiagnosed or undocumented TBI.
+          Because you answered that your discharge was related to a traumatic brain injury (TBI), the DoD will apply "liberal consideration" to your case. In 2014, the DoD recognized that many Veterans had received discharges due to behavior connected to their previously undiagnosed or undocumented TBI.
         </p>
       );
     case '3':
       if (dischargeType === '2') {
         return (
           <p>
-            Because you answered that your discharge was due to your sexual orientation, the DoD will carefully consider your case. In 2011, DoD recognized that many Veterans received discharges only because of their sexual orientation. Note: You must prove that your discharge was only due to your sexual orientation and events specifically related to it.
+          Because you answered that your discharge was due to your sexual orientation, the DoD encourages you to apply for an upgrade. In 2011, the DoD recognized that many Veterans received discharges only because of their sexual orientation. <br/> <strong>Note:</strong> You must prove that your discharge was solely due to your sexual orientation and events specifically related to it. If the events leading to your discharge were unrelated, you may still receive an upgrade, but you'll have to argue that your discharge was unjust punishment for those events.
           </p>
         );
       } else if (dischargeType === '1') {
         return (
           <p>
-            Many Veterans received General or Honorable discharges due to their sexual orientation, and simply want references to sexual orientation removed from their DD-214, or want the ability to re-enlist. This is a relatively straightforward application.
+            Many Veterans have received general or honorable discharges due to their sexual orientation, and simply want references to sexual orientation removed from their DD214s, or want the ability to re-enlist. This is a relatively straightforward application.
           </p>
         );
       }
@@ -36,13 +38,13 @@ const reasonStatement = (props) => {
     case '4':
       return (
         <p>
-          Because you answered that your discharge was related to sexual assault or harassment, the DoD will carefully consider your case. In 2017, DoD recognized that many Veterans received discharges due to sexual assault or harassment and unfairly received less than honorable discharges. Note: You must prove that your discharge was only a result of sexual assault or harassment and events specifically related to it.
+          Because you answered that your discharge was related to sexual assault or harassment, the DoD will apply “liberal consideration” to your case. In 2017, the DoD recognized that many Veterans had received discharges due to sexual assault or harassment, and had unfairly received less than honorable discharges. <strong>Note:</strong> You must prove that your discharge was solely the result of sexual assault or harassment and events specifically related to it. If the events leading to your discharge were unrelated, you may still receive an upgrade, but you'll have to argue that your discharge was unjust punishment for those events.
         </p>
       );
     case '5':
       return (
         <p>
-          This is a common request for transgender Veterans whose DD-214 name does not match the name they currently use.
+          This is a common request for transgender Veterans whose DD214 name does not match the name they currently use.
         </p>
       );
     default:
@@ -51,18 +53,28 @@ const reasonStatement = (props) => {
 };
 
 const priorServiceStatement = (props) => {
-  switch (props.formValues['11_priorService']) {
+  switch (props.formValues['12_priorService']) {
     case '1':
       return (
-        <p>
-          Because you served honorably in one period of service, you can apply for VA benefits using that honorable characterization. You earned your benefits during the period in which you served honorably. The only exception is for service-connected disability compensation. If your disability began during your less than honorable period of service, you won't be eligible to earn disability compensation unless you get your discharge upgraded.
-        </p>
+        <AlertBox
+          content={<div>
+            <h4 className="usa-alert-heading">You can apply for VA benefits using your honorable characterization.</h4>
+            <p>Because you served honorably in one period of service, you can apply for VA benefits using that honorable characterization. You earned your benefits during the period in which you served honorably. The only exception is for service-connected disability compensation. If your disability began during your less than honorable period of service, you won’t be eligible to earn disability compensation unless you get that discharge upgraded. The instructions below this box tell you how to apply for an upgrade or correction to your final, less than honorable period of service.</p>
+          </div>}
+          isVisible
+          status="info"/>
       );
     case '2':
       return (
-        <div>
-          The directions on this page tell you how to apply to an upgrade or correction for your final period of service, in which you received a less than honorable discharge. However, because you served honorably in a previous period of service, you can also apply for VA benefits using that honorable status. You earned your benefits during the period in which you served honorably. If you apply for VA benefits, make sure you mention your honorable period of service, and VA will conduct a Character of Service Determination review. You may also apply to DoD to receive a second DD-214 reflecting only your period of honorable service. To do so, <a href="http://www.afpc.af.mil/Portals/70/documents/Home/AFBCMR/DD%20Form%20149.pdf?ver=2016-12-15-120123-183">submit DoD Form 149</a> to the {board(props.formValues, true).abbr} for the {branchOfService(props.formValues['1_branchOfService'])} at {venueAddress(props.formValues, true)} When filling out DoD Form 149, be sure to clarify in Item 6 that you are seeking a DD-214 for your honorable period of service, and include the dates of that period.
-        </div>
+        <AlertBox
+          content={<div>
+            <h4 className="usa-alert-heading">You can apply for VA benefits using your honorable characterization.</h4>
+            <p>Because you served honorably in one period of service, you can apply for VA benefits using that honorable characterization. You earned your benefits during the period in which you served honorably. You don’t need a DD214 to apply for VA benefits—you only need to specifically mention this period of honorable service. (VA may do a Character of Discharge review to confirm your eligibility.)</p>
+            <p>The only exception is for service-connected disability compensation. If your disability began during your less than honorable period of service, you won’t be eligible to earn disability compensation unless you get that discharge upgraded. The instructions below this box tell you how to apply to an upgrade or correction for your final, less than honorable period of service.</p>
+            <p>If you want a DD214 for your period of honorable service for other reasons, unrelated to applying for VA benefits, you can request one. <Link to="/request-dd214" target="_blank">Find out how to request a DD214 for your period of honorable service</Link></p>
+          </div>}
+          isVisible
+          status="info"/>
       );
     default:
       return null;

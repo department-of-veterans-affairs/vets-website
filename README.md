@@ -15,6 +15,7 @@ very secret.
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
 | deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
@@ -28,7 +29,7 @@ very secret.
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
-| run only unit tests for a subset of tests | `BABEL_ENV=test ./node_modules/.bin/mocha path/to/my/test.unit.spec.jsx` <br> or <br> `BABEL_ENV=test ./node_modules/.bin/mocha --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
+| run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
 | run only e2e tests                       | `npm run test:e2e`                       |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
 | run all linters                          | `npm run lint`                           |
@@ -40,6 +41,9 @@ very secret.
 | add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
+| run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
+| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype production --analyzer`                  |
+| load the analyzer tool on a stats file  | `npm run analyze`                  |
 
 ## Directory structure
 

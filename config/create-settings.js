@@ -12,7 +12,7 @@ function createSettings(options) {
     },
     vic: {
       rateLimitAuthed: 1,
-      rateLimitUnauthed: 0.05
+      rateLimitUnauthed: 1
     }
   };
 }

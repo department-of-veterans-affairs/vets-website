@@ -283,7 +283,7 @@ export function validateCurrentOrPastYear(errors, year) {
   }
 }
 
-export function validateAddress(errors, address, formData, schema) {
+export function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
 
   // Checks if postal code is valid
@@ -294,18 +294,23 @@ export function validateAddress(errors, address, formData, schema) {
     isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
   }
 
+  // Add error message for postal code if it is invalid
+  if (address.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
+
+const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
+export function validateAddress(errors, address, formData, schema) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
+  if (stateRequiredCountries.has(address.country)
     && address.state === undefined
     && schema.required.length) {
     errors.state.addError('Please select a state or province');
   }
 
-  // Add error message for postal code if it is invalid
-  if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
-  }
+  validatePostalCodes(errors, address);
 }
 
 export function validateMatch(field1, field2) {
@@ -342,16 +347,21 @@ export function validateDateRange(errors, dateRange, formData, schema, errorMess
   }
 }
 
+export function getFileError(file) {
+  if (file.errorMessage) {
+    return file.errorMessage;
+  } else if (file.uploading) {
+    return 'Uploading file...';
+  } else if (!file.confirmationCode) {
+    return 'Something went wrong...';
+  }
+
+  return null;
+}
+
 export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
-    let error;
-    if (file.errorMessage) {
-      error = file.errorMessage;
-    } else if (file.uploading) {
-      error = 'Uploading file...';
-    } else if (!file.confirmationCode) {
-      error = 'Something went wrong...';
-    }
+    const error = getFileError(file);
 
     if (error && !errors[index]) {
       /* eslint-disable no-param-reassign */
@@ -375,5 +385,14 @@ export function validateBooleanGroup(errors, userGroup, form, schema, errorMessa
   const group = userGroup || {};
   if (!Object.keys(group).filter(item => group[item] === true).length) {
     errors.addError(atLeastOne);
+  }
+}
+
+export function validateAutosuggestOption(errors, formData) {
+  if (formData &&
+    formData.widget === 'autosuggest' &&
+    !formData.id &&
+    formData.label) {
+    errors.addError('Please select an option from the suggestions');
   }
 }

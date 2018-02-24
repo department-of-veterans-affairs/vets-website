@@ -8,6 +8,7 @@ const letters = {
         { name: 'Commissary Letter', letterType: 'commissary' },
         { name: 'Proof of Service Letter', letterType: 'proof_of_service' },
         { name: 'Service Verification Letter', letterType: 'service_verification' },
+        { name: 'Benefit Summary Letter', letterType: 'benefit_summary' },
         { name: 'Benefit Verification Letter', letterType: 'benefit_verification' }
       ]
     }

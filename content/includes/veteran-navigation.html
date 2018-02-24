@@ -3,18 +3,18 @@
     <nav id="vetnav" role="navigation" hidden>
       <ul id="vetnav-menu" role="menubar">
         <li><a href="/" class="vetnav-level1" role="menuitem">Home</a></li>
-        <li role="none">
+        <li>
           <button
             aria-controls="vetnav-explore"
             role="button"
             aria-haspopup="true"
-            class="vetnav-level1 vetnav-trigger"
+            class="vetnav-level1"
             onClick="window.dataLayer.push({ event: 'nav-header-top-level' });">Explore benefits</button>
           <div id="vetnav-explore" class="vetnav-panel" role="none" hidden>
             <ul role="menu" aria-label="Explore benefits">
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-disability"
@@ -27,7 +27,7 @@
                   hidden>
                   <li>
                     <button
-                      class="vetnav-back vetnav-trigger"
+                      class="back-button"
                       aria-controls="vetnav-disability">Back to menu</button>
                     <div class="vetnav-level2-heading">Disability</div>
                   </li>
@@ -43,7 +43,7 @@
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-healthcare"
@@ -56,7 +56,7 @@
                   hidden>
                   <li>
                     <button
-                      class="vetnav-back"
+                      class="back-button"
                       aria-controls="vetnav-healthcare">Back to menu</button>
                     <div class="vetnav-level2-heading">Health care</div>
                   </li>
@@ -73,7 +73,7 @@
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-edu"
@@ -86,7 +86,7 @@
                   hidden>
                   <li>
                     <button
-                      class="vetnav-back vetnav-trigger"
+                      class="back-button"
                       aria-controls="vetnav-edu">Back to menu</button>
                     <div class="vetnav-level2-heading">Education &amp; training</div>
                   </li>
@@ -101,7 +101,7 @@
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-housing"
@@ -114,7 +114,7 @@
                   hidden>
                 <li>
                   <button
-                  class="vetnav-level2 vetnav-trigger vetnav-back"
+                  class="vetnav-level2 back-button"
                   aria-controls="vetnav-housing">Back to menu</button>
                   <div class="vetnav-level2-heading">Housing assistance</div>
                   <li><a href="/housing-assistance/" onClick="reportHeaderNav('Explore Benefits->Housing Assistance');">Housing assistance overview</a></li>
@@ -125,7 +125,7 @@
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-careers"
@@ -138,7 +138,7 @@
                   hidden>
                   <li>
                     <button
-                    class="vetnav-level2 vetnav-trigger vetnav-back"
+                    class="vetnav-level2 back-button"
                     aria-controls="vetnav-careers">Back to menu</button>
                     <div class="vetnav-level2-heading">Careers &amp; employment</div>
                   </li>
@@ -152,7 +152,7 @@
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-lifeinsurance"
@@ -165,7 +165,7 @@
                   hidden>
                   <li>
                     <button
-                      class="vetnav-back vetnav-trigger"
+                      class="back-button"
                       aria-controls="vetnav-lifeinsurance">Back to menu</button>
                     <div class="vetnav-level2-heading">Life insurance</div>
                   </li>
@@ -178,7 +178,7 @@
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-pension"
@@ -191,20 +191,19 @@
                   hidden>
                   <li>
                     <button
-                    class="vetnav-level2 vetnav-trigger vetnav-back"
+                    class="vetnav-level2 back-button"
                     aria-controls="vetnav-pension">Back to menu</button>
                     <div class="vetnav-level2-heading">Pension</div>
                   <li><a href="/pension/" onClick="reportHeaderNav('Explore Benefits->Pension');">Pension benefits overview</a></li>
                   <li><a href="/pension/eligibility/" onClick="reportHeaderNav('Explore Benefits->Pension');">Eligibility</a></li>
                   <li><a href="/pension/apply/" onClick="reportHeaderNav('Explore Benefits->Pension');">Application process</a></li>
                   <li><a href="/pension/survivors-pension/" onClick="reportHeaderNav('Explore Benefits->Pension');">Survivors pension</a></li>
-                  <li><a href="/pension/application/527EZ/" class="usa-button va-button-primary" onClick="reportHeaderNav('Explore Benefits->Pension');">Apply now</a></li>
                 </ul>
               </li>
 
               <li>
                 <button
-                  class="vetnav-level2 vetnav-trigger"
+                  class="vetnav-level2"
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-burials"
@@ -217,7 +216,7 @@
                   hidden>
                   <li>
                     <button
-                      class="vetnav-back vetnav-trigger"
+                      class="back-button"
                       aria-controls="vetnav-burials">Back to menu</button>
                     <div class="vetnav-level2-heading">Burials &amp; memorials</div>
                   </li>
@@ -229,6 +228,7 @@
                   <li><a href="/burials-and-memorials/find-a-cemetery/" onClick="reportHeaderNav('Explore Benefits->Burials Memorials');">Find a cemetery</a></li>
                 </ul>
               </li>
+              <li><a href="/families-caregivers/" class="vetnav-level2 vetnav-level2-link vetnav-trigger">Family &amp; caregiver benefits</a></li>
             </ul>
           </div>
         </li>
@@ -236,7 +236,7 @@
 
         <li>
           <button
-            class="vetnav-level1 vetnav-trigger"
+            class="vetnav-level1"
             role="button"
             aria-controls="vetnav-benefits"
             aria-haspopup="true"
@@ -248,12 +248,10 @@
               <li><a href="/health-care/schedule-an-appointment/" onClick="reportHeaderNav('Manage Health and Benefits');">Schedule a VA appointment</a></li>
               <li><a class="login-required" href="/health-care/health-records" onClick="reportHeaderNav('Manage Health and Benefits');">Get your VA health records</a></li>
               <li><a class="login-required" href="/track-claims" onClick="reportHeaderNav('Manage Health and Benefits');">Check claim and appeal status</a></li>
-              <li><a class="login-required" href="/education/gi-bill/post-9-11/ch-33-benefit" onClick="reportHeaderNav('Manage Health and Benefits');">Check Post-9/11 GI Bill benefits</a></li>
+              <li><a href="/education/gi-bill/post-9-11/ch-33-benefit" onClick="reportHeaderNav('Manage Health and Benefits');">Check Post-9/11 GI Bill benefits</a></li>
             </ul>
           </div>
         </li>
-
-
         <li><a href="/facilities/" class="vetnav-level1" onClick="reportHeaderNav('Find VA locations');">Find VA locations</a></li>
       </ul>
     </nav>

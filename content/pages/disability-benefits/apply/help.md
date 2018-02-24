@@ -1,45 +1,45 @@
 ---
 layout: page-breadcrumbs.html
-title: Get Help Filing a Claim
+title: Get Help Filing Your Claim
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 5
 relatedlinks:
-  - heading: Get answers to your questions about filing a disability claim
+  - heading: More information about filing disability claims
     links:
-      - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-        title: What’s the fastest way to file a claim?
-        description: ""
-      - url: /disability-benefits/apply/
-        title: How do I file a claim?
-        description: ""
-      - url: /disability-benefits/apply/claim-types/predischarge-claim/
-        title: How do I file while on active duty?
-        description: ""
-      - url: /disability-benefits/apply/one-year/
-        title: How do I file for an illness that started after I was discharged from active duty?
-        description: ""
-      - url: /disability-benefits/after-you-apply/date/
-        title: How does VA decide when my disability compensation starts?
-        description: ""
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: Fully Developed Claim 
+      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
+    - url: /disability-benefits/apply/
+      title: Disability Benefits Application Process
+      description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: Pre-discharge Claim
+      description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
+    - url: /disability-benefits/apply/one-year/
+      title: Disabilities That Appear Within 1 Year After Discharge
+      description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
+    - url: /disability-benefits/after-you-apply/date/
+      title: Effective Date of Disability 
+      description: "Learn how VA decides the date you can start getting your disability benefits. "
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help filing a disability claim, you may want to work with an accredited representative. We trust these professionals because they’re trained in the claims process and can help you with VA-related needs.
+If you need help filing a claim, you may want to work with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims process and can help you with VA-related needs. 
 
-Most accredited representatives work for Veterans Service Organizations (VSOs). These private nonprofit groups advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. 
+VSOs work on behalf of Veterans and Servicemembers—as well as their dependents and survivors. Find out more about accredited representatives and how they can help you.
 
 </div>
 
 <div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What does it take to be an accredited representative?</h3>
+<h3 itemprop="name">What does it take to be an accredited representative or a VSO?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Accredited representatives need to:
+Accredited representatives and VSOs need to:
   - Pass an exam
   - Pass a background check
   - Take continuing-education courses to make sure they’re providing the most up-to-date information
@@ -52,11 +52,12 @@ Recognized organizations and individuals can legally represent a Veteran, Servic
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What does an accredited representative do?</h3>
+<h3 itemprop="name">What does an accredited representative or a VSO do?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Accredited representatives help you understand and apply for VA benefits, like:
+
+Accredited representatives and VSOs can help you understand and apply for VA benefits, like:
 
 - Financial support (monthly payments)
 - Education
@@ -67,7 +68,12 @@ Accredited representatives help you understand and apply for VA benefits, like:
 - Health care
 - Burial benefits
 
-Accredited representatives can also help you gather supporting documents (like a doctor’s report or medical test results) and can file a claim on your behalf.
+These trained professionals can also: 
+- Help you gather supporting documents (like a doctor’s report or medical test results)
+- File a claim on your behalf
+- Provide additional resources to Veterans, such as helping with transportation to medical appointments or emergency funds
+
+**Note:** Veterans Service Officers work for Veterans Service Organizations (both are called VSOs), as well as for local government offices. 
 
 </div>
 </div>
@@ -75,11 +81,12 @@ Accredited representatives can also help you gather supporting documents (like a
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">What does it cost to use an accredited representative?</h4>
+<h4 itemprop="name">What does it cost to use an accredited representative or a VSO?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe you were charged a fee that’s too high by a claims agent or attorney, you can challenge it. [Find out more in the “How to Challenge a Fee” guide](https://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
+In general, no individual or organization may charge you a fee to help you file your initial application for benefits. But they may charge you for unusual expenses. It's only after VA has made a decision about your claim that VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe a claims agent or attorney charged a fee that’s too high, you can challenge it. <br>
+[Find out more in the “How to Challenge a Fee” guide](https://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 </div>
 </div>
@@ -89,14 +96,16 @@ Many VSOs provide their services free of charge, but they may ask you to pay the
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">How do I find an accredited representative?</h3>
+<h3 itemprop="name">How do I find an accredited representative or a VSO?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can find an accredited representative in 1 of 2 ways:
+You can find an accredited representative or a VSO in 1 of 2 ways:
 
-1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
-2. Use the VA Office of General Counsel’s list of VA-recognized organizations and VA-accredited individuals. You can get more information about choosing a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](https://www.va.gov/ogc/accreditation.asp).
+- Go to eBenefits to find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name. <br>
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
+- Or search the VA Office of the General Counsel’s list to find VA-recognized organizations and VA-accredited individuals by name, city, state, or zip code. <br>
+[Search the VA Office of the General Counsel's list](https://www.va.gov/ogc/apps/accreditation/index.asp).
 
 </div>
 </div>
@@ -104,17 +113,18 @@ You can find an accredited representative in 1 of 2 ways:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">How do I set up a VSO or other accredited representative to work on my behalf?</h4>
+<h4 itemprop="name">How do I set up an accredited representative or a VSO to work on my behalf?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can set up a VSO or other representative to work on your behalf in 1 of 2 ways:
+You can set up an accredited representative or a VSO to work on your behalf in 1 of 2 ways:
 
-1. [Use eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). Go online through eBenefits to let us know that you’ll be using a representative or to change your current representation.
-2. Fill out a form called an Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). [Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). 
+- Use eBenefits to let us know you’ll be working with a representative or to change your current representation.<br>
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/representative). 
+- Or fill out a form called an Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <br>[Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf).  
 
-
-Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. [Find a VA regional office near you](https://www.benefits.va.gov/benefits/offices.asp).
+Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
+[Find a VA regional office near you](/facilities/).
 
 </div>
 </div>

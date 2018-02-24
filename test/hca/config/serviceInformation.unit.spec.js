@@ -1,10 +1,10 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import moment from 'moment';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/hca/config/form';
 
 describe('Hca serviceInformation', () => {
@@ -18,7 +18,7 @@ describe('Hca serviceInformation', () => {
         uiSchema={uiSchema}
         definitions={definitions}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
     expect(formDOM.querySelectorAll('select').length).to.equal(6);
@@ -34,9 +34,9 @@ describe('Hca serviceInformation', () => {
         uiSchema={uiSchema}/>
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    submitForm(form);
+    formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
@@ -51,50 +51,37 @@ describe('Hca serviceInformation', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastServiceBranch'), {
-      target: {
-        value: 'army'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastEntryDateMonth'), {
-      target: {
-        value: 1
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastEntryDateDay'), {
-      target: {
-        value: 1
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastEntryDateYear'), {
-      target: {
-        value: '2010'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastDischargeDateMonth'), {
-      target: {
-        value: 1
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastDischargeDateDay'), {
-      target: {
-        value: 1
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastDischargeDateYear'), {
-      target: {
-        value: '2011'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dischargeType'), {
-      target: {
-        value: 'honorable'
-      }
-    });
+    formDOM.fillData('#root_lastServiceBranch', 'army');
+    formDOM.fillDate('root_lastEntryDate', '2010-1-1');
+    formDOM.fillDate('root_lastDischargeDate', '2011-1-1');
+    formDOM.fillData('#root_dischargeType', 'honorable');
 
-    submitForm(form);
+    formDOM.submitForm();
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('should hide and not require discharge status if discharge date is in the future', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_lastServiceBranch', 'army');
+    formDOM.fillDate('root_lastEntryDate', '2010-1-1');
+    // TODO: Use a constant instead of a magic string
+    formDOM.fillDate('root_lastDischargeDate', moment().add(130, 'days').format('YYYY-MM-DD'));
+
+    expect(formDOM.querySelector('#root_dischargeType')).to.be.null;
+
+    formDOM.submitForm();
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });

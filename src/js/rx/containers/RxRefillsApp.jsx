@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
@@ -42,28 +43,28 @@ class RxRefillsApp extends React.Component {
       <RequiredLoginView
         authRequired={3}
         serviceRequired="rx"
-        userProfile={this.props.profile}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}>
-        <RequiredTermsAcceptanceView
-          termsName="mhvac"
-          cancelPath="/health-care/"
-          topContent={breadcrumbs}
-          termsNeeded={!this.props.profile.healthTermsCurrent}>
-          <AppContent>
-            {this.props.children}
-            <ConfirmRefillModal
-              prescription={this.props.refillModal.prescription}
-              isLoading={this.props.refillModal.loading}
-              isVisible={this.props.refillModal.visible}
-              refillPrescription={this.props.refillPrescription}
-              onCloseModal={this.props.closeRefillModal}/>
-            <GlossaryModal
-              content={this.props.glossaryModal.content}
-              isVisible={this.props.glossaryModal.visible}
-              onCloseModal={this.props.closeGlossaryModal}/>
-          </AppContent>
-        </RequiredTermsAcceptanceView>
+        userProfile={this.props.profile}>
+        <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
+          <RequiredTermsAcceptanceView
+            termsName="mhvac"
+            cancelPath="/health-care/"
+            topContent={breadcrumbs}
+            termsNeeded={!this.props.profile.healthTermsCurrent}>
+            <AppContent>
+              {this.props.children}
+              <ConfirmRefillModal
+                prescription={this.props.refillModal.prescription}
+                isLoading={this.props.refillModal.loading}
+                isVisible={this.props.refillModal.visible}
+                refillPrescription={this.props.refillPrescription}
+                onCloseModal={this.props.closeRefillModal}/>
+              <GlossaryModal
+                content={this.props.glossaryModal.content}
+                isVisible={this.props.glossaryModal.visible}
+                onCloseModal={this.props.closeGlossaryModal}/>
+            </AppContent>
+          </RequiredTermsAcceptanceView>
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }
@@ -82,9 +83,7 @@ const mapStateToProps = (state) => {
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    profile: userState.profile
   };
 };
 

@@ -33,8 +33,7 @@ module.exports = E2eHelpers.createE2eTest(
     // auto save a form
     client
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Northampton, MA')
-      .pause(1200)
-      .expect.element('.saved-success-container').to.be.visible;
+      .waitForElementVisible('.saved-success-container', Timeouts.normal);
 
     // fail to save a form because of 500
     client
@@ -47,7 +46,7 @@ module.exports = E2eHelpers.createE2eTest(
         status: 500
       }, token)
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
-      .pause(1200);
+      .waitForElementVisible('.usa-alert-error', Timeouts.normal);
 
     client.assert.urlContains('birth-information');
     client
@@ -74,12 +73,10 @@ module.exports = E2eHelpers.createE2eTest(
         }
       }, token)
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Florence, MA')
-      .pause(1200);
+      .waitForElementVisible('.saved-success-container', Timeouts.normal);
     /* eslint-enable camelcase */
 
     client.assert.urlContains('/veteran-information/birth-information');
-    client
-      .expect.element('.saved-success-container').to.be.visible;
 
     // fail to save a form because signed out
     // Can't recover from this because it logs you out and we'd have to log in again
@@ -93,7 +90,7 @@ module.exports = E2eHelpers.createE2eTest(
         status: 401
       }, token)
       .fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA')
-      .pause(1200);
+      .waitForElementVisible('.usa-alert-error', Timeouts.normal);
 
     client.assert.urlContains('birth-information');
     client.expect.element('.usa-alert-error').text.to.contain('Sorry, you’re no longer signed in');

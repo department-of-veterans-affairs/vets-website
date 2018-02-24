@@ -12,7 +12,7 @@ majorlinks:
     links:
     - url: /education/tools-programs/education-career-counseling/
       title: Educational and Career Counseling
-      description: If you’re leaving active service soon, find out how to get free educational and career counseling.
+      description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
     - url: /education/tools-programs/careerscope/
       title: CareerScope®
       description: Use CareerScope to help you figure out the best career path for you when you leave active service.

@@ -7,8 +7,9 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+
 import ErrorView from '../components/ErrorView';
 import { reportTypes as reportTypesConfig } from '../config';
 import {
@@ -203,7 +204,9 @@ export class Main extends React.Component {
 
     const radioButtonProps = {
       name: 'dateRange',
-      label: '',
+      additionalFieldsetClass: 'health-record-fieldset',
+      label: <h4 className="highlight">Select Date Range</h4>,
+      additionalLegendClass: 'legend-heading-wrapper',
       options: [
         { label: 'Last 3 months', value: '3mo' },
         { label: 'Last 6 months', value: '6mo' },
@@ -223,38 +226,43 @@ export class Main extends React.Component {
                 !datePickerDisabled && !invalidFormatError && missingDateError && <p className="date-range-error">
                   {validationErrorMessages.missingDateError}</p>
               }
-              <span>Custom date range</span>
-              <div className="date-range-fields">
-                <DatePicker
-                  aria-label="Custom date range: start date"
-                  id="custom-date-start"
-                  onBlur={handleFormattedDate()}
-                  onChange={this.handleStartDateChange}
-                  onFocus={() => this.setState({ startDateError: null })}
-                  placeholderText="MM/DD/YYYY"
-                  selected={startDate}
-                  disabled={datePickerDisabled}
-                  maxDate={endDate}
-                  tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                  className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
-                <span>&nbsp;to&nbsp;</span>
-                <DatePicker
-                  aria-label="Custom date range: end date"
-                  id="custom-date-end"
-                  onBlur={handleFormattedDate(false)}
-                  onChange={this.handleEndDateChange}
-                  onFocus={() => this.setState({ endDateError: null })}
-                  placeholderText="MM/DD/YYYY"
-                  selected={endDate}
-                  disabled={datePickerDisabled}
-                  minDate={startDate}
-                  maxDate={moment()}
-                  tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                  className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
-              </div>
+              <span id="vets-custom-date-range">Custom date range</span>
+              <span className="usa-sr-only">You will be asked to enter a start and end date in two digit month, two digit day, four digit year format below.</span>
             </div>
           ),
-          value: 'custom'
+          value: 'custom',
+          content: (
+            <div className="date-range-fields">
+              <DatePicker
+                aria-label="Health record start date"
+                aria-describedby="vets-custom-date-range"
+                id="custom-date-start"
+                onBlur={handleFormattedDate()}
+                onChange={this.handleStartDateChange}
+                onFocus={() => this.setState({ startDateError: null })}
+                placeholderText="MM/DD/YYYY"
+                selected={startDate}
+                disabled={datePickerDisabled}
+                maxDate={endDate}
+                tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
+                className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
+              <span>&nbsp;to&nbsp;</span>
+              <DatePicker
+                aria-label="Health record end date"
+                aria-describedby="vets-custom-date-range"
+                id="custom-date-end"
+                onBlur={handleFormattedDate(false)}
+                onChange={this.handleEndDateChange}
+                onFocus={() => this.setState({ endDateError: null })}
+                placeholderText="MM/DD/YYYY"
+                selected={endDate}
+                disabled={datePickerDisabled}
+                minDate={startDate}
+                maxDate={moment()}
+                tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
+                className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
+            </div>
+          ),
         },
       ],
       onValueChange: (v) => {
@@ -273,7 +281,6 @@ export class Main extends React.Component {
 
     return (
       <div>
-        <h4 className="highlight">Select Date Range</h4>
         <ErrorableRadioButtons {...radioButtonProps}/>
       </div>
     );
@@ -312,15 +319,19 @@ export class Main extends React.Component {
           <form>
             {this.renderDateOptions()}
             <div>
-              <h4 className="highlight">Select Types of Information</h4>
-              <ErrorableCheckbox
-                name="all"
-                label="All available VA health records"
-                checked={allValuesChecked}
-                onValueChange={(checked) => {
-                  this.props.toggleAllReports(checked);
-                }}/>
-              {this.renderInformationTypes()}
+              <fieldset className="fieldset-input health-record-fieldset">
+                <legend className="legend-label legend-heading-wrapper">
+                  <h4 className="highlight">Select Types of Information</h4>
+                </legend>
+                <ErrorableCheckbox
+                  name="all"
+                  label="All available VA health records"
+                  checked={allValuesChecked}
+                  onValueChange={(checked) => {
+                    this.props.toggleAllReports(checked);
+                  }}/>
+                {this.renderInformationTypes()}
+              </fieldset>
             </div>
             <div className="form-actions">
               <button

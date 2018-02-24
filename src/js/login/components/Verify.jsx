@@ -75,23 +75,21 @@ class Verify extends React.Component {
         <div className="container">
           <div className="row">
             <div className="columns small-12">
-              <h1>Verify your identity</h1>
-            </div>
-          </div>
-          <div className="row">
-            <div className="columns small-12">
-              <AlertBox
-                content={`You signed in with ${signinMethod[this.props.profile.authnContext] || 'ID.me'}`}
-                isVisible
-                status="success"/>
-              <p>
-                We'll need to verify your identity so that you can securely access and manage your benefits.<br/>
-                <a href="/faq/#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
-              </p>
-              <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
-              <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
-                <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
-              </button>
+              <div>
+                <h1>Verify your identity</h1>
+                <AlertBox
+                  content={`You signed in with ${signinMethod[this.props.profile.authnContext] || 'ID.me'}`}
+                  isVisible
+                  status="success"/>
+                <p>
+                  We'll need to verify your identity so that you can securely access and manage your benefits.<br/>
+                  <a href="/faq/#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
+                </p>
+                <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
+                <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
+                  <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
+                </button>
+              </div>
             </div>
           </div>
           <div className="row">

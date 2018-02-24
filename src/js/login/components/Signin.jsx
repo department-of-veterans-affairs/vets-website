@@ -45,8 +45,6 @@ class Signin extends React.Component {
   }
 
   render() {
-    const enableMHVLogin = new URLSearchParams(window.location.search).get('mhvbeta');
-
     return (
       <main className="login">
         <div className="row">
@@ -66,7 +64,7 @@ class Signin extends React.Component {
           </div>
           <div className="row hide-for-medium-up mobile-explanation">
             <div className="columns small-12">
-              <h2>Manage the benefits and services you've earned. Simply and securely.</h2>
+              <h2>One site. A lifetime of benefits and services at your fingertips.</h2>
             </div>
           </div>
           <div className="row">
@@ -81,11 +79,11 @@ class Signin extends React.Component {
                   <h5>Sign in with an existing account</h5>
                   <div>
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
-                      <img alt="DSLogon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
+                      <img alt="DS Logon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
-                    {enableMHVLogin && <button className="mhv" onClick={this.handleLogin('mhv')}>
-                      <img alt="MyHealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with MyHealtheVet</strong>
-                    </button>}
+                    <button className="mhv" onClick={this.handleLogin('mhv')}>
+                      <img alt="My HealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with My HealtheVet</strong>
+                    </button>
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>

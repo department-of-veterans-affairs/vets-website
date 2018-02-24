@@ -15,17 +15,13 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.usa-button-primary', Timeouts.slow);  // First render of React may be slow.
 
     E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
+    E2eHelpers.overrideScrolling(client);
 
     client
       .click('.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled')
       .click('.edit-btn')
       .fill('input[name="root_veteranFullName_first"]', 'Jane')
-      .pause(1200);
-
-    // auto save form
-    client
-      .expect.element('.saved-success-container').to.be.visible;
+      .waitForElementVisible('.saved-success-container', Timeouts.normal);
 
     // save and finish a form later
     client
@@ -37,17 +33,22 @@ module.exports = E2eHelpers.createE2eTest(
     // server error when saving in progress form
     client
       .url(reviewUrl)
-      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible('body', Timeouts.normal);
+
+    E2eHelpers.overrideScrolling(client);
+
+    client
       .mockData({
         path: '/v0/in_progress_forms/1010ez',
         verb: 'put',
         value: {},
         status: 500
       }, token)
-      .click('.schemaform-sip-save-link');
+      .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
+      .click('.schemaform-sip-save-link')
+      .waitForElementVisible('.usa-alert-error', Timeouts.slow);
 
     client.assert.urlContains('review-and-submit');
-
     client.expect.element('.usa-alert-error').text.to.contain('We’re sorry. Something went wrong when saving your form');
 
     client.end();

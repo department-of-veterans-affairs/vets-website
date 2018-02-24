@@ -5,6 +5,7 @@ title: Burial and Memorial Benefits Eligibility
 display_title: Eligibility
 collection: burials
 order: 1
+
 ---
 
 <div class="va-introtext">
@@ -23,6 +24,8 @@ You may qualify for burial and memorial benefits if you're:
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
+
+**Note:** If you have a less than honorable discharge that you believe is unfair or unjust, you can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you may be able to get VA burial and memorial benefits. [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
 
 </div>
 

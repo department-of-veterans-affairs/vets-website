@@ -7,6 +7,7 @@ plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 collection: education
 children: educationGIBill
 order: 4
+gibsAlert: true
 majorlinks:
   - heading: Post-9/11 GI Bill Benefits
     links:

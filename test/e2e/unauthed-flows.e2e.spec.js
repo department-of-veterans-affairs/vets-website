@@ -18,7 +18,8 @@ module.exports = E2eHelpers.createE2eTest(
     RxHelpers.initApplicationSubmitMock(token);
 
     const appPaths = [
-      '/education/gi-bill/post-9-11/ch-33-benefit',
+      // While the page is in maintenance, it doesn't need authed
+      // '/education/gi-bill/post-9-11/ch-33-benefit',
       '/health-care/health-records',
       '/health-care/messaging',
       '/health-care/prescriptions',

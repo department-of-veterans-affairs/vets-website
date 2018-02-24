@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
-import FormTitle from '../../common/schemaform/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
+import FormTitle from '../../common/schemaform/components/FormTitle';
+import { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -19,14 +19,19 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          pageList={this.props.route.pageList}
-          startText="Start the Pension Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 21-527EZ form to apply for pension benefits.
-        </SaveInProgressIntro>
+        {/* <SaveInProgressIntro */}
+        {/*   prefillEnabled={this.props.route.formConfig.prefillEnabled} */}
+        {/*   pageList={this.props.route.pageList} */}
+        {/*   startText="Start the Pension Application" */}
+        {/*   {...this.props.saveInProgressActions} */}
+        {/*   {...this.props.saveInProgress}> */}
+        {/*   Please complete the 21-527EZ form to apply for pension benefits. */}
+        {/* </SaveInProgressIntro> */}
+        <div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            We’re sorry. Our online application isn’t available right now. We’re working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
+          </div>
+        </div>
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
@@ -47,22 +52,24 @@ class IntroductionPage extends React.Component {
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <h6 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h6><br/>
-                  <p>The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there's no risk for you to participate. With this program, you send in all the evidence, or supporting documents, you have when you file your claim. We can make a decision on your application without asking you for more information.</p>
-                  <p><a href="/pension/apply/fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.</p>
+                  <h4 className="usa-alert-heading">Fully Developed Claim (FDC) Program</h4>
+                  <div className="usa-alert-text">
+                    <p>The Fully Developed Claim (FDC) program is the fastest way to get your claim processed, and there's no risk for you to participate. With this program, you send in all the evidence, or supporting documents, you have when you file your claim. We can make a decision on your application without asking you for more information.</p>
+                    <a href="/pension/apply/fully-developed-claim/" target="_blank">Learn more about the FDC Program</a>.
+                  </div>
                 </div>
               </div>
               <br/>
               <p><strong>You might quality for Aid and Attendance and Housebound benefits</strong></p>
               <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about Aid and Attendance and Housebound Benefits</a>.<br/><br/>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <h6>Learn about Veterans pension rates</h6>
               <a href="/pension/rates/" target="_blank">Find out how we decide pension rates.</a>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete this pension benefits form.</p>
-              <p>After submitting the form, you'll get a confirmation message. You can print this for your records.</p>
+              <p>Complete an Application for Pension (VA Form 21P-527EZ). <br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ</a>.</p>
+              <p>Mail the application to the Pension Management Center (PMC) for your state. <br/><a href="/pension/pension-management-center/">Find your PMC</a>.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
@@ -75,12 +82,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          pageList={this.props.route.pageList}
-          startText="Start the Pension Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+        {/* <SaveInProgressIntro */}
+        {/*   buttonOnly */}
+        {/*   pageList={this.props.route.pageList} */}
+        {/*   startText="Start the Pension Application" */}
+        {/*   {...this.props.saveInProgressActions} */}
+        {/*   {...this.props.saveInProgress}/> */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>

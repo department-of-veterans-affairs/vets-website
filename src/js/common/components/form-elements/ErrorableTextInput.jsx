@@ -52,7 +52,11 @@ class ErrorableTextInput extends React.Component {
     let labelErrorClass = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
       inputErrorClass = 'usa-input-error';
       labelErrorClass = 'usa-input-error-label';
     }

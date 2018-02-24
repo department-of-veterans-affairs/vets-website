@@ -2,7 +2,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 
-import { SAVE_STATUSES, saveErrors } from './save-load-actions';
+import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utils/helpers';
 
 const Element = Scroll.Element;
@@ -97,7 +97,7 @@ class SaveFormLink extends React.Component {
           </div>
         }
         {savedStatus !== SAVE_STATUSES.noAuth &&
-          <button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || saveLinkMessage}</button>}
+          <span><button type="button" className="va-button-link schemaform-sip-save-link" onClick={this.saveForm}>{this.props.children || saveLinkMessage}</button>.</span>}
       </div>
     );
   }

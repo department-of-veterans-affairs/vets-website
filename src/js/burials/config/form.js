@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -16,7 +16,7 @@ import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
-import FullNameField from '../../common/schemaform/FullNameField';
+import FullNameField from '../../common/schemaform/fields/FullNameField';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
@@ -24,7 +24,7 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 import fileUploadUI from '../../common/schemaform/definitions/file';
 import currencyUI from '../../common/schemaform/definitions/currency';
 import { validateBurialAndDeathDates } from '../validation';
-import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
+import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
 
 const {
   relationship,
@@ -131,9 +131,6 @@ const formConfig = {
                   widgetClassNames: 'schemaform-label-no-top-margin'
                 }
               }
-            },
-            'ui:options': {
-              showPrefillMessage: true
             }
           },
           schema: {

@@ -35,6 +35,7 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
+  { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
 
@@ -94,7 +95,13 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/burial-planning/application.md');
+  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
+  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
+  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
+  ignoreList.push('veteran-id-card/apply.md');
+  ignoreList.push('veteran-id-card/how-to-get.md');
+  ignoreList.push('veteran-id-card/how-to-upload-photo.md');
+  ignoreList.push('disability-benefits/526/apply-for-increase.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -160,7 +167,7 @@ smith.use(collections({
     pattern: 'disability-benefits/after-you-apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'After You Apply'
     }
   },
   disabilityApply: {
@@ -188,7 +195,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Predischarge Claims'
+      name: 'Pre-discharge Claim'
     }
   },
   disabilityConditions: {
@@ -295,6 +302,13 @@ smith.use(collections({
       name: 'VA Health Care Coverage'
     }
   },
+  healthCareCoverageFamily: {
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Health Benefits'
+    }
+  },
   healthCareCoverageVision: {
     pattern: 'health-care/about-va-health-care/vision-care/*.md',
     sortBy: 'order',
@@ -320,7 +334,7 @@ smith.use(collections({
     pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Conditions Related to Service Era'
+      name: 'Concerns Related to Service Era'
     }
   },
   housing: {
@@ -430,6 +444,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
         { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/discharge-upgrade-instructions(.*)', to: '/discharge-upgrade-instructions/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
         { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
@@ -439,7 +454,11 @@ if (options.watch) {
         { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
+        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter31(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter31/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
+        { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
+        { from: '^/disability-benefits/526/apply-for-increase(.*)', to: '/disability-benefits/526/apply-for-increase/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -591,8 +610,10 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
-        '/letters',
-        '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility'].join('|'))
+        '/veteran-id-card/apply',
+        '/veteran-id-card/how-to-get',
+        '/disability-benefits/apply-for-increase',
+        '/letters'].join('|'))
   }));
 }
 

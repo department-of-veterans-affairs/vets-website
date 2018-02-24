@@ -28,6 +28,7 @@ export const board = (formValues, noDRB) => {
   const dischargeYear = formValues['2_dischargeYear'];
   const dischargeMonth = formValues['3_dischargeMonth'] || 1;
   const oldDischarge = moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
+  const failureToExhaust = formValues['11_failureToExhaust'] === '1';
 
   let boardObj = { name: 'Board for Correction of Naval Records (BCNR)', abbr: 'BCNR' };
   if (['army', 'airForce', 'coastGuard'].indexOf(formValues['1_branchOfService']) > -1) {
@@ -37,7 +38,7 @@ export const board = (formValues, noDRB) => {
   // short circuit condition for prior period of service response
   if (noDRB) { return boardObj; }
 
-  if (noPrevApp || preAppDateBefore || prevAppType) {
+  if (noPrevApp || preAppDateBefore || prevAppType || failureToExhaust) {
     if (courtMartial || transgender || intention || oldDischarge) {
       return boardObj;
     }
@@ -136,12 +137,12 @@ export const formData = (formValues) => {
   if (boardData && boardData.abbr === 'DRB') {
     return {
       num: 293,
-      link: 'http://arba.army.pentagon.mil/documents/dd0293.pdf',
+      link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
     };
   }
   return {
     num: 149,
-    link: 'http://arba.army.pentagon.mil/documents/dd0149.pdf',
+    link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
 

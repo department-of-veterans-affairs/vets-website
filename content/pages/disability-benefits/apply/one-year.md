@@ -7,23 +7,23 @@ plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 4
 relatedlinks:
-  - heading: Get answers to your questions about filing a disability claim
+  - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: What’s the fastest way to file a claim?
-      description: ""
+      title: Fully Developed Claim
+      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability-benefits/apply/
-      title: How do I file a claim?
-      description: ""
+      title: Disability Benefits Application Process
+      description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/help/
-      title: How do I get help filing a claim?
-      description: ""
+      title: Get Help Filing a Claim
+      description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
-      title: How do I file while on active duty?
-      description: ""
+      title: Pre-discharge Claim
+      description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability-benefits/after-you-apply/date/
-      title: How does VA decide when my disability compensation starts?
-      description: ""
+      title: Effective Date of Disability 
+      description: "Learn how VA decides the date you can start getting your disability benefits."
 ---
 
 <div class="va-introtext">

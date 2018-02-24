@@ -60,7 +60,7 @@ export class LetterList extends React.Component {
       eligibilityMessage = (
         <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
-            <h2 className="usa-alert-heading">Some letters may not be available</h2>
+            <h4 className="usa-alert-heading">Some letters may not be available</h4>
             <p className="usa-alert-text">
               One of our systems appears to be down. If you believe you’re missing a
               letter or document from the list above, please try again later.

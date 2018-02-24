@@ -22,6 +22,28 @@
     overflow-y: scroll;
   }
 
+  // error standardization
+  .usa-alert {
+    .va-modal-title-undefined {
+      padding: 0.5rem !important;
+    }
+
+    &-undefined {
+      background: white;
+      padding-left: 2rem;
+    }
+
+    &:before {
+      content: none;
+    }
+  }
+
+  .va-modal-body {
+    p:first-of-type {
+      margin-top: 0;
+    }
+  }
+
   // "Forked" modal styles
   &-split {
     .va-modal-inner {
@@ -159,7 +181,7 @@
 }
 
 button.va-modal-close {
-  background-color: inherit;
+  background-color: transparent;
   color: $color-va-modal-close;
   font-size: 2.5rem;
   padding: .5rem 1rem;

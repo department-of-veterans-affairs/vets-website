@@ -29,18 +29,18 @@ relatedlinks:
 If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert va-crisis-alert">
+<div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	<h4>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
-	  <div class="expander-content-inner">
+	  <div class="expander-content-inner usa-alert-text">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-		  <li>Call <a href="tel:911">911</a>.</li>
-		  <li>Go to the nearest emergency room.</li>
-		</ul>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+  		  <li>Call <a href="tel:911">911</a>.</li>
+  		  <li>Go to the nearest emergency room.</li>
+		  </ul>
 	  </div>
   	</div>
   </div>
@@ -95,7 +95,7 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
 - [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
 **Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
-[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/veterans.asp).
+[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
 </div>

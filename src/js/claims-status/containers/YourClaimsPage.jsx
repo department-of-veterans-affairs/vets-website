@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getAppeals, getAppealsV2, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
+import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -51,12 +51,7 @@ class YourClaimsPage extends React.Component {
     }
 
     if (this.props.canAccessAppeals) {
-      if (__BUILDTYPE__ === 'development') {
-        // Fetch against the new endpoint
-        this.props.getAppealsV2();
-      } else {
-        this.props.getAppeals(this.getFilter(this.props));
-      }
+      this.props.getAppeals(this.getFilter(this.props));
     }
 
     if (this.props.claimsLoading && this.props.appealsLoading) {
@@ -234,7 +229,7 @@ class YourClaimsPage extends React.Component {
               id="consolidated-claims"
               contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <FeaturesWarning/>
             <AskVAQuestions/>
           </div>
@@ -273,7 +268,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAppeals,
-  getAppealsV2,
   getClaims,
   filterClaims,
   changePage,

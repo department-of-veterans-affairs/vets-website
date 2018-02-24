@@ -10,6 +10,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
 import environment from '../../common/helpers/environment.js';
+import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -304,12 +305,11 @@ export const serviceRecordsUI = {
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
-    serviceBranch: {
-      'ui:title': 'Branch of service',
+    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels
       }
-    },
+    }),
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',

@@ -135,7 +135,7 @@ class Select extends Component {
     const titleType = optionType[0].toUpperCase() + optionType.slice(1);
     const dropdownClasses = classNames({
       'facility-dropdown-wrapper': true,
-      active: this.state.dropdownActive,
+      active: this.state.dropdownActive && !disabled,
       disabled
     });
 
