@@ -5,7 +5,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  transform
+  transform,
+  supportingEvidenceOrientation
 } from '../helpers';
 
 
@@ -28,25 +29,86 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
-    applicantInformation: {
-      title: 'Applicant Information',
-      pages: {}
+    chapterOne: {
+      title: 'Chapter One',
+      pages: {
+        pageOne: {
+          title: 'Page One',
+          path: 'chapter-one/page-one',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {}
+          },
+        }
+      }
     },
-    benefitSelection: {
-      title: 'Benefit Selection',
-      pages: {}
+    chapterTwo: {
+      title: 'Chapter Two',
+      pages: {
+        pageOne: {
+          title: 'Page One',
+          path: 'chapter-two/page-one',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {}
+          },
+        }
+      }
     },
-    sponsorInformation: {
-      title: 'Sponsor Information',
-      pages: {}
+    chapterThree: {
+      title: 'Chapter Three',
+      pages: {
+        pageOne: {
+          title: 'Page One',
+          path: 'chapter-three/page-one',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {}
+          },
+        }
+      }
     },
-    schoolSelection: {
-      title: 'School Selection',
-      pages: {}
+    supportingEvidence: {
+      title: 'Supporting Evidence',
+      pages: {
+        orientation: {
+          title: '',
+          path: 'supporting-evidence/orientation',
+          uiSchema: {
+            'ui:description': supportingEvidenceOrientation
+          },
+          schema: {
+            type: 'object',
+            properties: {}
+          }
+        },
+        // pageTwo: {},
+        // pageThree: {},
+        // pageFour: {},
+        // pageFive: {},
+        // pageSix: {},
+        // pageSeven: {},
+        // pageEight: {},
+        // pageNine: {},
+        // pageTen: {},
+      }
     },
-    personalInformation: {
-      title: 'Personal Information',
-      pages: {}
+    chapterFive: {
+      title: 'Chapter Five',
+      pages: {
+        pageOne: {
+          title: 'Page One',
+          path: 'chapter-five/page-one',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {}
+          },
+        }
+      }
     }
   }
 };
