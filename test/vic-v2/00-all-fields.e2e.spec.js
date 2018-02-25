@@ -50,10 +50,17 @@ const runTest = E2eHelpers.createE2eTest(
       // Photo page
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
       client.waitForElementVisible('label.usa-button.usa-button-secondary', Timeouts.normal);
+      client.execute('window.resizeTo(1202, 800)');
+      // check that drop zone is large on large screen
+      client.expect.element('.drop-target').to.have.css('width').which.equals('300px');
+      // check that drop zone is small on small screen
+      client.execute('window.resizeTo(1024, 800)');
+      client.expect.element('.drop-target').to.have.css('width').which.equals('240px');
+      client.execute('window.resizeTo(1202, 800)');
       client.axeCheck('.main');
 
       // Disable upload button style to reveal input for test
-      /* HACK: style overridden so browser driver can find/interact with hidden inputs
+      /* HACK: style overridden so client driver can find/interact with hidden inputs
          (see https://github.com/nightwatchjs/nightwatch/issues/505) */
       client
         .execute("document.getElementsByName('fileUpload')[0].style.display = 'block';");
@@ -66,12 +73,30 @@ const runTest = E2eHelpers.createE2eTest(
         .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.jpg`));
 
       // crop photo
+      // check that crop box is large on large screen
+      client.waitForElementPresent('.cropper-crop-box', Timeouts.normal);
+      client.expect.element('.cropper-crop-box').to.have.css('width').which.equals('300px');
+      // check that crop box is small on small screen
+      client.execute('window.resizeTo(1024, 800)');
+      client.expect.element('.cropper-crop-box').to.have.css('width').which.equals('240px');
+      // check that crop tools are flat on large screen
+      client.expect.element('.cropper-control-container').to.have.css('width').which.equals('462px');
+      // check that crop tools are stacked on small screen
+      client.execute('window.resizeTo(1202, 800)');
+      client.expect.element('.cropper-control-container').to.have.css('width').which.equals('600px');
       client.waitForElementVisible('.cropper-container-outer', Timeouts.normal);
+
       client.click('.form-panel .usa-button-primary');
 
       // preview photo
       client.waitForElementVisible('.photo-preview', Timeouts.normal);
       client.axeCheck('.main');
+      // check that preview is large on large screen
+      client.expect.element('.photo-preview').to.have.css('width').which.equals('300px');
+      // check that preview is small on small screen
+      client.execute('window.resizeTo(1024, 800)');
+      client.expect.element('.photo-preview').to.have.css('width').which.equals('240px');
+      client.execute('window.resizeTo(1202, 800)');
 
       // nonsighted path
       // upload photo
@@ -97,7 +122,7 @@ const runTest = E2eHelpers.createE2eTest(
       client.axeCheck('.main');
 
       // Disable upload button style to reveal input for test
-      /* HACK: style overridden so browser driver can find/interact with hidden inputs
+      /* HACK: style overridden so client driver can find/interact with hidden inputs
          (see https://github.com/nightwatchjs/nightwatch/issues/505) */
       client
         .execute("document.getElementById('root_dd214').style.display = 'block';")
@@ -115,7 +140,46 @@ const runTest = E2eHelpers.createE2eTest(
         .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
       client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
       client.axeCheck('.main');
-      client.click('button[aria-controls="collapsible-3"]');
+      client.click('button[aria-controls="collapsible-11"]');
+      // check that preview is small on large review page
+      client.waitForElementPresent('.photo-review', Timeouts.normal);
+      client.expect.element('.photo-review').to.have.css('width').which.equals('150px');
+      // enter photo field
+      client.waitForElementPresent('.form-review-panel-page-header-row button', Timeouts.normal);
+      client.click('.form-review-panel-page-header-row button');
+      // edit photo
+      client.waitForElementPresent('.photo-preview-link.va-button-link', Timeouts.normal);
+      client.click('.photo-preview-link.va-button-link');
+      // Disable upload button style to reveal input for test
+      /* HACK: style overridden so client driver can find/interact with hidden inputs
+         (see https://github.com/nightwatchjs/nightwatch/issues/505) */
+      client
+        .execute("document.getElementsByName('fileUpload')[0].style.display = 'block';");
+      // HACK: waitforElementVisible did not work but this does
+      client.elementIdDisplayed('errorable-file-input-11');
+      // check that drop target is small on large review page
+      client.waitForElementPresent('.drop-target', Timeouts.normal);
+      client.expect.element('.drop-target').to.have.css('width').which.equals('240px');
+      // upload photo
+      client
+        .setValue('input[name="fileUpload"]', require('path').resolve(`${__dirname}/examplephoto.jpg`));
+      // check that cropbox is small on large review page
+      client.waitForElementPresent('.cropper-crop-box', Timeouts.normal);
+      client.expect.element('.cropper-crop-box').to.have.css('width').which.equals('240px');
+      // check that crop tools are flat on large screen
+      client.expect.element('.cropper-control-container').to.have.css('width').which.equals('512.047px');
+      // crop photo
+      client.click('.crop-button-container .usa-button-primary');
+      // preview
+      // wait for upload
+      client.waitForElementPresent('.photo-preview', Timeouts.normal);
+      // check that preview is large on large screen
+      client.expect.element('.photo-preview').to.have.css('width').which.equals('240px');
+      // update form
+      client.waitForElementPresent('.usa-button-primary', Timeouts.normal);
+      client.click('.usa-button-primary');
+
+      // Accept privacy agreement
       client.click('input[type="checkbox"]');
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
