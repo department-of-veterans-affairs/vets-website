@@ -8,9 +8,8 @@ import { ConfirmationPage } from '../../../src/js/vic-v2/containers/Confirmation
 const form = {
   submission: {
     response: {
-      attributes: {
-        confirmationNumber: 'V-VIC-177',
-      }
+      confirmationNumber: 'V-VIC-177',
+      photo: 'imagesrc'
     }
   },
   data: {
@@ -47,6 +46,6 @@ describe('<ConfirmationPage>', () => {
 
     expect(tree.text()).not.to.contain('We’ll review your application to verify your eligibility.');
     expect(tree.text()).to.contain('In the meantime, you can print a temporary digital Veteran ID Card.');
-    expect(tree.find('VeteranIDCard').exists()).to.be.true;
+    expect(tree.find('VeteranIDCard').props().veteranPhotoUrl).to.equal('imagesrc');
   });
 });

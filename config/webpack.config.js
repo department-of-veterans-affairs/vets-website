@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bourbon = require('bourbon').includePaths;
 // const neat = require('bourbon-neat').includePaths;
 const path = require('path');
@@ -21,6 +22,7 @@ const entryFiles = {
   '1995-edu-benefits': './src/js/edu-benefits/1995/edu-benefits-entry.jsx',
   '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
   '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
+  '526EZ-claims-increase': './src/js/disability-benefits/526EZ/form-entry.jsx',
   'claims-status': './src/js/claims-status/claims-status-entry.jsx',
   'discharge-upgrade-instructions': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
@@ -258,6 +260,13 @@ const configGenerator = (options) => {
     }));
   } else {
     baseConfig.devtool = '#eval-source-map';
+  }
+
+  if (options.analyzer) {
+    baseConfig.plugins.push(new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true
+    }));
   }
 
   return baseConfig;

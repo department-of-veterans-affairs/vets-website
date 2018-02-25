@@ -35,6 +35,7 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
+  { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
 
@@ -100,6 +101,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('veteran-id-card/apply.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
+  ignoreList.push('disability-benefits/526/apply-for-increase.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -193,7 +195,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Predischarge Claims'
+      name: 'Pre-discharge Claim'
     }
   },
   disabilityConditions: {
@@ -456,6 +458,7 @@ if (options.watch) {
         { from: '^/employment/vocational-rehab-and-employment/application/chapter31(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter31/' },
         { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
         { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
+        { from: '^/disability-benefits/526/apply-for-increase(.*)', to: '/disability-benefits/526/apply-for-increase/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -609,6 +612,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/health-care/apply/application',
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
+        '/disability-benefits/apply-for-increase',
         '/letters'].join('|'))
   }));
 }

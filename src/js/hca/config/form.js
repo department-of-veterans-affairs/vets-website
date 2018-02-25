@@ -4,10 +4,13 @@ import moment from 'moment';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import {
-  states,
   genders,
   maritalStatuses
 } from '../../common/utils/options-for-select';
+
+import {
+  states
+} from '../../common/utils/address';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';

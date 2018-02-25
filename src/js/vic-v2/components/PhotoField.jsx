@@ -3,7 +3,6 @@ import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 
-import environment from '../../common/helpers/environment';
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
@@ -175,14 +174,6 @@ function isSquareImage(img) {
   return img.width === img.height;
 }
 
-function getImageUrl({ serverPath, serverName } = {}) {
-  if (serverName) {
-    return `${environment.API_URL}/content/vic/${serverPath}/${serverName}`;
-  }
-
-  return null;
-}
-
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
@@ -268,7 +259,7 @@ export default class PhotoField extends React.Component {
     this.setState({
       isCropping: true,
       fileName: this.props.formData.name,
-      src: this.state.previewSrc || getImageUrl(this.props.formData),
+      src: this.state.previewSrc,
       warningMessage: null
     });
   }
@@ -285,7 +276,7 @@ export default class PhotoField extends React.Component {
     this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
-      file.name = this.state.fileName;
+      file.name = 'profile_photo.png';
       this.props.formContext.uploadFile(
         file,
         (formData) => {
@@ -315,7 +306,7 @@ export default class PhotoField extends React.Component {
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (!isValidFileType(file.name, fileTypes)) {
       this.props.onChange({
-        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, or .png file and try again.'
       });
     } else {
       const reader = new FileReader();
@@ -353,7 +344,7 @@ export default class PhotoField extends React.Component {
     this.screenReaderPath = false;
     this.setState({ dragActive: false });
 
-    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
       const file = files[0];
       const fileName = file.name;
@@ -363,7 +354,7 @@ export default class PhotoField extends React.Component {
       }
       if (!isValidFileType(fileName, fileTypes)) {
         this.props.onChange({
-          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, .png, or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();
@@ -651,6 +642,7 @@ export default class PhotoField extends React.Component {
     const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const cropperTypes = fileTypes.concat('bmp');
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
@@ -838,7 +830,7 @@ export default class PhotoField extends React.Component {
               onDragEnter={() => this.handleDrag({ dragActive: true })}
               onDragLeave={() => this.handleDrag({ dragActive: false })}
               onDrop={this.onChange}
-              accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               {this.state.dragActive ?
                 <div className="drag-active-text"><span>DROP PHOTO</span></div> :
                 <img alt="placeholder" src="/img/photo-placeholder.png"/>}
@@ -859,7 +851,7 @@ export default class PhotoField extends React.Component {
               Edit your photo
             </button>}
             {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
-              accept={fileTypes.map(type => `.${type}`).join(',')}
+              accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
               aria-describedby="croppingToolDescription"
