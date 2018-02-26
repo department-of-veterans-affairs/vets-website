@@ -163,7 +163,7 @@ export function formatDate(date) {
 
 function getHearingType(type) {
   const typeMaps = {
-    video: 'video conference',
+    video: 'videoconference',
     travel: 'travel board',
     central_office: 'Washington, DC central office' // eslint-disable-line
   };
