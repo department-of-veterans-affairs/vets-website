@@ -50,9 +50,7 @@ If you’re leaving active service soon, you can get free educational and career
 
 ### Ready to apply?
 
-<div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/employment/vocational-rehab-and-employment/TBD//">Apply for VR&E Benefits</a>
-</div>
+<a class="usa-button-primary va-button-primary" href="/employment/vocational-rehab-and-employment/apply-vre/">Apply for VR&E Benefits</a>
 
 
 <div class="feature" markdown=“1”> 
