@@ -204,9 +204,7 @@ export default class PhotoField extends React.Component {
   }
 
   componentDidMount() {
-    if (!onReviewPage(this.props.formContext.pageTitle)) {
-      window.addEventListener('resize', this.detectWidth);
-    }
+    window.addEventListener('resize', this.detectWidth);
   }
 
   componentWillReceiveProps(nextProps) {
