@@ -73,7 +73,7 @@ const runTest = E2eHelpers.createE2eTest(
 
     // crop photo
     // check that crop box is large on large screen
-    client.waitForElementPresent('.cropper-crop-box', Timeouts.normal);
+    client.waitForElementPresent('.cropper-crop-box', Timeouts.slow);
     // client.expect.element('.cropper-crop-box').to.have.css('width').which.equals('300px');
     // check that crop box is small on small screen
     // client.execute('window.resizeTo(1024, 800)');
