@@ -16,6 +16,26 @@ export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
+export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
+export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
+export const SAVE_MAILING_ADDRESS_SUCCESS = 'SAVE_MAILING_ADDRESS_SUCCESS';
+
+export const SAVE_RESIDENTIAL_ADDRESS = 'SAVE_RESIDENTIAL_ADDRESS';
+export const SAVE_RESIDENTIAL_ADDRESS_FAIL = 'SAVE_RESIDENTIAL_ADDRESS_FAIL';
+export const SAVE_RESIDENTIAL_ADDRESS_SUCCESS = 'SAVE_RESIDENTIAL_ADDRESS_SUCCESS';
+
+export const SAVE_PRIMARY_PHONE = 'SAVE_PRIMARY_PHONE';
+export const SAVE_PRIMARY_PHONE_FAIL = 'SAVE_PRIMARY_PHONE_FAIL';
+export const SAVE_PRIMARY_PHONE_SUCCESS = 'SAVE_PRIMARY_PHONE_SUCCESS';
+
+export const SAVE_ALTERNATE_PHONE = 'SAVE_ALTERNATE_PHONE';
+export const SAVE_ALTERNATE_PHONE_FAIL = 'SAVE_ALTERNATE_PHONE_FAIL';
+export const SAVE_ALTERNATE_PHONE_SUCCESS = 'SAVE_ALTERNATE_PHONE_SUCCESS';
+
+export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
+export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
+export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
+
 export function updateProfileFields(newState) {
   return {
     type: UPDATE_PROFILE_FIELDS,
@@ -100,34 +120,23 @@ export function removeSavedForm(formId) {
   };
 }
 
-export function updatePrimaryPhone(newPhone) {
-  return (dispatch, getState) => {
-    const { user: { profile } } = getState();
+// @todo once the endpoints are built we can actually send an API request.
+function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction){
+  return (fieldValue) => {
+    return (dispatch, getState) => {
+      dispatch(requestStartAction);
+      setTimeout(() => {
+        dispatch(requestStartAction, { newValue: fieldValue })
+      }, 300);
+    }
   }
 }
 
-export function updateAlternatePhone(newPhone) {
-  return (dispatch, getState) => {
-    const { user: { profile } } = getState();
-  }
-}
-
-export function updateMailingAddress(newAddress) {
-  return (dispatch, getState) => {
-    const { user: { profile } } = getState();
-  }
-}
-export function updateResidentialAddress(newAddress) {
-  return (dispatch, getState) => {
-    const { user: { profile } } = getState();
-  }
-}
-
-export function updateEmail(newEmail) {
-  return (dispatch, getState) => {
-    const { user: { profile } } = getState();
-  }
-}
+export const updateEmailAddress = saveFieldHandler('/v0/email', SAVE_EMAIL_ADDRESS, SAVE_EMAIL_ADDRESS_SUCCESS, SAVE_EMAIL_ADDRESS_FAIL)
+export const updatePrimaryPhone = saveFieldHandler('/v0/phone/primary', SAVE_PRIMARY_PHONE, SAVE_PRIMARY_PHONE_SUCCESS, SAVE_PRIMARY_PHONE_FAIL)
+export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE_ALTERNATE_PHONE, SAVE_ALTERNATE_PHONE_SUCCESS, SAVE_ALTERNATE_PHONE_FAIL)
+export const updateMailingAddress = saveFieldHandler('/v0/phone/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL)
+export const updateResidentialAddress = saveFieldHandler('/v0/phone/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL)
 
 // The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
 function sendProfileRequests() {
