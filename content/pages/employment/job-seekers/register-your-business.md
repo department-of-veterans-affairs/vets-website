@@ -16,7 +16,7 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 ### Can I register my business as a Veteran-Owned Small Business (VOSB) through the Vets First Verification Program?
 
-You may qualify if you’re a Veteran, and either you or another Veteran at the company:
+You may qualify if you’re a Veteran, and **all of the following are true for you or another Veteran at the company**:
 
 - Owns 51% or more of the company you want to register, **and**
 - Has full control over the day-to-day management, decision-making, and strategic policy of the business, **and**
@@ -25,16 +25,16 @@ You may qualify if you’re a Veteran, and either you or another Veteran at the 
 - Works full time for the business, **and**
 - Holds the highest officer position in the company
 
-**Please note:** You’re considered a Veteran if you:
+**Please note:** You’re considered a Veteran if **one of the following is true for you**:
 
-- Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
-- Served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
+- You served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
+- You served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
 
 <br>
 
 ### Can I register my business as a Service-Disabled Veteran-Owned Small Business (SDVOSB)?
 
-You may qualify if you meet all the requirements of a VOSB listed above, and either you or another Veteran owner of the company has:
+You may qualify if you meet all the requirements of a VOSB listed above, and either you or another Veteran owner of the company has **at least one of the following**:
 
 - A disability rating letter from us confirming that you have a service-connected disability rating between 0 and 100%, **or**
 - A disability determination from the Department of Defense
@@ -70,7 +70,7 @@ You may qualify if you meet all the requirements of a VOSB listed above, and eit
 
 #### How do I register my small business?
  
-To register as a VOSB or SDVOSB, you’ll need to apply through the Vets First Verification Program. 
+To register as a VOSB or SDVOSB, you’ll need to apply through the Vets First Verification Program. <br>
 [Apply online](https://www.vip.vetbiz.gov/). 
 
 Our VA-certified Verification Assistance Counselors—and Verification Program Webinars and Town Halls—can help guide you through the process. If you use these pre-qualification resources, you can help speed up the decision on your application.</br>
@@ -83,7 +83,8 @@ Our VA-certified Verification Assistance Counselors—and Verification Program W
  
 #### How do I get advice for bidding on federal contracts in my area?
  
-Contact your local VA Small Business Liaison. [Find a VA Small Business Liaison near you](https://www.va.gov/OSDBU/about/contacts.asp).
+Contact your local VA Small Business Liaison. <br>
+[Find a VA Small Business Liaison near you](https://www.va.gov/OSDBU/about/contacts.asp).
 
 <br>
 <span id="business-questions">
@@ -95,7 +96,8 @@ To learn more about how we can help you access opportunities:
 - Call the OSDBU Call Center at <a href="tel:+1866-584-2344">1-866-584-2344</a> anytime from 8:00 a.m. to 6:00 p.m. (ET), **or**
 - Email us at <a href="mailto:osdbu@va.gov">osdbu@va.gov</a><br>
 
-To learn more about OSDBU and to access our events calendar and other online resources, visit our website. [Go to the OSDBU website](https://www.va.gov/OSDBU/index.asp). 
+To learn more about OSDBU and to access our events calendar and other online resources, visit our website. <br>
+[Go to the OSDBU website](https://www.va.gov/OSDBU/index.asp). 
 
 <br>
 <span id="business-resources">
