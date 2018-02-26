@@ -28,11 +28,11 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 ### If I'm a Veteran, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&E benefits and services if you’re a Veteran, and you:
+You may be eligible for VR&E benefits and services if you’re a Veteran, and  **all of the following are true for you**:
 
-- Have received a discharge that is other than dishonorable, **and**
-- Have a service-connected disability rating of at least 10% from VA, **and**
-- [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
+- You have received a discharge that is other than dishonorable, **and**
+- You have a service-connected disability rating of at least 10% from VA, **and**
+- You [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
 
 **Basic period of eligibility**
 
@@ -40,18 +40,19 @@ Your basic period of eligibility ends 12 years from the date you received notice
 - Date of separation from active military service, **or**
 - First VA service-connected disability rating
 
-**Note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) determines that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) finds that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 <br>
 
 ### If I'm still on active duty, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&amp;E benefits and services if you're a Servicemember who:
+You may be eligible for VR&amp;E benefits and services if you're a Servicemember **and at least one of the following is true for you**:
 
-- Has a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
-- Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
+-You have a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
+- You are participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. <br>
+[Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
-**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
+**Please note:** Severely injured active-duty service members can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended September 30, 2018, through Sec. 724 of Public Law 113-291.
 
 <br>
 
@@ -61,7 +62,8 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet. [Find out how to apply](/employment/vocational-rehab-and-employment/apply-vre/).
+Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet. <br>
+[Find out how to apply](/employment/vocational-rehab-and-employment/apply-vre/).
 
 <br>
 
@@ -85,9 +87,15 @@ Depending on your needs and goals, services may include:
 We offer:
 
 - Opportunities to get training and practical hands-on work experience at the same time through programs like:
-  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
-- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
-- Counselors to help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
-- Other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
-- Links to more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
+  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
+  [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. <br>
+  [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
+[Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
+- Counselors to help you transition from military to college life. <br>
+[Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+- Other employment resources for Servicemembers and Veterans. <br>
+[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+- Links to more resources outside VA that can help you in your job search. <br>
+[See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
