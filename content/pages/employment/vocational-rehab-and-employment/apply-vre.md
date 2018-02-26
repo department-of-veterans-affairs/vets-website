@@ -77,7 +77,7 @@ You may be eligible for VR&amp;E benefits and services if **at least one of the 
 - You are in the Integrated Disability Evaluation System (IDES). <br>
 [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides).
 
-**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
+**Please note:** Severely injured active-duty service members can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended September 30, 2018, through Sec. 724 of Public Law 113-291.
 
 </div>
 
