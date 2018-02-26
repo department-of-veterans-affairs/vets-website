@@ -122,36 +122,13 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Troubleshooting issues with verifying your identity</h4>
+                <h4>Common issues with verifying identity</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-0" itemprop="name">If I can't or don't want to verify my identity through ID.me, what are my other options? </button>
                     <div id="faq-trouble-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>You can use a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account to sign in to Vets.gov. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to prove your identity again on Vets.gov.
-                        <h4>How to get a premium My Health<em>e</em>Vet account</h4>  
-                        <p>Follow these 2 steps to sign up for a <strong>My Health<em>e</em>Vet</strong> account.</p>
-                        <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. To make sure you can upgrade your account to premium, sign up as a VA patient.</p>
-                        <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
-                        <p><strong>2. Then, complete and sign a VA Release of Information (VA Form 10-5345a-MHV).</strong> This form gives us permission to share an electronic copy of your health record with your online account.</p>
-                        <p><strong>You can submit this form to us in 1 of 2 ways.</strong></p>
-                        <p><strong>In person at a local VA health care facility</strong></p>
-                        <p><strong>You'll need to bring:</strong></p>
-                        <ul>
-                          <li><strong>Your VA Form 10-5345a-MHV</strong>. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
-                            <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
-                          <li><strong>A government-issued photo ID</strong>. This can be either your Veteran Health Identification Card or a valid driver's license.</li>
-                        </ul>
-                        <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
-                        <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
-                        <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
-                        <p><strong>By mail</strong></p>
-                        <p>Log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p>
-                        <p>The site will ask if you’d like to upgrade to a premium account.</p>
-                        <p>If you have an advanced account already, a page called “Authorize VA to Release Electronic Copies of your VA Record” will appear. Choose the radio button labeled “By Mail—Print, fill out and mail your signed form,” and select “Continue.”</p>
-                        <p>Print, complete, and sign the VA Release of Information (VA Form 10-5345a-MHV). Mail it to your local VA health care facility. When you address the envelope, include “Attention: Release of Information Office.”</p>
-                        <p><a href="https://www.myhealth.va.gov/">Log in at My Health<em>e</em>Vet</a>.</p>  
-                        <p><a href="/facilities/">Find contact information for a VA health facility near you</a>.</p>
                         <h4>How to get a premium DS Logon account</h4>                      
                         <p>Follow these 2 steps to sign up for a premium <strong>DS Logon</strong> account.</p>
                         <p><strong>1. First, make sure you’re enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
@@ -167,8 +144,32 @@ display_title: Frequently Asked Questions
                           <li><strong>If you have a Defense Finance and Account Service (DFAS) myPay account</strong>, you can select this option. You’ll be able to upgrade to a premium account right away.</li>
                           <li><strong>If you don’t have a CAC or DFAS myPay account,</strong> select the "None of the above conditions apply" option.</li>
                         </ul>
-                           <p>The registration tool will walk you through the sign-up process for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you’ll be asked a series of questions to prove you’re you—and not someone pretending to be you—to help protect the personal information you’ll have access to with a premium account.</p>
+                           <p>The registration tool will walk you through the sign-up process for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you’ll be asked a series of questions to prove you’re you—and not someone pretending to be you—to help protect the personal information you’ll have access to with a premium account.</p>                        
                            <p><a href="https://myaccess.dmdc.osd.mil/">Go to the DS Logon self-service site</a>.</p>
+                        <p><strong>Note:</strong> If you'd rather verify your identity and upgrade to a premium <strong>DS Logon</strong> account in person or by phone, read the instructions in the section above on verifying your identity.</p>
+                        <h4>How to get a premium My Health<em>e</em>Vet account if you're a VA patient</h4>  
+                        <p>Follow these 2 steps to sign up for a <strong>My Health<em>e</em>Vet</strong> account.</p>
+                        <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. To make sure you can upgrade your account to premium, sign up as a VA patient.</p>
+                        <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
+                        <p><strong>2. Then, complete and sign a VA Release of Information (VA Form 10-5345a-MHV).</strong> This form gives us permission to share an electronic copy of your health record with your online account.</p>
+                        <p><strong>You can submit this form to us in 1 of 2 ways.</strong></p>
+                        <h5>In person at a local VA health care facility</h5>
+                        <p><strong>You'll need to bring:</strong></p>
+                        <ul>
+                          <li><strong>Your VA Form 10-5345a-MHV</strong>. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
+                            <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
+                          <li><strong>A government-issued photo ID</strong>. This can be either your Veteran Health Identification Card or a valid driver's license.</li>
+                        </ul>
+                        <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
+                        <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
+                        <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
+                        <h5>By mail</h5>
+                        <p>Log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p>
+                        <p>The site will ask if you’d like to upgrade to a premium account.</p>
+                        <p>If you have an advanced account already, a page called “Authorize VA to Release Electronic Copies of your VA Record” will appear. Choose the radio button labeled “By Mail—Print, fill out and mail your signed form,” and select “Continue.”</p>
+                        <p>Print, complete, and sign the VA Release of Information (VA Form 10-5345a-MHV). Mail it to your local VA health care facility. When you address the envelope, include “Attention: Release of Information Office.”</p>
+                        <p><a href="https://www.myhealth.va.gov/">Log in at My Health<em>e</em>Vet</a>.</p>  
+                        <p><a href="/facilities/">Find contact information for a VA health facility near you</a>.</p>
                      </div>
                     </div>
                   </li>           
@@ -268,7 +269,8 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-idme-security-4" itemprop="name">What is the 6-digit security code that ID.me is asking me for? </button>
                     <div id="faq-idme-security-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>This code is part of the 2-factor authentication process. When you set up a verified Vets.gov account through ID.me, you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>                        
+                        <p>This code is part of the 2-factor authentication process.</p>
+                        <p>When you set up a verified Vets.gov account through ID.me, you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>                        
                         <p>If you sign in to Vets.gov using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.<p>          
                       </div>
                     </div>
