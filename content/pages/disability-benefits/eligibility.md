@@ -65,7 +65,10 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <div markdown="0"><br></div>
 
-### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits. **But there are 2 ways you can try to qualify:**
 
