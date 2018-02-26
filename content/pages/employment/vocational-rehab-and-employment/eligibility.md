@@ -22,12 +22,12 @@ majorlinks:
 
 If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, also called Chapter 31. Find out if you can get employment support or help living as independently as possible. 
 
-If you’re leaving active service soon, find out how to get free educational and career counseling—also referred to as Chapter 36—to help you find a training program or a job. 
+If you’re leaving active service soon, you may be able to get free educational and career counseling, also called Chapter 36, to help you find a training program or job. 
 </div>
 
 <div class="feature" markdown="1">
 
-### If I'm a Veteran, can I get Chapter 31 VR&amp;E benefits and services?
+### Can I get Chapter 31 VR&amp;E benefits and services?
 
 You may be eligible for VR&E benefits and services if you’re a Veteran, and you:
 
