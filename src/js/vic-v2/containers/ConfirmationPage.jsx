@@ -33,7 +33,10 @@ class ConfirmationPage extends React.Component {
       suffix = ''
     } = form.data.veteranFullName;
 
-    const { serviceBranch, verified } = form.data;
+    const { serviceBranch } = form.data;
+
+    // temporarily hide verified confirmation page design w/ temp card
+    const verified = false;
 
     const response = form.submission.response || {};
     const submittedAt = moment();
