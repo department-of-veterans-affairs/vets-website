@@ -39,7 +39,7 @@ export class AppealInfo extends React.Component {
   }
 
   render() {
-    const { params, appeal, appealsLoading, v2Availability, children } = this.props;
+    const { params, appeal, fullName, appealsLoading, appealsAvailability, children } = this.props;
     let appealContent;
 
     // Availability is determined by whether or not the API returned an appeals array
@@ -48,7 +48,7 @@ export class AppealInfo extends React.Component {
     // AVAILABLE status as well as whether or not the appeal exists.
     if (appealsLoading) {
       appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
-    } else if (v2Availability === AVAILABLE && appeal) {
+    } else if (appealsAvailability === AVAILABLE && appeal) {
       // Maybe could simplify this to just check if (appeal) instead
       const claimHeading = this.createHeading();
       appealContent = (
@@ -69,7 +69,7 @@ export class AppealInfo extends React.Component {
               <AppealsV2TabNav
                 appealId={params.id}/>
               <div className="va-tab-content va-appeals-content">
-                {React.Children.map(children, child => React.cloneElement(child, { appeal }))}
+                {React.Children.map(children, child => React.cloneElement(child, { appeal, fullName }))}
               </div>
             </div>
             <div className="medium-4 columns help-sidebar">
@@ -78,18 +78,18 @@ export class AppealInfo extends React.Component {
           </div>
         </div>
       );
-    } else if (v2Availability === AVAILABLE && !appeal) {
+    } else if (appealsAvailability === AVAILABLE && !appeal) {
       // Yes, we have your appeals. No, the one you requested isn't one of them.
       appealContent = <AppealNotFound/>;
-    } else if (v2Availability === USER_FORBIDDEN_ERROR) {
+    } else if (appealsAvailability === USER_FORBIDDEN_ERROR) {
       appealContent = <h1>We couldn’t find your records</h1>;
-    } else if (v2Availability === RECORD_NOT_FOUND_ERROR) {
+    } else if (appealsAvailability === RECORD_NOT_FOUND_ERROR) {
       appealContent = <h1>We couldn’t find your records</h1>;
-    } else if (v2Availability === VALIDATION_ERROR) {
+    } else if (appealsAvailability === VALIDATION_ERROR) {
       appealContent = systemDownMessage;
-    } else if (v2Availability === BACKEND_SERVICE_ERROR) {
+    } else if (appealsAvailability === BACKEND_SERVICE_ERROR) {
       appealContent = systemDownMessage;
-    } else if (v2Availability === FETCH_APPEALS_ERROR) {
+    } else if (appealsAvailability === FETCH_APPEALS_ERROR) {
       appealContent = systemDownMessage;
     } else {
       appealContent = systemDownMessage;
@@ -107,20 +107,21 @@ AppealInfo.propTypes = {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     attributes: PropTypes.object.isRequired,
-  })
+  }),
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state, ownProps) {
-  const { appealsLoading, v2Availability } = state.disability.status.appeals;
-  // appealsLoading is not initialized in Redux, it's added once fetch starts. We
-  // need it to be available immediately to know whether to show the loading spinner
-  const computedLoading = (typeof appealsLoading === 'undefined')
-    ? true
-    : appealsLoading;
+  const { appealsLoading, appealsAvailability } = state.disability.status.claimsV2;
   return {
     appeal: isolateAppeal(state, ownProps.params.id),
-    appealsLoading: computedLoading,
-    v2Availability,
+    appealsLoading,
+    appealsAvailability,
+    fullName: state.user.profile.userFullName
   };
 }
 

@@ -4,7 +4,7 @@ import 'isomorphic-fetch';
 import { logOut } from '../../../login/actions';
 
 import { removeFormApi, saveFormApi } from './api';
-import { sanitizeForm } from '../helpers';
+import { sanitizeForm } from '../../utils/helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';

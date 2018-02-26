@@ -93,7 +93,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages, chapter } = this.props;
+    const { form, pages, viewedPages, chapter, formContext } = this.props;
     const activePages = getActivePages(pages, form.data);
     const expandedPages = expandArrayPages(activePages, form.data);
 
@@ -164,6 +164,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                     uploadFile={this.props.uploadFile}
                     reviewMode={!editing}
+                    formContext={formContext}
                     editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
                       submitButton
@@ -177,6 +178,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       pageTitle={page.title}
                       arrayData={_.get(arrayField.path, form.data)}
                       formData={form.data}
+                      formContext={formContext}
                       pageConfig={page}
                       onBlur={this.props.onBlur}
                       schema={arrayField.schema}

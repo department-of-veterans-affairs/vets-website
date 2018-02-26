@@ -9,7 +9,7 @@ import formConfig from '../../../src/js/vic-v2/config/form.js';
 describe('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
-  it('should render', () => {
+  it('should render', (done) => {
     window.addEventListener = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -19,10 +19,13 @@ describe('VIC photo upload', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(3);
+    form.find('AsyncComponent').instance().componentPromise.then(() => {
+      form.update();
+      expect(form.find('input').length).to.equal(3);
+      done();
+    });
   });
 
-  // Disabled pending PR 7175 
   it('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -40,8 +43,7 @@ describe('VIC photo upload', () => {
   });
 
   // Sighted path
-  // Disabled pending PR 7175 
-  it('it should reject an invalid file type', () => {
+  it('it should reject an invalid file', (done) => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -56,10 +58,11 @@ describe('VIC photo upload', () => {
         uiSchema={uiSchema}/>
     );
 
-    // form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    // expect(onSubmit.called).to.be.false;
+    form.find('AsyncComponent').instance().componentPromise.then(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      done();
+    });
   });
 
   // it/ should accept a valid file and render the cropper
@@ -78,8 +81,5 @@ describe('VIC photo upload', () => {
   // it/ should submit with a valid photo
 
   // non-sighted path
-  // it/ should display an errorfor an invalid file
-  // it/ should accept valid file and render the preview
-  // it/ should not allow the user to edit their photo
   // it/ should submit with a valid photo
 });

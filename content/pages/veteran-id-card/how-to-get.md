@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Get a Veteran ID Card
-display_title: Veteran ID Card
+display_title: How to Get a Veteran ID Card
 collection: veteran-id-card
 order: 1
 ---
@@ -34,7 +34,7 @@ You’ll need to apply online.
 - A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be a .pdf or other photo file format, like a .jpeg or .png 
 - A digital color photo of yourself<br>
 <br>
-**The photo has to follow all the standards listed below. It must:**
+**The photo has to follow all the standards listed here. It must:**
   - Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
   - Be cropped from your shoulders up (much like a passport photo), **and**
   - Show you with your eyes open and a neutral expression, **and**
@@ -54,13 +54,17 @@ No. You can complete the application without signing in, but it’ll take us lon
 
 <a class="usa-button-primary va-button-primary" href="/veteran-id-card/apply">Apply for Your Veteran ID Card</a>
 
+### When will I hear back about my application?
+It depends. We process applications in the order we receive them. If your application for a Veteran ID Card went through and you haven’t heard back yet, please don’t apply again. 
+
 #### A note on verifying your identity	
 
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft. 
 
-We do this using ID.me—our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.
+If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me. If you don’t have an account on Vets.gov, you can create one using ID.me.
 
-If you already have a premium DS Logon account, you can sign in with your DS Logon information and we’ll connect your account to Vets.gov through ID.me. If you don’t have an account on Vets.gov, you can create one using ID.me.<br>
+ID.me is our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.<br>
+
 [Learn more about signing in to Vets.gov](/faq/).
 
 <br>
