@@ -19,7 +19,7 @@ relatedlinks:
 
 If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, also called Chapter 31. 
 
-If you’re leaving active service soon, you can get free educational and career counseling services, also called Chapter 36. Find out how to apply online for these (VR&amp;E) benefits. 
+If you’re leaving active service soon, you can get free educational and career counseling services, also called Chapter 36. Find out how to apply online for these VR&amp;E benefits. 
 
 </div>
 
@@ -45,6 +45,7 @@ If you’re leaving active service soon, you can get free educational and career
 - Disability rating, if you're applying for Chapter 31.  
 
 </div>
+</div>
 
 ### Ready to apply?
 
@@ -52,7 +53,7 @@ If you’re leaving active service soon, you can get free educational and career
   <a class="usa-button-primary va-button-primary" href="/employment/vocational-rehab-and-employment/TBD//">Apply for VR&E Benefits</a>
 </div>
 
-<br>
+
 
 <span id="servicemember-not-received-rating"></span>
 
@@ -70,7 +71,7 @@ You may be eligible for VR&amp;E benefits and services if you're:
 **Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
 
 </div>
-<div>
+</div>
 
 ### What happens after I apply?
 
