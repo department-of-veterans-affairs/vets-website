@@ -163,3 +163,7 @@ export function submit(form, formConfig) {
   });
 }
 
+export function hasSavedForm(savedForms, formID) {
+  return savedForms.some(({ form }) => form === formID);
+}
+

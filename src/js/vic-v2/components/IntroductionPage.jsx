@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
-
-// TODO: move to common utils and add scroll on sign in logic to all forms
-function hasSavedForm(savedForms, formID) {
-  return savedForms.some(({ form }) => form === formID);
-}
+import { hasSavedForm } from '../helpers';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
