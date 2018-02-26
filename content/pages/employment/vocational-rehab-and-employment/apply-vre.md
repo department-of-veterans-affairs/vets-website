@@ -42,7 +42,7 @@ If you’re leaving active service soon, you can get free educational and career
 
 - Social Security number
 - Military status and service history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)
-- Disability rating, if you're applying for Chapter 31.  
+- Disability rating, if you're applying for Vocational Rehabilitation.  
 
 </div>
 </div>
@@ -52,8 +52,7 @@ If you’re leaving active service soon, you can get free educational and career
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/employment/vocational-rehab-and-employment/TBD//">Apply for VR&E Benefits</a>
 </div>
-
-
+</div>
 
 <span id="servicemember-not-received-rating"></span>
 
@@ -75,12 +74,12 @@ You may be eligible for VR&amp;E benefits and services if you're:
 
 ### What happens after I apply?
 
-**For Vocational Rehabilitation (Chapter 31)** We'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're entitled to VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**For Vocational Rehabilitation** We'll schedule a meeting for you with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you're entitled to VR&amp;E benefits and services. You have an employment handicap if your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 After we make an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
 You can also meet with VRCs called VetSuccess on Campus (VSOC) Counselors at schools participating in the VetSuccess on Campus (VSOC) program. [Learn more about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
 
-**For Vocational Counseling (Chapter 36)** If you’re eligible for vocational counseling, we’ll invite you to meet with a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to map out a career path.
+**For Vocational Counseling** If you’re eligible for vocational counseling, we’ll invite you to meet with a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to map out a career path.
 
 <div markdown="0"><br></div>
