@@ -30,7 +30,7 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 You may be eligible for VR&E benefits and services if you’re a Veteran, and you:
 
-- Have received a discharge that is other than dishonorable, **and**
+- Didn't receive a dishonorable discharge, **and**
 - Have a service-connected disability rating of at least 10% from VA, **and**
 - [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
 
@@ -54,16 +54,15 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 **Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
 
 <br>
+
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits. **But there are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+
 </div>
-
-### Can I get still get these benefits if I have a less than honorable discharge?
-
-You may be able to get VR&E benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
-
-You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
-<br>
 
 ### Ready to apply?
 
