@@ -98,7 +98,7 @@ function isSmallScreen(width) {
 }
 
 function onReviewPage(pageTitle) {
-  return pageTitle === 'Review your photo';
+  return pageTitle === 'Photo review';
 }
 
 function isValidFileType(fileName, fileTypes) {
@@ -204,9 +204,7 @@ export default class PhotoField extends React.Component {
   }
 
   componentDidMount() {
-    if (!onReviewPage(this.props.formContext.pageTitle)) {
-      window.addEventListener('resize', this.detectWidth);
-    }
+    window.addEventListener('resize', this.detectWidth);
   }
 
   componentWillReceiveProps(nextProps) {
