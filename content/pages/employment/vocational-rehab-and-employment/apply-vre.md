@@ -53,10 +53,9 @@ If you’re leaving active service soon, you can get free educational and career
 <div id="react-applicationStatus" class="static-page-widget">
   <a class="usa-button-primary va-button-primary" href="/employment/vocational-rehab-and-employment/TBD//">Apply for VR&E Benefits</a>
 </div>
-</div>
 
 
-<div class="feature">
+<div class="feature" markdown=“1”> 
 
 ### What if I'm applying for Chapter 31, and I haven't yet received a service-connected disability rating?
 
