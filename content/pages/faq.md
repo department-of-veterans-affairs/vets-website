@@ -40,13 +40,13 @@ display_title: Frequently Asked Questions
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (our trusted technology partner)</li>
                         </ul>
-                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em> Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to prove your identity again on Vets.gov before using tools that require this higher level of security.</p> 
+                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em> Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov before using tools that require this higher level of security.</p> 
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
                 </ul>
-                <br/><br/>
+                <br/>
                 <h4>Verifying your identity on Vets.gov</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -54,7 +54,7 @@ display_title: Frequently Asked Questions
                     <div id="faq-verify-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <h4>Fastest way to verify your identity online</h4>
-                        <p>If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, you can use your existing account to sign in. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to prove your identity again on Vets.gov.</p>
+                        <p>If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, you can use your existing account to sign in. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                         <h4>How to verify your identity online if you don't have an existing premium account</h4>
                         <p>If you don’t have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
@@ -121,7 +121,7 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                 </ul>
-                <br/><br/>
+                <br/>
                 <h4>Common issues with verifying identity</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
@@ -219,7 +219,7 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                 </ul>
-                <br/><br/>
+                <br/>
                 <a name="why-verify"></a>
                 <a name="what-is-idme"></a>
                 <h4>Privacy and security on Vets.gov</h4>
@@ -244,7 +244,7 @@ display_title: Frequently Asked Questions
                       </div>
                     </div>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-2" itemprop="name">What’s ID.me, and why should I trust this service? </button>
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-2" itemprop="name">What’s ID.me, and why should I trust them? </button>
                     <div id="faq-security-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>ID.me is a digital identity platform that helps people like you easily prove your identity so you can access advanced online services—while keeping your personal information safe.</p>
@@ -271,7 +271,7 @@ display_title: Frequently Asked Questions
                       <div itemprop="text">
                         <p>This code is part of the 2-factor authentication process.</p>
                         <p>When you set up a verified Vets.gov account through ID.me, you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>                        
-                        <p>If you sign in to Vets.gov using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.<p>          
+                        <p>If you sign in to Vets.gov using your existing basic or advanced <strong>My Health <em>e</em>Vet</strong> or basic <strong>DS Logon</strong> account and don't want to verify your identity, or if you sign up using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.<p>          
                       </div>
                     </div>
                   </li>
