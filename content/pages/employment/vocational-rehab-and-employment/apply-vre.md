@@ -15,13 +15,13 @@ relatedlinks:
       description: If you're the dependent family member of a Servicemember or Veteran with a service-connected disability, find out if you may be eligible for certain counseling services, training, and education benefits.
 ---
 
-<div class="va-introtext">
+<div itemscope itemtype ="http://schema.org/HowTo">
+<div itemprop="description" class="va-introtext">
 
 If you're a Servicemember or Veteran who’s overcoming challenges related to service-connected disabilities and an employment handicap, you can apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, also called Chapter 31. 
 
 If you’re leaving active service soon, you can get free educational and career counseling services, also called Chapter 36. Find out how to apply online for these VR&amp;E benefits. 
 
-</div>
 </div>
 
 
