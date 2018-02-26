@@ -65,16 +65,14 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <div markdown="0"><br></div>
 
-### Can I still get these benefits if I have a less than honorable discharge?
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
-You may be able to get disability compensation through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
+If you've received one of these discharge statuses, you may not be eligible for VA benefits. **But there are 2 ways you can try to qualify:**
 
-You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
-
-**Note:** If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health care benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at (1-800-827-1000), Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
-
+**Note:** If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health problems linked to your service, you may qualify for VA health care benefits even without a VA Character of Discharge review or a discharge upgrade. Call our general VA hotline at <a href="tel:1-800-827-1000">phone number</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
 <div itemscope itemtype="http://schema.org/Question">
 
