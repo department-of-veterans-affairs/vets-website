@@ -84,7 +84,7 @@ Learn about the application process and how to apply for Chapter 31 if you're a 
 
 ### What kind of VR&E services can I get?
 
-Depending on your needs and goals, Chapter 31 services may include:
+**Depending on your needs and goals, Chapter 31 services may include:**
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
@@ -95,7 +95,7 @@ Depending on your needs and goals, Chapter 31 services may include:
 - Supportive rehabilitation services including case management, counseling, and medical referrals
 - Independent living services if you're unable to work due to the severity of your disabilities
 
-Depending on your educational and career goals, Chapter 36 services may include:
+**Depending on your educational and career goals, Chapter 36 services may include:**
 
 - Counseling to help you decide which civilian or military jobs you want
 -	Educational and career counseling to help you find a training program or job
