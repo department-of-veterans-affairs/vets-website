@@ -85,15 +85,14 @@ If you have a service-connected disability that limits your ability to work or p
 </div><div markdown="0"><br></div>
 
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
-<h3 itemprop="name"> Can I still get these benefits if I have a less than honorable discharge?</h3>
+<h3 itemprop="name"> What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get VA education benefits through our Character of Discharge review process. When you apply, we'll review your record to determine if your service was “honorable for VA purposes.”
+If you've received one of these discharge statuses, you may not be eligible for VA benefits. **But there are 2 ways you can try to qualify:**
 
-You can also apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you’ll be eligible for the VA benefits you earned during your period of service.<br>
-
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 </div>
 </div>
 </div><div markdown="0"><br></div>
