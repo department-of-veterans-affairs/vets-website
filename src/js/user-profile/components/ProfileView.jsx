@@ -57,30 +57,35 @@ class ProfileView extends React.Component {
           return (<EditAddressModal
             title="Edit mailing address"
             address={mailingAddress}
+            onSubmit={this.props.updateActions.updateMailingAddress}
             onClose={onClose}/>);
 
         case 'residentialAddress':
           return (<EditAddressModal
             title="Edit residential address"
             address={residentialAddress}
+            onSubmit={this.props.updateActions.updateResidentialAddress}
             onClose={onClose}/>);
 
         case 'primaryPhone':
           return (<EditPhoneModal
             title="Edit primary phone"
-            value={primaryPhone.value}
+            phone={primaryPhone}
+            onSubmit={this.props.updateActions.updatePrimaryPhone}
             onClose={onClose}/>);
 
         case 'altPhone':
           return (<EditPhoneModal
             title="Edit alternate phone"
-            value={alternatePhone.value}
+            phone={alternatePhone}
+            onSubmit={this.props.updateActions.updateAlternatePhone}
             onClose={onClose}/>);
 
         case 'email':
           return (<EditEmailModal
             title="Edit email"
             value={email}
+            onSubmit={this.props.updateActions.updateEmailAddress}
             onClose={onClose}/>);
 
         default:

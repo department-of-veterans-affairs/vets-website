@@ -1,8 +1,18 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../login/actions';
-import { fetchExtendedProfile, removeSavedForm } from '../actions';
+import {
+  fetchExtendedProfile,
+  removeSavedForm,
+  updateEmailAddress,
+  updatePrimaryPhone,
+  updateAlternatePhone,
+  updateResidentialAddress,
+  updateMailingAddress
+} from '../actions';
+
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import ProfileView from '../components/ProfileView';
@@ -27,7 +37,10 @@ class UserProfileApp extends React.Component {
             <div className="row user-profile-row">
               <div className="usa-width-two-thirds medium-8 small-12 columns">
                 <h1>Your Profile</h1>
-                <ProfileView profile={this.props.profile} fetchExtendedProfile={this.props.fetchExtendedProfile}/>
+                <ProfileView
+                  profile={this.props.profile}
+                  updateActions={this.props.updateActions}
+                  fetchExtendedProfile={this.props.fetchExtendedProfile}/>
               </div>
             </div>
           </DowntimeNotification>
@@ -47,10 +60,22 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  removeSavedForm,
-  updateVerifyUrl,
-  fetchExtendedProfile
+const mapDispatchToProps = (dispatch) => {
+  const actions = bindActionCreators({
+    removeSavedForm,
+    updateVerifyUrl,
+    fetchExtendedProfile
+  }, dispatch);
+
+  actions.updateActions = bindActionCreators({
+    updateEmailAddress,
+    updatePrimaryPhone,
+    updateAlternatePhone,
+    updateResidentialAddress,
+    updateMailingAddress
+  }, dispatch);
+
+  return actions;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
