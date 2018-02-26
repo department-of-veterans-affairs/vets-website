@@ -76,7 +76,7 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-1" itemprop="name">Can I verify my identity in person? </button>
                     <div id="faq-verify-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>Yes. You can verify your identity in person at your nearest VA gegional office. If you're a VA patient, you can also verify your identity in person at your local VA health care facility.</p>
+                        <p>Yes. You can verify your identity in person at your nearest VA regional office. If you're a VA patient, you can also verify your identity in person at your local VA health care facility.</p>
                         <h4>Verifying your identity in person at a VA regional office</h4>
                         <p>You can verify your identity at your nearest VA Regional Office as part of the process of getting a premium <strong>DS Logon</strong> account. You can then use this account to sign in to Vets.gov without having to verify your identity online.</p>
                         <p>You'll need to:</strong></p>
