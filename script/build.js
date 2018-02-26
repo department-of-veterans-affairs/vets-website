@@ -612,7 +612,6 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
         '/disability-benefits/apply-for-increase',
-        '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility',
         '/letters'].join('|'))
   }));
 }
