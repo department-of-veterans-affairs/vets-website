@@ -22,6 +22,7 @@ If you're a Servicemember or Veteran who’s overcoming challenges related to se
 If you’re leaving active service soon, you can get free educational and career counseling services, also called Chapter 36. Find out how to apply online for these VR&amp;E benefits. 
 
 </div>
+</div>
 
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
