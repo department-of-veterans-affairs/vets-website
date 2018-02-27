@@ -117,17 +117,19 @@ You can find an accredited representative or a VSO in 1 of 2 ways:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can set up an accredited representative or a VSO to work on your behalf in 1 of 3 ways:
+You can set up an accredited representative or a VSO to work on your behalf in 1 of 3 ways. <br>
 
-- Use eBenefits to let us know you’ll be working with a representative or to change your current representation.<br>
-[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/representative), **or** 
-- To have a VSO help you, fill out the Appointment of Veterans Service Organization as Claimant’s Representative form (VA Form 21-22) <br>
-[Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf), **or**
-- To have a claims agent or attorney help you, fill out the Appointment of Individual as Claimant's Representative form (VA Form 21-22a) <br>
-[Download VA Form 21-22a](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf)
+**Choose one of these ways:**
+
+- Use eBenefits to let us know you’ll be working with a representative or to change your current representation. <br> 
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/representative).
+- To have a VSO help you, fill out an Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <br>
+[Download VA Form 21-22](https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf).
+- To have a claims agent or attorney help you, fill out an Appointment of Individual as Claimant's Representative form (VA Form 21-22a). <br>
+[Download VA Form 21-22a](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf).
 
 
-If you filled out one of the above forms instead of going through eBenefits, you can mail it to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
+You'll need to mail either of the above forms to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
 [Find a VA regional office near you](/facilities/).
 
 </div>
