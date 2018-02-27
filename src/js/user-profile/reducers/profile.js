@@ -91,7 +91,7 @@ function profileInformation(state = initialState, action) {
         ...state.mhv.account,
         errors: null,
         loading: true
-      });
+      }, state);
 
     case FETCH_MHV_ACCOUNT_FAILURE:
     case CREATE_MHV_ACCOUNT_FAILURE:
