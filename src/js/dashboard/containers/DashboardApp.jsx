@@ -34,7 +34,7 @@ moment.updateLocale('en', {
   ]
 });
 
-class UserProfileApp extends React.Component {
+class DashboardApp extends React.Component {
   componentDidMount() {
     if (!this.props.verifyUrl) {
       getVerifyUrl(this.props.updateVerifyUrl);
@@ -68,7 +68,7 @@ class UserProfileApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
+          <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
             {view}
           </DowntimeNotification>
         </RequiredLoginView>
@@ -92,5 +92,5 @@ const mapDispatchToProps = {
   updateVerifyUrl
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
-export { UserProfileApp };
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardApp);
+export { DashboardApp };

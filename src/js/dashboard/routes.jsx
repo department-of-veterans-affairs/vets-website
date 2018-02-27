@@ -1,9 +1,8 @@
-import UserProfileApp from './containers/UserProfileApp';
+import DashboardApp from './containers/DashboardApp';
 
 const routes = {
   path: '/dashboard',
-  component: UserProfileApp
+  component: DashboardApp
 };
 
 export default routes;
-
