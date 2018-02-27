@@ -39,16 +39,44 @@ describe('Profile reducer', () => {
     expect(state.mhv.account.state).to.eq('upgraded');
   });
 
-  it('should start polling after MHV account creation', () => {
+  it('should poll after MHV account creation if not yet upgraded', () => {
     const state = reducer({
       mhv: {
         account: {
           state: 'unknown'
         }
       }
-    }, { type: CREATE_MHV_ACCOUNT_SUCCESS });
+    }, {
+      type: CREATE_MHV_ACCOUNT_SUCCESS,
+      data: {
+        attributes: {
+          accountState: 'unknown'
+        }
+      }
+    });
     expect(state.mhv.account.polling).to.be.true;
     expect(state.mhv.account.polledTimes).to.eq(0);
+    expect(state.mhv.account.state).to.eq('unknown');
+  });
+
+  it('should not poll after MHV account creation if upgraded', () => {
+    const state = reducer({
+      mhv: {
+        account: {
+          state: 'unknown'
+        }
+      }
+    }, {
+      type: CREATE_MHV_ACCOUNT_SUCCESS,
+      data: {
+        attributes: {
+          accountState: 'upgraded'
+        }
+      }
+    });
+    expect(state.mhv.account.polling).to.be.false;
+    expect(state.mhv.account.polledTimes).to.eq(0);
+    expect(state.mhv.account.state).to.eq('upgraded');
   });
 
   it('should continue polling for MHV account state', () => {
