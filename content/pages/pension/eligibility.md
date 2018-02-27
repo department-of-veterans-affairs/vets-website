@@ -34,11 +34,15 @@ You may be able to get pension benefits if you didn't receive a dishonorable dis
 - You’re a patient in a nursing home for long-term care because of a disability, **or**
 - You’re getting Social Security Disability Insurance or Supplemental Security Income
 
+<br>
+
 #### Who’s covered?
 
 Veterans.
 
 If you’re a surviving spouse or a child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
+
+<br>
 
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
