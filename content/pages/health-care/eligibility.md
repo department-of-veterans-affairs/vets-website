@@ -115,21 +115,109 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
+We want to make sure we can deliver full health care benefits and the highest quality care to all Veterans enrolled in the VA health care program. To help do this effectively, we enroll Veterans based on a priority system. 
 
-Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care.<br/>
+When you apply for VA health care, you’ll be assigned to 1 of the 8 priority groups below, with 1 being the highest priority group. The higher your priority group, the faster you'll be enrolled. 
+
+You'll be assigned based on factors like your military service history, disability rating, income level, and any other benefits you may be receiving. If you qualify for more than one priority group, we'll assign you to highest one. If you're assigned to Priority Group 7 or 8, you'll need to agree to pay copays to receive VA health care benefits.
+
+<h5>Priority Group 1</h5>
+
+**You may be assigned to Priority Group 1 if either of these are true for you:**
+
+- You have a service-connected disability that we've rated 50% or more disabling, **or**
+- We've concluded that you can't work because of a service-connected disability (called unemployable)
+
+<h5>Priority Group 2</h5>
+
+You may be assigned to Priority Group 2 if you have a service-connected disability that we've rated at 30% or 40$ disabling.
+
+<h5>Priority Group 3</h5>
+
+**You may be assigned to Priority Group 3 if any of these are true for you:**
+
+- You're a former Prisoner of War (POW), **or**
+- You've been awarded a Purple Heart medal or the Medal of Honor, **or**
+- You were discharged for a disability that was caused by—or got worse because of—your active-duty service, **or**
+- You have a service-connected disability that we've rated at 10% or 20% disabling, **or**
+- You were awarded special eligibility classication under Title 38, U.S.C § 1151, "benefits for individuals disabled by treatment or vocational rehabilitation," **or**
+
+<h5>Priority Group 4</h5>
+
+**You may be assigned to Priority Group 4 if either of these are true for you:**
+
+- You're receiving VA aid and attendance or housebound benefits, **or**
+- We've determined that you're catastrophically disabled
+
+<h5>Priority Group 5</h5>
+
+**You may be assigned to Priority Group 5 if any of these are true for you:**
+
+- You don't have a service-connected disability, or you have a service-connected disability that we've rated at 0% disabling and that you don't get paid disability compensation for, and you have an annual income level that's below our adjusted income limits (based on your resident zip code), **or**
+- You're receiving VA pension benefits, **or**
+- You're eligible for Medicaid programs
+
+<h5>Priority Group 6</h5>
+
+**You may be assigned to Priority Group 6 if any of these are true for you:**
+
+- You have a service-connected disability that we've rated at 0% disabling and that you're receiving disability compensation (monthly payments) for, **or**
+- You were exposed to ionizing radiation during atmospheric testing or during the occupation of Hirshima and Nagasaki, **or**
+- You participated in Project 112/SHAD, **or**
+- You served in the Republic of Vietname between January 9, 1962 and May 7, 1975, **or**
+- You served in the Persian Gulf War between August 2, 1990 and November 11, 1998, **or**
+- You served on active duty at Camp Lejeune for at least 30 days between August 1, 1953 and December 31, 1987, **or**
+
+**Note:** If you're currently enrolled or newly enrolled in the VA health care program, and you served in a theater of combat operations after November 11, 1998 or were discharged from active duty on or after JanuarY 28, 2003, you're eligible for enhanced benefits for 5 years after discharge.
+
+<Priority Group 7</h5>
+
+**You may be assigned to Priority Group 7 if both of this are true for you:**
+- Your gross household income is below the geographically-adjusted income limits (GMT) for where you live, **and**
+- You agree to pay copays
+
 [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
 
-Your priority group will be based on:
 
-- Your military service history, **and**
-- Your disability rating, **and**
-- Your income level, **and**
-- Whether or not you qualify for Medicaid, **and**
-- Other benefits you may be receiving (like pension benefits)
+<h5>Priority Group 8</h5>
 
-We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).<br/>
-[View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp).
+**You may be assigned to Priority Group 8 if both of these are true for you:**
+
+- Your gross household income is above VA and geographically-adjusted income limits for where you live, **and**
+- You agree to pay copays
+
+If you're assigned to Priority Group 8, your eligibility for VA health care benefits will depend on which subpriority group we place you in.
+
+**You may be eligible for VA health care benefits if we place you in one of these sub priority groups:**
+
+**Sub priority a:**
+- You have a service-connected condition rated 0% disabling that you don't receive disability compensation for, **and**
+- You were enrolled in the VA health care program as of January 16, 2003, **and**
+- You've remained enrolled since that date and/or were placed in this sub priority group because your eligibility status changed
+
+**Sub priority group b:**
+- You have a service-connected condition rated 0% disabling that you don't receive disability compensation for, **and**
+- You were enrolled in the VA health care program on or after June 15, 2009 and your income exceeds current VA or geographic limits by 10% or less
+
+**Sub priority group c:**
+- You don't have a service-connected condition, **and**
+- You were enrolled in the VA health care program as of January 16, 2003, **and**
+- You've remained enrolled since that date and/or were placed in this sub priority group because your eligibility status changed
+
+**Sub priority group d:**
+- You don't have a service-connected condition, **and**
+- You have a service-connected condition rated 0% disabling that you don't receive disability compensation for, **and**
+- You were enrolled in the VA health care program on or after June 15, 2009 and your income exceeds current VA or geographic limits by 10% or less
+
+[Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
+
+**You're not eligible for VA health care benefits if we place you in one of these sub priority groups:**
+
+**Sub priority group e:**
+You have a service-connected condition rated 0% disabling that you don't receive disability compensation for, but you don't meet the criteria for sub priority group a or b above. You're eligible for care for your service-connected condition only.
+
+**Sub priority group g:**
+You don't have a service-connected condition and you don't meet the criteria for sub priority group c or d above.
 
 </div>
 </div>
