@@ -20,7 +20,7 @@ Servicemembers, Veterans, and family members may qualify for burial in a VA nati
 
 You may qualify for burial and memorial benefits if you're:
 
-- A Veteran who was discharged from the military under conditions other than dishonorable, **or**
+- A Veteran who didn't receive a dishonorable discharge, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
