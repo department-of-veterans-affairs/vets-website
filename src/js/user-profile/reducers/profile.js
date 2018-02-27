@@ -66,33 +66,38 @@ function profileInformation(state = initialState, action) {
     case SAVE_ALTERNATE_PHONE:
     case SAVE_RESIDENTIAL_ADDRESS:
     case SAVE_MAILING_ADDRESS: {
-      const pendingSaves = state.pendingSaves.concat({ type: action.type })
+      const pendingSaves = state.pendingSaves.concat(action.type)
       return { ...state, pendingSaves };
     }
 
     case SAVE_EMAIL_ADDRESS_SUCCESS: {
       const email = action.newValue;
-      return { ...state, email };
+      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_EMAIL_ADDRESS);
+      return { ...state, email, pendingSaves, modal: null };
     }
 
     case SAVE_PRIMARY_PHONE_SUCCESS: {
       const telephones = state.telephones.map(t => t.type === 'primary' ? action.newValue : t);
-      return { ...state, telephones };
+      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_PRIMARY_PHONE);
+      return { ...state, telephones, pendingSaves, modal: null };
     }
 
     case SAVE_ALTERNATE_PHONE_SUCCESS: {
       const telephones = state.telephones.map(t => t.type === 'alternate' ? action.newValue : t);
-      return { ...state, telephones };
+      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_ALTERNATE_PHONE);
+      return { ...state, telephones, pendingSaves, modal: null };
     }
 
     case SAVE_RESIDENTIAL_ADDRESS_SUCCESS: {
       const addresses = state.addresses.map(a => a.type === 'residential' ? action.newValue : a);
-      return { ...state, addresses };
+      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_RESIDENTIAL_ADDRESS);
+      return { ...state, addresses, pendingSaves, modal: null };
     }
 
     case SAVE_MAILING_ADDRESS_SUCCESS: {
       const addresses = state.addresses.map(a => a.type === 'mailing' ? action.newValue : a);
-      return { ...state, addresses };
+      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_MAILING_ADDRESS);
+      return { ...state, addresses, pendingSaves, modal: null };
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:
@@ -100,7 +105,7 @@ function profileInformation(state = initialState, action) {
     case SAVE_ALTERNATE_PHONE_FAIL:
     case SAVE_RESIDENTIAL_ADDRESS_FAIL:
     case SAVE_MAILING_ADDRESS_FAIL: {
-      const errors = state.errors.concat({ type: action.type, error: action.error })
+      const errors = state.errors.concat(action.type);
       return { ...state, errors };
     }
 

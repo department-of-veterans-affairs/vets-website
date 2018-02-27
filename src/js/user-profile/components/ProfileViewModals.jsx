@@ -4,6 +4,11 @@ import Address from '../../letters/components/Address';
 
 // Todo - switch to the common form components
 
+function LoadingButton({ isLoading, children }) {
+  let contents = isLoading ? <i className="fa fa-spinner fa-spin"/> : children;
+  return <button disabled={isLoading} className="usa-button">{contents}</button>;
+}
+
 class EditAddressModal extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +35,7 @@ class EditAddressModal extends React.Component {
         <h3>{this.props.title}</h3>
         <form onSubmit={this.onSubmit}>
           <Address address={this.state.address} onInput={this.onInput} errorMessages={{}} countries={['USA']}/>
-          <button type="submit" className="usa-button">Save Address</button>
+          <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
         </form>
       </Modal>
     );
@@ -61,7 +66,7 @@ class EditPhoneModal extends React.Component {
         <h3>{title}</h3>
         <form onSubmit={this.onSubmit}>
           <input type="text" onChange={this.onChange} value={this.state.value}/>
-          <button type="submit" className="usa-button">Save Phone</button>
+          <LoadingButton isLoading={this.props.isLoading}>Save Phone</LoadingButton>
         </form>
       </Modal>
     );
@@ -91,7 +96,7 @@ class EditEmailModal extends React.Component {
         <h3>{title}</h3>
         <form onSubmit={this.onSubmit}>
           <input type="email" onChange={this.onChange} value={this.state.value}/>
-          <button type="submit" className="usa-button">Save Email</button>
+          <LoadingButton isLoading={this.props.isLoading}>Save Email</LoadingButton>
         </form>
       </Modal>
     );

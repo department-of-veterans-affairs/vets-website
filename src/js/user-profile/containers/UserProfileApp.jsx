@@ -40,8 +40,12 @@ class UserProfileApp extends React.Component {
                 <h1>Your Profile</h1>
                 <ProfileView
                   profile={this.props.profile}
-                  openModal={this.props.openModal}
-                  modal={this.props.profile.modal}
+                  modal={{
+                    open: this.props.openModal,
+                    currentlyOpen: this.props.profile.modal,
+                    pendingSaves: this.props.profile.pendingSaves,
+                    errors: this.props.profile.errors
+                  }}
                   updateActions={this.props.updateActions}
                   fetchExtendedProfile={this.props.fetchExtendedProfile}/>
               </div>

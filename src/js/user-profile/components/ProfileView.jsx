@@ -1,5 +1,18 @@
-import moment from '../../common/utils/moment-setup';
 import React from 'react';
+import moment from '../../common/utils/moment-setup';
+import {
+  SAVE_MAILING_ADDRESS_FAIL,
+  SAVE_MAILING_ADDRESS,
+  SAVE_RESIDENTIAL_ADDRESS_FAIL,
+  SAVE_RESIDENTIAL_ADDRESS,
+  SAVE_PRIMARY_PHONE_FAIL,
+  SAVE_PRIMARY_PHONE,
+  SAVE_ALTERNATE_PHONE_FAIL,
+  SAVE_ALTERNATE_PHONE,
+  SAVE_EMAIL_ADDRESS_FAIL,
+  SAVE_EMAIL_ADDRESS,
+} from '../actions';
+
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { EditAddressModal, EditPhoneModal, EditEmailModal } from './ProfileViewModals';
 
@@ -22,13 +35,13 @@ class ProfileView extends React.Component {
   }
 
   componentDidUpdate(newProps) {
-    if (newProps.email != this.props.email) {
+    if (newProps.profile.email !== this.props.profile.email) {
       this.closeModal();
     }
   }
 
   openModalHandler(modalName) {
-    return () => this.props.openModal(modalName);
+    return () => this.props.modal.open(modalName);
   }
 
   closeModal = () => {
@@ -51,6 +64,7 @@ class ProfileView extends React.Component {
       toursOfDuty: toursOfDutyUnsorted
     } = this.props.profile;
 
+    const { currentlyOpen: currentlyOpenModal, pendingSaves, errors } = this.props.modal;
     const residentialAddress = addresses.find(a => a.type === 'residential');
     const mailingAddress = addresses.find(a => a.type === 'mailing');
     const primaryPhone = telephones.find(t => t.type === 'primary');
@@ -61,12 +75,13 @@ class ProfileView extends React.Component {
     const latestTour = toursOfDuty[0];
 
     const modal = (() => {
-      switch (this.props.modal) {
+      switch (currentlyOpenModal) {
         case 'mailingAddress':
           return (<EditAddressModal
             title="Edit mailing address"
             address={mailingAddress}
             onSubmit={this.props.updateActions.updateMailingAddress}
+            isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
             onClose={this.closeModal}/>);
 
         case 'residentialAddress':
@@ -74,6 +89,7 @@ class ProfileView extends React.Component {
             title="Edit residential address"
             address={residentialAddress}
             onSubmit={this.props.updateActions.updateResidentialAddress}
+            isLoading={pendingSaves.includes(SAVE_RESIDENTIAL_ADDRESS)}
             onClose={this.closeModal}/>);
 
         case 'primaryPhone':
@@ -81,6 +97,7 @@ class ProfileView extends React.Component {
             title="Edit primary phone"
             phone={primaryPhone}
             onSubmit={this.props.updateActions.updatePrimaryPhone}
+            isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
             onClose={this.closeModal}/>);
 
         case 'altPhone':
@@ -88,6 +105,7 @@ class ProfileView extends React.Component {
             title="Edit alternate phone"
             phone={alternatePhone}
             onSubmit={this.props.updateActions.updateAlternatePhone}
+            isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
             onClose={this.closeModal}/>);
 
         case 'email':
@@ -95,6 +113,7 @@ class ProfileView extends React.Component {
             title="Edit email"
             value={email}
             onSubmit={this.props.updateActions.updateEmailAddress}
+            isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
             onClose={this.closeModal}/>);
 
         default:
