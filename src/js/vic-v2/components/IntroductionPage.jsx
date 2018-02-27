@@ -8,14 +8,11 @@ import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 
-const { animateScroll: scroll, Events } = Scroll;
+const { animateScroll: scroll } = Scroll;
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    Events.scrollEvent.register('end', () => {
-      focusElement('[id="2-continueButton"]', { preventScroll: true });
-    });
   }
 
   componentDidUpdate(prevProps) {
@@ -23,16 +20,13 @@ class IntroductionPage extends React.Component {
     const { formId } = this.props.saveInProgress;
     const notPreviouslyLoggedIn = !prevProps.saveInProgress.user.login.currentlyLoggedIn;
     if (notPreviouslyLoggedIn && hasSavedForm(savedForms, formId)) {
+      focusElement('[id="2-continueButton"]', { preventScroll: true });
       scroll.scrollToTop(window.VetsGov.scroll || {
         duration: 500,
         delay: 2,
         smooth: true,
       });
     }
-  }
-
-  componentWillUnmount = () => {
-    Events.scrollEvent.remove('end');
   }
 
   goForward = () => {

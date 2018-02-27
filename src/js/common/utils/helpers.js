@@ -126,8 +126,7 @@ export function focusElement(selectorOrElement, options) {
 
   if (el) {
     el.setAttribute('tabindex', '-1');
-    if (options) el.focus(options);
-    else el.focus();
+    el.focus(options);
   }
 }
 
