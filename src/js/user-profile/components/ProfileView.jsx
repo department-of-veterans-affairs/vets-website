@@ -56,6 +56,7 @@ class ProfileView extends React.Component {
     const {
       email,
       userFullName,
+      profilePicture,
       ssn,
       dob,
       gender,
@@ -127,7 +128,7 @@ class ProfileView extends React.Component {
         <div className="profile-hero" style={{ display: 'flex' }}>
           <div>
             <div>
-              <img alt="You" style={{ height: '8em' }} src="/img/photo-placeholder.png"/>
+              <img alt="You" style={{ height: '8em' }} src={profilePicture}/>
             </div>
           </div>
           <div style={{ marginLeft: 25 }}>
@@ -151,7 +152,7 @@ class ProfileView extends React.Component {
         {email}
         <h2>Personal Information</h2>
         <h3>Gender</h3>
-        {gender}
+        {gender === 'M' ? 'Male' : 'Female'}
         <h3>Birth date</h3>
         {moment(dob).format('LL')}
         <h3>Social security number</h3>

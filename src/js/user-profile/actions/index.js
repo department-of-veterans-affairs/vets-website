@@ -146,18 +146,18 @@ export const updateResidentialAddress = saveFieldHandler('/v0/address/residentia
 // The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
 function sendProfileRequests() {
   return [
-    apiRequest('/address'),
-    apiRequest('/in_progress_forms/1010ez')
+    apiRequest('/address').catch(err => console.log(err)),
+    apiRequest('/in_progress_forms/1010ez').catch(err => console.log(err))
   ];
 }
 
 function getExtendedProfile(profile, address, formPrefill) {
-  console.log(address);
-  console.log(formPrefill);
-
   return {
     ...profile,
     extended: true,
+
+    // S3
+    profilePicture: '/img/profile.png',
 
     // MVI
     email: profile.email,
@@ -180,22 +180,22 @@ function getExtendedProfile(profile, address, formPrefill) {
     addresses: [
       {
         type: 'residential',
-        addressOne: '1432 Bayfield Ct',
+        addressOne: '1000 Strawberry Lane',
         addressTwo: null,
         addressThree: null,
-        city: 'Florence',
-        stateCode: 'KY',
-        zipCode: '41042',
+        city: 'Miama',
+        stateCode: 'FL',
+        zipCode: '41229',
         countryName: 'USA'
       },
       {
         type: 'mailing',
-        addressOne: '1432 Bayfield Mailing Ct',
+        addressOne: '2000 Blueberry Drive',
         addressTwo: null,
         addressThree: null,
-        city: 'Florence',
-        stateCode: 'KY',
-        zipCode: '41042',
+        city: 'Miami',
+        stateCode: 'FL',
+        zipCode: '41229',
         countryName: 'USA'
       }
     ],
