@@ -62,7 +62,13 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get VA dental care for specific needs?
 
-It depends on a number of factors, like your military service history and your current health and living situation. Click on the statement or statements below that describe you best to find out what types of dental care you may qualify for.
+It depends on a number of factors, like your military service history and your current health and living situation. See the links below  for more information.
+
+</div>
+
+#### Dental care for specific needs
+
+Click on the statement or statements below that describe you best to find out what types of dental care you may qualify for.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -77,8 +83,8 @@ It depends on a number of factors, like your military service history and your c
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-noncompensable">I have a disability that’s the result of combat wounds or service trauma.</button>
-<div id="dental-care-noncompensable" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-combat">I have a disability that’s the result of combat wounds or service trauma.</button>
+<div id="dental-care-combat" class="usa-accordion-content">
 
 **You may qualify for:** Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth).
 
@@ -140,8 +146,6 @@ It depends on a number of factors, like your military service history and your c
 </div>
 </li>
 </ul>
-</div>
-
 </div>
 
 <br>
