@@ -49,7 +49,8 @@ You can get this care in many different settings—some run by VA and others run
 - Adult day health centers
 - Veterans’ own homes
 
-You can learn more about the different types of care below or on our va.gov website. [See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
+You can learn more about the different types of care below or on our va.gov website. <br>
+[See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
 
 </div>
 
@@ -57,7 +58,7 @@ You can learn more about the different types of care below or on our va.gov webs
 
 ### How do I access these services?
 
-You may be able to use one or more of these services if:
+You may be able to use one or more of these services if **all of the following are true for you**:
 
 - You’re signed up for VA health care, **and**
 - We conclude that you need a specific service to help with your ongoing treatment and personal care, **and**
@@ -67,13 +68,15 @@ We may also consider other factors, like your service-connected disability statu
 
 To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
+If you’re not currently in the VA health care program, you can apply for benefits now. <br>
+[Apply now](/health-care/apply/).
 
 <br>
 
 ### Does VA pay for these services?
 
-We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. [Apply for VA health care](/health-care/apply/).
+We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. <br>
+[Apply for VA health care](/health-care/apply/).
 
 Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.
 
@@ -83,9 +86,12 @@ Other services aren’t covered under VA health care benefits. For these service
 
 ### Where can I get more information and support?
 
-- Get help setting goals and priorities and making tough decisions about things like long-term care. [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
-- Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).
-- Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
+- Get help setting goals and priorities and making tough decisions about things like long-term care. <br>
+[Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
+- Find services and resources to help with geriatric (elder) and long-term care. <br>
+[Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).
+- Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. <br>
+[Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
 
 ------
 
@@ -105,7 +111,7 @@ Other services aren’t covered under VA health care benefits. For these service
 
 #### What are my options for nursing home care through VA?
 
-You can get nursing home care in 1 of the 3 different nursing home settings listed below. In each, you’d live there full time and have access to nursing and medical care as well as help with daily tasks 24 hours a day.
+You can get nursing home care in 1 of the 3 different nursing home settings listed below. In each, you’d live there full time and have access to nursing and medical care, as well as help with daily tasks 24 hours a day.
 
 You may be able to get VA benefits to help pay for nursing home care. It depends on your income and the level of your service-connected disability (a disability that resulted from your military service).
 
@@ -188,6 +194,7 @@ A VA care coordinator who keeps track of your health remotely using special equi
 
 #### What if I have a family caregiver, but they need support to help care for me at home?
 
-You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. [Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
+You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. <br>
+[Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.
