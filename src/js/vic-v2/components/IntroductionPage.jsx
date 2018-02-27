@@ -5,19 +5,36 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../common/utils/helpers';
 import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
-import { hasSavedForm } from '../helpers';
+import { hasSavedForm, scrollToElement, handleScrollEnd } from '../helpers';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
+    this.timer = null;
     focusElement('.va-nav-breadcrumbs-list');
+    window.addEventListener('scroll', this.onScroll);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { savedForms } = this.props.saveInProgress.user.profile;
     const { formId } = this.props.saveInProgress;
-    if (hasSavedForm(savedForms, formId)) {
-      focusElement('.va-nav-breadcrumbs-list');
+    const notPreviouslyLoggedIn = !prevProps.saveInProgress.user.login.currentlyLoggedIn;
+    if (notPreviouslyLoggedIn && hasSavedForm(savedForms, formId)) {
+      this.scrollingToTop = true;
+      scrollToElement('.va-nav-breadcrumbs-list');
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  onScroll = () => {
+    handleScrollEnd(this.timer, () => {
+      if (this && this.scrollingToTop) {
+        focusElement('[id="2-continueButton"]');
+        this.scrollingToTop = false;
+      }
+    }, this.scrollingToTop);
   }
 
   goForward = () => {
@@ -174,4 +191,3 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 
 export { IntroductionPage };
-

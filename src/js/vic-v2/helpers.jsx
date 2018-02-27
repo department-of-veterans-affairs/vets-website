@@ -78,7 +78,7 @@ function pollStatus(guid, onDone, onError) {
         } else if (res.data.attributes.state === 'success') {
           onDone(res.data.attributes.response);
         } else {
-          // needs to start with this string to get the right message on the form
+        // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_vic: status ${res.data.attributes.state}`);
         }
       })
@@ -165,5 +165,27 @@ export function submit(form, formConfig) {
 
 export function hasSavedForm(savedForms, formID) {
   return savedForms.some(({ form }) => form === formID);
+}
+
+export function scrollToElement(selectorOrElement) {
+  const el = typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
+  if (el) {
+    const elPos = el ? el.getBoundingClientRect().top + window.pageYOffset : 0;
+    window.scroll({ top: elPos, left: 0, behavior: 'smooth' });
+  }
+}
+
+export function handleScrollEnd(timer, callback, test) {
+  if (callback && test) {
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => { // eslint-disable-line no-param-reassign
+      test = false; // eslint-disable-line no-param-reassign
+      callback();
+    }, 1000);
+  }
 }
 
