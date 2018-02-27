@@ -204,7 +204,7 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 
 ### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
-You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
+You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if **one of the following is true for you**:
 
 - Are signed up for VA health care <br>
 ([apply now](/health-care/apply/)), **or**
