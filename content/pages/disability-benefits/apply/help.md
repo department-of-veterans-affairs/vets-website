@@ -127,7 +127,7 @@ You can set up an accredited representative or a VSO to work on your behalf in 1
 [Download VA Form 21-22a](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf)
 
 
-Mail this form to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
+If you filled out one of the above forms instead of going through eBenefits, you can mail it to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
 [Find a VA regional office near you](/facilities/).
 
 </div>
