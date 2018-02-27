@@ -8,6 +8,7 @@ import {
   SAVE_EMAIL_ADDRESS
 } from '../actions';
 
+import PhoneNumberWidget from '../../common/schemaform/review/PhoneNumberWidget';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { EditAddressModal, EditPhoneModal, EditEmailModal } from './ProfileViewModals';
 
@@ -140,9 +141,9 @@ class ProfileView extends React.Component {
         {residentialAddress.addressOne}<br/>
         {residentialAddress.city}, {residentialAddress.stateCode} {residentialAddress.zipCode}
         <HeadingWithEdit onEditClick={this.openModalHandler('primaryPhone')}>Primary Phone Number</HeadingWithEdit>
-        {primaryPhone.value}
+        <PhoneNumberWidget value={primaryPhone.value}/>
         <HeadingWithEdit onEditClick={this.openModalHandler('altPhone')}>Alternate Phone Number</HeadingWithEdit>
-        {alternatePhone.value}
+        <PhoneNumberWidget value={alternatePhone.value}/>
         <HeadingWithEdit onEditClick={this.openModalHandler('email')}>Email Address</HeadingWithEdit>
         {email}
         <h2>Personal Information</h2>
