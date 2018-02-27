@@ -48,7 +48,6 @@ You may be able to get disability benefits if you have a current illness or inju
 </div>
 </div>
 
-
 <div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Who’s covered?</h3>
@@ -61,8 +60,6 @@ You may be able to get disability benefits if you have a current illness or inju
 </div>
 </div>
 </div>
-</div>
-
 
 <div itemscope itemtype="http://schema.org/Question">
   
@@ -74,6 +71,10 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
 [Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+
+</div>
+</div>
+</div>
 
 <div markdown="0"><br></div>
 
