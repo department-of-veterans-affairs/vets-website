@@ -66,7 +66,7 @@ function profileInformation(state = initialState, action) {
     case SAVE_ALTERNATE_PHONE:
     case SAVE_RESIDENTIAL_ADDRESS:
     case SAVE_MAILING_ADDRESS: {
-      const pendingSaves = state.pendingSaves.concat(action.type)
+      const pendingSaves = state.pendingSaves.concat(action.type);
       return { ...state, pendingSaves };
     }
 
@@ -77,25 +77,25 @@ function profileInformation(state = initialState, action) {
     }
 
     case SAVE_PRIMARY_PHONE_SUCCESS: {
-      const telephones = state.telephones.map(t => t.type === 'primary' ? action.newValue : t);
+      const telephones = state.telephones.map(t => (t.type === 'primary' ? action.newValue : t));
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_PRIMARY_PHONE);
       return { ...state, telephones, pendingSaves, modal: null };
     }
 
     case SAVE_ALTERNATE_PHONE_SUCCESS: {
-      const telephones = state.telephones.map(t => t.type === 'alternate' ? action.newValue : t);
+      const telephones = state.telephones.map(t => (t.type === 'alternate' ? action.newValue : t));
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_ALTERNATE_PHONE);
       return { ...state, telephones, pendingSaves, modal: null };
     }
 
     case SAVE_RESIDENTIAL_ADDRESS_SUCCESS: {
-      const addresses = state.addresses.map(a => a.type === 'residential' ? action.newValue : a);
+      const addresses = state.addresses.map(a => (a.type === 'residential' ? action.newValue : a));
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_RESIDENTIAL_ADDRESS);
       return { ...state, addresses, pendingSaves, modal: null };
     }
 
     case SAVE_MAILING_ADDRESS_SUCCESS: {
-      const addresses = state.addresses.map(a => a.type === 'mailing' ? action.newValue : a);
+      const addresses = state.addresses.map(a => (a.type === 'mailing' ? action.newValue : a));
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_MAILING_ADDRESS);
       return { ...state, addresses, pendingSaves, modal: null };
     }

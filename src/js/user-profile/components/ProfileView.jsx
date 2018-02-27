@@ -1,16 +1,11 @@
 import React from 'react';
 import moment from '../../common/utils/moment-setup';
 import {
-  SAVE_MAILING_ADDRESS_FAIL,
   SAVE_MAILING_ADDRESS,
-  SAVE_RESIDENTIAL_ADDRESS_FAIL,
   SAVE_RESIDENTIAL_ADDRESS,
-  SAVE_PRIMARY_PHONE_FAIL,
   SAVE_PRIMARY_PHONE,
-  SAVE_ALTERNATE_PHONE_FAIL,
   SAVE_ALTERNATE_PHONE,
-  SAVE_EMAIL_ADDRESS_FAIL,
-  SAVE_EMAIL_ADDRESS,
+  SAVE_EMAIL_ADDRESS
 } from '../actions';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -65,7 +60,7 @@ class ProfileView extends React.Component {
       toursOfDuty: toursOfDutyUnsorted
     } = this.props.profile;
 
-    const { currentlyOpen: currentlyOpenModal, pendingSaves, errors } = this.props.modal;
+    const { currentlyOpen: currentlyOpenModal, pendingSaves } = this.props.modal;
     const residentialAddress = addresses.find(a => a.type === 'residential');
     const mailingAddress = addresses.find(a => a.type === 'mailing');
     const primaryPhone = telephones.find(t => t.type === 'primary');

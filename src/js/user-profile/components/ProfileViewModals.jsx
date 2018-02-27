@@ -5,7 +5,7 @@ import Address from '../../letters/components/Address';
 // Todo - switch to the common form components
 
 function LoadingButton({ isLoading, children }) {
-  let contents = isLoading ? <i className="fa fa-spinner fa-spin"/> : children;
+  const contents = isLoading ? <i className="fa fa-spinner fa-spin"/> : children;
   return <button disabled={isLoading} className="usa-button">{contents}</button>;
 }
 
@@ -60,7 +60,7 @@ class EditPhoneModal extends React.Component {
   }
 
   render() {
-    const { title, phone, onClose } = this.props;
+    const { title, onClose } = this.props;
     return (
       <Modal id="profile-phone-modal" onClose={onClose} visible>
         <h3>{title}</h3>
@@ -90,7 +90,7 @@ class EditEmailModal extends React.Component {
   }
 
   render() {
-    const { title, value, onClose } = this.props;
+    const { title, onClose } = this.props;
     return (
       <Modal id="profile-email-modal" onClose={onClose} visible>
         <h3>{title}</h3>

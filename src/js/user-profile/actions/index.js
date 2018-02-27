@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { removeFormApi } from '../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
@@ -123,35 +121,35 @@ export function removeSavedForm(formId) {
 }
 
 // @todo once the endpoints are built we can actually send an API request.
-function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction){
-  return (fieldValue) => {
-    return (dispatch, getState) => {
+function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction) {
+  return fieldValue => {
+    return dispatch => {
       dispatch({ type: requestStartAction });
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           resolve(dispatch({ type: requestSuccessAction, newValue: fieldValue }));
         }, 2000);
-      })
-    }
-  }
+      });
+    };
+  };
 }
 
-export const updateEmailAddress = saveFieldHandler('/v0/email', SAVE_EMAIL_ADDRESS, SAVE_EMAIL_ADDRESS_SUCCESS, SAVE_EMAIL_ADDRESS_FAIL)
-export const updatePrimaryPhone = saveFieldHandler('/v0/phone/primary', SAVE_PRIMARY_PHONE, SAVE_PRIMARY_PHONE_SUCCESS, SAVE_PRIMARY_PHONE_FAIL)
-export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE_ALTERNATE_PHONE, SAVE_ALTERNATE_PHONE_SUCCESS, SAVE_ALTERNATE_PHONE_FAIL)
-export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL)
-export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL)
+export const updateEmailAddress = saveFieldHandler('/v0/email', SAVE_EMAIL_ADDRESS, SAVE_EMAIL_ADDRESS_SUCCESS, SAVE_EMAIL_ADDRESS_FAIL);
+export const updatePrimaryPhone = saveFieldHandler('/v0/phone/primary', SAVE_PRIMARY_PHONE, SAVE_PRIMARY_PHONE_SUCCESS, SAVE_PRIMARY_PHONE_FAIL);
+export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE_ALTERNATE_PHONE, SAVE_ALTERNATE_PHONE_SUCCESS, SAVE_ALTERNATE_PHONE_FAIL);
+export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL);
+export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
 
 // The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
 function sendProfileRequests() {
   return [
-    apiRequest('/address').catch(err => console.log(err)),
-    apiRequest('/in_progress_forms/1010ez').catch(err => console.log(err))
+    apiRequest('/address').catch(() => {}),
+    apiRequest('/in_progress_forms/1010ez').catch(() => {})
   ];
 }
 
-function getExtendedProfile(profile, address, formPrefill) {
+function getExtendedProfile(profile) {
   return {
     ...profile,
     extended: true,
@@ -236,5 +234,5 @@ export function fetchExtendedProfile() {
 }
 
 export function openModal(modal) {
-  return { type: OPEN_MODAL, modal }
+  return { type: OPEN_MODAL, modal };
 }
