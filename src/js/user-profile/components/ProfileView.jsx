@@ -9,6 +9,7 @@ import {
 } from '../actions';
 
 import PhoneNumberWidget from '../../common/schemaform/review/PhoneNumberWidget';
+import SSNWidget from '../../common/schemaform/review/SSNWidget';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { EditAddressModal, EditPhoneModal, EditEmailModal } from './ProfileViewModals';
 
@@ -152,7 +153,7 @@ class ProfileView extends React.Component {
         <h3>Birth date</h3>
         {moment(dob).format('LL')}
         <h3>Social security number</h3>
-        {ssn}
+        <SSNWidget value={ssn}/>
         <h2>Military Service</h2>
         {toursOfDuty.map((tour, index) => {
           return (
