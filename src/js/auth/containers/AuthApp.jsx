@@ -1,20 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import appendQuery from 'append-query';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
-import { gaClientId } from '../../common/utils/helpers';
 import { updateLoggedInStatus } from '../../login/actions';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class AuthApp extends React.Component {
   constructor(props) {
     super(props);
     this.checkUserLevel = this.checkUserLevel.bind(this);
-    this.identityProof = this.identityProof.bind(this);
+    this.handleAuthSuccess = this.handleAuthSuccess.bind(this);
     this.setError = this.setError.bind(this);
-    this.setMyToken = this.setMyToken.bind(this);
+    this.setToken = this.setToken.bind(this);
 
     const { token } = props.location.query;
     this.state = { error: !token };
@@ -29,12 +27,13 @@ class AuthApp extends React.Component {
     if (!this.state.error) { this.checkUserLevel(); }
   }
 
-  setMyToken(token) {
+  setToken() {
     // Internet Explorer 6-11
     const isIE = /*@cc_on!@*/false || !!document.documentMode; // eslint-disable-line spaced-comment
     // Edge 20+
     const isEdge = !isIE && !!window.StyleMedia;
 
+    const { token } = this.props.location.query;
     const parent = window.opener;
     parent.sessionStorage.removeItem('userToken');
     parent.sessionStorage.setItem('userToken', token);
@@ -43,10 +42,7 @@ class AuthApp extends React.Component {
     parent.postMessage(token, environment.BASE_URL);
 
     // This will trigger a browser reload if the user is using IE or Edge.
-    if (isIE || isEdge) {
-      window.opener.location.reload();
-    }
-
+    if (isIE || isEdge) { window.opener.location.reload(); }
     window.close();
   }
 
@@ -55,34 +51,16 @@ class AuthApp extends React.Component {
   }
 
   checkUserLevel() {
-    apiRequest('/user', this.authSettings, this.identityProof, this.setError);
+    // Fetch the user to get the login policy and validate the token against the API.
+    apiRequest('/user', this.authSettings, this.handleAuthSuccess, this.setError);
   }
 
-  identityProof({ data }) {
-    const myToken = this.props.location.query.token;
+  handleAuthSuccess({ data }) {
+    // Upon successful authentication, push analytics event and store the token.
     const userData = data.attributes.profile;
-    const loginMethod = userData.authnContext || 'idme';
-    window.dataLayer.push({ event: `login-success-${loginMethod}` });
-
-    // If LOA highest is not 3, skip identity proofing
-    // If LOA current == highest (3), skip identity proofing
-    // If LOA current < highest, attempt to identity proof
-    if (userData.loa.highest === 3) {
-      if (userData.loa.current === 3) {
-        this.setMyToken(myToken);
-      } else {
-        const redirect = ({ identityProofUrl }) => {
-          window.location.href = appendQuery(
-            identityProofUrl,
-            { clientId: gaClientId() }
-          );
-        };
-
-        apiRequest('/sessions/identity_proof', this.authSettings, redirect, this.setError);
-      }
-    } else {
-      this.setMyToken(myToken);
-    }
+    const loginPolicy = userData.authnContext || 'idme';
+    window.dataLayer.push({ event: `login-success-${loginPolicy}` });
+    this.setToken();
   }
 
   render() {
@@ -113,10 +91,8 @@ class AuthApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    login: state.login,
-    profile: state.profile
-  };
+  const { login, profile } = state;
+  return { login, profile };
 };
 
 const mapDispatchToProps = (dispatch) => {
