@@ -79,7 +79,7 @@ class IntroductionPage extends React.Component {
               <div><h5>Sign In and Verify Your Identity</h5></div>
               <p>You have a choice for how you complete this application.</p>
               <h6>Choice 1: Sign in to Vets.gov and verify your identity</h6>
-              <p>Sign in to Vets.gov with either an existing DS Logon (the same one you use for eBenefits or MilConnect) or an ID.me account.</p>
+              <p>Sign in to Vets.gov with either your existing My Health<em>e</em>Vet or DS Logon account (the same one you use for eBenefits or MilConnect) or an ID.me account.</p>
               <p>If you don’t have an account on Vets.gov, you can create one using ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity verification system available.</p>
               <p>When you’re signed in, we can verify your identity to make sure you’re you. This also helps to keep your information safe, and prevent fraud and identity theft.</p>
               <p>Verifying your identity is a one-time process that’ll take about 5-10 minutes. Once you’ve gone through
@@ -88,7 +88,7 @@ the identity-proofing process, you won't need to do it again. To verify your ide
               <p>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</p>
               {accountBenefits}
               <h6>Choice 2: Apply without signing in</h6>
-              <p>You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a DS Logon or ID.me account.</p>
+              <p>You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a My Health<em>e</em>Vet, DS Logon, or ID.me account.</p>
             </li>}
             {signedIn && !idProofed && <li className="process-step list-two">
               <div><h5>Verify Your Identity</h5></div>
@@ -96,8 +96,7 @@ the identity-proofing process, you won't need to do it again. To verify your ide
 security measure to make sure only you can access your Veteran ID Card. To do this, you’ll need to
 use ID.me, our Veteran-owned, trusted technology partner that provides the strongest identity
 verification system available.</p>
-              <p>If you signed in using your DS Logon account, we’ll connect your account to Vets.gov through
-ID.me. To verify your identity through ID.me, you’ll need:</p>
+              <p>If you signed in using your My Health<em>e</em>Vet or DS Logon account, we’ll connect your account to Vets.gov through ID.me. To verify your identity through ID.me, you’ll need:</p>
               {idProofingReqs}
               <p>Verifying your identity is a one-time process that’ll take about 5-10 minutes. Once you’ve gone through the identity-proofing process, you won't need to do it again.</p>
               <p>In addition to providing extra security measures, when you’re signed in to your account, your application process can go more smoothly. Here’s why:</p>
