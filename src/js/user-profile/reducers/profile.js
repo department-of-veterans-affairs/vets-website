@@ -62,12 +62,14 @@ function profileInformation(state = initialState, action) {
 
     case ACCEPTING_LATEST_MHV_TERMS:
     case FETCHING_LATEST_MHV_TERMS:
-    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
       return set('mhv.terms', {
         ...state.mhv.terms,
         errors: null,
-        loading: false,
+        loading: true,
       }, state);
+
+    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS:
+      return set('mhv.terms.loading', false, state);
 
     case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
       return set('mhv.terms', {
