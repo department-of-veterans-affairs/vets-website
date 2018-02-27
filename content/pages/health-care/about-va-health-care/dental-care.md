@@ -48,7 +48,7 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get one-time dental care when I get out of the service?
 
-**You may be eligible for one-time dental care if you served on active duty for 90 days or longer during the Persion Gulf War era and all of these are true for you:**
+**You may be eligible for one-time dental care if you served on active duty for 90 days or longer during the Persian Gulf War era and all of these are true for you:**
 
 - You didn't receive a dishonorable discharge, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
