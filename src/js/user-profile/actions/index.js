@@ -131,7 +131,7 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(dispatch({ type: requestSuccessAction, newValue: fieldValue }));
-        }, 300);
+        }, 2000);
       })
     }
   }
