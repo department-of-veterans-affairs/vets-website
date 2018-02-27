@@ -33,7 +33,7 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get VA dental care benefits for all of my dental care needs?
 
-**You may be eligible for any needed dental care if you if any one of these is true:**
+**You may be eligible for any needed dental care if any one of these is true:**
 
 - You get VA disability compensation (monthly payments) for a service-connected disability, **or**
 - You're a former Prisoner of War, **or**
@@ -48,7 +48,7 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get one-time dental care when I get out of the service?
 
-**You may be eligible for one-time dental care if you served on active duty for 90 days or longer during the Persion Gulf War era and all of these are true for you:
+**You may be eligible for one-time dental care if you served on active duty for 90 days or longer during the Persion Gulf War era and all of these are true for you:**
 
 - You didn't receive a dishonorable discharge when you were discharged or released from service, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
@@ -62,24 +62,33 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get VA dental care for specific needs?
 
-It depends on a number of factors, like your military service history and your current health and living situation.
+It depends on a number of factors, like your military service history and your current health and living situation. Click on the statement or statements below that describe you best to find out what types of dental care you may qualify for.
 
-**If you:** Have a service-connected noncompensable dental condition (a dental condition that you’re not getting disability payments for) or a disability that’s the result of combat wounds or service trauma
-**You may qualify for:** Any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth)
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-noncompensable">I have a service-connected noncompensable dental condition (a dental condition that you’re not getting disability payments for) or a disability that’s the result of combat wounds or service trauma.</button>
+<div id="dental-care-noncompensable" class="usa-accordion-content">
 
-**You should know:** A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.
+You may qualify for any dental care needed to make sure you have and can keep a functioning dentition (a working set of teeth).
 
-<br>
+**Note:** A Dental Trauma Rating (VA Form 10-564-D) or VA Regional Office Rating Decision letter (VA Form 10-7131) will tell you the tooth/teeth/condition(s) that are trauma rated.
 
-**If you:** Have had a VA dental care provider conclude that your dental condition is linked to a service-connected health condition and is making that condition worse
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-sc-worse">A VA dental care provider has concluded that my dental condition is linked to a service-connected health condition and is making that condition worse.</button>
+<div id="dental-care-sc-worse" class="usa-accordion-content">
 
-**You may qualify for:** Dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse
+You may qualify for dental care to treat the oral conditions that a VA dental care provider concludes are directly making your service-connected health condition worse
 
-<br>
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-vre">I’m active in a 38 U.S.C. Chapter 31 vocational rehabilitation program.</button>
+<div id="dental-care-vre" class="usa-accordion-content">
 
-**If you:** Are active in a 38 U.S.C. Chapter 31 vocational rehabilitation program
-
-**You may qualify for: Dental care that a VA dental care provider concludes is needed to:
+**You may qualify for:** Dental care that a VA dental care provider concludes is needed to:
 
 - Make it possible for you to be in the vocational rehab program, **or**
 - Make it possible for you to reach the goals of your vocational rehab program, **or**
@@ -89,25 +98,39 @@ It depends on a number of factors, like your military service history and your c
 - Make it possible for you to get and adjust to a job during the period of employment assistance, **or**
 - Make it possible for you to be fully independent in your daily living
 
-<br>
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-treat">I get VA care or am scheduled for inpatient care for a health condition—and I need dental care for a dental issue that’s making my health condition harder to treat.</button>
+<div id="dental-care-treat" class="usa-accordion-content">
 
-**If you:** Get VA care or are scheduled for inpatient care for a health condition—and  need dental care for a dental issue that’s making your health condition harder to treat
+You may qualify for dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat.
 
-**You may qualify for:** Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-homeless">I’m signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039).
+</button>
+<div id="dental-care-homeless" class="usa-accordion-content">
 
-<br>
-
-**If you:** Are signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039).
-
-**You may qualify for:** A one-time course of dental care that a VA dental care provider concludes you need to:
+You may qualify for a 1-time course of dental care that a VA dental care provider concludes you need to:
 
 - Relieve pain, **or**
 - Get a job, **or**
 - Treat moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
 
-**If you:** Currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care)
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-inpatient">I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care).</button>
+<div id="dental-care-inpatient" class="usa-accordion-content">
 
-**You may qualify for:** Dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for
+You may qualify for dental services that a VA dental care provider—working with your primary care provider—concludes you need to manage a health condition a doctor is currently treating you for.
+
+</div>
+</li>
+</ul>
+</div>
 
 </div>
 
