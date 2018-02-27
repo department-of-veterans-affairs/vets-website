@@ -31,11 +31,11 @@ As a Veteran, you’re protected under the Uniformed Services Employment and Ree
 
 ### Can I get help returning to my former job through VR&amp;E?
 
-You may be eligible for help if you're a Veteran with a service-connected disability and you:
+You may be eligible for help if you're a Veteran with a service-connected disability and **all of the following are true for you**:
 
-- Have an employment barrier or handicap, **and**
-- Are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
-- Would like to return to your former job
+- You have an employment barrier or handicap, **and**
+- Your are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
+- You would like to return to your former job
 
 **Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
@@ -99,9 +99,15 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 We offer:
 
 - Opportunities to get training and practical hands-on work experience at the same time through programs like:
-  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
-- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
-- Counselors to help you transition from military to college life. [Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
-- Other employment resources for Servicemembers and Veterans. [Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
-- Links to more resources outside VA that can help you in your job search. [See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
+  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
+  [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
+  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. <br>
+  [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
+[Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
+- Counselors to help you transition from military to college life. <br>
+[Learn about VetSuccess on Campus](/employment/vocational-rehab-and-employment/vetsuccess/).
+- Other employment resources for Servicemembers and Veterans. <br>
+[Learn about the other VA employment resources](/employment/job-seekers/employment-support/).
+- Links to more resources outside VA that can help you in your job search. <br>
+[See our list of external resources](/employment/vocational-rehab-and-employment/external-resources/).
