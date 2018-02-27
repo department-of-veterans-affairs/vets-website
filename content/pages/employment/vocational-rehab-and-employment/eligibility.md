@@ -20,13 +20,14 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services. Find out if you can get employment support or help living as independently as possible.  
+If you have a disability that was caused—or made worse—by your active-duty service and that limits your ability to work or prevents you from working, you may be eligible for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, also called Chapter 31. Find out if you can get employment support or help living as independently as possible. 
 
+If you’re leaving active service soon, you may be able to get free educational and career counseling, also called Chapter 36, to help you find a training program or job. 
 </div>
 
 <div class="feature" markdown="1">
 
-### If I'm a Veteran, can I get VR&amp;E benefits and services?
+### Can I get Chapter 31 VR&amp;E benefits and services?
 
 You may be eligible for VR&E benefits and services if you’re a Veteran, and you:
 
@@ -57,17 +58,33 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 
 </div>
 
+<div class="feature" markdown="1">
+
+### Can I get Chapter 36 educational and career counseling?
+
+You can get these services if you’ll be discharged from active duty within 6 months or:
+-	You were discharged from active duty not more than 1 year ago under conditions other than dishonorable, **and**
+-	You qualify as a Veteran for educational assistance under a VA educational program. 
+
+**Note:** Dependents who qualify for educational assistance may get these services under the following programs:
+- [Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
+- [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/)
+- [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/)
+
+</div>
+
+
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
+<a class="usa-button-primary va-button-primary" href="/employment/vocational-rehab-and-employment/apply-vre/">Apply for VR&E Benefits</a>
 
-Learn about the application process and how to apply if you're a Servicemember who hasn't received your disability rating yet. [Find out how to apply](/employment/vocational-rehab-and-employment/apply-vre/).
+Learn about the application process and how to apply for Chapter 31 if you're a Servicemember who hasn't received your disability rating yet. [Find out how to apply](/employment/vocational-rehab-and-employment/apply-vre/).
 
 <br>
 
 ### What kind of VR&E services can I get?
 
-Depending on your needs and goals, services may include:
+**Depending on your needs and goals, Chapter 31 services may include:**
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
@@ -77,6 +94,13 @@ Depending on your needs and goals, services may include:
 - Post-secondary training at a college, vocational, technical, or business school
 - Supportive rehabilitation services including case management, counseling, and medical referrals
 - Independent living services if you're unable to work due to the severity of your disabilities
+
+**Depending on your educational and career goals, Chapter 36 services may include:**
+
+- Counseling to help you decide which civilian or military jobs you want
+-	Educational and career counseling to help you find a training program or job
+-	Academic and adjustment counseling to help you deal with issues that get in the way of your success in training or employment
+
 
 <br>
 
