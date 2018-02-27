@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're entitled to certain benefits and services through VR&E or through other VA programs.
+As the dependent family member of a Servicemember or Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Servicemember or Veteran in your family is eligible to apply for Vocational Rehabilitation and Employment (VR&amp;E) benefits and services, you may be able to get career and educational counseling, and other support. Find out if you're eligible for certain benefits and services through VR&E or through other VA programs.
 
 </div>
 
@@ -27,10 +27,10 @@ As the dependent family member of a Servicemember or Veteran with a service-conn
 
 ### Can I get educational and vocational counseling services provided by VR&amp;E (also called Chapter 36)?
 
-You may be eligible for educational and vocational counseling if you're:
+You may be eligible for educational and vocational counseling if **both of the following are true for you**:
 
-- The dependent of a Veteran, **and**
-- Eligible for a VA education benefit, including:
+- You're the dependent of a Veteran, **and**
+- You're eligible for a VA education benefit, including:
   - [The Post-9/11 GI Bill (Chapter 33)](/education/gi-bill/post-9-11/)
   - [The Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)](/education/gi-bill/montgomery-active-duty/)
   - [The Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)](/education/gi-bill/montgomery-selected-reserve/)
