@@ -1,17 +1,21 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import { focusElement } from '../../common/utils/helpers';
 import FormTitle from '../../common/schemaform/components/FormTitle';
 import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
-import { hasSavedForm, scrollToElement, handleScrollEnd } from '../helpers';
+import { hasSavedForm } from '../helpers';
+
+const { animateScroll: scroll, Events } = Scroll;
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    this.timer = null;
     focusElement('.va-nav-breadcrumbs-list');
-    window.addEventListener('scroll', this.onScroll);
+    Events.scrollEvent.register('end', () => {
+      focusElement('[id="2-continueButton"]', { preventScroll: true });
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -19,22 +23,16 @@ class IntroductionPage extends React.Component {
     const { formId } = this.props.saveInProgress;
     const notPreviouslyLoggedIn = !prevProps.saveInProgress.user.login.currentlyLoggedIn;
     if (notPreviouslyLoggedIn && hasSavedForm(savedForms, formId)) {
-      this.scrollingToTop = true;
-      scrollToElement('.va-nav-breadcrumbs-list');
+      scroll.scrollToTop(window.VetsGov.scroll || {
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      });
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.onScroll);
-  }
-
-  onScroll = () => {
-    handleScrollEnd(this.timer, () => {
-      if (this && this.scrollingToTop) {
-        focusElement('[id="2-continueButton"]');
-        this.scrollingToTop = false;
-      }
-    }, this.scrollingToTop);
+  componentWillUnmount = () => {
+    Events.scrollEvent.remove('end');
   }
 
   goForward = () => {
@@ -191,3 +189,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 
 export { IntroductionPage };
+

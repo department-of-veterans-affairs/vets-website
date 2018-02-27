@@ -167,25 +167,3 @@ export function hasSavedForm(savedForms, formID) {
   return savedForms.some(({ form }) => form === formID);
 }
 
-export function scrollToElement(selectorOrElement) {
-  const el = typeof selectorOrElement === 'string'
-    ? document.querySelector(selectorOrElement)
-    : selectorOrElement;
-  if (el) {
-    const elPos = el ? el.getBoundingClientRect().top + window.pageYOffset : 0;
-    window.scroll({ top: elPos, left: 0, behavior: 'smooth' });
-  }
-}
-
-export function handleScrollEnd(timer, callback, test) {
-  if (callback && test) {
-    if (timer !== null) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => { // eslint-disable-line no-param-reassign
-      test = false; // eslint-disable-line no-param-reassign
-      callback();
-    }, 1000);
-  }
-}
-
