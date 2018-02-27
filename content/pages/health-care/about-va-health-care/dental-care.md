@@ -97,13 +97,13 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You may qualify for:** 1-time dental care
 
-**You can get this care only if:**
+**You can get this care only if all of the following are true for you:**
 
 - You were discharged or released under conditions other than dishonorable, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
 - Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged\*
 
-**\*Please note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
+**\*Please note:** If you got a dental award letter from VBA dated before 1955 stating that your dental conditions aren't compensable, then you are no longer eligible for Class II outpatient dental treatment. This is because of Public Law 83, which was enacted June 16, 1955, and which amended Veterans’ eligibility for outpatient dental services. 
 
 </div>
 </li>
@@ -197,7 +197,8 @@ You can apply online by filling out the 10-10EZ health care application.
 
 ### Where do I go for VA dental care?
 
-We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. [Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
+We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. <br>
+[Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
 
 <br>
 
@@ -205,8 +206,10 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 
 You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
 
-- Are signed up for VA health care ([apply now](/health-care/apply/)), **or**
-- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). [Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
+- Are signed up for VA health care <br>
+([apply now](/health-care/apply/)), **or**
+- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). <br>
+[Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
 
 [Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/).
 
