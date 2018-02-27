@@ -9,11 +9,6 @@ import { updateLoggedInStatus } from '../../login/actions';
 class AuthApp extends React.Component {
   constructor(props) {
     super(props);
-    this.checkUserLevel = this.checkUserLevel.bind(this);
-    this.handleAuthSuccess = this.handleAuthSuccess.bind(this);
-    this.setError = this.setError.bind(this);
-    this.setToken = this.setToken.bind(this);
-
     const { token } = props.location.query;
     this.state = { error: !token };
     this.authSettings = {
@@ -24,10 +19,10 @@ class AuthApp extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.error) { this.checkUserLevel(); }
+    if (!this.state.error) { this.validateToken(); }
   }
 
-  setToken() {
+  setToken = () => {
     // Internet Explorer 6-11
     const isIE = /*@cc_on!@*/false || !!document.documentMode; // eslint-disable-line spaced-comment
     // Edge 20+
@@ -46,16 +41,16 @@ class AuthApp extends React.Component {
     window.close();
   }
 
-  setError() {
+  setError = () => {
     this.setState({ error: true });
   }
 
-  checkUserLevel() {
-    // Fetch the user to get the login policy and validate the token against the API.
+  // Fetch the user to get the login policy and validate the token against the API.
+  validateToken = () => {
     apiRequest('/user', this.authSettings, this.handleAuthSuccess, this.setError);
   }
 
-  handleAuthSuccess({ data }) {
+  handleAuthSuccess = ({ data }) => {
     // Upon successful authentication, push analytics event and store the token.
     const userData = data.attributes.profile;
     const loginPolicy = userData.authnContext || 'idme';
