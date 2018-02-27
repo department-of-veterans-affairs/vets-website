@@ -118,14 +118,17 @@ function profileInformation(state = initialState, action) {
       }, state);
     }
 
-    case CREATE_MHV_ACCOUNT_SUCCESS:
+    case CREATE_MHV_ACCOUNT_SUCCESS: {
+      const { accountState } = action.data.attributes;
       return set('mhv.account', {
         ...state.mhv.account,
         errors: null,
         loading: false,
-        polling: true,
-        polledTimes: 0
+        polling: accountState !== 'upgraded',
+        polledTimes: 0,
+        state: accountState
       }, state);
+    }
 
     default:
       return state;
