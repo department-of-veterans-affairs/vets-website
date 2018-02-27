@@ -151,7 +151,7 @@ class ProfileView extends React.Component {
         <h3>Gender</h3>
         {gender === 'M' ? 'Male' : 'Female'}
         <h3>Birth date</h3>
-        {moment(dob).format('LL')}
+        {moment(dob).format('MMM D, YYYY')}
         <h3>Social security number</h3>
         <SSNWidget value={ssn}/>
         <h2>Military Service</h2>
@@ -159,7 +159,7 @@ class ProfileView extends React.Component {
           return (
             <div key={index}>
               <h3>{tour.serviceBranch}</h3>
-              <div>{moment(tour.dateRange.start).format('LL')} - {moment(tour.dateRange.end).format('LL')}</div>
+              <div>{moment(tour.dateRange.start).format('MMM D, YYYY')} &ndash; {moment(tour.dateRange.end).format('MMM D, YYYY')}</div>
             </div>
           );
         })}
