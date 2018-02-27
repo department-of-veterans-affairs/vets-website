@@ -8,11 +8,16 @@ import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
+import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
+  serviceFlags,
   daytimePhone,
   email,
   eveningPhone,
@@ -24,8 +29,10 @@ const {
 
 const {
   date,
+  dateRange,
   fullName,
   phone,
+  serviceHistory,
   ssn,
   vaFileNumber
 } = fullSchema31.definitions;
@@ -54,6 +61,7 @@ const formConfig = {
   defaultDefinitions: {
     address,
     date,
+    dateRange,
     phone,
     fullName,
     ssn,
@@ -80,11 +88,71 @@ const formConfig = {
       title: 'Military History',
       pages: {
         militaryHistory: {
-          path: 'military-information',
-          title: 'Military Information',
+          path: 'military-history',
+          title: 'Military History',
+          uiSchema: {
+            serviceHistory: {
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                hideTitle: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                ),
+                dischargeType: {
+                  'ui:title': 'Character of discharge',
+                  'ui:options': {
+                    labels: dischargeTypeLabels
+                  }
+                }
+              }
+            },
+            serviceFlags: {
+              'ui:title': 'Did you serve in:',
+              'ui:options': {
+                showFieldLabel: true
+              },
+              ww2: {
+                'ui:title': serviceFlagLabels.ww2
+              },
+              postWw2: {
+                'ui:title': serviceFlagLabels.postWw2
+              },
+              korea: {
+                'ui:title': serviceFlagLabels.korea
+              },
+              postKorea: {
+                'ui:title': serviceFlagLabels.postKorea
+              },
+              vietnam: {
+                'ui:title': serviceFlagLabels.vietnam
+              },
+              postVietnam: {
+                'ui:title': serviceFlagLabels.postVietnam
+              },
+              gulf: {
+                'ui:title': serviceFlagLabels.gulf
+              },
+              operationEnduringFreedom: {
+                'ui:title': serviceFlagLabels.operationEnduringFreedom
+              },
+              operationIraqiFreedom: {
+                'ui:title': serviceFlagLabels.operationIraqiFreedom
+              }
+            }
+          },
           schema: {
             type: 'object',
             properties: {
+              serviceHistory,
+              serviceFlags
             }
           }
         }
