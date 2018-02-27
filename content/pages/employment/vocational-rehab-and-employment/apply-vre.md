@@ -43,7 +43,7 @@ If you’re leaving active service soon, you can get free educational and career
 
 - Social Security number
 - Military status and service history (like service dates, discharge character, and rank—commonly found on the DD214 or other separation documents)
-- Disability rating, if you're applying for Vocational Rehabilitation.  
+- Disability rating, if you're applying for Vocational Rehabilitation (Chapter 31).  
 
 </div>
 </div>
