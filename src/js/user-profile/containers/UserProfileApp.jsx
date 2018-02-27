@@ -10,7 +10,8 @@ import {
   updatePrimaryPhone,
   updateAlternatePhone,
   updateResidentialAddress,
-  updateMailingAddress
+  updateMailingAddress,
+  openModal
 } from '../actions';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
@@ -39,6 +40,8 @@ class UserProfileApp extends React.Component {
                 <h1>Your Profile</h1>
                 <ProfileView
                   profile={this.props.profile}
+                  openModal={this.props.openModal}
+                  modal={this.props.profile.modal}
                   updateActions={this.props.updateActions}
                   fetchExtendedProfile={this.props.fetchExtendedProfile}/>
               </div>
@@ -64,7 +67,8 @@ const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
     removeSavedForm,
     updateVerifyUrl,
-    fetchExtendedProfile
+    fetchExtendedProfile,
+    openModal
   }, dispatch);
 
   actions.updateActions = bindActionCreators({

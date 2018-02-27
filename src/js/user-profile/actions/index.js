@@ -16,6 +16,8 @@ export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
+export const OPEN_MODAL = 'OPEN_MODAL';
+
 export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
 export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
 export const SAVE_MAILING_ADDRESS_SUCCESS = 'SAVE_MAILING_ADDRESS_SUCCESS';
@@ -125,9 +127,12 @@ function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, re
   return (fieldValue) => {
     return (dispatch, getState) => {
       dispatch({ type: requestStartAction });
-      setTimeout(() => {
-        dispatch({ type: requestSuccessAction, newValue: fieldValue });
-      }, 300);
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(dispatch({ type: requestSuccessAction, newValue: fieldValue }));
+        }, 300);
+      })
     }
   }
 }
@@ -228,4 +233,8 @@ export function fetchExtendedProfile() {
         dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile });
       });
   };
+}
+
+export function openModal(modal) {
+  return { type: OPEN_MODAL, modal }
 }

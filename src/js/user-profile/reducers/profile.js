@@ -28,7 +28,9 @@ import {
 
   SAVE_EMAIL_ADDRESS,
   SAVE_EMAIL_ADDRESS_FAIL,
-  SAVE_EMAIL_ADDRESS_SUCCESS
+  SAVE_EMAIL_ADDRESS_SUCCESS,
+
+  OPEN_MODAL
 
 } from '../actions';
 
@@ -52,7 +54,8 @@ const initialState = {
   prefillsAvailable: [],
   loading: true,
   pendingSaves: [],
-  errors: []
+  errors: [],
+  modal: null
 };
 
 function profileInformation(state = initialState, action) {
@@ -99,6 +102,11 @@ function profileInformation(state = initialState, action) {
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat({ type: action.type, error: action.error })
       return { ...state, errors };
+    }
+
+    case OPEN_MODAL: {
+      const modal = action.modal;
+      return { ...state, modal };
     }
 
     case UPDATE_PROFILE_FIELDS: {

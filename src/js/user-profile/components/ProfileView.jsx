@@ -21,8 +21,18 @@ class ProfileView extends React.Component {
     this.props.fetchExtendedProfile();
   }
 
+  componentDidUpdate(newProps) {
+    if (newProps.email != this.props.email) {
+      this.closeModal();
+    }
+  }
+
   openModalHandler(modalName) {
-    return () => this.setState({ modal: modalName });
+    return () => this.props.openModal(modalName);
+  }
+
+  closeModal = () => {
+    this.openModalHandler(null)();
   }
 
   render() {
@@ -51,42 +61,41 @@ class ProfileView extends React.Component {
     const latestTour = toursOfDuty[0];
 
     const modal = (() => {
-      const onClose = this.openModalHandler(null);
-      switch (this.state.modal) {
+      switch (this.props.modal) {
         case 'mailingAddress':
           return (<EditAddressModal
             title="Edit mailing address"
             address={mailingAddress}
             onSubmit={this.props.updateActions.updateMailingAddress}
-            onClose={onClose}/>);
+            onClose={this.closeModal}/>);
 
         case 'residentialAddress':
           return (<EditAddressModal
             title="Edit residential address"
             address={residentialAddress}
             onSubmit={this.props.updateActions.updateResidentialAddress}
-            onClose={onClose}/>);
+            onClose={this.closeModal}/>);
 
         case 'primaryPhone':
           return (<EditPhoneModal
             title="Edit primary phone"
             phone={primaryPhone}
             onSubmit={this.props.updateActions.updatePrimaryPhone}
-            onClose={onClose}/>);
+            onClose={this.closeModal}/>);
 
         case 'altPhone':
           return (<EditPhoneModal
             title="Edit alternate phone"
             phone={alternatePhone}
             onSubmit={this.props.updateActions.updateAlternatePhone}
-            onClose={onClose}/>);
+            onClose={this.closeModal}/>);
 
         case 'email':
           return (<EditEmailModal
             title="Edit email"
             value={email}
             onSubmit={this.props.updateActions.updateEmailAddress}
-            onClose={onClose}/>);
+            onClose={this.closeModal}/>);
 
         default:
           return null;
