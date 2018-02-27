@@ -129,7 +129,7 @@ You'll need to either use eBenefits or fill out a form and mail it in.
 [Download VA Form 21-22a](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf).
 
 
-You'll need to mail either of the above forms to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
+If you're filling out one of the forms, you'll need to mail it to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
 [Find a VA regional office near you](/facilities/).
 
 </div>
