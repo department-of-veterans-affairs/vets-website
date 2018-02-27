@@ -117,7 +117,7 @@ You can find an accredited representative or a VSO in 1 of 2 ways:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You'll need to either go through eBenefits or fill out a form and mail it in.
+You'll need to either use eBenefits or fill out a form and mail it in.
 
 **Choose one of these ways get set up:**
 
