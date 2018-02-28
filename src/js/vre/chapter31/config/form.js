@@ -17,7 +17,6 @@ import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
-  disabilityRating,
   serviceFlags,
   daytimePhone,
   email,
@@ -217,7 +216,7 @@ const formConfig = {
           uiSchema: {
             type: 'object',
             disabilityRating: {
-              'ui:title': 'Disability rating'
+              'ui:title': 'Disability rating',
             },
             disabilities: {
               'ui:title': 'Please describe your disability or disabilities:',
@@ -230,20 +229,55 @@ const formConfig = {
               'ui:title': 'Are you currently in the hospital?',
               'ui:widget': 'yesNo'
             },
-            hospital: {
+            'view:hospital': {
               hospitalName: {
                 'ui:title': 'Hospital name',
+                'ui:options': {
+                  'ui:required': (formData) => !!formData['view:inHospital']
+                }
               },
               hospitalAddress: address.uiSchema('Hospital address', false, form => form['view:inHospital']),
               'ui:options': {
                 expandUnder: 'view:inHospital'
               }
+            },
+            'ui:options': {
+              updateSchema: (formData, schema) => {
+                if (formData['view:inHospital']) {
+                  schema.properties['view:hospital'].required = ['hospitalName']; // eslint-disable-line no-param-reassign
+                } else {
+                  schema.properties['view:hospital'].required = []; // eslint-disable-line no-param-reassign
+                }
+                return schema;
+              }
             }
           },
           schema: {
             type: 'object',
+            required: [
+              'disabilityRating',
+              'disabilities',
+              'vaRecordsOffice',
+              'view:inHospital'
+
+            ],
             properties: {
-              disabilityRating,
+              disabilityRating: {
+                type: 'string',
+                'enum': [
+                  '0%',
+                  '10%',
+                  '20%',
+                  '30%',
+                  '40%',
+                  '50%',
+                  '60%',
+                  '70%',
+                  '80%',
+                  '90%',
+                  '100%'
+                ]
+              },
               disabilities: {
                 type: 'string'
               },
@@ -251,7 +285,7 @@ const formConfig = {
               'view:inHospital': {
                 type: 'boolean'
               },
-              hospital: {
+              'view:hospital': {
                 type: 'object',
                 properties: {
                   hospitalName: {
