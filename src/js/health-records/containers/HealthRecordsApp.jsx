@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import Modal from '../../common/components/Modal';
+import MHVApp from '../../common/containers/MHVApp';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import RequiredTermsAcceptanceView from '../../common/components/RequiredTermsAcceptanceView';
 import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeModal } from '../actions/modal';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -33,10 +33,7 @@ export class HealthRecordsApp extends React.Component {
         serviceRequired="health-records"
         userProfile={this.props.profile}>
         <DowntimeNotification appTitle="health records tool" dependencies={[services.mhv]}>
-          <RequiredTermsAcceptanceView
-            termsName="mhvac"
-            cancelPath="/health-care/"
-            termsNeeded={!this.props.profile.healthTermsCurrent}>
+          <MHVApp>
             <AppContent>
               <div>
                 <div className="row">
@@ -54,7 +51,7 @@ export class HealthRecordsApp extends React.Component {
                   visible={this.props.modal.visible}/>
               </div>
             </AppContent>
-          </RequiredTermsAcceptanceView>
+          </MHVApp>
         </DowntimeNotification>
       </RequiredLoginView>
     );

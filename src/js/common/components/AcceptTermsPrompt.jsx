@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
@@ -9,11 +8,12 @@ class AcceptTermsPrompt extends React.Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
-    this.state = {};
+    this.state = { scrolledToBottom: false, yesSelected: false };
   }
 
-  componentWillMount() {
-    this.setState({ scrolledToBottom: false, yesSelected: false });
+  componentDidMount() {
+    window.dataLayer.push({ event: 'terms-shown' });
+    window.scrollTo(0, 0);
   }
 
   onCancel(e) {
@@ -80,6 +80,8 @@ class AcceptTermsPrompt extends React.Component {
       'form-radio-buttons': true,
       disabled: !this.state.scrolledToBottom
     });
+
+    /* eslint-disable react/no-danger */
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
     return (
       <div className="row primary terms-acceptance">
@@ -108,6 +110,7 @@ class AcceptTermsPrompt extends React.Component {
       </div>
     );
     /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    /* eslint-enable react/no-danger */
   }
 }
 
