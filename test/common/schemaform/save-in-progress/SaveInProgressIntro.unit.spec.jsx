@@ -130,7 +130,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         toggleLoginModal={toggleLoginModal}/>
     );
 
-    expect(tree.subTree('.usa-alert').text()).to.contain('Note: If you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.');
+    expect(tree.subTree('.usa-alert').text()).to.contain('If you’re signed in to your account, your application process can go more smoothly. Here’s why:We can prefill part of your application based on your account details.You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.Sign in to your account.');
     expect(tree.subTree('.va-button-link')).not.to.be.false;
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
   });
