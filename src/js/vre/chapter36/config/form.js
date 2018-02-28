@@ -30,7 +30,6 @@ const {
   seekingVocationalTraining,
   receivedPamphlet,
   veteranDateOfDeathMIAPOW,
-  veteranFullName,
   veteranSocialSecurityNumber,
   veteranVaFileNumber
 } = fullSchema36.properties;
@@ -56,6 +55,15 @@ function isVeteran({ 'view:isVeteran': isVeteranApplicant }) {
 
 function isNotVeteran({ 'view:isVeteran': isVeteranApplicant }) {
   return !isVeteranApplicant;
+}
+
+function isVeteranOrSpouse(formData) {
+  const {
+    'view:isVeteran': isVeteranApplicant,
+    applicantRelationshipToVeteran: relationship
+  } = formData;
+  const isSpouse = relationship === 'Spouse' || relationship === 'Surviving spouse';
+  return !!(isVeteranApplicant || isSpouse);
 }
 
 function isVeteranOrNoApplications({ 'view:isVeteran': isVeteranApplicant, previousBenefitApplications: applications }) {
@@ -312,6 +320,7 @@ const formConfig = {
         additionalInformation: {
           title: 'Additional Information',
           path: 'additional-information',
+          depends: isVeteranOrSpouse,
           uiSchema: {
             previousBenefitApplications: previousBenefitApplicationsUI,
             divorceOrAnnulmentPending: {
@@ -363,10 +372,16 @@ const formConfig = {
               previousBenefitApplications,
               previousVeteranBenefitsFullName: _.unset(
                 'required',
-                veteranFullName
+                fullName
               ),
-              previousVeteranBenefitsSocialSecurityNumber: veteranSocialSecurityNumber,
-              previousVeteranBenefitsVaFileNumber: veteranVaFileNumber
+              previousVeteranBenefitsSocialSecurityNumber: _.unset(
+                'required',
+                veteranSocialSecurityNumber
+              ),
+              previousVeteranBenefitsVaFileNumber: _.unset(
+                'required',
+                veteranVaFileNumber
+              )
             }
           }
         }

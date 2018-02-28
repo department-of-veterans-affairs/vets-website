@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, selectCheckbox, selectRadio } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant additional information', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformation;
-  it('renders previous benefits applications question', () => {
+  it('renders veterans view', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -19,30 +19,51 @@ describe('VRE chapter 36 applicant additional information', () => {
         formData={{}}
         uiSchema={uiSchema}/>
     );
-
-    expect(form.find('input').length).to.equal(3);
+    selectCheckbox(form, 'root_previousBenefitApplications_other', true);
+    expect(form.find('input').length).to.equal(4);
   });
 
-  it('renders previous benefits veteran fields if has applied', () => {
+  it('renders spouse view', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': false
+          'view:isVeteran': false,
+          applicantRelationshipToVeteran: 'Spouse'
         }}
         formData={{}}
         uiSchema={uiSchema}/>
     );
 
+    selectRadio(form, 'root_divorceOrAnnulmentPending', 'Y');
     selectCheckbox(form, 'root_previousBenefitApplications_dic', true);
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(1);
   });
-  // it render veteran view
-  // it renders spouse view
-  // it renders surviving spouse view
+
+  it('renders surviving spouse view', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          'view:isVeteran': false,
+          applicantRelationshipToVeteran: 'Surviving spouse'
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    selectRadio(form, 'root_remarried', 'Y');
+    selectCheckbox(form, 'root_previousBenefitApplications_dic', true);
+
+    expect(form.find('input').length).to.equal(9);
+    expect(form.find('select').length).to.equal(1);
+  });
+
+
   it('submits without info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
