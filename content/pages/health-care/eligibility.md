@@ -31,11 +31,11 @@ You may be able to get VA health care benefits if you served on active duty and 
 
 You should know:
 
-- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
+- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if **any of the following is true for you**:
 
-  - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
-  - Were discharged for a hardship or “early out,” **or**
-  - Served prior to September 7, 1980
+  - You were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
+  - You were discharged for a hardship or “early out,” **or**
+  - You served prior to September 7, 1980
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
@@ -51,7 +51,7 @@ You should know:
 
 #### Enhanced Eligibility Status
 
-You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of these applies to you:
+You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if **at least one of the following is true for you**:
 
 - You receive financial compensation (payments) from VA for a service-connected disability
 - You were discharged for a disability resulting from something that happened to you in the line of duty
@@ -65,7 +65,8 @@ You may qualify for enhanced eligibility status (meaning you’ll be placed in a
 - You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
+If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
+[Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
 </div>
 </div>
@@ -85,7 +86,8 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). <br>
+[Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
