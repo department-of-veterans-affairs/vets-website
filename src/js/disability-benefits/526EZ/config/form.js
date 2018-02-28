@@ -1,4 +1,6 @@
-// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import _ from 'lodash/fp';
+
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -9,6 +11,63 @@ import {
   supportingEvidenceOrientation
 } from '../helpers';
 
+const initialData = {
+  // For testing purposes only
+  disabilities: [
+    {
+      disability: { // Is this extra nesting necessary?
+        diagnosticText: 'First disability',
+        decisionCode: 'Filler text', // Should this be a string?
+        // Is this supposed to be an array?
+        specialIssues: {
+          specialIssueCode: 'Filler text',
+          specialIssueName: 'Filler text'
+        },
+        ratedDisabilityId: '12345',
+        disabilityActionType: 'Filler text',
+        ratingDecisionId: '67890',
+        diagnosticCode: 'Filler text',
+        // Presumably, this should be an array...
+        secondaryDisabilities: [
+          {
+            diagnosticText: 'First secondary disability',
+            disabilityActionType: 'Filler text'
+          },
+          {
+            diagnosticText: 'Second secondary disability',
+            disabilityActionType: 'Filler text'
+          }
+        ]
+      }
+    },
+    {
+      disability: { // Is this extra nesting necessary?
+        diagnosticText: 'Second disability',
+        decisionCode: 'Filler text', // Should this be a string?
+        // Is this supposed to be an array?
+        specialIssues: {
+          specialIssueCode: 'Filler text',
+          specialIssueName: 'Filler text'
+        },
+        ratedDisabilityId: '54321',
+        disabilityActionType: 'Filler text',
+        ratingDecisionId: '09876',
+        diagnosticCode: 'Filler text',
+        // Presumably, this should be an array...
+        secondaryDisabilities: [
+          {
+            diagnosticText: 'First secondary disability',
+            disabilityActionType: 'Filler text'
+          },
+          {
+            diagnosticText: 'Second secondary disability',
+            disabilityActionType: 'Filler text'
+          }
+        ]
+      }
+    }
+  ]
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -77,6 +136,7 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
+          initialData,
           uiSchema: {
             'ui:description': supportingEvidenceOrientation
           },
@@ -85,8 +145,68 @@ const formConfig = {
             properties: {}
           }
         },
-        // pageTwo: {},
-        // pageThree: {},
+        evidenceType: {
+          title: '',
+          path: 'supporting-evidence/:index/evidence-type',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                'view:vaMedicalRecords': {
+                  'ui:title': 'VA medical records'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    'view:vaMedicalRecords': {
+                      type: 'boolean'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        vaMedicalRecordsIntro: {
+          title: '',
+          path: 'supporting-evidence/:index/va-medical-records',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            console.log('depends callback in formConfig -- index:', index);
+            const shouldDisplay = _.get(`disabilities.${index}.view:vaMedicalRecords`, formData);
+            console.log('  should display:', shouldDisplay);
+            return shouldDisplay;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': 'VA Medical Records',
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
+        },
         // pageFour: {},
         // pageFive: {},
         // pageSix: {},
