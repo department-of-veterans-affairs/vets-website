@@ -66,7 +66,8 @@ class ProfileView extends React.Component {
       gender,
       telephones,
       addresses,
-      toursOfDuty: toursOfDutyUnsorted
+      toursOfDuty: toursOfDutyUnsorted,
+      serviceAwards
     } = this.props.profile;
 
     const { currentlyOpen: currentlyOpenModal, pendingSaves } = this.props.modal;
@@ -168,6 +169,12 @@ class ProfileView extends React.Component {
               <h3>{tour.serviceBranch}</h3>
               <div>{moment(tour.dateRange.start).format('MMM D, YYYY')} &ndash; {moment(tour.dateRange.end).format('MMM D, YYYY')}</div>
             </div>
+          );
+        })}
+        <h3>Service Awards</h3>
+        {serviceAwards.map((award, index) => {
+          return (
+            <div key={index}>{award.name}</div>
           );
         })}
       </div>
