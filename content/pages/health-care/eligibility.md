@@ -117,18 +117,20 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 We want to make sure we can deliver full health care benefits and the highest quality care to all Veterans enrolled in the VA health care program. To help do this effectively, we enroll Veterans based on a priority system. 
 
-When you apply for VA health care, you’ll be assigned to 1 of the 8 priority groups below, with 1 being the highest priority group. The higher your priority group, the faster you'll be enrolled. You'll be assigned based on factors like your military service history, disability rating, income level, and any other benefits you may be receiving. If you qualify for more than one priority group, we'll assign you to highest one. If you're assigned to Priority Group 7 or 8, you'll need to agree to pay copays to receive VA health care benefits.
+When you apply for VA health care, you’ll be assigned to 1 of the 8 priority groups below, with Priority Group 1 being the highest. The higher your priority group, the faster and more likely you'll be enrolled. 
+
+You'll be assigned based on factors like your military service history, disability rating, income level, and any other benefits you may be receiving. If you qualify for more than one priority group, we'll assign you to highest one. If you're assigned to Priority Group 7 or 8, you'll need to agree to pay copays to receive VA health care benefits.
 
 <h5>Priority Group 1</h5>
 
 **You may be assigned to Priority Group 1 if either of these are true for you:**
 
-- You have a service-connected disability that we've rated 50% or more disabling, **or**
+- You have a service-connected disability we've rated 50% or more disabling, **or**
 - We've concluded that you can't work because of a service-connected disability (called unemployable)
 
 <h5>Priority Group 2</h5>
 
-You may be assigned to Priority Group 2 if you have a service-connected disability that we've rated at 30% or 40$ disabling.
+You may be assigned to Priority Group 2 if you have a service-connected disability we've rated 30% or 40% disabling.
 
 <h5>Priority Group 3</h5>
 
@@ -137,21 +139,21 @@ You may be assigned to Priority Group 2 if you have a service-connected disabili
 - You're a former Prisoner of War (POW), **or**
 - You've been awarded a Purple Heart medal or the Medal of Honor, **or**
 - You were discharged for a disability that was caused by—or got worse because of—your active-duty service, **or**
-- You have a service-connected disability that we've rated at 10% or 20% disabling, **or**
+- You have a service-connected disability we've rated 10% or 20% disabling, **or**
 - You were awarded special eligibility classication under Title 38, U.S.C § 1151, "benefits for individuals disabled by treatment or vocational rehabilitation," **or**
 
 <h5>Priority Group 4</h5>
 
 **You may be assigned to Priority Group 4 if either of these are true for you:**
 
-- You're receiving VA aid and attendance or housebound benefits, **or**
-- We've determined that you're catastrophically disabled
+- You're receiving VA Aid and Attendance or Housebound benefits, **or**
+- We've determined you're catastrophically disabled
 
 <h5>Priority Group 5</h5>
 
 **You may be assigned to Priority Group 5 if any of these are true for you:**
 
-- You don't have a service-connected disability, or you have a service-connected disability that we've rated at 0% disabling and that you don't get paid disability compensation for, and you have an annual income level that's below our adjusted income limits (based on your resident zip code), **or**
+- You don't have a service-connected condition, or you have a service-connected condition we've rated at 0% disabling and that you don't get paid disability compensation for, and you have an annual income level that's below VA and geographically-adjusted income limits for where you live, **or**
 - You're receiving VA pension benefits, **or**
 - You're eligible for Medicaid programs
 
@@ -159,7 +161,7 @@ You may be assigned to Priority Group 2 if you have a service-connected disabili
 
 **You may be assigned to Priority Group 6 if any of these are true for you:**
 
-- You have a service-connected disability that we've rated at 0% disabling and that you're receiving disability compensation (monthly payments) for, **or**
+- You have a service-connected condition we've rated at 0% disabling and that you're receiving disability compensation (monthly payments) for, **or**
 - You were exposed to ionizing radiation during atmospheric testing or during the occupation of Hirshima and Nagasaki, **or**
 - You participated in Project 112/SHAD, **or**
 - You served in the Republic of Vietname between January 9, 1962 and May 7, 1975, **or**
@@ -188,12 +190,12 @@ If you're assigned to Priority Group 8, your eligibility for VA health care bene
 **You may be eligible for VA health care benefits if we place you in one of these sub priority groups:**
 
 **Sub priority a:**
-- You have a service-connected condition rated 0% disabling that you don't receive disability compensation for, **and**
+- You have a service-connected condition we've rated 0% disabling that you don't receive disability compensation for, **and**
 - You were enrolled in the VA health care program as of January 16, 2003, **and**
 - You've remained enrolled since that date and/or were placed in this sub priority group because your eligibility status changed
 
 **Sub priority group b:**
-- You have a service-connected condition rated 0% disabling that you don't receive disability compensation for, **and**
+- You have a service-connected condition we've rated 0% disabling that you don't receive disability compensation for, **and**
 - You were enrolled in the VA health care program on or after June 15, 2009 and your income exceeds current VA or geographic limits by 10% or less
 
 **Sub priority group c:**
