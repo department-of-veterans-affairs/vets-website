@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { mockFetch, resetFetch } from '../util/unit-helpers.js';
 
@@ -12,11 +13,28 @@ function setFetchResponse(stub, data) {
   stub.resolves(response);
 }
 
+function setFetchBlobResponse(stub, data) {
+  const response = new Response();
+  response.ok = true;
+  response.blob = () => Promise.resolve(data);
+  stub.resolves(response);
+}
+
+function setFailedBlobResponse(stub, error) {
+  const response = new Response();
+  response.ok = true;
+  response.blob = () => Promise.reject(new Error(error));
+  stub.resolves(response);
+}
+
 describe('VIC helpers:', () => {
   describe('submit', () => {
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
       window.sessionStorage = { userToken: 'testing' };
+      window.URL = {
+        createObjectURL: sinon.stub().returns('test')
+      };
     });
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
@@ -24,7 +42,11 @@ describe('VIC helpers:', () => {
         chapters: {}
       };
       const form = {
-        data: {}
+        data: {
+          photo: {
+            file: new Blob()
+          }
+        }
       };
 
       return submit(form, formConfig).then(() => {
@@ -63,11 +85,17 @@ describe('VIC helpers:', () => {
         chapters: {}
       };
       const form = {
-        data: {}
+        data: {
+          photo: {
+            file: new Blob()
+          }
+        }
       };
 
       return submit(form, formConfig).then((res) => {
-        expect(res).to.equal(response);
+        expect(res).to.deep.equal({
+          photo: 'test'
+        });
       });
     });
     it('should reject if polling state is failed', () => {
@@ -97,7 +125,11 @@ describe('VIC helpers:', () => {
         chapters: {}
       };
       const form = {
-        data: {}
+        data: {
+          photo: {
+            file: new Blob()
+          }
+        }
       };
 
       return submit(form, formConfig).then(() => {
@@ -107,9 +139,85 @@ describe('VIC helpers:', () => {
         expect(err.message).to.equal('vets_server_error_vic: status failed');
       });
     });
+    it('should resolve with image request', () => {
+      mockFetch();
+      setFetchBlobResponse(global.fetch.onFirstCall(), {});
+      setFetchResponse(global.fetch.onSecondCall(), {
+        data: {
+          attributes: {
+            guid: 'test'
+          }
+        }
+      });
+      setFetchResponse(global.fetch.onThirdCall(), {
+        data: {
+          attributes: {
+            state: 'pending'
+          }
+        }
+      });
+      const response = {};
+      setFetchResponse(global.fetch.onCall(3), {
+        data: {
+          attributes: {
+            state: 'success',
+            response
+          }
+        }
+      });
+      const formConfig = {
+        chapters: {}
+      };
+      const form = {
+        data: {
+          photo: {}
+        }
+      };
+
+      return submit(form, formConfig).then((res) => {
+        expect(res).to.deep.equal({
+          photo: 'test'
+        });
+      });
+    });
+    it('should resolve with failed image request', () => {
+      mockFetch();
+      setFailedBlobResponse(global.fetch.onFirstCall(), 'Error');
+      setFetchResponse(global.fetch.onSecondCall(), {
+        data: {
+          attributes: {
+            guid: 'test'
+          }
+        }
+      });
+      const response = {};
+      setFetchResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: {
+            state: 'success',
+            response
+          }
+        }
+      });
+      const formConfig = {
+        chapters: {}
+      };
+      const form = {
+        data: {
+          photo: {}
+        }
+      };
+
+      return submit(form, formConfig).then((res) => {
+        expect(res).to.deep.equal({
+          photo: null
+        });
+      });
+    });
 
     afterEach(() => {
       resetFetch();
+      delete window.URL;
     });
   });
   describe('prefillTransformer', () => {

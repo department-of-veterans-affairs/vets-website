@@ -155,6 +155,7 @@ export default class AutosuggestField extends React.Component {
         onInputValueChange={this.handleInputValueChange}
         inputValue={this.state.input}
         selectedItem={this.state.input}
+        onOuterClick={this.handleBlur}
         itemToString={item => {
           if (typeof item === 'string') {
             return item;
@@ -170,7 +171,12 @@ export default class AutosuggestField extends React.Component {
           highlightedIndex
         }) => (
           <div className="autosuggest-container">
-            <input {...getInputProps({ id, name: id, onKeyDown: this.handleKeyDown, onBlur: this.handleBlur })}/>
+            <input {...getInputProps({
+              id,
+              name: id,
+              onBlur: isOpen ? undefined : this.handleBlur,
+              onKeyDown: this.handleKeyDown
+            })}/>
             {isOpen && (
               <div className="autosuggest-list" role="listbox">
                 {this.state.suggestions

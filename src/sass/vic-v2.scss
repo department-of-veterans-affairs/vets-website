@@ -111,6 +111,9 @@ input[type=range] {
   @media (min-width: $large-screen) {
     width: 300px;
   }
+  .form-review-panel-page & {
+    width: 240px;
+  }
 }
 
 .progress-box.progress-box-schemaform {
@@ -125,6 +128,9 @@ input[type=range] {
   @media (min-width: $large-screen) {
     padding: 10px 50px;
   }
+  .form-review-panel-page & {
+    padding: 0;
+  }
 }
 
 .cropper-container {
@@ -132,7 +138,9 @@ input[type=range] {
   width: 100% !important;
   @media (min-width: $large-screen) {
     height: 300px !important;
-    width: 100% !important;
+  }
+  .form-review-panel-page & {
+    height: 240px !important;
   }
 }
 
@@ -191,6 +199,9 @@ input[type=range] {
   @media (min-width: $large-screen) {
     min-width: 600px;
   }
+  .form-review-panel-page & {
+    min-width: auto;
+  }
 }
 
 .cropper-control-row {
@@ -199,6 +210,9 @@ input[type=range] {
   justify-content: space-around;
   @media (min-width: $large-screen) {
     width: inherit;
+  }
+  .form-review-panel-page & {
+    width: 100%;
   }
 }
 
@@ -218,8 +232,8 @@ input[type=range] {
   //width: 50% !important;
   //text-decoration: none !important;
   //text-align: center;
-//}
-
+  //}
+  
 .cropper-zoom-container {
   display: flex;
   justify-content: center;
@@ -235,6 +249,10 @@ input[type=range] {
     max-width: 340px;
     padding: 0 5px 5px 5px;
   }
+  .form-review-panel-page & {
+    max-width: 240px;
+    padding: 0;
+  }
 }
 
 .cropper-control.cropper-control-zoom {
@@ -244,6 +262,10 @@ input[type=range] {
     padding: 0px !important;
     width: 25% !important;
   }
+  .form-review-panel-page & {
+    width: auto !important;
+    padding: 0 10px !important;
+  }
   &.cropper-control-zoom-in{
     &.label-container {
       width: 50% !important;
@@ -252,6 +274,9 @@ input[type=range] {
     .cropper-control-label {
       @media (min-width: $large-screen) {
         float: right;
+      }
+      .form-review-panel-page & {
+        float: auto;
       }
     }
   }
@@ -268,12 +293,26 @@ input[type=range] {
   }
 }
 
+.fa-upload {
+  @media (min-width: $large-screen) {
+    padding: 0 15px 0 5px !important;
+  }
+  .form-review-panel-page & {
+    padding: 0 !important;
+  }
+}
+
 .fa-search-plus {
   font-size: 2em !important;
   @media (min-width: $large-screen) {
     font-size: 1.07em !important;
-    padding: 0  5px !important;
+    padding: 0 5px !important;
     float: left;
+  }
+  .form-review-panel-page & {
+    font-size: 2em !important;
+    padding: 0 !important;
+    float: auto;
   }
 }
 
@@ -283,6 +322,11 @@ input[type=range] {
     font-size: 1.07em !important;
     padding: 0 4px 0 4px !important;
     float: right;
+  }
+  .form-review-panel-page & {
+    font-size: 2em !important;
+    padding: auto !important;
+    float: auto;
   }
 }
 
@@ -311,18 +355,18 @@ input[type=range] {
 }
 
 .photo-input-container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  flex-direction: column;
+  &.photo-input-container-left {
+    justify-content: flex-start;
+    flex-direction: row;
+  }
+  div[role="alert"] {
     display: flex;
     justify-content: center;
-    margin: 0;
-    flex-direction: column;
-    &.photo-input-container-left {
-      justify-content: left;
-      flex-direction: row;
-    }
-    div[role="alert"] {
-      display: flex;
-      justify-content: center;
-    }
+  }
 }
 
 .drop-target-container {
@@ -333,6 +377,10 @@ input[type=range] {
     height: 300px;
     width: 300px;
   }
+  .form-review-panel-page & {
+    height: 240px;
+    width: 240px;
+  }
 }
 
 .drop-target {
@@ -342,6 +390,10 @@ input[type=range] {
   @media (min-width: $large-screen) {
     height: 300px;
     width: 300px;
+  }
+  .form-review-panel-page & {
+    height: 240px;
+    width: 240px;
   }
 }
 
@@ -394,6 +446,9 @@ input[type=range] {
   @media (min-width: $large-screen) {
     width: 300px;
   }
+  .form-review-panel-page & {
+    width: 240px;
+  }
 }
 
 .photo-preview-link {
@@ -423,6 +478,9 @@ input[type=range] {
   @media (min-width: $large-screen) {
     margin: 10px;
   }
+  .form-review-panel-page & {
+    margin: 5px;
+  }
 }
 
 .photo-warning {
@@ -439,6 +497,10 @@ input[type=range] {
 
 .photo-error-message {
   outline: none;
+}
+
+.photo-error-wrapper {
+  margin-bottom: 1em;
 }
 
 /* USWDS overrides */

@@ -39,6 +39,7 @@ const schemaToConfigIds = {
 
 const excludedForms = new Set([
   '28-1900',
+  '21-526EZ',
   '28-8832'
 ]);
 

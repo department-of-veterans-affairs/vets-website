@@ -41,6 +41,9 @@ very secret.
 | add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
+| run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
+| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype production --analyzer`                  |
+| load the analyzer tool on a stats file  | `npm run analyze`                  |
 
 ## Directory structure
 

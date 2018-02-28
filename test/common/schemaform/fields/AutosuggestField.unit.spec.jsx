@@ -139,6 +139,46 @@ describe('<AutosuggestField>', () => {
     });
     expect(onChange.lastCall.args.length).to.equal(0);
   });
+  it('should trigger onBlur', (done) => {
+    const uiSchema = {
+      'ui:options': {
+        getOptions: () => Promise.resolve([
+          {
+            id: '1',
+            label: 'first'
+          },
+          {
+            id: '2',
+            label: 'second'
+          }
+        ])
+      }
+    };
+    const formContext = {
+      reviewMode: false
+    };
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const tree = mount(
+      <AutosuggestField
+        formData={{ widget: 'autosuggest', id: '1', label: 'first' }}
+        formContext={formContext}
+        onChange={onChange}
+        onBlur={onBlur}
+        idSchema={{ $id: 'id' }}
+        uiSchema={uiSchema}/>
+    );
+
+    const input = tree.find('input');
+    input.simulate('focus');
+
+    setTimeout(() => {
+      input.simulate('blur');
+      expect(onBlur.called).to.be.true;
+      done();
+    });
+  });
   it('should leave data on blur if partially filled in', (done) => {
     const uiSchema = {
       'ui:options': {
@@ -183,9 +223,8 @@ describe('<AutosuggestField>', () => {
       expect(onChange.called).to.be.true;
       input.simulate('blur');
       expect(input.getDOMNode().value).to.equal('fir');
-      expect(onBlur.called).to.be.true;
       done();
-    }, 0);
+    });
   });
   it('should use options from enum to get first item', (done) => {
     const uiSchema = {
