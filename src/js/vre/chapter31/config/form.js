@@ -71,17 +71,7 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: createVeteranInfoPage(fullSchema31, {
-          uiSchema: {
-            vaRecordsOffice: {
-              'ui:title': 'VA benefit office where your records are located',
-              'ui:help': facilityLocatorLink
-            }
-          },
-          schema: {
-            vaRecordsOffice
-          }
-        })
+        veteranInformation: createVeteranInfoPage(fullSchema31)
       }
     },
     militaryHistory: {
@@ -223,9 +213,87 @@ const formConfig = {
         disabilityInformation: {
           path: 'Disability-information',
           title: 'Disability Information',
+          uiSchema: {
+            type: 'object',
+            disabilityRating: {
+              'ui:title': 'Disability rating',
+            },
+            disabilities: {
+              'ui:title': 'Please describe your disability or disabilities:',
+            },
+            vaRecordsOffice: {
+              'ui:title': 'VA office where your disability records are located',
+              'ui:help': facilityLocatorLink
+            },
+            'view:inHospital': {
+              'ui:title': 'Are you currently in the hospital?',
+              'ui:widget': 'yesNo'
+            },
+            'view:hospital': {
+              hospitalName: {
+                'ui:title': 'Hospital name',
+                'ui:options': {
+                  'ui:required': (formData) => !!formData['view:inHospital']
+                }
+              },
+              hospitalAddress: address.uiSchema('Hospital address', false, form => form['view:inHospital']),
+              'ui:options': {
+                expandUnder: 'view:inHospital'
+              }
+            },
+            'ui:options': {
+              updateSchema: (formData, schema) => {
+                if (formData['view:inHospital']) {
+                  schema.properties['view:hospital'].required = ['hospitalName']; // eslint-disable-line no-param-reassign
+                } else {
+                  schema.properties['view:hospital'].required = []; // eslint-disable-line no-param-reassign
+                }
+                return schema;
+              }
+            }
+          },
           schema: {
             type: 'object',
+            required: [
+              'disabilityRating',
+              'disabilities',
+              'vaRecordsOffice',
+              'view:inHospital'
+
+            ],
             properties: {
+              disabilityRating: {
+                type: 'string',
+                'enum': [
+                  '0%',
+                  '10%',
+                  '20%',
+                  '30%',
+                  '40%',
+                  '50%',
+                  '60%',
+                  '70%',
+                  '80%',
+                  '90%',
+                  '100%'
+                ]
+              },
+              disabilities: {
+                type: 'string'
+              },
+              vaRecordsOffice,
+              'view:inHospital': {
+                type: 'boolean'
+              },
+              'view:hospital': {
+                type: 'object',
+                properties: {
+                  hospitalName: {
+                    type: 'string'
+                  },
+                  hospitalAddress: address.schema(fullSchema31)
+                }
+              }
             }
           }
         }
