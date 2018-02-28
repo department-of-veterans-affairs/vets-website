@@ -20,8 +20,24 @@ describe('VRE chapter 36 veteran information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(3);
+  });
+
+  it('renders veteran date of death field when view:isVeteran is false', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          'view:isVeteran': false
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(5);
   });
 
   it('does not submit without required veteran information', () => {
