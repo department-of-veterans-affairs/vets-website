@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const dischargeTypeLabels = {
   honorable: 'Honorable',
   general: 'General',
@@ -17,4 +19,13 @@ export const serviceFlagLabels = {
   gulf: 'Gulf War',
   operationEnduringFreedom: 'Operation Enduring Freedom',
   operationIraqiFreedom: 'Operation Iraqi Freedom'
+};
+
+
+export const benefitsLabels = {
+  chapter31: <p>Vocational Rehabilitation Benefits (Chapter 31)</p>,
+  ownServiceBenefits: <p>Veterans’ Education Assistance based on your own service</p>,
+  dic: <p>Survivors’ and Dependents’</p>,
+  other: <p>Other</p>,
+  otherExplanation: <p>Please specify:</p>
 };
