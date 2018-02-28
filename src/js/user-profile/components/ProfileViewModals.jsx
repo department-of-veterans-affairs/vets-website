@@ -25,8 +25,14 @@ class EditAddressModal extends React.Component {
     this.setState({ address });
   }
 
+  // Receives the field name as its first arg but that fails the liner
+  onBlur = () => {
+
+  }
+
   onSubmit = (event) => {
     event.preventDefault();
+    this.props.onSubmit(this.state.address);
   }
 
   render() {
@@ -34,7 +40,7 @@ class EditAddressModal extends React.Component {
       <Modal id="profile-address-modal" onClose={this.props.onClose} visible>
         <h3>{this.props.title}</h3>
         <form onSubmit={this.onSubmit}>
-          <Address address={this.state.address} onInput={this.onInput} errorMessages={{}} countries={['USA']}/>
+          <Address address={this.state.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
           <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
         </form>
       </Modal>
