@@ -14,6 +14,32 @@ export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
+export const OPEN_MODAL = 'OPEN_MODAL';
+
+export const FETCH_EXTENDED_PROFILE = 'FETCH_EXTENDED_PROFILE';
+export const FETCH_EXTENDED_PROFILE_FAIL = 'FETCH_EXTENDED_PROFILE_FAIL';
+export const FETCH_EXTENDED_PROFILE_SUCCESS = 'FETCH_EXTENDED_PROFILE_SUCCESS';
+
+export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
+export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
+export const SAVE_MAILING_ADDRESS_SUCCESS = 'SAVE_MAILING_ADDRESS_SUCCESS';
+
+export const SAVE_RESIDENTIAL_ADDRESS = 'SAVE_RESIDENTIAL_ADDRESS';
+export const SAVE_RESIDENTIAL_ADDRESS_FAIL = 'SAVE_RESIDENTIAL_ADDRESS_FAIL';
+export const SAVE_RESIDENTIAL_ADDRESS_SUCCESS = 'SAVE_RESIDENTIAL_ADDRESS_SUCCESS';
+
+export const SAVE_PRIMARY_PHONE = 'SAVE_PRIMARY_PHONE';
+export const SAVE_PRIMARY_PHONE_FAIL = 'SAVE_PRIMARY_PHONE_FAIL';
+export const SAVE_PRIMARY_PHONE_SUCCESS = 'SAVE_PRIMARY_PHONE_SUCCESS';
+
+export const SAVE_ALTERNATE_PHONE = 'SAVE_ALTERNATE_PHONE';
+export const SAVE_ALTERNATE_PHONE_FAIL = 'SAVE_ALTERNATE_PHONE_FAIL';
+export const SAVE_ALTERNATE_PHONE_SUCCESS = 'SAVE_ALTERNATE_PHONE_SUCCESS';
+
+export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
+export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
+export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
+
 export function updateProfileFields(newState) {
   return {
     type: UPDATE_PROFILE_FIELDS,
@@ -98,70 +124,121 @@ export function removeSavedForm(formId) {
   };
 }
 
+// @todo once the endpoints are built we can actually send an API request.
+function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction) {
+  return fieldValue => {
+    return dispatch => {
+      dispatch({ type: requestStartAction });
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(dispatch({ type: requestSuccessAction, newValue: fieldValue }));
+        }, 2000);
+      });
+    };
+  };
+}
+
+export const updateEmailAddress = saveFieldHandler('/v0/email', SAVE_EMAIL_ADDRESS, SAVE_EMAIL_ADDRESS_SUCCESS, SAVE_EMAIL_ADDRESS_FAIL);
+export const updatePrimaryPhone = saveFieldHandler('/v0/phone/primary', SAVE_PRIMARY_PHONE, SAVE_PRIMARY_PHONE_SUCCESS, SAVE_PRIMARY_PHONE_FAIL);
+export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE_ALTERNATE_PHONE, SAVE_ALTERNATE_PHONE_SUCCESS, SAVE_ALTERNATE_PHONE_FAIL);
+export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL);
+export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
+
+// The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
+function sendProfileRequests() {
+  return [
+    apiRequest('/address').catch(() => {}),
+    apiRequest('/in_progress_forms/1010ez').catch(() => {})
+  ];
+}
+
+function getExtendedProfile(profile) {
+  return {
+    ...profile,
+
+    // S3
+    profilePicture: '/img/profile.png',
+
+    // MVI
+    email: profile.email,
+    userFullName: profile.userFullName,
+    dob: profile.dob,
+    gender: profile.gender,
+
+    // EVSS
+    ssn: '123121232',
+    telephones: [
+      {
+        type: 'primary',
+        value: '1231231232'
+      },
+      {
+        type: 'alternate',
+        value: '2342342343'
+      }
+    ],
+    addresses: [
+      {
+        type: 'residential',
+        addressOne: '1000 Strawberry Lane',
+        addressTwo: null,
+        addressThree: null,
+        city: 'Miama',
+        stateCode: 'FL',
+        zipCode: '41229',
+        countryName: 'USA'
+      },
+      {
+        type: 'mailing',
+        addressOne: '2000 Blueberry Drive',
+        addressTwo: null,
+        addressThree: null,
+        city: 'Miami',
+        stateCode: 'FL',
+        zipCode: '41229',
+        countryName: 'USA'
+      }
+    ],
+
+    // EMIS
+    toursOfDuty: [
+      {
+        serviceBranch: 'Navy',
+        rank: 'First Lieutenant',
+        dateRange: {
+          start: '2018-02-17T20:31:57.286Z',
+          end: '2018-02-18T20:31:57.286Z'
+        }
+      },
+      {
+        serviceBranch: 'Army',
+        rank: 'Second Lieutenant',
+        dateRange: {
+          start: '2016-02-18T20:31:57.286Z',
+          end: '2017-02-18T20:31:57.286Z'
+        }
+      }
+    ]
+  };
+}
+
 export function fetchExtendedProfile() {
   return (dispatch, getState) => {
-
     const { user: { profile } } = getState();
-    const extendedProfile = {
-      ...profile,
-      extended: true,
-      email: profile.email,
-      userFullName: profile.userFullName,
-      ssn: '123121232',
-      dob: new Date().toISOString(),
-      gender: 'Male',
-      telephones: [
-        {
-          type: 'primary',
-          value: '1231231232'
-        },
-        {
-          type: 'alternate',
-          value: '2342342343'
-        }
-      ],
-      addresses: [
-        {
-          type: 'residential',
-          addressOne: '1432 Bayfield Ct',
-          addressTwo: null,
-          addressThree: null,
-          city: 'Florence',
-          stateCode: 'KY',
-          zipCode: '41042',
-          countryName: 'USA'
-        },
-        {
-          type: 'mailing',
-          addressOne: '1432 Bayfield Mailing Ct',
-          addressTwo: null,
-          addressThree: null,
-          city: 'Florence',
-          stateCode: 'KY',
-          zipCode: '41042',
-          countryName: 'USA'
-        }
-      ],
-      toursOfDuty: [
-        {
-          serviceBranch: 'Navy',
-          rank: 'First Lieutenant',
-          dateRange: {
-            start: new Date(new Date().valueOf() - (5 * 24 * 60 * 60 * 1000)).toISOString(),
-            end: new Date().toISOString()
-          }
-        },
-        {
-          serviceBranch: 'Army',
-          rank: 'Second Lieutenant',
-          dateRange: {
-            start: new Date(new Date().valueOf() - (25 * 24 * 60 * 60 * 1000)).toISOString(),
-            end: new Date(new Date().valueOf() - (10 * 24 * 60 * 60 * 1000)).toISOString()
-          }
-        }
-      ]
-    };
+    const requests = sendProfileRequests();
 
-    setTimeout(() => dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile }), 100);
+    dispatch({ type: FETCH_EXTENDED_PROFILE });
+
+    Promise.all(requests)
+      .then(data => getExtendedProfile(profile, ...data))
+      .then(extendedProfile => {
+        dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedProfile });
+      })
+      .catch(() => dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL }));
   };
+}
+
+export function openModal(modal) {
+  return { type: OPEN_MODAL, modal };
 }
