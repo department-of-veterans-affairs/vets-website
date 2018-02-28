@@ -66,9 +66,7 @@ export function isActivePage(page, data) {
 }
 
 export function getActivePages(pages, data) {
-  const active =  pages.filter(page => {
-    return isActivePage(page, data);
-  });
+  const active =  pages.filter(page => isActivePage(page, data));
   return active;
 }
 

@@ -20,8 +20,6 @@ class FormApp extends React.Component {
   }
 
   render() {
-    // NOTE: children have a `params` prop which contains `index`
-    //  Might come from RoutedSavableApp?
     const { currentLocation, formConfig, children, formData } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
