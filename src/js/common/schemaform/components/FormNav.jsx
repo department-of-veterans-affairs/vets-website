@@ -19,12 +19,11 @@ export default class FormNav extends React.Component {
     // finding the current page, then getting the chapter name using the key
     const formPages = createFormPageList(formConfig);
     const pageList = createPageList(formConfig, formPages);
-    console.log('FormNav before getActivePages() -- props:', this.props);
 
-    // These three lines are also in src/js/common/schemaform/routing.js#getEligiblePages
+    // These lines are also in src/js/common/schemaform/routing.js#getEligiblePages
+    // TODO: Pull this logic out to be used in routing.js only
     const expandedPageList = expandArrayPages(pageList, formData);
-    const pageIndex = _.findIndex(item => item.path === currentPath, expandedPageList);
-    const eligiblePageList = getActivePages(expandedPageList, formData, expandedPageList[pageIndex].index);
+    const eligiblePageList = getActivePages(expandedPageList, formData);
 
     const chapters = _.uniq(eligiblePageList
       .map(p => p.chapterKey)

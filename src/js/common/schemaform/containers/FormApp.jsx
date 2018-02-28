@@ -34,7 +34,6 @@ class FormApp extends React.Component {
     if (!isIntroductionPage) {
       // Show nav only if we're not on the intro or confirmation page
       if (!isConfirmationPage) {
-        console.log('FormApp -- props:', this.props);
         formNav = <FormNav formData={formData} formConfig={formConfig} currentPath={trimmedPathname}/>;
       }
       // Show title only if we're not on the intro page and if there is a title

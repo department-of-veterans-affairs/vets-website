@@ -11,11 +11,7 @@ function getEligiblePages(pageList, data, pathname) {
   // We update the `path` for each of those pages to replace `:index` with the current item index.
   const expandedPageList = expandArrayPages(pageList, data);
   const pageIndex = _.findIndex(item => item.path === pathname, expandedPageList);
-  const eligiblePageList = getActivePages(expandedPageList, data, expandedPageList[pageIndex].index);
-  console.log('getEligiblePages -- expandedPageList:', eligiblePageList);
-  console.log('  pathname:', pathname);
-  console.log('  pageIndex:', pageIndex);
-  console.log('  array page index:', expandedPageList[pageIndex].index);
+  const eligiblePageList = getActivePages(expandedPageList, data);
   return { pages: eligiblePageList, pageIndex };
 }
 
