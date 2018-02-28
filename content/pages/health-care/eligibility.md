@@ -117,9 +117,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 We want to make sure we can deliver full health care benefits and the highest quality care to all Veterans enrolled in the VA health care program. To help do this effectively, we enroll Veterans based on a priority system. 
 
-When you apply for VA health care, you’ll be assigned to 1 of the 8 priority groups below, with 1 being the highest priority group. The higher your priority group, the faster you'll be enrolled. 
-
-You'll be assigned based on factors like your military service history, disability rating, income level, and any other benefits you may be receiving. If you qualify for more than one priority group, we'll assign you to highest one. If you're assigned to Priority Group 7 or 8, you'll need to agree to pay copays to receive VA health care benefits.
+When you apply for VA health care, you’ll be assigned to 1 of the 8 priority groups below, with 1 being the highest priority group. The higher your priority group, the faster you'll be enrolled. You'll be assigned based on factors like your military service history, disability rating, income level, and any other benefits you may be receiving. If you qualify for more than one priority group, we'll assign you to highest one. If you're assigned to Priority Group 7 or 8, you'll need to agree to pay copays to receive VA health care benefits.
 
 <h5>Priority Group 1</h5>
 
@@ -170,14 +168,13 @@ You may be assigned to Priority Group 2 if you have a service-connected disabili
 
 **Note:** If you're currently enrolled or newly enrolled in the VA health care program, and you served in a theater of combat operations after November 11, 1998 or were discharged from active duty on or after JanuarY 28, 2003, you're eligible for enhanced benefits for 5 years after discharge.
 
-<Priority Group 7</h5>
+<h5>Priority Group 7</h5>
 
 **You may be assigned to Priority Group 7 if both of this are true for you:**
 - Your gross household income is below the geographically-adjusted income limits (GMT) for where you live, **and**
 - You agree to pay copays
 
 [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
-
 
 <h5>Priority Group 8</h5>
 
