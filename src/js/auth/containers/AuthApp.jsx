@@ -40,13 +40,8 @@ export class AuthApp extends React.Component {
     window.close();
   }
 
-  setError = () => {
+  handleAuthError = () => {
     this.setState({ error: true });
-  }
-
-  // Fetch the user to get the login policy and validate the token against the API.
-  validateToken = () => {
-    apiRequest('/user', this.authSettings, this.handleAuthSuccess, this.setError);
   }
 
   handleAuthSuccess = ({ data }) => {
@@ -55,6 +50,11 @@ export class AuthApp extends React.Component {
     const loginPolicy = userData.authnContext || 'idme';
     window.dataLayer.push({ event: `login-success-${loginPolicy}` });
     this.setToken();
+  }
+
+  // Fetch the user to get the login policy and validate the token against the API.
+  validateToken = () => {
+    apiRequest('/user', this.authSettings, this.handleAuthSuccess, this.handleAuthError);
   }
 
   render() {
