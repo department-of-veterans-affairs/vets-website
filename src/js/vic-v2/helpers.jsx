@@ -78,7 +78,7 @@ function pollStatus(guid, onDone, onError) {
         } else if (res.data.attributes.state === 'success') {
           onDone(res.data.attributes.response);
         } else {
-          // needs to start with this string to get the right message on the form
+        // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_vic: status ${res.data.attributes.state}`);
         }
       })
@@ -161,5 +161,9 @@ export function submit(form, formConfig) {
     })
       .catch(reject);
   });
+}
+
+export function hasSavedForm(savedForms, formID) {
+  return savedForms.some(({ form }) => form === formID);
 }
 
