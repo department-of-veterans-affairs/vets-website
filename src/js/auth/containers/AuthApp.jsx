@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
-import { updateLoggedInStatus } from '../../login/actions';
 
-class AuthApp extends React.Component {
+export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
     const { token } = props.location.query;
@@ -90,13 +89,4 @@ const mapStateToProps = (state) => {
   return { login, profile };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(AuthApp);
-export { AuthApp };
+export default connect(mapStateToProps)(AuthApp);
