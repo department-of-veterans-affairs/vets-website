@@ -20,7 +20,7 @@ describe('VRE chapter 36 veteran information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
   });
 
@@ -52,8 +52,8 @@ describe('VRE chapter 36 veteran information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(5);
+    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(3);
   });
 
   it('does not submit without required veteran information', () => {
@@ -94,10 +94,7 @@ describe('VRE chapter 36 veteran information', () => {
     fillData(form, 'select#root_veteranDateOfBirthDay', '3');
     fillData(form, 'input#root_veteranDateOfBirthYear', '1950');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '424242424');
-    fillData(form, 'select#root_veteranDateOfDeathMIAPOWMonth', '1');
-    fillData(form, 'select#root_veteranDateOfDeathMIAPOWDay', '3');
-    fillData(form, 'input#root_veteranDateOfDeathMIAPOWYear', '1950');
-    fillData(form, 'input#root_applicantGender', 'Female');
+    fillData(form, 'input#root_applicantGender_0', 'Female');
 
     form.find('form').simulate('submit');
 
@@ -112,7 +109,7 @@ describe('VRE chapter 36 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': true
+          'view:isVeteran': false
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -127,7 +124,6 @@ describe('VRE chapter 36 veteran information', () => {
     fillData(form, 'select#root_veteranDateOfDeathMIAPOWMonth', '1');
     fillData(form, 'select#root_veteranDateOfDeathMIAPOWDay', '3');
     fillData(form, 'input#root_veteranDateOfDeathMIAPOWYear', '1950');
-    fillData(form, 'input#root_applicantGender', 'Female');
 
     form.find('form').simulate('submit');
 
