@@ -56,7 +56,7 @@ const formConfig = {
     notFound: '',
     noAuth: ''
   },
-  title: 'Apply for Vocational Rehabilitation',
+  title: 'Apply for vocational rehabilitation',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
     address,
