@@ -46,15 +46,15 @@ class ConfirmationPage extends React.Component {
         <p>
           We’ve received your application. Thank you for applying for vocational rehabilitation benefits.
         </p>
-        <p>
-          Please print this page for your records.
-        </p>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
           <p>We process claims in the order we receive them.</p>
           <p>We may contact you if we have any questions or need more information.</p>
           <p>If you’re eligible for vocational rehabilitation benefits, we’ll invite you to an orientation at your nearest VA regional office and/or out base office.</p>
         </div>
+        <p>
+          Please print this page for your records.
+        </p>
         <div className="inset">
           <h4 className="confirmation-page-inset-title">Vocational Rehabilitation claim <span className="additional">(Form 28-1900)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>

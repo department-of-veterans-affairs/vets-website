@@ -44,10 +44,16 @@ class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within a week.</p>
         <p>
-          We may contact you for more information or documents.<br/>
+          We’ve received your application. Thank you for applying for vocational rehabilitation benefits.<br/>
         </p>
+        <p>We usually process claims within a week.</p>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
+          <p>We process claims in the order we receive them.</p>
+          <p>We may contact you if we have any questions or need more information.</p>
+          <p>If you’re eligible for vocational counseling benefits, we’ll invite you to meet with a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to map out a career path.</p>
+        </div>
         <p>
           Please print this page for your records.
         </p>
