@@ -5,7 +5,7 @@ import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 import * as address from '../../../common/schemaform/definitions/address';
 import currencyUI from '../../../common/schemaform/definitions/currency';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import DD214Description from '../../../vic-v2/components/DD214Description';
+import DD214Description from '../components/DD214Description';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
@@ -381,12 +381,8 @@ const formConfig = {
               endpoint: '/v0/vic/supporting_documentation_attachments',
               fileTypes: [
                 'pdf',
-                'png',
                 'jpeg',
-                'jpg',
-                'gif',
-                'tif',
-                'tiff'
+                'jpg'
               ],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload Your Discharge Document',
