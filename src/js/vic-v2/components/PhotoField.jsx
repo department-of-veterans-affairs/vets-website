@@ -356,7 +356,6 @@ export default class PhotoField extends React.Component {
         });
       } else {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
         reader.onload = () => {
           loadImage(reader.result)
             .then((img) => {
@@ -380,6 +379,7 @@ export default class PhotoField extends React.Component {
               });
             });
         };
+        reader.readAsDataURL(file);
       }
     }
 
@@ -696,9 +696,14 @@ export default class PhotoField extends React.Component {
             This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
-            {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">
-              We’ve run into a problem.
-              <p>{errorMessage}</p>
+            {errorMessage && <div className="photo-error-wrapper">
+              <div role="alert" className="usa-input-error-message photo-error-message">
+                We’ve run into a problem.
+                <p>{errorMessage}</p>
+              </div>
+              <a href="/veteran-id-card/how-to-upload-photo" target="_blank">
+                Learn more about uploading a photo for your Veteran ID Card
+              </a>.
             </div>}
             {instruction}
             {!this.state.previewProcessing && description}

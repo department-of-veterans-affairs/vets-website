@@ -20,7 +20,7 @@ describe('VRE chapter 31 veteran information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(3);
   });
 

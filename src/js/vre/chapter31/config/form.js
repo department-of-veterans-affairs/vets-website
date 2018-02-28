@@ -8,11 +8,16 @@ import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+
+import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
 
 const {
+  serviceFlags,
   daytimePhone,
   email,
   eveningPhone,
@@ -24,8 +29,10 @@ const {
 
 const {
   date,
+  dateRange,
   fullName,
   phone,
+  serviceHistory,
   ssn,
   vaFileNumber
 } = fullSchema31.definitions;
@@ -54,6 +61,7 @@ const formConfig = {
   defaultDefinitions: {
     address,
     date,
+    dateRange,
     phone,
     fullName,
     ssn,
@@ -63,28 +71,78 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: createVeteranInfoPage(fullSchema31, {
-          uiSchema: {
-            vaRecordsOffice: {
-              'ui:title': 'VA benefit office where your records are located',
-              'ui:help': facilityLocatorLink
-            }
-          },
-          schema: {
-            vaRecordsOffice
-          }
-        })
+        veteranInformation: createVeteranInfoPage(fullSchema31)
       }
     },
     militaryHistory: {
       title: 'Military History',
       pages: {
         militaryHistory: {
-          path: 'military-information',
-          title: 'Military Information',
+          path: 'military-history',
+          title: 'Military History',
+          uiSchema: {
+            serviceHistory: {
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView,
+                hideTitle: true
+              },
+              items: {
+                serviceBranch: {
+                  'ui:title': 'Branch of service'
+                },
+                dateRange: dateRangeUI(
+                  'Service start date',
+                  'Service end date',
+                  'End of service must be after start of service'
+                ),
+                dischargeType: {
+                  'ui:title': 'Character of discharge',
+                  'ui:options': {
+                    labels: dischargeTypeLabels
+                  }
+                }
+              }
+            },
+            serviceFlags: {
+              'ui:title': 'Did you serve in:',
+              'ui:options': {
+                showFieldLabel: true
+              },
+              ww2: {
+                'ui:title': serviceFlagLabels.ww2
+              },
+              postWw2: {
+                'ui:title': serviceFlagLabels.postWw2
+              },
+              korea: {
+                'ui:title': serviceFlagLabels.korea
+              },
+              postKorea: {
+                'ui:title': serviceFlagLabels.postKorea
+              },
+              vietnam: {
+                'ui:title': serviceFlagLabels.vietnam
+              },
+              postVietnam: {
+                'ui:title': serviceFlagLabels.postVietnam
+              },
+              gulf: {
+                'ui:title': serviceFlagLabels.gulf
+              },
+              operationEnduringFreedom: {
+                'ui:title': serviceFlagLabels.operationEnduringFreedom
+              },
+              operationIraqiFreedom: {
+                'ui:title': serviceFlagLabels.operationIraqiFreedom
+              }
+            }
+          },
           schema: {
             type: 'object',
             properties: {
+              serviceHistory,
+              serviceFlags
             }
           }
         }
@@ -155,9 +213,87 @@ const formConfig = {
         disabilityInformation: {
           path: 'Disability-information',
           title: 'Disability Information',
+          uiSchema: {
+            type: 'object',
+            disabilityRating: {
+              'ui:title': 'Disability rating',
+            },
+            disabilities: {
+              'ui:title': 'Please describe your disability or disabilities:',
+            },
+            vaRecordsOffice: {
+              'ui:title': 'VA office where your disability records are located',
+              'ui:help': facilityLocatorLink
+            },
+            'view:inHospital': {
+              'ui:title': 'Are you currently in the hospital?',
+              'ui:widget': 'yesNo'
+            },
+            'view:hospital': {
+              hospitalName: {
+                'ui:title': 'Hospital name',
+                'ui:options': {
+                  'ui:required': (formData) => !!formData['view:inHospital']
+                }
+              },
+              hospitalAddress: address.uiSchema('Hospital address', false, form => form['view:inHospital']),
+              'ui:options': {
+                expandUnder: 'view:inHospital'
+              }
+            },
+            'ui:options': {
+              updateSchema: (formData, schema) => {
+                if (formData['view:inHospital']) {
+                  schema.properties['view:hospital'].required = ['hospitalName']; // eslint-disable-line no-param-reassign
+                } else {
+                  schema.properties['view:hospital'].required = []; // eslint-disable-line no-param-reassign
+                }
+                return schema;
+              }
+            }
+          },
           schema: {
             type: 'object',
+            required: [
+              'disabilityRating',
+              'disabilities',
+              'vaRecordsOffice',
+              'view:inHospital'
+
+            ],
             properties: {
+              disabilityRating: {
+                type: 'string',
+                'enum': [
+                  '0%',
+                  '10%',
+                  '20%',
+                  '30%',
+                  '40%',
+                  '50%',
+                  '60%',
+                  '70%',
+                  '80%',
+                  '90%',
+                  '100%'
+                ]
+              },
+              disabilities: {
+                type: 'string'
+              },
+              vaRecordsOffice,
+              'view:inHospital': {
+                type: 'boolean'
+              },
+              'view:hospital': {
+                type: 'object',
+                properties: {
+                  hospitalName: {
+                    type: 'string'
+                  },
+                  hospitalAddress: address.schema(fullSchema31)
+                }
+              }
             }
           }
         }
