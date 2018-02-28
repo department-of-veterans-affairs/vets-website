@@ -2,9 +2,33 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 import { countryLabels, countryValues, states } from '../labels';
-import { validatePostalCodes } from '../../common/schemaform/validation';
 
 const requiredFields = ['street', 'city', 'country', 'state', 'postalCode'];
+
+export function isValidUSZipCode(value) {
+  return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);
+}
+
+export function isValidCanPostalCode(value) {
+  return /^[a-zA-Z]\d[a-zA-Z][ -]{0,1}\d[a-zA-Z]\d$/.test(value);
+}
+
+function validatePostalCodes(errors, address) {
+  let isValidPostalCode = true;
+
+  // Checks if postal code is valid
+  if (address.country === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+  }
+  if (address.country === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+  }
+
+  // Add error message for postal code if it is invalid
+  if (address.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
 
 /*
  * Create schema for VIC addresses

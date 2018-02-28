@@ -35,6 +35,7 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
+  { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
 
@@ -97,7 +98,6 @@ if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
-  ignoreList.push('veteran-id-card/apply.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
   ignoreList.push('disability-benefits/526/apply-for-increase.md');
@@ -194,7 +194,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Predischarge Claims'
+      name: 'Pre-discharge Claim'
     }
   },
   disabilityConditions: {
