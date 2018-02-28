@@ -219,6 +219,12 @@ function getExtendedProfile(profile) {
           end: '2017-02-18T20:31:57.286Z'
         }
       }
+    ],
+
+    serviceAwards: [
+      {
+        name: 'Army Commendation Medal'
+      }
     ]
   };
 }
