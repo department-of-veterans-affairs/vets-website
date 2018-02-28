@@ -38,21 +38,25 @@ class ConfirmationPage extends React.Component {
       : {};
     const formData = this.props.form.data || {};
 
-    const name = formData['view:isVeteran']
-      ? formData.veteranFullName || {}
-      : formData.applicantFullName || {};
+    const name = formData.veteranFullName || {};
 
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
-          We may contact you for more information or documents.
+          We’ve received your application. Thank you for applying for vocational rehabilitation benefits.
         </p>
         <p>
           Please print this page for your records.
         </p>
+        <div className="confirmation-guidance-container">
+          <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
+          <p>We process claims in the order we receive them.</p>
+          <p>We may contact you if we have any questions or need more information.</p>
+          <p>If you’re eligible for vocational rehabilitation benefits, we’ll invite you to an orientation at your nearest VA regional office and/or out base office.</p>
+        </div>
         <div className="inset">
-          <h4 className="confirmation-page-inset-title">Vocational Counseling Claim <span className="additional">(Form 28-8832)</span></h4>
+          <h4 className="confirmation-page-inset-title">Vocational Rehabilitation claim <span className="additional">(Form 28-1900)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">
@@ -67,14 +71,8 @@ class ConfirmationPage extends React.Component {
           </ul>
         </div>
         <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">What happens after I apply?</h4>
-          <p>We usually process claims within a week.</p>
-          <p>We may contact you for more information or documents.</p>
-          <p>If you’re eligible for vocational rehabilitation benefits, we’ll invite you to an orientation at your nearest VA regional office and/or out base office.</p>
-        </div>
-        <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">Need help?</h4>
-          <p className="confirmation-guidance-message">If you have questions, please call 1-877-222-VETS (1-877-222-8387) and press 2, Monday — Friday, 8:00 a.m. — 8:00 p.m. (ET).</p>
+          <p className="confirmation-guidance-message">If you have questions, please call 1-877-222-VETS (1-877-222-8387) and press 2,<br/>Monday — Friday, 8:00 a.m. — 8:00 p.m. (ET).</p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
