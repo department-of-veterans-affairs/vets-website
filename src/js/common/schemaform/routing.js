@@ -7,12 +7,16 @@ import { expandArrayPages } from './helpers';
  * their dependencies and therefore should be skipped.
  */
 function getEligiblePages(pageList, data, pathname) {
-  const eligiblePageList = getActivePages(pageList, data);
   // Any `showPagePerItem` pages are expanded to create items for each array item.
   // We update the `path` for each of those pages to replace `:index` with the current item index.
-  const expandedPageList = expandArrayPages(eligiblePageList, data);
+  const expandedPageList = expandArrayPages(pageList, data);
   const pageIndex = _.findIndex(item => item.path === pathname, expandedPageList);
-  return { pages: expandedPageList, pageIndex };
+  const eligiblePageList = getActivePages(expandedPageList, data, expandedPageList[pageIndex].index);
+  console.log('getEligiblePages -- expandedPageList:', eligiblePageList);
+  console.log('  pathname:', pathname);
+  console.log('  pageIndex:', pageIndex);
+  console.log('  array page index:', expandedPageList[pageIndex].index);
+  return { pages: eligiblePageList, pageIndex };
 }
 
 export function getNextPagePath(pageList, data, pathname) {

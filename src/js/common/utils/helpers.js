@@ -53,9 +53,9 @@ export function isInProgress(pathName) {
   );
 }
 
-export function isActivePage(page, data) {
+export function isActivePage(page, data, pagePerItemIndex) {
   if (typeof page.depends === 'function') {
-    return page.depends(data);
+    return page.depends(data, pagePerItemIndex);
   }
 
   if (Array.isArray(page.depends)) {
@@ -65,12 +65,15 @@ export function isActivePage(page, data) {
   return page.depends === undefined || _.matches(page.depends)(data);
 }
 
-export function getActivePages(pages, data) {
-  return pages.filter(page => isActivePage(page, data));
+export function getActivePages(pages, data, pagePerItemIndex) {
+  const active =  pages.filter(page => isActivePage(page, data, pagePerItemIndex));
+  console.log('getActivePages -- active pages:', active);
+  console.log('  pagePerItemIndex', pagePerItemIndex);
+  return active;
 }
 
-export function getInactivePages(pages, data) {
-  return pages.filter(page => !isActivePage(page, data));
+export function getInactivePages(pages, data, pagePerItemIndex) {
+  return pages.filter(page => !isActivePage(page, data, pagePerItemIndex));
 }
 
 export function getCurrentFormStep(chapters, path) {
