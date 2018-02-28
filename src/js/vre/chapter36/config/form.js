@@ -53,21 +53,21 @@ function isVeteran({ 'view:isVeteran': isVeteranApplicant }) {
   return isVeteranApplicant;
 }
 
-function isNotVeteran({ 'view:isVeteran': isVeteranApplicant }) {
-  return !isVeteranApplicant;
+function isNotVeteran(formData) {
+  return !isVeteran(formData);
+}
+
+function isSpouse({ applicantRelationshipToVeteran: relationship }) {
+  return relationship === 'Spouse' || relationship === 'Surviving spouse';
 }
 
 function isVeteranOrSpouse(formData) {
-  const {
-    'view:isVeteran': isVeteranApplicant,
-    applicantRelationshipToVeteran: relationship
-  } = formData;
-  const isSpouse = relationship === 'Spouse' || relationship === 'Surviving spouse';
-  return !!(isVeteranApplicant || isSpouse);
+  return isVeteran(formData) || isSpouse(formData);
 }
 
-function isVeteranOrNoApplications({ 'view:isVeteran': isVeteranApplicant, previousBenefitApplications: applications }) {
-  return isVeteranApplicant || !_.some(Boolean, applications);
+function isVeteranOrNoApplications(formData) {
+  const { previousBenefitApplications: applications } = formData;
+  return isVeteran(formData) || !_.some(Boolean, applications);
 }
 
 const serviceHistoryUI = {
