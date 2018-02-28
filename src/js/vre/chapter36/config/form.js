@@ -300,7 +300,7 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional Information',
       pages: {
-        additionalInformationVeteran: {
+        additionalInformation: {
           title: 'Additional Information',
           path: 'additional-information',
           uiSchema: {
