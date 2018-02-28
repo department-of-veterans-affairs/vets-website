@@ -3,9 +3,11 @@ import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../login/act
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
+
   FETCHING_LATEST_MHV_TERMS,
   FETCHING_LATEST_MHV_TERMS_SUCCESS,
   FETCHING_LATEST_MHV_TERMS_FAILURE,
+
   ACCEPTING_LATEST_MHV_TERMS,
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
@@ -30,6 +32,10 @@ import {
   SAVE_EMAIL_ADDRESS_FAIL,
   SAVE_EMAIL_ADDRESS_SUCCESS,
 
+  FETCH_EXTENDED_PROFILE,
+  FETCH_EXTENDED_PROFILE_SUCCESS,
+  FETCH_EXTENDED_PROFILE_FAIL,
+
   OPEN_MODAL
 
 } from '../actions';
@@ -53,6 +59,7 @@ const initialState = {
   savedForms: [],
   prefillsAvailable: [],
   loading: true,
+  extended: false,
   pendingSaves: [],
   errors: [],
   modal: null
@@ -60,6 +67,24 @@ const initialState = {
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
+
+    case FETCH_EXTENDED_PROFILE: {
+      return state;
+    }
+
+    case FETCH_EXTENDED_PROFILE_FAIL: {
+      const errors = state.errors.concat(FETCH_EXTENDED_PROFILE_FAIL);
+      return { ...state, errors, extended: true };
+    }
+
+    case FETCH_EXTENDED_PROFILE_SUCCESS: {
+      return { ...action.newState, extended: true };
+    }
+
+    case OPEN_MODAL: {
+      const modal = action.modal;
+      return { ...state, modal };
+    }
 
     case SAVE_EMAIL_ADDRESS:
     case SAVE_PRIMARY_PHONE:
@@ -107,11 +132,6 @@ function profileInformation(state = initialState, action) {
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat(action.type);
       return { ...state, errors };
-    }
-
-    case OPEN_MODAL: {
-      const modal = action.modal;
-      return { ...state, modal };
     }
 
     case UPDATE_PROFILE_FIELDS: {

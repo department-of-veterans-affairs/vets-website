@@ -16,6 +16,10 @@ export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
 export const OPEN_MODAL = 'OPEN_MODAL';
 
+export const FETCH_EXTENDED_PROFILE = 'FETCH_EXTENDED_PROFILE';
+export const FETCH_EXTENDED_PROFILE_FAIL = 'FETCH_EXTENDED_PROFILE_FAIL';
+export const FETCH_EXTENDED_PROFILE_SUCCESS = 'FETCH_EXTENDED_PROFILE_SUCCESS';
+
 export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
 export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
 export const SAVE_MAILING_ADDRESS_SUCCESS = 'SAVE_MAILING_ADDRESS_SUCCESS';
@@ -152,7 +156,6 @@ function sendProfileRequests() {
 function getExtendedProfile(profile) {
   return {
     ...profile,
-    extended: true,
 
     // S3
     profilePicture: '/img/profile.png',
@@ -225,11 +228,14 @@ export function fetchExtendedProfile() {
     const { user: { profile } } = getState();
     const requests = sendProfileRequests();
 
+    dispatch({ type: FETCH_EXTENDED_PROFILE });
+
     Promise.all(requests)
       .then(data => getExtendedProfile(profile, ...data))
       .then(extendedProfile => {
-        dispatch({ type: UPDATE_PROFILE_FIELDS, newState: extendedProfile });
-      });
+        dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedProfile });
+      })
+      .catch(() => dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL }));
   };
 }
 

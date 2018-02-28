@@ -5,9 +5,11 @@ import {
   SAVE_RESIDENTIAL_ADDRESS,
   SAVE_PRIMARY_PHONE,
   SAVE_ALTERNATE_PHONE,
-  SAVE_EMAIL_ADDRESS
+  SAVE_EMAIL_ADDRESS,
+  FETCH_EXTENDED_PROFILE_FAIL
 } from '../actions';
 
+import AlertBox from '../../common/components/AlertBox';
 import PhoneNumberWidget from '../../common/schemaform/review/PhoneNumberWidget';
 import SSNWidget from '../../common/schemaform/review/SSNWidget';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -48,6 +50,11 @@ class ProfileView extends React.Component {
   render() {
     if (!this.props.profile.extended) {
       return <LoadingIndicator message="Loading complete profile..."/>;
+    } else if (this.props.profile.errors.includes(FETCH_EXTENDED_PROFILE_FAIL)) {
+      return (
+        <AlertBox status="error" isVisible
+          content={<h4 className="usa-alert-heading">Failed to load extended profile</h4>}/>
+      );
     }
 
     const {
