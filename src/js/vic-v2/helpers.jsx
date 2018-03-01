@@ -3,33 +3,30 @@ import Raven from 'raven-js';
 import environment from '../common/helpers/environment.js';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
-export function prefillTransformer(pages, formData, metadata) {
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newPages = pages;
+  let newData = formData;
+
   if (formData && formData.serviceBranches) {
     // Mostly we'll be getting branch lists of one or two branches, creating a Set seems like overkill
     const allowedBranches = pages.veteranInformation.schema.properties.serviceBranch.enum;
     const validUserBranches = formData.serviceBranches.filter(branch => allowedBranches.includes(branch));
 
-    const newData = _.unset('serviceBranches', formData);
+    newData = _.unset('serviceBranches', newData);
     if (validUserBranches.length > 0) {
       newData.serviceBranch = validUserBranches[0];
-      return {
-        metadata,
-        formData: newData,
-        pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages)
-      };
+      newPages = _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages);
     }
+  }
 
-    return {
-      metadata,
-      formData: newData,
-      pages
-    };
+  if (state.user.profile.services.includes('identity-proofed')) {
+    newData = _.set('idProofed', true, newData);
   }
 
   return {
     metadata,
-    formData,
-    pages
+    formData: newData,
+    pages: newPages
   };
 }
 
@@ -117,7 +114,21 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transformForSubmit(formConfig, _.unset('data.verified', form));
+  let newData = _.unset('verified', form);
+  if (newData.idProofed) {
+    newData = _.omit([
+      'veteranFullName',
+      'veteranSocialSecurityNumber',
+      'gender',
+      'veteranDateOfBirth',
+      'idProofed'
+    ], newData);
+    newData.anonymous = false;
+  } else {
+    newData.anonymous = true;
+  }
+
+  const formData = transformForSubmit(formConfig, newData);
   const body = JSON.stringify({
     vicSubmission: {
       form: formData
