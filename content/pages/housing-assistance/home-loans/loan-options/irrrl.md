@@ -17,11 +17,11 @@ Refinancing lets you replace your current loan with a new one under different te
 
 ### Can I get an IRRRL?
 
-You may be able to get an IRRRL if you:
+You may be able to get an IRRRL if **all of the following are true for you**:
 
--	Already have a VA-backed home loan, **and**
--	Are using the IRRRL to refinance your existing VA-backed home loan, **and**
--	Can certify that you currently live in or used to live in the home covered by the loan
+-	You already have a VA-backed home loan, **and**
+-	You are using the IRRRL to refinance your existing VA-backed home loan, **and**
+-	You can certify that you currently live in or used to live in the home covered by the loan
 
 **Note:** If you have a second mortgage on the home, the holder must agree to make your new VA-backed loan the first mortgage.  
 
@@ -36,7 +36,8 @@ Often called a “streamline” refinance, an IRRRL may help you to:
 -	Lower your monthly mortgage payment by getting you a lower interest rate, **or**
 -	Make your monthly payments more stable by moving from a loan with an adjustable or variable interest rate (an interest rate that changes over time) to one that’s fixed (the same interest rate over the life of the loan)
 
-On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. <br>
+[See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
 You’ll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. <br>
 [Visit the Consumer Financial Protection Bureau for more information](https://www.consumerfinance.gov/owning-a-home/). <br />
