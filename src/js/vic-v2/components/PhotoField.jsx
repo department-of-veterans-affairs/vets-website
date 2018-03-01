@@ -504,6 +504,7 @@ export default class PhotoField extends React.Component {
   rotateCanvas = (moveData) => {
     // rotate
     this.refs.cropper.rotate(moveData.moveDegree);
+    this.moveCanvasToDefaultPosition();
   }
 
   resetFile = () => {
@@ -545,39 +546,6 @@ export default class PhotoField extends React.Component {
 
     if (!allowedActions.includes(action)) {
       e.preventDefault();
-    }
-  }
-
-  handleMoveOrRotate = (direction) => {
-    let moveData;
-    switch (direction) {
-      case 'Move up':
-        moveData = { moveX: 0, moveY: -5 };
-        break;
-      case 'Move down':
-        moveData = { moveX: 0, moveY: 5 };
-        break;
-      case 'Move right':
-        moveData = { moveX: 5, moveY: 0 };
-        break;
-      case 'Move left':
-        moveData = { moveX: -5, moveY: 0 };
-        break;
-      case 'Rotate left':
-        moveData = { moveDegree: -90 };
-        break;
-      case 'Rotate right':
-        moveData = { moveDegree: 90 };
-        break;
-      default:
-        moveData = {};
-    }
-
-    if ('moveDegree' in moveData) {
-      this.rotateCanvas(moveData);
-      this.moveCanvasToDefaultPosition();
-    } else {
-      this.moveCanvasWithinBounds(moveData);
     }
   }
 
@@ -732,21 +700,26 @@ export default class PhotoField extends React.Component {
               viewMode={0}
               zoom={this.onZoom}/>
             <CropperControls
-              maxRatio={this.state.maxRatio}
-              minRatio={this.state.minRatio}
               disableMoveUp={this.state.moveUpDisabled}
               disableMoveDown={this.state.moveDownDisabled}
               disableMoveRight={this.state.moveRightDisabled}
               disableMoveLeft={this.state.moveLeftDisabled}
-              move={this.handleMoveOrRotate}
-              onChange={this.onZoomSliderChange}
+              moveDown={() => this.moveCanvasWithinBounds({ moveX: 0, moveY: 5 })}
+              moveLeft={() => this.moveCanvasWithinBounds({ moveX: -5, moveY: 0 })}
+              moveRight={() => this.moveCanvasWithinBounds({ moveX: 5, moveY: 0 })}
+              moveUp={() => this.moveCanvasWithinBounds({ moveX: 0, moveY: -5 })}
+              onSliderChange={this.onZoomSliderChange}
               onSliderMouseDown={this.onZoomMouseDown}
               onSliderMouseMove={this.onZoomMouseMove}
               onSliderMouseUp={this.onZoomMouseUp}
-              rotate={this.handleMoveOrRotate}
+              rotateLeft={() => this.rotateCanvas({ moveDegree: -90 })}
+              rotateRight={() => this.rotateCanvas({ moveDegree: 90 })}
               narrowLayout={smallScreen}
-              zoom={this.handleZoomButtonClick}
-              zoomValue={this.state.zoomValue}/>
+              sliderMaxValue={this.state.maxRatio}
+              sliderMinValue={this.state.minRatio}
+              sliderValue={this.state.zoomValue}
+              zoomIn={() => this.handleZoomButtonClick('IN')}
+              zoomOut={() => this.handleZoomButtonClick('OUT')}/>
             <div style={{ margin: '1em 1em 4em' }}>
               {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             </div>
