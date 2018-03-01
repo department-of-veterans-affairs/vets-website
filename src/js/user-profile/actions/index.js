@@ -146,13 +146,13 @@ export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE
 export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
 
 function getEmailAddress() {
-// https://github.com/department-of-veterans-affairs/vets-api/pull/1718
+  // https://github.com/department-of-veterans-affairs/vets-api/pull/1718
   return apiRequest('/profile/email')
     .then(response => response.json())
     .then(json => json.data.attributes.email)
-    .catch(() => {
-      // eslint-disable-no-console
-      // console.log(err);
+    .catch(err => {
+      /* eslint-disable no-console */
+      console.log(err);
       return null;
     });
 }
