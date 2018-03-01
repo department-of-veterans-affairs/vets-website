@@ -101,7 +101,7 @@ If you're a **discharged member of the National Guard** and were **never activat
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-discharged-reserves">Discharged member of the Reserves who was never activated</button>
 <div id="apply-coe-discharged-reserves" class="usa-accordion-content">
 
-If you are a **discharged member of the Reserves** and were **never activated**, you’ll need:
+If you're a **discharged member of the Reserves** and were **never activated**, you’ll need:
 
 - A copy of your latest annual retirement points, **and**
 - Proof of your honorable service
