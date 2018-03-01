@@ -734,17 +734,17 @@ export default class PhotoField extends React.Component {
             <CropperControls
               maxRatio={this.state.maxRatio}
               minRatio={this.state.minRatio}
-              moveUpDisabled={this.state.moveUpDisabled}
-              moveDownDisabled={this.state.moveDownDisabled}
-              moveRightDisabled={this.state.moveRightDisabled}
-              moveLeftDisabled={this.state.moveLeftDisabled}
+              disableMoveUp={this.state.moveUpDisabled}
+              disableMoveDown={this.state.moveDownDisabled}
+              disableMoveRight={this.state.moveRightDisabled}
+              disableMoveLeft={this.state.moveLeftDisabled}
               move={this.handleMoveOrRotate}
               onChange={this.onZoomSliderChange}
-              onMouseDown={this.onZoomMouseDown}
-              onMouseMove={this.onZoomMouseMove}
-              onMouseUp={this.onZoomMouseUp}
+              onSliderMouseDown={this.onZoomMouseDown}
+              onSliderMouseMove={this.onZoomMouseMove}
+              onSliderMouseUp={this.onZoomMouseUp}
               rotate={this.handleMoveOrRotate}
-              smallScreen={smallScreen}
+              narrowLayout={smallScreen}
               zoom={this.handleZoomButtonClick}
               zoomValue={this.state.zoomValue}/>
             <div style={{ margin: '1em 1em 4em' }}>
