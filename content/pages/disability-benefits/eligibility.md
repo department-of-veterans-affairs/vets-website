@@ -67,7 +67,8 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you've received one of these discharge statuses, you may not be eligible for VA benefits. **But there are 2 ways you can try to qualify:**
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+**There are 2 ways you can try to qualify:**
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
 [Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
