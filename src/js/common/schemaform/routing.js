@@ -10,8 +10,8 @@ function getEligiblePages(pageList, data, pathname) {
   // Any `showPagePerItem` pages are expanded to create items for each array item.
   // We update the `path` for each of those pages to replace `:index` with the current item index.
   const expandedPageList = expandArrayPages(pageList, data);
-  const pageIndex = _.findIndex(item => item.path === pathname, expandedPageList);
   const eligiblePageList = getActivePages(expandedPageList, data);
+  const pageIndex = _.findIndex(item => item.path === pathname, eligiblePageList);
   return { pages: eligiblePageList, pageIndex };
 }
 
