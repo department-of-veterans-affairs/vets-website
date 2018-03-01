@@ -38,9 +38,9 @@ display_title: Frequently Asked Questions
                         <ul>
                           <li>With your existing <strong>My Health<em>e</em>Vet</strong> account, <strong>or</strong></li>
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
-                          <li>By creating an account through ID.me (our trusted technology partner)</li>
+                          <li>By creating an account through ID.me (a trusted partner)</li>
                         </ul>
-                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em> Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov before using tools that require this higher level of security.</p> 
+                        <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all Vets.gov tools. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again before performing common tasks on Vets.gov like checking your claims status or secure messaging your health care team.</p> 
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
@@ -54,10 +54,10 @@ display_title: Frequently Asked Questions
                     <div id="faq-verify-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <h4>Fastest way to verify your identity online</h4>
-                        <p>If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, you can use your existing account to sign in. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov.</p>
+                        <p>If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, you can use your existing account to sign in. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again before performing common tasks on Vets.gov like checking your claims status or secure messaging your health care team.</p>
                         <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                         <h4>How to verify your identity online if you don't have an existing premium account</h4>
-                        <p>If you don’t have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
+                        <p>If you don’t have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, we’ll help you verify your identity using ID.me—a trusted partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
                         <p><strong>To go through the ID.me identity-proofing process, you’ll need:</strong></p>
                         <ul>
                           <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection), <strong>and</strong></li>
@@ -128,7 +128,7 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-0" itemprop="name">If I can't or don't want to verify my identity through ID.me, what are my other options? </button>
                     <div id="faq-trouble-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>You can use a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account to sign in to Vets.gov. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to prove your identity again on Vets.gov.
+                        <p>You can use a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account to sign in to Vets.gov. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov.
                         <h4>How to get a premium DS Logon account</h4>                      
                         <p>Follow these 2 steps to sign up for a premium <strong>DS Logon</strong> account.</p>
                         <p><strong>1. First, make sure you’re enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
@@ -187,8 +187,8 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-2" itemprop="name">What address should I use to verify my identity if I live overseas? </button>
                     <div id="faq-trouble-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p><strong>If you’re signing in through your ID.me account,</strong> you’ll need to use your most recent official stateside address and phone number (the information that will match records like your credit history)—even if it’s not your current contact information.</p>
                         <p><strong>If you have a premium My Health<em>e</em>Vet or DS Logon account,</strong> you can sign in using those credentials and you won't need to verify your identity.</p>
+                        <p><strong>If you’re signing in through your ID.me account,</strong> you’ll need to use your most recent official stateside address and phone number (the information that will match records like your credit history)—even if it’s not your current contact information.</p>                        
                       </div>
                     </div>
                   </li>
