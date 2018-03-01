@@ -38,7 +38,7 @@ function validateAddress(errors, address, formData, currentSchema) {
     && typeof address.postalCode !== 'undefined';
 
   if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError('Please select a state or province or remove other address information');
+    errors.state.addError('Please enter a state or province, or remove other address information.');
   }
 
   validatePostalCodes(errors, address);
