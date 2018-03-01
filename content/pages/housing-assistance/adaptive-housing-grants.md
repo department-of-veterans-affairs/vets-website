@@ -30,6 +30,21 @@ For FY 2017, you may be able to get up to 3 grants—for a total of up to $77,30
 
 <br>
 
+### Can I get a Special Housing Adaptation (SHA) grant—and how much funding does this grant offer?
+
+You may be able to get an SHA grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if **both of the following are true for you**:
+
+- You or a family member own or will own the home, **and**
+  - You have 1 of these service-connected disabilities (disabilities related to your service):
+  - Blindness in both eyes (with 20/200 visual acuity or less)
+  - The loss or loss of use of both hands
+  - Certain severe burns
+  - Certain respiratory or breathing injuries
+  
+For FY 2017, you may be able to get up to 3 grants—for a total of up to $15,462—through the SHA grant program.
+
+<br>
+
 ### What if I need money to make changes to a family member’s home that I’m living in for a short period of time?
 
 You may be able to get a Temporary Residence Adaptation (TRA) grant if **both of the following are true for you**:
