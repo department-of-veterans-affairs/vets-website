@@ -16,11 +16,11 @@ Refinancing lets you replace your current loan with a new one under different te
 
 ### Can I get a VA-backed cash-out refinance loan?
 
-You may be able to get a cash-out refinance loan if you:
+You may be able to get a cash-out refinance loan if **all of the following are true for you**:
 
--	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
--	Meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
--	Will live in the home you’re refinancing with the loan
+-	You [qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
+-	You meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
+-	You will live in the home you’re refinancing with the loan
 
 </div>
 
@@ -33,11 +33,13 @@ A cash-out refinance loan may help you to:
 -	Take cash out of your home equity to pay off debt, pay for school, make home improvements, or take care of other needs, **or**
 -	Refinance a non-VA loan into a VA-backed loan
 
-On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conforming loan limit in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. <br>
+[See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
 You’ll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Make sure you understand how your new loan amount relates to the value of your home. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. 
 
-The Consumer Financial Protection Bureau’s home loan toolkit can help. [Download the home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+The Consumer Financial Protection Bureau’s home loan toolkit can help. <br>
+[Download the home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
 
 <br>
 
