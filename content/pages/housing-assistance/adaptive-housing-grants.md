@@ -32,7 +32,7 @@ For FY 2017, you may be able to get up to 3 grants—for a total of up to $77,30
 
 ### What if I need money to make changes to a family member’s home that I’m living in for a short period of time?
 
-You may be able to get a Temporary Residence Adaptation (TRA) grant if **both of the following are true for you*:
+You may be able to get a Temporary Residence Adaptation (TRA) grant if **both of the following are true for you**:
 
 - You qualify for an SAH or SHA grant (see above), **and**
 - You are living temporarily in a family member’s home that needs changes to meet your needs
