@@ -12,11 +12,13 @@ import EducationPeriodView from '../components/EducationPeriodView';
 
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import yearUI from '../../../common/schemaform/definitions/year';
 
 import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
+import { validateYearRange } from '../validations';
 
 const {
   serviceFlags,
@@ -199,32 +201,36 @@ const formConfig = {
         }
       }
     },
-    educationAndVREInformation: {
-      title: 'Education and Vocational Rehab Information',
+    educationInformation: {
+      title: 'Education Information',
       pages: {
-        educationAndVREInformation: {
-          path: 'education-vre-information',
-          title: 'Education and Vocational Rehab Information',
+        educationInformation: {
+          path: 'education-information',
+          title: 'Education Information',
           uiSchema: {
             yearsOfEducation: {
               'ui:title': 'Number of years of education including high school'
             },
             previousPrograms: {
               'ui:options': {
-                itemName: 'Education Period',
+                itemName: 'Program',
                 viewField: EducationPeriodView,
                 hideTitle: true
               },
+              'ui:title': 'List any VA or non-VA vocational rehabilitation programs you have been in.',
               items: {
                 program: {
                   'ui:title': 'Name of program'
                 },
-                yearStarted: {
+                yearStarted: Object.assign({}, yearUI, {
                   'ui:title': 'Year you started the program'
-                },
-                yearLeft: {
+                }),
+                yearLeft: Object.assign({}, yearUI, {
                   'ui:title': 'Year you left the program'
-                }
+                }),
+                'ui:validations': [
+                  validateYearRange
+                ]
               }
             }
           },
