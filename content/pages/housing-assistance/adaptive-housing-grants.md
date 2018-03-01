@@ -16,7 +16,7 @@ We offer grants to Servicemembers and Veterans with certain service-connected di
 
 ### Can I get a Specially Adapted Housing (SAH) grant—and how much funding does this grant offer?
 
-You may be able to get an SAH grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if:
+You may be able to get an SAH grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if **both of the following are true for you**:
 
 - You own or will own the home, **and**
 - You have 1 of these service-connected disabilities (disabilities related to your service):
@@ -30,27 +30,12 @@ For FY 2017, you may be able to get up to 3 grants—for a total of up to $77,30
 
 <br>
 
-### Can I get a Special Housing Adaptation (SHA) grant—and how much funding does this grant offer?
-
-You may be able to get an SHA grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if:
-
-- You or a family member own or will own the home, **and**
-- You have 1 of these service-connected disabilities (disabilities related to your service):
-  - Blindness in both eyes (with 20/200 visual acuity or less)
-  - The loss or loss of use of both hands
-  - Certain severe burns
-  - Certain respiratory or breathing injuries
-
-For FY 2017, you may be able to get up to 3 grants—for a total of up to $15,462—through the SHA grant program.
-
-<br>
-
 ### What if I need money to make changes to a family member’s home that I’m living in for a short period of time?
 
-You may be able to get a Temporary Residence Adaptation (TRA) grant if you:
+You may be able to get a Temporary Residence Adaptation (TRA) grant if **both of the following are true for you*:
 
-- Qualify for an SAH or SHA grant (see above), **and**
-- Are living temporarily in a family member’s home that needs changes to meet your needs
+- You qualify for an SAH or SHA grant (see above), **and**
+- You are living temporarily in a family member’s home that needs changes to meet your needs
 
 If you qualify for an SAH grant, you can get up to $33,937 through the TRA grant program for FY 2017.
 
@@ -64,13 +49,16 @@ You’ll need to apply for a grant. You can apply in 1 of 3 ways:
 
 #### Apply online
 
-Apply through eBenefits. [Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
+Apply through eBenefits. <br>
+[Go to eBenefits]( https://www.ebenefits.va.gov/ebenefits/homepage).
 
 #### Apply by mail
 
-Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). [Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf).
+Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). <br>
+[Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf).
 
-Mail it to your nearest regional loan center. [Find a regional loan center near you](https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
+Mail it to your nearest regional loan center. <br>
+[Find a regional loan center near you](https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp).
 
 If you have trouble accessing the form, call us toll-free at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>) to have a claim form mailed to you.
 
