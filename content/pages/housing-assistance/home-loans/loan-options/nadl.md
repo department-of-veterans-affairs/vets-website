@@ -17,7 +17,7 @@ If you’re a Veteran, and either you or your spouse is Native American, our Nat
 
 ### Can I get a NADL?
 
-You may be able to get a NADL if you’re a Native American Veteran or a non–Native American Veteran married to a Native American, **and**:
+You may be able to get a NADL if you’re a Native American Veteran or a non–Native American Veteran married to a Native American, **and all of the following are true for you**:
 
 - Your tribal government has an agreement—or Memorandum of Understanding (MOU)—with us detailing how the program will work on its Trust lands, **and**
 -	You have a valid VA home loan Certificate of Eligibility (COE), **and**
@@ -40,7 +40,8 @@ A NADL offers many benefits, including:
 - **Limited closing costs** (fees you pay for services and other costs related to getting a loan and buying a home)
 - **A low-interest, 30-year fixed mortgage** (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
 - **A reusable benefit**, which means you can get more than one NADL to buy, build, or improve another residence in the future
-- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. <br>
+[See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
 <br>
 
