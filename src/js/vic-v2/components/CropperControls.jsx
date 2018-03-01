@@ -3,6 +3,16 @@ import classNames from 'classnames';
 
 const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
 
+const MoveRotateButton = ({
+  disabled = false,
+  onClick,
+  label,
+  iconClassName
+}) => (
+  <button className={classNames(moveControlClass, { disabled })} type="button" onClick={onClick}>
+    <span className="cropper-control-label">{label}<i className={iconClassName}></i></span>
+  </button>);
+
 const CropperControls = ({
   disableMoveDown,
   disableMoveLeft,
@@ -27,10 +37,9 @@ const CropperControls = ({
 }) => (
   <div>
     <div className="cropper-zoom-container">
-      {narrowLayout && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={zoomOut}><i className="fa fa-search-minus"></i></button>}
-      {!narrowLayout && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={zoomOut}>
-        <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
-      </button>}
+      <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={zoomOut}>
+        <span className="cropper-control-label">{narrowLayout || 'Make smaller'}<i className="fa fa-search-minus"></i></span>
+      </button>
       <input type="range"
         className="cropper-zoom-slider"
         min={sliderMinValue}
@@ -44,43 +53,30 @@ const CropperControls = ({
         onMouseMove={onSliderMouseMove}
         onChange={onSliderChange}
         value={sliderValue}/>
-      {narrowLayout && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={zoomIn}><i className="fa fa-search-plus"></i></button>}
-      {!narrowLayout && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={zoomIn}>
-        <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
-      </button>}
+      <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={zoomIn}>
+        <span className="cropper-control-label">{narrowLayout || 'Make larger'}<i className="fa fa-search-plus"></i></span>
+      </button>
     </div>
     <div className="cropper-control-container">
-      <div className="cropper-control-row">
-        {narrowLayout && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={zoomOut}>
+      {narrowLayout && <div className="cropper-control-row">
+        <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={zoomOut}>
           <span className="cropper-control-label">Make smaller</span>
-        </button>}
-        {narrowLayout && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={zoomIn}>
+        </button>
+        <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={zoomIn}>
           <span className="cropper-control-label">Make larger</span>
-        </button>}
+        </button>
+      </div>}
+      <div className="cropper-control-row">
+        <MoveRotateButton disabled={disableMoveUp} onClick={moveUp} label="Move up" iconClassName="fa fa-arrow-up"/>
+        <MoveRotateButton disabled={disableMoveDown} onClick={moveDown} label="Move down" iconClassName="fa fa-arrow-down"/>
       </div>
       <div className="cropper-control-row">
-        <button className={classNames(moveControlClass, { disabled: disableMoveUp })} type="button" onClick={moveUp}>
-          <span className="cropper-control-label">Move up<i className="fa fa-arrow-up"></i></span>
-        </button>
-        <button className={classNames(moveControlClass, { disabled: disableMoveDown })} type="button" onClick={moveDown}>
-          <span className="cropper-control-label">Move down<i className="fa fa-arrow-down"></i></span>
-        </button>
+        <MoveRotateButton disabled={disableMoveLeft} onClick={moveLeft} label="Move left" iconClassName="fa fa-arrow-left"/>
+        <MoveRotateButton disabled={disableMoveRight} onClick={moveRight} label="Move right" iconClassName="fa fa-arrow-right"/>
       </div>
       <div className="cropper-control-row">
-        <button className={classNames(moveControlClass, { disabled: disableMoveLeft })} type="button" onClick={moveLeft}>
-          <span className="cropper-control-label">Move left<i className="fa fa-arrow-left"></i></span>
-        </button>
-        <button className={classNames(moveControlClass, { disabled: disableMoveRight })} type="button" onClick={moveRight}>
-          <span className="cropper-control-label">Move right<i className="fa fa-arrow-right"></i></span>
-        </button>
-      </div>
-      <div className="cropper-control-row">
-        <button className={classNames(moveControlClass)} type="button" onClick={rotateLeft}>
-          <span className="cropper-control-label">Rotate left<i className="fa fa-rotate-left"></i></span>
-        </button>
-        <button className={classNames(moveControlClass)} type="button" onClick={rotateRight}>
-          <span className="cropper-control-label">Rotate right<i className="fa fa-rotate-right"></i></span>
-        </button>
+        <MoveRotateButton onClick={rotateLeft} label="Rotate left" iconClassName="fa fa-rotate-left"/>
+        <MoveRotateButton onClick={rotateRight} label="Rotate left" iconClassName="fa fa-rotate-right"/>
       </div>
       <div className="cropper-control-row">
       </div>
@@ -90,7 +86,7 @@ const CropperControls = ({
 
 CropperControls.defaultValues = {
   narrowLayout: false
-}
+};
 
 CropperControls.PropTypes = {
   disableMoveUp: React.PropTypes.bool,
