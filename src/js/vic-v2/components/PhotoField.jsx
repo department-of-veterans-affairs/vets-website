@@ -639,7 +639,6 @@ export default class PhotoField extends React.Component {
     const screenReaderError = this.screenReaderPath && !!errorMessage;
     const label = this.props.uiSchema['ui:title'];
     const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
-    const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const cropperTypes = fileTypes.concat('bmp');
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
@@ -704,136 +703,135 @@ export default class PhotoField extends React.Component {
               </div>
               <a href="/veteran-id-card/how-to-upload-photo" target="_blank">
                 Learn more about uploading a photo for your Veteran ID Card
-              </a>.
-                </div>}
-                {instruction}
-                {!this.state.previewProcessing && description}
-                {fieldView === 'preview' && hasFile &&
-                    <PhotoPreview
-                      id={file.confirmationCode}
-                      className="photo-preview"
-                      isLoggedIn={formContext.isLoggedIn}
-                      processing={this.state.previewProcessing}
-                      src={this.state.previewSrc}
-                      onUpdatePreview={this.updatePreviewSrc}
-                      onError={this.onPreviewError}/>
-                }
-              </div>
-              {fieldView === 'progress' && <div className={progressBarContainerClass}>
-                <span>{this.state.fileName}</span><br/>
-                <ProgressBar percent={this.state.progress}/>
-              </div>}
-              {fieldView === 'cropper' && <div className="cropper-container-outer">
-                <Cropper
-                  ref="cropper"
-                  key={smallScreen ? 'smallScreen' : 'largeScreen'}
-                  ready={this.setCropBox}
-                  responsive
-                  src={this.state.src}
-                  aspectRatio={1}
-                  cropBoxMovable={false}
-                  cropstart={this.handleCropstart}
-                  cropend={this.handleCropend}
-                  cropmove={this.handleCropMove}
-                  minContainerHeight={smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
-                  toggleDragModeOnDblclick={false}
-                  dragMode="move"
-                  guides={false}
-                  viewMode={0}
-                  zoom={this.onZoom}/>
-                <div className="cropper-zoom-container">
-                  {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
-                  {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
-                    <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
-                  </button>}
-                  <input type="range"
-                    ref="slider"
-                    className="cropper-zoom-slider"
-                    min={this.state.minRatio}
-                    max={this.state.maxRatio}
-                    defaultValue="0.4"
-                    step="0.01"
-                    aria-valuemin={this.state.minRatio}
-                    aria-valuemax={this.state.maxRatio}
-                    aria-valuenow={this.state.zoomValue}
-                    onMouseDown={this.onZoomMouseDown}
-                    onMouseUp={this.onZoomMouseUp}
-                    onMouseMove={this.onZoomMouseMove}
-                    onChange={this.onZoomSliderChange}/>
-                  {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
-                  {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
-                    <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
-                  </button>}
-                </div>
-                <CropperControls
-                  moveUpDisabled={this.state.moveUpDisabled}
-                  moveDownDisabled={this.state.moveUpDisabled}
-                  moveRightDisabled={this.state.moveUpDisabled}
-                  moveLeftDisabled={this.state.moveUpDisabled}
-                  move={this.handleMoveOrRotate}
-                  rotate={this.handleMoveOrRotate}
-                  zoom={this.handleZoomButtonClick}
-                />
-                <div style={{ margin: '1em 1em 4em' }}>
-                  {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-                </div>
-                <div className="crop-button-container">
-                  <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                    I’m Done
-                  </button>
-                </div>
-              </div>
-              }
-              {fieldView === 'initial' && <div className="drop-target-container">
-                <Dropzone
-                  className={`drop-target ${this.state.dragActive && 'drag-active'}`}
-                  onDragEnter={() => this.handleDrag({ dragActive: true })}
-                  onDragLeave={() => this.handleDrag({ dragActive: false })}
-                  onDrop={this.onChange}
-                  accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
-                  {this.state.dragActive ?
-                      <div className="drag-active-text"><span>DROP PHOTO</span></div> :
-                      <img alt="placeholder" src="/img/photo-placeholder.png"/>}
-                    </Dropzone>
-                  </div>}
-                  <div className={uploadControlClass}>
-                    {fieldView === 'preview' && <button
-                      className="photo-preview-link va-button-link"
-                      type="button"
-                      onClick={this.resetFile}>
-                      Go back and change your photo
-                    </button>}
-                    {fieldView === 'preview' && !this.state.previewProcessing && <button
-                      className="photo-preview-link va-button-link"
-                      type="button"
-                      aria-describedby="editButtonDescription"
-                      onClick={this.onEdit}>
-                      Edit your photo
-                    </button>}
-                    {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
-                      accept={cropperTypes.map(type => `.${type}`).join(',')}
-                      onChange={this.onChange}
-                      buttonText={uploadMessage}
-                      aria-describedby="croppingToolDescription"
-                      name="fileUpload"/>}
-                    {fieldView === 'initial' && <ErrorableFileInput
-                      accept={fileTypes.map(type => `.${type}`).join(',')}
-                      onChange={this.onChangeScreenReader}
-                      buttonText="Use our screen reader-friendly photo upload tool."
-                      aria-describedby="screenReaderPathDescription"
-                      triggerClass="va-button-link"
-                      name="screenReaderFileUpload"/>}
-                    {fieldView === 'error' && <ErrorableFileInput
-                      accept={fileTypes.map(type => `.${type}`).join(',')}
-                      onChange={this.onChangeScreenReader}
-                      buttonText="Upload Photo Again"
-                      name="screenReaderFileUpload"/>}
-                  </div>
-                  <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>
-                  <span className="sr-only" id="editButtonDescription">This button will take you into a photo cropping tool, which requires sight to use. This button is not recommended if you are using a screen reader.</span>
-                  <span className="sr-only" id="screenReaderPathDescription">This is the recommended path if you are using a screen reader. It will allow you to upload your photo without having to crop, as long as you have a photo that is square and at least 350 pixels wide.</span>
-                </div>
-              </fieldset>
+              </a>
+            </div>}
+            {instruction}
+            {!this.state.previewProcessing && description}
+            {fieldView === 'preview' && hasFile && <PhotoPreview
+              id={file.confirmationCode}
+              className="photo-preview"
+              isLoggedIn={formContext.isLoggedIn}
+              processing={this.state.previewProcessing}
+              src={this.state.previewSrc}
+              onUpdatePreview={this.updatePreviewSrc}
+              onError={this.onPreviewError}/>
+            }
+          </div>
+          {fieldView === 'progress' && <div className={progressBarContainerClass}>
+            <span>{this.state.fileName}</span><br/>
+            <ProgressBar percent={this.state.progress}/>
+          </div>}
+          {fieldView === 'cropper' && <div className="cropper-container-outer">
+            <Cropper
+              ref="cropper"
+              key={smallScreen ? 'smallScreen' : 'largeScreen'}
+              ready={this.setCropBox}
+              responsive
+              src={this.state.src}
+              aspectRatio={1}
+              cropBoxMovable={false}
+              cropstart={this.handleCropstart}
+              cropend={this.handleCropend}
+              cropmove={this.handleCropMove}
+              minContainerHeight={smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
+              toggleDragModeOnDblclick={false}
+              dragMode="move"
+              guides={false}
+              viewMode={0}
+              zoom={this.onZoom}/>
+            <div className="cropper-zoom-container">
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
+                <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
+              </button>}
+              <input type="range"
+                ref="slider"
+                className="cropper-zoom-slider"
+                min={this.state.minRatio}
+                max={this.state.maxRatio}
+                defaultValue="0.4"
+                step="0.01"
+                aria-valuemin={this.state.minRatio}
+                aria-valuemax={this.state.maxRatio}
+                aria-valuenow={this.state.zoomValue}
+                onMouseDown={this.onZoomMouseDown}
+                onMouseUp={this.onZoomMouseUp}
+                onMouseMove={this.onZoomMouseMove}
+                onChange={this.onZoomSliderChange}/>
+              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
+              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
+                <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
+              </button>}
+            </div>
+            <CropperControls
+              moveUpDisabled={this.state.moveUpDisabled}
+              moveDownDisabled={this.state.moveUpDisabled}
+              moveRightDisabled={this.state.moveUpDisabled}
+              moveLeftDisabled={this.state.moveUpDisabled}
+              move={this.handleMoveOrRotate}
+              rotate={this.handleMoveOrRotate}
+              smallScreen={smallScreen}
+              zoom={this.handleZoomButtonClick}/>
+            <div style={{ margin: '1em 1em 4em' }}>
+              {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
+            </div>
+            <div className="crop-button-container">
+              <button type="button" className="usa-button-primary" onClick={this.onDone}>
+                I’m Done
+              </button>
+            </div>
+          </div>
+          }
+          {fieldView === 'initial' && <div className="drop-target-container">
+            <Dropzone
+              className={`drop-target ${this.state.dragActive && 'drag-active'}`}
+              onDragEnter={() => this.handleDrag({ dragActive: true })}
+              onDragLeave={() => this.handleDrag({ dragActive: false })}
+              onDrop={this.onChange}
+              accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              {this.state.dragActive ? <div className="drag-active-text">
+                <span>DROP PHOTO</span>
+              </div> : <img alt="placeholder" src="/img/photo-placeholder.png"/>}
+            </Dropzone>
+          </div>}
+          <div className={uploadControlClass}>
+            {fieldView === 'preview' && <button
+              className="photo-preview-link va-button-link"
+              type="button"
+              onClick={this.resetFile}>
+              Go back and change your photo
+            </button>}
+            {fieldView === 'preview' && !this.state.previewProcessing && <button
+              className="photo-preview-link va-button-link"
+              type="button"
+              aria-describedby="editButtonDescription"
+              onClick={this.onEdit}>
+              Edit your photo
+            </button>}
+            {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
+              accept={cropperTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChange}
+              buttonText={uploadMessage}
+              aria-describedby="croppingToolDescription"
+              name="fileUpload"/>}
+            {fieldView === 'initial' && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeScreenReader}
+              buttonText="Use our screen reader-friendly photo upload tool."
+              aria-describedby="screenReaderPathDescription"
+              triggerClass="va-button-link"
+              name="screenReaderFileUpload"/>}
+            {fieldView === 'error' && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeScreenReader}
+              buttonText="Upload Photo Again"
+              name="screenReaderFileUpload"/>}
+          </div>
+          <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>
+          <span className="sr-only" id="editButtonDescription">This button will take you into a photo cropping tool, which requires sight to use. This button is not recommended if you are using a screen reader.</span>
+          <span className="sr-only" id="screenReaderPathDescription">This is the recommended path if you are using a screen reader. It will allow you to upload your photo without having to crop, as long as you have a photo that is square and at least 350 pixels wide.</span>
+        </div>
+      </fieldset>
     );
   }
 }
