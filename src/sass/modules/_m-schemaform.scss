@@ -14,9 +14,6 @@ fieldset {
   display: inline-block;
   width: 100%;
   max-width: 750px;
-  @media (min-width: $large-screen) {
-    width: auto;
-  }
   .form-review-panel & {
     width: 100%;
   }
