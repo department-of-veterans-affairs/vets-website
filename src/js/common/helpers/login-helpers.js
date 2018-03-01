@@ -91,7 +91,10 @@ export function getUserData(dispatch) {
       veteranStatus: json.data.attributes.veteran_status.status,
       isVeteran: json.data.attributes.veteran_status.is_veteran,
       services: json.data.attributes.services,
-      healthTermsCurrent: json.data.attributes.health_terms_current,
+      mhv: {
+        account: { state: json.data.attributes.mhv_account_state },
+        terms: { accepted: json.data.attributes.health_terms_current }
+      }
     }));
     dispatch(updateLoggedInStatus(true));
   }).catch(error => {

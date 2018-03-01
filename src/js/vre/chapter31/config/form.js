@@ -5,13 +5,14 @@ import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 import * as address from '../../../common/schemaform/definitions/address';
 import currencyUI from '../../../common/schemaform/definitions/currency';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-
+import DD214Description from '../components/DD214Description';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EducationPeriodView from '../components/EducationPeriodView';
 
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import fileUploadUI from '../../../common/schemaform/definitions/file';
 import yearUI from '../../../common/schemaform/definitions/year';
 
 import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
@@ -44,6 +45,8 @@ const {
   year
 } = fullSchema31.definitions;
 
+const TWENTY_FIVE_MB = 26214400;
+
 const expandIfWorking = {
   'ui:options': {
     expandUnder: 'view:isWorking',
@@ -63,7 +66,7 @@ const formConfig = {
     notFound: '',
     noAuth: ''
   },
-  title: 'Apply for Vocational Rehabilitation',
+  title: 'Apply for vocational rehabilitation',
   subTitle: 'Form 28-1900',
   defaultDefinitions: {
     address,
@@ -395,6 +398,65 @@ const formConfig = {
               eveningPhone,
               email,
               'view:confirmEmail': email,
+            }
+          }
+        }
+      }
+    },
+    documentUpload: {
+      title: 'Document Upload',
+      reviewTitle: 'Documents',
+      pages: {
+        dd214Upload: {
+          path: 'documents/discharge',
+          title: 'Discharge document upload',
+          reviewTitle: 'Discharge document review',
+          depends: form => !form.verified,
+          uiSchema: {
+            'ui:description': DD214Description,
+            dd214: fileUploadUI('Upload your discharge document', {
+              endpoint: '/v0/vic/supporting_documentation_attachments',
+              fileTypes: [
+                'pdf',
+                'jpeg',
+                'jpg'
+              ],
+              maxSize: TWENTY_FIVE_MB,
+              buttonText: 'Upload Your Discharge Document',
+              createPayload: (file) => {
+                const payload = new FormData();
+                payload.append('supporting_documentation_attachment[file_data]', file);
+
+                return payload;
+              },
+              parseResponse: (response, file) => {
+                return {
+                  name: file.name,
+                  confirmationCode: response.data.attributes.guid
+                };
+              }
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              dd214: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string'
+                    },
+                    size: {
+                      type: 'integer'
+                    },
+                    confirmationCode: {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
             }
           }
         }
