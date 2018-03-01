@@ -18,11 +18,11 @@ Refinancing lets you replace your current loan with a new one under different te
 
 You may be able to get a cash-out refinance loan if **all of the following are true for you**:
 
--	You qualify for a VA-backed home loan Certificate of Eligibility <br>
-[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
+-	You qualify for a VA-backed home loan Certificate of Eligibility **and**
 -	You meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
 -	You will live in the home you’re refinancing with the loan
 
+[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/)
 </div>
 
 <br>
