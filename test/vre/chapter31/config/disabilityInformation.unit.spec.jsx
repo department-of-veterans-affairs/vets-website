@@ -46,11 +46,18 @@ describe('VRE chapter 31 disability information', () => {
         uiSchema={uiSchema}/>
     );
 
-    form.find('form').simulate('submit');
-    fillData(form, 'select#root_disabilityRating', '10%');
+    fillData(form, 'select#root_disabilityRating', 10);
     fillData(form, 'input#root_disabilities', 'Back ache');
     fillData(form, 'input#root_vaRecordsOffice', 'Local office');
-    selectRadio(form, 'root_view:inHospital', 'N');
+    selectRadio(form, 'root_view:inHospital', 'Y');
+    fillData(form, 'input[id="root_view:hospital_hospitalName"]', 'Local hospital');
+    fillData(form, 'input[id="root_view:hospital_hospitalAddress_street"]', 'Hospital Street');
+    fillData(form, 'input[id="root_view:hospital_hospitalAddress_city"]', 'Hospital City');
+    fillData(form, 'select[id="root_view:hospital_hospitalAddress_state"]', 'NY');
+    fillData(form, 'input[id="root_view:hospital_hospitalAddress_postalCode"]', '23423');
+
+    form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });

@@ -11,7 +11,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
-import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
+import { disabilityRatingLabels, dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
@@ -22,6 +22,7 @@ const {
   email,
   eveningPhone,
   employer,
+  // disabilityRating,
   jobDuties,
   monthlyIncome,
   vaRecordsOffice
@@ -217,6 +218,9 @@ const formConfig = {
             type: 'object',
             disabilityRating: {
               'ui:title': 'Disability rating',
+              'ui:options': {
+                labels: disabilityRatingLabels
+              }
             },
             disabilities: {
               'ui:title': 'Please describe your disability or disabilities:',
@@ -263,19 +267,19 @@ const formConfig = {
             ],
             properties: {
               disabilityRating: {
-                type: 'string',
+                type: 'number',
                 'enum': [
-                  '0%',
-                  '10%',
-                  '20%',
-                  '30%',
-                  '40%',
-                  '50%',
-                  '60%',
-                  '70%',
-                  '80%',
-                  '90%',
-                  '100%'
+                  0,
+                  10,
+                  20,
+                  30,
+                  40,
+                  50,
+                  60,
+                  70,
+                  80,
+                  90,
+                  100
                 ]
               },
               disabilities: {
