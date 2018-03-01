@@ -226,12 +226,6 @@ export default class PhotoField extends React.Component {
         this.setCropBox();
       }
     }
-    if (nextState.zoomValue !== this.state.zoomValue) {
-      const slider = this.refs.slider;
-      if (slider) {
-        slider.value = nextState.zoomValue;
-      }
-    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -466,8 +460,6 @@ export default class PhotoField extends React.Component {
       // with the canvas resized, use its dimensions to determine the min zoom ratio
       const { width: canvasWidth, naturalWidth } = this.refs.cropper.getCanvasData();
       const minRatio = canvasWidth / naturalWidth;
-      const slider = this.refs.slider;
-      slider.value = minRatio;
 
       this.setState({
         zoomValue: minRatio,
