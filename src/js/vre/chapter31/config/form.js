@@ -8,6 +8,8 @@ import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import EducationPeriodView from '../components/EducationPeriodView';
+
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
@@ -24,7 +26,9 @@ const {
   employer,
   jobDuties,
   monthlyIncome,
-  vaRecordsOffice
+  previousPrograms,
+  vaRecordsOffice,
+  yearsOfEducation
 } = fullSchema31.properties;
 
 const {
@@ -34,7 +38,8 @@ const {
   phone,
   serviceHistory,
   ssn,
-  vaFileNumber
+  vaFileNumber,
+  year
 } = fullSchema31.definitions;
 
 const expandIfWorking = {
@@ -66,6 +71,7 @@ const formConfig = {
     fullName,
     ssn,
     vaFileNumber,
+    year
   },
   chapters: {
     veteranInformation: {
@@ -199,9 +205,34 @@ const formConfig = {
         educationAndVREInformation: {
           path: 'education-vre-information',
           title: 'Education and Vocational Rehab Information',
+          uiSchema: {
+            yearsOfEducation: {
+              'ui:title': 'Number of years of education including high school'
+            },
+            previousPrograms: {
+              'ui:options': {
+                itemName: 'Education Period',
+                viewField: EducationPeriodView,
+                hideTitle: true
+              },
+              items: {
+                program: {
+                  'ui:title': 'Name of program'
+                },
+                yearStarted: {
+                  'ui:title': 'Year you started the program'
+                },
+                yearLeft: {
+                  'ui:title': 'Year you left the program'
+                }
+              }
+            }
+          },
           schema: {
             type: 'object',
             properties: {
+              yearsOfEducation,
+              previousPrograms
             }
           }
         }
