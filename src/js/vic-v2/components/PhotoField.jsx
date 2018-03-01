@@ -739,39 +739,22 @@ export default class PhotoField extends React.Component {
               guides={false}
               viewMode={0}
               zoom={this.onZoom}/>
-            <div className="cropper-zoom-container">
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
-                <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
-              </button>}
-              <input type="range"
-                ref="slider"
-                className="cropper-zoom-slider"
-                min={this.state.minRatio}
-                max={this.state.maxRatio}
-                defaultValue="0.4"
-                step="0.01"
-                aria-valuemin={this.state.minRatio}
-                aria-valuemax={this.state.maxRatio}
-                aria-valuenow={this.state.zoomValue}
-                onMouseDown={this.onZoomMouseDown}
-                onMouseUp={this.onZoomMouseUp}
-                onMouseMove={this.onZoomMouseMove}
-                onChange={this.onZoomSliderChange}/>
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
-                <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
-              </button>}
-            </div>
             <CropperControls
+              maxRatio={this.state.maxRatio}
+              minRatio={this.state.minRatio}
               moveUpDisabled={this.state.moveUpDisabled}
-              moveDownDisabled={this.state.moveUpDisabled}
-              moveRightDisabled={this.state.moveUpDisabled}
-              moveLeftDisabled={this.state.moveUpDisabled}
+              moveDownDisabled={this.state.moveDownDisabled}
+              moveRightDisabled={this.state.moveRightDisabled}
+              moveLeftDisabled={this.state.moveLeftDisabled}
               move={this.handleMoveOrRotate}
+              onChange={this.onZoomSliderChange}
+              onMouseDown={this.onZoomMouseDown}
+              onMouseMove={this.onZoomMouseMove}
+              onMouseUp={this.onZoomMouseUp}
               rotate={this.handleMoveOrRotate}
               smallScreen={smallScreen}
-              zoom={this.handleZoomButtonClick}/>
+              zoom={this.handleZoomButtonClick}
+              zoomValue={this.state.zoomValue}/>
             <div style={{ margin: '1em 1em 4em' }}>
               {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
             </div>
