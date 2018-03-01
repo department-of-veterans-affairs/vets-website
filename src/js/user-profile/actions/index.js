@@ -145,29 +145,39 @@ export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE
 export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL);
 export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
 
+function getEmailAddress() {
+// https://github.com/department-of-veterans-affairs/vets-api/pull/1718
+  return apiRequest('/profile/email')
+    .then(response => response.json())
+    .then(json => json.data.attributes.email)
+    .catch(() => {
+      // eslint-disable-no-console
+      // console.log(err);
+      return null;
+    });
+}
+
 // The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
 function sendProfileRequests() {
   return [
-    apiRequest('/address').catch(() => {}),
-    apiRequest('/in_progress_forms/1010ez').catch(() => {})
+    getEmailAddress()
   ];
 }
 
-function getExtendedProfile(profile) {
+function getExtendedProfile(profile, email) {
+
   return {
     ...profile,
 
-    // S3
+    // ?
     profilePicture: '/img/profile.png',
-
-    // MVI
-    email: profile.email,
     userFullName: profile.userFullName,
     dob: profile.dob,
     gender: profile.gender,
-
-    // EVSS
     ssn: '123121232',
+
+    // Vet360
+    email: email || profile.email,
     telephones: [
       {
         type: 'primary',
