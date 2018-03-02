@@ -46,7 +46,7 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
-You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you’re covered under Service-Disabled Veterans Life Insurance (S-DVI), and **all both of the following are true for your total disability**:
+You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you’re covered under Service-Disabled Veterans Life Insurance (S-DVI), and **both of the following are true for your total disability**:
 -	Happens before you’re 65 years old—but after the effective date of your life insurance policy, **and**
 -	Continues for at least 6 months in a row
 
