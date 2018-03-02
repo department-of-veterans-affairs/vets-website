@@ -86,7 +86,8 @@ We won’t automatically cover you. You’ll need to sign up through your Servic
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES. 
 
-**If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
+**If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
+[Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
 
 <br>
 
@@ -281,9 +282,9 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 
 ### How much will my Servicemember pay for dependent coverage? 
 
-Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
-- Is a full-time student, **or**
-- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless **one of the the following is true for the child**:
+- The child is a full-time student, **or**
+- The child becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
 <br>
 
@@ -309,7 +310,8 @@ You can’t convert other types of policies—such as term, variable, or univers
 
 **If you’d like to convert FSGLI coverage, you must also:**
 
-- Choose a company from the list of companies that take part in this program. [View the companies you can choose from](https://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
+- Choose a company from the list of companies that take part in this program. <br>
+[View the companies you can choose from](https://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
 - Apply at the local sales office of the company you chose.
 - Give a copy of the most recent Leave and Earnings Statement (LES) to the agent, showing the deduction for spousal SGLI. You’ll also have to provide proof of coverage with one of these documents:
   - The Servicemember’s separation document (Form DD214 or NGB-22, or written orders)
