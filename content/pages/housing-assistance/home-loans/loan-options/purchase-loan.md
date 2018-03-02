@@ -16,11 +16,12 @@ Lenders offer competitive interest rates on VA-backed purchase loans. This can h
 
 ### Can I get a VA-backed purchase loan?
 
-You may be able to get a VA-backed purchase loan if you:
--	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
--	Meet our—and your lender’s—standards for credit, income, and any other requirements, **and**
--	Will live in the home you’re buying with the loan
+You may be able to get a VA-backed purchase loan if **all of the following are true for you**:
+-	You qualify for a VA-backed home loan Certificate of Eligibility (COE), **and**
+-	You meet our—and your lender’s—standards for credit, income, and any other requirements, **and**
+-	You will live in the home you’re buying with the loan
 
+[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/)
 </div>
 
 <br>
@@ -33,7 +34,8 @@ You may be able to get a VA-backed purchase loan if you:
 
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
 - **Better terms and interest rates** than other loans from private banks, mortgage companies, or credit unions (also called lenders)
-- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. <br>
+[See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 - **No need for private mortgage insurance (PMI) or mortgage insurance premiums (MIP)**
   - PMI is a type of insurance that protects the lender if you end up not being able to pay your mortgage. It’s usually required on conventional loans if you make a down payment of less than 20% of the total mortgage amount.
   - MIP is what the Federal Housing Administration (FHA) requires you to pay to self-insure an FHA loan against future loss.
@@ -85,7 +87,8 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 ##### Look at your current finances.
 
-Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
+Go over your credit profile, income, expenses, and monthly budget to make sure you’re ready to buy a home. Decide how much you want to spend on a mortgage—and be sure to include closing costs in the overall price. <br>
+[Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
 
 </li>
 
