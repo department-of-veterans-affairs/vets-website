@@ -25,6 +25,7 @@ const {
   employer,
   disabilityRating,
   disabilities,
+  dischargeDocuments,
   jobDuties,
   monthlyIncome,
   vaRecordsOffice
@@ -358,14 +359,14 @@ const formConfig = {
       title: 'Document Upload',
       reviewTitle: 'Documents',
       pages: {
-        dd214Upload: {
+        dischargeDocumentUpload: {
           path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
           uiSchema: {
             'ui:description': DD214Description,
-            dd214: fileUploadUI('Upload your discharge document', {
+            dischargeDocuments: fileUploadUI('Upload your discharge document', {
               endpoint: '/v0/vic/supporting_documentation_attachments',
               fileTypes: [
                 'pdf',
@@ -391,23 +392,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              dd214: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    name: {
-                      type: 'string'
-                    },
-                    size: {
-                      type: 'integer'
-                    },
-                    confirmationCode: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
+              dischargeDocuments
             }
           }
         }
