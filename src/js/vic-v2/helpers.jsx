@@ -133,7 +133,7 @@ export function submit(form, formConfig) {
   // backend with id info from MVI and discharge status from eMIS
   // If they changed it, then we have to verify they're not trying to submit a fradulent
   // request and process them as an anonymous request
-  if (newData.processAsIdProofed && identityMatchesPrefill(form)) {
+  if (form.processAsIdProofed && identityMatchesPrefill(form)) {
     newData = _.omit([
       'veteranFullName',
       'veteranSocialSecurityNumber'
