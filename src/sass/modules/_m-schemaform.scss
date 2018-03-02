@@ -9,11 +9,14 @@ legend {
   padding: 0 0 .5em 0;
 }
 
-// Override IE
+// IE
 fieldset {
   display: inline-block;
   width: 100%;
   max-width: 750px;
+  .form-review-panel & {
+    width: 100%;
+  }
 }
 
 @media (max-width: 40.063em) {

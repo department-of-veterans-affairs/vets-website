@@ -2,13 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
-import _ from 'lodash/fp';
 
 import { focusElement } from '../../common/utils/helpers';
 
 import VeteranIDCard from '../components/VeteranIDCard';
-
-import { fetchPreview } from '../helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -20,27 +17,6 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    let photoSrc;
-    const file = _.get('form.data.photo.file', props);
-    if (file instanceof Blob) {
-      photoSrc = window.URL.createObjectURL(file);
-    }
-
-    this.state = {
-      photoSrc
-    };
-
-    if (!photoSrc && props.userSignedIn) {
-      fetchPreview(_.get('form.data.photo.confirmationCode', props))
-        .then(src => {
-          this.setState({ photoSrc: src });
-        });
-    }
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
@@ -57,7 +33,10 @@ class ConfirmationPage extends React.Component {
       suffix = ''
     } = form.data.veteranFullName;
 
-    const { serviceBranch, verified } = form.data;
+    const { serviceBranch } = form.data;
+
+    // temporarily hide verified confirmation page design w/ temp card
+    const verified = false;
 
     const response = form.submission.response || {};
     const submittedAt = moment();
@@ -76,11 +55,11 @@ class ConfirmationPage extends React.Component {
           <p>We’ll send you emails updating you on the status of your application. You can also print this page for your records. You should receive your Veteran ID Card by mail in about 60 days.<br/>
             In the meantime, you can print a temporary digital Veteran ID Card.</p>
           <div className="id-card-preview">
-            {!!this.state.photoSrc && <VeteranIDCard
+            {!!response.photo && <VeteranIDCard
               veteranFullName={veteranFullNameStr}
               veteranBranchCode={serviceBranch}
               caseId={response.caseId}
-              veteranPhotoUrl={this.state.photoSrc}/>}
+              veteranPhotoUrl={response.photo}/>}
           </div>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}

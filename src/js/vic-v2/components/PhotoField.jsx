@@ -98,7 +98,7 @@ function isSmallScreen(width) {
 }
 
 function onReviewPage(pageTitle) {
-  return pageTitle === 'Review your photo';
+  return pageTitle === 'Photo review';
 }
 
 function isValidFileType(fileName, fileTypes) {
@@ -204,9 +204,7 @@ export default class PhotoField extends React.Component {
   }
 
   componentDidMount() {
-    if (!onReviewPage(this.props.formContext.pageTitle)) {
-      window.addEventListener('resize', this.detectWidth);
-    }
+    window.addEventListener('resize', this.detectWidth);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -276,7 +274,7 @@ export default class PhotoField extends React.Component {
     this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       const file = blob;
       file.lastModifiedDate = new Date();
-      file.name = this.state.fileName;
+      file.name = 'profile_photo.png';
       this.props.formContext.uploadFile(
         file,
         (formData) => {
@@ -306,7 +304,7 @@ export default class PhotoField extends React.Component {
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (!isValidFileType(file.name, fileTypes)) {
       this.props.onChange({
-        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, or .png file and try again.'
       });
     } else {
       const reader = new FileReader();
@@ -344,7 +342,7 @@ export default class PhotoField extends React.Component {
     this.screenReaderPath = false;
     this.setState({ dragActive: false });
 
-    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
       const file = files[0];
       const fileName = file.name;
@@ -354,11 +352,10 @@ export default class PhotoField extends React.Component {
       }
       if (!isValidFileType(fileName, fileTypes)) {
         this.props.onChange({
-          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, .png, .tiff,  or .bmp file and try again.'
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, .png, or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
         reader.onload = () => {
           loadImage(reader.result)
             .then((img) => {
@@ -382,6 +379,7 @@ export default class PhotoField extends React.Component {
               });
             });
         };
+        reader.readAsDataURL(file);
       }
     }
 
@@ -642,6 +640,7 @@ export default class PhotoField extends React.Component {
     const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const cropperTypes = fileTypes.concat('bmp');
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
@@ -697,9 +696,14 @@ export default class PhotoField extends React.Component {
             This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
-            {errorMessage && <div role="alert" className="usa-input-error-message photo-error-message">
-              We’ve run into a problem.
-              <p>{errorMessage}</p>
+            {errorMessage && <div className="photo-error-wrapper">
+              <div role="alert" className="usa-input-error-message photo-error-message">
+                We’ve run into a problem.
+                <p>{errorMessage}</p>
+              </div>
+              <a href="/veteran-id-card/how-to-upload-photo" target="_blank">
+                Learn more about uploading a photo for your Veteran ID Card
+              </a>.
             </div>}
             {instruction}
             {!this.state.previewProcessing && description}
@@ -829,7 +833,7 @@ export default class PhotoField extends React.Component {
               onDragEnter={() => this.handleDrag({ dragActive: true })}
               onDragLeave={() => this.handleDrag({ dragActive: false })}
               onDrop={this.onChange}
-              accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
               {this.state.dragActive ?
                 <div className="drag-active-text"><span>DROP PHOTO</span></div> :
                 <img alt="placeholder" src="/img/photo-placeholder.png"/>}
@@ -850,7 +854,7 @@ export default class PhotoField extends React.Component {
               Edit your photo
             </button>}
             {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
-              accept={fileTypes.map(type => `.${type}`).join(',')}
+              accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
               aria-describedby="croppingToolDescription"

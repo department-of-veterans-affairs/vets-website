@@ -8,7 +8,7 @@ import formConfig from '../../../../src/js/vre/chapter36/config/form.js';
 
 describe('VRE chapter 36 contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.contactInformation;
-  it('renders applicant address form', () => {
+  it('renders contact information form', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
