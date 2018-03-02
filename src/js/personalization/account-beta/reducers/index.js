@@ -10,7 +10,7 @@ import {
   ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
   ACCEPTING_LATEST_MHV_TERMS_FAILURE,
 } from '../actions';
-import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
+import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../../login/actions';
 
 // TODO(crew): Romove before this goes to production.
 const initialState = {
@@ -33,7 +33,7 @@ const initialState = {
   loading: true
 };
 
-function profileInformation(state = initialState, action) {
+function account(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       return _.assign(state, action.newState);
@@ -100,4 +100,4 @@ function profileInformation(state = initialState, action) {
   }
 }
 
-export default profileInformation;
+export default { account };
