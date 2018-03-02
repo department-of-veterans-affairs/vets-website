@@ -8,6 +8,8 @@ import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
 import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
+import { isAddressEmpty } from '../utils/helpers';
+
 export class DownloadLetters extends React.Component {
   constructor() {
     super();
@@ -22,6 +24,7 @@ export class DownloadLetters extends React.Component {
     const { children, location } = this.props;
     const currentPageIndex = findIndex(['path', location.pathname], chapters);
     const currentStep = currentPageIndex + 1;
+    const emptyAddress = isAddressEmpty(this.props.address);
 
     let viewLettersButton;
     if (location.pathname === '/confirm-address') {
@@ -30,7 +33,7 @@ export class DownloadLetters extends React.Component {
           <button
             onClick={this.navigateToLetterList}
             className="usa-button-primary view-letters-button"
-            disabled={this.props.isEditingAddress}>
+            disabled={this.props.isEditingAddress || emptyAddress}>
             View Letters
           </button>
         </div>

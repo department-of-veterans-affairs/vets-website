@@ -16,7 +16,8 @@ import {
   isDomesticAddress,
   isInternationalAddress,
   isMilitaryAddress,
-  resetDisallowedAddressFields
+  resetDisallowedAddressFields,
+  isAddressEmpty
 } from '../utils/helpers';
 import {
   saveAddress,
@@ -44,15 +45,15 @@ const scrollToTop = () => {
   });
 };
 
-// The address is empty if every field except type is falsey.
-// NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
-function isAddressEmpty(address) {
-  // An address will always have:
-  //  type because it errors out on the api if it doesn't exist (pretty sure)
-  //  countryName because of toGenericAddress() adds it
-  const fieldsToIgnore = ['type', 'countryName'];
-  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]), true);
-}
+const noAddressBanner = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">VA does not have a valid address on file for you</h3>
+      <div className="usa-alert-text">You will need to update your address before we can provide you any letters.</div>
+    </div>
+  </div>
+);
+
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -263,6 +264,7 @@ export class AddressSection extends React.Component {
 
   render() {
     const address = this.props.savedAddress || {};
+    const emptyAddress = isAddressEmpty(this.props.savedAddress);
     // Street address: first line of address
     const streetAddressLines = [
       address.addressOne,
@@ -313,15 +315,22 @@ export class AddressSection extends React.Component {
         </div>
       );
     } else {
-      addressFields = (
+      const displayAddress = (
         <div>
-          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
           <div className="letters-address street">{streetAddress}</div>
           <div className="letters-address city-state">{cityStatePostal}</div>
           <div className="letters-address country">{country}</div>
+        </div>
+      );
+
+      addressFields = (
+        <div>
+          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
+          {emptyAddress && noAddressBanner}
+          {!emptyAddress && displayAddress}
           <button className="address-help-btn" onClick={this.openAddressHelp}>What is this?</button>
           {this.props.canUpdate &&
-            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit</button>
+            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit address</button>
           }
           <Modal
             title="Address usage"
@@ -356,6 +365,8 @@ export class AddressSection extends React.Component {
       <div>
         <Element name="addressScrollElement"/>
         <div aria-live="polite" aria-relevant="additions">
+          {/* Warning message goes here while editing with no address on record */}
+          {emptyAddress && this.props.isEditingAddress && noAddressBanner}
           {addressContent}
         </div>
       </div>
