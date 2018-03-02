@@ -29,7 +29,8 @@ export class DownloadLetters extends React.Component {
         <div className="step-content">
           <button
             onClick={this.navigateToLetterList}
-            className="usa-button-primary view-letters-button">
+            className="usa-button-primary view-letters-button"
+            disabled={this.props.isEditingAddress}>
             View Letters
           </button>
         </div>
@@ -60,6 +61,7 @@ function mapStateToProps(state) {
     letters: letterState.letters,
     fullName: letterState.fullName,
     address: letterState.address,
+    isEditingAddress: letterState.isEditingAddress,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {

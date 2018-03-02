@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import Raven from 'raven-js';
 
 import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -17,7 +18,11 @@ import {
   isMilitaryAddress,
   resetDisallowedAddressFields
 } from '../utils/helpers';
-import { saveAddress } from '../actions/letters';
+import {
+  saveAddress,
+  editAddress,
+  cancelEditingAddress
+} from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
 
@@ -42,14 +47,17 @@ const scrollToTop = () => {
 // The address is empty if every field except type is falsey.
 // NOTE: It "shouldn't" ever happen, but it did in testing, so...paranoid programming!
 function isAddressEmpty(address) {
-  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (nextField === 'type' || !address[nextField]), true);
+  // An address will always have:
+  //  type because it errors out on the api if it doesn't exist (pretty sure)
+  //  countryName because of toGenericAddress() adds it
+  const fieldsToIgnore = ['type', 'countryName'];
+  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]), true);
 }
 
 export class AddressSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditingAddress: false,
       hasLoadedAddress: false,
       errorMessages: {},
       fieldsToValidate: {},
@@ -61,9 +69,14 @@ export class AddressSection extends React.Component {
     // we tell React that editableAddress has already been initialized with the
     // savedAddress values
     if (Object.keys(this.state.editableAddress).length > 0) {
-      this.state.hasLoadedAddress = true;
       // If we start with an empty address, go straight to editing
-      this.state.isEditingAddress = (isAddressEmpty(this.state.editableAddress) && this.props.canUpdate);
+      const emptyAddress = isAddressEmpty(this.state.editableAddress);
+      this.state.hasLoadedAddress = true;
+      if (emptyAddress && this.props.canUpdate) {
+        this.props.editAddress();
+      } else if (emptyAddress && !this.props.canUpdate) {
+        Raven.captureMessage('letters_empty_address_update_not_allowed');
+      }
     }
   }
 
@@ -81,9 +94,11 @@ export class AddressSection extends React.Component {
       this.setState({
         hasLoadedAddress: true,
         editableAddress: nextProps.savedAddress,
-        // If we recieve an empty address, start editing
-        isEditingAddress: isAddressEmpty(nextProps.savedAddress)
       });
+      // If we recieve an empty address, start editing
+      if (isAddressEmpty(nextProps.savedAddress)) {
+        this.props.editAddress();
+      }
     }
   }
 
@@ -164,7 +179,6 @@ export class AddressSection extends React.Component {
     }
 
     this.setState({
-      isEditingAddress: false,
       // Reset all the error messages in case they go to edit again; should be pointless
       errorMessages: {}
     });
@@ -174,8 +188,8 @@ export class AddressSection extends React.Component {
 
   handleCancel = () => {
     window.dataLayer.push({ event: 'letter-update-address-cancel' });
+    this.props.cancelEditingAddress();
     this.setState({
-      isEditingAddress: false,
       errorMessages: {},
       fieldsToValidate: {},
       editableAddress: this.props.savedAddress
@@ -185,7 +199,7 @@ export class AddressSection extends React.Component {
 
   startEditing = () => {
     window.dataLayer.push({ event: 'letter-update-address-started' });
-    this.setState({ isEditingAddress: true });
+    this.props.editAddress();
     scrollToTop();
   }
 
@@ -276,7 +290,7 @@ export class AddressSection extends React.Component {
     const addressContentLines = { streetAddress, cityStatePostal, country };
 
     let addressFields;
-    if (this.state.isEditingAddress) {
+    if (this.props.isEditingAddress) {
       addressFields = (
         <div>
           <h5>Edit Address</h5>
@@ -322,7 +336,7 @@ export class AddressSection extends React.Component {
     let addressContent;
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
-    if (this.state.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
+    if (this.props.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
       addressContent = (
         <div className="step-content">
           {addressUpdateUnavailable}
@@ -366,6 +380,7 @@ function mapStateToProps(state) {
     canUpdate,
     countries,
     countriesAvailable,
+    isEditingAddress,
     states,
     statesAvailable,
     saveAddressError,
@@ -382,12 +397,15 @@ function mapStateToProps(state) {
     countries,
     countriesAvailable,
     states,
-    statesAvailable
+    statesAvailable,
+    isEditingAddress
   };
 }
 
 const mapDispatchToProps = {
-  saveAddress
+  saveAddress,
+  editAddress,
+  cancelEditingAddress
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);

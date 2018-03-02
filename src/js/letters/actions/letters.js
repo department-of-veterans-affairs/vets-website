@@ -25,8 +25,18 @@ import {
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
   SAVE_ADDRESS_SUCCESS,
-  INVALID_ADDRESS_PROPERTY
+  INVALID_ADDRESS_PROPERTY,
+  START_EDITING_ADDRESS,
+  CANCEL_EDITING_ADDRESS
 } from '../utils/constants';
+
+export function editAddress() {
+  return (dispatch) => dispatch({ type: START_EDITING_ADDRESS });
+}
+
+export function cancelEditingAddress() {
+  return (dispatch) => dispatch({ type: CANCEL_EDITING_ADDRESS });
+}
 
 export function getLetterList(dispatch) {
   return apiRequest(
@@ -316,3 +326,4 @@ export function getAddressStates() {
     );
   };
 }
+
