@@ -23,7 +23,7 @@ class Main extends React.Component {
     const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1>Veteran ID Card Beta Registration</h1>
+          <h1>Personalization Beta Registration</h1>
           <div>
             <p>{message}</p>
           </div>

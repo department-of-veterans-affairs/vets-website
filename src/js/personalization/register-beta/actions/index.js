@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../common/helpers/api';
 
 export const BETA_REGISTERING = 'BETA_REGISTERING';
 export const BETA_REGISTER_SUCCESS = 'BETA_REGISTER_SUCCESS';

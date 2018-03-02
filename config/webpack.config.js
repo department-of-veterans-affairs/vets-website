@@ -29,6 +29,7 @@ const entryFiles = {
   'health-records': './src/js/health-records/health-records-entry.jsx',
   'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
+  'personalization-register-beta': './src/js/personalization/register-beta/register-beta-entry.jsx',
   'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
   'pre-need': './src/js/pre-need/pre-need-entry.jsx',
   'user-profile': './src/js/user-profile/user-profile-entry.jsx',
