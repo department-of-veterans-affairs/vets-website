@@ -20,7 +20,11 @@ export function prefillTransformer(pages, formData, metadata, state) {
   }
 
   if (state.user.profile.services.includes('identity-proofed')) {
-    newData = _.set('idProofed', true, newData);
+    newData = _.set('processAsIdProofed', true, newData);
+    newData.originalUser = {
+      veteranSocialSecurityNumber: newData.veteranSocialSecurityNumber,
+      veteranFullName: newData.veteranFullName
+    };
   }
 
   return {
@@ -28,6 +32,15 @@ export function prefillTransformer(pages, formData, metadata, state) {
     formData: newData,
     pages: newPages
   };
+}
+
+export function identityMatchesPrefill(formData) {
+  const { originalUser = {} } = formData;
+  return formData.veteranSocialSecurityNumber === originalUser.veteranSocialSecurityNumber
+    && formData.veteranFullName.first === originalUser.veteranFullName.first
+    && formData.veteranFullName.middle === originalUser.veteranFullName.middle
+    && formData.veteranFullName.last === originalUser.veteranFullName.last
+    && formData.veteranFullName.suffix === originalUser.veteranFullName.suffix;
 }
 
 function checkStatus(guid) {
@@ -114,18 +127,20 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  let newData = _.unset('verified', form);
-  if (newData.idProofed) {
+  let newData = _.omit(['verified', 'originalUser', 'processAsIdProofed'], form);
+
+  // If we pulled their id info at the start and they haven't changed it, then we can submit on the
+  // backend with id info from MVI and discharge status from eMIS
+  // If they changed it, then we have to verify they're not trying to submit a fradulent
+  // request and process them as an anonymous request
+  if (newData.processAsIdProofed && identityMatchesPrefill(form)) {
     newData = _.omit([
       'veteranFullName',
-      'veteranSocialSecurityNumber',
-      'gender',
-      'veteranDateOfBirth',
-      'idProofed'
+      'veteranSocialSecurityNumber'
     ], newData);
-    newData.anonymous = false;
+    newData.processAsAnonymous = false;
   } else {
-    newData.anonymous = true;
+    newData.processAsAnonymous = true;
   }
 
   const formData = transformForSubmit(formConfig, newData);
@@ -167,6 +182,9 @@ export function submit(form, formConfig) {
     }).then(resp => {
       const guid = resp.data.attributes.guid;
       pollStatus(guid, response => {
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-submission-successful`,
+        });
         resolve(_.set('photo', photo, response));
       }, reject);
     })
