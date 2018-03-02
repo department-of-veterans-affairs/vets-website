@@ -51,8 +51,8 @@ class UserDataSection extends React.Component {
   }
 
   renderModalContents() {
-    const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
+    const { profile, terms } = this.props;
+    const termsAccepted = _.get(profile, 'mhv.terms.accepted');
     if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
       setTimeout(() => {
         this.props.fetchLatestTerms('mhvac');
@@ -77,7 +77,7 @@ class UserDataSection extends React.Component {
   }
 
   renderTermsLink() {
-    if (this.props.profile.healthTermsCurrent) {
+    if (_.get(this.props.profile, 'mhv.terms.accepted')) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 
