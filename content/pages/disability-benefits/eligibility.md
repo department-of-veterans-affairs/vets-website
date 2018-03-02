@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Disability Benefits Eligibility
 display_title: Eligibility
+description: Find out if you're eligible for VA disability compensation or other benefits for a condition related to your military service. 
 order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
