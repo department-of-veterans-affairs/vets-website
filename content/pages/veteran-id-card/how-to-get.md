@@ -45,7 +45,7 @@ You’ll need to apply online.
   
 ### Do I need to sign in to Vets.gov to apply for a Veteran ID Card?
 
-No. You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a DS Logon (the same one you use for eBenefits or MilConnect) or ID.me account. 
+No. You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a My Health<em>e</em>Vet or DS Logon account (the same one you use for eBenefits or MilConnect) or an ID.me account. 
 
 **When you sign in to Vets.gov and verify your identity, you’ll:**
 -	**Get your card sooner** because we can confirm your Veteran status more quickly

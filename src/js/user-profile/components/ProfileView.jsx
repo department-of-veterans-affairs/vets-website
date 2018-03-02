@@ -14,20 +14,9 @@ import PhoneNumberWidget from '../../common/schemaform/review/PhoneNumberWidget'
 import SSNWidget from '../../common/schemaform/review/SSNWidget';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { EditAddressModal, EditPhoneModal, EditEmailModal } from './ProfileViewModals';
-
-function HeadingWithEdit({ children, onEditClick }) {
-  return (
-    <div>
-      <h3 style={{ display: 'inline-block' }}>{ children }</h3> <button onClick={onEditClick} className="va-button-link">Edit</button>
-    </div>
-  );
-}
+import HeadingWithEdit from './HeadingWithEdit';
 
 class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { modal: null };
-  }
 
   componentWillMount() {
     this.props.fetchExtendedProfile();
