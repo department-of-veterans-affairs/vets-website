@@ -20,9 +20,9 @@ const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
-const webpack = require('metalsmith-webpack');
+const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
-const webpackDevServer = require('metalsmith-webpack-dev-server');
+const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
 
 const sourceDir = '../content/pages';
