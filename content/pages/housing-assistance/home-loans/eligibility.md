@@ -93,8 +93,6 @@ You may still be able to get a COE if you were discharged due to:
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
 
-<br>
-
 **There are 2 ways you can try to qualify:**
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
