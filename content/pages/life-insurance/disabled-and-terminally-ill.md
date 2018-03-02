@@ -46,7 +46,7 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 
 #### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
-You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you’re covered under Service-Disabled Veterans Life Insurance (S-DVI), and your total disability:
+You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, you’re covered under Service-Disabled Veterans Life Insurance (S-DVI), and **all both of the following are true for your total disability**:
 -	Happens before you’re 65 years old—but after the effective date of your life insurance policy, **and**
 -	Continues for at least 6 months in a row
 
@@ -66,7 +66,8 @@ A waiver of premiums. This means you won’t have to pay your life insurance pre
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). Mail it to the address listed on the form. [Download VA Form 29-357](https://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
+To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). Mail it to the address listed on the form. <br>
+[Download VA Form 29-357](https://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
 <br>
 
@@ -84,7 +85,7 @@ To apply, fill out and sign a Claim for Disability Insurance (VA Form 29-357). M
 
 #### Can my spouse or I get life insurance benefits early if either of us becomes terminally ill?
  
-You or your spouse may be able to get benefits early if:
+You or your spouse may be able to get benefits early if **both of the following are true for you**:
 -	You have SGLI, Family SGLI, or VGLI life insurance, **and**
 -	You or a covered spouse has a written statement from a doctor saying you have (or your spouse has) 9 months or less to live
 
@@ -110,7 +111,8 @@ Up to 50% of the face value of your coverage in increments of $5,000—paid to y
  
 Only the insured Servicemember or Veteran may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
  
-**If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284.htm).
+**If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. <br>
+[Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284.htm).
 
 - If you’re still on active duty or you’re a Reservist, turn in the form to your service branch. They will need to fill out part of the form. 
 
@@ -126,7 +128,8 @@ Or, fax the form to 1-877-832-4943.
 
 <br>
 
-**If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. [Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284A.htm).
+**If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. <br>
+[Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284A.htm).
  
 You’ll need to fill out one part of the application, and your doctor will need to fill out another part of it.
  
