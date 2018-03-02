@@ -27,9 +27,7 @@ describe('VRE chapter 31 education information', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          'view:isVeteran': true
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>

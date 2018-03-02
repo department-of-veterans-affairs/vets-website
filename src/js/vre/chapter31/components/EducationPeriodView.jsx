@@ -7,8 +7,8 @@ export default function EducationPeriodView({ formData }) {
 
   if (from && to) {
     educationPeriod = `${from} — ${to}`;
-  } else {
-    educationPeriod = `${from}${to}`;
+  } else if (from || to) {
+    educationPeriod = `${(from || to)}`;
   }
 
   return (
