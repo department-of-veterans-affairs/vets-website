@@ -119,7 +119,7 @@ You can find an accredited representative or a VSO in 1 of 2 ways:
 
 You'll need to either use eBenefits or fill out a form and mail it in.
 
-**Choose one of these ways get set up:**
+**Choose one of these ways to get set up:**
 
 - Use eBenefits to let us know you’ll be working with a representative or to change your current representation. <br> 
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/representative).
