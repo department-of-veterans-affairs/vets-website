@@ -135,7 +135,12 @@ describe('<AddressSection>', () => {
     expect(editSpy.called).to.be.true;
   });
 
-  it('should render edit fields when isEditingAddress is true', () => {});
+  it('should render edit fields when isEditingAddress is true', () => {
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
+
+    expect(tree.find('input')).to.have.lengthOf(5);
+    expect(tree.find('select')).to.have.lengthOf(2);
+  });
 
   it('should call saveAddress() when Update button is clicked', () => {
     const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
