@@ -90,6 +90,9 @@ If you have a service-connected disability that limits your ability to work or p
 <div itemprop="text">
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
+<br>
+
 **There are 2 ways you can try to qualify:**
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
