@@ -47,6 +47,9 @@ If you’re a surviving spouse or a child of a deceased Veteran with wartime ser
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
+<br>
+
 **There are 2 ways you can try to qualify:**
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
