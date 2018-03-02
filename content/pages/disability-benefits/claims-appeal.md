@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Appeals
+description: Learn about the VA appeals process--how to file an appeal, the average wait time for a decision, and how to track the status of your appeal.
 order: 6
 concurrence: complete
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
