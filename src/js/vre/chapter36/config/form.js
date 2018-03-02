@@ -29,6 +29,7 @@ const {
   seekingRestorativeTraining,
   seekingVocationalTraining,
   receivedPamphlet,
+  previousBenefitApplications,
   veteranDateOfDeathMIAPOW,
   veteranSocialSecurityNumber,
   veteranVaFileNumber
@@ -136,27 +137,6 @@ const previousBenefitApplicationsUI = {
     'ui:title': benefitsLabels.otherExplanation,
     'ui:options': {
       expandUnder: 'other'
-    }
-  }
-};
-
-const previousBenefitApplications = {
-  type: 'object',
-  properties: {
-    chapter31: {
-      type: 'boolean'
-    },
-    ownServiceBenefits: {
-      type: 'boolean'
-    },
-    dic: {
-      type: 'boolean'
-    },
-    other: {
-      type: 'boolean'
-    },
-    otherExplanation: {
-      type: 'string'
     }
   }
 };

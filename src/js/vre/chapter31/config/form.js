@@ -23,7 +23,8 @@ const {
   email,
   eveningPhone,
   employer,
-  // disabilityRating,
+  disabilityRating,
+  disabilities,
   jobDuties,
   monthlyIncome,
   vaRecordsOffice
@@ -269,25 +270,8 @@ const formConfig = {
 
             ],
             properties: {
-              disabilityRating: {
-                type: 'number',
-                'enum': [
-                  0,
-                  10,
-                  20,
-                  30,
-                  40,
-                  50,
-                  60,
-                  70,
-                  80,
-                  90,
-                  100
-                ]
-              },
-              disabilities: {
-                type: 'string'
-              },
+              disabilityRating,
+              disabilities,
               vaRecordsOffice,
               'view:inHospital': {
                 type: 'boolean'
