@@ -1,17 +1,20 @@
 import React from 'react';
 
-export default function EducationView({ formData }) {
-  let from = '';
-  let to = '';
-  if (formData.yearStarted && formData.yearLeft) {
-    from = formData.yearStarted;
-    to = formData.yearLeft;
+export default function EducationPeriodView({ formData }) {
+  const from = formData.yearStarted;
+  const to = formData.yearLeft;
+  let educationPeriod = '';
+
+  if (from && to) {
+    educationPeriod = `${from} — ${to}`;
+  } else {
+    educationPeriod = `${from}${to}`;
   }
 
   return (
     <div>
       <strong>{formData.program}</strong><br/>
-      {from} &mdash; {to}
+      {educationPeriod}
     </div>
   );
 }
