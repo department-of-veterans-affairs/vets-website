@@ -65,7 +65,7 @@ const configGenerator = (options) => {
     'raven-js'
   ];
   const baseConfig = {
-    // mode: 'development',
+    mode: 'development',
     entry: filesToBuild,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
@@ -100,12 +100,6 @@ const configGenerator = (options) => {
 
               // Also see .babelrc
             }
-          }
-        },
-        {
-          test: /foundation\.js$/,
-          use: {
-            loader: 'imports-loader?this=>window',
           }
         },
         {
@@ -164,12 +158,6 @@ const configGenerator = (options) => {
           }
         },
         {
-          test: /\.json$/,
-          use: {
-            loader: 'json-loader'
-          }
-        },
-        {
           test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
           exclude: [
             /widgets\/index\.js/,
@@ -188,18 +176,18 @@ const configGenerator = (options) => {
       },
       extensions: ['.js', '.jsx']
     },
-    // optimization: {
-    //   splitChunks: {
-    //     cacheGroups: {
-    //       vendor: {
-    //         chunks: 'initial',
-    //         name: 'vendor',
-    //         priority: 10,
-    //         enforce: true
-    //       }
-    //     }
-    //   }
-    // },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: 'initial',
+            name: 'vendor',
+            priority: 10,
+            enforce: true
+          }
+        }
+      }
+    },
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
@@ -218,11 +206,11 @@ const configGenerator = (options) => {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
-        minChunks: Infinity
-      }),
+      // new webpack.optimize.CommonsChunkPlugin({
+      //   name: 'vendor',
+      //   filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
+      //   minChunks: Infinity
+      // }),
       new webpack.optimize.ModuleConcatenationPlugin()
     ],
   };
