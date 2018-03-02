@@ -6,12 +6,16 @@ import IconUser from '../../common/components/svgicons/IconUser';
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff"/>;
+    // @todo Some type of check here to see if they are registered for the beta.
+    const personalizationBeta = true;
 
     const dropDownContents = (
       <ul>
         <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/account">Account</a></li>
+        {personalizationBeta ? ([
+          <li key="1"><a href="/profile-beta">Profile</a></li>,
+          <li key="2"><a href="/account-beta">Account</a></li>
+        ]) : (<li><a href="/profile">Profile</a></li>)}
         <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
       </ul>
     );
