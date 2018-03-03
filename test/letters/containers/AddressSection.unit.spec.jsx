@@ -49,6 +49,16 @@ const defaultProps = {
   statesAvailable: true
 };
 
+const emptyAddress = {
+  addressOne: '',
+  addressTwo: '',
+  addressThree: '',
+  city: '',
+  countryName: '',
+  stateCode: '',
+  type: ADDRESS_TYPES.domestic
+};
+
 
 describe('<AddressSection>', () => {
   beforeEach(() => {
@@ -262,15 +272,7 @@ describe('<AddressSection>', () => {
 
   it('should not start editing by calling editAddress() if address is empty but user !canUpdate', () => {
     const props = cloneDeep(defaultProps);
-    props.savedAddress = {
-      addressOne: '',
-      addressTwo: '',
-      addressThree: '',
-      city: '',
-      countryName: '',
-      stateCode: '',
-      type: ADDRESS_TYPES.domestic
-    };
+    props.savedAddress = emptyAddress;
     props.canUpdate = false;
 
     const component = shallow(<AddressSection {...props}/>); // eslint-disable-line
@@ -280,6 +282,16 @@ describe('<AddressSection>', () => {
   it('should render an address help button', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
     expect(tree.find('.address-help-btn').exists()).to.be.true;
+  });
+
+  it('should render an empty address warning on the edit screen', () => {
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress savedAddress={emptyAddress}/>);
+    expect(tree.find('.usa-alert-heading').first().text()).to.equal('VA does not have a valid address on file for you');
+  });
+
+  it('should render an empty address warning on the view screen', () => {
+    const tree = mount(<AddressSection {...defaultProps} savedAddress={emptyAddress}/>);
+    expect(tree.find('.usa-alert-heading').first().text()).to.equal('VA does not have a valid address on file for you');
   });
 
   describe('validation', () => {
