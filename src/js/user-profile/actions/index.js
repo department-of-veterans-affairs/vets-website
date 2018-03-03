@@ -40,6 +40,8 @@ export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
 export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
 export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
 
+export * from './mhv';
+
 export function updateProfileFields(newState) {
   return {
     type: UPDATE_PROFILE_FIELDS,
