@@ -1,22 +1,38 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../login/actions';
-import {
-  fetchExtendedProfile,
-  removeSavedForm,
-  updateEmailAddress,
-  updatePrimaryPhone,
-  updateAlternatePhone,
-  updateResidentialAddress,
-  updateMailingAddress,
-  openModal
-} from '../actions';
-
+import { removeSavedForm } from '../actions';
+import UserDataSection from '../components/UserDataSection';
+import AuthApplicationSection from '../components/AuthApplicationSection';
+import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
-import ProfileView from '../components/ProfileView';
+
+moment.updateLocale('en', {
+  meridiem: (hour) => {
+    if (hour < 12) {
+      return 'a.m.';
+    }
+    return 'p.m.';
+  },
+  monthsShort: [
+    'Jan.',
+    'Feb.',
+    'Mar.',
+    'Apr.',
+    'May',
+    'June',
+    'July',
+    'Aug.',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Dec.'
+  ]
+});
 
 class UserProfileApp extends React.Component {
   componentDidMount() {
@@ -26,6 +42,24 @@ class UserProfileApp extends React.Component {
   }
 
   render() {
+    const view = (
+      <div className="row user-profile-row">
+        <div className="usa-width-two-thirds medium-8 small-12 columns">
+          <h1>Your Account</h1>
+          <div>
+            <FormList
+              userProfile={this.props.profile}
+              removeSavedForm={this.props.removeSavedForm}
+              savedForms={this.props.profile.savedForms}/>
+            <AuthApplicationSection
+              userProfile={this.props.profile}
+              verifyUrl={this.props.verifyUrl}/>
+            <UserDataSection/>
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <div>
         <RequiredLoginView
@@ -35,21 +69,7 @@ class UserProfileApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
-            <div className="row user-profile-row">
-              <div className="usa-width-two-thirds medium-8 small-12 columns">
-                <h1>Your Profile</h1>
-                <ProfileView
-                  profile={this.props.profile}
-                  modal={{
-                    open: this.props.openModal,
-                    currentlyOpen: this.props.profile.modal,
-                    pendingSaves: this.props.profile.pendingSaves,
-                    errors: this.props.profile.errors
-                  }}
-                  updateActions={this.props.updateActions}
-                  fetchExtendedProfile={this.props.fetchExtendedProfile}/>
-              </div>
-            </div>
+            {view}
           </DowntimeNotification>
         </RequiredLoginView>
       </div>
@@ -67,23 +87,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  const actions = bindActionCreators({
-    removeSavedForm,
-    updateVerifyUrl,
-    fetchExtendedProfile,
-    openModal
-  }, dispatch);
-
-  actions.updateActions = bindActionCreators({
-    updateEmailAddress,
-    updatePrimaryPhone,
-    updateAlternatePhone,
-    updateResidentialAddress,
-    updateMailingAddress
-  }, dispatch);
-
-  return actions;
+const mapDispatchToProps = {
+  removeSavedForm,
+  updateVerifyUrl
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);

@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from '../../common/utils/moment-setup';
+import moment from '../../../common/utils/moment-setup';
 import {
   SAVE_MAILING_ADDRESS,
   SAVE_RESIDENTIAL_ADDRESS,
@@ -9,10 +9,10 @@ import {
   FETCH_EXTENDED_PROFILE_FAIL
 } from '../actions';
 
-import AlertBox from '../../common/components/AlertBox';
-import PhoneNumberWidget from '../../common/schemaform/review/PhoneNumberWidget';
-import SSNWidget from '../../common/schemaform/review/SSNWidget';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import AlertBox from '../../../common/components/AlertBox';
+import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
+import SSNWidget from '../../../common/schemaform/review/SSNWidget';
+import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import { EditAddressModal, EditPhoneModal, EditEmailModal } from './ProfileViewModals';
 import HeadingWithEdit from './HeadingWithEdit';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '../../common/components/Modal';
-import Address from '../../letters/components/Address';
+import Modal from '../../../common/components/Modal';
+import Address from '../../../letters/components/Address';
 
 // Todo - switch to the common form components
 

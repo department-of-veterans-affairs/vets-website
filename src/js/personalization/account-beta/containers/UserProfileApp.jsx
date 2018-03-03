@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
-import { updateVerifyUrl } from '../../login/actions';
+import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
+import { updateVerifyUrl } from '../../../login/actions';
 import { removeSavedForm } from '../actions';
 import UserDataSection from '../components/UserDataSection';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import RequiredLoginView from '../../../common/components/RequiredLoginView';
+import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
