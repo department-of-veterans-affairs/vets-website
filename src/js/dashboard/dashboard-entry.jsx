@@ -1,6 +1,7 @@
 import 'core-js';
 import '../common';
 import '../../sass/user-profile.scss';
+import '../../sass/dashboard.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

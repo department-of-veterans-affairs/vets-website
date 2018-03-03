@@ -5,6 +5,8 @@ import moment from 'moment';
 import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../login/actions';
 import { removeSavedForm } from '../actions';
+
+import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
@@ -46,6 +48,10 @@ class DashboardApp extends React.Component {
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Dashboard</h1>
           <div>
+            <FormList
+              userProfile={this.props.profile}
+              removeSavedForm={this.props.removeSavedForm}
+              savedForms={this.props.profile.savedForms}/>
             <MessagingWidget/>
           </div>
         </div>
