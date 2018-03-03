@@ -20,17 +20,15 @@ function createVicSettings() {
 }
 
 class VeteranIDCard extends React.Component {
-
   componentWillReceiveProps(nextProps) {
-
     // Once the login logic is all done...
     // This will occur even for unauthenticated users and should only occur once.
     if (this.props.profile.loading && !nextProps.profile.loading) {
       const userProfile = nextProps.profile;
       const { serviceRateLimitedAuthed, serviceRateLimitedUnauthed } = this.props.vicSettings;
-      const isloggedIn = !!userProfile.accountType;
+      const { currentlyLoggedIn } = userProfile;
 
-      if (isloggedIn) {
+      if (currentlyLoggedIn) {
         if (serviceRateLimitedAuthed) {
           window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
           this.renderEmailCapture = true;

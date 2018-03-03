@@ -31,6 +31,7 @@ const initialState = {
   dob: null,
   gender: null,
   accountType: null,
+  verified: false,
   mhv: {
     account: {
       errors: null,
