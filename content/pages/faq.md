@@ -149,27 +149,24 @@ display_title: Frequently Asked Questions
                         <p><strong>Note:</strong> If you'd rather verify your identity and upgrade to a premium <strong>DS Logon</strong> account in person or by phone, read the instructions in the section above on verifying your identity.</p>
                         <h4>How to get a premium My Health<em>e</em>Vet account if you're a VA patient</h4>  
                         <p>Follow these 2 steps to sign up for a <strong>My Health<em>e</em>Vet</strong> account.</p>
-                        <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. To make sure you can upgrade your account to premium, sign up as a VA patient.</p>
+                        <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. Be sure to choose <strong>VA Patient</strong> on the registration form. This will automatically upgrade your account to an advanced account, and then you can upgrade to a premium account.</p>
                         <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
-                        <p><strong>2. Then, complete and sign an Individuals' Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV).</strong> This "VA release of information" form gives us permission to share an electronic copy of your health record with your online account.</p>
-                        <p>You can submit this form to us in 1 of 2 ways.</p>
-                        <h5>In person at a local VA health care facility</h5>
+                        <p><strong>2. Then, upgrade to a premium account.</strong></p>
+                        <p>You can do this in 1 of 2 ways.</p>
+                        <h5>Upgrade your acount using your premium DS Logon user ID and password</h5>
+                        <p>To do this, sign in to your advanced <strong>My Health<em>e</em>Vet</strong> account using your premium <strong>DS Logon</strong> user ID and password.</p>
+                        <p>Once signed in, select the <strong>Upgrade Now</strong> button at the top left side of the screen. Then select <strong>Continue</strong> on the account upgrade page.</p>
+                        <p>The system will upgrade you to a premium account.</p>
+                        <h5>Upgrade your account in person at a VA heatlh facility</h5>
                         <p><strong>You'll need to bring:</strong></p>
                         <ul>
-                          <li><strong>Your VA Form 10-5345a-MHV.</strong> You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
+                          <li><strong>A completed and signed Individuals' Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV).</strong> This "VA release of information" form gives us permission to share an electronic copy of your health record with your online account. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
                             <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
                           <li><strong>A government-issued photo ID.</strong> This can be either your Veteran Health Identification Card or a valid driver's license.</li>
                         </ul>
                         <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
                         <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
                         <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
-                        <h5>By mail</h5>
-                        <p>Log in to your account on the <strong>My Health<em>e</em>Vet</strong> website.</p>
-                        <p>The site will ask if you’d like to upgrade to a premium account.</p>
-                        <p>If you have an advanced account already, a page called “Authorize VA to Release Electronic Copies of your VA Record” will appear. Choose the radio button labeled “By Mail—Print, fill out and mail your signed form,” and select “Continue.”</p>
-                        <p>Print, complete, and sign an Individuals' Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV). Mail this "VA release of information" form to your local VA health care facility. When you address the envelope, include “Attention: Release of Information Office.”</p>
-                        <p><a href="https://www.myhealth.va.gov/">Log in at My Health<em>e</em>Vet</a>.</p>  
-                        <p><a href="/facilities/">Find contact information for a VA health facility near you</a>.</p>
                      </div>
                     </div>
                   </li>           
