@@ -70,16 +70,16 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 
 **If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits,** the evidence must show that **at least one of the following is true for you**:
 
-  - Have corrected vision of 5/200 or less in both eyes, **or**
-  - Have contraction of the concentric visual field to 5 degrees or less, **or**
-  - Are a patient in a nursing home due to the loss of mental or physical abilities, **or**
-  - Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, **or**
-  - Are bedridden and have to spend most of the day in bed because of your disability
+  - You have corrected vision of 5/200 or less in both eyes, **or**
+  - You have contraction of the concentric visual field to 5 degrees or less, **or**
+  - You are a patient in a nursing home due to the loss of mental or physical abilities, **or**
+  - You need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, **or**
+  - You are bedridden and have to spend most of the day in bed because of your disability
 
-To support a claim for increased disability pension benefits based on being housebound, the evidence must show that you:
+To support a claim for increased disability pension benefits based on being housebound, the evidence must show that **at least one of the following is true for you**:
 
-  - Have a single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
-  - Have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
+  - You have a single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
+  - You have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
 **If you’re claiming benefits for a disabled child,** the evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
 
@@ -165,12 +165,12 @@ You can work with a trained professional called an accredited representative to 
 #### Special Situations
 If any of the below situations apply to you, you’ll need to turn in the additional forms at the same time as you file your pension claim.
 If you’re:
-- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out a form called an Examination for Housebound Status or Permanent Need for Regular Aid and Attendance <br>
-([VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680)). <br>
-**Note:** If you’re in a care facility, please also fill out a Request for Nursing Home Information in Connection with Claim for Aid and Attendance <br>
-([VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779)).
-- **Claiming a child in school between the ages of 18 and 23**, fill out a Request for Approval of School Attendance <br>
-([VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674)).
+- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). <br>
+[Download VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680). <br>
+**Note:** If you’re in a care facility, please also fill out Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0770). <br>
+[Download VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779).
+- **Claiming a child in school between the ages of 18 and 23**, fill out Request for Approval of School Attendance (VA Form 21-674). <br>
+[Download VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674).
 - **Claiming benefits for a seriously disabled child**, turn in all private medical records for the child’s disabilities.
 
 </div>
