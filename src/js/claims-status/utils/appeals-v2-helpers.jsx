@@ -1069,22 +1069,28 @@ export function getNextEvents(currentStatus, details) {
  * @returns {alertOutput} dynamically-generated title, description, and styling properties
  */
 export function getAlertContent(alert) {
-  const { type } = alert;
+  const { type, details, date, dueDate } = alert;
+  // TODO: confirm new date/dueDate usages
+  const formattedDate = moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+  const formattedDueDate = moment(dueDate, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+  // TODO: confirm status logic and property
+  const statusDescription = details.status === 'open' ? 'is active at the Board of Veterans’ Appeals' : 'is closed'; // Used in ramp_ineligible alert
+
   switch (type) {
     case ALERT_TYPES.form9Needed: {
-      const formattedDueDate = moment(alert.dueDate, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+
       return {
-        title: `Return the Form 9 by ${formattedDueDate} in order to continue your appeal`,
+        title: `Return the VA Form 9 by ${formattedDueDate} in order to continue your appeal`,
         description: (
           <div>
             <p>
-              A Form 9 was included with your Statement of the Case. By completing and returning
-              the form, you bring your appeal to the Board of Veterans’ Appeals. On this form,
+              A VA Form 9 was included with your Statement of the Case. By completing and returning
+              the form, you continue your appeal to the Board of Veterans’ Appeals. On this form,
               you can request a hearing with a Veterans Law Judge, if you would like one.
             </p>
             <p>
-              If you need help with understanding your Statement of the Case or completing the Form
-              9, contact your VSO or representative.
+              If you need help understanding your Statement of the Case or completing the Form
+              9, contact your Veteran Service Organization or representative.
             </p>
           </div>
         ),
@@ -1093,34 +1099,40 @@ export function getAlertContent(alert) {
       };
     }
     case ALERT_TYPES.scheduledHearing: {
-      const formattedDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
-        title: `Your hearing is scheduled for ${formattedDate}`,
-        description: null,
+        title: (
+          <span>A hearing has been scheduled. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to prepare for, reschedule, or cancel your hearing</a>.</span>
+        ),
+        // TODO: determine whether details.type or type should be used here
+        description: (
+          <p>Your {type} hearing is scheduled for {formattedDate} at {details.location}.</p>
+        ),
         displayType: 'take_action',
         type
       };
     }
     case ALERT_TYPES.hearingNoShow: {
-      const formattedDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
-        title: `You have 14 days to reschedule your hearing from ${formattedDate}`,
+        title: `You missed your hearing on ${formattedDate}`,
         description: (
-          <p>You missed your hearing on {formattedDate}. If you want to reschedule your
-          hearing, please contact your VSO or representative for more information.</p>
+          <div>
+            <p>You were scheduled for a hearing on {formattedDate}, but VA records show that you did not attend. If you want to request a new hearing, you will need to send the Board of Veterans’ Appeals a letter that explains why you were unable to attend the hearing. You must send this letter by {formattedDueDate}.</p>
+            <p>Board of Veterans’ Appeals P.O. Box 27063 Washington, DC 20038</p>
+            <p>Please contact your Veteran Service Organization or representative for more information.</p>
+          </div>
         ),
         displayType: 'take_action',
         type
       };
     }
     case ALERT_TYPES.heldForEvidence: {
-      const formattedDueDate = moment(alert.dueDate, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
         title: 'Your appeals case is being held open',
         description: (
-          <p>You or your representative asked to hold your appeal open to
-          submit additional evidence. Please make sure the Board gets your
-          evidence by {formattedDueDate}.</p>
+          <div>
+            <p>You or your representative asked the Board of Veterans’ Appeals to hold your case open while you gather additional evidence to support your appeal. Please send your evidence to the Board by {formattedDueDate}.</p>
+            <p>Board of Veterans’ Appeals P.O. Box 27063 Washington, DC 20038</p>
+          </div>
         ),
         displayType: 'take_action',
         type
@@ -1128,15 +1140,11 @@ export function getAlertContent(alert) {
     }
     case ALERT_TYPES.rampEligible:
       return {
-        title: 'You have opted-in to the Rapid Appeals Modernization Program (RAMP)',
+        title: 'This appeal is eligible for the Rapid Appeals Modernization Program',
         description: (
           <div>
-            <p>You chose to participate in the new supplemental claim or
-            higher-level review lanes. This does not mean that your appeal has
-            been closed. If you didn’t choose this, please call your VSO or
-            representative as soon as possible.</p>
-            <p>At this time, Vets.gov Appeal Status is not able to get
-            information related to appeals that are part of RAMP.</p>
+            <p>On {formattedDate}, VA sent you a letter informing you of a new program called the Rapid Appeals Modernization Program (RAMP). The Veterans Appeals Improvement and Modernization Act will create new options in 2019 for Veterans seeking review of VA decisions. RAMP is a program that allows you to opt in to one of the two new "lanes" for review before the new law takes effect. For more information, review the fact sheet that was enclosed with the letter.</p>
+            <p>In order to participate, you must return the RAMP Opt-in Election form. If you choose to participate in RAMP, VA will withdraw all of your eligible appeals and instead review your case using the lane you select. If you do not want to participate in RAMP and wish to continue your appeal under the existing process, no action is required.</p>
           </div>
         ),
         displayType: 'info',
@@ -1144,35 +1152,29 @@ export function getAlertContent(alert) {
       };
     case ALERT_TYPES.rampIneligible:
       return {
-        title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
+        title: 'This appeal is not eligible for the Rapid Appeals Modernization Program',
         description: (
-          <p>This appeal is not eligible for RAMP because it’s near the front
-          of the docket line and ready to be assigned to a Veterans Law Judge
-          at the Board. For more information, please call your VSO or
-          representative.</p>
+          <p>On {formattedDate}, VA sent you a letter informing you of a new program called the Rapid Appeals Modernization Program (RAMP). However, this appeal is not eligible to participate in RAMP because it {statusDescription}. If you have other appeals, they may still be eligible to participate in RAMP.</p>
         ),
         displayType: 'info',
         type,
       };
     case ALERT_TYPES.decisionSoon:
       return {
-        title: 'Your appeal is near the front of line',
+        // TODO: confirm which of duplicate content is correct
+        title: 'Decision soon',
         description: (
-          <p>Your appeal is near the front of the Board’s docket line for a
-          Veterans Law Judge to review your appeal and write a decision.
-          Sending in new evidence at this time will delay your case being
-          reviewed. Please make sure the Board has your correct mailing address.</p>
+          <p>Your appeal will soon receive a Board decision. Sending in new evidence at this time could delay review of your appeal. If you’ve moved recently, please make sure that VA has your current mailing address.</p>
         ),
         displayType: 'info',
         type,
       };
     case ALERT_TYPES.blockedByVso:
       return {
-        title: 'Waiting on your representative',
+        title: 'A judge cannot review your appeal',
+        // TODO: confirm vsoName variable
         description: (
-          <p>You’re at the front of the Board’s docket line, but your appeal is
-          with your Veteran Service Organization. Please contact them to make
-          sure they are sending the needed information to the Board.</p>
+          <p>Your appeal is eligible to be assigned to a judge based on its place in line, but they are prevented from reviewing your appeal because your Veteran Service Organization, {details.vsoName}, is currently reviewing it. For more information, please contact your Veteran Service Organization or representative.</p>
         ),
         displayType: 'info',
         type,
@@ -1183,7 +1185,15 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.droHearingNoShow:
       return {};
     case ALERT_TYPES.cavcOption:
-      return {};
+      return {
+        title: 'What if I disagree with my decision?',
+        // TODO: confirm this link display format
+        description: (
+          <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal by {formattedDueDate}. For more information, review the document “Your Rights to Appeal Our Decision” enclosed with the Board’s decision, visit the Court’s website (<a href="https://www.uscourts.cavc.gov/appeal.php">https://www.uscourts.cavc.gov/appeal.php</a>), or contact your Veteran Service Organization or representative.</p>
+        ),
+        displayType: 'info',
+        type,
+      };
     default:
       return {
         title: '',
