@@ -12,9 +12,10 @@ template: detail-page
 If you need to have your appeal moved to the front of the line due to serious illness, financial distress, or other reasons, find out how to request a priority review.
 </div>
 
-<div class="feature">
 <h3>Is there a way to prioritize my appeal?</h3>
 Advanced on Docket appeals are prioritized so that they are always at the front of the line. You can apply to have your appeal Advanced on Docket for any of the below reasons.
+
+<div class="feature">
 
 **One of these must be true. You:**
 - Are 75 years or older, **or**
