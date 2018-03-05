@@ -128,7 +128,7 @@ display_title: Frequently Asked Questions
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-0" itemprop="name">If I can't or don't want to verify my identity through ID.me, what are my other options? </button>
                     <div id="faq-trouble-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>You can use a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account to sign in to Vets.gov. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov.
+                        <p>You can use a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account to sign in to Vets.gov with a verified account. When you sign in with an existing premium account, ID.me will receive your verified information and you won't need to verify your identity again on Vets.gov.
                         <h4>How to get a premium DS Logon account</h4>                      
                         <p>Follow these 2 steps to sign up for a premium <strong>DS Logon</strong> account.</p>
                         <p><strong>1. First, make sure you’re enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
@@ -157,8 +157,8 @@ display_title: Frequently Asked Questions
                         <p>To do this, sign in to your advanced <strong>My Health<em>e</em>Vet</strong> account using your premium <strong>DS Logon</strong> user ID and password.</p>
                         <p>Once signed in, select the <strong>Upgrade Now</strong> button at the top left side of the screen. Then select <strong>Continue</strong> on the account upgrade page.</p>
                         <p>The system will upgrade you to a premium account.</p>
-                        <h5>Upgrade your account in person at a VA heatlh facility</h5>
-                        <p><strong>You'll need to bring:</strong></p>
+                        <h5>Upgrade your account in person at a VA health facility</h5>
+                        <p><strong>You'll need to have:</strong></p>
                         <ul>
                           <li><strong>A completed and signed Individuals' Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV).</strong> This "VA release of information" form gives us permission to share an electronic copy of your health record with your online account. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
                             <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
