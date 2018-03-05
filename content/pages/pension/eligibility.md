@@ -17,7 +17,7 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 
 ### Can I get Veterans pension benefits from VA?
 
-You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and:
+You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and **at least one of the following is true for you**:
 
 - You started on active duty before September 8, 1980, and you served at least 90 days on active duty with at least 1 day during wartime, **or**
 - You started on active duty as an enlisted person after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 1 day during wartime, **or**
@@ -38,14 +38,15 @@ You may be able to get pension benefits if you were discharged from service unde
 
 Veterans.
 
-If you’re a surviving spouse or a child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
+If you’re a surviving spouse or a child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. <br>
+[Learn more about the Survivors Pension program](/pension/survivors-pension/).
 
 </div>
 
 ### Ready to apply? 
 
 Fill out an Application for Pension (VA Form 21P-527EZ). <br>
-Download [VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+[Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
 **Note:** Attach all the supporting documents (evidence) to the end of the form.
 
