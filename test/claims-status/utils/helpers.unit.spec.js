@@ -580,7 +580,7 @@ describe('Disability benefits helpers: ', () => {
         ssocTimeliness: [1, 1],
       };
       const nextEvents = getNextEvents(type, details);
-      expect(nextEvents.header).to.equal('What happens next depends on whether you send in new evidence.');
+      expect(nextEvents.header).to.equal('What happens next depends on whether you submit new evidence.');
     });
 
     it('returns an object with an events array property', () => {
