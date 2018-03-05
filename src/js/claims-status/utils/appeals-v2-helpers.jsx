@@ -570,7 +570,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.form9:
       return {
-        title: 'Form 9 Recieved',
+        title: 'Form 9 Received',
         description: '',
       };
     case EVENT_TYPES.ssoc:
