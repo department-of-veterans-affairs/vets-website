@@ -1,5 +1,4 @@
 import React from 'react';
-import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 
@@ -7,92 +6,10 @@ import ErrorableFileInput from '../../common/components/form-elements/ErrorableF
 import ProgressBar from '../../common/components/ProgressBar';
 import { scrollAndFocus } from '../../common/utils/helpers';
 import PhotoPreview from '../components/PhotoPreview';
-import CropperControls from '../components/CropperControls';
-import _ from 'lodash/fp';
+import CropperController from '../components/CropperController';
 
-const MIN_SIZE = 350;
-const SMALL_CROP_BOX_SIZE = 240;
-const LARGE_CROP_BOX_SIZE = 300;
-const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
-const MAX_CROPPED_HEIGHT_WIDTH = 600;
-
-function getCanvasDataForDefaultPosition({ canvasData, cropBoxData, containerWidth }) {
-  // use the cropbox dimensions to force canvas into default position
-  const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } =  cropBoxData;
-  const { width: oldCanvasWidth, height: oldCanvasHeight, naturalHeight, naturalWidth } = canvasData;
-  // wide images are centered and set to the height of the crop box
-  if (naturalHeight < naturalWidth) {
-    return {
-      height: cropBoxHeight,
-      top: 0,
-      left: (containerWidth - (cropBoxHeight / oldCanvasHeight * oldCanvasWidth)) / 2,
-      bottomBoundaryMet: true,
-      topBoundaryMet: true,
-      leftBoundaryMet: false,
-      rightBoundaryMet: false
-    };
-  }
-
-  // narrow images are move to the top and set to the width of the cropbox
-  return {
-    width: cropBoxWidth,
-    left: cropBoxLeft,
-    top: 0,
-    bottomBoundaryMet: false,
-    topBoundaryMet: true,
-    leftBoundaryMet: true,
-    rightBoundaryMet: true
-  };
-}
-
-
-function getBoundedCanvasPositionData({ canvasData, cropBoxData, moveX, moveY }) {
-  const { left: canvasLeft, top: canvasTop, width: canvasWidth, height: canvasHeight } =  canvasData;
-  const { left: cropBoxLeft, top: cropBoxTop, width: cropBoxWidth, height: cropBoxHeight } =  cropBoxData;
-
-  const boundaries = {
-    leftMin: cropBoxLeft + cropBoxWidth - canvasWidth,
-    leftMax: cropBoxLeft,
-    topMin: cropBoxTop + cropBoxHeight - canvasHeight,
-    topMax: cropBoxTop
-  };
-
-  const newCanvasData = {
-    left: moveX ? moveX + canvasLeft : canvasLeft,
-    top: moveY ? moveY + canvasTop : canvasTop,
-    bottomBoundaryMet: false,
-    topBoundaryMet: false,
-    leftBoundaryMet: false,
-    rightBoundaryMet: false
-  };
-
-  if (boundaries.topMin === boundaries.topMax) {
-    newCanvasData.top = boundaries.topMin;
-    newCanvasData.topBoundaryMet = true;
-    newCanvasData.bottomBoundaryMet = true;
-  } else if (newCanvasData.top > boundaries.topMax) {
-    newCanvasData.top = boundaries.topMax;
-    newCanvasData.topBoundaryMet = true;
-  } else if (newCanvasData.top  < boundaries.topMin) {
-    newCanvasData.top = boundaries.topMin;
-    newCanvasData.bottomBoundaryMet = true;
-  }
-
-  if (boundaries.leftMin === boundaries.leftMax) {
-    newCanvasData.left = boundaries.leftMin;
-    newCanvasData.leftBoundaryMet = true;
-    newCanvasData.rightBoundaryMet = true;
-  } else if (newCanvasData.left > boundaries.leftMax) {
-    newCanvasData.left = boundaries.leftMax;
-    newCanvasData.leftBoundaryMet = true;
-  } else if (newCanvasData.left < boundaries.leftMin) {
-    newCanvasData.left = boundaries.leftMin;
-    newCanvasData.rightBoundaryMet = true;
-  }
-
-  return newCanvasData;
-}
+const MIN_SIZE = 350;
 
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
@@ -104,56 +21,6 @@ function onReviewPage(pageTitle) {
 
 function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
-}
-
-function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
-  let direction = '';
-  if (topBoundaryMet) {
-    direction = 'down';
-  }
-
-  if (bottomBoundaryMet) {
-    direction = 'up';
-  }
-
-  if (leftBoundaryMet) {
-    direction = 'right';
-  }
-
-  if (rightBoundaryMet) {
-    direction = 'left';
-  }
-
-  return direction;
-}
-
-function makeBoundaryEdgeWarning(direction) {
-  return direction ?
-    `You have reached the edge of your photo and can't move it any farther ${direction}. To continue to edit your photo, click on the other arrows to move it or to make it larger.` :
-    '';
-}
-
-function hasParallelBoundariesMet({ topBoundaryMet, bottomBoundaryMet, leftBoundaryMet, rightBoundaryMet }) {
-  return (topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet);
-}
-
-function makeCropBoundaryWarningMessage({ zoomWarn = false, ...boundariesMet }) {
-  if (zoomWarn) {
-    return 'If you zoom in this close, your ID photo will be less clear.';
-  } else if (hasParallelBoundariesMet(boundariesMet)) {
-    return 'Your photo currently fits within the square frame. If you’d like to adjust the position of your photo, click Make larger.';
-  }
-
-  return makeBoundaryEdgeWarning(getBoundaryEdgeWarningDirection(boundariesMet));
-}
-
-function makeMoveButtonsEnabledStates({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
-  return {
-    moveUpDisabled: bottomBoundaryMet,
-    moveDownDisabled: topBoundaryMet,
-    moveLeftDisabled: rightBoundaryMet,
-    moveRightDisabled: leftBoundaryMet
-  };
 }
 
 function isValidImageSize(img) {
@@ -185,12 +52,8 @@ export default class PhotoField extends React.Component {
     }
 
     this.state = {
-      minRatio: 0.2,
-      maxRatio: 1.7,
       progress: 0,
       src: null,
-      warningMessage: null,
-      zoomValue: 0.4,
       isCropping: false,
       previewSrc,
       previewProcessing: false
@@ -257,39 +120,6 @@ export default class PhotoField extends React.Component {
     });
   }
 
-  onDone = () => {
-    this.setState({ isCropping: false, progress: 0, warningMessage: null });
-
-    const croppedCanvasOptions = this.refs.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
-      { width: MAX_CROPPED_HEIGHT_WIDTH, height: MAX_CROPPED_HEIGHT_WIDTH } :
-      {};
-
-    croppedCanvasOptions.imageSmoothingQuality = 'high';
-
-    this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
-      const file = blob;
-      file.lastModifiedDate = new Date();
-      file.name = 'profile_photo.png';
-      this.props.formContext.uploadFile(
-        file,
-        (formData) => {
-          if (formData.confirmationCode) {
-            this.props.onChange(Object.assign({}, formData, {
-              file
-            }));
-          } else {
-            this.props.onChange(formData);
-          }
-        },
-        this.props.uiSchema['ui:options'],
-        this.updateProgress
-      ).catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        // this.props.onBlur(this.props.idSchema.$id);
-      });
-    });
-  }
 
   onChangeScreenReader = (files) => {
     const file = files[0];
@@ -385,126 +215,29 @@ export default class PhotoField extends React.Component {
     this.setState({ previewProcessing: true });
   }
 
-  onZoomSliderChange = (e) => {
-    this.refs.cropper.zoomTo(e.target.value);
-  }
-
-  onZoomMouseMove = (e) => {
-    if (this.mouseDown) {
-      this.onZoomSliderChange(e);
-    }
-  }
-
-  onZoomMouseDown = (e) => {
-    this.mouseDown = true;
-    if (e.target.value !== this.state.zoomValue) {
-      this.onZoomSliderChange(e);
-    }
-  }
-
-  onZoomMouseUp = () => {
-    this.mouseDown = false;
-  }
-
-  onZoom = (e) => {
-    // Cropper returns the attempted zoom value
-    const zoomValue = e.detail.ratio;
-
-    // check if zoom is out of bounds
-    let zoomToBoundaryRatio;
-    if (zoomValue < this.state.minRatio) {
-      zoomToBoundaryRatio = this.state.minRatio;
-    } else if (zoomValue > this.state.maxRatio) {
-      zoomToBoundaryRatio = this.state.maxRatio;
-    }
-
-    // force zoom within zoom bounds
-    if (zoomToBoundaryRatio) {
-      this.refs.cropper.zoomTo(zoomToBoundaryRatio); // force zoom within constraints
-      e.preventDefault(); // prevents bad zoom attempt
-      return; // don't update state until the subsequent zoom attempt
-    }
-
-    // zoom value is good- update the state / messaging
-    this.setState({ zoomValue });
-
-    // at this point, the onZoom event has not resized the canvas-
-    // this forces the canvas back into move bounds if the zoom pulls a canvas edge into the cropBox
-    //   after the canvas has rendered with new width values
-    this.moveCanvasWithinBounds({}, zoomValue);
-  }
-
-  setCropBox = () => {
-    window.requestAnimationFrame(() => {
-      // sometimes this callback is called before the new cropper has mounted
-      // check if the cropper instance has canvasData before setting its values
-      if (!_.isEmpty(this.refs.cropper.getCanvasData())) {
-        // center the cropbox using container width
-        const containerWidth = this.refs.cropper.getContainerData().width;
-        const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
-        const left = smallScreen ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
-        this.refs.cropper.setCropBoxData({
-          top: 0,
-          left,
-          height: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE,
-          width: smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE
-        });
-
-        this.moveCanvasToDefaultPosition();
-      }
+  uploadPhoto = (blob) => {
+    this.setState({ isCropping: false, progress: 0, warningMessage: null });
+    const file = blob;
+    file.lastModifiedDate = new Date();
+    file.name = 'profile_photo.png';
+    this.props.formContext.uploadFile(
+      file,
+      (formData) => {
+        if (formData.confirmationCode) {
+          this.props.onChange(Object.assign({}, formData, {
+            file
+          }));
+        } else {
+          this.props.onChange(formData);
+        }
+      },
+      this.props.uiSchema['ui:options'],
+      this.updateProgress
+    ).catch(() => {
+      // rather not use the promise here, but seems better than trying to pass
+      // a blur function
+      // this.props.onBlur(this.props.idSchema.$id);
     });
-  }
-
-  setZoomToDefaultRatio = () => {
-    window.requestAnimationFrame(() => {
-      // with the canvas resized, use its dimensions to determine the min zoom ratio
-      const { width: canvasWidth, naturalWidth } = this.refs.cropper.getCanvasData();
-      const minRatio = canvasWidth / naturalWidth;
-
-      this.setState({
-        zoomValue: minRatio,
-        minRatio
-      });
-    });
-  }
-
-  moveCanvasToDefaultPosition = () => {
-    window.requestAnimationFrame(() => {
-
-      const containerWidth = this.refs.cropper.getContainerData().width;
-      const defaultCanvasData = getCanvasDataForDefaultPosition({
-        canvasData: this.refs.cropper.getCanvasData(),
-        cropBoxData: this.refs.cropper.getCropBoxData(),
-        containerWidth
-      });
-
-      this.refs.cropper.setCanvasData(defaultCanvasData);
-
-      this.setZoomToDefaultRatio();
-
-      this.updateBoundaryWarningAndButtonStates(defaultCanvasData);
-    });
-  }
-  moveCanvasWithinBounds = (moveData, zoomValue = null) => {
-    window.requestAnimationFrame(() => {
-      const boundedCanvasData = getBoundedCanvasPositionData({
-        canvasData: this.refs.cropper.getCanvasData(),
-        cropBoxData: this.refs.cropper.getCropBoxData(),
-        ...moveData
-      });
-      this.refs.cropper.setCanvasData(boundedCanvasData);
-
-      const currentZoomValue = zoomValue || this.state.zoomValue;
-      const zoomWarn = this.refs.cropper.getData().width < MIN_SIZE
-        || currentZoomValue > WARN_RATIO;
-      this.updateBoundaryWarningAndButtonStates(boundedCanvasData, zoomWarn);
-    });
-  }
-
-  rotateCanvas = (moveData) => {
-    // rotate
-    this.refs.cropper.rotate(moveData.moveDegree);
-    this.moveCanvasToDefaultPosition();
   }
 
   resetFile = () => {
@@ -527,42 +260,6 @@ export default class PhotoField extends React.Component {
     const iOS = !!navigator.userAgent.match('iPhone OS') || !!navigator.userAgent.match('iPad');
     const dragAndDropSupported = supportsDragAndDrop && window.FileReader;
     this.setState({ dragAndDropSupported: dragAndDropSupported && !iOS });
-  }
-
-  updateBoundaryWarningAndButtonStates = (moveBoundariesMet, zoomWarn = false) => {
-    this.setState({
-      warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...moveBoundariesMet }),
-      ...makeMoveButtonsEnabledStates(moveBoundariesMet)
-    });
-  }
-
-  handleCropend = () => { // casing matches Cropper argument
-    this.moveCanvasWithinBounds();
-  }
-
-  handleCropstart = (e) => {
-    const action = e.detail.action;
-    const allowedActions = ['crop', 'move', 'zoom', 'all'];
-
-    if (!allowedActions.includes(action)) {
-      e.preventDefault();
-    }
-  }
-
-  handleZoomButtonClick = (direction) => {
-    switch (direction) {
-      case 'IN':
-        if (this.state.zoomValue < this.state.maxRatio) {
-          this.refs.cropper.zoom(0.1);
-        }
-        break;
-      case 'OUT':
-        if (this.state.zoomValue > this.state.minRatio) {
-          this.refs.cropper.zoom(-0.1);
-        }
-        break;
-      default:
-    }
   }
 
   handleDrag(dragActive) {
@@ -681,54 +378,11 @@ export default class PhotoField extends React.Component {
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
           </div>}
-          {fieldView === 'cropper' && <div className="cropper-container-outer">
-            <Cropper
-              ref="cropper"
-              key={smallScreen ? 'smallScreen' : 'largeScreen'}
-              ready={this.setCropBox}
-              responsive
-              src={this.state.src}
-              aspectRatio={1}
-              cropBoxMovable={false}
-              cropstart={this.handleCropstart}
-              cropend={this.handleCropend}
-              cropmove={this.handleCropMove}
-              minContainerHeight={smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
-              toggleDragModeOnDblclick={false}
-              dragMode="move"
-              guides={false}
-              viewMode={0}
-              zoom={this.onZoom}/>
-            <CropperControls
-              disableMoveUp={this.state.moveUpDisabled}
-              disableMoveDown={this.state.moveDownDisabled}
-              disableMoveRight={this.state.moveRightDisabled}
-              disableMoveLeft={this.state.moveLeftDisabled}
-              moveDown={() => this.moveCanvasWithinBounds({ moveX: 0, moveY: 5 })}
-              moveLeft={() => this.moveCanvasWithinBounds({ moveX: -5, moveY: 0 })}
-              moveRight={() => this.moveCanvasWithinBounds({ moveX: 5, moveY: 0 })}
-              moveUp={() => this.moveCanvasWithinBounds({ moveX: 0, moveY: -5 })}
-              onSliderChange={this.onZoomSliderChange}
-              onSliderMouseDown={this.onZoomMouseDown}
-              onSliderMouseMove={this.onZoomMouseMove}
-              onSliderMouseUp={this.onZoomMouseUp}
-              rotateLeft={() => this.rotateCanvas({ moveDegree: -90 })}
-              rotateRight={() => this.rotateCanvas({ moveDegree: 90 })}
-              narrowLayout={smallScreen}
-              sliderMaxValue={this.state.maxRatio}
-              sliderMinValue={this.state.minRatio}
-              sliderValue={this.state.zoomValue}
-              zoomIn={() => this.handleZoomButtonClick('IN')}
-              zoomOut={() => this.handleZoomButtonClick('OUT')}/>
-            <div style={{ margin: '1em 1em 4em' }}>
-              {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            </div>
-            <div className="crop-button-container">
-              <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I’m Done
-              </button>
-            </div>
-          </div>
+          {fieldView === 'cropper' && <CropperController
+            onDone={this.onDone}
+            narrowLayout={smallScreen}
+            onPhotoCropped={blob => this.uploadPhoto(blob)}
+            src={this.state.src}/>
           }
           {fieldView === 'initial' && <div className="drop-target-container">
             <Dropzone
