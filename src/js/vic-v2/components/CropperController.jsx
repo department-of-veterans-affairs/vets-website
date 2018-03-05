@@ -329,15 +329,16 @@ export default class CropperControls extends React.Component {
     // rotate
     this.refs.cropper.rotate(degrees);
 
+    const defaultPhotoPosition = getDefaultPhotoPosition({
+      photoData: this.refs.cropper.getCanvasData(),
+      cropBoxData: this.refs.cropper.getCropBoxData(),
+      containerWidth: this.refs.cropper.getContainerData().width
+    });
+
+    this.movePhotoToPosition(defaultPhotoPosition);
+
     // calculate new min ratio and warnings after photo is moved
     window.requestAnimationFrame(() => {
-      const defaultPhotoPosition = getDefaultPhotoPosition({
-        photoData: this.refs.cropper.getCanvasData(),
-        cropBoxData: this.refs.cropper.getCropBoxData(),
-        containerWidth: this.refs.cropper.getContainerData().width
-      });
-
-      this.movePhotoToPosition(defaultPhotoPosition);
 
       const photoData = this.refs.cropper.getCanvasData();
       const zoomMin = photoData.width / photoData.naturalWidth;
