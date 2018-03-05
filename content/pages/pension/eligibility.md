@@ -25,7 +25,8 @@ You may be able to get pension benefits if you were discharged from service unde
 
 **And:**
 
-- Your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. [Find out about Veterans pension rates](/pension/rates/).
+- Your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. <br>
+[Find out about Veterans pension rates](/pension/rates/).
 
 **And at least one of these is true:**
 
