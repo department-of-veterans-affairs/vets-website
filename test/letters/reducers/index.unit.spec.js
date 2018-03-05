@@ -27,6 +27,8 @@ import {
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  START_EDITING_ADDRESS,
+  CANCEL_EDITING_ADDRESS
 } from '../../../src/js/letters/utils/constants';
 
 function reduce(action, state = initialState) {
@@ -345,5 +347,15 @@ describe('letters reducer', () => {
 
     expect(state.savePending).to.be.false;
     expect(state.saveAddressError).to.be.true;
+  });
+
+  it('should handle editing and address', () => {
+    const state = reduce({ type: START_EDITING_ADDRESS });
+    expect(state.isEditingAddress).to.be.true;
+  });
+
+  it('should handle cancelling editing and address', () => {
+    const state = reduce({ type: CANCEL_EDITING_ADDRESS });
+    expect(state.isEditingAddress).to.be.false;
   });
 });
