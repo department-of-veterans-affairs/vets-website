@@ -50,7 +50,7 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-must-show">What should the evidence show to support my claim?</button>
 <div id="evidence-must-show" class="usa-accordion-content">
 
-**If you’re claiming non-service-connected pension benefits,** the evidence must show that **the following three items must be true for you**:
+**If you’re claiming non-service-connected pension benefits,** the evidence needs to show that **the following three items are true for you**:
 1. You meet **at least one of the following** minimum requirements for active service during a period of war:
 
     - You served 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
