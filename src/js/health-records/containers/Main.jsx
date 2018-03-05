@@ -15,7 +15,7 @@ import { reportTypes as reportTypesConfig } from '../config';
 import {
   changeDateOption,
   getEligibleClasses,
-  initializeResources,
+  initialAppRefresh,
   openModal,
   resetForm,
   setDate,
@@ -42,7 +42,8 @@ export class Main extends React.Component {
 
   componentDidMount() {
     this.props.resetForm();
-    this.props.initializeResources();
+    this.props.getEligibleClasses();
+    this.props.initialAppRefresh();
   }
 
   handleStartDateChange(startDate) {
@@ -367,7 +368,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   changeDateOption,
   getEligibleClasses,
-  initializeResources,
+  initialAppRefresh,
   openModal,
   resetForm,
   setDate,
