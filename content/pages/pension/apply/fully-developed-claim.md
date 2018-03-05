@@ -30,7 +30,7 @@ When turning in your claim under the FDC program, please send us all the support
 
 1. Fill out an Application for Pension. <br>
 [Download Application for Pension (VA Form 21P-527EZ)](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
-2. When you file your claim, please include:
+2. When you file your claim, please include **all of the following**:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
     - Information about any health records that are available at a federal facility, like a VA medical center or clinic
