@@ -23,66 +23,71 @@ When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), yo
 
 <h3>Appeals Process Overview</h3>
 <p>
-After VBA has made a decision on your claim, if you disagree with the outcome, you can file an appeal for some or all of the issues you were seeking benefits for in your claim.
+After the Veterans Benefits Administration makes a decision on your claim, you can appeal some or all of the decision if you disagree with it. If you want to, you can have a representative help you with your appeal. This person may be a lawyer, claims agent, or Veterans Service Officer. <a href="/disability-benefits/apply/help/">Get help filing your appeal</a>.
 </p>
-<p><strong>The process has many steps that can repeat themselves.</strong> At any time in the process, VA can issue a decision on part or all of your appeal, but in general an appeal follows these steps:</p>
+<p><strong>How long does an appeal take?</strong>
+<p>
+12-18 months The Veterans Benefits Administration typically takes between 12 and 18 months to review new appeals and decide whether to grant some or all of the appeal.
+</p>
+<p>
+5-7 years If you are not satisfied with the Veterans Benefits Administration's review, your appeal could take between 5 and 7 years to get a decision from a Veterans Law Judge at the Board of Veterans' Appeals.
+</p>
+
+<h4>An appeal follows these steps</h4>
 
 <ul class="vertical-list-group more-bottom-cushion">
   <li class="list-group-item">
     <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
-        By filing an NOD, you begin the appeals process. You’ll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>
+      By filing a Notice of Disagreement, you begin the appeals process. You’ll need to file a Notice of Disagreement within 1 year of the date on the letter notifying you of the claim decision. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>. Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. A representative can help you file a Notice of Disagreement. <a href="/disability-benefits/apply/help/index.html">Get help filing your appeal</a>.
       </p>
-      <p>Fill out your NOD and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local RO.</p>
     </div>
   </li>
   <li class="list-group-item">
-    <h4>RO prepares the Statement of the Case (SOC)</h4>
+    <h4>The Veterans Benefits Administration sends you Statement of the Case</h4>
     <p>
-      After you file your NOD, if the RO can’t grant all or part of your appeal, it will prepare the SOC for the issues in your appeal that were not granted. To do this, they review all the evidence related to your appeal, including any new evidence you submit. You’ll receive a copy of it in the mail.
+      After you file your Notice of Disagreement, a Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. If the Decision Review Officer determines that there is not enough evidence to fully grant your appeal, they will send you their findings in a document called a Statement of the Case. You can then decide whether to continue your appeal to the Board of Veterans’ Appeals.
     </p>
   </li>
   <li class="list-group-item">
-    <h4>Submit a Form 9</h4>
+    <h4>You return the VA Form 9</h4>
     <p>
-      When you receive a copy of the SOC in the mail, you’ll also receive a Form 9. If you disagree with the SOC and want to continue the appeal process, you must return Form 9 within 60 days. This step is also called filing a Substantive Appeal.
+      When you receive a copy of the Statement of the Case in the mail, you’ll also get a VA Form 9. If you disagree with the Statement of the Case and want to continue your appeal to the Board of Veterans’ Appeals, you must return VA Form 9 within 60 days.
     </p>
   </li>
   <li class="list-group-item">
-    <h4>(Optional) RO prepares the Supplemental Statement of the Case (SSOC)</h4>
+    <h4>The Veterans Benefits Administration prepare a new Statement of the Case (optional visual treatment)</h4>
     <p>
-      You can submit new evidence for your appeal at any time in the process. Each time you do, the RO will need to make a decision or prepare an SSOC if the RO can’t grant all or part of your appeal. This may add time to your appeal, but may make your appeal more successful if the evidence supports your argument. This step can happen at any time after the RO prepares the SOC.
+      You can submit new evidence for your appeal at any time in the process. If you submit new evidence after you receive a Statement of the Case, the Decision Review Officer will need to write a new Statement of the Case before transferring your case to the Board of Veterans’ Appeals. Once your appeal is transferred, new evidence can be sent directly to the Board and will not be reviewed by the Veterans Benefits Administration.
     </p>
   </li>
   <li class="list-group-item">
-    <h4>RO certifies your appeal to the Board</h4>
+    <h4>Your appeal is sent to the Board</h4>
     <p>
-      The RO will prepare your appeal and send it to the Board for review. Your appeal will wait in line until the Board is able to review it.
+    The Decision Review Officer will finish their review and transfer your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they are received as determined by the date of the VA Form 9. A judge will begin work on your appeal when it is among the oldest appeals that are ready for their review.
+    </p>
+    <p>
+    If you are suffering a serious illness or are in financial distress, or for other sufficient cause, you can apply to have your appeal Advanced on Docket. If you are older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so that they are always at the front of the line. Learn how to request Advanced on Docket status.
     </p>
   </li>
   <li class="list-group-item">
-    <h4>The Board activates your appeal</h4>
+    <h4>You have a hearing (optional visual treatment)</h4>
     <p>
-      The Board now has control of your appeal. Lawyers who are experts in Veterans law and reviewing benefit claims will review it. The review prepares your appeal for a Veterans Law Judge who will make a decision. In most cases, your appeal is reviewed in the order it was received. In some cases, an appeal will be moved to the front of the line—this happens if you’re facing severe financial hardship, over age 75, or have a serious illness.
-    </p>
-  </li>
-  <li class="list-group-item">
-    <h4>(Optional) Hearing</h4>
-    <p>
-      If you request a Board hearing, you’ll be sent a letter at least 30 days before it’s scheduled to happen. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings</a>.
+      You have the option to request a hearing with a Veterans Law Judge. At your hearing, the judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge will not make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings at the Board</a>.
     </p>
   </li>
   <li class="list-group-item">
     <h4>The Board makes its decision</h4>
     <p>
-      The Board has reviewed your appeal and provides a decision on each issue in your appeal. Each issue will be decided in 1 of 3 ways:
+      The Board reviews your appeal and provides a decision on each issue in your appeal. The Board decides each issue in 1 of 3 ways:
     </p>
     <ul>
       <li><strong>Allowed:</strong> The Board grants benefits.</li>
       <li><strong>Remanded:</strong> The Board needs more evidence to make a decision and will return your appeal to VBA. After VBA obtains the additional evidence, it will then make a new decision on the appeal. If VBA can’t grant all or part of your appeal, it will prepare a new SSOC and return the appeal to the Board.</li>
       <li><strong>Denied:</strong> The Board does not grant benefits.</li>
     </ul>
+    <p><strong>Note:</strong> About 60% of all decisions have at least 1 issue remanded.</p>
   </li>
 </ul>
 
@@ -153,15 +158,9 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
       </div>
     </li>
     <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq7">What happens if the Board makes a final decision and I disagree with it?</button>
+      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq7">What happens if I disagree with the Board’s decision?</button>
       <div id="dbq7" class="usa-accordion-content">
-        <p>You can:</p>
-        <ul>
-          <li>File a new claim with your RO, <strong>or</strong></li>
-          <li>File a motion asking the Board to reconsider your appeal (there’s no time limit to file this motion), <strong>or</strong></li>
-          <li>File a motion asking the Board to review your appeal again because there was clear and unmistakable error in its decision (there’s no time limit to file this motion), <strong>or</strong></li>
-          <li>File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC</a>.</li>
-        </ul>
+        <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal 120 days of the Board’s decision. <a href="https://www.uscourts.cavc.gov/appeal.php"> Learn how to file a Court appeal</a>.</p>
       </div>
     </li>
     <li>
