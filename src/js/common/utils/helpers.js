@@ -55,7 +55,7 @@ export function isInProgress(pathName) {
 
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
-    return page.depends(data);
+    return page.depends(data, page.index);
   }
 
   if (Array.isArray(page.depends)) {
@@ -125,7 +125,7 @@ export function focusElement(selectorOrElement, options) {
     : selectorOrElement;
 
   if (el) {
-    el.setAttribute('tabindex', '-1');
+    if (el.tabIndex === -1) el.setAttribute('tabindex', '-1');
     el.focus(options);
   }
 }

@@ -28,7 +28,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description"  class="va-introtext">
 
-If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
+Find out if you can get disability compensation for an illness or injury that was caused by—or got worse because of—your active military service. Compensation may include financial support and other benefits like health care.
 
 </div>
 
@@ -48,7 +48,6 @@ You may be able to get disability benefits if you have a current illness or inju
 </div>
 </div>
 
-
 <div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Who’s covered?</h3>
@@ -57,6 +56,25 @@ You may be able to get disability benefits if you have a current illness or inju
 
 - Veterans
 - Qualified dependents
+
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+  
+<h3 itemprop="name">What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits. 
+
+<br>
+
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 </div>
@@ -78,7 +96,6 @@ You may be able to get disability benefits if you have a current illness or inju
 </div>
 </div>
 </div>
-
 
 <div itemscope itemtype="http://schema.org/Question">
 
