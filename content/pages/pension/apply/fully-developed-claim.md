@@ -29,13 +29,11 @@ Find out how you can participate in the FDC program.
 When turning in your claim under the FDC program, please send us all the supporting documents you have and provide information about supporting documents that you don’t have.
 
 1. Fill out an Application for Pension. <br>
-[Dowload Application for Pension (VA Form 21P-527EZ)](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+[Download Application for Pension (VA Form 21P-527EZ)](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 2. When you file your claim, please include:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
     - Information about any health records that are available at a federal facility, like a VA medical center or clinic
-3. Mail or take your application and all evidence to support your claim to the nearest VA regional office. <br>
-[Find your nearest VA regional office](/facilities/). 
 3. Go to any VA medical appointments required to decide your claim.
 
 <br>
