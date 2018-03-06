@@ -8,14 +8,18 @@ import phoneUI from '../../../common/schemaform/definitions/phone';
 import DD214Description from '../components/DD214Description';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import EducationPeriodView from '../components/EducationPeriodView';
+
 import ServicePeriodView from '../../../common/schemaform/components/ServicePeriodView';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
+import yearUI from '../../../common/schemaform/definitions/year';
 
 import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
+import { validateYearRange } from '../validations';
 
 const {
   serviceFlags,
@@ -25,7 +29,9 @@ const {
   employer,
   jobDuties,
   monthlyIncome,
-  vaRecordsOffice
+  previousPrograms,
+  vaRecordsOffice,
+  yearsOfEducation
 } = fullSchema31.properties;
 
 const {
@@ -35,7 +41,8 @@ const {
   phone,
   serviceHistory,
   ssn,
-  vaFileNumber
+  vaFileNumber,
+  year
 } = fullSchema31.definitions;
 
 const TWENTY_FIVE_MB = 26214400;
@@ -48,7 +55,8 @@ const expandIfWorking = {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vre',
+  // submitUrl: '/v0/vre',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'vre-chapter-31',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -69,6 +77,7 @@ const formConfig = {
     fullName,
     ssn,
     vaFileNumber,
+    year
   },
   chapters: {
     veteranInformation: {
@@ -196,15 +205,44 @@ const formConfig = {
         }
       }
     },
-    educationAndVREInformation: {
-      title: 'Education and Vocational Rehab Information',
+    educationInformation: {
+      title: 'Education Information',
       pages: {
-        educationAndVREInformation: {
-          path: 'education-vre-information',
-          title: 'Education and Vocational Rehab Information',
+        educationInformation: {
+          path: 'education-information',
+          title: 'Education Information',
+          uiSchema: {
+            yearsOfEducation: {
+              'ui:title': 'Number of years of education including high school'
+            },
+            previousPrograms: {
+              'ui:options': {
+                itemName: 'Program',
+                viewField: EducationPeriodView,
+                hideTitle: true
+              },
+              'ui:title': 'List any VA or non-VA vocational rehabilitation programs you have been in.',
+              items: {
+                program: {
+                  'ui:title': 'Name of program'
+                },
+                yearStarted: Object.assign({}, yearUI, {
+                  'ui:title': 'Year you started the program'
+                }),
+                yearLeft: Object.assign({}, yearUI, {
+                  'ui:title': 'Year you left the program'
+                }),
+                'ui:validations': [
+                  validateYearRange
+                ]
+              }
+            }
+          },
           schema: {
             type: 'object',
             properties: {
+              yearsOfEducation,
+              previousPrograms
             }
           }
         }
