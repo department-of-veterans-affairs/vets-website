@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -8,7 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   transform,
-  supportingEvidenceOrientation
+  supportingEvidenceOrientation,
+  evidenceTypesDescription
 } from '../helpers';
 
 const initialData = {
@@ -146,15 +147,23 @@ const formConfig = {
           }
         },
         evidenceType: {
-          title: '',
+          title: (formData, { pagePerItemIndex }) => formData.disabilities[pagePerItemIndex],
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
               items: {
+                'ui:title': '[condition]', // TODO: Use a callback when that's available
+                'ui:description': evidenceTypesDescription,
                 'view:vaMedicalRecords': {
                   'ui:title': 'VA medical records'
+                },
+                'view:privateMedicalRecords': {
+                  'ui:title': 'Private medical records'
+                },
+                'view:otherEvidence': {
+                  'ui:title': 'Lay statements or other evidence'
                 }
               }
             }
@@ -169,6 +178,12 @@ const formConfig = {
                   properties: {
                     'view:vaMedicalRecords': {
                       type: 'boolean'
+                    },
+                    'view:privateMedicalRecords': {
+                      type: 'boolean'
+                    },
+                    'view:otherEvidence': {
+                      type: 'boolean'
                     }
                   }
                 }
@@ -181,12 +196,7 @@ const formConfig = {
           path: 'supporting-evidence/:index/va-medical-records',
           showPagePerItem: true,
           arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            console.log('depends callback in formConfig -- index:', index);
-            const shouldDisplay = _.get(`disabilities.${index}.view:vaMedicalRecords`, formData);
-            console.log('  should display:', shouldDisplay);
-            return shouldDisplay;
-          },
+          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
           uiSchema: {
             disabilities: {
               items: {
