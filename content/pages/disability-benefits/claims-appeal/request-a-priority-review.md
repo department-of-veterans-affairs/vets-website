@@ -29,15 +29,18 @@ Advanced on Docket appeals are prioritized so that they are always at the front 
 ### How do I request to have my appeal Advanced on Docket?
 You or your representative will need to write a letter to the Board of Veterans’ Appeals.
 
-**You’ll need to include all of this information:**
+#### You’ll need to include all of this information:
 - Your name (as the Veteran or other person appealing a claim—like a survivor, guardian, or fiduciary), **and**
 - The VA file number for your claim, **and**
 - The reason you want to be moved forward on the docket
 
-**You or your representative can send your written request in 1 of 2 ways:**
+#### You or your representative can send your written request in 1 of 2 ways:
 
 ##### By mail
-Send to: Board of Veterans’ Appeals PO Box 27063 Washington, DC 20038
+Send to:
+<div>Board of Veterans’ Appeals</div>
+<div>PO Box 27063</div>
+<div>Washington, DC 20038</div>
 
 ##### By fax
 Fax to: <a href="tel:+12024956803">(202) 495-6803</a>
