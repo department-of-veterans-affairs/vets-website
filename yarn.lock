@@ -9229,9 +9229,9 @@ resolve-id-refs@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/resolve-id-refs/-/resolve-id-refs-0.1.0.tgz#3126624b887489da8fc0ae889632f8413ac6c3ec"
 
-resolve-url-loader@^2.2.1:
+"resolve-url-loader@https://github.com/acoll/resolve-url-loader.git#1f5389285f47198e84efed61fa29acf1310c8f0e":
   version "2.2.1"
-  resolved "https://registry.yarnpkg.com/resolve-url-loader/-/resolve-url-loader-2.2.1.tgz#13a1396fb773edf959550e400e688f5ed32548bf"
+  resolved "https://github.com/acoll/resolve-url-loader.git#1f5389285f47198e84efed61fa29acf1310c8f0e"
   dependencies:
     adjust-sourcemap-loader "^1.1.0"
     camelcase "^4.0.0"
@@ -11060,16 +11060,16 @@ webpack-dev-server@1.16:
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.10.2"
 
-webpack-manifest-plugin@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-manifest-plugin/-/webpack-manifest-plugin-1.1.0.tgz#6b6c718aade8a2537995784b46bd2e9836057caa"
+webpack-manifest-plugin@^2.0.0-rc.2:
+  version "2.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/webpack-manifest-plugin/-/webpack-manifest-plugin-2.0.0-rc.2.tgz#7e12abb805795fe256b085a214a15d9568f0e692"
   dependencies:
     fs-extra "^0.30.0"
     lodash ">=3.5 <5"
 
-webpack-md5-hash@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/webpack-md5-hash/-/webpack-md5-hash-0.0.5.tgz#d9f1899ead664459dd8b6b0c926ac71cfbd7bc7a"
+webpack-md5-hash@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/webpack-md5-hash/-/webpack-md5-hash-0.0.6.tgz#317b766a0a724eb5501610b3c8f4cddc4edf70f5"
   dependencies:
     md5 "^2.0.0"
 

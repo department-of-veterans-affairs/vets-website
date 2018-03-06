@@ -181,6 +181,7 @@ const configGenerator = (options) => {
         cacheGroups: {
           vendor: {
             chunks: 'initial',
+            test: 'vendor',
             name: 'vendor',
             priority: 10,
             enforce: true
@@ -211,7 +212,6 @@ const configGenerator = (options) => {
       //   filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
       //   minChunks: Infinity
       // }),
-      new webpack.optimize.ModuleConcatenationPlugin()
     ],
   };
 
@@ -251,14 +251,15 @@ const configGenerator = (options) => {
       filename: 'chunk-manifest.json',
       manifestVariable: 'webpackManifest'
     }));
-    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      compress: { warnings: false },
-      comments: false,
-      sourceMap: true,
-      minimize: true,
-    }));
-    // baseConfig.mode = 'production';
+    // baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    //   beautify: false,
+    //   compress: { warnings: false },
+    //   comments: false,
+    //   sourceMap: true,
+    //   minimize: true,
+    // }));
+    baseConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+    baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
   }
