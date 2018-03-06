@@ -69,11 +69,9 @@ With VA health care, you’re covered for regular checkups with your primary car
       <div class="expander-content-inner usa-alert-text">
         <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. Find the support you need:  </p>
         <ul>
-          <li>Get help connecting with services you may qualify for in your community.
-          <a href="/facilities/">Find the nearest VA medical center</a>.</li>
+          <li>Get help connecting with services you may qualify for in your community. <a href="/facilities/">Find the nearest VA medical center</a>.</li>
           <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
-          <li>Get job-placement help.
-          <a href=//www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li> 
+          <li>Get job-placement help. <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li> 
           </ul>
 <p><b>Are you in immediate crisis?</b></p>
           <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
