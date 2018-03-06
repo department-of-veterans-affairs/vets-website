@@ -40,7 +40,28 @@ export function identityMatchesPrefill(formData) {
     && formData.veteranFullName.first === originalUser.veteranFullName.first
     && formData.veteranFullName.middle === originalUser.veteranFullName.middle
     && formData.veteranFullName.last === originalUser.veteranFullName.last
-    && formData.veteranFullName.suffix === originalUser.veteranFullName.suffix;
+    && formData.veteranFullName.suffix === originalUser.veteranFullName.suffix
+    && formData.veteranDateOfBirth === originalUser.veteranDateOfBirth;
+}
+
+export function transform(form, formConfig) {
+  let newData = _.omit(['verified', 'originalUser', 'processAsIdProofed'], form.data);
+
+  // If we pulled their id info at the start and they haven't changed it, then we can submit on the
+  // backend with id info from MVI and discharge status from eMIS
+  // If they changed it, then we have to verify they're not trying to submit a fradulent
+  // request and process them as an anonymous request
+  if (form.data.processAsIdProofed && identityMatchesPrefill(form.data)) {
+    newData = _.omit([
+      'veteranFullName',
+      'veteranSocialSecurityNumber'
+    ], newData);
+    newData.processAsAnonymous = false;
+  } else {
+    newData.processAsAnonymous = true;
+  }
+
+  return transformForSubmit(formConfig, _.set('data', newData, form));
 }
 
 function checkStatus(guid) {
@@ -127,23 +148,7 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  let newData = _.omit(['verified', 'originalUser', 'processAsIdProofed'], form);
-
-  // If we pulled their id info at the start and they haven't changed it, then we can submit on the
-  // backend with id info from MVI and discharge status from eMIS
-  // If they changed it, then we have to verify they're not trying to submit a fradulent
-  // request and process them as an anonymous request
-  if (form.processAsIdProofed && identityMatchesPrefill(form)) {
-    newData = _.omit([
-      'veteranFullName',
-      'veteranSocialSecurityNumber'
-    ], newData);
-    newData.processAsAnonymous = false;
-  } else {
-    newData.processAsAnonymous = true;
-  }
-
-  const formData = transformForSubmit(formConfig, newData);
+  const formData = transform(form, formConfig);
   const body = JSON.stringify({
     vicSubmission: {
       form: formData
