@@ -379,7 +379,6 @@ export default class PhotoField extends React.Component {
             <ProgressBar percent={this.state.progress}/>
           </div>}
           {fieldView === 'cropper' && <CropperController
-            onDone={this.onDone}
             narrowLayout={smallScreen}
             onPhotoCropped={blob => this.uploadPhoto(blob)}
             src={this.state.src}/>

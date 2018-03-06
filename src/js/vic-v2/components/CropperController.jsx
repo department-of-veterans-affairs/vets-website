@@ -476,5 +476,7 @@ CropperControls.defaultValues = {
 };
 
 CropperControls.PropTypes = {
-  narrowLayout: React.PropTypes.bool,
+  narrowLayout: React.PropTypes.bool.isRequired,
+  onPhotoCropped: React.PropTypes.func.isRequired,
+  src: React.PropTypes.string.isRequired
 };
