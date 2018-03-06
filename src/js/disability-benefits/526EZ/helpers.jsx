@@ -17,9 +17,11 @@ export const supportingEvidenceOrientation = (
 );
 
 // TODO: Change this into a function which returns the content with the appropriate [condition].
-export const evidenceTypesDescription = (
-  <p>What supporting evidence do you have that shows how your [condition] <strong>has worsened since VA rated your disability</strong>?</p>
-);
+export const evidenceTypesDescription = ({ formData }) => {
+  return (
+    <p>What supporting evidence do you have that shows how your {formData.disability.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
+  );
+};
 
 
 // Shows or collapses the "Which should I choose?" link at the bottom of the evidence types page
@@ -64,3 +66,10 @@ export class evidenceTypeHelp extends React.Component {
     );
   }
 }
+
+export const disabilityNameTitle = ({ formData }) => {
+  return (
+    <div>{formData.disability.diagnosticText}</div>
+  );
+};
+

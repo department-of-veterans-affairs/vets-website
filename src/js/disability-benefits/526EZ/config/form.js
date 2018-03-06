@@ -10,7 +10,8 @@ import {
   transform,
   supportingEvidenceOrientation,
   evidenceTypesDescription,
-  evidenceTypeHelp
+  evidenceTypeHelp,
+  disabilityNameTitle
 } from '../helpers';
 
 const initialData = {
@@ -18,7 +19,7 @@ const initialData = {
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
-        diagnosticText: 'First disability',
+        diagnosticText: 'PTSD',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
         specialIssues: {
@@ -44,7 +45,7 @@ const initialData = {
     },
     {
       disability: { // Is this extra nesting necessary?
-        diagnosticText: 'Second disability',
+        diagnosticText: 'Second Disability',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
         specialIssues: {
@@ -155,7 +156,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:title': '[condition]', // TODO: Use a callback when that's available
+                'ui:title': disabilityNameTitle, // TODO: Use a callback when that's available
                 'ui:description': evidenceTypesDescription,
                 'view:vaMedicalRecords': {
                   'ui:title': 'VA medical records'
