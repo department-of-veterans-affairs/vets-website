@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
@@ -19,3 +20,47 @@ export const supportingEvidenceOrientation = (
 export const evidenceTypesDescription = (
   <p>What supporting evidence do you have that shows how your [condition] <strong>has worsened since VA rated your disability</strong>?</p>
 );
+
+
+// Shows or collapses the "Which should I choose?" link at the bottom of the evidence types page
+// TODO: Investigate whether this should just use `expandUnder`
+export class evidenceTypeHelp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false
+    };
+  }
+
+  toggleOpen = (e) => {
+    e.preventDefault();
+    this.setState({ open: !this.state.open });
+  }
+
+  expandedContent = (
+    <div>
+      <h3>Types of evidence</h3>
+      <h4>VA medical records</h4>
+      <p>If you were treated at a VA medical center or clinic, you have VA medical records. This includes Tri-Care.</p>
+      <h4>Private medical records</h4>
+      <p>If you were treated by a private doctor, including Veteran’s Choice, we will need to see those records to proceed with your claim. Like DBQs.</p>
+      <h4>Lay statements or other evidence</h4>
+      <p>Also known as "buddy statements," written accounts from family or other people who know you can help support a claim. In most cases your medical records are enough, but claims involving Post Traumatic Stress Disorder or Military Sexual Trauma sometimes benefit from Lay Statements.</p>
+      <button className="va-button-link" onClick={this.toggleOpen}>Close</button>
+    </div>
+  )
+
+  render() {
+    const className = classNames(
+      'form-expanding-group',
+      { 'form-expanding-group-open': this.state.open }
+    );
+
+    return (
+      <div className={className}>
+        <button className="va-button-link dashed-underline" onClick={this.toggleOpen}>Which should I choose?</button>
+        {this.state.open && this.expandedContent}
+      </div>
+    );
+  }
+}

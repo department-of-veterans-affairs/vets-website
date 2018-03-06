@@ -9,3 +9,12 @@
 // @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
 
+.dashed-underline {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+
+  &:hover {
+    text-decoration: none;
+    border-bottom: 1px dashed;
+  }
+}

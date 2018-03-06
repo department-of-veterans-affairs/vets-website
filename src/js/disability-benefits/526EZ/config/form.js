@@ -9,7 +9,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   transform,
   supportingEvidenceOrientation,
-  evidenceTypesDescription
+  evidenceTypesDescription,
+  evidenceTypeHelp
 } from '../helpers';
 
 const initialData = {
@@ -147,7 +148,7 @@ const formConfig = {
           }
         },
         evidenceType: {
-          title: (formData, { pagePerItemIndex }) => formData.disabilities[pagePerItemIndex],
+          title: (formData, { pagePerItemIndex }) => formData.disabilities[pagePerItemIndex].diagnosticText,
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
           arrayPath: 'disabilities',
@@ -164,6 +165,9 @@ const formConfig = {
                 },
                 'view:otherEvidence': {
                   'ui:title': 'Lay statements or other evidence'
+                },
+                'view:evidenceTypeHelp': {
+                  'ui:description': evidenceTypeHelp
                 }
               }
             }
@@ -184,6 +188,10 @@ const formConfig = {
                     },
                     'view:otherEvidence': {
                       type: 'boolean'
+                    },
+                    'view:evidenceTypeHelp': {
+                      type: 'object',
+                      properties: {}
                     }
                   }
                 }
