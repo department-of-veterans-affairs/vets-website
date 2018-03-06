@@ -23,7 +23,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = _.set('processAsIdProofed', true, newData);
     newData.originalUser = {
       veteranSocialSecurityNumber: newData.veteranSocialSecurityNumber,
-      veteranFullName: newData.veteranFullName
+      veteranFullName: newData.veteranFullName,
+      veteranDateOfBirth: newData.veteranDateOfBirth
     };
   }
 
