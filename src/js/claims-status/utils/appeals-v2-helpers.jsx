@@ -1069,16 +1069,11 @@ export function getNextEvents(currentStatus, details) {
  * @returns {alertOutput} dynamically-generated title, description, and styling properties
  */
 export function getAlertContent(alert) {
-  const { type, details, date, dueDate } = alert;
-  // TODO: confirm new date/dueDate usages
-  const formattedDate = moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
-  const formattedDueDate = moment(dueDate, 'YYYY-MM-DD').format('MMMM DD, YYYY');
-  // TODO: confirm status logic and property
-  const statusDescription = details.status === 'open' ? 'is active at the Board of Veterans’ Appeals' : 'is closed'; // Used in ramp_ineligible alert
+  const { type, details } = alert;
 
   switch (type) {
     case ALERT_TYPES.form9Needed: {
-
+      const formattedDueDate = formatDate(details.dueDate);
       return {
         title: `Return the VA Form 9 by ${formattedDueDate} in order to continue your appeal`,
         description: (
@@ -1099,19 +1094,21 @@ export function getAlertContent(alert) {
       };
     }
     case ALERT_TYPES.scheduledHearing: {
+      const formattedDate = formatDate(details.date);
       return {
         title: (
           <span>A hearing has been scheduled. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to prepare for, reschedule, or cancel your hearing</a>.</span>
         ),
-        // TODO: determine whether details.type or type should be used here
         description: (
-          <p>Your {type} hearing is scheduled for {formattedDate} at {details.location}.</p>
+          <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}.</p>
         ),
         displayType: 'take_action',
         type
       };
     }
     case ALERT_TYPES.hearingNoShow: {
+      const formattedDate = formatDate(details.date);
+      const formattedDueDate = formatDate(details.dueDate);
       return {
         title: `You missed your hearing on ${formattedDate}`,
         description: (
@@ -1126,6 +1123,7 @@ export function getAlertContent(alert) {
       };
     }
     case ALERT_TYPES.heldForEvidence: {
+      const formattedDueDate = formatDate(details.dueDate);
       return {
         title: 'Your appeals case is being held open',
         description: (
@@ -1138,7 +1136,8 @@ export function getAlertContent(alert) {
         type
       };
     }
-    case ALERT_TYPES.rampEligible:
+    case ALERT_TYPES.rampEligible: {
+      const formattedDate = formatDate(details.date);
       return {
         title: 'This appeal is eligible for the Rapid Appeals Modernization Program',
         description: (
@@ -1150,7 +1149,10 @@ export function getAlertContent(alert) {
         displayType: 'info',
         type,
       };
-    case ALERT_TYPES.rampIneligible:
+    }
+    case ALERT_TYPES.rampIneligible: {
+      const statusDescription = details.appeal.attributes.active ? 'is active at the Board of Veterans’ Appeals' : 'is closed';
+      const formattedDate = formatDate(details.date);
       return {
         title: 'This appeal is not eligible for the Rapid Appeals Modernization Program',
         description: (
@@ -1159,6 +1161,7 @@ export function getAlertContent(alert) {
         displayType: 'info',
         type,
       };
+    }
     case ALERT_TYPES.decisionSoon:
       return {
         // TODO: confirm which of duplicate content is correct
@@ -1184,7 +1187,8 @@ export function getAlertContent(alert) {
       return {};
     case ALERT_TYPES.droHearingNoShow:
       return {};
-    case ALERT_TYPES.cavcOption:
+    case ALERT_TYPES.cavcOption: {
+      const formattedDueDate = formatDate(details.dueDate);
       return {
         title: 'What if I disagree with my decision?',
         // TODO: confirm this link display format
@@ -1194,6 +1198,7 @@ export function getAlertContent(alert) {
         displayType: 'info',
         type,
       };
+    }
     default:
       return {
         title: '',
