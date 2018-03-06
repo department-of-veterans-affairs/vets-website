@@ -8,6 +8,7 @@ import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
+import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
@@ -52,6 +53,7 @@ class DashboardApp extends React.Component {
               userProfile={this.props.profile}
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
+            <ClaimsAppealsWidget/>
             <MessagingWidget/>
           </div>
         </div>
@@ -61,8 +63,8 @@ class DashboardApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={1}
-          serviceRequired="user-profile"
+          authRequired={3}
+          serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
