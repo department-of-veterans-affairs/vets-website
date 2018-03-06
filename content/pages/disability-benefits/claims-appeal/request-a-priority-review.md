@@ -37,17 +37,14 @@ You or your representative will need to write a letter to the Board of Veterans�
 #### You or your representative can send your written request in 1 of 2 ways:
 
 ##### By mail
-<div class="mail-block">
-  <span>Send to:</span>
-  <span class="va-address-block">
-    Board of Veterans’ Appeals<br/>
-    PO Box 27063<br/>
-    Washington, DC 20038<br/>
-  </span>
-</div>
+<p class="va-address-block">
+  Board of Veterans’ Appeals<br/>
+  PO Box 27063<br/>
+  Washington, DC 20038<br/>
+</p>
 
 ##### By fax
-Fax to: <a href="tel:+12024956803">(202) 495-6803</a>
+Fax to <a href="tel:+12024956803">(202) 495-6803</a>
 
 ### Who can I contact if I need more information?
 
