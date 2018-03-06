@@ -19,14 +19,11 @@ function getMoveButtonsDisabled({ topBoundaryMet, bottomBoundaryMet, rightBounda
   };
 }
 
-function getWarningMessage(boundariesMet) {
-  if (boundariesMet.highZoom) {
+function getWarningMessage({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet, highZoom }) {
+  if (highZoom) {
     return 'If you zoom in this close, your ID photo will be less clear.';
   }
 
-  const { topBoundaryMet, bottomBoundaryMet, leftBoundaryMet, rightBoundaryMet } = boundariesMet;
-
-  // min zoom
   if ((topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet)) {
     return 'Your photo currently fits within the square frame. If you’d like to adjust the position of your photo, click Make larger.';
   }
@@ -66,9 +63,9 @@ function getPhotoBoundaries({ photoData, cropBoxData }) {
 }
 
 function getDefaultPhotoPosition({ photoData, cropBoxData, containerWidth }) {
-  // use the cropbox dimensions to force canvas into default position
   const { height: cropBoxHeight, width: cropBoxWidth, left: cropBoxLeft } =  cropBoxData;
   const { width: oldPhotoWidth, height: oldPhotoHeight, naturalHeight, naturalWidth } = photoData;
+
   // wide images are centered and set to the height of the crop box
   if (naturalHeight < naturalWidth) {
     return {
@@ -145,16 +142,12 @@ export default class CropperControls extends React.Component {
   }
 
   onCropend = () => {
+    // forces photo position in bounds
     window.requestAnimationFrame(() => {
+      // move photo within bounds
       this.movePhoto();
-      const boundariesMet = this.getBoundariesMet();
-      const warningMessage = getWarningMessage(boundariesMet);
-      const buttonsDisabled = getMoveButtonsDisabled(boundariesMet);
 
-      this.setState({
-        warningMessage,
-        ...buttonsDisabled
-      });
+      this.updateWarningAndButtonState();
     });
   }
 
@@ -174,12 +167,14 @@ export default class CropperControls extends React.Component {
     this.refs.cropper.zoomTo(e.target.value);
   }
 
+  // IE 10 requires explicit handling of slider control
   onSliderMouseMove = (e) => {
     if (this.mouseDown) {
       this.onSliderChange(e);
     }
   }
 
+  // IE 10 requires explicit handling of slider control
   onSliderMouseDown = (e) => {
     this.mouseDown = true;
     if (e.target.value !== this.state.zoomValue) {
@@ -187,6 +182,7 @@ export default class CropperControls extends React.Component {
     }
   }
 
+  // IE 10 requires explicit handling of slider control
   onSliderMouseUp = () => {
     this.mouseDown = false;
   }
@@ -213,21 +209,60 @@ export default class CropperControls extends React.Component {
     // zoom value is good- update the state / messaging
     this.setState({ zoomValue });
 
-
     window.requestAnimationFrame(() => {
       // move photo within bounds
       this.movePhoto();
 
-      // update warnings and buttons enabled state
-      const boundariesMet = this.getBoundariesMet();
-      const warningMessage = getWarningMessage(boundariesMet);
-      const buttonsDisabled = getMoveButtonsDisabled(boundariesMet);
-
-      this.setState({
-        warningMessage,
-        ...buttonsDisabled
-      });
+      this.updateWarningAndButtonState();
     });
+  }
+
+  onMoveDown = () => {
+    this.movePhoto({ y: 5 });
+    window.requestAnimationFrame(() => this.updateWarningAndButtonState());
+  }
+
+  onMoveLeft = () => {
+    this.movePhoto({ x: -5 });
+    window.requestAnimationFrame(() => this.updateWarningAndButtonState());
+  }
+
+  onMoveRight = () => {
+    this.movePhoto({ x: 5 });
+    window.requestAnimationFrame(() => this.updateWarningAndButtonState());
+  }
+
+  onMoveUp = () => {
+    this.movePhoto({ y: -5 });
+    window.requestAnimationFrame(() => this.updateWarningAndButtonState());
+  }
+
+  onRotateLeft = () => {
+    this.rotatePhoto(-90);
+    this.movePhotoToDefaultPosition();
+
+    window.requestAnimationFrame(() => {
+      this.updateZoomToDefaultState();
+      this.updateWarningAndButtonState();
+    });
+  }
+
+  onRotateRight = () => {
+    this.rotatePhoto(90);
+    this.movePhotoToDefaultPosition();
+
+    window.requestAnimationFrame(() => {
+      this.updateZoomToDefaultState();
+      this.updateWarningAndButtonState();
+    });
+  }
+
+  onZoomIn = () => {
+    this.zoomPhoto('IN');
+  }
+
+  onZoomOut = () => {
+    this.zoomPhoto('OUT');
   }
 
   // examines photo and cropper positions to determine if photo is at any edges
@@ -268,14 +303,12 @@ export default class CropperControls extends React.Component {
     return boundariesMet;
   }
 
+  // initialize cropbox
   setCropBox = () => {
-    // sometimes this callback is called before the new cropper has mounted
-    // check if the cropper instance has canvasData before setting its values
-    // center the cropbox using container width
+    // use container and cropbox constants to set cropbox size
     const containerWidth = this.refs.cropper.getContainerData().width;
-    const left = this.props.narrowLayout ? (containerWidth / 2) - 120 : (containerWidth / 2) - 150;
     const heightWidth = this.props.narrowLayout ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE;
-
+    const left = (containerWidth / 2) - (heightWidth / 2);
     this.refs.cropper.setCropBoxData({
       top: 0,
       left,
@@ -283,38 +316,30 @@ export default class CropperControls extends React.Component {
       width: heightWidth
     });
 
+    this.movePhotoToDefaultPosition();
+
+    window.requestAnimationFrame(() => {
+      this.updateZoomToDefaultState();
+      this.updateWarningAndButtonState();
+    });
+  }
+
+  // explicit positioning
+  movePhotoToPosition = (position) => {
+    this.refs.cropper.setCanvasData(position);
+  }
+
+  // explicit positioning
+  movePhotoToDefaultPosition = () => {
     const defaultPhotoPosition = getDefaultPhotoPosition({
       photoData: this.refs.cropper.getCanvasData(),
       cropBoxData: this.refs.cropper.getCropBoxData(),
       containerWidth: this.refs.cropper.getContainerData().width
     });
-
     this.movePhotoToPosition(defaultPhotoPosition);
-
-    // calculate new min ratio and warnings after photo is moved
-    window.requestAnimationFrame(() => {
-      const photoData = this.refs.cropper.getCanvasData();
-      const zoomMin = photoData.width / photoData.naturalWidth;
-
-      const boundariesMet = this.getBoundariesMet();
-      const warningMessage = getWarningMessage(boundariesMet);
-      const buttonsDisabled = getMoveButtonsDisabled(boundariesMet);
-
-      this.setState({
-        zoomMin,
-        warningMessage,
-        zoomValue: zoomMin,
-        ...buttonsDisabled
-      });
-    });
   }
 
-  movePhotoToPosition = (position) => {
-    window.requestAnimationFrame(() => {
-      this.refs.cropper.setCanvasData(position);
-    });
-  }
-
+  // relative positioning
   movePhoto = ({ x = 0, y = 0 } = {}) => {
     const photoData = this.refs.cropper.getCanvasData();
     const cropBoxData = this.refs.cropper.getCropBoxData();
@@ -325,35 +350,11 @@ export default class CropperControls extends React.Component {
     this.movePhotoToPosition(newPhotoPosition);
   }
 
+  // relative positioning
   rotatePhoto = (degrees) => {
     // rotate
     this.refs.cropper.rotate(degrees);
 
-    const defaultPhotoPosition = getDefaultPhotoPosition({
-      photoData: this.refs.cropper.getCanvasData(),
-      cropBoxData: this.refs.cropper.getCropBoxData(),
-      containerWidth: this.refs.cropper.getContainerData().width
-    });
-
-    this.movePhotoToPosition(defaultPhotoPosition);
-
-    // calculate new min ratio and warnings after photo is moved
-    window.requestAnimationFrame(() => {
-
-      const photoData = this.refs.cropper.getCanvasData();
-      const zoomMin = photoData.width / photoData.naturalWidth;
-
-      const boundariesMet = this.getBoundariesMet();
-      const warningMessage = getWarningMessage(boundariesMet);
-      const buttonsDisabled = getMoveButtonsDisabled(boundariesMet);
-
-      this.setState({
-        zoomMin,
-        warningMessage,
-        zoomValue: zoomMin,
-        ...buttonsDisabled
-      });
-    });
   }
 
   zoomPhoto = (direction) => {
@@ -370,6 +371,28 @@ export default class CropperControls extends React.Component {
         break;
       default:
     }
+  }
+
+  updateWarningAndButtonState = () => {
+    // update warnings and buttons enabled state
+    const boundariesMet = this.getBoundariesMet();
+    const warningMessage = getWarningMessage(boundariesMet);
+    const buttonsDisabled = getMoveButtonsDisabled(boundariesMet);
+
+    this.setState({
+      warningMessage,
+      ...buttonsDisabled
+    });
+  }
+
+  updateZoomToDefaultState = () => {
+    const photoData = this.refs.cropper.getCanvasData();
+    const zoomMin = photoData.width / photoData.naturalWidth;
+
+    this.setState({
+      zoomMin,
+      zoomValue: zoomMin,
+    });
   }
 
   render() {
@@ -393,7 +416,7 @@ export default class CropperControls extends React.Component {
           viewMode={0}
           zoom={this.onZoom}/>
         <div className="cropper-zoom-container">
-          <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.zoomPhoto('OUT')}>
+          <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.onZoomOut}>
             <span className="cropper-control-label">{this.props.narrowLayout || 'Make smaller'}<i className="fa fa-search-minus"></i></span>
           </button>
           <input type="range"
@@ -409,37 +432,34 @@ export default class CropperControls extends React.Component {
             onMouseMove={this.onSliderMouseMove}
             onChange={this.onSliderChange}
             value={this.state.zoomValue}/>
-          <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.zoomPhoto('IN')}>
+          <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.onZoomIn}>
             <span className="cropper-control-label">{this.props.narrowLayout || 'Make larger'}<i className="fa fa-search-plus"></i></span>
           </button>
         </div>
         <div className="cropper-control-container">
           {this.props.narrowLayout && <div className="cropper-control-row">
-            <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.zoomPhoto('OUT')}>
+            <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.onZoomOut}>
               <span className="cropper-control-label">Make smaller</span>
             </button>
-            <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.zoomPhoto('IN')}>
+            <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.onZoomIn}>
               <span className="cropper-control-label">Make larger</span>
             </button>
           </div>}
           <div className="cropper-control-row">
-            <MoveRotateButton disabled={this.state.moveUpDisabled} onClick={() => this.movePhoto({ y: -5 })} label="Move up" iconClassName="fa fa-arrow-up"/>
-            <MoveRotateButton disabled={this.state.moveDownDisabled} onClick={() => this.movePhoto({ y: 5 })} label="Move down" iconClassName="fa fa-arrow-down"/>
+            <MoveRotateButton disabled={this.state.moveUpDisabled} onClick={this.onMoveUp} label="Move up" iconClassName="fa fa-arrow-up"/>
+            <MoveRotateButton disabled={this.state.moveDownDisabled} onClick={this.onMoveDown} label="Move down" iconClassName="fa fa-arrow-down"/>
           </div>
           <div className="cropper-control-row">
-            <MoveRotateButton disabled={this.state.moveLeftDisabled} onClick={() => this.movePhoto({ x: -5 })} label="Move left" iconClassName="fa fa-arrow-left"/>
-            <MoveRotateButton disabled={this.state.moveRightDisabled} onClick={() => this.movePhoto({ x: 5 })} label="Move right" iconClassName="fa fa-arrow-right"/>
+            <MoveRotateButton disabled={this.state.moveLeftDisabled} onClick={this.onMoveLeft} label="Move left" iconClassName="fa fa-arrow-left"/>
+            <MoveRotateButton disabled={this.state.moveRightDisabled} onClick={this.onMoveRight} label="Move right" iconClassName="fa fa-arrow-right"/>
           </div>
           <div className="cropper-control-row">
-            <MoveRotateButton onClick={() => this.rotatePhoto(-90)} label="Rotate left" iconClassName="fa fa-rotate-left"/>
-            <MoveRotateButton onClick={() => this.rotatePhoto(90)} label="Rotate left" iconClassName="fa fa-rotate-right"/>
+            <MoveRotateButton onClick={this.onRotateLeft} label="Rotate left" iconClassName="fa fa-rotate-left"/>
+            <MoveRotateButton onClick={this.onRotateRight} label="Rotate left" iconClassName="fa fa-rotate-right"/>
           </div>
         </div>
         <div style={{ margin: '1em 1em 4em' }}>
-          {this.props.warningMessage && <div className="photo-warning">{this.props.warningMessage}</div>}
-        </div>
-        <div style={{ margin: '1em 1em 4em' }}>
-          {this.props.warningMessage && <div className="photo-warning">{this.props.warningMessage}</div>}
+          {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
         </div>
         <div className="crop-button-container">
           <button type="button" className="usa-button-primary" onClick={this.onDone}>
