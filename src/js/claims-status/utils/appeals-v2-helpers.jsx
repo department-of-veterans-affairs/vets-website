@@ -636,26 +636,28 @@ export function getEventContent(event) {
 }
 // TODO: The guidance for the at_vso status differs for the rest, should it?
 // This static piece of content gets reused throughout getNextEvents()
-const DECISION_REVIEW_CONTENT = (
-  <div>
-    <p>
-      A Veterans Law Judge, working with their team of attorneys, will review all of the
-      available evidence and write a decision. For each issue you are appealing, they can
-      decide to:
-    </p>
-    <ul className="decision-review-list">
-      <li>
-        <strong>Grant:</strong> The judge disagrees with the original decision and decides in
-        your favor.
-      </li>
-      <li><strong>Deny:</strong> The judge agrees with the original decision.</li>
-      <li>
-        <strong>Remand:</strong> The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.
-      </li>
-    </ul>
-    <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
-  </div>
-);
+function DECISION_REVIEW_CONTENT(prop) {
+  return (
+    <div>
+      <p>
+        {prop}A Veterans Law Judge, working with their team of attorneys, will review all of the
+        available evidence and write a decision. For each issue you are appealing, they can
+        decide to:
+      </p>
+      <ul className="decision-review-list">
+        <li>
+          <strong>Grant:</strong> The judge disagrees with the original decision and decides in
+          your favor.
+        </li>
+        <li><strong>Deny:</strong> The judge agrees with the original decision.</li>
+        <li>
+          <strong>Remand:</strong> The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.
+        </li>
+      </ul>
+      <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
+    </div>
+  );
+}
 
 /**
  * Translates an array of two ints into a string that conveys a duration estimate
@@ -911,7 +913,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
                 transcript of your hearing will be made and added to your appeal file. The judge
-                will not make a decision about your appeal at the hearing. Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request.
+                will not make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request</a>.
               </p>
             ),
             durationText: '',
@@ -926,10 +928,9 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: `You will have your ${getHearingType(details.type)} hearing`,
-            // TODO: Should "taken" or "made" be used throughout?
             description: (
               <p>
-                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be taken and added to your appeal file. The judge will not make a decision about your appeal at the hearing.
+                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge will not make a decision about your appeal at the hearing.
               </p>
             ),
             durationText: '',
@@ -944,25 +945,33 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: DECISION_REVIEW_CONTENT(),
             durationText: '',
             cardDescription: ''
           }
         ]
       };
     }
-    case STATUS_TYPES.atVso:
+    case STATUS_TYPES.atVso: {
+      const description = () => {
+        return (
+          <div>
+            {DECISION_REVIEW_CONTENT('Once your representative has completed their review, your case will be returned to the Board. ')}
+          </div>
+        );
+      };
       return {
         header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description,
             durationText: '',
             cardDescription: '',
           }
         ]
       };
+    }
     case STATUS_TYPES.decisionInProgress: {
       const decisionDuration = makeDurationText(details.decisionTimeliness);
       return {
@@ -970,7 +979,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: DECISION_REVIEW_CONTENT(),
             durationText: decisionDuration.header,
             cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration.description} to decide appeals once a judge starts their review.`,
           }
@@ -983,7 +992,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: DECISION_REVIEW_CONTENT(),
             durationText: '',
             cardDescription: '',
           }
@@ -995,7 +1004,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: DECISION_REVIEW_CONTENT(),
             durationText: '',
             cardDescription: '',
           }
