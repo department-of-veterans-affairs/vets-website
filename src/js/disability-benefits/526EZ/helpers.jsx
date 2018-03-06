@@ -69,7 +69,7 @@ export class evidenceTypeHelp extends React.Component {
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <div>{formData.disability.diagnosticText}</div>
+    <legend className="schemaform-block-title schemaform-title-underline">{formData.disability.diagnosticText}</legend>
   );
 };
 
