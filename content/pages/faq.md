@@ -93,11 +93,11 @@ display_title: Frequently Asked Questions
                         <p><strong>You'll need to bring:</strong></p>
                         <ul>
                           <li><strong>An Individuals' Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV).</strong> You can download a copy of this "VA release of information" form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
-                           <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
+                           <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.<br/>
+                            <a href="/facilities/">Find the phone number for your nearest VA health care facility</a>.</li>
                           <li><strong>A government-issued photo ID.</strong> This can be either your Veteran Health Identification Card or a valid driver's license.</li>
                         </ul>
-                        <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm that you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
-                        <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
+                        <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm that you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record, and your paper copy will be shredded to protect your privacy.</p>                        
                         <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
                       </div>
                     </div>
@@ -181,12 +181,12 @@ display_title: Frequently Asked Questions
                           <li>Virtua phone services, such as Skype or Google Voice</li>
                           <li>International phone numbers</li>
                         </ul>
-                        <p><strong>If you don't have a phone that can receive text messages, during the set-up process:</p>
+                        <p><strong>If you don't have a phone that can receive text messages, during the set-up process:</strong></p>
                         <ul>
                           <li>Choose <strong>Phone call</strong> when asked how you'd like to receive your 6-digit code to set up your phone for 2-factor authentication.</li>
                           <li>Choose <strong>Email</strong> when asked how you'd like to receive the link to download the ID.me Wallet app to get started using ID.me.</li>
                         </ul>
-                        <p><strong>If you don't have a phone that can take photos, during the set-up process:</p>
+                        <p><strong>If you don't have a phone that can take photos, during the set-up process:</strong></p>
                         <ul>
                           <li>Choose to verify your identity by answering the security questions, <strong>or</strong></li>
                           <li>Upload a photo of your driver's license or passport from your computer</li>
