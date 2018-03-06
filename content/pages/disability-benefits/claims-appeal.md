@@ -25,13 +25,19 @@ When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), yo
 <p>
 After the Veterans Benefits Administration makes a decision on your claim, you can appeal some or all of the decision if you disagree with it. If you want to, you can have a representative help you with your appeal. This person may be a lawyer, claims agent, or Veterans Service Officer. <a href="/disability-benefits/apply/help/">Get help filing your appeal</a>.
 </p>
-<p><strong>How long does an appeal take?</strong>
-<p>
-12-18 months The Veterans Benefits Administration typically takes between 12 and 18 months to review new appeals and decide whether to grant some or all of the appeal.
-</p>
-<p>
-5-7 years If you are not satisfied with the Veterans Benefits Administration's review, your appeal could take between 5 and 7 years to get a decision from a Veterans Law Judge at the Board of Veterans' Appeals.
-</p>
+
+<span id="days-to-complete-claim"></span>
+#### How long does it take VA to make a decision?
+
+<div class="card information" markdown="0">
+<span class="number">12-18 months</span>
+<span class="description">The Veterans Benefits Administration typically takes between 12 and 18 months to review new appeals and decide whether to grant some or all of the appeal.</span>
+</div>
+
+<div class="card information" markdown="0">
+<span class="number">5-7 years</span>
+<span class="description">If you are not satisfied with the Veterans Benefits Administration's review, your appeal could take between 5 and 7 years to get a decision from a Veterans Law Judge at the Board of Veterans’ Appeals.</span>
+</div>
 
 <h4>An appeal follows these steps</h4>
 
