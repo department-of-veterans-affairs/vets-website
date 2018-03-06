@@ -161,18 +161,42 @@ display_title: Frequently Asked Questions
                         <p><strong>You'll need to have:</strong></p>
                         <ul>
                           <li><strong>A completed and signed Individuals' Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV).</strong> This "VA release of information" form gives us permission to share an electronic copy of your health record with your online account. You can download a copy of the form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
-                            <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.</li>
+                            <a href="https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-MHV-fill.pdf">Download VA Form 10-5345a-MHV</a>.<br/>
+                            <a href="/facilities/">Find the phone number for your nearest VA health care facility</a>.</li>
                           <li><strong>A government-issued photo ID.</strong> This can be either your Veteran Health Identification Card or a valid driver's license.</li>
                         </ul>
-                        <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record.</p>
-                        <p><a href="/facilities/">Find a VA health care facility near you</a>.</p>
+                        <p>A VA staff member will verify your identity. Then they’ll record your information in the <strong>My Health<em>e</em>Vet</strong> system and confirm you’re eligible for a premium account. A copy of your VA Form 10-5345a-MHV will be added to your VA medical record, and the paper copy will be shredded to protect your privacy.</p>                        
                         <p><strong>Note:</strong> When you open or download a PDF file, you create a temporary file on your computer. Other people may be able to see this file—and any personal health information you fill in—especially if you’re using a public or shared computer.</p>
                      </div>
                     </div>
-                  </li>           
+                  </li>     
+                 <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-1" itemprop="name">I don't have a smartphone. How do I verify my identity through ID.me? </button>
+                    <div id="faq-other-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">                        
+                        <p>You'll need either a landline or mobile phone and a computer with an Internet connection.</p>
+                        <p><strong>At this time, we can't support:</strong>
+                        <ul>
+                          <li>Phones registered under a family member or spouse</li>
+                          <li>Virtua phone services, such as Skype or Google Voice</li>
+                          <li>International phone numbers</li>
+                        </ul>
+                        <p><strong>If you don't have a phone that can receive text messages, during the set-up process:</p>
+                        <ul>
+                          <li>Choose <strong>Phone call</strong> when asked how you'd like to receive your 6-digit code to set up your phone for 2-factor authentication.</li>
+                          <li>Choose <strong>Email</strong> when asked how you'd like to receive the link to download the ID.me Wallet app to get started using ID.me.</li>
+                        </ul>
+                        <p><strong>If you don't have a phone that can take photos, during the set-up process:</p>
+                        <ul>
+                          <li>Choose to verify your identity by answering the security questions, <strong>or</strong></li>
+                          <li>Upload a photo of your driver's license or passport from your computer</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li> 
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-1" itemprop="name">What should I do if my credit is frozen and I'm trying to verify my identity? </button>
-                    <div id="faq-trouble-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-2" itemprop="name">What should I do if my credit is frozen and I'm trying to verify my identity? </button>
+                    <div id="faq-trouble-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>While we’re trying to verify your identity, if we find that your credit is frozen, we’ll give you a link to an Experian page that offers you a free single-use personal identification number (PIN). This PIN will let you give us one-time access to the credit information we need to verify your identity.</p>
                         <p>Your credit freeze will stay active. Verifying your identity doesn’t affect your credit score.</p>
@@ -181,8 +205,8 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-2" itemprop="name">What address should I use to verify my identity if I live overseas? </button>
-                    <div id="faq-trouble-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-3" itemprop="name">What address should I use to verify my identity if I live overseas? </button>
+                    <div id="faq-trouble-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p><strong>If you have a premium My Health<em>e</em>Vet or DS Logon account,</strong> you can sign in using those credentials and you won't need to verify your identity.</p>
                         <p><strong>If you’re signing in through your ID.me account,</strong> you’ll need to use your most recent official stateside address and phone number (the information that will match records like your credit history)—even if it’s not your current contact information.</p>                        
@@ -190,8 +214,8 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-3" itemprop="name">I'm having trouble answering the ID.me security questions. What should I do? </button>
-                    <div id="faq-trouble-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-4" itemprop="name">I'm having trouble answering the ID.me security questions. What should I do? </button>
+                    <div id="faq-trouble-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p><strong>Try answering the personal security questions again, following these tips:</strong></p>
                         <ul>
@@ -206,15 +230,26 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-other-6" itemprop="name">I can't verify my identity by answering the security questions. What should I do now? </button>
-                    <div id="faq-other-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-5" itemprop="name">I can't verify my identity by answering the security questions. What should I do now? </button>
+                    <div id="faq-trouble-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>You can try using your driver’s license or passport to verify your identity.</strong> Be sure to follow the image guidelines when you upload a copy of your driver’s license or passport.</p>
-                        <p>If you still can't verify your identity, call the Vets.gov Help Desk at 1-855-574-7286 (TTY: <a href="tel:+1phonenumber">1-800-829-4833</a>) for more help</strong>. We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p></p>
                         <p><strong>Note:</strong> If you have a premium <strong>My Health<em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, you can sign in using those credentials and you won't need to verify your identity. If you don’t have an existing premium account, you can find out how to get one by reading the question above about other options for verifying your identity.</p>                          
                       </div>
                     </div>
                   </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-6" itemprop="name">I don't want to add 2-factor authentication. Do I have to? </button>
+                    <div id="faq-trouble-6" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">                        
+                        <p>It depends on how you sign in to Vets.gov.</p>
+                        <ul>
+                          <li><strong>If you set up a verified Vets.gov account through ID.me,</strong> you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.</li>
+                          <li><strong>If you sign up using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account,</strong> setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.</li>
+                          <li><strong>If you sign in to Vets.gov using your existing basic or advanced <strong>My Health <em>e</em>Vet</strong> or basic <strong>DS Logon</strong> account and don't want to verify your identity,</strong> you don't need to add 2-factor authentication. But you won't be able to use the site's tools that require you to verify your identity, so you won't be able to perform common tasks like checking your claims status or secure messaging your health care team.</li>
+                      </div>
+                    </div>
+                  </li>                          
                 </ul>
                 <br/>
                 <a name="why-verify"></a>
