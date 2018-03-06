@@ -18,7 +18,7 @@ Advanced on Docket appeals are prioritized so that they are always at the front 
 <div class="feature">
 
 **One of these must be true. You:**
-- Are 75 years or older, **or**
+- Are 75 years old or older, **or**
 - Suffer from a serious illness, **or**
 - Are in financial distress, **or**
 - Have other sufficient cause (a reason for needing your appeal reviewed faster)
