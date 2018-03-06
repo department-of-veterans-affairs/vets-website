@@ -6,7 +6,7 @@ order: 1
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 ---
-<div itemscope itemtype ="http://schema.org/HowTo">
+<div itemscope itemtype="http://schema.org/HowTo">
 
 <div class="va-introtext" itemprop="description">
 If you need to have your appeal moved to the front of the line due to serious illness, financial distress, or other reasons, find out how to request a priority review.
@@ -37,10 +37,14 @@ You or your representative will need to write a letter to the Board of Veterans�
 #### You or your representative can send your written request in 1 of 2 ways:
 
 ##### By mail
-Send to:
-<div>Board of Veterans’ Appeals</div>
-<div>PO Box 27063</div>
-<div>Washington, DC 20038</div>
+<div class="mail-block">
+  <span>Send to:</span>
+  <span class="va-address-block">
+    Board of Veterans’ Appeals<br/>
+    PO Box 27063<br/>
+    Washington, DC 20038<br/>
+  </span>
+</div>
 
 ##### By fax
 Fax to: <a href="tel:+12024956803">(202) 495-6803</a>
