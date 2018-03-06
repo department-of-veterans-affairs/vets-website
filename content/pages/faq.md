@@ -178,18 +178,18 @@ display_title: Frequently Asked Questions
                         <p><strong>At this time, we can't support:</strong>
                         <ul>
                           <li>Phones registered under a family member or spouse</li>
-                          <li>Virtua phone services, such as Skype or Google Voice</li>
+                          <li>Virtual phone services like Skype or Google Voice</li>
                           <li>International phone numbers</li>
                         </ul>
                         <p><strong>If you don't have a phone that can receive text messages, during the set-up process:</strong></p>
                         <ul>
-                          <li>Choose <strong>Phone call</strong> when asked how you'd like to receive your 6-digit code to set up your phone for 2-factor authentication.</li>
-                          <li>Choose <strong>Email</strong> when asked how you'd like to receive the link to download the ID.me Wallet app to get started using ID.me.</li>
+                          <li>Choose <strong>phone call</strong> when asked how you'd like to receive your 6-digit code to set up your phone for 2-factor authentication.</li>
+                          <li>Choose <strong>email</strong> when asked how you'd like to receive the link to download the ID.me Wallet app to get started using ID.me.</li>
                         </ul>
                         <p><strong>If you don't have a phone that can take photos, during the set-up process:</strong></p>
                         <ul>
-                          <li>Choose to verify your identity by answering the security questions, <strong>or</strong></li>
-                          <li>Upload a photo of your driver's license or passport from your computer</li>
+                          <li>Choose the <strong>verify by answering questions</strong> option when asked how you'd like to verify your identity, <strong>or</strong></li>
+                          <li>Be sure you have a photo of either your driver's license or passport on your computer, or can scan one in, so you can upload it to verify your identity using one of these forms of ID</li>
                         </ul>
                       </div>
                     </div>
@@ -245,7 +245,7 @@ display_title: Frequently Asked Questions
                         <p>It depends on how you sign in to Vets.gov.</p>
                         <ul>
                           <li><strong>If you set up a verified Vets.gov account through ID.me,</strong> you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.</li>
-                          <li><strong>If you sign up using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account,</strong> setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.</li>
+                          <li><strong>If you sign in to Vets.gov using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account,</strong> setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your Vets.gov profile page.</li>
                           <li><strong>If you sign in to Vets.gov using your existing basic or advanced <strong>My Health <em>e</em>Vet</strong> or basic <strong>DS Logon</strong> account and don't want to verify your identity,</strong> you don't need to add 2-factor authentication. But you won't be able to use the site's tools that require you to verify your identity, so you won't be able to perform common tasks like checking your claims status or secure messaging your health care team.</li>
                       </div>
                     </div>
@@ -303,7 +303,7 @@ display_title: Frequently Asked Questions
                       <div itemprop="text">
                         <p>This code is part of the 2-factor authentication process.</p>
                         <p>When you set up a verified Vets.gov account through ID.me, you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>                        
-                        <p>If you sign in to Vets.gov using your existing basic or advanced <strong>My Health <em>e</em>Vet</strong> or basic <strong>DS Logon</strong> account and don't want to verify your identity, or if you sign up using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-process or any time from your Vets.gov profile page.<p>          
+                        <p>If you sign in to Vets.gov using your existing basic or advanced <strong>My Health <em>e</em>Vet</strong> or basic <strong>DS Logon</strong> account and don't want to verify your identity, or if you sign up using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your Vets.gov profile page.<p>          
                       </div>
                     </div>
                   </li>
