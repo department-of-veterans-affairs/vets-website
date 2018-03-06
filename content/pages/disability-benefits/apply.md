@@ -78,7 +78,7 @@ If any of these apply to you, then you’ll file your disability claim on eBenef
 
 If you have a worsening condition to add to your rated disability claim, then you'll file your claim using the online application. 
 
-<a class="usa-button-primary va-button-primary" href="/disability-benefits/URL">Apply for Disability Compensation</a>
+<a class="usa-button-primary va-button-primary" href="/disability-benefits/URL">Apply for Increased Disability Compensation</a>
 
 </div>
 </div>
