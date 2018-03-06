@@ -339,7 +339,7 @@ export default class CropperControls extends React.Component {
     this.movePhotoToPosition(defaultPhotoPosition);
   }
 
-  // relative positioning
+  // moves photo within bounds
   movePhoto = ({ x = 0, y = 0 } = {}) => {
     const photoData = this.refs.cropper.getCanvasData();
     const cropBoxData = this.refs.cropper.getCropBoxData();
@@ -352,9 +352,7 @@ export default class CropperControls extends React.Component {
 
   // relative positioning
   rotatePhoto = (degrees) => {
-    // rotate
     this.refs.cropper.rotate(degrees);
-
   }
 
   zoomPhoto = (direction) => {
