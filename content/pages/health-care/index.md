@@ -75,7 +75,7 @@ With VA health care, you’re covered for regular checkups with your primary car
           <li>Get job-placement help.
           <a href=//www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
           
-          **Are you in immediate crisis?**
+          <b>Are you in immediate crisis?</b>
           <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
         </ul>
         We can also connect you with other non-VA resources in your area.
