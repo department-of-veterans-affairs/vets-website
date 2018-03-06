@@ -68,7 +68,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     The Decision Review Officer will finish their review and transfer your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they are received as determined by the date of the VA Form 9. A judge will begin work on your appeal when it is among the oldest appeals that are ready for their review.
     </p>
     <p>
-    If you are suffering a serious illness or are in financial distress, or for other sufficient cause, you can apply to have your appeal Advanced on Docket. If you are older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so that they are always at the front of the line. Learn how to request Advanced on Docket status.
+    If you are suffering a serious illness or are in financial distress, or for other sufficient cause, you can apply to have your appeal Advanced on Docket. If you are older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so that they are always at the front of the line. <a href="/disability-benefits/claims-appeal/request-a-priority-review/">Learn how to request Advanced on Docket status</a>.
     </p>
   </li>
   <li class="list-group-item">
@@ -160,7 +160,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq7">What happens if I disagree with the Board’s decision?</button>
       <div id="dbq7" class="usa-accordion-content">
-        <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal 120 days of the Board’s decision. <a href="https://www.uscourts.cavc.gov/appeal.php"> Learn how to file a Court appeal</a>.</p>
+        <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal 120 days of the Board’s decision. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file a Court appeal</a>.</p>
       </div>
     </li>
     <li>
