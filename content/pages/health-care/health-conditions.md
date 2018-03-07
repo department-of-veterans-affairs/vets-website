@@ -77,6 +77,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 
+- [Support for other questions and problems](#need-help)
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
 
@@ -86,13 +87,33 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 ------
 
+<span id="need-help">
 <div itemscope itemtype="http://schema.org/Question">
 
+<h4 itemprop="name">What if I'm not sure what's wrong, but I just know I need help?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+  
+We're here to help you figure out what's wrong, and how we can help. 
+
+We have experienced social workers at each VA medical center who can meet with you, and with your family if you'd like. They'll ask you questions about your health, your living situation, your family and other support systems, your military experience, and the things you think you need help with. Then, they'll work with you and your VA health care team to make plans to get you the treatment and support you need.
+
+If you're feeling stressed, mistreated, or overwhelmed—or just have questions or problems you need help with—feel free to ask to talk with the social worker at your local VA medical center. We can help with almost any need, or can connect you with the right person for help.<br>
+[Find contact information for your local VA medical center](/facilities/).
+
+</div>
+</div>
+</div>
+<br>
+
+<div itemscope itemtype="http://schema.org/Question">
+  
 <h4 itemprop="name">What if I need help understanding my benefits or accessing services?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
+If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help.<br>
+[Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
 If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
