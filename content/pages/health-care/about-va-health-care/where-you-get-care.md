@@ -174,11 +174,13 @@ Yes, we may be able to help you get to and from appointments in certain cases. O
 Yes, we may be able to help with travel expenses if you need to travel for care. <br>
 [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 
+<br>
+
 <span id="care-family">
   
 #### Can my family get help staying close by if I'm being treated in a hospital far from home?
 
-Yes. A nonprofit organization called the Fisher House Foundation offers comfortable homes where military and Veteran families can stay free of charged while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
+Yes. A nonprofit organization called the Fisher House Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
 [Find a Fisher House near where you'll be treated](https://fisherhouse.org/programs/houses/house-locations/).
 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
