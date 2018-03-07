@@ -25,7 +25,7 @@ describe('Edu 1990 dependents', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
-  it('should submit form without information', () => {
+  it('should show errors if submitted without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -42,7 +42,7 @@ describe('Edu 1990 dependents', () => {
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
   it('should show page only if served before 1977', () => {
     expect(depends({
