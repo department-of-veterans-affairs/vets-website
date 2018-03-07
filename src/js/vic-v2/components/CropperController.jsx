@@ -131,6 +131,15 @@ export default class CropperControls extends React.Component {
     };
   }
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.windowWidth !== this.props.windowWidth) {
+      const cropper = this.refs.cropper;
+      if (cropper) {
+        this.setCropBox();
+      }
+    }
+  }
+
   onCropstart = (e) => {
     // prevents dragging of crop box edges
     const action = e.detail.action;
