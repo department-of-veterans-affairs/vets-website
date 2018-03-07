@@ -19,15 +19,15 @@ If you’re a dependent spouse or child—or the surviving spouse or child—of 
 <div class="feature" markdown="1">
 
 ### Can I get education benefits?
-You may qualify for education benefits if you’re the child or spouse of a Servicemember who:
-- Died in the line of duty after September 10, 2001, **or**
-- Is missing in action or was captured in the line of duty by a hostile force, **or**
--	Was detained (held) by force while in the line of duty by a foreign government or power, **or**
--	Is in the hospital or getting outpatient treatment for a service-connected permanent and total disability, and is likely to be discharged for that disability. A service-connected permanent and total disability is a disability resulting from your service that doesn’t go away.
+You may qualify for education benefits if you’re the child or spouse of a Servicemember **and at least one of the following is true of that person**:
+- The Servicemember died in the line of duty after September 10, 2001, **or**
+- The Servicemember is missing in action or was captured in the line of duty by a hostile force, **or**
+-	The Servicemember was detained (held) by force while in the line of duty by a foreign government or power, **or**
+-	The Servicemember is in the hospital or getting outpatient treatment for a service-connected permanent and total disability, and is likely to be discharged for that disability. A service-connected permanent and total disability is a disability resulting from your service that doesn’t go away.
   
-You may qualify for education benefits if you’re the child or spouse of a Veteran who:
-- Is permanently and totally disabled due to a service-connected disability, **or**
--	Died while on active duty or as a result of a service-connected disability
+You may qualify for education benefits if you’re the child or spouse of a Veteran **and either of the following is true for that person**:
+- The Servicemember is permanently and totally disabled due to a service-connected disability, **or**
+-	The Servicemember died while on active duty or as a result of a service-connected disability
 
 If you’re a dependent who doesn’t meet the above criteria, you may still qualify for education benefits if the Veteran or Servicemember transferred some or all of their Post-9/11 GI Bill entitlement to you while they were on active duty. <br>
 [Learn about transferred benefits](/education/gi-bill/transfer/).
