@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getBetaFeatures, registerBeta } from '../actions';
+import objectValues from 'lodash/fp/values';
+import { getBetaFeatures, registerBetaToSession as registerBeta, statuses } from '../actions';
 import LoadingIndicator from '../components/LoadingIndicator';
+import AlertBox from '../components/AlertBox';
+
+export const features = {
+  healthAccount: 'health_account',
+  veteranIdCard: 'veteran_id_card',
+  personalization: 'personalization'
+};
 
 class BetaApp extends React.Component {
 
   static propTypes = {
-    featureName: PropTypes.string.isRequired,
+    featureName: PropTypes.oneOf(objectValues(features)).isRequired,
     betaFeatures: PropTypes.arrayOf(
       PropTypes.shape({
         feature: PropTypes.string,
@@ -27,19 +35,21 @@ class BetaApp extends React.Component {
       return <LoadingIndicator message="Loading beta information..."/>;
     }
 
-    switch (this.props.feature.status) {
-      case 'succeeded':
-        return this.props.children;
-      case 'failed':
-        return <h1>Failed to registered for beta.</h1>;
-      default:
-        return (
-          <div>
-            <h1>This application is currently in beta</h1>
-            <button className="usa-button-primary" onClick={this.registerBeta}>Register for beta access</button>
-          </div>
-        );
-    }
+    if (this.props.feature && this.props.feature.status === statuses.succeeded) return this.props.children;
+
+    return (
+      <div className="row-padded" style={{ marginBottom: 15 }}>
+        <h1>This application is currently in beta</h1>
+        <button type="button"
+          className="usa-button-primary" onClick={this.registerBeta}>
+          Register for beta access
+        </button>
+        <AlertBox
+          isVisible={!!this.props.feature && this.props.feature.status === statuses.failed}
+          status="error"
+          content={<h3>Failed to register for beta</h3>}/>
+      </div>
+    );
   }
 }
 
@@ -47,7 +57,7 @@ const mapStateToProps = (state, ownProps) => {
   const loading = state.user.profile.loading;
   return {
     loading,
-    feature: loading && state.betaFeatures.find(b => b.feature === ownProps.featureName)
+    feature: !loading && state.betaFeatures.find(b => b.feature === ownProps.featureName)
   };
 };
 
