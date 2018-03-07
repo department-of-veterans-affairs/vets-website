@@ -28,7 +28,7 @@ Are you the spouse or dependent child of a Servicemember who’s covered under S
 
 ### Can I get FSGLI? 
 
-You may be able to get FSGLI if you’re the spouse or dependent child of:
+You may be able to get FSGLI if you’re the spouse or dependent child **who is either**:
 
 - An active-duty Servicemember covered by full-time SGLI, **or**
 - A member of the National Guard or Ready Reserve covered by full-time SGLI
