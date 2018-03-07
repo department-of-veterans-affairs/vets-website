@@ -1,7 +1,7 @@
 ## Routing for React apps
 
 ### Production
-The production deployment of the vet-website front end consists of static HTML, CSS, and JS assets. We have an nginx server that serves those static assets and does a little bit of extra route handling for our single page React apps.
+The production deployment of the vet-website front end consists of static HTML, CSS, and JS assets deployed to an Amazon S3 bucket. We have an nginx server that serves those static assets and does some extra route handling for our single page React apps.
 
 React applications have a single entry page in the `content/pages` folder and a special nginx [config entry](https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/roles/revproxy-configure/defaults/main.yml#L91). Each of the React applications listed in that config are standalone single page apps, and for each of the urls listed in that section of the config, the nginx server routes anything that starts with that url to the static page at that url, instead of trying to find a content page at that spot in the `content/pages` folder structure. See the example below for a step by step view of that process.
 
