@@ -26,7 +26,7 @@ export const evidenceTypesDescription = ({ formData }) => {
 
 // Shows or collapses the "Which should I choose?" link at the bottom of the evidence types page
 // TODO: Investigate whether this should just use `expandUnder`
-export class evidenceTypeHelp extends React.Component {
+export class EvidenceTypeHelp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

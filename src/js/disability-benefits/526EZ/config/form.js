@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from '../../../common/utils/data-utils';
 
 // import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
@@ -10,7 +10,7 @@ import {
   transform,
   supportingEvidenceOrientation,
   evidenceTypesDescription,
-  evidenceTypeHelp,
+  EvidenceTypeHelp,
   disabilityNameTitle
 } from '../helpers';
 
@@ -149,7 +149,7 @@ const formConfig = {
           }
         },
         evidenceType: {
-          title: (formData, { pagePerItemIndex }) => formData.disabilities[pagePerItemIndex].diagnosticText,
+          title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.diagnosticText`, formData),
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
           arrayPath: 'disabilities',
@@ -168,7 +168,7 @@ const formConfig = {
                   'ui:title': 'Lay statements or other evidence'
                 },
                 'view:evidenceTypeHelp': {
-                  'ui:description': evidenceTypeHelp
+                  'ui:description': EvidenceTypeHelp
                 }
               }
             }
