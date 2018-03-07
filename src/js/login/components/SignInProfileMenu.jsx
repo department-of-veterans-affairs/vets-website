@@ -11,8 +11,8 @@ class SignInProfileMenu extends React.Component {
     const dropDownContents = (
       <ul>
         <li><a href="/dashboard">Dashboard</a></li>
-        {betaProfile && <li key="1"><a href="/profile-beta">Profile</a></li>}
-        {betaProfile && <li key="2"><a href="/account-beta">Account</a></li>}
+        {betaProfile && <li><a href="/profile-beta">Profile</a></li>}
+        {betaProfile && <li><a href="/account-beta">Account</a></li>}
         {!betaProfile && <li><a href="/profile">Profile</a></li>}
         <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
       </ul>
