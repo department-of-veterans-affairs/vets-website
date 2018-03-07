@@ -39,7 +39,7 @@ export default function AppealListItem({ appeal, name }) {
         <p><strong>{moment(lastEvent.date).format('MMM D')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       <p>
-        <Link className="usa-button usa-button-primary" to={`appeals-v2/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" to={`appeals-v2/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
       </p>
     </div>
   );

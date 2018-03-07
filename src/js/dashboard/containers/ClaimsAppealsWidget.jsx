@@ -41,6 +41,7 @@ class ClaimsAppealsWidget extends React.Component {
 
   render() {
     const {
+      claimsAppealsCount,
       claimsAppealsList,
       claimsLoading,
       appealsLoading,
@@ -67,6 +68,11 @@ class ClaimsAppealsWidget extends React.Component {
       }
     }
 
+    // hide section if no open/closed claims or appeals
+    if (claimsAppealsCount === 0) {
+      return null;
+    }
+
     return (
       <div>
         <h2>Claims and appeals</h2>
@@ -86,6 +92,9 @@ const mapStateToProps = (state) => {
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
 
+  const claimsAppealsCount = claimsV2Root.appeals
+    .concat(claimsV2Root.claims).length;
+
   const claimsAppealsList = claimsV2Root.appeals
     .concat(claimsV2Root.claims).filter(c => {
       return moment(c.attributes.updated).isAfter(moment().endOf('day').subtract(30, 'days'));
@@ -96,6 +105,7 @@ const mapStateToProps = (state) => {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
+    claimsAppealsCount,
     claimsAppealsList,
     consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
