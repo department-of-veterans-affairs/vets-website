@@ -82,15 +82,6 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.windowWidth !== this.state.windowWidth) {
-      const cropper = this.refs.cropper;
-      if (cropper) {
-        this.setCropBox();
-      }
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const newFile = this.props.formData || {};
     const oldFile = prevProps.formData || {};
@@ -380,6 +371,7 @@ export default class PhotoField extends React.Component {
           </div>}
           {fieldView === 'cropper' && <CropperController
             narrowLayout={smallScreen}
+            windowWidth={this.state.windowWidth}
             onPhotoCropped={blob => this.uploadPhoto(blob)}
             src={this.state.src}/>
           }
