@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
 import { getBetaFeatures, registerBetaToSession as registerBeta, statuses } from '../actions';
-import LoadingIndicator from '../components/LoadingIndicator';
 import AlertBox from '../components/AlertBox';
 
 export const features = {
@@ -20,7 +19,7 @@ class BetaApp extends React.Component {
       PropTypes.shape({
         feature: PropTypes.string,
         loading: PropTypes.bool,
-        status: PropTypes.oneOf(['succeeded', 'failed'])
+        status: PropTypes.oneOf(objectValues(statuses))
       })
     )
   };
@@ -31,21 +30,21 @@ class BetaApp extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return <LoadingIndicator message="Loading beta information..."/>;
-    }
-
     if (this.props.feature && this.props.feature.status === statuses.succeeded) return this.props.children;
+
+    const feature = this.props.feature;
+    const pending = feature.status === statuses.pending;
 
     return (
       <div className="row-padded" style={{ marginBottom: 15 }}>
         <h1>This application is currently in beta</h1>
         <button type="button"
+          disabled={pending}
           className="usa-button-primary" onClick={this.registerBeta}>
-          Register for beta access
+          Register for beta access {pending && <i className="fa fa-spin fa-spinner"/>}
         </button>
         <AlertBox
-          isVisible={!!this.props.feature && this.props.feature.status === statuses.failed}
+          isVisible={!!feature && feature.status === statuses.failed}
           status="error"
           content={<h3>Failed to register for beta</h3>}/>
       </div>
@@ -54,10 +53,8 @@ class BetaApp extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const loading = state.user.profile.loading;
   return {
-    loading,
-    feature: !loading && state.betaFeatures.find(b => b.feature === ownProps.featureName)
+    feature: state.betaFeatures.find(b => b.feature === ownProps.featureName) || {}
   };
 };
 
