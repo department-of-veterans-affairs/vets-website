@@ -33,9 +33,7 @@ export default function AppealListItem({ appeal, name }) {
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        Appeal of {appealTypeMap[appeal.attributes.programArea]}
-        <br/>
-        Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
+        Appeal of {appealTypeMap[appeal.attributes.programArea]} - Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
       </h3>
       <div className="card-status">
         <p><strong>{moment(lastEvent.date).format('MMM D')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
