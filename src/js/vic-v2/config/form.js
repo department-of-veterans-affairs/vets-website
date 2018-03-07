@@ -4,10 +4,11 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
 import asyncLoader from '../../common/components/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
-import { prefillTransformer, submit } from '../helpers';
+import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -68,6 +69,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
+            'ui:description': IdentityFieldsWarning,
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: ssnUI,
             gender: {
@@ -217,7 +219,7 @@ const formConfig = {
           path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
-          depends: form => !form.verified,
+          depends: form => !form.verified || !identityMatchesPrefill(form),
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
