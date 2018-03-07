@@ -140,7 +140,7 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, onChange, uiOptions, progressCallback) {
+export function uploadFile(file, onChange, uiOptions, progressCallback, provideRequest) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       onChange({
@@ -231,6 +231,7 @@ export function uploadFile(file, onChange, uiOptions, progressCallback) {
 
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.send(payload);
+      provideRequest(req);
     });
   };
 }

@@ -37,7 +37,7 @@ const {
   gender
 } = fullSchemaVIC.definitions;
 
-const TWENTY_FIVE_MB = 26214400;
+const TWENTY_FIVE_MB = 26214400000;
 const TEN_MB = 10485760;
 
 const formConfig = {
@@ -229,6 +229,7 @@ const formConfig = {
                 'jpg',
                 'gif',
                 'tif',
+                'zip',
                 'tiff'
               ],
               maxSize: TWENTY_FIVE_MB,

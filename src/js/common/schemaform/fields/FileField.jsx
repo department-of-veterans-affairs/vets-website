@@ -39,13 +39,18 @@ export default class FileField extends React.Component {
         event.target.files[0],
         (file) => {
           this.props.onChange(_.set(idx, file, this.props.formData || []));
+          this.cancelUploadRequest = null;
         },
         this.props.uiSchema['ui:options'],
-        this.updateProgress
+        this.updateProgress,
+        (req) => {
+          this.cancelUploadRequest = () => req.abort();
+        }
       ).catch(() => {
         // rather not use the promise here, but seems better than trying to pass
         // a blur function
         // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
+        this.cancelUploadRequest = null;
       });
     }
   }
@@ -60,6 +65,13 @@ export default class FileField extends React.Component {
 
   updateProgress = (progress) => {
     this.setState({ progress });
+  }
+
+  cancelUpload = (index) => {
+    if (this.cancelUploadRequest) {
+      this.cancelUploadRequest();
+    }
+    this.removeFile(index);
   }
 
   removeFile = (index) => {
@@ -116,6 +128,11 @@ export default class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <span>{file.name}</span><br/>
                       <ProgressBar percent={this.state.progress}/>
+                      <button type="button" className="va-button-link" onClick={() => {
+                        this.cancelUpload(index);
+                      }}>
+                        Cancel
+                      </button>
                     </div>
                   }
                   {!file.uploading && <span>{file.name}</span>}
