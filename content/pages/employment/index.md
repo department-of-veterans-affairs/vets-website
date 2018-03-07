@@ -52,13 +52,15 @@ We can support you in all stages of your job search—from returning to work wit
       <div class="expander-content-inner usa-alert-text">
         <p>We offer many programs and services—including education and job training—to support Veterans who are homeless or at risk of becoming homeless. Find the support you need: </p>
         <ul>
-          <li>Get help connecting with services you may qualify for in your community. <a href="/facilities/">Find the nearest VA medical center</a>.</li>
+          <li>Get help connecting with services you may qualify for in your community. <br>
+            <a href="/facilities/">Find the nearest VA medical center</a>.</li>
           <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
-          <li>Get job-placement help. <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li> 
+          <li>Get job-placement help. <br>
+            <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li> 
           </ul>
           <p>We can also connect you with other non-VA resources in your area.</p>
-          <p><b>Are you in immediate crisis?</b></p>
-          <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</li>
+          <p><b>Are you in crisis right now?</b> <br>
+          <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
           </ul>  
       <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
 </ul>
