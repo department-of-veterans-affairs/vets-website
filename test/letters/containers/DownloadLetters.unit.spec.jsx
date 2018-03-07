@@ -12,6 +12,9 @@ const defaultProps = {
   },
   router: {
     push: sinon.spy()
+  },
+  address: {
+    address1: 'asdf' // Just something so this isn't seen as a blank address
   }
 };
 

@@ -4,7 +4,8 @@ import sinon from 'sinon';
 import { mockFetch, resetFetch } from '../util/unit-helpers.js';
 
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
-import { submit, prefillTransformer } from '../../src/js/vic-v2/helpers';
+import fullFormConfig from '../../src/js/vic-v2/config/form';
+import { submit, prefillTransformer, transform } from '../../src/js/vic-v2/helpers';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
@@ -225,8 +226,15 @@ describe('VIC helpers:', () => {
       const formData = {};
       const pages = {};
       const metadata = {};
+      const state = {
+        user: {
+          profile: {
+            services: []
+          }
+        }
+      };
 
-      const result = prefillTransformer(pages, formData, metadata);
+      const result = prefillTransformer(pages, formData, metadata, state);
 
       expect(result.formData).to.equal(formData);
       expect(result.pages).to.equal(pages);
@@ -246,8 +254,15 @@ describe('VIC helpers:', () => {
         }
       };
       const metadata = {};
+      const state = {
+        user: {
+          profile: {
+            services: []
+          }
+        }
+      };
 
-      const result = prefillTransformer(pages, formData, metadata);
+      const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.pages.veteranInformation.schema.properties.serviceBranch.enum)
         .to.deep.equal(formData.serviceBranches);
       expect(result.formData.serviceBranch).to.equal(formData.serviceBranches[0]);
@@ -267,8 +282,15 @@ describe('VIC helpers:', () => {
         }
       };
       const metadata = {};
+      const state = {
+        user: {
+          profile: {
+            services: []
+          }
+        }
+      };
 
-      const result = prefillTransformer(pages, formData, metadata);
+      const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.pages.veteranInformation.schema.properties.serviceBranch.enum)
         .to.deep.equal(['A']);
       expect(result.formData.serviceBranch).to.equal(formData.serviceBranches[0]);
@@ -288,12 +310,93 @@ describe('VIC helpers:', () => {
         }
       };
       const metadata = {};
+      const state = {
+        user: {
+          profile: {
+            services: []
+          }
+        }
+      };
 
-      const result = prefillTransformer(pages, formData, metadata);
+      const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.pages.veteranInformation.schema.properties.serviceBranch.enum)
         .to.deep.equal(fullSchemaVIC.properties.serviceBranch.enum);
       expect(result.formData.serviceBranch).to.be.undefined;
       expect(result.formData.serviceBranches).to.be.undefined;
+    });
+    it('should set id proofed flag and original user data', () => {
+      const formData = {
+        veteranFullName: {
+          first: 'Test'
+        },
+        veteranSocialSecurityNumber: '123456789'
+      };
+      const pages = {
+        veteranInformation: {
+          schema: {
+            properties: {}
+          }
+        }
+      };
+      const metadata = {};
+      const state = {
+        user: {
+          profile: {
+            services: ['identity-proofed']
+          }
+        }
+      };
+
+      const result = prefillTransformer(pages, formData, metadata, state);
+      expect(result.formData.processAsIdProofed).to.be.true;
+      expect(result.formData.originalUser.veteranFullName).to.equal(formData.veteranFullName);
+      expect(result.formData.originalUser.veteranSocialSecurityNumber).to.equal(formData.veteranSocialSecurityNumber);
+    });
+  });
+  describe('transform', () => {
+    it('should remove identity fields', () => {
+      const form = {
+        data: {
+          processAsIdProofed: true,
+          veteranFullName: {
+            first: 'Test'
+          },
+          veteranSocialSecurityNumber: '234',
+          originalUser: {
+            veteranSocialSecurityNumber: '234',
+            veteranFullName: {
+              first: 'Test'
+            }
+          }
+        }
+      };
+      const result = JSON.parse(transform(form, fullFormConfig));
+
+      expect(result.processAsAnonymous).to.be.false;
+      expect(result.veteranSocialSecurityNumber).to.be.undefined;
+      expect(result.veteranFullName).to.be.undefined;
+    });
+    it('should process as anonymous if fields are different', () => {
+      const form = {
+        data: {
+          processAsIdProofed: true,
+          veteranFullName: {
+            first: 'Test1'
+          },
+          veteranSocialSecurityNumber: '234',
+          originalUser: {
+            veteranSocialSecurityNumber: '234',
+            veteranFullName: {
+              first: 'Test'
+            }
+          }
+        }
+      };
+      const result = JSON.parse(transform(form, fullFormConfig));
+
+      expect(result.processAsAnonymous).to.be.true;
+      expect(result.veteranSocialSecurityNumber).not.to.be.undefined;
+      expect(result.veteranFullName).not.to.be.undefined;
     });
   });
 });

@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import PhotoField from '../../../src/js/vic-v2/components/PhotoField';
+import CropperController from '../../../src/js/vic-v2/components/CropperController';
 
 describe('<PhotoField>', () => {
   let oldFileReader;
@@ -54,10 +55,8 @@ describe('<PhotoField>', () => {
 
     tree.setState({ isCropping: true });
 
-    expect(tree.find('.cropper-container-outer').exists()).to.be.true;
-    expect(tree.find('.cropper-zoom-container').exists()).to.be.true;
-    expect(tree.find('.cropper-control').length).to.equal(10);
     expect(tree.find('Dropzone').exists()).to.be.false;
+    expect(tree.find(CropperController).exists()).to.be.true;
     expect(tree.text()).to.contain('Step 2');
     expect(tree.find('ErrorableFileInput').length).to.equal(1);
   });
