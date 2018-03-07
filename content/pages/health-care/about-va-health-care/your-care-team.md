@@ -55,6 +55,7 @@ When you need other services to meet your goals and needs, your team may call ot
 - [How do I schedule an appointment](#appointments)?
 - [What happens if my primary care provider leaves VA](#primary-care-provider-leaves)?
 - [Can I see a local community care provider, paid for by VA](#non-va-provider)?
+- [What kinds of things can a social worker help me with](#social-worker)?
 
 <br>
 
@@ -121,3 +122,17 @@ It depends. If we can't provide the care you need, we may refer you to a communi
 
 Your VA provider will work with you to determine if you're eligible. <br>
 [Learn more about VA community care](https://www.va.gov/COMMUNITYCARE/index.asp).
+
+
+<br>
+
+<span id="social-worker">
+  
+#### What kinds of things can a social worker help me with?
+
+Our social workers can help you with many different needs:
+- **If you're in a crisis situation,** your social worker can help to counsel you through the crisis. Then, they can help you apply for programs and services through VA and in your community to meet your long-term needs.
+- **If you're homeless, often in the hospital, or can't care for yourself any longer,** your social worker can work closely with you to make sure you get the support you need.
+- **If you're in the hospital now,** your social worker can help you make plans for when you get discharged. If you need supportive services in your home or if you can't live by yourself at home any longer, your social worker can help make arrangements for your ongoing care.
+- **If you're having trouble speaking up for yourself or feeling overwhelmed by trying to arrange care,** your social worker can help to be your voice and make sure you get what you need.
+- **If you and your family need help understanding how to deal with your health needs,** your social worker can help educate you about your condition, how to live a more healthy life, how to deal with stress, and how to access the programs and services you need.
