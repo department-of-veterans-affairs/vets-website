@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import {
@@ -8,13 +9,13 @@ import {
 } from '../../claims-status/actions/index.jsx';
 import { APPEAL_V2_TYPE } from '../../claims-status/utils/appeals-v2-helpers';
 import { scrollToTop, setUpPage } from '../../claims-status/utils/page';
-import ClaimsListItem from '../../claims-status/components/ClaimsListItemV2';
-import AppealListItem from '../../claims-status/components/appeals-v2/AppealListItemV2';
+import ClaimsListItem from '../components/ClaimsListItem';
+import AppealListItem from '../components/AppealsListItem';
 
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessClaims) {
-      this.props.getClaimsV2();
+      // this.props.getClaimsV2();
     }
 
     if (this.props.canAccessAppeals) {
@@ -49,7 +50,6 @@ class ClaimsAppealsWidget extends React.Component {
     const atLeastOneRequestLoading = claimsLoading || appealsLoading;
     const emptyList = !claimsAppealsList || !claimsAppealsList.length;
 
-
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = <LoadingIndicator message="Loading your claims and appeals..." setFocus/>;
     } else {
@@ -60,8 +60,8 @@ class ClaimsAppealsWidget extends React.Component {
             {claimsAppealsList.map(claim => this.renderListItem(claim))}
           </div>
         </div>);
-      } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
-        content = <p>No recent claims or appeals</p>;
+      } else if (bothRequestsLoaded) {
+        content = <p>No recent activity on your claims or appeals</p>;
       }
     }
 
@@ -85,7 +85,9 @@ const mapStateToProps = (state) => {
   const canAccessClaims = profileState.services.includes('evss-claims');
 
   const claimsAppealsList = claimsV2Root.appeals
-    .concat(claimsV2Root.claims);
+    .concat(claimsV2Root.claims).filter(c => {
+      return moment(c.attributes.updated).isAfter(moment().endOf('day').subtract(30, 'days'));
+    });
 
   return {
     appealsAvailable: claimsV2Root.appealsAvailability,
