@@ -7,6 +7,8 @@ React applications have a single entry page in the `content/pages` folder and a 
 
 When that page is loaded and the JS bundle is downloaded and parsed, React Router sees the original route, removes the base url specified in the entry page from it, and routes to the page configured in the routes for the React app.
 
+In summary, nginx routes a variety of different urls to the same static entry page, and React Router renders the correct component based on the route configuration client side.
+
 #### Example
 
 Here's an example using the claim status application:
