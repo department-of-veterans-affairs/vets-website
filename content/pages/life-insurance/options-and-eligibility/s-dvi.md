@@ -25,7 +25,7 @@ If you have a disability that we’ve concluded was caused—or made worse—by 
 
 You can apply for S-DVI if you meet these 4 criteria:
 
-- You were released from active duty under other than dishonorable conditions on or after April 25, 1951
+- You were released from active duty (and didn't receive a dishonorable discharge) on or after April 25, 1951
 - You were rated for a service-connected disability (even if only 0%)
 - You’re in good health except for any service-connected conditions
 - You apply within 2 years from the date we grant your new service-connected disability
@@ -49,6 +49,20 @@ You may be able to get $30,000 of supplemental coverage if you qualify for a pre
 #### Who’s covered?
 
 Veterans
+
+<br>
+
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
+<br>
+
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+
 
 </div>
 
