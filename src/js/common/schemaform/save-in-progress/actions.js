@@ -258,7 +258,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
 
         let pages = getState().form.pages;
         if (metadata.prefill && prefillTransformer) {
-          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata));
+          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata, getState()));
         }
 
         dispatch(setInProgressForm({ formData, metadata }, pages));
