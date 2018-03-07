@@ -35,23 +35,18 @@ export default class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      this.props.formContext.uploadFile(
+      this.uploadRequest = this.props.formContext.uploadFile(
         event.target.files[0],
-        (file) => {
-          this.props.onChange(_.set(idx, file, this.props.formData || []));
-          this.cancelUploadRequest = null;
-        },
         this.props.uiSchema['ui:options'],
         this.updateProgress,
-        (req) => {
-          this.cancelUploadRequest = () => req.abort();
+        (file) => {
+          this.props.onChange(_.set(idx, file, this.props.formData || []));
+          this.uploadRequest = null;
+        },
+        () => {
+          this.uploadRequest = null;
         }
-      ).catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-        this.cancelUploadRequest = null;
-      });
+      );
     }
   }
 
@@ -68,8 +63,8 @@ export default class FileField extends React.Component {
   }
 
   cancelUpload = (index) => {
-    if (this.cancelUploadRequest) {
-      this.cancelUploadRequest();
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
     }
     this.removeFile(index);
   }
@@ -136,7 +131,7 @@ export default class FileField extends React.Component {
                     </div>
                   }
                   {!file.uploading && <span>{file.name}</span>}
-                  {!hasErrors && itemSchema.properties.attachmentId &&
+                  {!hasErrors && _.get('properties.attachmentId', itemSchema) &&
                     <div className="schemaform-file-attachment">
                       <SchemaField
                         name="attachmentId"

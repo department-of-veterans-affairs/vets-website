@@ -4,11 +4,10 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
 import asyncLoader from '../../common/components/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
-import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
+import { prefillTransformer, submit } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -38,7 +37,7 @@ const {
   gender
 } = fullSchemaVIC.definitions;
 
-const TWENTY_FIVE_MB = 26214400000;
+const TWENTY_FIVE_MB = 26214400;
 const TEN_MB = 10485760;
 
 const formConfig = {
@@ -69,7 +68,6 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
-            'ui:description': IdentityFieldsWarning,
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: ssnUI,
             gender: {
@@ -219,7 +217,7 @@ const formConfig = {
           path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
-          depends: form => !form.verified || !identityMatchesPrefill(form),
+          depends: form => !form.verified,
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
@@ -231,7 +229,6 @@ const formConfig = {
                 'jpg',
                 'gif',
                 'tif',
-                'zip',
                 'tiff'
               ],
               maxSize: TWENTY_FIVE_MB,

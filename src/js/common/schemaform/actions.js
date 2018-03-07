@@ -140,7 +140,7 @@ export function submitForm(formConfig, form) {
   };
 }
 
-export function uploadFile(file, onChange, uiOptions, progressCallback, provideRequest) {
+export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       onChange({
@@ -148,7 +148,8 @@ export function uploadFile(file, onChange, uiOptions, progressCallback, provideR
         errorMessage: 'File is too large to be uploaded'
       });
 
-      return Promise.reject();
+      onError();
+      return null;
     }
 
     if (file.size < uiOptions.minSize) {
@@ -157,7 +158,8 @@ export function uploadFile(file, onChange, uiOptions, progressCallback, provideR
         errorMessage: 'File is too small to be uploaded'
       });
 
-      return Promise.reject();
+      onError();
+      return null;
     }
 
     // we limit file types, but it’s not respected on mobile and desktop
@@ -168,7 +170,8 @@ export function uploadFile(file, onChange, uiOptions, progressCallback, provideR
         errorMessage: 'File is not one of the allowed types'
       });
 
-      return Promise.reject();
+      onError();
+      return null;
     }
 
     onChange({
@@ -178,60 +181,58 @@ export function uploadFile(file, onChange, uiOptions, progressCallback, provideR
 
     const payload = uiOptions.createPayload(file, getState().form.formId);
 
-    return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
 
-      req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
-      req.addEventListener('load', () => {
-        if (req.status >= 200 && req.status < 300) {
-          const body = 'response' in req ? req.response : req.responseText;
-          const fileData = uiOptions.parseResponse(JSON.parse(body), file);
-          onChange(fileData);
-          resolve(fileData);
-        } else {
-          onChange({
-            name: file.name,
-            errorMessage: req.statusText
-          });
-          Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
-          reject();
-        }
-      });
-
-      req.addEventListener('error', () => {
-        const errorMessage = 'Network request failed';
+    req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
+    req.addEventListener('load', () => {
+      if (req.status >= 200 && req.status < 300) {
+        const body = 'response' in req ? req.response : req.responseText;
+        const fileData = uiOptions.parseResponse(JSON.parse(body), file);
+        onChange(fileData);
+      } else {
         onChange({
           name: file.name,
-          errorMessage
+          errorMessage: req.statusText
         });
-        Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
-          extra: {
-            statusText: req.statusText
-          }
-        });
-        reject();
-      });
-
-      req.addEventListener('abort', () => {
-        onChange({
-          name: file.name,
-          errorMessage: 'Upload aborted'
-        });
-        Raven.captureMessage('vets_upload_error: Upload aborted');
-        reject();
-      });
-
-      req.upload.addEventListener('progress', (evt) => {
-        if (evt.lengthComputable && progressCallback) {
-          // setting this at 80, because there's some time after we get to 100%
-          // where the backend is uploading to s3
-          progressCallback((evt.loaded / evt.total) * 80);
-        }
-      });
-
-      req.setRequestHeader('X-Key-Inflection', 'camel');
-      req.send(payload);
-      provideRequest(req);
+        Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
+        onError();
+      }
     });
+
+    req.addEventListener('error', () => {
+      const errorMessage = 'Network request failed';
+      onChange({
+        name: file.name,
+        errorMessage
+      });
+      Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
+        extra: {
+          statusText: req.statusText
+        }
+      });
+      onError();
+    });
+
+    req.addEventListener('abort', () => {
+      onChange({
+        name: file.name,
+        errorMessage: 'Upload aborted'
+      });
+      Raven.captureMessage('vets_upload_error: Upload aborted');
+      onError();
+    });
+
+    req.upload.addEventListener('progress', (evt) => {
+      if (evt.lengthComputable && onProgress) {
+        // setting this at 80, because there's some time after we get to 100%
+        // where the backend is uploading to s3
+        onProgress((evt.loaded / evt.total) * 80);
+      }
+    });
+
+    req.setRequestHeader('X-Key-Inflection', 'camel');
+    req.send(payload);
+
+    return req;
   };
 }
