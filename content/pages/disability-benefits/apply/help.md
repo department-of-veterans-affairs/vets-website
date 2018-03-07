@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Get Help Filing Your Claim
+description: Get help filing a VA claim by working with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO) who's certified to help you with the VA claims process. 
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page

@@ -4,18 +4,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import PhotoField from '../../../src/js/vic-v2/components/PhotoField';
+import CropperController from '../../../src/js/vic-v2/components/CropperController';
 
 describe('<PhotoField>', () => {
   let oldFileReader;
   let oldImage;
   beforeEach(() => {
     window.addEventListener = sinon.spy();
+    window.removeEventListener = sinon.spy();
+    window.URL = {
+      revokeObjectURL: sinon.spy(),
+      createObjectURL: sinon.spy()
+    };
     oldFileReader = global.FileReader;
     oldImage = global.Image;
   });
   afterEach(() => {
     global.Image = oldImage;
     global.FileReader = oldFileReader;
+    delete window.URL;
   });
   it('should render', () => {
     const formContext = {};
@@ -54,10 +61,8 @@ describe('<PhotoField>', () => {
 
     tree.setState({ isCropping: true });
 
-    expect(tree.find('.cropper-container-outer').exists()).to.be.true;
-    expect(tree.find('.cropper-zoom-container').exists()).to.be.true;
-    expect(tree.find('.cropper-control').length).to.equal(10);
     expect(tree.find('Dropzone').exists()).to.be.false;
+    expect(tree.find(CropperController).exists()).to.be.true;
     expect(tree.text()).to.contain('Step 2');
     expect(tree.find('ErrorableFileInput').length).to.equal(1);
   });
@@ -399,35 +404,180 @@ describe('<PhotoField>', () => {
         done();
       });
     });
-    it('should render error', () => {
-      const formContext = {};
-      const uiSchema = {
-        'ui:title': 'Title',
-        'ui:options': {
-          fileTypes: ['jpg']
-        }
-      };
+  });
+  it('should render error', () => {
+    const formContext = {};
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
 
-      const tree = shallow(
-        <PhotoField
-          uiSchema={uiSchema}
-          formData={{
-            errorMessage: 'Some error'
-          }}
-          idSchema={{ $id: 'photo' }}
-          formContext={formContext}/>
-      );
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        formData={{
+          errorMessage: 'Some error'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
 
-      tree.instance().screenReaderPath = true;
-      // force a re-render
-      tree.instance().forceUpdate();
-      // force enzyme to actually see the above re-render
-      tree.update();
+    tree.instance().screenReaderPath = true;
+    // force a re-render
+    tree.instance().forceUpdate();
+    // force enzyme to actually see the above re-render
+    tree.update();
 
-      expect(tree.find('Cropper').exists()).to.be.false;
-      expect(tree.find('Dropzone').exists()).to.be.false;
-      expect(tree.find('.usa-input-error-message').text()).to.contain('Some error');
-      expect(tree.find('ErrorableFileInput').props().buttonText).to.equal('Upload Photo Again');
+    expect(tree.find('Cropper').exists()).to.be.false;
+    expect(tree.find('Dropzone').exists()).to.be.false;
+    expect(tree.find('.usa-input-error-message').text()).to.contain('Some error');
+    expect(tree.find('ErrorableFileInput').props().buttonText).to.equal('Upload Photo Again');
+  });
+  it('should render preview in review mode', () => {
+    const formContext = {
+      reviewMode: true
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        formData={{
+          errorMessage: 'Some error'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
+
+    expect(tree.find('Cropper').exists()).to.be.false;
+    expect(tree.find('Dropzone').exists()).to.be.false;
+    expect(tree.find('ErrorableFileInput').exists()).to.be.false;
+    expect(tree.find('PhotoPreview').exists()).to.be.true;
+  });
+  it('should upload photo', () => {
+    const uploadStub = (file, done) => {
+      expect(file.name).to.equal('profile_photo.png');
+      expect(file.lastModifiedDate).to.be.a('Date');
+      done({
+        confirmationCode: 'testing'
+      });
+      return Promise.resolve();
+    };
+    const onChange = sinon.spy();
+    const formContext = {
+      uploadFile: uploadStub
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+
+    const tree = shallow(
+      <PhotoField
+        onChange={onChange}
+        uiSchema={uiSchema}
+        formData={{
+          errorMessage: 'Some error'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
+
+    const file = {};
+    tree.instance().uploadPhoto(file);
+
+    expect(onChange.firstCall.args[0]).to.deep.equal({
+      confirmationCode: 'testing',
+      file
     });
+  });
+  it('should revoke url on unmount', () => {
+    const formContext = {};
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        formData={{
+          errorMessage: 'Some error'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
+    tree.setState({ previewSrc: 'testing' });
+
+    tree.instance().componentWillUnmount();
+
+    expect(window.removeEventListener.firstCall.args[0]).to.equal('resize');
+    expect(window.URL.revokeObjectURL.called).to.be.true;
+  });
+  it('should recreate object url on blob change', () => {
+    const formContext = {};
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        formData={{
+          errorMessage: 'Some error'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
+
+    tree.setState({ previewSrc: 'testing', formData: {} });
+    tree.instance().componentWillReceiveProps({
+      formData: {
+        file: new Blob()
+      }
+    });
+
+    expect(window.URL.revokeObjectURL.called).to.be.true;
+    expect(window.URL.createObjectURL.called).to.be.true;
+  });
+  it('should reset file on preview view', () => {
+    const formContext = {};
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:options': {
+        fileTypes: ['jpg']
+      }
+    };
+    const onChange = sinon.spy();
+
+    const tree = shallow(
+      <PhotoField
+        uiSchema={uiSchema}
+        onChange={onChange}
+        formData={{
+          confirmationCode: 'asdfasdf'
+        }}
+        idSchema={{ $id: 'photo' }}
+        formContext={formContext}/>
+    );
+
+    tree.find('.photo-preview-link').first().props().onClick();
+
+    expect(onChange.called).to.be.true;
+    expect(tree.state().isCropping).to.be.false;
   });
 });
