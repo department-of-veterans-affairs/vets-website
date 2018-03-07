@@ -233,11 +233,11 @@ export default class PhotoField extends React.Component {
       this.props.uiSchema['ui:options'],
       this.updateProgress,
       (formData) => {
-        this.uploadRequest = null;
         if (formData.confirmationCode) {
           this.props.onChange(Object.assign({}, formData, {
             file
           }));
+          this.uploadRequest = null;
         } else {
           this.props.onChange(formData);
         }
