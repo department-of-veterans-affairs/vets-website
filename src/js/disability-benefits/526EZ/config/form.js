@@ -12,7 +12,8 @@ import {
   evidenceTypesDescription,
   EvidenceTypeHelp,
   disabilityNameTitle,
-  vaMedicalRecordsIntro
+  vaMedicalRecordsIntro,
+  privateMedicalRecordsIntro
 } from '../helpers';
 
 const initialData = {
@@ -203,7 +204,7 @@ const formConfig = {
         },
         vaMedicalRecordsIntro: {
           title: '',
-          path: 'supporting-evidence/:index/va-medical-records',
+          path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
@@ -229,7 +230,33 @@ const formConfig = {
           }
         },
         // pageFour: {},
-        // pageFive: {},
+        privateMedicalRecordsIntro: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-intro',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateMedicalRecordsIntro,
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
+        },
         // pageSix: {},
         // pageSeven: {},
         // pageEight: {},
