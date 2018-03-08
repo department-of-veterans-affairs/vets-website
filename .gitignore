@@ -18,3 +18,5 @@ typings.json
 typings/
 coverage
 .nyc_output
+.yalc
+yalc.lock
