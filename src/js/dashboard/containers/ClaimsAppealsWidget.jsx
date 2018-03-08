@@ -1,8 +1,9 @@
 import '../../../sass/claims-status.scss';
 
-import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import moment from 'moment';
+import React from 'react';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import {
@@ -17,7 +18,7 @@ import AppealListItem from '../components/AppealsListItem';
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessClaims) {
-      // this.props.getClaimsV2();
+      this.props.getClaimsV2();
     }
 
     if (this.props.canAccessAppeals) {
@@ -78,6 +79,7 @@ class ClaimsAppealsWidget extends React.Component {
         <h2>Claims and appeals</h2>
         <div>
           {content}
+          <p><Link href="/track-claims">View all claims and appeals</Link></p>
         </div>
       </div>
     );
