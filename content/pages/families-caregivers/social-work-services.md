@@ -52,33 +52,39 @@ You may also want to reach out to a social worker if you're struggling with:
 
 These are just some examples. You can talk with a VA social worker about any questions or problems you may have. We'll help you or connect you with the right person to help.
 
-</div>
-
 ### Can a social worker help if I'm in a crisis situation?
 
-Yes. Your social worker can help to counsel you through the crisis. Then, they can help you apply for programs and services through VA and in your community to meet your long-term needs.
+Yes. Your social worker can help to counsel you through the crisis. Then, they can help you apply for programs and services through VA and in your community to meet your long-term needs. This may include connecting you with local food banks, homeless shelter, faith-based organizations, and other resources in your community.
 
 ### What if I don't know know what I need, but just think I need help?
 
 That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
 
-### Can a social worker help my family too?
+</div>
 
-Yes. Your social worker can offer help like:
+<div class="feature" markdown=“1”>
 
-- Family counseling to help you and your family with any relationship struggles
-- Arranging for respite care in your home so your family caregiver can run errands, go on vacation, or just take a break
-- Educating you and your family about your health problems, how to live a more healthy life, how to deal with stress, and how to access the programs and services you need
-- Helping your family find a free place to stay close by if you need to receive treatment in a hospital far from home
+### If I'm the family caregiver of a Veteran or Servicemember, can I ask for help from a VA social worker?
 
-### How do I request an appointment with my local social worker?
+Yes. Our social workers can help you find the support you need to help your loved one. 
+
+They can also help to support you and your family by providing support like:
+
+- Family counseling to help with any relationship struggles
+- Educating you about your loved one's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need
+- Helping you find a free place to stay close by if your loved one needs to receive treatment in a hospital far from home
+- Making arrangements for your loved one's long-term care if you can no longer care for them yourself
+
+</div>
+
+### How do I request an appointment with a VA social worker?
 
 **If you're receiving care through VA**, you can ask your health care team to set up an appointment with a social worker for you.
 
 **If you're not enrolled in the VA health care program, or if you haven't yet received care through VA**, you can call your nearest VA health facility and ask to be connected to a social worker.<br>
 [Find contact information for your local VA health care facility](/facilities).
 
-### What will happen when I meet with my social worker?
+### What will happen when I meet with my VA social worker?
 
 Your social worker will meet with you, and with your family if you’d like.
 
