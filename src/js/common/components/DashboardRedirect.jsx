@@ -44,7 +44,7 @@ class DashboardRedirect extends React.Component {
   }
 
   redirectToDashboard() {
-    window.location.pathname = '/profile-beta';
+    window.location.pathname = '/dashboard-beta';
   }
 
   userIsRegisteredForBeta(services = this.props.services) {
