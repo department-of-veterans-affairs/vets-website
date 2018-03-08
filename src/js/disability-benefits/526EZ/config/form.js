@@ -275,7 +275,7 @@ const formConfig = {
                       },
                       startTreatment: {
                         'ui:widget': 'date',
-                        'ui:title': 'Approximate date of first treatment since your eceived your rating'
+                        'ui:title': 'Approximate date of first treatment since you received your rating'
                       },
                       endTreatment: {
                         'ui:widget': 'date',
