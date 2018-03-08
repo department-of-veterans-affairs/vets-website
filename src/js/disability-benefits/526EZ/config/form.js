@@ -24,6 +24,18 @@ const {
   date
 } = fullSchema526EZ.definitions;
 
+// We may add these back in after the typeahead, but for now...
+const treatmentsSchema = _.cloneDeep(treatments);
+treatmentsSchema.items.properties.treatment.properties = _.omit(
+  [
+    'treatmentCenterType',
+    'treatmentCenterCountry',
+    'treatmentCenterState',
+    'treatmentCenterCity'
+  ],
+  treatmentsSchema.items.properties.treatment.properties
+);
+
 const initialData = {
   // For testing purposes only
   disabilities: [
@@ -304,7 +316,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    treatments
+                    treatments: treatmentsSchema
                   }
                 }
               }

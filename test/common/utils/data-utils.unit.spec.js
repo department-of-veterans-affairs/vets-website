@@ -6,7 +6,7 @@ import checkValidPath from '../../../src/js/common/utils/data-utils/checkValidPa
 
 
 // Could split these out into separate files...
-describe('lodash replacements', () => {
+describe('data utils (lodash replacements)', () => {
   describe('deconstructPath', () => {
     it('should deconstruct a string path', () => {
       const strPath = 'a.b.c';
@@ -294,6 +294,48 @@ describe('lodash replacements', () => {
 
     it('should throw an error if a path segment is null', () => {
       expect(() => checkValidPath(['asdf', null])).to.throw;
+    });
+  });
+
+  describe('omit', () => {
+    it('should return a deep clone of an object', () => {
+      const obj = {
+        a: 'a',
+        b: {
+          c: 'c'
+        }
+      };
+
+      const newObj = _.omit(['a'], obj);
+      expect(newObj.b).to.not.equal(obj.b);
+    });
+
+    it('should omit all the fields passed in', () => {
+      const obj = {
+        a: 'a',
+        b: 'b',
+        c: 'c',
+        d: 'd'
+      };
+      const omittedFields = ['a', 'c', 'd'];
+      const newObj = _.omit(omittedFields, obj);
+      omittedFields.forEach(f => expect(newObj[f]).to.be.undefined);
+    });
+
+    it('should retain all fields not passed in', () => {
+      const obj = {
+        a: 'a',
+        b: 'b',
+        c: 'c',
+        d: 'd'
+      };
+      const omittedFields = ['a', 'c', 'd'];
+      const newObj = _.omit(omittedFields, obj);
+      Object.keys(newObj).forEach(f => {
+        if (!omittedFields.includes(f)) {
+          expect(newObj[f]).to.eql(obj[f]);
+        }
+      });
     });
   });
 });
