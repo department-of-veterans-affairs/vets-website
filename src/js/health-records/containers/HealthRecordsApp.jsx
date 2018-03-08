@@ -29,9 +29,9 @@ export class HealthRecordsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
+        verify
         serviceRequired="health-records"
-        userProfile={this.props.profile}>
+        user={this.props.user}>
         <DowntimeNotification appTitle="health records tool" dependencies={[services.mhv]}>
           <MHVApp>
             <AppContent>
@@ -64,11 +64,10 @@ HealthRecordsApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
-  const userState = state.user;
 
   return {
     modal: hrState.modal,
-    profile: userState.profile
+    user: state.user
   };
 };
 const mapDispatchToProps = {
