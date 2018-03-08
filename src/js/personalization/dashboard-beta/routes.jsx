@@ -1,7 +1,7 @@
 import DashboardApp from './containers/DashboardApp';
 
 const routes = {
-  path: '/dashboard',
+  path: '/dashboard-beta',
   component: DashboardApp
 };
 

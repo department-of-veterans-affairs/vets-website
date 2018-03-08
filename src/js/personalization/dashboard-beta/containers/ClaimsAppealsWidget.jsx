@@ -1,17 +1,17 @@
-import '../../../sass/claims-status.scss';
+import '../../../../sass/claims-status.scss';
 
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import {
   getAppealsV2,
   getClaimsV2,
-} from '../../claims-status/actions/index.jsx';
-import { APPEAL_V2_TYPE } from '../../claims-status/utils/appeals-v2-helpers';
-import { scrollToTop, setUpPage } from '../../claims-status/utils/page';
+} from '../../../claims-status/actions/index.jsx';
+import { APPEAL_V2_TYPE } from '../../../claims-status/utils/appeals-v2-helpers';
+import { scrollToTop, setUpPage } from '../../../claims-status/utils/page';
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItem';
 

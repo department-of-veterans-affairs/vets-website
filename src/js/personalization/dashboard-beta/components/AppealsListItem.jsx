@@ -4,7 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getStatusContents } from '../../claims-status/utils/appeals-v2-helpers';
+import { getStatusContents } from '../../../claims-status/utils/appeals-v2-helpers';
 
 
 // TODO: Get a proper mapping of programArea -> display output

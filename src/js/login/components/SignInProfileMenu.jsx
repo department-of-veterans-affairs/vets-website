@@ -10,7 +10,7 @@ class SignInProfileMenu extends React.Component {
     const betaProfile = this.props.betaFeatures.some(b => b.feature === features.personalization);
     const dropDownContents = (
       <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
+        {betaProfile && <li><a href="/dashboard-beta">Dashboard</a></li>}
         {betaProfile && <li><a href="/profile-beta">Profile</a></li>}
         {betaProfile && <li><a href="/account-beta">Account</a></li>}
         {!betaProfile && <li><a href="/profile">Profile</a></li>}
