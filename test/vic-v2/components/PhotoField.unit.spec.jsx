@@ -462,13 +462,12 @@ describe('<PhotoField>', () => {
     expect(tree.find('PhotoPreview').exists()).to.be.true;
   });
   it('should upload photo', () => {
-    const uploadStub = (file, done) => {
+    const uploadStub = (file, options, onProgress, onChange) => {
       expect(file.name).to.equal('profile_photo.png');
       expect(file.lastModifiedDate).to.be.a('Date');
-      done({
+      onChange({
         confirmationCode: 'testing'
       });
-      return Promise.resolve();
     };
     const onChange = sinon.spy();
     const formContext = {
