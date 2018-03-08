@@ -73,3 +73,17 @@ export const disabilityNameTitle = ({ formData }) => {
   );
 };
 
+
+export const facilityDescription = ({ formData }) => {
+  return (
+    <p>Tell us about facilities where VA treated you for {formData.disability.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+  );
+};
+
+
+export const treatmentView = () => {
+  return (
+    <div>Treatment View Field Placeholder</div>
+  );
+};
+
