@@ -1068,7 +1068,7 @@ export function getNextEvents(currentStatus, details) {
  * @param {alertInput} alert has some properties we match against to generate an alert's content
  * @returns {alertOutput} dynamically-generated title, description, and styling properties
  */
-export function getAlertContent(alert) {
+export function getAlertContent(alert, appealIsActive) {
   const { type, details } = alert;
 
   switch (type) {
@@ -1151,7 +1151,7 @@ export function getAlertContent(alert) {
       };
     }
     case ALERT_TYPES.rampIneligible: {
-      const statusDescription = details.appeal.attributes.active ? 'is active at the Board of Veterans’ Appeals' : 'is closed';
+      const statusDescription = appealIsActive ? 'is active at the Board of Veterans’ Appeals' : 'is closed';
       const formattedDate = formatDate(details.date);
       return {
         title: 'This appeal is not eligible for the Rapid Appeals Modernization Program',
