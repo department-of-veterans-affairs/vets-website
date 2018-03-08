@@ -177,6 +177,7 @@ const configGenerator = (options) => {
       extensions: ['.js', '.jsx']
     },
     optimization: {
+      runtimeChunk: true,
       splitChunks: {
         cacheGroups: {
           vendor: {
@@ -224,33 +225,16 @@ const configGenerator = (options) => {
       append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
       filename: '[file].map',
     }));
-    baseConfig.module.rules.push({
-      test: /debug\/PopulateVeteranButton/,
-      use: {
-        loader: 'null-loader'
-      }
-    });
-    baseConfig.module.rules.push({
-      test: /debug\/PerfPanel/,
-      use: {
-        loader: 'null-loader'
-      }
-    });
-    baseConfig.module.rules.push({
-      test: /debug\/RoutesDropdown/,
-      use: {
-        loader: 'null-loader'
-      }
-    });
 
-    baseConfig.plugins.push(new WebpackMd5Hash());
+    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    // baseConfig.plugins.push(new WebpackMd5Hash());
     baseConfig.plugins.push(new ManifestPlugin({
       fileName: 'file-manifest.json'
     }));
-    baseConfig.plugins.push(new ChunkManifestPlugin({
-      filename: 'chunk-manifest.json',
-      manifestVariable: 'webpackManifest'
-    }));
+    // baseConfig.plugins.push(new ChunkManifestPlugin({
+    //   filename: 'chunk-manifest.json',
+    //   manifestVariable: 'webpackManifest'
+    // }));
     // baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
     //   beautify: false,
     //   compress: { warnings: false },
@@ -258,7 +242,6 @@ const configGenerator = (options) => {
     //   sourceMap: true,
     //   minimize: true,
     // }));
-    baseConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
