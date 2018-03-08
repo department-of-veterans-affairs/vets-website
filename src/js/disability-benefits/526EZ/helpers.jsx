@@ -82,3 +82,14 @@ export const vaMedicalRecordsIntro = ({ formData }) => {
     <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
   );
 };
+
+
+export const privateRecordsChoice = ({ formData }) => {
+  return (
+    <div>
+      <h4>About private medical records</h4>
+      <p>You said you were treated for {formData.disability.diagnosticText} by a private doctor. You can upload your records, or we can get them from your doctor if you authorize their release.</p>
+    </div>
+  );
+};
+

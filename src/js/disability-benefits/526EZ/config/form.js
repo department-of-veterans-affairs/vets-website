@@ -12,7 +12,8 @@ import {
   evidenceTypesDescription,
   EvidenceTypeHelp,
   disabilityNameTitle,
-  vaMedicalRecordsIntro
+  vaMedicalRecordsIntro,
+  privateRecordsChoice
 } from '../helpers';
 
 const initialData = {
@@ -230,7 +231,48 @@ const formConfig = {
         },
         // pageFour: {},
         // pageFive: {},
-        // pageSix: {},
+        privateRecordChoice: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-choice',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateRecordsChoice,
+                'view:uploadPrivateRecords': {
+                  'ui:title': 'Do you want to upload your private medical records?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No, please get them from my doctor'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    'view:uploadPrivateRecords': {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+        },
         // pageSeven: {},
         // pageEight: {},
         // pageNine: {},
