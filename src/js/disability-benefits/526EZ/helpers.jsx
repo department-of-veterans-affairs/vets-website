@@ -26,7 +26,7 @@ export const evidenceTypesDescription = ({ formData }) => {
 };
 
 
-export const EvidenceTypeHelp = (
+export const evidenceTypeHelp = (
   <InformationLink>
     <h3>Types of evidence</h3>
     <h4>VA medical records</h4>
@@ -64,7 +64,7 @@ export const privateRecordsChoice = ({ formData }) => {
 
 
 // TODO: Figure out if this is going to be a common enough pattern to warrant a widget or something.
-export const PrivateRecordsChoiceHelp = (
+export const privateRecordsChoiceHelp = (
   <InformationLink>
     <h4>Hello, Alex.</h4>
     <p>This is very meta text.</p>

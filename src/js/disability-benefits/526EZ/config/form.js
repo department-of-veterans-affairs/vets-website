@@ -10,10 +10,11 @@ import {
   transform,
   supportingEvidenceOrientation,
   evidenceTypesDescription,
-  EvidenceTypeHelp,
+  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
-  privateRecordsChoice
+  privateRecordsChoice,
+  privateRecordsChoiceHelp
 } from '../helpers';
 
 const initialData = {
@@ -170,7 +171,7 @@ const formConfig = {
                   'ui:title': 'Lay statements or other evidence'
                 },
                 'view:evidenceTypeHelp': {
-                  'ui:description': EvidenceTypeHelp
+                  'ui:description': evidenceTypeHelp
                 }
               }
             }
@@ -251,6 +252,9 @@ const formConfig = {
                       no: 'No, please get them from my doctor'
                     }
                   }
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': privateRecordsChoiceHelp
                 }
               }
             }
@@ -266,6 +270,10 @@ const formConfig = {
                     'view:uploadPrivateRecords': {
                       type: 'string',
                       'enum': ['yes', 'no']
+                    },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {}
                     }
                   }
                 }
