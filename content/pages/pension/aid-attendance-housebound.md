@@ -4,6 +4,15 @@ template: detail-page
 title: Aid and Attendance or Housebound Allowance
 concurrence: ""
 order: 3
+relatedlinks:
+  - heading: More VA Benefits
+    links:
+    - url: /health-care/about-va-health-care/assisted-living-and-home-health-care/
+      title: Assisted Living and Home Health Care
+      description: Find out if you can get assisted living, residential (live-in), or home health care services through VA.
+    - url: /housing-assistance/adaptive-housing-grants/
+      title: Adaptive Housing Grants
+      description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.   
 ---
 
 <div class="va-introtext">
@@ -39,18 +48,28 @@ There are 2 ways you can get this benefit:
 
 #### Write to your Pension Management Center (PMC)
 
-You can write to the PMC for your state. [Find your PMC](/pension/pension-management-center/). 
+You can write to the PMC for your state.<br>
+[Find your PMC](/pension/pension-management-center/). 
 
 Include this information: 
-- Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
+- Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out.<br>
+[Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
 - Details about what you normally do during the day and how you get places
 - Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own 
 
 #### Apply in person
 
-You can bring your information to a regional benefit office near you. [Find a regional benefit office](/facilities/). 
+You can bring your information to a VA regional benefit office near you.<br>
+[Find a VA regional benefit office](/facilities/). 
 
 ### How long does it take VA to make a decision?
 
 It depends. We process claims in the order we receive them, unless a claim requires priority processing.
 
+### What if my family and I need help making decisions about my long-term care?
+
+Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions about your long-term services and support. They can also help you stay in your own home with long-term support, or help you find an assisted living facility, foster home, or nursing home.
+
+To connect with a VA social worker, ask the staff at the VA health facility where you receive your primary care for an appointment. If you're not enrolled in the VA health care program, or haven't received care yet, call your nearest VA health facility and ask them to connect you to a social worker.<br>
+[Find your nearest VA health facility](/facilities/).<br>
+[Find out more about assisted living and home health care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
