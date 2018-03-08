@@ -15,15 +15,15 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have any questions or problems and need help, our VA social workers are here for you. Find out what kinds of things social workers help with, and how to connect with a social worker near you.
+If you have any questions or problems and need help, or if you're looking for help for a Veteran or Servicemember you're caring for, our VA social workers are here for you. Find out what kinds of things social workers help with, and how to connect with a social worker near you.
 
 </div>
 
 <div class="feature" markdown=“1”>
 
-### How do I know if I should talk with a VA social worker?
+### As a Veteran or Servicemember, how do I know if I should talk with a VA social worker?
 
-You may want to talk to a social worker if you're dealing with family problems like:
+**You may want to talk to a social worker if you're dealing with family problems like:**
 
 - Struggling in your marriage
 - Feeling overwhelmed with child care
@@ -31,7 +31,7 @@ You may want to talk to a social worker if you're dealing with family problems l
 - Losing someone close to you
 - Feeling that someone is taking advantage of or mistreating you in a relationship
 
-You may want to talk to a social worker if you need help with things like:
+**You may want to talk to a social worker if you'd like help with practical needs like:**
 
 - Applying for VA, Social Security, or other government or community benefits
 - Getting financial assistance
@@ -41,7 +41,7 @@ You may want to talk to a social worker if you need help with things like:
 - Getting support and services to help you be able to live as independently as possible in your own home
 - Making end-of-life decisions like whether you want to be on life support equipment or be an organ donor, and which family member or other person you'd like to make decisions on your behalf when you're unable to make those decisions for yourself
 
-You may also want to reach out to a social worker if you're struggling with:
+**You may also want to reach out to a social worker if you're struggling problems like:**
 
 - Stress because of your health or because your health problems make it hard to live your life the way you want to
 - Feelings of being sad, depressed, or anxious
@@ -51,14 +51,6 @@ You may also want to reach out to a social worker if you're struggling with:
 - Just feeling like something isn't right
 
 These are just some examples. You can talk with a VA social worker about any questions or problems you may have. We'll help you or connect you with the right person to help.
-
-### Can a social worker help if I'm in a crisis situation?
-
-Yes. Your social worker can help to counsel you through the crisis. Then, they can help you apply for programs and services through VA and in your community to meet your long-term needs. This may include connecting you with local food banks, homeless shelter, faith-based organizations, and other resources in your community.
-
-### What if I don't know know what I need, but just think I need help?
-
-That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
 
 </div>
 
@@ -83,6 +75,14 @@ They can also help to support you and your family by providing support like:
 
 **If you're not enrolled in the VA health care program, or if you haven't yet received care through VA**, you can call your nearest VA health facility and ask to be connected to a social worker.<br>
 [Find contact information for your local VA health care facility](/facilities).
+
+### Can a social worker help me or the Veteran or Servicemember I'm caring for through a crisis situation?
+
+Yes. Your social worker can help to counsel you through the crisis. Then, they can help you apply for programs and services through VA and in your community to meet your long-term needs. This may include connecting you with local food banks, homeless shelter, faith-based organizations, and other resources in your community.
+
+### What if I don't know know what I need, but just think I need help?
+
+That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
 
 ### What will happen when I meet with my VA social worker?
 
