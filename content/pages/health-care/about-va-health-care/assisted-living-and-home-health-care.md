@@ -66,8 +66,8 @@ You may be able to use one or more of these services if:
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
 To find out how to access these services:
-- Ask to see the VA social worker at your local VA medical center.<br>
-[Find contact information for your local VA medical center](/facilities/).
+- Ask to see the VA social worker at your local VA health facility.<br>
+[Find contact information for your local VA health facility](/facilities/).
 - Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
@@ -86,9 +86,12 @@ Other services aren’t covered under VA health care benefits. For these service
 
 ### Where can I get more information and support?
 
-- Get help setting goals and priorities and making tough decisions about things like long-term care. [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
-- Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).
-- Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
+- Get help setting goals and priorities and making tough decisions about things like long-term care.<br>
+[Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
+- Find services and resources to help with geriatric (elder) and long-term care.<br>
+[Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).
+- Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia.<br>
+[Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
 
 ------
 
@@ -101,6 +104,7 @@ Other services aren’t covered under VA health care benefits. For these service
 - [What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?](#health-assisted-disability)
 - [What if I’m homebound or live far away from VA?](#health-assisted-remote)
 - [What if I have a family caregiver, but they need support to help care for me at home?](#health-assisted-caregiver)
+- [What if my family and I need help making decisions about my long-term care?](#health-decisions)
 
 <br>
 
@@ -191,6 +195,19 @@ A VA care coordinator who keeps track of your health remotely using special equi
 
 #### What if I have a family caregiver, but they need support to help care for me at home?
 
-You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. [Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
+You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break.<br>
+[Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.
+
+<br>
+
+<span id="health-decisions">
+
+#### What if my family and I need help making decisions about my long-term care?
+
+Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions about your long-term services and support. They can also help you stay in your own home with long-term support, or help you find an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your health care team.
+
+To connect with a VA social worker, ask the staff at the VA health facility where you receive your primary care for an appointment. If you're not enrolled in the VA health care program, or haven't received care at a VA health facility yet, call your nearest VA health facility and ask them to connect you to a social worker.<br>
+[Find your nearest VA health facility](/facilities/).<br>
+[Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
