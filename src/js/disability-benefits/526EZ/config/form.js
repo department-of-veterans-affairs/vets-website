@@ -13,7 +13,8 @@ import {
   EvidenceTypeHelp,
   disabilityNameTitle,
   facilityDescription,
-  treatmentView
+  treatmentView,
+  vaMedicalRecordsIntro
 } from '../helpers';
 
 const {
@@ -180,7 +181,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:title': disabilityNameTitle, // TODO: Use a callback when that's available
+                'ui:title': disabilityNameTitle,
                 'ui:description': evidenceTypesDescription,
                 'view:vaMedicalRecords': {
                   'ui:title': 'VA medical records'
@@ -233,7 +234,8 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': 'VA Medical Records',
+                'ui:title': disabilityNameTitle,
+                'ui:description': vaMedicalRecordsIntro,
               }
             }
           },
