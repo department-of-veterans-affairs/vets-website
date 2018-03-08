@@ -280,28 +280,28 @@ const formConfig = {
                       endTreatment: {
                         'ui:widget': 'date',
                         'ui:title': 'Approximate date of last treatment'
-                      },
-                      // I think we're planning on filling these in with the typeahead?
-                      treatmentCenterType: {
-                        'ui:options': {
-                          hideIf: () => true
-                        }
-                      },
-                      treatmentCenterCountry: {
-                        'ui:options': {
-                          hideIf: () => true
-                        }
-                      },
-                      treatmentCenterState: {
-                        'ui:options': {
-                          hideIf: () => true
-                        }
-                      },
-                      treatmentCenterCity: {
-                        'ui:options': {
-                          hideIf: () => true
-                        }
                       }
+                      // I think we're planning on filling these in with the typeahead?
+                      // treatmentCenterType: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterCountry: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterState: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterCity: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // }
                     }
                   }
                 }
