@@ -1,8 +1,22 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import Raven from 'raven-js';
 
-// TO DO: Replace made up properties and content with real versions once finalized.
+// This literally determines how many rows are displayed per page on the v2 index page
+export const ROWS_PER_PAGE = 10;
+
+export const APPEAL_TYPES = {
+  original: 'original',
+  postRemand: 'post_remand',
+  postCavcRemand: 'post_cavc_remand',
+  reconsideration: 'reconsideration',
+  cue: 'cue'
+};
+
+export const APPEAL_V2_TYPE = 'appealSeries';
+
+// TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
   // Open Statuses:
   pendingSoc: 'pending_soc',
@@ -38,16 +52,37 @@ export const ISSUE_STATUS = {
   cavcRemand: 'cavc_remand',
 };
 
-export const CLOSED_STATUSES = [
-  STATUS_TYPES.bvaDecision,
-  STATUS_TYPES.fieldGrant,
-  STATUS_TYPES.withdrawn,
-  STATUS_TYPES.ftr,
-  STATUS_TYPES.ramp,
-  STATUS_TYPES.reconsideration,
-  STATUS_TYPES.death,
-  STATUS_TYPES.otherClose
-];
+// Action Types & Availability statuses
+// TO-DO: Separate action types and availability statuses
+// Note: excludes FETCH_APPEALS_SUCCESS because there are defined in actions
+// and used in v1 as well
+export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
+export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
+export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
+export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';
+export const AVAILABLE = 'AVAILABLE';
+export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
+export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
+export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
+export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
+
+export const claimsAvailability = {
+  AVAILABLE: 'AVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE'
+};
+
+// TO-DO: Ensure availability refs point to this instead of the actions above
+export const appealsAvailability = {
+  USER_FORBIDDEN_ERROR: 'USER_FORBIDDEN_ERROR',
+  RECORD_NOT_FOUND_ERROR: 'RECORD_NOT_FOUND_ERROR',
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  BACKEND_SERVICE_ERROR: 'BACKEND_SERVICE_ERROR',
+  FETCH_APPEALS_ERROR: 'FETCH_APPEALS_ERROR',
+  AVAILABLE: 'AVAILABLE'
+};
 
 export const ALERT_TYPES = {
   form9Needed: 'form9_needed',
@@ -91,7 +126,7 @@ export function addStatusToIssues(issues) {
         status = 'withdrawn';
         break;
       case ISSUE_STATUS.allowed:
-        status = 'allowed';
+        status = 'granted';
         break;
       case ISSUE_STATUS.denied:
         status = 'denied';
@@ -119,11 +154,21 @@ export function addStatusToIssues(issues) {
  * @returns {object} One appeal object or undefined if not found in the array
  */
 export function isolateAppeal(state, id) {
-  return _.find(state.disability.status.claims.appeals, (a) => a.id === id);
+  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id);
 }
 
 export function formatDate(date) {
   return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+}
+
+function getHearingType(type) {
+  const typeMaps = {
+    video: 'videoconference',
+    travel: 'travel board',
+    central_office: 'Washington, DC central office' // eslint-disable-line
+  };
+
+  return typeMaps[type] || type;
 }
 
 // TO DO: Replace made up properties and content with real versions once finalized.
@@ -133,11 +178,16 @@ export function formatDate(date) {
  * @property {string} title a current status type's title
  * @property {HTMLElement} description details about the current status, can be any element
  * ----------------------------------------------------------------------------------------------
+ * @typedef {Object} Name
+ * @property {string} [first] first name
+ * @property {string} [middle] middle name
+ * @property {string} [last] last
  * @param {string} statusType the status type of a claim appeal as returned by the api
- * @param {Object} details optional, properties vary depending on the status type
+ * @param {Object} [details] optional, properties vary depending on the status type
+ * @param {Name} [name] used for death status type, includes first/middle/last properties
  * @returns {Contents}
  */
-export function getStatusContents(statusType, details) {
+export function getStatusContents(statusType, details = {}, name = {}) {
   const contents = {};
   switch (statusType) {
     case STATUS_TYPES.pendingSoc:
@@ -150,12 +200,13 @@ export function getStatusContents(statusType, details) {
         whether or not they can grant your appeal.</p>
       );
       break;
-    case STATUS_TYPES.pendingForm9:
+    case STATUS_TYPES.pendingForm9: {
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your Statement of the Case';
       contents.description = (
         <div>
           <p>
-            The Veterans Benefits Administration sent you a Statement of the Case on [date]. The
+            The Veterans Benefits Administration sent you a Statement of the Case on {formattedSocDate}. The
             Statement of the Case explains the reasons why they could not fully grant your appeal.
           </p>
           <p>
@@ -165,6 +216,7 @@ export function getStatusContents(statusType, details) {
         </div>
       );
       break;
+    }
     case STATUS_TYPES.pendingCertification:
       contents.title = 'The Decision Review Officer is finishing their review of your appeal';
       contents.description = (
@@ -173,12 +225,13 @@ export function getStatusContents(statusType, details) {
         certify that they have finished reviewing all of the evidence related to your appeal.</p>
       );
       break;
-    case STATUS_TYPES.pendingCertificationSsoc:
+    case STATUS_TYPES.pendingCertificationSsoc: {
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your new Statement of the Case';
       contents.description = (
         <div>
           <p>
-            The Veterans Benefits Administration sent you a new Statement of the Case on [DATE].
+            The Veterans Benefits Administration sent you a new Statement of the Case on {formattedSocDate}.
             This is because:
           </p>
           <ul>
@@ -194,29 +247,34 @@ export function getStatusContents(statusType, details) {
         </div>
       );
       break;
-    case STATUS_TYPES.remandSsoc:
+    }
+    case STATUS_TYPES.remandSsoc: {
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your new Statement of the Case';
       contents.description = (
-        <p>The Veterans Benefits Administration sent you a new Statement of the Case on [DATE]
+        <p>The Veterans Benefits Administration sent you a new Statement of the Case on {formattedSocDate}
         because after completing the remand instructions from the Board, they couldn’t fully grant
         your appeal.</p>
       );
       break;
+    }
     case STATUS_TYPES.pendingHearingScheduling:
       contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
-        <p>You requested a [TYPE] hearing on your Form 9. When your hearing is scheduled, you will
+        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you will
         receive a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
-    case STATUS_TYPES.scheduledHearing:
+    case STATUS_TYPES.scheduledHearing: {
+      const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Your hearing has been scheduled';
       contents.description = (
-        <p>Your [TYPE] hearing is scheduled for [DATE] at [LOCATION]. If you need to change this
+        <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}. If you need to change this
         date, please contact your Veteran Service Organization or representative as soon as
         possible.</p>
       );
       break;
+    }
     case STATUS_TYPES.onDocket:
       contents.title = 'Your appeal is waiting to be assigned to a judge';
       contents.description = (
@@ -228,7 +286,7 @@ export function getStatusContents(statusType, details) {
     case STATUS_TYPES.atVso:
       contents.title = 'Your appeal is currently with your Veteran Service Organization';
       contents.description = (
-        <p>[VSO] is currently preparing a document in support of your appeal. For more information,
+        <p>{details.vsoName} is currently preparing a document in support of your appeal. For more information,
         please contact your Veteran Service Organization or representative.</p>
       );
       break;
@@ -431,14 +489,17 @@ export function getStatusContents(statusType, details) {
         Veteran Service Organization or representative for more information.</p>
       );
       break;
-    case STATUS_TYPES.death:
+    case STATUS_TYPES.death: {
+      const { first, middle, last } = name;
+      const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
       contents.title = 'The appeal was closed';
       contents.description = (
-        <p>VA records indicate that [VETERAN NAME] is deceased, so this appeal has been closed. If
+        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If
         this information is incorrect, please contact your Veteran Service Organization or
         representative as soon as possible.</p>
       );
       break;
+    }
     case STATUS_TYPES.otherClose:
       contents.title = 'Your appeal was closed';
       contents.description = (
@@ -455,7 +516,7 @@ export function getStatusContents(statusType, details) {
 }
 
 export const EVENT_TYPES = {
-  claim: 'claim',
+  claimDecision: 'claim_decision',
   nod: 'nod',
   droHearing: 'dro_hearing',
   fieldGrant: 'field_grant',
@@ -482,119 +543,100 @@ export const EVENT_TYPES = {
  */
 export function getEventContent(event) {
   switch (event.type) {
-    case EVENT_TYPES.claim:
+    case EVENT_TYPES.claimDecision:
       return {
         title: 'VBA sent the original claim decision to you',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.nod:
       return {
         title: 'VBA received your Notice of Disagreement',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.droHearing:
       return {
         title: 'Dro Hearing',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.fieldGrant:
       return {
         title: 'Field grant',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.soc:
       return {
         title: 'VBA prepared a Statement of the Case (SOC)',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.form9:
       return {
         title: 'Form 9 Recieved',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.ssoc:
       return {
         title: 'Supplemental Statement of the Case',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.certified:
       return {
         title: 'The Board received your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: `Your hearing was held at the ${event.details.regionalOffice} Regional Office`,
+        title: 'Your hearing was held at the regional office',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingCancelled:
       return {
         title: 'Hearing Cancelled',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.hearingNoShow:
       return {
         title: 'Hearing No Show',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaDecision:
       return {
         title: 'The Board made a decision on your appeal',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.bvaRemand:
       return {
         title: 'Board Remand',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.withdrawn:
       return {
         title: 'Withdrawn',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.merged:
       return {
         title: 'Merged',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'CAVC Decision',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.recordDesignation:
       return {
         title: 'Designation of Record',
         description: '',
-        liClass: 'section-complete'
       };
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Reconsideration by Letter',
         description: '',
-        liClass: 'section-complete'
       };
     default:
       return {
         title: 'Unknown Event',
         description: '',
-        liClass: 'section-complete'
       };
   }
 }
@@ -607,7 +649,7 @@ const DECISION_REVIEW_CONTENT = (
       available evidence and write a decision. For each issue you are appealing, they can
       decide to:
     </p>
-    <ul>
+    <ul className="decision-review-list">
       <li>
         <strong>Allow:</strong> The judge overrules the original decision and decides in
         your favor.
@@ -624,6 +666,46 @@ const DECISION_REVIEW_CONTENT = (
 );
 
 /**
+ * Translates an array of two ints into a string that conveys a duration estimate
+ * @typedef {Object} durationText contains strings to fill in time snippets in NextEvents
+ * @property {string} header formatted time string to be used in the duration card header
+ * @property {string} description formatted time string to be used in the duration card description
+ * @param {number[]} timeliness two integers that represent the low and high time durations
+ * (in months) of a given thing
+ * @returns {durationText} formatted to convey the estimated duration range, in months
+ */
+export const makeDurationText = (timeliness) => {
+  const durationText = {
+    header: '',
+    description: '',
+  };
+
+  if (!timeliness || !Array.isArray(timeliness) || timeliness.length !== 2) {
+    const durationError = new Error(
+      'vets_appeals_v2_helpers_makeDurationText_bad_timeliness_input'
+    );
+    Raven.captureException(durationError);
+    return durationText;
+  }
+
+  const lowEst = timeliness[0];
+  const highEst = timeliness[1];
+  const estIsExact = (lowEst === highEst);
+
+  if (estIsExact && lowEst === 1) {
+    durationText.header = '1 month';
+    durationText.description = 'about 1 month';
+  } else if (estIsExact) {
+    durationText.header = `${lowEst} months`;
+    durationText.description = `about ${lowEst} months`;
+  } else {
+    durationText.header = `${lowEst}–${highEst} months`;
+    durationText.description = `between ${lowEst} and ${highEst} months`;
+  }
+  return durationText;
+};
+
+/**
  * Gets 'what's next' content for a given current status type
  * @typedef {Object} nextEvent
  * @property {string} title header for each NextEvent
@@ -631,8 +713,13 @@ const DECISION_REVIEW_CONTENT = (
  * @property {string} durationText descriptor of how long this NextEvent usually takes
  * @property {string} cardDescription info about why this NextEvent takes as long as it does
  * ----------------------------------------------------------------------------------------------
+ * @typedef {Object} headerCard some NextEvent sections have one card displayed above the event list
+ * @property {string} durationText descriptor of how long these NextEvents usually take
+ * @property {string} cardDescription info about why these NextEvents take as long as they does
+ * ----------------------------------------------------------------------------------------------
  * @typedef {Object} allNextEvents
  * @property {string} header a short description to introduce all of the nextEvents
+ * @property {headerCard} [headerCard] containing info for top-level duration cards
  * @property {nextEvent[]} events each contain text content for a NextEvent component
  * ----------------------------------------------------------------------------------------------
  * @param {string} currentStatus an appeal's current status, one of STATUS_TYPES
@@ -640,13 +727,17 @@ const DECISION_REVIEW_CONTENT = (
  * @returns {allNextEvents} a section description and array containing all next event possibilities
  *                          for a given current status
  */
-// TO-DO: Add 'details' to args list once they're complete in the API
-export function getNextEvents(currentStatus) {
+export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
-    case STATUS_TYPES.pendingSoc:
+    case STATUS_TYPES.pendingSoc: {
+      const socDuration = makeDurationText(details.ssocTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough 
           evidence to decide in your favor.`,
+        headerCard: {
+          durationText: socDuration.header,
+          cardDescription: `The Veterans Benefits Administration typically takes ${socDuration.description} to review new appeals.`,
+        },
         events: [
           {
             title: 'The Veterans Benefits Administration will grant some or all of your appeal',
@@ -675,7 +766,11 @@ export function getNextEvents(currentStatus) {
           },
         ]
       };
-    case STATUS_TYPES.pendingForm9:
+    }
+    case STATUS_TYPES.pendingForm9: {
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
         header: `If you return a Form 9 within 60 days, what happens next depends on whether you 
           also send in new evidence.`,
@@ -684,30 +779,35 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case on [DATE]</strong>,
-                the Decision Review Officer will finish their review and transfer your case to the
-                Board of Veterans’ Appeals.
+                <strong>If you don’t send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Decision Review Officer will finish
+                their review and transfer your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: ''
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <strong>If you send in new evidence after the Statement of the Case on [DATE]</strong>, the
-                Decision Review Officer will need to write a new Statement of the Case before
-                transferring your case to the Board of Veterans’ Appeals. Once your appeal is
-                transferred, new evidence can be sent directly to the Board and will not be reviewed
-                by the Veterans Benefits Administration.
+                <strong>If you send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Decision Review Officer will need
+                to write a new Statement of the Case before transferring your case to
+                the Board of Veterans’ Appeals. Once your appeal is transferred, new
+                evidence can be sent directly to the Board and will not be reviewed by
+                the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
-            cardDescription: ''
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           },
         ]
       };
-    case STATUS_TYPES.pendingCertification:
+    }
+    case STATUS_TYPES.pendingCertification: {
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -715,30 +815,35 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case on [DATE]</strong>,
-                the Decision Review Officer will finish their review and transfer your case to the
-                Board of Veterans’ Appeals.
+                <strong>If you don’t send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Decision Review Officer will finish
+                their review and transfer your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <strong>If you send in new evidence after the Statement of the Case on [DATE]</strong>, the
-                Decision Review Officer will need to write a new Statement of the Case before
-                transferring your case to the Board of Veterans’ Appeals. Once your appeal is
-                transferred, new evidence can be sent directly to the Board and will not be reviewed
-                by the Veterans Benefits Administration.
+                <strong>If you send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Decision Review Officer will need
+                to write a new Statement of the Case before transferring your case to
+                the Board of Veterans’ Appeals. Once your appeal is transferred, new
+                evidence can be sent directly to the Board and will not be reviewed by
+                the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           }
         ]
       };
-    case STATUS_TYPES.pendingCertificationSsoc:
+    }
+    case STATUS_TYPES.pendingCertificationSsoc: {
+      const certDuration = makeDurationText(details.certificationTimeliness);
+      const ssocDuration = makeDurationText(details.ssocTimeliness);
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return  {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -746,30 +851,35 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case on [DATE]</strong>,
-                the Decision Review Officer will finish their review and transfer your case to the
-                Board of Veterans’ Appeals.
+                <strong>If you don’t send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Decision Review Officer will finish
+                their review and transfer your case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: certDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <strong>If you send new evidence after the Statement of the Case on [DATE]</strong>, the
-                Decision Review Officer will need to write a new Statement of the Case before
-                transferring your case to the Board of Veterans’ Appeals. Once your appeal is
-                transferred, new evidence can be sent directly to the Board and will not be reviewed
-                by the Veterans Benefits Administration.
+                <strong>If you send new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Decision Review Officer will
+                need to write a new Statement of the Case before transferring your
+                case to the Board of Veterans’ Appeals. Once your appeal is
+                transferred, new evidence can be sent directly to the Board and
+                will not be reviewed by the Veterans Benefits Administration.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: ssocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${ssocDuration.description} to write additional Statements of the Case.`
           }
         ]
       };
-    case STATUS_TYPES.remandSsoc:
+    }
+    case STATUS_TYPES.remandSsoc: {
+      const returnSsocDuration = makeDurationText(details.returnTimeliness);
+      const remandSsocDuration = makeDurationText(details.remandSsocTimeliness);
+      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
         header: 'What happens next depends on whether you send in new evidence.',
         events: [
@@ -777,33 +887,36 @@ export function getNextEvents(currentStatus) {
             title: 'Your appeal will be returned to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case on [DATE]</strong>,
-                the Veterans Benefits Administration will finish their work on the remand and return
-                your case to the Board of Veterans’ Appeals.
+                <strong>If you don’t send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Veterans Benefits Administration will
+                finish their work on the remand and return your case to the Board of
+                Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: returnSsocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${returnSsocDuration.description} to return cases to the Board.`,
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <strong>If you send in new evidence after the Statement of the Case on [DATE]</strong>, the
-                Veterans Benefits Administration will need to write a new Statement of the Case
-                before returning your case to the Board of Veterans’ Appeals.
+                <strong>If you send in new evidence after the Statement of the Case
+                on {formattedSocDate}</strong>, the Veterans Benefits Administration
+                will need to write a new Statement of the Case before returning your
+                case to the Board of Veterans’ Appeals.
               </p>
             ),
-            durationText: '',
-            cardDescription: '',
+            durationText: remandSsocDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${remandSsocDuration.description} to write additional Statements of the Case.`,
           }
         ]
       };
+    }
     case STATUS_TYPES.pendingHearingScheduling:
       return {
         header: '', // intentionally empty
         events: [
           {
-            title: 'You will have your [TYPE] hearing',
+            title: `You will have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
                 At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
@@ -818,19 +931,20 @@ export function getNextEvents(currentStatus) {
           }
         ]
       };
-    case STATUS_TYPES.scheduledHearing:
+    case STATUS_TYPES.scheduledHearing: {
+      const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
         header: '', // intentionally empty
         events: [
           {
-            title: 'You will have your [TYPE] hearing',
+            title: `You will have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
-                Your hearing is scheduled for [DATE] at [LOCATION]. At your hearing, a Veterans Law
-                Judge will ask you questions about your appeal. A transcript of your hearing will be
-                taken and added to your appeal file. The judge will not make a decision about your
-                appeal at the hearing. Learn more about hearings, including how to prepare for your
-                hearing.
+                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing,
+                a Veterans Law Judge will ask you questions about your appeal. A transcript of your
+                hearing will be taken and added to your appeal file. The judge will not make a
+                decision about your appeal at the hearing. Learn more about hearings, including how
+                to prepare for your hearing.
               </p>
             ),
             durationText: '',
@@ -838,6 +952,7 @@ export function getNextEvents(currentStatus) {
           }
         ]
       };
+    }
     case STATUS_TYPES.onDocket: {
       return {
         header: '', // intentionally empty
@@ -845,8 +960,8 @@ export function getNextEvents(currentStatus) {
           {
             title: 'The Board will make a decision',
             description: DECISION_REVIEW_CONTENT,
-            durationText: '10 months',
-            cardDescription: 'A Veterans Law Judge typically takes 10 months to write a decision.'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
@@ -863,18 +978,20 @@ export function getNextEvents(currentStatus) {
           }
         ]
       };
-    case STATUS_TYPES.decisionInProgress:
+    case STATUS_TYPES.decisionInProgress: {
+      const decisionDuration = makeDurationText(details.decisionTimeliness);
       return {
         header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
             description: DECISION_REVIEW_CONTENT,
-            durationText: '',
-            cardDescription: '',
+            durationText: decisionDuration.header,
+            cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration.description} to decide appeals once a judge starts their review.`,
           }
         ]
       };
+    }
     case STATUS_TYPES.bvaDevelopment:
       return {
         header: '', // intentionally empty
@@ -899,7 +1016,8 @@ export function getNextEvents(currentStatus) {
           }
         ]
       };
-    case STATUS_TYPES.remand:
+    case STATUS_TYPES.remand: {
+      const remandDuration = makeDurationText(details.remandTimeliness);
       return {
         header: '', // intentionally empty
         events: [
@@ -913,11 +1031,12 @@ export function getNextEvents(currentStatus) {
                 Veterans’ Appeals for a new decision.
               </p>
             ),
-            durationText: '11 months',
-            cardDescription: 'VBA takes about 11 months to produce a Statement of the Case (SOC)'
+            durationText: remandDuration.header,
+            cardDescription: `The Veterans Benefits Administration typically takes ${remandDuration.description} to complete remand instructions.`
           }
         ]
       };
+    }
     default:
       return {
         header: '', // intentionally empty
@@ -925,8 +1044,8 @@ export function getNextEvents(currentStatus) {
           {
             title: 'Unknown event',
             description: (<p>We could not find the next event in your appeal</p>),
-            durationText: 'Unknown',
-            cardDescription: 'No description found'
+            durationText: '',
+            cardDescription: ''
           }
         ]
       };
@@ -950,11 +1069,12 @@ export function getNextEvents(currentStatus) {
  * @returns {alertOutput} dynamically-generated title, description, and styling properties
  */
 export function getAlertContent(alert) {
-  const { type } = alert; // also destructure 'details' out of alert once api finalizes
+  const { type } = alert;
   switch (type) {
-    case ALERT_TYPES.form9Needed:
+    case ALERT_TYPES.form9Needed: {
+      const formattedDueDate = moment(alert.dueDate, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
-        title: 'Return the Form 9 by [DATE] in order to continue your appeal',
+        title: `Return the Form 9 by ${formattedDueDate} in order to continue your appeal`,
         description: (
           <div>
             <p>
@@ -966,42 +1086,46 @@ export function getAlertContent(alert) {
               If you need help with understanding your Statement of the Case or completing the Form
               9, contact your VSO or representative.
             </p>
-            <p><a href="#">[LINK] Learn more about completing the Form 9</a>.</p>
           </div>
         ),
         displayType: 'take_action',
         type
       };
-    case ALERT_TYPES.scheduledHearing:
+    }
+    case ALERT_TYPES.scheduledHearing: {
+      const formattedDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
-        title: 'A hearing has been scheduled',
-        description: (
-          <p>Your [TYPE] hearing has been scheduled for [DATE] at [LOCATION].</p>
-        ),
+        title: `Your hearing is scheduled for ${formattedDate}`,
+        description: null,
         displayType: 'take_action',
         type
       };
-    case ALERT_TYPES.hearingNoShow:
+    }
+    case ALERT_TYPES.hearingNoShow: {
+      const formattedDate = moment(alert.date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
-        title: 'You have 14 days to reschedule your hearing from [ORIG HEARING DATE]',
+        title: `You have 14 days to reschedule your hearing from ${formattedDate}`,
         description: (
-          <p>You missed your hearing on [DATE]. If you want to reschedule your
+          <p>You missed your hearing on {formattedDate}. If you want to reschedule your
           hearing, please contact your VSO or representative for more information.</p>
         ),
         displayType: 'take_action',
         type
       };
-    case ALERT_TYPES.heldForEvidence:
+    }
+    case ALERT_TYPES.heldForEvidence: {
+      const formattedDueDate = moment(alert.dueDate, 'YYYY-MM-DD').format('MMMM DD, YYYY');
       return {
         title: 'Your appeals case is being held open',
         description: (
           <p>You or your representative asked to hold your appeal open to
           submit additional evidence. Please make sure the Board gets your
-          evidence by [DATE].</p>
+          evidence by {formattedDueDate}.</p>
         ),
         displayType: 'take_action',
         type
       };
+    }
     case ALERT_TYPES.rampEligible:
       return {
         title: 'You have opted-in to the Rapid Appeals Modernization Program (RAMP)',
@@ -1068,4 +1192,82 @@ export function getAlertContent(alert) {
         type,
       };
   }
+}
+
+/**
+ * Tests an http error response for an errors array and status property for the
+ * first error in the array. Returns the status code or 'unknown'
+ * @param {Object} response error response object from vets-api
+ * @returns {string} status code or 'unknown'
+ */
+export const getStatus = (response) => {
+  return (response.errors && response.errors.length)
+    ? response.errors[0].status
+    : 'unknown';
+};
+
+// Series of utility functions to sort claims and appeals by last updated date
+/**
+ * 
+ * @param {Object} appeal
+ * @returns {string}
+ */
+const getAppealDate = (appeal) => {
+  const { events } = appeal.attributes;
+  const dateString = (events && events.length)
+    ? events[events.length - 1].date
+    : '0';
+  return dateString;
+};
+
+/**
+ * 
+ * @param {Object} claim
+ * @returns {string}
+ */
+const getClaimDate = (claim) => {
+  const { phaseChangeDate } = claim.attributes;
+  const dateString = phaseChangeDate || '0';
+  return dateString;
+};
+
+/**
+ * 
+ * @param {Object} item
+ * @returns {string}
+ */
+const getDate = (item) => {
+  if (!item.attributes) {
+    return '0';
+  }
+
+  return (item.type === APPEAL_V2_TYPE)
+    ? getAppealDate(item)
+    : getClaimDate(item);
+};
+
+/**
+ * 
+ * @param {Object} item1
+ * @param {Object} item2
+ * @returns {-1|1|0}
+ */
+export function sortByLastUpdated(item1, item2) {
+  const lastUpdatedDate1 = getDate(item1);
+  const lastUpdatedDate2 = getDate(item2);
+
+  if (moment(lastUpdatedDate1).isAfter(lastUpdatedDate2)) {
+    return -1;
+  } else if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
+    return 1;
+  }
+  return 0;
+}
+
+export function getVisibleRows(list, currentPage) {
+  const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  if (!list.length) {
+    return list;
+  }
+  return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }

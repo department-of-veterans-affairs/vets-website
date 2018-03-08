@@ -9,6 +9,16 @@ legend {
   padding: 0 0 .5em 0;
 }
 
+// IE
+fieldset {
+  display: inline-block;
+  width: 100%;
+  max-width: 750px;
+  .form-review-panel & {
+    width: 100%;
+  }
+}
+
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;
@@ -568,4 +578,16 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-confirmation-claim-header {
   font-size: $h4-font-size;
   margin-top: 1em;
+}
+
+.usa-accordion, .usa-accordion-bordered {
+  > ul {
+    button {
+      border-radius: $button-border-radius;
+    }
+  }
+}
+
+.schemaform-title-underline {
+  border-bottom: 3px solid $color-primary;
 }

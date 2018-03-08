@@ -1,6 +1,6 @@
 import Raven from 'raven-js';
 import environment from '../../helpers/environment';
-import { sanitizeForm } from '../helpers';
+import { sanitizeForm } from '../../utils/helpers';
 
 export function removeFormApi(formId) {
   const userToken = sessionStorage.userToken;

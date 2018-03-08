@@ -31,7 +31,7 @@ To get a VA direct or VA-backed home loan, you’ll need a Certificate of Eligib
 
 ### Can I get a COE?
 
-You may be able to get a COE if you were discharged under conditions other than dishonorable and you meet the service requirements below.
+You may be able to get a COE if you didn't receive a dishonorable discharge and you meet the service requirements below.
 
 </div>
 
@@ -89,11 +89,14 @@ You may still be able to get a COE if you were discharged **for one of the follo
 
 <br>
 
-### If I have a less than honorable discharge, can I try to get my discharge upgraded so I can get a VA home loan?
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
-Yes. You can apply for a discharge upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <br>
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 <br>
 

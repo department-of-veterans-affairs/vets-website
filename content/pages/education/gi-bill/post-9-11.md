@@ -44,6 +44,19 @@ If you qualify for more than one VA education benefit, you’ll have to pick whi
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Does this benefit expire?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Post-9/11 GI Bill benefits expire 15 years after your last separation date from active service. You must use all of your benefit by that time or you’ll lose whatever’s left.
+
+**If your service ended after January 1, 2013:** There’s no time limit for using your education benefits (known as a “delimiting date”). But our automated system still prints letters with outdated information about end dates. Any delimiting date that’s on your records right now isn’t correct, but it’ll remain until we update our system. [Learn more about this and other new provisions from Forever GI Bill - Harry W. Colmery Veterans Educational Assistance Act.](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp)
+</div>
+</div>
+</div>
 </div>
 
 

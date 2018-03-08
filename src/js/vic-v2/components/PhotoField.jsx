@@ -1,77 +1,26 @@
 import React from 'react';
-import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
+
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
+import ProgressBar from '../../common/components/ProgressBar';
+import { scrollAndFocus } from '../../common/utils/helpers';
+import PhotoPreview from '../components/PhotoPreview';
+import CropperController from '../components/CropperController';
 
-const PhotoDescription = (
-  <div className="feature">
-    <h3>What makes a good photo?</h3>
-    <div>
-      <p>To meet the requirements for a Veteran ID Card, your photo should follow the guidance listed below. It must:</p>
-      <ul>
-        <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
-        <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
-        <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
-        <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
-        <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
-      </ul>
-      <h3>Examples of good ID photos</h3>
-      <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
-      <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
-    </div>
-  </div>);
-
-const FILE_TYPES = [
-  'png',
-  'tiff',
-  'tif',
-  'jpeg',
-  'jpg',
-  'bmp'
-];
-
-const MIN_SIZE = 350;
-const MIN_RATIO = 0.2;
-const MAX_RATIO = 1.7;
-const WARN_RATIO = 1.3;
 const LARGE_SCREEN = 1201;
-const MAX_DIMENSION = 1024;
+const MIN_SIZE = 350;
 
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
 }
 
-function isValidFileType(fileName) {
-  return FILE_TYPES.some(type => fileName.toLowerCase().endsWith(type));
+function onReviewPage(pageTitle) {
+  return pageTitle === 'Photo review';
 }
 
-// If any of the image dimensions are greater than the max specified,
-// resize it down to that dimension while keeping the aspect ratio
-// intact
-function resizeIfAboveMaxDimension(img, mimeType, maxDimension) {
-  const oc = document.createElement('canvas');
-  const octx = oc.getContext('2d');
-  let height = img.height;
-  let width = img.width;
-
-  if (Math.max(img.width, img.height) > maxDimension) {
-    if (img.width > img.height) {
-      height = (height / width) * maxDimension;
-      width = maxDimension;
-    } else {
-      width = (width / height) * maxDimension;
-      height = maxDimension;
-    }
-
-    oc.width = width;
-    oc.height = height;
-    octx.drawImage(img, 0, 0, oc.width, oc.height);
-
-    return oc.toDataURL(mimeType);
-  }
-
-  return img.src;
+function isValidFileType(fileName, fileTypes) {
+  return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
 }
 
 function isValidImageSize(img) {
@@ -89,17 +38,28 @@ function loadImage(dataUrl) {
   });
 }
 
+function isSquareImage(img) {
+  return img.width === img.height;
+}
+
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
+    const formData = props.formData || {};
+    let previewSrc;
+    if (formData.file instanceof Blob) {
+      previewSrc = window.URL.createObjectURL(formData.file);
+    }
+
     this.state = {
+      progress: 0,
       src: null,
-      cropResult: null,
-      done: false,
-      zoomValue: 0.4,
-      errorMessage: null,
-      warningMessage: null
+      isCropping: false,
+      previewSrc,
+      previewProcessing: false
     };
+
+    this.screenReaderPath = false;
   }
 
   componentWillMount() {
@@ -111,116 +71,186 @@ export default class PhotoField extends React.Component {
     window.addEventListener('resize', this.detectWidth);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.windowWidth !== this.state.windowWidth) {
-      const cropper = this.refs.cropper;
-      if (cropper) {
-        this.setCropBox();
+  componentWillReceiveProps(nextProps) {
+    const nextFormData = nextProps.formData || {};
+    const prevFormData = this.props.formData || {};
+    if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
+      if (this.state.previewSrc) {
+        window.URL.revokeObjectURL(this.state.previewSrc);
       }
+      this.setState({ previewSrc: window.URL.createObjectURL(nextFormData.file) });
     }
-    if (nextState.zoomValue !== this.state.zoomValue) {
-      const slider = this.refs.slider;
-      if (slider) {
-        slider.value = nextState.zoomValue;
-      }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const newFile = this.props.formData || {};
+    const oldFile = prevProps.formData || {};
+    const newState = this.state;
+    if (newFile.errorMessage && oldFile.errorMessage !== newFile.errorMessage) {
+      scrollAndFocus(document.querySelector('.usa-input-error-message'));
+    } else if (prevState.isCropping !== newState.isCropping) {
+      scrollAndFocus(document.querySelector('.border-box'));
+    } else if (typeof this.props.formData === 'undefined' && this.props.formData !== prevProps.formData) {
+      scrollAndFocus(document.querySelector('.border-box'));
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.detectWidth);
+    if (this.state.previewSrc) {
+      window.URL.revokeObjectURL(this.state.previewSrc);
     }
   }
 
   onEdit = () => {
-    this.setState({ done: false, warningMessage: null });
+    this.setState({
+      isCropping: true,
+      fileName: this.props.formData.name,
+      src: this.state.previewSrc,
+      warningMessage: null
+    });
   }
 
-  onDone = () => {
-    const cropResult = this.refs.cropper.getCroppedCanvas().toDataURL(this.state.fileType);
-    this.setState({ cropResult, done: true, warningMessage: null });
+  onChangeScreenReader = (files) => {
+    const file = files[0];
+
+    this.screenReaderPath = true;
+
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    if (!isValidFileType(file.name, fileTypes)) {
+      this.props.onChange({
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, or .png file and try again.'
+      });
+    } else {
+      const reader = new FileReader();
+      reader.onload = () => {
+        loadImage(reader.result)
+          .then((img) => {
+            if (!isSquareImage(img)) {
+              this.props.onChange({
+                errorMessage: 'The photo you uploaded isn’t a square photo. Please upload a new one that fits the requirements.'
+              });
+            } else if (!isValidImageSize(img)) {
+              this.props.onChange({
+                errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
+              });
+            } else {
+              this.setState({ progress: 0, warningMessage: null });
+              this.uploadRequest = this.props.formContext.uploadFile(
+                file,
+                this.props.uiSchema['ui:options'],
+                this.updateProgress,
+                (fileData) => {
+                  this.props.onChange(fileData);
+                },
+                () => {
+                  this.props.onBlur(this.props.idSchema.$id);
+                  this.uploadRequest = null;
+                }
+              );
+            }
+          });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onChange = (files) => {
+    this.screenReaderPath = false;
+    this.setState({ dragActive: false });
+
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
       const file = files[0];
+      const fileName = file.name;
       if (file.preview) {
         // dropzone recommendation
         window.URL.revokeObjectURL(file.preview);
       }
-      if (!isValidFileType(file.name)) {
-        this.setState({
-          src: null,
-          fileType: null,
-          done: false,
-          cropResult: null,
-          errorMessage: 'Please choose a file from one of the accepted types.'
+      if (!isValidFileType(fileName, fileTypes)) {
+        this.props.onChange({
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, .png, or .bmp file and try again.'
         });
       } else {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
         reader.onload = () => {
           loadImage(reader.result)
             .then((img) => {
               if (!isValidImageSize(img)) {
-                this.setState({
-                  src: null,
-                  fileType: null,
-                  done: false,
-                  cropResult: null,
-                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
+                this.props.onChange({
+                  errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
                 });
               } else {
+                // Clear any error messages
+                this.props.onChange();
                 this.setState({
-                  src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
-                  fileType: file.type,
-                  done: false,
-                  cropResult: null,
-                  errorMessage: null
+                  src: img.src,
+                  fileName,
+                  isCropping: true
                 });
               }
             })
             .catch(() => {
-              this.setState({
-                src: null,
-                fileType: null,
-                done: false,
-                cropResult: null,
-                errorMessage: 'Sorry, we weren’t able to load the image you selected'
+              this.props.onChange({
+                errorMessage: 'Sorry, we weren’t able to load the image you selected.'
               });
             });
         };
+        reader.readAsDataURL(file);
       }
     }
+
+    this.setState({ warningMessage: '' });
   }
 
-  onZoom = (e) => {
-    const zoomValue = e.detail.ratio;
-    if (zoomValue < MAX_RATIO && zoomValue > MIN_RATIO) {
-      let warningMessage = null;
-      if (zoomValue >= WARN_RATIO) {
-        warningMessage = 'If you zoom in this close, your ID photo will be less clear.';
-      }
-      return this.setState({ zoomValue, warningMessage });
+  onPreviewError = () => {
+    this.setState({ previewProcessing: true });
+  }
+
+  cancelUpload = () => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
     }
-    return e.preventDefault();
+    this.props.onChange();
   }
 
-  setCropBox = () => {
-    const cropper = this.refs.cropper;
-    const slider = this.refs.slider;
-    const { width, naturalWidth } = this.refs.cropper.getImageData();
-    slider.value = width / naturalWidth;
-    const containerData = cropper.getContainerData();
-    const containerWidth = containerData.width;
-    const smallScreen = isSmallScreen(this.state.windowWidth);
-    const cropBoxSize = smallScreen ? 240 : 300;
-    const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
-    const cropBoxData = {
-      left: cropBoxLeftOffset,
-      top: 0,
-      width: cropBoxSize,
-      height: cropBoxSize
-    };
-    cropper.setCropBoxData(cropBoxData);
+  uploadPhoto = (blob) => {
+    this.setState({ isCropping: false, progress: 0, warningMessage: null });
+    const file = blob;
+    file.lastModifiedDate = new Date();
+    file.name = 'profile_photo.png';
+    this.uploadRequest = this.props.formContext.uploadFile(
+      file,
+      this.props.uiSchema['ui:options'],
+      this.updateProgress,
+      (formData) => {
+        if (formData.confirmationCode) {
+          this.props.onChange(Object.assign({}, formData, {
+            file
+          }));
+          this.uploadRequest = null;
+        } else {
+          this.props.onChange(formData);
+        }
+      },
+      () => {
+        this.uploadRequest = null;
+      }
+    );
   }
 
-  getErrorMessage = () => {
-    return this.state.errorMessage;
+  resetFile = () => {
+    this.props.onChange();
+    this.setState({ isCropping: false });
+  }
+
+  updateProgress = (progress) => {
+    this.setState({ progress });
+  }
+
+  detectWidth = () => {
+    const windowWidth = window.innerWidth;
+    this.setState({ windowWidth });
   }
 
   detectDrag = () => {
@@ -231,182 +261,181 @@ export default class PhotoField extends React.Component {
     this.setState({ dragAndDropSupported: dragAndDropSupported && !iOS });
   }
 
-  detectWidth = () => {
-    const windowWidth = window.innerWidth;
-    this.setState({ windowWidth });
+  handleDrag(dragActive) {
+    this.setState(dragActive);
   }
 
-  moveUp = () => {
-    this.refs.cropper.move(0, -5);
-  }
-
-  moveDown = () => {
-    this.refs.cropper.move(0, 5);
-  }
-
-  moveRight = () => {
-    this.refs.cropper.move(-5, 0);
-  }
-
-  moveLeft = () => {
-    this.refs.cropper.move(5, 0);
-  }
-
-  zoom = (e) => {
-    if (e.target.value < MAX_RATIO && e.target.value > MIN_RATIO) {
-      this.refs.cropper.zoomTo(e.target.value);
-    }
-  }
-
-  zoomIn = () => {
-    if (this.state.zoomValue < MAX_RATIO) {
-      this.refs.cropper.zoom(0.1);
-    }
-  }
-
-  zoomOut = () => {
-    if (this.state.zoomValue > MIN_RATIO) {
-      this.refs.cropper.zoom(-0.1);
-    }
+  updatePreviewSrc = (src) => {
+    this.setState({ previewSrc: src });
   }
 
   render() {
-    const smallScreen = isSmallScreen(this.state.windowWidth);
-    const moveControlClass = classNames('cropper-control', 'cropper-control-label-container', 'va-button-link');
+    const { formData, formContext } = this.props;
+    const file = formData || {};
+    const onReview = formContext.reviewMode;
+
+    if (onReview) {
+      return (
+        <div className="va-growable-background">
+          <PhotoPreview
+            id={file.confirmationCode}
+            className="photo-review"
+            isLoggedIn={formContext.isLoggedIn}
+            processing={this.state.previewProcessing}
+            src={this.state.previewSrc}
+            onUpdatePreview={this.updatePreviewSrc}
+            onError={this.onPreviewError}/>
+        </div>
+      );
+    }
+
+    const { isCropping } = this.state;
+    const hasFile = !!file.confirmationCode;
+    const errorMessage = file.errorMessage;
+    const screenReaderError = this.screenReaderPath && !!errorMessage;
+    const label = this.props.uiSchema['ui:title'];
+    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    const cropperTypes = fileTypes.concat('bmp');
+    const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
+
+    let fieldView;
+    if (file.uploading) {
+      fieldView = 'progress';
+    } else if (isCropping) {
+      fieldView = 'cropper';
+    } else if (screenReaderError) {
+      fieldView = 'error';
+    } else if (hasFile && !isCropping) {
+      fieldView = 'preview';
+    } else if (!isCropping && !hasFile) {
+      fieldView = 'initial';
+    }
+
     let uploadMessage;
     if (smallScreen) {
       uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
-    } else if (this.state.src) {
+    } else if (fieldView === 'cropper') {
       uploadMessage = 'Upload a New Photo';
     } else {
       uploadMessage = 'Upload Your Photo';
     }
+
     let instruction;
-    if (!this.state.done) {
-      if (!this.state.src) {
-        instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
-      }
-      if (this.state.src) {
-        instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
-      }
+    if (fieldView === 'cropper') {
+      instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame.</span>;
+    } else if (fieldView === 'initial') {
+      instruction = <span><strong>Step 1 of 2:</strong> Upload a digital photo.</span>;
     }
+
     let description;
-    if (this.state.dragAndDropSupported) {
+    if (fieldView === 'cropper') {
+      description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
+    } else if (fieldView === 'preview') {
+      description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
+    } else if (fieldView === 'initial' && this.state.dragAndDropSupported) {
       description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
-    if (this.state.src) {
-      description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
-    }
-    if (this.state.done) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
+
+    const uploadControlClass = classNames(
+      'photo-input-container',
+      {
+        'photo-input-container-left': fieldView === 'error' || fieldView === 'preview',
+      }
+    );
 
     return (
-      <div>
-        {PhotoDescription}
-        {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
-        {this.state.errorMessage && <span className="usa-input-error-message">{this.state.errorMessage}</span>}
-        <div className={this.state.errorMessage ? 'error-box' : 'border-box'}>
-          <div style={{ margin: '1em 1em 4em' }}>
-            {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
-            {instruction}
-            {description}
-            {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            {this.state.done && <img className="photo-preview" src={this.state.cropResult} alt="cropped"/>}
-          </div>
-          {!this.state.done && this.state.src && <div className="cropper-container-outer">
-            <Cropper
-              ref="cropper"
-              ready={this.setCropBox}
-              responsive
-              src={this.state.src}
-              aspectRatio={1}
-              cropBoxMovable={false}
-              toggleDragModeOnDblclick={false}
-              dragMode="move"
-              guides={false}
-              viewMode={1}
-              zoom={this.onZoom}/>
-            <div className="cropper-zoom-container">
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}><i className="fa fa-search-minus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.zoomOut}>
-                <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
-              </button>}
-              <input type="range"
-                ref="slider"
-                className="cropper-zoom-slider"
-                min={MIN_RATIO}
-                max={MAX_RATIO}
-                defaultValue="0.4"
-                step="0.01"
-                aria-valuemin={MIN_RATIO}
-                aria-valuemax={MAX_RATIO}
-                aria-valuenow={this.state.zoomValue}
-                onInput={this.zoom}/>
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}><i className="fa fa-search-plus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.zoomIn}>
-                <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
-              </button>}
-            </div>
-            <div className="cropper-control-container">
-              <div className="cropper-control-row">
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomOut}>
-                  <span className="cropper-control-label">Make smaller</span>
-                </button>}
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.zoomIn}>
-                  <span className="cropper-control-label">Make larger</span>
-                </button>}
+      <fieldset>
+        <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
+        <div className={errorMessage ? 'error-box' : 'border-box'}>
+          {fieldView === 'cropper' && <span className="sr-only">
+            This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
+          </span>}
+          <div>
+            {errorMessage && <div className="photo-error-wrapper">
+              <div role="alert" className="usa-input-error-message photo-error-message">
+                We’ve run into a problem.
+                <p>{errorMessage}</p>
               </div>
-              {[
-                [{
-                  labelText: 'Move up',
-                  className: 'fa fa-arrow-up',
-                  onClick: this.moveUp
-                }, {
-                  labelText: 'Move down',
-                  className: 'fa fa-arrow-down',
-                  onClick: this.moveDown
-                }],
-                [{
-                  labelText: 'Move left',
-                  className: 'fa fa-arrow-left',
-                  onClick: this.moveLeft
-                }, {
-                  labelText: 'Move right',
-                  className: 'fa fa-arrow-right',
-                  onClick: this.moveright
-                }]
-              ].map((row, index) => (
-                <div className="cropper-control-row" key={index}>
-                  {row.map((button) => (
-                    <button className={moveControlClass} type="button" onClick={button.onClick} key={button.className}>
-                      <span className="cropper-control-label">{button.labelText}<i className={button.className}></i></span>
-                    </button>))
-                  }
-                </div>))
-              }
-            </div>
-            <div className="crop-button-container">
-              <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I’m done
-              </button>
-            </div>
+              <a href="/veteran-id-card/how-to-upload-photo" target="_blank">
+                Learn more about uploading a photo for your Veteran ID Card
+              </a>
+            </div>}
+            {instruction}
+            {!this.state.previewProcessing && description}
+            {fieldView === 'preview' && hasFile && <PhotoPreview
+              id={file.confirmationCode}
+              className="photo-preview"
+              isLoggedIn={formContext.isLoggedIn}
+              processing={this.state.previewProcessing}
+              src={this.state.previewSrc}
+              onUpdatePreview={this.updatePreviewSrc}
+              onError={this.onPreviewError}/>
+            }
           </div>
+          {fieldView === 'progress' && <div className={progressBarContainerClass}>
+            <span>{this.state.fileName}</span><br/>
+            <ProgressBar percent={this.state.progress}/>
+            <button type="button" className="va-button-link" onClick={this.cancelUpload}>
+              Cancel
+            </button>
+          </div>}
+          {fieldView === 'cropper' && <CropperController
+            narrowLayout={smallScreen}
+            windowWidth={this.state.windowWidth}
+            onPhotoCropped={blob => this.uploadPhoto(blob)}
+            src={this.state.src}/>
           }
-          {!this.state.src && !this.state.done && <div className="drop-target-container">
-            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
-              <img alt="placeholder" src="/img/photo-placeholder.png"/>
+          {fieldView === 'initial' && <div className="drop-target-container">
+            <Dropzone
+              className={`drop-target ${this.state.dragActive && 'drag-active'}`}
+              onDragEnter={() => this.handleDrag({ dragActive: true })}
+              onDragLeave={() => this.handleDrag({ dragActive: false })}
+              onDrop={this.onChange}
+              accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              {this.state.dragActive ? <div className="drag-active-text">
+                <span>DROP PHOTO</span>
+              </div> : <img alt="placeholder" src="/img/photo-placeholder.png"/>}
             </Dropzone>
           </div>}
-          <div className={this.state.done ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
-            {this.state.done && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
-            <ErrorableFileInput
-              accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+          <div className={uploadControlClass}>
+            {fieldView === 'preview' && <button
+              className="photo-preview-link va-button-link"
+              type="button"
+              onClick={this.resetFile}>
+              Go back and change your photo
+            </button>}
+            {fieldView === 'preview' && !this.state.previewProcessing && <button
+              className="photo-preview-link va-button-link"
+              type="button"
+              aria-describedby="editButtonDescription"
+              onClick={this.onEdit}>
+              Edit your photo
+            </button>}
+            {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
+              accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
               buttonText={uploadMessage}
-              name="fileUpload"
-              additionalErrorClass="claims-upload-input-error-message"/>
+              aria-describedby="croppingToolDescription"
+              name="fileUpload"/>}
+            {fieldView === 'initial' && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeScreenReader}
+              buttonText="Use our screen reader-friendly photo upload tool."
+              aria-describedby="screenReaderPathDescription"
+              triggerClass="va-button-link"
+              name="screenReaderFileUpload"/>}
+            {fieldView === 'error' && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeScreenReader}
+              buttonText="Upload Photo Again"
+              name="screenReaderFileUpload"/>}
           </div>
+          <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>
+          <span className="sr-only" id="editButtonDescription">This button will take you into a photo cropping tool, which requires sight to use. This button is not recommended if you are using a screen reader.</span>
+          <span className="sr-only" id="screenReaderPathDescription">This is the recommended path if you are using a screen reader. It will allow you to upload your photo without having to crop, as long as you have a photo that is square and at least 350 pixels wide.</span>
         </div>
-      </div>
+      </fieldset>
     );
   }
 }

@@ -262,9 +262,11 @@ export const mockData = {
         aod: false,
         location: 'aoj',
         status: {
-          type: 'pending_form9',
+          type: 'pending_soc',
           details: {
-            regionalOffice: 'Chicago Regional Office'
+            lastSocDate: '2015-09-12',
+            certificationTimeliness: [1, 4],
+            ssocTimeliness: [2, 16],
           }
         },
         docket: {

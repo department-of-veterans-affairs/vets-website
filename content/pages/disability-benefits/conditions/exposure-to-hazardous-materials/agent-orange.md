@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange
+description: Find out if you can get VA disability benefits if you have an illness believed to be caused by contact with Agent Orange during your military service.
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityConditionsAgentOrange

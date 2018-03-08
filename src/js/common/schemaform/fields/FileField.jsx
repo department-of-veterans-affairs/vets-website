@@ -35,17 +35,18 @@ export default class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      const filePath = this.props.idSchema.$id.split('_').slice(1).concat(idx);
-      this.props.formContext.uploadFile(
+      this.uploadRequest = this.props.formContext.uploadFile(
         event.target.files[0],
-        filePath,
         this.props.uiSchema['ui:options'],
-        this.updateProgress
-      ).catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-      });
+        this.updateProgress,
+        (file) => {
+          this.props.onChange(_.set(idx, file, this.props.formData || []));
+          this.uploadRequest = null;
+        },
+        () => {
+          this.uploadRequest = null;
+        }
+      );
     }
   }
 
@@ -59,6 +60,13 @@ export default class FileField extends React.Component {
 
   updateProgress = (progress) => {
     this.setState({ progress });
+  }
+
+  cancelUpload = (index) => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
+    }
+    this.removeFile(index);
   }
 
   removeFile = (index) => {
@@ -90,6 +98,8 @@ export default class FileField extends React.Component {
       : false;
 
     const isUploading = files.some(file => file.uploading);
+    let { buttonText = 'Upload' } = uiOptions;
+    if (files.length > 0) buttonText =  uiOptions.addAnotherLabel;
 
     return (
       <div className={formContext.reviewMode ? 'schemaform-file-upload-review' : undefined}>
@@ -113,10 +123,15 @@ export default class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <span>{file.name}</span><br/>
                       <ProgressBar percent={this.state.progress}/>
+                      <button type="button" className="va-button-link" onClick={() => {
+                        this.cancelUpload(index);
+                      }}>
+                        Cancel
+                      </button>
                     </div>
                   }
                   {!file.uploading && <span>{file.name}</span>}
-                  {!hasErrors && itemSchema.properties.attachmentId &&
+                  {!hasErrors && _.get('properties.attachmentId', itemSchema) &&
                     <div className="schemaform-file-attachment">
                       <SchemaField
                         name="attachmentId"
@@ -158,7 +173,7 @@ export default class FileField extends React.Component {
               id={`${idSchema.$id}_add_label`}
               htmlFor={idSchema.$id}
               className="usa-button usa-button-secondary">
-              {files.length > 0 ? uiOptions.addAnotherLabel : 'Upload'}
+              {buttonText}
             </label>
             <input
               type="file"

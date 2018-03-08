@@ -252,6 +252,11 @@ export function stringifyFormReplacer(key, value) {
     if (value.widget === 'autosuggest') {
       return value.id;
     }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
+    }
   }
 
   // Clean up empty objects in arrays
@@ -537,17 +542,3 @@ export function getActiveChapters(formConfig, formData) {
   return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }
 
-export function sanitizeForm(formData) {
-  try {
-    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
-    return JSON.stringify(formData, (key, value) => {
-      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
-        return 'removed';
-      }
-
-      return value;
-    });
-  } catch (e) {
-    return null;
-  }
-}

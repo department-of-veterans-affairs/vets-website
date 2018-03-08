@@ -55,7 +55,7 @@ export function isInProgress(pathName) {
 
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
-    return page.depends(data);
+    return page.depends(data, page.index);
   }
 
   if (Array.isArray(page.depends)) {
@@ -119,14 +119,14 @@ export function formatDateParsedZoneShort(date) {
   return moment.parseZone(date).format('MM/DD/YYYY');
 }
 
-export function focusElement(selectorOrElement) {
+export function focusElement(selectorOrElement, options) {
   const el = typeof selectorOrElement === 'string'
     ? document.querySelector(selectorOrElement)
     : selectorOrElement;
 
   if (el) {
-    el.setAttribute('tabindex', '-1');
-    el.focus();
+    if (el.tabIndex === -1) el.setAttribute('tabindex', '-1');
+    el.focus(options);
   }
 }
 
@@ -153,10 +153,12 @@ export function scrollToFirstError() {
 }
 
 export function scrollAndFocus(errorEl) {
-  const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  const position = errorEl.getBoundingClientRect().top + currentPosition;
-  Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-  focusElement(errorEl);
+  if (errorEl) {
+    const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const position = errorEl.getBoundingClientRect().top + currentPosition;
+    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    focusElement(errorEl);
+  }
 }
 
 export function displayFileSize(size) {
@@ -264,4 +266,19 @@ export function sortListByFuzzyMatch(value, list, prop = 'label') {
       return result;
     })
     .map(sorted => sorted.original);
+}
+
+export function sanitizeForm(formData) {
+  try {
+    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
+    return JSON.stringify(formData, (key, value) => {
+      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+        return 'removed';
+      }
+
+      return value;
+    });
+  } catch (e) {
+    return null;
+  }
 }

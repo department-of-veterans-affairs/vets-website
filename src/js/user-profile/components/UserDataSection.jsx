@@ -51,8 +51,8 @@ class UserDataSection extends React.Component {
   }
 
   renderModalContents() {
-    const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
+    const { profile, terms } = this.props;
+    const termsAccepted = _.get(profile, 'mhv.terms.accepted');
     if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
       setTimeout(() => {
         this.props.fetchLatestTerms('mhvac');
@@ -77,7 +77,7 @@ class UserDataSection extends React.Component {
   }
 
   renderTermsLink() {
-    if (this.props.profile.healthTermsCurrent) {
+    if (_.get(this.props.profile, 'mhv.terms.accepted')) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
@@ -144,7 +144,7 @@ class UserDataSection extends React.Component {
           {content}
           <p><span className="label">Email address:</span> {email}</p>
           {this.renderMultifactorMessage()}
-          {this.accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
+          {accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 

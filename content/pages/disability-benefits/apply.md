@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Disability Benefits Application Process
 display_title: Application Process
+description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today. 
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -113,11 +114,12 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 
 <a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 
+<span id="days-to-complete-claim"></span>
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">107.5 days</span>
-<span class="description">Average number of days to complete disability-related claims in January 2018</span>
+<span class="number">101.5 days</span>
+<span class="description">Average number of days to complete disability-related claims in February 2018</span>
 </div>
 </div>
 </div>

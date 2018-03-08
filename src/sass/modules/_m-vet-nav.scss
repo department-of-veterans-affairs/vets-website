@@ -10,15 +10,15 @@ body.va-pos-fixed {
 #vetnav, [role="menu"] [role="menu"] {
   // The main menu takes up the whole screen under the Menu button for xsmall & small screens
   // Sub menus also take up the whole screen to cover the main menu
-  height: calc(100% - #{$height-offset-xsmall});
+  min-height: calc(100vh - #{$height-offset-xsmall});
 
   @include media($small-screen){
-    height: calc(100% - #{$height-offset-small});
+    min-height: calc(100vh - #{$height-offset-small});
   }
 
   // For medium and large screens, they're just as big as they need to be
   @include media($medium-large-screen) {
-    height: 100%;
+    min-height: 100%;
   }
 }
 
@@ -44,6 +44,7 @@ body.va-pos-fixed {
       @include media($medium-large-screen) {
         height: auto;
         overflow: visible;
+
       }
     }
   }
@@ -96,6 +97,7 @@ body.va-pos-fixed {
   ul {
     list-style: none;
     padding-left: 0;
+    margin-bottom:0;
   }
 
   .va-button-primary {
@@ -259,6 +261,7 @@ body.va-pos-fixed {
   padding: 1.6rem;
   text-align: left;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
 
   @include media($medium-large-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
@@ -270,7 +273,7 @@ body.va-pos-fixed {
     margin-left: .8rem;
     padding: .8rem 0 .8rem 1.6rem;
     position: relative;
-    width: 22.3rem;
+    width: 25.3rem;
 
     &:hover {
       background-color: transparent;
@@ -356,7 +359,7 @@ body.va-pos-fixed {
     position: absolute;
     width: 100%;
     top: 0;
-    left: 0;
+    left: 30px;
     visibility: visible;
     margin: 0;
 
@@ -449,5 +452,16 @@ body.va-pos-fixed {
 
   > .va-flex {
     align-items: center;
+  }
+}
+
+.child-menu-opened {
+  height: 0;
+  overflow: hidden;
+}
+
+@include media($medium-screen) {
+  .child-menu-opened {
+    height: auto;
   }
 }

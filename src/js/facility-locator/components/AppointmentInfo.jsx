@@ -87,7 +87,7 @@ export default class AppointmentInfo extends Component {
       const renderMoreTimes = () => {
         return this.state[showHideKey] &&
           lastToEnd.map(k => {
-            return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new']);
+            return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new'], true);
           });
       };
 
