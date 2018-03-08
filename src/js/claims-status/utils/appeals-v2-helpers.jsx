@@ -307,7 +307,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.remand: {
-      // TODO: should we break this out into its own template/component?
+      // TODO: break this out into its own template/component
       const { decisionIssues } = details;
       const allowedIssues = decisionIssues
         .filter((issue) => (issue.disposition === 'allowed'))
