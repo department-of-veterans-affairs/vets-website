@@ -264,7 +264,8 @@ const formConfig = {
                   type: 'object',
                   properties: {
                     'view:uploadPrivateRecords': {
-                      type: 'string'
+                      type: 'string',
+                      'enum': ['yes', 'no']
                     }
                   }
                 }
