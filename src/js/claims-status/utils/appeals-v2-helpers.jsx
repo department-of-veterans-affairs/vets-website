@@ -1193,7 +1193,7 @@ export function getAlertContent(alert) {
         title: 'What if I disagree with my decision?',
         // TODO: confirm this link display format
         description: (
-          <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal by {formattedDueDate}. For more information, review the document “Your Rights to Appeal Our Decision” enclosed with the Board’s decision, visit the Court’s website (<a href="https://www.uscourts.cavc.gov/appeal.php">https://www.uscourts.cavc.gov/appeal.php</a>), or contact your Veteran Service Organization or representative.</p>
+          <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal by {formattedDueDate}. For more information, review the document “Your Rights to Appeal Our Decision” enclosed with the Board’s decision, visit the <a href="https://www.uscourts.cavc.gov/appeal.php">Court’s website</a>, or contact your Veteran Service Organization or representative.</p>
         ),
         displayType: 'info',
         type,
