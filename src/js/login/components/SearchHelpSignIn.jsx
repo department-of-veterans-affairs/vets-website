@@ -4,6 +4,7 @@ import _ from 'lodash';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 
+import DashboardRedirect from '../../common/components/DashboardRedirect';
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -62,6 +63,7 @@ class SearchHelpSignIn extends React.Component {
     }
     return (
       <div className="profileNav">
+        <DashboardRedirect services={this.props.profile.services}/>
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
