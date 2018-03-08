@@ -66,7 +66,11 @@ export const privateRecordsChoice = ({ formData }) => {
 // TODO: Figure out if this is going to be a common enough pattern to warrant a widget or something.
 export const privateRecordsChoiceHelp = (
   <InformationLink>
-    <h4>Hello, Alex.</h4>
-    <p>This is very meta text.</p>
+    <h4>Upload or delegate</h4>
+    <h5>Uploading your own copies</h5>
+    <p>If you have an electronic copy of your medical records, uploading your records can speed the review of your claim.</p>
+    <p>This works best if you have a fast internet connection and time for a large file upload.</p>
+    <h5>VA gets your records for you</h5>
+    <p>If you tell us which VA medical facilities have treated you for this condition, we can go get your records from them. This is easier for you, but will take longer to complete.</p>
   </InformationLink>
 );
