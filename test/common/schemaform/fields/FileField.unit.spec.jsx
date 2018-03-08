@@ -157,7 +157,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('ProgressBar').exists()).to.be.true;
-    expect(tree.find('button').exists()).to.be.false;
+    expect(tree.find('button').text()).to.equal('Cancel');
   });
 
   it('should update progress', () => {
@@ -321,7 +321,7 @@ describe('Schemaform <FileField>', () => {
         fileField: fileSchema
       }
     };
-    const uploadFile = sinon.stub().returns(Promise.resolve());
+    const uploadFile = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -338,9 +338,10 @@ describe('Schemaform <FileField>', () => {
     formDOM.files('input[type=file]', [{}]);
 
     expect(uploadFile.firstCall.args[0]).to.eql({});
-    expect(uploadFile.firstCall.args[1]).to.be.a('function');
-    expect(uploadFile.firstCall.args[2]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[2]).to.be.a('function');
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
+    expect(uploadFile.firstCall.args[4]).to.be.a('function');
   });
   it('should render file with attachment type', () => {
     const idSchema = {
