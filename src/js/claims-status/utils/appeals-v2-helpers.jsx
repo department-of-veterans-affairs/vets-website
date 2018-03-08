@@ -1164,7 +1164,6 @@ export function getAlertContent(alert) {
     }
     case ALERT_TYPES.decisionSoon:
       return {
-        // TODO: confirm which of duplicate content is correct
         title: 'Decision soon',
         description: (
           <p>Your appeal will soon receive a Board decision. Sending in new evidence at this time could delay review of your appeal. If you’ve moved recently, please make sure that VA has your current mailing address.</p>
@@ -1175,7 +1174,6 @@ export function getAlertContent(alert) {
     case ALERT_TYPES.blockedByVso:
       return {
         title: 'A judge cannot review your appeal',
-        // TODO: confirm vsoName variable
         description: (
           <p>Your appeal is eligible to be assigned to a judge based on its place in line, but they are prevented from reviewing your appeal because your Veteran Service Organization, {details.vsoName}, is currently reviewing it. For more information, please contact your Veteran Service Organization or representative.</p>
         ),
@@ -1191,7 +1189,6 @@ export function getAlertContent(alert) {
       const formattedDueDate = formatDate(details.dueDate);
       return {
         title: 'What if I disagree with my decision?',
-        // TODO: confirm this link display format
         description: (
           <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal by {formattedDueDate}. For more information, review the document “Your Rights to Appeal Our Decision” enclosed with the Board’s decision, visit the <a href="https://www.uscourts.cavc.gov/appeal.php">Court’s website</a>, or contact your Veteran Service Organization or representative.</p>
         ),
