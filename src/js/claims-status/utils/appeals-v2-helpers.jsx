@@ -293,10 +293,9 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.bvaDevelopment:
       contents.title = 'The judge is seeking additional information before making a decision';
-      // TODO: Should this be "to make A decision"?
       contents.description = (
         <p>The Board of Veterans’ Appeals is seeking evidence or an outside opinion from a legal,
-        medical, or other professional necessary to make decision about your appeal.</p>
+        medical, or other professional necessary to make a decision about your appeal.</p>
       );
       break;
     case STATUS_TYPES.stayed:
@@ -351,7 +350,6 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         );
       }
       if (remandIssues.length) {
-        // TODO: Should remand, remand order, or neither be in quotes?
         remandBlock = (
           <div>
             <h5 className="remand-items">Remand</h5>
@@ -634,7 +632,6 @@ export function getEventContent(event) {
       };
   }
 }
-// TODO: The guidance for the at_vso status differs for the rest, should it?
 // This static piece of content gets reused throughout getNextEvents()
 function DECISION_REVIEW_CONTENT(prop) {
   return (
@@ -786,7 +783,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you send in new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a Supplemental Statement of the Case before transferring your case to
+                to write a new Supplemental Statement of the Case before transferring your case to
                 the Board of Veterans’ Appeals. Once your appeal is transferred, new
                 evidence can be sent directly to the Board and will not be reviewed by
                 the Veterans Benefits Administration.
@@ -822,7 +819,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you submit new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a Supplemental Statement of the Case before transferring your case to
+                to write a new Supplemental Statement of the Case before transferring your case to
                 the Board of Veterans’ Appeals. Once your appeal is transferred, new
                 evidence can be sent directly to the Board and will not be reviewed by
                 the Veterans Benefits Administration.
@@ -857,7 +854,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you send new evidence after the Supplemental Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will
-                need to write a Supplemental Statement of the Case before transferring your
+                need to write a new Supplemental Statement of the Case before transferring your
                 case to the Board of Veterans’ Appeals. Once your appeal is
                 transferred, new evidence can be sent directly to the Board and
                 will not be reviewed by the Veterans Benefits Administration.
@@ -888,7 +885,6 @@ export function getNextEvents(currentStatus, details) {
             cardDescription: `The Veterans Benefits Administration typically takes ${returnSsocDuration.description} to return cases to the Board.`,
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
-            // TODO: should "new" be removed from before SSoC, it is removed from previous case.
             description: (
               <p>
                 <strong>If you submit new evidence after the Supplemental Statement of the Case
