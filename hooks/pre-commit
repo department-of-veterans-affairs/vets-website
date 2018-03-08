@@ -1,3 +1,4 @@
 #!/bin/sh
 # Lint everything before commit, just in case our text editor isn't doing it for us
+yalc check
 npm run lint:changed
