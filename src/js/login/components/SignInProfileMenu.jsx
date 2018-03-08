@@ -2,20 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import DropDown from '../../common/components/DropDown';
 import IconUser from '../../common/components/svgicons/IconUser';
+import { features } from '../../common/containers/BetaApp';
 
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff"/>;
-    // @todo Some type of check here to see if they are registered for the beta.
-    const personalizationBeta = true;
-
+    const betaProfile = this.props.betaFeatures.some(b => b.feature === features.personalization);
     const dropDownContents = (
       <ul>
         <li><a href="/dashboard">Dashboard</a></li>
-        {personalizationBeta ? ([
-          <li key="1"><a href="/profile-beta">Profile</a></li>,
-          <li key="2"><a href="/account-beta">Account</a></li>
-        ]) : (<li><a href="/profile">Profile</a></li>)}
+        {betaProfile && <li><a href="/profile-beta">Profile</a></li>}
+        {betaProfile && <li><a href="/account-beta">Account</a></li>}
+        {!betaProfile && <li><a href="/profile">Profile</a></li>}
         <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
       </ul>
     );

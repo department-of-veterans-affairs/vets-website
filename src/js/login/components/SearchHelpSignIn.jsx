@@ -49,7 +49,7 @@ class SearchHelpSignIn extends React.Component {
         clickHandler={() => {
           this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
-        profile={this.props.profile}
+        betaFeatures={this.props.betaFeatures}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
         onUserLogout={this.props.onUserLogout}/>);
@@ -84,7 +84,8 @@ const mapStateToProps = (state) => {
   const userState = state.user;
   return {
     login: userState.login,
-    profile: userState.profile
+    profile: userState.profile,
+    betaFeatures: state.betaFeatures
   };
 };
 
