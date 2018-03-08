@@ -81,9 +81,13 @@ export const facilityDescription = ({ formData }) => {
 };
 
 
-export const treatmentView = () => {
+export const treatmentView = ({ formData }) => {
+  const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
   return (
-    <div>Treatment View Field Placeholder</div>
+    <div>
+      <strong>{treatmentCenterName}</strong>
+      <p>{startTreatment} — {endTreatment}</p>
+    </div>
   );
 };
 
