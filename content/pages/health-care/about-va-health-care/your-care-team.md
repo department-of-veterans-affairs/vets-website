@@ -136,3 +136,8 @@ Our social workers can help you with many different needs:
 - **If you're in the hospital now,** your social worker can help you make plans for when you get discharged. If you need supportive services in your home or if you can't live by yourself at home any longer, your social worker can help make arrangements for your ongoing care.
 - **If you're having trouble speaking up for yourself or feeling overwhelmed by trying to arrange care,** your social worker can help to be your voice and make sure you get what you need.
 - **If you and your family need help understanding how to deal with your health needs,** your social worker can help educate you about your condition, how to live a more healthy life, how to deal with stress, and how to access the programs and services you need.
+
+These are just some examples. We can help with almost any need, or can connect you with the right person for help.
+
+If you have a question or a problem that you need help with, ask your health care team to set up an appointment for you with a social worker. Or, ask your nearest VA health facility to connect you with a local social worker.
+[Find contact information for your nearest VA health facility](/facilities).
