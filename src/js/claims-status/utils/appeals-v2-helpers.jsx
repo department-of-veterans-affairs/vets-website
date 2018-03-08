@@ -783,7 +783,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you send in new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a new Supplemental Statement of the Case before transferring your case to
+                to write a Supplemental Statement of the Case before transferring your case to
                 the Board of Veterans’ Appeals. Once your appeal is transferred, new
                 evidence can be sent directly to the Board and will not be reviewed by
                 the Veterans Benefits Administration.
@@ -819,7 +819,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you submit new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a new Supplemental Statement of the Case before transferring your case to
+                to write a Supplemental Statement of the Case before transferring your case to
                 the Board of Veterans’ Appeals. Once your appeal is transferred, new
                 evidence can be sent directly to the Board and will not be reviewed by
                 the Veterans Benefits Administration.
