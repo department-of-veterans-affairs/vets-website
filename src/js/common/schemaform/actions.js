@@ -213,15 +213,6 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
       onError();
     });
 
-    req.addEventListener('abort', () => {
-      onChange({
-        name: file.name,
-        errorMessage: 'Upload aborted'
-      });
-      Raven.captureMessage('vets_upload_error: Upload aborted');
-      onError();
-    });
-
     req.upload.addEventListener('progress', (evt) => {
       if (evt.lengthComputable && onProgress) {
         // setting this at 80, because there's some time after we get to 100%
