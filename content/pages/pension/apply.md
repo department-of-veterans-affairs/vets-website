@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Benefits Application Process
+display_title: Application Process
 concurrence: ""
 order: 2
 children: pensionApplication

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
+
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
@@ -12,11 +13,12 @@ export function transform(formConfig, form) {
   });
 }
 
+
 export const supportingEvidenceOrientation = (
   <p>We’ll now ask you where we can find medical records or evidence about your worsened conditions after they were rated. You don’t need to turn in any medical records that you’ve already submitted with your original claim. <strong>We only need new medical records or other evidence about your condition after you got your disability rating.</strong></p>
 );
 
-// TODO: Change this into a function which returns the content with the appropriate [condition].
+
 export const evidenceTypesDescription = ({ formData }) => {
   return (
     <p>What supporting evidence do you have that shows how your {formData.disability.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
@@ -67,9 +69,16 @@ export class EvidenceTypeHelp extends React.Component {
   }
 }
 
+
 export const disabilityNameTitle = ({ formData }) => {
   return (
     <legend className="schemaform-block-title schemaform-title-underline">{formData.disability.diagnosticText}</legend>
   );
 };
 
+
+export const vaMedicalRecordsIntro = ({ formData }) => {
+  return (
+    <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
+  );
+};

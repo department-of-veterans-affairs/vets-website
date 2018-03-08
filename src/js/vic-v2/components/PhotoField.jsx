@@ -111,7 +111,6 @@ export default class PhotoField extends React.Component {
     });
   }
 
-
   onChangeScreenReader = (files) => {
     const file = files[0];
 
@@ -137,16 +136,18 @@ export default class PhotoField extends React.Component {
               });
             } else {
               this.setState({ progress: 0, warningMessage: null });
-              this.props.formContext.uploadFile(
+              this.uploadRequest = this.props.formContext.uploadFile(
                 file,
-                this.props.onChange,
                 this.props.uiSchema['ui:options'],
                 this.updateProgress,
-              ).catch(() => {
-                // rather not use the promise here, but seems better than trying to pass
-                // a blur function
-                this.props.onBlur(this.props.idSchema.$id);
-              });
+                (fileData) => {
+                  this.props.onChange(fileData);
+                },
+                () => {
+                  this.props.onBlur(this.props.idSchema.$id);
+                  this.uploadRequest = null;
+                }
+              );
             }
           });
       };
@@ -206,29 +207,36 @@ export default class PhotoField extends React.Component {
     this.setState({ previewProcessing: true });
   }
 
+  cancelUpload = () => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
+    }
+    this.props.onChange();
+  }
+
   uploadPhoto = (blob) => {
     this.setState({ isCropping: false, progress: 0, warningMessage: null });
     const file = blob;
     file.lastModifiedDate = new Date();
     file.name = 'profile_photo.png';
-    this.props.formContext.uploadFile(
+    this.uploadRequest = this.props.formContext.uploadFile(
       file,
+      this.props.uiSchema['ui:options'],
+      this.updateProgress,
       (formData) => {
         if (formData.confirmationCode) {
           this.props.onChange(Object.assign({}, formData, {
             file
           }));
+          this.uploadRequest = null;
         } else {
           this.props.onChange(formData);
         }
       },
-      this.props.uiSchema['ui:options'],
-      this.updateProgress
-    ).catch(() => {
-      // rather not use the promise here, but seems better than trying to pass
-      // a blur function
-      // this.props.onBlur(this.props.idSchema.$id);
-    });
+      () => {
+        this.uploadRequest = null;
+      }
+    );
   }
 
   resetFile = () => {
@@ -368,6 +376,9 @@ export default class PhotoField extends React.Component {
           {fieldView === 'progress' && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
+            <button type="button" className="va-button-link" onClick={this.cancelUpload}>
+              Cancel
+            </button>
           </div>}
           {fieldView === 'cropper' && <CropperController
             narrowLayout={smallScreen}
