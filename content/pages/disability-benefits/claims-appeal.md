@@ -98,99 +98,10 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
   </li>
 </ul>
 
-### Frequently Asked Questions
+### What if I disagree with the Board’s decision?
 
-<div class="usa-accordion">
-  <ul class="usa-unstyled-list">
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq1">How long does an appeal take?</button>
-      <div id="dbq1" class="usa-accordion-content">
-        An appeal can take 1 to 7 years to get a final decision. After you file a Notice of Disagreement (NOD), you can <a href="/track-claims">follow the status for your appeal</a>.
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq2">Can I send my appeal and related paperwork online?</button>
-      <div id="dbq2" class="usa-accordion-content">
-        No. At this time, all forms, evidence, and other paperwork for your appeal have to be sent through the mail. You’ll find the correct mailing address on information sent to you by VA, or you can send it to:<br/>
-        <p class="va-address-block">
-          Chairman (01)<br/>
-          Board of Veterans’ Appeals<br/>
-          PO Box 27063<br/>
-          Washington, DC 20038<br/>
-        </p>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq3">Can I submit more evidence (supporting documents) or make a new argument to support my appeal?</button>
-      <div id="dbq3" class="usa-accordion-content">
-        <p>Yes. The appeals process has a “continuous open record.” This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what’s known as a duty to assist policy. This means that we’ll help you get your treatment records you’ve identified and we’ll provide a physical exam if one is needed.</p>
-        <p>Each time you present new arguments and add or find new evidence, VBA will make a decision or prepare a new Supplemental Statement of the Case (SSOC). This can add time to your appeal, but may make your appeal more successful if the evidence supports your argument.</p>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq4">How do I get a representative to help me?</button>
-      <div id="dbq4" class="usa-accordion-content">
-        <p>If you want to, you can have a representative help you with your appeal. This person may be a lawyer, a claims agent, or a Veterans Service Officer (VSO). <a href="/disability-benefits/apply/help">Learn how to get help filing your claim</a>.</p>
-        <p>Once you have a representative, you’ll need to let VA know they have permission to represent you by completing a form.</p>
-        <ul>
-          <li>If your representative is a lawyer or claims agent, fill out the Appointment of Individual as Claimant’s Representative (VA Form 21-22A). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf">Download VA Form 21-22A</a></li>
-          <li>If your representative is a VSO, fill out the Appointment of Veterans Service Organization as Claimant’s Representative (VA Form 21-22). <a href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf">Download VA Form 21-22</a></li>
-        </ul>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq5">What if I decide I don’t want to pursue my appeal anymore?</button>
-      <div id="dbq5" class="usa-accordion-content">
-        <p>If at any time you decide you don’t want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you’re withdrawing the appeal.</p>
-        <p>If you request the withdrawal <em>before</em> you get notice that the appeal has been activated at the Board, send your statement to VBA. After the appeal has been transferred to the Board, you should send it directly to the Board at:</p>
-        <p class="va-address-block">
-          Chairman (01)<br/>
-          Board of Veterans’ Appeals<br/>
-          PO Box 27063<br/>
-          Washington, DC 20038<br/>
-        </p>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq6">What if I decide I don’t want a Board hearing anymore?</button>
-      <div id="dbq6" class="usa-accordion-content">
-        <p>If at any time you decide you don’t want a Board hearing, you or your authorized representative can send in a written statement. Your statement should include your name, the related Department of Veterans Affairs file number, and a statement that you’re withdrawing the appeal.</p>
-        <p>Send your letter to:</p><br>
-        <p class="va-address-block">
-          Director, Office of Management, Planning and Analysis (014)<br/>
-          Board of Veterans’ Appeals<br/>
-          PO Box 27063<br/>
-          Washington, DC 20038<br/>
-        </p>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq7">What happens if I disagree with the Board’s decision?</button>
-      <div id="dbq7" class="usa-accordion-content">
-        <p>If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal 120 days of the Board’s decision. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file a Court appeal</a>.</p>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq8">What is the Court of Appeals for Veterans Claims (CAVC)?</button>
-      <div id="dbq8" class="usa-accordion-content">
-        <p>The CAVC is made up of:</p>
-        <ul>
-          <li>7 permanent (long-term), active judges, and</li>
-          <li>2 more judges as part of a temporary expansion clause</li>
-        </ul>
-        <p>The CAVC has the sole power to accept or overturn Board decisions and is part of the United States Judiciary, not the Department of Veterans Affairs.</p>
-        <p>The CAVC reviews Board decisions based on what was in your file at the time the Board reviewed it, and written and oral arguments you or your representative submitted.</p>
-        <p>The CAVC’s main office is in Washington, DC, but the CAVC holds sessions in other parts of the country a few times each year.</p>
-      </div>
-    </li>
-    <li>
-      <button class="usa-button-unstyled usa-accordion-button" aria-controls="dbq9">How do I file a Notice of Appeal with the CAVC?</button>
-      <div id="dbq9" class="usa-accordion-content">
-        <p>If the Board has sent you a final decision on your appeal, you can appeal the Board’s decision to the CAVC. You’ll need to wait until you have a final decision from the Board—not the VBA RO—before you can appeal to the CAVC. <a href="https://www.uscourts.cavc.gov/appeal.php">Learn how to file an appeal with the CAVC</a>.</p>
-      </div>
-    </li>
-  </ul>
-</div>
+If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal 120 days of the Board’s decision.
+[Learn how to file a Court appeal](https://www.uscourts.cavc.gov/appeal.php).
 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
