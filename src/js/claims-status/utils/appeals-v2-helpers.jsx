@@ -259,7 +259,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     }
     case STATUS_TYPES.pendingHearingScheduling:
-      contents.title = 'You’re waiting for the Board to schedule your hearing';
+      contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
         <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When the Board schedules your hearing, you’ll
         get a notice in the mail at least 30 days before the hearing date.</p>
@@ -267,7 +267,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.scheduledHearing: {
       const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
-      contents.title = 'The Board has scheduled your hearing';
+      contents.title = 'Your hearing has been scheduled';
       contents.description = (
         <p>The Board scheduled your {getHearingType(details.type)} hearing for {formattedDate} at {details.location}. If you need to change this
         date, please contact your Veterans Service Organization or representative as soon as
@@ -284,7 +284,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.atVso:
-      contents.title = 'Your Veterans Service Organization is preparing your appeal';
+      contents.title = 'Your appeal is with your Veterans Service Organization';
       contents.description = (
         <p>{details.vsoName} is preparing a document in support of your appeal. For more information,
         please contact your Veterans Service Organization or representative.</p>
@@ -459,7 +459,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.ftr:
-      contents.title = 'We closed your appeal';
+      contents.title = 'Your appeal was closed';
       contents.description = (
         <p>You didn’t take action on something we requested that would have kept your appeal open. If this
         information is incorrect, or if you want to reopen your appeal, please contact your Veterans
@@ -483,7 +483,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.reconsideration:
-      contents.title = 'The Board denied your motion for reconsideration';
+      contents.title = 'Your motion for reconsideration was denied';
       contents.description = (
         <p>The Board of Veterans’ Appeals decided not to reopen your appeal. Please contact your
         Veterans Service Organization or representative for more information.</p>
@@ -492,7 +492,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.death: {
       const { first, middle, last } = name;
       const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
-      contents.title = 'The Board closed this appeal';
+      contents.title = 'The appeal was closed';
       contents.description = (
         <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so the Board has closed this appeal. If
         this information is incorrect, please contact your Veterans Service Organization or
@@ -501,7 +501,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     }
     case STATUS_TYPES.otherClose:
-      contents.title = 'The Board closed your appeal';
+      contents.title = 'Your appeal was closed';
       contents.description = (
         <p>The Board dismissed or closed your appeal. Please contact your Veterans Service Organization or
         representative for more information.</p>
@@ -776,7 +776,7 @@ export function getNextEvents(currentStatus, details) {
           also send in new evidence.`,
         events: [
           {
-            title: 'The Decision Review Officer will send your appeal to the Board',
+            title: 'Your appeal will be sent to the Board',
             description: (
               <p>
                 <strong>If you don’t send in new evidence after the Statement of the Case
