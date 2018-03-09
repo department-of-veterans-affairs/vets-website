@@ -194,9 +194,9 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'A Decision Review Officer is reviewing your appeal';
       contents.description = (
         <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision
-        Review Officer will review all of the evidence related to your appeal, including any new
-        evidence you sent. The officer may contact you to request additional evidence or medical
-        examinations, as needed. When the officer has completed their review, they will determine
+        Review Officer will review all the evidence related to your appeal, including any new
+        evidence you sent. The officer may contact you to ask for more evidence or medical
+        exams as needed. When the officer has completed the review, they’ll determine
         whether or not they can grant your appeal.</p>
       );
       break;
@@ -207,22 +207,22 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         <div>
           <p>
             The Veterans Benefits Administration sent you a Statement of the Case on {formattedSocDate}. The
-            Statement of the Case explains the reasons why they could not fully grant your appeal.
+            Statement of the Case explains why they couldn’t fully grant your appeal.
           </p>
           <p>
             If you don’t agree with the Statement of the Case, you can bring your appeal to the Board
-            of Veterans’ Appeals. To do this you must complete and return a Form 9 within 60 days.
+            of Veterans’ Appeals. To do this, you must complete and return a Form 9 within 60 days.
           </p>
         </div>
       );
       break;
     }
     case STATUS_TYPES.pendingCertification:
-      contents.title = 'The Decision Review Officer is finishing their review of your appeal';
+      contents.title = 'The Decision Review Officer is finishing the review of your appeal';
       contents.description = (
-        <p>The Veterans Benefits Administration received your Form 9 and will transfer your appeal
-        to the Board of Veterans’ Appeals. Before doing so, the Decision Review Officer must
-        certify that they have finished reviewing all of the evidence related to your appeal.</p>
+        <p>The Veterans Benefits Administration received your Form 9 and will send your appeal
+        to the Board of Veterans’ Appeals. But first, the Decision Review Officer must
+        finish reviewing all the evidence related to your appeal.</p>
       );
       break;
     case STATUS_TYPES.pendingCertificationSsoc: {
@@ -240,8 +240,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
               to your appeal, and/or
             </li>
             <li>
-              VA found it had further duty to assist you in developing your appeal, such as helping
-              you get treatment records or providing a physical exam if needed.
+              VA determined that we need to help you develop your appeal, such as helping
+              you get treatment records or giving you a physical exam if needed.
             </li>
           </ul>
         </div>
@@ -253,24 +253,24 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'Please review your new Statement of the Case';
       contents.description = (
         <p>The Veterans Benefits Administration sent you a new Statement of the Case on {formattedSocDate}
-        because after completing the remand instructions from the Board, they couldn’t fully grant
+        because, after completing the remand instructions from the Board, they couldn’t fully grant
         your appeal.</p>
       );
       break;
     }
     case STATUS_TYPES.pendingHearingScheduling:
-      contents.title = 'You’re waiting for your hearing to be scheduled';
+      contents.title = 'You’re waiting for the Board to schedule your hearing';
       contents.description = (
-        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you will
-        receive a notice in the mail at least 30 days before the hearing date.</p>
+        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When the Board schedules your hearing, you’ll
+        get a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
     case STATUS_TYPES.scheduledHearing: {
       const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
-      contents.title = 'Your hearing has been scheduled';
+      contents.title = 'The Board has scheduled your hearing';
       contents.description = (
-        <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}. If you need to change this
-        date, please contact your Veteran Service Organization or representative as soon as
+        <p>The Board scheduled your {getHearingType(details.type)} hearing for {formattedDate} at {details.location}. If you need to change this
+        date, please contact your Veterans Service Organization or representative as soon as
         possible.</p>
       );
       break;
@@ -278,16 +278,16 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.onDocket:
       contents.title = 'Your appeal is waiting to be assigned to a judge';
       contents.description = (
-        <p>Your appeal is at the Board of Veterans’ Appeals waiting to be assigned to a Veterans
-        Law Judge. Staff at the Board will make sure that your case is complete, accurate, and
+        <p>Your appeal is at the Board of Veterans’ Appeals, waiting to be assigned to a Veterans
+        Law Judge. Staff at the Board will make sure your case is complete, accurate, and
         ready to be decided by a judge.</p>
       );
       break;
     case STATUS_TYPES.atVso:
-      contents.title = 'Your appeal is currently with your Veteran Service Organization';
+      contents.title = 'Your Veterans Service Organization is preparing your appeal';
       contents.description = (
-        <p>{details.vsoName} is currently preparing a document in support of your appeal. For more information,
-        please contact your Veteran Service Organization or representative.</p>
+        <p>{details.vsoName} is preparing a document in support of your appeal. For more information,
+        please contact your Veterans Service Organization or representative.</p>
       );
       break;
     case STATUS_TYPES.decisionInProgress:
@@ -295,22 +295,22 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <p>Your appeal is at the Board of Veterans’ Appeals being reviewed by a Veterans Law Judge
         and their team of attorneys. If you submit evidence that isn’t already included in your
-        case, this may delay your appeal.</p>
+        case, it may delay your appeal.</p>
       );
       break;
     case STATUS_TYPES.bvaDevelopment:
-      contents.title = 'The judge is seeking additional information before making a decision';
+      contents.title = 'The judge is asking for more information before making a decision';
       contents.description = (
-        <p>The Board of Veterans’ Appeals is seeking evidence or an outside opinion from a legal,
-        medical, or other professional necessary to make decision about your appeal.</p>
+        <p>The judge reviewing your case at the Board of Veterans’ Appeals is asking for more evidence or an outside opinion from a legal,
+        medical, or other professional in order to make a decision about your appeal.</p>
       );
       break;
     case STATUS_TYPES.stayed:
       contents.title = 'The Board is waiting until a higher court makes a decision';
       contents.description = (
-        <p>A higher court has requested that a group of appeals currently before the Board of
-        Veterans’ Appeals be held open. This is because the decision the court makes on a different
-        appeal could impact your appeal.</p>
+        <p>A higher court has asked the Board of
+        Veterans’ Appeals to hold open a group of appeals awaiting review. Yours is one of the appeals held open. The higher court believes that a decision it will make on a different
+        appeal could affect yours.</p>
       );
       break;
     case STATUS_TYPES.remand: {
@@ -340,7 +340,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
             <h5 className="allowed-items">Allowed</h5>
             <p>
               The judge overrules the original decision and finds {pluralize.allowed} in
-              your favor
+              your favor.
             </p>
             <ul>{allowedIssues}</ul>
           </div>
@@ -350,7 +350,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         deniedBlock = (
           <div>
             <h5 className="denied-items">Denied</h5>
-            <p>The judge upholds the original decision for the following {pluralize.denied}</p>
+            <p>The judge upholds the original decision for the following {pluralize.denied}.</p>
             <ul>{deniedIssues}</ul>
           </div>
         );
@@ -360,8 +360,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
           <div>
             <h5 className="remand-items">Remand</h5>
             <p>
-              The judge needs additional evidence to be collected or a procedural error to be
-              corrected for the following {pluralize.remand}
+              The judge needs more evidence to be collected or a error in procedure to be
+              corrected for the following {pluralize.remand}.
             </p>
             <ul>{remandIssues}</ul>
           </div>
@@ -372,7 +372,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals made a decision on your appeal. Here is an overview of
+            The Board of Veterans’ Appeals made a decision on your appeal. Here's an overview of
             the decision:
           </p>
           <div className="decision-items">
@@ -382,7 +382,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
           </div>
           <p>
             If this decision changes your disability rating or your eligibility for VA benefits,
-            you should expect this adjustment to be made in 1 to 2 months.
+            you should see this change made in 1 to 2 months.
           </p>
         </div>
       );
@@ -409,7 +409,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         allowedBlock = (
           <div>
             <h5 className="allowed-items">Allowed</h5>
-            <p>The judge overrules the original decision and finds {pluralize.allowed} in your favor</p>
+            <p>The judge overrules the original decision and finds {pluralize.allowed} in your favor.</p>
             <ul>{allowedIssues}</ul>
           </div>
         );
@@ -418,7 +418,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         deniedBlock = (
           <div>
             <h5 className="denied-items">Denied</h5>
-            <p>The judge upholds the original decision for the following {pluralize.denied}</p>
+            <p>The judge upholds the original decision for the following {pluralize.denied}.</p>
             <ul>{deniedIssues}</ul>
           </div>
         );
@@ -428,7 +428,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals made a decision on your appeal. Here is an overview of
+            The Board of Veterans’ Appeals made a decision on your appeal. Here’s an overview of
             the decision:
           </p>
           <div className="decision-items">
@@ -437,7 +437,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
           </div>
           <p>
             If this decision changes your disability rating or your eligibility for VA benefits,
-            you should expect this adjustment to be made in 1 to 2 months.
+            you should see this change made in 1 to 2 months.
           </p>
         </div>
       );
@@ -448,68 +448,68 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <p>The Veterans Benefits Administration agreed with you and decided to overturn the
         original decision. If this decision changes your disability rating or eligibility for VA
-        benefits, you should expect this adjustment to be made in 1 to 2 months.</p>
+        benefits, you should see this change made in 1 to 2 months.</p>
       );
       break;
     case STATUS_TYPES.withdrawn:
       contents.title = 'You withdrew your appeal';
       contents.description = (
-        <p>You have opted to not continue your appeal. If this information is incorrect, please
-        contact your Veteran Service Organization or representative for more information.</p>
+        <p>You have decided not to continue your appeal. If this information is incorrect, please
+        contact your Veterans Service Organization or representative for more information.</p>
       );
       break;
     case STATUS_TYPES.ftr:
-      contents.title = 'Your appeal was closed';
+      contents.title = 'We closed your appeal';
       contents.description = (
-        <p>You did not take an action VA requested in order to continue your appeal. If this
-        information is incorrect, or if you want to reopen your appeal, please contact your Veteran
+        <p>You didn’t take action on something we requested that would have kept your appeal open. If this
+        information is incorrect, or if you want to reopen your appeal, please contact your Veterans
         Service Organization or representative for more information.</p>
       );
       break;
     case STATUS_TYPES.ramp:
-      contents.title = 'You opted in to the Rapid Appeals Modernization Program (RAMP)';
+      contents.title = 'You chose to take part in the Rapid Appeals Modernization Program (RAMP)';
       contents.description = (
         <div>
           <p>
             You chose to participate in the new supplemental claim or higher-level review lanes.
-            This does not mean that your appeal has been closed. If this information is incorrect,
-            please contact your Veteran Service Organization or representative as soon as possible.
+            This doesn’t mean that we’ve closed your appeal. If this information is incorrect,
+            please contact your Veterans Service Organization or representative as soon as possible.
           </p>
           <p>
-            At this time, Vets.gov is not able to provide information about appeals that are part
+            At this time, Vets.gov isn’t able to provide information about appeals that are part
             of RAMP.
           </p>
         </div>
       );
       break;
     case STATUS_TYPES.reconsideration:
-      contents.title = 'Your motion for reconsideration was denied';
+      contents.title = 'The Board denied your motion for reconsideration';
       contents.description = (
-        <p>The Board of Veterans’ Appeals declined to reopen your appeal. Please contact your
-        Veteran Service Organization or representative for more information.</p>
+        <p>The Board of Veterans’ Appeals decided not to reopen your appeal. Please contact your
+        Veterans Service Organization or representative for more information.</p>
       );
       break;
     case STATUS_TYPES.death: {
       const { first, middle, last } = name;
       const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
-      contents.title = 'The appeal was closed';
+      contents.title = 'The Board closed this appeal';
       contents.description = (
-        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If
-        this information is incorrect, please contact your Veteran Service Organization or
+        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so the Board has closed this appeal. If
+        this information is incorrect, please contact your Veterans Service Organization or
         representative as soon as possible.</p>
       );
       break;
     }
     case STATUS_TYPES.otherClose:
-      contents.title = 'Your appeal was closed';
+      contents.title = 'The Board closed your appeal';
       contents.description = (
-        <p>Your appeal was dismissed or closed. Please contact your Veteran Service Organization or
+        <p>The Board dismissed or closed your appeal. Please contact your Veterans Service Organization or
         representative for more information.</p>
       );
       break;
     default:
-      contents.title = 'Current Appeal Status Unknown';
-      contents.description = <p>Your current appeal status is unknown at this time</p>;
+      contents.title = 'We don’t know your appeal status';
+      contents.description = <p>Your appeal status is unknown at this time</p>;
   }
 
   return contents;
@@ -555,7 +555,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.droHearing:
       return {
-        title: 'Dro Hearing',
+        title: 'DRO Hearing',
         description: '',
       };
     case EVENT_TYPES.fieldGrant:
@@ -570,7 +570,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.form9:
       return {
-        title: 'Form 9 Received',
+        title: 'Form 9 received',
         description: '',
       };
     case EVENT_TYPES.ssoc:
@@ -590,12 +590,12 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingCancelled:
       return {
-        title: 'Hearing Cancelled',
+        title: 'Hearing canceled',
         description: '',
       };
     case EVENT_TYPES.hearingNoShow:
       return {
-        title: 'Hearing No Show',
+        title: 'Hearing no show',
         description: '',
       };
     case EVENT_TYPES.bvaDecision:
@@ -605,7 +605,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.bvaRemand:
       return {
-        title: 'Board Remand',
+        title: 'Board remand',
         description: '',
       };
     case EVENT_TYPES.withdrawn:
@@ -620,22 +620,22 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.cavcDecision:
       return {
-        title: 'CAVC Decision',
+        title: 'CAVC decision',
         description: '',
       };
     case EVENT_TYPES.recordDesignation:
       return {
-        title: 'Designation of Record',
+        title: 'Designation of record',
         description: '',
       };
     case EVENT_TYPES.reconsideration:
       return {
-        title: 'Reconsideration by Letter',
+        title: 'Reconsideration by letter',
         description: '',
       };
     default:
       return {
-        title: 'Unknown Event',
+        title: 'Unknown event',
         description: '',
       };
   }
@@ -645,8 +645,8 @@ export function getEventContent(event) {
 const DECISION_REVIEW_CONTENT = (
   <div>
     <p>
-      A Veterans Law Judge, working with their team of attorneys, will review all of the
-      available evidence and write a decision. For each issue you are appealing, they can
+      A Veterans Law Judge, working with their team of attorneys, will review all the
+      available evidence and write a decision. For each issue you’re appealing, they can
       decide to:
     </p>
     <ul className="decision-review-list">
@@ -656,7 +656,7 @@ const DECISION_REVIEW_CONTENT = (
       </li>
       <li><strong>Deny:</strong> The judge upholds the original decision.</li>
       <li>
-        <strong>Remand:</strong> The judge is sending the issue back to the Veterans
+        <strong>Remand:</strong> The judge sends the issue back to the Veterans
         Benefits Administration to gather more evidence or to fix a mistake before
         making a decision.
       </li>
@@ -743,10 +743,10 @@ export function getNextEvents(currentStatus, details) {
             title: 'The Veterans Benefits Administration will grant some or all of your appeal',
             description: (
               <p>
-                <strong>If the Decision Review Officer determines that there is enough evidence to grant
-                one or more of the issues on your appeal</strong>, they will make a new decision. If this
-                decision changes your disability rating or eligibility for VA benefits, you should
-                expect this change to be made in 1 to 2 months.
+                <strong>If the Decision Review Officer determines that there’s enough evidence to grant
+                one or more of the issues on your appeal</strong>, they’ll make a new decision. If this
+                decision changes your disability rating or eligibility for VA benefits, 
+                you should see this change made in 1 to 2 months.
               </p>
             ),
             durationText: '',
@@ -755,8 +755,8 @@ export function getNextEvents(currentStatus, details) {
             title: 'The Veterans Benefits Administration will send you a Statement of the Case',
             description: (
               <p>
-                <strong>If the Decision Review Officer determines that there is not enough evidence to
-                fully grant your appeal</strong>, they will send you their findings in a document called
+                <strong>If the Decision Review Officer determines that there’s not enough evidence to
+                fully grant your appeal</strong>, they’ll send you their findings in a document called
                 a Statement of the Case. You can then decide whether to continue your appeal to the
                 Board of Veterans’ Appeals.
               </p>
