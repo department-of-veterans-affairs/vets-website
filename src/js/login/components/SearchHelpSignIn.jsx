@@ -4,7 +4,6 @@ import _ from 'lodash';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 
-import DashboardRedirect from '../../common/components/DashboardRedirect';
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -50,7 +49,7 @@ class SearchHelpSignIn extends React.Component {
         clickHandler={() => {
           this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
-        betaFeatures={this.props.betaFeatures}
+        services={this.props.profile.services}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}
         onUserLogout={this.props.onUserLogout}/>);
@@ -63,7 +62,6 @@ class SearchHelpSignIn extends React.Component {
     }
     return (
       <div className="profileNav">
-        <DashboardRedirect services={this.props.profile.services}/>
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
@@ -86,8 +84,7 @@ const mapStateToProps = (state) => {
   const userState = state.user;
   return {
     login: userState.login,
-    profile: userState.profile,
-    betaFeatures: state.betaFeatures
+    profile: userState.profile
   };
 };
 
