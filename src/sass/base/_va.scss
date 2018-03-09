@@ -1408,6 +1408,9 @@ p.info-message {
   &:last-child {
     border: none;
   }
+  h4 {
+    clear: none;
+  }
 }
 
 .vertical-list-group .list-group-item:last-child {
