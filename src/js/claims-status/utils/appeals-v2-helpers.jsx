@@ -632,8 +632,13 @@ export function getEventContent(event) {
       };
   }
 }
-// This static piece of content gets reused throughout getNextEvents()
-function DECISION_REVIEW_CONTENT(prop) {
+
+/**
+ * Creates content reused throughout getNextEvents
+ * @param {string} prop Additional text to include at beginning of first paragraph
+ * @returns {object} Decision review content
+ */
+export const makeDecisionReviewContent = (prop) => {
   return (
     <div>
       <p>
@@ -654,7 +659,7 @@ function DECISION_REVIEW_CONTENT(prop) {
       <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
     </div>
   );
-}
+};
 
 /**
  * Translates an array of two ints into a string that conveys a duration estimate
@@ -941,7 +946,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT(),
+            description: makeDecisionReviewContent(),
             durationText: '',
             cardDescription: ''
           }
@@ -954,7 +959,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT('Once your representative has completed their review, your case will be returned to the Board. '),
+            description: makeDecisionReviewContent('Once your representative has completed their review, your case will be returned to the Board. '),
             durationText: '',
             cardDescription: '',
           }
@@ -968,7 +973,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT(),
+            description: makeDecisionReviewContent(),
             durationText: decisionDuration.header,
             cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration.description} to decide appeals once a judge starts their review.`,
           }
@@ -981,7 +986,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT(),
+            description: makeDecisionReviewContent(),
             durationText: '',
             cardDescription: '',
           }
@@ -993,7 +998,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT(),
+            description: makeDecisionReviewContent(),
             durationText: '',
             cardDescription: '',
           }
