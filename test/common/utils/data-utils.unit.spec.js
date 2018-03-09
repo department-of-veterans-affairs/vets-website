@@ -115,6 +115,10 @@ describe('lodash replacements', () => {
       expect(_.get('g[2]', o)).to.equal(o.g[2]);
     });
 
+    it('should handle dot-notated array indexes', () => {
+      expect(_.get('g.2', o)).to.equal(o.g[2]);
+    });
+
     it('should handle an array path', () => {
       expect(_.get(['k', 'a', 'y'], o)).to.equal(o.k.a.y);
     });

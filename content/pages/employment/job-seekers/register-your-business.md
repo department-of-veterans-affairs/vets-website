@@ -27,7 +27,7 @@ You may qualify if you’re a Veteran, and either you or another Veteran at the 
 
 **Please note:** You’re considered a Veteran if you:
 
-- Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
+- Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and didn't receive a dishonorable discharge, **or**
 - Served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
 
 <br>
@@ -38,6 +38,16 @@ You may qualify if you meet all the requirements of a VOSB listed above, and eit
 
 - A disability rating letter from us confirming that you have a service-connected disability rating between 0 and 100%, **or**
 - A disability determination from the Department of Defense
+
+<br>
+
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 

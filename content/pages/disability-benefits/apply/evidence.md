@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Evidence 
+description: Find out which evidence you’ll need to include when you file your VA claim for disability benefits, and which documents we’ll gather ourselves.
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 3

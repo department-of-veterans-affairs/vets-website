@@ -55,7 +55,7 @@ export function isInProgress(pathName) {
 
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
-    return page.depends(data);
+    return page.depends(data, page.index);
   }
 
   if (Array.isArray(page.depends)) {
