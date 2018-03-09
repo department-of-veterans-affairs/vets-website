@@ -280,7 +280,6 @@ const formConfig = {
               }
             }
           }
-
         },
         // pageSeven: {},
         // pageEight: {},
