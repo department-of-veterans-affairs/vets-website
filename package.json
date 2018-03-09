@@ -190,7 +190,7 @@
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.6.2",
     "uswds": "^1.4.2",
-    "webpack": "^4.0.1",
+    "webpack": "^4.1.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "webpack-md5-hash": "^0.0.6",
     "whatwg-fetch": "^2.0.3",
@@ -222,6 +222,6 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#579f0fa2bf0641dd50012e09a98e891a426a54bf",
-    "webpack-bundle-analyzer": "^2.10.0"
+    "webpack-bundle-analyzer": "^2.11.1"
   }
 }

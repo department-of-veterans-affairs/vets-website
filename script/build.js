@@ -652,7 +652,7 @@ if (options.buildtype !== 'development') {
     Object.keys(files).forEach((filename) => {
       if (filename.match(/\.(html|css)$/) !== null) {
         Object.keys(manifest).forEach((originalAssetFilename) => {
-          const newAssetFilename = manifest[originalAssetFilename];
+          const newAssetFilename = manifest[originalAssetFilename].replace('/generated/', '');
           const file = files[filename];
           const contents = file.contents.toString();
           const regex = new RegExp(originalAssetFilename, 'g');

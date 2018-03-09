@@ -2,8 +2,8 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-const WebpackMd5Hash = require('webpack-md5-hash');
+// const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+// const WebpackMd5Hash = require('webpack-md5-hash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const bourbon = require('bourbon').includePaths;
 // const neat = require('bourbon-neat').includePaths;
@@ -94,7 +94,6 @@ const configGenerator = (options) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['react'],
               // Speed up compilation.
               cacheDirectory: '.babelcache'
 
@@ -103,31 +102,28 @@ const configGenerator = (options) => {
           }
         },
         {
-          test: /modernizrrc/,
-          use: {
-            loader: 'modernizr-loader'
-          }
-        },
-        {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              { loader: 'css-loader' },
-              { loader: 'resolve-url-loader' },
-              {
-                loader: 'sass-loader',
-                options: {
-                  includePaths: [
-                    // bourbon,
-                    // neat,
-                    '~/uswds/src/stylesheets&sourceMap'
-                  ],
-                  sourceMap: true,
-                }
-              }
-            ],
-          })
+          use: {
+            loader: 'null-loader'
+          },
+          // use: ExtractTextPlugin.extract({
+          //   fallback: 'style-loader',
+          //   use: [
+          //     { loader: 'css-loader' },
+          //     { loader: 'resolve-url-loader' },
+          //     {
+          //       loader: 'sass-loader',
+          //       options: {
+          //         includePaths: [
+          //           // bourbon,
+          //           // neat,
+          //           '~/uswds/src/stylesheets&sourceMap'
+          //         ],
+          //         sourceMap: true,
+          //       }
+          //     }
+          //   ],
+          // })
         },
         {
           test: /\.(jpe?g|png|gif)$/i,
@@ -171,20 +167,17 @@ const configGenerator = (options) => {
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
-      alias: {
-        modernizr$: path.resolve(__dirname, './modernizrrc')
-      },
       extensions: ['.js', '.jsx']
     },
     optimization: {
-      runtimeChunk: true,
+      // runtimeChunk: true,
       splitChunks: {
         cacheGroups: {
-          vendor: {
+          // this needs to be "vendors" to overwrite a default group
+          vendors: {
             chunks: 'initial',
             test: 'vendor',
             name: 'vendor',
-            priority: 10,
             enforce: true
           }
         }
@@ -195,7 +188,6 @@ const configGenerator = (options) => {
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
           API_PORT: (process.env.API_PORT || 3000),
           WEB_PORT: (process.env.WEB_PORT || 3333),
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
