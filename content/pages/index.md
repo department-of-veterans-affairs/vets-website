@@ -5,6 +5,7 @@ title: Home
 plainlanguage: 11-1-16 Ready for Beth review
 enablewarning: false
 description: Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.
+entryname: dashboard-redirect
 majorlinks:
   - heading:
     links:
@@ -36,6 +37,8 @@ majorlinks:
       title: Family and Caregiver Benefits
       description: As the family member of a Servicemember or Veteran, find out if you qualify for benefits like health care, VA-backed home loans, life insurance, or money to help pay for college. If you’re caring for a Veteran with disabilities, find out if you can get added support.
 ---
+<div id="react-dashboard-renderer"></div>
+<div id="react-root">
 <div class="homepage-hero">
   <div class="homepage-hero-image usa-grid">
     <!-- Keep the white space here in order to force a line break. -->
@@ -58,4 +61,5 @@ you’ve earned.</div>
   <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-secondary" onClick="window.dataLayer.push({ event: 'nav-main-vcl' });">
     In crisis? Get help now
   </button>
+</div>
 </div>

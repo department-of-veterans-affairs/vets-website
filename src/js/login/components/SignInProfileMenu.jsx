@@ -7,7 +7,7 @@ import { features } from '../../common/containers/BetaApp';
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff"/>;
-    const betaProfile = this.props.betaFeatures.some(b => b.feature === features.personalization);
+    const betaProfile = this.props.services.includes(features.personalization);
     const dropDownContents = (
       <ul>
         {betaProfile && <li><a href="/dashboard-beta">Dashboard</a></li>}
@@ -38,6 +38,10 @@ SignInProfileMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onUserLogout: PropTypes.func.isRequired,
   disabled: PropTypes.bool
+};
+
+SignInProfileMenu.defaultProps = {
+  services: []
 };
 
 export default SignInProfileMenu;
