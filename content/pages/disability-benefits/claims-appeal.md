@@ -52,7 +52,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     </div>
   </li>
   <li class="list-group-item">
-    <h4>The Veterans Benefits Administration sends you Statement of the Case</h4>
+    <h4>The Veterans Benefits Administration sends you the Statement of the Case</h4>
     <p>
       After you file your Notice of Disagreement, a Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. If the Decision Review Officer determines that there is not enough evidence to fully grant your appeal, they will send you their findings in a document called a Statement of the Case. You can then decide whether to continue your appeal to the Board of Veterans’ Appeals.
     </p>
