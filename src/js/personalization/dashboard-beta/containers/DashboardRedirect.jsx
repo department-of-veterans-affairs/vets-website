@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Route, IndexRedirect, Redirect } from 'react-router';
 import { features } from '../../../common/containers/BetaApp';
 import { connect } from 'react-redux';
 
@@ -8,11 +7,6 @@ class DashboardRedirect extends React.Component {
   static defaultProps = {
     services: []
   };
-
-  constructor(props) {
-    super(props);
-    this.state = { shouldRedirect: false };
-  }
 
   componentWillMount() {
     this.checkURL();
@@ -44,6 +38,15 @@ class DashboardRedirect extends React.Component {
   }
 
   render() {
+    // @todo It would be cool if could instead:
+    // Push /dashboard-beta into the browser history without a reload
+    // Import a Dashboard entry function that we can execute to render to the page.
+    // That would save us a weird reload.
+
+    // @todo Also, it would be great if we could cache a flag to sessionStorage to know to
+    // render the dashboard instead of the homepage. That way we could check that flag and render immediately
+    // instead of waiting for the user object to come back with the list of services.
+
     return <div></div>;
   }
 }
