@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { transformForSubmit } from '../../common/schemaform/helpers';
-import InformationLink from './components/InformationLink';
+import AdditionalInfo from '../../common/components/AdditionalInfo';
 
 
 export function transform(formConfig, form) {
@@ -27,7 +27,7 @@ export const evidenceTypesDescription = ({ formData }) => {
 
 
 export const evidenceTypeHelp = (
-  <InformationLink>
+  <AdditionalInfo triggerText="Which should I choose?">
     <h3>Types of evidence</h3>
     <h4>VA medical records</h4>
     <p>If you were treated at a VA medical center or clinic, you have VA medical records. This includes Tri-Care.</p>
@@ -35,7 +35,7 @@ export const evidenceTypeHelp = (
     <p>If you were treated by a private doctor, including Veteran’s Choice, we will need to see those records to proceed with your claim. Like DBQs.</p>
     <h4>Lay statements or other evidence</h4>
     <p>Also known as "buddy statements," written accounts from family or other people who know you can help support a claim. In most cases your medical records are enough, but claims involving Post Traumatic Stress Disorder or Military Sexual Trauma sometimes benefit from Lay Statements.</p>
-  </InformationLink>
+  </AdditionalInfo>
 );
 
 
@@ -65,12 +65,12 @@ export const privateRecordsChoice = ({ formData }) => {
 
 // TODO: Figure out if this is going to be a common enough pattern to warrant a widget or something.
 export const privateRecordsChoiceHelp = (
-  <InformationLink>
+  <AdditionalInfo triggerText="Which should I choose?">
     <h4>Upload or delegate</h4>
     <h5>Uploading your own copies</h5>
     <p>If you have an electronic copy of your medical records, uploading your records can speed the review of your claim.</p>
     <p>This works best if you have a fast internet connection and time for a large file upload.</p>
     <h5>VA gets your records for you</h5>
     <p>If you tell us which VA medical facilities have treated you for this condition, we can go get your records from them. This is easier for you, but will take longer to complete.</p>
-  </InformationLink>
+  </AdditionalInfo>
 );
