@@ -7,101 +7,103 @@ concurrence:
 lastupdate: 
 relatedlinks:
   - heading: 
-    links:
-    - url: 
-      title: 
+    links: 
+    - url: /health-care/about-va-health-care/assisted-living-and-home-health-care/ 
+      title: Assisted Living and Home Health Care
       description: 
 ---
 
 <div class="va-introtext">
 
-If you have any questions or problems and need help, or if you're looking for help for a Veteran or Servicemember you're caring for, our VA social workers are here for you. Find out what kinds of things social workers help with, and how to connect with a social worker near you.
+If you're looking for help for a Veteran or Servicemember you're caring for, or for yourself as a family caregiver, our VA social workers are here for you. Find out what kinds of things social workers help with, and how to connect with a social worker near you.
 
 </div>
 
 <div class="feature" markdown=“1”>
+  
+### How can a VA social worker help Veteran or Servicemember I'm caring for?
 
-### As a Veteran or Servicemember, how do I know if I should talk with a VA social worker?
+Our social workers can help Veterans and Servicemembers with many different needs.
 
-**You may want to talk to a social worker if you're dealing with family problems like:**
+**VA social workers can help if the Veteran or Servicemember is:**
 
-- Struggling in your marriage
-- Feeling overwhelmed with child care
-- Caring for a parent or spouse who's ill
-- Losing someone close to you
-- Feeling that someone is taking advantage of or mistreating you in a relationship
+- **In a crisis situation:** A social worker can help to counsel them through the crisis. Then, they can help your family apply for programs and services through VA and in the community to meet the Veteran or Servicemember's long-term needs.
+- **Homeless, often in the hospital, or unable to care for themselves any longer:** A social worker can work closely with your family to find suitable housing and connect you to government and community resources to make sure you get the support the Veteran or Servicemember needs.
+- **In the hospital:** A social worker can help them make plans for when they get discharged and for their ongoing care. 
+- **Living in a rural location far from a VA health facility:** A social worker can help work with the Veteran or Servicemember's health care team to make sure they get the care they need.
+- **Having trouble speaking up for themselves or feeling overwhelmed by trying to arrange care:** A social worker act as the Veteran or Servicembmer's voice to make sure their wishes are respected and they get what they need.
+- **Struggling with depression, sadness, stress, anxiety, PTSD, drinking or drug use:** A social worker can offer counseling and work with the Veteran or Servicemember, their family, and their health care team to create a treatment plan.
+- **Dealing with end-of-life issues:** A social worker can help the Veteran or Servicemember and their family make decisions about life support, organ donation, and other issues and communicate these decisions to their health care team.
 
-**You may want to talk to a social worker if you'd like help with practical needs like:**
+### How can a VA social worker help me as a caregiver, and my family?
 
-- Applying for VA, Social Security, or other government or community benefits
-- Getting financial assistance
-- Making sure you'll get the care you need when you're discharged from the hospital
-- Finding housing if you're homeless
-- Moving to an assisted living facility, a board and care home, or a nursing home
-- Getting support and services to help you be able to live as independently as possible in your own home
-- Making end-of-life decisions like whether you want to be on life support equipment or be an organ donor, and which family member or other person you'd like to make decisions on your behalf when you're unable to make those decisions for yourself
+VA social workers can help to support you as the caregiver, and your family, with many different services.
 
-**You may also want to reach out to a social worker if you're struggling problems like:**
+**We can:**
 
-- Stress because of your health or because your health problems make it hard to live your life the way you want to
-- Feelings of being sad, depressed, or anxious
-- Drinking or drug use
-- Speaking up for yourself or feeling overwhelmed by trying to arrange your care
-- Helping your family to understand your health problems and how to help support you
-- Just feeling like something isn't right
+- Offer family counseling to help with any relationship struggles
+- Teach you and your family about the Veteran's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need
+- Help you find a free place to stay close by if your loved one needs to receive treatment in a hospital far from home
+- Help you make arrangements for your loved one's long-term care if you can no longer care for them yourself
 
-These are just some examples. You can talk with a VA social worker about any questions or problems you may have. We'll help you or connect you with the right person to help.
+These are just some examples. You can talk with a VA social worker about any questions or problems you or the Veteran or Servicemember you care for may have. We'll help you or connect you with the right person to help.
 
 </div>
 
 <div class="feature" markdown=“1”>
-
-### If I'm the family caregiver of a Veteran or Servicemember, can I ask for help from a VA social worker?
-
-Yes. Our social workers can help you find the support you need to help your loved one. 
-
-They can also help to support you and your family by providing support like:
-
-- Family counseling to help with any relationship struggles
-- Educating you about your loved one's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need
-- Helping you find a free place to stay close by if your loved one needs to receive treatment in a hospital far from home
-- Making arrangements for your loved one's long-term care if you can no longer care for them yourself
 
 </div>
 
 ### How do I request an appointment with a VA social worker?
 
-**If you're receiving care through VA**, you can ask your health care team to set up an appointment with a social worker for you.
-
-**If you're not enrolled in the VA health care program, or if you haven't yet received care through VA**, you can call your nearest VA health facility and ask to be connected to a social worker.<br>
+Talk to your loved one's primary care team. Or, call your nearest VA health facility and ask to be connected to a social worker.<br>
 [Find contact information for your local VA health care facility](/facilities).
 
-### Can a social worker help me or the Veteran or Servicemember I'm caring for through a crisis situation?
+### How do I get help right away if the Veteran or Servicemember is in crisis?
 
-Yes. Your social worker can help to counsel you through the crisis. Then, they can help you apply for programs and services through VA and in your community to meet your long-term needs. This may include connecting you with local food banks, homeless shelter, faith-based organizations, and other resources in your community.
+**If the Veteran or Servicemember is homeless or at risk of becomming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (1-877-424-3838) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about available homeless programs and services. You can choose to talk anonymously, or leave your contact information so a counselor can follow up. There's no charge for this service, and it's completely private.
 
-### What if I don't know know what I need, but just think I need help?
+**If the Veteran or Servicemember is experiencing a personal crisis, get help by choosing any one of these options:**
+- Call the Veterans Crisis Line at 1-800-273-8255, then press 1 to talk to someone now.
+- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
+- Text 838255 to get help right away.
+- Call 911.
+- Go to the nearest emergency room.
+
+### What if I don't know what my family needs, but just think we need help?
 
 That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
 
-### What will happen when I meet with my VA social worker?
+### What will happen when we meet with a VA social worker?
 
-Your social worker will meet with you, and with your family if you’d like.
+Your social worker will meet with you and the Veteran or Servicemember.
 
-They’ll ask you questions about:
-- Your health
-- Your living situation
-- Your family and other support systems
-- Your military experience
-- What you feel you need help with
+They’ll ask questions about the Veteran or Servicemember's:
+- Health
+- Living situation
+- Family and other support systems
+- Military experience
 
-Then, they'll write up an asssessment that will help you, your family and other support people, and your VA health care team make plans to get you the treatment and support you need.
+They'll also ask what you and the Veteran or Servicemember think you need help with.
 
-### What if I don't agree with the social worker's assessment?
+Then, they'll write up an asssessment that will help you and the Veteran or Servicemember's VA health care team make plans to get them the treatment and support they need.
 
-That's okay. Your social worker is here to help you and those caring for you. If you don't agree with their assessment, talk to your family, other support people, and VA health care team about your concerns so you can work together to find a plan that works for you.
+### What if we don't agree with the social worker's assessment?
+
+That's okay. Your social worker is here to help you and your family. If you don't agree with their assessment, talk with your VA health care team about your concerns so you can work together to find a plan that works for you.
 **THIS IS A MADE-UP ANSWER BUT WE MIGHT WANT SOMETHING LIKE THIS TO HELP DISPELL FEARS THAT SOCIAL WORKERS ARE THERE TO TAKE THINGS AWAY.**
 
-### How will my social worker work with me if I'm in the hospital or soon to go into the hospital for treatment?
+### How will a VA social worker work with my family if the Veteran or Servicemember I'm caring for is in the hospital?
 
-Your social worker will help to make sure you get consistent care from the time you're admitted to the hospital through to any ongoing follow-up treatment or support you may need when you're discharged. This includes coordinating your discharge planning and planning and providing any needed services based on your health, family and living situation, and government and community resources.
+Your social worker will help to make sure the Veteran or Servicemember gets consistent care from the time they're admitted to the hospital through to any ongoing follow-up treatment or support they may need when they're discharged. This includes planning and providing any needed services based on their health, family and living situation, and government and community resources.
+
+### How will a VA social worker help my family to find a free place to stay if the Veteran or Servicemember in our family is being treated in a hospital far from home?
+
+Your social worker will connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.
+[Find a Fisher House near where your Veteran or Servicemember will be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
+
+The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
+[Learn more about all Fisher House Foundation programs](https://www.fisherhouse.org/).
+
+Your social worker can also help you find out if the Veteran or Servicemember is eligible for help with travel expenses if they need to travel for care.<br>
+[Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
