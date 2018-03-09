@@ -10,7 +10,22 @@ relatedlinks:
     links: 
     - url: /health-care/about-va-health-care/assisted-living-and-home-health-care/ 
       title: Assisted Living and Home Health Care
-      description: 
+      description: Find out if the Veteran or Servicemember you're caring for can get assisted living, residential (live-in), or home health care services through VA.
+    - url: /health-care/health-conditions/
+      title: Health Needs and Conditions
+      description: Find out how to help the Veteran or Servicemember you're caring for access VA services for mental health, women’s health, and other specific needs.
+    - url: /housing-assistance/adaptive-housing-grants/
+      title: Adaptive Housing Grants
+      description: Find out if the Veteran or Servicemember you're caring for may be eligible for a grant to buy or change a home to meet their needs and help them live more independently with their service-connected disability.
+    - url: /pension/
+      title: Pension Benefits
+      description: If the person you're caring for is a wartime Veteran, find out if they're eligible for monthly pension payments as well as additional Aid and Attendance or Housebound benefits if they need help with their daily activities or can't leave the house.
+    - url: /disability-benefits/eligibility/
+      title: Disability Benefits Eligibility 
+      description: Find out if the Veteran or Servicemember you're caring for can get disability compensation from VA.
+    - url: /health-care/eligibility/
+      title: Health Care Benefits Eligibility
+      description: Find out if the Veteran or Servicemember you're caring for is eligible for the VA health care program.
 ---
 
 <div class="va-introtext">
