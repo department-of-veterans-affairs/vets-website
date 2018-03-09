@@ -103,27 +103,23 @@ const configGenerator = (options) => {
         },
         {
           test: /\.scss$/,
-          use: {
-            loader: 'null-loader'
-          },
-          // use: ExtractTextPlugin.extract({
-          //   fallback: 'style-loader',
-          //   use: [
-          //     { loader: 'css-loader' },
-          //     { loader: 'resolve-url-loader' },
-          //     {
-          //       loader: 'sass-loader',
-          //       options: {
-          //         includePaths: [
-          //           // bourbon,
-          //           // neat,
-          //           '~/uswds/src/stylesheets&sourceMap'
-          //         ],
-          //         sourceMap: true,
-          //       }
-          //     }
-          //   ],
-          // })
+          // use: {
+          //   loader: 'null-loader'
+          // },
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              {
+                loader: 'css-loader',
+              },
+              {
+                loader: 'sass-loader',
+                options: {
+                  sourceMap: true,
+                }
+              }
+            ],
+          })
         },
         {
           test: /\.(jpe?g|png|gif)$/i,
