@@ -64,9 +64,9 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     </p>
   </li>
   <li class="list-group-item">
-    <h4>The Veterans Benefits Administration prepare a new Statement of the Case (optional)</h4>
+    <h4>The Veterans Benefits Administration prepare a Supplemental Statement of the Case (optional)</h4>
     <p>
-      You can submit new evidence for your appeal at any time in the process. If you submit new evidence after you receive a Statement of the Case, the Decision Review Officer will need to write a new Statement of the Case before transferring your case to the Board of Veterans’ Appeals. Once your appeal is transferred, new evidence can be sent directly to the Board and will not be reviewed by the Veterans Benefits Administration.
+      You can submit new evidence for your appeal at any time in the process. If you submit new evidence after you receive a Statement of the Case, the Decision Review Officer will need to write a Supplemental Statement of the Case before transferring your case to the Board of Veterans’ Appeals. Once your appeal is transferred, new evidence can be sent directly to the Board and will not be reviewed by the Veterans Benefits Administration.
     </p>
   </li>
   <li class="list-group-item">
