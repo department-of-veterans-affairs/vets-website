@@ -63,7 +63,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     </p>
   </li>
   <li class="list-group-item">
-    <h4>The Veterans Benefits Administration prepare a new Statement of the Case (optional visual treatment)</h4>
+    <h4>The Veterans Benefits Administration prepare a new Statement of the Case (optional)</h4>
     <p>
       You can submit new evidence for your appeal at any time in the process. If you submit new evidence after you receive a Statement of the Case, the Decision Review Officer will need to write a new Statement of the Case before transferring your case to the Board of Veterans’ Appeals. Once your appeal is transferred, new evidence can be sent directly to the Board and will not be reviewed by the Veterans Benefits Administration.
     </p>
@@ -78,7 +78,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     </p>
   </li>
   <li class="list-group-item">
-    <h4>You have a hearing (optional visual treatment)</h4>
+    <h4>You have a hearing (optional)</h4>
     <p>
       You have the option to request a hearing with a Veterans Law Judge. At your hearing, the judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge will not make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings at the Board</a>.
     </p>
