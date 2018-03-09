@@ -87,11 +87,11 @@ export default class PhotoField extends React.Component {
     const oldFile = prevProps.formData || {};
     const newState = this.state;
     if (newFile.errorMessage && oldFile.errorMessage !== newFile.errorMessage) {
-      scrollAndFocus(document.querySelector('.usa-input-error-message'));
+      scrollAndFocus(this.refs['error-message']);
     } else if (prevState.isCropping !== newState.isCropping) {
-      scrollAndFocus(document.querySelector('.border-box'));
+      scrollAndFocus(this.refs['border-box']);
     } else if (typeof this.props.formData === 'undefined' && this.props.formData !== prevProps.formData) {
-      scrollAndFocus(document.querySelector('.border-box'));
+      scrollAndFocus(this.refs['border-box']);
     }
   }
 
@@ -347,13 +347,13 @@ export default class PhotoField extends React.Component {
     return (
       <fieldset>
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
-        <div className={errorMessage ? 'error-box' : 'border-box'}>
+        <div ref="border-box" className={errorMessage ? 'error-box' : 'border-box'}>
           {fieldView === 'cropper' && <span className="sr-only">
             This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
             {errorMessage && <div className="photo-error-wrapper">
-              <div role="alert" className="usa-input-error-message photo-error-message">
+              <div ref="error-message" role="alert" className="usa-input-error-message photo-error-message">
                 We’ve run into a problem.
                 <p>{errorMessage}</p>
               </div>
