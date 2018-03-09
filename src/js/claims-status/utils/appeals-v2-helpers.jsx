@@ -949,19 +949,12 @@ export function getNextEvents(currentStatus, details) {
       };
     }
     case STATUS_TYPES.atVso: {
-      const description = () => {
-        return (
-          <div>
-            {DECISION_REVIEW_CONTENT('Once your representative has completed their review, your case will be returned to the Board. ')}
-          </div>
-        );
-      };
       return {
         header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
-            description,
+            description: DECISION_REVIEW_CONTENT('Once your representative has completed their review, your case will be returned to the Board. '),
             durationText: '',
             cardDescription: '',
           }
