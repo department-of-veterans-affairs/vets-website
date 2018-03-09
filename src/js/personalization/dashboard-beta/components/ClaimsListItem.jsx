@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import { getPhaseDescription, isClaimComplete, getClaimType } from '../../claims-status/utils/helpers';
+import { getPhaseDescription, isClaimComplete, getClaimType } from '../../../claims-status/utils/helpers';
 
 function listPhase(phase) {
   return (phase === 8) ? 'Closed' : getPhaseDescription(phase);

@@ -16,8 +16,6 @@ export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
 export * from './mhv';
 
-export * from './mhv';
-
 export function updateProfileFields(newState) {
   return {
     type: UPDATE_PROFILE_FIELDS,
