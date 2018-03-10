@@ -27,29 +27,33 @@ When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), yo
 After the Veterans Benefits Administration makes a decision on your claim, you can appeal some or all of the decision if you disagree with it. If you want to, you can have a representative help you with your appeal. This person may be a lawyer, claims agent, or Veterans Service Officer. <a href="/disability-benefits/apply/help/">Get help filing your appeal</a>.
 </p>
 
-<section id="time-to-complete-claim">
-  #### How long does it take VA to make a decision?
+<span id="time-to-complete-claim"></span>
+  ### How long does it take VA to make a decision?
 
   <div class="card information" markdown="0">
-    <span class="number">12-18 months</span>
-    <span class="description">The Veterans Benefits Administration typically takes between 12 and 18 months to review new appeals and decide whether to grant some or all of the appeal.</span>
+    <span class="number">12-18 months for new appeals</span>
+    <span class="description">The Veterans Benefits Administration usually takes 12-18 months to review new appeals and decide whether to grant some or all of the appeal.</span>
   </div>
 
   <div class="card information" markdown="0">
-    <span class="number">5-7 years</span>
-    <span class="description">If you are not satisfied with the Veterans Benefits Administration’s review, your appeal could take between 5 and 7 years to get a decision from a Veterans Law Judge at the Board of Veterans’ Appeals.</span>
+    <span class="number">5-7 years for appeals sent to the Board of Veterans’ Appeals</span>
+    <span class="description">When you request a review from a Veterans Law Judge at the Board of Veterans’ Appeals, it could take 5-7 years for you to get a decision.</span>
   </div>
 </section>
 
 <section id="appeal-steps">
-  <h4>An appeal follows these steps</h4>
+  <h4>An appeal follows these steps:</h4>
 
   <ul class="vertical-list-group more-bottom-cushion">
     <li class="list-group-item">
       <div>
         <h4>File a Notice of Disagreement (NOD)</h4>
         <p>
-        By filing a Notice of Disagreement, you begin the appeals process. You’ll need to file a Notice of Disagreement within 1 year of the date on the letter notifying you of the claim decision. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>. Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. A representative can help you file a Notice of Disagreement. <a href="/disability-benefits/apply/help/index.html">Get help filing your appeal</a>.
+        By filing a Notice of Disagreement, you begin the appeals process. You’ll need to file a Notice of Disagreement within 1 year of the date on the letter notifying you of the claim decision. <br> 
+        <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>. 
+        </p>
+        <p>
+        Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. A representative can help you file a Notice of Disagreement. <a href="/disability-benefits/apply/help/index.html">Get help filing your appeal</a>.
         </p>
       </div>
     </li>
