@@ -261,7 +261,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.pendingHearingScheduling:
       contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
-        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When the Board schedules your hearing, you’ll
+        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you’ll
         get a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
@@ -269,7 +269,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Your hearing has been scheduled';
       contents.description = (
-        <p>The Board scheduled your {getHearingType(details.type)} hearing for {formattedDate} at {details.location}. If you need to change this
+        <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}. If you need to change this
         date, please contact your Veterans Service Organization or representative as soon as
         possible.</p>
       );
@@ -494,7 +494,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
       contents.title = 'The appeal was closed';
       contents.description = (
-        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so the Board has closed this appeal. If
+        <p>VA records show that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If
         this information is incorrect, please contact your Veterans Service Organization or
         representative as soon as possible.</p>
       );
@@ -503,7 +503,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.otherClose:
       contents.title = 'Your appeal was closed';
       contents.description = (
-        <p>The Board dismissed or closed your appeal. Please contact your Veterans Service Organization or
+        <p>Your appeal was dismissed or closed. Please contact your Veterans Service Organization or
         representative for more information.</p>
       );
       break;
