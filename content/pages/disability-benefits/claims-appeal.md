@@ -28,18 +28,21 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 </p>
 
 <span id="time-to-complete-claim"></span>
-  ### How long does it take VA to make a decision?
+  ### How long does it take VA to make a decision on a new appeal?
 
   <div class="card information" markdown="0">
-    <span class="number">12-18 months for new appeals</span>
+    <span class="number">12-18 months</span>
     <span class="description">The Veterans Benefits Administration usually takes 12-18 months to review new appeals and decide whether to grant some or all of the appeal.</span>
   </div>
 
+  <span id="time-to-complete-claim"></span>
+  ### How long does it take the Board of Veterans’ Appeals to make a decision on an appeal?
+  
   <div class="card information" markdown="0">
-    <span class="number">5-7 years for appeals sent to the Board of Veterans’ Appeals</span>
+    <span class="number">5-7 years</span>
     <span class="description">When you request a review from a Veterans Law Judge at the Board of Veterans’ Appeals, it could take 5-7 years for you to get a decision.</span>
   </div>
-</section>
+
 
 <section id="appeal-steps">
   <h4>An appeal follows these steps:</h4>
