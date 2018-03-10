@@ -86,10 +86,19 @@ export const facilityDescription = ({ formData }) => {
 
 export const treatmentView = ({ formData }) => {
   const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
+  let treatmentPeriod = '';
+
+  if (startTreatment && endTreatment) {
+    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
+  } else if (startTreatment || endTreatment) {
+    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  }
+
+
   return (
     <div>
-      <strong>{treatmentCenterName}</strong>
-      <p>{startTreatment} — {endTreatment}</p>
+      <strong>{treatmentCenterName}</strong><br/>
+      {treatmentPeriod}
     </div>
   );
 };
