@@ -298,7 +298,9 @@ describe('data utils (lodash replacements)', () => {
   });
 
   describe('omit', () => {
-    it('should return a deep clone of an object', () => {
+    // So properties can be compared with ===
+    // Useful in shouldComponentUpdate, for instance
+    it('should not return a deep clone of an object', () => {
       const obj = {
         a: 'a',
         b: {
@@ -307,7 +309,7 @@ describe('data utils (lodash replacements)', () => {
       };
 
       const newObj = _.omit(['a'], obj);
-      expect(newObj.b).to.not.equal(obj.b);
+      expect(newObj.b).to.equal(obj.b);
     });
 
     it('should omit all the fields passed in', () => {
