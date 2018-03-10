@@ -11,9 +11,9 @@ import checkValidPath from './checkValidPath';
  *
  * TODO: Link to some documentation which will be a better explanation than the above
  *
- * @param {Array|Obect} object
  * @param {Array|string} path
  * @param {*} value
+ * @param {Array|Obect} object
  * @param {Number} level  How many times we've recursed
  * @return {Object} A new object with the appropriate value set
  */
@@ -57,9 +57,9 @@ function baseSet(arrayPath, value, object, level = 0) {
  * Sets the value at the end of the path, creating the appropriate objects along the way if needed.
  * Separate from `baseSet` to not expose the level param.
  *
- * @param {Obect} object
  * @param {Array|string} path
  * @param {*} value
+ * @param {Obect} object
  * @return {Object} A new object with the appropriate value set
  */
 export default function set(path, value, object) {

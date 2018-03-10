@@ -26,16 +26,16 @@ const {
 } = fullSchema526EZ.definitions;
 
 // We may add these back in after the typeahead, but for now...
-const treatmentsSchema = _.cloneDeep(treatments);
-treatmentsSchema.items.properties.treatment.properties = _.omit(
-  [
-    'treatmentCenterType',
-    'treatmentCenterCountry',
-    'treatmentCenterState',
-    'treatmentCenterCity'
-  ],
-  treatmentsSchema.items.properties.treatment.properties
-);
+const treatmentsSchema = _.set('items.properties.treatment.properties',
+  _.omit(
+    [
+      'treatmentCenterType',
+      'treatmentCenterCountry',
+      'treatmentCenterState',
+      'treatmentCenterCity'
+    ],
+    treatments.items.properties.treatment.properties
+  ), treatments);
 
 const initialData = {
   // For testing purposes only
