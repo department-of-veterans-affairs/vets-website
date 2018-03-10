@@ -56,42 +56,41 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
         <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>. 
         </p>
         <p>
-        Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. A representative can help you file a Notice of Disagreement. <a href="/disability-benefits/apply/help/index.html">Get help filing your appeal</a>.
+        Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. An accredited representative can help you file a Notice of Disagreement. <a href="/disability-benefits/apply/help/index.html">Get help filing your appeal</a>.
         </p>
       </div>
     </li>
     <li class="list-group-item">
       <h4>The Veterans Benefits Administration sends you the Statement of the Case</h4>
       <p>
-        After you file your Notice of Disagreement, a Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. If the Decision Review Officer determines that there is not enough evidence to fully grant your appeal, they will send you their findings in a document called a Statement of the Case. You can then decide whether to continue your appeal to the Board of Veterans’ Appeals.
+        After you file your Notice of Disagreement, a Decision Review Officer will review all the evidence related to your appeal, including any new evidence you sent. If the Decision Review Officer determines that there isn’t enough evidence to fully grant your appeal, they'll send you their findings in a document called a Statement of the Case. You can then decide whether to continue your appeal to the Board of Veterans’ Appeals.
       </p>
     </li>
     <li class="list-group-item">
       <h4>You return the VA Form 9</h4>
       <p>
-        When you receive a copy of the Statement of the Case in the mail, you’ll also get a VA Form 9. If you disagree with the Statement of the Case and want to continue your appeal to the Board of Veterans’ Appeals, you must return VA Form 9 within 60 days.
+        When you receive a copy of the Statement of the Case in the mail, you’ll also get a VA Form 9. If you disagree with the Statement of the Case and want to continue your appeal to the Board of Veterans’ Appeals, you’ll need to return VA Form 9 within 60 days.
       </p>
     </li>
     <li class="list-group-item">
-      <h4>The Veterans Benefits Administration prepare a Supplemental Statement of the Case (optional)</h4>
+      <h4>The Veterans Benefits Administration prepares a Supplemental Statement of the Case (optional)</h4>
       <p>
-        You can submit new evidence for your appeal at any time in the process. If you submit new evidence after you receive a Statement of the Case, the Decision Review Officer will need to write a Supplemental Statement of the Case before transferring your case to the Board of Veterans’ Appeals. Once your appeal is transferred, new evidence can be sent directly to the Board and will not be reviewed by the Veterans Benefits Administration.
+        You can submit new evidence for your appeal at any time in the process. If you submit new evidence after you receive a Statement of the Case, the Decision Review Officer will need to write a Supplemental Statement of the Case before sending your case to the Board of Veterans’ Appeals. Once your appeal is sent, you'll need to submit any new evidence directly to the Board. The Veterans Benefits Administration won't review it.
       </p>
     </li>
     <li class="list-group-item">
       <h4>Your appeal is sent to the Board</h4>
       <p>
-      The Decision Review Officer will finish their review and transfer your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they are received as determined by the date of the VA Form 9. A judge will begin work on your appeal when it is among the oldest appeals that are ready for their review.
+      The Decision Review Officer will finish the review and send your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they’re received according to the date on the VA Form 9. A judge will begin work on your appeal when it’s among the oldest appeals ready for their review.
       </p>
       <p>
-      If you are suffering a serious illness or are in financial distress, or for other sufficient cause, you can apply to have your appeal Advanced on Docket. If you are older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so that they are always at the front of the line. <a href="#">Learn how to request Advanced on Docket status</a>.
+      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line. <a href="/disability-benefits/claims-appeal/request-a-priority-review/">Learn how to request Advanced on Docket status</a>.
       </p>
-      <!-- TODO: update link with /disability-benefits/claims-appeal/request-a-priority-review/ -->
     </li>
     <li class="list-group-item">
       <h4>You have a hearing (optional)</h4>
       <p>
-        You have the option to request a hearing with a Veterans Law Judge. At your hearing, the judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge will not make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings at the Board</a>.
+        You have the option to request a hearing with a Veterans Law Judge. At your hearing, the judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won’t make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings at the Board</a>.
       </p>
     </li>
     <li class="list-group-item">
@@ -101,8 +100,8 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
       </p>
       <ul>
         <li><strong>Allowed:</strong> The Board grants benefits.</li>
-        <li><strong>Remanded:</strong> The Board needs more evidence to make a decision and will return your appeal to VBA. After VBA obtains the additional evidence, it will then make a new decision on the appeal. If VBA can’t grant all or part of your appeal, it will prepare a new SSOC and return the appeal to the Board.</li>
-        <li><strong>Denied:</strong> The Board does not grant benefits.</li>
+        <li><strong>Remanded:</strong> The Board needs more evidence to make a decision and returns your appeal to the Veterans Benefits Administration. After the Veterans Benefits Administration gets the requested evidence, it’ll then make a new decision on the appeal. If the Veterans Benefits Administration can’t grant all or part of your appeal, it’ll prepare a new Supplemental Statement of the Case and return the appeal to the Board.</li>
+        <li><strong>Denied:</strong> The Board doesn’t grant benefits.</li>
       </ul>
       <p><strong>Note:</strong> About 60% of all decisions have at least 1 issue remanded.</p>
     </li>
@@ -111,7 +110,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 
 ### What if I disagree with the Board’s decision?
 
-If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You will need to hire a VA-accredited attorney to represent you, or you may represent yourself. You will need to file your Court appeal 120 days of the Board’s decision.
+If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You’ll need to hire a VA-accredited attorney to represent you, or you may represent yourself. You’ll need to file your Court appeal 120 days of the Board’s decision.
 [Learn how to file a Court appeal](https://www.uscourts.cavc.gov/appeal.php).
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
