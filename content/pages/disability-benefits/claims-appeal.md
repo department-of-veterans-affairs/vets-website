@@ -84,7 +84,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
       The Decision Review Officer will finish the review and send your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they’re received according to the date on the VA Form 9. A judge will begin work on your appeal when it’s among the oldest appeals ready for their review.
       </p>
       <p>
-      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line. <a href="/disability-benefits/claims-appeal/request-a-priority-review/">Learn how to request Advanced on Docket status</a>.
+      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re over 75 years old, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line. <a href="/disability-benefits/claims-appeal/request-a-priority-review/">Learn how to request Advanced on Docket status</a>.
       </p>
     </li>
     <li class="list-group-item">
