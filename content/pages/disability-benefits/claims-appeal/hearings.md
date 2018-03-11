@@ -103,7 +103,7 @@ Or you can contact your Veterans Service Organization at any time during the app
 
   Yes. You can get a representative to help you prepare for the hearing and present your information to the judge. This person may be a lawyer, a claims agent, or someone from a Veterans Service Organization (VSO). 
 
-  [Get help finding a representative](/disability-benefits/apply/help/).
+  [Get help from a representative](/disability-benefits/apply/help/).
 </section>
 
 <section id="expect">
