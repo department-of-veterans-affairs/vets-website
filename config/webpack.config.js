@@ -97,6 +97,13 @@ const configGenerator = (options) => {
           }
         },
         {
+          // Modernizr is used in some of the styles
+          test: /modernizrrc\.js/,
+          use: {
+            loader: 'modernizr-loader'
+          }
+        },
+        {
           test: /\.scss$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
@@ -153,6 +160,9 @@ const configGenerator = (options) => {
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
+      alias: {
+        modernizr$: path.resolve(__dirname, './modernizrrc.js')
+      },
       extensions: ['.js', '.jsx']
     },
     optimization: {
