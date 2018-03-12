@@ -131,7 +131,7 @@ You'll need to either use eBenefits or fill out a form and mail it in.
 
 
 If you're filling out one of the forms, you'll need to mail it to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
-[Find a VA regional office near you](/facilities/).
+[Find a VA regional office near you](/facilities/?zoomLevel=11&page=1&facilityType=benefits).
 
 </div>
 </div>
