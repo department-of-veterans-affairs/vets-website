@@ -1,13 +1,15 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import Main from './containers/Main';
 import PrintPage from './containers/PrintPage';
 import StatusPage from './containers/StatusPage';
+import IntroPage from './containers/IntroPage';
+import Post911GIBStatusApp from './containers/Post911GIBStatusApp';
 
 const routes = [
+  <IndexRoute key="/" component={IntroPage}/>,
   <Route
-    component={Main}
+    component={Post911GIBStatusApp}
     key="/main">
     <IndexRoute
       component={StatusPage}

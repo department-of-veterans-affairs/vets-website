@@ -8,6 +8,8 @@ import {
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
   NO_CHAPTER33_RECORD_AVAILABLE,
+  SERVICE_UP_STATES,
+  SET_SERVICE_UP
 } from '../utils/constants';
 
 export function getEnrollmentData() {
@@ -50,3 +52,22 @@ export function getEnrollmentData() {
       });
   };
 }
+
+export function getServiceUp() {
+  return (dispatch) => {
+    dispatch({
+      type: SET_SERVICE_UP,
+      serviceUp: SERVICE_UP_STATES.pending
+    });
+
+    // TODO: Make the api call here
+    // In the meantime, act like we did; delay of 3 seconds
+    return setTimeout(() => {
+      dispatch({
+        type: SET_SERVICE_UP,
+        serviceUp: SERVICE_UP_STATES.up
+      });
+    }, 3000);
+  };
+}
+
