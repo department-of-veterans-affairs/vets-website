@@ -139,8 +139,6 @@
     "metalsmith-watch": "^1.0.3",
     "mkdirp": "^0.5.1",
     "mocha": "^3.5.0",
-    "modernizr": "=3.3.1",
-    "modernizr-loader": "0.0.5",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",
     "nightwatch": "^0.9.16",

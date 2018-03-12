@@ -1,5 +1,9 @@
 /* eslint-disable */
-
+/*
+ * This code is taken from https://github.com/christophercliff/metalsmith-webpack and https://github.com/okonet/metalsmith-webpack-dev-server.
+ *
+ * These modules appear to be dead, so in order to get around their Webpack 2.x deps, I'm copying them here
+ */
 var chalk = require('chalk')
 var webpack = require('webpack')
 var WebpackDevServer = require('webpack-dev-server')
