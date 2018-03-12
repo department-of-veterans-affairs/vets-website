@@ -80,7 +80,6 @@
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "chromedriver": "^2.33.2",
-    "chunk-manifest-webpack-plugin": "^1.1.2",
     "classlist-polyfill": "^1.0.3",
     "classnames": "^2.2.5",
     "command-line-args": "^3.0.1",
@@ -112,7 +111,6 @@
     "ismobilejs": "^0.4.0",
     "isomorphic-fetch": "http://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz",
     "jsdom": "^11.1.0",
-    "json-loader": "^0.5.7",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.0.3",
     "leaflet-control-geocoder": "^1.5.1",
@@ -191,7 +189,6 @@
     "uswds": "^1.4.2",
     "webpack": "^4.1.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
-    "webpack-md5-hash": "^0.0.6",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.2.0"
   },
