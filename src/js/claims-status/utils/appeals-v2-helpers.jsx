@@ -211,7 +211,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
           </p>
           <p>
             If you don’t agree with the Statement of the Case, you can bring your appeal to the Board
-            of Veterans’ Appeals. To do this, you must complete and return a Form 9 within 60 days.
+            of Veterans’ Appeals. To do this, you must complete and return a VA Form 9 within 60 days.
           </p>
         </div>
       );
@@ -220,7 +220,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.pendingCertification:
       contents.title = 'The Decision Review Officer is finishing the review of your appeal';
       contents.description = (
-        <p>The Veterans Benefits Administration received your Form 9 and will send your appeal
+        <p>The Veterans Benefits Administration received your VA Form 9 and will send your appeal
         to the Board of Veterans’ Appeals. But first, the Decision Review Officer must
         finish reviewing all the evidence related to your appeal.</p>
       );
@@ -301,8 +301,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.bvaDevelopment:
       contents.title = 'The judge is asking for more information before making a decision';
       contents.description = (
-        <p>The judge reviewing your case at the Board of Veterans’ Appeals is asking for more evidence or an outside opinion from a legal,
-        medical, or other professional in order to make a decision about your appeal.</p>
+        <p>The Board of Veterans’ Appeals is seeking evidence or an outside opinion from a legal, medical, or other professional necessary to make a decision about your appeal.</p>
       );
       break;
     case STATUS_TYPES.stayed:
