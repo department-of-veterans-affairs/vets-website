@@ -10,14 +10,14 @@ children: disabilityClaimsAppeal
 ---
 
 <div class="va-introtext">
-You have the right to appeal any benefits decision made by the Veterans Benefits Administration (VBA). The VA appeals process is set in law and is different from other judicial appeals processes. Find out how to file an appeal.
+You have the right to appeal any benefits decision made by the Veterans Benefits Administration. The VA appeals process is set in law and is different from other judicial appeals processes. Find out how to file an appeal.
 </div>
 
 <div class="feature" markdown="0">
 
 ### Have you already filed an appeal?
 
-When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), you’ll be able to check the status of your appeal on Vets.gov.
+When the Veterans Benefits Administration Regional Office receives your Notice of Disagreement, you’ll be able to check the status of your appeal on Vets.gov.
 
 <a class="usa-button-primary" href="/track-claims">Track Your Appeal</a>
 </div>
@@ -28,7 +28,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 </p>
 
 <span id="time-to-complete-claim"></span>
-  ### How long does it take VA to make a decision on a new appeal?
+  ### How long does it take VA to make a decision?
 
   <div class="card information" markdown="0">
     <span class="number">12-18 months</span>
@@ -36,7 +36,6 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
   </div>
 
   <span id="time-to-complete-claim"></span>
-  ### How long does it take the Board of Veterans’ Appeals to make a decision on an appeal?
   
   <div class="card information" markdown="0">
     <span class="number">5-7 years</span>
