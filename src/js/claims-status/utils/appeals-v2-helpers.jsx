@@ -624,7 +624,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.recordDesignation:
       return {
-        title: 'Designation of record',
+        title: 'Designation of Record',
         description: '',
       };
     case EVENT_TYPES.reconsideration:
