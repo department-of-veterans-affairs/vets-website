@@ -20,6 +20,21 @@ describe('VRE chapter 31 disability information', () => {
     expect(form.find('input').length).to.equal(4);
   });
 
+  it('should not submit empty form', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(<DefinitionTester
+      definitions={formConfig.defaultDefinitions}
+      schema={schema}
+      data={{}}
+      formData={{}}
+      uiSchema={uiSchema}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('renders hospital information form when in hospital is true', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
@@ -35,7 +50,7 @@ describe('VRE chapter 31 disability information', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  it('submits with required information', () => {
+  it('should fill in hospital information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
