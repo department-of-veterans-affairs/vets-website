@@ -40,7 +40,8 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 - [Check your eligibility](/disability-benefits/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>
+[Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
 
@@ -52,7 +53,8 @@ You can apply for disability benefits online. We’ve listed all the steps below
 For the first disability claim you file, please provide:
 
 - Discharge papers (DD214 or other separation documents) 
-- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
+- Service treatment records <br>
+[(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
 
 For all disability claims, please provide:
 
@@ -81,14 +83,16 @@ For all disability claims, please provide:
 
 #### With the help of a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Get help filing your claim](/disability-benefits/apply/help/index.html).
+You can work with a trained professional who can help you file a claim.  <br>
+[Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
 
 #### By mail
 
-Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). [Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
+Apply by mail using an Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ). <br>
+[Download VA Form 21-526EZ](https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf).
 
 Print the form, fill it out, and send it to this address:
 
@@ -101,7 +105,8 @@ Janesville, WI 53547-4444<br>
 
 #### In person
 
-Bring your application to a regional benefit office near you. [Find a regional benefit office](/facilities/).
+Bring your application to a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/?zoomLevel=11&page=1&facilityType=benefits).
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
