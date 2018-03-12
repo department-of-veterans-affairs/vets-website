@@ -3,7 +3,7 @@ import moment from 'moment';
 import _ from '../utils/data-utils';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
-import { dateDiffDesc } from '../utils/helpers';
+import { timeFromNow } from '../utils/helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -27,6 +27,8 @@ export function setEditMode(page, edit, index = null) {
   };
 }
 
+// extra is used to pass other information (from a submission error or anything else)
+// into the submission state object
 export function setSubmission(field, value, extra = null) {
   return {
     type: SET_SUBMISSION,
@@ -206,7 +208,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
       } else {
         let errorMessage = req.statusText;
         if (req.status === 429) {
-          errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${dateDiffDesc(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
+          errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
         }
 
         onChange({

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import ProgressButton from '../../components/form-elements/ProgressButton';
-import { dateDiffDesc } from '../../utils/helpers';
+import { timeFromNow } from '../../utils/helpers';
 
 export default function SubmitButtons(props) {
   const {
@@ -62,7 +62,7 @@ export default function SubmitButtons(props) {
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
           <p className="schemaform-warning-header"><strong>We’ve run into a problem</strong></p>
-          <p>We’re sorry. Your submission didn’t go through because we received too many requests from you. Please wait {dateDiffDesc(moment.unix(submission.extra))} and submit your request again.</p>
+          <p>We’re sorry. Your submission didn’t go through because we received too many requests from you. Please wait {timeFromNow(moment.unix(submission.extra))} and submit your request again.</p>
         </div>
       </div>
     );
