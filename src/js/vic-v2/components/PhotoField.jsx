@@ -60,7 +60,7 @@ export default class PhotoField extends React.Component {
     }
 
     this.state = {
-      activeLayout: layouts.choosePhoto,
+      currentLayout: layouts.choosePhoto,
       progress: 0,
       src: null,
       isCropping: false,
@@ -84,6 +84,7 @@ export default class PhotoField extends React.Component {
     const nextFormData = nextProps.formData || {};
     const prevFormData = this.props.formData || {};
 
+    /*
     console.log('will receive props');
     // confirmation code received from photo upload- ready for viewing
     let activeLayout;
@@ -97,6 +98,7 @@ export default class PhotoField extends React.Component {
 
     this.setState({ activeLayout });
     console.log(activeLayout);
+    */
 
     if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
       if (this.state.previewSrc) {
@@ -127,9 +129,8 @@ export default class PhotoField extends React.Component {
   }
 
   onEdit = () => {
-    console.log('onEdit');
     this.setState({
-      isCropping: true,
+      currentLayout: layouts.cropPhoto,
       fileName: this.props.formData.name,
       src: this.state.previewSrc,
       warningMessage: null
@@ -186,12 +187,18 @@ export default class PhotoField extends React.Component {
      * maybe pull out different layouts into their own jsx so that the render function is simpler and it's easier to tell that the error message is for one layout
      * on change will cause a change to props after isCropping is set
      * try to manage the layout shown without changing it in componentWillReceiveProps- use the interactive elements and the constructor - start from the beginning and go through the whole process
-     * the review page might override this with an initial prop j
+     * the review page might override this with an initial prop
+     * use css for layout instead of the tracked width
      */
 
     console.log('onChange');
+
     this.screenReaderPath = false;
-    this.setState({ dragActive: false });
+    this.setState({
+      currentLayout: layouts.cropPhoto,
+      dragActive: false
+
+    });
 
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
@@ -249,10 +256,14 @@ export default class PhotoField extends React.Component {
   }
 
   uploadPhoto = (blob) => {
-    this.setState({ isCropping: false, progress: 0, warningMessage: null });
+    this.setState({
+      currentLayout: layouts.watchUpload,
+      progress: 0,
+      warningMessage: null });
     const file = blob;
     file.lastModifiedDate = new Date();
     file.name = 'profile_photo.png';
+
     this.uploadRequest = this.props.formContext.uploadFile(
       file,
       this.props.uiSchema['ui:options'],
@@ -263,6 +274,9 @@ export default class PhotoField extends React.Component {
             file
           }));
           this.uploadRequest = null;
+          this.setState({
+            currentLayout: layouts.previewPhoto
+          });
         } else {
           this.props.onChange(formData);
         }
@@ -275,7 +289,9 @@ export default class PhotoField extends React.Component {
 
   resetFile = () => {
     this.props.onChange();
-    this.setState({ isCropping: false });
+    this.setState({
+      currentLayout: layouts.choosePhoto
+    });
   }
 
   updateProgress = (progress) => {
@@ -334,15 +350,15 @@ export default class PhotoField extends React.Component {
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
-    if (this.state.activeLayout === layouts.watchUpload) {
+    if (this.state.currentLayout === layouts.watchUpload) {
       fieldView = 'progress';
-    } else if (isCropping) {
+    } else if (this.state.currentLayout === layouts.cropPhoto) {
       fieldView = 'cropper';
     } else if (screenReaderError) {
       fieldView = 'error';
-    } else if (this.state.activeLayout === layouts.previewPhoto && !isCropping) {
+    } else if (this.state.currentLayout === layouts.previewPhoto) {
       fieldView = 'preview';
-    } else if (!isCropping && this.state.activeLayout === layouts.choosePhoto) {
+    } else if (this.state.currentLayout === layouts.choosePhoto) {
       fieldView = 'initial';
     }
     console.log(fieldView);
