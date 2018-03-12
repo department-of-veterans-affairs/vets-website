@@ -178,7 +178,6 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "request": "^2.79.0",
-    "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.10.2",
     "sass-loader": "^4.0.0",
     "saucelabs": "^1.4.0",
