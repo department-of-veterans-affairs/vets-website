@@ -339,7 +339,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
             <h5 className="allowed-items">Allowed</h5>
             <p>
               The judge overrules the original decision and finds {pluralize.allowed} in
-              your favor.
+              your favor
             </p>
             <ul>{allowedIssues}</ul>
           </div>
@@ -349,7 +349,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         deniedBlock = (
           <div>
             <h5 className="denied-items">Denied</h5>
-            <p>The judge upholds the original decision for the following {pluralize.denied}.</p>
+            <p>The judge upholds the original decision for the following {pluralize.denied}</p>
             <ul>{deniedIssues}</ul>
           </div>
         );
@@ -408,7 +408,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         allowedBlock = (
           <div>
             <h5 className="allowed-items">Allowed</h5>
-            <p>The judge overrules the original decision and finds {pluralize.allowed} in your favor.</p>
+            <p>The judge overrules the original decision and finds {pluralize.allowed} in your favor</p>
             <ul>{allowedIssues}</ul>
           </div>
         );
@@ -417,7 +417,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         deniedBlock = (
           <div>
             <h5 className="denied-items">Denied</h5>
-            <p>The judge upholds the original decision for the following {pluralize.denied}.</p>
+            <p>The judge upholds the original decision for the following {pluralize.denied}</p>
             <ul>{deniedIssues}</ul>
           </div>
         );
