@@ -178,7 +178,6 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "request": "^2.79.0",
-    "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.10.2",
     "sass-loader": "^4.0.0",
     "saucelabs": "^1.4.0",
@@ -220,7 +219,7 @@
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#89739dddef46862cd10173e21712682f8f9cb375",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#923c0ad5676bcdcad0c8fe08017feb05a5302da9",
     "webpack-bundle-analyzer": "^2.10.0"
   }
 }
