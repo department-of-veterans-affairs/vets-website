@@ -137,8 +137,6 @@
     "metalsmith-redirect": "^2.1.0",
     "metalsmith-sitemap": "^1.0.0",
     "metalsmith-watch": "^1.0.3",
-    "metalsmith-webpack": "department-of-veterans-affairs/metalsmith-webpack",
-    "metalsmith-webpack-dev-server": "department-of-veterans-affairs/metalsmith-webpack-dev-server",
     "mkdirp": "^0.5.1",
     "mocha": "^3.5.0",
     "modernizr": "=3.3.1",
@@ -217,6 +215,7 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#89739dddef46862cd10173e21712682f8f9cb375",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-dev-server": "^3.1.1"
   }
 }

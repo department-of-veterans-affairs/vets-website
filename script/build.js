@@ -465,7 +465,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
-    'public': options.public,
+    'public': options.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -474,7 +474,10 @@ if (options.watch) {
       timings: true,
       chunks: false,
       chunkModules: false,
-      children: false
+      entrypoints: false,
+      children: false,
+      modules: false,
+      warnings: true
     }
   };
 
