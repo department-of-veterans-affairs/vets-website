@@ -29,7 +29,7 @@ Find out how you can participate in the FDC program.
 When turning in your claim under the FDC program, you must send us all the supporting documents you have and provide information about supporting documents that you don’t have.
 Submit your claim according to these 3 FDC Criteria:
 
-1. File your claim by filling out and turning in an [Application for Pension (VA Form 21P-527EZ)](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+1. [File your claim by filling out and turning in an Application for Pension (VA Form 21P-527EZ)](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 2. When you file your claim, please include:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
@@ -137,7 +137,7 @@ You’ll need to turn in the information and evidence as soon as you can.
 <div id="where-to-send" class="usa-accordion-content">
 
 Fill out an Application for Pension (VA Form 21P-527EZ). <br>
-Download [VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
+[Download VA Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
 
 **Note:** Attach all the supporting documents (evidence) to the end of the form.
 
@@ -149,7 +149,7 @@ Mail the application to the Pension Management Center (PMC) for your state. <br>
 
 **In person** <br>
 Bring your application to a regional benefit office near you. <br> 
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/facilities/?zoomLevel=11&page=1&facilityType=benefits).
 
 **With the help of a trained professional** <br>
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
