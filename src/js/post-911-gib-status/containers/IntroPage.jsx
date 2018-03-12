@@ -19,6 +19,7 @@ class IntroPage extends React.Component {
     let content;
     switch (this.props.serviceUp) {
       case SERVICE_UP_STATES.unrequested: {
+        // This is never actually even seen
         content = (<div></div>);
         break;
       }
@@ -42,7 +43,14 @@ class IntroPage extends React.Component {
       }
       case SERVICE_UP_STATES.down:
       default: {
-        content = (<div>Down</div>);
+        content = (
+          <div className="usa-alert usa-alert-warning">
+            <div className="usa-alert-body">
+              <h3>The Post-9/11 GI Bill Benefits tool is down for maintenance right now</h3>
+              <p className="usa-alert-text">You can use the Post-9/11 GI Bill Benefits tool Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). We do regular maintenance on the tool outside of these hours, and during that time you won't be able to use it.</p>
+            </div>
+          </div>
+        );
       }
     }
 
