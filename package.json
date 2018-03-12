@@ -178,11 +178,12 @@
     "sinon": "^3.2.1",
     "skin-deep": "^1.0.0",
     "style-loader": "^0.20.2",
-    "svg-url-loader": "^2.3.1",
+    "svg-url-loader": "^2.3.2",
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.6.2",
     "uswds": "^1.4.2",
     "webpack": "^4.1.1",
+    "webpack-dev-server": "^3.1.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.2.0"
@@ -213,7 +214,6 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#923c0ad5676bcdcad0c8fe08017feb05a5302da9",
-    "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-bundle-analyzer": "^2.11.1"
   }
 }
