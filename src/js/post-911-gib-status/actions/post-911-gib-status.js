@@ -62,12 +62,19 @@ export function getServiceUp() {
 
     // TODO: Make the api call here
     // In the meantime, act like we did; delay of 3 seconds
-    return setTimeout(() => {
+    const callApi = () => new Promise(resolve => setTimeout(resolve, 3000));
+
+    callApi().then(() => {
       dispatch({
         type: SET_SERVICE_UP,
         serviceUp: SERVICE_UP_STATES.up
       });
-    }, 3000);
+    }).catch(() => {
+      dispatch({
+        type: SET_SERVICE_UP,
+        serviceUp: SERVICE_UP_STATES.down
+      });
+    });
   };
 }
 
