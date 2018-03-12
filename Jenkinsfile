@@ -128,6 +128,7 @@ node('vetsgov-general-purpose') {
       )
     } catch (error) {
       notify()
+      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
       throw error
     }
   }
