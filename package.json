@@ -108,7 +108,6 @@
     "glob": "^7.0.5",
     "history": "3",
     "http-server": "^0.9.0",
-    "img-loader": "^1.3.1",
     "imports-loader": "^0.6.5",
     "ismobilejs": "^0.4.0",
     "isomorphic-fetch": "http://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz",

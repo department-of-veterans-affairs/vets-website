@@ -2,11 +2,7 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-// const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-// const WebpackMd5Hash = require('webpack-md5-hash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const bourbon = require('bourbon').includePaths;
-// const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
 const _ = require('lodash');
@@ -83,7 +79,6 @@ const configGenerator = (options) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache'
-
               // Also see .babelrc
             }
           }
@@ -96,16 +91,12 @@ const configGenerator = (options) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache'
-
               // Also see .babelrc
             }
           }
         },
         {
           test: /\.scss$/,
-          // use: {
-          //   loader: 'null-loader'
-          // },
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
@@ -115,9 +106,14 @@ const configGenerator = (options) => {
           })
         },
         {
+          // if we want to minify these images, we could add img-loader
+          // but it currently only would apply to three images from uswds
           test: /\.(jpe?g|png|gif)$/i,
           use: {
-            loader: 'url-loader?limit=10000!img?progressive=true&-minimize'
+            loader: 'url-loader',
+            options: {
+              limit: 10000
+            }
           }
         },
         {
@@ -159,12 +155,11 @@ const configGenerator = (options) => {
       extensions: ['.js', '.jsx']
     },
     optimization: {
-      // runtimeChunk: true,
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
           vendors: {
-            chunks: 'initial',
+            chunks: 'all',
             test: 'vendor',
             name: 'vendor',
             enforce: true
@@ -188,12 +183,6 @@ const configGenerator = (options) => {
         filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-      // new webpack.optimize.CommonsChunkPlugin({
-      //   name: 'vendor',
-      //   filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
-      //   minChunks: Infinity
-      // }),
     ],
   };
 
@@ -202,27 +191,16 @@ const configGenerator = (options) => {
     if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
     }
+
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
       append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
       filename: '[file].map',
     }));
 
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
-    // baseConfig.plugins.push(new WebpackMd5Hash());
     baseConfig.plugins.push(new ManifestPlugin({
       fileName: 'file-manifest.json'
     }));
-    // baseConfig.plugins.push(new ChunkManifestPlugin({
-    //   filename: 'chunk-manifest.json',
-    //   manifestVariable: 'webpackManifest'
-    // }));
-    // baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    //   beautify: false,
-    //   compress: { warnings: false },
-    //   comments: false,
-    //   sourceMap: true,
-    //   minimize: true,
-    // }));
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
