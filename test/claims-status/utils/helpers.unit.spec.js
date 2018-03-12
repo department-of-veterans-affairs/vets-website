@@ -475,8 +475,8 @@ describe('Disability benefits helpers: ', () => {
     it('returns sane object when given unknown type', () => {
       const type = 123;
       const contents = getStatusContents(type);
-      expect(contents.title).to.equal('Current Appeal Status Unknown');
-      expect(contents.description.props.children).to.equal('Your current appeal status is unknown at this time');
+      expect(contents.title).to.equal('We don’t know your appeal status');
+      expect(contents.description.props.children).to.equal('Your appeal status is unknown at this time');
     });
 
     // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
