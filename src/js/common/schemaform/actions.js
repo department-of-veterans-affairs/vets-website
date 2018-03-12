@@ -206,7 +206,7 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
       } else {
         let errorMessage = req.statusText;
         if (req.status === 429) {
-          errorMessage = `You are uploading too quickly and need to take a break. You can upload again ${dateDiffDesc(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
+          errorMessage = `You are uploading too quickly and need to take a break. You can upload again in ${dateDiffDesc(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
         }
 
         onChange({
