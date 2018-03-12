@@ -69,7 +69,7 @@ class DashboardApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <BetaApp featureName={features.personalization}>
+          <BetaApp featureName={features.dashboard}>
             <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
               {view}
             </DowntimeNotification>
