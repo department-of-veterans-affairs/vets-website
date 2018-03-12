@@ -79,7 +79,7 @@ If you can’t make it to your appointment, let us know right away. You can most
 
 - Call 1-800-827-1000, **or**
 - Go to your nearest regional benefit office. <br>
-  [Find your local regional benefit office](/facilities/).	
+  [Find your local regional benefit office](/facilities/?zoomLevel=11&page=1&facilityType=benefits).	
   
 </div>
 </li>
@@ -158,7 +158,7 @@ Either a VA doctor or a non-VA doctor who we’ve contracted with will do the ex
 No. The doctor will give the exam results to our VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
 
 If you have questions about the claims process, call your nearest VA regional office. <br>
-[Find contact information for your nearest VA regional office](/facilities/).
+[Find contact information for your nearest VA regional office](/facilities/?zoomLevel=11&page=1&facilityType=benefits).
 
 </div>
 </li>
@@ -170,7 +170,7 @@ If you miss your claim exam, contact us right away to let us know why you didn't
 
 If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" might be an illness or the death of someone in your immediate family.
 
-[Find contact information for your nearest VA regional office](/facilities/).
+[Find contact information for your nearest VA regional office](/facilities/?zoomLevel=11&page=1&facilityType=benefits).
 
 </div>
 </li>
@@ -203,7 +203,7 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 Yes. To get a copy of the final report from your exam, you can:
 
- - [Contact your nearest VA regional office](/facilities/), **or**
+ - [Contact your nearest VA regional office](/facilities/?zoomLevel=11&page=1&facilityType=benefits), **or**
  - Call us at 1-800-827-1000 and request an appointment to view your file
 
 </div>
