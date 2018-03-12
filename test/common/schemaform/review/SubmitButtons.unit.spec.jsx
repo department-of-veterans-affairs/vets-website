@@ -96,4 +96,30 @@ describe('Schemaform review: <SubmitButtons>', () => {
 
     expect(tree.subTree('.message').text()).to.equal('Error message');
   });
+  it('should render throttled error', () => {
+    const submission = {
+      status: 'throttledError'
+    };
+    const tree = SkinDeep.shallowRender(
+      <SubmitButtons
+        submission={submission}/>
+    );
+
+    // Make sure it displays an error--and the right one
+    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain('too many requests');
+    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+  });
+  it('should render client error', () => {
+    const submission = {
+      status: 'clientError'
+    };
+    const tree = SkinDeep.shallowRender(
+      <SubmitButtons
+        submission={submission}/>
+    );
+
+    // Make sure it displays an error--and the right one
+    expect(tree.everySubTree('.usa-alert-error')[0].text()).to.contain('Internet connection');
+    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+  });
 });

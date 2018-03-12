@@ -210,7 +210,13 @@ export function dateDiffDesc(date, userFromDate = null) {
     return formatDiff(minuteDiff, 'minute');
   }
 
-  return 'less than a minute';
+  const secondDiff = date.diff(fromDate, 'seconds');
+
+  if (secondDiff >= 1) {
+    return formatDiff(secondDiff, 'second');
+  }
+
+  return 'a moment';
 }
 
 function isGaLoaded() {

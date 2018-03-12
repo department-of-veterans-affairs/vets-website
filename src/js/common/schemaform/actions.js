@@ -1,7 +1,9 @@
 import Raven from 'raven-js';
+import moment from 'moment';
 import _ from '../utils/data-utils';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
+import { dateDiffDesc } from '../utils/helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -25,11 +27,12 @@ export function setEditMode(page, edit, index = null) {
   };
 }
 
-export function setSubmission(field, value) {
+export function setSubmission(field, value, extra = null) {
   return {
     type: SET_SUBMISSION,
     field,
-    value
+    value,
+    extra
   };
 }
 
@@ -61,7 +64,13 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
         const results = JSON.parse(responseBody);
         resolve(results);
       } else {
-        const error = new Error(`vets_server_error: ${req.statusText}`);
+        let error;
+        if (req.status === 429) {
+          error = new Error(`vets_throttled_error: ${req.statusText}`);
+          error.extra = parseInt(req.getResponseHeader('x-ratelimit-reset'), 10);
+        } else {
+          error = new Error(`vets_server_error: ${req.statusText}`);
+        }
         error.statusText = req.statusText;
         reject(error);
       }
@@ -98,16 +107,16 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
 }
 
 export function submitForm(formConfig, form) {
-  const captureError = (error, clientError) => {
+  const captureError = (error, errorType) => {
     Raven.captureException(error, {
       fingerprint: [formConfig.trackingPrefix, error.message],
       extra: {
-        clientError,
+        errorType,
         statusText: error.statusText
       }
     });
     window.dataLayer.push({
-      event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
     });
   };
 
@@ -133,9 +142,14 @@ export function submitForm(formConfig, form) {
       .catch(error => {
         // overly cautious
         const errorMessage = _.get('message', error);
-        const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
-        captureError(error, clientError);
-        dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
+        let errorType = 'clientError';
+        if (errorMessage.startsWith('vets_throttled_error')) {
+          errorType = 'throttledError';
+        } else if (errorMessage.startsWith('vets_server_error')) {
+          errorType = 'error';
+        }
+        captureError(error, errorType);
+        dispatch(setSubmission('status', errorType, error.extra));
       });
   };
 }
@@ -190,9 +204,14 @@ export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
         onChange(fileData);
       } else {
+        let errorMessage = req.statusText;
+        if (req.status === 429) {
+          errorMessage = `You are uploading too quickly and need to take a break. You can upload again ${dateDiffDesc(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
+        }
+
         onChange({
           name: file.name,
-          errorMessage: req.statusText
+          errorMessage
         });
         Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
         onError();

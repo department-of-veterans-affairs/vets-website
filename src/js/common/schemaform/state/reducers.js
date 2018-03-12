@@ -27,7 +27,12 @@ export default {
     return _.set('data.privacyAgreementAccepted', action.privacyAgreementAccepted, state);
   },
   [SET_SUBMISSION]: (state, action) => {
-    return _.set(['submission', action.field], action.value, state);
+    const newState = _.set(['submission', action.field], action.value, state);
+    if (action.extra) {
+      newState.submission.extra = action.extra;
+    }
+
+    return newState;
   },
   [SET_SUBMITTED]: (state, action) => {
     const submission = _.assign(state.submission, {
