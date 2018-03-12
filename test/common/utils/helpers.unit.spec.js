@@ -114,8 +114,8 @@ describe('Helpers unit tests', () => {
     it('should display time in minutes', () => {
       expect(dateDiffDesc(moment(today).add(59, 'minutes'), today)).to.equal('59 minutes');
     });
-    it('should display time as less than a minute', () => {
-      expect(dateDiffDesc(moment(today).add(59, 'seconds'), today)).to.equal('less than a minute');
+    it('should display time in seconds', () => {
+      expect(dateDiffDesc(moment(today).add(59, 'seconds'), today)).to.equal('59 seconds');
     });
   });
   describe('formatDateShort', () => {
