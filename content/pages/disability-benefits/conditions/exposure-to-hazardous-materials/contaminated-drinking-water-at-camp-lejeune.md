@@ -54,7 +54,7 @@ You’ll need to apply for benefits.
 **or**
 - [Get help from an accredited representative, like a Veterans Service Officers (VSO)](/disability-benefits/apply/help/),
 **or**
-- [Get help at a VA regional benefit office](/facilities/)
+- [Get help at a VA regional benefit office](/facilities/?zoomLevel=11&page=1&facilityType=benefits)
 
 **When you apply, you’ll also need to give us:**
 
