@@ -34,8 +34,6 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     <span class="number">12-18 months</span>
     <span class="description">The Veterans Benefits Administration usually takes 12-18 months to review new appeals and decide whether to grant some or all of the appeal.</span>
   </div>
-
-  <span id="time-to-complete-claim"></span>
   
   <div class="card information" markdown="0">
     <span class="number">5-7 years</span>
