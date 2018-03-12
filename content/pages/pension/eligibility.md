@@ -73,7 +73,7 @@ Mail the application to the Pension Management Center (PMC) for your state. <br>
 
 **In person** <br>
 Bring your application to a regional benefit office near you. <br> 
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/facilities/?zoomLevel=11&page=1&facilityType=benefits).
 
 **With the help of a trained professional** <br>
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
