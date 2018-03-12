@@ -42,13 +42,15 @@ Our social workers can help Veterans and Servicemembers with many different need
 
 **VA social workers can help if the Veteran or Servicemember you're caring for is:**
 
-- **In a crisis situation:** A social worker can help to counsel them through the crisis. Then, they can help your family apply for programs and services through VA and in the community to meet the Veteran or Servicemember's long-term needs.
-- **Homeless, often in the hospital, or unable to care for themselves any longer:** A social worker can work closely with your family to find suitable housing and connect you to government and community resources for more support.
-- **In the hospital:** A social worker can help make plans for when the Veteran or Servicemember gets discharged and for their ongoing care at home or in a rehab or other facility. 
-- **Living in a rural location far from a VA health facility:** A social worker can help work with the Veteran or Servicemember's health care team to make sure they get the care they need from VA or in the community.
-- **Having trouble speaking up for themselves or feeling overwhelmed by trying to arrange care:** A social worker can act as the Veteran or Servicembmer's voice to make sure get what they need.
-- **Struggling with depression, sadness, stress, anxiety, PTSD, drinking or drug use:** A social worker can offer counseling and work with the Veteran or Servicemember, your family, and their health care team to create a treatment plan.
-- **Dealing with end-of-life issues:** A social worker can help the Veteran or Servicemember and your family make decisions about life support, organ donation, and other issues and communicate these decisions to their health care team.
+- **In a crisis situation:** We can help counsel the Veteran or Servicemember through the crisis, and then help connect them to VA and community resources to meet their long-term needs.
+- **Homeless, often in the hospital, or unable to care for themselves any longer:** We can help the Veteran or Servicemember find housing, including in an assisted living or nursing home if needed.
+- **In the hospital:** We can help the Veteran or Servicemember make plans for their ongoing care at home or in a rehab or other facility. 
+- **Living in a rural location far from a VA health facility:** We can work with the Veteran or Servicemember's health care team to make sure they get the care they need from VA or in their community.
+- **Having trouble speaking up for themselves or feeling overwhelmed by trying to arrange care:** We can serve as the Veteran or Servicembmer's voice to make sure get what they need.
+- **Struggling with depression, sadness, stress, anxiety, PTSD, drinking or drug use:** We can offer counseling and work with the Veteran or Servicemember and their health care team to create a treatment plan.
+- **Dealing with end-of-life issues:** We can help the Veteran or Servicemember make decisions about life support, organ donation, and other issues and communicate these decisions to their health care team.
+
+<br>
 
 ### How can a VA social worker help me as a caregiver, and my family?
 
@@ -76,13 +78,13 @@ Talk to your loved one's primary care team. Or, call your nearest VA health faci
 
 ### How do I get help right away if the Veteran or Servicemember is in crisis?
 
-**If the Veteran or Servicemember is homeless or at risk of becomming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (1-877-424-3838) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about available homeless programs and services. You can choose to talk anonymously, or leave your contact information so a counselor can follow up. There's no charge for this service, and it's completely private.
+**If the Veteran or Servicemember is homeless or at risk of becomming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about available homeless programs and services. You can choose to talk anonymously, or leave your contact information so a counselor can follow up. There's no charge for this service, and it's completely private.
 
 **If the Veteran or Servicemember is experiencing a personal crisis, get help by choosing any one of these options:**
-- Call the Veterans Crisis Line at 1-800-273-8255, then press 1 to talk to someone now.
+- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1 to talk to someone now.
 - [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text 838255 to get help right away.
-- Call 911.
+- Text <a href="tel:+1phonenumber">838255</a> to get help right away.
+- Call <a href="tel:+1phonenumber">911</a>.
 - Go to the nearest emergency room.
 
 ### What if I don't know what my family needs, but just think we need help?
@@ -91,9 +93,7 @@ That's 100% okay. We're here to help you figure out what's wrong, and how we can
 
 ### What will happen when we meet with a VA social worker?
 
-Your social worker will meet with you and the Veteran or Servicemember.
-
-They’ll ask questions about the Veteran or Servicemember's:
+Your social worker will ask questions about the Veteran or Servicemember's:
 - Health
 - Living situation
 - Family and other support systems
@@ -112,9 +112,9 @@ That's okay. Your social worker is here to help you and your family. If you don'
 
 Your social worker will help to make sure the Veteran or Servicemember gets consistent care from the time they're admitted to the hospital through to any ongoing follow-up treatment or support they may need when they're discharged. This includes planning and providing any needed services based on their health, family and living situation, and government and community resources.
 
-### How will a VA social worker help my family to find a free place to stay if the Veteran or Servicemember in our family is being treated in a hospital far from home?
+### Can a VA social worker help my family to find a free place to stay if the Veteran or Servicemember in our family is being treated in a hospital far from home?
 
-Your social worker will connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.
+Your social worker will connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
 [Find a Fisher House near where your Veteran or Servicemember will be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
