@@ -123,18 +123,7 @@ const configGenerator = (options) => {
             fallback: 'style-loader',
             use: [
               { loader: 'css-loader' },
-              { loader: 'resolve-url-loader' },
-              {
-                loader: 'sass-loader',
-                options: {
-                  includePaths: [
-                    // bourbon,
-                    // neat,
-                    '~/uswds/src/stylesheets&sourceMap'
-                  ],
-                  sourceMap: true,
-                }
-              }
+              { loader: 'sass-loader' }
             ],
           })
         },
