@@ -16,7 +16,7 @@ If you need help with your daily activities, or you’re housebound, you may qua
 
 ### Can I get Aid and Attendance or Housebound benefits?
 
-**You may qualify for Aid and Attendance** if you get a VA pension and:
+**You may qualify for Aid and Attendance** if you get a VA pension and **at least one of the following is true for you**:
 
 - You need another person to help you perform daily activities, like bathing, feeding, and dressing, **or**
 - You have to stay in bed—or spend a large portion of the day in bed—because of illness, **or**
@@ -42,13 +42,15 @@ There are 2 ways you can get this benefit:
 You can write to the PMC for your state. [Find your PMC](/pension/pension-management-center/). 
 
 Include this information: 
-- Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
+- Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680 (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. <br>
+[Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
 - Details about what you normally do during the day and how you get places
 - Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own 
 
 #### Apply in person
 
-You can bring your information to a regional benefit office near you. [Find a regional benefit office](/facilities/). 
+You can bring your information to a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/?zoomLevel=11&page=1&facilityType=benefits). 
 
 ### How long does it take VA to make a decision?
 
