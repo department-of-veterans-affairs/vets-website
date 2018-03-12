@@ -109,16 +109,9 @@ const configGenerator = (options) => {
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              {
-                loader: 'css-loader',
-              },
-              {
-                loader: 'sass-loader',
-                options: {
-                  sourceMap: true,
-                }
-              }
-            ],
+              { loader: 'css-loader' },
+              { loader: 'sass-loader' }
+            ]
           })
         },
         {

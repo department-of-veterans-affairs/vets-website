@@ -55,7 +55,8 @@ const expandIfWorking = {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/vre',
+  // submitUrl: '/v0/vre',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'vre-chapter-31',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

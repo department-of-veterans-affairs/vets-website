@@ -218,10 +218,9 @@
     "react-cropper": "^1.0.1",
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
-    "resolve-url-loader": "https://github.com/acoll/resolve-url-loader.git#1f5389285f47198e84efed61fa29acf1310c8f0e",
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#579f0fa2bf0641dd50012e09a98e891a426a54bf",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#89739dddef46862cd10173e21712682f8f9cb375",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
