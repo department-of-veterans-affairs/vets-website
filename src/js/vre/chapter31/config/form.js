@@ -428,6 +428,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            // TODO: this should be required once the endpoint is set up
             properties: {
               dischargeDocuments
             }
