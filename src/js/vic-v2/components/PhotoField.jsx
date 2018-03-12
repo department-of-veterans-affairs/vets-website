@@ -11,6 +11,14 @@ import CropperController from '../components/CropperController';
 const LARGE_SCREEN = 1201;
 const MIN_SIZE = 350;
 
+const layouts = {
+  choosePhoto: 1,
+  cropPhoto: 2,
+  watchUpload: 3,
+  previewPhoto: 4,
+  error: 5
+};
+
 function isSmallScreen(width) {
   return  width < LARGE_SCREEN;
 }
@@ -52,6 +60,7 @@ export default class PhotoField extends React.Component {
     }
 
     this.state = {
+      activeLayout: layouts.choosePhoto,
       progress: 0,
       src: null,
       isCropping: false,
@@ -74,6 +83,21 @@ export default class PhotoField extends React.Component {
   componentWillReceiveProps(nextProps) {
     const nextFormData = nextProps.formData || {};
     const prevFormData = this.props.formData || {};
+
+    console.log('will receive props');
+    // confirmation code received from photo upload- ready for viewing
+    let activeLayout;
+    if (nextFormData.uploading) {
+      activeLayout = layouts.watchUpload;
+    } else if (nextFormData.confirmationCode) {
+      activeLayout = layouts.previewPhoto;
+    } else {
+      activeLayout = layouts.choosePhoto;
+    }
+
+    this.setState({ activeLayout });
+    console.log(activeLayout);
+
     if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
       if (this.state.previewSrc) {
         window.URL.revokeObjectURL(this.state.previewSrc);
@@ -103,6 +127,7 @@ export default class PhotoField extends React.Component {
   }
 
   onEdit = () => {
+    console.log('onEdit');
     this.setState({
       isCropping: true,
       fileName: this.props.formData.name,
@@ -156,6 +181,15 @@ export default class PhotoField extends React.Component {
   }
 
   onChange = (files) => {
+    /*
+     * error message is only used in the choosePhoto layout-
+     * maybe pull out different layouts into their own jsx so that the render function is simpler and it's easier to tell that the error message is for one layout
+     * on change will cause a change to props after isCropping is set
+     * try to manage the layout shown without changing it in componentWillReceiveProps- use the interactive elements and the constructor - start from the beginning and go through the whole process
+     * the review page might override this with an initial prop j
+     */
+
+    console.log('onChange');
     this.screenReaderPath = false;
     this.setState({ dragActive: false });
 
@@ -300,6 +334,19 @@ export default class PhotoField extends React.Component {
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
+    if (this.state.activeLayout === layouts.watchUpload) {
+      fieldView = 'progress';
+    } else if (isCropping) {
+      fieldView = 'cropper';
+    } else if (screenReaderError) {
+      fieldView = 'error';
+    } else if (this.state.activeLayout === layouts.previewPhoto && !isCropping) {
+      fieldView = 'preview';
+    } else if (!isCropping && this.state.activeLayout === layouts.choosePhoto) {
+      fieldView = 'initial';
+    }
+    console.log(fieldView);
+    /*
     if (file.uploading) {
       fieldView = 'progress';
     } else if (isCropping) {
@@ -311,6 +358,7 @@ export default class PhotoField extends React.Component {
     } else if (!isCropping && !hasFile) {
       fieldView = 'initial';
     }
+    */
 
     let uploadMessage;
     if (smallScreen) {
