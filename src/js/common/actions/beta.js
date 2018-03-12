@@ -1,4 +1,4 @@
-// import { apiRequest } from '../helpers/api';
+import { apiRequest } from '../helpers/api';
 
 export const REGISTERING_SERVICE = 'REGISTERING_SERVICE';
 export const REGISTER_SERVICE = 'REGISTER_SERVICE';
@@ -17,12 +17,13 @@ export function isUserRegisteredForBeta(service) {
 export function registerBeta(service) {
   return dispatch => {
     dispatch({ type: REGISTERING_SERVICE, service });
-    setTimeout(() => dispatch({ type: REGISTER_SERVICE, service }), 500);
 
-    // @todo remove this
-    const extraServices = window.sessionStorage.services && JSON.parse(window.sessionStorage.services) || [];
-    extraServices.push(service);
-    window.sessionStorage.services = JSON.stringify(extraServices);
+    const settings = {
+      method: 'POST',
+    };
+
+    apiRequest(`/beta_registration/${service}`, settings)
+      .then(() => dispatch({ type: REGISTER_SERVICE, service }));
   };
 }
 
