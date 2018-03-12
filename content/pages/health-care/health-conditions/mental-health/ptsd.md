@@ -92,6 +92,7 @@ Once you’ve signed up:
 
 <br>
 
+<span id="no-benefits"></span>
 ### What if I don’t have VA health benefits?
 
 You may still be able to get care:
