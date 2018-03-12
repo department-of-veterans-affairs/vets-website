@@ -56,18 +56,13 @@ const initialState = {
   savedForms: [],
   prefillsAvailable: [],
   loading: true,
-
-  // @todo remove this
-  services: window.sessionStorage.services && JSON.parse(window.sessionStorage.services) || []
+  services: []
 };
 
 function profileInformation(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PROFILE_FIELDS: {
-      //  @todo remove this next line
-      const newState = { ...action.newState, services: action.newState.services.concat(state.services) };
-      return merge(state, newState);
-    }
+    case UPDATE_PROFILE_FIELDS:
+      return merge(state, action.newState);
 
     case PROFILE_LOADING_FINISHED:
     case FETCH_LOGIN_URLS_FAILED:

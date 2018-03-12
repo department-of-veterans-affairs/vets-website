@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
-import { registerBeta } from '../actions';
+import { registerBeta, isUserRegisteredForBeta } from '../actions';
 import AlertBox from '../components/AlertBox';
 
 export const features = {
   healthAccount: 'health_account',
   veteranIdCard: 'veteran_id_card',
-  personalization: 'personalization'
+  profile: 'profile',
+  dashboard: 'dashboard'
 };
 
 class BetaApp extends React.Component {
@@ -24,7 +25,7 @@ class BetaApp extends React.Component {
 
   render() {
     if (this.props.loading) return null;
-    if (this.props.featureIsEnabled) return this.props.children;
+    if (this.props.isUserRegisteredForBeta(this.props.featureName)) return this.props.children;
 
     return (
       <div className="row-padded" style={{ marginBottom: 15 }}>
@@ -50,7 +51,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-  registerBeta
+  registerBeta,
+  isUserRegisteredForBeta
 };
 
 export { BetaApp };
