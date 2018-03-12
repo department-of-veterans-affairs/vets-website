@@ -3,6 +3,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const _ = require('lodash');
@@ -155,6 +156,18 @@ const configGenerator = (options) => {
       extensions: ['.js', '.jsx']
     },
     optimization: {
+      minimizer: [new UglifyJSPlugin({
+        uglifyOptions: {
+          output: {
+            beautify: false,
+            comments: false
+          },
+          compress: { warnings: false }
+        },
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+      })],
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
