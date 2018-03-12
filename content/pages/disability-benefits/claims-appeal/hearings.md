@@ -9,7 +9,7 @@ order: 1
 
 <div class="va-introtext">
   
-Find out what happens at a Board of Veterans’ Appeals hearing—and how to request one if you want a Veterans Law Judge to review your appeal.
+Find out what happens at a Board of Veterans’ Appeals hearing—and how to request one if you want a Veterans Law Judge to discuss your appeal.
 
 </div>
 
@@ -27,13 +27,13 @@ No. Board hearings are always optional.
 
 **Learn more about Board hearings:**
 
-[How to request your Board hearing and get scheduled](#scheduling)<br>
-[How to prepare for your Board hearing](#preparing)<br>
-[What to expect at your Board hearing](#expect)
+[Schedule your Board hearing](#scheduling)<br>
+[Prepare for your Board hearing](#preparing)<br>
+[Find out what to expect at your Board hearing](#expect)
 
 <section id="scheduling">
 
-  ## How to request your Board hearing and get scheduled
+  ## Schedule your Board hearing
 
   ### How do I request a Board hearing?
 
@@ -67,7 +67,7 @@ Or you can contact your Veterans Service Organization at any time during the app
   Washington, DC 20038<br>
   </p>
 
-  **Note:** You’ll need to file a motion explaining why you have "good cause" for rescheduling any of these types of hearings:
+  **You’ll need to file a motion explaining why you have "good cause" for rescheduling any of these types of hearings:**
 
   - An in-person hearing at the Board in Washington, DC, that’s less than 2 weeks away, **or**
   - An in-person hearing at the Board in Washington, DC, if you’ve already rescheduled your hearing before, **or**
@@ -93,7 +93,7 @@ Or you can contact your Veterans Service Organization at any time during the app
 
 <section id="preparing">
 
-  ## How to prepare for your Board hearing
+  ## Prepare for your Board hearing
 
   ### What new evidence should I bring to my hearing?
 
@@ -108,7 +108,7 @@ Or you can contact your Veterans Service Organization at any time during the app
 
 <section id="expect">
 
-  ## What to expect at your Board hearing
+  ## Find out what to expect at your Board hearing
 
   ### What will happen at my hearing?
 
