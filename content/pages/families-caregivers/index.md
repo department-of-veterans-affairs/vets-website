@@ -32,11 +32,8 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. <br>
 [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
 
-If a Servicemember or Veteran in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location. A nonprofit organization called the Fisher House Foundation offers comfortable homes where military and Veteran families can stay free of charged while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
-+[Find a Fisher House near where you'll be treated](https://fisherhouse.org/programs/houses/house-locations/).
-+
-+The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
-+[Learn more about all Fisher House Foundation programs](https://fisherhouse.org/).
+If the Servicemember or Veteran you're caring for is in the hospital, or if your family needs help understanding their condition or accessing programs and services, our VA social workers can help. And, if a Servicemember or Veteran in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location.  <br>
+[Learn more about how a social worker can help you and your family](/families-caregivers/social-work-services/#fisher).
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/).<br>
@@ -162,6 +159,9 @@ If you’re the surviving spouse of a Veteran, we may be able to help you build,
 If you have a VA-backed home loan and you’re having trouble making your mortgage payments, we may be able to help you avoid foreclosure and keep your home.<br>
 [Find out how we can help you avoid foreclosure](/housing-assistance/home-loans/trouble-making-payments/).
 
+If you need help supporting a Servicemember or Veteran who's homeless or unable to care for themselves any longer, our VA social workers can help.
+[Learn how VA social workers can help with housing needs](/families-caregivers/social-work-services/).
+
 **Looking for information about buying, building, or making changes to a home to help a Veteran with disabilities?**<br>
 [Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
 <br>
@@ -181,19 +181,10 @@ We also have trained Caregiver Support Coordinators at each of our VA medical ce
 If you need help accessing services, help connecting with your local Caregiver Support Coordinator, or just a listening ear, call our toll-free Caregiver Support Line at 1-855-260-3274. Our caring, licensed professionals are ready to help.<br>
 [Get more information and tools for caregivers](https://www.caregiver.va.gov/index.asp).
 
-**Looking for someone to help you support the Servicemember or Veteran you're caring for?**<br>
+**Looking for someone to help support you, the Servicemember or Veteran you're caring for, or your whole family?**<br>
 
 Our VA social workers can help with most any need, or connect you with the right person for help.
-
-**Social workers can help:**
-- Counsel Servicemembers or Veterans through crises and connect them with long-term support
-- Make plans for ongoing support for Servicemembers and Veterans being discharged from the hospital
-- Find ongoing support for Servicemembers or Veterans who are homeless or unable to care for themselves any longer
-- Advocate for Servicemembers, Veterans, and their families who feel overwhelmed by trying to arrange care
-- Educate Servicemembers, Veterans, and their families about health conditions, how to live a more healthy life, how to deal with stress, and how to access services and programs
-
-These are just some examples. If you or the Servicemember or Veteran you're caring for have a question or a program, ask the staff at your nearest VA health facility for an appointment with a VA social worker.
-[Find your nearest VA health facility](/facilities).
+[Find out how a VA social worker can helpu support your family](/families-caregivers/social-work-services/).
 <br>
 <br>
 <br>
