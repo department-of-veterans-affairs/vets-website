@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
+
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import { getServiceUp } from '../actions/post-911-gib-status';
 import { SERVICE_UP_STATES } from '../utils/constants';
@@ -16,15 +19,25 @@ class IntroPage extends React.Component {
     let content;
     switch (this.props.serviceUp) {
       case SERVICE_UP_STATES.unrequested: {
-        content = (<div>Unrequested</div>);
+        content = (<div></div>);
         break;
       }
       case SERVICE_UP_STATES.pending: {
-        content = (<div>Pending</div>);
+        // TODO: Change the loading message
+        content = <LoadingIndicator message="Checking whether the service is up..."/>;
         break;
       }
       case SERVICE_UP_STATES.up: {
-        content = (<div>Up</div>);
+        // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
+        content = (
+          <div>
+            <h2>Check your Post-9/11 GI Bill benefits during these hours</h2>
+            <p>The Post-9/11 GI Bill Benefits tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
+            <Link to="status" className="usa-button va-button-primary">View your GI Bill Benefits</Link>
+            <h2>What if I have trouble accessing my benefit statement?</h2>
+            <p>There have been some recent problems with this tool on eBenefits. If it's not working, we recommend you bookmark the eBenefits page in your browser and check back in a few days.</p>
+          </div>
+        );
         break;
       }
       case SERVICE_UP_STATES.down:
@@ -46,6 +59,9 @@ class IntroPage extends React.Component {
           If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. Find out how to check if you have any Post-9/11 GI Bill benefits—and how to track the amount of money you have left to pay for school or training.
         </p>
         {content}
+        <br/>
+        <br/>
+        <br/>
       </div>
     );
   }

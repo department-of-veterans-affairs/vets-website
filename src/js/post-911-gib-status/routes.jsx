@@ -11,9 +11,10 @@ const routes = [
   <Route
     component={Post911GIBStatusApp}
     key="/main">
-    <IndexRoute
+    <Route
       component={StatusPage}
-      key="/status"/>,
+      key="/status"
+      path="/status"/>,
     <Route
       component={PrintPage}
       key="/print"
