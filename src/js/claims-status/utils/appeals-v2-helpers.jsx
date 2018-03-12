@@ -743,9 +743,7 @@ export function getNextEvents(currentStatus, details) {
             description: (
               <p>
                 <strong>If the Decision Review Officer determines that there’s enough evidence to grant
-                one or more of the issues on your appeal</strong>, they’ll make a new decision. If this
-                decision changes your disability rating or eligibility for VA benefits, 
-                you should see this change made in 1 to 2 months.
+                one or more of the issues on your appeal</strong>, they’ll make a new decision. If this decision changes your disability rating or eligibility for VA benefits, you should see this change made in 1 to 2 months.
               </p>
             ),
             durationText: '',
