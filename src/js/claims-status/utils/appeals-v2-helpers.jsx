@@ -619,7 +619,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.cavcDecision:
       return {
-        title: 'CAVC decision',
+        title: 'Court of Appeals for Veterans Claims made a decision',
         description: '',
       };
     case EVENT_TYPES.recordDesignation:
