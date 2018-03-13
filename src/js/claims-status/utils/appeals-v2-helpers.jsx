@@ -579,7 +579,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.certified:
       return {
-        title: 'The Board received your appeal',
+        title: 'Your appeal was transferred to the Board of Veterans’ Appeals',
         description: '',
       };
     case EVENT_TYPES.hearingHeld:
