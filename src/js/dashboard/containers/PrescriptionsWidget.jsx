@@ -46,9 +46,7 @@ class PrescriptionsWidget extends React.Component {
         <div>
           {content}
         </div>
-        <p>
-          <p><Link href="/health-care/prescriptions">View all prescriptions</Link></p>
-        </p>
+        <p><Link href="/health-care/prescriptions">View all prescriptions</Link></p>
       </div>
     );
   }
