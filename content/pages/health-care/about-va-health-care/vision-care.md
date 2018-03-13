@@ -36,9 +36,11 @@ If you qualify for VA health care benefits, you may be able to get some or all o
 
 Yes. If you have VA health care benefits, we’ll cover your routine eye exams and preventive vision testing (like testing for glaucoma).
 
-To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. [Find a VA medical center near you](/facilities/).
+To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. <br>
+[Find a VA medical center near you](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
-If you’re a blind or low vision Veteran, you may be able to get more advanced vision care and rehabilitation services. [Find out if you qualify for blind and low vision Veteran services](/health-care/about-va-health-care/vision-care/blind-and-low-vision-veterans/).
+If you’re a blind or low vision Veteran, you may be able to get more advanced vision care and rehabilitation services. <br>
+[Find out if you qualify for blind and low vision Veteran services](/health-care/about-va-health-care/vision-care/blind-and-low-vision-veterans/).
 
 </div>
 
@@ -69,7 +71,8 @@ We’ll also cover the cost of your eyeglasses if you have any of these issues:
 - Functional impairment (parts of your body that don’t work as well as they should) or cognitive impairment (a problem with memory or thinking skills) that’s severe enough to make it hard for you to do everyday tasks
 - Vision and/or hearing loss (called dual sensory impairment) that’s severe enough to interfere with your ability to take an active role in your own health care—and eyeglasses would help to reduce the impact of your impairment
 
-For more information, contact the prosthetic representative at your nearest VA medical center or clinic. [Find a VA health facility near you](/facilities/).
+For more information, contact the prosthetic representative at your nearest VA medical center or clinic. <br>
+[Find a VA health facility near you](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
