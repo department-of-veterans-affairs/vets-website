@@ -569,7 +569,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.form9:
       return {
-        title: 'Form 9 received',
+        title: 'VA received your Form 9',
         description: '',
       };
     case EVENT_TYPES.ssoc:
