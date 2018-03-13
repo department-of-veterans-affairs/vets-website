@@ -59,6 +59,3 @@ you’ve earned.</div>
     In crisis? Get help now
   </button>
 </div>
-
-<!-- TODO: Once the dashboard is officially launched, we should do a more sophisticated redirect. -->
-<script>if (window.sessionStorage.userToken && window.localStorage.BETA_OVERRIDE) document.location.pathname = '/dashboard-beta';</script>
