@@ -371,7 +371,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals made a decision on your appeal. Here's an overview of
+            The Board of Veterans’ Appeals made a decision on your appeal. Here’s an overview of
             the decision:
           </p>
           <div className="decision-items">
