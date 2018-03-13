@@ -614,7 +614,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.merged:
       return {
-        title: 'Merged',
+        title: 'Your appeals were merged',
         description: '',
       };
     case EVENT_TYPES.cavcDecision:
