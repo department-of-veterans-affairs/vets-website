@@ -609,7 +609,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.withdrawn:
       return {
-        title: 'Withdrawn',
+        title: 'You withdrew your appeal',
         description: '',
       };
     case EVENT_TYPES.merged:
