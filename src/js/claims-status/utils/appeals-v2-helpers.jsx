@@ -553,7 +553,7 @@ export function getEventContent(event) {
         description: '',
       };
     case EVENT_TYPES.droHearing:
-      return {
+      return { // TODO: does this need to be updated?
         title: 'DRO Hearing',
         description: '',
       };
