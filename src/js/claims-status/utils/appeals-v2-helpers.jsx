@@ -544,7 +544,7 @@ export function getEventContent(event) {
   switch (event.type) {
     case EVENT_TYPES.claimDecision:
       return {
-        title: 'VBA sent the original claim decision to you',
+        title: 'VA sent you a claim decision',
         description: '',
       };
     case EVENT_TYPES.nod:
