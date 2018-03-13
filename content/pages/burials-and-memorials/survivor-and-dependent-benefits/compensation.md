@@ -81,7 +81,7 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 - Work with an accredited representative. [Get help filing your claim](/disability-benefits/apply/help/index.html).
 
-- Go to a VA regional benefit office and have a VA employee help you. [Find a local VA office](/facilities/).
+- Go to a VA regional benefit office and have a VA employee help you. [Find a local VA office](/facilities/?facilityType=benefits&page=1&zoomLevel=4).
 
 
 
