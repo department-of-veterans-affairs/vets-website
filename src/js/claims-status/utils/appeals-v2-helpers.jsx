@@ -574,7 +574,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.ssoc:
       return {
-        title: 'Supplemental Statement of the Case',
+        title: 'VA sent you a Supplemental Statement of the Case',
         description: '',
       };
     case EVENT_TYPES.certified:
