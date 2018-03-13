@@ -46,7 +46,7 @@ class IntroductionPage extends React.Component {
               <h6>To fill out this application, you’ll need:</h6>
               <ul>
                 <li>
-                  The name of the VA national cemetery where you’d prefer to be buried. <a href="/facilities/">Find a VA national cemetery</a>.
+                  The name of the VA national cemetery where you’d prefer to be buried. <a href="/facilities/?facilityType=cemetery&page=1&zoomLevel=4">Find a VA national cemetery</a>.
                 </li>
                 <li>
                   Service history or the service history of the Servicemember or Veteran who’s sponsoring your application. This includes your or your sponsor’s:
