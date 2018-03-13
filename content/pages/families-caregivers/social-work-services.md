@@ -30,7 +30,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you're looking for help for a Veteran or Servicemember you're caring for, or for yourself as a family caregiver, our VA social workers are here for you. Find out what kinds of things social workers help with, and how to connect with a social worker near you.
+Find out how our VA social workers can help the Veteran or Servicemember you're caring for, as well as you and your family, and how to connect with a social worker near you. 
 
 </div>
 
@@ -42,13 +42,13 @@ Our social workers can help Veterans and Servicemembers with many different need
 
 **VA social workers can help if the Veteran or Servicemember you're caring for is:**
 
-- **In a crisis situation:** We can help counsel the Veteran or Servicemember through the crisis, and then help connect them to VA and community resources to meet their long-term needs.
-- **Homeless, often in the hospital, or unable to care for themselves any longer:** We can help the Veteran or Servicemember find housing, including in an assisted living or nursing home if needed.
-- **In the hospital:** We can help the Veteran or Servicemember make plans for their ongoing care at home or in a rehab or other facility. 
-- **Living in a rural location far from a VA health facility:** We can work with the Veteran or Servicemember's health care team to make sure they get the care they need from VA or in their community.
-- **Having trouble speaking up for themselves or feeling overwhelmed by trying to arrange care:** We can serve as the Veteran or Servicembmer's voice to make sure get what they need.
-- **Struggling with depression, sadness, stress, anxiety, PTSD, drinking or drug use:** We can offer counseling and work with the Veteran or Servicemember and their health care team to create a treatment plan.
-- **Dealing with end-of-life issues:** We can help the Veteran or Servicemember make decisions about life support, organ donation, and other issues and communicate these decisions to their health care team.
+- **In a crisis situation.** We can counsel the Veteran or Servicemember through the crisis, and then help connect them to VA and community resources to meet their long-term needs.
+- **Homeless, often in the hospital, or unable to care for themselves any longer.** We can help the Veteran or Servicemember find housing, including in an assisted living or nursing home if needed.
+- **In the hospital.** We can help the Veteran or Servicemember make plans for their ongoing care at home or in a rehab or other facility. 
+- **Living in a rural location far from a VA health facility.** We can work with the Veteran or Servicemember's health care team to make sure they get the care they need from VA or in their community.
+- **Having trouble speaking up for themselves or feeling overwhelmed by trying to arrange care.** We can serve as the Veteran or Servicembmer's voice to make sure get what they need.
+- **Struggling with depression, sadness, stress, anxiety, PTSD, drinking or drug use.** We can offer counseling and work with the Veteran or Servicemember and their health care team to create a treatment plan.
+- **Dealing with end-of-life issues.** We can help the Veteran or Servicemember make decisions about life support, organ donation, and other issues and communicate these decisions to their health care team.
 
 <br>
 
@@ -64,10 +64,6 @@ VA social workers can help to support you as the caregiver, and your family, wit
 - Help you make arrangements for your loved one's long-term care if you can no longer care for them yourself
 
 These are just some examples. You can talk with a VA social worker about any questions or problems you or the Veteran or Servicemember you care for may have. We'll help you or connect you with the right person to help.
-
-</div>
-
-<div class="feature" markdown=“1”>
 
 </div>
 
