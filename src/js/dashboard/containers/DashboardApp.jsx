@@ -9,6 +9,7 @@ import { removeSavedForm } from '../actions';
 import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
+import PrescriptionsWidget from './PrescriptionsWidget';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
@@ -54,6 +55,7 @@ class DashboardApp extends React.Component {
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
             <ClaimsAppealsWidget/>
+            <PrescriptionsWidget/>
             <MessagingWidget/>
           </div>
         </div>
