@@ -23,6 +23,8 @@ const cleanUpSpies = () => {
 };
 
 const saveSpy = sinon.spy();
+const editSpy = sinon.spy();
+const cancelEditSpy = sinon.spy();
 
 const defaultProps = {
   savedAddress: {
@@ -36,6 +38,9 @@ const defaultProps = {
     zipCode: '12345'
   },
   canUpdate: true,
+  cancelEditingAddress: cancelEditSpy,
+  editAddress: editSpy,
+  isEditingAddress: false,
   saveAddress: saveSpy,
   savePending: false,
   countries: [],
@@ -44,10 +49,23 @@ const defaultProps = {
   statesAvailable: true
 };
 
-// For running ./node_modules/.bin/mocha directly on this file
-window.dataLayer = [];
+const emptyAddress = {
+  addressOne: '',
+  addressTwo: '',
+  addressThree: '',
+  city: '',
+  countryName: '',
+  stateCode: '',
+  type: ADDRESS_TYPES.domestic
+};
+
 
 describe('<AddressSection>', () => {
+  beforeEach(() => {
+    saveSpy.reset();
+    editSpy.reset();
+  });
+
   // we expect a render with default props to show the AddressContent component
   it('should display an address if one is provided in props', () => {
     const tree = shallow(<AddressSection {...defaultProps}/>);
@@ -116,7 +134,7 @@ describe('<AddressSection>', () => {
     expect(component.find('usa-button-secondary')).to.have.lengthOf(0);
   });
 
-  it('should expand address fields when Edit button is clicked', () => {
+  it('should call editAddress() when Edit button is clicked', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
 
     // Make sure we're not editing yet
@@ -124,56 +142,50 @@ describe('<AddressSection>', () => {
 
     // Poke the edit button
     tree.find('button.usa-button-secondary').simulate('click');
+    expect(editSpy.called).to.be.true;
+  });
+
+  it('should render edit fields when isEditingAddress is true', () => {
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
+
+    expect(tree.find('input')).to.have.lengthOf(5);
     expect(tree.find('select')).to.have.lengthOf(2);
   });
 
-  it('should collapse address fields when Update button is clicked', () => {
-    saveSpy.reset();
-
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    expect(tree.find('select')).to.have.lengthOf(0);
-
-    tree.find('button.usa-button-secondary').simulate('click');
-    // We could just check the internal state to see if we're editing, too
-    expect(tree.find('select')).to.have.lengthOf(2);
+  it('should call saveAddress() when Update button is clicked', () => {
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Click the save button
     tree.find('button.usa-button-primary').simulate('click');
-    expect(tree.find('select')).to.have.lengthOf(0);
     expect(saveSpy.calledWith(tree.state('editableAddress'))).to.be.true;
   });
 
-  it('should collapse address fields when Cancel button is clicked', () => {
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    expect(tree.find('select')).to.have.lengthOf(0);
-
-    tree.find('button.usa-button-secondary').simulate('click');
-    expect(tree.find('select')).to.have.lengthOf(2);
+  it('should call cancelEditingAddress when Cancel button is clicked', () => {
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Click the cancel button
     tree.find('button.usa-button-secondary').simulate('click');
-    expect(tree.find('select')).to.have.lengthOf(0);
+    expect(cancelEditSpy.called).to.be.true;
   });
 
   // NOTE: This is a bit of a misnomer; it only tests if countries are unavailable, but that should be sufficient
   it('should show addressUpdateUnavailable if countries or states lists aren\'t available', () => {
     const props = Object.assign({}, defaultProps, { countriesAvailable: false });
-    const tree = mount(<AddressSection {...props}/>);
+    const tree = mount(<AddressSection {...props} isEditingAddress/>);
 
-    // Start editing
-    tree.find('button.usa-button-secondary').simulate('click');
     expect(tree.find('.usa-alert-heading').text()).to.contain('Address update unavailable');
   });
 
   it('should load address in new props after mounting', () => {
+    const tree = mount(<AddressSection {...defaultProps}/>);
+
+    expect(tree.state('editableAddress')).to.equal(defaultProps.savedAddress);
+  });
+
+  it('should update editableAddress when the input changes', () => {
     const props = cloneDeep(defaultProps);
     props.savedAddress = {};
-    const tree = mount(<AddressSection {...props}/>);
-
-    expect(tree.state('editableAddress')).to.equal(props.savedAddress);
-    tree.find('.usa-button-secondary').simulate('click');
+    const tree = mount(<AddressSection {...props} isEditingAddress/>);
 
     // Edit the street address
     const newAddress = '123 Main St';
@@ -183,10 +195,7 @@ describe('<AddressSection>', () => {
 
   it('should not call saveAddress when Cancel is clicked', () => {
     saveSpy.reset();
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    // Start editing
-    tree.find('button.usa-button-secondary').simulate('click');
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Try to save
     tree.find('button.usa-button-secondary').simulate('click');
@@ -195,10 +204,7 @@ describe('<AddressSection>', () => {
 
   it('should not call saveAddress when Update is clicked with invalid data', () => {
     saveSpy.reset();
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    // Start editing
-    tree.find('button.usa-button-secondary').simulate('click');
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Clear out country to get a validation error
     tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
@@ -209,10 +215,7 @@ describe('<AddressSection>', () => {
   });
 
   it('should display error messages for validation failures', () => {
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    // Start editing
-    tree.find('button.usa-button-secondary').simulate('click');
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Clear out country to get a validation error
     tree.find('select[name="country"]').simulate('change', { target: { value: '' } });
@@ -220,10 +223,7 @@ describe('<AddressSection>', () => {
   });
 
   it('should infer new address type', () => {
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    // Start editing
-    tree.find('button.usa-button-secondary').simulate('click');
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Sanity check; make sure the type is what we expect before we change it
     // NOTE: We're checking that it's domestic specifically just so we make absolutely sure
@@ -241,10 +241,7 @@ describe('<AddressSection>', () => {
   });
 
   it('should reset disallowed address fields when type changes', () => {
-    const tree = mount(<AddressSection {...defaultProps}/>);
-
-    // Start editing
-    tree.find('button.usa-button-secondary').simulate('click');
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
     // Sanity check; make sure the type is what we expect before we change it
     expect(tree.state('editableAddress').stateCode).to.not.equal('');
@@ -257,7 +254,7 @@ describe('<AddressSection>', () => {
   // Not sure how to test this bit yet...
   // it('should scroll to first error', () => {});
 
-  it('should start in the editing state if address is empty and user canUpdate', () => {
+  it('should start in the editing state by calling editAddress() if address is empty and user canUpdate', () => {
     const props = cloneDeep(defaultProps);
     props.savedAddress = {
       addressOne: '',
@@ -268,31 +265,33 @@ describe('<AddressSection>', () => {
       stateCode: '',
       type: ADDRESS_TYPES.domestic
     };
-    const tree = shallow(<AddressSection {...props}/>);
+    const tree = shallow(<AddressSection {...props}/>); // eslint-disable-line
 
-    expect(tree.state('isEditingAddress')).to.be.true;
+    expect(editSpy.called).to.be.true;
   });
 
-  it('should not start editing if address is empty but user !canUpdate', () => {
+  it('should not start editing by calling editAddress() if address is empty but user !canUpdate', () => {
     const props = cloneDeep(defaultProps);
-    props.savedAddress = {
-      addressOne: '',
-      addressTwo: '',
-      addressThree: '',
-      city: '',
-      countryName: '',
-      stateCode: '',
-      type: ADDRESS_TYPES.domestic
-    };
+    props.savedAddress = emptyAddress;
     props.canUpdate = false;
 
-    const component = shallow(<AddressSection {...props}/>);
-    expect(component.state('isEditingAddress')).to.be.false;
+    const component = shallow(<AddressSection {...props}/>); // eslint-disable-line
+    expect(editSpy.called).to.be.false;
   });
 
   it('should render an address help button', () => {
     const tree = mount(<AddressSection {...defaultProps}/>);
     expect(tree.find('.address-help-btn').exists()).to.be.true;
+  });
+
+  it('should render an empty address warning on the edit screen', () => {
+    const tree = mount(<AddressSection {...defaultProps} isEditingAddress savedAddress={emptyAddress}/>);
+    expect(tree.find('.usa-alert-heading').first().text()).to.equal('VA does not have a valid address on file for you');
+  });
+
+  it('should render an empty address warning on the view screen', () => {
+    const tree = mount(<AddressSection {...defaultProps} savedAddress={emptyAddress}/>);
+    expect(tree.find('.usa-alert-heading').first().text()).to.equal('VA does not have a valid address on file for you');
   });
 
   describe('validation', () => {
@@ -303,7 +302,7 @@ describe('<AddressSection>', () => {
     afterEach(cleanUpSpies);
 
     it('should run all validations against a field if the address is valid', () => {
-      const tree = mount(<AddressSection {...defaultProps}/>);
+      const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
       // Start editing
       tree.find('button.usa-button-secondary').simulate('click');
@@ -316,7 +315,7 @@ describe('<AddressSection>', () => {
     });
 
     it('should return the first error message it finds', () => {
-      const tree = mount(<AddressSection {...defaultProps}/>);
+      const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
       // Start editing
       tree.find('button.usa-button-secondary').simulate('click');
@@ -331,7 +330,7 @@ describe('<AddressSection>', () => {
     });
 
     it('should run validations on modified fields only', () => {
-      const tree = mount(<AddressSection {...defaultProps}/>);
+      const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
       // Start editing
       tree.find('button.usa-button-secondary').simulate('click');
@@ -354,7 +353,7 @@ describe('<AddressSection>', () => {
     });
 
     it('should run validation against dropdowns immediately', () => {
-      const tree = mount(<AddressSection {...defaultProps}/>);
+      const tree = mount(<AddressSection {...defaultProps} isEditingAddress/>);
 
       // Start editing
       tree.find('.usa-button-secondary').simulate('click');
@@ -374,7 +373,7 @@ describe('<AddressSection>', () => {
     });
 
     it('should run validations on all fields before saving the address', () => {
-      const tree = shallow(<AddressSection {...defaultProps}/>);
+      const tree = shallow(<AddressSection {...defaultProps} isEditingAddress/>);
       tree.instance().saveAddress();
 
       Object.keys(AddressSection.fieldValidations).forEach((key) => {

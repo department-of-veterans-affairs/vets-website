@@ -30,6 +30,8 @@ import {
   SAVE_ADDRESS_SUCCESS,
   SAVE_ADDRESS_FAILURE,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
+  START_EDITING_ADDRESS,
+  CANCEL_EDITING_ADDRESS
 } from '../utils/constants';
 
 export const initialState = {
@@ -43,6 +45,7 @@ export const initialState = {
   fullName: {},
   address: {},
   addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
+  isEditingAddress: false,
   optionsAvailable: false,
   requestOptions: {},
   serviceInfo: [],
@@ -131,8 +134,11 @@ function letters(state = initialState, action) {
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.success, state);
     case GET_LETTER_PDF_FAILURE:
       return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
-    case SAVE_ADDRESS_PENDING:
-      return _.set('savePending', true, state);
+    case SAVE_ADDRESS_PENDING: {
+      const newState = _.set('savePending', true, state);
+      newState.isEditingAddress = false;
+      return newState;
+    }
     case SAVE_ADDRESS_SUCCESS: {
       const newState = Object.assign({}, state, { savePending: false });
       return _.set('address', action.address, newState);
@@ -174,6 +180,10 @@ function letters(state = initialState, action) {
     }
     case GET_ADDRESS_STATES_FAILURE:
       return _.set('statesAvailable', false, state);
+    case START_EDITING_ADDRESS:
+      return _.set('isEditingAddress', true, state);
+    case CANCEL_EDITING_ADDRESS:
+      return _.set('isEditingAddress', false, state);
     default:
       return state;
   }

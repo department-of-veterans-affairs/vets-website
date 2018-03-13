@@ -18,6 +18,7 @@ import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings
 import currentOrPastMonthYearUI from '../../../common/schemaform/definitions/currentOrPastMonthYear';
 import yearUI from '../../../common/schemaform/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
+import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -510,25 +511,12 @@ const formConfig = {
           depends: hasServiceBefore1977,
           uiSchema: {
             'ui:title': 'Dependents',
-            serviceBefore1977: {
-              married: {
-                'ui:title': 'Are you married?',
-                'ui:widget': 'yesNo'
-              },
-              haveDependents: {
-                'ui:title': 'Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?',
-                'ui:widget': 'yesNo'
-              },
-              parentDependent: {
-                'ui:title': 'Do you have a parent who is dependent on your financial support?',
-                'ui:widget': 'yesNo'
-              }
-            }
+            serviceBefore1977: serviceBefore1977UI
           },
           schema: {
             type: 'object',
             properties: {
-              serviceBefore1977: _.unset('required', serviceBefore1977)
+              serviceBefore1977
             }
           }
         },

@@ -35,18 +35,18 @@ export default class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      this.props.formContext.uploadFile(
+      this.uploadRequest = this.props.formContext.uploadFile(
         event.target.files[0],
+        this.props.uiSchema['ui:options'],
+        this.updateProgress,
         (file) => {
           this.props.onChange(_.set(idx, file, this.props.formData || []));
+          this.uploadRequest = null;
         },
-        this.props.uiSchema['ui:options'],
-        this.updateProgress
-      ).catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-      });
+        () => {
+          this.uploadRequest = null;
+        }
+      );
     }
   }
 
@@ -60,6 +60,13 @@ export default class FileField extends React.Component {
 
   updateProgress = (progress) => {
     this.setState({ progress });
+  }
+
+  cancelUpload = (index) => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
+    }
+    this.removeFile(index);
   }
 
   removeFile = (index) => {
@@ -116,10 +123,15 @@ export default class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <span>{file.name}</span><br/>
                       <ProgressBar percent={this.state.progress}/>
+                      <button type="button" className="va-button-link" onClick={() => {
+                        this.cancelUpload(index);
+                      }}>
+                        Cancel
+                      </button>
                     </div>
                   }
                   {!file.uploading && <span>{file.name}</span>}
-                  {!hasErrors && itemSchema.properties.attachmentId &&
+                  {!hasErrors && _.get('properties.attachmentId', itemSchema) &&
                     <div className="schemaform-file-attachment">
                       <SchemaField
                         name="attachmentId"

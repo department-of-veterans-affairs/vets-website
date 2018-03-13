@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Conditions Linked to Military Service
 display_title: Conditions
+description: Find out what conditions linked to your service we cover under VA disability benefits.
 order: 4
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
