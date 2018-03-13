@@ -130,7 +130,7 @@ export function backendErrorMessage() {
   const date = moment().startOf('day').subtract(30, 'days').format('MMMM DD, YYYY');
 
   return (
-    <div className="row">
+    <div id="backendErrorMessage" className="row">
       <div className="medium-8 columns">
         <h3>We’re sorry. Something went wrong on our end.</h3>
         <p>We’re having trouble finding your Post-9/11 GI Bill statements of benefits right now.</p>

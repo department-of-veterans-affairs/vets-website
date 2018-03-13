@@ -34,7 +34,7 @@ export class IntroPage extends React.Component {
           <div>
             <h2>Check your Post-9/11 GI Bill benefits during these hours</h2>
             <p>The Post-9/11 GI Bill Benefits tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
-            <Link to="status" className="usa-button va-button-primary">View your GI Bill Benefits</Link>
+            <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View your GI Bill Benefits</Link>
             <h2>What if I have trouble accessing my benefit statement?</h2>
             <p>There have been some recent problems with this tool on eBenefits. If it's not working, we recommend you bookmark the eBenefits page in your browser and check back in a few days.</p>
           </div>
