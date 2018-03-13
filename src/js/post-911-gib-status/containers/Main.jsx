@@ -6,6 +6,7 @@ import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 // import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
+import { backendErrorMessage } from '../utils/helpers';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -22,8 +23,7 @@ export class Main extends React.Component {
         appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
         break;
       case 'backendServiceError':
-        // TODO: Change this to use the artisanal message component we craft by hand
-        appContent = systemDownMessage;
+        appContent = backendErrorMessage();
         break;
       case 'backendAuthenticationError':
         appContent = unableToFindRecordWarning;
@@ -38,7 +38,8 @@ export class Main extends React.Component {
         break;
       case 'unavailable':
       default:
-        appContent = systemDownMessage;
+        // appContent = systemDownMessage;
+        appContent = backendErrorMessage();
     }
 
     return (
