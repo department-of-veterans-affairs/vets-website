@@ -30,7 +30,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out how our VA social workers can help the Veteran or Servicemember you're caring for, as well as you and your family, and how to connect with a social worker near you. 
+Find out how our VA social workers can help you and the Veteran or Servicemember you're caring for—and how to connect with a social worker near you. 
 
 </div>
 
@@ -63,7 +63,7 @@ VA social workers can help to support you as the caregiver, and your family, wit
 - Help you find a free place to stay close by if your loved one needs to receive treatment in a hospital far from home
 - Help you make arrangements for your loved one's long-term care if you can no longer care for them yourself
 
-These are just some examples. You can talk with a VA social worker about any questions or problems you or the Veteran or Servicemember you care for may have. We'll help you or connect you with the right person to help.
+These are just some examples. If you have any questions or problems, feel free to ask for an appointment with a VA social worker. We'll help you or connect you with the right person to help.
 
 </div>
 
