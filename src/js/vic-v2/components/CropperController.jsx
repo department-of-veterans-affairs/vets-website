@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import Cropper from 'react-cropper';
 import classNames from 'classnames';
@@ -145,11 +146,12 @@ export default class CropperControls extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.detectWidth);
+    this.debouncedDetectWidth = this.debouncedDetectWidth || _.debounce(this.detectWidth, 250);
+    window.addEventListener('resize', this.debouncedDetectWidth);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.detectWidth);
+    window.removeEventListener('resize', this.debouncedDetectWidth);
   }
 
   detectWidth = () => {
@@ -331,7 +333,6 @@ export default class CropperControls extends React.Component {
 
   // initialize cropbox
   setCropBox = () => {
-    console.log('setCropBox');
     // use container and cropbox constants to set cropbox size
     const smallScreen = window.innerWidth < 1201;
     const containerWidth = this.refs.cropper.getContainerData().width;
@@ -426,7 +427,7 @@ export default class CropperControls extends React.Component {
       <div className="cropper-container-outer">
         <Cropper
           ref="cropper"
-          key={this.props.narrowLayout ? 'narrowLayout' : 'normalLayout'}
+          key={this.state.windowWidth}
           ready={this.setCropBox}
           responsive
           src={this.props.src}
