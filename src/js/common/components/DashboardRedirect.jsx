@@ -3,7 +3,7 @@ import React from 'react';
 class DashboardRedirect extends React.Component {
 
   componentDidMount() {
-    // If the user is on the index page without the "next" parameter in the URL...
+    // If when this component is mounted the user is on the index page without the "next" parameter in the URL...
     if (window.location.pathname === '/' && !window.location.search) {
       this.redirectToDashboard();
     } else {
@@ -16,14 +16,10 @@ class DashboardRedirect extends React.Component {
   }
 
   checkLink = (event) => {
-    // When a link to the homepage is clicked...
     if (event.target.tagName.toLowerCase() === 'a' && event.target.pathname === '/') {
-
-      // And the user is registered for the beta
       event.preventDefault();
       event.stopPropagation();
 
-      // They are redirected instead to the dashboard -
       this.redirectToDashboard();
     }
   }
