@@ -584,7 +584,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingHeld:
       return {
-        title: 'Your hearing was held at the regional office',
+        title: 'You attended a hearing with a Veterans Law Judge',
         description: '',
       };
     case EVENT_TYPES.hearingCancelled:
