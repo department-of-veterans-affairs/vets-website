@@ -629,7 +629,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.reconsideration:
       return {
-        title: 'Reconsideration by letter',
+        title: 'Your Motion for Reconsideration was denied',
         description: '',
       };
     default:
