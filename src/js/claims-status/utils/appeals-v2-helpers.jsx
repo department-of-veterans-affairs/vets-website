@@ -854,7 +854,7 @@ export function getNextEvents(currentStatus, details) {
               </p>
             ),
             durationText: certDuration.header,
-            cardDescription: `The Veterans Benefits Administration ususally takes ${certDuration.description} to send cases to the Board.`
+            cardDescription: `The Veterans Benefits Administration usually takes ${certDuration.description} to send cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
