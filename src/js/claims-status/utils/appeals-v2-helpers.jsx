@@ -594,7 +594,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.hearingNoShow:
       return {
-        title: 'Hearing no show',
+        title: 'You missed your hearing with a Veterans Law Judge',
         description: '',
       };
     case EVENT_TYPES.bvaDecision:
