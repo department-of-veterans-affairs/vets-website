@@ -623,7 +623,7 @@ export function getEventContent(event) {
         description: '',
       };
     case EVENT_TYPES.recordDesignation:
-      return {
+      return { // TODO: does this need to be updated?
         title: 'Designation of Record',
         description: '',
       };
