@@ -240,7 +240,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 - Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
 - Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 - Or, ask for an appointment with the VA social worker at your nearest VA health facility. <br>
-[Find the contact information for a VA health facility near you](/facilities)
+[Find contact information for your closest VA health facility](/facilities).
 
 </div>
 </div>
