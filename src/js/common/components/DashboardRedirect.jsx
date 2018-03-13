@@ -29,7 +29,7 @@ class DashboardRedirect extends React.Component {
   }
 
   redirectToDashboard() {
-    window.location.pathname = '/dashboard-beta';
+    window.location.replace('/dashboard-beta');
   }
 
   render() {
