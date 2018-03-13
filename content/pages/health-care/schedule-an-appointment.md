@@ -26,7 +26,8 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
+If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <br>
+<a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
 <div class="usa-alert usa-alert-warning">
@@ -55,7 +56,8 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 
 <div itemprop="itemListElement">
 
-You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
+You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. <br>
+[Find your VA health facility’s phone number](/?facilityType=health&page=1&zoomLevel=10).
 </div>
 </div>
 
@@ -94,7 +96,7 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
 - [Vets.gov](/?next=%2Fhealth-care%2Fmessaging), **or** <br>
 - [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
-**Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
+**Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly. <br>
 [Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
