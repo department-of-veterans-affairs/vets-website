@@ -526,13 +526,20 @@ export const EVENT_TYPES = {
   hearingHeld: 'hearing_held',
   hearingCancelled: 'hearing_cancelled',
   hearingNoShow: 'hearing_no_show',
+  transcript: 'transcript',
   bvaDecision: 'bva_decision',
   bvaRemand: 'bva_remand',
   withdrawn: 'withdrawn',
   merged: 'merged',
   cavcDecision: 'cavc_decision',
   recordDesignation: 'record_designation',
-  reconsideration: 'reconsideration'
+  reconsideration: 'reconsideration',
+  rampNotice: 'ramp_notice',
+  rampOptIn: 'ramp',
+  otherClose: 'other_close',
+  vacated: 'vacated',
+  death: 'death',
+  failureToRespond: 'ftr'
 };
 
 /**
@@ -597,6 +604,11 @@ export function getEventContent(event) {
         title: 'You missed your hearing with a Veterans Law Judge',
         description: '',
       };
+    case EVENT_TYPES.transcript:
+      return {
+        title: 'VA sent you a transcript of your hearing',
+        description: '',
+      };
     case EVENT_TYPES.bvaDecision:
       return {
         title: 'Board of Veterans’ Appeals made a decision',
@@ -630,6 +642,36 @@ export function getEventContent(event) {
     case EVENT_TYPES.reconsideration:
       return {
         title: 'Your Motion for Reconsideration was denied',
+        description: '',
+      };
+    case EVENT_TYPES.rampNotice:
+      return {
+        title: 'VA sent you a letter about the Rapid Appeals Modernization Program',
+        description: '',
+      };
+    case EVENT_TYPES.rampOptIn: // TODO: should this simply be "ramp"?
+      return {
+        title: 'You opted in to the Rapid Appeals Modernization Program',
+        description: '',
+      };
+    case EVENT_TYPES.otherClose:
+      return {
+        title: 'Your appeal was closed',
+        description: '',
+      };
+    case EVENT_TYPES.vacated:
+      return {
+        title: 'Board of Veterans’ Appeals vacated a previous decision',
+        description: '',
+      };
+    case EVENT_TYPES.death:
+      return {
+        title: 'The appeal was closed',
+        description: '',
+      };
+    case EVENT_TYPES.failureToRespond: // TODO: Should this simply be "ftr"?
+      return {
+        title: 'Your appeal was closed',
         description: '',
       };
     default:
