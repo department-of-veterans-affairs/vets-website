@@ -82,6 +82,7 @@ function initApplicationMock(token) {
     verb: 'get',
     value: enrollmentData
   });
+  // TODO: Mock the service up endpoint (whatever it may be)
 }
 
 module.exports = {

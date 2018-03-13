@@ -22,6 +22,7 @@ export class Main extends React.Component {
         appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
         break;
       case 'backendServiceError':
+        // TODO: Change this to use the artisanal message component we craft by hand
         appContent = systemDownMessage;
         break;
       case 'backendAuthenticationError':

@@ -7,7 +7,7 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { getServiceUp } from '../actions/post-911-gib-status';
 import { SERVICE_UP_STATES } from '../utils/constants';
 
-class IntroPage extends React.Component {
+export class IntroPage extends React.Component {
   constructor(props) {
     super(props);
     // Make the api request
@@ -87,3 +87,4 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntroPage);
+

@@ -169,3 +169,13 @@ describe('getEnrollmentData', () => {
       }).then(done, done);
   });
 });
+
+
+// TODO: Fill in these tests when the action actually calls the api
+describe.skip('getServiceUp', () => {
+  it('should call the api', () => {});
+
+  it('should dispatch SET_SERVICE_UP with a status of `up`', () => {});
+
+  it('should dispatch SET_SERVICE_UP with a status of `down`', () => {});
+});

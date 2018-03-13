@@ -18,7 +18,10 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Check Benefit: Vets.gov')
+      // TODO: Change to wait for h1 (schemaform-title isn't until the next page)
       .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
+
+    // TODO: Click on the link to `/status` and waitForElementVisible('.schemaform-title')
 
     // Checking field in UserInfoSection has rendered
     client.expect.element('#gibs-full-name').text.to.contain('First Last');
