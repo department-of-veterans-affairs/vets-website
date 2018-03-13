@@ -549,7 +549,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.nod:
       return {
-        title: 'VBA received your Notice of Disagreement',
+        title: 'VA received your Notice of Disagreement',
         description: '',
       };
     case EVENT_TYPES.droHearing:
