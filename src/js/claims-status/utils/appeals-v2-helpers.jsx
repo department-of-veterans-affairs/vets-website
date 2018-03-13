@@ -193,7 +193,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.pendingSoc:
       contents.title = 'A Decision Review Officer is reviewing your appeal';
       contents.description = (
-        <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. The officer may contact you to request additional evidence or medical examinations, as needed. When the officer has completed their review, they will determine whether or not they can grant your appeal.</p>
+        <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. The officer may contact you to ask for more evidence or medical exams as needed. When the officer has completed the review, they'll determine whether or not they can grant your appeal.</p>
       );
       break;
     case STATUS_TYPES.pendingForm9: {
@@ -207,7 +207,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
           </p>
           <p>
             If you don’t agree with the Statement of the Case, you can bring your appeal to the Board
-            of Veterans’ Appeals. To do this you must complete and return a VA Form 9 within 60 days.
+            of Veterans’ Appeals. To do this, you must complete and return a VA Form 9 within 60 days.
           </p>
         </div>
       );
@@ -278,7 +278,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.atVso:
-      contents.title = 'Your appeal is currently with your Veteran Service Organization';
+      contents.title = 'Your appeal is with your Veterans Service Organization';
       contents.description = (
         <p>{details.vsoName} is currently reviewing your appeal to make additional arguments in support of your case. For more information, please contact {details.vsoName}.</p>
       );
@@ -292,10 +292,10 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.bvaDevelopment:
-      contents.title = 'The judge is seeking additional information before making a decision';
+      contents.title = 'The judge is seeking more information before making a decision';
       contents.description = (
         <p>The Board of Veterans’ Appeals is seeking evidence or an outside opinion from a legal,
-        medical, or other professional necessary to make a decision about your appeal.</p>
+        medical, or other professional in order to make a decision about your appeal.</p>
       );
       break;
     case STATUS_TYPES.stayed:
@@ -367,7 +367,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals sent you a decision on your appeal. Here is an overview of the decision:
+            The Board of Veterans’ Appeals sent you a decision on your appeal. Here's an overview of the decision:
           </p>
           <div className="decision-items">
             {allowedBlock}
@@ -422,7 +422,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals sent you a decision on your appeal. Here is an overview of the decision:
+            The Board of Veterans’ Appeals sent you a decision on your appeal. Here's an overview of the decision:
           </p>
           <div className="decision-items">
             {allowedBlock}
@@ -448,7 +448,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'You withdrew your appeal';
       contents.description = (
         <p>You have opted to not continue your appeal. If this information is incorrect, please
-        contact your Veteran Service Organization or representative for more information.</p>
+        contact your Veterans Service Organization or representative for more information.</p>
       );
       break;
     case STATUS_TYPES.ftr:
@@ -643,7 +643,7 @@ export const makeDecisionReviewContent = (prop) => {
     <div>
       <p>
         {prop}A Veterans Law Judge, working with their team of attorneys, will review all of the
-        available evidence and write a decision. For each issue you are appealing, they can
+        available evidence and write a decision. For each issue you're appealing, they can
         decide to:
       </p>
       <ul className="decision-review-list">
@@ -788,7 +788,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you send in new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a Supplemental Statement of the Case before transferring your case to
+                to write a Supplemental Statement of the Case before sending your case to
                 the Board of Veterans’ Appeals. Once your appeal is transferred, new
                 evidence can be sent directly to the Board and will not be reviewed by
                 the Veterans Benefits Administration.
@@ -813,19 +813,19 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you don’t send in new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will finish
-                their review and transfer your case to the Board of Veterans’ Appeals.
+                their review and send your case to the Board of Veterans’ Appeals.
               </p>
             ),
             durationText: certDuration.header,
-            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to transfer cases to the Board.`
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to send cases to the Board.`
           }, {
             title: 'The Veterans Benefits Administration will send you a Supplemental Statement of the Case',
             description: (
               <p>
                 <strong>If you submit new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a Supplemental Statement of the Case before transferring your case to
-                the Board of Veterans’ Appeals. Once your appeal is transferred, new
+                to write a Supplemental Statement of the Case before sending your case to
+                the Board of Veterans’ Appeals. Once your appeal is sent, new
                 evidence can be sent directly to the Board and will not be reviewed by
                 the Veterans Benefits Administration.
               </p>
@@ -914,7 +914,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
                 transcript of your hearing will be made and added to your appeal file. The judge
-                will not make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request</a>.
+                won't make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request</a>.
               </p>
             ),
             durationText: '',
@@ -931,7 +931,7 @@ export function getNextEvents(currentStatus, details) {
             title: `You will have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
-                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge will not make a decision about your appeal at the hearing.
+                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won't make a decision about your appeal at the hearing.
               </p>
             ),
             durationText: '',
