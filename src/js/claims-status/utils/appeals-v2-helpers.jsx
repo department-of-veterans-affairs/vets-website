@@ -203,7 +203,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         <div>
           <p>
             The Veterans Benefits Administration sent you a Statement of the Case on {formattedSocDate}. The
-            Statement of the Case explains the reasons why they could not fully grant your appeal.
+            Statement of the Case explains the reasons why they couldn’t fully grant your appeal.
           </p>
           <p>
             If you don’t agree with the Statement of the Case, you can bring your appeal to the Board
@@ -218,7 +218,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <p>The Veterans Benefits Administration received your Form 9 and will transfer your appeal
         to the Board of Veterans’ Appeals. Before doing so, the Decision Review Officer must
-        certify that they have finished reviewing all of the evidence related to your appeal.</p>
+        certify that they’ve finished reviewing all of the evidence related to your appeal.</p>
       );
       break;
     case STATUS_TYPES.pendingCertificationSsoc: {
@@ -257,7 +257,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.pendingHearingScheduling:
       contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
-        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you will
+        <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you’ll
         receive a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
@@ -454,7 +454,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.ftr:
       contents.title = 'Your appeal was closed';
       contents.description = (
-        <p>You did not take an action VA requested in order to continue your appeal. If this
+        <p>You didn’t take an action VA requested in order to continue your appeal. If this
         information is incorrect, or if you want to reopen your appeal, please contact your Veterans
         Service Organization or representative for more information.</p>
       );
@@ -469,7 +469,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
             please contact your Veterans Service Organization or representative as soon as possible.
           </p>
           <p>
-            At this time, Vets.gov is not able to provide information about appeals that are part
+            At this time, Vets.gov isn’t able to provide information about appeals that are part
             of RAMP.
           </p>
         </div>
@@ -739,8 +739,8 @@ export function getNextEvents(currentStatus, details) {
             title: 'The Veterans Benefits Administration will grant some or all of your appeal',
             description: (
               <p>
-                <strong>If the Decision Review Officer determines that there is enough evidence to grant
-                one or more of the issues on your appeal</strong>, they will make a new decision. If this
+                <strong>If the Decision Review Officer determines that there’s enough evidence to grant
+                one or more of the issues on your appeal</strong>, they’ll make a new decision. If this
                 decision changes your disability rating or eligibility for VA benefits, you should
                 expect this change to be made in 1 to 2 months.
               </p>
@@ -751,8 +751,8 @@ export function getNextEvents(currentStatus, details) {
             title: 'The Veterans Benefits Administration will send you a Statement of the Case',
             description: (
               <p>
-                <strong>If the Decision Review Officer determines that there is not enough evidence to
-                fully grant your appeal</strong>, they will send you their findings in a document called
+                <strong>If the Decision Review Officer determines that there isn’t enough evidence to
+                fully grant your appeal</strong>, they’ll send you their findings in a document called
                 a Statement of the Case. You can then decide whether to continue your appeal to the
                 Board of Veterans’ Appeals.
               </p>
@@ -790,7 +790,7 @@ export function getNextEvents(currentStatus, details) {
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
                 to write a Supplemental Statement of the Case before sending your case to
                 the Board of Veterans’ Appeals. Once your appeal is transferred, new
-                evidence can be sent directly to the Board and will not be reviewed by
+                evidence can be sent directly to the Board and won’t be reviewed by
                 the Veterans Benefits Administration.
               </p>
             ),
@@ -826,7 +826,7 @@ export function getNextEvents(currentStatus, details) {
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
                 to write a Supplemental Statement of the Case before sending your case to
                 the Board of Veterans’ Appeals. Once your appeal is sent, new
-                evidence can be sent directly to the Board and will not be reviewed by
+                evidence can be sent directly to the Board and won’t be reviewed by
                 the Veterans Benefits Administration.
               </p>
             ),
@@ -862,7 +862,7 @@ export function getNextEvents(currentStatus, details) {
                 need to write a new Supplemental Statement of the Case before transferring your
                 case to the Board of Veterans’ Appeals. Once your appeal is
                 transferred, new evidence can be sent directly to the Board and
-                will not be reviewed by the Veterans Benefits Administration.
+                won’t be reviewed by the Veterans Benefits Administration.
               </p>
             ),
             durationText: ssocDuration.header,
@@ -1014,7 +1014,7 @@ export function getNextEvents(currentStatus, details) {
             description: (
               <p>
                 They may contact you to request additional evidence or medical examinations, as
-                needed. When they have completed the remand instructions, they will determine whether
+                needed. When they’ve completed the remand instructions, they’ll determine whether
                 or not they can grant your appeal. If not, your appeal will return to the Board of
                 Veterans’ Appeals for a new decision.
               </p>
@@ -1068,7 +1068,7 @@ export function getAlertContent(alert) {
             <p>
               A Form 9 was included with your Statement of the Case. By completing and returning
               the form, you bring your appeal to the Board of Veterans’ Appeals. On this form,
-              you can request a hearing with a Veterans Law Judge, if you would like one.
+              you can request a hearing with a Veterans Law Judge, if you’d like one.
             </p>
             <p>
               If you need help with understanding your Statement of the Case or completing the Form
@@ -1116,14 +1116,14 @@ export function getAlertContent(alert) {
     }
     case ALERT_TYPES.rampEligible:
       return {
-        title: 'You have opted-in to the Rapid Appeals Modernization Program (RAMP)',
+        title: 'You opted in to the Rapid Appeals Modernization Program (RAMP)',
         description: (
           <div>
             <p>You chose to participate in the new supplemental claim or
-            higher-level review lanes. This does not mean that your appeal has
+            higher-level review lanes. This doesn’t mean that your appeal has
             been closed. If you didn’t choose this, please call your VSO or
             representative as soon as possible.</p>
-            <p>At this time, Vets.gov Appeal Status is not able to get
+            <p>At this time, Vets.gov Appeal Status isn’t able to get
             information related to appeals that are part of RAMP.</p>
           </div>
         ),
@@ -1132,9 +1132,9 @@ export function getAlertContent(alert) {
       };
     case ALERT_TYPES.rampIneligible:
       return {
-        title: 'Your appeal is not eligible for the Rapid Appeals Modernization Program (RAMP)',
+        title: 'Your appeal isn’t eligible for the Rapid Appeals Modernization Program (RAMP)',
         description: (
-          <p>This appeal is not eligible for RAMP because it’s near the front
+          <p>This appeal isn’t eligible for RAMP because it’s near the front
           of the docket line and ready to be assigned to a Veterans Law Judge
           at the Board. For more information, please call your VSO or
           representative.</p>
@@ -1159,8 +1159,8 @@ export function getAlertContent(alert) {
         title: 'Waiting on your representative',
         description: (
           <p>You’re at the front of the Board’s docket line, but your appeal is
-          with your Veteran Service Organization. Please contact them to make
-          sure they are sending the needed information to the Board.</p>
+          with your Veterans Service Organization. Please contact them to make
+          sure they’re sending the needed information to the Board.</p>
         ),
         displayType: 'info',
         type,
