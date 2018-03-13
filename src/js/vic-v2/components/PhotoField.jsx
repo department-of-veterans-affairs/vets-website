@@ -16,7 +16,7 @@ const layouts = {
   cropPhoto: 2,
   watchUpload: 3,
   previewPhoto: 4,
-  error: 5
+  screenReaderError: 5
 };
 
 function isSmallScreen(width) {
@@ -63,12 +63,9 @@ export default class PhotoField extends React.Component {
       currentLayout: layouts.choosePhoto,
       progress: 0,
       src: null,
-      isCropping: false,
       previewSrc,
       previewProcessing: false
     };
-
-    this.screenReaderPath = false;
   }
 
   componentWillMount() {
@@ -84,22 +81,6 @@ export default class PhotoField extends React.Component {
     const nextFormData = nextProps.formData || {};
     const prevFormData = this.props.formData || {};
 
-    /*
-    console.log('will receive props');
-    // confirmation code received from photo upload- ready for viewing
-    let activeLayout;
-    if (nextFormData.uploading) {
-      activeLayout = layouts.watchUpload;
-    } else if (nextFormData.confirmationCode) {
-      activeLayout = layouts.previewPhoto;
-    } else {
-      activeLayout = layouts.choosePhoto;
-    }
-
-    this.setState({ activeLayout });
-    console.log(activeLayout);
-    */
-
     if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
       if (this.state.previewSrc) {
         window.URL.revokeObjectURL(this.state.previewSrc);
@@ -114,7 +95,7 @@ export default class PhotoField extends React.Component {
     const newState = this.state;
     if (newFile.errorMessage && oldFile.errorMessage !== newFile.errorMessage) {
       scrollAndFocus(this.errorMessage);
-    } else if (prevState.isCropping !== newState.isCropping) {
+    } else if (prevState.currentLayout !== layouts.cropPhoto && newState.currentLayout === layouts.cropPhoto) {
       scrollAndFocus(this.borderBox);
     } else if (typeof this.props.formData === 'undefined' && this.props.formData !== prevProps.formData) {
       scrollAndFocus(this.borderBox);
@@ -140,13 +121,12 @@ export default class PhotoField extends React.Component {
   onChangeScreenReader = (files) => {
     const file = files[0];
 
-    this.screenReaderPath = true;
-
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     if (!isValidFileType(file.name, fileTypes)) {
       this.props.onChange({
         errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, or .png file and try again.'
       });
+      this.setState({ currentLayout: layouts.screenReaderError });
     } else {
       const reader = new FileReader();
       reader.onload = () => {
@@ -156,19 +136,24 @@ export default class PhotoField extends React.Component {
               this.props.onChange({
                 errorMessage: 'The photo you uploaded isn’t a square photo. Please upload a new one that fits the requirements.'
               });
+              this.setState({ currentLayout: layouts.screenReaderError });
             } else if (!isValidImageSize(img)) {
               this.props.onChange({
                 errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
               });
+
+              this.setState({ currentLayout: layouts.screenReaderError });
             } else {
-              this.setState({ progress: 0, warningMessage: null });
+              this.setState({
+                currentLayout: layouts.watchUpload,
+                progress: 0,
+                warningMessage: null
+              });
               this.uploadRequest = this.props.formContext.uploadFile(
                 file,
                 this.props.uiSchema['ui:options'],
                 this.updateProgress,
-                (fileData) => {
-                  this.props.onChange(fileData);
-                },
+                (formData) => this.handleUploadComplete(formData, file),
                 () => {
                   this.props.onBlur(this.props.idSchema.$id);
                   this.uploadRequest = null;
@@ -182,24 +167,6 @@ export default class PhotoField extends React.Component {
   }
 
   onChange = (files) => {
-    /*
-     * error message is only used in the choosePhoto layout-
-     * maybe pull out different layouts into their own jsx so that the render function is simpler and it's easier to tell that the error message is for one layout
-     * on change will cause a change to props after isCropping is set
-     * try to manage the layout shown without changing it in componentWillReceiveProps- use the interactive elements and the constructor - start from the beginning and go through the whole process
-     * the review page might override this with an initial prop
-     * use css for layout instead of the tracked width
-     */
-
-    console.log('onChange');
-
-    this.screenReaderPath = false;
-    this.setState({
-      currentLayout: layouts.cropPhoto,
-      dragActive: false
-
-    });
-
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
       const file = files[0];
@@ -212,6 +179,7 @@ export default class PhotoField extends React.Component {
         this.props.onChange({
           errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, .png, or .bmp file and try again.'
         });
+        this.setState({ dragActive: false });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -221,13 +189,15 @@ export default class PhotoField extends React.Component {
                 this.props.onChange({
                   errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
                 });
+                this.setState({ dragActive: false });
               } else {
                 // Clear any error messages
                 this.props.onChange();
                 this.setState({
-                  src: img.src,
+                  dragActive: false,
+                  currentLayout: layouts.cropPhoto,
                   fileName,
-                  isCropping: true
+                  src: img.src
                 });
               }
             })
@@ -235,6 +205,7 @@ export default class PhotoField extends React.Component {
               this.props.onChange({
                 errorMessage: 'Sorry, we weren’t able to load the image you selected.'
               });
+              this.setState({ dragActive: false });
             });
         };
         reader.readAsDataURL(file);
@@ -246,6 +217,20 @@ export default class PhotoField extends React.Component {
 
   onPreviewError = () => {
     this.setState({ previewProcessing: true });
+  }
+
+  handleUploadComplete = (formData, file) => {
+    if (formData.confirmationCode) {
+      this.props.onChange(Object.assign({}, formData, {
+        file
+      }));
+      this.uploadRequest = null;
+      this.setState({
+        currentLayout: layouts.previewPhoto
+      });
+    } else {
+      this.props.onChange(formData);
+    }
   }
 
   cancelUpload = () => {
@@ -268,19 +253,7 @@ export default class PhotoField extends React.Component {
       file,
       this.props.uiSchema['ui:options'],
       this.updateProgress,
-      (formData) => {
-        if (formData.confirmationCode) {
-          this.props.onChange(Object.assign({}, formData, {
-            file
-          }));
-          this.uploadRequest = null;
-          this.setState({
-            currentLayout: layouts.previewPhoto
-          });
-        } else {
-          this.props.onChange(formData);
-        }
-      },
+      (formData) => this.handleUploadComplete(formData, file),
       () => {
         this.uploadRequest = null;
       }
@@ -339,10 +312,8 @@ export default class PhotoField extends React.Component {
       );
     }
 
-    const { isCropping } = this.state;
     const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage;
-    const screenReaderError = this.screenReaderPath && !!errorMessage;
     const label = this.props.uiSchema['ui:title'];
     const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
@@ -350,31 +321,25 @@ export default class PhotoField extends React.Component {
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
     let fieldView;
-    if (this.state.currentLayout === layouts.watchUpload) {
-      fieldView = 'progress';
-    } else if (this.state.currentLayout === layouts.cropPhoto) {
-      fieldView = 'cropper';
-    } else if (screenReaderError) {
-      fieldView = 'error';
-    } else if (this.state.currentLayout === layouts.previewPhoto) {
-      fieldView = 'preview';
-    } else if (this.state.currentLayout === layouts.choosePhoto) {
-      fieldView = 'initial';
+    switch (this.state.currentLayout) {
+      case layouts.choosePhoto:
+        fieldView = 'initial';
+        break;
+      case layouts.cropPhoto:
+        fieldView = 'cropper';
+        break;
+      case layouts.watchUpload:
+        fieldView = 'progress';
+        break;
+      case layouts.previewPhoto:
+        fieldView = 'preview';
+        break;
+      case layouts.screenReaderError:
+        fieldView = 'error';
+        break;
+      default:
+        fieldView = 'initial';
     }
-    console.log(fieldView);
-    /*
-    if (file.uploading) {
-      fieldView = 'progress';
-    } else if (isCropping) {
-      fieldView = 'cropper';
-    } else if (screenReaderError) {
-      fieldView = 'error';
-    } else if (hasFile && !isCropping) {
-      fieldView = 'preview';
-    } else if (!isCropping && !hasFile) {
-      fieldView = 'initial';
-    }
-    */
 
     let uploadMessage;
     if (smallScreen) {
