@@ -588,7 +588,7 @@ export function getEventContent(event) {
         description: '',
       };
     case EVENT_TYPES.hearingCancelled:
-      return {
+      return { // TODO: does this need to be updated?
         title: 'Hearing canceled',
         description: '',
       };
