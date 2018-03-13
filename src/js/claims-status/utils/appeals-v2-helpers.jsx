@@ -599,7 +599,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.bvaDecision:
       return {
-        title: 'The Board made a decision on your appeal',
+        title: 'Board of Veterans’ Appeals made a decision',
         description: '',
       };
     case EVENT_TYPES.bvaRemand:
