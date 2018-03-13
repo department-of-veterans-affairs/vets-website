@@ -559,7 +559,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.fieldGrant:
       return {
-        title: 'Field grant',
+        title: 'VA granted one or more issues',
         description: '',
       };
     case EVENT_TYPES.soc:
