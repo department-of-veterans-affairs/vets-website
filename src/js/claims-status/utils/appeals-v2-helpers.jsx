@@ -1014,7 +1014,7 @@ export function getNextEvents(currentStatus, details) {
             description: (
               <p>
                 They may contact you to request more evidence or medical exams as
-                needed. When they've completed the remand instructions, they’ll determine whether
+                needed. When they’ve completed the remand instructions, they’ll determine whether
                 or not they can grant your appeal. If not, your appeal will return to the Board of
                 Veterans’ Appeals for a new decision.
               </p>
