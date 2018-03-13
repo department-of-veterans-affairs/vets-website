@@ -70,11 +70,6 @@ export default class PhotoField extends React.Component {
 
   componentWillMount() {
     this.detectDrag();
-    this.detectWidth();
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.detectWidth);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -103,7 +98,6 @@ export default class PhotoField extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.detectWidth);
     if (this.state.previewSrc) {
       window.URL.revokeObjectURL(this.state.previewSrc);
     }
@@ -269,11 +263,6 @@ export default class PhotoField extends React.Component {
 
   updateProgress = (progress) => {
     this.setState({ progress });
-  }
-
-  detectWidth = () => {
-    const windowWidth = window.innerWidth;
-    this.setState({ windowWidth });
   }
 
   detectDrag = () => {

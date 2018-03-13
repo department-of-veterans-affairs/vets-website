@@ -131,13 +131,30 @@ export default class CropperControls extends React.Component {
     };
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.windowWidth !== this.props.windowWidth) {
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.windowWidth !== this.state.windowWidth) {
       const cropper = this.refs.cropper;
       if (cropper) {
         this.setCropBox();
       }
     }
+  }
+
+  componentWillMount() {
+    this.detectWidth();
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.detectWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.detectWidth);
+  }
+
+  detectWidth = () => {
+    const windowWidth = window.innerWidth;
+    this.setState({ windowWidth });
   }
 
   onCropstart = (e) => {
@@ -314,9 +331,11 @@ export default class CropperControls extends React.Component {
 
   // initialize cropbox
   setCropBox = () => {
+    console.log('setCropBox');
     // use container and cropbox constants to set cropbox size
+    const smallScreen = window.innerWidth < 1201;
     const containerWidth = this.refs.cropper.getContainerData().width;
-    const heightWidth = this.props.narrowLayout ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE;
+    const heightWidth = smallScreen ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE;
     const left = (containerWidth / 2) - (heightWidth / 2);
     this.refs.cropper.setCropBoxData({
       top: 0,
@@ -416,7 +435,7 @@ export default class CropperControls extends React.Component {
           cropstart={this.onCropstart}
           cropend={this.onCropend}
           cropmove={() => true}
-          minContainerHeight={this.props.narrowLayout ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
+          minContainerHeight={true ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
           toggleDragModeOnDblclick={false}
           dragMode="move"
           guides={false}
