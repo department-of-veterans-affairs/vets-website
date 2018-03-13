@@ -193,7 +193,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.pendingSoc:
       contents.title = 'A Decision Review Officer is reviewing your appeal';
       contents.description = (
-        <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. The officer may contact you to ask for more evidence or medical exams as needed. When the officer has completed the review, they'll determine whether or not they can grant your appeal.</p>
+        <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. The officer may contact you to ask for more evidence or medical exams as needed. When the officer has completed the review, they’ll determine whether or not they can grant your appeal.</p>
       );
       break;
     case STATUS_TYPES.pendingForm9: {
@@ -367,7 +367,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals sent you a decision on your appeal. Here's an overview of the decision:
+            The Board of Veterans’ Appeals sent you a decision on your appeal. Here’s an overview of the decision:
           </p>
           <div className="decision-items">
             {allowedBlock}
@@ -422,7 +422,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals sent you a decision on your appeal. Here's an overview of the decision:
+            The Board of Veterans’ Appeals sent you a decision on your appeal. Here’s an overview of the decision:
           </p>
           <div className="decision-items">
             {allowedBlock}
@@ -455,7 +455,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'Your appeal was closed';
       contents.description = (
         <p>You did not take an action VA requested in order to continue your appeal. If this
-        information is incorrect, or if you want to reopen your appeal, please contact your Veteran
+        information is incorrect, or if you want to reopen your appeal, please contact your Veterans
         Service Organization or representative for more information.</p>
       );
       break;
@@ -465,8 +465,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         <div>
           <p>
             You chose to participate in the new supplemental claim or higher-level review lanes.
-            This does not mean that your appeal has been closed. If this information is incorrect,
-            please contact your Veteran Service Organization or representative as soon as possible.
+            This doesn’t mean that your appeal has been closed. If this information is incorrect,
+            please contact your Veterans Service Organization or representative as soon as possible.
           </p>
           <p>
             At this time, Vets.gov is not able to provide information about appeals that are part
@@ -479,7 +479,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'Your motion for reconsideration was denied';
       contents.description = (
         <p>The Board of Veterans’ Appeals declined to reopen your appeal. Please contact your
-        Veteran Service Organization or representative for more information.</p>
+        Veterans Service Organization or representative for more information.</p>
       );
       break;
     case STATUS_TYPES.death: {
@@ -487,7 +487,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
       contents.title = 'The appeal was closed';
       contents.description = (
-        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If this information is incorrect, please contact your Veteran Service Organization or
+        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If this information is incorrect, please contact your Veterans Service Organization or
         representative as soon as possible.</p>
       );
       break;
@@ -495,7 +495,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.otherClose:
       contents.title = 'Your appeal was closed';
       contents.description = (
-        <p>Your appeal was dismissed or closed. Please contact your Veteran Service Organization or
+        <p>Your appeal was dismissed or closed. Please contact your Veterans Service Organization or
         representative for more information.</p>
       );
       break;
@@ -643,7 +643,7 @@ export const makeDecisionReviewContent = (prop) => {
     <div>
       <p>
         {prop}A Veterans Law Judge, working with their team of attorneys, will review all of the
-        available evidence and write a decision. For each issue you're appealing, they can
+        available evidence and write a decision. For each issue you’re appealing, they can
         decide to:
       </p>
       <ul className="decision-review-list">
@@ -914,7 +914,7 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
                 transcript of your hearing will be made and added to your appeal file. The judge
-                won't make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request</a>.
+                won’t make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request</a>.
               </p>
             ),
             durationText: '',
@@ -931,7 +931,7 @@ export function getNextEvents(currentStatus, details) {
             title: `You will have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
-                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won't make a decision about your appeal at the hearing.
+                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won’t make a decision about your appeal at the hearing.
               </p>
             ),
             durationText: '',
