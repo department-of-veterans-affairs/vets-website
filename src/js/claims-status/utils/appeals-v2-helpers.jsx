@@ -564,7 +564,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.soc:
       return {
-        title: 'VBA prepared a Statement of the Case (SOC)',
+        title: 'VA sent you a Statement of the Case',
         description: '',
       };
     case EVENT_TYPES.form9:
