@@ -4,67 +4,37 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getStatusContents } from '../../claims-status/utils/appeals-v2-helpers';
+import { appealStatusDescriptions } from '../../claims-status/utils/appeal-helpers.jsx';
 
-
-// TODO: Get a proper mapping of programArea -> display output
-const appealTypeMap = {
-  compensation: 'Compensation',
-  pension: 'Pension',
-  insurance: 'Insurance',
-  loan_guaranty: 'Loan Guaranty', // eslint-disable-line
-  education: 'Education',
-  vre: 'VRE',
-  medical: 'Medical',
-  burial: 'Burial',
-  bva: 'BVA',
-  other: 'Other',
-  multiple: 'Multiple',
+const renderNextAction = (lastEvent, previousHistory) => {
+  if (lastEvent.type === 'ssoc' && previousHistory[0].type !== 'soc') {
+    return null;
+  }
+  const nextAction = appealStatusDescriptions(lastEvent, previousHistory).nextAction;
+  return nextAction && nextAction.title;
 };
 
-
-export default function AppealListItem({ appeal, name }) {
-  const { status } = appeal.attributes;
+export default function AppealListItem({ appeal }) {
   // always show merged event on top
   const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
-  const firstEvent = events[events.length - 1];
   const lastEvent = events[0];
+  const firstEvent = events[events.length - 1];
+  const previousHistory = events.slice(1);
 
   return (
     <div className="claim-list-item-container">
-      <h3 className="claim-list-item-header-v2">
-        Appeal of {appealTypeMap[appeal.attributes.programArea]} - Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
-      </h3>
-      <div className="card-status">
-        <p><strong>{moment(lastEvent.date).format('MMM D')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
+      <h4 className="claim-list-item-header">Compensation Appeal – Received {moment(firstEvent.date).format('MMM D, YYYY')}</h4>
+      <p className="status"><span className="claim-item-label">{moment(lastEvent.date).format('MMMM D')} — </span> {appealStatusDescriptions(lastEvent, previousHistory).status.title}</p>
+      <div className="communications">
+        {renderNextAction(lastEvent, previousHistory)}
       </div>
       <p>
-        <Link className="usa-button usa-button-primary" href={`/track-claims/appeals-v2/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" href={`/track-claims/appeals/${appeal.id}/status`}>View appeal</Link>
       </p>
     </div>
   );
 }
 
 AppealListItem.propTypes = {
-  appeal: PropTypes.shape({
-    attributes: PropTypes.shape({
-      status: PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        details: PropTypes.object,
-      }).isRequired,
-      events: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired
-      })),
-      programArea: PropTypes.string.isRequired,
-      active: PropTypes.bool.isRequired,
-      issues: PropTypes.array.isRequired,
-      description: PropTypes.string.isRequired
-    })
-  }),
-  name: PropTypes.shape({
-    first: PropTypes.string,
-    middle: PropTypes.string,
-    last: PropTypes.string
-  })
+  appeal: PropTypes.object
 };
