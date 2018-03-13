@@ -47,7 +47,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 <li class="process-step list-two">
 
 #### Choose the VA national cemetery where you’d prefer to be buried. <br>
-[Find a VA national cemetery](/facilities/).
+[Find a VA national cemetery](/?facilityType=cemetery&page=1&zoomLevel=4).
 
 **Please note:**
 
