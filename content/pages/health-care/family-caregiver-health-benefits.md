@@ -7,6 +7,12 @@ collection: healthCare
 children: healthCareCoverageFamily
 lastupdate: 2018-02-13
 order: 9
+relatedlinks:
+  - heading: Other VA Benefits
+    links: 
+    - url: /families-caregivers/
+      title: Family Member and Caregiver Benefits
+      description: Find out if you may qualify for other benefits, like VA-backed home loans, life insurance, money to help pay for college, or support to help care for a Veteran with disabilities.
 ---
 
 <div class="va-introtext">
