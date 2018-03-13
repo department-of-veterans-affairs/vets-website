@@ -8,7 +8,6 @@ import { scrollAndFocus } from '../../common/utils/helpers';
 import PhotoPreview from '../components/PhotoPreview';
 import CropperController from '../components/CropperController';
 
-const LARGE_SCREEN = 1201;
 const MIN_SIZE = 350;
 
 const layouts = {
@@ -18,14 +17,6 @@ const layouts = {
   previewPhoto: 4,
   screenReaderError: 5
 };
-
-function isSmallScreen(width) {
-  return  width < LARGE_SCREEN;
-}
-
-function onReviewPage(pageTitle) {
-  return pageTitle === 'Photo review';
-}
 
 function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
@@ -301,72 +292,46 @@ export default class PhotoField extends React.Component {
       );
     }
 
-    const hasFile = !!file.confirmationCode;
     const errorMessage = file.errorMessage;
     const label = this.props.uiSchema['ui:title'];
-    const smallScreen = isSmallScreen(this.state.windowWidth) || onReviewPage(this.props.formContext.pageTitle);
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const cropperTypes = fileTypes.concat('bmp');
     const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
 
-    let fieldView;
-    switch (this.state.currentLayout) {
+    let currentLayout = this.state.currentLayout;
+    let uploadButtonText = 'Your Photo';
+    let instruction;
+    let description;
+    let uploadControlClass = classNames('photo-input-container');
+    switch (currentLayout) {
       case layouts.choosePhoto:
-        fieldView = 'initial';
+        description = <p>Drag and drop your image into the square or click the upload button.</p>;
+        instruction = <span><strong>Step 1 of 2:</strong> Upload a digital photo.</span>;
         break;
       case layouts.cropPhoto:
-        fieldView = 'cropper';
+        uploadButtonText = 'a New Photo';
+        instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame.</span>;
+        description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
         break;
       case layouts.watchUpload:
-        fieldView = 'progress';
         break;
       case layouts.previewPhoto:
-        fieldView = 'preview';
+        description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
+        uploadControlClass = classNames('photo-input-container', 'photo-input-container-left');
         break;
       case layouts.screenReaderError:
-        fieldView = 'error';
+        uploadControlClass = classNames('photo-input-container', 'photo-input-container-left');
         break;
       default:
-        fieldView = 'initial';
+        currentLayout = layouts.choosePhoto;
+        description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
-
-    let uploadMessage;
-    if (smallScreen) {
-      uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
-    } else if (fieldView === 'cropper') {
-      uploadMessage = 'Upload a New Photo';
-    } else {
-      uploadMessage = 'Upload Your Photo';
-    }
-
-    let instruction;
-    if (fieldView === 'cropper') {
-      instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame.</span>;
-    } else if (fieldView === 'initial') {
-      instruction = <span><strong>Step 1 of 2:</strong> Upload a digital photo.</span>;
-    }
-
-    let description;
-    if (fieldView === 'cropper') {
-      description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
-    } else if (fieldView === 'preview') {
-      description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
-    } else if (fieldView === 'initial' && this.state.dragAndDropSupported) {
-      description = <p>Drag and drop your image into the square or click the upload button.</p>;
-    }
-
-    const uploadControlClass = classNames(
-      'photo-input-container',
-      {
-        'photo-input-container-left': fieldView === 'error' || fieldView === 'preview',
-      }
-    );
 
     return (
       <fieldset>
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
         <div ref={element => { this.borderBox = element; }} className={errorMessage ? 'error-box' : 'border-box'}>
-          {fieldView === 'cropper' && <span className="sr-only">
+          {currentLayout === layouts.cropPhoto && <span className="sr-only">
             This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
@@ -381,7 +346,7 @@ export default class PhotoField extends React.Component {
             </div>}
             {instruction}
             {!this.state.previewProcessing && description}
-            {fieldView === 'preview' && hasFile && <PhotoPreview
+            {currentLayout === layouts.previewPhoto && <PhotoPreview
               id={file.confirmationCode}
               className="photo-preview"
               isLoggedIn={formContext.isLoggedIn}
@@ -391,20 +356,19 @@ export default class PhotoField extends React.Component {
               onError={this.onPreviewError}/>
             }
           </div>
-          {fieldView === 'progress' && <div className={progressBarContainerClass}>
+          {currentLayout === layouts.watchUpload && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
             <button type="button" className="va-button-link" onClick={this.cancelUpload}>
               Cancel
             </button>
           </div>}
-          {fieldView === 'cropper' && <CropperController
-            narrowLayout={smallScreen}
+          {currentLayout === layouts.cropPhoto && <CropperController
             windowWidth={this.state.windowWidth}
             onPhotoCropped={blob => this.uploadPhoto(blob)}
             src={this.state.src}/>
           }
-          {fieldView === 'initial' && <div className="drop-target-container">
+          {currentLayout === layouts.choosePhoto && <div className="drop-target-container">
             <Dropzone
               className={`drop-target ${this.state.dragActive && 'drag-active'}`}
               onDragEnter={() => this.handleDrag({ dragActive: true })}
@@ -417,33 +381,33 @@ export default class PhotoField extends React.Component {
             </Dropzone>
           </div>}
           <div className={uploadControlClass}>
-            {fieldView === 'preview' && <button
+            {currentLayout === layouts.previewPhoto && <button
               className="photo-preview-link va-button-link"
               type="button"
               onClick={this.resetFile}>
               Go back and change your photo
             </button>}
-            {fieldView === 'preview' && !this.state.previewProcessing && <button
+            {currentLayout === layouts.previewPhoto && !this.state.previewProcessing && <button
               className="photo-preview-link va-button-link"
               type="button"
               aria-describedby="editButtonDescription"
               onClick={this.onEdit}>
               Edit your photo
             </button>}
-            {(fieldView === 'initial' || fieldView === 'cropper') && <ErrorableFileInput
+            {(currentLayout === layouts.choosePhoto || currentLayout === layouts.cropPhoto) && <ErrorableFileInput
               accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
-              buttonText={uploadMessage}
+              buttonText={<span>Upload <i className="fa fa-upload narrow-layout"></i><span className="normal-layout">{uploadButtonText}</span></span>}
               aria-describedby="croppingToolDescription"
               name="fileUpload"/>}
-            {fieldView === 'initial' && <ErrorableFileInput
+            {currentLayout === layouts.choosePhoto && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeScreenReader}
               buttonText="Use our screen reader-friendly photo upload tool."
               aria-describedby="screenReaderPathDescription"
               triggerClass="va-button-link"
               name="screenReaderFileUpload"/>}
-            {fieldView === 'error' && <ErrorableFileInput
+            {currentLayout === layouts.screenReaderError && <ErrorableFileInput
               accept={fileTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChangeScreenReader}
               buttonText="Upload Photo Again"
