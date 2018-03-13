@@ -3,10 +3,6 @@ import React from 'react';
 import Cropper from 'react-cropper';
 import classNames from 'classnames';
 
-/*
- * get rid of the small screen check on photofield
- *
- */
 const MIN_SIZE = 350;
 const SMALL_CROP_BOX_SIZE = 240;
 const LARGE_CROP_BOX_SIZE = 300;
