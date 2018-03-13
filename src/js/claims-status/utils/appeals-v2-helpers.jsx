@@ -863,8 +863,8 @@ export function getNextEvents(currentStatus, details) {
                 on {formattedSocDate}</strong>, the Decision Review Officer will
                 need to write a new Statement of the Case before sending it
                 to the Board of Veterans’ Appeals. Once your appeal has
-                been sent, you'll need to submit any new evidence directly to the Board.
-                It won't be reviewed by the Veterans Benefits Administration.
+                been sent, you’ll need to submit any new evidence directly to the Board.
+                It won’t be reviewed by the Veterans Benefits Administration.
               </p>
             ),
             durationText: ssocDuration.header,
@@ -934,7 +934,7 @@ export function getNextEvents(currentStatus, details) {
         header: '', // intentionally empty
         events: [
           {
-            title: `You'll have your ${getHearingType(details.type)} hearing`,
+            title: `You’ll have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
                 Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing,
@@ -1110,7 +1110,7 @@ export function getAlertContent(alert, appealIsActive) {
         title: `You missed your hearing on ${formattedDate}`,
         description: (
           <div>
-            <p>You were scheduled for a hearing on {formattedDate}, but VA records show that you didn’t attend. If you want to request a new hearing, you'll need to send the Board of Veterans’ Appeals a letter that explains why you didn't go to the hearing. You’ll need to send this letter by {formattedDueDate}.</p>
+            <p>You were scheduled for a hearing on {formattedDate}, but VA records show that you didn’t attend. If you want to request a new hearing, you’ll need to send the Board of Veterans’ Appeals a letter that explains why you didn’t go to the hearing. You’ll need to send this letter by {formattedDueDate}.</p>
             <p>Board of Veterans’ Appeals PO Box 27063 Washington, DC 20038</p>
             <p>Please contact your Veterans Service Organization or representative for more information.</p>
           </div>
