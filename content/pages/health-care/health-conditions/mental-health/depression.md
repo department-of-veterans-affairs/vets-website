@@ -103,9 +103,9 @@ You may still be able to get care:
 [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges.<br>
 [Visit Make the Connection](https://maketheconnection.net/).
-- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
 [Find contact information for your closest VA health facility](/facilities).
+- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 <script type="text/javascript">
 
