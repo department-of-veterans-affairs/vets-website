@@ -22,7 +22,15 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="bb-app">{view}</div>;
+  return (
+    <div className="bb-app">
+      <div className="row">
+        <div className="columns small-12">
+          {view}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export class HealthRecordsApp extends React.Component {
@@ -33,25 +41,19 @@ export class HealthRecordsApp extends React.Component {
         serviceRequired="health-records"
         userProfile={this.props.profile}>
         <DowntimeNotification appTitle="health records tool" dependencies={[services.mhv]}>
-          <MHVApp>
-            <AppContent>
-              <div>
-                <div className="row">
-                  <div className="columns small-12">
-                    <Breadcrumbs location={this.props.location}/>
-                    {this.props.children}
-                  </div>
-                </div>
-                <Modal
-                  cssClass="bb-modal"
-                  contents={this.props.modal.content}
-                  id="bb-glossary-modal"
-                  onClose={this.props.closeModal}
-                  title={this.props.modal.title}
-                  visible={this.props.modal.visible}/>
-              </div>
-            </AppContent>
-          </MHVApp>
+          <AppContent>
+            <Breadcrumbs location={this.props.location}/>
+            <MHVApp>
+              {this.props.children}
+              <Modal
+                cssClass="bb-modal"
+                contents={this.props.modal.content}
+                id="bb-glossary-modal"
+                onClose={this.props.closeModal}
+                title={this.props.modal.title}
+                visible={this.props.modal.visible}/>
+            </MHVApp>
+          </AppContent>
         </DowntimeNotification>
       </RequiredLoginView>
     );

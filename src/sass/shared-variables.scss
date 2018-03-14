@@ -7,6 +7,8 @@
 @import "~uswds/src/stylesheets/lib/bourbon";
 @import "~uswds/src/stylesheets/lib/neat";
 
+$font-path: "~uswds/src/fonts";
+$image-path: "~uswds/src/img";
 @import "~uswds/src/stylesheets/core/grid-settings";
 @import "~uswds/src/stylesheets/core/variables";
 

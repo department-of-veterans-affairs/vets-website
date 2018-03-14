@@ -59,8 +59,8 @@ class MessagingApp extends React.Component {
         serviceRequired="messaging"
         userProfile={this.props.profile}>
         <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
-          <MHVApp>
-            <AppContent>
+          <AppContent>
+            <MHVApp>
               <div id="messaging-app-header">
                 <AlertBox
                   headline={this.props.alert.headline}
@@ -76,8 +76,8 @@ class MessagingApp extends React.Component {
                 {this.renderWarningBanner()}
               </div>
               {this.props.children}
-            </AppContent>
-          </MHVApp>
+            </MHVApp>
+          </AppContent>
         </DowntimeNotification>
       </RequiredLoginView>
     );
