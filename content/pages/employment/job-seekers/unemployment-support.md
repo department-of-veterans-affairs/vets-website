@@ -58,7 +58,8 @@ You
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You must apply for unemployment benefits in the state where you live. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you’re eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states don’t pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
+Apply for unemployment benefits in the state where you live. You can do this in person at your state employment office or, in some cases, online. Your state office will then let you know if you’re eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states don’t pay Unemployment Compensation if you have retired from active duty and receive retired military pay. <br>
+[Find your state employment office](http://www.servicelocator.org/OWSLinks.asp).
 
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower.
 
@@ -70,7 +71,8 @@ Receiving unemployment will not affect your wages, but if you receive separation
 
 - Current resume or military job history
 
-If you’re unemployed and at risk of becoming homeless, call or visit your [local VA medical center](/facilities/) or Community Resource and Referral Center where VA staff are ready to help.
+If you’re unemployed and at risk of becoming homeless, call or visit your local VA medical center or Community Resource and Referral Center where VA staff are ready to help. <br>
+[Find your local VA medical center](/facilities/?facilityType=health&page=1&zoomLevel=7).
 
 </div>
 </div>
