@@ -35,7 +35,7 @@ class UserProfileApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <BetaApp featureName={features.personalization}>
+          <BetaApp featureName={features.dashboard}>
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <div className="row user-profile-row">
                 <div className="usa-width-two-thirds medium-8 small-12 columns">

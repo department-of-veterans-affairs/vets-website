@@ -10,6 +10,7 @@ import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 
+import BetaApp, { features } from '../../../common/containers/BetaApp';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
 
@@ -68,9 +69,11 @@ class DashboardApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
-            {view}
-          </DowntimeNotification>
+          <BetaApp featureName={features.dashboard}>
+            <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
+              {view}
+            </DowntimeNotification>
+          </BetaApp>
         </RequiredLoginView>
       </div>
     );

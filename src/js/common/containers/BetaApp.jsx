@@ -2,26 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
-import { getBetaFeatures, registerBetaToSession as registerBeta, statuses } from '../actions';
+import { registerBeta, isUserRegisteredForBeta } from '../actions';
 import AlertBox from '../components/AlertBox';
 
 export const features = {
   healthAccount: 'health_account',
   veteranIdCard: 'veteran_id_card',
-  personalization: 'personalization'
+  profile: 'profile',
+  dashboard: 'dashboard'
 };
 
 class BetaApp extends React.Component {
 
   static propTypes = {
-    featureName: PropTypes.oneOf(objectValues(features)).isRequired,
-    betaFeatures: PropTypes.arrayOf(
-      PropTypes.shape({
-        feature: PropTypes.string,
-        loading: PropTypes.bool,
-        status: PropTypes.oneOf(objectValues(statuses))
-      })
-    )
+    featureName: PropTypes.oneOf(objectValues(features)).isRequired
   };
 
   constructor(props) {
@@ -30,21 +24,18 @@ class BetaApp extends React.Component {
   }
 
   render() {
-    if (this.props.feature && this.props.feature.status === statuses.succeeded) return this.props.children;
-
-    const feature = this.props.feature;
-    const pending = feature.status === statuses.pending;
+    if (this.props.loading) return null;
+    if (this.props.isUserRegisteredForBeta(this.props.featureName)) return this.props.children;
 
     return (
       <div className="row-padded" style={{ marginBottom: 15 }}>
         <h1>This application is currently in beta</h1>
         <button type="button"
-          disabled={pending}
           className="usa-button-primary" onClick={this.registerBeta}>
-          Register for beta access {pending && <i className="fa fa-spin fa-spinner"/>}
+          Register for beta access
         </button>
         <AlertBox
-          isVisible={!!feature && feature.status === statuses.failed}
+          isVisible={false}
           status="error"
           content={<h3>Failed to register for beta</h3>}/>
       </div>
@@ -54,13 +45,14 @@ class BetaApp extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    feature: state.betaFeatures.find(b => b.feature === ownProps.featureName) || {}
+    loading: state.user.profile.loading,
+    featureIsEnabled: state.user.profile.services.includes(ownProps.featureName)
   };
 };
 
 const mapDispatchToProps = {
-  getBetaFeatures,
-  registerBeta
+  registerBeta,
+  isUserRegisteredForBeta
 };
 
 export { BetaApp };
