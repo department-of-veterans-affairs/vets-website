@@ -112,11 +112,14 @@ Once you’ve signed up:
 
 You may still be able to get care:
 
-- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers.<br>
+[Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
-  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
+  - Visit our website to learn about VA programs for Veterans who are homeless.<br>
+  [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community.<br>
+  [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>) to find out what your care options may be.
 
@@ -124,10 +127,10 @@ You may still be able to get care:
 
 ### Where can I find more information or support?
 
-[Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
-[Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
-[Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
-Ask the staff at your nearest VA health facility to connect you with a local social worker.<br>
+- [Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
+- [Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
+- [Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
+- Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
 [Find contact information for your closest VA health facility](/facilities).
 
 <script type="text/javascript">
