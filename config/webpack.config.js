@@ -175,7 +175,7 @@ const configGenerator = (options) => {
           compress: { warnings: false }
         },
         // cache: true,
-        parallel: true,
+        // parallel: true,
         sourceMap: true,
       })],
       splitChunks: {
