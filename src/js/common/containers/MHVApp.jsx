@@ -44,7 +44,11 @@ export class MHVApp extends React.Component {
 
   isAccessible = () => ['existing', 'upgraded'].includes(this.props.account.state);
 
+  isIneligible = () => this.props.account.state === 'ineligible';
+
   handleAccountState = () => {
+    if (this.isIneligible()) { return; }
+
     if (this.needsTermsAcceptance()) {
       this.props.fetchLatestTerms(TERMS_NAME);
     } else if (!this.isAccessible()) {
@@ -108,7 +112,7 @@ export class MHVApp extends React.Component {
 }
 
 MHVApp.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.node
 };
 
 const mapStateToProps = (state) => {
