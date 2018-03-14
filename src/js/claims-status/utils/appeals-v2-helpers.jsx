@@ -578,7 +578,7 @@ export function getEventContent(event) {
       };
     case EVENT_TYPES.certified:
       return {
-        title: 'Your appeal was transferred to the Board of Veterans’ Appeals',
+        title: 'Your appeal was sent to the Board of Veterans’ Appeals',
         description: '',
       };
     case EVENT_TYPES.hearingHeld:
@@ -631,7 +631,7 @@ export function getEventContent(event) {
         title: 'VA sent you a letter about the Rapid Appeals Modernization Program',
         description: '',
       };
-    case EVENT_TYPES.rampOptIn: // TODO: should this simply be "ramp"?
+    case EVENT_TYPES.rampOptIn:
       return {
         title: 'You opted in to the Rapid Appeals Modernization Program',
         description: '',
@@ -651,7 +651,7 @@ export function getEventContent(event) {
         title: 'The appeal was closed',
         description: '',
       };
-    case EVENT_TYPES.failureToRespond: // TODO: Should this simply be "ftr"?
+    case EVENT_TYPES.failureToRespond:
       return {
         title: 'Your appeal was closed',
         description: '',
