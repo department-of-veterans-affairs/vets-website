@@ -110,3 +110,10 @@ export const vaMedicalRecordsIntro = ({ formData }) => {
   );
 };
 
+
+export const privateMedicalRecordsIntro = ({ formData }) => {
+  return (
+    <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
+  );
+};
+
