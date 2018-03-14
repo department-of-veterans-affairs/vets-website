@@ -20,13 +20,17 @@ If you qualify for VA health care, you can get high-quality mental health servic
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
+            <p>Whatever’s got you down—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can provide support, day or night.</p>
 	    <ul>
-	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-  		  <li>Call <a href="tel:911">911</a>.</li>
-  		  <li>Go to the nearest emergency room.</li>
-		  </ul>
+              <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+            </ul>
+	    <p>You can also:</p>	  
+            <ul>
+              <li>Call <a href="tel:911">911</a>.</li>
+	      <li>Go to the nearest emergency room.</li>
+	    </ul>
 	  </div>
   	</div>
   </div>
@@ -73,7 +77,8 @@ We also treat anxiety-related conditions, like:
 #### We also provide care to Veterans in crisis. This includes:
 
 - **Emergency mental health care** 24 hours a day, 7 days a week, through VA medical centers and some local, non-VA hospitals
-- **The Veterans Crisis Line**, which offers support 24 hours a day, 7 days a week, for Veterans in crisis and their families and friends
+- **The Veterans Crisis Line**, which offers support 24 hours a day, 7 days a week, for Veterans in crisis and their families and friends<br>
+[Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/).
 
 All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran.
 
@@ -89,14 +94,16 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 
 ### How do I get mental health services through VA?
 
-The VA health care program covers mental health services. To get these services, first apply for VA health care. [Apply for health care](/health-care/apply/).
+The VA health care program covers mental health services. To get these services, first apply for VA health care.<br>
+[Apply for health care](/health-care/apply/).
 
 Once you’ve signed up:
 
 - **If you have a VA primary care provider,** talk to them about your mental health concerns. Your provider will offer support and treatment as needed, and can connect you with a mental health specialist (like a psychiatrist) for more support.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
-  - Contact your local VA medical center. [Find a VA medical center near you](/facilities/).
+  - Contact your local VA medical center.<br>
+  [Find a VA medical center near you](/facilities/).
 
 <br>
 
@@ -107,8 +114,8 @@ You may still be able to get care:
 
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>) to find out what your care options may be.
@@ -120,6 +127,8 @@ You may still be able to get care:
 [Get resources and support to help you readjust after returning from deployment](https://www.mentalhealth.va.gov/returningservicevets.asp).<br />
 [Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
 [Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
+Ask the staff at your nearest VA health facility to connect you with a local social worker.<br>
+[Find contact information for your closest VA health facility](/facilities).
 
 <script type="text/javascript">
 
