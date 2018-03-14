@@ -98,8 +98,6 @@ if (options.buildtype === 'production') {
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
-  ignoreList.push('veteran-id-card/how-to-get.md');
-  ignoreList.push('veteran-id-card/how-to-upload-photo.md');
   ignoreList.push('disability-benefits/526/apply-for-increase.md');
 }
 smith.use(ignore(ignoreList));
@@ -609,8 +607,6 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
-        '/veteran-id-card/apply',
-        '/veteran-id-card/how-to-get',
         '/disability-benefits/apply-for-increase',
         '/letters'].join('|'))
   }));
