@@ -116,7 +116,8 @@ describe('Schemaform actions:', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
-          value: 'submitPending'
+          value: 'submitPending',
+          extra: null
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMITTED,
@@ -173,16 +174,55 @@ describe('Schemaform actions:', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
-          value: 'submitPending'
+          value: 'submitPending',
+          extra: null
         });
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
-          value: 'error'
+          value: 'serverError',
+          extra: null
         });
       });
 
       requests[0].respond(400, null, JSON.stringify(response));
+
+      return promise;
+    });
+    it('should set rate limit error', () => {
+      const formConfig = {
+        chapters: {}
+      };
+      const form = {
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
+        }
+      };
+      const thunk = submitForm(formConfig, form);
+      const dispatch = sinon.spy();
+      const response = { data: {} };
+
+      const promise = thunk(dispatch).then(() => {
+        expect(dispatch.firstCall.args[0]).to.eql({
+          type: SET_SUBMISSION,
+          field: 'status',
+          value: 'submitPending',
+          extra: null
+        });
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_SUBMISSION,
+          field: 'status',
+          value: 'throttledError',
+          extra: 2000
+        });
+      });
+
+      requests[0].respond(429, {
+        'x-ratelimit-reset': '2000'
+      }, JSON.stringify(response));
 
       return promise;
     });
@@ -207,7 +247,8 @@ describe('Schemaform actions:', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
-          value: 'submitPending'
+          value: 'submitPending',
+          extra: null
         });
         expect(formConfig.submit.called).to.be.true;
         expect(requests).to.be.empty;

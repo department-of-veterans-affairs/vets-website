@@ -193,11 +193,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.pendingSoc:
       contents.title = 'A Decision Review Officer is reviewing your appeal';
       contents.description = (
-        <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision
-        Review Officer will review all the evidence related to your appeal, including any new
-        evidence you sent. The officer may contact you to ask for more evidence or medical
-        exams as needed. When the officer has completed the review, they’ll determine
-        whether or not they can grant your appeal.</p>
+        <p>The Veterans Benefits Administration received your Notice of Disagreement. A Decision Review Officer will review all of the evidence related to your appeal, including any new evidence you sent. The officer may contact you to ask for more evidence or medical exams as needed. When the officer has completed the review, they’ll determine whether or not they can grant your appeal.</p>
       );
       break;
     case STATUS_TYPES.pendingForm9: {
@@ -207,7 +203,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         <div>
           <p>
             The Veterans Benefits Administration sent you a Statement of the Case on {formattedSocDate}. The
-            Statement of the Case explains why they couldn’t fully grant your appeal.
+            Statement of the Case explains the reasons why they couldn’t fully grant your appeal.
           </p>
           <p>
             If you don’t agree with the Statement of the Case, you can bring your appeal to the Board
@@ -227,11 +223,11 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.pendingCertificationSsoc: {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
-      contents.title = 'Please review your new Statement of the Case';
+      contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
         <div>
           <p>
-            The Veterans Benefits Administration sent you a new Statement of the Case on {formattedSocDate}.
+            The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate}.
             This is because:
           </p>
           <ul>
@@ -250,9 +246,9 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     }
     case STATUS_TYPES.remandSsoc: {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
-      contents.title = 'Please review your new Statement of the Case';
+      contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
-        <p>The Veterans Benefits Administration sent you a new Statement of the Case on {formattedSocDate}
+        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate}
         because, after completing the remand instructions from the Board, they couldn’t fully grant
         your appeal.</p>
       );
@@ -262,16 +258,14 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'You’re waiting for your hearing to be scheduled';
       contents.description = (
         <p>You requested a {getHearingType(details.type)} hearing on your Form 9. When your hearing is scheduled, you’ll
-        get a notice in the mail at least 30 days before the hearing date.</p>
+        receive a notice in the mail at least 30 days before the hearing date.</p>
       );
       break;
     case STATUS_TYPES.scheduledHearing: {
       const formattedDate = moment(details.date, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Your hearing has been scheduled';
       contents.description = (
-        <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}. If you need to change this
-        date, please contact your Veterans Service Organization or representative as soon as
-        possible.</p>
+        <p>Your {getHearingType(details.type)} hearing is scheduled for {formattedDate} at {details.location}.</p>
       );
       break;
     }
@@ -286,8 +280,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.atVso:
       contents.title = 'Your appeal is with your Veterans Service Organization';
       contents.description = (
-        <p>{details.vsoName} is preparing a document in support of your appeal. For more information,
-        please contact your Veterans Service Organization or representative.</p>
+        <p>{details.vsoName} is reviewing your appeal to make additional arguments in support of your case. For more information, please contact {details.vsoName}.</p>
       );
       break;
     case STATUS_TYPES.decisionInProgress:
@@ -299,9 +292,10 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.bvaDevelopment:
-      contents.title = 'The judge is asking for more information before making a decision';
+      contents.title = 'The judge is seeking more information before making a decision';
       contents.description = (
-        <p>The Board of Veterans’ Appeals is seeking evidence or an outside opinion from a legal, medical, or other professional necessary to make a decision about your appeal.</p>
+        <p>The Board of Veterans’ Appeals is seeking evidence or an outside opinion from a legal,
+        medical, or other professional in order to make a decision about your appeal.</p>
       );
       break;
     case STATUS_TYPES.stayed:
@@ -313,6 +307,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       );
       break;
     case STATUS_TYPES.remand: {
+      // TODO: break this out into its own template/component
       const { decisionIssues } = details;
       const allowedIssues = decisionIssues
         .filter((issue) => (issue.disposition === 'allowed'))
@@ -363,6 +358,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
               corrected for the following {pluralize.remand}.
             </p>
             <ul>{remandIssues}</ul>
+            <p>The case is returned to the VBA to complete a "remand" order.</p>
           </div>
         );
       }
@@ -371,8 +367,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals made a decision on your appeal. Here’s an overview of
-            the decision:
+            The Board of Veterans’ Appeals sent you a decision on your appeal. Here’s an overview of the decision:
           </p>
           <div className="decision-items">
             {allowedBlock}
@@ -427,8 +422,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <div>
           <p>
-            The Board of Veterans’ Appeals made a decision on your appeal. Here’s an overview of
-            the decision:
+            The Board of Veterans’ Appeals sent you a decision on your appeal. Here’s an overview of the decision:
           </p>
           <div className="decision-items">
             {allowedBlock}
@@ -453,14 +447,14 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.withdrawn:
       contents.title = 'You withdrew your appeal';
       contents.description = (
-        <p>You have decided not to continue your appeal. If this information is incorrect, please
+        <p>You have opted to not continue your appeal. If this information is incorrect, please
         contact your Veterans Service Organization or representative for more information.</p>
       );
       break;
     case STATUS_TYPES.ftr:
       contents.title = 'Your appeal was closed';
       contents.description = (
-        <p>You didn’t take action on something we requested that would have kept your appeal open. If this
+        <p>You didn’t take an action VA requested in order to continue your appeal. If this
         information is incorrect, or if you want to reopen your appeal, please contact your Veterans
         Service Organization or representative for more information.</p>
       );
@@ -471,7 +465,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
         <div>
           <p>
             You chose to participate in the new supplemental claim or higher-level review lanes.
-            This doesn’t mean that we’ve closed your appeal. If this information is incorrect,
+            This doesn’t mean that your appeal has been closed. If this information is incorrect,
             please contact your Veterans Service Organization or representative as soon as possible.
           </p>
           <p>
@@ -484,7 +478,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
     case STATUS_TYPES.reconsideration:
       contents.title = 'Your motion for reconsideration was denied';
       contents.description = (
-        <p>The Board of Veterans’ Appeals decided not to reopen your appeal. Please contact your
+        <p>The Board of Veterans’ Appeals declined to reopen your appeal. Please contact your
         Veterans Service Organization or representative for more information.</p>
       );
       break;
@@ -493,8 +487,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const nameString = `${first || ''} ${middle || ''} ${last || ''}`;
       contents.title = 'The appeal was closed';
       contents.description = (
-        <p>VA records show that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If
-        this information is incorrect, please contact your Veterans Service Organization or
+        <p>VA records indicate that {_.startCase(_.toLower(nameString))} is deceased, so this appeal has been closed. If this information is incorrect, please contact your Veterans Service Organization or
         representative as soon as possible.</p>
       );
       break;
@@ -640,29 +633,33 @@ export function getEventContent(event) {
   }
 }
 
-// This static piece of content gets reused throughout getNextEvents()
-const DECISION_REVIEW_CONTENT = (
-  <div>
-    <p>
-      A Veterans Law Judge, working with their team of attorneys, will review all the
-      available evidence and write a decision. For each issue you’re appealing, they can
-      decide to:
-    </p>
-    <ul className="decision-review-list">
-      <li>
-        <strong>Allow:</strong> The judge overrules the original decision and decides in
-        your favor.
-      </li>
-      <li><strong>Deny:</strong> The judge upholds the original decision.</li>
-      <li>
-        <strong>Remand:</strong> The judge sends the issue back to the Veterans
-        Benefits Administration to gather more evidence or to fix a mistake before
-        making a decision.
-      </li>
-    </ul>
-    <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
-  </div>
-);
+/**
+ * Creates content reused throughout getNextEvents
+ * @param {string} prop Additional text to include at beginning of first paragraph
+ * @returns {object} Decision review content
+ */
+export const makeDecisionReviewContent = (prop) => {
+  return (
+    <div>
+      <p>
+        {prop}A Veterans Law Judge, working with their team of attorneys, will review all of the
+        available evidence and write a decision. For each issue you’re appealing, they can
+        decide to:
+      </p>
+      <ul className="decision-review-list">
+        <li>
+          <strong>Grant:</strong> The judge disagrees with the original decision and decides in
+          your favor.
+        </li>
+        <li><strong>Deny:</strong> The judge agrees with the original decision.</li>
+        <li>
+          <strong>Remand:</strong> The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.
+        </li>
+      </ul>
+      <p><strong>Note:</strong> About 60% of all cases have at least 1 issue remanded.</p>
+    </div>
+  );
+};
 
 /**
  * Translates an array of two ints into a string that conveys a duration estimate
@@ -743,7 +740,9 @@ export function getNextEvents(currentStatus, details) {
             description: (
               <p>
                 <strong>If the Decision Review Officer determines that there’s enough evidence to grant
-                one or more of the issues on your appeal</strong>, they’ll make a new decision. If this decision changes your disability rating or eligibility for VA benefits, you should see this change made in 1 to 2 months.
+                one or more of the issues on your appeal</strong>, they’ll make a new decision. If this
+                decision changes your disability rating or eligibility for VA benefits, you should
+                expect this change to be made in 1 to 2 months.
               </p>
             ),
             durationText: '',
@@ -752,7 +751,7 @@ export function getNextEvents(currentStatus, details) {
             title: 'The Veterans Benefits Administration will send you a Statement of the Case',
             description: (
               <p>
-                <strong>If the Decision Review Officer determines that there’s not enough evidence to
+                <strong>If the Decision Review Officer determines that there isn’t enough evidence to
                 fully grant your appeal</strong>, they’ll send you their findings in a document called
                 a Statement of the Case. You can then decide whether to continue your appeal to the
                 Board of Veterans’ Appeals.
@@ -770,13 +769,13 @@ export function getNextEvents(currentStatus, details) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
         header: `If you return a Form 9 within 60 days, what happens next depends on whether you 
-          also send in new evidence.`,
+          also submit new evidence.`,
         events: [
           {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case
+                <strong>If you don’t submit new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will finish
                 their review and send your case to the Board of Veterans’ Appeals.
               </p>
@@ -789,9 +788,9 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you send in new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a new Statement of the Case before sending it to
-                the Board of Veterans’ Appeals. Once your appeal has been sent, you’ll need to submit any new
-                evidence directly to the Board. It won’t be reviewed by
+                to write a Supplemental Statement of the Case before sending your case to
+                the Board of Veterans’ Appeals. Once your appeal has been sent, new
+                evidence can be submitted directly to the Board and won’t be reviewed by
                 the Veterans Benefits Administration.
               </p>
             ),
@@ -806,7 +805,7 @@ export function getNextEvents(currentStatus, details) {
       const ssocDuration = makeDurationText(details.ssocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
-        header: 'What happens next depends on whether you send in new evidence.',
+        header: 'What happens next depends on whether you submit new evidence.',
         events: [
           {
             title: 'Your appeal will be sent to the Board',
@@ -814,20 +813,20 @@ export function getNextEvents(currentStatus, details) {
               <p>
                 <strong>If you don’t send in new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will finish
-                the review and send your case to the Board of Veterans’ Appeals.
+                their review and send your case to the Board of Veterans’ Appeals.
               </p>
             ),
             durationText: certDuration.header,
-            cardDescription: `The Veterans Benefits Administration usually takes ${certDuration.description} to send cases to the Board.`
+            cardDescription: `The Veterans Benefits Administration typically takes ${certDuration.description} to send cases to the Board.`
           }, {
-            title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
+            title: 'The Veterans Benefits Administration will send you a Supplemental Statement of the Case',
             description: (
               <p>
-                <strong>If you send in new evidence after the Statement of the Case
+                <strong>If you submit new evidence after the Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will need
-                to write a new Statement of the Case before sending it to
-                the Board of Veterans’ Appeals. Once your appeal has been sent, you’ll need to submit any new
-                evidence directly to the Board. It won’t be reviewed by
+                to write a Supplemental Statement of the Case before sending your case to
+                the Board of Veterans’ Appeals. Once your appeal has been sent, new
+                evidence can be sent directly to the Board and won’t be reviewed by
                 the Veterans Benefits Administration.
               </p>
             ),
@@ -842,29 +841,28 @@ export function getNextEvents(currentStatus, details) {
       const ssocDuration = makeDurationText(details.ssocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return  {
-        header: 'What happens next depends on whether you send in new evidence.',
+        header: 'What happens next depends on whether you submit new evidence.',
         events: [
           {
             title: 'Your appeal will be sent to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case
-                on {formattedSocDate}</strong>, the Decision Review Officer will finish
+                <strong>If you don’t submit new evidence after the Supplemental Statement of the Case on {formattedSocDate}</strong>, the Decision Review Officer will finish
                 the review and send your case to the Board of Veterans’ Appeals.
               </p>
             ),
             durationText: certDuration.header,
             cardDescription: `The Veterans Benefits Administration usually takes ${certDuration.description} to send cases to the Board.`
           }, {
-            title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
+            title: 'The Veterans Benefits Administration will send you a Supplemental Statement of the Case',
             description: (
               <p>
-                <strong>If you send new evidence after the Statement of the Case
+                <strong>If you send new evidence after the Supplemental Statement of the Case
                 on {formattedSocDate}</strong>, the Decision Review Officer will
-                need to write a new Statement of the Case before sending it
-                to the Board of Veterans’ Appeals. Once your appeal has
-                been sent, you’ll need to submit any new evidence directly to the Board.
-                It won’t be reviewed by the Veterans Benefits Administration.
+                need to write a new Supplemental Statement of the Case before sending your
+                case to the Board of Veterans’ Appeals. Once your appeal has been
+                sent, new evidence can be submitted directly to the Board and
+                won’t be reviewed by the Veterans Benefits Administration.
               </p>
             ),
             durationText: ssocDuration.header,
@@ -878,16 +876,14 @@ export function getNextEvents(currentStatus, details) {
       const remandSsocDuration = makeDurationText(details.remandSsocTimeliness);
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       return {
-        header: 'What happens next depends on whether you send in new evidence.',
+        header: 'What happens next depends on whether you submit new evidence.',
         events: [
           {
             title: 'Your appeal will be returned to the Board',
             description: (
               <p>
-                <strong>If you don’t send in new evidence after the Statement of the Case
-                on {formattedSocDate}</strong>, the Veterans Benefits Administration will
-                finish their work on the remand and return your case to the Board of
-                Veterans’ Appeals.
+                <strong>If you don’t submit new evidence after the Supplemental Statement of the Case on {formattedSocDate}</strong>, the Veterans Benefits Administration will
+                finish their work on the remand and return your case to the Board of Veterans’ Appeals.
               </p>
             ),
             durationText: returnSsocDuration.header,
@@ -896,9 +892,9 @@ export function getNextEvents(currentStatus, details) {
             title: 'The Veterans Benefits Administration will send you a new Statement of the Case',
             description: (
               <p>
-                <strong>If you send in new evidence after the Statement of the Case
+                <strong>If you submit new evidence after the Supplemental Statement of the Case
                 on {formattedSocDate}</strong>, the Veterans Benefits Administration
-                will need to write a new Statement of the Case before returning your
+                will need to write a new Supplemental Statement of the Case before returning your
                 case to the Board of Veterans’ Appeals.
               </p>
             ),
@@ -917,10 +913,8 @@ export function getNextEvents(currentStatus, details) {
             description: (
               <p>
                 At your hearing, a Veterans Law Judge will ask you questions about your appeal. A
-                transcript of your hearing will be taken and added to your appeal file. The judge
-                won’t make a decision about your appeal at the hearing. Learn more about hearings,
-                including how to request a different kind of hearing or withdraw your hearing
-                request.
+                transcript of your hearing will be made and added to your appeal file. The judge
+                won’t make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings, including how to request a different kind of hearing or withdraw your hearing request</a>.
               </p>
             ),
             durationText: '',
@@ -937,11 +931,7 @@ export function getNextEvents(currentStatus, details) {
             title: `You’ll have your ${getHearingType(details.type)} hearing`,
             description: (
               <p>
-                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing,
-                a Veterans Law Judge will ask you questions about your appeal. A transcript of your
-                hearing will be taken and added to your appeal file. The judge won’t make a
-                decision about your appeal at the hearing. Learn more about hearings, including how
-                to prepare for your hearing.
+                Your hearing is scheduled for {formattedDate} at {details.location}. At your hearing, a Veterans Law Judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won’t make a decision about your appeal at the hearing.
               </p>
             ),
             durationText: '',
@@ -956,25 +946,26 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: makeDecisionReviewContent(),
             durationText: '',
             cardDescription: ''
           }
         ]
       };
     }
-    case STATUS_TYPES.atVso:
+    case STATUS_TYPES.atVso: {
       return {
         header: '', // intentionally empty
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: makeDecisionReviewContent('Once your representative has completed their review, your case will be returned to the Board. '),
             durationText: '',
             cardDescription: '',
           }
         ]
       };
+    }
     case STATUS_TYPES.decisionInProgress: {
       const decisionDuration = makeDurationText(details.decisionTimeliness);
       return {
@@ -982,7 +973,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: makeDecisionReviewContent(),
             durationText: decisionDuration.header,
             cardDescription: `The Board of Veterans’ Appeals typically takes ${decisionDuration.description} to decide appeals once a judge starts their review.`,
           }
@@ -995,7 +986,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: makeDecisionReviewContent(),
             durationText: '',
             cardDescription: '',
           }
@@ -1007,7 +998,7 @@ export function getNextEvents(currentStatus, details) {
         events: [
           {
             title: 'The Board will make a decision',
-            description: DECISION_REVIEW_CONTENT,
+            description: makeDecisionReviewContent(),
             durationText: '',
             cardDescription: '',
           }
@@ -1023,7 +1014,7 @@ export function getNextEvents(currentStatus, details) {
             description: (
               <p>
                 They may contact you to request more evidence or medical exams as
-                needed. When they have completed the remand instructions, they’ll determine whether
+                needed. When they’ve completed the remand instructions, they’ll determine whether
                 or not they can grant your appeal. If not, your appeal will return to the Board of
                 Veterans’ Appeals for a new decision.
               </p>
@@ -1078,7 +1069,7 @@ export function getAlertContent(alert, appealIsActive) {
             <p>
               A VA Form 9 was included with your Statement of the Case. By completing and returning
               the form, you continue your appeal to the Board of Veterans’ Appeals. On this form,
-              you can request a hearing with a Veterans Law Judge if you’d like one.
+              you can request a hearing with a Veterans Law Judge, if you’d like one.
             </p>
             <p>
               If you need help understanding your Statement of the Case or completing the Form
@@ -1153,7 +1144,7 @@ export function getAlertContent(alert, appealIsActive) {
       return {
         title: 'This appeal isn’t eligible for the Rapid Appeals Modernization Program',
         description: (
-          <p>On {formattedDate}, VA sent you a letter to let you know about a new program called the Rapid Appeals Modernization Program (RAMP). However, this appeal is not eligible for RAMP because it {statusDescription}. If you have other appeals, they may be eligible for RAMP.</p>
+          <p>On {formattedDate}, VA sent you a letter to let you know about a new program called the Rapid Appeals Modernization Program (RAMP). However, this appeal isn’t eligible for RAMP because it {statusDescription}. If you have other appeals, they may be eligible for RAMP.</p>
         ),
         displayType: 'info',
         type,
