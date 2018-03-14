@@ -131,7 +131,7 @@ The most important thing is your safety and the safety of your children.
 
 - Call 911 to get help right away.
 - You can also get help 24 hours a day, 7 days a week from these organizations:
-  - **[National Domestic Violence Hotline](www.thehotline.org):** Call 1-800-799-SAFE (1-800-799-7233) for free, confidential (private) crisis intervention.
+  - **[National Domestic Violence Hotline](http://www.thehotline.org/):** Call 1-800-799-SAFE (1-800-799-7233) for free, confidential (private) crisis intervention.
   - **[National Sexual Assault Hotline](https://www.rainn.org/):** Call 1-800-656-4673 for free, confidential (private) live help for issues related to sexual assault, provided by the Rape, Abuse & Incest National Network (RAINN).
 
 **If you do feel safe now, but worry about the future:**
