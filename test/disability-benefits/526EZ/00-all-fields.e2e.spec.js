@@ -8,84 +8,86 @@ const runTest = E2eHelpers.createE2eTest(
     PageHelpers.initDocumentUploadMock();
     PageHelpers.initApplicationSubmitMock();
 
+    if (process.env.BUILDTYPE !== 'production') {
     // Ensure introduction page renders.
-    client
-      .url(`${E2eHelpers.baseUrl}/disability-benefits/526/apply-for-increase`)
-      .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Apply for education benefits: Vets.gov')
-      .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
-      .click('.schemaform-start-button');
+      client
+        .url(`${E2eHelpers.baseUrl}/disability-benefits/526/apply-for-increase`)
+        .waitForElementVisible('body', Timeouts.normal)
+        .assert.title('Apply for education benefits: Vets.gov')
+        .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.
+        .click('.schemaform-start-button');
 
-    E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideSmoothScrolling(client);
-    E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
+      E2eHelpers.overrideVetsGovApi(client);
+      E2eHelpers.overrideSmoothScrolling(client);
+      E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
-    // Chapter 1 page 1
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/chapter-one/page-one');
+      // Chapter 1 page 1
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/chapter-one/page-one');
 
-    // Chapter 2 page 1
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/chapter-two/page-one');
+      // Chapter 2 page 1
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/chapter-two/page-one');
 
-    // Chapter 3 page 1
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/chapter-three/page-three');
+      // Chapter 3 page 1
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/chapter-three/page-three');
 
-    // Supporting evidence
-    // Orientation
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
+      // Supporting evidence
+      // Orientation
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
 
-    // Evidence Type
-    client.axeCheck('.main');
-    PageHelpers.completeEvidenceTypeInformation(client, testData.data);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/evidence-type');
+      // Evidence Type
+      client.axeCheck('.main');
+      PageHelpers.completeEvidenceTypeInformation(client, testData.data);
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/evidence-type');
 
-    // VA Medical Records Intro
-    client.axeCheck('.main')
-      .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-medical-records');
+      // VA Medical Records Intro
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-medical-records');
 
-    // VA Facilities
-    client.axeCheck('.main');
-    PageHelpers.completeVAFacilitiesInformation(client, testData.data);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-facilities');
+      // VA Facilities
+      client.axeCheck('.main');
+      PageHelpers.completeVAFacilitiesInformation(client, testData.data);
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-facilities');
 
-    // Evidence type
-    client.axeCheck('.main');
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/1/evidence-type');
+      // Evidence type
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/1/evidence-type');
 
-    // chapter 5 page 1
-    client.axeCheck('.main');
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/chapter-five/page-one');
+      // chapter 5 page 1
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/chapter-five/page-one');
 
-    // Review and Submit Page.
-    client
-      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
-    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
-    client.axeCheck('.main');
+      // Review and Submit Page.
+      client
+        .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
+      client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
+      client.axeCheck('.main');
 
-    // Accept privacy agreement
-    client.click('input[type="checkbox"]');
-    client.click('.form-progress-buttons .usa-button-primary');
-    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-    // client.expect.element('.js-test-location').attribute('data-location')
-    //   .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      // Accept privacy agreement
+      client.click('input[type="checkbox"]');
+      client.click('.form-progress-buttons .usa-button-primary');
+      // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+      // client.expect.element('.js-test-location').attribute('data-location')
+      //   .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
-    // // Submit message
-    // client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
+      // // Submit message
+      // client.waitForElementVisible('.schemaform-confirmation-section-header', Timeouts.normal);
 
-    client.axeCheck('.main');
-    client.end();
+      client.axeCheck('.main');
+      client.end();
+    }
   }
 );
 
