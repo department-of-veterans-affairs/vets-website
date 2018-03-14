@@ -33,7 +33,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
 
 If the Servicemember or Veteran you're caring for is in the hospital, or if your family needs help understanding their condition or accessing programs and services, our VA social workers can help. And, if a Servicemember or Veteran in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location.  <br>
-[Learn more about how a social worker can help you and your family](/families-caregivers/social-work-services/#fisher).
+[Find out how a social worker can help you and your family](/families-caregivers/social-work-services/).
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/).<br>
@@ -144,7 +144,7 @@ If you’re the surviving spouse, child, or parent of a Servicemember or Veteran
 [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
 
 If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling.<br>
-[Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
+[Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/).
 <br>
 
 <span id="housing-assistance">
@@ -159,11 +159,17 @@ If you’re the surviving spouse of a Veteran, we may be able to help you build,
 If you have a VA-backed home loan and you’re having trouble making your mortgage payments, we may be able to help you avoid foreclosure and keep your home.<br>
 [Find out how we can help you avoid foreclosure](/housing-assistance/home-loans/trouble-making-payments/).
 
-If you need help supporting a Servicemember or Veteran who's homeless or unable to care for themselves any longer, our VA social workers can help.
-[Learn how VA social workers can help with housing needs](/families-caregivers/social-work-services/).
-
 **Looking for information about buying, building, or making changes to a home to help a Veteran with disabilities?**<br>
 [Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+
+**Looking for information to help a Servicemember or Veteran who's homeless or can't live by themselves any longer?**
+If the Servicemember or Veteran is homeless or at risk of becoming homeless, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about VA and local community homeless programs and services. The call is free and completely private.  
+
+If the Servicemember or Veteran needs long-term care, they may be eligible for assisted living, residential (live-in), or home health care. <br>
+[Learn about long-term care housing options and services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
+
+If you have questions or need help accessing services, ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
+[Find contact information for your closest VA health facility](/facilities/).
 <br>
 
 <span id="caregiver-support">
