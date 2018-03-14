@@ -17,7 +17,9 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 
 ### Can I get a burial flag?
 
-You can get a burial flag if you’re the next of kin or a close friend of the deceased, **and any one of the following is true for that person**: 
+You can get a burial flag if you’re the next of kin or a close friend of the deceased, and any one of the items in the below list is true for that person.
+
+**One of these must be true for the deceased:**
 
 - Served in wartime, **or**
 - Died while on active duty after May 27, 1941, **or**
