@@ -33,8 +33,10 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 - [Check your eligibility](/education/eligibility/).
 - Gather the documents and information listed below that you’ll need to apply for education benefits.
-- See what benefits you’ll get at the school you want to attend. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program and file a claim for VA education benefits. [Get help filing your claim](/disability-benefits/apply/help/index.html).
+- See what benefits you’ll get at the school you want to attend. <br>
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program and file a claim for VA education benefits. <br>
+[Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 <div markdown="0"><br></div>
 
@@ -58,12 +60,14 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 <div itemprop="itemListElement">
 
 #### In person
-Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
+Go to a VA regional office and have a VA employee help you. <br>
+[Find a regional office near you](/facilities/?facilityType=benefits&page=1&zoomLevel=7).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 #### By mail
-Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>), to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
+Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>), to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. <br>
+[See a list of regional claims processing offices](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 </div>
 </div>
