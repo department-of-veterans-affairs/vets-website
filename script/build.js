@@ -714,7 +714,7 @@ smith.use((files, metalsmith, done) => {
       const onclick = onclickEl.getAttribute('onclick');
       const newScript = dom.window.document.createElement('script');
       newScript.setAttribute('nonce', '**CSP_NONCE**');
-      newScript.textContent = `function() { var e = document.getElementById('${id}'); e.addEventListener('click', function(ev) { ${onclick} }); }();`;
+      newScript.textContent = `(function() { var e = document.getElementById('${id}'); e.addEventListener('click', function(ev) { ${onclick} }); })();`;
       onclickEl.removeAttribute('onclick');
       onclickEl.appendChild(newScript);
     });
