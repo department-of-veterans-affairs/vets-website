@@ -272,7 +272,7 @@ display_title: Frequently Asked Questions
 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
 (function() {
   var openAccordion = function(id) {
     document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);
