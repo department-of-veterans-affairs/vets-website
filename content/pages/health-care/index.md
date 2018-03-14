@@ -69,13 +69,12 @@ With VA health care, you’re covered for regular checkups with your primary car
       <div class="expander-content-inner usa-alert-text">
         <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. Find the support you need:  </p>
         <ul>
+          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will ask you a few questions to find out what you need and connect you to the nearest VA staff person who can help. The call is free and completely private.</li>
           <li>Get help connecting with services you may qualify for in your community. <a href="/facilities/">Find the nearest VA medical center</a>.</li>
-          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will ask you a few questions to find out what you need, and will then connect you to the nearest VA staff person who can help. There's no charge for this service, and it's completely private.</li>          
         </ul>
-      <p>We can also connect you with other non-VA resources in your community.</p>
+      <p>We can also connect you with other non-VA resources in your community, like homeless shelters or faith-based organizations.</p>
       <p><b>Are you in crisis right now?</b></p>
-      <p>Whatever’s got you down—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—a caring, qualified Veterans Crisis Line responder can provide support, day or night.  
-      <p><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>        
+      <p><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>. Whatever’s got you down—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—we can provide support, day or night.</p>        
       <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
       </div>
     </div>
