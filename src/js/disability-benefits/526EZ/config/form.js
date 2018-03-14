@@ -2,6 +2,9 @@ import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
+import * as address from '../../../common/schemaform/definitions/address';
+import { isValidUSZipCode, isValidCanPostalCode } from '../../../common/utils/address';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -22,7 +25,8 @@ const {
 } = fullSchema526EZ.properties;
 
 const {
-  date
+  date,
+  phone
 } = fullSchema526EZ.definitions;
 
 // We may add these back in after the typeahead, but for now...
@@ -36,6 +40,61 @@ const treatmentsSchema = _.set('items.properties.treatment.properties',
     ],
     treatments.items.properties.treatment.properties
   ), treatments);
+
+// TODO: Move to helpers
+function validatePostalCodes(errors, formData) {
+  let isValidPostalCode = true;
+  // Checks if postal code is valid
+  if (formData.treatmentCenterCountry === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treamentCenterPostalCode);
+  }
+  if (formData.treatmentCenterCountry === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treamentCenterPostalCode);
+  }
+
+  // Add error message for postal code if it is invalid
+  if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
+    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
+  }
+}
+const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
+
+function validateAddress(errors, formData) {
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
+    && formData.treatmentCenterState === undefined) {
+    // && currentSchema.required.length) {
+    errors.treatmentCenterState.addError('Please select a state or province');
+  }
+
+  const hasAddressInfo = stateRequiredCountries.has(address.country)
+    // && !currentSchema.required.length
+    && typeof formData.treatmentCenterCity !== 'undefined'
+    && typeof formData.treatmentCenterState !== 'undefined'
+    && typeof formData.treatmentCenterPostalCode !== 'undefined';
+
+  if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
+    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
+  }
+
+  validatePostalCodes(errors, formData);
+}
+const recordReleaseTreatment = Object.assign({}, treatments.items.properties.treatment.properties, {
+  privateRecordsReleaseAccepted: {
+    type: 'boolean'
+  },
+  treatmentCenterStreet1: {
+    type: 'string'
+  },
+  treatmentCenterStreet2: {
+    type: 'string'
+  },
+  treatmentCenterPostalCode: {
+    type: 'number'
+  },
+  treatmentCenterPhone: phone,
+});
 
 const initialData = {
   // For testing purposes only
@@ -325,6 +384,76 @@ const formConfig = {
             }
           }
         },
+        privateRecordRelease: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-release',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // const requestsRecords = !_.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
+            const requestsRecords = true;
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+                'ui:order': ['treatmentCenterName', 'privateRecordsReleaseAccepted', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
+                treatmentCenterName: { // TODO: is this required?
+                  'ui:title': 'Name of private provider or hospital'
+                },
+                privateRecordsReleaseAccepted: {
+                  'ui:title': 'I give my consent to my doctor to only release records related to my condition', // update schema needed here to get condition name?
+                  'ui:description': 'What does this mean?'
+                },
+                startTreatment: {
+                  'ui:widget': 'date',
+                  'ui:title': 'Approximate date of first treatment since you received your rating'
+                },
+                endTreatment: {
+                  'ui:widget': 'date',
+                  'ui:title': 'Approximate date of last treatment'
+                },
+                treatmentCenterCountry: { // TODO: need to restrict these via select
+                  'ui:title': 'Country'
+                },
+                treatmentCenterStreet1: {
+                  'ui:title': 'Street'
+                },
+                treatmentCenterStreet2: {
+                  'ui:title': 'Street'
+                },
+                treatmentCenterCity: {
+                  'ui:title': 'City'
+                },
+                treatmentCenterState: {
+                  'ui:title': 'State'
+                },
+                treatmentCenterPostalCode: {  // TODO: need to validate this
+                  'ui:title': 'Postal code',
+                  'ui:options': {
+                    widgetClassNames: 'usa-input-medium'
+                  }
+                },
+                treatmentCenterPhone: phoneUI('Primary phone number'),
+                'ui:validations': [validateAddress]
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: _.omit(['treatmentCenterType'], recordReleaseTreatment)
+                }
+              }
+            }
+          }
+        }
         // pageFive: {},
         // pageSix: {},
         // pageSeven: {},
@@ -343,7 +472,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     }
