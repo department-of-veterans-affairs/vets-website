@@ -136,7 +136,7 @@ If a Servicemember, Veteran, or eligible spouse or dependent child in your famil
 
 [Learn about how to plan a burial for a deceased family member](/burials-and-memorials/burial-planning/).<br>
 [See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-and-memorials/eligibility/).<br>
-[Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). <br>
+[Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).<br>
 [Get support through bereavement counseling after the death of a loved one](/burials-and-memorials/bereavement-counseling/).
 
 #### Survivor and Dependent Benefits
@@ -151,7 +151,7 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died w
 
 ### Housing Assistance
 
-If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
+If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.<br>
 [Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-options/).<br>
 [Find out if you qualify to get a Certificate of Eligibility (COE) for a VA-backed home loan](/housing-assistance/home-loans/eligibility/).<br>
 [Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).<br>
@@ -189,7 +189,7 @@ If you need help accessing services, help connecting with your local Caregiver S
 
 **Looking for someone to help support you, the Servicemember or Veteran you're caring for, or your whole family?**<br>
 
-Our VA social workers can help with most any need, or connect you with the right person for help.
+Our VA social workers can help with most any need, or connect you with the right person for help.<br>
 [Find out how a VA social worker can helpu support your family](/families-caregivers/social-work-services/).
 <br>
 <br>
