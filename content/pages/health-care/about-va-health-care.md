@@ -84,7 +84,8 @@ You should also know that being signed up for VA health care meets your Affordab
   - Medical treatments
   - Kidney dialysis
   - Acute care (short-term treatment for a severe illness or injury or after surgery)
-  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp).
+  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). <br>
+  [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp).
 - Emergency care in a VA hospital, outpatient clinic, or Vet Center. <br>
 [Find a VA health facility near you](/facilities/?facilityType=health&page=1&zoomLevel=7).
 - Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. <br>
