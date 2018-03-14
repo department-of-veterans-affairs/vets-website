@@ -34,7 +34,7 @@ Depression is a serious illness, but this common mental health problem is also h
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-            <p>Whatever’s got you down—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can provide support, day or night.</p>		  
+            <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>		  
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
   		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
