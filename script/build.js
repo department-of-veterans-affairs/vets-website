@@ -236,7 +236,7 @@ smith.use(collections({
     pattern: '',
     sortBy: 'order',
     metadata: {
-      name: 'Education Benefits'
+      name: 'Education and Training'
     }
   },
   educationAdvancedTraining: {
