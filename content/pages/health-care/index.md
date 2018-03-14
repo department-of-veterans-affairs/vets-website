@@ -67,11 +67,12 @@ With VA health care, you’re covered for regular checkups with your primary car
     <h4 class="usa-alert-title">Are you homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">VA may be able to help</a>.</h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
-        <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations. Find the support you need:  </p>
+        <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
+        <p>**Find the support you need:**</p>
         <ul>
-          <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will ask you a few questions to find out what you need and connect you to the nearest VA staff person who can help. The call is free and completely private.</li>
-          <li>Get help connecting with services you may qualify for. Ask for an appointment with a VA social worker. Or, if you're a female Veteran, ask for the Women Veterans Program Manager.<br>
-            <a href="/facilities/">Find the nearest VA medical center</a>.</li>
+          <li>**Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.** A trained VA counselor will ask you a few questions to find out what you need and connect you to the nearest VA staff person who can help.</li>
+          <li>**Contact your nearest VA medical center for help connecting with VA and community programs and services.** Ask for an appointment with a VA social worker. Or, if you're a female Veteran, ask for the Women Veterans Program Manager.<br>
+            <a href="/facilities/">Find the closest VA medical center</a>.</li>
         </ul>
       <p><b>Are you in crisis right now?</b></p>
       <p> Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or homelessness—we can support you, day or night.</p>
