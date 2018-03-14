@@ -61,7 +61,7 @@ We can support you in all stages of your job search—from returning to work wit
         <p><b>Are you in crisis right now?</b> <br>
           <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.
         </p>
-        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="/facilities/">Contact your closest VA medical center</a>.</p>
+        <p><b>If you’re a female Veteran,</b> you can contact your local VA medical center and ask for the Women Veterans Program Manager for help getting housing, health care, and other benefits. <a href="(/facilities/?facilityType=health&page=1&zoomLevel=7)">Contact your closest VA medical center</a>.</p>
       </div>
     </div>
   </div>
