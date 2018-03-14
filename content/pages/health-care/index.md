@@ -75,7 +75,7 @@ With VA health care, you’re covered for regular checkups with your primary car
             <a href="/facilities/">Find the closest VA medical center</a>.</li>
         </ul>
       <p><b>Are you in crisis right now?</b></p>
-      <p> Whatever you're struggling with—homelessness, chronic pain, anxiety, depression, sleeplessness, or anger—we can support you, day or night.</p>
+      <p>Whatever you're struggling with—homelessness, chronic pain, anxiety, depression, sleeplessness, or anger—we can support you, day or night.</p>
       <p><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>        
       </div>
     </div>
