@@ -37,17 +37,9 @@ describe('Disability benefits 526EZ evidence type', () => {
         uiSchema={uiSchema}/>
     );
 
-    // fillData(form, 'select#root_disabilityRating', 10);
-    // fillData(form, 'input#root_disabilities', 'Back ache');
-    // fillData(form, 'input#root_vaRecordsOffice', 'Local office');
     selectCheckbox(form, 'root_view:vaMedicalRecords');
     selectCheckbox(form, 'root_view:privateMedicalRecords');
     selectCheckbox(form, 'root_view:otherEvidence');
-    // fillData(form, 'input[id="root_view:hospital_hospitalName"]', 'Local hospital');
-    // fillData(form, 'input[id="root_view:hospital_hospitalAddress_street"]', 'Hospital Street');
-    // fillData(form, 'input[id="root_view:hospital_hospitalAddress_city"]', 'Hospital City');
-    // fillData(form, 'select[id="root_view:hospital_hospitalAddress_state"]', 'NY');
-    // fillData(form, 'input[id="root_view:hospital_hospitalAddress_postalCode"]', '23423');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
