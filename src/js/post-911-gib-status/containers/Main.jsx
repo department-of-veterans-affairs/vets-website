@@ -20,7 +20,7 @@ export class Main extends React.Component {
         appContent = this.props.children;
         break;
       case 'awaitingResponse':
-        appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
+        appContent = <LoadingIndicator message="Please wait while we check if the tool is available for you."/>;
         break;
       case 'backendServiceError':
         appContent = backendErrorMessage();
