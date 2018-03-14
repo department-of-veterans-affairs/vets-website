@@ -84,21 +84,19 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {formData.disability.diagnosticText} by a private doctor. You can upload your records, or we can get them from your doctor if you authorize their release.</p>
+      <p>You said you were treated for {formData.disability.diagnosticText} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
     </div>
   );
 };
 
 
-// TODO: Figure out if this is going to be a common enough pattern to warrant a widget or something.
 export const privateRecordsChoiceHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
-    <h4>Upload or delegate</h4>
-    <h5>Uploading your own copies</h5>
+    <h5>Uploading your medical records</h5>
     <p>If you have an electronic copy of your medical records, uploading your records can speed the review of your claim.</p>
-    <p>This works best if you have a fast internet connection and time for a large file upload.</p>
-    <h5>VA gets your records for you</h5>
-    <p>If you tell us which VA medical facilities have treated you for this condition, we can go get your records from them. This is easier for you, but will take longer to complete.</p>
+    <p>This works best if you have a fast internet connection and time for a large file upload. Records should be .pdf, .jpg, or .png files.</p>
+    <h5>We get your records for you</h5>
+    <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
   </AdditionalInfo>
 );
 
