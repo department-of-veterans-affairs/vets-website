@@ -517,14 +517,12 @@ export function getStatusContents(statusType, details = {}, name = {}) {
 export const EVENT_TYPES = {
   claimDecision: 'claim_decision',
   nod: 'nod',
-  droHearing: 'dro_hearing',
   fieldGrant: 'field_grant',
   soc: 'soc',
   form9: 'form9',
   ssoc: 'ssoc',
   certified: 'certified',
   hearingHeld: 'hearing_held',
-  hearingCancelled: 'hearing_cancelled',
   hearingNoShow: 'hearing_no_show',
   transcript: 'transcript',
   bvaDecision: 'bva_decision',
@@ -532,7 +530,6 @@ export const EVENT_TYPES = {
   withdrawn: 'withdrawn',
   merged: 'merged',
   cavcDecision: 'cavc_decision',
-  recordDesignation: 'record_designation',
   reconsideration: 'reconsideration',
   rampNotice: 'ramp_notice',
   rampOptIn: 'ramp',
@@ -557,11 +554,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.nod:
       return {
         title: 'VA received your Notice of Disagreement',
-        description: '',
-      };
-    case EVENT_TYPES.droHearing:
-      return { // TODO: does this need to be updated?
-        title: 'DRO Hearing',
         description: '',
       };
     case EVENT_TYPES.fieldGrant:
@@ -592,11 +584,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.hearingHeld:
       return {
         title: 'You attended a hearing with a Veterans Law Judge',
-        description: '',
-      };
-    case EVENT_TYPES.hearingCancelled:
-      return { // TODO: does this need to be updated?
-        title: 'Hearing canceled',
         description: '',
       };
     case EVENT_TYPES.hearingNoShow:
@@ -632,11 +619,6 @@ export function getEventContent(event) {
     case EVENT_TYPES.cavcDecision:
       return {
         title: 'Court of Appeals for Veterans Claims made a decision',
-        description: '',
-      };
-    case EVENT_TYPES.recordDesignation:
-      return { // TODO: does this need to be updated?
-        title: 'Designation of Record',
         description: '',
       };
     case EVENT_TYPES.reconsideration:
