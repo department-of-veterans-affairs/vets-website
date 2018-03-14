@@ -47,7 +47,7 @@ Our social workers can help Veterans and Servicemembers with many different need
 - **In the hospital.** We can help the Veteran or Servicemember make plans for their ongoing care at home or in a rehab or other facility. 
 - **Living in a rural location far from a VA health facility.** We can work with the Veteran or Servicemember's health care team to make sure they get the care they need from VA or in their community.
 - **Having trouble speaking up for themselves or feeling overwhelmed by trying to arrange care.** We can serve as the Veteran or Servicembmer's voice to make sure get what they need.
-- **Struggling with depression, sadness, stress, anxiety, PTSD, drinking or drug use.** We can offer counseling and work with the Veteran or Servicemember and their health care team to create a treatment plan.
+- **Struggling with problems like depression, sadness, stress, anxiety, PTSD, drinking or drug use.** We can offer counseling and work with the Veteran or Servicemember and their health care team to create a treatment plan.
 - **Dealing with end-of-life issues.** We can help the Veteran or Servicemember make decisions about life support, organ donation, and other issues and communicate these decisions to their health care team.
 
 <br>
@@ -89,7 +89,7 @@ That's 100% okay. We're here to help you figure out what's wrong, and how we can
 
 <span id="fisher">
 
-### Other questions you may have about working with a VA social worker
+### Working with a VA social worker
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -136,9 +136,16 @@ Yes. Your social worker will connect you to a nonprofit organization called the 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
 [Learn more about all Fisher House Foundation programs](https://www.fisherhouse.org/).
 
-Your social worker can also help you find out if the Veteran or Servicemember in your family is eligible for help with travel expenses if they need to travel for care.<br>
+Your social worker can also help you find out if the Veteran or Servicemember in your family is eligible for VA help with travel expenses if they need to travel for care.<br>
 [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
-  
+
+Your social worker can also help connect you to other community resources. These may include:
+- **Angel Flight**, which provides free flights to patients in private planes. <br>
+[Learn more about Angel Flight](http://www.angelflight.com).
+- **Corporate Angel Network**, which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment.
+[Learn more about the Corporate Angel Network](http://www.corpangelnetwork.org/home).
+- **Mercy Medical Lift**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation.
+[Learn more about Mercy Medical Lift](http://mercymedical.org).  
 </div>
 </li>
 </ul>
