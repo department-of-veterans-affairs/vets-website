@@ -37,7 +37,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 You can apply for this benefit if one of the lines below describes your relationship to the deceased.
 
-**You must fall into one of these categories**
+**You must fall into one of these categories:**
 - A family member of the deceased, **or**
 - A personal representative (someone who officially represents the deceased), **or**
 - A representative of an accredited Veterans Service Organization, **or**
