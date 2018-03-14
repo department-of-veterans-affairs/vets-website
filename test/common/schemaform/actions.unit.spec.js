@@ -180,7 +180,7 @@ describe('Schemaform actions:', () => {
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_SUBMISSION,
           field: 'status',
-          value: 'error',
+          value: 'serverError',
           extra: null
         });
       });

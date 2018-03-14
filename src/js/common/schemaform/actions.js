@@ -148,7 +148,7 @@ export function submitForm(formConfig, form) {
         if (errorMessage.startsWith('vets_throttled_error')) {
           errorType = 'throttledError';
         } else if (errorMessage.startsWith('vets_server_error')) {
-          errorType = 'error';
+          errorType = 'serverError';
         }
         captureError(error, errorType);
         dispatch(setSubmission('status', errorType, error.extra));
