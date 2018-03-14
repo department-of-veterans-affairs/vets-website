@@ -102,7 +102,7 @@ If you have a Vets.gov account or a My Health*e*Vet Premium account, you can sen
 </div> <!-- closes overall FAQ -->
 <br>
 
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')

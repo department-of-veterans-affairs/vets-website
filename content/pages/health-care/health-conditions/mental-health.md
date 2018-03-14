@@ -121,7 +121,7 @@ You may still be able to get care:
 [Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
 [Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')

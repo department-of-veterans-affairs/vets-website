@@ -16,7 +16,7 @@ private: true
   </div>
 </div>
 
-<script>
+<script nonce="**CSP_NONCE**">
 if (location.search.substring(1) === 'success=true') {
   window.opener.sessionStorage.clear();
   window.opener.document.location.href = '/';
