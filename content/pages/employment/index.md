@@ -67,7 +67,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 </div>
 
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
