@@ -70,15 +70,18 @@ These are just some examples. If you have any questions or problems, feel free t
 ### How do I ask for an appointment with a VA social worker?
 
 Talk to your loved one's primary care team. Or, call your nearest VA health facility and ask to be connected to a social worker.<br>
-[Find contact information for your local VA health care facility](/facilities).
+[Find contact information for your closest VA health care facility](/facilities).
 
 ### How do I get help right away if the Veteran or Servicemember is in crisis?
 
-**If the Veteran or Servicemember is homeless or at risk of becomming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about available homeless programs and services. You can choose to talk anonymously, or leave your contact information so a counselor can follow up. There's no charge for this service, and it's completely private.
+**If the Veteran or Servicemember is homeless or at risk of becoming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about homeless programs and services near you. The call is free and completely private.
 
-**If the Veteran or Servicemember is experiencing a personal crisis, get help by choosing any one of these options:**
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
+**If the Veteran or Servicemember is experiencing a personal crisis:**
+- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1 to talk to someone now. 
+- Or, [get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
+Whether the Veteran or Servicemember is suffering from chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness, a caring, a qualified Veterans Crisis Line responder can provide support, day or night.
+
+You can also:
 - Text <a href="tel:+1phonenumber">838255</a> to get help right away.
 - Call <a href="tel:+1phonenumber">911</a>.
 - Go to the nearest emergency room.
@@ -127,8 +130,8 @@ Your social worker will help to make sure the Veteran or Servicemember gets cons
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="Help-in-hospital">Can a VA social worker help my family to find a free place to stay if the Veteran or Servicemember in our family is being treated in a hospital far from home?</button>
-<div id="Help-in-hospital" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="Hospital-far-from-home">Can a VA social worker help my family to find a free place to stay if the Veteran or Servicemember in our family is being treated in a hospital far from home?</button>
+<div id="Hospital-far-from-home" class="usa-accordion-content">
 
 Yes. Your social worker will connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
 [Find a Fisher House near where your Veteran or Servicemember will be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
