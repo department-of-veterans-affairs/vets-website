@@ -52,7 +52,7 @@ We can support you in all stages of your job search—from returning to work wit
         <p>We offer many programs and services—including education and job training—to support Veterans who are homeless or at risk of becoming homeless. Find the support you need:</p>
         <ul>
           <li>Get help connecting with services you may qualify for in your community. <br>
-            <a href="/facilities/">Find the nearest VA medical center</a>.</li>
+            <a href="(/facilities/?facilityType=health&page=1&zoomLevel=7)">Find the nearest VA medical center</a>.</li>
           <li>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.</li>
           <li>Get job-placement help. <br>
             <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
