@@ -2,7 +2,6 @@ import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
-import * as address from '../../../common/schemaform/definitions/address';
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../common/utils/address';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 
@@ -68,7 +67,7 @@ function validateAddress(errors, formData) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
 
-  const hasAddressInfo = stateRequiredCountries.has(address.country)
+  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
     // && !currentSchema.required.length
     && typeof formData.treatmentCenterCity !== 'undefined'
     && typeof formData.treatmentCenterState !== 'undefined'
@@ -399,45 +398,55 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-                'ui:order': ['treatmentCenterName', 'privateRecordsReleaseAccepted', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
-                treatmentCenterName: { // TODO: is this required?
-                  'ui:title': 'Name of private provider or hospital'
-                },
-                privateRecordsReleaseAccepted: {
-                  'ui:title': 'I give my consent to my doctor to only release records related to my condition', // update schema needed here to get condition name?
-                  'ui:description': 'What does this mean?'
-                },
-                startTreatment: {
-                  'ui:widget': 'date',
-                  'ui:title': 'Approximate date of first treatment since you received your rating'
-                },
-                endTreatment: {
-                  'ui:widget': 'date',
-                  'ui:title': 'Approximate date of last treatment'
-                },
-                treatmentCenterCountry: { // TODO: need to restrict these via select
-                  'ui:title': 'Country'
-                },
-                treatmentCenterStreet1: {
-                  'ui:title': 'Street'
-                },
-                treatmentCenterStreet2: {
-                  'ui:title': 'Street'
-                },
-                treatmentCenterCity: {
-                  'ui:title': 'City'
-                },
-                treatmentCenterState: {
-                  'ui:title': 'State'
-                },
-                treatmentCenterPostalCode: {  // TODO: need to validate this
-                  'ui:title': 'Postal code',
+                treatments: {
                   'ui:options': {
-                    widgetClassNames: 'usa-input-medium'
+                    itemName: 'Record',
+                    viewField: () => 'e'
+                  },
+                  items: {
+                    treatment: {
+                      'ui:order': ['treatmentCenterName', 'privateRecordsReleaseAccepted', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
+                      treatmentCenterName: { // TODO: is this required?
+                        'ui:title': 'Name of private provider or hospital'
+                      },
+                      privateRecordsReleaseAccepted: {
+                        'ui:title': 'I give my consent, or permission, to my doctor to only release records related to my condition', // update schema needed here to get condition name?
+                        'ui:description': 'What does this mean?'
+                      },
+                      startTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of first treatment since you received your rating'
+                      },
+                      endTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of last treatment'
+                      },
+                      treatmentCenterCountry: { // TODO: need to restrict these via select
+                        'ui:title': 'Country'
+                      },
+                      treatmentCenterStreet1: {
+                        'ui:title': 'Street'
+                      },
+                      treatmentCenterStreet2: {
+                        'ui:title': 'Street'
+                      },
+                      treatmentCenterCity: {
+                        'ui:title': 'City'
+                      },
+                      treatmentCenterState: {
+                        'ui:title': 'State'
+                      },
+                      treatmentCenterPostalCode: {  // TODO: need to validate this
+                        'ui:title': 'Postal code',
+                        'ui:options': {
+                          widgetClassNames: 'usa-input-medium'
+                        }
+                      },
+                      treatmentCenterPhone: phoneUI('Primary phone number'),
+                      'ui:validations': [validateAddress]
+                    }
                   }
-                },
-                treatmentCenterPhone: phoneUI('Primary phone number'),
-                'ui:validations': [validateAddress]
+                }
               }
             }
           },
@@ -448,7 +457,20 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  properties: _.omit(['treatmentCenterType'], recordReleaseTreatment)
+                  properties: {
+                    treatments: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          treatment: {
+                            type: 'object',
+                            properties: _.omit(['treatmentCenterType'], recordReleaseTreatment)
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
