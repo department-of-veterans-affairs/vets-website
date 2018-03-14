@@ -126,15 +126,14 @@ export default class CropperControls extends React.Component {
   constructor(props) {
     super(props);
 
+    const windowWidth = window.innerWidth;
     this.state = {
+      smallCropBox: props.forceNarrowLayout || windowWidth < LARGE_SCREEN,
+      windowWidth,
       zoomMin: 0.2,
       zoomMax: 1.7,
       zoomValue: 0
     };
-  }
-
-  componentWillMount() {
-    this.detectWidth();
   }
 
   componentDidMount() {
@@ -345,7 +344,7 @@ export default class CropperControls extends React.Component {
     const windowWidth = window.innerWidth;
     this.setState({
       windowWidth,
-      smallCropBox: windowWidth < LARGE_SCREEN
+      smallCropBox: this.props.forceNarrowLayout || windowWidth < LARGE_SCREEN
     });
   }
 
@@ -421,11 +420,19 @@ export default class CropperControls extends React.Component {
   // Cropper doesn't support changing width after componentDidMount
   // use the windowWidth as a key to for the component to remount when the window width changes
   render() {
+
+    // narrow-layout class controls visiblity of elements based on window width
+    // if layout is forced narrow, remove this behavior
+    const narrowLayoutButtonsClassNames = classNames('cropper-control-row', { 'narrow-layout': !this.props.forceNarrowLayout });
+
+    // prevent the cropper from re-mounting when forcing narrow layout and width is in large screen range
+    const cropperKey = this.props.forceNarrowLayout && this.state.windowWidth >= LARGE_SCREEN ? LARGE_SCREEN : this.state.windowWidth;
+
     return (
       <div className="cropper-container-outer">
         <Cropper
           ref="cropper"
-          key={this.state.windowWidth}
+          key={cropperKey}
           ready={this.setCropBox}
           responsive
           src={this.props.src}
@@ -442,7 +449,11 @@ export default class CropperControls extends React.Component {
           zoom={this.onZoom}/>
         <div className="cropper-zoom-container">
           <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.onZoomOut}>
-            <span className="cropper-control-label"><span className="normal-layout">Make smaller</span><i className="fa fa-search-minus"></i></span>
+            <span className="cropper-control-label">
+              {this.props.forceNarrowLayout || <span className="normal-layout">Make smaller</span>}
+              <i className="fa fa-search-minus">
+              </i>
+            </span>
           </button>
           <input type="range"
             className="cropper-zoom-slider"
@@ -458,11 +469,15 @@ export default class CropperControls extends React.Component {
             onChange={this.onSliderChange}
             value={this.state.zoomValue}/>
           <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.onZoomIn}>
-            <span className="cropper-control-label"><span className="normal-layout">Make larger</span><i className="fa fa-search-plus"></i></span>
+            <span className="cropper-control-label">
+              {this.props.forceNarrowLayout || <span className="normal-layout">Make larger</span>}
+              <i className="fa fa-search-plus">
+              </i>
+            </span>
           </button>
         </div>
         <div className="cropper-control-container">
-          <div className="cropper-control-row narrow-layout">
+          <div className={narrowLayoutButtonsClassNames}>
             <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.onZoomOut}>
               <span className="cropper-control-label">Make smaller</span>
             </button>
@@ -497,6 +512,7 @@ export default class CropperControls extends React.Component {
 }
 
 CropperControls.PropTypes = {
+  forceNarrowLayout: React.PropTypes.bool,
   onPhotoCropped: React.PropTypes.func.isRequired,
   src: React.PropTypes.string.isRequired
 };

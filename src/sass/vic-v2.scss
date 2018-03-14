@@ -216,9 +216,11 @@ input[type=range] {
   }
 }
 
-.cropper-control-label-container {
-  margin: 10px;
-  min-width: 106px;
+.cropper-control-row {
+  .cropper-control-label-container {
+    margin: 10px;
+    min-width: 106px;
+  }
 }
 
 .cropper-control-zoom {

@@ -1,6 +1,5 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import classNames from 'classnames';
 
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
@@ -11,11 +10,11 @@ import CropperController from '../components/CropperController';
 const MIN_SIZE = 350;
 
 const layouts = {
-  choosePhoto: 1,
-  cropPhoto: 2,
-  watchUpload: 3,
-  previewPhoto: 4,
-  screenReaderError: 5
+  choosePhoto: 'choose_photo',
+  cropPhoto: 'crop_photo',
+  watchUpload: 'watch_upload',
+  previewPhoto: 'preview_photo',
+  screenReaderError: 'screen_reader_error'
 };
 
 function isValidFileType(fileName, fileTypes) {
@@ -276,6 +275,7 @@ export default class PhotoField extends React.Component {
     const { formData, formContext } = this.props;
     const file = formData || {};
     const onReview = formContext.reviewMode;
+    const forceNarrowLayout = this.props.formContext.pageTitle === 'Photo review';
 
     if (onReview) {
       return (
@@ -296,13 +296,13 @@ export default class PhotoField extends React.Component {
     const label = this.props.uiSchema['ui:title'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
     const cropperTypes = fileTypes.concat('bmp');
-    const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
+    const progressBarContainerClass = 'schemaform-file-uploading progress-bar-container';
 
     let currentLayout = this.state.currentLayout;
     let uploadButtonText = 'Your Photo';
     let instruction;
     let description;
-    let uploadControlClass = classNames('photo-input-container');
+    let uploadControlClass = 'photo-input-container';
     switch (currentLayout) {
       case layouts.choosePhoto:
         description = <p>Drag and drop your image into the square or click the upload button.</p>;
@@ -317,10 +317,10 @@ export default class PhotoField extends React.Component {
         break;
       case layouts.previewPhoto:
         description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
-        uploadControlClass = classNames('photo-input-container', 'photo-input-container-left');
+        uploadControlClass = 'photo-input-container photo-input-container-left';
         break;
       case layouts.screenReaderError:
-        uploadControlClass = classNames('photo-input-container', 'photo-input-container-left');
+        uploadControlClass = 'photo-input-container photo-input-container-left';
         break;
       default:
         currentLayout = layouts.choosePhoto;
@@ -364,6 +364,7 @@ export default class PhotoField extends React.Component {
             </button>
           </div>}
           {currentLayout === layouts.cropPhoto && <CropperController
+            forceNarrowLayout={forceNarrowLayout}
             windowWidth={this.state.windowWidth}
             onPhotoCropped={blob => this.uploadPhoto(blob)}
             src={this.state.src}/>
