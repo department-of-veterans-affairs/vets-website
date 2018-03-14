@@ -36,13 +36,17 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
+	    <p>Whatever’s got you down—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can provide support, day or night.</p>
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
   		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
   		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-  		  <li>Call <a href="tel:911">911</a>.</li>
-  		  <li>Go to the nearest emergency room.</li>
 		  </ul>
+            <p>You can also:</p>
+	    <ul>
+	      <li>Call <a href="tel:911">911</a>.</li>
+  	      <li>Go to the nearest emergency room.</li>
+	    </ul>
 	  </div>
   	</div>
   </div>
@@ -57,7 +61,8 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 
 - 1-to-1 mental health assessment and testing to figure out if you have PTSD
 - Medicine proven to work for treating PTSD
-- 1-to-1 psychotherapy (also called talk therapy). [This includes proven methods like Cognitive Processing Therapy (CPT)](https://www.mentalhealth.va.gov/ptsd/cbt-ptsd.asp).
+- 1-to-1 psychotherapy (also called talk therapy).<br>
+[This includes proven methods like Cognitive Processing Therapy (CPT)](https://www.mentalhealth.va.gov/ptsd/cbt-ptsd.asp).
 - 1-to-1 family therapy
 - Group therapy for special needs, like anger or stress management or combat support
 - Group therapy for Veterans who served in certain combat zones or who’ve been through similar traumas
@@ -80,7 +85,8 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 
 ### How do I access VA services for PTSD?
 
-The VA health care program covers PTSD health services. To access these services, first apply for VA health care. [Apply for health care](/health-care/apply/).
+The VA health care program covers PTSD health services. To access these services, first apply for VA health care.<br>
+[Apply for health care](/health-care/apply/).
 
 Once you’ve signed up:
 
@@ -96,29 +102,39 @@ Once you’ve signed up:
 ### What if I don’t have VA health benefits?
 
 You may still be able to get care:
-- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers.<br>
+[Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
-  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
+  - Visit our website to learn about VA programs for Veterans who are homeless.<br>
+  [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community.<br>
+  [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 <br>
 
 ### Can I get disability compensation (monthly payments) or other benefits from VA if I think I have PTSD linked to military service?
 
-If you have symptoms of PTSD and suffered a serious injury, personal trauma, sexual trauma, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits. [Find out if you can get disability benefits](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
+If you have symptoms of PTSD and suffered a serious injury, personal trauma, sexual trauma, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits.<br>
+[Find out if you can get disability benefits](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
 
 <br>
 
 ### Where can I find more information and support?
 
-- See our “Understanding PTSD and PTSD Treatment” booklet for more about PTSD symptoms and treatment. [Read the booklet](http://www.ptsd.va.gov/public/understanding_ptsd/booklet.pdf).
-- Go to our National Center for PTSD website for information about PTSD treatment and support. [Visit the National Center for PTSD](https://www.ptsd.va.gov/public/index.asp).
+- See our “Understanding PTSD and PTSD Treatment” booklet for more about PTSD symptoms and treatment.<br>
+[Read the booklet](http://www.ptsd.va.gov/public/understanding_ptsd/booklet.pdf).
+- Go to our National Center for PTSD website for information about PTSD treatment and support.<br>
+[Visit the National Center for PTSD](https://www.ptsd.va.gov/public/index.asp).
 - Go to these websites for resources and stories of Veterans who’ve overcome PTSD and other mental health challenges:
   - [Visit Make the Connection](http://maketheconnection.net/).
   - [Visit About Face](https://www.ptsd.va.gov/apps/AboutFace/).
-- Use our PTSD Coach Online to help manage stress. [Visit PTSD Coach Online](https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm).
-- See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
+- Use our PTSD Coach Online to help manage stress.<br>
+[Visit PTSD Coach Online](https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm).
+- See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts.<br>
+[Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
+- Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
+[Find contact information for your closest VA health facility](/facilities).
 - Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 <script type="text/javascript">
