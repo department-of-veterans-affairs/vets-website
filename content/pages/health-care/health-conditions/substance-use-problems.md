@@ -98,7 +98,8 @@ Once you’ve signed up:
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center. <br>
   [Find a VA medical center near you](/facilities/).
-- **If you served in Operation Enduring Freedom (OEF), Operation Iraqi Freedom (OIF), or Operation New Dawn (OND),** call your local VA medical center, and ask to speak to the OEF/OIF/OND coordinator. [Find a VA medical center near you](/facilities/).
+- **If you served in Operation Enduring Freedom (OEF), Operation Iraqi Freedom (OIF), or Operation New Dawn (OND),** call your local VA medical center, and ask to speak to the OEF/OIF/OND coordinator.<br>
+[Find a VA medical center near you](/facilities/).
 
 <br>
 
@@ -128,7 +129,7 @@ You may still be able to get care:
 [Find resources](https://www.mentalhealth.va.gov/substanceabuse.asp).
 - Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more.<br>
 [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).
-- Ask the staff at your nearest VA health facility to connect you with a local social worker.<br>
+- Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
 [Find contact information for your closest VA health facility](/facilities).
 
 
