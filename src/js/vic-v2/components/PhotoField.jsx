@@ -82,25 +82,16 @@ export default class PhotoField extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.windowWidth !== this.state.windowWidth) {
-      const cropper = this.refs.cropper;
-      if (cropper) {
-        this.setCropBox();
-      }
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const newFile = this.props.formData || {};
     const oldFile = prevProps.formData || {};
     const newState = this.state;
     if (newFile.errorMessage && oldFile.errorMessage !== newFile.errorMessage) {
-      scrollAndFocus(document.querySelector('.usa-input-error-message'));
+      scrollAndFocus(this.errorMessage);
     } else if (prevState.isCropping !== newState.isCropping) {
-      scrollAndFocus(document.querySelector('.border-box'));
+      scrollAndFocus(this.borderBox);
     } else if (typeof this.props.formData === 'undefined' && this.props.formData !== prevProps.formData) {
-      scrollAndFocus(document.querySelector('.border-box'));
+      scrollAndFocus(this.borderBox);
     }
   }
 
@@ -119,7 +110,6 @@ export default class PhotoField extends React.Component {
       warningMessage: null
     });
   }
-
 
   onChangeScreenReader = (files) => {
     const file = files[0];
@@ -146,16 +136,18 @@ export default class PhotoField extends React.Component {
               });
             } else {
               this.setState({ progress: 0, warningMessage: null });
-              this.props.formContext.uploadFile(
+              this.uploadRequest = this.props.formContext.uploadFile(
                 file,
-                this.props.onChange,
                 this.props.uiSchema['ui:options'],
                 this.updateProgress,
-              ).catch(() => {
-                // rather not use the promise here, but seems better than trying to pass
-                // a blur function
-                this.props.onBlur(this.props.idSchema.$id);
-              });
+                (fileData) => {
+                  this.props.onChange(fileData);
+                },
+                () => {
+                  this.props.onBlur(this.props.idSchema.$id);
+                  this.uploadRequest = null;
+                }
+              );
             }
           });
       };
@@ -215,29 +207,36 @@ export default class PhotoField extends React.Component {
     this.setState({ previewProcessing: true });
   }
 
+  cancelUpload = () => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
+    }
+    this.props.onChange();
+  }
+
   uploadPhoto = (blob) => {
     this.setState({ isCropping: false, progress: 0, warningMessage: null });
     const file = blob;
     file.lastModifiedDate = new Date();
     file.name = 'profile_photo.png';
-    this.props.formContext.uploadFile(
+    this.uploadRequest = this.props.formContext.uploadFile(
       file,
+      this.props.uiSchema['ui:options'],
+      this.updateProgress,
       (formData) => {
         if (formData.confirmationCode) {
           this.props.onChange(Object.assign({}, formData, {
             file
           }));
+          this.uploadRequest = null;
         } else {
           this.props.onChange(formData);
         }
       },
-      this.props.uiSchema['ui:options'],
-      this.updateProgress
-    ).catch(() => {
-      // rather not use the promise here, but seems better than trying to pass
-      // a blur function
-      // this.props.onBlur(this.props.idSchema.$id);
-    });
+      () => {
+        this.uploadRequest = null;
+      }
+    );
   }
 
   resetFile = () => {
@@ -348,13 +347,13 @@ export default class PhotoField extends React.Component {
     return (
       <fieldset>
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
-        <div className={errorMessage ? 'error-box' : 'border-box'}>
+        <div ref={element => { this.borderBox = element; }} className={errorMessage ? 'error-box' : 'border-box'}>
           {fieldView === 'cropper' && <span className="sr-only">
             This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
           </span>}
           <div>
             {errorMessage && <div className="photo-error-wrapper">
-              <div role="alert" className="usa-input-error-message photo-error-message">
+              <div ref={element => { this.errorMessage = element; }} role="alert" className="usa-input-error-message photo-error-message">
                 We’ve run into a problem.
                 <p>{errorMessage}</p>
               </div>
@@ -377,9 +376,13 @@ export default class PhotoField extends React.Component {
           {fieldView === 'progress' && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
+            <button type="button" className="va-button-link" onClick={this.cancelUpload}>
+              Cancel
+            </button>
           </div>}
           {fieldView === 'cropper' && <CropperController
             narrowLayout={smallScreen}
+            windowWidth={this.state.windowWidth}
             onPhotoCropped={blob => this.uploadPhoto(blob)}
             src={this.state.src}/>
           }

@@ -1,6 +1,6 @@
 import _ from '../../../common/utils/data-utils';
 
-// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -11,8 +11,31 @@ import {
   supportingEvidenceOrientation,
   evidenceTypesDescription,
   EvidenceTypeHelp,
-  disabilityNameTitle
+  disabilityNameTitle,
+  facilityDescription,
+  treatmentView,
+  vaMedicalRecordsIntro
 } from '../helpers';
+
+const {
+  treatments
+} = fullSchema526EZ.properties;
+
+const {
+  date
+} = fullSchema526EZ.definitions;
+
+// We may add these back in after the typeahead, but for now...
+const treatmentsSchema = _.set('items.properties.treatment.properties',
+  _.omit(
+    [
+      'treatmentCenterType',
+      'treatmentCenterCountry',
+      'treatmentCenterState',
+      'treatmentCenterCity'
+    ],
+    treatments.items.properties.treatment.properties
+  ), treatments);
 
 const initialData = {
   // For testing purposes only
@@ -86,7 +109,9 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    date
+  },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
@@ -156,7 +181,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:title': disabilityNameTitle, // TODO: Use a callback when that's available
+                'ui:title': disabilityNameTitle,
                 'ui:description': evidenceTypesDescription,
                 'view:vaMedicalRecords': {
                   'ui:title': 'VA medical records'
@@ -209,7 +234,8 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:description': 'VA Medical Records',
+                'ui:title': disabilityNameTitle,
+                'ui:description': vaMedicalRecordsIntro,
               }
             }
           },
@@ -226,7 +252,79 @@ const formConfig = {
             }
           }
         },
-        // pageFour: {},
+        vaFacilities: {
+          title: '',
+          path: 'supporting-evidence/:index/va-facilities',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': facilityDescription,
+                treatments: {
+                  'ui:options': {
+                    itemName: 'Facility',
+                    viewField: treatmentView
+                  },
+                  items: {
+                    // Hopefully we can get rid of this annoying nesting
+                    treatment: {
+                      treatmentCenterName: {
+                        // May have to change this to 'Name of [first]...'
+                        'ui:title': 'Name of VA medical facility'
+                      },
+                      startTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of first treatment since you received your rating'
+                      },
+                      endTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of last treatment'
+                      }
+                      // I think we're planning on filling these in with the typeahead?
+                      // treatmentCenterType: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterCountry: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterState: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterCity: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    treatments: treatmentsSchema
+                  }
+                }
+              }
+            }
+          }
+        },
         // pageFive: {},
         // pageSix: {},
         // pageSeven: {},
