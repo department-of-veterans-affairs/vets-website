@@ -68,14 +68,14 @@ With VA health care, you’re covered for regular checkups with your primary car
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
         <p>We offer many programs and services to support Veterans who are homeless or at risk of becoming homeless—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
-        <p>**Find the support you need:**</p>
+        <p><strong>Find the support you need:</strong></p>
         <ul>
-          <li>**Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week.** A trained VA counselor will ask you a few questions to find out what you need and connect you to the nearest VA staff person who can help.</li>
-          <li>**Contact your nearest VA medical center for help connecting with VA and community programs and services.** Ask for an appointment with a VA social worker. Or, if you're a female Veteran, ask for the Women Veterans Program Manager.<br>
+          <li><strong>Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week</strong>. You'll talk privately with a trained VA counselor for free.</li>
+          <li><strong>Contact your nearest VA medical center.</strong> Ask to talk with the VA social worker. Or, if you're a female Veteran, ask for the Women Veterans Program Manager.<br>
             <a href="/facilities/">Find the closest VA medical center</a>.</li>
         </ul>
       <p><b>Are you in crisis right now?</b></p>
-      <p> Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or homelessness—we can support you, day or night.</p>
+      <p> Whatever you're struggling with—homelessness, chronic pain, anxiety, depression, sleeplessness, or anger—we can support you, day or night.</p>
       <p><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>        
       </div>
     </div>
