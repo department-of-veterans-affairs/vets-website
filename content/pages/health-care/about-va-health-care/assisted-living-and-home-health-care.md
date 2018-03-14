@@ -66,8 +66,8 @@ You may be able to use one or more of these services if:
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
 To find out how to access these services:
-- Ask to see the VA social worker at your local VA health facility.<br>
-[Find contact information for your local VA health facility](/facilities/).
+- Ask to see the VA social worker at your nearest VA health facility.<br>
+[Find contact information for your closest VA health facility](/facilities/).
 - Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
@@ -105,6 +105,7 @@ Other services aren’t covered under VA health care benefits. For these service
 - [What if I’m homebound or live far away from VA?](#health-assisted-remote)
 - [What if I have a family caregiver, but they need support to help care for me at home?](#health-assisted-caregiver)
 - [What if my family and I need help making decisions about my long-term care?](#health-decisions)
+- [What are some other resources that may be of help to me and my family?](#other-resources)
 
 <br>
 
@@ -209,5 +210,28 @@ Other services for home health care (like adult day health care or skilled healt
 Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions about your long-term services and support. They can also help you stay in your own home with long-term support, or help you find an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your health care team.
 
 To connect with a VA social worker, ask the staff at the VA health facility where you receive your primary care for an appointment. If you're not enrolled in the VA health care program, or haven't received care at a VA health facility yet, call your nearest VA health facility and ask them to connect you to a social worker.<br>
-[Find your nearest VA health facility](/facilities/).<br>
+[Find contact information for your closest VA health facility](/facilities/).<br>
 [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
+
+<br>
+
+<span id="other-resources">
+  
+#### What are some other resources that may be of help to me and my family?
+
+You may find these non-VA resources helpful:
+
+[AARP](https://www.aarp.org/)
+A nonprofit organization dedicated to helping empower people to choose how they live while they age
+
+[The Administration for Community Living](https://www.acl.gov/)
+A government program dedicated to helping older adults and people with disabilities of all ages live where they choose and with the people they choose, while participating fully in their communities
+
+[The National Institutes of Health's National Institute on Aging](https://www.nia.nih.gov)
+An agency that leads the federal government in conducting and supporting research on aging and the health and well-being of older people
+
+[The National Council on Aging's Benefits Check Up](https://www.benefitscheckup.org/)
+A site that offers one central place where people over the age of 55 can get information about federal, state, and private benefits like Medicare, Medicaid, Meals on Wheels, and food stamps
+
+[The National Alliance For Caregiving](http://www.caregiving.org)
+A nonprofit coalition of national organization that offers free publications and other services to family caregivers
