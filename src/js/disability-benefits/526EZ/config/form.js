@@ -470,8 +470,12 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Upload your private medical records',
-          depends: () => {
-
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // TODO: enable once previous chapter merged
+            // const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
+            const uploadRecords = true;
+            return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
           // editPageOnReview: true,
@@ -483,12 +487,13 @@ const formConfig = {
                 medicalRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     allowRename: true,
-                    endpoint: '/v0/preneeds/preneed_attachments',
+                    itemDescription: 'Adding additional evidence:',
+                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
                     maxSize: 27262976, // TODO: create constant
                     createPayload: (file) => {
                       const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file);
+                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
 
                       return payload;
                     },

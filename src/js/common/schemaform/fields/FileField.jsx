@@ -142,7 +142,8 @@ export default class FileField extends React.Component {
                       </button>
                     </div>
                   }
-                  {!file.uploading && <span>{file.name}</span>}
+                  {!file.uploading && <p>{uiOptions.itemDescription}</p>}
+                  {!file.uploading && <span><strong>{file.name}</strong></span>}
                   {!hasErrors && _.get('properties.attachmentId', itemSchema) &&
                     <div className="schemaform-file-attachment">
                       <SchemaField
