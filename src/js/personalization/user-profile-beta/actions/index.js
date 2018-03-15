@@ -148,7 +148,6 @@ export const updateResidentialAddress = saveFieldHandler('/v0/address/residentia
 function getEmailAddress() {
   // https://github.com/department-of-veterans-affairs/vets-api/pull/1718
   return apiRequest('/profile/email')
-    .then(response => response.json())
     .then(json => json.data.attributes.email)
     .catch(err => {
       /* eslint-disable no-console */
