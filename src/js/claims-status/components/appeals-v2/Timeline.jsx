@@ -23,7 +23,10 @@ class Timeline extends React.Component {
     return `${first} - ${last}`;
   };
 
-  toggleExpanded = () => this.setState((prevState) => ({ expanded: !prevState.expanded }));
+  toggleExpanded = (e) => {
+    e.stopPropagation();
+    this.setState((prevState) => ({ expanded: !prevState.expanded }));
+  }
 
   render() {
     const { events, missingEvents } = this.props;

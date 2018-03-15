@@ -44,10 +44,16 @@ describe('<Timeline/>', () => {
 
   it('should toggle expanded state when toggleExpanded called', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const instance = wrapper.instance();
+    // Just so toggleExpanded() doesn't break
+    const clickEvent = {
+      stopPropagation: () => {}
+    };
+
     expect(wrapper.state('expanded')).to.equal(false);
-    wrapper.instance().toggleExpanded();
+    instance.toggleExpanded(clickEvent);
     expect(wrapper.state('expanded')).to.equal(true);
-    wrapper.instance().toggleExpanded();
+    instance.toggleExpanded(clickEvent);
     expect(wrapper.state('expanded')).to.equal(false);
   });
 

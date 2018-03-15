@@ -656,8 +656,16 @@ h1:focus {
     }
   }
 
-  .section-unexpanded {
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
 
+    &:before, button {
+      pointer-events: all;
+    }
+  }
+
+  .section-unexpanded {
     // offset left border with padding so element doesn't move while toggling expander
     &.process-step {
       padding-left: calc(2em + 5px);
