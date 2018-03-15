@@ -33,6 +33,7 @@ const {
   jobDuties,
   monthlyIncome,
   previousPrograms,
+  serviceHistory,
   vaRecordsOffice,
   yearsOfEducation
 } = fullSchema31.properties;
@@ -42,7 +43,6 @@ const {
   dateRange,
   fullName,
   phone,
-  serviceHistory,
   ssn,
   vaFileNumber,
   year
@@ -156,7 +156,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              serviceHistory: {
+              serviceHistory, /*{
                 type: 'array',
                 minItems: 1,
                 items: {
@@ -175,7 +175,7 @@ const formConfig = {
                     dischargeType: serviceHistory.items.properties.dischargeType
                   }
                 }
-              },
+              },*/
               serviceFlags
             }
           }
