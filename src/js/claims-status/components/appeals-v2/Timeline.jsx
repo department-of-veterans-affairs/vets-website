@@ -30,7 +30,12 @@ class Timeline extends React.Component {
     let pastEventsList = [];
     if (events.length) {
       pastEventsList = events.map((event, index) => {
-        const { title, description, liClass } = getEventContent(event);
+        const content = getEventContent(event);
+        if (!content) {
+          return null;
+        }
+
+        const { title, description, liClass } = content;
         const date = formatDate(event.date);
         const hideSeparator = (index === events.length - 1);
         return (
@@ -42,7 +47,7 @@ class Timeline extends React.Component {
             liClass={liClass}
             hideSeparator={hideSeparator}/>
         );
-      });
+      }).filter(e => !!e); // Filter out the nulls
     }
 
     const downArrow = this.state.expanded ? <div className="down-arrow"/> : null;

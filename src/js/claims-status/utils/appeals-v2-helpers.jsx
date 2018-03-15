@@ -650,10 +650,12 @@ export function getEventContent(event) {
         description: '',
       };
     default:
-      return {
-        title: 'Unknown event',
-        description: '',
-      };
+      Raven.captureMessage('appeals-unknown-event', {
+        extra: {
+          eventType: event.type
+        }
+      });
+      return null;
   }
 }
 
