@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -414,18 +415,17 @@ const formConfig = {
                         'ui:title': 'Name of private provider or hospital'
                       },
                       privateRecordsReleaseAccepted: {
-                        'ui:description': 'What does this mean?',
-                        'ui:options': {
-                          updateSchema: (formData, schema, uiSchema, index) => {
-                            const newTitle = `I give my consent, or permission, to my doctor to only release records related to my ${formData.disabilities[index].disability.diagnosticText}`;
-                            return {
-                              title: newTitle
-                            };
-                          }
-                        }
+                        'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
                       },
                       'view:releasePermissionLimited': {
-                        'ui:description': EvidenceTypeHelp
+                        'ui:description': () => {
+                          return (<div className="usa-alert usa-alert-warning no-background-image">
+                            <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+                          </div>);
+                        },
+                        'ui:options': {
+                          expandUnder: 'privateRecordsReleaseAccepted' // TODO: prevent auto
+                        }
                       },
                       startTreatment: {
                         'ui:widget': 'date',
