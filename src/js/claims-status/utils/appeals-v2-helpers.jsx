@@ -148,13 +148,15 @@ export function addStatusToIssues(issues) {
 }
 
 /**
- * Finds an appeal from the Redux store with ID matching arg ID
+ * Finds an appeal from the Redux store with ID matching arg ID.
+ * `id` may be a v1 id or a v2 id.
+ *
  * @param {object} state Full redux store state tree
  * @param {string} id Appeal ID of the appeal to find
  * @returns {object} One appeal object or undefined if not found in the array
  */
-export function isolateAppeal(state, id) {
-  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id);
+export function isolateAppeal(state, id, v1ToV2IdMap) {
+  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id || v1ToV2IdMap[id]);
 }
 
 export function formatDate(date) {
