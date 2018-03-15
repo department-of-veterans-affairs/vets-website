@@ -83,6 +83,10 @@ const recordReleaseTreatment = Object.assign({}, treatments.items.properties.tre
   privateRecordsReleaseAccepted: {
     type: 'boolean'
   },
+  'view:releasePermissionLimited': {
+    type: 'object',
+    properties: {}
+  },
   treatmentCenterStreet1: {
     type: 'string'
   },
@@ -405,13 +409,23 @@ const formConfig = {
                   },
                   items: {
                     treatment: {
-                      'ui:order': ['treatmentCenterName', 'privateRecordsReleaseAccepted', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
+                      'ui:order': ['treatmentCenterName', 'privateRecordsReleaseAccepted', 'view:releasePermissionLimited', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
                       treatmentCenterName: { // TODO: is this required?
                         'ui:title': 'Name of private provider or hospital'
                       },
                       privateRecordsReleaseAccepted: {
-                        'ui:title': 'I give my consent, or permission, to my doctor to only release records related to my condition', // update schema needed here to get condition name?
-                        'ui:description': 'What does this mean?'
+                        'ui:description': 'What does this mean?',
+                        'ui:options': {
+                          updateSchema: (formData, schema, uiSchema, index) => {
+                            const newTitle = `I give my consent, or permission, to my doctor to only release records related to my ${formData.disabilities[index].disability.diagnosticText}`;
+                            return {
+                              title: newTitle
+                            };
+                          }
+                        }
+                      },
+                      'view:releasePermissionLimited': {
+                        'ui:description': EvidenceTypeHelp
                       },
                       startTreatment: {
                         'ui:widget': 'date',
