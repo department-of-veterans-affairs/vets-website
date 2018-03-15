@@ -33,7 +33,7 @@ export class IntroPage extends React.Component {
         content = (
           <div>
             <h2>How can I check if I have Post-9/11 GI Bill benefits?</h2>
-            <p>The Post-9/11 Benefits tool is available for you during these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
+            <p>The Post-9/11 GI Bill Benefits tool is available for you during these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
             <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>
             <h2>What if I have trouble trouble accessing my benefit statement?</h2>
             <p>If you're having trouble accessing the tool during the hours above, please try again. If it still doesn't work, please call the Vets.gov Help Desk at 1-855-574-7286.</p>
