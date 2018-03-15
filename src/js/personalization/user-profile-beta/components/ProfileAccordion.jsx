@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import React from 'react';
 import Accordion, { AccordionTab } from '../../common/components/Accordion';
 
