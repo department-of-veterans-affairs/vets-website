@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
+import { Link } from 'react-router';
 
 // This literally determines how many rows are displayed per page on the v2 index page
 export const ROWS_PER_PAGE = 10;
@@ -32,6 +33,7 @@ export const STATUS_TYPES = {
   bvaDevelopment: 'bva_development',
   stayed: 'stayed',
   remand: 'remand',
+  merged: 'merged',
   // Closed Statuses:
   bvaDecision: 'bva_decision',
   fieldGrant: 'field_grant',
@@ -40,7 +42,7 @@ export const STATUS_TYPES = {
   ramp: 'ramp',
   reconsideration: 'reconsideration',
   death: 'death',
-  otherClose: 'other_close',
+  otherClose: 'other_close'
 };
 
 export const ISSUE_STATUS = {
@@ -497,6 +499,18 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.description = (
         <p>Your appeal was dismissed or closed. Please contact your Veterans Service Organization or
         representative for more information.</p>
+      );
+      break;
+    case STATUS_TYPES.merged:
+      contents.title = 'Your appeal was merged';
+      // TODO: When we change the url to remove -v2, change it here too
+      contents.description = (
+        <div>
+          <p>Your appeal was merged with another appeal. The Board of Veterans’ Appeals merges appeals so
+          that you can receive a single decision on as many appealed issues as possible. This appeal was
+          merged with an older appeal that was closest to receiving a Board decision.</p>
+          <p>Check <Link to="/your-claims-v2">Your Claims and Appeals</Link> for the appeal that contains the issues merged from this appeal.</p>
+        </div>
       );
       break;
     default:
