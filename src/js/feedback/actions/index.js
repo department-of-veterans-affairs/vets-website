@@ -43,11 +43,9 @@ function errorMessage(status) {
 export function sendFeedback(formValues) {
   return (dispatch) => {
 
-    const { description, shouldSendResponse, email: ownerEmail } = formValues;
+    const { description } = formValues;
     const targetPage = window.location.pathname;
     const body = { description, targetPage };
-    if (shouldSendResponse) body.ownerEmail = ownerEmail;
-
     const settings = {
       headers: { 'Content-Type': 'application/json', Authorization: '' },
       method: 'post',

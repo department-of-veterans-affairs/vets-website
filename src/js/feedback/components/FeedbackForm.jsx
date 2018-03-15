@@ -21,13 +21,6 @@ class FeedbackForm extends React.Component {
     focusElement(descriptionId);
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.formValues.shouldSendResponse && this.props.formValues.shouldSendResponse) {
-      const emailId = this.emailComp && `#${this.emailComp.inputId}`;
-      focusElement(emailId);
-    }
-  }
-
   onSubmit = (event) => {
     event.preventDefault();
     this.props.sendFeedback(this.props.formValues);
@@ -37,15 +30,6 @@ class FeedbackForm extends React.Component {
     return null;
   }
 
-  setEmail = ({ value: email, dirty }) => {
-    if (dirty) this.setState({ suppressEmailErrors: false });
-    this.props.setFormValues({ email });
-  }
-
-  setResponse = ({ value: shouldSendResponse }) => {
-    this.setState({ suppressResponseErrors: true });
-    this.props.setFormValues({ shouldSendResponse });
-  }
 
   setDescription = ({ value: description, dirty }) => {
     if (dirty) this.setState({ suppressDescriptionErrors: false });
@@ -54,14 +38,6 @@ class FeedbackForm extends React.Component {
 
   descriptionErrorMessage = () => {
     return !this.state.suppressDescriptionErrors ? this.props.formErrors.description : '';
-  }
-
-  emailErrorMessage = () => {
-    return !this.state.suppressEmailErrors ? this.props.formErrors.email : '';
-  }
-
-  responseErrorMessage = () => {
-    return !this.state.suppressResponseErrors ? this.props.formErrors.shouldSendResponse : '';
   }
 
   render() {
