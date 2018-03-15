@@ -275,7 +275,6 @@ export default class PhotoField extends React.Component {
     const { formData, formContext } = this.props;
     const file = formData || {};
     const onReview = formContext.reviewMode;
-    const forceNarrowLayout = this.props.formContext.pageTitle === 'Photo review';
 
     if (onReview) {
       return (
@@ -328,7 +327,7 @@ export default class PhotoField extends React.Component {
     }
 
     return (
-      <fieldset>
+      <fieldset className="photo-fieldset">
         <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
         <div ref={element => { this.borderBox = element; }} className={errorMessage ? 'error-box' : 'border-box'}>
           {currentLayout === layouts.cropPhoto && <span className="sr-only">
@@ -364,7 +363,6 @@ export default class PhotoField extends React.Component {
             </button>
           </div>}
           {currentLayout === layouts.cropPhoto && <CropperController
-            forceNarrowLayout={forceNarrowLayout}
             windowWidth={this.state.windowWidth}
             onPhotoCropped={blob => this.uploadPhoto(blob)}
             src={this.state.src}/>
@@ -398,7 +396,7 @@ export default class PhotoField extends React.Component {
             {(currentLayout === layouts.choosePhoto || currentLayout === layouts.cropPhoto) && <ErrorableFileInput
               accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
-              buttonText={<span>Upload <i className="fa fa-upload narrow-layout"></i><span className="normal-layout">{uploadButtonText}</span></span>}
+              buttonText={`Upload ${uploadButtonText}`}
               aria-describedby="croppingToolDescription"
               name="fileUpload"/>}
             {currentLayout === layouts.choosePhoto && <ErrorableFileInput
