@@ -25,18 +25,18 @@ export class IntroPage extends React.Component {
       }
       case SERVICE_UP_STATES.pending: {
         // TODO: Change the loading message
-        content = <LoadingIndicator message="Checking whether the service is up..."/>;
+        content = <LoadingIndicator message="Please wait while we check if the tool is available."/>;
         break;
       }
       case SERVICE_UP_STATES.up: {
         // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
         content = (
           <div>
-            <h2>Check your Post-9/11 GI Bill benefits during these hours</h2>
-            <p>The Post-9/11 GI Bill Benefits tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
-            <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View your GI Bill Benefits</Link>
-            <h2>What if I have trouble accessing my benefit statement?</h2>
-            <p>There have been some recent problems with this tool on eBenefits. If it's not working, we recommend you bookmark the eBenefits page in your browser and check back in a few days.</p>
+            <h2>How can I check if I have Post-9/11 GI Bill benefits?</h2>
+            <p>The Post-9/11 Benefits tool is available for you during these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
+            <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>
+            <h2>What if I have trouble trouble accessing my benefit statement?</h2>
+            <p>If you're having trouble accessing the tool during the hours above, please try again. If it still doesn't work, please call the Vets.gov Help Desk at 1-855-574-7286.</p>
           </div>
         );
         break;
