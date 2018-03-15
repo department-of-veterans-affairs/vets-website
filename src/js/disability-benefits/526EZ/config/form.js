@@ -2,6 +2,7 @@ import React from 'react';
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fileUploadUI from '../../../common/schemaform/definitions/file';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../common/utils/address';
 import phoneUI from '../../../common/schemaform/definitions/phone';
@@ -28,6 +29,7 @@ const {
 
 const {
   date,
+  // files,
   phone
 } = fullSchema526EZ.definitions;
 
@@ -117,7 +119,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    date
+    date,
+    // files
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
@@ -455,6 +458,52 @@ const formConfig = {
                           treatment: {
                             type: 'object',
                             properties: _.omit(['treatmentCenterType'], privateMedicalRecordsReleaseTreatmentSchema)
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        documentUpload: {
+          title: 'Document upload',
+          path: 'supporting-evidence/:index/documents',
+          // editPageOnReview: true,
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': 'Document please',
+                'ui:description': 'Please provide docs',
+                medicalRecords: Object.assign({}, fileUploadUI('Upload your private medical records'))
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    medicalRecords: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          name: {
+                            type: 'string'
+                          },
+                          size: {
+                            type: 'integer'
+                          },
+                          confirmationCode: {
+                            type: 'string'
                           }
                         }
                       }
