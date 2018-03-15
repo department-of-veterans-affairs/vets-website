@@ -84,35 +84,8 @@ class FeedbackForm extends React.Component {
                 ref={component => { this.descriptionComp = component; }}
                 required/>
             </div>
-
-            <ErrorableRadioButtons
-              name="shouldSendResponse"
-              id="shouldSendResponse"
-              label="Would you like us to follow up with you about your ideas?"
-              options={[
-                { label: 'Yes', value: 'yes' },
-                { label: 'No', value: 'no' }
-              ]}
-              onValueChange={this.setResponse}
-              errorMessage={this.responseErrorMessage()}
-              value={{ value: shouldSendResponse, dirty: false }}
-              required/>
-
             <div className="usa-grid-full">
               <div className="usa-width-two-thirds">
-                {this.props.formValues.shouldSendResponse === 'yes' && (
-                  <div className="feedback-email-container">
-                    <ErrorableTextInput
-                      label="Your email address"
-                      name="email"
-                      type="email"
-                      field={{ value: this.props.formValues.email, dirty: false }}
-                      onValueChange={this.setEmail}
-                      errorMessage={this.emailErrorMessage()}
-                      ref={component => { this.emailComp = component; }}
-                      required/>
-                  </div>
-                )}
                 <div className="feedback-submit-container">
                   <button
                     type="submit"
