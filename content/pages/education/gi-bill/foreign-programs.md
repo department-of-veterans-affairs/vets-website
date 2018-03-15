@@ -95,7 +95,7 @@ Normally, foreign schools certify their students for 1 academic year. Within 120
 ### Need help?
 Get more information or help with your application:
 - If you’re in the United States, call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, go to a VA regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/?facilityType=benefits&page=1&zoomLevel=7).
+[Find the nearest VA regional benefit office](/facilities/?facilityType=benefits&page=1&zoomLevel=7).
 - If you’re outside the United States, call <a href="tel:+0019187815678">001-918-781-5678</a>, Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>)
 - Get help from local representatives of Veterans organizations and the American Red Cross
 - Go to a foreign service post
