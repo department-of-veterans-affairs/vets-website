@@ -719,6 +719,7 @@ smith.use((files, metalsmith, done) => {
       onclickEl.appendChild(newScript);
     });
     data.contents = new Buffer(dom.serialize());
+    dom.window.close();
     files[file] = data;
   });
   done();
