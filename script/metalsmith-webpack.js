@@ -1,95 +1,100 @@
-/* eslint-disable */
+/* eslint-disable no-console */
 /*
  * This code is taken from https://github.com/christophercliff/metalsmith-webpack and https://github.com/okonet/metalsmith-webpack-dev-server.
  *
  * These modules appear to be dead, so in order to get around their Webpack 2.x deps, I'm copying them here
  */
-var chalk = require('chalk')
-var webpack = require('webpack')
-var WebpackDevServer = require('webpack-dev-server')
-var MemoryInputFileSystem = require('enhanced-resolve/lib/MemoryInputFileSystem')
-var MemoryOutputFileSystem = require('webpack/lib/MemoryOutputFileSystem')
-var tty = require('tty')
-var path = require('path')
-var webpack = require('webpack')
+const chalk = require('chalk');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const MemoryInputFileSystem = require('enhanced-resolve/lib/MemoryInputFileSystem');
+const MemoryOutputFileSystem = require('webpack/lib/MemoryOutputFileSystem');
+const tty = require('tty');
+const path = require('path');
 
-var defaults = {
+const defaults = {
   host: 'localhost',
   port: 8081
 };
 
-function webpackPlugin(config) {
-  var compiler = webpack(config)
-  var files = {}
-  var fs = new MemoryInputFileSystem(files)
-  compiler.outputFileSystem = new MemoryOutputFileSystem(files)
-  return function (files, metalsmith, done) {
-    compiler.run(function (err, stats) {
-      if (err) {
-        done(err)
-        return
-      }
-      var info = stats.toString({ chunkModules: false, colors: useColors() })
-      if (stats.hasErrors()) {
-        done(info)
-        return
-      }
-      console.log(info)
-      fs.readdirSync(config.output.path).forEach(function (file) {
-        var filePath = path.join(config.output.path, file)
-        var key = getMetalsmithKey(files, filePath) || filePath
-        files[key] = {
-          contents: fs.readFileSync(filePath)
-        }
-      })
-      return done()
-    })
-  }
+function useColors() {
+  return tty.isatty(1 /* stdout */);
 }
 
-function useColors() {
-  return tty.isatty(1 /* stdout */)
+function normalizePath(fullPath) {
+  return fullPath.split(path.sep).filter((p) => {
+    return typeof p === 'string' && p.length > 0;
+  }).join('/');
 }
 
 function getMetalsmithKey(files, p) {
-  p = normalizePath(p)
-  for (var key in files) {
-    if (normalizePath(key) === p) return key
-  }
-  return null
+  const normalizedPath = normalizePath(p);
+  return Object.keys(files).find(key => normalizePath(key) === normalizedPath);
 }
 
-function normalizePath(p) {
-  return p.split(path.sep).filter(function (p) {
-    return typeof p === 'string' && p.length > 0
-  }).join('/')
+function webpackPlugin(config) {
+  const compiler = webpack(config);
+  const emptyFiles = {};
+  const fs = new MemoryInputFileSystem(emptyFiles);
+  compiler.outputFileSystem = new MemoryOutputFileSystem(emptyFiles);
+  return (files, metalsmith, done) => {
+    compiler.run((err, stats) => {
+      if (err) {
+        done(err);
+        return;
+      }
+      const info = stats.toString({
+        modules: false,
+        children: false,
+        assets: false,
+        chunkOrigins: false,
+        chunks: false,
+        chunkModules: false,
+        colors: useColors()
+      });
+      if (stats.hasErrors()) {
+        done(info);
+        return;
+      }
+      console.log(info);
+      fs.readdirSync(config.output.path).forEach((file) => {
+        const filePath = path.join(config.output.path, file);
+        const key = getMetalsmithKey(files, filePath) || filePath;
+        /* eslint-disable no-param-reassign */
+        files[key] = {
+          contents: fs.readFileSync(filePath)
+        };
+        /* eslint-enable no-param-reassign */
+      });
+      done();
+    });
+  };
 }
 
 function webpackDevServerPlugin(config, opts) {
-  var server
-  var options = Object.assign(defaults, opts)
-  var compiler = webpack(Object.assign({}, config))
+  let server;
+  const options = Object.assign(defaults, opts);
+  const compiler = webpack(Object.assign({}, config));
 
   function process(files, metalsmith, done) {
-
     // Prevent from starting webpack dev server multiple times
     if (server) {
-      done()
-      return
+      done();
+      return;
     }
 
-    server = new WebpackDevServer(compiler, options)
+    server = new WebpackDevServer(compiler, options);
 
-    server.listen(options.port || 8081, options.host, function() {
+    server.listen(options.port || 8081, options.host, () => {
       console.log(
         chalk.blue('[metalsmith-webpack-dev-server]: ') +
-        chalk.green("Running webpack dev server at http://" + options.host + ":" + options.port)
-      )
-      done()
-    })
+        chalk.green(`Running webpack dev server at http://${options.host}:${options.port}`)
+      );
+      done();
+    });
   }
 
-  return process
+  return process;
 }
 
 module.exports = {
