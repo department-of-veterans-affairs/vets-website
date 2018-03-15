@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 
+import { login } from '../utils/helpers';
+
 class Signin extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +38,7 @@ class Signin extends React.Component {
   handleLogin(loginType) {
     return () => {
       window.dataLayer.push({ event: `login-attempted-${loginType}` });
-      this.props.handleLogin(loginType);
+      login(loginType);
     };
   }
 
