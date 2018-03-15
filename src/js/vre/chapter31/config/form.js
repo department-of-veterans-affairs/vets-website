@@ -156,7 +156,26 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              serviceHistory,
+              serviceHistory: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['serviceBranch', 'dischargeType'],
+                  properties: {
+                    serviceBranch: serviceHistory.items.properties.serviceBranch,
+                    dateRange: {
+                      type: 'object',
+                      required: ['from', 'to'],
+                      properties: {
+                        from: dateRange.properties.from,
+                        to: dateRange.properties.to
+                      }
+                    },
+                    dischargeType: serviceHistory.items.properties.dischargeType
+                  }
+                }
+              },
               serviceFlags
             }
           }
@@ -306,7 +325,6 @@ const formConfig = {
               'disabilities',
               'vaRecordsOffice',
               'view:inHospital'
-
             ],
             properties: {
               disabilityRating,
