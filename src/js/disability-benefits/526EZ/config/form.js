@@ -469,7 +469,10 @@ const formConfig = {
           }
         },
         documentUpload: {
-          title: 'Document upload',
+          title: 'Upload your private medical records',
+          depends: () => {
+
+          },
           path: 'supporting-evidence/:index/documents',
           // editPageOnReview: true,
           showPagePerItem: true,
@@ -477,9 +480,39 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                'ui:title': 'Document please',
-                'ui:description': 'Please provide docs',
-                medicalRecords: Object.assign({}, fileUploadUI('Upload your private medical records'))
+                medicalRecords: Object.assign({},
+                  fileUploadUI('Upload your private medical records', {
+                    allowRename: true,
+                    endpoint: '/v0/preneeds/preneed_attachments',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
+                    maxSize: 27262976, // TODO: create constant
+                    createPayload: (file) => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file);
+
+                      return payload;
+                    },
+                    parseResponse: (response, file) => {
+                      return {
+                        name: file.name,
+                        confirmationCode: response.data.attributes.guid
+                      };
+                    },
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name'
+                    }
+                  }),
+                  { 'ui:description': () => (<div>
+                    <p>File upload guidelines:</p>
+                    <ul>
+                      <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
+                      <li>Maximum file size: 25 MB</li>
+                    </ul>
+                    <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+                  </div>) })
               }
             }
           },
@@ -504,6 +537,25 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              // '4',
+                              '5',
+                              '6'
+                            ],
+                            enumNames: [
+                              'Discharge',
+                              'Marriage related',
+                              'Dependent related',
+                              // 'VA preneed form',
+                              'Letter',
+                              'Other'
+                            ]
                           }
                         }
                       }

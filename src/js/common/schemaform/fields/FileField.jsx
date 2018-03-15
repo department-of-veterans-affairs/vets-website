@@ -58,6 +58,14 @@ export default class FileField extends React.Component {
     }
   }
 
+  onAttachmentNameChange = (index, value) => {
+    if (!value) {
+      this.props.onChange(_.unset([index, 'name'], this.props.formData));
+    } else {
+      this.props.onChange(_.set([index, 'name'], value, this.props.formData));
+    }
+  }
+
   updateProgress = (progress) => {
     this.setState({ progress });
   }
@@ -115,7 +123,11 @@ export default class FileField extends React.Component {
               const attachmentIdSchema = {
                 $id: `${idSchema.$id}_${index}_atachmentId`
               };
+              const attachmentNameSchema = {
+                $id: `${idSchema.$id}_${index}_atachmentName`
+              };
               const attachmentIdErrors = _.get([index, 'attachmentId'], errorSchema);
+              const attachmentNameErrors = _.get([index, 'name'], errorSchema);
 
               return (
                 <li key={index} id={`${idSchema.$id}_file_${index}`} className={itemClasses}>
@@ -147,6 +159,22 @@ export default class FileField extends React.Component {
                         disabled={this.props.disabled}
                         readonly={this.props.readonly}/>
                     </div>}
+                  {!hasErrors && uiOptions.allowRename &&
+                  <div className="schemaform-file-attachment">
+                    <SchemaField
+                      name="attachmentName"
+                      required
+                      schema={itemSchema.properties.name}
+                      uiSchema={uiOptions.attachmentName}
+                      errorSchema={attachmentNameErrors}
+                      idSchema={attachmentNameSchema}
+                      formData={formData[index].name}
+                      onChange={(value) => this.onAttachmentNameChange(index, value)}
+                      onBlur={onBlur}
+                      registry={this.props.registry}
+                      disabled={this.props.disabled}
+                      readonly={this.props.readonly}/>
+                  </div>}
                   {!file.uploading && hasErrors && <span className="usa-input-error-message">{errors[0]}</span>}
                   {!file.uploading && <div>
                     <button type="button" className="va-button-link" onClick={() => {
