@@ -4,17 +4,13 @@ import PropTypes from 'prop-types';
 import { focusElement } from '../../common/utils/helpers';
 import AlertBox from '../../common/components/AlertBox';
 import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 
 class FeedbackForm extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      suppressDescriptionErrors: true,
-      suppressEmailErrors: true,
-      suppressResponseErrors: true,
+      suppressDescriptionErrors: true
     };
   }
 
@@ -34,10 +30,10 @@ class FeedbackForm extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    if (this.props.formValues.shouldSendResponse) return this.props.sendFeedback(this.props.formValues);
+    this.props.sendFeedback(this.props.formValues);
     // Set the redux error message
     this.props.setFormValues({ shouldSendResponse: null });
-    this.setState({ suppressResponseErrors: false });
+    // this.setState({ suppressResponseErrors: false });
     return null;
   }
 
@@ -69,11 +65,14 @@ class FeedbackForm extends React.Component {
   }
 
   render() {
-    const { shouldSendResponse } = this.props.formValues;
+  //  const { shouldSendResponse } = this.props.formValues;
     return (
       <form id="feedback-form" className="feedback-form" onSubmit={this.onSubmit}>
         <div className="va-flex">
           <div className="feedback-widget-form-container">
+            <div className="usa-grid-full">
+
+            </div>
             <div className="feedback-widget-desc-container">
               <ErrorableTextarea
                 label="Tell us about your ideas to make Vets.gov better."
@@ -99,10 +98,13 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
               <h3>Need help?</h3>
+              <p className="feedback-widget-title">Need help or to talk with someone right away? <a href="#">Get support from the Veterans Crisis Line</a>.</p>
+              <p><b>Note:</b> We don't monitor the Vets.gov suggestion box at all hours. But our Veterans Crisis Line responders can support you, day and night.</p>
               Calls the Vets.gov Help Desk<br/>
               <a href="tel:18555747286">1-855-574-7286</a><br/>
               TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
               Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)
+
             </div>
           </div>
         </div>
