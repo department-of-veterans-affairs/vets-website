@@ -35,7 +35,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 ### Can I apply for one of these memorial items?
 
-You can apply for this benefit if one of the lines below describes your relationship to the deceased.
+You can apply for this benefit if one of the categories below describes your relationship to the deceased.
 
 **You must fall into one of these categories:**
 - A family member of the deceased, **or**
