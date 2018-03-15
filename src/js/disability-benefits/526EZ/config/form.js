@@ -5,6 +5,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../../common/utils/address';
 import phoneUI from '../../../common/schemaform/definitions/phone';
+import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -15,9 +16,10 @@ import {
   evidenceTypesDescription,
   EvidenceTypeHelp,
   disabilityNameTitle,
+  vaMedicalRecordsIntro,
+  privateMedicalRecordsIntro,
   facilityDescription,
   treatmentView,
-  vaMedicalRecordsIntro
 } from '../helpers';
 
 const {
@@ -80,11 +82,11 @@ function validateAddress(errors, formData) {
 
   validatePostalCodes(errors, formData);
 }
-const recordReleaseTreatment = Object.assign({}, treatments.items.properties.treatment.properties, {
-  privateRecordsReleaseAccepted: {
+const privateMedicalRecordsReleaseTreatmentSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
+  privateMedicalRecordsReleaseAccepted: {
     type: 'boolean'
   },
-  'view:releasePermissionLimited': {
+  'view:privateMedicalRecordsReleasePermissionRestricted': {
     type: 'object',
     properties: {}
   },
@@ -99,64 +101,6 @@ const recordReleaseTreatment = Object.assign({}, treatments.items.properties.tre
   },
   treatmentCenterPhone: phone,
 });
-
-const initialData = {
-  // For testing purposes only
-  disabilities: [
-    {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'PTSD',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
-        },
-        ratedDisabilityId: '12345',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '67890',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    },
-    {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'Second Disability',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
-        },
-        ratedDisabilityId: '54321',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '09876',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    }
-  ]
-};
 
 const formConfig = {
   urlPrefix: '/',
@@ -290,7 +234,7 @@ const formConfig = {
         },
         vaMedicalRecordsIntro: {
           title: '',
-          path: 'supporting-evidence/:index/va-medical-records',
+          path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
@@ -388,13 +332,42 @@ const formConfig = {
             }
           }
         },
-        privateRecordRelease: {
+        privateMedicalRecordsIntro: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-intro',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateMedicalRecordsIntro
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
+        },
+        // TODO: Should this be privateMedicalRecordsRelease or privateRecordsRelease? 
+        privateMedicalRecordsRelease: {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // TODO: enable once previous chapter merged
             // const requestsRecords = !_.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
             const requestsRecords = true;
             return hasRecords && requestsRecords;
@@ -406,25 +379,27 @@ const formConfig = {
                 treatments: {
                   'ui:options': {
                     itemName: 'Record',
-                    viewField: () => 'e'
+                    viewField: () => {
+                      return (<div>hello</div>);
+                    }
                   },
                   items: {
                     treatment: {
-                      'ui:order': ['treatmentCenterName', 'privateRecordsReleaseAccepted', 'view:releasePermissionLimited', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
+                      'ui:order': ['treatmentCenterName', 'privateMedicalRecordsReleaseAccepted', 'view:privateMedicalRecordsReleasePermissionRestricted', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
                       treatmentCenterName: { // TODO: is this required?
                         'ui:title': 'Name of private provider or hospital'
                       },
-                      privateRecordsReleaseAccepted: {
+                      privateMedicalRecordsReleaseAccepted: {
                         'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
                       },
-                      'view:releasePermissionLimited': {
+                      'view:privateMedicalRecordsReleasePermissionRestricted': {
                         'ui:description': () => {
                           return (<div className="usa-alert usa-alert-warning no-background-image">
                             <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
                           </div>);
                         },
                         'ui:options': {
-                          expandUnder: 'privateRecordsReleaseAccepted' // TODO: prevent auto
+                          expandUnder: 'privateMedicalRecordsReleaseAccepted' // TODO: prevent auto
                         }
                       },
                       startTreatment: {
@@ -479,7 +454,7 @@ const formConfig = {
                         properties: {
                           treatment: {
                             type: 'object',
-                            properties: _.omit(['treatmentCenterType'], recordReleaseTreatment)
+                            properties: _.omit(['treatmentCenterType'], privateMedicalRecordsReleaseTreatmentSchema)
                           }
                         }
                       }
