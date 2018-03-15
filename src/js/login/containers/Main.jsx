@@ -9,10 +9,11 @@ import Modal from '../../common/components/Modal';
 import environment from '../../common/helpers/environment';
 import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogoutUrl, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
+import { updateLoggedInStatus, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
+import { logout } from '../utils/helpers';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
@@ -21,17 +22,14 @@ class Main extends React.Component {
     super(props);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getLoginUrls = this.getLoginUrls.bind(this);
-    this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
   }
 
   componentDidMount() {
     if (sessionStorage.userToken) {
-      this.getLogoutUrl();
       this.getVerifyUrl();
     }
     this.getLoginUrls();
@@ -77,27 +75,11 @@ class Main extends React.Component {
   setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
       this.props.getUserData();
-      this.getLogoutUrl();
     }
   }
 
   getLoginUrls() {
     this.loginUrlRequest = this.props.getLoginUrls();
-  }
-
-  getLogoutUrl() {
-    this.logoutUrlRequest = fetch(`${environment.API_URL}/v0/sessions`, {
-      method: 'DELETE',
-      headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      if (json.logout_via_get) {
-        this.props.updateLogoutUrl(json.logout_via_get);
-      }
-    });
   }
 
   bindNavbarLinks() {
@@ -116,16 +98,6 @@ class Main extends React.Component {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.removeEventListener('click');
     });
-  }
-
-  handleLogout() {
-    window.dataLayer.push({ event: 'logout-link-clicked' });
-    const myLogoutUrl = this.props.login.logoutUrl;
-    if (myLogoutUrl) {
-      window.dataLayer.push({ event: 'logout-link-opened' });
-      const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-    }
   }
 
   handleSignup() {
@@ -150,7 +122,7 @@ class Main extends React.Component {
       //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
       //     this.handleLogin();
       //   } else {
-      //     this.handleLogout();
+      //     logout();
       //   }
       // } else {
       //   if (this.props.getUserData()) {
@@ -204,7 +176,7 @@ class Main extends React.Component {
       case 'navComponent': {
         content = (
           <div>
-            <SearchHelpSignIn onUserLogout={this.handleLogout}/>
+            <SearchHelpSignIn onUserLogout={logout}/>
             <Modal
               cssClass="va-modal-large"
               visible={this.props.login.showModal}
@@ -257,9 +229,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateVerifyUrl: (update) => {
       dispatch(updateVerifyUrl(update));
-    },
-    updateLogoutUrl: (update) => {
-      dispatch(updateLogoutUrl(update));
     },
     updateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
