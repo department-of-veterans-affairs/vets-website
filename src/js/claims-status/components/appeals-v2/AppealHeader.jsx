@@ -19,7 +19,7 @@ const AppealHeader = ({ heading, lastUpdated }) => {
   const description = `Up to date as of ${formattedDateTime}`;
 
   return (
-    <div className="appeal-header">
+    <div className="appeal-header columns">
       <h1>{heading}</h1>
       <p>{description}</p>
     </div>
