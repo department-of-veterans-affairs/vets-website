@@ -33,6 +33,7 @@ export const STATUS_TYPES = {
   bvaDevelopment: 'bva_development',
   stayed: 'stayed',
   remand: 'remand',
+  merged: 'merged',
   // Closed Statuses:
   bvaDecision: 'bva_decision',
   fieldGrant: 'field_grant',
@@ -41,8 +42,7 @@ export const STATUS_TYPES = {
   ramp: 'ramp',
   reconsideration: 'reconsideration',
   death: 'death',
-  otherClose: 'other_close',
-  merged: 'merged'
+  otherClose: 'other_close'
 };
 
 export const ISSUE_STATUS = {
