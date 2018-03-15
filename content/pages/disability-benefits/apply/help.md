@@ -72,7 +72,7 @@ Accredited representatives and VSOs can help you understand and apply for VA ben
 These trained professionals can also: 
 - Help you gather supporting documents (like a doctor’s report or medical test results)
 - File a claim or appeal on your behalf
-- Provide added support, such as helping with transportation to medical appointments or emergency funds
+- Provide added support, like helping with transportation to medical appointments or emergency funds
 
 **Note:** Veterans Service Officers work for Veterans Service Organizations (both are called VSOs), as well as for local government offices. 
 
