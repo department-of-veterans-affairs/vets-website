@@ -151,12 +151,14 @@ display_title: Frequently Asked Questions
                         <p>Follow these 2 steps to sign up for a <strong>My Health<em>e</em>Vet</strong> account.</p>
                         <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. Be sure to choose <strong>VA Patient</strong> on the registration form. This will automatically upgrade your account to an advanced account, and then you can upgrade to a premium account.</p>
                         <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
+                        <p><strong>Note:</strong> If you have a premium <strong>DS Logon</strong> or ID.me account, you can skip this step of creating a <strong>My Health<em>e</em>Vet account, and go right to step 2 below to sign in to <strong>My Health<em>e</em>Vet</strong> with either of these accounts.
                         <p><strong>2. Then, upgrade to a premium account.</strong></p>
                         <p>You can do this in 1 of 2 ways.</p>
-                        <h5>Upgrade your acount using your premium DS Logon user ID and password</h5>
-                        <p>To do this, sign in to your advanced <strong>My Health<em>e</em>Vet</strong> account using your premium <strong>DS Logon</strong> user ID and password.</p>
-                        <p>Once signed in, select the <strong>Upgrade Now</strong> button at the top left side of the screen. Then select <strong>Continue</strong> on the account upgrade page.</p>
+                        <h5>Upgrade your acount using your premium DS Logon or ID.me user ID and password</h5>
+                        <p>To do this, sign in to <strong>My Health<em>e</em>Vet</strong> using your premium <strong>DS Logon</strong> or ID.me user ID and password.</p>
+                        <p>Once signed in, select the <strong>Upgrade Now</strong> button at the top left side of the screen. Then, on the account upgrade page, check the box certifying that you're the owner of the account and authorize the request, and click <strong>Continue</strong>.</p>
                         <p>The system will upgrade you to a premium account.</p>
+                        <p><a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login">Sign in to to My Health<em>e</em>Vet</a>.  
                         <h5>Upgrade your account in person at a VA health facility</h5>
                         <p><strong>You’ll need to have:</strong></p>
                         <ul>
