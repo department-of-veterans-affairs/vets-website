@@ -45,8 +45,8 @@ You may be able to get benefits if you have an illness that’s at least 10% dis
   -	The illness is listed in Title 38, Code of Federal Regulation, 3.09(a), **and**
   -	You were discharged under conditions other than dishonorable <br>
 
-[See the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc). <br>
-Title 38, Code of Federal Regulation, 3.09(a)
+[See Title 38, Code of Federal Regulation, 3.09(a) for the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc). <br>
+
 
 ### Who’s covered?
 Veterans
