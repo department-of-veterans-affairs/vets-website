@@ -161,7 +161,7 @@ body {
   // No max height for small screens = no animation, which is fine
   // Also means the Apply Now button doesn't get cut off
   @include media($small-screen) {
-    max-height: 25em;
+    max-height: 35em;
   }
   overflow: hidden;
   transition: max-height 150ms ease-in-out;
@@ -254,16 +254,28 @@ form {
 // .usa-alert shame moved to _m_alert.scss
 
 #top-of-page-alert-container {
-
   width: 100%;
   background-color: $color-gibill-accent;
+  position: relative;
 
+  &:before {
+    background-color: #fdb81e;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1rem;
+  }
 }
 
 #top-of-page-alert {
-
   max-width: 62.5em;
   margin: 0 auto;
+
+  &.usa-alert::before {
+    content: none;
+  }
 
   .usa-alert-body {
     margin: 0 auto;

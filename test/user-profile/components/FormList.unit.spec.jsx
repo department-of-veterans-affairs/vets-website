@@ -28,8 +28,8 @@ describe('<FormList>', () => {
     expect(SavedFormElement.text()).to.have.string('Application for health care (10-10EZ)');
   });
   it('should not show a saved applications list if the user does not have any valid saved applications', () => {
-    props.savedForms = [];
-    const tree = SkinDeep.shallowRender(<FormList {...props}/>);
+    const newProps = { savedForms: [] };
+    const tree = SkinDeep.shallowRender(<FormList {...newProps}/>);
     expect(tree.everySubTree('.card information').length).to.equal(0);
   });
 });

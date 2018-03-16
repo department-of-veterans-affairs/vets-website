@@ -10,6 +10,7 @@ const beforeNow = moment().subtract(1, 'minute').toDate();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toDate();
 const moreThanHour = moment().add(1, 'hour').add(1, 'hour').toDate();
 const endTime = moment().add(6, 'hour').toDate();
+let old;
 
 const innerText = 'This is the inner text';
 function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
@@ -22,13 +23,12 @@ function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
 
 describe('<DowntimeNotification/>', () => {
 
-  const old = { sessionStorage: window.sessionStorage };
-
-  before(() => {
+  beforeEach(() => {
+    old = { sessionStorage: window.sessionStorage };
     window.sessionStorage = {};
   });
 
-  after(() => {
+  afterEach(() => {
     window.sessionStorage = old.sessionStorage;
   });
 

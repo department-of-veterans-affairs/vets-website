@@ -22,19 +22,16 @@ describe('sendFeedback', () => {
   };
   const fetch = sinon.spy(() => Promise.resolve(fetchResponse));
 
-  before(() => {
+  beforeEach(() => {
     global.sessionStorage = {};
     global.fetch = fetch;
     global.window.dataLayer = [];
   });
 
-  after(() => {
+  afterEach(() => {
     global.fetch = old.fetch;
     global.sessionStorage = old.sessionStorage;
     global.window.dataLayer = old.dataLayer;
-  });
-
-  afterEach(() => {
     fetch.reset();
     dispatch.reset();
   });
@@ -64,13 +61,16 @@ describe('sendFeedback', () => {
   });
 
   it('dispatches FEEDBACK_ERROR when response.ok is false', (done) => {
-    fetchResponse.ok = false;
+    const failedResponse = Object.assign({}, fetchResponse);
+    failedResponse.ok = false;
+    const failedFetch = sinon.spy(() => Promise.resolve(failedResponse));
+    global.fetch = failedFetch;
     const actionCreator = sendFeedback({ description: 'My feedback' });
     const result = actionCreator(dispatch);
 
     result.then(() => {
 
-      expect(fetch.calledOnce).to.be.true;
+      expect(failedFetch.calledOnce).to.be.true;
       expect(dispatch.calledTwice).to.be.true;
 
       const firstAction = dispatch.args[0][0];

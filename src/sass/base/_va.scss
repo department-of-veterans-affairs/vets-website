@@ -1408,6 +1408,9 @@ p.info-message {
   &:last-child {
     border: none;
   }
+  h4 {
+    clear: none;
+  }
 }
 
 .vertical-list-group .list-group-item:last-child {
@@ -1455,7 +1458,7 @@ p.info-message {
 }
 
 // Error standardization
-.usa-alert {
+.usa-alert, .plaintext-message {
   .alert-actions {
     margin-top: 0.5em;
   }
