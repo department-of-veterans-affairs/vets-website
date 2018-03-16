@@ -69,6 +69,7 @@
 
   textarea[name=description]{
     max-width: 100%;
+    height: 29.25rem;
   }
 
   @include media($medium-screen) {
