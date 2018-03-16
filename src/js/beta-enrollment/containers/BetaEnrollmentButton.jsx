@@ -12,7 +12,7 @@ class BetaEnrollmentButton extends React.Component {
   };
 
   constructor(props) {
-    // Using status instead of props for error handling, because there isn't a place to store errors
+    // Using state instead of props for error handling, because there isn't a place to store errors
     // in the Redux user/profile store, and I chose not to clutter that up with something that is unlikely to be used.
     super(props);
     this.state = { isLoading: false, hasError: false };
