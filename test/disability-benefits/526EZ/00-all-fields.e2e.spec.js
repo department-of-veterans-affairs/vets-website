@@ -59,10 +59,23 @@ const runTest = E2eHelpers.createE2eTest(
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-facilities');
 
-      // Evidence type
+      // Private Medical Records Intro
+      client.axeCheck('.main')
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFromExact(client, '/supporting-evidence/0/private-medical-records');
+
+      // Records Release
+      client.axeCheck('.main');
+      // BUG: form is prefilled on this page
+      // PageHelpers.completeRecordReleaseInformation(client, testData.data);
+      client.click('.usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/private-medical-records-release');
+
+      // Second Disability Evidence Type
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/1/evidence-type');
+
 
       // chapter 5 page 1
       client.axeCheck('.main');

@@ -1,4 +1,5 @@
 const mock = require('./mock-helpers');
+const Timeouts = require('./timeouts.js');
 
 function completeApplicantInformation(client, data) {
   client
@@ -17,14 +18,39 @@ function completeEvidenceTypeInformation(client, data) {
 }
 
 function completeVAFacilitiesInformation(client, data) {
-  client
-    .selectDropdown('root_treatments_0_treatment_startTreatmentMonth', data.treatments[0].startTreatmentMonth)
-    .selectDropdown('root_treatments_0_treatment_startTreatmentDay', data.treatments[0].startTreatmentDay)
-    .fill('input[name="root_treatments_0_treatment_startTreatmentYear"]', data.treatments[0].startTreatmentYear)
-    .selectDropdown('root_treatments_0_treatment_endTreatmentMonth', data.treatments[0].endTreatmentMonth)
-    .selectDropdown('root_treatments_0_treatment_endTreatmentDay', data.treatments[0].endTreatmentDay)
-    .fill('input[name="root_treatments_0_treatment_endTreatmentYear"]', data.treatments[0].endTreatmentYear)
-    .fill('input[name="root_treatments_0_treatment_treatmentCenterName"]', data.treatments[0].treatmentCenterName);
+  for (let i = 0; i < 2; i++) {
+    client
+      .waitForElementVisible(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, Timeouts.normal)
+      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentMonth`, data.treatments[0].startTreatmentMonth)
+      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentDay`, data.treatments[0].startTreatmentDay)
+      .fill(`input[name="root_treatments_${i}_treatment_startTreatmentYear"]`, data.treatments[0].startTreatmentYear)
+      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentMonth`, data.treatments[0].endTreatmentMonth)
+      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentDay`, data.treatments[0].endTreatmentDay)
+      .fill(`input[name="root_treatments_${i}_treatment_endTreatmentYear"]`, data.treatments[0].endTreatmentYear)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, data.treatments[0].treatmentCenterName);
+    if (i < 1) client.click('.va-growable-add-btn');
+  }
+}
+
+function completeRecordReleaseInformation(client, data) {
+  for (let i = 0; i < 2; i++) {
+    client
+      .waitForElementVisible(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, Timeouts.normal)
+      .fill(`input[name="root_treatments_${i}_treatment_startTreatmentYear"]`,
+        data.treatments[0].startTreatmentYear)
+      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentMonth`, data.treatments[0].startTreatmentMonth)
+      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentDay`, data.treatments[0].startTreatmentDay)
+      .fill(`input[name="root_treatments_${i}_treatment_endTreatmentYear"]`, data.treatments[0].endTreatmentYear)
+      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentMonth`, data.treatments[0].endTreatmentMonth)
+      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentDay`, data.treatments[0].endTreatmentDay)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, data.treatments[0].treatmentCenterName)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterCountry"]`, data.treatments[0].treatmentCenterCountry)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterCity"]`, data.treatments[0].treatmentCenterCity)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterState"]`, data.treatments[0].treatmentCenterState)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterStreet1"]`, data.treatments[0].treatmentCenterStreet)
+      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterPostalCode"]`, data.treatments[0].treatmentCenterPostalCode);
+    if (i < 1) client.click('.va-growable-add-btn');
+  }
 }
 
 function initApplicationSubmitMock() {
@@ -60,5 +86,6 @@ module.exports = {
   initDocumentUploadMock,
   completeApplicantInformation,
   completeEvidenceTypeInformation,
-  completeVAFacilitiesInformation
+  completeVAFacilitiesInformation,
+  completeRecordReleaseInformation
 };

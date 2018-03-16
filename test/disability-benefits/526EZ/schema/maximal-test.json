@@ -6,6 +6,11 @@
     "treatments": [
       {
         "treatmentCenterName": "Local facility",
+        "treatmentCenterCountry": "USA",
+        "treatmentCenterStreet": "23 Oak Lane",
+        "treatmentCenterCity": "Springfield",
+        "treatmentCenterState": "MO",
+        "treatmentCenterPostalCode": "98787",
         "startTreatmentMonth": 2,
         "endTreatmentMonth": 2,
         "startTreatmentDay": 2,
