@@ -5,7 +5,7 @@ function DefaultView({ revealForm }) {
   return (
     <div  id="feedback-initial" className="usa-grid-full">
       <div className="usa-width-three-fourths">
-        <p className="feedback-widget-title">Have ideas for how we can make Vets.gov better? <a id="feedback-tool" onClick={revealForm}>Send us your suggestions</a>.</p>
+        <p className="feedback-widget-title">Have suggestions to make Vets.gov better? <a id="feedback-tool" onClick={revealForm}>Send us your ideas</a>.</p>
       </div>
     </div>
   );

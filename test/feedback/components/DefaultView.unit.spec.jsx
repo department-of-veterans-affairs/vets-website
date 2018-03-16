@@ -14,7 +14,7 @@ describe('<DefaultView/>', () => {
     const wrapper = enzyme.shallow(<DefaultView {...props}/>);
     const text = wrapper.text();
     // console.log(text);
-    expect(text.includes('Send us your suggestions')).to.be.true;
+    expect(text.includes('Have suggestions')).to.be.true;
   });
 
 });

@@ -41,7 +41,6 @@ class FeedbackForm extends React.Component {
   }
 
   render() {
-  //  const { shouldSendResponse } = this.props.formValues;
     return (
       <form id="feedback-form" className="feedback-form" onSubmit={this.onSubmit}>
         <div className="va-flex">
@@ -58,6 +57,8 @@ class FeedbackForm extends React.Component {
                 field={{ value: this.props.formValues.description, dirty: false }}
                 ref={component => { this.descriptionComp = component; }}
                 required/>
+              <p><b>Please know:</b> We don't always see suggestions as soon as they're sent. If you have a problem or need to talk with someone right away, connect with our Veterans Crisis Line by phone, text, or online chat any time, day or night.</p>
+              <p><a href="#">Get help from the Veterans Crisis Line</a>.</p>
             </div>
             <div className="usa-grid-full">
               <div className="usa-width-two-thirds">
@@ -74,13 +75,10 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
               <h3>Need help?</h3>
-              <p className="feedback-widget-title">Need help or to talk with someone right away? <a href="#">Get support from the Veterans Crisis Line</a>.</p>
-              <p><b>Note:</b> We don't monitor the Vets.gov suggestion box at all hours. But our Veterans Crisis Line responders can support you, day and night.</p>
               Calls the Vets.gov Help Desk<br/>
               <a href="tel:18555747286">1-855-574-7286</a><br/>
               TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
               Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)
-
             </div>
           </div>
         </div>
