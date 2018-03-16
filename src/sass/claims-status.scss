@@ -722,6 +722,10 @@ h1:focus {
     margin-top: 1em;
   }
 
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
+  }
+
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -758,10 +762,8 @@ h1:focus {
       position: relative;
       top: -.2em;
       width: 2em;
-
     }
   }
-
 }
 
 .va-appeals-content {

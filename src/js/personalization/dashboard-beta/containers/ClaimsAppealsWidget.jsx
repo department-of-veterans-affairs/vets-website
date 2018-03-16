@@ -7,10 +7,10 @@ import React from 'react';
 
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import {
+  getAppeals,
   getAppealsV2,
   getClaimsV2,
 } from '../../../claims-status/actions/index.jsx';
-import { APPEAL_V2_TYPE } from '../../../claims-status/utils/appeals-v2-helpers';
 import { scrollToTop, setUpPage } from '../../../claims-status/utils/page';
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItem';
@@ -22,7 +22,8 @@ class ClaimsAppealsWidget extends React.Component {
     }
 
     if (this.props.canAccessAppeals) {
-      this.props.getAppealsV2();
+      // this.props.getAppealsV2();
+      this.props.getAppeals();
     }
 
     if (this.props.claimsLoading && this.props.appealsLoading) {
@@ -33,12 +34,20 @@ class ClaimsAppealsWidget extends React.Component {
   }
 
   renderListItem(claim) {
-    if (claim.type === APPEAL_V2_TYPE) {
+    if (claim.type === 'appeals_status_models_appeals') {
       return <AppealListItem key={claim.id} appeal={claim} name={this.props.fullName}/>;
     }
 
     return <ClaimsListItem claim={claim} key={claim.id}/>;
   }
+
+  // renderListItem(claim) {
+  //   if (claim.type === APPEAL_V2_TYPE) {
+  //     return <AppealListItem key={claim.id} appeal={claim} name={this.props.fullName}/>;
+  //   }
+  //
+  //   return <ClaimsListItem claim={claim} key={claim.id}/>;
+  // }
 
   render() {
     const {
@@ -89,35 +98,64 @@ class ClaimsAppealsWidget extends React.Component {
 const mapStateToProps = (state) => {
   const claimsState = state.disability.status;
   const claimsRoot = claimsState.claims;
-  const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
+  // const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes('appeals-status');
   const canAccessClaims = profileState.services.includes('evss-claims');
 
-  const claimsAppealsCount = claimsV2Root.appeals
-    .concat(claimsV2Root.claims).length;
+  const claimsAppealsCount = claimsRoot.appeals
+    .concat(claimsRoot.claims).length;
 
-  const claimsAppealsList = claimsV2Root.appeals
-    .concat(claimsV2Root.claims).filter(c => {
+  const claimsAppealsList = claimsRoot.appeals
+    .concat(claimsRoot.claims).filter(c => {
       return moment(c.attributes.updated).isAfter(moment().endOf('day').subtract(30, 'days'));
     });
 
+  // v2
+  // const claimsAppealsCount = claimsV2Root.appeals
+  //   .concat(claimsV2Root.claims).length;
+  //
+  // const claimsAppealsList = claimsV2Root.appeals
+  //   .concat(claimsV2Root.claims).filter(c => {
+  //     return moment(c.attributes.updated).isAfter(moment().endOf('day').subtract(30, 'days'));
+  //   });
+
   return {
-    appealsAvailable: claimsV2Root.appealsAvailability,
-    claimsAvailable: claimsV2Root.claimsAvailability,
-    claimsLoading: claimsV2Root.claimsLoading,
-    appealsLoading: claimsV2Root.appealsLoading,
-    claimsAppealsCount,
-    claimsAppealsList,
+    appealsAvailable: claimsState.appeals.available,
+    claimsAuthorized: claimsState.claimSync.authorized,
+    claimsAvailable: claimsState.claimSync.available,
+    claimsLoading: claimsRoot.claimsLoading,
+    appealsLoading: claimsRoot.appealsLoading,
+    list: claimsRoot.visibleRows,
+    unfilteredClaims: claimsRoot.claims,
+    unfilteredAppeals: claimsRoot.appeals,
+    page: claimsRoot.page,
+    pages: claimsRoot.pages,
+    sortProperty: claimsRoot.sortProperty,
     consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
+    claimsAppealsCount,
+    claimsAppealsList,
+    // v2 claimsappeals
+    // appealsAvailable: claimsV2Root.appealsAvailability,
+    // claimsAvailable: claimsV2Root.claimsAvailability,
+    // claimsLoading: claimsV2Root.claimsLoading,
+    // appealsLoading: claimsV2Root.appealsLoading,
+    // claimsAppealsCount,
+    // claimsAppealsList,
+    // consolidatedModal: claimsRoot.consolidatedModal,
+    // show30DayNotice: claimsRoot.show30DayNotice,
+    // synced: claimsState.claimSync.synced,
+    // canAccessAppeals,
+    // canAccessClaims,
   };
 };
 
 const mapDispatchToProps = {
+  getAppeals,
   getAppealsV2,
   getClaimsV2,
 };
