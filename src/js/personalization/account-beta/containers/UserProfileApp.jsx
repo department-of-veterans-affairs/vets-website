@@ -8,6 +8,7 @@ import { removeSavedForm } from '../actions';
 import UserDataSection from '../components/UserDataSection';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
+import BetaApp, { features } from '../../../common/containers/BetaApp';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
@@ -48,14 +49,16 @@ class UserProfileApp extends React.Component {
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
-          <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
-            <div className="row user-profile-row">
-              <div className="usa-width-two-thirds medium-8 small-12 columns">
-                <h1>Your Account</h1>
-                <UserDataSection/>
+          <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
+            <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
+              <div className="row user-profile-row">
+                <div className="usa-width-two-thirds medium-8 small-12 columns">
+                  <h1>Your Account</h1>
+                  <UserDataSection/>
+                </div>
               </div>
-            </div>
-          </DowntimeNotification>
+            </DowntimeNotification>
+          </BetaApp>
         </RequiredLoginView>
       </div>
     );
