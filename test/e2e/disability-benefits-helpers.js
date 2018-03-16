@@ -11,9 +11,9 @@ function completeApplicantInformation(client, data) {
 
 function completeEvidenceTypeInformation(client, data) {
   client
-    .fillCheckbox('input[name="root_view:vaMedicalRecords"]', data['view:vaMedicalRecords'])
-    .fillCheckbox('input[name="root_view:privateMedicalRecords"]', data['view:privateMedicalRecords'])
-    .fillCheckbox('input[name="root_view:otherEvidence"]', data['view:otherEvidence']);
+    .fillCheckbox('input[name="root_view:vaMedicalRecords"]', data.disabilities[0]['view:vaMedicalRecords'])
+    .fillCheckbox('input[name="root_view:privateMedicalRecords"]', data.disabilities[0]['view:privateMedicalRecords'])
+    .fillCheckbox('input[name="root_view:otherEvidence"]', data.disabilities[0]['view:otherEvidence']);
 }
 
 function completeVAFacilitiesInformation(client, data) {
@@ -25,6 +25,11 @@ function completeVAFacilitiesInformation(client, data) {
     .selectDropdown('root_treatments_0_treatment_endTreatmentDay', data.treatments[0].endTreatmentDay)
     .fill('input[name="root_treatments_0_treatment_endTreatmentYear"]', data.treatments[0].endTreatmentYear)
     .fill('input[name="root_treatments_0_treatment_treatmentCenterName"]', data.treatments[0].treatmentCenterName);
+}
+
+function completePrivateMedicalRecordsChoice(client, data) {
+  client
+    .selectRadio('root_view:uploadPrivateRecords', data.disabilities[0]['view:uploadPrivateRecords']);
 }
 
 function initApplicationSubmitMock() {
@@ -60,5 +65,6 @@ module.exports = {
   initDocumentUploadMock,
   completeApplicantInformation,
   completeEvidenceTypeInformation,
-  completeVAFacilitiesInformation
+  completeVAFacilitiesInformation,
+  completePrivateMedicalRecordsChoice
 };

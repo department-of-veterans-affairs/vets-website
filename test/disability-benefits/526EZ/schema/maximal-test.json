@@ -1,8 +1,5 @@
 {
   "data": {
-    "view:vaMedicalRecords": true,
-    "view:privateMedicalRecords": true,
-    "view:otherEvidence": true,
     "treatments": [
       {
         "treatmentCenterName": "Local facility",
@@ -12,6 +9,14 @@
         "endTreatmentDay": 2,
         "startTreatmentYear": 2007,
         "endTreatmentYear": 2008
+      }
+    ],
+    "disabilities": [
+      {
+        "view:uploadPrivateRecords": "yes",
+        "view:vaMedicalRecords": true,
+        "view:privateMedicalRecords": true,
+        "view:otherEvidence": true
       }
     ]
   }

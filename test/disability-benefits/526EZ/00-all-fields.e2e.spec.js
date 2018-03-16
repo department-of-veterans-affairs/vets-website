@@ -42,7 +42,7 @@ const runTest = E2eHelpers.createE2eTest(
         .click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
 
-      // Evidence Type
+      // Evidence Type -- first condition
       client.axeCheck('.main');
       PageHelpers.completeEvidenceTypeInformation(client, testData.data);
       client.click('.form-panel .usa-button-primary');
@@ -59,7 +59,21 @@ const runTest = E2eHelpers.createE2eTest(
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-facilities');
 
-      // Evidence type
+      // Private records intro
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, 'supporting-evidence/0/private-medical-records-intro');
+
+      // Private records upload choice
+      // client.axeCheck('.main');
+      // PageHelpers.completePrivateMedicalRecordsChoice(client, testData.data);
+      // client.click('.form-panel .usa-button-primary');
+      // E2eHelpers.expectNavigateAwayFrom(client, 'supporting-evidence/0/private-medical-records-choice');
+
+      // Private records upload
+      // TODO: Fill this in
+
+      // Evidence type -- second condition
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/1/evidence-type');

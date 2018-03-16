@@ -172,6 +172,7 @@ const formConfig = {
           path: 'documents/photo',
           title: 'Photo upload',
           reviewTitle: 'Photo review',
+          pageClass: 'photo-field-page',
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
