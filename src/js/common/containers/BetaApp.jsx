@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
-import { isUserRegisteredForBeta } from '../actions';
+import { isUserRegisteredForBeta } from '../../beta-enrollment/actions';
 import { features } from '../../beta-enrollment/routes';
 
 class BetaApp extends React.Component {
