@@ -5,7 +5,7 @@ import { focusElement } from '../../common/utils/helpers';
 import AlertBox from '../../common/components/AlertBox';
 import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 
 class FeedbackForm extends React.Component {
 
@@ -13,7 +13,8 @@ class FeedbackForm extends React.Component {
     super(props);
     this.state = {
       suppressDescriptionErrors: true,
-      suppressEmailErrors: true
+      suppressEmailErrors: true,
+      suppressResponseErrors: true,
     };
   }
 
@@ -31,9 +32,13 @@ class FeedbackForm extends React.Component {
     }
   }
 
-  setDescription = ({ value: description, dirty }) => {
-    if (dirty) this.setState({ suppressDescriptionErrors: false });
-    this.props.setFormValues({ description });
+  onSubmit = (event) => {
+    event.preventDefault();
+    if (this.props.formValues.shouldSendResponse) return this.props.sendFeedback(this.props.formValues);
+    // Set the redux error message
+    this.props.setFormValues({ shouldSendResponse: null });
+    this.setState({ suppressResponseErrors: false });
+    return null;
   }
 
   setEmail = ({ value: email, dirty }) => {
@@ -41,9 +46,14 @@ class FeedbackForm extends React.Component {
     this.props.setFormValues({ email });
   }
 
-  sendFeedback = (event) => {
-    event.preventDefault();
-    if (this.props.formIsSubmittable) this.props.sendFeedback(this.props.formValues);
+  setResponse = ({ value: shouldSendResponse }) => {
+    this.setState({ suppressResponseErrors: true });
+    this.props.setFormValues({ shouldSendResponse });
+  }
+
+  setDescription = ({ value: description, dirty }) => {
+    if (dirty) this.setState({ suppressDescriptionErrors: false });
+    this.props.setFormValues({ description });
   }
 
   descriptionErrorMessage = () => {
@@ -54,15 +64,19 @@ class FeedbackForm extends React.Component {
     return !this.state.suppressEmailErrors ? this.props.formErrors.email : '';
   }
 
+  responseErrorMessage = () => {
+    return !this.state.suppressResponseErrors ? this.props.formErrors.shouldSendResponse : '';
+  }
+
   render() {
+    const { shouldSendResponse } = this.props.formValues;
     return (
-      <form id="feedback-form" className="feedback-form" onSubmit={this.sendFeedback}>
-        <h4 className="feedback-widget-title">Tell us what you think</h4>
+      <form id="feedback-form" className="feedback-form" onSubmit={this.onSubmit}>
         <div className="va-flex">
           <div className="feedback-widget-form-container">
             <div className="feedback-widget-desc-container">
               <ErrorableTextarea
-                label="What can we do to make Vets.gov better?"
+                label="Tell us about your ideas to make Vets.gov better."
                 name="description"
                 onValueChange={this.setDescription}
                 errorMessage={this.descriptionErrorMessage()}
@@ -70,14 +84,23 @@ class FeedbackForm extends React.Component {
                 ref={component => { this.descriptionComp = component; }}
                 required/>
             </div>
-            <ErrorableCheckbox
-              name="should-send-response"
-              label="I would like to receive a response about my feedback."
-              checked={this.props.formValues.shouldSendResponse}
-              onValueChange={(shouldSendResponse) => this.props.setFormValues({ shouldSendResponse })}/>
+
+            <ErrorableRadioButtons
+              name="shouldSendResponse"
+              id="shouldSendResponse"
+              label="Would you like us to follow up with you about your ideas?"
+              options={[
+                { label: 'Yes', value: 'yes' },
+                { label: 'No', value: 'no' }
+              ]}
+              onValueChange={this.setResponse}
+              errorMessage={this.responseErrorMessage()}
+              value={{ value: shouldSendResponse, dirty: false }}
+              required/>
+
             <div className="usa-grid-full">
               <div className="usa-width-two-thirds">
-                {this.props.formValues.shouldSendResponse && (
+                {this.props.formValues.shouldSendResponse === 'yes' && (
                   <div className="feedback-email-container">
                     <ErrorableTextInput
                       label="Your email address"
@@ -93,9 +116,8 @@ class FeedbackForm extends React.Component {
                 <div className="feedback-submit-container">
                   <button
                     type="submit"
-                    disabled={this.props.requestPending || !this.props.formIsSubmittable}
-                    className="usa-button-primary usa-width-one-whole feedback-submit-button">
-                    {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send feedback'}
+                    className="usa-button-secondary-inverse usa-width-one-fourth feedback-submit-button">
+                    {this.props.requestPending ? <i className="fa fa-spin fa-spinner"/> : 'Send Us Your Ideas'}
                   </button>
                 </div>
               </div>
@@ -115,7 +137,7 @@ class FeedbackForm extends React.Component {
           <div className="feedback-error">
             <AlertBox status="error"
               onCloseAlert={this.props.clearError}
-              headline={<h4>{this.props.errorMessage.title}</h4>}
+              headline={this.props.errorMessage.title}
               content={this.props.errorMessage.description}
               isVisible/>
           </div>

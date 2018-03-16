@@ -21,11 +21,23 @@
 
 .feedback-widget {
   padding: 1.5em 0;
-  background-color: $color-gray-lightest;
-  color: $color-gray-dark;
+  background-color: $color-primary-darkest;
+  color: $color-white;
+
+  a {
+    color: $color-white;
+    font-weight: bold;
+  }
+
+  .form-required-span {
+    color: $color-white;
+    margin-left:0;
+  }
 
   > .row {
-    padding: 0 0.9375rem;
+    padding: 0 0.9375rem 1.543rem 0.9375rem;
+    border-bottom: 1px solid $color-white;
+
     .va-flex {
       padding-left: 0;
     }
@@ -33,6 +45,7 @@
 
   .feedback-error > .usa-alert {
     margin: 1.5em 0;
+    color: $color-base;
   }
 
   .feedback-widget-title {
@@ -64,6 +77,7 @@
     padding-right: 1em;
     .feedback-widget-desc-container label {
       margin-top: 0;
+      font-weight:normal;
     }
   }
 }
@@ -75,6 +89,10 @@
     background-color: $color-aqua-lightest;
     padding: 1em;
     margin: 1em 0;
+    color: $color-base;
+    a {
+      color: $color-link-default;
+    }
     > h3 {
       margin-top: 0;
     }
