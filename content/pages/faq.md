@@ -331,10 +331,10 @@ display_title: Frequently Asked Questions
 
   switch(window.location.hash) {
     case '#why-verify':
-      openAccordion('faq-security-2');
+      openAccordion('faq-security-1');
       break;
     case '#what-is-idme':
-      openAccordion('faq-security-3');
+      openAccordion('faq-security-2');
       break;
   }
 })();
