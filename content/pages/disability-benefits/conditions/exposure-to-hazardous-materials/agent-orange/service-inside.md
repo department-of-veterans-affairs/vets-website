@@ -17,8 +17,9 @@ Did you serve in Vietnam (including aboard a ship on the inland waterways) or in
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you served in **one or both of the following places**:
+You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you served in one or both of the places listed below.
 
+**You must have served in one or both of these places:**
 - Vietnam (including aboard a ship on the inland waterways) for any length of time between January 9, 1962, and May 7, 1975, **or**
 - The Korean Demilitarized Zone for any length of time between April 1, 1968, and August 31, 1971
 
