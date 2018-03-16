@@ -510,7 +510,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     default:
       contents.title = 'We don’t know your appeal status';
-      contents.description = <p>We're sorry, Vets.gov will soon be updated to show your status.</p>;
+      contents.description = <p>We’re sorry, Vets.gov will soon be updated to show your status.</p>;
   }
 
   return contents;
