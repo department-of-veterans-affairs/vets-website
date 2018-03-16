@@ -157,7 +157,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['serviceHistory'],
             properties: {
               serviceHistory,
               serviceFlags
