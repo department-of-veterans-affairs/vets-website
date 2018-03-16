@@ -43,6 +43,7 @@ const {
   dateRange,
   fullName,
   phone,
+  requiredServiceHistory,
   ssn,
   vaFileNumber,
   year
@@ -78,6 +79,7 @@ const formConfig = {
     dateRange,
     phone,
     fullName,
+    requiredServiceHistory,
     ssn,
     vaFileNumber,
     year
@@ -155,27 +157,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['serviceHistory'],
             properties: {
-              serviceHistory, /*{
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['serviceBranch', 'dischargeType'],
-                  properties: {
-                    serviceBranch: serviceHistory.items.properties.serviceBranch,
-                    dateRange: {
-                      type: 'object',
-                      required: ['from', 'to'],
-                      properties: {
-                        from: dateRange.properties.from,
-                        to: dateRange.properties.to
-                      }
-                    },
-                    dischargeType: serviceHistory.items.properties.dischargeType
-                  }
-                }
-              },*/
+              serviceHistory,
               serviceFlags
             }
           }
