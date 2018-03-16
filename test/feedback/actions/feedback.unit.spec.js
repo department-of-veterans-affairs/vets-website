@@ -40,7 +40,7 @@ describe('sendFeedback', () => {
   });
 
   it('dispatches SEND_FEEDBACK and FEEDBACK_RECEIVED when there is a successful request', (done) => {
-    const actionCreator = sendFeedback({ description: 'My feedback', shouldSendResponse: true, email: 'test@test.com' });
+    const actionCreator = sendFeedback({ description: 'My feedback' });
     const result = actionCreator(dispatch);
 
     result.then(() => {
@@ -57,29 +57,7 @@ describe('sendFeedback', () => {
       const [url, settings] = fetch.args[0];
       const payload = JSON.parse(settings.body);
 
-      expect(payload).to.contain.all.keys('ownerEmail', 'description', 'targetPage');
-      expect(url.endsWith('/feedback')).to.be.true;
-
-    }).then(done, done);
-  });
-
-  it('does not include the email address field if the user does not indicate that they want a response', (done) => {
-    const actionCreator = sendFeedback({ description: 'My feedback', shouldSendResponse: false, email: 'test@test.com' });
-    const result = actionCreator(dispatch);
-
-    result.then(() => {
-
-      expect(fetch.calledOnce).to.be.true;
-      expect(dispatch.calledTwice).to.be.true;
-
-      const firstAction = dispatch.args[0][0];
-
-      expect(firstAction.type).to.equal(SEND_FEEDBACK);
-
-      const [url, settings] = fetch.args[0];
-      const payload = JSON.parse(settings.body);
-
-      expect(payload).to.not.contain.keys('ownerEmail');
+      expect(payload).to.contain.all.keys('description', 'targetPage');
       expect(url.endsWith('/feedback')).to.be.true;
 
     }).then(done, done);
@@ -87,7 +65,7 @@ describe('sendFeedback', () => {
 
   it('dispatches FEEDBACK_ERROR when response.ok is false', (done) => {
     fetchResponse.ok = false;
-    const actionCreator = sendFeedback({ description: 'My feedback', shouldSendResponse: true, email: 'test@test.com' });
+    const actionCreator = sendFeedback({ description: 'My feedback' });
     const result = actionCreator(dispatch);
 
     result.then(() => {

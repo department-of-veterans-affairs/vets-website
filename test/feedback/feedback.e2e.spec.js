@@ -7,8 +7,6 @@ const selectors = {
   revealFormButton: '#feedback-tool',
   form: '.feedback-form',
   formDescription: '.feedback-form textarea',
-  formShouldSendResponse: '#shouldSendResponse-0',
-  formEmail: '.feedback-form input[name=email]',
   formSubmit: '.feedback-form button[type=submit]',
   formSubmitted: '#feedback-submitted'
 };
@@ -29,13 +27,6 @@ const runTest = (client) => {
 
   // Set actual feedback value
   client.setValue(selectors.formDescription, 'This is my feedback');
-
-  // Set the email value
-  client.click(selectors.formShouldSendResponse);
-
-  // client.pause();
-  client.waitForElementPresent(selectors.formEmail, Timeouts.normal);
-  client.setValue(selectors.formEmail, 'test@adhocteam.us');
 
   // Click the submit button
   client.click(selectors.formSubmit);
