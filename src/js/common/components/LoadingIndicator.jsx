@@ -3,10 +3,9 @@ import React from 'react';
 
 export default class LoadingIndicator extends React.Component {
   componentDidMount() {
-    if (this.props.setFocus) {
-      this.spinnerDiv.focus();
-    }
+    if (this.props.setFocus && this.spinnerDiv) { this.spinnerDiv.focus(); }
   }
+
   render() {
     const message = this.props.message;
 
@@ -17,7 +16,7 @@ export default class LoadingIndicator extends React.Component {
           className="loading-indicator"
           role="progressbar"
           aria-valuetext={message}
-          tabIndex="0"></div>
+          tabIndex="0"/>
         {message}
       </div>
     );

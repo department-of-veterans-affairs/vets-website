@@ -21,14 +21,15 @@ class Signin extends React.Component {
   checkLoggedInStatus(loggedIn) {
     if (this.props.currentlyLoggedIn || loggedIn) {
       const nextParams = new URLSearchParams(window.location.search);
-      const nextPath = nextParams.get('next');
+      const nextPath = nextParams.get('next') || '';
 
       if (this.props.onLoggedIn) {
         this.props.onLoggedIn();
       }
 
       if (nextPath && window.location.pathname.indexOf('verify') === -1) {
-        window.location.replace(nextPath || '/');
+        const path = nextPath.startsWith('/') ? nextPath : `/${nextPath}`;
+        window.location.replace(path);
       }
     }
   }
@@ -45,8 +46,6 @@ class Signin extends React.Component {
   }
 
   render() {
-    const enableMHVLogin = new URLSearchParams(window.location.search).get('mhvbeta');
-
     return (
       <main className="login">
         <div className="row">
@@ -83,9 +82,9 @@ class Signin extends React.Component {
                     <button className="dslogon" onClick={this.handleLogin('dslogon')}>
                       <img alt="DS Logon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
-                    {enableMHVLogin && <button className="mhv" onClick={this.handleLogin('mhv')}>
+                    <button className="mhv" onClick={this.handleLogin('mhv')}>
                       <img alt="My HealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with My HealtheVet</strong>
-                    </button>}
+                    </button>
                     <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>

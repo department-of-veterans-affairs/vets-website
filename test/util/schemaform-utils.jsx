@@ -229,6 +229,12 @@ export function fillData(form, selector, value) {
   });
 }
 
+export function selectCheckbox(form, fieldName, value) {
+  form.find(`input[name*="${fieldName}"]`).simulate('change', {
+    target: { checked: value }
+  });
+}
+
 export function selectRadio(form, fieldName, value) {
   form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
     target: { value }

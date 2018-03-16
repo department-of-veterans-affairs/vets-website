@@ -9,10 +9,12 @@ export default function asyncLoader(getComponent, message) {
 
     componentWillMount() {
       if (!this.state.Component) {
-        getComponent().then(Component => {
+        this.componentPromise = getComponent().then(Component => {
           AsyncComponent.Component = Component;
           this.setState({ Component });
         });
+      } else if (!this.componentPromise) {
+        this.componentPromise = Promise.resolve();
       }
     }
     render() {

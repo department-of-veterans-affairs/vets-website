@@ -67,6 +67,7 @@ Our services include:
 
 </div>
 
+<span id="no-benefits"></span>
 ### How do I access VA services for MST?
 
 If you’re a Veteran who has experienced MST, you can get help through VA. You don’t need to have a service-connected disability rating, and you may be able to get MST-related care even if you don’t qualify for other VA services. You also don’t need to have reported the MST or have other proof that it happened.
@@ -107,7 +108,7 @@ Or, get help applying for disability compensation by:
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
 - Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
 
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')

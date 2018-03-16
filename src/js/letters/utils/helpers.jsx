@@ -410,3 +410,13 @@ export const getStatus = (response) => {
     ? response.errors[0].status
     : 'unknown';
 };
+
+// NOTE: It "shouldn't" ever happen...but it did. In production.
+export function isAddressEmpty(address) {
+  // An address will always have:
+  //  type because it errors out on the api if it doesn't exist (pretty sure)
+  //  countryName because of toGenericAddress() adds it
+  const fieldsToIgnore = ['type', 'countryName'];
+  return Object.keys(address).reduce((emptySoFar, nextField) => emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]), true);
+}
+

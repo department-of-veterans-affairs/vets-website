@@ -44,6 +44,7 @@ body.va-pos-fixed {
       @include media($medium-large-screen) {
         height: auto;
         overflow: visible;
+
       }
     }
   }
@@ -96,6 +97,7 @@ body.va-pos-fixed {
   ul {
     list-style: none;
     padding-left: 0;
+    margin-bottom:0;
   }
 
   .va-button-primary {
@@ -271,7 +273,7 @@ body.va-pos-fixed {
     margin-left: .8rem;
     padding: .8rem 0 .8rem 1.6rem;
     position: relative;
-    width: 22.3rem;
+    width: 25.3rem;
 
     &:hover {
       background-color: transparent;
@@ -357,7 +359,7 @@ body.va-pos-fixed {
     position: absolute;
     width: 100%;
     top: 0;
-    left: 0;
+    left: 30px;
     visibility: visible;
     margin: 0;
 

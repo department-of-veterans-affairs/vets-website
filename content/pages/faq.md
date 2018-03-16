@@ -14,7 +14,7 @@ display_title: Frequently Asked Questions
             <div class="small-12 columns">
               <div itemprop="description">
                 <p>
-                  Get answers to questions about signing in to Vets.gov (a VA website) to manage your benefits and services online. Find out how to use ID.me to create your account—or how to sign in with your existing <strong>DS Logon</strong> account.
+                  Get answers to questions about signing in to Vets.gov (a VA website) to manage your benefits and services online. Find out how to use ID.me to create your account—or how to sign in with your existing <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account.
                 </p>
               </div>
               <div class="feature">
@@ -40,7 +40,7 @@ display_title: Frequently Asked Questions
                         <h4>Expanded access once you’ve verified your identity</h4>
                         <p>If you want to use more advanced Vets.gov tools to manage your benefits and services—like tracking your VA claims and appeals, downloading your full VA health record, or tracking how much of your Post-9/11 GI Bill benefits you've used—you'll need to take extra steps to verify your identity. This means we’ll make sure you’re you (not someone pretending to be you) before we give you access to your personal information. </p>
                         <p>To get started, you’ll create an account through ID.me, our trusted technology partner in helping to keep your personal information safe.</p>
-                        <p>Or, you can sign in with your <strong>DS Logon</strong> account (used to access eBenefits or milConnect)—and we'll connect your account to Vets.gov through ID.me. If you have a basic or advanced (non-premium) account, you’ll need to verify your identity through ID.me. We can also help you use ID.me to add an extra layer of security to your account (called 2-factor authentication).</p>
+                        <p>Or, you can sign in with your <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account (used to access eBenefits or milConnect)—and we'll connect your account to Vets.gov through ID.me. If you have a basic or advanced (non-premium) account, you’ll need to verify your identity through ID.me. We can also help you use ID.me to add an extra layer of security to your account (called 2-factor authentication).</p>
                         <a href="/faq/" class="login-required">Sign in now</a>.
                       </div>
                     </div>
@@ -85,8 +85,8 @@ display_title: Frequently Asked Questions
                     </button>
                     <div id="faq-vetsgov-4" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you have a <strong>DS Logon</strong> account, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
-                        <p><a href="/faq/" class="login-required">Sign in now</a></p>
+                        <p>If you have a <strong>premium My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account, you can use your existing account to sign in—and we’ll connect your verified account to Vets.gov through ID.me. We'll also use ID.me to help you add an optional extra layer of security to your account.</p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                         <p>If you don’t have one of these premium accounts, we’ll help you verify your identity using ID.me—our trusted technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
                         <p>To go through the ID.me identity-proofing process, you’ll need:</p>
                         <ul>
@@ -99,7 +99,7 @@ display_title: Frequently Asked Questions
                             </ul>
                           </li>
                         </ul>
-                        <p><a href="/faq/" class="login-required">Sign in now</a></p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
@@ -181,8 +181,8 @@ display_title: Frequently Asked Questions
                     </button>
                     <div id="faq-idme-3" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you use your existing <strong>DS Logon</strong> account to sign in, we’ll connect your account to Vets.gov through ID.me. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
-                        <p>If you create an ID.me account with Vets.gov—or if you sign in with a basic or advanced (non-premium) a basic <strong>DS Logon</strong> account—you’ll go through a process that makes sure you're you (not someone pretending to be you). You’ll need to provide your Social Security number and either upload pictures of your ID card (your driver's license or passport) or answer questions based on your public and private data (like your credit report) that only you'd know how to answer.</p>
+                        <p>If you use your existing <strong>My Health<em>e</em>Vet</strong> or <strong>DS Logon</strong> account to sign in, we’ll connect your account to Vets.gov through ID.me. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
+                        <p>If you create an ID.me account with Vets.gov—or if you sign in with a basic or advanced (non-premium) <strong>My Health<em>e</em>Vet</strong> or a basic <strong>DS Logon</strong> account—you’ll go through a process that makes sure you're you (not someone pretending to be you). You’ll need to provide your Social Security number and either upload pictures of your ID card (your driver's license or passport) or answer questions based on your public and private data (like your credit report) that only you'd know how to answer.</p>
                         <p>You can then use this login to securely access your VA benefits and personal health information online. You can also use your ID.me online dashboard to monitor activity linked to your ID.me account and to change what information is shared with Vets.gov.</p>
                       </div>
                     </div>
@@ -215,13 +215,27 @@ display_title: Frequently Asked Questions
                   </li>
                 </ul>
                 <br/><br/>
-                <h4>Signing in with your existing DS Logon account</h4>
+                <h4>Signing in with your existing My Health<em>e</em>Vet or DS Logon account</h4>
                 <ul class="usa-unstyled-list">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-0" itemprop="name">
-                      Can I sign in to Vets.gov with my DS Logon account (used for eBenefits and milConnect)?
+                      Can I sign in to Vets.gov with my My Health<em>e</em>Vet account?
                     </button>
                     <div id="faq-dslogon-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                      <div itemprop="text">
+                        <p>Yes. You can use your My Health<em>e</em>Vet account to sign in and connect your account to Vets.gov.</p>
+                        <p><strong>If you have a basic or advanced (non-premium) My Health<em>e</em>Vet account</strong>, you can save your in-progress online applications and view the information you’ve reported yourself on your VA health record. With an advanced account, you can also refill your VA prescriptions.</p>
+                        <p>To access more advanced tools—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits—you’ll need to go through the ID.me process to verify your identity. This is because the benefits and services you’re signing up for on Vets.gov require a higher level of security since they use your personal information. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to this information.</p>
+                        <p><strong>If you have a premium My Health<em>e</em>Vet account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li markdown="1" itemscope itemtype="http://schema.org/Question">
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-1" itemprop="name">
+                      Can I sign in to Vets.gov with my DS Logon account (used for eBenefits and milConnect)?
+                    </button>
+                    <div id="faq-dslogon-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>Yes. You can use your DS Logon information to sign in and connect your account to Vets.gov.</p>
                         <p><strong>If you have a basic (non-premium) DS Logon account</strong>, you can save your in-progress online applications.</p>
@@ -232,17 +246,17 @@ display_title: Frequently Asked Questions
                     </div>
                   </li>
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
-                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-1" itemprop="name">
-                      If I sign in with my DS Logon account, why do I still need to go through ID.me?
+                    <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-dslogon-2" itemprop="name">
+                      If I sign in with my My Health<em>e</em>Vet or DS Logon account, why do I still need to go through ID.me?
                     </button>
-                    <div id="faq-dslogon-1" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+                    <div id="faq-dslogon-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p><strong>If you have a basic DS Logon account</strong>, you’ll still need to go through the ID.me process to verify your identity if you want to use all the advanced tools on Vets.gov—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits.</p>
+                        <p><strong>If you have a basic or advanced My Health<em>e</em>Vet or a basic DS Logon account</strong>, you’ll still need to go through the ID.me process to verify your identity if you want to use all the advanced tools on Vets.gov—like tracking your VA claims and appeals, downloading your complete VA health record, or tracking your Post-9/11 GI Bill benefits.</p>
                         <p>This is because the benefits and services you’re signing up for on Vets.gov require a higher level of security since they involve your personal information. For your protection, we need to make sure you’re you—and not someone pretending to be you—before we give you access to this information.</p>
                         <p>We’ll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they have your password.</p>
                         <p>ID.me helps us to do this in a way that's simple and secure. In fact, they offer the strongest identity verification system available to prevent fraud and identity theft. ID.me is a trusted VA partner and 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.</p>
-                        <p><strong>If you have a DS Logon account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
-                        <p><a href="/faq/" class="login-required">Sign in now</a></p>
+                        <p><strong>If you have a premium My Health<em>e</em>Vet or DS Logon account</strong>, ID.me will receive your verified information to sign you in to Vets.gov. We can also help you use ID.me to add an extra layer of security (called 2-factor authentication) to your account.</p>
+                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
@@ -258,7 +272,7 @@ display_title: Frequently Asked Questions
 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
 (function() {
   var openAccordion = function(id) {
     document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);

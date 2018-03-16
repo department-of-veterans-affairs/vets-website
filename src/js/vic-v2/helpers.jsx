@@ -1,47 +1,68 @@
-import React from 'react';
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import environment from '../common/helpers/environment.js';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
-export function prefillTransformer(pages, formData, metadata) {
+export function prefillTransformer(pages, formData, metadata, state) {
+  let newPages = pages;
+  let newData = formData;
+
   if (formData && formData.serviceBranches) {
     // Mostly we'll be getting branch lists of one or two branches, creating a Set seems like overkill
     const allowedBranches = pages.veteranInformation.schema.properties.serviceBranch.enum;
     const validUserBranches = formData.serviceBranches.filter(branch => allowedBranches.includes(branch));
 
-    const newData = _.unset('serviceBranches', formData);
+    newData = _.unset('serviceBranches', newData);
     if (validUserBranches.length > 0) {
       newData.serviceBranch = validUserBranches[0];
-      return {
-        metadata,
-        formData: newData,
-        pages: _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages)
-      };
+      newPages = _.set('veteranInformation.schema.properties.serviceBranch.enum', validUserBranches, pages);
     }
+  }
 
-    return {
-      metadata,
-      formData: newData,
-      pages
+  if (state.user.profile.services.includes('identity-proofed')) {
+    newData = _.set('processAsIdProofed', true, newData);
+    newData.originalUser = {
+      veteranSocialSecurityNumber: newData.veteranSocialSecurityNumber,
+      veteranFullName: newData.veteranFullName,
+      veteranDateOfBirth: newData.veteranDateOfBirth
     };
   }
 
   return {
     metadata,
-    formData,
-    pages
+    formData: newData,
+    pages: newPages
   };
 }
 
-export function PhotoReviewDescription({ url }) {
-  return (
-    <div className="va-growable-background">
-      {url
-        ? <img className="photo-review" src={url} alt="Photograph of you that will be displayed on the ID card"/>
-        : <span>No photo chosen</span>
-      }
-    </div>);
+export function identityMatchesPrefill(formData) {
+  const { originalUser = {} } = formData;
+  return formData.veteranSocialSecurityNumber === originalUser.veteranSocialSecurityNumber
+    && formData.veteranFullName.first === originalUser.veteranFullName.first
+    && formData.veteranFullName.middle === originalUser.veteranFullName.middle
+    && formData.veteranFullName.last === originalUser.veteranFullName.last
+    && formData.veteranFullName.suffix === originalUser.veteranFullName.suffix
+    && formData.veteranDateOfBirth === originalUser.veteranDateOfBirth;
+}
+
+export function transform(form, formConfig) {
+  let newData = _.omit(['verified', 'originalUser', 'processAsIdProofed'], form.data);
+
+  // If we pulled their id info at the start and they haven't changed it, then we can submit on the
+  // backend with id info from MVI and discharge status from eMIS
+  // If they changed it, then we have to verify they're not trying to submit a fradulent
+  // request and process them as an anonymous request
+  if (form.data.processAsIdProofed && identityMatchesPrefill(form.data)) {
+    newData = _.omit([
+      'veteranFullName',
+      'veteranSocialSecurityNumber'
+    ], newData);
+    newData.processAsAnonymous = false;
+  } else {
+    newData.processAsAnonymous = true;
+  }
+
+  return transformForSubmit(formConfig, _.set('data', newData, form));
 }
 
 function checkStatus(guid) {
@@ -97,6 +118,26 @@ function pollStatus(guid, onDone, onError) {
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
+export function fetchPreview(id) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'X-Key-Inflection': 'camel',
+    Authorization: `Token token=${userToken}`
+  };
+
+  return fetch(`${environment.API_URL}/v0/vic/profile_photo_attachments/${id}`, {
+    headers
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.blob();
+    }
+
+    return new Error(resp.responseText);
+  }).then(blob => {
+    return window.URL.createObjectURL(blob);
+  });
+}
+
 export function submit(form, formConfig) {
   const userToken = window.sessionStorage.userToken;
   const headers = {
@@ -108,7 +149,7 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const formData = transformForSubmit(formConfig, _.unset('data.verified', form));
+  const formData = transform(form, formConfig);
   const body = JSON.stringify({
     vicSubmission: {
       form: formData
@@ -116,10 +157,28 @@ export function submit(form, formConfig) {
   });
 
   return new Promise((resolve, reject) => {
-    fetch(`${environment.API_URL}/v0/vic/vic_submissions`, {
-      method: 'POST',
-      headers,
-      body
+    let photo = form.data.photo.file;
+    let photoPromise;
+
+    if (photo instanceof Blob) {
+      photoPromise = Promise.resolve(window.URL.createObjectURL(photo));
+    } else {
+      photoPromise = fetchPreview(form.data.photo.confirmationCode);
+    }
+
+    photoPromise.catch(err => {
+      // It's possible that we don't have the photo yet but there's nothing we can do about
+      // that. We will not show the card preview, but let the submit go through in that case,
+      // since the backend will wait for the photo to process
+      Raven.captureException(err);
+      return null;
+    }).then(photoSrc => {
+      photo = photoSrc;
+      return fetch(`${environment.API_URL}/v0/vic/vic_submissions`, {
+        method: 'POST',
+        headers,
+        body
+      });
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -128,7 +187,29 @@ export function submit(form, formConfig) {
       return Promise.reject(res);
     }).then(resp => {
       const guid = resp.data.attributes.guid;
-      pollStatus(guid, resolve, reject);
-    }).catch(reject);
+      pollStatus(guid, response => {
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-submission-successful`,
+        });
+        resolve(_.set('photo', photo, response));
+      }, reject);
+    })
+      .catch(respOrError => {
+        if (respOrError instanceof Response) {
+          if (respOrError.status === 429) {
+            const error = new Error('vets_throttled_error_vic');
+            error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+            reject(error);
+            return;
+          }
+        }
+        reject(respOrError);
+      });
   });
 }
+
+export function hasSavedForm(savedForms, formID) {
+  return savedForms.some(({ form }) => form === formID);
+}
+

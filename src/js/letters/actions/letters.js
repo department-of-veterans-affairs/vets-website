@@ -25,17 +25,30 @@ import {
   SAVE_ADDRESS_PENDING,
   SAVE_ADDRESS_FAILURE,
   SAVE_ADDRESS_SUCCESS,
-  INVALID_ADDRESS_PROPERTY
+  INVALID_ADDRESS_PROPERTY,
+  START_EDITING_ADDRESS,
+  CANCEL_EDITING_ADDRESS
 } from '../utils/constants';
+
+export function editAddress() {
+  return (dispatch) => dispatch({ type: START_EDITING_ADDRESS });
+}
+
+export function cancelEditingAddress() {
+  return (dispatch) => dispatch({ type: CANCEL_EDITING_ADDRESS });
+}
 
 export function getLetterList(dispatch) {
   return apiRequest(
     '/v0/letters',
     null,
-    response => dispatch({
-      type: GET_LETTERS_SUCCESS,
-      data: response,
-    }),
+    response => {
+      window.dataLayer.push({ event: 'letter-list-success' });
+      return dispatch({
+        type: GET_LETTERS_SUCCESS,
+        data: response,
+      });
+    },
     (response) => {
       window.dataLayer.push({ event: 'letter-list-failure' });
       const status = getStatus(response);
@@ -64,11 +77,15 @@ export function getBenefitSummaryOptions(dispatch) {
   return apiRequest(
     '/v0/letters/beneficiary',
     null,
-    (response) => dispatch({
-      type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
-      data: response,
-    }),
     (response) => {
+      window.dataLayer.push({ event: 'letter-get-bsl-success' });
+      return dispatch({
+        type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
+        data: response,
+      });
+    },
+    (response) => {
+      window.dataLayer.push({ event: 'letter-get-bsl-failure' });
       dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
       const status = getStatus(response);
       throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
@@ -86,7 +103,7 @@ export function getLetterListAndBSLOptions() {
 }
 
 export function getAddressFailure() {
-  window.dataLayer.push({ event: 'letter-update-address-notfound' });
+  window.dataLayer.push({ event: 'letter-get-address-failure' });
   return { type: GET_ADDRESS_FAILURE };
 }
 
@@ -96,6 +113,7 @@ export function getMailingAddress() {
       '/v0/address',
       null,
       (response) => {
+        window.dataLayer.push({ event: 'letter-get-address-success' });
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
         responseCopy.data.attributes.address = toGenericAddress(response.data.attributes.address);
@@ -136,6 +154,10 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
 
   return (dispatch) => {
+    window.dataLayer.push({
+      event: 'letter-pdf-pending',
+      'letter-type': letterType
+    });
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
 
     // We handle IE10 separately but assume all other vets.gov-supported
@@ -180,6 +202,10 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl);
+        window.dataLayer.push({
+          event: 'letter-pdf-success',
+          'letter-type': letterType
+        });
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
       },
       (response) => {
@@ -262,12 +288,16 @@ export function getAddressCountries() {
     return apiRequest(
       '/v0/address/countries',
       null,
-      (response) => dispatch({
-        type: GET_ADDRESS_COUNTRIES_SUCCESS,
-        countries: response,
-      }),
+      (response) => {
+        window.dataLayer.push({ event: 'letter-get-address-countries-success' });
+        return dispatch({
+          type: GET_ADDRESS_COUNTRIES_SUCCESS,
+          countries: response,
+        });
+      },
       (response) => {
         const status = getStatus(response);
+        window.dataLayer.push({ event: 'letter-get-address-countries-failure' });
         Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
       }
@@ -280,15 +310,20 @@ export function getAddressStates() {
     return apiRequest(
       '/v0/address/states',
       null,
-      (response) => dispatch({
-        type: GET_ADDRESS_STATES_SUCCESS,
-        states: response,
-      }),
+      (response) => {
+        window.dataLayer.push({ event: 'letter-get-address-states-success' });
+        return dispatch({
+          type: GET_ADDRESS_STATES_SUCCESS,
+          states: response,
+        });
+      },
       (response) => {
         const status = getStatus(response);
+        window.dataLayer.push({ event: 'letter-get-address-states-success' });
         Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
       }
     );
   };
 }
+

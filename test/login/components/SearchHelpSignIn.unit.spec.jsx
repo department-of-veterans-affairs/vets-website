@@ -20,7 +20,7 @@ const defaultProfileProps = {
   userFullName: {
     first: 'Sharon'
   },
-  loading: false
+  loading: false,
 };
 
 function buildProps(defaultProps, props = {}) {
@@ -38,21 +38,25 @@ describe('<SearchHelpSignIn>', () => {
     global.window.location.pathname = '/';
   });
 
-  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps} profile={{ loading: false }}/>);
-
   it('should render', () => {
+    const tree =  SkinDeep.shallowRender(
+      <SearchHelpSignIn onUserLogout={() => {}} login={defaultLoginProps} profile={{ loading: false }}/>
+    );
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should present login link when currentlyLoggedIn is false', () => {
+    const tree =  SkinDeep.shallowRender(
+      <SearchHelpSignIn onUserLogout={() => {}} login={defaultLoginProps} profile={{ loading: false }}/>
+    );
     const link = tree.everySubTree('a');
     expect(link).to.have.lengthOf(1);
   });
 
   it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
     const signedInData = buildProps(defaultLoginProps, { currentlyLoggedIn: true });
-    tree = SkinDeep.shallowRender(<SearchHelpSignIn login={signedInData} profile={defaultProfileProps}/>);
+    const tree = SkinDeep.shallowRender(<SearchHelpSignIn onUserLogout={() => {}} login={signedInData} profile={defaultProfileProps}/>);
     const profileMenu = tree.everySubTree('SignInProfileMenu');
     expect(profileMenu).to.have.lengthOf(1);
   });
@@ -60,8 +64,8 @@ describe('<SearchHelpSignIn>', () => {
   it('should display email for an LOA1 user without a firstname', () => {
     const loginData = buildProps(defaultLoginProps, { currentlyLoggedIn: true });
     const loa1Profile = buildProps(defaultProfileProps, { userFullName: { first: null, middle: null, last: null } });
-    tree = SkinDeep.shallowRender(
-      <SearchHelpSignIn login={loginData} profile={loa1Profile}/>
+    const tree = SkinDeep.shallowRender(
+      <SearchHelpSignIn onUserLogout={() => {}} login={loginData} profile={loa1Profile}/>
     );
     const dropDownElement = tree.dive(['SignInProfileMenu', 'DropDown']);
     expect(dropDownElement.text()).to.contain(defaultProfileProps.email);

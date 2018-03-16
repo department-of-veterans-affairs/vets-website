@@ -12,15 +12,13 @@ import Docket from '../components/appeals-v2/Docket';
 /**
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
-const AppealsV2StatusPage = ({ appeal }) => {
+const AppealsV2StatusPage = ({ appeal, fullName }) => {
   const {
     events, alerts, status, docket, incompleteHistory, aod,
     active: appealIsActive,
     type: appealType
   } = appeal.attributes;
-  const currentStatus = getStatusContents(status.type, status.details);
-
-  // NB: 'details' doesn't do anything in getNextEvents for the time being
+  const currentStatus = getStatusContents(status.type, status.details, fullName);
   const nextEvents = getNextEvents(status.type, status.details);
 
   // TODO: This will change. We'll be getting the date from the docket object in the api.
@@ -52,7 +50,7 @@ const AppealsV2StatusPage = ({ appeal }) => {
         title={currentStatus.title}
         description={currentStatus.description}
         isClosed={!appealIsActive}/>
-      <AlertsList alerts={alerts}/>
+      <AlertsList alerts={alerts} appealIsActive/>
       {appealIsActive && <WhatsNext nextEvents={nextEvents}/>}
       {shouldShowDocket && <Docket {...docket} aod={aod} form9Date={form9Date} appealType={appealType}/>}
       {!appealIsActive && <div className="closed-appeal-notice">This appeal is now closed</div>}
@@ -75,6 +73,11 @@ AppealsV2StatusPage.propTypes = {
         eta: PropTypes.string.isRequired
       })
     }).isRequired,
+  }),
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
   })
 };
 

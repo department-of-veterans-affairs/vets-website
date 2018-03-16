@@ -60,9 +60,9 @@ module.exports = {
     accessibility: {
       filter: './test/accessibility/*.spec.js'
     },
-    wcag2a: {
+    bestpractice: {
       globals: {
-        rules: ['section508', 'wcag2a']
+        rules: ['section508', 'wcag2a', 'wcag2aa', 'best-practice']
       }
     }
   }

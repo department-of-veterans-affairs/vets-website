@@ -55,7 +55,7 @@ class SearchHelpSignIn extends React.Component {
     } else {
       const classes = classNames({ disabled: isLoading });
       content = (<div>
-        <a href="#" className={classes} onClick={this.handleSigninSignup}><span>Sign in</span><span className="signin-spacer">|</span><span>Sign up</span></a>
+        <a href="#" className={classes} onClick={this.handleSigninSignup}><span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span></a>
       </div>
       );
     }
