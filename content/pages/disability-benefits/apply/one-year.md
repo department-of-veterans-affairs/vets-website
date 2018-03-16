@@ -32,7 +32,6 @@ You may be able to get disability benefits if you have signs of an illness like 
 
 
 If your symptoms appear within 1 year after discharge—even if they weren’t there while you were serving—we’ll conclude that they’re related to your service. <br>
-[See the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
 </div>
 
@@ -40,11 +39,14 @@ If your symptoms appear within 1 year after discharge—even if they weren’t t
 
 ### Can I get disability benefits from VA?
 
-You may be able to get benefits if you have an illness that’s at least 10% disabling (a rating that measures how severe your disability is) that appears within 1 year after discharge and **both of the following are true for you**:
+You may be able to get benefits if you have an illness that’s at least 10% disabling that appears within 1 year after discharge and both of the below details are true for you.
+
+**Both of these must be true:**
   -	The illness is listed in Title 38, Code of Federal Regulation, 3.09(a), **and**
   -	You were discharged under conditions other than dishonorable <br>
 
-[See Title 38, Code of Federal Regulation, 3.09(a)](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+[See the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc). <br>
+Title 38, Code of Federal Regulation, 3.09(a)
 
 ### Who’s covered?
 Veterans
