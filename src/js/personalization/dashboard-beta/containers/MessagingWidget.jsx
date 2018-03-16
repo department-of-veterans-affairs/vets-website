@@ -6,11 +6,13 @@ class MessagingWidget extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <h2>Messages</h2>
-      </div>
-    );
+    return null;
+
+    // return (
+    //   <div>
+    //     <h2>Messages</h2>
+    //   </div>
+    // );
   }
 }
 

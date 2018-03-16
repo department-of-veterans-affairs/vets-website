@@ -4,7 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getStatusContents } from '../../utils/appeals-v2-helpers';
+import { getStatusContents } from '../../../claims-status/utils/appeals-v2-helpers';
 
 
 // TODO: Get a proper mapping of programArea -> display output
@@ -28,21 +28,19 @@ export default function AppealListItem({ appeal, name }) {
   // always show merged event on top
   const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
   const firstEvent = events[events.length - 1];
+  const lastEvent = events[0];
 
   return (
     <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">
-        Appeal of {appealTypeMap[appeal.attributes.programArea]}
-        <br/>
-        Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
+        Appeal of {appealTypeMap[appeal.attributes.programArea]} - Decision Received {moment(firstEvent.date).format('MMMM D, YYYY')}
       </h3>
       <div className="card-status">
-        <div className={`status-circle ${appeal.attributes.active ? 'open' : 'closed'}`}/>
-        <p><strong>Status:</strong> {getStatusContents(status.type, status.details, name).title}</p>
+        <p><strong>{moment(lastEvent.date).format('MMM D')}</strong> - {getStatusContents(status.type, status.details, name).title}</p>
       </div>
-      {appeal.attributes.description &&
-        <p style={{ marginTop: 0 }}><strong>{appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on appeal:</strong> {appeal.attributes.description}</p>}
-      <Link className="usa-button usa-button-primary" to={`appeals-v2/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
+      <p>
+        <Link className="usa-button usa-button-primary" href={`/track-claims/appeals-v2/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
+      </p>
     </div>
   );
 }
@@ -59,7 +57,7 @@ AppealListItem.propTypes = {
         date: PropTypes.string.isRequired
       })),
       programArea: PropTypes.string.isRequired,
-      active: PropTypes.string.isRequired,
+      active: PropTypes.bool.isRequired,
       issues: PropTypes.array.isRequired,
       description: PropTypes.string.isRequired
     })
