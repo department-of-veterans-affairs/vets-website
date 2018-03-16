@@ -60,7 +60,7 @@ function completeContactInformation(client, data) {
 
 function initApplicationSubmitMock() {
   mock(null, {
-    path: '/v0/vic/vic_submissions',
+    path: '/v0/vre/whatever',
     verb: 'post',
     value: {
       data: {
