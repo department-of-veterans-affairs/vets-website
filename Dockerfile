@@ -1,6 +1,6 @@
 # based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
 
-FROM node:8
+FROM node:6
 
 # Match the jenkins uid/gid on the host (504)
 RUN groupadd --gid 504 jenkins \
