@@ -1,7 +1,9 @@
 import Raven from 'raven-js';
+import moment from 'moment';
 import _ from '../utils/data-utils';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
+import { timeFromNow } from '../utils/helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -25,11 +27,14 @@ export function setEditMode(page, edit, index = null) {
   };
 }
 
-export function setSubmission(field, value) {
+// extra is used to pass other information (from a submission error or anything else)
+// into the submission state object
+export function setSubmission(field, value, extra = null) {
   return {
     type: SET_SUBMISSION,
     field,
-    value
+    value,
+    extra
   };
 }
 
@@ -61,7 +66,13 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
         const results = JSON.parse(responseBody);
         resolve(results);
       } else {
-        const error = new Error(`vets_server_error: ${req.statusText}`);
+        let error;
+        if (req.status === 429) {
+          error = new Error(`vets_throttled_error: ${req.statusText}`);
+          error.extra = parseInt(req.getResponseHeader('x-ratelimit-reset'), 10);
+        } else {
+          error = new Error(`vets_server_error: ${req.statusText}`);
+        }
         error.statusText = req.statusText;
         reject(error);
       }
@@ -98,16 +109,16 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
 }
 
 export function submitForm(formConfig, form) {
-  const captureError = (error, clientError) => {
+  const captureError = (error, errorType) => {
     Raven.captureException(error, {
       fingerprint: [formConfig.trackingPrefix, error.message],
       extra: {
-        clientError,
+        errorType,
         statusText: error.statusText
       }
     });
     window.dataLayer.push({
-      event: `${formConfig.trackingPrefix}-submission-failed${clientError ? '-client' : ''}`,
+      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
     });
   };
 
@@ -133,14 +144,19 @@ export function submitForm(formConfig, form) {
       .catch(error => {
         // overly cautious
         const errorMessage = _.get('message', error);
-        const clientError = errorMessage && !errorMessage.startsWith('vets_server_error');
-        captureError(error, clientError);
-        dispatch(setSubmission('status', clientError ? 'clientError' : 'error'));
+        let errorType = 'clientError';
+        if (errorMessage.startsWith('vets_throttled_error')) {
+          errorType = 'throttledError';
+        } else if (errorMessage.startsWith('vets_server_error')) {
+          errorType = 'serverError';
+        }
+        captureError(error, errorType);
+        dispatch(setSubmission('status', errorType, error.extra));
       });
   };
 }
 
-export function uploadFile(file, onChange, uiOptions, progressCallback) {
+export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
       onChange({
@@ -148,7 +164,8 @@ export function uploadFile(file, onChange, uiOptions, progressCallback) {
         errorMessage: 'File is too large to be uploaded'
       });
 
-      return Promise.reject();
+      onError();
+      return null;
     }
 
     if (file.size < uiOptions.minSize) {
@@ -157,7 +174,8 @@ export function uploadFile(file, onChange, uiOptions, progressCallback) {
         errorMessage: 'File is too small to be uploaded'
       });
 
-      return Promise.reject();
+      onError();
+      return null;
     }
 
     // we limit file types, but it’s not respected on mobile and desktop
@@ -168,7 +186,8 @@ export function uploadFile(file, onChange, uiOptions, progressCallback) {
         errorMessage: 'File is not one of the allowed types'
       });
 
-      return Promise.reject();
+      onError();
+      return null;
     }
 
     onChange({
@@ -178,59 +197,54 @@ export function uploadFile(file, onChange, uiOptions, progressCallback) {
 
     const payload = uiOptions.createPayload(file, getState().form.formId);
 
-    return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
 
-      req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
-      req.addEventListener('load', () => {
-        if (req.status >= 200 && req.status < 300) {
-          const body = 'response' in req ? req.response : req.responseText;
-          const fileData = uiOptions.parseResponse(JSON.parse(body), file);
-          onChange(fileData);
-          resolve(fileData);
-        } else {
-          onChange({
-            name: file.name,
-            errorMessage: req.statusText
-          });
-          Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
-          reject();
+    req.open('POST', `${environment.API_URL}${uiOptions.endpoint}`);
+    req.addEventListener('load', () => {
+      if (req.status >= 200 && req.status < 300) {
+        const body = 'response' in req ? req.response : req.responseText;
+        const fileData = uiOptions.parseResponse(JSON.parse(body), file);
+        onChange(fileData);
+      } else {
+        let errorMessage = req.statusText;
+        if (req.status === 429) {
+          errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(moment.unix(parseInt(req.getResponseHeader('x-ratelimit-reset'), 10)))}.`;
         }
-      });
 
-      req.addEventListener('error', () => {
-        const errorMessage = 'Network request failed';
         onChange({
           name: file.name,
           errorMessage
         });
-        Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
-          extra: {
-            statusText: req.statusText
-          }
-        });
-        reject();
-      });
+        Raven.captureMessage(`vets_upload_error: ${req.statusText}`);
+        onError();
+      }
+    });
 
-      req.addEventListener('abort', () => {
-        onChange({
-          name: file.name,
-          errorMessage: 'Upload aborted'
-        });
-        Raven.captureMessage('vets_upload_error: Upload aborted');
-        reject();
+    req.addEventListener('error', () => {
+      const errorMessage = 'Network request failed';
+      onChange({
+        name: file.name,
+        errorMessage
       });
-
-      req.upload.addEventListener('progress', (evt) => {
-        if (evt.lengthComputable && progressCallback) {
-          // setting this at 80, because there's some time after we get to 100%
-          // where the backend is uploading to s3
-          progressCallback((evt.loaded / evt.total) * 80);
+      Raven.captureMessage(`vets_upload_error: ${errorMessage}`, {
+        extra: {
+          statusText: req.statusText
         }
       });
-
-      req.setRequestHeader('X-Key-Inflection', 'camel');
-      req.send(payload);
+      onError();
     });
+
+    req.upload.addEventListener('progress', (evt) => {
+      if (evt.lengthComputable && onProgress) {
+        // setting this at 80, because there's some time after we get to 100%
+        // where the backend is uploading to s3
+        onProgress((evt.loaded / evt.total) * 80);
+      }
+    });
+
+    req.setRequestHeader('X-Key-Inflection', 'camel');
+    req.send(payload);
+
+    return req;
   };
 }

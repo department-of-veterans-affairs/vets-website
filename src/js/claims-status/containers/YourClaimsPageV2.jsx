@@ -24,8 +24,8 @@ import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import ClaimsListItem from '../components/ClaimsListItemV2';
-import AppealListItem from '../components/AppealListItemV2';
+import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
+import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -73,7 +73,7 @@ class YourClaimsPageV2 extends React.Component {
 
   renderListItem(claim) {
     if (claim.type === APPEAL_V2_TYPE) {
-      return <AppealListItem key={claim.id} appeal={claim}/>;
+      return <AppealListItem key={claim.id} appeal={claim} name={this.props.fullName}/>;
     }
 
     return <ClaimsListItem claim={claim} key={claim.id}/>;
@@ -223,6 +223,7 @@ function mapStateToProps(state) {
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
+    fullName: state.user.profile.userFullName
   };
 }
 

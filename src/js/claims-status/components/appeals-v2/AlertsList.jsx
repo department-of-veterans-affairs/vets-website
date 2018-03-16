@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Alert from './Alert';
 import { getAlertContent } from '../../utils/appeals-v2-helpers';
 
-const AlertsList = ({ alerts }) => {
+const AlertsList = ({ alerts, appealIsActive }) => {
   if (typeof alerts === 'undefined' || alerts.length === 0) {
     return null;
   }
 
-  const allAlertsContent = alerts.map((alert) => getAlertContent(alert));
+  const allAlertsContent = alerts.map((alert) => getAlertContent(alert, appealIsActive));
 
   const takeActionAlerts = allAlertsContent.filter((alert) => (alert.displayType === 'take_action'));
   const infoAlert = allAlertsContent.filter((alert) => (alert.displayType === 'info'));

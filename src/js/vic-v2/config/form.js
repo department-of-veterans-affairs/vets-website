@@ -4,10 +4,11 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import PhotoField from '../components/PhotoField';
+import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
+import asyncLoader from '../../common/components/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
-import { prefillTransformer, submit } from '../helpers';
+import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
@@ -38,6 +39,7 @@ const {
 } = fullSchemaVIC.definitions;
 
 const TWENTY_FIVE_MB = 26214400;
+const TEN_MB = 10485760;
 
 const formConfig = {
   urlPrefix: '/',
@@ -67,6 +69,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
+            'ui:description': IdentityFieldsWarning,
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: ssnUI,
             gender: {
@@ -178,11 +181,11 @@ const formConfig = {
                 'png',
                 'tiff',
                 'tif',
+                'gif',
                 'jpeg',
-                'jpg',
-                'bmp'
+                'jpg'
               ],
-              maxSize: TWENTY_FIVE_MB,
+              maxSize: TEN_MB,
               showFieldLabel: false,
               createPayload: (file) => {
                 const payload = new FormData();
@@ -193,13 +196,12 @@ const formConfig = {
               parseResponse: (response, file) => {
                 return {
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                  serverName: response.data.attributes.filename,
-                  serverPath: response.data.attributes.path
+                  confirmationCode: response.data.attributes.guid
                 };
               }
             }), {
-              'ui:field': PhotoField,
+              'ui:field': asyncLoader(() => import(/* webpackChunkName: "photo-field" */'../components/PhotoField')
+                .then(m => m.default)),
               'ui:validations': [
                 validateFile
               ]
@@ -217,7 +219,7 @@ const formConfig = {
           path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
-          depends: form => !form.verified,
+          depends: form => !form.verified || !identityMatchesPrefill(form),
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
@@ -227,6 +229,9 @@ const formConfig = {
                 'png',
                 'jpeg',
                 'jpg',
+                'gif',
+                'tif',
+                'tiff'
               ],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload Your Discharge Document',
