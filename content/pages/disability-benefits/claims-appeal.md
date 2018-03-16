@@ -19,6 +19,7 @@ You have the right to appeal any benefits decision made by the Veterans Benefits
 When the VBA Regional Office (RO) receives your Notice of Disagreement (NOD), you’ll be able to check the status of your appeal on Vets.gov.
 
 <a class="usa-button-primary" href="/track-claims">Track Your Appeal</a>
+
 </div>
 
 <h3>Appeals Process Overview</h3>
@@ -29,13 +30,11 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
 
 <ul class="vertical-list-group more-bottom-cushion">
   <li class="list-group-item">
-    <div>
       <h4>File a Notice of Disagreement (NOD)</h4>
       <p>
         By filing an NOD, you begin the appeals process. You’ll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim. <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>
       </p>
       <p>Fill out your NOD and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local RO.</p>
-    </div>
   </li>
   <li class="list-group-item">
     <h4>RO prepares the Statement of the Case (SOC)</h4>
@@ -185,7 +184,6 @@ After VBA has made a decision on your claim, if you disagree with the outcome, y
     </li>
   </ul>
 </div>
-
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
