@@ -661,6 +661,16 @@ h1:focus {
     }
   }
 
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
+
+    &:before,
+    button {
+      pointer-events: all;
+    }
+  }
+
   .section-unexpanded {
     // offset left border with padding so element doesn't move while toggling expander
     &.process-step {
@@ -724,6 +734,10 @@ h1:focus {
 
   h2 {
     margin-top: 1em;
+  }
+
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
   }
 
   .current-status-content {

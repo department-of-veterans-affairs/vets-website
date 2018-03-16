@@ -215,9 +215,11 @@ input[type="range"] {
   }
 }
 
-.cropper-control-label-container {
-  margin: 10px;
-  min-width: 106px;
+.cropper-control-row {
+  .cropper-control-label-container {
+    margin: 10px;
+    min-width: 106px;
+  }
 }
 
 .cropper-control-zoom {
@@ -226,12 +228,6 @@ input[type="range"] {
   text-decoration: none !important;
   text-align: center;
 }
-//.cropper-control {
-//text-align: center;
-//width: 50% !important;
-//text-decoration: none !important;
-//text-align: center;
-//}
 
 .cropper-zoom-container {
   display: flex;
@@ -283,6 +279,19 @@ input[type="range"] {
     .cropper-control-label {
       float: left;
     }
+  }
+}
+
+.narrow-layout {
+  @media (min-width: $large-screen) {
+    display: none;
+  }
+}
+
+.normal-layout {
+  display: none;
+  @media (min-width: $large-screen) {
+    display: inline;
   }
 }
 
@@ -496,6 +505,10 @@ input[type="range"] {
 
 .photo-error-message {
   outline: none;
+}
+
+.photo-error-wrapper {
+  margin-bottom: 1em;
 }
 
 /* USWDS overrides */

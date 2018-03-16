@@ -49,6 +49,7 @@ function initUserMock(token, level) {
           }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          mhv_account_state: 'upgraded',
           health_terms_current: true,
           va_profile: {
             status: 'OK',

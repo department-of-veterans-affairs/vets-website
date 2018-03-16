@@ -26,7 +26,7 @@
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
-    "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' test/helper.js",
+    "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --reporter dot --reporter mocha-junit-reporter --no-color --recursive 'test/**/*.unit.spec.js?(x)' test/helper.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
@@ -144,6 +144,7 @@
     "metalsmith-webpack-dev-server": "department-of-veterans-affairs/metalsmith-webpack-dev-server",
     "mkdirp": "^0.5.1",
     "mocha": "^3.5.0",
+    "mocha-junit-reporter": "^1.17.0",
     "modernizr": "=3.3.1",
     "modernizr-loader": "0.0.5",
     "moment": "^2.15.1",
@@ -178,7 +179,6 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "request": "^2.79.0",
-    "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.10.2",
     "sass-loader": "^4.0.0",
     "saucelabs": "^1.4.0",
@@ -220,7 +220,7 @@
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",
     "url-search-params": "^0.10.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#579f0fa2bf0641dd50012e09a98e891a426a54bf",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#923c0ad5676bcdcad0c8fe08017feb05a5302da9",
     "webpack-bundle-analyzer": "^2.10.0"
   }
 }

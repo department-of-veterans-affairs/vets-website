@@ -92,6 +92,7 @@ Once you’ve signed up:
 
 <br>
 
+<span id="no-benefits"></span>
 ### What if I don’t have VA health benefits?
 
 You may still be able to get care:
@@ -120,7 +121,7 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
-<script type="text/javascript">
+<script nonce="**CSP_NONCE**" type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')

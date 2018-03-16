@@ -27,7 +27,7 @@ describe('VRE Chapter 36 <ConfirmationPage>', () => {
 
     expect(tree.find('.confirmation-page-title').text()).to.equal('Claim received');
     expect(tree.find('span').at(1).text().trim()).to.equal('for Jane  Doe');
-    expect(tree.find('p').at(0).text()).to.contain('We usually process claims within a week.');
+    expect(tree.find('p').at(0).text()).to.contain('We’ve received your application.');
   });
 
   it('should render applicant name', () => {

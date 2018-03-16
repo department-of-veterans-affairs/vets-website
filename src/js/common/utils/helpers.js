@@ -55,7 +55,7 @@ export function isInProgress(pathName) {
 
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
-    return page.depends(data);
+    return page.depends(data, page.index);
   }
 
   if (Array.isArray(page.depends)) {
@@ -119,14 +119,14 @@ export function formatDateParsedZoneShort(date) {
   return moment.parseZone(date).format('MM/DD/YYYY');
 }
 
-export function focusElement(selectorOrElement) {
+export function focusElement(selectorOrElement, options) {
   const el = typeof selectorOrElement === 'string'
     ? document.querySelector(selectorOrElement)
     : selectorOrElement;
 
   if (el) {
-    el.setAttribute('tabindex', '-1');
-    el.focus();
+    if (el.tabIndex === -1) el.setAttribute('tabindex', '-1');
+    el.focus(options);
   }
 }
 
@@ -180,15 +180,15 @@ function formatDiff(diff, desc) {
 }
 
 /**
- * dateDiffDesc returns the number of days, hours, or minutes until
+ * timeFromNow returns the number of days, hours, or minutes until
  * the provided date occurs. It’s meant to be less fuzzy than moment’s
- * dateDiffDesc so it can be used for expiration dates
+ * timeFromNow so it can be used for expiration dates
  *
  * @param date {Moment Date} The future date to check against
  * @param userFromDate {Moment Date} The earlier date in the range. Defaults to today.
  * @returns {string} The string description of how long until date occurs
  */
-export function dateDiffDesc(date, userFromDate = null) {
+export function timeFromNow(date, userFromDate = null) {
   // Not using defaulting because we want today to be when this function
   // is called, not when the file is parsed and run
   const fromDate = userFromDate || moment();
@@ -210,7 +210,13 @@ export function dateDiffDesc(date, userFromDate = null) {
     return formatDiff(minuteDiff, 'minute');
   }
 
-  return 'less than a minute';
+  const secondDiff = date.diff(fromDate, 'seconds');
+
+  if (secondDiff >= 1) {
+    return formatDiff(secondDiff, 'second');
+  }
+
+  return 'a moment';
 }
 
 function isGaLoaded() {

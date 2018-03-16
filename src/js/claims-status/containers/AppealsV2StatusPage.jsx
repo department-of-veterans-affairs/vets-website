@@ -50,7 +50,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
         title={currentStatus.title}
         description={currentStatus.description}
         isClosed={!appealIsActive}/>
-      <AlertsList alerts={alerts}/>
+      <AlertsList alerts={alerts} appealIsActive/>
       {appealIsActive && <WhatsNext nextEvents={nextEvents}/>}
       {shouldShowDocket && <Docket {...docket} aod={aod} form9Date={form9Date} appealType={appealType}/>}
       {!appealIsActive && <div className="closed-appeal-notice">This appeal is now closed</div>}

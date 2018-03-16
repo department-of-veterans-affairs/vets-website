@@ -14,9 +14,6 @@ fieldset {
   display: inline-block;
   width: 100%;
   max-width: 750px;
-  @media (min-width: $large-screen) {
-    width: auto;
-  }
   .form-review-panel & {
     width: 100%;
   }
@@ -591,3 +588,6 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+.schemaform-title-underline {
+  border-bottom: 3px solid $color-primary;
+}
