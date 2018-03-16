@@ -3,7 +3,6 @@ import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../../common/utils/address';
 import phoneUI from '../../../common/schemaform/definitions/phone';
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
@@ -20,6 +19,8 @@ import {
   privateMedicalRecordsIntro,
   facilityDescription,
   treatmentView,
+  recordReleaseWarning,
+  validateAddress
 } from '../helpers';
 
 const {
@@ -43,51 +44,13 @@ const treatmentsSchema = _.set('items.properties.treatment.properties',
     treatments.items.properties.treatment.properties
   ), treatments);
 
-// TODO: Move to helpers
-function validatePostalCodes(errors, formData) {
-  let isValidPostalCode = true;
-  // Checks if postal code is valid
-  if (formData.treatmentCenterCountry === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treamentCenterPostalCode);
-  }
-  if (formData.treatmentCenterCountry === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treamentCenterPostalCode);
-  }
-
-  // Add error message for postal code if it is invalid
-  if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
-    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
-  }
-}
-const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
-
-function validateAddress(errors, formData) {
-  // Adds error message for state if it is blank and one of the following countries:
-  // USA, Canada, or Mexico
-  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
-    && formData.treatmentCenterState === undefined) {
-    // && currentSchema.required.length) {
-    errors.treatmentCenterState.addError('Please select a state or province');
-  }
-
-  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
-    // && !currentSchema.required.length
-    && typeof formData.treatmentCenterCity !== 'undefined'
-    && typeof formData.treatmentCenterState !== 'undefined'
-    && typeof formData.treatmentCenterPostalCode !== 'undefined';
-
-  if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
-    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
-  }
-
-  validatePostalCodes(errors, formData);
-}
 const privateMedicalRecordsReleaseTreatmentSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
   privateMedicalRecordsReleaseAccepted: {
     type: 'boolean'
   },
   'view:privateMedicalRecordsReleasePermissionRestricted': {
     type: 'object',
+    'ui:collapsed': true,
     properties: {}
   },
   treatmentCenterStreet1: {
@@ -393,13 +356,9 @@ const formConfig = {
                         'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
                       },
                       'view:privateMedicalRecordsReleasePermissionRestricted': {
-                        'ui:description': () => {
-                          return (<div className="usa-alert usa-alert-warning no-background-image">
-                            <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
-                          </div>);
-                        },
+                        'ui:description': recordReleaseWarning,
                         'ui:options': {
-                          expandUnder: 'privateMedicalRecordsReleaseAccepted' // TODO: prevent auto
+                          expandUnder: 'privateMedicalRecordsReleaseAccepted'
                         }
                       },
                       startTreatment: {
@@ -410,7 +369,7 @@ const formConfig = {
                         'ui:widget': 'date',
                         'ui:title': 'Approximate date of last treatment'
                       },
-                      treatmentCenterCountry: { // TODO: need to restrict these via select
+                      treatmentCenterCountry: { // TODO: need to update schema to use default def
                         'ui:title': 'Country'
                       },
                       treatmentCenterStreet1: {
@@ -425,7 +384,7 @@ const formConfig = {
                       treatmentCenterState: {
                         'ui:title': 'State'
                       },
-                      treatmentCenterPostalCode: {  // TODO: need to validate this
+                      treatmentCenterPostalCode: {
                         'ui:title': 'Postal code',
                         'ui:options': {
                           widgetClassNames: 'usa-input-medium'

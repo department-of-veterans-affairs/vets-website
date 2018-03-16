@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 
@@ -117,3 +119,48 @@ export const privateMedicalRecordsIntro = ({ formData }) => {
   );
 };
 
+export function validatePostalCodes(errors, formData) {
+  let isValidPostalCode = true;
+  // Checks if postal code is valid
+  if (formData.treatmentCenterCountry === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
+  }
+  if (formData.treatmentCenterCountry === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treatmentCenterPostalCode);
+  }
+
+  // Add error message for postal code if it exists and is invalid
+  if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
+
+    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
+  }
+}
+
+export function validateAddress(errors, formData) {
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
+    && formData.treatmentCenterState === undefined) {
+    // && currentSchema.required.length) {
+    errors.treatmentCenterState.addError('Please select a state or province');
+  }
+  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
+    // && !currentSchema.required.length
+    && typeof formData.treatmentCenterCity !== 'undefined'
+    && typeof formData.treatmentCenterStreet !== 'undefined'
+    && typeof formData.treatmentCenterPostalCode !== 'undefined';
+
+  if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
+    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
+  }
+
+  validatePostalCodes(errors, formData);
+}
+
+export const recordReleaseWarning = () => {
+  return (
+    <div className="usa-alert usa-alert-warning no-background-image">
+      <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+    </div>
+  );
+};

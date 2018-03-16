@@ -59,6 +59,12 @@ const runTest = E2eHelpers.createE2eTest(
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/va-facilities');
 
+      // Records Release
+      client.axeCheck('.main');
+      // PageHelpers.completeVAFacilitiesInformation(client, testData.data);
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/private-medical-records-release');
+
       // Evidence type
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
