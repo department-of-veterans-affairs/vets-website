@@ -18,7 +18,9 @@ If you think you had contact with Agent Orange, a toxic chemical used to clear t
 
 ### Can I get an Agent Orange Registry health exam?
 
-You can get an Agent Orange Registry health exam if you served in any of these ways:
+You can get an Agent Orange Registry health exam if you served in any of the below ways.
+
+**You must have served in one of these ways:**
 
   - In Vietnam between 1962 and 1975 for any length of time, **or**
   - On smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”), **or** 
