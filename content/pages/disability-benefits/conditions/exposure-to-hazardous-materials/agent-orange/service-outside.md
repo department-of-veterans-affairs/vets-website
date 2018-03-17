@@ -17,7 +17,9 @@ You may have had contact with Agent Orange even if you did not serve in Vietnam 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have one or more illnesses believed to have been caused by Agent Orange and **if at least one of the following is true for you**:
+You may be able to get disability benefits if you have one or more illnesses believed to have been caused by Agent Orange and any of the below descriptions is true for you.
+
+**At least one of these must be true:
 
   - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, **or**
   - You served in Thailand or Korea where there was testing or storage of Agent Orange and other herbicides, **or**
