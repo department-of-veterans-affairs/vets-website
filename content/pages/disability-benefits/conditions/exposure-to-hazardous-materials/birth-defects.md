@@ -20,6 +20,8 @@ Spina bifida is a spinal cord birth defect. A baby develops spina bifida while s
 
 ### Can my child get disability benefits from VA?
 
+<br>
+
 #### For Spina Bifida
 
 Your child may be able to get disability benefits if they were diagnosed with a form of spina bifida other than spina bifida occulta and the below descriptions are true.
@@ -45,6 +47,7 @@ Your child may be able to get disability benefits if they have a covered birth d
 - The child’s biological mother served in South Vietnam any time from January 9, 1962, through May 7, 1975, **and**
 - The child was conceived after the mother served in South Vietnam  
 
+<br>
 
 ### Who’s covered?
 
