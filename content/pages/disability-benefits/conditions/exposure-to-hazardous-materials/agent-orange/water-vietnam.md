@@ -19,7 +19,9 @@ If you served on the **coastal waterways** of Vietnam between January 9, 1962, a
 
 ### Can I get disability benefits from VA?
 
-Yes, if you have one or more illnesses believed to be caused by Agent Orange and **at least one of the following is true for you**:
+Yes, if you have one or more illnesses believed to be caused by Agent Orange and at least one of the below descriptions is true for you.
+
+**One of these must be true:**
 - Your military record shows that you were aboard one of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways, **or**
 - You came ashore in Vietnam
 
