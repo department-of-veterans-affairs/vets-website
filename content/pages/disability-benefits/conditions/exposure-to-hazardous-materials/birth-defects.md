@@ -27,6 +27,7 @@ Your child may be able to get disability benefits if they were diagnosed with a 
 **One of these descriptions of service must be true:**
 
 The child’s biological mother or father served in:
+
 - South Vietnam (the Republic of Vietnam) any time from January 9, 1962, through May 7, 1975, **or**
 - Certain units in the Korean Demilitarized Zone (DMZ) any time from April 1, 1968, through August 31, 1971
 
@@ -34,6 +35,7 @@ The child’s biological mother or father served in:
 
 The child was conceived after the parent served in either South Vietnam or the Republic of Korea.
  
+<br>
 
 #### For Other Birth Defects
 
