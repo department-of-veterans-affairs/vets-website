@@ -17,9 +17,11 @@ If you had regular security duty on the fenced-in perimeters of a U.S. military 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have an illness believed to be caused by Agent Orange and you served perimeter duty **in at least one of the following places**: 
+You may be able to get disability benefits if you have an illness believed to be caused by Agent Orange and you served perimeter duty in at least one of the places listed below.
+
+**You must have served perimeter duty in at least one of these places:**
 - On RTAF bases in Thailand (including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang), **or**
-- While stationed on a U.S. Army installation in Thailand
+- On a U.S. Army installation in Thailand
 
 ### Who’s covered?
 - Veterans
