@@ -25,7 +25,7 @@ import {
 } from '../utils/appeals-v2-helpers';
 
 const appealsDownMessage = (
-  <div className="row">
+  <div className="row" id="appealsDownMessage">
     <div className="small-12 columns">
       <div className="react-container">
         <h3>We’re sorry. Something went wrong on our end.</h3>
@@ -36,7 +36,7 @@ const appealsDownMessage = (
 );
 
 const recordsNotFoundMessage = (
-  <div className="row">
+  <div className="row" id="recordsNotFoundMessage">
     <div className="small-12 columns">
       <div className="react-container">
         <h3>We’re sorry. We can’t find your records in our system.</h3>
