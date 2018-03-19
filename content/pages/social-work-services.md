@@ -6,31 +6,52 @@ display_title:
 concurrence: 
 lastupdate: 
 relatedlinks:
-  - heading: 
+  - heading: Other VA Benefits and Services You May Find Helpful
     links: 
     - url: /health-care/about-va-health-care/assisted-living-and-home-health-care/ 
       title: Assisted Living and Home Health Care
-      description: Find out if the Veteran or Servicemember you're caring for can get assisted living, residential (live-in), or home health care services through VA.
+      description: Find out if you can get assisted living, residential (live-in), or home health care services through VA.
     - url: /health-care/health-conditions/
       title: Health Needs and Conditions
-      description: Find out how to help the Veteran or Servicemember you're caring for access VA services for mental health, women’s health, and other specific needs.
+      description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /housing-assistance/adaptive-housing-grants/
       title: Adaptive Housing Grants
-      description: Find out if the Veteran or Servicemember you're caring for may be eligible for a grant to buy or change a home to meet their needs and help them live more independently with their service-connected disability.
+      description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.
     - url: /pension/
       title: Pension Benefits
-      description: If the person you're caring for is a wartime Veteran, find out if they're eligible for monthly pension payments as well as additional Aid and Attendance or Housebound benefits if they need help with their daily activities or can't leave the house.
+      description: If you're a wartime Veteran, find out if you may be eligible for monthly pension payments as well as additional Aid and Attendance or Housebound benefits if you need help with your daily activities or can't leave the house.
     - url: /disability-benefits/eligibility/
       title: Disability Benefits Eligibility 
-      description: Find out if the Veteran or Servicemember you're caring for can get disability compensation from VA.
+      description: Find out if you can get disability compensation from VA.
     - url: /health-care/eligibility/
       title: Health Care Benefits Eligibility
-      description: Find out if the Veteran or Servicemember you're caring for is eligible for the VA health care program.
+      description: Find out if you may be eligible for the VA health care program.
 ---
 
 <div class="va-introtext">
 
-Find out how our VA social workers can help you and your family—and how to connect with a social worker near you. 
+Find out how our VA social workers can help you and your family—and how to connect with a social worker near you.
+
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner usa-alert-text">
+            <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
+	    <ul>
+              <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+            </ul>
+	    <p>You can also:</p>	  
+            <ul>
+              <li>Call <a href="tel:911">911</a>.</li>
+	      <li>Go to the nearest emergency room.</li>
+	    </ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
 </div>
 
@@ -75,7 +96,7 @@ If you don't see your needs on the list, don't worry. You can contact a VA socia
 Talk to your VA primary care team. Or, call your nearest VA health facility and ask to be connected to a social worker.<br>
 [Find contact information for your closest VA health care facility](/facilities).
 
-### How do I get help right away if I or someone I love is in crisis?
+### How do I get help right away if I or someone I love is homeless or in crisis?
 
 **If you or your loved one is homeless or at risk of becoming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about homeless programs and services near you. The call is free and completely private.
 
@@ -83,7 +104,7 @@ Talk to your VA primary care team. Or, call your nearest VA health facility and 
 - Call the Veterans Crisis Line at <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1 to talk to someone now. 
 - [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
 - Text <a href="tel:+1phonenumber">838255</a> to get help right away.
-Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.
+Whatever you or your loved one is struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.
 
 You can also:
 - Call <a href="tel:+1phonenumber">911</a>.
