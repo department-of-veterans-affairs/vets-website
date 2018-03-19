@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y netcat \
   && npm install -g yarn@$YARN_VERSION \
   && npm install -g nsp \
   && npm install -g s3-cli \
-  && npm install -g codeclimate-test-reporter
+  && npm install -g codeclimate-test-reporter \
+  && chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
 
 RUN mkdir -p /application
 
