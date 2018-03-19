@@ -97,15 +97,15 @@ If you don't see your needs on the list, don't worry. You can contact a VA socia
 Talk to your VA primary care team. Or, call your nearest VA health facility and ask to be connected to a social worker.<br>
 [Find contact information for your closest VA health care facility](/facilities).
 
-### How do I get help right away if I or someone I love is homeless or in crisis?
+### How do I get help right away if I or a Veteran or Servicemember I care about is homeless or in crisis?
 
-**If you or your loved one is homeless or at risk of becoming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about homeless programs and services near you. The call is free and completely private.
+**If you or the Veteran or Servicemember you care about is homeless or at risk of becoming homeless**, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about homeless programs and services near you. The call is free and completely private.
 
-**If you or your loved one is experiencing a personal crisis:**
+**If you or the Veteran or Servicemember you care about is experiencing a personal crisis:**
 - Call the Veterans Crisis Line at <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1 to talk to someone now. 
 - [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
 - Text <a href="tel:+1phonenumber">838255</a> to get help right away.
-Whatever you or your loved one is struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.
+Whatever you or the person you care about one is struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.
 
 You can also:
 - Call <a href="tel:+1phonenumber">911</a>.
@@ -117,7 +117,7 @@ That's 100% okay. We're here to help you figure out what's wrong, and how we can
 
 <span id="fisher">
 
-### Working with a VA social worker
+### Working with a VA social worker as a Veteran or Servicemember
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -180,3 +180,13 @@ And, your social worker can help connect you to other community resources. These
 </div>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script> 
+
+<script nonce="**CSP_NONCE**" type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
+
