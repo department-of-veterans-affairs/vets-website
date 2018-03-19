@@ -42,7 +42,7 @@ const runTest = E2eHelpers.createE2eTest(
         .click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
 
-      // Evidence Type
+      // Evidence Type -- first condition
       client.axeCheck('.main');
       PageHelpers.completeEvidenceTypeInformation(client, testData.data);
       client.click('.form-panel .usa-button-primary');

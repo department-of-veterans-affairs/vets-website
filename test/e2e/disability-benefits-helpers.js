@@ -12,9 +12,9 @@ function completeApplicantInformation(client, data) {
 
 function completeEvidenceTypeInformation(client, data) {
   client
-    .fillCheckbox('input[name="root_view:vaMedicalRecords"]', data['view:vaMedicalRecords'])
-    .fillCheckbox('input[name="root_view:privateMedicalRecords"]', data['view:privateMedicalRecords'])
-    .fillCheckbox('input[name="root_view:otherEvidence"]', data['view:otherEvidence']);
+    .fillCheckbox('input[name="root_view:vaMedicalRecords"]', data.disabilities[0]['view:vaMedicalRecords'])
+    .fillCheckbox('input[name="root_view:privateMedicalRecords"]', data.disabilities[0]['view:privateMedicalRecords'])
+    .fillCheckbox('input[name="root_view:otherEvidence"]', data.disabilities[0]['view:otherEvidence']);
 }
 
 function completeVAFacilitiesInformation(client, data) {
@@ -53,6 +53,11 @@ function completeRecordReleaseInformation(client, data) {
   }
 }
 
+function completePrivateMedicalRecordsChoice(client, data) {
+  client
+    .selectRadio('root_view:uploadPrivateRecords', data.disabilities[0]['view:uploadPrivateRecords']);
+}
+
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/21-526EZ',
@@ -87,5 +92,6 @@ module.exports = {
   completeApplicantInformation,
   completeEvidenceTypeInformation,
   completeVAFacilitiesInformation,
-  completeRecordReleaseInformation
+  completeRecordReleaseInformation,
+  completePrivateMedicalRecordsChoice
 };
