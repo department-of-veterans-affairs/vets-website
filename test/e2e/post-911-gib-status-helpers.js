@@ -75,6 +75,17 @@ const enrollmentData = {
   }
 };
 
+const backendStatus = {
+  data: {
+    id: '',
+    type: 'backend_statuses',
+    attributes: {
+      name: 'gibs',
+      isAvailable: true
+    }
+  }
+};
+
 // Create API routes
 function initApplicationMock(token) {
   mock(token, {
@@ -82,7 +93,12 @@ function initApplicationMock(token) {
     verb: 'get',
     value: enrollmentData
   });
-  // TODO: Mock the service up endpoint (whatever it may be)
+
+  mock(token, {
+    path: '/v0/backend_statuses/gibs',
+    verb: 'get',
+    value: backendStatus
+  });
 }
 
 module.exports = {
