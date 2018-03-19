@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import { getServiceUp } from '../actions/post-911-gib-status';
-import { SERVICE_UP_STATES } from '../utils/constants';
+import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
 export class IntroPage extends React.Component {
   constructor(props) {
@@ -18,16 +18,16 @@ export class IntroPage extends React.Component {
   getContent() {
     let content;
     switch (this.props.serviceUp) {
-      case SERVICE_UP_STATES.unrequested: {
+      case SERVICE_AVAILABILITY_STATES.unrequested: {
         // This is never actually even seen
         content = (<div></div>);
         break;
       }
-      case SERVICE_UP_STATES.pending: {
+      case SERVICE_AVAILABILITY_STATES.pending: {
         content = <LoadingIndicator message="Please wait while we check if the tool is available."/>;
         break;
       }
-      case SERVICE_UP_STATES.up: {
+      case SERVICE_AVAILABILITY_STATES.up: {
         // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
         content = (
           <div>
@@ -40,7 +40,7 @@ export class IntroPage extends React.Component {
         );
         break;
       }
-      case SERVICE_UP_STATES.down:
+      case SERVICE_AVAILABILITY_STATES.down:
       default: {
         content = (
           <div className="usa-alert usa-alert-warning">

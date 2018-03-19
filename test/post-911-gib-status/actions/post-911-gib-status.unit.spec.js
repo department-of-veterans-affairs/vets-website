@@ -8,8 +8,8 @@ import {
   BACKEND_SERVICE_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
-  SET_SERVICE_UP,
-  SERVICE_UP_STATES
+  SET_SERVICE_AVAILABILITY,
+  SERVICE_AVAILABILITY_STATES
 } from '../../../src/js/post-911-gib-status/utils/constants';
 
 let oldFetch;
@@ -206,7 +206,7 @@ describe('getServiceUp', () => {
     }).then(done, done);
   });
 
-  it('should dispatch SET_SERVICE_UP with a status of `up`', (done) => {
+  it('should dispatch SET_SERVICE_AVAILABILITY with a status of `up`', (done) => {
     global.fetch.returns(apiResponse(true));
     const thunk = getServiceUp();
     const dispatch = sinon.spy();
@@ -214,12 +214,12 @@ describe('getServiceUp', () => {
     thunk(dispatch).then(() => {
       // The first call is with `pending`
       const action = dispatch.secondCall.args[0];
-      expect(action.type).to.equal(SET_SERVICE_UP);
-      expect(action.serviceUp).to.equal(SERVICE_UP_STATES.up);
+      expect(action.type).to.equal(SET_SERVICE_AVAILABILITY);
+      expect(action.serviceAvailability).to.equal(SERVICE_AVAILABILITY_STATES.up);
     }).then(done, done);
   });
 
-  it('should dispatch SET_SERVICE_UP with a status of `down`', (done) => {
+  it('should dispatch SET_SERVICE_AVAILABILITY with a status of `down`', (done) => {
     global.fetch.returns(apiResponse(false));
     const thunk = getServiceUp();
     const dispatch = sinon.spy();
@@ -227,8 +227,8 @@ describe('getServiceUp', () => {
     thunk(dispatch).then(() => {
       // The first call is with `pending`
       const action = dispatch.secondCall.args[0];
-      expect(action.type).to.equal(SET_SERVICE_UP);
-      expect(action.serviceUp).to.equal(SERVICE_UP_STATES.down);
+      expect(action.type).to.equal(SET_SERVICE_AVAILABILITY);
+      expect(action.serviceAvailability).to.equal(SERVICE_AVAILABILITY_STATES.down);
     }).then(done, done);
   });
 });
