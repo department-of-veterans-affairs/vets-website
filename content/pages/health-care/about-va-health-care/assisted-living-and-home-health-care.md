@@ -58,7 +58,9 @@ You can learn more about the different types of care below or on our va.gov webs
 
 ### How do I access these services?
 
-You may be able to use one or more of these services if **all of the following are true for you**:
+You may be able to use one or more of these services if all of the below are true for you.
+
+**All of these must be true:**
 
 - You’re signed up for VA health care, **and**
 - We conclude that you need a specific service to help with your ongoing treatment and personal care, **and**
