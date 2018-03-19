@@ -209,7 +209,7 @@ function mapStateToProps(state) {
   const list = getVisibleRows(sortedList, claimsV2Root.page);
 
   return {
-    appealsAvailable: claimsV2Root.appealsAvailability,
+    appealsAvailable: claimsV2Root.v2Availability,
     claimsAvailable: claimsV2Root.claimsAvailability,
     // claimsAuthorized: claimsState.claimSync.authorized,
     claimsLoading: claimsV2Root.claimsLoading,
