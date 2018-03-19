@@ -31,7 +31,9 @@ If you have a service-connected disability that makes it hard for you to succeed
 
 ### Can I get vocational counseling and training for new skills through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and **all of the following are true for you**: 
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and all of the descriptions below are true for you.
+
+**All of these must be true:**
 
 - You have an employment barrier or handicap, **and**
 - You're enrolled in VR&amp;E, **and**
