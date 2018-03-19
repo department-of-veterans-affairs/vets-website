@@ -1,4 +1,5 @@
 import React from 'react';
+
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -343,10 +344,8 @@ const formConfig = {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
                 treatments: {
                   'ui:options': {
-                    itemName: 'Record',
-                    viewField: () => {
-                      return (<div>hello</div>);
-                    }
+                    itemName: 'Private Medical Record',
+                    viewField: treatmentView
                   },
                   items: {
                     treatment: {
