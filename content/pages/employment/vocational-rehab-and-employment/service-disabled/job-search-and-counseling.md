@@ -31,10 +31,12 @@ If you want to follow an employment path that uses your existing skill set, the 
 
 ### Can I get employment counseling and job-search support through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and **all of the following are true for you**:
-- You have an employment handicap or barrier, **and**
-- You are enrolled in VR&E, **and**
-- You already have experience, education, or training in your field of interest
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and all of the descriptions below are true for you.
+
+**All of these must be true. You:**
+- Have an employment handicap or barrier, **and**
+- Are enrolled in VR&E, **and**
+- Already have experience, education, or training in your field of interest
 
 **Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
