@@ -151,7 +151,7 @@ display_title: Frequently Asked Questions
                         <p>Follow these 2 steps to sign up for a premium <strong>My Health<em>e</em>Vet</strong> account.</p>
                         <p><strong>1. First, sign up for an account on the My Health<em>e</em>Vet website.</strong> You’ll need to have your Social Security number on hand. Be sure to choose <strong>VA Patient</strong> on the registration form. This will automatically upgrade your account to an advanced account, and then you can upgrade to a premium account.</p>
                         <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My Health<em>e</em>Vet account</a>.</p>
-                        <p><strong>Note:</strong> If you have a premium <strong>DS Logon</strong> or ID.me account, you can skip step 1 of creating an account, and go right to step 2 below to sign in to <strong>My Health<em>e</em>Vet</strong> with either of these accounts.
+                        <p><strong>Note:</strong> If you have a premium <strong>DS Logon</strong> or ID.me account, you can skip step 1 above, and go right to step 2 to sign in to <strong>My Health<em>e</em>Vet</strong> with either of these accounts.
                         <p><strong>2. Then, upgrade to a premium account.</strong></p>
                         <p>You can do this in 1 of 2 ways.</p>
                         <h5>Upgrade your acount using your premium DS Logon or ID.me user ID and password</h5>
