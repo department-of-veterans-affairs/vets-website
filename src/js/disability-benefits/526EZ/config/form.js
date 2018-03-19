@@ -325,7 +325,6 @@ const formConfig = {
             }
           }
         },
-        // TODO: Should this be privateMedicalRecordsRelease or privateRecordsRelease? 
         privateMedicalRecordsRelease: {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
@@ -351,7 +350,15 @@ const formConfig = {
                   },
                   items: {
                     treatment: {
-                      'ui:order': ['treatmentCenterName', 'privateMedicalRecordsReleaseAccepted', 'view:privateMedicalRecordsReleasePermissionRestricted', 'startTreatment', 'endTreatment', 'treatmentCenterCountry', 'treatmentCenterStreet1', 'treatmentCenterStreet2', 'treatmentCenterCity', 'treatmentCenterState', 'treatmentCenterPostalCode', 'treatmentCenterPhone'],
+                      'ui:order': [
+                        'treatmentCenterName',
+                        'privateMedicalRecordsReleaseAccepted',
+                        'view:privateMedicalRecordsReleasePermissionRestricted', 'startTreatment', 'endTreatment',
+                        'treatmentCenterCountry', 'treatmentCenterStreet1',
+                        'treatmentCenterStreet2', 'treatmentCenterCity',
+                        'treatmentCenterState', 'treatmentCenterPostalCode',
+                        'treatmentCenterPhone'
+                      ],
                       treatmentCenterName: { // TODO: is this required?
                         'ui:title': 'Name of private provider or hospital'
                       },
@@ -532,10 +539,6 @@ const formConfig = {
             }
           }
         }
-        // pageFive: {},
-        // pageSix: {},
-        // pageSeven: {},
-        // pageEight: {},
         // pageNine: {},
         // pageTen: {},
       }
