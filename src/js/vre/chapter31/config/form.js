@@ -33,6 +33,7 @@ const {
   jobDuties,
   monthlyIncome,
   previousPrograms,
+  serviceHistory,
   vaRecordsOffice,
   yearsOfEducation
 } = fullSchema31.properties;
@@ -42,7 +43,7 @@ const {
   dateRange,
   fullName,
   phone,
-  serviceHistory,
+  requiredServiceHistory,
   ssn,
   vaFileNumber,
   year
@@ -78,6 +79,7 @@ const formConfig = {
     dateRange,
     phone,
     fullName,
+    requiredServiceHistory,
     ssn,
     vaFileNumber,
     year
@@ -306,7 +308,6 @@ const formConfig = {
               'disabilities',
               'vaRecordsOffice',
               'view:inHospital'
-
             ],
             properties: {
               disabilityRating,

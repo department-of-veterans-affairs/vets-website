@@ -62,7 +62,7 @@ describe('VRE chapter 31 military history', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('submits without info', () => {
+  it('does not submit without info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -75,8 +75,8 @@ describe('VRE chapter 31 military history', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find('.usa-input-error').length).to.equal(4);
 
-    expect(onSubmit.called).to.be.true;
+    expect(onSubmit.called).to.be.false;
   });
 });
