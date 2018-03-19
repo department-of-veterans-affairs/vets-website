@@ -145,21 +145,36 @@ export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE
 export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL);
 export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
 
+function noop() {}
+
 function getEmailAddress() {
-  // https://github.com/department-of-veterans-affairs/vets-api/pull/1718
   return apiRequest('/profile/email')
     .then(json => json.data.attributes.email)
-    .catch(err => {
-      /* eslint-disable no-console */
-      console.log(err);
-      return null;
-    });
+    .catch(noop);
+}
+
+function getPrimaryTelephone() {
+  return apiRequest('/profile/primary_phone')
+    .catch(noop);
+}
+
+function getAlternateTelephone() {
+  return apiRequest('/profile/alternate_phone')
+    .catch(noop);
+}
+
+function getMailingAddress() {
+  return apiRequest('/profile/residential_address')
+    .catch(noop);
 }
 
 // The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
 function sendProfileRequests() {
   return [
-    getEmailAddress()
+    getEmailAddress(),
+    getPrimaryTelephone(),
+    getAlternateTelephone(),
+    getMailingAddress()
   ];
 }
 
