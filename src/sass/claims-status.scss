@@ -26,6 +26,10 @@ $color-inactive: #9B9B9B;
     // Line up the bottom border under "Need help?" with the tab list bottom border
     margin-top: calc(3rem - 16px);
     margin-bottom: 50px;
+
+    & > div {
+      margin-bottom: 3rem;
+    }
   }
 
   // The claims container has a sizeable padding; don't make the whitespace bigger
