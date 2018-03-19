@@ -31,7 +31,9 @@ If your service-connected disability limits your ability to perform activities o
 
 ### Can I get independent living services through VR&amp;E?
 
-You may be eligible for independent living services if you’re a Servicemember or Veteran with a service-connected disability who is eligible for VR&E benefits, and **all of the following are true for you**:
+You may be eligible for independent living services if you’re a Servicemember or Veteran with a service-connected disability who is eligible for VR&E benefits, and all of the descriptions below are true for you.
+
+**All of these must be true:**
 
 - You have a serious employment handicap (SEH), **and**
 - Your disabilities prevent you from looking for or returning to work, **and**
