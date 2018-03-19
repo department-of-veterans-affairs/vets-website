@@ -43,20 +43,26 @@
     text-decoration: underline;
     background-color: $color-link-default-hover !important;
     -webkit-transition-duration: 0.3s;
-            transition-duration: 0.3s;
+    transition-duration: 0.3s;
 
     -webkit-transition-timing-function: ease-in-out;
-            transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
 
     // Transition only these properties.
     -webkit-transition-property: color, background-color, border-color;
-            transition-property: color, background-color, border-color;
+    transition-property: color, background-color, border-color;
   }
   &:active {
     background: $color-link-default-hover;
   }
   &:focus {
-		outline: 2px dotted $color-gray-light;
-		outline-offset: 3px;
+    outline: 2px dotted $color-gray-light;
+    outline-offset: 3px;
   }
+}
+
+// These are JavaScript only styles that will be added and removed
+// dynamically with scripts
+.js-hide {
+  display: none;
 }
