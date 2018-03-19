@@ -57,7 +57,7 @@ class FeedbackForm extends React.Component {
                 field={{ value: this.props.formValues.description, dirty: false }}
                 ref={component => { this.descriptionComp = component; }}
                 required/>
-              <p><b>Please know:</b> We don't always see suggestions as soon as they're sent. If you have a problem or need to talk with someone right away, connect with our Veterans Crisis Line by phone, text, or online chat any time, day or night.</p>
+              <p><b>Please know:</b> We don't always see suggestions as soon as they're sent. If you need to talk with someone right away, please call the Veterans Crisis Line.</p>
               <p><a href="#">Get help from the Veterans Crisis Line</a>.</p>
             </div>
             <div className="usa-grid-full">
@@ -74,11 +74,18 @@ class FeedbackForm extends React.Component {
           </div>
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
-              <h3>Need help?</h3>
-              Calls the Vets.gov Help Desk<br/>
-              <a href="tel:18555747286">1-855-574-7286</a><br/>
-              TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
-              Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)
+              <h3>Need help with Vets.gov?</h3>
+              <p>Call our Help Desk<br/>
+              We're here Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)<br/>
+                <a href="tel:18555747286">1-855-574-7286</a><br/>
+              TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a></p>
+              <h3>Need help with a personal crisis?</h3>
+              <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
+              <ul>
+                <li>Call the Veterans Crisis Line at <a href="tel:+18002738255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
+                <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans chat</a>.</li>
+                <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+              </ul>
             </div>
           </div>
         </div>
