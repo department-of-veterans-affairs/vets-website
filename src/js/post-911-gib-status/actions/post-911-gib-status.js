@@ -65,7 +65,6 @@ export function getServiceUp() {
     ).then((response) => {
       const availability = response.data.attributes.isAvailable;
 
-
       dispatch({
         type: SET_SERVICE_UP,
         serviceUp: availability ? SERVICE_UP_STATES.up : SERVICE_UP_STATES.down
