@@ -1,6 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
 const fs = require('fs');
-const jsdom = require('jsdom');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -25,6 +24,7 @@ const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 const createSettings = require('../config/create-settings');
+const nonceTransformer = require('./metalsmith/nonceTransformer');
 
 const sourceDir = '../content/pages';
 
@@ -695,35 +695,7 @@ smith.use(redirect({
 Add nonce attribute with substition string to all inline script tags
 Convert onclick event handles into nonced script tags
 */
-smith.use((files, metalsmith, done) => {
-  Object.keys(files).forEach((file) => {
-    if (path.extname(file) !== '.html') return;
-
-    const data = files[file];
-    const dom = new jsdom.JSDOM(data.contents.toString());
-    dom.window.document.querySelectorAll('script').forEach((scriptEl) => {
-      if (scriptEl.textContent !== '') {
-        scriptEl.setAttribute('nonce', '**CPS_NONCE**');
-      }
-    });
-    dom.window.document.querySelectorAll('[onclick]').forEach((onclickEl) => {
-      if (onclickEl.id === '') {
-        onclickEl.id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
-      }
-      const id = onclickEl.id;
-      const onclick = onclickEl.getAttribute('onclick');
-      const newScript = dom.window.document.createElement('script');
-      newScript.setAttribute('nonce', '**CSP_NONCE**');
-      newScript.textContent = `(function() { var e = document.getElementById('${id}'); e.addEventListener('click', function(ev) { ${onclick} }); })();`;
-      onclickEl.removeAttribute('onclick');
-      onclickEl.appendChild(newScript);
-    });
-    data.contents = new Buffer(dom.serialize());
-    dom.window.close();
-    files[file] = data;
-  });
-  done();
-});
+smith.use(nonceTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);
