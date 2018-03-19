@@ -53,7 +53,7 @@ export function getEnrollmentData() {
   };
 }
 
-export function getServiceUp() {
+export function getServiceAvailability() {
   return (dispatch) => {
     dispatch({
       type: SET_SERVICE_AVAILABILITY,

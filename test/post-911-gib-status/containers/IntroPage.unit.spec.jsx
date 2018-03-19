@@ -4,27 +4,27 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 import { IntroPage } from '../../../src/js/post-911-gib-status/containers/IntroPage';
-import { SERVICE_UP_STATES } from '../../../src/js/post-911-gib-status/utils/constants';
+import { SERVICE_AVAILABILITY_STATES } from '../../../src/js/post-911-gib-status/utils/constants';
 
 describe('<IntroPage/>', () => {
-  const getServiceUp = sinon.spy();
+  const getServiceAvailability = sinon.spy();
 
   beforeEach(() => {
-    getServiceUp.reset();
+    getServiceAvailability.reset();
   });
 
   const defaultProps = {
-    getServiceUp,
-    serviceUp: SERVICE_UP_STATES.up
+    getServiceAvailability,
+    serviceAvailability: SERVICE_AVAILABILITY_STATES.up
   };
 
-  it('should call getServiceUp()', () => {
+  it('should call getServiceAvailability()', () => {
     shallow(<IntroPage {...defaultProps}/>);
-    expect(getServiceUp.callCount).to.equal(1);
+    expect(getServiceAvailability.callCount).to.equal(1);
   });
 
   it('should render a LoadingIndicator', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps} serviceUp={SERVICE_UP_STATES.pending}/>);
+    const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}/>);
     expect(wrapper.find('LoadingIndicator')).to.have.lengthOf(1);
   });
 
@@ -34,7 +34,7 @@ describe('<IntroPage/>', () => {
   });
 
   it('should render an alert', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps} serviceUp={SERVICE_UP_STATES.down}/>);
+    const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.down}/>);
     expect(wrapper.find('.usa-alert')).to.have.lengthOf(1);
   });
 });

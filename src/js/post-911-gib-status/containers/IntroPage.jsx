@@ -4,20 +4,20 @@ import { Link } from 'react-router';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
-import { getServiceUp } from '../actions/post-911-gib-status';
+import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
 export class IntroPage extends React.Component {
   constructor(props) {
     super(props);
     // Make the api request
-    this.props.getServiceUp();
+    this.props.getServiceAvailability();
   }
 
 
   getContent() {
     let content;
-    switch (this.props.serviceUp) {
+    switch (this.props.serviceAvailability) {
       case SERVICE_AVAILABILITY_STATES.unrequested: {
         // This is never actually even seen
         content = (<div></div>);
@@ -77,14 +77,14 @@ export class IntroPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { serviceUp } = state.post911GIBStatus;
+  const { serviceAvailability } = state.post911GIBStatus;
   return {
-    serviceUp
+    serviceAvailability
   };
 };
 
 const mapDispatchToProps = {
-  getServiceUp
+  getServiceAvailability
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntroPage);

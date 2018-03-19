@@ -176,7 +176,7 @@ describe('getEnrollmentData', () => {
 });
 
 
-describe('getServiceUp', () => {
+describe('getServiceAvailability', () => {
   beforeEach(setup);
   afterEach(teardown);
 
