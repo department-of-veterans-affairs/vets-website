@@ -68,17 +68,18 @@ You can call the VA health facility where you want to receive care. This is usu
 
 VA now offers online scheduling for some appointments and facilities. We hope to expand the number of VA facilities and types of appointments in the future.
 
-If you have VA health care benefits, you can schedule a VA primary care appointment online if **both of the following are true for you**:
+If you have VA health care benefits, you can schedule a VA primary care appointment online if all of the below are true for you.
+
+**To schedule online, all of these must be true:**
 
 - You're scheduling your appointment with a VA medical facility that accepts online scheduling.<br>
 [Find out if your VA medical center accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
-- You've had an appointment at that VA medical facility within the last 2 years
-
-**To schedule online, you must have one of these free accounts:**
-- My Health*e*Vet Premium account <br>
-[Get a free My Health*e*Vet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
-- DS Logon Premium account (used for eBenefits and milConnect) <br>
-[Get a free DS Logon Premium account](https://mobile.va.gov/dslogon).
+- You've had an appointment at that VA medical facility within the last 2 years, **and**
+- You have one of these free accounts:
+  - A premium **My Health*e*Vet** account <br>
+[Sign up for a My Health*e*Vet account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
+  - Or, a premium **DS Logon** account (used for eBenefits and milConnect) <br>
+[Sign up for a DS Logon account](https://mobile.va.gov/dslogon).
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
