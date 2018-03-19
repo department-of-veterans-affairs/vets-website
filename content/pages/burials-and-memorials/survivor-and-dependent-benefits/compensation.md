@@ -31,11 +31,11 @@ If you’re a surviving spouse, you can get compensation if one of the below des
 
 If you’re a surviving child, you can get compensation if one of the below descriptions is true for you.
 
-**Both of these must must describe you:**
+**Both of these must describe you:**
 - You aren’t married, **and**
 - You aren’t included on the surviving spouse’s compensation
 
-**And one of these must describe you:**
+**And one of these must also describe you:**
 - You’re under the age of 18 (or under the age of 23 if attending school), **or**
 - You were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
