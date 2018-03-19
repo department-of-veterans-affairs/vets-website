@@ -31,11 +31,13 @@ As a Veteran, you’re protected under the Uniformed Services Employment and Ree
 
 ### Can I get help returning to my former job through VR&amp;E?
 
-You may be eligible for help if you're a Veteran with a service-connected disability and **all of the following are true for you**:
+You may be eligible for help if you're a Veteran with a service-connected disability and all of the descriptions below are true for you.
 
-- You have an employment barrier or handicap, **and**
-- Your are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
-- You would like to return to your former job
+**All of these must be true. You:**
+
+- Have an employment barrier or handicap, **and**
+- Are enrolled in Vocational Rehabilitation and Employment (VR&amp;E), **and**
+- Would like to return to your former job
 
 **Note:** Having an employment handicap means your service-connected disability limits your ability to  prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
