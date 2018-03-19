@@ -33,7 +33,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
 
 If the Servicemember or Veteran you're caring for is in the hospital, or if your family needs help understanding their condition or accessing programs and services, our VA social workers can help. And, if a Servicemember or Veteran in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location.  <br>
-[Find out how a social worker can help you and your family](/families-caregivers/social-work-services/).
+[Find out how a social worker can help you and your family](/social-work-services/#caregiver).
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/).<br>
@@ -190,7 +190,7 @@ If you need help accessing services, help connecting with your local Caregiver S
 **Looking for someone to help support you, the Servicemember or Veteran you're caring for, or your whole family?**<br>
 
 Our VA social workers can help with most any need, or connect you with the right person for help.<br>
-[Find out how a VA social worker can helpu support your family](/families-caregivers/social-work-services/).
+[Find out how a VA social worker can helpu support your family](/social-work-services/#caregiver).
 <br>
 <br>
 <br>
