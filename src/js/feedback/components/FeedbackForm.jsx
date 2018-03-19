@@ -73,7 +73,7 @@ class FeedbackForm extends React.Component {
           </div>
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
-              <h3>Need help?</h3>
+              <h3>In crisis?</h3>
               <p className="feedback-widget-title">Need help or to talk with someone right away? <a href="#">Get support from the Veterans Crisis Line</a>.</p>
               <p><b>Note:</b> We don't monitor the Vets.gov suggestion box at all hours. But our Veterans Crisis Line responders can support you, day and night.</p>
               Calls the Vets.gov Help Desk<br/>
