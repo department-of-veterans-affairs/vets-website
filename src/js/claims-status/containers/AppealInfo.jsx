@@ -39,7 +39,7 @@ const recordsNotFoundMessage = (
   <div className="row">
     <div className="small-12 columns">
       <div className="react-container">
-        <h1>We’re sorry. We can’t find your records in our system.</h1>
+        <h3>We’re sorry. We can’t find your records in our system.</h3>
         <p>If you think they should be here, please try again later or call the Vets.gov Help Desk at <a href="tel:18555747286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
       </div>
     </div>
