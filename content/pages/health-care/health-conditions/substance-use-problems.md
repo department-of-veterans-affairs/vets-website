@@ -117,7 +117,7 @@ You may still be able to get care:
 - Visit the resources section of our VA website to find more trusted resources outside VA that can offer information and support. [Find resources](https://www.mentalhealth.va.gov/substanceabuse.asp).
 - Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more. [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).
 
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
