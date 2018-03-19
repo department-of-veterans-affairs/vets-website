@@ -19,10 +19,10 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 
 You can get a burial flag if you’re the next of kin or a close friend of the deceased, and any one of the descriptions below is true for that person.
 
-**One of these must describe the deceased:**
+**One of these must describe the service of the Veteran or Reservist:**
 
 - Served in wartime, **or**
-- Died while on active duty after May 27, 1941, **or**
+- Died while serving on active duty after May 27, 1941, **or**
 - Served after January 31, 1955, **or**
 - Served in peacetime and left military service before June 27, 1950, after serving at least 1 enlistment, or because of a disability that was caused—or made worse—by their active military service, **or**
 - Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).
