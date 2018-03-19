@@ -60,14 +60,15 @@ export function getServiceUp() {
       serviceUp: SERVICE_UP_STATES.pending
     });
 
-    // TODO: Make the api call here
-    // In the meantime, act like we did; delay of 3 seconds
-    const callApi = () => new Promise((resolve) => setTimeout(resolve, 3000));
+    return apiRequest(
+      '/backend_statuses/gibs'
+    ).then((response) => {
+      const availability = response.data.attributes.isAvailable;
 
-    callApi().then(() => {
+
       dispatch({
         type: SET_SERVICE_UP,
-        serviceUp: SERVICE_UP_STATES.up
+        serviceUp: availability ? SERVICE_UP_STATES.up : SERVICE_UP_STATES.down
       });
     }).catch(() => {
       dispatch({

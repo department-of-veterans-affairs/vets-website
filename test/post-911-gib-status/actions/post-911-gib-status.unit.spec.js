@@ -1,10 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getEnrollmentData } from '../../../src/js/post-911-gib-status/actions/post-911-gib-status';
+import {
+  getEnrollmentData,
+  getServiceUp
+} from '../../../src/js/post-911-gib-status/actions/post-911-gib-status';
 import {
   BACKEND_SERVICE_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
-  GET_ENROLLMENT_DATA_SUCCESS
+  GET_ENROLLMENT_DATA_SUCCESS,
+  SET_SERVICE_UP,
+  SERVICE_UP_STATES
 } from '../../../src/js/post-911-gib-status/utils/constants';
 
 let oldFetch;
@@ -171,11 +176,59 @@ describe('getEnrollmentData', () => {
 });
 
 
-// TODO: Fill in these tests when the action actually calls the api
-describe.skip('getServiceUp', () => {
-  it('should call the api', () => {});
+describe('getServiceUp', () => {
+  beforeEach(setup);
+  afterEach(teardown);
 
-  it('should dispatch SET_SERVICE_UP with a status of `up`', () => {});
+  function apiResponse(isAvailable) {
+    return Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () => Promise.resolve({
+        data: {
+          type: 'backend_statuses',
+          id: '',
+          attributes: {
+            isAvailable,
+            name: 'gibs'
+          }
+        }
+      })
+    });
+  }
 
-  it('should dispatch SET_SERVICE_UP with a status of `down`', () => {});
+  it('should call the api', (done) => {
+    const thunk = getServiceUp();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch).then(() => {
+      expect(global.fetch.firstCall.args[0]).to.contain('/v0/backend_statuses/gibs');
+    }).then(done, done);
+  });
+
+  it('should dispatch SET_SERVICE_UP with a status of `up`', (done) => {
+    global.fetch.returns(apiResponse(true));
+    const thunk = getServiceUp();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch).then(() => {
+      // The first call is with `pending`
+      const action = dispatch.secondCall.args[0];
+      expect(action.type).to.equal(SET_SERVICE_UP);
+      expect(action.serviceUp).to.equal(SERVICE_UP_STATES.up);
+    }).then(done, done);
+  });
+
+  it('should dispatch SET_SERVICE_UP with a status of `down`', (done) => {
+    global.fetch.returns(apiResponse(false));
+    const thunk = getServiceUp();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch).then(() => {
+      // The first call is with `pending`
+      const action = dispatch.secondCall.args[0];
+      expect(action.type).to.equal(SET_SERVICE_UP);
+      expect(action.serviceUp).to.equal(SERVICE_UP_STATES.down);
+    }).then(done, done);
+  });
 });
