@@ -18,7 +18,7 @@ import AppealListItem from '../components/AppealsListItem';
 class ClaimsAppealsWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessClaims) {
-      this.props.getClaimsV2();
+      // this.props.getClaimsV2();
     }
 
     if (this.props.canAccessAppeals) {
