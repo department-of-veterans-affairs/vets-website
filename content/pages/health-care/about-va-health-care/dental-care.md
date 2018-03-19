@@ -97,7 +97,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You may qualify for:** 1-time dental care
 
-**You can get this care only if all of the following are true for you:**
+**You can get this care only if all of the below are true for you:**
 
 - You were discharged or released under conditions other than dishonorable, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
@@ -204,7 +204,9 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 
 ### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
-You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if **one of the following is true for you**:
+You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if at least one of the below are true for you.
+
+**At least one of these must be true. You:**
 
 - Are signed up for VA health care <br>
 ([apply now](/health-care/apply/)), **or**
