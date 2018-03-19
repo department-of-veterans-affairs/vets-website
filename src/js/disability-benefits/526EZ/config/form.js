@@ -427,6 +427,7 @@ const formConfig = {
             }
           }
         },
+        // TODO: should this be renamed recordUpload?
         documentUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
@@ -492,6 +493,7 @@ const formConfig = {
                       type: 'array',
                       items: {
                         type: 'object',
+                        required: ['name', 'attachmentId'],
                         properties: {
                           name: {
                             type: 'string'
