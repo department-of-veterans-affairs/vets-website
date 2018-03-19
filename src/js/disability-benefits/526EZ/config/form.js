@@ -21,7 +21,8 @@ import {
   treatmentView,
   recordReleaseWarning,
   validateAddress,
-  documentDescription
+  documentDescription,
+  additionalDocumentDescription
 } from '../helpers';
 
 const {
@@ -563,7 +564,7 @@ const formConfig = {
                       };
                     }
                   }),
-                  { 'ui:description': documentDescription }
+                  { 'ui:description': additionalDocumentDescription }
                 )
               }
             }

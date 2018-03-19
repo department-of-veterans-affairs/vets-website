@@ -177,3 +177,17 @@ export const documentDescription = () => {
     </div>
   );
 };
+
+export const additionalDocumentDescription = () => {
+  return (
+    <div>
+      <p>You mentioned that you have other evidence, like lay statements that you’d like to add to support your claim. You can upload them here.</p>
+      <p>File upload guidelines:</p>
+      <ul>
+        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
+        <li>Maximum file size: 25 MB</li>
+      </ul>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+    </div>
+  );
+};
