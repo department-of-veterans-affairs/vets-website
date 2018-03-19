@@ -164,3 +164,16 @@ export const recordReleaseWarning = () => {
     </div>
   );
 };
+
+export const documentDescription = () => {
+  return (
+    <div>
+      <p>File upload guidelines:</p>
+      <ul>
+        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
+        <li>Maximum file size: 25 MB</li>
+      </ul>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+    </div>
+  );
+};

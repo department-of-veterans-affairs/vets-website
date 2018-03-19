@@ -1,5 +1,3 @@
-import React from 'react';
-
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -22,7 +20,8 @@ import {
   facilityDescription,
   treatmentView,
   recordReleaseWarning,
-  validateAddress
+  validateAddress,
+  documentDescription
 } from '../helpers';
 
 const {
@@ -476,14 +475,8 @@ const formConfig = {
                       'ui:title': 'Document name'
                     }
                   }),
-                  { 'ui:description': () => (<div>
-                    <p>File upload guidelines:</p>
-                    <ul>
-                      <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
-                      <li>Maximum file size: 25 MB</li>
-                    </ul>
-                    <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
-                  </div>) })
+                  { 'ui:description': documentDescription }
+                )
               }
             }
           },
