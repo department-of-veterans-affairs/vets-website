@@ -38,12 +38,13 @@ Find out how our VA social workers can help you and your family—and how to con
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
             <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
+	    <p>**To reach us 24/7:**	  
 	    <ul>
               <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
 	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
             </ul>
-	    <p>You can also:</p>	  
+	    <p>**You can also:**</p>	  
             <ul>
               <li>Call <a href="tel:911">911</a>.</li>
 	      <li>Go to the nearest emergency room.</li>
