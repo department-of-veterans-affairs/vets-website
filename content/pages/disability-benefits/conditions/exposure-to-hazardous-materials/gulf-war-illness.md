@@ -19,9 +19,9 @@ If you served in the Southwest Asia theater of military operations, you may suff
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you served in the Southwest Asia theater of military operations during the Gulf War period, you were discharged under conditions other than dishonorable, and you have 1 or more illnesses or other conditions related to service in this region. To get benefits: 
+You may be able to get disability benefits if you served in the Southwest Asia theater of military operations during the Gulf War period, you were discharged under conditions other than dishonorable, and the information listed below is true for you.
 
-**All of these descriptions of your chronic illness or other condition must be true. It:**
+**All of these descriptions must be true for your chronic illness or other condition. It:**
 -	Started while you were on active duty or before December 31, 2016, **and**
 -	Caused you to be ill for at least 6 months, **and**
 -	Qualified you for a disability rating of 10% or more, **and**
