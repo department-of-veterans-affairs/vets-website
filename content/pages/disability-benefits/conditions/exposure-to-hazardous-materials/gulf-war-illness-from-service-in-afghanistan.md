@@ -20,13 +20,15 @@ If you served in Afghanistan, you may suffer from illnesses or other conditions 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get benefits if you served in Afghanistan. And, **all of the following must be true** for your chronic illness or other condition:
+You may be able to get benefits if you served in Afghanistan, were discharged under conditions other than dishonorable, and the below descriptions are true for your chronic illness or other condition.
+
+**All of these must be true. You're chronic illness or other condition:**
 - Started while you were on active duty or after September 19, 2001, **and**
 - Caused you to be ill for at least 6 months, **and**
 - Qualified you for a disability rating of 10% or more, **and**
-- Not been caused by anything except your service in Afghanistan, **and**
+- Was caused only by your service in Afghanistan
 
-You must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions:
+**And you must have a diagnosis of 1 or more of these conditions:**
 
 -	Brucellosis
 -	Campylobacter jejuni
