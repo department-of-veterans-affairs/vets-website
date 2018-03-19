@@ -530,6 +530,75 @@ const formConfig = {
               }
             }
           }
+        },
+        additionalDocumentUpload: {
+          title: 'Upload your additional documents',
+          depends: (formData, index) => {
+            const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
+            return hasOtherEvidence;
+          },
+          path: 'supporting-evidence/:index/additionalDocuments',
+          // editPageOnReview: true,
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                additionalDocuments: Object.assign({},
+                  fileUploadUI('Upload your additional documents', {
+                    itemDescription: 'Adding additional evidence:',
+                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
+                    maxSize: 27262976, // TODO: create constant
+                    createPayload: (file) => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+
+                      return payload;
+                    },
+                    parseResponse: (response, file) => {
+                      return {
+                        name: file.name,
+                        confirmationCode: response.data.attributes.guid
+                      };
+                    }
+                  }),
+                  { 'ui:description': documentDescription }
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    additionalDocuments: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        required: ['name', 'attachmentId'],
+                        properties: {
+                          name: {
+                            type: 'string'
+                          },
+                          size: {
+                            type: 'integer'
+                          },
+                          confirmationCode: {
+                            type: 'string'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
         // pageNine: {},
         // pageTen: {},
