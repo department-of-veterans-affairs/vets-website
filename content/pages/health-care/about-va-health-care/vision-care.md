@@ -48,7 +48,9 @@ If you’re a blind or low vision Veteran, you may be able to get more advanced 
 
 ### Will VA cover the cost of eyeglasses?
 
-We’ll cover the cost of your eyeglasses if **at least one of the following is true for you**:
+We’ll cover the cost of your eyeglasses if at least one of the descriptions below is true for you, or you have at least one of the issues from the list below.
+
+**At least one of these must be true. You:**
 
 - Have a compensable service-connected disability (a disability linked to your military service for which you’re receiving VA disability payments), **or**
 - Are a former Prisoner of War (POW), **or**
@@ -56,7 +58,7 @@ We’ll cover the cost of your eyeglasses if **at least one of the following is 
 - [Receive benefits under Title 38 United States Code (U.S.C.) 1151](https://www.vets.gov/disability-benefits/conditions/special-claims/title-38-USC-1151/), **or**
 - Receive an increased pension based on your being permanently housebound and in need of regular aid and attendance
 
-We’ll also cover the cost of your eyeglasses if **you have any of these issues**:
+**Or, you must have at least one of these issues:**
 
 - Vision problems caused by an illness—or the treatment of an illness—for which you’re receiving VA care, like:
   - Stroke
