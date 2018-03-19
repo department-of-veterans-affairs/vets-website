@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Get Help Filing Your Claim
-description: Get help filing a VA claim by working with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO) who's certified to help you with the VA claims process. 
+title: Get Help Filing Your Claim or Appeal
+description: Get help filing a VA claim or appeal by working with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO) who's certified to help you with the VA claims process. 
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -28,7 +28,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help filing a claim, you may want to work with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims process and can help you with VA-related needs. 
+If you need help filing a claim or appeal, you may want to work with an accredited attorney, a claims agent, or a Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals processes and can help you with VA-related needs. 
 
 VSOs work on behalf of Veterans and Servicemembers—as well as their dependents and survivors. Find out more about accredited representatives and how they can help you.
 
@@ -71,8 +71,8 @@ Accredited representatives and VSOs can help you understand and apply for VA ben
 
 These trained professionals can also: 
 - Help you gather supporting documents (like a doctor’s report or medical test results)
-- File a claim on your behalf
-- Provide additional resources to Veterans, such as helping with transportation to medical appointments or emergency funds
+- File a claim or appeal on your behalf
+- Provide added support, like helping with transportation to medical appointments or emergency funds
 
 **Note:** Veterans Service Officers work for Veterans Service Organizations (both are called VSOs), as well as for local government offices. 
 
@@ -86,7 +86,7 @@ These trained professionals can also:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-In general, no individual or organization may charge you a fee to help you file your initial application for benefits. But they may charge you for unusual expenses. It's only after VA has made a decision about your claim that VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe a claims agent or attorney charged a fee that’s too high, you can challenge it. <br>
+In general, no individual or organization may charge you a fee to help you file your initial application for benefits. But they may charge you for unusual expenses. It's only after we've made a decision about your original claim that VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you’ll be charged. If you believe a claims agent or attorney charged a fee that’s too high, you can challenge it. <br>
 [Find out more in the “How to Challenge a Fee” guide](https://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 </div>
