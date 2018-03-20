@@ -8,9 +8,6 @@
 import 'babel-polyfill';
 
 // Basic polyfills.
-// TODO(awong): These do NOT correctly conditionally load the polyfill.
-// The polyfill is always loaded. require.ensure() should be used instead but
-// then load ordering needs to be worked out. Fix later.
 import Modernizr from 'modernizr';
 
 if (!Modernizr.classlist) {
@@ -31,9 +28,6 @@ if (navigator.userAgent.includes('Edge/14')) {
 // This needs to stay as require because import causes it to be executed before the
 // above code
 require('whatwg-fetch');
-
-// This polyfill has its own test logic so no need to conditionally require.
-import 'polyfill-function-prototype-bind';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
 // Required for IE and Edge
