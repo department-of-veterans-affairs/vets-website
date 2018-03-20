@@ -72,12 +72,12 @@ If you’re a woman Veteran and you’re currently signed up for VA health care,
 
 #### Programs for specific groups of women
 
-We provide services for:
+**We provide services for:**
 
 - [Women Veterans who are homeless](https://www.va.gov/homeless/for_women_veterans.asp)
 - [Victims of intimate partner violence](https://www.womenshealth.va.gov/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp)
 
-Women Veterans who want:
+**Women Veterans who want:**
   - [Education and training](/education/)
   - [Employment help](/employment/)
   - Vocational rehabilitation (job training)
@@ -89,19 +89,20 @@ Women Veterans who want:
 The VA health care program covers women’s health services. To access these services, first apply for VA health care.<br>
 [Apply for VA health care](/health-care/apply/).
 
-Once you’ve signed up:
+**Once you’ve signed up:**
 
 - Talk to your primary care provider, who will connect you with any services you may need, **or**
-- Contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health. To connect with your local Women Veterans Program Manager:
-  - Contact your local medical center and ask for the Women Veterans Program Manager<br>
-  ([find a VA medical center near you](/facilities/)), **or**
+- Contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health.<br>
+**To connect with your local Women Veterans Program Manager:**
+  - Contact your nearest medical center and ask for the Women Veterans Program Manager<br>
+  ([find a VA medical center near you](/facilities/?facilityType=health&page=1&zoomLevel=10)), **or**
   - Call our Women Veterans Call Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>), and we’ll connect you with your local manager.
 
 <br>
 
 ### What if I don’t have VA health care benefits?
 
-If you don’t have VA health care benefits, you may still be able to get care:
+**You may still be able to get care:**
 
 - **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>).<br>
 Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).
@@ -137,7 +138,7 @@ The most important thing is your safety and the safety of your children.
 **If you do feel safe now, but worry about the future:**
 
 - Talk to the Intimate Partner Violence Coordinator at your nearest VA medical center, or to any of your VA health care providers. We can help you get confidential (private) counseling, create a safety plan, and connect with local resources, like domestic violence shelters.<br>
-[Find contact information for your closest VA medical center](/facilities/).
+[Find your closest VA medical center](/facilities/?facilityType=health&page=1&zoomLevel=10).
 - Tell your trusted friends and family about what's going on and come up with a safe place you could go if needed.
 - Learn more about intimate partner violence among women Veterans and Servicemembers.<br>
 [Visit Women Veterans Health Care](https://www.womenshealth.va.gov/WOMENSHEALTH/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp).
