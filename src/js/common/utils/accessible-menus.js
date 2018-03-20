@@ -53,6 +53,15 @@ function isMenuButton(element) {
   return isButton && hasPopup && isOrHasMenu;
 }
 
+/**
+ * Tests if element is a script tag
+ *
+ * @param {HTMLIElement} element The element to test against
+ */
+
+function isScript(element) {
+  return element.nodeName === 'SCRIPT';
+}
 
 /**
  * Determines if an element is visible by checking both its display and at least one of its children's
@@ -66,7 +75,7 @@ function isVisible(element) {
 
   // If the element has children, check them; otherwise, naively assume it's visible
   const childrenAreVisible = element.children.length ?
-    Array.from(element.children).some(e => !hiddenDisplays.includes(getComputedStyle(e).display)) :
+    Array.from(element.children).some(e => isScript(e) || !hiddenDisplays.includes(getComputedStyle(e).display)) :
     true;
   const visible = !hiddenDisplays.includes(getComputedStyle(element).display) && childrenAreVisible;
 
@@ -94,7 +103,6 @@ function firstVisibleChild(element) {
   return firstVisible;
 }
 
-
 /**
  * Focuses on either the previous or next element in a list. If either the beginning or end of the list
  *  is reached, it wraps to the last or first element respectively. If an element isn't visible, it's
@@ -116,7 +124,6 @@ function moveFocus(element, direction) {
     focusElement.firstElementChild.focus();
   }
 }
-
 
 /**
  * Gets the menu and associated menu button from an element if possible. Returns null if not.

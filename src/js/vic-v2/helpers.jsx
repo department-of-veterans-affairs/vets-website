@@ -110,7 +110,7 @@ function pollStatus(guid, onDone, onError) {
         } else if (res.data.attributes.state === 'success') {
           onDone(res.data.attributes.response);
         } else {
-        // needs to start with this string to get the right message on the form
+          // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_vic: status ${res.data.attributes.state}`);
         }
       })
@@ -194,7 +194,18 @@ export function submit(form, formConfig) {
         resolve(_.set('photo', photo, response));
       }, reject);
     })
-      .catch(reject);
+      .catch(respOrError => {
+        if (respOrError instanceof Response) {
+          if (respOrError.status === 429) {
+            const error = new Error('vets_throttled_error_vic');
+            error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+            reject(error);
+            return;
+          }
+        }
+        reject(respOrError);
+      });
   });
 }
 

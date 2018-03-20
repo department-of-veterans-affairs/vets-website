@@ -9,6 +9,7 @@ const CurrentStatus = ({ title, description, isClosed }) => (
       <div>{description}</div>
     </div>
     {!isClosed && <div className="down-arrow"/>}
+    <a href="/disability-benefits/claims-appeal/" className="appeals-process-link">Learn more about the appeals process.</a>
   </div>
 );
 
