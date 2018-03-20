@@ -10,20 +10,32 @@ template: detail-page
 order: 1
 ---
 
-### Are you in crisis? You have options.
-
-- Call the Veterans Crisis Line at <a href="tel:+8002738255">1-800-273-8255</a> and press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text 838255 to get help right away.
-- Call 911.
-- Go to the nearest emergency room.
-
-Get more information and resources on the Veterans Crisis Line website. [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
-
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner usa-alert-text">
+            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
+	    <ul>
+              <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a>.</li>
+            </ul>
+     	    <p><strong>You can also:</strong></p>	  
+            <ul>
+              <li>Call <a href="tel:911">911</a>.</li>
+	      <li>Go to the nearest emergency room.</li>
+	    </ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
 #### Posttraumatic Stress Disorder (PTSD) Basics
 
-Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](https://www.ptsd.va.gov/public/index.asp).
+Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD.<br>
+[Learn more about PTSD](https://www.ptsd.va.gov/public/index.asp).
 
 You may be able to get disability compensation or benefits if you have symptoms of PTSD and while serving in the military you: 
 - Suffered a serious injury, personal or sexual trauma, or sexual violation, **or** 
@@ -58,10 +70,21 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
+You’ll need to apply for benefits.<br>
+[Apply for disability benefits](/disability-benefits/apply/).
 
 Please note that the screening process for disability benefits is geared toward getting a full understanding of your PTSD, not treating it. To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
 
 ### Get more information 
-We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. [Learn about our PTSD programs](https://www.mentalhealth.va.gov/PTSD.asp).
+We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD.<br>
+[Learn about our PTSD programs](https://www.mentalhealth.va.gov/PTSD.asp).<br>
+[Find out how to access health care programs and services for PTSD](https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/).
 
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
