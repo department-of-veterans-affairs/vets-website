@@ -2,33 +2,63 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import Docket from '../../../../src/js/claims-status/components/appeals-v2/Docket.jsx';
+import Docket from '../../../../src/js/claims-status/components/appeals-v2/Docket';
+import { APPEAL_TYPES } from '../../../../src/js/claims-status/utils/appeals-v2-helpers';
 
-const defaultProps = {
-  ahead: 109238,
-  total: 283941
-};
 
 describe('Appeals V2 Docket', () => {
+  const defaultProps = {
+    total: 123456,
+    ahead: 23456,
+    form9Date: '2006-10-24',
+    docketMonth: '2004-04-15',
+    appealType: APPEAL_TYPES.original,
+    aod: false,
+    frontOfDocket: false
+  };
+
   it('should render', () => {
     const wrapper = shallow(<Docket {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('should show the number of appeals ahead of the appellant', () => {
-    const wrapper = shallow(<Docket {...defaultProps}/>);
-    expect(wrapper.find('.appeals-ahead').text()).to.equal('109,238');
+  it('should display frontOfDocket text', () => {
+    const props = { ...defaultProps, frontOfDocket: true };
+    const wrapper = shallow(<Docket {...props}/>);
+    expect(wrapper.text()).to.contain('The Board is currently reviewing appeals from');
   });
 
-  it('should show the total number of appeals on the docket', () => {
+  it('should display non-frontOfDocket text', () => {
     const wrapper = shallow(<Docket {...defaultProps}/>);
-    expect(wrapper.find('.front-of-docket-text + p strong').first().text()).to.equal('283,941');
+    expect(wrapper.text()).to.contain('appeals on the docket, not including Advanced on Docket');
   });
 
-  it('should show a visual representaton of where the appellant is in the line', () => {
+  it('should render DocketCard', () => {
     const wrapper = shallow(<Docket {...defaultProps}/>);
-    const { ahead, total } = defaultProps;
-    const computedWidth = ((total - ahead) / total) * 100;
-    expect(wrapper.find('.spacer').first().prop('style').width).to.equal(`${computedWidth}%`);
+    expect(wrapper.find('DocketCard').length).to.equal(1);
+  });
+
+  it('should not render DocketCard for aod', () => {
+    const props = { ...defaultProps, aod: true };
+    const wrapper = shallow(<Docket {...props}/>);
+    expect(wrapper.find('DocketCard').length).to.equal(0);
+  });
+
+  it('should not render DocketCard for postCavcRemand', () => {
+    const props = { ...defaultProps, appealType: APPEAL_TYPES.postCavcRemand };
+    const wrapper = shallow(<Docket {...props}/>);
+    expect(wrapper.find('DocketCard').length).to.equal(0);
+  });
+
+  it('should display aod text', () => {
+    const props = { ...defaultProps, aod: true };
+    const wrapper = shallow(<Docket {...props}/>);
+    expect(wrapper.text()).to.contain('Your appeal is Advanced on Docket.');
+  });
+
+  it('should display postCavcRemand text', () => {
+    const props = { ...defaultProps, appealType: APPEAL_TYPES.postCavcRemand };
+    const wrapper = shallow(<Docket {...props}/>);
+    expect(wrapper.text()).to.contain('Your appeal was remanded by the Court of Appeals for Veterans’ Claims.');
   });
 });

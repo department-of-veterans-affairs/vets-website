@@ -20,7 +20,7 @@ describe('VRE chapter 36 veteran information', () => {
         uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
   });
 
@@ -40,6 +40,22 @@ describe('VRE chapter 36 veteran information', () => {
     expect(form.find('select').length).to.equal(5);
   });
 
+  it('renders veteran gender when view:isVeteran is true', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          'view:isVeteran': true
+        }}
+        formData={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(3);
+  });
+
   it('does not submit without required veteran information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -47,14 +63,14 @@ describe('VRE chapter 36 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': false
+          'view:isVeteran': true
         }}
         formData={{}}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
 
     expect(onSubmit.called).to.be.false;
   });
@@ -66,7 +82,7 @@ describe('VRE chapter 36 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': false
+          'view:isVeteran': true
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -78,9 +94,7 @@ describe('VRE chapter 36 veteran information', () => {
     fillData(form, 'select#root_veteranDateOfBirthDay', '3');
     fillData(form, 'input#root_veteranDateOfBirthYear', '1950');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '424242424');
-    fillData(form, 'select#root_veteranDateOfDeathMIAPOWMonth', '1');
-    fillData(form, 'select#root_veteranDateOfDeathMIAPOWDay', '3');
-    fillData(form, 'input#root_veteranDateOfDeathMIAPOWYear', '1950');
+    fillData(form, 'input#root_veteranGender_0', 'Female');
 
     form.find('form').simulate('submit');
 

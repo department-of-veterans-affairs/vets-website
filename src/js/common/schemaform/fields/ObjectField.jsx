@@ -149,6 +149,7 @@ class ObjectField extends React.Component {
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
+    const fieldsetClassNames = uiOptions.classNames;
     const title = uiSchema['ui:title'] || schema.title;
     const CustomTitleField = typeof title === 'function'
       ? title
@@ -189,49 +190,61 @@ class ObjectField extends React.Component {
       );
     };
 
-    return (
-      <fieldset>
-        <div className={containerClassNames}>
-          {hasTitleOrDescription && <div className="schemaform-block-header">
-            {CustomTitleField && !showFieldLabel
-              ? <CustomTitleField
-                id={`${idSchema.$id}__title`}
-                formData={formData}
-                formContext={formContext}
-                required={required}/> : null}
-            {!CustomTitleField && title && !showFieldLabel
-              ? <TitleField
-                id={`${idSchema.$id}__title`}
-                title={title}
-                required={required}
-                formContext={formContext}/> : null}
-            {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
-            {!textDescription && !DescriptionField && description}
-          </div>}
-          {this.orderedProperties.map((objectFields, index) => {
-            if (objectFields.length > 1) {
-              const [first, ...rest] = objectFields;
-              const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
-              return (
-                <ExpandingGroup open={visible.length > 0} key={index}>
-                  {renderProp(first)}
-                  <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
-                    {visible.map(renderProp)}
-                  </div>
-                </ExpandingGroup>
-              );
-            }
-
-            // if fields have expandUnder, but are the only item, that means the
-            // field they’re expanding under is hidden, and they should be hidden, too
-            return !_.get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
-              ? renderProp(objectFields[0], index)
-              : undefined;
-          })
+    const fieldContent = (
+      <div className={containerClassNames}>
+        {hasTitleOrDescription && <div className="schemaform-block-header">
+          {CustomTitleField && !showFieldLabel
+            ? <CustomTitleField
+              id={`${idSchema.$id}__title`}
+              formData={formData}
+              formContext={formContext}
+              required={required}/> : null}
+          {!CustomTitleField && title && !showFieldLabel
+            ? <TitleField
+              id={`${idSchema.$id}__title`}
+              title={title}
+              required={required}
+              formContext={formContext}/> : null}
+          {textDescription && <p>{textDescription}</p>}
+          {DescriptionField && <DescriptionField formData={formData} formContext={formContext} options={uiSchema['ui:options']}/>}
+          {!textDescription && !DescriptionField && description}
+        </div>}
+        {this.orderedProperties.map((objectFields, index) => {
+          if (objectFields.length > 1) {
+            const [first, ...rest] = objectFields;
+            const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
+            return (
+              <ExpandingGroup open={visible.length > 0} key={index}>
+                {renderProp(first)}
+                <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
+                  {visible.map(renderProp)}
+                </div>
+              </ExpandingGroup>
+            );
           }
-        </div>
-      </fieldset>
+
+          // if fields have expandUnder, but are the only item, that means the
+          // field they’re expanding under is hidden, and they should be hidden, too
+          return !_.get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
+            ? renderProp(objectFields[0], index)
+            : undefined;
+        })
+        }
+      </div>
+    );
+
+    if (title) {
+      return (
+        <fieldset className={fieldsetClassNames}>
+          {fieldContent}
+        </fieldset>
+      );
+    }
+
+    return (
+      <div className={fieldsetClassNames}>
+        {fieldContent}
+      </div>
     );
   }
 }

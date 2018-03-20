@@ -17,9 +17,10 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
   const alert = (expanded && missingEvents) ? missingEventsAlert : null;
 
   return (
-    <li className={`process-step ${cssClass}`}>
+    // eslint-disable-next-line
+    <li className={`past-events-expander process-step clickable ${cssClass}`} onClick={onToggle}>
       {/* Giving this a margin top to help center the text to the li bullet */}
-      <button onClick={onToggle} className="va-button-link">
+      <button className="va-button-link" onClick={onToggle}>
         <h3 style={{ color: 'inherit' }}>{title}</h3>
       </button>
       <div className="appeal-event-date">{dateRange}</div>
@@ -31,10 +32,9 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
 
 Expander.propTypes = {
   expanded: PropTypes.bool.isRequired,
-  missingEvents: PropTypes.bool.isRequired,
   dateRange: PropTypes.string.isRequired,
-  onToggle: PropTypes.func.isRequired,
-  cssClass: PropTypes.string.isRequired,
+  onToggle: PropTypes.func.isRequired, // Make sure this does event.stopPropagation()
+  missingEvents: PropTypes.bool.isRequired,
 };
 
 export default Expander;

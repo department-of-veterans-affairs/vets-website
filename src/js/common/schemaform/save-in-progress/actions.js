@@ -4,7 +4,7 @@ import 'isomorphic-fetch';
 import { logOut } from '../../../login/actions';
 
 import { removeFormApi, saveFormApi } from './api';
-import { sanitizeForm } from '../helpers';
+import { sanitizeForm } from '../../utils/helpers';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
 export const SET_AUTO_SAVE_FORM_STATUS = 'SET_AUTO_SAVE_FORM_STATUS';
@@ -258,7 +258,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
 
         let pages = getState().form.pages;
         if (metadata.prefill && prefillTransformer) {
-          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata));
+          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata, getState()));
         }
 
         dispatch(setInProgressForm({ formData, metadata }, pages));
@@ -320,7 +320,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
   };
 }
 
-export function removeInProgressForm(formId, migrations) {
+export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
 
@@ -342,7 +342,7 @@ export function removeInProgressForm(formId, migrations) {
           event: `${trackingPrefix}sip-form-start-over`
         });
         // after deleting, go fetch prefill info if they’ve got it
-        return dispatch(fetchInProgressForm(formId, migrations, true));
+        return dispatch(fetchInProgressForm(formId, migrations, true, prefillTransformer));
       })
       .catch(() => {
         dispatch(logOut());

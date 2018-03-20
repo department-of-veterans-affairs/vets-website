@@ -93,7 +93,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages, chapter } = this.props;
+    const { form, pages, viewedPages, chapter, formContext } = this.props;
     const activePages = getActivePages(pages, form.data);
     const expandedPages = expandArrayPages(activePages, form.data);
 
@@ -151,7 +151,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {pageSchema &&
                   <SchemaForm
                     name={page.pageKey}
-                    title={page.title}
+                    title={page.reviewTitle || page.title}
                     data={pageData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
@@ -164,6 +164,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
                     uploadFile={this.props.uploadFile}
                     reviewMode={!editing}
+                    formContext={formContext}
                     editModeOnReviewPage={page.editModeOnReviewPage}>
                     {!editing ? <div/> : <ProgressButton
                       submitButton
@@ -177,6 +178,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       pageTitle={page.title}
                       arrayData={_.get(arrayField.path, form.data)}
                       formData={form.data}
+                      formContext={formContext}
                       pageConfig={page}
                       onBlur={this.props.onBlur}
                       schema={arrayField.schema}
@@ -207,7 +209,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.state.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.toggleChapter}>
-                {this.props.chapter.title}
+                {this.props.chapter.reviewTitle || this.props.chapter.title}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>

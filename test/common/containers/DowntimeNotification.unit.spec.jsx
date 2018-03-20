@@ -10,6 +10,7 @@ const beforeNow = moment().subtract(1, 'minute').toDate();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toDate();
 const moreThanHour = moment().add(1, 'hour').add(1, 'hour').toDate();
 const endTime = moment().add(6, 'hour').toDate();
+let old;
 
 const innerText = 'This is the inner text';
 function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
@@ -21,6 +22,15 @@ function getComponent(dependencies = [], getScheduledDowntime = () => {}) {
 }
 
 describe('<DowntimeNotification/>', () => {
+
+  beforeEach(() => {
+    old = { sessionStorage: window.sessionStorage };
+    window.sessionStorage = {};
+  });
+
+  afterEach(() => {
+    window.sessionStorage = old.sessionStorage;
+  });
 
   it('calls getScheduledDowntime when rendered', () => {
     const getScheduledDowntime = sinon.spy();
@@ -92,7 +102,7 @@ describe('<DowntimeNotification/>', () => {
       const innerWrapper = wrapper.find('DowntimeNotificationWrapper').dive();
       expect(innerWrapper.text()).to.not.contain(innerText, 'The message was not rendered');
       expect(innerWrapper.find(`[data-status="${serviceStatus.down}"]`)).to.have.lengthOf(1, 'The correct status was rendered');
-      expect(innerWrapper.find('h2')).to.have.lengthOf(1, 'Authenticated users will see a plain <h2>');
+      expect(innerWrapper.find('h3')).to.have.lengthOf(1, 'Authenticated users will see a plain <h2>');
     });
 
   });

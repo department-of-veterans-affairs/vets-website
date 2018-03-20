@@ -8,9 +8,6 @@
 import 'babel-polyfill';
 
 // Basic polyfills.
-// TODO(awong): These do NOT correctly conditionally load the polyfill.
-// The polyfill is always loaded. require.ensure() should be used instead but
-// then load ordering needs to be worked out. Fix later.
 import Modernizr from 'modernizr';
 
 if (!Modernizr.classlist) {
@@ -32,5 +29,23 @@ if (navigator.userAgent.includes('Edge/14')) {
 // above code
 require('whatwg-fetch');
 
-// This polyfill has its own test logic so no need to conditionally require.
-import 'polyfill-function-prototype-bind';
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
+// Required for IE and Edge
+if (!HTMLCanvasElement.prototype.toBlob) {
+  Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+    value(callback, type, quality) {
+      const canvas = this;
+      setTimeout(() => {
+        const binStr = atob(canvas.toDataURL(type, quality).split(',')[1]);
+        const len = binStr.length;
+        const arr = new Uint8Array(len);
+
+        for (let i = 0; i < len; i++) {
+          arr[i] = binStr.charCodeAt(i);
+        }
+
+        callback(new Blob([arr], { type: type || 'image/png' }));
+      });
+    }
+  });
+}

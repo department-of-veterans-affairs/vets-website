@@ -18,7 +18,16 @@ def isDeployable = {
   (env.BRANCH_NAME == devBranch ||
    env.BRANCH_NAME == stagingBranch) &&
     !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
+    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
+}
+
+def shouldBail = {
+  // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
+  env.BRANCH_NAME != devBranch &&
+  env.BRANCH_NAME != stagingBranch &&
+  env.BRANCH_NAME != prodBranch &&
+  !env.CHANGE_TARGET &&
+  currentBuild.nextBuild
 }
 
 def buildDetails = { vars ->
@@ -33,12 +42,13 @@ def buildDetails = { vars ->
   """.stripIndent()
 }
 
-def notify = { message, color='good' ->
+def notify = { ->
   if (env.BRANCH_NAME == devBranch ||
       env.BRANCH_NAME == stagingBranch ||
       env.BRANCH_NAME == prodBranch) {
+    message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
     slackSend message: message,
-    color: color,
+    color: 'danger',
     failOnError: true
   }
 }
@@ -65,7 +75,8 @@ def comment_broken_links = {
 }
 
 node('vetsgov-general-purpose') {
-  def dockerImage, args, ref
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
+  def dockerImage, args, ref, imageTag
 
   // Checkout source, create output directories, build container
 
@@ -79,7 +90,7 @@ node('vetsgov-general-purpose') {
       sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
 
-      def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+      imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
       dockerImage = docker.build("vets-website:${imageTag}")
       args = "-v ${pwd()}:/application"
@@ -87,7 +98,7 @@ node('vetsgov-general-purpose') {
         sh "cd /application && yarn install --production=false"
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
+      notify()
       throw error
     }
   }
@@ -116,14 +127,18 @@ node('vetsgov-general-purpose') {
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint|security|unit stage!", 'danger')
+      notify()
       throw error
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
     }
   }
 
   // Perform a build for each build type
 
   stage('Build') {
+    if (shouldBail()) { return }
+
     try {
       def builds = [:]
 
@@ -140,7 +155,7 @@ node('vetsgov-general-purpose') {
 
       parallel builds
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+      notify()
 
       // For content team PRs, add comment in GH so they don't need direct Jenkins access to find broken links
       if (env.BRANCH_NAME.startsWith("content")) {
@@ -151,31 +166,32 @@ node('vetsgov-general-purpose') {
   }
 
   // Run E2E and accessibility tests
-
   stage('Integration') {
+    if (shouldBail()) { return }
+
     try {
       parallel (
         e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
-          }
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
         },
 
         accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
-          }
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
+      notify()
       throw error
     } finally {
+      sh "docker-compose -p e2e down --remove-orphans"
+      sh "docker-compose -p accessibility down --remove-orphans"
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
 
   stage('Archive') {
+    if (shouldBail()) { return }
+
     try {
       def builds = [ 'development', 'staging', 'production' ]
 
@@ -189,12 +205,17 @@ node('vetsgov-general-purpose') {
         }
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in archive stage!", 'danger')
+      notify()
       throw error
     }
   }
 
   stage('Review') {
+    if (shouldBail()) {
+      currentBuild.result = 'ABORTED'
+      return
+    }
+
     try {
       if (!isReviewable()) {
         return
@@ -206,7 +227,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
+      notify()
       throw error
     }
   }
@@ -232,7 +253,7 @@ node('vetsgov-general-purpose') {
         ], wait: false
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
+      notify()
       throw error
     }
   }

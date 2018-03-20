@@ -48,8 +48,8 @@ describe('Schemaform <RoutedSavablePage>', () => {
       <RoutedSavablePage form={form} route={route} user={user} location={location}/>
     ).find('FormPage').dive();
 
-    expect(tree.find('SaveStatus').isEmpty()).not.to.be.true;
-    expect(tree.find('SaveFormLink').isEmpty()).not.to.be.true;
+    expect(tree.find('SaveStatus').exists()).to.be.true;
+    expect(tree.find('SaveFormLink').exists()).to.be.true;
   });
 
   it('should auto save on change', () => {

@@ -32,6 +32,9 @@ majorlinks:
     - url: /burials-and-memorials/
       title: Burials and Memorials
       description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
+    - url: /families-caregivers/
+      title: Family and Caregiver Benefits
+      description: As the family member of a Servicemember or Veteran, find out if you qualify for benefits like health care, VA-backed home loans, life insurance, or money to help pay for college. If you’re caring for a Veteran with disabilities, find out if you can get added support.
 ---
 <div class="homepage-hero">
   <div class="homepage-hero-image usa-grid">

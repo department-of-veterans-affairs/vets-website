@@ -95,6 +95,34 @@ $color-inactive: #9B9B9B;
   margin: 0 0 0.5em;
 }
 
+// Index page V2
+.claim-list-item-container .card-status {
+  margin: 0 0 0.5em;
+  display: flex;
+
+  .status-circle {
+    flex-shrink: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
+
+    &.open {
+      background-color: $color-green;
+    }
+
+    &.closed {
+      background-color: $color-gray-light;
+    }
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -123,6 +151,10 @@ $color-inactive: #9B9B9B;
 .claim-list-item-header {
   color: $color-primary;
   margin-top: 0;
+}
+
+.claim-list-item-header-v2 {
+  margin-top: -2rem;
 }
 
 .claim-list-item:hover .claim-list-item-header {
@@ -624,8 +656,16 @@ h1:focus {
     }
   }
 
-  .section-unexpanded {
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
 
+    &:before, button {
+      pointer-events: all;
+    }
+  }
+
+  .section-unexpanded {
     // offset left border with padding so element doesn't move while toggling expander
     &.process-step {
       padding-left: calc(2em + 5px);
@@ -689,7 +729,11 @@ h1:focus {
   h2 {
     margin-top: 1em;
   }
-  
+
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
+  }
+
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -726,10 +770,8 @@ h1:focus {
       position: relative;
       top: -.2em;
       width: 2em;
-
     }
   }
-
 }
 
 .va-appeals-content {
@@ -942,6 +984,12 @@ h1:focus {
       width: 102%;
     }
   }
+
+  .decision-review-list {
+    li {
+      margin-left: .5em;
+    }
+  }
 }
 
 .alerts-list-container {
@@ -1082,20 +1130,30 @@ $marker-text-width: 9rem;
   &>h2 {
     margin-top: 0;
   }
-
-  .usa-accordion-button {
-    font-size: 2rem; // match standard h3
-  }
-
-  .granted-section {
-    h5 {
-      color: $color-green;
+  .usa-accordion-bordered {
+    .usa-accordion-button {
+      font-size: 2rem; // match standard h3
     }
-  }
 
-  .denied-section {
-    h5 {
-      color: $color-secondary;
+    .usa-accordion-content {
+      padding-top: 1.25em;
+
+      h5 {
+        font-family: $font-sans;
+        margin-top: 0;
+      }
+    }
+
+    .granted-section {
+      h5 {
+        color: $color-green;
+      }
+    }
+
+    .denied-section {
+      h5 {
+        color: $color-secondary;
+      }
     }
   }
 }
@@ -1107,5 +1165,13 @@ $marker-text-width: 9rem;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
+  margin-top: 2em;
   margin-bottom: 2em;
 }
+
+.usa-button .fa-chevron-right {
+  margin-left: 1.4rem;
+  margin-right: -0.6rem;
+  font-size: 80%;
+}
+

@@ -1,10 +1,14 @@
 const E2eHelpers = require('../e2e/e2e-helpers');
-const Timeouts = require('../e2e/timeouts.js');
-const GibsHelpers = require('../e2e/post-911-gib-status-helpers.js');
-const LoginHelpers = require('../e2e/login-helpers');
+// const Timeouts = require('../e2e/timeouts.js');
+// const GibsHelpers = require('../e2e/post-911-gib-status-helpers.js');
+// const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
+    // Short-circuit the test while the page is in maintenance mode
+    client.end();
+
+    /*
     const token = LoginHelpers.getUserToken();
 
     GibsHelpers.initApplicationMock(token);
@@ -44,5 +48,6 @@ module.exports = E2eHelpers.createE2eTest(
     //   });
 
     client.end();
+    */
   }
 );

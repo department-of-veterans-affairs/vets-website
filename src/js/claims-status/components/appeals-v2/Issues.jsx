@@ -67,8 +67,9 @@ const Issues = ({ issues }) => {
 
   let activeItems = null;
   if (openListItems.length || remandListItems.length) {
+    // Active panel should always render as expanded by default (when items present)
     activeItems = (
-      <CollapsiblePanel panelName={'Currently on appeal'}>
+      <CollapsiblePanel panelName={'Currently on appeal'} startOpen>
         {openSection}
         {remandSection}
       </CollapsiblePanel>
@@ -77,8 +78,9 @@ const Issues = ({ issues }) => {
 
   let closedItems = null;
   if (grantedListItems.length || deniedListItems.length || withdrawnListItems.length) {
+    // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
-      <CollapsiblePanel panelName={'Closed'}>
+      <CollapsiblePanel panelName={'Closed'} startOpen={!activeItems}>
         {grantedSection}
         {deniedSection}
         {withdrawnSection}
