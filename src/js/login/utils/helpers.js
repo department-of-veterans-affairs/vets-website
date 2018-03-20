@@ -41,11 +41,11 @@ export function login(policy) {
 }
 
 export function mfa() {
-  popup(MFA_URL, 'logout-link-clicked', 'logout-link-opened');
+  popup(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
 }
 
 export function verify() {
-  popup(VERIFY_URL, 'logout-link-clicked', 'logout-link-opened');
+  popup(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
 }
 
 export function logout() {
