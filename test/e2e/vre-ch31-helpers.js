@@ -14,7 +14,30 @@ function initApplicationSubmitMock() {
   });
 }
 
+function initDocumentUploadMock() {
+  mock(null, {
+    path: '/v0/vic/supporting_documentation_attachments',
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          guid: '123fake-submission-id-567'
+        }
+      }
+    }
+  });
+}
+
+function completeContactInformation(client, data) {
+  client
+    .fill('input[name="root_daytimePhone"]', data.daytimePhone)
+    .fill('input[name="root_eveningPhone"]', data.eveningPhone)
+    .fill('input[name="root_email"]', data.email)
+    .fill('input[name="root_view:confirmEmail"]', data.email);
+}
+
 function completeDisabilityInformation(client, data) {
+
   client
     .selectDropdown('root_disabilityRating', data.disabilityRating)
     .fill('input[name=root_disabilities]', data.disabilities)
@@ -22,6 +45,11 @@ function completeDisabilityInformation(client, data) {
     .selectRadio('root_view:inHospital', data['view:inHospital'])
     .fill('input[name=root_view\\:hospital_hospitalName]', data.hospitalName)
     .fillAddress('root_view:hospital_hospitalAddress', data.hospitalAddress);
+}
+
+function completeDischargeDocumentUpload(client) {
+  client
+    .setValue('input#root_dischargeDocuments', require('path').resolve(`${__dirname}/VA40-10007.pdf`));
 }
 
 function completeEducationInformation(client, data) {
@@ -39,7 +67,7 @@ function completeEmployerInformation(client, data) {
     .fillAddress('root_employerAddress', data.employerAddress)
     .fill('input[name=root_employer]', data.employer)
     .fill('input[name=root_jobDuties]', data.jobDuties)
-    .fill('input[name=root_monthlyIncome]', data.monthyPay);
+    .fill('input[name=root_monthlyIncome]', data.monthlyIncome);
 }
 
 function completeMilitaryHistory(client, data) {
@@ -51,6 +79,13 @@ function completeMilitaryHistory(client, data) {
     .fillCheckbox('input[name=root_serviceFlags_ww2]', data.serviceFlags.ww2);
 }
 
+function completeVeteranAddress(client, data) {
+  client
+    .selectRadio('root_view:isMoving', data['view:isMoving'])
+    .fillAddress('root_veteranAddress', data.veteranAddress)
+    .fillAddress('root_veteranNewAddress', data.newVeteranAddress);
+}
+
 function completeVeteranInformation(client, data) {
   client
     .fillName('root_veteranFullName', data.veteranFullName)
@@ -60,10 +95,14 @@ function completeVeteranInformation(client, data) {
 }
 
 module.exports = {
-  initApplicationSubmitMock,
+  completeContactInformation,
   completeDisabilityInformation,
+  completeDischargeDocumentUpload,
   completeEducationInformation,
   completeEmployerInformation,
   completeMilitaryHistory,
+  completeVeteranAddress,
   completeVeteranInformation,
+  initApplicationSubmitMock,
+  initDocumentUploadMock
 };

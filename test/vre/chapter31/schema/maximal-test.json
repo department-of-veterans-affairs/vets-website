@@ -1,7 +1,9 @@
 {
   "data": {
+    "daytimePhone": "8009098888",
     "disabilities": "PTSD",
     "disabilityRating": 10,
+    "email": "test@foo.com",
     "employer": "work Inc",
     "employerAddress": {
       "street": "122 first st",
@@ -11,6 +13,7 @@
       "state": "KS",
       "postalCode": "83443"
     },
+    "eveningPhone": "8009098888",
     "hospitalAddress": {
       "street": "122 first st",
       "street2": "apt 2",
@@ -21,7 +24,15 @@
     },
     "hospitalName": "hname",
     "jobDuties": "working",
-    "monthlyPay": 400,
+    "monthlyIncome": 400,
+    "newVeteranAddress": {
+      "street": "123 first st",
+      "street2": "apt 2",
+      "city": "Wichita",
+      "country": "USA",
+      "state": "KS",
+      "postalCode": "83443"
+    },
     "previousPrograms": [{
       "program": "education program",
       "yearStarted": 1900,
@@ -39,6 +50,14 @@
       "dischargeType": "honorable"
     }],
     "vaRecordsOffice": "office",
+    "veteranAddress": {
+      "street": "122 first st",
+      "street2": "apt 2",
+      "city": "Wichita",
+      "country": "USA",
+      "state": "KS",
+      "postalCode": "83443"
+    },
     "veteranFullName": {
       "first": "first",
       "middle": "middle",
@@ -49,6 +68,7 @@
     "veteranSocialSecurityNumber": "424242424",
     "veteranVaFileNumber": "3423434",
     "view:inHospital": "Y",
+    "view:isMoving": "Y",
     "view:isWorking": "Y",
     "yearsOfEducation": 10
   }
