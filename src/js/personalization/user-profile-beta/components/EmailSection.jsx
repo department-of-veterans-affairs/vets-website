@@ -7,16 +7,17 @@ class EditEmailModal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: props.value };
+    this.state = { emailResponseData: props.emailResponseData };
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.value);
+    this.props.onSubmit(this.state.emailResponseData);
   }
 
   onChange = ({ target: { value } }) => {
-    this.setState({ value });
+    const emailResponseData = { ...this.state.emailResponseData, email: value };
+    this.setState({ emailResponseData });
   }
 
   render() {
@@ -25,7 +26,7 @@ class EditEmailModal extends React.Component {
       <Modal id="profile-email-modal" onClose={onClose} visible>
         <h3>{title}</h3>
         <form onSubmit={this.onSubmit}>
-          <input type="email" onChange={this.onChange} value={this.state.value}/>
+          <input type="email" onChange={this.onChange} value={this.state.emailResponseData.email}/>
           <LoadingButton isLoading={this.props.isLoading}>Save Email</LoadingButton>
         </form>
       </Modal>
@@ -46,7 +47,7 @@ export default function EmailSection({ emailResponseData, title, isEditing, isLo
     modal = (
       <EditEmailModal
         title="Edit email"
-        value={emailResponseData}
+        emailResponseData={emailResponseData}
         onSubmit={onSubmit}
         isLoading={isLoading}
         onClose={onCancel}/>
