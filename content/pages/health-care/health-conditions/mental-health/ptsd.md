@@ -36,13 +36,14 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-	    <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
+	    <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+            <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>		  
 	    <ul>
-	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+	  	  <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a>.</li>
 		  </ul>
-            <p>You can also:</p>
+		  <p><strong>You can also:</strong></p>
 	    <ul>
 	      <li>Call <a href="tel:911">911</a>.</li>
   	      <li>Go to the nearest emergency room.</li>
@@ -75,7 +76,7 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 - Special residential (live-in) or inpatient care programs—found in each region of the U.S.—help Veterans with severe PTSD symptoms who have trouble doing normal daily activities (like going to work).
 - Providers offer added PTSD care in some of our large community-based outpatient clinics. <br />
 
-[Find a VA medical center or clinic near you](/facilities/).
+[Find a VA medical center or clinic near you](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
@@ -88,12 +89,12 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 The VA health care program covers PTSD health services. To access these services, first apply for VA health care.<br>
 [Apply for health care](/health-care/apply/).
 
-Once you’ve signed up:
+**Once you’ve signed up:**
 
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have PTSD—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
-  - [Contact your local VA medical center](/facilities/), **or**
+  - [Contact your nearest VA medical center](/facilities/?facilityType=health&page=1&zoomLevel=10), **or**
   - [Contact a VA PTSD program near you](https://www.va.gov/directory/guide/PTSD.asp).
 
 <br>
@@ -134,8 +135,8 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts.<br>
 [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find contact information for your closest VA health facility](/facilities).
-- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 <script type="text/javascript">
 
