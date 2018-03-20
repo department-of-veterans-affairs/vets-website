@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 
-import { login } from '../utils/helpers';
+import { login, signup } from '../utils/helpers';
 
 class Signin extends React.Component {
   constructor(props) {
@@ -92,7 +92,7 @@ class Signin extends React.Component {
                     <span className="sidelines">OR</span>
                     <div className="alternate-signin">
                       <h5>Don't have those accounts?</h5>
-                      <button className="idme-create usa-button usa-button-secondary" onClick={this.handleSignup}>
+                      <button className="idme-create usa-button usa-button-secondary" onClick={signup}>
                         <img alt="ID.me" src="/img/signin/idme-icon-dark.svg"/><strong> Create an ID.me account</strong>
                       </button>
                       <p>Use your email, Google, or Facebook</p>
@@ -154,8 +154,6 @@ class Signin extends React.Component {
 Signin.propTypes = {
   onLoggedIn: PropTypes.func,
   currentlyLoggedIn: PropTypes.bool,
-  handleLogin: PropTypes.func,
-  handleSignup: PropTypes.func,
 };
 
 export default Signin;

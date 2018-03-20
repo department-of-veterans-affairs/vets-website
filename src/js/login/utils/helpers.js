@@ -1,3 +1,5 @@
+import appendQuery from 'append-query';
+
 import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 
@@ -51,5 +53,5 @@ export function logout() {
 }
 
 export function signup() {
-  popup(IDME_URL, 'register-link-clicked', 'register-link-opened');
+  popup(appendQuery(IDME_URL, { signup: true }), 'register-link-clicked', 'register-link-opened');
 }
