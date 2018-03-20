@@ -13,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
     LoginHelpers.logIn(token, client, '/track-claims', 3)
       .assert.title('Track Claims: Vets.gov')
       .waitForElementVisible('.claim-list-item-container', Timeouts.slow)
-      .axeCheck('#main'); // TODO: Figure out why this is failing
+      .axeCheck('.main'); // TODO: Figure out why this is failing
 
     // Combined claim link
     client
@@ -41,8 +41,6 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.claim-list-item-container:first-child a.usa-button-primary')
       .assert.urlContains('/your-claims/11/status');
-
-    client.printLogs();
 
     client.end();
   }

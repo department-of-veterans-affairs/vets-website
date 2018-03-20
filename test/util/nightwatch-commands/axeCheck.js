@@ -20,7 +20,6 @@ export function command(context, config, _callback) {
 
   // Run axe checks and report
   this.executeAsync((innerContext, rules, done) => {
-    console.log(`innerContext (${innerContext}):`, document.querySelector(innerContext));
     axe.run(document.querySelector(innerContext) || document, { // eslint-disable-line no-undef
       runOnly: {
         type: 'tag',
@@ -31,8 +30,6 @@ export function command(context, config, _callback) {
     });
   }, [context, (config || {}).rules || this.globals.rules || ['section508', 'wcag2a', 'wcag2aa']], response => {
     const { err, results } = response.value;
-
-    this.log('asdf');
 
     if (err) {
       this.verify.fail(err);
