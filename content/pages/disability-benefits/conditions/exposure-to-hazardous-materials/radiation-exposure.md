@@ -22,7 +22,7 @@ You may be able to get disability benefits if you were discharged under conditio
 
 You must also have had contact with ionizing radiation while serving in the military in at least one of the below ways.
 
-**One of these must describe your contact with ionizing radiation while serving in the military. You:
+**One of these must describe your contact with ionizing radiation while serving in the military. You:**
 
 - Were part of atmospheric nuclear weapons testing, **or**
 - Served in the postwar occupation of Hiroshima or Nagasaki, **or**
