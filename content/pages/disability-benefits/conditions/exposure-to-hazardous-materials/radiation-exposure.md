@@ -10,8 +10,6 @@ template: detail-page
 
 Find out if you can get disability compensation or benefits for illnesses—including some cancers—believed to be caused by contact with radiation during military service. 
 
-[Learn about radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
-
 </div>
 
 
@@ -19,21 +17,27 @@ Find out if you can get disability compensation or benefits for illnesses—incl
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation—and if you had contact with ionizing radiation while serving in the military **in at least one of the following ways**:
+You may be able to get disability benefits if you were discharged under conditions other than dishonorable and you have an illness that’s on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation. <br>
+[See the list of radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
 
-- Being part of atmospheric nuclear weapons testing, **or**
-- Serving in the postwar occupation of Hiroshima or Nagasaki, **or**
-- Being a prisoner of war (POW) in Japan, **or**
-- Working as an x-ray technician, in a reactor plant, or in nuclear medicine or radiography (while on active duty or during active or inactive duty for training in the Reserves), **or**
-- Doing tasks like those of a Department of Energy (DOE) employee that make them a member of the Special Exposure Cohort (See 42 U.S.C. 7384L(14))
+You must also have had contact with ionizing radiation while serving in the military in at least one of the below ways.
 
-You may also be able to get disability benefits if you were **in at least one of the following positions**:
+**One of these must describe your contact with ionizing radiation while serving in the military. You:
+
+- Were part of atmospheric nuclear weapons testing, **or**
+- Served in the postwar occupation of Hiroshima or Nagasaki, **or**
+- Were a prisoner of war (POW) in Japan, **or**
+- Worked as an x-ray technician, in a reactor plant, or in nuclear medicine or radiography (while on active duty or during active or inactive duty for training in the Reserves), **or**
+- Did tasks like those of a Department of Energy (DOE) employee that make them a member of the Special Exposure Cohort (See 42 U.S.C. 7384L(14))
+
+You may also be able to get disability benefits if you served in at least one of the below locations and capacities.
+
+**One of these locations and capacities may also qualify you for disability benefits. You were:**
 - Part of underground nuclear weapons testing at Amchitka Island, Alaska, **or**
 - Assigned to a gaseous diffusion plant at Paducah, Kentucky, **or**
 - Assigned to a gaseous diffusion plant at Portsmouth, Ohio, **or**
 - Assigned to a gaseous diffusion plant at Area K-25 at Oak Ridge, Tennessee
 
-To qualify for benefits, you must have been discharged under conditions other than dishonorable.
 
 ### Who’s covered?
 Veterans
