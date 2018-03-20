@@ -6,7 +6,7 @@ import appendQuery from 'append-query';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
-import { getUserData, addEvent } from '../../common/helpers/login-helpers';
+import { getUserData } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
@@ -17,22 +17,14 @@ import { logout } from '../utils/helpers';
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.checkTokenStatus = this.checkTokenStatus.bind(this);
-    this.setMyToken = this.setMyToken.bind(this);
-  }
-
   componentDidMount() {
-    addEvent(window, 'message', (evt) => {
-      this.setMyToken(evt);
-    });
+    window.addEventListener('message', this.setToken);
     this.bindNavbarLinks();
 
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
-      window.onload = this.checkTokenStatus;
+      window.addEventListener('load', this.checkTokenStatus);
     }
   }
 
@@ -40,13 +32,11 @@ class Main extends React.Component {
     this.unbindNavbarLinks();
   }
 
-  setMyToken(event) {
-    if (event.data === sessionStorage.userToken) {
-      this.props.getUserData();
-    }
+  setToken = (event) => {
+    if (event.data === sessionStorage.userToken) { this.props.getUserData(); }
   }
 
-  bindNavbarLinks() {
+  bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
         e.preventDefault();
@@ -58,13 +48,13 @@ class Main extends React.Component {
     });
   }
 
-  unbindNavbarLinks() {
+  unbindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.removeEventListener('click');
     });
   }
 
-  checkTokenStatus() {
+  checkTokenStatus = () => {
     if (sessionStorage.userToken) {
 
       // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
@@ -95,7 +85,7 @@ class Main extends React.Component {
     window.dataLayer.push({ event: 'login-modal-closed' });
   }
 
-  renderModalContent() {
+  renderModalContent = () => {
     const { currentlyLoggedIn } = this.props.login;
 
     if (this.props.login.loginUrls) {
