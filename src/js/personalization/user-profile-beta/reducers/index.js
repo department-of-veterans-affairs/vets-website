@@ -16,10 +16,6 @@ import {
   SAVE_MAILING_ADDRESS_FAIL,
   SAVE_MAILING_ADDRESS_SUCCESS,
 
-  SAVE_RESIDENTIAL_ADDRESS,
-  SAVE_RESIDENTIAL_ADDRESS_FAIL,
-  SAVE_RESIDENTIAL_ADDRESS_SUCCESS,
-
   SAVE_PRIMARY_PHONE,
   SAVE_PRIMARY_PHONE_FAIL,
   SAVE_PRIMARY_PHONE_SUCCESS,
@@ -93,7 +89,6 @@ function extendedProfile(state = initialState, action) {
     case SAVE_EMAIL_ADDRESS:
     case SAVE_PRIMARY_PHONE:
     case SAVE_ALTERNATE_PHONE:
-    case SAVE_RESIDENTIAL_ADDRESS:
     case SAVE_MAILING_ADDRESS: {
       const pendingSaves = state.pendingSaves.concat(action.type);
       return { ...state, pendingSaves };
@@ -126,7 +121,6 @@ function extendedProfile(state = initialState, action) {
     case SAVE_EMAIL_ADDRESS_FAIL:
     case SAVE_PRIMARY_PHONE_FAIL:
     case SAVE_ALTERNATE_PHONE_FAIL:
-    case SAVE_RESIDENTIAL_ADDRESS_FAIL:
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat(action.type);
       return { ...state, errors };

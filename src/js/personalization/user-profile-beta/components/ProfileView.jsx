@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from '../../../common/utils/moment-setup';
 import {
   SAVE_MAILING_ADDRESS,
   SAVE_RESIDENTIAL_ADDRESS,
@@ -10,139 +9,13 @@ import {
 } from '../actions';
 
 import AlertBox from '../../../common/components/AlertBox';
-import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
-import SSNWidget from '../../../common/schemaform/review/SSNWidget';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
-import { EditAddressModal, EditPhoneModal, EditEmailModal } from './ProfileViewModals';
-import HeadingWithEdit from './HeadingWithEdit';
+import Hero from '../components/Hero';
+import PhoneSection from '../components/PhoneSection';
+import AddressSection from '../components/AddressSection';
+import EmailSection from '../components/EmailSection';
+import PersonalInformation from '../components/PersonalInformation';
 
-function Hero({ userFullName, tour, profilePicture }) {
-  return (
-    <div className="profile-hero" style={{ display: 'flex' }}>
-      <div>
-        <div>
-          <img alt="You" style={{ height: '8em' }} src={profilePicture}/>
-        </div>
-      </div>
-      <div style={{ marginLeft: 25 }}>
-        <h2 style={{ marginTop: 0 }}>{userFullName.first} {userFullName.last}</h2>
-        United States {tour.serviceBranch}<br/>
-        {tour.rank}
-      </div>
-    </div>
-  );
-}
-
-function EmailSection({ emailResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
-  let emailDisplay = <em>N/A</em>;
-  let modal = null;
-
-  if (emailResponseData) {
-    emailDisplay = emailResponseData.email;
-  }
-
-  if (isEditing) {
-    modal = (
-      <EditEmailModal
-        title="Edit email"
-        value={emailResponseData}
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        onClose={onCancel}/>
-    );
-  }
-
-  return (
-    <div>
-      {modal}
-      <HeadingWithEdit onEditClick={onEdit}>{title}</HeadingWithEdit>
-      <div>{emailDisplay}</div>
-    </div>
-  );
-}
-
-function PhoneSection({ phoneResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
-  let phoneDisplay = <em>N/A</em>;
-  let modal = null;
-
-  if (phoneResponseData) {
-    phoneDisplay = <PhoneNumberWidget value={phoneResponseData.number}/>;
-  }
-
-  if (isEditing) {
-    modal = (
-      <EditPhoneModal
-        title="Edit alternate phone"
-        phoneResponseData={phoneResponseData}
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        onClose={onCancel}/>
-    );
-  }
-
-  return (
-    <div>
-      {modal}
-      <HeadingWithEdit onEditClick={onEdit}>{title}</HeadingWithEdit>
-      {phoneDisplay}
-    </div>
-  );
-}
-
-function AddressSection({ addressResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
-  let addressDisplay = <em>N/A</em>;
-  let modal = null;
-
-  if (addressResponseData) {
-    let { address } = addressResponseData;
-    addressDisplay = (
-      <div>{address.addressOne}<br/>
-        {address.addressTwo}, {address.militaryStateCode} {address.zipCode}
-      </div>
-    );
-  }
-
-  if (isEditing) {
-    modal = (
-      <EditAddressModal
-        title="Edit mailing address"
-        address={addressResponseData}
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        onClose={onCancel}/>
-    );
-  }
-
-  return (
-    <div>
-      {modal}
-      <HeadingWithEdit onEditClick={onEdit}>{title}</HeadingWithEdit>
-      {addressDisplay}
-    </div>
-  );
-}
-
-function PersonalInformation({ gender, dob, ssn, toursOfDuty }) {
-  return (
-    <div>
-        <h3>Gender</h3>
-        {gender === 'M' ? 'Male' : 'Female'}
-        <h3>Birth date</h3>
-        {moment(dob).format('MMM D, YYYY')}
-        <h3>Social security number</h3>
-        <SSNWidget value={ssn}/>
-        <h2>Military Service</h2>
-        {toursOfDuty.map((tour, index) => {
-          return (
-            <div key={index}>
-              <h3>{tour.serviceBranch}</h3>
-              <div>{moment(tour.dateRange.start).format('MMM D, YYYY')} &ndash; {moment(tour.dateRange.end).format('MMM D, YYYY')}</div>
-            </div>
-          );
-        })}
-    </div>
-  );
-}
 
 class ProfileView extends React.Component {
 
