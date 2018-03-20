@@ -16,10 +16,6 @@ import {
   SAVE_MAILING_ADDRESS_FAIL,
   SAVE_MAILING_ADDRESS_SUCCESS,
 
-  SAVE_RESIDENTIAL_ADDRESS,
-  SAVE_RESIDENTIAL_ADDRESS_FAIL,
-  SAVE_RESIDENTIAL_ADDRESS_SUCCESS,
-
   SAVE_PRIMARY_PHONE,
   SAVE_PRIMARY_PHONE_FAIL,
   SAVE_PRIMARY_PHONE_SUCCESS,
@@ -51,6 +47,7 @@ const initialState = {
   email: null,
   dob: null,
   gender: null,
+  ssn: null,
   accountType: null,
   terms: {
     loading: false,
@@ -62,7 +59,10 @@ const initialState = {
   extended: false,
   pendingSaves: [],
   errors: [],
-  modal: null
+  modal: null,
+  primaryTelephone: null,
+  alternateTelephone: null,
+  mailingAddress: null
 };
 
 function extendedProfile(state = initialState, action) {
@@ -89,7 +89,6 @@ function extendedProfile(state = initialState, action) {
     case SAVE_EMAIL_ADDRESS:
     case SAVE_PRIMARY_PHONE:
     case SAVE_ALTERNATE_PHONE:
-    case SAVE_RESIDENTIAL_ADDRESS:
     case SAVE_MAILING_ADDRESS: {
       const pendingSaves = state.pendingSaves.concat(action.type);
       return { ...state, pendingSaves };
@@ -102,33 +101,26 @@ function extendedProfile(state = initialState, action) {
     }
 
     case SAVE_PRIMARY_PHONE_SUCCESS: {
-      const telephones = state.telephones.map(t => (t.type === 'primary' ? action.newValue : t));
+      const primaryTelephone = action.newValue;
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_PRIMARY_PHONE);
-      return { ...state, telephones, pendingSaves, modal: null };
+      return { ...state, primaryTelephone, pendingSaves, modal: null };
     }
 
     case SAVE_ALTERNATE_PHONE_SUCCESS: {
-      const telephones = state.telephones.map(t => (t.type === 'alternate' ? action.newValue : t));
+      const alternateTelephone = action.newValue;
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_ALTERNATE_PHONE);
-      return { ...state, telephones, pendingSaves, modal: null };
-    }
-
-    case SAVE_RESIDENTIAL_ADDRESS_SUCCESS: {
-      const addresses = state.addresses.map(a => (a.type === 'residential' ? action.newValue : a));
-      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_RESIDENTIAL_ADDRESS);
-      return { ...state, addresses, pendingSaves, modal: null };
+      return { ...state, alternateTelephone, pendingSaves, modal: null };
     }
 
     case SAVE_MAILING_ADDRESS_SUCCESS: {
-      const addresses = state.addresses.map(a => (a.type === 'mailing' ? action.newValue : a));
+      const mailingAddress = action.newValue;
       const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_MAILING_ADDRESS);
-      return { ...state, addresses, pendingSaves, modal: null };
+      return { ...state, mailingAddress, pendingSaves, modal: null };
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:
     case SAVE_PRIMARY_PHONE_FAIL:
     case SAVE_ALTERNATE_PHONE_FAIL:
-    case SAVE_RESIDENTIAL_ADDRESS_FAIL:
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat(action.type);
       return { ...state, errors };
