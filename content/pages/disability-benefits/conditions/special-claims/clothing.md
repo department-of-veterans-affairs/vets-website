@@ -18,7 +18,9 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if **both of the following are true for you**:
+You may be able to get disability benefits if both of the below descriptions are true of your situation.
+
+**Both of these must be true:**
 
   - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes, **and**
   - You need this device or skin medicine because of an injury or illness related to your military service (called a service-connected condition)
@@ -39,7 +41,9 @@ Veterans
 
 You’ll need to apply for benefits.
 
-To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if:
+To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if at least one of the below situations describes you:
+
+**At least one of these must be true:**
 - You have more than one prosthetic or orthopedic device, **or**
 - You have more than one skin medicine, **and/or**
 - Your device or skin medicine affects more than one type of clothing.
