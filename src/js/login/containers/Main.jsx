@@ -6,8 +6,7 @@ import appendQuery from 'append-query';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
-import environment from '../../common/helpers/environment';
-import { getUserData, addEvent, getLoginUrls, getVerifyUrl, handleLogin } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, getLoginUrls, getVerifyUrl } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
@@ -23,8 +22,6 @@ class Main extends React.Component {
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getLoginUrls = this.getLoginUrls.bind(this);
     this.getVerifyUrl = this.getVerifyUrl.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
   }
 
@@ -100,27 +97,13 @@ class Main extends React.Component {
     });
   }
 
-  handleSignup() {
-    window.dataLayer.push({ event: 'register-link-clicked' });
-    const myLoginUrl = this.props.login.loginUrls.idme;
-    if (myLoginUrl) {
-      window.dataLayer.push({ event: 'register-link-opened' });
-      const receiver = window.open(`${myLoginUrl}&op=signup`, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-    }
-  }
-
-  handleLogin(loginUrl = 'idme') {
-    this.loginUrlRequest = handleLogin(this.props.login.loginUrls[loginUrl], this.props.updateLogInUrls);
-  }
-
   checkTokenStatus() {
     if (sessionStorage.userToken) {
 
       // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
       // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
       //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-      //     this.handleLogin();
+      //     login();
       //   } else {
       //     logout();
       //   }
@@ -146,14 +129,12 @@ class Main extends React.Component {
   }
 
   renderModalContent() {
-    const currentlyLoggedIn = this.props.login.currentlyLoggedIn;
+    const { currentlyLoggedIn } = this.props.login;
 
     if (this.props.login.loginUrls) {
       return (<Signin
         onLoggedIn={() => this.props.toggleLoginModal(false)}
-        currentlyLoggedIn={currentlyLoggedIn}
-        handleSignup={this.handleSignup}
-        handleLogin={this.handleLogin}/>);
+        currentlyLoggedIn={currentlyLoggedIn}/>);
     }
 
     if (this.props.login.loginUrlsError) {
@@ -196,8 +177,7 @@ class Main extends React.Component {
           (<Verify
             shouldRedirect={this.props.shouldRedirect}
             login={this.props.login}
-            profile={this.props.profile}
-            handleLogin={this.handleLogin}/>);
+            profile={this.props.profile}/>);
         break;
       default:
         content = null;
