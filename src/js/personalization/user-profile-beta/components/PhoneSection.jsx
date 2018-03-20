@@ -20,10 +20,10 @@ class EditPhoneModal extends React.Component {
     return ({ target: { value } }) => {
       const phoneResponseData = {
         ...this.state.phoneResponseData,
-        [field] : value
+        [field]: value
       };
       this.setState({ phoneResponseData });
-    }
+    };
   }
 
   render() {
@@ -32,12 +32,12 @@ class EditPhoneModal extends React.Component {
       <Modal id="profile-phone-modal" onClose={onClose} visible>
         <h3>{title}</h3>
         <form onSubmit={this.onSubmit}>
-          <label>Country Code</label>
-          <input type="text" onChange={this.onChange('countyCode')} value={this.state.phoneResponseData.countryCode}/>
-          <label>Number</label>
-          <input type="text" onChange={this.onChange('number')} value={this.state.phoneResponseData.number}/>
-          <label>Extension</label>
-          <input type="text" onChange={this.onChange('extension')} value={this.state.phoneResponseData.extension}/>
+          <label htmlFor="cc">Country Code</label>
+          <input type="text" name="cc" onChange={this.onChange('countyCode')} value={this.state.phoneResponseData.countryCode}/>
+          <label htmlFor="number">Number</label>
+          <input type="text" name="number" onChange={this.onChange('number')} value={this.state.phoneResponseData.number}/>
+          <label htmlFor="ex">Extension</label>
+          <input type="text" name="ex" onChange={this.onChange('extension')} value={this.state.phoneResponseData.extension}/>
           <LoadingButton isLoading={this.props.isLoading}>Save Phone</LoadingButton>
         </form>
       </Modal>
@@ -51,10 +51,10 @@ export default function PhoneSection({ phoneResponseData, title, isEditing, isLo
   let modal = null;
 
   if (phoneResponseData) {
-    let number = <PhoneNumberWidget value={phoneResponseData.number}/>
-    let countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
-    let extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
-    phoneDisplay = <div>{countryCode} {number} {extension}</div>
+    const number = <PhoneNumberWidget value={phoneResponseData.number}/>;
+    const countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
+    const extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
+    phoneDisplay = <div>{countryCode} {number} {extension}</div>;
   }
 
   if (isEditing) {

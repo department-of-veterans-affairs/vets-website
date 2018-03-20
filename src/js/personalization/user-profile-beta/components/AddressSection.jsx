@@ -46,7 +46,7 @@ export default function AddressSection({ addressResponseData, title, isEditing, 
   let modal = null;
 
   if (addressResponseData) {
-    let { address } = addressResponseData;
+    const { address } = addressResponseData;
     addressDisplay = (
       <div>
         {address.addressOne}<br/>
