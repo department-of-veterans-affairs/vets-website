@@ -23,12 +23,14 @@ const {
   applicantEmail,
   applicantFullName,
   applicantGender,
+  veteranGender,
   applicantPrimaryPhone,
   applicantOtherPhone,
   applicantSocialSecurityNumber,
   seekingRestorativeTraining,
   seekingVocationalTraining,
   receivedPamphlet,
+  previousBenefitApplications,
   veteranDateOfDeathMIAPOW,
   veteranSocialSecurityNumber,
   veteranVaFileNumber
@@ -136,27 +138,6 @@ const previousBenefitApplicationsUI = {
     'ui:title': benefitsLabels.otherExplanation,
     'ui:options': {
       expandUnder: 'other'
-    }
-  }
-};
-
-const previousBenefitApplications = {
-  type: 'object',
-  properties: {
-    chapter31: {
-      type: 'boolean'
-    },
-    ownServiceBenefits: {
-      type: 'boolean'
-    },
-    dic: {
-      type: 'boolean'
-    },
-    other: {
-      type: 'boolean'
-    },
-    otherExplanation: {
-      type: 'string'
     }
   }
 };
@@ -298,7 +279,7 @@ const formConfig = {
                 }
               }
             ),
-            applicantGender: {
+            veteranGender: {
               'ui:title': 'Gender',
               'ui:widget': 'radio',
               'ui:required': formData => formData['view:isVeteran'] === true,
@@ -310,7 +291,7 @@ const formConfig = {
           },
           schema: {
             veteranDateOfDeathMIAPOW,
-            applicantGender
+            veteranGender
           }
         })
       }
@@ -339,7 +320,7 @@ const formConfig = {
               }
             },
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:description': 'Veteran’s name under whom you‘ve claimed benefits',
+              'ui:title': 'Veteran’s name under whom you‘ve claimed benefits',
               'ui:options': {
                 classNames: 'schemaform-field-template',
                 hideIf: isVeteranOrNoApplications

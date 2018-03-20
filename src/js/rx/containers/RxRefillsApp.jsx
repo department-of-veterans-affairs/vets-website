@@ -43,24 +43,22 @@ class RxRefillsApp extends React.Component {
         serviceRequired="rx"
         userProfile={this.props.profile}>
         <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
-          <div>
+          <AppContent>
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
             <MHVApp>
-              <AppContent>
-                {this.props.children}
-                <ConfirmRefillModal
-                  prescription={this.props.refillModal.prescription}
-                  isLoading={this.props.refillModal.loading}
-                  isVisible={this.props.refillModal.visible}
-                  refillPrescription={this.props.refillPrescription}
-                  onCloseModal={this.props.closeRefillModal}/>
-                <GlossaryModal
-                  content={this.props.glossaryModal.content}
-                  isVisible={this.props.glossaryModal.visible}
-                  onCloseModal={this.props.closeGlossaryModal}/>
-              </AppContent>
+              {this.props.children}
+              <ConfirmRefillModal
+                prescription={this.props.refillModal.prescription}
+                isLoading={this.props.refillModal.loading}
+                isVisible={this.props.refillModal.visible}
+                refillPrescription={this.props.refillPrescription}
+                onCloseModal={this.props.closeRefillModal}/>
+              <GlossaryModal
+                content={this.props.glossaryModal.content}
+                isVisible={this.props.glossaryModal.visible}
+                onCloseModal={this.props.closeGlossaryModal}/>
             </MHVApp>
-          </div>
+          </AppContent>
         </DowntimeNotification>
       </RequiredLoginView>
     );

@@ -61,6 +61,20 @@
   }
 }
 
+.dashed-underline {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+
+  &:hover {
+    text-decoration: none;
+    border-bottom: 1px dashed;
+  }
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
+
 // These are JavaScript only styles that will be added and removed
 // dynamically with scripts
 .js-hide {
