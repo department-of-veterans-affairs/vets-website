@@ -20,14 +20,14 @@ If you qualify for VA health care, you can get high-quality mental health servic
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-            <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
-	    <p>**To reach us 24/7:**</p>	  
+            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
 	    <ul>
-              <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  	      <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+              <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
-	    <p>**You can also:**</p>	  
+     	    <p><strong>You can also:</strong></p>	  
             <ul>
               <li>Call <a href="tel:911">911</a>.</li>
 	      <li>Go to the nearest emergency room.</li>
@@ -43,7 +43,7 @@ If you qualify for VA health care, you can get high-quality mental health servic
 
 ### What mental health problems does VA treat?
 
-We offer treatment and support for mental health problems, like:
+#### We offer treatment and support for mental health problems, like:
 
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/)
 - [Depression](/health-care/health-conditions/mental-health/depression/)
@@ -53,7 +53,7 @@ We offer treatment and support for mental health problems, like:
 - [Bipolar disorder](https://www.mentalhealth.va.gov/bipolar.asp)
 - [Schizophrenia](https://www.mentalhealth.va.gov/schizophrenia.asp)
 
-We also treat anxiety-related conditions, like:
+#### We also treat anxiety-related conditions, like:
 
 - [Generalized anxiety disorder](https://www.mentalhealth.va.gov/generalizedanxiety.asp)
 - [Panic disorder](https://www.mentalhealth.va.gov/panicdisorder.asp)
@@ -98,7 +98,7 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 The VA health care program covers mental health services. To get these services, first apply for VA health care.<br>
 [Apply for health care](/health-care/apply/).
 
-Once you’ve signed up:
+**Once you’ve signed up:**
 
 - **If you have a VA primary care provider,** talk to them about your mental health concerns. Your provider will offer support and treatment as needed, and can connect you with a mental health specialist (like a psychiatrist) for more support.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
@@ -111,7 +111,7 @@ Once you’ve signed up:
 <span id="no-benefits"></span>
 ### What if I don’t have VA health benefits?
 
-You may still be able to get care:
+**You may still be able to get care:**
 
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers.<br>
 [Find a Vet Center near you](/facilities/).
@@ -132,7 +132,7 @@ You may still be able to get care:
 - [Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
 - [Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find contact information for your closest VA health facility](/facilities).
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <script type="text/javascript">
 
