@@ -72,7 +72,9 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 ### What are the signs that someone may be considering suicide?
 
-Many Veterans don’t show any signs of an urge to harm themselves before doing so. But some may show signs of depression, anxiety, low self-esteem, or hopelessness, like:
+Many Veterans don’t show any signs of an urge to harm themselves before doing so. 
+
+**But some Veterans may show signs of depression, anxiety, low self-esteem, or hopelessness, like:**
 
 - Seeming sad, depressed, anxious, or agitated most of the time
 - Sleeping either all the time or not much at all
@@ -81,7 +83,7 @@ Many Veterans don’t show any signs of an urge to harm themselves before doing 
 - Losing interest in hobbies, work, school, or other things they used to care about
 - Expressing feelings of excessive guilt or shame, failure, lack of purpose in life, or being trapped
 
-They may also change the way they act, and start to:
+**Some Veterans may also change the way they act, and start to:**
 
 - Perform poorly at work or school
 - Act violently or take risks (like driving fast or running red lights)
@@ -90,8 +92,7 @@ They may also change the way they act, and start to:
 [Get the full list of signs that someone may be considering suicide](https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx).
 
 Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs.<br>
-[Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp).
-
+[Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp). <br>
 [Take our Veterans self-check quiz](https://www.vetselfcheck.org/Welcome.cfm).
 
 <br>
@@ -109,7 +110,7 @@ To get tips and resources for spouses, parents, and Veterans, visit the Coaching
 
 ### How do I talk to my child about a suicide attempt in the family?
 
-Get tips for talking to children of different ages about suicide:
+**Get tips for talking to children of different ages about suicide:**
 
 - [Preschoolers](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto4to8.asp)
 - [School-age children](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto9to13.asp)
