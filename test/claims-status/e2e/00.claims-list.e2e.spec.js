@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Claim is visible
     LoginHelpers.logIn(token, client, '/track-claims', 3)
       .assert.title('Track Claims: Vets.gov')
-      .waitForElementVisible('a.claim-list-item', Timeouts.slow)
+      .waitForElementVisible('.claim-list-item-container', Timeouts.slow)
       .axeCheck('.main');
 
     // Combined claim link
@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect
       .element('.claims-container h1')
-      .text.to.equal('Your Claims and Appeals');
+      .text.to.equal('Your Compensation Appeals and Claims');
 
     client
       .expect
