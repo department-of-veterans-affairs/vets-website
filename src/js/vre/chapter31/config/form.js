@@ -235,6 +235,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['yearsOfEducation'],
             properties: {
               yearsOfEducation,
               previousPrograms

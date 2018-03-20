@@ -101,14 +101,14 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
-  <script nonce="**CSP_NONCE**">
+  <script>
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ environment: '{{ buildtype }}' });
   </script>
   <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
-  <script nonce="**CSP_NONCE**">
+  <script>
     // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ environment: '{{ buildtype }}' });
@@ -128,7 +128,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
   function footerNavClick(elem) {
     const eventLabel = 'nav-' + elem.parentElement.parentElement.id
     window.dataLayer.push({
@@ -138,7 +138,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   }
 </script>
 {% if widgets %}
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};

@@ -74,9 +74,9 @@ accidentally modify copies of upstream.
 
 
 
-The requirements for running this application are Node.js 6.11.1 and yarn 0.27.5
+The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
-Once you have nvm installed you should now install node.js version 6.11.1 by running:
+Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
 We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with everyone else will reduce errors. To install please visit: https://github.com/creationix/nvm
 
@@ -90,26 +90,26 @@ Once you have `nvm` installed, you should install Node.js:
 
 
 ```bash
-nvm install 6.11.1
+nvm install 8.10.0
 ```
 _This will also install `npm`_
 
 
-Once you have node.js 6.11.1 you should set as the default version for nvm, you do that by running:
+Once you have node.js 8.10.0 you should set as the default version for nvm, you do that by running:
 
 ```bash
-nvm alias default 6.11.1
+nvm alias default 8.10.0
 ```
 
 Next install Yarn:
 ```bash
-npm i -g yarn@0.27.5
+npm i -g yarn@1.5.1
 ```
 ### Verify your local requirements are set
 
 ```bash
-node --version // 6.11.1
-yarn --version // 0.27.5
+node --version // 8.10.0
+yarn --version // 1.5.1 
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.

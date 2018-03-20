@@ -24,6 +24,7 @@ const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
+const nonceTransformer = require('./metalsmith/nonceTransformer');
 
 const sourceDir = '../content/pages';
 
@@ -674,6 +675,12 @@ smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
+
+/*
+Add nonce attribute with substition string to all inline script tags
+Convert onclick event handles into nonced script tags
+*/
+smith.use(nonceTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);
