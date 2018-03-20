@@ -34,13 +34,14 @@ Depression is a serious illness, but this common mental health problem is also h
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-            <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>		  
+            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+            <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p> 		  
 	    <ul>
-	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>  		  
+	  	  <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a>.</li>  		  
 		  </ul>
-	    <p>You can also:</p>
+	    <p><strong>You can also:</strong></p>
             <ul>
 		  <li>Call <a href="tel:911">911</a>.</li>
   		  <li>Go to the nearest emergency room.</li>
@@ -56,7 +57,7 @@ Depression is a serious illness, but this common mental health problem is also h
 
 ### What services does VA provide for depression?
 
-We offer treatments such as:
+**We offer treatments such as:**
 
 - Medicine proven to help treat depression, anxiety, sleep issues, and other related problems
 - Psychotherapy (also called “talk therapy”) to help treat depression. These sessions may include learning new behaviors (like exercise and relaxation), help resolving relationship problems, and more.
@@ -70,19 +71,19 @@ We offer treatments such as:
 The VA health care program covers depression health services. To access these services, first apply for VA health care.<br>
 [Apply for health care](/health-care/apply/).
 
-Once you’ve signed up:
+**Once you’ve signed up:**
 
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have depression—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
   - Contact your local VA medical center.<br>
-  [Find a VA medical center near you](/facilities/).
+  [Find a VA medical center near you](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
 ### What if I don’t have VA health benefits?
 
-You may still be able to get care:
+**You may still be able to get care:**
 
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers.<br>
 [Find a Vet Center near you](/facilities/).
@@ -104,7 +105,7 @@ You may still be able to get care:
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges.<br>
 [Visit Make the Connection](https://maketheconnection.net/).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find contact information for your closest VA health facility](/facilities).
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 - Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
 
 <script type="text/javascript">
