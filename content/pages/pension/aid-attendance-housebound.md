@@ -44,14 +44,14 @@ If you need help with your daily activities, or you’re housebound, you may qua
 
 ### How do I get this benefit?
 
-There are 2 ways you can get this benefit:
+**There are 2 ways you can get this benefit:**
 
 #### Write to your Pension Management Center (PMC)
 
 You can write to the PMC for your state.<br>
 [Find your PMC](/pension/pension-management-center/). 
 
-Include this information: 
+**Include this information:** 
 - Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out.<br>
 [Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
 - Details about what you normally do during the day and how you get places
@@ -68,8 +68,8 @@ It depends. We process claims in the order we receive them, unless a claim requi
 
 ### What if my family and I need help making decisions about my long-term care?
 
-Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions based on your needs and wishes. They can help you stay in your own home with support, or move into an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your family and health care team.
+Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your VA health care team to make shared decisions based on your needs and wishes. They can help you stay in your own home with support, or move into an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your family and health care team.
 
-To talk with a VA social worker, ask your VA primary care provider to set up an appointment for you. If you're not enrolled in the VA health care program, or don't have a VA primary care provider, call your nearest VA health facility and ask them to connect you to a social worker.<br>
-[Find the closest VA health facility](/facilities/).<br>
+To talk with a VA social worker, ask your VA primary care provider to set up an appointment for you. If you're not enrolled in the VA health care program, or don't have a VA primary care provider, call your nearest VA health facility and ask them to connect you to a local VA social worker.<br>
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).<br>
 [Find out more about assisted living and home health care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
