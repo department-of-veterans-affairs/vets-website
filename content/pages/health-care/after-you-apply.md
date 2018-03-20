@@ -69,12 +69,12 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 
 #### What if I need to see a doctor before my scheduled appointment?
 
-Contact your local VA medical center or clinic and ask for:
+**Contact your local VA medical center or clinic and ask for:**
 - The enrollment coordinator, **or**
 - The urgent care clinic, **or**
 - The emergency room
 
-[Find a VA health facility near you](/facilities/).
+[Find a VA health facility near you](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
@@ -90,10 +90,10 @@ If you’re signed up for VA health care, you can manage your VA health and bene
 [Send a secure message to your health care team](/health-care/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
-If you need help accessing services, you can:
+**If you need help accessing services, you can:**
 - Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
-- Or, ask for an appointment with the VA social worker at your nearest VA health facility. <br>
-[Find contact information for your closest VA health facility](/facilities).
+- Or, ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
@@ -101,9 +101,10 @@ If you need help accessing services, you can:
 
 #### What if I need to update my personal information?
 
-To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR). [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
+To update your personal information, such as income, address, and insurance, fill out a Health Benefits Update Form (VA Form 10-10EZR).<br>
+[Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
-Mail this form and any supporting materials to:
+**Mail this form and any supporting materials to:**
 
 <p class="va-address-block">
 Health Eligibility Center<br>
@@ -111,7 +112,8 @@ Health Eligibility Center<br>
 Atlanta, GA 30329<br>
 </p>
 
-You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/facilities/).
+You can also get help updating your personal information by visiting your local VA health facility.<br>
+[Find a VA facility near you](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
@@ -119,4 +121,5 @@ You can also get help updating your personal information by visiting your local 
 
 #### What if my application isn’t approved and I disagree with the decision?
 
-If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. [Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
+If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. <br>
+[Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
