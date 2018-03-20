@@ -20,7 +20,7 @@ function sliceMobileLink(targetId) {
   return breadcrumbLink;
 }
 
-export function toggleHiddenLinks(targetId) {
+export function toggleLinks(targetId) {
   const breadcrumb = document.getElementById(targetId);
   const clone = document.getElementById(`${targetId}-clone`);
 
