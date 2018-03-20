@@ -10,7 +10,7 @@ describe('<Timeline/>', () => {
   const defaultProps = {
     events: [
       {
-        type: 'claim',
+        type: 'claim_decision',
         date: '2016-05-30',
         details: {}
       },
@@ -44,10 +44,16 @@ describe('<Timeline/>', () => {
 
   it('should toggle expanded state when toggleExpanded called', () => {
     const wrapper = shallow(<Timeline {...defaultProps}/>);
+    const instance = wrapper.instance();
+    // Just so toggleExpanded() doesn't break
+    const clickEvent = {
+      stopPropagation: () => {}
+    };
+
     expect(wrapper.state('expanded')).to.equal(false);
-    wrapper.instance().toggleExpanded();
+    instance.toggleExpanded(clickEvent);
     expect(wrapper.state('expanded')).to.equal(true);
-    wrapper.instance().toggleExpanded();
+    instance.toggleExpanded(clickEvent);
     expect(wrapper.state('expanded')).to.equal(false);
   });
 
@@ -109,5 +115,26 @@ describe('<Timeline/>', () => {
     wrapper.setState({ expanded: true });
     const expanderProps = wrapper.find('Expander').props();
     expect(expanderProps.expanded).to.be.true;
+  });
+
+  it('should not render unknown events', () => {
+    const props = {
+      events: [
+        {
+          type: 'asdfasdf',
+          date: '2016-05-30',
+          details: {}
+        },
+        {
+          type: 'nod',
+          date: '2016-06-10',
+          details: {}
+        }
+      ],
+      missingEvents: false
+    };
+    const wrapper = shallow(<Timeline {...props}/>);
+    wrapper.setState({ expanded: true });
+    expect(wrapper.find('PastEvent').length).to.equal(1);
   });
 });

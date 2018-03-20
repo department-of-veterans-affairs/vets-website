@@ -13,8 +13,6 @@ import routes from './routes.jsx';
 import reducer from './reducers';
 import initCommon from '../common/init-common';
 
-import Post911GIBStatusApp from './containers/Post911GIBStatusApp';
-
 const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
@@ -25,7 +23,7 @@ function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={history}>
-        <Route path="/" component={Post911GIBStatusApp}>
+        <Route path="/">
           {routes}
         </Route>
       </Router>

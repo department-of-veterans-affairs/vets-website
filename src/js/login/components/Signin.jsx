@@ -26,14 +26,15 @@ class Signin extends React.Component {
   checkLoggedInStatus = () => {
     if (this.props.currentlyLoggedIn) {
       const nextParams = new URLSearchParams(window.location.search);
-      const nextPath = nextParams.get('next');
+      const nextPath = nextParams.get('next') || '';
 
       if (this.props.onLoggedIn) {
         this.props.onLoggedIn();
       }
 
       if (nextPath && window.location.pathname.indexOf('verify') === -1) {
-        window.location.replace(nextPath || '/');
+        const path = nextPath.startsWith('/') ? nextPath : `/${nextPath}`;
+        window.location.replace(path);
       }
     }
   }

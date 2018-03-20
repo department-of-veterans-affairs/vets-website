@@ -77,8 +77,43 @@ export const disabilityNameTitle = ({ formData }) => {
 };
 
 
+export const facilityDescription = ({ formData }) => {
+  return (
+    <p>Tell us about facilities where VA treated you for {formData.disability.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+  );
+};
+
+
+export const treatmentView = ({ formData }) => {
+  const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
+  let treatmentPeriod = '';
+
+  if (startTreatment && endTreatment) {
+    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
+  } else if (startTreatment || endTreatment) {
+    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  }
+
+
+  return (
+    <div>
+      <strong>{treatmentCenterName}</strong><br/>
+      {treatmentPeriod}
+    </div>
+  );
+};
+
+
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
     <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
   );
 };
+
+
+export const privateMedicalRecordsIntro = ({ formData }) => {
+  return (
+    <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
+  );
+};
+

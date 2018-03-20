@@ -15,7 +15,7 @@ import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import yearUI from '../../../common/schemaform/definitions/year';
 
-import { dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
+import { disabilityRatingLabels, dischargeTypeLabels, serviceFlagLabels } from '../../utils/labels';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 import { facilityLocatorLink } from '../helpers';
 import { validateMatch } from '../../../common/schemaform/validation';
@@ -27,9 +27,13 @@ const {
   email,
   eveningPhone,
   employer,
+  disabilityRating,
+  disabilities,
+  dischargeDocuments,
   jobDuties,
   monthlyIncome,
   previousPrograms,
+  serviceHistory,
   vaRecordsOffice,
   yearsOfEducation
 } = fullSchema31.properties;
@@ -39,7 +43,7 @@ const {
   dateRange,
   fullName,
   phone,
-  serviceHistory,
+  requiredServiceHistory,
   ssn,
   vaFileNumber,
   year
@@ -75,6 +79,7 @@ const formConfig = {
     dateRange,
     phone,
     fullName,
+    requiredServiceHistory,
     ssn,
     vaFileNumber,
     year
@@ -240,6 +245,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['yearsOfEducation'],
             properties: {
               yearsOfEducation,
               previousPrograms
@@ -258,6 +264,9 @@ const formConfig = {
             type: 'object',
             disabilityRating: {
               'ui:title': 'Disability rating',
+              'ui:options': {
+                labels: disabilityRatingLabels
+              }
             },
             disabilities: {
               'ui:title': 'Please describe your disability or disabilities:',
@@ -300,28 +309,10 @@ const formConfig = {
               'disabilities',
               'vaRecordsOffice',
               'view:inHospital'
-
             ],
             properties: {
-              disabilityRating: {
-                type: 'string',
-                'enum': [
-                  '0%',
-                  '10%',
-                  '20%',
-                  '30%',
-                  '40%',
-                  '50%',
-                  '60%',
-                  '70%',
-                  '80%',
-                  '90%',
-                  '100%'
-                ]
-              },
-              disabilities: {
-                type: 'string'
-              },
+              disabilityRating,
+              disabilities,
               vaRecordsOffice,
               'view:inHospital': {
                 type: 'boolean'
@@ -408,15 +399,14 @@ const formConfig = {
       title: 'Document Upload',
       reviewTitle: 'Documents',
       pages: {
-        dd214Upload: {
+        dischargeDocumentUpload: {
           path: 'documents/discharge',
           title: 'Discharge document upload',
           reviewTitle: 'Discharge document review',
           depends: form => !form.verified,
           uiSchema: {
             'ui:description': DD214Description,
-            dd214: fileUploadUI('Upload your discharge document', {
-              endpoint: '/v0/vic/supporting_documentation_attachments',
+            dischargeDocuments: fileUploadUI('Upload your discharge document', {
               fileTypes: [
                 'pdf',
                 'jpeg',
@@ -440,24 +430,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            // TODO: this should be required once the endpoint is set up
             properties: {
-              dd214: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    name: {
-                      type: 'string'
-                    },
-                    size: {
-                      type: 'integer'
-                    },
-                    confirmationCode: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
+              dischargeDocuments
             }
           }
         }

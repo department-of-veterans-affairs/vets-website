@@ -25,6 +25,7 @@ import {
   getStatusContents,
   getNextEvents,
   makeDurationText,
+  makeDecisionReviewContent,
   addStatusToIssues,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
@@ -475,8 +476,8 @@ describe('Disability benefits helpers: ', () => {
     it('returns sane object when given unknown type', () => {
       const type = 123;
       const contents = getStatusContents(type);
-      expect(contents.title).to.equal('Current Appeal Status Unknown');
-      expect(contents.description.props.children).to.equal('Your current appeal status is unknown at this time');
+      expect(contents.title).to.equal('We don’t know your appeal status');
+      expect(contents.description.props.children).to.equal('We’re sorry, Vets.gov will soon be updated to show your status.');
     });
 
     // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
@@ -580,7 +581,7 @@ describe('Disability benefits helpers: ', () => {
         ssocTimeliness: [1, 1],
       };
       const nextEvents = getNextEvents(type, details);
-      expect(nextEvents.header).to.equal('What happens next depends on whether you send in new evidence.');
+      expect(nextEvents.header).to.equal('What happens next depends on whether you submit new evidence.');
     });
 
     it('returns an object with an events array property', () => {
@@ -629,6 +630,20 @@ describe('Disability benefits helpers: ', () => {
       const { issues } = mockData.data[2].attributes;
       const formattedIssues = addStatusToIssues(issues);
       expect(formattedIssues.every(i => i.status && i.description)).to.be.true;
+    });
+  });
+
+  describe('makeDecisionReviewContent', () => {
+    it('returns the default content if no additional content is provided', () => {
+      const decisionReviewContent = makeDecisionReviewContent();
+      const descText = shallow(decisionReviewContent).render().text();
+      expect(descText).to.equal('A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.');
+    });
+
+    it('returns additional content when provided', () => {
+      const decisionReviewContent = makeDecisionReviewContent('Once your representative has completed their review, your case will be returned to the Board. ');
+      const descText = shallow(decisionReviewContent).render().text();
+      expect(descText).to.equal('Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.');
     });
   });
 });

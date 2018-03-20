@@ -656,8 +656,16 @@ h1:focus {
     }
   }
 
-  .section-unexpanded {
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
 
+    &:before, button {
+      pointer-events: all;
+    }
+  }
+
+  .section-unexpanded {
     // offset left border with padding so element doesn't move while toggling expander
     &.process-step {
       padding-left: calc(2em + 5px);
@@ -722,6 +730,10 @@ h1:focus {
     margin-top: 1em;
   }
 
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
+  }
+
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -758,10 +770,8 @@ h1:focus {
       position: relative;
       top: -.2em;
       width: 2em;
-
     }
   }
-
 }
 
 .va-appeals-content {
@@ -1155,6 +1165,7 @@ $marker-text-width: 9rem;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
+  margin-top: 2em;
   margin-bottom: 2em;
 }
 

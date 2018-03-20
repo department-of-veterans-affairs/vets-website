@@ -59,7 +59,7 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
-    tree.setState({ isCropping: true });
+    tree.setState({ currentLayout: 'crop_photo' });
 
     expect(tree.find('Dropzone').exists()).to.be.false;
     expect(tree.find(CropperController).exists()).to.be.true;
@@ -84,7 +84,7 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
-    tree.setState({ progress: 10 });
+    tree.setState({ progress: 10, currentLayout: 'watch_upload' });
     expect(tree.find('.cropper-container-outer').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.false;
     expect(tree.text()).not.to.contain('Step');
@@ -112,6 +112,7 @@ describe('<PhotoField>', () => {
 
     tree.instance().onPreviewError();
     tree.update();
+    tree.setState({ currentLayout: 'preview_photo' });
 
     const text = tree.text();
     expect(tree.find('PhotoPreview').exists()).to.be.true;
@@ -202,7 +203,7 @@ describe('<PhotoField>', () => {
         done();
       });
     });
-    it('should set isCropper state with valid file', (done) => {
+    it('should set currentLayout state to crop_photo with valid file', (done) => {
       const formContext = {
         uploadFile: sinon.spy()
       };
@@ -238,7 +239,7 @@ describe('<PhotoField>', () => {
       }]);
 
       setTimeout(() => {
-        expect(tree.state().isCropping).to.be.true;
+        expect(tree.state().currentLayout).to.equal('crop_photo');
         done();
       });
     });
@@ -424,13 +425,9 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
-    tree.instance().screenReaderPath = true;
-    // force a re-render
-    tree.instance().forceUpdate();
-    // force enzyme to actually see the above re-render
-    tree.update();
+    tree.setState({ currentLayout: 'screen_reader_error' });
 
-    expect(tree.find('Cropper').exists()).to.be.false;
+    expect(tree.find('CropperController').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.false;
     expect(tree.find('.usa-input-error-message').text()).to.contain('Some error');
     expect(tree.find('ErrorableFileInput').props().buttonText).to.equal('Upload Photo Again');
@@ -456,19 +453,18 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
-    expect(tree.find('Cropper').exists()).to.be.false;
+    expect(tree.find('CropperController').exists()).to.be.false;
     expect(tree.find('Dropzone').exists()).to.be.false;
     expect(tree.find('ErrorableFileInput').exists()).to.be.false;
     expect(tree.find('PhotoPreview').exists()).to.be.true;
   });
   it('should upload photo', () => {
-    const uploadStub = (file, done) => {
+    const uploadStub = (file, options, onProgress, onChange) => {
       expect(file.name).to.equal('profile_photo.png');
       expect(file.lastModifiedDate).to.be.a('Date');
-      done({
+      onChange({
         confirmationCode: 'testing'
       });
-      return Promise.resolve();
     };
     const onChange = sinon.spy();
     const formContext = {
@@ -522,7 +518,6 @@ describe('<PhotoField>', () => {
 
     tree.instance().componentWillUnmount();
 
-    expect(window.removeEventListener.firstCall.args[0]).to.equal('resize');
     expect(window.URL.revokeObjectURL.called).to.be.true;
   });
   it('should recreate object url on blob change', () => {
@@ -575,9 +570,10 @@ describe('<PhotoField>', () => {
         formContext={formContext}/>
     );
 
+    tree.setState({ currentLayout: 'preview_photo' });
     tree.find('.photo-preview-link').first().props().onClick();
 
     expect(onChange.called).to.be.true;
-    expect(tree.state().isCropping).to.be.false;
+    expect(tree.state().currentLayout).to.equal('choose_photo');
   });
 });
