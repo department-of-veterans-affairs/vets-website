@@ -96,7 +96,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
   
 We're here to help you figure out what's wrong, and how we can help. We have experienced social workers at each VA medical center who can meet with you, and with your family if you'd like. 
 
-When you meet with a VA social worker, they'll ask you questions about:
+**When you meet with a VA social worker, they'll ask you questions about:**
 - Your health
 - Your living situation
 - Your family and other support systems
@@ -105,8 +105,8 @@ When you meet with a VA social worker, they'll ask you questions about:
 
 After the meeting, your social worker will write up an assessment. Then, they'll work with you and your VA health care team to create a plan to get you the treatment and support you need.
 
-If you're feeling stressed, mistreated, or overwhelmed—or just have questions or problems you need help with—ask to talk with the social worker at your nearest VA health facility. We can help with almost any need, or connect you with the right person for help.<br>
-[Find contact information for your closest VA health facility](/facilities/).
+If you're feeling stressed, mistreated, or overwhelmed—or just have questions or problems you need help with—ask the staff at your nearest VA health facility to connect you with a local VA social worker. We can help with almost any need, or connect you with the right person for help.<br>
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 </div>
 </div>
@@ -122,10 +122,10 @@ If you're feeling stressed, mistreated, or overwhelmed—or just have questions 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help.<br>
 [Learn more about your VA health care coverage](/health-care/about-va-health-care/).
 
-If you need help accessing services:
+**If you need help accessing services:**
 - Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
-- Or, ask for an appointment with the VA social worker at your nearest VA health facility. <br>
-[Find contact information for your closest VA health facility](/facilities).
+- Or, ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 </div>
 </div>
@@ -138,7 +138,7 @@ If you need help accessing services:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online through Vets.gov: <br>
+Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online through Vets.gov.<br>
 [Refill your prescriptions](/health-care/prescriptions/). <br>
 [Send a message to your VA health care provider](/health-care/messaging/). <br>
 [Check the status of a disability or pension claim](/track-claims/).
