@@ -76,15 +76,15 @@ class FeedbackForm extends React.Component {
             <div className="feedback-widget-need-help-inner">
               <h3>Need help with Vets.gov?</h3>
               <p>Call our Help Desk<br/>
-              We're here Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)<br/>
                 <a href="tel:18555747286">1-855-574-7286</a><br/>
-              TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a></p>
-              <h3>Need help with a personal crisis?</h3>
-              <p>Whatever you're struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
+                TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
+                Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</p>
+              <h3>In crisis?</h3>
+              <p>Whatever you're struggling with, we can support you, day or night.<br/><b>To connect with a Veterans Crisis Line responder now:</b></p>
               <ul>
-                <li>Call the Veterans Crisis Line at <a href="tel:+18002738255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-                <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans chat</a>.</li>
-                <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+                <li>Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.</li>
+                <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential online chat</a>.</li>
+                <li>Text <a href="sms:838255">838255</a>.</li>
               </ul>
             </div>
           </div>
