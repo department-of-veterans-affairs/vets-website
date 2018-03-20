@@ -1,4 +1,4 @@
-import { apiRequest } from '../helpers/api';
+import { apiRequest } from '../../common/helpers/api';
 
 export const REGISTERING_SERVICE = 'REGISTERING_SERVICE';
 export const REGISTER_SERVICE = 'REGISTER_SERVICE';
@@ -18,7 +18,7 @@ export function registerBeta(service) {
       method: 'POST'
     };
 
-    apiRequest(`/beta_registration/${service}`, settings)
+    return apiRequest(`/beta_registration/${service}`, settings)
       .then(() => dispatch({ type: REGISTER_SERVICE, service }));
   };
 }

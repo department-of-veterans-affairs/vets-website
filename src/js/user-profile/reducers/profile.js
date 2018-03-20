@@ -18,7 +18,7 @@ import {
 
 import {
   REGISTER_SERVICE
-} from '../../common/actions/beta';
+} from '../../beta-enrollment/actions';
 
 // TODO(crew): Romove before this goes to production.
 const initialState = {
