@@ -6,9 +6,9 @@ import appendQuery from 'append-query';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
-import { getUserData, addEvent, getLoginUrls } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
+import { updateLoggedInStatus, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
@@ -20,12 +20,10 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
-    this.getLoginUrls = this.getLoginUrls.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
   }
 
   componentDidMount() {
-    this.getLoginUrls();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
@@ -34,14 +32,11 @@ class Main extends React.Component {
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
-      window.onload = () => {
-        this.loginUrlRequest.then(this.checkTokenStatus);
-      };
+      window.onload = this.checkTokenStatus;
     }
   }
 
   componentWillUnmount() {
-    this.loginUrlRequest.abort();
     this.unbindNavbarLinks();
   }
 
@@ -49,10 +44,6 @@ class Main extends React.Component {
     if (event.data === sessionStorage.userToken) {
       this.props.getUserData();
     }
-  }
-
-  getLoginUrls() {
-    this.loginUrlRequest = this.props.getLoginUrls();
   }
 
   bindNavbarLinks() {
@@ -177,15 +168,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getLoginUrls: () => {
-      return getLoginUrls(dispatch);
-    },
-    updateLogInUrls: (update) => {
-      dispatch(updateLogInUrls(update));
-    },
-    updateVerifyUrl: (update) => {
-      dispatch(updateVerifyUrl(update));
-    },
     updateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },

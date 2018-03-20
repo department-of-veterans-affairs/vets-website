@@ -1,5 +1,5 @@
 import environment from './environment.js';
-import { updateLoggedInStatus, updateLogInUrls, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
+import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
 export function getUserData(dispatch) {
@@ -63,21 +63,4 @@ export function addEvent(element, eventName, callback) {
   } else if (element.attachEvent) {
     element.attachEvent('on' + eventName, callback); // eslint-disable-line prefer-template
   }
-}
-
-export function getLoginUrls(dispatch) {
-  const loginUrlsRequest = fetch(`${environment.API_URL}/v0/sessions/authn_urls`, {
-    method: 'GET',
-  }).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    throw Error(response.statusText);
-  }).then(json => {
-    dispatch(updateLogInUrls(json));
-  }).catch(() => {
-    dispatch({ type: FETCH_LOGIN_URLS_FAILED });
-  });
-
-  return loginUrlsRequest;
 }
