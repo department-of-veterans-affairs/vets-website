@@ -6,7 +6,7 @@ import appendQuery from 'append-query';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
-import { getUserData, addEvent, getLoginUrls, getVerifyUrl } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent, getLoginUrls } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrls, updateVerifyUrl, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
@@ -21,14 +21,10 @@ class Main extends React.Component {
     super(props);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getLoginUrls = this.getLoginUrls.bind(this);
-    this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
   }
 
   componentDidMount() {
-    if (sessionStorage.userToken) {
-      this.getVerifyUrl();
-    }
     this.getLoginUrls();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
@@ -44,29 +40,9 @@ class Main extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const shouldGetVerifyUrl =
-      !prevProps.login.currentlyLoggedIn &&
-      this.props.login.currentlyLoggedIn &&
-      !this.props.login.verifyUrl;
-
-    if (shouldGetVerifyUrl) {
-      this.getVerifyUrl();
-    }
-  }
-
   componentWillUnmount() {
     this.loginUrlRequest.abort();
-    this.verifyUrlRequest.abort();
-    this.logoutUrlRequest.abort();
     this.unbindNavbarLinks();
-  }
-
-  getVerifyUrl() {
-    const { currentlyLoggedIn, verifyUrl } = this.props.login;
-    if (currentlyLoggedIn && !verifyUrl) {
-      this.verifyUrlRequest = getVerifyUrl(this.props.updateVerifyUrl);
-    }
   }
 
   setMyToken(event) {

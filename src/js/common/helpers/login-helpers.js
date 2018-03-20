@@ -2,23 +2,6 @@ import environment from './environment.js';
 import { updateLoggedInStatus, updateLogInUrls, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
-export function getVerifyUrl(onUpdateVerifyUrl) {
-  const verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
-    method: 'GET',
-    headers: new Headers({
-      Authorization: `Token token=${sessionStorage.userToken}`
-    })
-  }).then(response => {
-    return response.json();
-  }).then(json => {
-    if (json.identity_proof_url) {
-      onUpdateVerifyUrl(json.identity_proof_url);
-    }
-  });
-
-  return verifyUrlRequest;
-}
-
 export function getUserData(dispatch) {
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',
