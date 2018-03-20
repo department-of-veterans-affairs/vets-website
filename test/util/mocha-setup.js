@@ -37,6 +37,7 @@ export default function setupJSDom() {
   win.dataLayer = [];
   win.scrollTo = () => {};
   win.sessionStorage = {};
+  win.requestAnimationFrame = (func) => func();
 
   global.Blob = window.Blob;
 

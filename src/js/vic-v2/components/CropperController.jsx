@@ -55,6 +55,8 @@ function getPhotoBoundaries({ photoData, cropBoxData }) {
   const { width: photoWidth, height: photoHeight } =  photoData;
   const { left: cropBoxLeft, top: cropBoxTop, width: cropBoxWidth, height: cropBoxHeight } =  cropBoxData;
 
+  console.log(photoData);
+  console.log(cropBoxData);
   return {
     leftMin: cropBoxLeft + cropBoxWidth - photoWidth,
     leftMax: cropBoxLeft,
@@ -288,6 +290,7 @@ export default class CropperControls extends React.Component {
 
     const highZoom = croppedPhotoWidth < MIN_SIZE || this.state.zoomValue > WARN_RATIO;
 
+    console.log(boundaries);
     const boundariesMet = {
       bottomBoundaryMet: false,
       topBoundaryMet: false,
