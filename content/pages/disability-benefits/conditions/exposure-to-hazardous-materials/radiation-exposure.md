@@ -38,6 +38,7 @@ You must also have had contact with ionizing radiation while serving in the mili
 - Assigned to a gaseous diffusion plant at Portsmouth, Ohio, **or**
 - Assigned to a gaseous diffusion plant at Area K-25 at Oak Ridge, Tennessee
 
+<br>
 
 ### Who’s covered?
 Veterans
