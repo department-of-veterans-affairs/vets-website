@@ -50,8 +50,7 @@ class SearchHelpSignIn extends React.Component {
           this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
         greeting={greeting}
-        isOpen={login.utilitiesMenuIsOpen.account}
-        onUserLogout={this.props.onUserLogout}/>);
+        isOpen={login.utilitiesMenuIsOpen.account}/>);
     } else {
       const classes = classNames({ disabled: isLoading });
       content = (<div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import moment from 'moment';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 
@@ -12,7 +11,6 @@ import { updateLoggedInStatus, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import Signin from '../components/Signin';
 import Verify from '../components/Verify';
-import { logout } from '../utils/helpers';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
@@ -114,7 +112,7 @@ class Main extends React.Component {
       case 'navComponent': {
         content = (
           <div>
-            <SearchHelpSignIn onUserLogout={logout}/>
+            <SearchHelpSignIn/>
             <Modal
               cssClass="va-modal-large"
               visible={this.props.login.showModal}
