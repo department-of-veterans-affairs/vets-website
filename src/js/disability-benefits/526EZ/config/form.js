@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -342,13 +343,13 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-                treatments: {
+                privateMedicalRecords: {
                   'ui:options': {
                     itemName: 'Private Medical Record',
                     viewField: treatmentView
                   },
                   items: {
-                    treatment: {
+                    privateMedicalRecord: {
                       'ui:order': [
                         'treatmentCenterName',
                         'privateMedicalRecordsReleaseAccepted',
@@ -415,12 +416,12 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    treatments: {
+                    privateMedicalRecords: {
                       type: 'array',
                       items: {
                         type: 'object',
                         properties: {
-                          treatment: {
+                          privateMedicalRecord: {
                             type: 'object',
                             properties: _.omit(['treatmentCenterType'], privateMedicalRecordsReleaseTreatmentSchema)
                           }
@@ -600,9 +601,63 @@ const formConfig = {
               }
             }
           }
+        },
+        evidenceSummary: {
+          title: 'Summary of evidence',
+          depends: () => {
+            // TODO: needs one of the types of evidence?, checkbox validation?
+            // const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
+            // return hasOtherEvidence;
+            return true;
+          },
+          // TODO: fix path (kebab case)
+          path: 'supporting-evidence/:index/evidence-summary',
+          // editPageOnReview: true,
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': 'Summary of evidence',
+                'ui:description': ({ formData, formContext: { pagePerItemIndex } }) => {
+                  // console.log(formData, pagePerItemIndex);
+                  // TODO: need to make additional documents same so can use type below
+                  const { treatments: VATreatments, privateMedicalRecords } = formData;
+                  // TODO: needs to make these handle arrays instead, if they have multiples of things
+                  const centerName = _.get(`${pagePerItemIndex}.treatment.treatmentCenterName`, VATreatments);
+                  const privateRecord = _.get(`${pagePerItemIndex}.privateMedicalRecord`, privateMedicalRecords);
+                  // const additionalDocuments;
+                  // TODO: update bullet style for additional documents
+                  return (
+                    <div>
+                      <ul>
+                        {centerName && <li>We will get your medical records from <strong>{centerName}</strong>.</li>}
+                        {privateRecord && <li>We have the private medical records you uploaded.</li>}
+                        {centerName && <li>We have this additional evidence that you uploaded:
+                          <ul>
+                            <li><strong>{centerName}</strong>.</li>
+                          </ul>
+                        </li>}
+                      </ul>
+                    </div>
+                  );
+                },
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
         }
-        // pageNine: {},
-        // pageTen: {},
       }
     },
     chapterFive: {
