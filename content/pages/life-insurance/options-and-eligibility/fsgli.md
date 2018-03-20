@@ -279,17 +279,13 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 
 <br>
 
-### How much will my Servicemember pay for dependent coverage? 
+### How much will my Servicemember pay for dependent coverage, and can we extend coverage if we need to? 
 
-Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
-- Is a full-time student, **or**
-- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+You won't pay anything for dependent coverage until your child is 18 years old.
 
-<br>
-
-### Can my Servicemember get extended coverage for our dependent child? 
-
-Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student between 18 and 22 years old, we may extend the coverage. Or, if the child becomes permanently and totally disabled before turning 18 and is no longer able to support themselves, we may extend the coverage—in some cases indefinitely.
+We may offer you extended coverage if your child:
+- Is a full-time student between 18 and 22 years old, **or**
+- Becomes permanently and totally disabled before turning 18 years old, and can’t support themselves 
 
 <br>
 
