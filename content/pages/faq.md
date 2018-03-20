@@ -1,13 +1,13 @@
 ---
 layout: page.html
 permalink: /faq.html
-title: Frequently Asked Questions
+title: Frequently Asked Questions about Signing In to Vets.gov
 display_title: Frequently Asked Questions
 ---
 <main itemscope itemtype="http://schema.org/FAQPage">
   <div class="row">
     <article class="usa-content columns faq-page">
-      <h1>Frequently Asked Questions (FAQ)</h1>
+      <h1>Frequently Asked Questions (FAQ) about Signing In to Vets.gov</h1>
       <div class="main home signup" role="main">
         <div class="section main-menu">
           <div class="row">
