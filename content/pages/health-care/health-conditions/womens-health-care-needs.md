@@ -131,7 +131,7 @@ The most important thing is your safety and the safety of your children.
 **If you don’t feel safe at home right now:**
 
 - Call 911 to get help right away.
-- You can also get help 24 hours a day, 7 days a week from these organizations:
+- Or, contact one of these organizations for help 24 hours a day, 7 days a week:
   - **[National Domestic Violence Hotline](http://www.thehotline.org/):** Call 1-800-799-SAFE (1-800-799-7233) for free, confidential (private) crisis intervention.
   - **[National Sexual Assault Hotline](https://www.rainn.org/):** Call 1-800-656-4673 for free, confidential (private) live help for issues related to sexual assault, provided by the Rape, Abuse & Incest National Network (RAINN).
 
@@ -145,14 +145,15 @@ The most important thing is your safety and the safety of your children.
 - Download our intimate partner violence PDF with resources and safety planning tips.
   - [Download the PDF in English](https://www.socialwork.va.gov/docs/IPV_Flyer_with_Safety_Planning_Tips.pdf#).
   - [Download the PDF in Spanish](https://www.socialwork.va.gov/docs/SpanishDV_IPVFlyerwithSafetyPlanningTips_final_R.PDF#).
-- Connect with other organizations and resources that may offer more help and support, like:
-  - [Domestic Shelters](https://www.domesticshelters.org/)<br>
+
+**You can also connect with other organizations and resources that may offer more help and support, like:**
+  - **[Domestic Shelters](https://www.domesticshelters.org/)**<br>
   For help finding verified information on domestic violence shelters and programs across the U.S. based on location, service, and language needs
-  - [Battered Women's Justice Project](http://www.bwjp.org/index.html<br>
+  - **[Battered Women's Justice Project](http://www.bwjp.org/index.html)**<br>
   For guidance and referrals on civil or criminal cases involving intimate partner violence.
-  - [Futures Without Violence](https://www.futureswithoutviolence.org/)<br>
+  - **[Futures Without Violence](https://www.futureswithoutviolence.org/)**<br>
   For information about programs and policies to help end violence against women and children around the world  
-  - [GLBTQ Domestic Violence Project](http://www.glbtqdvp.org/)<br>
+  - **[GLBTQ Domestic Violence Project](http://www.glbtqdvp.org/)**<br>
   For a 24-hour hotline, emergency safe home, legal services, crisis intervention and safety planning, housing and employment advocacy, sexual assault case management, and ongoing supportive services for GLBTQ survivors of domestic violence.
   
 <br>
