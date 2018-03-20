@@ -1,19 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
-import AlertBox from '../../common/components/AlertBox';
 import _ from 'lodash';
-
 import moment from 'moment';
 
+import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
+import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
 import { mfa } from '../../login/utils/helpers';
-
-import {
-  fetchLatestTerms,
-  acceptTerms,
-} from '../actions';
+import { fetchLatestTerms, acceptTerms } from '../actions';
 
 class UserDataSection extends React.Component {
   constructor(props) {
@@ -158,7 +153,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchLatestTerms,
-  acceptTerms,
+  acceptTerms
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);
