@@ -1,0 +1,55 @@
+{
+  "data": {
+    "disabilities": "PTSD",
+    "disabilityRating": 10,
+    "employer": "work Inc",
+    "employerAddress": {
+      "street": "122 first st",
+      "street2": "apt 2",
+      "city": "Wichita",
+      "country": "USA",
+      "state": "KS",
+      "postalCode": "83443"
+    },
+    "hospitalAddress": {
+      "street": "122 first st",
+      "street2": "apt 2",
+      "city": "Wichita",
+      "country": "USA",
+      "state": "KS",
+      "postalCode": "83443"
+    },
+    "hospitalName": "hname",
+    "jobDuties": "working",
+    "monthlyPay": 400,
+    "previousPrograms": [{
+      "program": "education program",
+      "yearStarted": 1900,
+      "yearLeft": 1901
+    }],
+    "serviceFlags": {
+      "ww2": true
+    },
+    "serviceHistory": [{
+      "serviceBranch": "Army",
+      "dateRange": {
+        "from": "2001-01-01",
+        "to": "2002-01-01"
+      },
+      "dischargeType": "honorable"
+    }],
+    "vaRecordsOffice": "office",
+    "veteranFullName": {
+      "first": "first",
+      "middle": "middle",
+      "last": "last",
+      "suffix": "Sr."
+    },
+    "veteranDateOfBirth": "1970-03-03",
+    "veteranSocialSecurityNumber": "424242424",
+    "veteranVaFileNumber": "3423434",
+    "view:inHospital": "Y",
+    "view:isWorking": "Y",
+    "yearsOfEducation": 10
+  }
+}
