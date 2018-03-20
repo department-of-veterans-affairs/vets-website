@@ -34,6 +34,8 @@ Find out how our VA social workers can help you or the Veteran or Servicemember 
 
 </div>
 
+**Jump to a section:**
+
 [Social work services for Veterans and Servicemembers](#veteran-servicemember)<br>
 [Social work services for family memebers and caregivers](#caregiver)
 
@@ -46,12 +48,12 @@ Find out how our VA social workers can help you or the Veteran or Servicemember 
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can support you, day or night.</p>
-	    <p><strong>To reach us 24/7:</strong></p>	  
+            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
 	    <ul>
-              <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-  	      <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+              <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+  	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
   	    <p><strong>You can also:</strong></p>	  
             <ul>
@@ -79,7 +81,7 @@ Our social workers can help you with many different needs.
 - **Struggling with problems like depression, sadness, stress, anxiety, PTSD, drinking or drug use.** We can offer counseling and work with you and your health care team to create a treatment plan.
 - **Dealing with end-of-life issues.** We can help you make decisions about life support, organ donation, and other issues and communicate these decisions to your family and your health care team.
 
-These are just some examples. If you have any questions or problems, feel free to ask for an appointment with a VA social worker. We'll help you or connect you with the right person to help.
+If you don't see your needs on the list, don't worry. You can contact a VA social worker any time. We'll help you or connect you with the right person to help.
 
 </div>
 
@@ -88,7 +90,7 @@ These are just some examples. If you have any questions or problems, feel free t
 If you're already a VA patient, ask your health care team to make an appointment for you with a VA social worker.
 
 If not, simply call your nearest VA health facility and ask to be connected to a local VA social worker.<br>
-[Find contact information for your closest VA health care facility](/facilities).
+[Find your closest VA health care facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 ### What if I don't know what I need, but just think I need help?
 
@@ -138,7 +140,7 @@ Your VA social worker will help to make sure you get consistent care from the ti
 <div id="Hospital-far-from-home" class="usa-accordion-content">
 
 Yes. Your social worker will connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
-[Find a Fisher House near where your Veteran or Servicemember will be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
+[Find a Fisher House near where you'll be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
 [Learn more about all Fisher House Foundation programs](https://www.fisherhouse.org/).
@@ -162,30 +164,31 @@ And, your social worker can help connect you to other community resources. These
 
 <span id="caregiver"></span>
 
+### Social work services for family members and caregivers
+
 <div class="feature" markdown=“1”>
 
 ### How can a VA social worker help me as the caregiver or family member of a Veteran or Servicemember?
 
 VA social workers can help to support you with many different services.
 
-**We can help you:**
+**You can reach out to a VA social work for support if you need help:**
 
-- Get family counseling to work through any relationship struggles
-- Learn about the Veteran or Servicemember's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need
-- Find a free place to stay close by if the Veteran or Servicemember needs to receive treatment in a hospital far from home
-- Access medical services for the Veteran or Servicemember in the community if you live far from a VA health facility
-- Get support to help you care for the Veteran or Servicemember in your home
-- Make arrangements for the Veteran or Servicemember's long-term care if you can no longer care for them yourself
-- Find support for the Veteran or Servicemember if they're struggling with mental health problems, homelessness, end-of-life issues, or just feel like something isn't right. 
+- **Getting family counseling.** We can help you work through any relationship struggles.
+- **Understanding your loved one's condition.** We can teach you about the Veteran or Servicemember's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need.
+- **Accessing rural health care.** We can help you find medical services for the Veteran or Servicemember in the community if you live far from a VA health facility.
+- **Caring for a Veteran or Servicemember who can't care for themselves.** We can help you get support to care for your loved one at home, or make arrangements for their long-term care if you can no longer provide that care yourself.
+- **Supporting a Veteran or Servicemember who's struggling.** We can help you get treatment and support for your loved one if they're struggling with mental health problems, homelessness, or end-of-life issues, or just feel like something isn't right.
+- **Advocating for your loved one.** We can act as your family's voice to make sure your wishes are respected and you get what you need.
 
-If you don't see your needs on the list, don't worry. You can contact a VA social worker any time. We'll help you or connect you with the right person to help.
+These are just some examples. If you have any questions or problems, feel free to ask for an appointment with a VA social worker. We'll help you or connect you with the right person to help.
 
 </div>
 
 ### How do I ask for an appointment with a VA social worker?
 
 Call your nearest VA health facility and ask to be connected to a social worker.<br>
-[Find contact information for your closest VA health care facility](/facilities).
+[Find your closest VA health care facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 ### How do I get help right away if the Veteran or Servicemember I care about is homeless or at risk of becoming homeless?
 
@@ -193,11 +196,12 @@ Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="
 
 ### How do I get help right away if the Veteran or Servicemember I care about is in crisis?
 
-Whatever the person you care about is struggling with—chronic pain, anxiety, depression, sleeplessness, anger, or even homelessness—our caring, qualified Veterans Crisis Line responders can offer support, day or night.
+Whatever your loved one is struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can help you support them. Our Veterans Crisis Line is confidential (private), free, and available 24/7.
 
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1 to talk to someone now. 
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
-- Text <a href="tel:+1phonenumber">838255</a> to get help right away.
+**To connect with a Veterans Crisis Line responder any time day or night:**
+- Call <a href="tel:+1phonenumber">1-800-273-8255</a>, then press 1. 
+- [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
+- Text <a href="tel:+1phonenumber">838255</a>.
 
 <span id="fisher">
 
@@ -209,7 +213,7 @@ Whatever the person you care about is struggling with—chronic pain, anxiety, d
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="Meet-with-social-worker">What will happen when I meet with a VA social worker?</button>
 <div id="Meet-with-social-worker" class="usa-accordion-content">
 
-Your social worker will ask questions about the Veteran or Servicemember's:
+**Your social worker will ask questions about the Veteran or Servicemember's:**
 - Health
 - Living situation
 - Family and other support systems
