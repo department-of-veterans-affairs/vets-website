@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   getEnrollmentData,
-  getServiceUp
+  getServiceAvailability
 } from '../../../src/js/post-911-gib-status/actions/post-911-gib-status';
 import {
   BACKEND_SERVICE_ERROR,
@@ -198,7 +198,7 @@ describe('getServiceAvailability', () => {
   }
 
   it('should call the api', (done) => {
-    const thunk = getServiceUp();
+    const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
     thunk(dispatch).then(() => {
@@ -208,7 +208,7 @@ describe('getServiceAvailability', () => {
 
   it('should dispatch SET_SERVICE_AVAILABILITY with a status of `up`', (done) => {
     global.fetch.returns(apiResponse(true));
-    const thunk = getServiceUp();
+    const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
     thunk(dispatch).then(() => {
@@ -221,7 +221,7 @@ describe('getServiceAvailability', () => {
 
   it('should dispatch SET_SERVICE_AVAILABILITY with a status of `down`', (done) => {
     global.fetch.returns(apiResponse(false));
-    const thunk = getServiceUp();
+    const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
     thunk(dispatch).then(() => {
