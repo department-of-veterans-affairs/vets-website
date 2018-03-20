@@ -106,7 +106,7 @@ The VA health care program covers depression health services. To access these se
 [Visit Make the Connection](https://maketheconnection.net/).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
 [Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
-- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>.
+- Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) 
 
 <script type="text/javascript">
 
