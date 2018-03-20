@@ -20,7 +20,7 @@ majorlinks:
       description: Apply online now, or find out how to apply in person, by phone, or by mail.
     - url: /health-care/family-caregiver-health-benefits/
       title: Family and Caregiver Health Benefits
-      description: If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history. 
+      description: If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits like TRICARE, CHAMPVA, or other programs based on your caregiver status or your family member's service history.
   - heading: Manage Your Health
     links:
     - url: /health-care/health-conditions/conditions-related-to-service-era/
@@ -81,6 +81,7 @@ With VA health care, you’re covered for regular checkups with your primary car
     </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
 

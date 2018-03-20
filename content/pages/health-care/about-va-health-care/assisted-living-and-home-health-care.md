@@ -49,7 +49,8 @@ You can get this care in many different settings—some run by VA and others run
 - Adult day health centers
 - Veterans’ own homes
 
-You can learn more about the different types of care below or on our va.gov website. [See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
+You can learn more about the different types of care below or on our va.gov website. <br>
+[See our guide to long-term services and supports](https://www.va.gov/GERIATRICS/Guide/LongTermCare/index.asp).
 
 </div>
 
@@ -66,20 +67,21 @@ You may be able to use one or more of these services if:
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
 To find out how to access these services:
-- Ask to see the VA social worker at your nearest VA health facility.<br>
-[Find contact information for your closest VA health facility](/facilities/).
+- Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 - Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-If you’re not currently in the VA health care program, you can apply for benefits now. [Apply now](/health-care/apply/).
+If you’re not currently in the VA health care program, you can apply for benefits now.<br>
+[Apply now](/health-care/apply/).
 
 <br>
 
 ### Does VA pay for these services?
 
-We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. [Apply for VA health care](/health-care/apply/).
+We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services.<br>
+[Apply for VA health care](/health-care/apply/).
 
-Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.
-
+Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.<br>
 [Learn more about paying for long-term care](https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#).
 
 <br>
@@ -209,8 +211,8 @@ Other services for home health care (like adult day health care or skilled healt
 
 Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions about your long-term services and support. They can also help you stay in your own home with long-term support, or help you find an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your health care team.
 
-To connect with a VA social worker, ask the staff at the VA health facility where you receive your primary care for an appointment. If you're not enrolled in the VA health care program, or haven't received care at a VA health facility yet, call your nearest VA health facility and ask them to connect you to a social worker.<br>
-[Find contact information for your closest VA health facility](/facilities/).<br>
+To connect with a VA social worker, ask the staff at the VA health facility where you receive your primary care for an appointment. If you're not enrolled in the VA health care program, or haven't received care at a VA health facility yet, call your nearest VA health facility and ask them to connect you to a local VA social worker.<br>
+[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).<br>
 [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
 
 <br>

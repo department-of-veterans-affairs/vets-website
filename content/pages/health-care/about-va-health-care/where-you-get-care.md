@@ -178,9 +178,9 @@ Yes, we may be able to help with travel expenses if you need to travel for care.
 
 - **Angel Flight**, which provides free flights to patients in private planes. <br>
 [Learn more about Angel Flight](http://www.angelflight.com).
-- **Corporate Angel Network**, which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment.
+- **Corporate Angel Network**, which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment. <br>
 [Learn more about the Corporate Angel Network](http://www.corpangelnetwork.org/home).
-- **Mercy Medical Lift**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation.
+- **Mercy Medical Lift**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation. <br>
 [Learn more about Mercy Medical Lift](http://mercymedical.org).  
 
 <br>

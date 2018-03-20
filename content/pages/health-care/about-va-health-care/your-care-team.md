@@ -55,7 +55,7 @@ When you need other services to meet your goals and needs, your team may call ot
 - [How do I schedule an appointment](#appointments)?
 - [What happens if my primary care provider leaves VA](#primary-care-provider-leaves)?
 - [Can I see a local community care provider, paid for by VA](#non-va-provider)?
-- [What kinds of things can a social worker help me with](#social-worker)?
+- [What kinds of things can a VA social worker help me with](#social-worker)?
 
 <br>
 
@@ -128,7 +128,7 @@ Your VA provider will work with you to determine if you're eligible. <br>
 
 <span id="social-worker">
   
-#### What kinds of things can a social worker help me with?
+#### What kinds of things can a VA social worker help me with?
 
 Our social workers can help you with many different needs.
 
@@ -138,10 +138,10 @@ Our social workers can help you with many different needs.
 - **Homeless, often in the hospital, or unable to care for yourself any longer,** your social worker can work closely with you to help you find the right housing solution and get the ongoing support you need.
 - **In the hospital now,** your social worker can help you make plans for when you get discharged.
 - **Having trouble speaking up for yourself or feeling overwhelmed by trying to arrange care,** your social worker can act as your voice to make sure your wishes are respected and you get the care you need.
-- **Looking for support in helping your family understand how to deal with your health needs,** your social worker can help educate your family about your condition as well as how to live a more healthy life, deal with stress, and access helpful programs and services.
+- **Looking for support to help your family understand how to deal with your health needs,** your social worker can educate your family about your condition as well as how to live a more healthy life, deal with stress, and access helpful programs and services.
 - **Feeling sad, depressed, anxious, mistreated, or just like something isn't right,** your social worker can offer counseling and can work with you and your health care team to create a treatment plan.
 
 These are just some examples. We can help with almost any need, or connect you with the right person for help.
 
-If you have a question or a problem you need help with, ask your health care team to set up an appointment for you with a social worker. Or, ask your nearest VA health facility to connect you with a local social worker. <br>
-[Find contact information for your closest VA health facility](/facilities).
+If you have a question or a problem you need help with, ask your health care team to set up an appointment for you with a VA social worker. Or, ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
+[Find closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
