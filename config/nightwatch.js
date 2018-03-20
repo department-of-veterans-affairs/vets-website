@@ -1,7 +1,8 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const electron = require('electron');
+// TODO: Re-enable electron
+// const electron = require('electron');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
@@ -38,8 +39,8 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          binary: electron,
-          args: ['--window-size=1024,768']
+          // binary: electron,
+          // args: ['--window-size=1024,768']
         }
       },
       selenium: {
