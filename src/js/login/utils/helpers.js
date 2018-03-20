@@ -13,44 +13,37 @@ const LOGOUT_URL = redirectUrl('slo');
 
 const loginUrl = (policy) => {
   switch (policy) {
-    case 'mhv': return MHV_URL; break;
-    case 'dslogon': return DSLOGON_URL; break;
+    case 'mhv': return MHV_URL;
+    case 'dslogon': return DSLOGON_URL;
     default: return IDME_URL;
   }
 };
 
-function popup(url, clickedEvent, openedEvent) {
-  console.log(url);
-
+function popup(popupUrl, clickedEvent, openedEvent) {
   window.dataLayer.push({ event: clickedEvent });
-  const popup = window.open('', 'vets.gov-popup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-  if (popup) {
-    console.log('popup');
+  const popupWindow = window.open('', 'vets.gov-popup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+  if (popupWindow) {
     window.dataLayer.push({ event: openedEvent });
-    popup.focus();
-
-    const settings = {
-      method: 'GET',
-      headers: {
-        Authorization: `Token token=${sessionStorage.userToken}`
-      }
-    };
-
-    console.log('fetching');
-    popup.fetch(url, settings)
-      .then(response => {
-        console.log('success');
-        console.log(response);
-      })
-      .catch(error => {
-        console.log('error');
-        console.log(error);
-      });
+    popupWindow.focus();
+    apiRequest(
+      popupUrl,
+      null,
+      ({ url }) => { popupWindow.location.href = url; },
+      () => {}
+    );
   }
 }
 
 export function login(policy) {
   popup(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+}
+
+export function mfa() {
+  popup(MFA_URL, 'logout-link-clicked', 'logout-link-opened');
+}
+
+export function verify() {
+  popup(VERIFY_URL, 'logout-link-clicked', 'logout-link-opened');
 }
 
 export function logout() {
