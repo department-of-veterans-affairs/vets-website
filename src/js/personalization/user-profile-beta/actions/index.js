@@ -145,87 +145,38 @@ export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE
 export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL);
 export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
 
-function noop() {}
-
-function getEmailAddress() {
-  return apiRequest('/profile/email')
-    .then(json => json.data.attributes.email)
-    .catch(noop);
-}
-
-function getPrimaryTelephone() {
-  return apiRequest('/profile/primary_phone')
-    .catch(noop);
-}
-
-function getAlternateTelephone() {
-  return apiRequest('/profile/alternate_phone')
-    .catch(noop);
-}
-
-function getMailingAddress() {
-  return apiRequest('/profile/residential_address')
-    .catch(noop);
-}
-
 // The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
 function sendProfileRequests() {
+  const get = (url) => {
+    return apiRequest(url)
+      .then(response => response.data.attributes)
+      .catch(() => {});
+  };
   return [
-    getEmailAddress(),
-    getPrimaryTelephone(),
-    getAlternateTelephone(),
-    getMailingAddress()
+    get('/profile/email'),
+    get('/profile/primary_phone'),
+    get('/profile/alternate_phone'),
+    get('/profile/mailing_address')
   ];
 }
 
-function getExtendedProfile(profile, email) {
-
+function getExtendedProfile(email, primaryTelephone, alternateTelephone, mailingAddress) {
   return {
-    ...profile,
+    email,
+    primaryTelephone,
+    alternateTelephone,
+    mailingAddress
+  };
+}
 
-    // ?
-    profilePicture: '/img/profile.png',
+function combineWithMockData(profile, realData) {
+  return {
+    ...realData,
     userFullName: profile.userFullName,
     dob: profile.dob,
     gender: profile.gender,
-    ssn: '123121232',
-
-    // Vet360
-    email: email || profile.email,
-    telephones: [
-      {
-        type: 'primary',
-        value: '1231231232'
-      },
-      {
-        type: 'alternate',
-        value: '2342342343'
-      }
-    ],
-    addresses: [
-      {
-        type: 'residential',
-        addressOne: '1000 Strawberry Lane',
-        addressTwo: null,
-        addressThree: null,
-        city: 'Miama',
-        stateCode: 'FL',
-        zipCode: '41229',
-        countryName: 'USA'
-      },
-      {
-        type: 'mailing',
-        addressOne: '2000 Blueberry Drive',
-        addressTwo: null,
-        addressThree: null,
-        city: 'Miami',
-        stateCode: 'FL',
-        zipCode: '41229',
-        countryName: 'USA'
-      }
-    ],
-
-    // EMIS
+    profilePicture: '/img/profile.png',
+    ssn: 'XXXXX1232',
     toursOfDuty: [
       {
         serviceBranch: 'Navy',
@@ -244,7 +195,6 @@ function getExtendedProfile(profile, email) {
         }
       }
     ],
-
     serviceAwards: [
       {
         name: 'Army Commendation Medal'
@@ -261,11 +211,16 @@ export function fetchExtendedProfile() {
     dispatch({ type: FETCH_EXTENDED_PROFILE });
 
     Promise.all(requests)
-      .then(data => getExtendedProfile(profile, ...data))
+      .then(data => getExtendedProfile(...data))
+      .then(realData => combineWithMockData(profile, realData))
       .then(extendedProfile => {
+        console.log(extendedProfile)
         dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedProfile });
       })
-      .catch(() => dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL }));
+      .catch(err => {
+        console.log(err)
+        dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL })
+      });
   };
 }
 
