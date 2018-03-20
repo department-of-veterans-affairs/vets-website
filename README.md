@@ -74,7 +74,7 @@ accidentally modify copies of upstream.
 
 
 
-The requirements for running this application are Node.js 8.10.0 and yarn 0.27.5
+The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
 Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
