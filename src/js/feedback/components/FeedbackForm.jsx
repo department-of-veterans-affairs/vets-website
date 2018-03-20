@@ -50,7 +50,7 @@ class FeedbackForm extends React.Component {
             </div>
             <div className="feedback-widget-desc-container">
               <ErrorableTextarea
-                label="Tell us about your ideas to make Vets.gov better."
+                label="Tell us how you think we can make Vets.gov better."
                 name="description"
                 onValueChange={this.setDescription}
                 errorMessage={this.descriptionErrorMessage()}
@@ -79,8 +79,8 @@ class FeedbackForm extends React.Component {
                 <a href="tel:18555747286">1-855-574-7286</a><br/>
                 TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
                 Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)</p>
-              <h3>In crisis?</h3>
-              <p>Whatever you're struggling with, we can support you, day or night.<br/><b>To connect with a Veterans Crisis Line responder now:</b></p>
+              <h3>Are you in crisis?</h3>
+              <p>Whatever you're struggling with, we can support you.<br/><b>To connect with a Veterans Crisis Line responder any time day or night:</b></p>
               <ul>
                 <li>Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.</li>
                 <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential online chat</a>.</li>
