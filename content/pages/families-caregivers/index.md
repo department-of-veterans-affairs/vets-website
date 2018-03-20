@@ -29,7 +29,7 @@ As the family member of a Servicemember or Veteran, you may qualify for certain 
 <span id="health-care">
 
 ### Health Care Benefits
-If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service. <br>
+If you’re the spouse, surviving spouse, dependent child, or family caregiver of a Servicemember or Veteran, you may qualify for health care benefits through VA or through the Department of Defense. In certain cases, you may also qualify for health care benefits due to a disability related to your Veteran’s service.<br>
 [Learn more about health care benefits for family members and caregivers](/health-care/family-caregiver-health-benefits/).
 
 If the Servicemember or Veteran you're caring for is in the hospital, or if your family needs help understanding their condition or accessing programs and services, our VA social workers can help. And, if a Servicemember or Veteran in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location.  <br>
@@ -42,7 +42,7 @@ If the Servicemember or Veteran you're caring for is in the hospital, or if your
 <span id="education-benefits">
 
 ### Education Benefits
-If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits. 
+If you’re the dependent or surviving spouse or child of a Veteran, you may qualify for education and training benefits.
 Find out if you qualify for:
 
 - [Survivors’ and Dependents’ Assistance
