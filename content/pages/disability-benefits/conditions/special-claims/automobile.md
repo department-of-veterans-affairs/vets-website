@@ -18,7 +18,9 @@ Do you have a disability related to your military service that prevents you from
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have a disability that’s related to your service (called a service-connected disability) and that includes **at least one of these**:
+You may be able to get disability benefits if you have a disability that’s related to your service (called a service-connected disability) and that includes at least one of the below conditions.
+
+**At least one of these must be true for you. You have:**
   - Loss, or permanent loss of use, of 1 or both feet, **or**
   - Loss, or permanent loss of use, of 1 or both hands, **or**
   - Permanent decreased vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye, **or**
@@ -44,10 +46,11 @@ You may be able to get disability benefits if you have a disability that’s rel
 You’ll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. <br>
 [Apply for benefits](/disability-benefits/apply/).
 
-When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
+When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. <br>
+[Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
 #### For the one-time payment to help you buy a specially equipped vehicle 
-- You’ll need to fill out an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502).
+- You’ll need to fill out an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502). <br>
 [Download VA Form 21-4502](https://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). 
 - We’ll pay the vehicle’s seller directly. 
 
