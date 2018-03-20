@@ -1,6 +1,8 @@
 const jsdom = require('jsdom');
 const path = require('path');
 
+const CSP_NONCE = '**CSP_NONCE**';
+
 function generateNewId(existingIds) {
   const newId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
   if (!existingIds.has(newId)) {
@@ -18,7 +20,7 @@ module.exports = (files, metalsmith, done) => {
     const dom = new jsdom.JSDOM(data.contents.toString());
     dom.window.document.querySelectorAll('script').forEach((scriptEl) => {
       if (scriptEl.textContent !== '') {
-        scriptEl.setAttribute('nonce', '**CPS_NONCE**');
+        scriptEl.setAttribute('nonce', CSP_NONCE);
       }
     });
     const ids = new Set();
@@ -29,7 +31,7 @@ module.exports = (files, metalsmith, done) => {
       const id = onclickEl.id;
       const onclick = onclickEl.getAttribute('onclick');
       const newScript = dom.window.document.createElement('script');
-      newScript.setAttribute('nonce', '**CSP_NONCE**');
+      newScript.setAttribute('nonce', CSP_NONCE);
       newScript.textContent = `(function() { var e = document.getElementById('${id}'); e.addEventListener('click', function(ev) { ${onclick} }); })();`;
       onclickEl.removeAttribute('onclick');
       onclickEl.appendChild(newScript);
