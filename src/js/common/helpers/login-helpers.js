@@ -2,15 +2,6 @@ import environment from './environment.js';
 import { updateLoggedInStatus, updateLogInUrls, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
-export function handleMultifactor(multifactorUrl) {
-  window.dataLayer.push({ event: 'multifactor-link-clicked' });
-  if (multifactorUrl) {
-    window.dataLayer.push({ event: 'multifactor-link-opened' });
-    const receiver = window.open(multifactorUrl, 'signinPopup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-}
-
 export function getVerifyUrl(onUpdateVerifyUrl) {
   const verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/identity_proof`, {
     method: 'GET',
@@ -26,21 +17,6 @@ export function getVerifyUrl(onUpdateVerifyUrl) {
   });
 
   return verifyUrlRequest;
-}
-
-export function getMultifactorUrl(onUpdateMultifactorUrl) {
-  const getMultifactorUrlRequest = fetch(`${environment.API_URL}/v0/sessions/multifactor`, {
-    method: 'GET',
-    headers: new Headers({
-      Authorization: `Token token=${sessionStorage.userToken}`
-    })
-  }).then(response => {
-    return response.json();
-  }).then(json => {
-    onUpdateMultifactorUrl(json.multifactor_url);
-  });
-
-  return getMultifactorUrlRequest;
 }
 
 export function getUserData(dispatch) {
