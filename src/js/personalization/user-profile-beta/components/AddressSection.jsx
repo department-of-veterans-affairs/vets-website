@@ -7,28 +7,25 @@ import LoadingButton from './LoadingButton';
 class EditAddressModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      address: { ...props.addressResponseData.address }
-    };
+    this.state = { addressResponseData: props.addressResponseData };
   }
 
   onInput = (field, value) => {
-    // if (field === 'city') field = 'addressTwo';
-    const address = {
-      ...this.state.address,
-      [field]: value
+    const addressResponseData = {
+      address: {
+        ...this.state.addressResponseData.address,
+        [field]: value
+      }
     };
-    this.setState({ address });
+    this.setState({ addressResponseData });
   }
 
   // Receives the field name as its first arg but that fails the liner
-  onBlur = () => {
-
-  }
+  onBlur = () => {}
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.address);
+    this.props.onSubmit(this.state.addressResponseData);
   }
 
   render() {
@@ -36,7 +33,7 @@ class EditAddressModal extends React.Component {
       <Modal id="profile-address-modal" onClose={this.props.onClose} visible>
         <h3>{this.props.title}</h3>
         <form onSubmit={this.onSubmit}>
-          <Address address={this.state.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
+          <Address address={this.state.addressResponseData.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
           <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
         </form>
       </Modal>
@@ -51,8 +48,11 @@ export default function AddressSection({ addressResponseData, title, isEditing, 
   if (addressResponseData) {
     let { address } = addressResponseData;
     addressDisplay = (
-      <div>{address.addressOne}<br/>
-        {address.addressTwo}, {address.militaryStateCode} {address.zipCode}
+      <div>
+        {address.addressOne}<br/>
+        {address.addressTwo}
+        {address.addresThree}
+        {address.city}, {address.militaryStateCode} {address.zipCode}
       </div>
     );
   }
@@ -61,7 +61,7 @@ export default function AddressSection({ addressResponseData, title, isEditing, 
     modal = (
       <EditAddressModal
         title="Edit mailing address"
-        address={addressResponseData}
+        addressResponseData={addressResponseData}
         onSubmit={onSubmit}
         isLoading={isLoading}
         onClose={onCancel}/>
