@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import React from 'react';
 import Cropper from 'react-cropper';
 import classNames from 'classnames';
 
 const MIN_SIZE = 350;
-const SMALL_CROP_BOX_SIZE = 240;
-const LARGE_CROP_BOX_SIZE = 300;
+const CROP_BOX_SIZE = 240;
+const LARGE_SCREEN = 1201;
 const WARN_RATIO = 1.3;
 const MAX_CROPPED_HEIGHT_WIDTH = 600;
 
@@ -124,11 +125,24 @@ export default class CropperControls extends React.Component {
   constructor(props) {
     super(props);
 
+    const windowWidth = window.innerWidth;
     this.state = {
+      windowWidth,
       zoomMin: 0.2,
       zoomMax: 1.7,
       zoomValue: 0
     };
+  }
+
+  componentDidMount() {
+    // updating the width state triggers Cropper remount- debounce event to reduce jank during active resize
+    this.debouncedDetectWidth = this.debouncedDetectWidth || _.debounce(this.detectWidth, 250);
+    window.addEventListener('resize', this.debouncedDetectWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.debouncedDetectWidth);
+    this.deboundedDetectWidth = null;
   }
 
   onCropstart = (e) => {
@@ -307,7 +321,7 @@ export default class CropperControls extends React.Component {
   setCropBox = () => {
     // use container and cropbox constants to set cropbox size
     const containerWidth = this.refs.cropper.getContainerData().width;
-    const heightWidth = this.props.narrowLayout ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE;
+    const heightWidth = CROP_BOX_SIZE;
     const left = (containerWidth / 2) - (heightWidth / 2);
     this.refs.cropper.setCropBoxData({
       top: 0,
@@ -321,6 +335,13 @@ export default class CropperControls extends React.Component {
     window.requestAnimationFrame(() => {
       this.updateZoomToDefaultState();
       this.updateWarningAndButtonState();
+    });
+  }
+
+  detectWidth = () => {
+    const windowWidth = window.innerWidth;
+    this.setState({
+      windowWidth
     });
   }
 
@@ -393,12 +414,18 @@ export default class CropperControls extends React.Component {
     });
   }
 
+  // Cropper doesn't support changing width after componentDidMount
+  // use the windowWidth as a key to for the component to remount when the window width changes
   render() {
+
+    // prevent the cropper from re-mounting when width is in large screen range
+    const cropperKey = this.state.windowWidth >= LARGE_SCREEN ? LARGE_SCREEN : this.state.windowWidth;
+
     return (
       <div className="cropper-container-outer">
         <Cropper
           ref="cropper"
-          key={this.props.narrowLayout ? 'narrowLayout' : 'normalLayout'}
+          key={cropperKey}
           ready={this.setCropBox}
           responsive
           src={this.props.src}
@@ -407,15 +434,18 @@ export default class CropperControls extends React.Component {
           cropstart={this.onCropstart}
           cropend={this.onCropend}
           cropmove={() => true}
-          minContainerHeight={this.props.narrowLayout ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
+          minContainerHeight={CROP_BOX_SIZE}
           toggleDragModeOnDblclick={false}
           dragMode="move"
           guides={false}
           viewMode={0}
           zoom={this.onZoom}/>
         <div className="cropper-zoom-container">
-          <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.onZoomOut}>
-            <span className="cropper-control-label">{this.props.narrowLayout || 'Make smaller'}<i className="fa fa-search-minus"></i></span>
+          <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.onZoomOut}>
+            <span className="cropper-control-label">
+              <i className="fa fa-search-minus">
+              </i>
+            </span>
           </button>
           <input type="range"
             className="cropper-zoom-slider"
@@ -431,34 +461,37 @@ export default class CropperControls extends React.Component {
             onChange={this.onSliderChange}
             value={this.state.zoomValue}/>
           <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.onZoomIn}>
-            <span className="cropper-control-label">{this.props.narrowLayout || 'Make larger'}<i className="fa fa-search-plus"></i></span>
+            <span className="cropper-control-label">
+              <i className="fa fa-search-plus">
+              </i>
+            </span>
           </button>
         </div>
         <div className="cropper-control-container">
-          {this.props.narrowLayout && <div className="cropper-control-row">
+          <div className="cropper-control-row">
             <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.onZoomOut}>
               <span className="cropper-control-label">Make smaller</span>
             </button>
             <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.onZoomIn}>
               <span className="cropper-control-label">Make larger</span>
             </button>
-          </div>}
-          <div className="cropper-control-row">
-            <MoveRotateButton disabled={this.state.moveUpDisabled} onClick={this.onMoveUp} label="Move up" iconClassName="fa fa-arrow-up"/>
-            <MoveRotateButton disabled={this.state.moveDownDisabled} onClick={this.onMoveDown} label="Move down" iconClassName="fa fa-arrow-down"/>
           </div>
           <div className="cropper-control-row">
-            <MoveRotateButton disabled={this.state.moveLeftDisabled} onClick={this.onMoveLeft} label="Move left" iconClassName="fa fa-arrow-left"/>
-            <MoveRotateButton disabled={this.state.moveRightDisabled} onClick={this.onMoveRight} label="Move right" iconClassName="fa fa-arrow-right"/>
+            <div>
+              <MoveRotateButton disabled={this.state.moveUpDisabled} onClick={this.onMoveUp} label="Move up" iconClassName="fa fa-arrow-up"/>
+              <MoveRotateButton disabled={this.state.moveDownDisabled} onClick={this.onMoveDown} label="Move down" iconClassName="fa fa-arrow-down"/>
+            </div>
+            <div>
+              <MoveRotateButton disabled={this.state.moveLeftDisabled} onClick={this.onMoveLeft} label="Move left" iconClassName="fa fa-arrow-left"/>
+              <MoveRotateButton disabled={this.state.moveRightDisabled} onClick={this.onMoveRight} label="Move right" iconClassName="fa fa-arrow-right"/>
+            </div>
           </div>
           <div className="cropper-control-row">
             <MoveRotateButton onClick={this.onRotateLeft} label="Rotate left" iconClassName="fa fa-rotate-left"/>
             <MoveRotateButton onClick={this.onRotateRight} label="Rotate left" iconClassName="fa fa-rotate-right"/>
           </div>
         </div>
-        <div style={{ margin: '1em 1em 4em' }}>
-          {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-        </div>
+        {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
         <div className="crop-button-container">
           <button type="button" className="usa-button-primary" onClick={this.onDone}>
             I’m Done
@@ -469,12 +502,7 @@ export default class CropperControls extends React.Component {
   }
 }
 
-CropperControls.defaultValues = {
-  narrowLayout: false
-};
-
 CropperControls.PropTypes = {
-  narrowLayout: React.PropTypes.bool,
   onPhotoCropped: React.PropTypes.func.isRequired,
   src: React.PropTypes.string.isRequired
 };

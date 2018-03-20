@@ -198,6 +198,14 @@ label {
     margin-top: 0.5em;
   }
 }
+.schemaform-block-title {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+}
+.schemaform-block-subtitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
 
 .schemaform-first-field {
   .schemaform-label, > .usa-input-error {
@@ -588,3 +596,6 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+.schemaform-title-underline {
+  border-bottom: 3px solid $color-primary;
+}

@@ -53,7 +53,7 @@ export class AppealInfo extends React.Component {
       const claimHeading = this.createHeading();
       appealContent = (
         <div>
-          <div className="row">
+          <div>
             <Breadcrumbs>
               <li><Link to="your-claims">Your Claims and Appeals</Link></li>
               <li><strong>{claimHeading}</strong></li>
