@@ -8,19 +8,22 @@ class EditPhoneModal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      phoneResponseData: { ...props.phoneResponseData }
-    };
+    this.state = { phoneResponseData: props.phoneResponseData };
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(phone);
+    this.props.onSubmit(this.state.phoneResponseData);
   }
 
-  onChange = ({ target: { value: number } }) => {
-    const phoneResponseData = { ...this.state.phoneResponseData, number };
-    this.setState({ phoneResponseData });
+  onChange = (field) => {
+    return ({ target: { value } }) => {
+      const phoneResponseData = {
+        ...this.state.phoneResponseData,
+        [field] : value
+      };
+      this.setState({ phoneResponseData });
+    }
   }
 
   render() {
@@ -29,7 +32,12 @@ class EditPhoneModal extends React.Component {
       <Modal id="profile-phone-modal" onClose={onClose} visible>
         <h3>{title}</h3>
         <form onSubmit={this.onSubmit}>
-          <input type="text" onChange={this.onChange} value={this.state.phoneResponseData.number}/>
+          <label>Country Code</label>
+          <input type="text" onChange={this.onChange('countyCode')} value={this.state.phoneResponseData.countryCode}/>
+          <label>Number</label>
+          <input type="text" onChange={this.onChange('number')} value={this.state.phoneResponseData.number}/>
+          <label>Extension</label>
+          <input type="text" onChange={this.onChange('extension')} value={this.state.phoneResponseData.extension}/>
           <LoadingButton isLoading={this.props.isLoading}>Save Phone</LoadingButton>
         </form>
       </Modal>
@@ -49,7 +57,7 @@ export default function PhoneSection({ phoneResponseData, title, isEditing, isLo
   if (isEditing) {
     modal = (
       <EditPhoneModal
-        title="Edit alternate phone"
+        title={`Edit ${title.toLowerCase()}`}
         phoneResponseData={phoneResponseData}
         onSubmit={onSubmit}
         isLoading={isLoading}
