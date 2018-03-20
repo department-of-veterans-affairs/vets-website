@@ -51,7 +51,10 @@ export default function PhoneSection({ phoneResponseData, title, isEditing, isLo
   let modal = null;
 
   if (phoneResponseData) {
-    phoneDisplay = <PhoneNumberWidget value={phoneResponseData.number}/>;
+    let number = <PhoneNumberWidget value={phoneResponseData.number}/>
+    let countryCode = phoneResponseData.countryCode && <span>+ {phoneResponseData.countryCode}</span>;
+    let extension = phoneResponseData.extension && <span>x{phoneResponseData.extension}</span>;
+    phoneDisplay = <div>{countryCode} {number} {extension}</div>
   }
 
   if (isEditing) {
