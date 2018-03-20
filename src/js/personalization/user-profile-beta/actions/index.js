@@ -213,14 +213,8 @@ export function fetchExtendedProfile() {
     Promise.all(requests)
       .then(data => getExtendedProfile(...data))
       .then(realData => combineWithMockData(profile, realData))
-      .then(extendedProfile => {
-        console.log(extendedProfile)
-        dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedProfile });
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL })
-      });
+      .then(extendedProfile => dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedProfile }))
+      .catch(() => dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL }));
   };
 }
 

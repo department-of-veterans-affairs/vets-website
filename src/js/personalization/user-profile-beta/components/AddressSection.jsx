@@ -7,7 +7,7 @@ import LoadingButton from './LoadingButton';
 class EditAddressModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { addressResponseData: props.addressResponseData };
+    this.state = { addressResponseData: props.addressResponseData || {} };
   }
 
   onInput = (field, value) => {
@@ -33,7 +33,7 @@ class EditAddressModal extends React.Component {
       <Modal id="profile-address-modal" onClose={this.props.onClose} visible>
         <h3>{this.props.title}</h3>
         <form onSubmit={this.onSubmit}>
-          <Address address={this.state.addressResponseData.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
+          <Address address={this.state.addressResponseData.address || {}} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
           <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
         </form>
       </Modal>

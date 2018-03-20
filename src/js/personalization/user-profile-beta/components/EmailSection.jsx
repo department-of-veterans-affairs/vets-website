@@ -7,7 +7,7 @@ class EditEmailModal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { emailResponseData: props.emailResponseData };
+    this.state = { emailResponseData: props.emailResponseData || {} };
   }
 
   onSubmit = (event) => {

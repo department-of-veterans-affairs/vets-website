@@ -8,7 +8,7 @@ class EditPhoneModal extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { phoneResponseData: props.phoneResponseData };
+    this.state = { phoneResponseData: props.phoneResponseData || {} };
   }
 
   onSubmit = (event) => {
