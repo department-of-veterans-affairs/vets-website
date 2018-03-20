@@ -19,7 +19,9 @@ Are you a former POW now living with a disability? Find out if you can get disab
 <div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
-You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and **both of the following are true for you**:
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and both of the below assessments are true for you.
+
+**Both of these must be true:**
 -	We believe your time spent as a POW caused your condition, **and**
 -	At any time following active-duty service, your condition became at least 10% disabling. We use a disability rating system to measure the severity of your disability.
 
