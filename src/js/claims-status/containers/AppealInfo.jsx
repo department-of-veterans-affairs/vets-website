@@ -55,7 +55,7 @@ export class AppealInfo extends React.Component {
         <div>
           <div>
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims and Appeals</Link></li>
+              <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
               <li><strong>{claimHeading}</strong></li>
             </Breadcrumbs>
           </div>
