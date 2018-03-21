@@ -324,7 +324,7 @@ const formConfig = {
             }
           }
         },
-        privateMedicalRecordsRelease: {
+        privateMedicalRecordRelease: {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
