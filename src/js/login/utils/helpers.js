@@ -28,35 +28,38 @@ function popup(popupUrl, clickedEvent, openedEvent) {
   if (popupWindow) {
     window.dataLayer.push({ event: openedEvent });
     popupWindow.focus();
-    apiRequest(
+
+    return apiRequest(
       popupUrl,
       null,
       ({ url }) => { popupWindow.location.href = url; },
       () => { popupWindow.location.href = `${environment.BASE_URL}/auth/login/callback`; }
-    );
+    ).then(() => Promise.resolve(popupWindow));
   }
 
   Raven.captureMessage('Failed to open new window', {
     extra: { url: popupUrl }
   });
+
+  return Promise.reject('Failed to open new window');
 }
 
 export function login(policy) {
-  popup(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
+  return popup(loginUrl(policy), 'login-link-clicked', 'login-link-opened');
 }
 
 export function mfa() {
-  popup(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
+  return popup(MFA_URL, 'multifactor-link-clicked', 'multifactor-link-opened');
 }
 
 export function verify() {
-  popup(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
+  return popup(VERIFY_URL, 'verify-link-clicked', 'verify-link-opened');
 }
 
 export function logout() {
-  popup(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
+  return popup(LOGOUT_URL, 'logout-link-clicked', 'logout-link-opened');
 }
 
 export function signup() {
-  popup(appendQuery(IDME_URL, { signup: true }), 'register-link-clicked', 'register-link-opened');
+  return popup(appendQuery(IDME_URL, { signup: true }), 'register-link-clicked', 'register-link-opened');
 }
