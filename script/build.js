@@ -25,6 +25,7 @@ const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
+const { getWebpackEntryPoints, getAppManifests } = require('./manifest-helpers.js');
 
 const sourceDir = '../content/pages';
 
@@ -74,8 +75,8 @@ switch (options.buildtype) {
   default:
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
-
-const webpackConfig = webpackConfigGenerator(options);
+const manifests = getAppManifests(path.join(__dirname, '..'));
+const webpackConfig = webpackConfigGenerator(options, getWebpackEntryPoints(manifests));
 
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
@@ -96,6 +97,9 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
+  manifests.filter(m => !m.production).forEach(m => {
+    ignoreList.push(m.contentPath);
+  });
   ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
   ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
@@ -431,12 +435,19 @@ if (options.watch) {
     })
   );
 
+  const appRewrites = manifests.filter(m => m.rootUrl && !m.skipRewrite).map(m => {
+    return {
+      from: `^${m.rootUrl}(.*)`,
+      to: `${m.rootUrl}/`
+    };
+  });
+
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
-        { from: '^/track-claims(.*)', to: '/track-claims/' },
+        ...appRewrites,
         { from: '^/education/apply-for-education-benefits/application/1990[eE](.*)', to: '/education/apply-for-education-benefits/application/1990E/' },
         { from: '^/education/apply-for-education-benefits/application/1990[nN](.*)', to: '/education/apply-for-education-benefits/application/1990N/' },
         { from: '^/education/apply-for-education-benefits/application/1990(.*)', to: '/education/apply-for-education-benefits/application/1990/' },

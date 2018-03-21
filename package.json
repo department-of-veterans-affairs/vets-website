@@ -99,6 +99,7 @@
     "express": "^4.14.0",
     "express-history-api-fallback": "^2.0.0",
     "extract-text-webpack-plugin": "next",
+    "find": "^0.2.9",
     "fine-uploader": "^5.11.8",
     "font-awesome": "^4.6.3",
     "foundation-sites": "^5.5.3",

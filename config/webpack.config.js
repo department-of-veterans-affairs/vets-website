@@ -45,8 +45,8 @@ const entryFiles = {
   style: './src/sass/style.scss'
 };
 
-const configGenerator = (options) => {
-  var filesToBuild = entryFiles; // eslint-disable-line no-var
+const configGenerator = (options, apps) => {
+  let filesToBuild = apps;
   if (options.entry) {
     filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
   }
