@@ -23,7 +23,8 @@ import {
   validateAddress,
   documentDescription,
   // additionaDocumentDescription,
-  releaseView
+  releaseView,
+  documentView
 } from '../helpers';
 
 const {
@@ -347,7 +348,7 @@ const formConfig = {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
                 privateRecordReleases: {
                   'ui:options': {
-                    itemName: 'Private Medical Record',
+                    itemName: 'Private Medical Record Release',
                     viewField: releaseView
                   },
                   items: {
@@ -450,12 +451,17 @@ const formConfig = {
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
+              'ui:options': {
+                itemName: 'Private Medical Record',
+                viewField: documentView
+              },
               items: {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    addAnotherLabel: 'Add Another Document',
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
                     maxSize: FIFTY_MB,
                     createPayload: (file) => {
