@@ -199,7 +199,7 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>You mentioned that you have other evidence, like lay statements that you’d like to add to support your claim. You can upload them here.</p>
+      <p>If you have other evidence, like lay or buddy statements, that you would like to submit, you can upload them here.</p>
       <p>File upload guidelines:</p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>

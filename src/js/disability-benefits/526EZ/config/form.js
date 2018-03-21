@@ -450,9 +450,6 @@ const formConfig = {
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
-              'ui:options': {
-                itemName: 'Private Medical Record'
-              },
               items: {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
@@ -544,7 +541,6 @@ const formConfig = {
             return hasOtherEvidence;
           },
           path: 'supporting-evidence/:index/additionalDocuments',
-          // editPageOnReview: true,
           showPagePerItem: true,
           arrayPath: 'disabilities',
           uiSchema: {
