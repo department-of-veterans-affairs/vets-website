@@ -1,17 +1,4 @@
-import _ from 'lodash/fp';
-import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../../login/actions';
 import {
-  UPDATE_PROFILE_FIELDS,
-  PROFILE_LOADING_FINISHED,
-
-  FETCHING_LATEST_MHV_TERMS,
-  FETCHING_LATEST_MHV_TERMS_SUCCESS,
-  FETCHING_LATEST_MHV_TERMS_FAILURE,
-
-  ACCEPTING_LATEST_MHV_TERMS,
-  ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
-  ACCEPTING_LATEST_MHV_TERMS_FAILURE,
-
   SAVE_MAILING_ADDRESS,
   SAVE_MAILING_ADDRESS_FAIL,
   SAVE_MAILING_ADDRESS_SUCCESS,
@@ -28,57 +15,41 @@ import {
   SAVE_EMAIL_ADDRESS_FAIL,
   SAVE_EMAIL_ADDRESS_SUCCESS,
 
-  FETCH_EXTENDED_PROFILE,
-  FETCH_EXTENDED_PROFILE_SUCCESS,
-  FETCH_EXTENDED_PROFILE_FAIL,
+  FETCH_VA_PROFILE,
+  FETCH_VA_PROFILE_SUCCESS,
+  FETCH_VA_PROFILE_FAIL,
 
   OPEN_MODAL
-
 } from '../actions';
 
-// TODO(crew): Romove before this goes to production.
 const initialState = {
-  userFullName: {
-    first: null,
-    middle: null,
-    last: null,
-    suffix: null,
-  },
+  userFullName: null,
   email: null,
   dob: null,
   gender: null,
   ssn: null,
-  accountType: null,
-  terms: {
-    loading: false,
-    terms: {},
-  },
-  savedForms: [],
-  prefillsAvailable: [],
-  loading: true,
-  extended: false,
-  pendingSaves: [],
-  errors: [],
-  modal: null,
   primaryTelephone: null,
   alternateTelephone: null,
-  mailingAddress: null
+  mailingAddress: null,
+  pendingSaves: [],
+  errors: [],
+  loading: true
 };
 
-function extendedProfile(state = initialState, action) {
+function vaProfile(state = initialState, action) {
   switch (action.type) {
 
-    case FETCH_EXTENDED_PROFILE: {
+    case FETCH_VA_PROFILE: {
       return state;
     }
 
-    case FETCH_EXTENDED_PROFILE_FAIL: {
-      const errors = state.errors.concat(FETCH_EXTENDED_PROFILE_FAIL);
-      return { ...state, errors, extended: true };
+    case FETCH_VA_PROFILE_FAIL: {
+      const errors = state.errors.concat(FETCH_VA_PROFILE_FAIL);
+      return { ...state, errors, loading: false };
     }
 
-    case FETCH_EXTENDED_PROFILE_SUCCESS: {
-      return { ...state, ...action.newState, extended: true };
+    case FETCH_VA_PROFILE_SUCCESS: {
+      return { ...state, ...action.newState, loading: false };
     }
 
     case OPEN_MODAL: {
@@ -126,69 +97,9 @@ function extendedProfile(state = initialState, action) {
       return { ...state, errors };
     }
 
-    case UPDATE_PROFILE_FIELDS: {
-      return _.assign(state, action.newState);
-    }
-    case PROFILE_LOADING_FINISHED: {
-      return _.set('loading', false, state);
-    }
-    case FETCH_LOGIN_URLS_FAILED: {
-      return _.set('loading', false, state);
-    }
-    case UPDATE_LOGGEDIN_STATUS: {
-      return _.set('loading', false, state);
-    }
-    case FETCHING_LATEST_MHV_TERMS: {
-      return {
-        ...state,
-        terms: {
-          ...state.terms,
-          content: {},
-          loading: true,
-        }
-      };
-    }
-    case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
-      return {
-        ...state,
-        terms: {
-          ...state.terms,
-          ...action.terms,
-          loading: false,
-        }
-      };
-    }
-    case FETCHING_LATEST_MHV_TERMS_FAILURE: {
-      return {
-        ...state,
-        terms: {
-          loading: false,
-        }
-      };
-    }
-    case ACCEPTING_LATEST_MHV_TERMS: {
-      return state;
-    }
-    case ACCEPTING_LATEST_MHV_TERMS_SUCCESS: {
-      return {
-        ...state,
-        terms: {
-          loading: false,
-        }
-      };
-    }
-    case ACCEPTING_LATEST_MHV_TERMS_FAILURE: {
-      return {
-        ...state,
-        terms: {
-          ...state.terms,
-          loading: false,
-        }
-      };
-    }
     default:
       return state;
   }
 }
 
-export default { extendedProfile };
+export default { vaProfile };

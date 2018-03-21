@@ -4,7 +4,7 @@ import {
   SAVE_PRIMARY_PHONE,
   SAVE_ALTERNATE_PHONE,
   SAVE_EMAIL_ADDRESS,
-  FETCH_EXTENDED_PROFILE_FAIL
+  FETCH_VA_PROFILE_FAIL
 } from '../actions';
 
 import AlertBox from '../../../common/components/AlertBox';
@@ -19,7 +19,7 @@ import PersonalInformation from '../components/PersonalInformation';
 class ProfileView extends React.Component {
 
   componentWillMount() {
-    this.props.fetchExtendedProfile();
+    this.props.fetchVaProfile();
   }
 
   openModalHandler(modalName) {
@@ -31,11 +31,11 @@ class ProfileView extends React.Component {
   }
 
   render() {
-    if (!this.props.profile.extended) {
+    if (this.props.profile.loading) {
       return <LoadingIndicator message="Loading complete profile..."/>;
     }
 
-    if (this.props.profile.errors.includes(FETCH_EXTENDED_PROFILE_FAIL)) {
+    if (this.props.profile.errors.includes(FETCH_VA_PROFILE_FAIL)) {
       return (
         <AlertBox status="error" isVisible
           content={<h4 className="usa-alert-heading">Failed to load extended profile</h4>}/>

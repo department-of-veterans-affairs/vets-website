@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../../login/actions';
 import {
-  fetchExtendedProfile,
-  removeSavedForm,
+  fetchVaProfile,
   updateEmailAddress,
   updatePrimaryPhone,
   updateAlternatePhone,
@@ -32,7 +31,7 @@ class UserProfileApp extends React.Component {
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}
+          userProfile={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
@@ -49,7 +48,7 @@ class UserProfileApp extends React.Component {
                       errors: this.props.profile.errors
                     }}
                     updateActions={this.props.updateActions}
-                    fetchExtendedProfile={this.props.fetchExtendedProfile}/>
+                    fetchVaProfile={this.props.fetchVaProfile}/>
                 </div>
               </div>
             </DowntimeNotification>
@@ -63,17 +62,17 @@ class UserProfileApp extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
-    profile: state.extendedProfile,
     loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    verifyUrl: userState.login.verifyUrl,
+    account: userState.profile,
+    profile: state.vaProfile
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    removeSavedForm,
     updateVerifyUrl,
-    fetchExtendedProfile,
+    fetchVaProfile,
     openModal
   }, dispatch);
 
