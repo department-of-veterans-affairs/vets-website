@@ -30,14 +30,14 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Find out how our VA social workers can help you or the Veteran or Servicemember you care about—and how to connect with a social worker near you.
+Find out how our VA social workers can help you as a Veteran or Servicemember, or as the family member or caregiver of a Veteran or Servicemember. And find out how to connect with a social worker near you.
 
 </div>
 
-**Jump to a section:**
+**Jump to a section to find information for:**
 
-[Social work services for Veterans and Servicemembers](#veteran-servicemember)<br>
-[Social work services for family memebers and caregivers](#caregiver)
+[Veterans and Servicemembers](#veteran-servicemember)<br>
+[Family memebers and caregivers](#caregiver)
 
 <span id="veteran-servicemember"></span>
 
