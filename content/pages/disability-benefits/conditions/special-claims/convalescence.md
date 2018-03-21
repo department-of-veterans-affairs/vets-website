@@ -32,7 +32,7 @@ You may be able to get disability benefits if you’ve had a surgery or other tr
       - Being unable to leave your house (known as house confinement)
       - Being required to use a wheelchair or crutches
  
-**If you didn’t have surgery, this must be true:
+**If you didn’t have surgery, this must be true:**
 
 You had one or more major joints immobilized by a cast.
 
