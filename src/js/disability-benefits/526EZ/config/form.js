@@ -23,8 +23,7 @@ import {
   validateAddress,
   documentDescription,
   // additionaDocumentDescription,
-  releaseView,
-  documentView
+  releaseView
 } from '../helpers';
 
 const {
@@ -452,8 +451,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               'ui:options': {
-                itemName: 'Private Medical Record',
-                viewField: documentView
+                itemName: 'Private Medical Record'
               },
               items: {
                 privateRecords: Object.assign({},
