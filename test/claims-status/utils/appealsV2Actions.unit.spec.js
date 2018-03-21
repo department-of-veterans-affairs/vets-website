@@ -24,7 +24,9 @@ const setup = () => {
   global.fetch.returns(Promise.resolve({
     headers: { get: () => 'application/json' },
     ok: true,
-    json: () => Promise.resolve({})
+    json: () => Promise.resolve({
+      data: []
+    })
   }));
 };
 
@@ -48,12 +50,6 @@ describe('getAppealsV2', () => {
   });
 
   it('dispatches FETCH_APPEALS_SUCCESS', (done) => {
-    global.fetch.returns(Promise.resolve({
-      headers: { get: () => 'application/json' },
-      ok: true,
-      json: () => Promise.resolve({})
-    }));
-
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
