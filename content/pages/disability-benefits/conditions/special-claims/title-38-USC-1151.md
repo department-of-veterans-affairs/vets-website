@@ -19,7 +19,7 @@ If you suffered an added disability—or your existing injury or disease got wor
 
 You may be able get compensation from VA if you suffered an added disability or your existing disability got worse as the direct result of any of the reasons listed below—and the added disability wasn’t a reasonably expected result or complication of treatment.
 
-**At least one of these must have led to an added disability or to your injury or disease getting worse:**
+**At least one of these must have led directly to an added disability or to your injury or disease getting worse:**
   - VA carelessness or negligence, **or**
   - VA medical or surgical treatment, **or**
   - A VA health exam, **or**
