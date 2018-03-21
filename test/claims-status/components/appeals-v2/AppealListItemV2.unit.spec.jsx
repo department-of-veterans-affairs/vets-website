@@ -74,7 +74,7 @@ describe('<AppealListItemV2/>', () => {
   it('should create a link to the appeal status page', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps}/>);
     expect(wrapper.find('Link').first().props().to)
-      .to.equal(`appeals-v2/${defaultProps.appeal.id}/status`);
+      .to.equal(`appeals/${defaultProps.appeal.id}/status`);
   });
 
   it('should not show the issue text if no description is given', () => {

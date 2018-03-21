@@ -23,6 +23,7 @@ const {
   applicantEmail,
   applicantFullName,
   applicantGender,
+  veteranGender,
   applicantPrimaryPhone,
   applicantOtherPhone,
   applicantSocialSecurityNumber,
@@ -278,7 +279,7 @@ const formConfig = {
                 }
               }
             ),
-            applicantGender: {
+            veteranGender: {
               'ui:title': 'Gender',
               'ui:widget': 'radio',
               'ui:required': formData => formData['view:isVeteran'] === true,
@@ -290,7 +291,7 @@ const formConfig = {
           },
           schema: {
             veteranDateOfDeathMIAPOW,
-            applicantGender
+            veteranGender
           }
         })
       }
@@ -319,7 +320,7 @@ const formConfig = {
               }
             },
             previousVeteranBenefitsFullName: _.merge(fullNameUI, {
-              'ui:description': 'Veteran’s name under whom you‘ve claimed benefits',
+              'ui:title': 'Veteran’s name under whom you‘ve claimed benefits',
               'ui:options': {
                 classNames: 'schemaform-field-template',
                 hideIf: isVeteranOrNoApplications

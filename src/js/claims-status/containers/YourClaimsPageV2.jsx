@@ -162,7 +162,7 @@ class YourClaimsPageV2 extends React.Component {
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1 className="claims-container-title">Your Compensation Appeals and Claims</h1>
+                <h1 className="claims-container-title">Track Your Compensation Appeals and Claims</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}

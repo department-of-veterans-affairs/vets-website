@@ -176,23 +176,13 @@ const formConfig = {
               'ui:title': 'Are you working?',
               'ui:widget': 'yesNo'
             },
-            employer: {
+            employer: _.merge({
               'ui:title': 'Employer name',
               'ui:required': (formData) => formData['view:isWorking'],
-              ...expandIfWorking
-            },
-            jobDuties: {
-              'ui:title': 'Job duties',
-              ...expandIfWorking
-            },
-            monthlyIncome: {
-              ...currencyUI('Monthly pay'),
-              ...expandIfWorking
-            },
-            employerAddress: {
-              ...address.uiSchema('Employer address'),
-              ...expandIfWorking
-            }
+            }, expandIfWorking),
+            jobDuties: _.merge({ 'ui:title': 'Job duties' }, expandIfWorking),
+            monthlyIncome: _.merge(currencyUI('Monthly pay'), expandIfWorking),
+            employerAddress: _.merge(address.uiSchema('Employer address'), expandIfWorking),
           },
           schema: {
             type: 'object',
@@ -245,6 +235,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['yearsOfEducation'],
             properties: {
               yearsOfEducation,
               previousPrograms
