@@ -10,33 +10,35 @@ relatedlinks:
     links: 
     - url: /health-care/about-va-health-care/assisted-living-and-home-health-care/ 
       title: Assisted Living and Home Health Care
-      description: Find out if you can get assisted living, residential (live-in), or home health care services through VA.
+      description: Find out if the Veteran or Servicemember you care for can get assisted living, residential (live-in), or home health care services through VA.
     - url: /health-care/health-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
     - url: /housing-assistance/adaptive-housing-grants/
       title: Adaptive Housing Grants
-      description: Find out if you may be eligible for a grant to buy or change a home to meet your needs and help you live more independently with your service-connected disability.
+      description: Find out if you the Veteran or Servicemember you care for may be eligible for a grant to buy or change a home to meet their needs and help them live more independently with their service-connected disability.
     - url: /pension/
       title: Pension Benefits
-      description: If you're a wartime Veteran, find out if you may be eligible for monthly pension payments as well as additional Aid and Attendance or Housebound benefits if you need help with your daily activities or can't leave the house.
+      description: If the Veteran or Servicemember you care for is a wartime Veteran, find out if they may be eligible for monthly pension payments as well as additional Aid and Attendance or Housebound benefits if they need help with their daily activities or can't leave the house.
     - url: /disability-benefits/eligibility/
       title: Disability Benefits Eligibility 
-      description: Find out if you can get disability compensation from VA.
+      description: Find out if the Veteran or Servicemember you care for can get disability compensation from VA.
     - url: /health-care/eligibility/
       title: Health Care Benefits Eligibility
-      description: Find out if you may be eligible for the VA health care program.
+      description: Find out if the Veteran or Servicemember you care for may be eligible for the VA health care program.
 ---
 
 <div class="va-introtext">
 
 Find out how our VA social workers can help you and the Veteran or Servicemember you care about—and how to connect with a social worker near you.
 
+</div>
+
 <span id="caregiver"></span>
 
 <div class="feature" markdown=“1”>
 
-### How can a VA social worker help me as the caregiver or family member of a Veteran or Servicemember?
+### How can a VA social worker help me and the Veteran or Servicemember I care about?
 
 VA social workers can help to support you with many different services.
 
@@ -46,7 +48,7 @@ VA social workers can help to support you with many different services.
 - **Understanding your loved one's condition.** We can teach you about the Veteran or Servicemember's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need.
 - **Accessing rural health care.** We can help you find medical services for the Veteran or Servicemember in the community if you live far from a VA health facility.
 - **Caring for a Veteran or Servicemember who can't care for themselves.** We can help you get support to care for your loved one at home, or make arrangements for their long-term care if you can no longer provide that care yourself.
-- **Supporting a Veteran or Servicemember who's struggling.** We can help you get treatment and support for your loved one if they're struggling with mental health problems, homelessness, or end-of-life issues, or just feel like something isn't right.
+- **Supporting a Veteran or Servicemember who's struggling with a range of issues.** We can help you get treatment and support for your loved one if they're struggling with mental health or substance use problems, homelessness, end-of-life issues, or just feel like something isn't right.
 - **Advocating for your loved one.** We can act as your family's voice to make sure your wishes are respected and you get what you need.
 
 These are just some examples. If you have any questions or problems, feel free to ask for an appointment with a VA social worker. We'll help you or connect you with the right person to help.
