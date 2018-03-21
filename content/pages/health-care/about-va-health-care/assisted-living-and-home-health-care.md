@@ -33,7 +33,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 ### What kinds of long-term care services does VA offer for sick or disabled Veterans?
 
-Our long-term care services include:
+**Our long-term care services include:**
 
 - 24/7 nursing and medical care
 - Physical therapy
@@ -41,7 +41,9 @@ Our long-term care services include:
 - Comfort care and help with managing pain
 - Support for caregivers who may need skilled help or a break so they can work, travel, or run errands
 
-You can get this care in many different settings—some run by VA and others run by state or community organizations that we inspect and approve, including:
+You can get this care in many different settings—some run by VA and others run by state or community organizations that we inspect and approve.
+
+**Care settings include:**
 
 - Nursing homes
 - Assisted-living centers
@@ -58,7 +60,7 @@ You can learn more about the different types of care below or on our va.gov webs
 
 ### How do I access these services?
 
-You may be able to use one or more of these services if all of the below are true for you.
+You may be able to use one or more of these services if all of the requirements below are true for you.
 
 **All of these must be true:**
 
@@ -80,7 +82,7 @@ If you’re not currently in the VA health care program, you can apply for benef
 We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services. <br>
 [Apply for VA health care](/health-care/apply/).
 
-Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.
+Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.</br>
 
 [Learn more about paying for long-term care](https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#).
 
@@ -138,7 +140,7 @@ You may be able to get community residential (live-in) care in settings such as 
 
 These places are not run, staffed, or paid for by VA, but we do inspect and approve each one. And you may be able to use VA benefits to help pay for extra services (like visits from a VA health care provider).
 
-Learn more about:
+**Learn more about:**
 
 [Medical foster homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Medical_Foster_Homes.asp)
 Private homes where a few people live together and get care
@@ -157,7 +159,7 @@ Centers where Veterans can live in a rented room or apartment, and have access t
 
 If you’re signed up for VA health care, you can get help managing your disability or health condition while living at home. The services you qualify for will depend on your needs and whether a service is available in your area. If you need to, you may be able to use more than one service at the same time.
 
-Learn more about:
+**Learn more about:**
 
 [Home-based primary care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Home_Based_Primary_Care.asp)
 A VA health care team, led by a VA doctor, who provides services (like nursing care, physical therapy, and help with daily tasks) in your home
@@ -182,7 +184,7 @@ Skilled caregivers who come into your home to provide comfort care to help ease 
 
 If you’re signed up for VA health care, you can get home-based health care as part of your benefits. The services that you qualify for will depend on your needs.
 
-Learn more about:
+**Learn more about:**
 
 [Skilled home health care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp)
 Health care providers from a community-based home health agency who come to your house to provide care such as wound care, physical therapy, social work support, and help with daily tasks
