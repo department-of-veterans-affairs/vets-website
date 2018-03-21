@@ -36,6 +36,8 @@ const {
   phone
 } = fullSchema526EZ.definitions;
 
+const FIFTY_MB = 52428800;
+
 // We may add these back in after the typeahead, but for now...
 const treatmentsSchema = _.set('items.properties.treatment.properties',
   _.omit(
@@ -327,7 +329,7 @@ const formConfig = {
             }
           }
         },
-        privateMedicalRecordsRelease: {
+        privateMedicalRecordRelease: {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
           showPagePerItem: true,
@@ -345,7 +347,7 @@ const formConfig = {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
                 privateRecordReleases: {
                   'ui:options': {
-                    itemName: 'Private Medical Record',
+                    itemName: 'Private Medical Record Release',
                     viewField: releaseView
                   },
                   items: {
@@ -366,7 +368,7 @@ const formConfig = {
                         'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
                       },
                       'view:privateMedicalRecordsReleasePermissionRestricted': {
-                        'ui:description': recordReleaseWarning,
+                        'ui:description': () => recordReleaseWarning,
                         'ui:options': {
                           expandUnder: 'privateMedicalRecordsReleaseAccepted'
                         }
@@ -444,19 +446,22 @@ const formConfig = {
             return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
-          // editPageOnReview: true,
           showPagePerItem: true,
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
+              'ui:options': {
+                itemName: 'Private Medical Record'
+              },
               items: {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
-                    maxSize: 27262976, // TODO: create constant
+                    addAnotherLabel: 'Add Another Document',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
                       payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
@@ -550,8 +555,9 @@ const formConfig = {
                     allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
-                    maxSize: 27262976, // TODO: create constant
+                    addAnotherLabel: 'Add Another Document',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
                       payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')

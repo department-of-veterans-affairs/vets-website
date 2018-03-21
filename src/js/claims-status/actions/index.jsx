@@ -94,10 +94,23 @@ export function getAppeals(filter) {
 }
 
 export function fetchAppealsSuccess(response) {
+  const appeals = response.data;
+  const v1ToV2IdMap = {};
+  appeals.forEach(appeal => {
+    // In case there are no v1 appeal ids
+    if (!appeal.attributes.appealIds) {
+      return;
+    }
+
+    appeal.attributes.appealIds.forEach(id => {
+      v1ToV2IdMap[id] = appeal.id;
+    });
+  });
+
   return {
     type: FETCH_APPEALS_SUCCESS,
-    // filter: filter, // No idea why this would be needed, but it's in the old version
-    appeals: response.data
+    appeals,
+    v1ToV2IdMap
   };
 }
 
@@ -105,7 +118,7 @@ export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
     return apiRequest(
-      '/appeals_v2',
+      '/appeals',
       null,
       (appeals) => dispatch(fetchAppealsSuccess(appeals)),
       (response) => {

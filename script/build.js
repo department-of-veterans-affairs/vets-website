@@ -20,10 +20,11 @@ const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
-const webpack = require('metalsmith-webpack');
+const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
-const webpackDevServer = require('metalsmith-webpack-dev-server');
+const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
+const nonceTransformer = require('./metalsmith/nonceTransformer');
 
 const sourceDir = '../content/pages';
 
@@ -465,7 +466,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
-    'public': options.public,
+    'public': options.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -474,7 +475,10 @@ if (options.watch) {
       timings: true,
       chunks: false,
       chunkModules: false,
-      children: false
+      entrypoints: false,
+      children: false,
+      modules: false,
+      warnings: true
     }
   };
 
@@ -617,7 +621,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
 }
 
 if (options.buildtype !== 'development') {
-  //
+
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
   // files, so we have to replace the references to those files in HTML and CSS files after the
@@ -625,7 +629,7 @@ if (options.buildtype !== 'development') {
   // WebPack that maps the original file names to their hashed versions. Metalsmith actions
   // are passed a list of files that are included in the build. Those files are not yet written
   // to disk, but the contents are held in memory.
-  //
+
   smith.use((files, metalsmith, done) => {
     // Read in the data from the manifest file.
     const manifestKey = Object.keys(files).find((filename) => {
@@ -638,7 +642,7 @@ if (options.buildtype !== 'development') {
     const manifest = {};
     Object.keys(originalManifest).forEach((originalManifestKey) => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null && matchData[1] !== 'vendor') {
+      if (matchData !== null) {
         const newKey = `${matchData[1]}.entry.js`;
         manifest[newKey] = originalManifest[originalManifestKey];
       } else {
@@ -652,30 +656,12 @@ if (options.buildtype !== 'development') {
     Object.keys(files).forEach((filename) => {
       if (filename.match(/\.(html|css)$/) !== null) {
         Object.keys(manifest).forEach((originalAssetFilename) => {
-          const newAssetFilename = manifest[originalAssetFilename];
+          const newAssetFilename = manifest[originalAssetFilename].replace('/generated/', '');
           const file = files[filename];
           const contents = file.contents.toString();
           const regex = new RegExp(originalAssetFilename, 'g');
           file.contents = new Buffer(contents.replace(regex, newAssetFilename));
         });
-      }
-    });
-    done();
-  });
-
-  smith.use((files, metalsmith, done) => {
-    // Read in the data from the manifest file.
-    const chunkManifestKey = Object.keys(files).find((filename) => {
-      return filename.match(/chunk-manifest.json$/) !== null;
-    });
-    const chunkManifest = files[chunkManifestKey].contents.toString();
-
-    Object.keys(files).forEach((filename) => {
-      if (filename.match(/\.html$/) !== null) {
-        const file = files[filename];
-        const contents = file.contents.toString();
-        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
-        file.contents = new Buffer(contents.replace(regex, chunkManifest));
       }
     });
     done();
@@ -689,6 +675,12 @@ smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
+
+/*
+Add nonce attribute with substition string to all inline script tags
+Convert onclick event handles into nonced script tags
+*/
+smith.use(nonceTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);

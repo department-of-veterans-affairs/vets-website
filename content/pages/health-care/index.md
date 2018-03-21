@@ -83,7 +83,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 </div>
 
 
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')

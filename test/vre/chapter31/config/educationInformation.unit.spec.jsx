@@ -21,7 +21,7 @@ describe('VRE chapter 31 education information', () => {
     expect(form.find('input').length).to.equal(4);
   });
 
-  it('submits without any info', () => {
+  it('does not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -34,8 +34,26 @@ describe('VRE chapter 31 education information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find('.usa-input-error').length).to.equal(1);
 
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('submits with required info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}/>
+    );
+
+    fillData(form, 'input#root_yearsOfEducation', '10');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -50,6 +68,7 @@ describe('VRE chapter 31 education information', () => {
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
+    fillData(form, 'input#root_yearsOfEducation', '10');
     fillData(form, 'input#root_previousPrograms_0_program', 'Test');
     fillData(form, 'input#root_previousPrograms_0_yearStarted', '2001');
     fillData(form, 'input#root_previousPrograms_0_yearLeft', '2003');

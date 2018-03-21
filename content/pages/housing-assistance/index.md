@@ -40,7 +40,7 @@ If you’re a Veteran, Servicemember, or surviving spouse, we may be able to hel
   </div>
 </div>
 
-<script nonce="**CSP_NONCE**" type="text/javascript">
+<script type="text/javascript">
 
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
