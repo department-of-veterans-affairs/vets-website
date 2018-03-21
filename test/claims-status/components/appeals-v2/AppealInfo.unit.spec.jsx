@@ -103,7 +103,7 @@ describe('<AppealInfo/>', () => {
     expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
   });
 
-  it('should render system down message when other error present', () => {
+  it('should render appeals down message when other error present', () => {
     const props = { ...defaultProps, appealsAvailability: 'SOME_OTHER_ERROR' };
     const wrapper = shallow(<AppealInfo {...props}/>);
     expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
