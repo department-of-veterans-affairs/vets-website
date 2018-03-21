@@ -77,6 +77,10 @@
 
 // These are JavaScript only styles that will be added and removed
 // dynamically with scripts
+.js-visual {
+  visibility: hidden;
+}
+
 .js-hide {
   display: none;
 }

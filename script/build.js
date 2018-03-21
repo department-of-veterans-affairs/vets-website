@@ -25,6 +25,7 @@ const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
+const breadcrumbTransformer = require('./metalsmith/breadcrumbTransformer');
 
 const sourceDir = '../content/pages';
 
@@ -41,7 +42,7 @@ const optionDefinitions = [
   { name: 'public', type: String, defaultValue: null },
 
   // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+  { name: 'unexpected', type: String, multile: true, defaultOption: true }
 ];
 const options = commandLineArgs(optionDefinitions);
 
@@ -57,7 +58,7 @@ if (options.buildtype === undefined) {
 
 switch (options.buildtype) {
   case 'development':
-  // No extra checks needed in dev.
+    // No extra checks needed in dev.
     break;
 
   case 'staging':
@@ -66,7 +67,11 @@ switch (options.buildtype) {
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
       if (env !== 'prod') {
-        throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
+        throw new Error(
+          `buildtype ${
+            options.buildtype
+          } expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`
+        );
       }
     }
     break;
@@ -78,8 +83,7 @@ switch (options.buildtype) {
 const webpackConfig = webpackConfigGenerator(options);
 
 // Custom liquid filter(s)
-liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
-
+liquid.filters.humanizeDate = dt => moment(dt).format('MMMM D, YYYY');
 
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
@@ -96,9 +100,15 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
-  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
-  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
+  ignoreList.push(
+    'burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md'
+  );
+  ignoreList.push(
+    'employment/vocational-rehab-and-employment/application/chapter31.md'
+  );
+  ignoreList.push(
+    'employment/vocational-rehab-and-employment/application/chapter36.md'
+  );
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
   ignoreList.push('disability-benefits/526/apply-for-increase.md');
@@ -110,11 +120,13 @@ smith.use(ignore(ignoreList));
 // plugin chain.
 smith.use(filenames());
 
-smith.use(define({
-  // Does anything even look at `site`?
-  site: require('../config/site'),
-  buildtype: options.buildtype
-}));
+smith.use(
+  define({
+    // Does anything even look at `site`?
+    site: require('../config/site'),
+    buildtype: options.buildtype
+  })
+);
 
 // See the collections documentation here:
 // https://github.com/segmentio/metalsmith-collections
@@ -122,302 +134,308 @@ smith.use(define({
 // Can define a collection by its path or by adding a `collection`
 // property to the Markdown document.
 
-smith.use(collections({
-  burials: {
-    sortBy: 'order',
-    metadata: {
-      name: 'Burials and Memorials'
+smith.use(
+  collections({
+    burials: {
+      sortBy: 'order',
+      metadata: {
+        name: 'Burials and Memorials'
+      }
+    },
+    burialsHonor: {
+      pattern: 'burials-and-memorials/honor/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Honor a Deceased Veteran'
+      }
+    },
+    burialsPreNeed: {
+      pattern: 'burials-and-memorials/pre-need/*.md',
+      sortBy: 'title',
+      metadata: {
+        name: 'Pre-need Determination'
+      }
+    },
+    burialsPlanning: {
+      sortBy: 'title',
+      metadata: {
+        name: 'Burial Planning'
+      }
+    },
+    burialsSurvivors: {
+      pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Survivor and Dependent Benefits'
+      }
+    },
+    disability: {
+      pattern: 'disability-benefits/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Disability Benefits'
+      }
+    },
+    disabilityAfterYouApply: {
+      pattern: 'disability-benefits/after-you-apply/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'After You Apply'
+      }
+    },
+    disabilityApply: {
+      pattern: 'disability-benefits/apply/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Application Process'
+      }
+    },
+    disabilityClaimsAppeal: {
+      pattern: 'disability-benefits/claims-appeal/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Appeals'
+      }
+    },
+    disabilityClaimTypes: {
+      pattern: 'disability-benefits/apply/claim-types/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Claim Types'
+      }
+    },
+    disabilityClaimTypesPredischarge: {
+      pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Pre-discharge Claim'
+      }
+    },
+    disabilityConditions: {
+      pattern: 'disability-benefits/conditions/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Conditions'
+      }
+    },
+    disabilityConditionsExposure: {
+      pattern:
+        'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
+      sortBy: 'title',
+      metadata: {
+        name: 'Contact with Hazardous Materials'
+      }
+    },
+    disabilityConditionsSpecial: {
+      pattern: 'disability-benefits/conditions/special-claims/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Special Claims'
+      }
+    },
+    disabilityConditionsAgentOrange: {
+      pattern:
+        'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Agent Orange'
+      }
+    },
+    disabilityEligibility: {
+      pattern: 'disability-benefits/eligibility/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Eligibility'
+      }
+    },
+    education: {
+      pattern: '',
+      sortBy: 'order',
+      metadata: {
+        name: 'Education and Training'
+      }
+    },
+    educationAdvancedTraining: {
+      pattern: 'education/advanced-training-and-certifications/*.md',
+      sortBy: 'title',
+      metadata: {
+        name: 'Advanced Training and Certifications'
+      }
+    },
+    educationGIBill: {
+      pattern: 'education/gi-bill/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'GI Bill'
+      }
+    },
+    educationGIBillSurvivors: {
+      pattern: 'education/gi-bill/survivors-dependent-assistance/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Survivors and Dependents'
+      }
+    },
+    educationNonTraditional: {
+      pattern: 'education/work-learn/non-traditional/*.md',
+      sortBy: 'title',
+      metadata: {
+        name: 'Non-Traditional Options'
+      }
+    },
+    educationOtherPrograms: {
+      pattern: 'education/other-educational-assistance-programs/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Other Educational Assistance Programs'
+      }
+    },
+    educationToolsPrograms: {
+      pattern: 'education/tools-programs/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Career Counseling'
+      }
+    },
+    educationWorkLearn: {
+      pattern: 'education/work-learn/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Work and Learn'
+      }
+    },
+    healthCare: {
+      sortBy: 'order',
+      metadata: {
+        name: 'Health Care'
+      }
+    },
+    healthCareCoverage: {
+      pattern: 'health-care/about-va-health-care/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'VA Health Care Coverage'
+      }
+    },
+    healthCareCoverageFamily: {
+      pattern: 'health-care/family-caregiver-health-benefits/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Family and Caregiver Health Benefits'
+      }
+    },
+    healthCareCoverageVision: {
+      pattern: 'health-care/about-va-health-care/vision-care/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Vision Care'
+      }
+    },
+    healthCareConditions: {
+      pattern: 'health-care/health-conditions/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Health Needs and Conditions'
+      }
+    },
+    healthCareMentalHealth: {
+      pattern: 'health-care/health-conditions/mental-health/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Mental Health'
+      }
+    },
+    healthCareServiceRelated: {
+      pattern:
+        'health-care/health-conditions/conditions-related-to-service-era/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Concerns Related to Service Era'
+      }
+    },
+    housing: {
+      pattern: 'housing-assistance/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Housing Assistance'
+      }
+    },
+    housingHomeLoans: {
+      pattern: 'housing-assistance/home-loans/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Home Loans'
+      }
+    },
+    housingVALoans: {
+      pattern: 'housing-assistance/home-loans/loan-options/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Loan Options'
+      }
+    },
+    lifeInsurance: {
+      pattern: 'life-insurance/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Life Insurance'
+      }
+    },
+    lifeInsuranceOptions: {
+      pattern: 'life-insurance/options-and-eligibility/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Options'
+      }
+    },
+    pension: {
+      pattern: 'pension/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Pension Benefits'
+      }
+    },
+    pensionEligibility: {
+      pattern: 'pension/eligibility/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Eligibility'
+      }
+    },
+    pensionSurvivors: {
+      pattern: 'pension/survivors-pension/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Survivors Pension'
+      }
+    },
+    pensionApplication: {
+      pattern: 'pension/apply/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Application Process'
+      }
+    },
+    vre: {
+      pattern: 'employment/vocational-rehab-and-employment/*md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Vocational Rehab &amp; Employment'
+      }
+    },
+    vreServiceDisabled: {
+      pattern:
+        'employment/vocational-rehab-and-employment/service-disabled/*md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Servicemember & Veteran Programs'
+      }
     }
-  },
-  burialsHonor: {
-    pattern: 'burials-and-memorials/honor/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Honor a Deceased Veteran'
-    }
-  },
-  burialsPreNeed: {
-    pattern: 'burials-and-memorials/pre-need/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Pre-need Determination'
-    }
-  },
-  burialsPlanning: {
-    sortBy: 'title',
-    metadata: {
-      name: 'Burial Planning'
-    }
-  },
-  burialsSurvivors: {
-    pattern: 'burials-and-memorials/survivor-and-dependent-benefits/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Survivor and Dependent Benefits'
-    }
-  },
-  disability: {
-    pattern: 'disability-benefits/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Disability Benefits'
-    }
-  },
-  disabilityAfterYouApply: {
-    pattern: 'disability-benefits/after-you-apply/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'After You Apply'
-    }
-  },
-  disabilityApply: {
-    pattern: 'disability-benefits/apply/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Application Process'
-    }
-  },
-  disabilityClaimsAppeal: {
-    pattern: 'disability-benefits/claims-appeal/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Appeals'
-    }
-  },
-  disabilityClaimTypes: {
-    pattern: 'disability-benefits/apply/claim-types/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Claim Types'
-    }
-  },
-  disabilityClaimTypesPredischarge: {
-    pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Pre-discharge Claim'
-    }
-  },
-  disabilityConditions: {
-    pattern: 'disability-benefits/conditions/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Conditions'
-    }
-  },
-  disabilityConditionsExposure: {
-    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Contact with Hazardous Materials'
-    }
-  },
-  disabilityConditionsSpecial: {
-    pattern: 'disability-benefits/conditions/special-claims/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Special Claims'
-    }
-  },
-  disabilityConditionsAgentOrange: {
-    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Agent Orange'
-    }
-  },
-  disabilityEligibility: {
-    pattern: 'disability-benefits/eligibility/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Eligibility'
-    }
-  },
-  education: {
-    pattern: '',
-    sortBy: 'order',
-    metadata: {
-      name: 'Education and Training'
-    }
-  },
-  educationAdvancedTraining: {
-    pattern: 'education/advanced-training-and-certifications/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Advanced Training and Certifications'
-    }
-  },
-  educationGIBill: {
-    pattern: 'education/gi-bill/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'GI Bill'
-    }
-  },
-  educationGIBillSurvivors: {
-    pattern: 'education/gi-bill/survivors-dependent-assistance/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Survivors and Dependents'
-    }
-  },
-  educationNonTraditional: {
-    pattern: 'education/work-learn/non-traditional/*.md',
-    sortBy: 'title',
-    metadata: {
-      name: 'Non-Traditional Options'
-    }
-  },
-  educationOtherPrograms: {
-    pattern: 'education/other-educational-assistance-programs/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Other Educational Assistance Programs'
-    }
-  },
-  educationToolsPrograms: {
-    pattern: 'education/tools-programs/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Career Counseling'
-    }
-  },
-  educationWorkLearn: {
-    pattern: 'education/work-learn/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Work and Learn'
-    }
-  },
-  healthCare: {
-    sortBy: 'order',
-    metadata: {
-      name: 'Health Care'
-    }
-  },
-  healthCareCoverage: {
-    pattern: 'health-care/about-va-health-care/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'VA Health Care Coverage'
-    }
-  },
-  healthCareCoverageFamily: {
-    pattern: 'health-care/family-caregiver-health-benefits/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Family and Caregiver Health Benefits'
-    }
-  },
-  healthCareCoverageVision: {
-    pattern: 'health-care/about-va-health-care/vision-care/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Vision Care'
-    }
-  },
-  healthCareConditions: {
-    pattern: 'health-care/health-conditions/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Health Needs and Conditions'
-    }
-  },
-  healthCareMentalHealth: {
-    pattern: 'health-care/health-conditions/mental-health/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Mental Health'
-    }
-  },
-  healthCareServiceRelated: {
-    pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Concerns Related to Service Era'
-    }
-  },
-  housing: {
-    pattern: 'housing-assistance/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Housing Assistance'
-    }
-  },
-  housingHomeLoans: {
-    pattern: 'housing-assistance/home-loans/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Home Loans'
-    }
-  },
-  housingVALoans: {
-    pattern: 'housing-assistance/home-loans/loan-options/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Loan Options'
-    }
-  },
-  lifeInsurance: {
-    pattern: 'life-insurance/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Life Insurance'
-    }
-  },
-  lifeInsuranceOptions: {
-    pattern: 'life-insurance/options-and-eligibility/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Options'
-    }
-  },
-  pension: {
-    pattern: 'pension/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Pension Benefits'
-    }
-  },
-  pensionEligibility: {
-    pattern: 'pension/eligibility/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Eligibility'
-    }
-  },
-  pensionSurvivors: {
-    pattern: 'pension/survivors-pension/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Survivors Pension'
-    }
-  },
-  pensionApplication: {
-    pattern: 'pension/apply/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Application Process'
-    }
-  },
-  vre: {
-    pattern: 'employment/vocational-rehab-and-employment/*md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Vocational Rehab &amp; Employment'
-    }
-  },
-  vreServiceDisabled: {
-    pattern: 'employment/vocational-rehab-and-employment/service-disabled/*md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Servicemember & Veteran Programs'
-    }
-  },
-}));
+  })
+);
 
 smith.use(dateInFilename(true));
-smith.use(archive());  // TODO(awong): Can this be removed?
+smith.use(archive()); // TODO(awong): Can this be removed?
 
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
@@ -425,9 +443,9 @@ if (options.watch) {
   smith.use(
     watch({
       paths: {
-        '../content/**/*': '**/*.{md,html}',
+        '../content/**/*': '**/*.{md,html}'
       },
-      livereload: true,
+      livereload: true
     })
   );
 
@@ -437,36 +455,103 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/education/apply-for-education-benefits/application/1990[eE](.*)', to: '/education/apply-for-education-benefits/application/1990E/' },
-        { from: '^/education/apply-for-education-benefits/application/1990[nN](.*)', to: '/education/apply-for-education-benefits/application/1990N/' },
-        { from: '^/education/apply-for-education-benefits/application/1990(.*)', to: '/education/apply-for-education-benefits/application/1990/' },
-        { from: '^/education/apply-for-education-benefits/application/1995(.*)', to: '/education/apply-for-education-benefits/application/1995/' },
-        { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
-        { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
+        {
+          from:
+            '^/education/apply-for-education-benefits/application/1990[eE](.*)',
+          to: '/education/apply-for-education-benefits/application/1990E/'
+        },
+        {
+          from:
+            '^/education/apply-for-education-benefits/application/1990[nN](.*)',
+          to: '/education/apply-for-education-benefits/application/1990N/'
+        },
+        {
+          from: '^/education/apply-for-education-benefits/application/1990(.*)',
+          to: '/education/apply-for-education-benefits/application/1990/'
+        },
+        {
+          from: '^/education/apply-for-education-benefits/application/1995(.*)',
+          to: '/education/apply-for-education-benefits/application/1995/'
+        },
+        {
+          from: '^/education/apply-for-education-benefits/application/5490(.*)',
+          to: '/education/apply-for-education-benefits/application/5490/'
+        },
+        {
+          from: '^/education/apply-for-education-benefits/application/5495(.*)',
+          to: '/education/apply-for-education-benefits/application/5495/'
+        },
         { from: '^/facilities(.*)', to: '/facilities/' },
-        { from: '^/discharge-upgrade-instructions(.*)', to: '/discharge-upgrade-instructions/' },
-        { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
-        { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
-        { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
-        { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
+        {
+          from: '^/discharge-upgrade-instructions(.*)',
+          to: '/discharge-upgrade-instructions/'
+        },
+        {
+          from: '^/gi-bill-comparison-tool(.*)',
+          to: '/gi-bill-comparison-tool/'
+        },
+        {
+          from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)',
+          to: '/education/gi-bill/post-9-11/ch-33-benefit/'
+        },
+        {
+          from: '^/health-care/apply/application(.*)',
+          to: '/health-care/apply/application/'
+        },
+        {
+          from: '^/health-care/health-records(.*)',
+          to: '/health-care/health-records/'
+        },
         { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
-        { from: '^/health-care/prescriptions(.*)', to: '/health-care/prescriptions/' },
+        {
+          from: '^/health-care/prescriptions(.*)',
+          to: '/health-care/prescriptions/'
+        },
         { from: '^/letters(.*)', to: '/letters/' },
-        { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
-        { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
-        { from: '^/employment/vocational-rehab-and-employment/application/chapter31(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter31/' },
-        { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
+        {
+          from: '^/pension/application/527EZ(.*)',
+          to: '/pension/application/527EZ/'
+        },
+        {
+          from: '^/burials-and-memorials/application/530(.*)',
+          to: '/burials-and-memorials/application/530/'
+        },
+        {
+          from:
+            '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)',
+          to:
+            '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/'
+        },
+        {
+          from:
+            '^/employment/vocational-rehab-and-employment/application/chapter31(.*)',
+          to:
+            '/employment/vocational-rehab-and-employment/application/chapter31/'
+        },
+        {
+          from:
+            '^/employment/vocational-rehab-and-employment/application/chapter36(.*)',
+          to:
+            '/employment/vocational-rehab-and-employment/application/chapter36/'
+        },
         { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
-        { from: '^/disability-benefits/526/apply-for-increase(.*)', to: '/disability-benefits/526/apply-for-increase/' },
-        { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
-      ],
+        {
+          from: '^/disability-benefits/526/apply-for-increase(.*)',
+          to: '/disability-benefits/526/apply-for-increase/'
+        },
+        {
+          from: '^/(.*)',
+          to(context) {
+            return context.parsedUrl.pathname;
+          }
+        }
+      ]
     },
     hot: true,
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
-    'public': options.public || undefined,
+    public: options.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -522,7 +607,7 @@ const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
 
 // Webpack paths are absolute, convert to relative
 smith.use((files, metalsmith, done) => {
-  Object.keys(files).forEach((file) => {
+  Object.keys(files).forEach(file => {
     if (file.indexOf(destination) === 0) {
       /* eslint-disable no-param-reassign */
       files[file.substr(destination.length + 1)] = files[file];
@@ -553,10 +638,12 @@ smith.use((files, metalsmith, done) => {
 // permalinks() and navigation() filters making the variable stores uniform between inPlace()
 // and layout().
 smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
-smith.use(markdown({
-  typographer: true,
-  html: true
-}));
+smith.use(
+  markdown({
+    typographer: true,
+    html: true
+  })
+);
 
 // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
 //
@@ -564,64 +651,78 @@ smith.use(markdown({
 //
 // It also must come AFTER the markdown() module because it only recognizes .html files. See
 // comment above the inPlace() module for explanation of effects on the metadata().
-smith.use(permalinks({
-  relative: false,
-  linksets: [{
-    match: { collection: 'posts' },
-    pattern: ':date/:slug'
-  }]
-}));
+smith.use(
+  permalinks({
+    relative: false,
+    linksets: [
+      {
+        match: { collection: 'posts' },
+        pattern: ':date/:slug'
+      }
+    ]
+  })
+);
 
-smith.use(navigation({
-  navConfigs: {
-    sortByNameFirst: true,
-    breadcrumbProperty: 'breadcrumb_path',
-    pathProperty: 'nav_path',
-    includeDirs: true
-  },
-  navSettings: {}
-}));
+smith.use(
+  navigation({
+    navConfigs: {
+      sortByNameFirst: true,
+      breadcrumbProperty: 'breadcrumb_path',
+      pathProperty: 'nav_path',
+      includeDirs: true
+    },
+    navSettings: {}
+  })
+);
 
 // Note that there is no default layout specified.
 // All pages must explicitly declare a layout or else it will be rendered as raw html.
-smith.use(layouts({
-  engine: 'liquid',
-  directory: '../content/layouts/',
-  // Only apply layouts to markdown and html files.
-  pattern: '**/*.{md,html}'
-}));
+smith.use(
+  layouts({
+    engine: 'liquid',
+    directory: '../content/layouts/',
+    // Only apply layouts to markdown and html files.
+    pattern: '**/*.{md,html}'
+  })
+);
 
 // TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap({
-  hostname: 'https://www.vets.gov',
-  omitIndex: true
-}));
+smith.use(
+  sitemap({
+    hostname: 'https://www.vets.gov',
+    omitIndex: true
+  })
+);
 
 if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
-  smith.use(blc({
-    allowRedirects: true,  // Don't require trailing slash for index.html links.
-    warn: false,           // Throw an Error when encountering the first broken link not just a warning.
-    allowRegex: new RegExp(
-      ['/education/gi-bill/post-9-11/ch-33-benefit',
-        '/employment/commitments',
-        '/employment/employers',
-        '/employment/job-seekers/create-resume',
-        '/employment/job-seekers/search-jobs',
-        '/employment/job-seekers/skills-translator',
-        '/gi-bill-comparison-tool/',
-        '/education/apply-for-education-benefits/application',
-        '/pension/application/527EZ',
-        '/burials-and-memorials/application/530',
-        '/health-care/apply/application',
-        '/veteran-id-card/apply',
-        '/veteran-id-card/how-to-get',
-        '/disability-benefits/apply-for-increase',
-        '/letters'].join('|'))
-  }));
+  smith.use(
+    blc({
+      allowRedirects: true, // Don't require trailing slash for index.html links.
+      warn: false, // Throw an Error when encountering the first broken link not just a warning.
+      allowRegex: new RegExp(
+        [
+          '/education/gi-bill/post-9-11/ch-33-benefit',
+          '/employment/commitments',
+          '/employment/employers',
+          '/employment/job-seekers/create-resume',
+          '/employment/job-seekers/search-jobs',
+          '/employment/job-seekers/skills-translator',
+          '/gi-bill-comparison-tool/',
+          '/education/apply-for-education-benefits/application',
+          '/pension/application/527EZ',
+          '/burials-and-memorials/application/530',
+          '/health-care/apply/application',
+          '/veteran-id-card/apply',
+          '/veteran-id-card/how-to-get',
+          '/disability-benefits/apply-for-increase',
+          '/letters'
+        ].join('|')
+      )
+    })
+  );
 }
 
 if (options.buildtype !== 'development') {
-
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
   // files, so we have to replace the references to those files in HTML and CSS files after the
@@ -632,7 +733,7 @@ if (options.buildtype !== 'development') {
 
   smith.use((files, metalsmith, done) => {
     // Read in the data from the manifest file.
-    const manifestKey = Object.keys(files).find((filename) => {
+    const manifestKey = Object.keys(files).find(filename => {
       return filename.match(/file-manifest.json$/) !== null;
     });
     const originalManifest = JSON.parse(files[manifestKey].contents.toString());
@@ -640,7 +741,7 @@ if (options.buildtype !== 'development') {
     // The manifest contains the original filenames without the addition of .entry
     // on the JS files. This finds all of those and modifies them to add .entry.
     const manifest = {};
-    Object.keys(originalManifest).forEach((originalManifestKey) => {
+    Object.keys(originalManifest).forEach(originalManifestKey => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
       if (matchData !== null) {
         const newKey = `${matchData[1]}.entry.js`;
@@ -653,10 +754,13 @@ if (options.buildtype !== 'development') {
     // For each file in the build, if it is a HTML or CSS file, loop over all
     // the keys in the manifest object and do a search and replace for the
     // key with the value.
-    Object.keys(files).forEach((filename) => {
+    Object.keys(files).forEach(filename => {
       if (filename.match(/\.(html|css)$/) !== null) {
-        Object.keys(manifest).forEach((originalAssetFilename) => {
-          const newAssetFilename = manifest[originalAssetFilename].replace('/generated/', '');
+        Object.keys(manifest).forEach(originalAssetFilename => {
+          const newAssetFilename = manifest[originalAssetFilename].replace(
+            '/generated/',
+            ''
+          );
           const file = files[filename];
           const contents = file.contents.toString();
           const regex = new RegExp(originalAssetFilename, 'g');
@@ -671,10 +775,18 @@ if (options.buildtype !== 'development') {
 /*
 Redirects locally. DevOps must update Nginx config for production
 */
-smith.use(redirect({
-  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
-  '/education/apply-for-education-benefits/': '/education/apply/'
-}));
+smith.use(
+  redirect({
+    '/2015/11/11/why-we-are-designing-in-beta.html':
+      '/2015/11/11/why-we-are-designing-in-beta/',
+    '/education/apply-for-education-benefits/': '/education/apply/'
+  })
+);
+
+/*
+Add breadcrumb script to all content pages that have a breadcrumb
+*/
+smith.use(breadcrumbTransformer);
 
 /*
 Add nonce attribute with substition string to all inline script tags
@@ -685,12 +797,16 @@ smith.use(nonceTransformer);
 function generateStaticSettings() {
   const settings = createSettings(options);
   const settingsPath = path.join(destination, 'js/settings.js');
-  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
+  const settingsContent = `window.settings = ${JSON.stringify(
+    settings,
+    null,
+    ' '
+  )};`;
   fs.writeFileSync(settingsPath, settingsContent);
 }
 
 /* eslint-disable no-console */
-smith.build((err) => {
+smith.build(err => {
   if (err) throw err;
 
   generateStaticSettings();
