@@ -37,7 +37,7 @@ class PrescriptionsWidget extends React.Component {
     }
 
     if (this.props.prescriptions.length === 0) {
-      return null;
+      content = <p>No recent prescriptions updates</p>;
     }
 
     return (
