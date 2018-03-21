@@ -13,7 +13,7 @@ class SignInProfileMenu extends React.Component {
       <ul>
         {betaProfile && <li><a href="/dashboard-beta"><DashboardRedirect/> Dashboard</a></li>}
         {betaProfile && <li><a href="/profile-beta">Profile</a></li>}
-        {betaProfile && <li><a href="/account-beta">Account</a></li>}
+        {betaProfile && <li><a href="/settings-beta">Settings</a></li>}
         {!betaProfile && <li><a href="/profile">Profile</a></li>}
         <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
       </ul>

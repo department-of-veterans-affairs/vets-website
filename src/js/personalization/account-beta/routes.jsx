@@ -1,7 +1,7 @@
 import UserProfileApp from './containers/UserProfileApp';
 
 const routes = {
-  path: '/account-beta',
+  path: '/settings-beta',
   component: UserProfileApp
 };
 
