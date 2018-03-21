@@ -23,16 +23,18 @@ Are you recovering from surgery or a disability related to your military service
 
 You may be able to get disability benefits if you’ve had a surgery or other treatment performed at a VA hospital, approved hospital, or outpatient center for a disability related to your military service (called a service-connected disability).
 
-**If you had surgery**, you may be able to get disability benefits if **both of the following are true for you**:
+**If you had surgery, both of these must true for you:**
   -	The surgery required a recovery time of at least 1 month **or** reports show that the surgery or treatment was for a service-connected disability, **and**
-  -	The surgery resulted in severe issues, such as:
+  -	The surgery resulted in severe issues, like:
       - Surgical wounds that haven’t totally healed
       - Stumps of recent amputations
       - Being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
       - Being unable to leave your house (known as house confinement)
       - Being required to use a wheelchair or crutches
  
-**If you didn’t have surgery**, you may still be able to get disability benefits if you had 1 or more major joints immobilized by a cast.
+**If you didn’t have surgery, this must be true:
+
+You had one or more major joints immobilized by a cast.
 
 
 <br>
