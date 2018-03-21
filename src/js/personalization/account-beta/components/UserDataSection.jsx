@@ -79,20 +79,18 @@ class UserDataSection extends React.Component {
   render() {
     const {
       profile: {
-        accountType,
+        loa,
         multifactor,
         healthTermsCurrent
       }
     } = this.props;
 
     return (
-      <div className="profile-section">
-        <div className="info-container">
-          <MultifactorMessage multifactor={multifactor} handleMultifactorRequest={this.handleMultifactorRequest}/>
-          <AccountVerification accountType={accountType}/>
-          <LoginSettings/>
-          <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>
-        </div>
+      <div>
+        <MultifactorMessage multifactor={multifactor} handleMultifactorRequest={this.handleMultifactorRequest}/>
+        <AccountVerification loa={loa}/>
+        <LoginSettings/>
+        <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>
         <Modal
           cssClass="va-modal-large"
           contents={this.renderModalContents()}

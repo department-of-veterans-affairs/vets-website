@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function AccountVerification({ accountType }) {
+export default function AccountVerification({ loa }) {
   let content = null;
 
-  if (accountType !== 3) {
+  if (loa.current !== 3) {
     content = (
       <div>
         <p>Verify your identity to access more services your may be eligible for.<br/>
