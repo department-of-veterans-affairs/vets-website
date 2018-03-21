@@ -180,7 +180,6 @@ function combineWithMockData(profile, realData) {
     toursOfDuty: [
       {
         serviceBranch: 'Navy',
-        rank: 'First Lieutenant',
         dateRange: {
           start: '2018-02-17T20:31:57.286Z',
           end: '2018-02-18T20:31:57.286Z'
@@ -188,7 +187,6 @@ function combineWithMockData(profile, realData) {
       },
       {
         serviceBranch: 'Army',
-        rank: 'Second Lieutenant',
         dateRange: {
           start: '2016-02-18T20:31:57.286Z',
           end: '2017-02-18T20:31:57.286Z'
