@@ -108,7 +108,7 @@
     "http-server": "^0.9.0",
     "imports-loader": "^0.6.5",
     "ismobilejs": "^0.4.0",
-    "isomorphic-fetch": "http://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz",
+    "isomorphic-fetch": "^2.2.1",
     "jsdom": "^11.1.0",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.0.3",
@@ -142,7 +142,7 @@
     "moment": "^2.15.1",
     "morgan": "^1.7.0",
     "nightwatch": "^0.9.16",
-    "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
+    "node-fetch": "^2.1.1",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.5.3",
     "null-loader": "^0.1.1",
@@ -193,8 +193,8 @@
     "fsevents": "^1.0.7"
   },
   "engines": {
-    "node": "6.11.1",
-    "yarn": "0.21.3"
+    "node": "8.10.0",
+    "yarn": "1.5.1"
   },
   "private": true,
   "dependencies": {
@@ -211,6 +211,7 @@
     "modernizr": "^3.6.0",
     "modernizr-loader": "^1.0.1",
     "nyc": "^11.1.0",
+    "prop-types": "^15.6.1",
     "react-cropper": "^1.0.1",
     "react-dropzone": "^4.2.5",
     "reselect": "^2.5.4",

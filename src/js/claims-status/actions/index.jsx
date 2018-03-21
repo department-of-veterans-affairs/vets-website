@@ -105,7 +105,7 @@ export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
     return apiRequest(
-      '/appeals_v2',
+      '/appeals',
       null,
       (appeals) => dispatch(fetchAppealsSuccess(appeals)),
       (response) => {
