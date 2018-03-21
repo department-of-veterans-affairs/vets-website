@@ -1,5 +1,5 @@
 ---
-title: Your Vets.gov Account
+title: Your Vets.gov Dashboard
 layout: page-react.html
 entryname: dashboard-beta
 ---
