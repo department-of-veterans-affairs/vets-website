@@ -42,8 +42,8 @@ function completeDisabilityInformation(client, data) {
     .selectDropdown('root_disabilityRating', data.disabilityRating)
     .fill('input[name=root_disabilities]', data.disabilities)
     .fill('input[name=root_vaRecordsOffice]', data.vaRecordsOffice)
-    .selectRadio('root_view:inHospital', data['view:inHospital'])
-    .fill('input[name=root_view\\:hospital_hospitalName]', data.hospitalName)
+    .selectYesNo('root_view:inHospital', data['view:inHospital'])
+    .fill('input[name="root_view:hospital_hospitalName"]', data.hospitalName)
     .fillAddress('root_view:hospital_hospitalAddress', data.hospitalAddress);
 }
 
@@ -63,7 +63,7 @@ function completeEducationInformation(client, data) {
 
 function completeEmployerInformation(client, data) {
   client
-    .selectRadio('root_view:isWorking', data['view:isWorking'])
+    .selectYesNo('root_view:isWorking', data['view:isWorking'])
     .fillAddress('root_employerAddress', data.employerAddress)
     .fill('input[name=root_employer]', data.employer)
     .fill('input[name=root_jobDuties]', data.jobDuties)
@@ -81,7 +81,7 @@ function completeMilitaryHistory(client, data) {
 
 function completeVeteranAddress(client, data) {
   client
-    .selectRadio('root_view:isMoving', data['view:isMoving'])
+    .selectYesNo('root_view:isMoving', data['view:isMoving'])
     .fillAddress('root_veteranAddress', data.veteranAddress)
     .fillAddress('root_veteranNewAddress', data.newVeteranAddress);
 }

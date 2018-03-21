@@ -67,9 +67,9 @@
     "veteranDateOfBirth": "1970-03-03",
     "veteranSocialSecurityNumber": "424242424",
     "veteranVaFileNumber": "3423434",
-    "view:inHospital": "Y",
-    "view:isMoving": "Y",
-    "view:isWorking": "Y",
+    "view:inHospital": true,
+    "view:isMoving": true,
+    "view:isWorking": true,
     "yearsOfEducation": 10
   }
 }
