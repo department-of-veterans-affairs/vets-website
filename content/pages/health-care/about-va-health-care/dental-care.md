@@ -97,7 +97,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You may qualify for:** 1-time dental care
 
-**You can get this care only if all of the below are true for you:**
+**To get this care, all of these must be true for you:**
 
 - You were discharged or released under conditions other than dishonorable, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
@@ -135,7 +135,9 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class V
 
-**You may qualify for:** Dental care that a VA dental care provider concludes is needed to:
+**You may qualify for:** Dental care that a VA dental care provider concludes is needed to meet certain needs or goals.
+
+**To get this care, a VA dental care provider must conclude it's needed to do at least one of these things:**
 
 - Make it possible for you to be in the vocational rehab program, **or**
 - Make it possible for you to reach the goals of your vocational rehab program, **or**
@@ -164,11 +166,13 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class IIB
 
-**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need to:
+**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need for certain reasons.
 
-- Relieve pain, **or**
-- Get a job, **or**
-- Treat moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
+**To get this care, a VA dental care provide must conclude it's needed to:**
+
+- Relieve your pain, **or**
+- Help you get a job, **or**
+- Treat your moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
 
 </div>
 </li>
@@ -204,7 +208,7 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 
 ### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
-You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if at least one of the below are true for you.
+You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if at least one of the descriptions below is true for you.
 
 **At least one of these must be true. You:**
 
