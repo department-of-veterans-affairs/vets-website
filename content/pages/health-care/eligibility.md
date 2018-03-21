@@ -28,10 +28,8 @@ Find out if you can get VA health care as a Veteran.
 
 You may be able to get VA health care benefits if you served in the active military, naval, or air service and didn't receive a dishonorable discharge.
 
-- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty.<br>
-
+- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty, unless any of the descriptions below are true for you.</br>
 **This minimum duty requirement may not apply if any of these are true. You:**
-
   - Were discharged for a disability that was caused—or made worse—by your active-duty service, **or**
   - Were discharged for a hardship or “early out,” **or**
   - Served prior to September 7, 1980
