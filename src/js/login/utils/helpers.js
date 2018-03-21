@@ -1,3 +1,4 @@
+import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import { apiRequest } from '../../common/helpers/api';
@@ -31,9 +32,13 @@ function popup(popupUrl, clickedEvent, openedEvent) {
       popupUrl,
       null,
       ({ url }) => { popupWindow.location.href = url; },
-      () => {}
+      () => { popupWindow.location.href = `${environment.BASE_URL}/auth/login/callback`; }
     );
   }
+
+  Raven.captureMessage('Failed to open new window', {
+    extra: { url: popupUrl }
+  });
 }
 
 export function login(policy) {
