@@ -5,7 +5,11 @@ import sinon from 'sinon';
 
 import CropperController from '../../../src/js/vic-v2/components/CropperController';
 
-describe.only('<CropperController>', () => {
+describe('<CropperController>', () => {
+  beforeEach(() => {
+    window.addEventListener = sinon.spy();
+    window.removeEventListener = sinon.spy();
+  });
   it('should render', () => {
     const tree = shallow(
       <CropperController src="test"/>
@@ -106,6 +110,33 @@ describe.only('<CropperController>', () => {
 
     tree.find('.cropper-control').at(1).props().onClick();
     expect(cropper.zoom.calledWith(0.1)).to.be.true;
+  });
+  it('should not zoom outside of boundaries', () => {
+    const tree = shallow(
+      <CropperController src="test"/>
+    );
+
+    const cropper = {
+      zoomTo: sinon.spy()
+    };
+    tree.instance().cropper = cropper;
+
+    tree.setState({
+      zoomMax: 3,
+      zoomMin: 1
+    });
+
+    const event = {
+      preventDefault: sinon.spy(),
+      detail: {
+        ratio: 5
+      }
+    };
+
+    tree.instance().onZoom(event);
+
+    expect(cropper.zoomTo.calledWith(3)).to.be.true;
+    expect(event.preventDefault.called).to.be.true;
   });
   it('should update instance after zooming', () => {
     const tree = shallow(
@@ -234,21 +265,21 @@ describe.only('<CropperController>', () => {
       expect(state.warningMessage).to.eql('');
       expect(cropper.setCanvasData.firstCall.args[0].left).to.eql(15);
     });
-    it.only('up with warning', () => {
+    it('up with warning', () => {
       cropper.getCanvasData = () => {
         return {
-          top: -400,
-          left: 10,
-          width: 500,
-          height: 500
+          top: -51,
+          left: 131,
+          width: 363,
+          height: 290
         };
       };
       cropper.getCropBoxData = () => {
         return {
-          top: -400,
-          left: 10,
-          width: 100,
-          height: 100
+          top: 0,
+          left: 151,
+          width: 240,
+          height: 240
         };
       };
 
@@ -257,31 +288,232 @@ describe.only('<CropperController>', () => {
       const state = tree.state();
 
       expect(state.warningMessage).to.contain('farther up');
-      expect(cropper.setCanvasData.firstCall.args[0].top).to.eql(1);
     });
     it('down with warning', () => {
+      cropper.getCanvasData = () => {
+        return {
+          top: 0,
+          left: 112,
+          width: 399,
+          height: 319
+        };
+      };
+      cropper.getCropBoxData = () => {
+        return {
+          top: 0,
+          left: 151,
+          width: 240,
+          height: 240
+        };
+      };
+
       tree.find('MoveRotateButton').at(1).props().onClick();
 
       const state = tree.state();
 
       expect(state.warningMessage).to.contain('farther down');
-      expect(cropper.setCanvasData.firstCall.args[0].top).to.eql(15);
     });
     it('left with warning', () => {
+      cropper.getCanvasData = () => {
+        return {
+          top: -5,
+          left: -8,
+          width: 399,
+          height: 319
+        };
+      };
+      cropper.getCropBoxData = () => {
+        return {
+          top: 0,
+          left: 151,
+          width: 240,
+          height: 240
+        };
+      };
+
       tree.find('MoveRotateButton').at(2).props().onClick();
 
       const state = tree.state();
 
       expect(state.warningMessage).to.contain('farther left');
-      expect(cropper.setCanvasData.firstCall.args[0].left).to.eql(5);
     });
     it('right with warning', () => {
+      cropper.getCanvasData = () => {
+        return {
+          top: -5,
+          left: 151,
+          width: 399,
+          height: 319
+        };
+      };
+      cropper.getCropBoxData = () => {
+        return {
+          top: 0,
+          left: 151,
+          width: 240,
+          height: 240
+        };
+      };
+
       tree.find('MoveRotateButton').at(3).props().onClick();
 
       const state = tree.state();
 
       expect(state.warningMessage).to.contain('farther right');
-      expect(cropper.setCanvasData.firstCall.args[0].left).to.eql(15);
     });
+    it('right with in frame warning', () => {
+      cropper.getCanvasData = () => {
+        return {
+          top: 0,
+          left: 151,
+          width: 300,
+          height: 240
+        };
+      };
+      cropper.getCropBoxData = () => {
+        return {
+          top: 0,
+          left: 151,
+          width: 240,
+          height: 240
+        };
+      };
+
+      tree.find('MoveRotateButton').at(3).props().onClick();
+
+      const state = tree.state();
+
+      expect(state.warningMessage).to.contain('within the square frame');
+    });
+  });
+  it('should set crop box on ready', () => {
+    const tree = shallow(
+      <CropperController src="test"/>
+    );
+
+    const cropper = {
+      rotate: sinon.spy(),
+      getData: () => {
+        return {
+          width: 100
+        };
+      },
+      getCanvasData: () => {
+        return {
+          width: 200,
+          naturalWidth: 100
+        };
+      },
+      getContainerData: () => {
+        return {
+          width: 100
+        };
+      },
+      getCropBoxData: () => {
+        return {
+          width: 100,
+          height: 100
+        };
+      },
+      setCanvasData: sinon.spy(),
+      setCropBoxData: sinon.spy()
+    };
+    tree.instance().cropper = cropper;
+
+    tree.instance().setCropBox();
+
+    expect(cropper.setCropBoxData.firstCall.args[0]).to.deep.equal({
+      top: 0,
+      left: -70,
+      width: 240,
+      height: 240
+    });
+  });
+  it('should stop resize listener when unmounting', () => {
+    const tree = shallow(
+      <CropperController src="test"/>
+    );
+
+    const instance = tree.instance();
+    instance.componentWillUnmount();
+
+    expect(window.removeEventListener.firstCall.args[0]).to.equal('resize');
+    expect(instance.deboundedDetectWidth).to.be.null;
+  });
+  it('crop start should prevent default on disallowed actions', () => {
+    const tree = shallow(
+      <CropperController src="test"/>
+    );
+
+    const instance = tree.instance();
+    const event = {
+      preventDefault: sinon.spy(),
+      detail: {
+        action: 'nonsense'
+      }
+    };
+    instance.onCropstart(event);
+
+    expect(event.preventDefault.called).to.be.true;
+  });
+  it('crop start should not prevent default on allowed actions', () => {
+    const tree = shallow(
+      <CropperController src="test"/>
+    );
+
+    const instance = tree.instance();
+    const event = {
+      preventDefault: sinon.spy(),
+      detail: {
+        action: 'crop'
+      }
+    };
+    instance.onCropstart(event);
+
+    expect(event.preventDefault.called).to.be.false;
+  });
+  it('should call onPhotoCropped when done', () => {
+    const onPhotoCropped = sinon.spy();
+    const tree = shallow(
+      <CropperController src="test" onPhotoCropped={onPhotoCropped}/>
+    );
+
+    const instance = tree.instance();
+    const blob = {};
+    const cropper = {
+      getData: () => {
+        return {
+          width: 100
+        };
+      },
+      getCroppedCanvas: () => {
+        return {
+          toBlob: callback => callback(blob)
+        };
+      }
+    };
+    instance.cropper = cropper;
+    instance.onDone();
+
+    expect(onPhotoCropped.calledWith(blob)).to.be.true;
+  });
+  it('should zoom on slider change', () => {
+    const tree = shallow(
+      <CropperController src="test"/>
+    );
+
+    const instance = tree.instance();
+    const cropper = {
+      zoomTo: sinon.spy()
+    };
+    instance.cropper = cropper;
+
+    tree.find('[type="range"]').props().onChange({
+      target: {
+        value: 5
+      }
+    });
+
+    expect(cropper.zoomTo.calledWith(5)).to.be.true;
   });
 });
