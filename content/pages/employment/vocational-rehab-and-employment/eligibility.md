@@ -28,15 +28,17 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 ### If I'm a Veteran, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&E benefits and services if you’re a Veteran, and  **all of the following are true for you**:
+You may be eligible for VR&E benefits and services if you’re a Veteran and you meet all of the requirements listed below.
 
-- You have received a discharge that is other than dishonorable, **and**
-- You have a service-connected disability rating of at least 10% from VA, **and**
-- You [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
+**All of these must be true. You:**
 
-**Basic period of eligibility**
+- Have received a discharge that is other than dishonorable, **and**
+- Have a service-connected disability rating of at least 10% from VA, **and**
+- [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
 
-Your basic period of eligibility ends 12 years from the date you received notice of your:
+#### Basic period of eligibility
+
+**Your basic period of eligibility ends 12 years from the date you received notice of your:**
 - Date of separation from active military service, **or**
 - First VA service-connected disability rating
 
@@ -46,10 +48,12 @@ Your basic period of eligibility ends 12 years from the date you received notice
 
 ### If I'm still on active duty, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&amp;E benefits and services if you're a Servicemember **and at least one of the following is true for you**:
+You may be eligible for VR&amp;E benefits and services if you're a Servicemember and you meet at least one of the requirements listed below.
 
--You have a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
-- You are participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. <br>
+**At least one of these must be true. You:**
+
+- Have a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
+- Are participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. <br>
 [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
 **Please note:** Severely injured active-duty service members can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended September 30, 2018, through Sec. 724 of Public Law 113-291.
@@ -59,8 +63,6 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
-
-<br>
 
 **There are 2 ways you can try to qualify:**
 
@@ -80,7 +82,7 @@ Learn about the application process and how to apply if you're a Servicemember w
 
 ### What kind of VR&E services can I get?
 
-Depending on your needs and goals, services may include:
+**Depending on your needs and goals, services may include:**
 
 - A complete evaluation to determine your abilities, skills, and interests for employment
 - Vocational counseling and rehabilitation planning for employment services
@@ -95,7 +97,7 @@ Depending on your needs and goals, services may include:
 
 ### Get more information
 
-We offer:
+**We offer:**
 
 - Opportunities to get training and practical hands-on work experience at the same time through programs like:
   - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
