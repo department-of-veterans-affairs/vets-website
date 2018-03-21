@@ -364,7 +364,7 @@ const formConfig = {
                         'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
                       },
                       'view:privateMedicalRecordsReleasePermissionRestricted': {
-                        'ui:description': recordReleaseWarning,
+                        'ui:description': () => recordReleaseWarning,
                         'ui:options': {
                           expandUnder: 'privateMedicalRecordsReleaseAccepted'
                         }

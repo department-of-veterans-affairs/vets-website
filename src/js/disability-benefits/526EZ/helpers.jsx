@@ -159,10 +159,12 @@ export function validateAddress(errors, formData) {
   // USA, Canada, or Mexico
   if (stateRequiredCountries.has(formData.treatmentCenterCountry)
     && formData.treatmentCenterState === undefined) {
+    // TODO: enable once validation determined 
     // && currentSchema.required.length) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
   const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
+    // TODO: enable once validation determined 
     // && !currentSchema.required.length
     && typeof formData.treatmentCenterCity !== 'undefined'
     && typeof formData.treatmentCenterStreet !== 'undefined'
@@ -175,10 +177,8 @@ export function validateAddress(errors, formData) {
   validatePostalCodes(errors, formData);
 }
 
-export const recordReleaseWarning = () => {
-  return (
-    <div className="usa-alert usa-alert-warning no-background-image">
-      <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
-    </div>
-  );
-};
+export const recordReleaseWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+  </div>
+);
