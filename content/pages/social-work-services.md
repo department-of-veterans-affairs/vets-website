@@ -75,7 +75,7 @@ If you don't see your needs on the list, don't worry. You can contact a VA socia
 <span id="caregiver"></span>
 <div class="feature" markdown=“1”>
 
-### What if I'm the caregiver or family member of a Veteran or Servicemember—how can a VA social work help me?
+### What if I'm the caregiver or family member of a Veteran or Servicemember—how can a VA social worker help me?
 
 VA social workers can help to support you with many different services.
 
