@@ -36,6 +36,8 @@ const {
   phone
 } = fullSchema526EZ.definitions;
 
+const FIFTY_MB = 52428800;
+
 // We may add these back in after the typeahead, but for now...
 const treatmentsSchema = _.set('items.properties.treatment.properties',
   _.omit(
@@ -444,7 +446,6 @@ const formConfig = {
             return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
-          // editPageOnReview: true,
           showPagePerItem: true,
           arrayPath: 'disabilities',
           uiSchema: {
@@ -455,8 +456,8 @@ const formConfig = {
                     allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
-                    fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
-                    maxSize: 27262976, // TODO: create constant
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
                     createPayload: (file) => {
                       const payload = new FormData();
                       payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')

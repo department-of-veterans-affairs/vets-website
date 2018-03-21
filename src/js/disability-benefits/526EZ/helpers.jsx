@@ -188,8 +188,8 @@ export const documentDescription = () => {
     <div>
       <p>File upload guidelines:</p>
       <ul>
-        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
-        <li>Maximum file size: 25 MB</li>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
