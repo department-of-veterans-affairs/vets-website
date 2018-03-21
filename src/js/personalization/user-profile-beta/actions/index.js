@@ -145,22 +145,30 @@ export const updateAlternatePhone = saveFieldHandler('/v0/phone/alternate', SAVE
 export const updateMailingAddress = saveFieldHandler('/v0/address/mailing', SAVE_MAILING_ADDRESS, SAVE_MAILING_ADDRESS_SUCCESS, SAVE_MAILING_ADDRESS_FAIL);
 export const updateResidentialAddress = saveFieldHandler('/v0/address/residential', SAVE_RESIDENTIAL_ADDRESS, SAVE_RESIDENTIAL_ADDRESS_SUCCESS, SAVE_RESIDENTIAL_ADDRESS_FAIL);
 
-// The result of this function will become the arguments to formExtendedProfile (but with profile as the first arg)
-function sendProfileRequests() {
-  const get = (url) => {
-    return apiRequest(url)
-      .then(response => response.data.attributes)
-      .catch(() => {});
-  };
-  return [
-    get('/profile/email'),
-    get('/profile/primary_phone'),
-    get('/profile/alternate_phone'),
-    get('/profile/mailing_address')
+async function sendProfileRequests() {
+  const result = {};
+  const requests = [
+    ['email', '/profile/email'],
+    ['primaryTelephone', '/profile/primary_phone'],
+    ['alternateTelephone', '/profile/alternate_phone'],
+    ['mailingAddress', '/profile/mailing_address']
   ];
+
+  /* eslint-disable no-await-in-loop */
+  for (const [property, url] of requests) {
+    let response = null;
+    try {
+      response = await apiRequest(url);
+      result[property] = response.data.attributes;
+    } catch (err) {
+      // Allow the property to remain undefined
+    }
+  }
+
+  return result;
 }
 
-function getExtendedProfile(email, primaryTelephone, alternateTelephone, mailingAddress) {
+function getExtendedProfile({ email, primaryTelephone, alternateTelephone, mailingAddress }) {
   return {
     email,
     primaryTelephone,
@@ -202,17 +210,17 @@ function combineWithMockData(profile, realData) {
 }
 
 export function fetchExtendedProfile() {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { user: { profile } } = getState();
-    const requests = sendProfileRequests();
-
     dispatch({ type: FETCH_EXTENDED_PROFILE });
-
-    Promise.all(requests)
-      .then(data => getExtendedProfile(...data))
-      .then(realData => combineWithMockData(profile, realData))
-      .then(extendedProfile => dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedProfile }))
-      .catch(() => dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL }));
+    try {
+      const data = await sendProfileRequests();
+      const extendedProfile = getExtendedProfile(data);
+      const extendedWithMocked = combineWithMockData(profile, extendedProfile);
+      dispatch({ type: FETCH_EXTENDED_PROFILE_SUCCESS, newState: extendedWithMocked });
+    } catch (err) {
+      dispatch({ type: FETCH_EXTENDED_PROFILE_FAIL });
+    }
   };
 }
 
