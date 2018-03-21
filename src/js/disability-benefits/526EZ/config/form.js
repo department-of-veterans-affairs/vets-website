@@ -19,7 +19,10 @@ import {
   facilityDescription,
   treatmentView,
   recordReleaseWarning,
-  validateAddress
+  validateAddress,
+  // documentDescription
+  // additionalDocumentDescription
+  releaseView
 } from '../helpers';
 
 const {
@@ -43,7 +46,7 @@ const treatmentsSchema = _.set('items.properties.treatment.properties',
     treatments.items.properties.treatment.properties
   ), treatments);
 
-const privateMedicalRecordsReleaseTreatmentSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
+const privateRecordReleasesSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
   privateMedicalRecordsReleaseAccepted: {
     type: 'boolean'
   },
@@ -337,13 +340,13 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-                treatments: {
+                privateRecordReleases: {
                   'ui:options': {
                     itemName: 'Private Medical Record',
-                    viewField: treatmentView
+                    viewField: releaseView
                   },
                   items: {
-                    treatment: {
+                    privateRecordRelease: {
                       'ui:order': [
                         'treatmentCenterName',
                         'privateMedicalRecordsReleaseAccepted',
@@ -411,14 +414,14 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    treatments: {
+                    privateRecordReleases: {
                       type: 'array',
                       items: {
                         type: 'object',
                         properties: {
-                          treatment: {
+                          privateRecordRelease: {
                             type: 'object',
-                            properties: _.omit(['treatmentCenterType'], privateMedicalRecordsReleaseTreatmentSchema)
+                            properties: _.omit(['treatmentCenterType'], privateRecordReleasesSchema)
                           }
                         }
                       }
