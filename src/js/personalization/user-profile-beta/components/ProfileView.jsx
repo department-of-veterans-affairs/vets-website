@@ -22,12 +22,6 @@ class ProfileView extends React.Component {
     this.props.fetchExtendedProfile();
   }
 
-  componentDidUpdate(newProps) {
-    if (newProps.profile.email !== this.props.profile.email) {
-      this.closeModal();
-    }
-  }
-
   openModalHandler(modalName) {
     return () => this.props.modal.open(modalName);
   }
