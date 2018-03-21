@@ -4,7 +4,6 @@ import '../../../common/utils/moment-setup';
 
 import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../../login/actions';
-import { removeSavedForm } from '../actions';
 import UserDataSection from '../components/UserDataSection';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
@@ -53,7 +52,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  removeSavedForm,
   updateVerifyUrl
 };
 
