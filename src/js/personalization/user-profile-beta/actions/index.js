@@ -70,15 +70,6 @@ async function sendProfileRequests() {
   return result;
 }
 
-function getVaProfile({ email, primaryTelephone, alternateTelephone, mailingAddress }) {
-  return {
-    email,
-    primaryTelephone,
-    alternateTelephone,
-    mailingAddress
-  };
-}
-
 function combineWithMockData(profile, realData) {
   return {
     ...realData,
@@ -116,8 +107,7 @@ export function fetchVaProfile() {
     const { user: { profile } } = getState();
     dispatch({ type: FETCH_VA_PROFILE });
     try {
-      const data = await sendProfileRequests();
-      const vaProfile = getVaProfile(data);
+      const vaProfile = await sendProfileRequests();
       const withMocked = combineWithMockData(profile, vaProfile);
       dispatch({ type: FETCH_VA_PROFILE_SUCCESS, newState: withMocked });
     } catch (err) {
