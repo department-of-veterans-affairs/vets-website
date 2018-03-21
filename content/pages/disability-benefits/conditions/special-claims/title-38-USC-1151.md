@@ -17,7 +17,7 @@ If you suffered an added disability—or your existing injury or disease got wor
 
 ### Can I get compensation from VA?
 
-You may be able get compensation from VA if you suffered an added disability or your existing disability got worse as the direct result of any of the reasons listed below.
+You may be able get compensation from VA if you suffered an added disability or your existing disability got worse as the direct result of any of the reasons listed below—and the added disability wasn’t a reasonably expected result or complication of treatment.
 
 **At least one of these must have led to an added disability or to your injury or disease getting worse:**
   - VA carelessness or negligence, **or**
@@ -25,8 +25,6 @@ You may be able get compensation from VA if you suffered an added disability or 
   - A VA health exam, **or**
   - A VA vocational rehabilitation course (under 38 U.S.C. Chapter 31), **or**
   - VA compensated work therapy (CWT)(under 38 U.S.C. 1718)
- 
-And the added disability wasn’t a reasonably expected result or complication of treatment.
   
 ### Who’s covered?
 Veterans
