@@ -9,3 +9,11 @@
 // @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
 
+
+.dashed {
+    list-style-type: none;
+}
+.dashed:before {
+    content: "—";
+    padding-right: 25px;
+}

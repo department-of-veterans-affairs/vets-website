@@ -69,7 +69,7 @@ const validDocumentData = {
 };
 
 describe('526EZ additional document upload', () => {
-  const page = formConfig.chapters.supportingEvidence.pages.additionalDocumentUpload;
+  const page = formConfig.chapters.supportingEvidence.pages.documentUpload;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {

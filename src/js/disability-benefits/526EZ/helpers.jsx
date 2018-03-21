@@ -105,6 +105,24 @@ export const treatmentView = ({ formData }) => {
   );
 };
 
+export const releaseView = ({ formData }) => {
+  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
+  let treatmentPeriod = '';
+
+  if (startTreatment && endTreatment) {
+    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
+  } else if (startTreatment || endTreatment) {
+    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  }
+
+
+  return (
+    <div>
+      <strong>{treatmentCenterName}</strong><br/>
+      {treatmentPeriod}
+    </div>
+  );
+};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
@@ -188,6 +206,50 @@ export const additionalDocumentDescription = () => {
         <li>Maximum file size: 25 MB</li>
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+    </div>
+  );
+};
+
+const documentLabels = {
+  1: 'Discharge',
+  2: 'Marriage related',
+  3: 'Dependent related',
+  // 4: 'VA preneed form',
+  5: 'Letter',
+  6: 'Other'
+};
+
+export const evidenceSummaryView = ({ formData }) => {
+  // console.log(formData, pagePerItemIndex);
+  // TODO: need to make additional documents same so can use type below
+  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  // TODO: update bullet style for additional documents
+  return (
+    <div>
+      <ul>
+        {VATreatments &&
+        <li>We will get your medical records from {VATreatments.map((VAcenter, idx) => {
+          const notLast = idx < (VATreatments.length - 1);
+          return <strong key={idx}>{`${VAcenter.treatment.treatmentCenterName}${notLast ? ', ' : ''}`}</strong>;
+        })}.</li>}
+        {privateRecordReleases &&
+        <li>We will get your private medical records from {privateRecordReleases.map((release, idx) => {
+          const notLast = idx < (privateRecordReleases.length - 1);
+          return <strong key={idx}>{`${release.privateRecordRelease.treatmentCenterName}${notLast ? ', ' : ''}`}</strong>;
+        })}.</li>}
+        {privateRecords && <li>We have the private medical records you uploaded.</li>}
+        {additionalDocuments &&
+        <li>We have this additional evidence that you uploaded:
+          <ul>
+            {additionalDocuments.map((document, id) => {
+              return (<li className="dashed" key={id}>
+                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
+              </li>);
+            })
+            }
+          </ul>
+        </li>}
+      </ul>
     </div>
   );
 };
