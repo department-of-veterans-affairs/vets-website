@@ -16,11 +16,7 @@ import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import {
   EVENT_TYPES,
   isolateAppeal,
-  USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
-  VALIDATION_ERROR,
-  BACKEND_SERVICE_ERROR,
-  FETCH_APPEALS_ERROR,
   AVAILABLE,
 } from '../utils/appeals-v2-helpers';
 
@@ -102,17 +98,14 @@ export class AppealInfo extends React.Component {
     } else if (appealsAvailability === AVAILABLE && !appeal) {
       // Yes, we have your appeals. No, the one you requested isn't one of them.
       appealContent = <AppealNotFound/>;
-    } else if (appealsAvailability === USER_FORBIDDEN_ERROR) {
-      appealContent = appealsDownMessage;
     } else if (appealsAvailability === RECORD_NOT_FOUND_ERROR) {
       appealContent = recordsNotFoundMessage;
-    } else if (appealsAvailability === VALIDATION_ERROR) {
-      appealContent = appealsDownMessage;
-    } else if (appealsAvailability === BACKEND_SERVICE_ERROR) {
-      appealContent = appealsDownMessage;
-    } else if (appealsAvailability === FETCH_APPEALS_ERROR) {
-      appealContent = appealsDownMessage;
     } else {
+      // This includes
+      //  USER_FORBIDDEN_ERROR,
+      //  VALIDATION_ERROR,
+      //  BACKEND_SERVICE_ERROR,
+      //  FETCH_APPEALS_ERROR
       appealContent = appealsDownMessage;
     }
 
