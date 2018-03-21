@@ -219,24 +219,30 @@ const documentLabels = {
   6: 'Other'
 };
 
+const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
+
+const listifyCenters = (center, idx, list) => {
+  const getName = center.treatment ? getVACenterName : getPrivateCenterName;
+  const notLast = idx < (list.length - 1);
+  const justOne = list.length === 1;
+  const atLeastThree = list.length > 2;
+  return (
+    <strong key={idx}>
+      {`${notLast || justOne ? '' : ' and '}${getName(center)}${atLeastThree && notLast ? ', ' : ''}`}</strong>
+  );
+};
+
+
 export const evidenceSummaryView = ({ formData }) => {
-  // console.log(formData, pagePerItemIndex);
-  // TODO: need to make additional documents same so can use type below
   const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
-  // TODO: update bullet style for additional documents
   return (
     <div>
       <ul>
         {VATreatments &&
-        <li>We will get your medical records from {VATreatments.map((VAcenter, idx) => {
-          const notLast = idx < (VATreatments.length - 1);
-          return <strong key={idx}>{`${VAcenter.treatment.treatmentCenterName}${notLast ? ', ' : ''}`}</strong>;
-        })}.</li>}
+        <li>We will get your medical records from {VATreatments.map(listifyCenters)}.</li>}
         {privateRecordReleases &&
-        <li>We will get your private medical records from {privateRecordReleases.map((release, idx) => {
-          const notLast = idx < (privateRecordReleases.length - 1);
-          return <strong key={idx}>{`${release.privateRecordRelease.treatmentCenterName}${notLast ? ', ' : ''}`}</strong>;
-        })}.</li>}
+        <li>We will get your private medical records from {privateRecordReleases.map(listifyCenters)}.</li>}
         {privateRecords && <li>We have the private medical records you uploaded.</li>}
         {additionalDocuments &&
         <li>We have this additional evidence that you uploaded:
