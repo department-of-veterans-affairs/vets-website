@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import '../../../common/utils/moment-setup';
 
 import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
 import { updateVerifyUrl } from '../../../login/actions';
@@ -9,29 +9,6 @@ import UserDataSection from '../components/UserDataSection';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
 import BetaApp, { features } from '../../../common/containers/BetaApp';
-
-moment.updateLocale('en', {
-  meridiem: (hour) => {
-    if (hour < 12) {
-      return 'a.m.';
-    }
-    return 'p.m.';
-  },
-  monthsShort: [
-    'Jan.',
-    'Feb.',
-    'Mar.',
-    'Apr.',
-    'May',
-    'June',
-    'July',
-    'Aug.',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Dec.'
-  ]
-});
 
 class UserProfileApp extends React.Component {
   componentDidMount() {
