@@ -191,7 +191,7 @@ class YourClaimsPageV2 extends React.Component {
             <div>
               <h2 className="help-heading">Can’t find your appeal?</h2>
               <p>
-                If you submitted a Notice of Disagreement for an appeal in within the last 3 months,
+                If you submitted a Notice of Disagreement for an appeal within the last 3 months,
                 VA might still be processing your appeal. For more information, contact your Veterans
                 Service Organization or representative.
               </p>
