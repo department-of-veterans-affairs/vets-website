@@ -105,6 +105,24 @@ export const treatmentView = ({ formData }) => {
   );
 };
 
+export const releaseView = ({ formData }) => {
+  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
+  let treatmentPeriod = '';
+
+  if (startTreatment && endTreatment) {
+    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
+  } else if (startTreatment || endTreatment) {
+    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  }
+
+
+  return (
+    <div>
+      <strong>{treatmentCenterName}</strong><br/>
+      {treatmentPeriod}
+    </div>
+  );
+};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
