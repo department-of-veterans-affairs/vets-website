@@ -43,6 +43,7 @@
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
+    "watch:ip": "node script/build.js --host '0.0.0.0' --watch",
     "watch:static": "npm run watch -- --entry no-react"
   },
   "repository": {

@@ -621,9 +621,11 @@ ol {
       display: inline-block;
       padding: 0 0.35em;
     }
+
     &:last-child:after {
       content: '';
     }
+    
     &.active {
       font-weight: bold;
       padding: 0.3em 0;
@@ -641,6 +643,14 @@ ol {
     &:hover {
       background: $color-link-default-hover;
     }
+  }
+
+  a[aria-current="page"] {
+    color: $color-gray-dark;
+    cursor: default;
+    font-weight: bold;
+    pointer-events:none;
+    text-decoration: none;
   }
 }
 

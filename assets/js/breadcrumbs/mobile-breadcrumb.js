@@ -1,8 +1,11 @@
 var config = {
-  hiddenClass: 'js-hide',
+  containerString: 'va-breadcrumb',
+  listString: 'va-breadcrumb-list',
+  jsHiddenClass: 'js-hide',
+  jsVisualClass: 'js-visual',
   mobileClass: 'va-nav-breadcrumbs-list__mobile-link',
   triggerDelay: 500,
-  triggerWidth: 425
+  triggerWidth: 425,
 };
 
 var debouncedToggleLinks = _debounce(function(targetId) {
@@ -42,7 +45,7 @@ function cloneList(target, targetId) {
   var clone = target.cloneNode();
 
   clone.setAttribute('id', targetId + '-clone');
-  clone.classList.add(config.hiddenClass);
+  clone.classList.add(config.jsHiddenClass);
 
   return clone;
 }
@@ -54,7 +57,7 @@ function sliceMobileLink(targetId) {
 
   var listArr = Array.prototype.slice.call(targetList);
 
-  var breadcrumbLink = listArr.slice(-1);
+  var breadcrumbLink = listArr.slice(-2, -1);
   var textString = breadcrumbLink[0].children[0].innerText.trim();
 
   breadcrumbLink[0].classList.add(config.mobileClass);
@@ -72,11 +75,11 @@ function toggleLinks(targetId) {
   var clone = document.getElementById(targetId + '-clone');
 
   if (window.innerWidth <= config.triggerWidth) {
-    breadcrumb.classList.add(config.hiddenClass);
-    clone.classList.remove(config.hiddenClass);
+    breadcrumb.classList.add(config.jsHiddenClass);
+    clone.classList.remove(config.jsHiddenClass);
   } else {
-    clone.classList.add(config.hiddenClass);
-    breadcrumb.classList.remove(config.hiddenClass);
+    clone.classList.add(config.jsHiddenClass);
+    breadcrumb.classList.remove(config.jsHiddenClass);
   }
 }
 
@@ -87,29 +90,34 @@ function buildMobileBreadcrumb(parentId, targetId) {
   var clonedList = cloneList(target, targetId);
   var mobileLink = sliceMobileLink(targetId);
 
-  target.classList.add(config.hiddenClass);
+  // Hide the original breadcrumb, because we have to
+  // decide page width first, then determine which
+  // breadcrumb to show.
+  target.classList.add(config.jsHiddenClass);
 
-  mobileLink.map(function(item) {
-    return clonedList.appendChild(item);
-  });
+  // Append the sliced mobile breadcrumb to cloned <ul>
+  clonedList.appendChild(mobileLink[0]);
 
+  // Append cloned <ul> to <nav>
   container.appendChild(clonedList);
 
+  // Determine which breadcrumb <ul> to show
   if (window.innerWidth <= config.triggerWidth) {
-    clonedList.classList.remove(config.hiddenClass);
+    clonedList.classList.remove(config.jsHiddenClass);
   } else {
-    target.classList.remove(config.hiddenClass);
+    target.classList.remove(config.jsHiddenClass);
   }
 
-  container.classList.remove('js-visual');
+  // Reveal the correct breadcrumb list
+  container.classList.remove(config.jsVisualClass);
 }
 
 // Check for breadcrumb on page load
 window.addEventListener('DOMContentLoaded', function() {
-  buildMobileBreadcrumb('va-breadcrumb', 'va-breadcrumb-list');
+  buildMobileBreadcrumb(config.containerString, config.listString);
 });
 
 // Pause the breadcrumb swap for 500ms
 window.addEventListener('resize', function() {
-  debouncedToggleLinks('va-breadcrumb-list');
+  debouncedToggleLinks(config.listString);
 });

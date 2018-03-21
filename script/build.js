@@ -551,7 +551,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
-    public: options.public || undefined,
+    'public': options.public || undefined,
     stats: {
       colors: true,
       assets: false,
