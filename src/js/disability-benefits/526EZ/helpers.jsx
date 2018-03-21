@@ -105,6 +105,24 @@ export const treatmentView = ({ formData }) => {
   );
 };
 
+export const releaseView = ({ formData }) => {
+  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
+  let treatmentPeriod = '';
+
+  if (startTreatment && endTreatment) {
+    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
+  } else if (startTreatment || endTreatment) {
+    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  }
+
+
+  return (
+    <div>
+      <strong>{treatmentCenterName}</strong><br/>
+      {treatmentPeriod}
+    </div>
+  );
+};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
@@ -170,8 +188,8 @@ export const documentDescription = () => {
     <div>
       <p>File upload guidelines:</p>
       <ul>
-        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
-        <li>Maximum file size: 25 MB</li>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
@@ -184,8 +202,8 @@ export const additionalDocumentDescription = () => {
       <p>You mentioned that you have other evidence, like lay statements that you’d like to add to support your claim. You can upload them here.</p>
       <p>File upload guidelines:</p>
       <ul>
-        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
-        <li>Maximum file size: 25 MB</li>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>

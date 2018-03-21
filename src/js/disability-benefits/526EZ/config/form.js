@@ -22,7 +22,8 @@ import {
   recordReleaseWarning,
   validateAddress,
   documentDescription,
-  additionalDocumentDescription
+  additionalDocumentDescription,
+  releaseView
 } from '../helpers';
 
 const {
@@ -47,7 +48,7 @@ const treatmentsSchema = _.set('items.properties.treatment.properties',
     treatments.items.properties.treatment.properties
   ), treatments);
 
-const privateMedicalRecordsReleaseTreatmentSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
+const privateRecordReleasesSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
   privateMedicalRecordsReleaseAccepted: {
     type: 'boolean'
   },
@@ -342,13 +343,13 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-                treatments: {
+                privateRecordReleases: {
                   'ui:options': {
                     itemName: 'Private Medical Record',
-                    viewField: treatmentView
+                    viewField: releaseView
                   },
                   items: {
-                    treatment: {
+                    privateRecordRelease: {
                       'ui:order': [
                         'treatmentCenterName',
                         'privateMedicalRecordsReleaseAccepted',
@@ -415,14 +416,14 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    treatments: {
+                    privateRecordReleases: {
                       type: 'array',
                       items: {
                         type: 'object',
                         properties: {
-                          treatment: {
+                          privateRecordRelease: {
                             type: 'object',
-                            properties: _.omit(['treatmentCenterType'], privateMedicalRecordsReleaseTreatmentSchema)
+                            properties: _.omit(['treatmentCenterType'], privateRecordReleasesSchema)
                           }
                         }
                       }
@@ -433,8 +434,7 @@ const formConfig = {
             }
           }
         },
-        // TODO: should this be renamed recordUpload?
-        documentUpload: {
+        recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
@@ -450,7 +450,7 @@ const formConfig = {
           uiSchema: {
             disabilities: {
               items: {
-                medicalRecords: Object.assign({},
+                privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
                     allowRename: true,
                     itemDescription: 'Adding additional evidence:',
@@ -489,7 +489,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    medicalRecords: {
+                    privateRecords: {
                       type: 'array',
                       items: {
                         type: 'object',
@@ -532,8 +532,8 @@ const formConfig = {
             }
           }
         },
-        additionalDocumentUpload: {
-          title: 'Upload your additional documents',
+        documentUpload: {
+          title: 'Lay statements or other evidence',
           depends: (formData, index) => {
             const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
             return hasOtherEvidence;
@@ -546,7 +546,8 @@ const formConfig = {
             disabilities: {
               items: {
                 additionalDocuments: Object.assign({},
-                  fileUploadUI('Upload your additional documents', {
+                  fileUploadUI('Lay statements or other evidence', {
+                    allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     fileTypes: ['pdf', 'jpg', 'jpeg', 'tiff', 'tif', 'png'],
@@ -562,6 +563,12 @@ const formConfig = {
                         name: file.name,
                         confirmationCode: response.data.attributes.guid
                       };
+                    },
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name'
                     }
                   }),
                   { 'ui:description': additionalDocumentDescription }
@@ -591,6 +598,25 @@ const formConfig = {
                           },
                           confirmationCode: {
                             type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              // '4',
+                              '5',
+                              '6'
+                            ],
+                            enumNames: [
+                              'Discharge',
+                              'Marriage related',
+                              'Dependent related',
+                              // 'VA preneed form',
+                              'Letter',
+                              'Other'
+                            ]
                           }
                         }
                       }
