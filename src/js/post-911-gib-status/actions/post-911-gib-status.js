@@ -8,6 +8,8 @@ import {
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
   NO_CHAPTER33_RECORD_AVAILABLE,
+  SERVICE_AVAILABILITY_STATES,
+  SET_SERVICE_AVAILABILITY
 } from '../utils/constants';
 
 export function getEnrollmentData() {
@@ -50,3 +52,29 @@ export function getEnrollmentData() {
       });
   };
 }
+
+export function getServiceAvailability() {
+  return (dispatch) => {
+    dispatch({
+      type: SET_SERVICE_AVAILABILITY,
+      serviceAvailability: SERVICE_AVAILABILITY_STATES.pending
+    });
+
+    return apiRequest(
+      '/backend_statuses/gibs'
+    ).then((response) => {
+      const availability = response.data.attributes.isAvailable;
+
+      dispatch({
+        type: SET_SERVICE_AVAILABILITY,
+        serviceAvailability: availability ? SERVICE_AVAILABILITY_STATES.up : SERVICE_AVAILABILITY_STATES.down
+      });
+    }).catch(() => {
+      dispatch({
+        type: SET_SERVICE_AVAILABILITY,
+        serviceAvailability: SERVICE_AVAILABILITY_STATES.down
+      });
+    });
+  };
+}
+

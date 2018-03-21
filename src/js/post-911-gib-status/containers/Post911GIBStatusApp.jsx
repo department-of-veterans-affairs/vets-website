@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 
+import Main from './Main';
+
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ children, isDataAvailable }) {
@@ -47,7 +49,9 @@ class Post911GIBStatusApp extends React.Component {
           <AppContent>
             <div className="row">
               <div className="small-12 columns">
-                {this.props.children}
+                <Main>
+                  {this.props.children}
+                </Main>
               </div>
             </div>
           </AppContent>

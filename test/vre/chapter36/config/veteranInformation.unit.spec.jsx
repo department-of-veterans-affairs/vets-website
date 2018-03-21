@@ -94,7 +94,7 @@ describe('VRE chapter 36 veteran information', () => {
     fillData(form, 'select#root_veteranDateOfBirthDay', '3');
     fillData(form, 'input#root_veteranDateOfBirthYear', '1950');
     fillData(form, 'input#root_veteranSocialSecurityNumber', '424242424');
-    fillData(form, 'input#root_applicantGender_0', 'Female');
+    fillData(form, 'input#root_veteranGender_0', 'Female');
 
     form.find('form').simulate('submit');
 
