@@ -42,7 +42,7 @@ class EditAddressModal extends React.Component {
 }
 
 export default function AddressSection({ addressResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
-  let addressDisplay = <em>N/A</em>;
+  let addressDisplay = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
   let modal = null;
 
   if (addressResponseData) {
@@ -71,7 +71,7 @@ export default function AddressSection({ addressResponseData, title, isEditing, 
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={addressResponseData && onEdit}>{title}</HeadingWithEdit>
       {addressDisplay}
     </div>
   );

@@ -36,7 +36,7 @@ class EditEmailModal extends React.Component {
 
 
 export default function EmailSection({ emailResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
-  let emailDisplay = <em>N/A</em>;
+  let emailDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
   let modal = null;
 
   if (emailResponseData) {
@@ -57,7 +57,7 @@ export default function EmailSection({ emailResponseData, title, isEditing, isLo
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={emailResponseData && onEdit}>{title}</HeadingWithEdit>
       <div>{emailDisplay}</div>
     </div>
   );

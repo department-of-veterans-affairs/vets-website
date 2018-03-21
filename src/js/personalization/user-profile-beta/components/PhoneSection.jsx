@@ -47,7 +47,7 @@ class EditPhoneModal extends React.Component {
 
 
 export default function PhoneSection({ phoneResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
-  let phoneDisplay = <em>N/A</em>;
+  let phoneDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
   let modal = null;
 
   if (phoneResponseData) {
@@ -71,7 +71,7 @@ export default function PhoneSection({ phoneResponseData, title, isEditing, isLo
   return (
     <div>
       {modal}
-      <HeadingWithEdit onEditClick={onEdit}>{title}</HeadingWithEdit>
+      <HeadingWithEdit onEditClick={phoneResponseData && onEdit}>{title}</HeadingWithEdit>
       {phoneDisplay}
     </div>
   );
