@@ -11,7 +11,7 @@ import initialData from '../schema/initialData.js';
 const invalidDocumentData = {
   disabilities: [
     {
-      medicalRecords: [{
+      privateRecords: [{
         confirmationCode: 'testing'
       }],
       disability: { // Is this extra nesting necessary?
@@ -71,7 +71,7 @@ const invalidDocumentData = {
 const validDocumentData = {
   disabilities: [
     {
-      medicalRecords: [{
+      privateRecords: [{
         name: 'Form526.pdf',
         confirmationCode: 'testing',
         attachmentId: '1'
@@ -130,8 +130,8 @@ const validDocumentData = {
   ]
 };
 
-describe('526EZ document upload', () => {
-  const page = formConfig.chapters.supportingEvidence.pages.documentUpload;
+describe('526EZ record upload', () => {
+  const page = formConfig.chapters.supportingEvidence.pages.recordUpload;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {

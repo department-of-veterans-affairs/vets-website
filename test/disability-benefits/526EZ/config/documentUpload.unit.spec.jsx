@@ -8,10 +8,10 @@ import { DefinitionTester, // selectCheckbox
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 import initialData from '../schema/initialData.js';
 
-const validDocumentData = {
+const invalidDocumentData = {
   disabilities: [
     {
-      medicalRecords: [{
+      additionalDocuments: [{
         confirmationCode: 'testing'
       }],
       disability: { // Is this extra nesting necessary?
@@ -68,8 +68,70 @@ const validDocumentData = {
   ]
 };
 
-describe('526EZ additional document upload', () => {
-  const page = formConfig.chapters.supportingEvidence.pages.additionalDocumentUpload;
+const validDocumentData = {
+  disabilities: [
+    {
+      additionalDocuments: [{
+        name: 'Form526.pdf',
+        confirmationCode: 'testing',
+        attachmentId: '1'
+      }],
+      disability: { // Is this extra nesting necessary?
+        diagnosticText: 'PTSD',
+        decisionCode: 'Filler text', // Should this be a string?
+        // Is this supposed to be an array?
+        specialIssues: {
+          specialIssueCode: 'Filler text',
+          specialIssueName: 'Filler text'
+        },
+        ratedDisabilityId: '12345',
+        disabilityActionType: 'Filler text',
+        ratingDecisionId: '67890',
+        diagnosticCode: 'Filler text',
+        // Presumably, this should be an array...
+        secondaryDisabilities: [
+          {
+            diagnosticText: 'First secondary disability',
+            disabilityActionType: 'Filler text'
+          },
+          {
+            diagnosticText: 'Second secondary disability',
+            disabilityActionType: 'Filler text'
+          }
+        ]
+      }
+    },
+    {
+      disability: { // Is this extra nesting necessary?
+        diagnosticText: 'Second Disability',
+        decisionCode: 'Filler text', // Should this be a string?
+        // Is this supposed to be an array?
+        specialIssues: {
+          specialIssueCode: 'Filler text',
+          specialIssueName: 'Filler text'
+        },
+        ratedDisabilityId: '54321',
+        disabilityActionType: 'Filler text',
+        ratingDecisionId: '09876',
+        diagnosticCode: 'Filler text',
+        // Presumably, this should be an array...
+        secondaryDisabilities: [
+          {
+            diagnosticText: 'First secondary disability',
+            disabilityActionType: 'Filler text'
+          },
+          {
+            diagnosticText: 'Second secondary disability',
+            disabilityActionType: 'Filler text'
+          }
+        ]
+      }
+    }
+  ]
+};
+
+describe('526EZ document upload', () => {
+  const page = formConfig.chapters.supportingEvidence.pages.documentUpload;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -101,6 +163,24 @@ describe('526EZ additional document upload', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should not submit without required info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(<DefinitionTester
+      arrayPath={arrayPath}
+      onSubmit={onSubmit}
+      pagePerItemIndex={0}
+      definitions={formConfig.defaultDefinitions}
+      schema={schema}
+      data={invalidDocumentData}
+      uiSchema={uiSchema}/>
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should submit with valid data', () => {
