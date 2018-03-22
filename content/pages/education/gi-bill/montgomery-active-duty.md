@@ -18,42 +18,57 @@ If you served at least 2 years on active duty, you may qualify for the Montgomer
 
 ### Can I get education benefits?
 
-You can get education benefits if you were honorably discharged and:
+You can get education benefits if you were honorably discharged and you meet the requirements of one of categories below.
+
+<br>
+
+#### One of these categories must describe you:
+
+##### CATEGORY I
+
+**All of these are true:**
 
 -	You have a high school diploma, GED, or 12 hours of college credit, **and**
--	You meet the requirements of 1 of these categories:
-
-**CATEGORY I**
-
 - You entered active duty for the first time after June 30, 1985, **and**
 - You had military pay reduced by $100 a month for the first 12 months of service, **and**
 - You served for 3 years continuously (no breaks in service), or for 2 years if that was your agreement when you enlisted. Or, if you entered the Selected Reserve within a year of leaving active duty, you served continuously for 4 years (the 2 by 4 program)
 
-**CATEGORY II**
+##### CATEGORY II
 
+**All of these are true:**
+
+-	You have a high school diploma, GED, or 12 hours of college credit, **and**
 - You entered active duty before January 1, 1977, or you entered active duty before January 2, 1978, under a delayed enlistment program contracted before January 1, 1977, **and**
 - You served at least 1 day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within 1 year of leaving active duty and served 4 years), **and**
 - You had at least 1 day remaining of chapter 34 entitlement as of December 31, 1989.
 
-**CATEGORY III**
+##### CATEGORY III
 
-Both of these are true:
+**All of these are true:**
 
+-	You have a high school diploma, GED, or 12 hours of college credit, **and**
 - You don’t qualify for MGIB under categories I or II, **and**
 - Before separation, you had military pay reduced by $1,200
 
-And 1 of these is true:
+**And 1 of these is true:**
 
 - You were on active duty on September 30, 1990, and you separated involuntarily (not by your choice) after February 2, 1991, **or**
 - You involuntarily separated on or after November 30, 1993, **or**
 - You voluntarily separated under either the Voluntary Separation Incentive (VSI) program or the Special Separation Benefit (SSB) program
 
-**CATEGORY IV**
+##### CATEGORY IV
 
-You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution (meaning you paid it all at once) and:
+**Both of these are true:**
+
+-	You have a high school diploma, GED, or 12 hours of college credit, **and**
+- You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution (meaning you paid it all at once)
+
+**And 1 of these is true:**
 
 - You were on active duty on October 9, 1996, had money left in a VEAP account on that date, and chose MGIB before October 9, 1997, **or**
 - You entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you chose MGIB between October 9, 1996, and July 9, 1997
+
+<br>
 
 ### Who’s covered?
 
