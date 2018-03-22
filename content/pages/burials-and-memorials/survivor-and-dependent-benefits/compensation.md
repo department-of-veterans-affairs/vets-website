@@ -29,7 +29,7 @@ If you’re a surviving spouse, you can get compensation if one of the below des
 
 ### As a surviving child, can I get compensation from VA?
 
-If you’re a surviving child, you can get compensation if one of the below descriptions is true for you.
+If you’re a surviving child, you can get compensation if the below descriptions are true for you.
 
 **Both of these must describe you:**
 - You aren’t married, **and**
@@ -41,7 +41,7 @@ If you’re a surviving child, you can get compensation if one of the below desc
 
 </div>
 
-#### To get compensation, one of these must be true:
+#### To get compensation, one of these must be true about the deceased Servicemember or Veteran:
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
@@ -76,13 +76,19 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/facilities/).
 
+-----
 
+<div class="feature" markdown="0">
+  
 ### As a surviving parent, can I get compensation?
 
 You may be able to get compensation as a surviving parent if both of these are true: 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
 - Your income is below a certain amount. <br>
 [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp). 
+
+</div>
+
 
 ### As a surviving parent, how do I get compensation? 
 
