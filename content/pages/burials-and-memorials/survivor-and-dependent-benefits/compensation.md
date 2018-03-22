@@ -80,7 +80,7 @@ You’ll need to apply for compensation. Fill out an Application for Dependency 
 
 <div class="feature" markdown="0">
   
-### As a surviving parent, can I get compensation?
+### As a surviving parent, can I get compensation from VA?
 
 You may be able to get compensation as a surviving parent if both of these are true: 
 - The Servicemember died in the line of duty or the Veteran died from a service-connected illness or injury, **and**
