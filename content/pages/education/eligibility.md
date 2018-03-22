@@ -46,14 +46,19 @@ You can check to see if you have Post-9/11 GI Bill benefits. <br>
 
 You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: the Montgomery GI Bill Active Duty (MGIB-AD) or the Montgomery GI Bill Selected Reserve (MGIB-SR).
 
-You can get benefits through MGIB-AD if you served at least 2 years on active duty, and **all of the following are true for you**:
+**You can get benefits through MGIB-AD** if you served at least 2 years on active duty and you meet all the requirements listed below.
+
+**All of these must be true:**
+
 - You were honorably discharged, **and**
 - You have a high school diploma, GED, or 12 hours of college credit, **and**
 - You meet other requirements
 
 [Learn more about MGIB-AD](/education/gi-bill/montgomery-active-duty/).
 
-You can get benefits through MGIB-SR if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you:
+**You can get benefits through MGIB-SR** if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you meet all the requirements listed below.
+
+**All of these must be true:**
 - Have either a 6-year service obligation (you agreed to serve 6 years) in the Selected Service, **or**
 - Are an officer in the Selected Reserve who agreed to serve 6 years in addition to your initial service obligation, **and**
 - Meet other requirements
