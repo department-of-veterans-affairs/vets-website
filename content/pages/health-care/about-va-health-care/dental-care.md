@@ -137,7 +137,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You may qualify for:** Dental care that a VA dental care provider concludes is needed to meet certain needs or goals.
 
-**To get this care, a VA dental care provider must conclude it's needed to do at least one of these things:**
+**To get this care, a VA dental care provider must conclude it's needed to achieve at least one of these goals:**
 
 - Make it possible for you to be in the vocational rehab program, **or**
 - Make it possible for you to reach the goals of your vocational rehab program, **or**
