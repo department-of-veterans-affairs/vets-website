@@ -22,7 +22,7 @@ You can get education benefits if you were honorably discharged and you meet the
 
 <br>
 
-#### One of these categories must describe you:
+#### One of the below categories must describe you
 
 ##### CATEGORY I
 
