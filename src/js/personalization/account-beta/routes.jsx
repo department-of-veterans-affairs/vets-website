@@ -1,8 +1,8 @@
-import UserProfileApp from './containers/UserProfileApp';
+import AccountApp from './containers/AccountApp';
 
 const routes = {
   path: '/account-beta',
-  component: UserProfileApp
+  component: AccountApp
 };
 
 export default routes;
