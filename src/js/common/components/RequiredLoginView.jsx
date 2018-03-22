@@ -12,23 +12,18 @@ const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 
 class RequiredLoginView extends React.Component {
-  isServiceAvailable() {
-    const requiredApp = this.props.serviceRequired;
-    const userServices = this.props.user.profile.services;
-    // Checks that
-    // 1) session has a valid authentication token, and
-    // 2) the application being loaded (requiredApp) is in the list of
-    //    applications/services the user is authorized to use (userServices)
-    // TODO: replace indexOf() once NodeJS versions in all environments support includes()
+  // Checks that (1) session has a valid authentication token and
+  // (2) the user is authorized to use services required by this application
+  isAccessible = () => {
+    const { serviceRequired, user } = this.props;
+    const userServices = user.profile.services;
+    const hasRequiredServices = userServices && (
+      Array.isArray(serviceRequired) ?
+        intersection(userServices, serviceRequired).length > 0 :
+        userServices.includes(serviceRequired)
+    );
 
-    if (sessionStorage.userToken && userServices) {
-      if (Array.isArray(requiredApp)) {
-        return intersection(userServices, requiredApp).length > 0;
-      }
-      return userServices.indexOf(requiredApp) !== -1;
-    }
-
-    return false;
+    return sessionStorage.userToken && hasRequiredServices;
   }
 
   renderVerifiedContent = () => {
@@ -44,27 +39,26 @@ class RequiredLoginView extends React.Component {
       // resolve the MVI/Appeals Users issues.
       // if app we are trying to access includes appeals,
       // bypass the checks for user profile status
-      let attemptingAppealsAccess;
-
-      if (Array.isArray(serviceRequired)) {
-        attemptingAppealsAccess = serviceRequired.indexOf('appeals-status') !== -1;
-      } else {
-        attemptingAppealsAccess = serviceRequired === 'appeals-status';
-      }
+      const attemptingAppealsAccess = Array.isArray(serviceRequired) ?
+        serviceRequired.includes('appeals-status') :
+        serviceRequired === 'appeals-status';
 
       if (user.profile.status === 'SERVER_ERROR' && !attemptingAppealsAccess) {
         // If va_profile is null, show a system down message.
         return <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
       } else if (user.profile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
-        // If va_profile is "not found", show message that we cannot find the user
-        // in our system.
-        return <SystemDownView messageLine1="We couldn’t find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>;
+        // If va_profile is "not found", show message that we cannot find the user in our system.
+        return (
+          <SystemDownView
+            messageLine1="We couldn’t find your records with that information."
+            messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>
+        );
       }
 
       // If va_profile has any other value, continue on to check if this user can
       // use this specific service.
       // If they have the required service, show the application view.
-      if (this.isServiceAvailable()) { return this.props.children; }
+      if (this.isAccessible()) { return this.props.children; }
 
       // If the required service is not available, the component will still be rendered,
       // but we pass an `isDataAvailable` prop to child components indicating there is
