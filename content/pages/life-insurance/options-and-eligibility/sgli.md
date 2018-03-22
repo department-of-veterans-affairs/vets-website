@@ -26,19 +26,25 @@ If you’re a Servicemember who meets certain criteria, we’ll automatically si
 
 ### Can I get SGLI? 
 
-You may be able to get full-time SGLI coverage if **any of the following are true for you**: 
+You may be able to get full-time SGLI coverage if any of the descriptions are true for you.
 
-- You are an active-duty member of the Army, Navy, Air Force, Marines, or Coast Guard, **or**
+**At least one of these must be true. You're:**
+
+- An active-duty member of the Army, Navy, Air Force, Marines, or Coast Guard, **or**
 - A commissioned member of the National Oceanic and Atmospheric Administration (NOAA) or the U.S. Public Health Service (USPHS), **or**
 - A cadet or midshipman of the U.S. military academies, **or**
 - A member, cadet, or midshipman of the Reserve Officers Training Corps (ROTC) engaged in authorized training and practice cruises, **or**
 - A member of the Ready Reserve or National Guard, assigned to a unit, and scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
 
-You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and **both of the following are true for you**:
+#### If you're in nonpay status with the Ready Reserve or National Guard
 
-- You are scheduled for 12 periods of inactive training for the year, **and**
-- You are drilling for points rather than pay
+You may be able to get full-time SGLI coverage if you meet both of the requirements below.
+
+**Both of these must be true. You're:**
+
+- Scheduled for 12 periods of inactive training for the year, **and**
+- Drilling for points rather than pay
 
 **Note:** You must pay your premiums directly.
 
@@ -72,7 +78,7 @@ If you qualify for SGLI, we’ll automatically sign you up through your service 
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
-To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage: 
+**To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage:** 
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES),** submit your changes online. To access SOES:
 
@@ -118,7 +124,7 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). <br>
 [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
-These are the SGLI premium rates effective July 1, 2014:
+**These are the SGLI premium rates effective July 1, 2014:**
 
 | Coverage amount | Monthly premium rate | TSGLI premium | Total monthly premium deduction |
 | --- | --- | --- | --- |
@@ -145,7 +151,9 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 <span id="extension"></span>
 
 ### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
-You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and **at least one of the following is true for you**:
+You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and you meet either of the requirements listed below.
+
+**At least one of these must be true:**
 
 - You’re totally disabled at the time of your discharge and unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
