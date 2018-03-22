@@ -11,7 +11,7 @@ import initialData from '../schema/initialData.js';
 const invalidDocumentData = {
   disabilities: [
     {
-      privateRecords: [{
+      additionalDocuments: [{
         confirmationCode: 'testing'
       }],
       disability: { // Is this extra nesting necessary?
@@ -71,7 +71,7 @@ const invalidDocumentData = {
 const validDocumentData = {
   disabilities: [
     {
-      privateRecords: [{
+      additionalDocuments: [{
         name: 'Form526.pdf',
         confirmationCode: 'testing',
         attachmentId: '1'

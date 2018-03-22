@@ -42,7 +42,7 @@ export default function AppealListItem({ appeal, name }) {
       </div>
       {appeal.attributes.description &&
         <p style={{ marginTop: 0 }}><strong>{appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on appeal:</strong> {appeal.attributes.description}</p>}
-      <Link className="usa-button usa-button-primary" to={`appeals-v2/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
+      <Link className="usa-button usa-button-primary" to={`appeals/${appeal.id}/status`}>View status<i className="fa fa-chevron-right"/></Link>
     </div>
   );
 }

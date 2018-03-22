@@ -159,10 +159,12 @@ export function validateAddress(errors, formData) {
   // USA, Canada, or Mexico
   if (stateRequiredCountries.has(formData.treatmentCenterCountry)
     && formData.treatmentCenterState === undefined) {
+    // TODO: enable once validation determined 
     // && currentSchema.required.length) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
   const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
+    // TODO: enable once validation determined 
     // && !currentSchema.required.length
     && typeof formData.treatmentCenterCity !== 'undefined'
     && typeof formData.treatmentCenterStreet !== 'undefined'
@@ -175,21 +177,19 @@ export function validateAddress(errors, formData) {
   validatePostalCodes(errors, formData);
 }
 
-export const recordReleaseWarning = () => {
-  return (
-    <div className="usa-alert usa-alert-warning no-background-image">
-      <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
-    </div>
-  );
-};
+export const recordReleaseWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+  </div>
+);
 
 export const documentDescription = () => {
   return (
     <div>
       <p>File upload guidelines:</p>
       <ul>
-        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
-        <li>Maximum file size: 25 MB</li>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
@@ -199,11 +199,11 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>You mentioned that you have other evidence, like lay statements that you’d like to add to support your claim. You can upload them here.</p>
+      <p>If you have other evidence, like lay or buddy statements, that you would like to submit, you can upload them here.</p>
       <p>File upload guidelines:</p>
       <ul>
-        <li>File types you can upload: .pdf, .jpeg, .gif, .tiff, or .png</li>
-        <li>Maximum file size: 25 MB</li>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
       </ul>
       <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
     </div>
