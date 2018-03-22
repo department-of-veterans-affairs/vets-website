@@ -27,10 +27,12 @@ As the dependent family member of a Servicemember or Veteran with a service-conn
 
 ### Can I get educational and vocational counseling services provided by VR&amp;E (also called Chapter 36)?
 
-You may be eligible for educational and vocational counseling if **both of the following are true for you**:
+You may be eligible for educational and vocational counseling if you meet both of the requirements listed below.
 
-- You're the dependent of a Veteran, **and**
-- You're eligible for a VA education benefit, including:
+**Both of these must be true. You're:**
+
+- The dependent of a Veteran, **and**
+- Eligible for a VA education benefit, including:
   - [The Post-9/11 GI Bill (Chapter 33)](/education/gi-bill/post-9-11/)
   - [The Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)](/education/gi-bill/montgomery-active-duty/)
   - [The Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)](/education/gi-bill/montgomery-selected-reserve/)
@@ -40,7 +42,7 @@ You may be eligible for educational and vocational counseling if **both of the f
 
 ### What kind of VR&amp;E benefits can I get?
 
-You can get educational and vocational counseling, plus help with:
+**You can get educational and vocational counseling, plus help with:**
 
 - Exploring your abilities and interests
 - Mapping out a path to employment
