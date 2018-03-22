@@ -56,7 +56,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if at least one of the descriptions below is true for you.
+Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed in a higher priority group, which makes you more likely to get benefits) if you meet at least one of the requirements listed below.
 
 **At least one of these must be true. You:** 
 
@@ -72,7 +72,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
+**If none of the above apply to you**, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. <br>
 [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
 </div>
@@ -130,7 +130,7 @@ When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. 
 Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care.<br/>
 [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp).
 
-Your priority group will be based on:
+**Your priority group will be based on:**
 
 - Your military service history, **and**
 - Your disability rating, **and**
@@ -185,7 +185,9 @@ Visit healthcare.gov to find out if you qualify for health insurance.<br/>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. Find out how you may still be able to get care for:
+Yes. 
+
+**Find out how you may still be able to get care for:**
 
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-conditions/mental-health/ptsd/#no-benefits)
 - [Other mental health problems (like depression or substance abuse)](/health-care/health-conditions/mental-health/#no-benefits)
