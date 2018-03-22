@@ -31,7 +31,7 @@ As a Veteran, you’re protected under the Uniformed Services Employment and Ree
 
 ### Can I get help returning to my former job through VR&amp;E?
 
-You may be eligible for help if you're a Veteran with a service-connected disability and all of the descriptions below are true for you.
+You may be eligible for help if you're a Veteran with a service-connected disability, and you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 
@@ -98,7 +98,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 ### Get more information
 
-We offer:
+**We offer:**
 
 - Opportunities to get training and practical hands-on work experience at the same time through programs like:
   - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
