@@ -85,6 +85,7 @@ export function getUserData(dispatch) {
       authnContext: userData.authn_context,
       loa: userData.loa,
       multifactor: userData.multifactor,
+      verified: userData.verified,
       gender: userData.gender,
       dob: userData.birth_date,
       status: json.data.attributes.va_profile.status,

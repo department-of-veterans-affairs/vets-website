@@ -112,10 +112,10 @@ class UserDataSection extends React.Component {
   render() {
     const {
       profile: {
-        accountType,
         dob,
         email,
         gender,
+        verified
       },
       name: {
         first: firstName,
@@ -127,7 +127,7 @@ class UserDataSection extends React.Component {
     let content;
     const name = `${firstName || ''} ${middleName || ''} ${lastName || ''}`;
 
-    if (accountType === 3) {
+    if (verified) {
       content = (
         <span>
           <p><span className="label">Name:</span>{_.startCase(_.toLower(name))}</p>
@@ -144,7 +144,7 @@ class UserDataSection extends React.Component {
           {content}
           <p><span className="label">Email address:</span> {email}</p>
           {this.renderMultifactorMessage()}
-          {accountType !== 3 && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
+          {!verified && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
