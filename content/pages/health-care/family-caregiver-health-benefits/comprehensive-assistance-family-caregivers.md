@@ -16,7 +16,7 @@ If you’re a family member caring for a Veteran with disabilities, we want to s
 <div class="feature" markdown=“1”>
 
 ### Can I get benefits through the Program of Comprehensive Assistance to Family Caregivers?
-You’ll qualify for this program based on your Veteran’s qualifications. You may be eligible if the Veteran you're caring for meets the requirements listed below.
+You’ll qualify for this program based on your Veteran’s qualifications. You may be eligible if the Veteran you're caring for meets both of the requirements listed below.
 
 **Both of these must be true. The Veteran you're caring for:**
 
