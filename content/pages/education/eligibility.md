@@ -21,7 +21,6 @@ If you’re an active-duty Servicemember or Veteran, a member of the National Gu
 
 </div>
 
-
 <div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">Can I get VA education benefits through the Post-9/11 GI Bill?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
