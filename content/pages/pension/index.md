@@ -12,6 +12,9 @@ majorlinks:
     - url: /pension/apply/
       title: Application Process
       description: You can apply by mail or in person.
+    - url: /track-claims/
+      title: Track Your Claims and Appeals
+      description: Track the status of your disability claims and appeals.
     - url: /pension/aid-attendance-housebound/
       title: Aid and Attendance or Housebound Allowance
       description: Find out if you can get added pension benefits as a Veteran or survivor.
