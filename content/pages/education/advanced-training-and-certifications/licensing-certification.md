@@ -15,8 +15,10 @@ If you paid for one or more tests to become a licensed or certified professional
 <div class="feature" markdown="1">
 
 ### Can I get paid back for licensing and certification test fees?
-We’ll pay you back if **both of the following are true for you**:
 
+We’ll pay you back if you meet both of the requirements listed below.
+
+**Both of these must be true:**
   -	You qualify for the GI Bill, **and** 
   -	You’re taking a test or an exam that costs less than $2,000.
 
