@@ -168,7 +168,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need for certain reasons.
 
-**To get this care, a VA dental care provide must conclude it's needed to achieve one of these goals:**
+**To get this care, a VA dental care provide must conclude it's needed to achieve at least one of these goals:**
 
 - Relieve your pain, **or**
 - Help you get a job, **or**
