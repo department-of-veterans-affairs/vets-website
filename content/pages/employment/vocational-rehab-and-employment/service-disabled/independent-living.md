@@ -23,7 +23,9 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others) and you can't return to work right away, you may qualify for independent living services through the Vocational Rehabilitation and Employment (VR&amp;E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your VRC can help you restore your daily-living activities. Find out if you may be eligible for services to help you live as independently as possible.
+If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others) and you can't return to work right away, you may qualify for independent living services through the Vocational Rehabilitation and Employment (VR&amp;E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your VRC can help you restore your daily-living activities.
+
+Find out if you may be eligible for services to help you live as independently as possible.
 
 </div>
 
