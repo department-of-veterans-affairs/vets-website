@@ -4,6 +4,38 @@ import classNames from 'classnames';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+
+export function flatten(data) {
+  const formData = Object.assign({}, data);
+  formData.disabilities.forEach((disability, idx) => {
+    siblings.forEach(sibling => {
+      if (disability[sibling]) {
+        formData[sibling] = [];
+        formData[sibling][idx] = disability[sibling];
+        delete disability[sibling]; // eslint-disable-line no-param-reassign
+      }
+    });
+  });
+  return formData;
+}
+
+export function nest(data) {
+  const formData = Object.assign({}, data);
+  siblings.forEach(sibling => {
+    if (formData[sibling]) {
+      formData[sibling].forEach((siblingData, idx, list) => {
+        formData.disabilities[idx][sibling] = siblingData; // eslint-disable-line no-param-reassign
+        delete formData[sibling][idx]; // eslint-disable-line no-param-reassign
+        if (idx === list.length - 1) {
+          delete formData[sibling]; // eslint-disable-line no-param-reassign
+        }
+      });
+    }
+  });
+  return formData;
+}
+
 export function transform(formConfig, form) {
   let formData = transformForSubmit(formConfig, form);
   formData = flatten(formData);
@@ -117,35 +149,3 @@ export const privateMedicalRecordsIntro = ({ formData }) => {
     <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
   );
 };
-
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
-
-export function flatten(data) {
-  const formData = Object.assign({}, data);
-  formData.disabilities.forEach((disability, idx) => {
-    siblings.forEach(sibling => {
-      if (disability[sibling]) {
-        formData[sibling] = [];
-        formData[sibling][idx] = disability[sibling];
-        delete disability[sibling]; // eslint-disable-line no-param-reassign
-      }
-    });
-  });
-  return formData;
-}
-
-export function nest(data) {
-  const formData = Object.assign({}, data);
-  siblings.forEach(sibling => {
-    if (formData[sibling]) {
-      formData[sibling].forEach((siblingData, idx, list) => {
-        formData.disabilities[idx][sibling] = siblingData; // eslint-disable-line no-param-reassign
-        delete formData[sibling][idx]; // eslint-disable-line no-param-reassign
-        if (idx === list.length - 1) {
-          delete formData[sibling]; // eslint-disable-line no-param-reassign
-        }
-      });
-    }
-  });
-  return formData;
-}
