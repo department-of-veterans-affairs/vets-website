@@ -6,7 +6,7 @@ export default function MultifactorMessage({ multifactor, handleMultifactorReque
   const content = (
     <div>
       <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
-      <button className="usa-button usa-button-secondary" onClick={handleMultifactorRequest}>Add security step</button>
+      <button className="usa-button-primary" onClick={handleMultifactorRequest}>Add security step</button>
     </div>
   );
 
