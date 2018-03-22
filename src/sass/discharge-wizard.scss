@@ -5,9 +5,9 @@
 
   .form-radio-buttons {
     position: relative;
-     input {
-       top: -15px;
-     }
+    input {
+      top: -15px;
+    }
   }
 
   fieldset {
@@ -15,7 +15,8 @@
     padding: 0 1.5em;
     margin-top: 2em;
 
-    &.dischargeMonth, &.dischargeYear {
+    &.dischargeMonth,
+    &.dischargeYear {
       margin-top: 0;
     }
 
@@ -69,13 +70,14 @@
           width: 25px;
           color: $color-white;
           font-weight: bold;
+          border: none;
         }
 
         &:last-child {
           border-color: transparent;
         }
 
-        &+li.list-group-item {
+        & + li.list-group-item {
           margin-top: -1.6em;
         }
       }
