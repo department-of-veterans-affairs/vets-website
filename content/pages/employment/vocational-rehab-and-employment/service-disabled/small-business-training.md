@@ -36,7 +36,7 @@ If you're a Servicemember or Veteran with a service-connected disability and an 
 
 ### Can I get help starting my own business through the VR&amp;E Self-Employment track?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and all of the descriptions below are true for you.
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability, and you meet all of the requirements listed below.
 
 **All of these must be true:**
 
@@ -106,7 +106,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 ### Get more information
 
-We offer:
+**We offer:**
 
 - Opportunities to get training and practical hands-on work experience at the same time through programs like:
   - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
