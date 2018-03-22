@@ -7,7 +7,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../utils/helpers';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { handleVerify } from '../../../common/helpers/login-helpers.js';
 import { formTitles } from '../../../user-profile/helpers';
 import FormStartControls from './FormStartControls';
 
@@ -30,10 +29,6 @@ class FormSaved extends React.Component {
       scrollToTop();
       focusElement('.usa-alert');
     }
-  }
-
-  verifyUser = () => {
-    handleVerify(this.props.user.login.verifyUrl);
   }
 
   render() {
