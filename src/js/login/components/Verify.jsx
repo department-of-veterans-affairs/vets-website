@@ -20,13 +20,13 @@ class Verify extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { accountType } = this.props.profile;
-    const shouldCheckAccount = prevProps.profile.accountType !== accountType;
-    if (shouldCheckAccount) { this.checkAccountAccess(accountType); }
+    const { verified } = this.props.profile;
+    const shouldCheckAccount = prevProps.profile.verified !== verified;
+    if (shouldCheckAccount) { this.checkAccountAccess(); }
   }
 
-  checkAccountAccess(accountType) {
-    if ((accountType > 1) && this.props.shouldRedirect) {
+  checkAccountAccess() {
+    if (this.props.profile.verified && this.props.shouldRedirect) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
       window.location.replace(nextPath || '/');
