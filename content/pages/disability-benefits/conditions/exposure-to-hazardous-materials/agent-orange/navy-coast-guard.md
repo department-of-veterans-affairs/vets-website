@@ -17,8 +17,10 @@ If you served on a Navy or Coast Guard ship in or around Vietnam during the Viet
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and:
-- You served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, or
+You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you meet the requirements listed below.
+
+**One of these must be true:**
+- You served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, **or**
 - You had 1 of the following designations:
 
   - AGP (Assault Group Patrol/Patrol Craft Tender)
