@@ -22,13 +22,13 @@ If you served in Afghanistan, you may suffer from illnesses or other conditions 
 
 You may be able to get benefits if you served in Afghanistan, you were discharged under conditions other than dishonorable, and the below descriptions are true for your chronic illness or other condition.
 
-**All of these must be true. You're chronic illness or other condition:**
+**All of these must be true. Your chronic illness or other condition:**
 - Started while you were on active duty or after September 19, 2001, **and**
 - Caused you to be ill for at least 6 months, **and**
 - Qualified you for a disability rating of 10% or more, **and**
 - Was caused only by your service in Afghanistan
 
-**And you must have a diagnosis of 1 or more of these conditions:**
+**And you must also have a diagnosis of 1 or more of these conditions:**
 
 -	Brucellosis
 -	Campylobacter jejuni
