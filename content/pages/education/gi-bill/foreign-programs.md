@@ -16,7 +16,9 @@ If you plan to study at a foreign school, find out how you can use VA benefits t
 <div class="feature" markdown=“1”>
 
 ### Can I get VA education benefits to study at a foreign school?
-You can get education benefits if you qualify for—or already get—VA educational assistance and **both of the following are true for you**:
+You can get education benefits if you qualify for—or already get—VA educational assistance and you meet both of the requirements listed below.
+
+**Both of these must be true:**
   - We’ve approved your program, **and**
   - Your program is at an institution of higher learning where you’ll earn a standard college degree or something of equal value at that foreign school
 
