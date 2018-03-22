@@ -10,7 +10,9 @@ order: 1
 
 <div class="va-introtext">
 
-Are you the spouse or surviving spouse of—or a child of—a Veteran with disabilities or a Veteran who has died? If you don’t qualify for TRICARE (the Department of Defense’s health care program for active-duty and retired Servicemembers and their families), you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA). Through this program, we cover the cost of some of your health care services and supplies. This is called cost sharing. Find out if you qualify for CHAMPVA and how to apply.
+Are you the spouse or surviving spouse of—or a child of—a Veteran with disabilities or a Veteran who has died? If you don’t qualify for TRICARE (the Department of Defense’s health care program for active-duty and retired Servicemembers and their families), you may be able to get health insurance through the Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA).
+
+Through this program, we cover the cost of some of your health care services and supplies. This is called cost sharing. Find out if you qualify for CHAMPVA and how to apply.
 
 </div>
 
@@ -18,7 +20,7 @@ Are you the spouse or surviving spouse of—or a child of—a Veteran with disab
 
 ### Can I get health care through CHAMPVA?
 
-**You can only get health care through CHAMPVA if you don’t qualify for TRICARE and at least one of the descriptions below is true for you.** 
+You can only get health care through CHAMPVA if you don’t qualify for TRICARE and at least one of the descriptions below is true for you. 
 
 **At least one of these must be true. You’re:**
 
@@ -42,7 +44,8 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="expecting">A new or expectant parent</button>
       <div id="expecting" class="usa-accordion-content">
-        <p>If you’re expecting a baby, you’ll need to do these 2 things before you can apply for CHAMPVA for your newborn:</p>
+        <p>If you’re expecting a baby, you’ll need to take the 2 steps listed below before you can apply for CHAMPVA for your newborn./p>
+        <p><strong>You'll need to:</p>  
         <ul>
           <li>Get a Social Security number for your baby by applying at the nearest Social Security Administration office, <b>and</b></li>
           <li>Set up the baby’s status as a dependent of the Veteran sponsor by contacting your local VA regional benefit office.</li>
@@ -55,7 +58,8 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse">A surviving spouse who’s currently remarried</button>
       <div id="spouse" class="usa-accordion-content">
-        <p>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage. If you remarry on or after your 55th birthday, you can keep your CHAMPVA benefits.</p>
+        <p><strong>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55</strong>, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage.</p>
+        <p><strong>If you remarry on or after your 55th birthday</strong>, you can keep your CHAMPVA benefits.</p>
       </div>
     </li>
     <li>
@@ -81,9 +85,9 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="caregiver">A primary family caregiver of a Veteran with injuries and/or disabilities </button>
       <div id="caregiver" class="usa-accordion-content">
-        <p>If you’re a family member caring for a Veteran with disabilities, and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
+        <p><strong>If you’re a family member caring for a Veteran with disabilities</strong>, and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
         <p><a href='https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_11-01.pdf'>Download a fact sheet on CHAMPVA for primary family caregivers</a>.</p>
-        <p>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
+        <p><strong>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001</strong>, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
         <p><a href='/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
     </li>
@@ -91,7 +95,8 @@ There are other factors that may affect whether you or other family members qual
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="champva">A CHAMPVA beneficiary who’s 65 years old or older—or who qualifies for Medicare at any age</button>
       <div id="champva" class="usa-accordion-content">
         <p>CHAMPVA is always the second payer to Medicare. Here are some requirements you need to know:</p>
-        <p><b>If you’re under 65 years old,</b> you’re eligible for CHAMPVA if you:</p>
+        <p><b>If you’re under 65 years old,</b> you’re eligible for CHAMPVA if you meet both of the requirements below.</br>
+      <b>Both of these must be true. You:</b></p>
         <ul> 
           <li>Have both Medicare Parts A and B, <b>and</b></li>
           <li>Are otherwise eligible for CHAMPVA</li>
