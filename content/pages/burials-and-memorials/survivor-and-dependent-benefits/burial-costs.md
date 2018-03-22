@@ -18,7 +18,7 @@ If you’re the legally recognized spouse or a designated (legally chosen) famil
 
 You may be able to get burial allowances if you're paying for the burial and funeral costs, and if any of the below relationships or professional roles describes your connection to the deceased.
 
-**One of these must describe your relationship or role:**
+**One of these must describe your relationship or role. You’re:**
 
 - The Veteran’s surviving spouse (**Note:** we recognize same-sex marriages), **or**
 - A surviving child of the Veteran, **or**
