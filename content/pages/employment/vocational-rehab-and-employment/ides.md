@@ -34,7 +34,7 @@ If you’re wounded, injured, or fall ill while serving and can't perform your d
 	
 ### What services can I get through VR&E?
 
-Depending on your needs and goals, services may include:
+**Depending on your needs and goals, services may include:**
 -	A complete evaluation to determine your abilities, skills, and interests for employment
 -	Vocational counseling and rehabilitation planning for employment services
 -	Employment services such as job training, resume development, and other work-readiness support
