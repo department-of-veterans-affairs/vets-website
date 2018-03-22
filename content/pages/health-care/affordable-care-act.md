@@ -20,7 +20,7 @@ The Affordable Care Act (ACA)—also known as the health care law—was created 
 
 Under this law, if you’re a U.S. taxpayer, you and your family members must meet one of the requirements listed below.
 
-**You and your family members must meet one of these requirements:**
+**You and your family members must:**
 
 - Have health coverage that meets a minimum standard (called the “minimum essential coverage” requirement), **or**
 - Qualify for an exemption, **or**
