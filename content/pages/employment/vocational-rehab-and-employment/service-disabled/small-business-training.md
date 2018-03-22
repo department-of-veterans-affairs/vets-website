@@ -106,13 +106,13 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 ### Get more information
 
-**We offer:**
-
-- Opportunities to get training and practical hands-on work experience at the same time through programs like:
-  - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
+**We offer opportunities to get training and practical hands-on work experience at the same time through programs like:**
+- **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
   [Download the SEI program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/SpecialEmployerIncentive.pdf).
-  - **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. <br>
+- **The VR&E Non-Paid Work Experience (NPWE) program** for eligible Veterans and Servicemembers who have an established career goal and learn easily in a hands-on environment—or are having trouble getting a job due to lack of work experience. <br>
   [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
+
+**We also offer:**
 - VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
 [Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
 - Counselors to help you transition from military to college life. <br>
