@@ -9,7 +9,7 @@ import { getUserData } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import Signin from '../components/Signin';
+import SignIn from '../components/SignIn';
 import Verify from '../components/Verify';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
@@ -83,13 +83,6 @@ class Main extends React.Component {
     window.dataLayer.push({ event: 'login-modal-closed' });
   }
 
-  renderModalContent = () => {
-    const { currentlyLoggedIn } = this.props.login;
-    return (<Signin
-      onLoggedIn={() => this.props.toggleLoginModal(false)}
-      currentlyLoggedIn={currentlyLoggedIn}/>);
-  }
-
   render() {
     let content;
 
@@ -105,7 +98,9 @@ class Main extends React.Component {
               onClose={this.handleCloseModal}
               id="signin-signup-modal"
               title="Sign in to Vets.gov">
-              {this.renderModalContent()}
+              <SignIn
+                onLoggedIn={() => this.props.toggleLoginModal(false)}
+                currentlyLoggedIn={this.props.login.currentlyLoggedIn}/>
             </Modal>
           </div>
         );

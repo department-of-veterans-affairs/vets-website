@@ -13,7 +13,7 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
-class Signin extends React.Component {
+class SignIn extends React.Component {
   componentDidMount() {
     this.checkLoggedInStatus();
     window.dataLayer.push({ event: 'login-modal-opened' });
@@ -144,9 +144,9 @@ class Signin extends React.Component {
   }
 }
 
-Signin.propTypes = {
+SignIn.propTypes = {
   onLoggedIn: PropTypes.func,
   currentlyLoggedIn: PropTypes.bool,
 };
 
-export default Signin;
+export default SignIn;
