@@ -48,11 +48,11 @@ class UserProfileApp extends React.Component {
           <h1>Your Account</h1>
           <div>
             <FormList
-              userProfile={this.props.profile}
+              userProfile={this.props.user.profile}
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
             <AuthApplicationSection
-              userProfile={this.props.profile}
+              userProfile={this.props.user.profile}
               verifyUrl={this.props.verifyUrl}/>
             <UserDataSection/>
           </div>
@@ -63,11 +63,8 @@ class UserProfileApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          user={this.props.user}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             {view}
           </DowntimeNotification>
@@ -78,13 +75,7 @@ class UserProfileApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
-
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { user: state.user };
 };
 
 const mapDispatchToProps = {
