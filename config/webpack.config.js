@@ -2,11 +2,8 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-const WebpackMd5Hash = require('webpack-md5-hash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const bourbon = require('bourbon').includePaths;
-// const neat = require('bourbon-neat').includePaths;
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const _ = require('lodash');
@@ -65,6 +62,7 @@ const configGenerator = (options) => {
     'raven-js'
   ];
   const baseConfig = {
+    mode: 'development',
     entry: filesToBuild,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
@@ -82,7 +80,6 @@ const configGenerator = (options) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache'
-
               // Also see .babelrc
             }
           }
@@ -93,22 +90,15 @@ const configGenerator = (options) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['react'],
               // Speed up compilation.
               cacheDirectory: '.babelcache'
-
               // Also see .babelrc
             }
           }
         },
         {
-          test: /foundation\.js$/,
-          use: {
-            loader: 'imports-loader?this=>window',
-          }
-        },
-        {
-          test: /modernizrrc/,
+          // Modernizr is used in some of the styles
+          test: /modernizrrc\.js/,
           use: {
             loader: 'modernizr-loader'
           }
@@ -119,25 +109,19 @@ const configGenerator = (options) => {
             fallback: 'style-loader',
             use: [
               { loader: 'css-loader' },
-              { loader: 'resolve-url-loader' },
-              {
-                loader: 'sass-loader',
-                options: {
-                  includePaths: [
-                    // bourbon,
-                    // neat,
-                    '~/uswds/src/stylesheets&sourceMap'
-                  ],
-                  sourceMap: true,
-                }
-              }
-            ],
+              { loader: 'sass-loader' }
+            ]
           })
         },
         {
+          // if we want to minify these images, we could add img-loader
+          // but it currently only would apply to three images from uswds
           test: /\.(jpe?g|png|gif)$/i,
           use: {
-            loader: 'url-loader?limit=10000!img?progressive=true&-minimize'
+            loader: 'url-loader',
+            options: {
+              limit: 10000
+            }
           }
         },
         {
@@ -163,12 +147,6 @@ const configGenerator = (options) => {
           }
         },
         {
-          test: /\.json$/,
-          use: {
-            loader: 'json-loader'
-          }
-        },
-        {
           test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
           exclude: [
             /widgets\/index\.js/,
@@ -183,16 +161,40 @@ const configGenerator = (options) => {
     },
     resolve: {
       alias: {
-        modernizr$: path.resolve(__dirname, './modernizrrc')
+        modernizr$: path.resolve(__dirname, './modernizrrc.js')
       },
       extensions: ['.js', '.jsx']
+    },
+    optimization: {
+      minimizer: [new UglifyJSPlugin({
+        uglifyOptions: {
+          output: {
+            beautify: false,
+            comments: false
+          },
+          compress: { warnings: false }
+        },
+        // cache: true,
+        parallel: 2,
+        sourceMap: true,
+      })],
+      splitChunks: {
+        cacheGroups: {
+          // this needs to be "vendors" to overwrite a default group
+          vendors: {
+            chunks: 'all',
+            test: 'vendor',
+            name: 'vendor',
+            enforce: true
+          }
+        }
+      }
     },
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
           API_PORT: (process.env.API_PORT || 3000),
           WEB_PORT: (process.env.WEB_PORT || 3333),
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
@@ -204,12 +206,6 @@ const configGenerator = (options) => {
         filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
-        minChunks: Infinity
-      }),
     ],
   };
 
@@ -218,44 +214,17 @@ const configGenerator = (options) => {
     if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
     }
+
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
       append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
       filename: '[file].map',
     }));
-    baseConfig.module.rules.push({
-      test: /debug\/PopulateVeteranButton/,
-      use: {
-        loader: 'null-loader'
-      }
-    });
-    baseConfig.module.rules.push({
-      test: /debug\/PerfPanel/,
-      use: {
-        loader: 'null-loader'
-      }
-    });
-    baseConfig.module.rules.push({
-      test: /debug\/RoutesDropdown/,
-      use: {
-        loader: 'null-loader'
-      }
-    });
 
-    baseConfig.plugins.push(new WebpackMd5Hash());
+    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
     baseConfig.plugins.push(new ManifestPlugin({
       fileName: 'file-manifest.json'
     }));
-    baseConfig.plugins.push(new ChunkManifestPlugin({
-      filename: 'chunk-manifest.json',
-      manifestVariable: 'webpackManifest'
-    }));
-    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      compress: { warnings: false },
-      comments: false,
-      sourceMap: true,
-      minimize: true,
-    }));
+    baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
   }

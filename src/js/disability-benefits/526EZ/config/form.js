@@ -1,7 +1,8 @@
 import _ from '../../../common/utils/data-utils';
 
-// import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
+import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,66 +13,31 @@ import {
   evidenceTypesDescription,
   EvidenceTypeHelp,
   disabilityNameTitle,
-  vaMedicalRecordsIntro
+  vaMedicalRecordsIntro,
+  privateMedicalRecordsIntro,
+  facilityDescription,
+  treatmentView,
 } from '../helpers';
 
-const initialData = {
-  // For testing purposes only
-  disabilities: [
-    {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'PTSD',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
-        },
-        ratedDisabilityId: '12345',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '67890',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    },
-    {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'Second Disability',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
-        },
-        ratedDisabilityId: '54321',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '09876',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    }
-  ]
-};
+const {
+  treatments
+} = fullSchema526EZ.properties;
+
+const {
+  date
+} = fullSchema526EZ.definitions;
+
+// We may add these back in after the typeahead, but for now...
+const treatmentsSchema = _.set('items.properties.treatment.properties',
+  _.omit(
+    [
+      'treatmentCenterType',
+      'treatmentCenterCountry',
+      'treatmentCenterState',
+      'treatmentCenterCity'
+    ],
+    treatments.items.properties.treatment.properties
+  ), treatments);
 
 const formConfig = {
   urlPrefix: '/',
@@ -87,7 +53,9 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    date
+  },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
@@ -203,7 +171,7 @@ const formConfig = {
         },
         vaMedicalRecordsIntro: {
           title: '',
-          path: 'supporting-evidence/:index/va-medical-records',
+          path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           arrayPath: 'disabilities',
           depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
@@ -228,8 +196,106 @@ const formConfig = {
             }
           }
         },
-        // pageFour: {},
-        // pageFive: {},
+        vaFacilities: {
+          title: '',
+          path: 'supporting-evidence/:index/va-facilities',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:vaMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': facilityDescription,
+                treatments: {
+                  'ui:options': {
+                    itemName: 'Facility',
+                    viewField: treatmentView
+                  },
+                  items: {
+                    // Hopefully we can get rid of this annoying nesting
+                    treatment: {
+                      treatmentCenterName: {
+                        // May have to change this to 'Name of [first]...'
+                        'ui:title': 'Name of VA medical facility'
+                      },
+                      startTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of first treatment since you received your rating'
+                      },
+                      endTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of last treatment'
+                      }
+                      // I think we're planning on filling these in with the typeahead?
+                      // treatmentCenterType: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterCountry: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterState: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // },
+                      // treatmentCenterCity: {
+                      //   'ui:options': {
+                      //     hideIf: () => true
+                      //   }
+                      // }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    treatments: treatmentsSchema
+                  }
+                }
+              }
+            }
+          }
+        },
+        privateMedicalRecordsIntro: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-intro',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateMedicalRecordsIntro,
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
+        },
         // pageSix: {},
         // pageSeven: {},
         // pageEight: {},

@@ -16,7 +16,7 @@ $color-inactive: #9B9B9B;
   margin: 10px 0 10px;
   padding-bottom: 9px;
   font-size: 1.35em;
-  line-height: 1.5;
+  line-height: 1.2;
   font-weight: bold;
   max-width: 22.5rem;
 }
@@ -26,6 +26,10 @@ $color-inactive: #9B9B9B;
     // Line up the bottom border under "Need help?" with the tab list bottom border
     margin-top: calc(3rem - 16px);
     margin-bottom: 50px;
+
+    & > div {
+      margin-bottom: 3rem;
+    }
   }
 
   // The claims container has a sizeable padding; don't make the whitespace bigger
@@ -656,8 +660,16 @@ h1:focus {
     }
   }
 
-  .section-unexpanded {
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
 
+    &:before, button {
+      pointer-events: all;
+    }
+  }
+
+  .section-unexpanded {
     // offset left border with padding so element doesn't move while toggling expander
     &.process-step {
       padding-left: calc(2em + 5px);
@@ -722,6 +734,10 @@ h1:focus {
     margin-top: 1em;
   }
 
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
+  }
+
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -758,10 +774,8 @@ h1:focus {
       position: relative;
       top: -.2em;
       width: 2em;
-
     }
   }
-
 }
 
 .va-appeals-content {
@@ -1155,6 +1169,7 @@ $marker-text-width: 9rem;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
+  margin-top: 2em;
   margin-bottom: 2em;
 }
 

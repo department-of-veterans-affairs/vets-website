@@ -8,12 +8,14 @@
 import clone from './clone';
 import cloneDeep from './cloneDeep';
 import get from './get';
+import omit from './omit';
 import set from './set';
 
 export default {
   clone,
   cloneDeep,
   get,
+  omit,
   set
 };
 

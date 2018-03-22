@@ -60,31 +60,31 @@ describe('<AppealListItemV2/>', () => {
   it('should say "issue" if there is only one issue on appeal', () => {
     const props = _.set('appeal.attributes.issues', ["I'm an issue!"], defaultProps);
     const wrapper = shallow(<AppealListItemV2 {...props}/>);
-    const issuesText = wrapper.find('.card-status + span').first().text();
+    const issuesText = wrapper.find('.card-status + p').first().text();
     expect(issuesText).to.contain('Issue');
     expect(issuesText).to.not.contain('Issues');
   });
 
   it('should say "issues" if there are multiple issues on appeal', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps}/>);
-    const issuesText = wrapper.find('.card-status + span').first().text();
+    const issuesText = wrapper.find('.card-status + p').first().text();
     expect(issuesText).to.contain('Issues');
   });
 
   it('should create a link to the appeal status page', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps}/>);
     expect(wrapper.find('Link').first().props().to)
-      .to.equal(`appeals-v2/${defaultProps.appeal.id}/status`);
+      .to.equal(`appeals/${defaultProps.appeal.id}/status`);
   });
 
   it('should not show the issue text if no description is given', () => {
     const props = _.set('appeal.attributes.description', undefined, defaultProps);
     const wrapper = shallow(<AppealListItemV2 {...props}/>);
-    expect(wrapper.find('.card-status + span').exists()).to.be.false;
+    expect(wrapper.find('.card-status + p').exists()).to.be.false;
   });
 
   it('should show the issue text if a description is given', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps}/>);
-    expect(wrapper.find('.card-status + span').exists()).to.be.true;
+    expect(wrapper.find('.card-status + p').exists()).to.be.true;
   });
 });
