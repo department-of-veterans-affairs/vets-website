@@ -151,7 +151,6 @@ const mapStateToProps = (store) => ({
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
   showLoginModal: store.user.login.showModal,
-  loginUrls: store.user.login.loginUrls,
   isStartingOver: store.form.isStartingOver
 });
 

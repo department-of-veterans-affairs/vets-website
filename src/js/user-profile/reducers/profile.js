@@ -1,5 +1,7 @@
 import { merge, set } from 'lodash/fp';
 
+import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
+
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
@@ -16,7 +18,6 @@ import {
   CREATE_MHV_ACCOUNT_FAILURE,
   CREATE_MHV_ACCOUNT_SUCCESS
 } from '../actions';
-import { UPDATE_LOGGEDIN_STATUS, FETCH_LOGIN_URLS_FAILED } from '../../login/actions';
 
 const MAX_POLL_TIMES = 10;
 
@@ -57,7 +58,6 @@ function profileInformation(state = initialState, action) {
       return merge(state, action.newState);
 
     case PROFILE_LOADING_FINISHED:
-    case FETCH_LOGIN_URLS_FAILED:
     case UPDATE_LOGGEDIN_STATUS:
       return set('loading', false, state);
 
