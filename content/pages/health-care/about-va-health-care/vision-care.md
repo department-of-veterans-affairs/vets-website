@@ -48,7 +48,7 @@ If you’re a blind or low vision Veteran, you may be able to get more advanced 
 
 ### Will VA cover the cost of eyeglasses?
 
-We’ll cover the cost of your eyeglasses if at least one of the descriptions below is true for you, or you have at least one of the issues from the list below.
+We’ll cover the cost of your eyeglasses if you meet at least one of the requirements or have at least one of the issues listed below.
 
 **At least one of these must be true. You:**
 
