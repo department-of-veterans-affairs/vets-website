@@ -22,7 +22,9 @@ If you need help paying for school or job training and you’ve served on active
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get education benefits if **both of the following are true for you**: 
+You can get education benefits if you meet both of the requirements listed below.
+
+**Both of these must be true:**
 - You qualify for any GI Bill program, **and** 
 - You’ve served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
 
