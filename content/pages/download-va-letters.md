@@ -20,39 +20,57 @@ You can download your VA letters for benefits you’re currently receiving. You 
 
 <a href='/download-va-letters/letters'><button class='usa-button-primary'>Access Your VA Letters</button></a>
 
-Based on your eligibility and service history, available letters might include:
+<div class='va-callout'>
 
-#### Commissary Letter
+### Based on your eligibility and service history, available letters might include:
 
-This letter will help get you access to local base facilities, including the commissary and post exchange.
+#### Proof of Service
 
-#### Proof of Service Card
-
+<ul>
+<li>
+<strong>Proof of Service Card</strong><br>
 This card shows that you served honorably in the Armed Forces. You can use it as proof of status to receive discounts at certain stores or restaurants.
-
-#### Proof of Creditable Prescription Drug Coverage
-
-This letter proves that you qualify for Medicare Part D prescription drug coverage.
-
-#### Minimum Essential Coverage Letter
-
-This letter shows that you have Minimum Essential Coverage (MEC) as provided by VA. MEC means that your health care plan meets the health insurance requirements under the Affordable Care Act.
-
-#### Service Verification Letter
-
+</li>
+<li>
+<strong>Service Verification Letter</strong><br>
 This letter shows your branch of service, the date you started active duty, and the date you were discharged from active duty.
-
-#### Civil Service Preference Letter
-
+</li>
+<li>
+<strong>Civil Service Preference Letter</strong><br>
 This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.
+</li>
+</ul>
 
-#### Benefit Summary and Service Verification Letter
+#### Access to benefits
 
+<ul>
+<li>
+<strong>Commissary Letter</strong><br>
+This letter will help get you access to local base facilities, including the commissary and post exchange.
+</li>
+<li>
+<strong>Proof of Creditable Prescription Drug Coverage</strong><br>
+This letter proves that you qualify for Medicare Part D prescription drug coverage.
+</li>
+<li>
+<strong>Minimum Essential Coverage Letter</strong><br>
+This letter shows that you have Minimum Essential Coverage (MEC) as provided by VA. MEC means that your health care plan meets the health insurance requirements under the Affordable Care Act.
+</li>
+</ul>
+
+#### Summary of benefits
+
+<ul>
+<li>
+<strong>Benefit Summary and Service Verification Letter</strong><br>
 This letter shows your service history and some VA benefits information. You can customize this letter and use it for many things.
-
-#### Benefit Verification Letter
-
+</li>
+<li>
+<strong>Benefit Verification Letter</strong><br>
 This letter shows the benefits you’re receiving from VA.
+</li>
+</ul>
+</div>
 
 ### How do I download a VA letter?
 
@@ -60,7 +78,7 @@ Before you download your letter, we’ll ask you to review the address we have o
 
 This address will be listed on your letter. If this address isn’t correct, you can update it. But your letter will still be valid even with the incorrect address.
 
-Note: To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download.
+**Note:** To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download.
 
 [Get Adobe Reader](https://get.adobe.com/reader/).
 
