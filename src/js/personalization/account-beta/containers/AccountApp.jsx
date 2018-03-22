@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import '../../../common/utils/moment-setup';
 
 import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
-import { updateVerifyUrl } from '../../../login/actions';
-import UserDataSection from '../components/UserDataSection';
+import { updateVerifyUrl, updateMultifactorUrl } from '../../../login/actions';
+import { fetchLatestTerms, acceptTerms } from '../actions';
+
+import AccountMain from '../components/AccountMain';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
 import BetaApp, { features } from '../../../common/containers/BetaApp';
@@ -23,14 +25,20 @@ class UserProfileApp extends React.Component {
           authRequired={1}
           serviceRequired="user-profile"
           userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          loginUrl={this.props.login.loginUrl}
+          verifyUrl={this.props.login.verifyUrl}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <div className="row user-profile-row">
                 <div className="usa-width-two-thirds medium-8 small-12 columns">
                   <h1>Your Account</h1>
-                  <UserDataSection/>
+                  <AccountMain
+                    login={this.props.login}
+                    profile={this.props.profile}
+                    terms={this.props.terms}
+                    updateMultifactorUrl={this.props.updateMultifactorUrl}
+                    fetchLatestTerms={this.props.fetchLatestTerms}
+                    acceptTerms={this.props.acceptTerms}/>
                 </div>
               </div>
             </DowntimeNotification>
@@ -43,16 +51,18 @@ class UserProfileApp extends React.Component {
 
 const mapStateToProps = (state) => {
   const userState = state.user;
-
   return {
+    login: userState.login,
     profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    terms: userState.profile.terms
   };
 };
 
 const mapDispatchToProps = {
-  updateVerifyUrl
+  updateVerifyUrl,
+  updateMultifactorUrl,
+  fetchLatestTerms,
+  acceptTerms
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);

@@ -1,16 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import AcceptTermsPrompt from '../../../common/components/AcceptTermsPrompt';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import Modal from '../../../common/components/Modal';
 
 import { getMultifactorUrl, handleMultifactor } from '../../../common/helpers/login-helpers';
-import { updateMultifactorUrl } from '../../../login/actions';
-
-import {
-  fetchLatestTerms,
-  acceptTerms,
-} from '../actions';
 
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
@@ -102,21 +95,4 @@ class UserDataSection extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const userState = state.user;
-  return {
-    login: userState.login,
-    name: userState.profile.userFullName,
-    profile: userState.profile,
-    terms: userState.profile.terms
-  };
-};
-
-const mapDispatchToProps = {
-  fetchLatestTerms,
-  acceptTerms,
-  updateMultifactorUrl,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);
-export { UserDataSection };
+export default UserDataSection;
