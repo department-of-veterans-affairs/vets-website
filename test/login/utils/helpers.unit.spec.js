@@ -94,7 +94,7 @@ describe('auth URL helpers', () => {
     const mockRaven = sinon.stub(Raven, 'captureMessage');
     login('idme').catch(error => {
       try {
-        expect(error).to.eq('Failed to open new window');
+        expect(error.message).to.eq('Failed to open new window');
         done();
       } catch (e) {
         done(e);

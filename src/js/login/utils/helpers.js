@@ -34,14 +34,14 @@ function popup(popupUrl, clickedEvent, openedEvent) {
       null,
       ({ url }) => { popupWindow.location = url; },
       () => { popupWindow.location = `${environment.BASE_URL}/auth/login/callback`; }
-    ).then(() => Promise.resolve(popupWindow));
+    ).then(() => popupWindow);
   }
 
   Raven.captureMessage('Failed to open new window', {
     extra: { url: popupUrl }
   });
 
-  return Promise.reject('Failed to open new window');
+  return Promise.reject(new Error('Failed to open new window'));
 }
 
 export function login(policy) {
