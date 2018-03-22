@@ -31,7 +31,7 @@ If you want to follow an employment path that uses your existing skill set, the 
 
 ### Can I get employment counseling and job-search support through VR&amp;E?
 
-You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability and all of the descriptions below are true for you.
+You may be eligible for these benefits if you’re a Servicemember or Veteran with a service-connected disability, and you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 - Have an employment handicap or barrier, **and**
@@ -103,7 +103,7 @@ Some dependents of Servicemembers or Veterans with service-connected disabilitie
 
 ### Get more information
 
-We offer:
+**We offer:**
 
 - Opportunities to get training and practical hands-on work experience at the same time through programs like:
   - **The VR&E Special Employer Incentives (SEI) program** for eligible Veterans who face challenges getting a job. <br>
