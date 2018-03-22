@@ -168,7 +168,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need for certain reasons.
 
-**To get this care, a VA dental care provide must conclude it's needed to:**
+**To get this care, a VA dental care provide must conclude it's needed to achieve one of these goals:**
 
 - Relieve your pain, **or**
 - Help you get a job, **or**
@@ -208,7 +208,7 @@ We provide dental care to qualified Veterans at over 200 dental clinics across t
 
 ### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
-You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if at least one of the descriptions below is true for you.
+You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you meet at least one of the requirements listed below.
 
 **At least one of these must be true. You:**
 
