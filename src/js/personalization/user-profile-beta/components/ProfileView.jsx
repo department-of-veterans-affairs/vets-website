@@ -57,13 +57,13 @@ class ProfileView extends React.Component {
       ssn,
       dob,
       gender,
-      toursOfDuty
+      serviceHistory
     } = this.props.profile;
 
     return (
-      <div className="row">
+      <div className="row" style={{ marginBottom: 35 }}>
         <h1>Your Profile</h1>
-        <Hero userFullName={userFullName} tour={toursOfDuty[0]} profilePicture={profilePicture}/>
+        <Hero userFullName={userFullName} serviceHistoryResponseData={serviceHistory} profilePicture={profilePicture}/>
         <div className="usa-width-two-thirds medium-8 small-12 columns">
 
           <h2 style={{ marginBottom: 0 }}>Contact Information</h2>
@@ -105,7 +105,7 @@ class ProfileView extends React.Component {
             onCancel={this.closeModal}/>
 
           <h2>Personal Information</h2>
-          <PersonalInformation gender={gender} dob={dob} ssn={ssn} toursOfDuty={toursOfDuty}/>
+          <PersonalInformation gender={gender} dob={dob} ssn={ssn} serviceHistoryResponseData={serviceHistory}/>
         </div>
       </div>
     );

@@ -31,6 +31,7 @@ const initialState = {
   primaryTelephone: null,
   alternateTelephone: null,
   mailingAddress: null,
+  serviceHistory: null,
   pendingSaves: [],
   errors: [],
   loading: true

@@ -53,7 +53,8 @@ async function sendProfileRequests() {
     ['email', '/profile/email'],
     ['primaryTelephone', '/profile/primary_phone'],
     ['alternateTelephone', '/profile/alternate_phone'],
-    ['mailingAddress', '/profile/mailing_address']
+    ['mailingAddress', '/profile/mailing_address'],
+    ['serviceHistory', '/profile/service_history']
   ];
 
   /* eslint-disable no-await-in-loop */
@@ -76,29 +77,7 @@ function combineWithMockData(profile, realData) {
     userFullName: profile.userFullName,
     dob: profile.dob,
     gender: profile.gender,
-    profilePicture: '/img/profile.png',
-    ssn: 'XXXXX1232',
-    toursOfDuty: [
-      {
-        serviceBranch: 'Navy',
-        dateRange: {
-          start: '2018-02-17T20:31:57.286Z',
-          end: '2018-02-18T20:31:57.286Z'
-        }
-      },
-      {
-        serviceBranch: 'Army',
-        dateRange: {
-          start: '2016-02-18T20:31:57.286Z',
-          end: '2017-02-18T20:31:57.286Z'
-        }
-      }
-    ],
-    serviceAwards: [
-      {
-        name: 'Army Commendation Medal'
-      }
-    ]
+    ssn: 'XXXXX1232'
   };
 }
 
