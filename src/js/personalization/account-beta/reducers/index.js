@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
@@ -35,18 +33,14 @@ const initialState = {
 
 function account(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PROFILE_FIELDS: {
-      return _.assign(state, action.newState);
-    }
-    case PROFILE_LOADING_FINISHED: {
-      return _.set('loading', false, state);
-    }
-    case FETCH_LOGIN_URLS_FAILED: {
-      return _.set('loading', false, state);
-    }
-    case UPDATE_LOGGEDIN_STATUS: {
-      return _.set('loading', false, state);
-    }
+    case UPDATE_PROFILE_FIELDS:
+      return { ...state, ...action.newState };
+
+    case FETCH_LOGIN_URLS_FAILED:
+    case PROFILE_LOADING_FINISHED:
+    case UPDATE_LOGGEDIN_STATUS:
+      return { ...state, loading: false };
+
     case FETCHING_LATEST_MHV_TERMS: {
       return {
         ...state,
@@ -57,6 +51,7 @@ function account(state = initialState, action) {
         }
       };
     }
+
     case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
       return {
         ...state,
@@ -67,6 +62,7 @@ function account(state = initialState, action) {
         }
       };
     }
+
     case FETCHING_LATEST_MHV_TERMS_FAILURE: {
       return {
         ...state,
@@ -75,9 +71,11 @@ function account(state = initialState, action) {
         }
       };
     }
+
     case ACCEPTING_LATEST_MHV_TERMS: {
       return state;
     }
+
     case ACCEPTING_LATEST_MHV_TERMS_SUCCESS: {
       return {
         ...state,
@@ -86,6 +84,7 @@ function account(state = initialState, action) {
         }
       };
     }
+
     case ACCEPTING_LATEST_MHV_TERMS_FAILURE: {
       return {
         ...state,
@@ -95,6 +94,7 @@ function account(state = initialState, action) {
         }
       };
     }
+
     default:
       return state;
   }
