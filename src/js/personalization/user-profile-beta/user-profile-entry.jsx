@@ -1,6 +1,6 @@
 import 'core-js';
 import '../../common';
-import '../../../sass/user-profile.scss';
+import '../../../sass/va-profile.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

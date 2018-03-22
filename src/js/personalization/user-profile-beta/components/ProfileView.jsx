@@ -61,49 +61,52 @@ class ProfileView extends React.Component {
     } = this.props.profile;
 
     return (
-      <div>
+      <div className="row">
+        <h1>Your Profile</h1>
         <Hero userFullName={userFullName} tour={toursOfDuty[0]} profilePicture={profilePicture}/>
+        <div className="usa-width-two-thirds medium-8 small-12 columns">
 
-        <h2>Contact Information</h2>
+          <h2 style={{ marginBottom: 0 }}>Contact Information</h2>
 
-        <AddressSection
-          title="Mailing Address"
-          addressResponseData={mailingAddress}
-          isEditing={currentlyOpenModal === 'mailingAddress'}
-          isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
-          onEdit={this.openModalHandler('mailingAddress')}
-          onSubmit={this.props.updateActions.updateMailingAddress}
-          onCancel={this.closeModal}/>
+          <AddressSection
+            title="Mailing Address"
+            addressResponseData={mailingAddress}
+            isEditing={currentlyOpenModal === 'mailingAddress'}
+            isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
+            onEdit={this.openModalHandler('mailingAddress')}
+            onSubmit={this.props.updateActions.updateMailingAddress}
+            onCancel={this.closeModal}/>
 
-        <PhoneSection
-          title="Primary Phone"
-          phoneResponseData={primaryTelephone}
-          isEditing={currentlyOpenModal === 'primaryPhone'}
-          isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
-          onEdit={this.openModalHandler('primaryPhone')}
-          onSubmit={this.props.updateActions.updatePrimaryPhone}
-          onCancel={this.closeModal}/>
+          <PhoneSection
+            title="Primary Phone"
+            phoneResponseData={primaryTelephone}
+            isEditing={currentlyOpenModal === 'primaryPhone'}
+            isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
+            onEdit={this.openModalHandler('primaryPhone')}
+            onSubmit={this.props.updateActions.updatePrimaryPhone}
+            onCancel={this.closeModal}/>
 
-        <PhoneSection
-          title="Alternate Phone"
-          phoneResponseData={alternateTelephone}
-          isEditing={currentlyOpenModal === 'altPhone'}
-          isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
-          onEdit={this.openModalHandler('altPhone')}
-          onSubmit={this.props.updateActions.updateAlternatePhone}
-          onCancel={this.closeModal}/>
+          <PhoneSection
+            title="Alternate Phone"
+            phoneResponseData={alternateTelephone}
+            isEditing={currentlyOpenModal === 'altPhone'}
+            isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
+            onEdit={this.openModalHandler('altPhone')}
+            onSubmit={this.props.updateActions.updateAlternatePhone}
+            onCancel={this.closeModal}/>
 
-        <EmailSection
-          title="Email Address"
-          emailResponseData={email}
-          isEditing={currentlyOpenModal === 'email'}
-          isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
-          onEdit={this.openModalHandler('email')}
-          onSubmit={this.props.updateActions.updateEmailAddress}
-          onCancel={this.closeModal}/>
+          <EmailSection
+            title="Email Address"
+            emailResponseData={email}
+            isEditing={currentlyOpenModal === 'email'}
+            isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
+            onEdit={this.openModalHandler('email')}
+            onSubmit={this.props.updateActions.updateEmailAddress}
+            onCancel={this.closeModal}/>
 
-        <h2>Personal Information</h2>
-        <PersonalInformation gender={gender} dob={dob} ssn={ssn} toursOfDuty={toursOfDuty}/>
+          <h2>Personal Information</h2>
+          <PersonalInformation gender={gender} dob={dob} ssn={ssn} toursOfDuty={toursOfDuty}/>
+        </div>
       </div>
     );
   }

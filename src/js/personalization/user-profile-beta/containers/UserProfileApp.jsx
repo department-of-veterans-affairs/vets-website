@@ -36,21 +36,16 @@ class UserProfileApp extends React.Component {
           verifyUrl={this.props.verifyUrl}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
-              <div className="row user-profile-row">
-                <div className="usa-width-two-thirds medium-8 small-12 columns">
-                  <h1>Your Profile</h1>
-                  <ProfileView
-                    profile={this.props.profile}
-                    modal={{
-                      open: this.props.openModal,
-                      currentlyOpen: this.props.profile.modal,
-                      pendingSaves: this.props.profile.pendingSaves,
-                      errors: this.props.profile.errors
-                    }}
-                    updateActions={this.props.updateActions}
-                    fetchVaProfile={this.props.fetchVaProfile}/>
-                </div>
-              </div>
+              <ProfileView
+                profile={this.props.profile}
+                modal={{
+                  open: this.props.openModal,
+                  currentlyOpen: this.props.profile.modal,
+                  pendingSaves: this.props.profile.pendingSaves,
+                  errors: this.props.profile.errors
+                }}
+                updateActions={this.props.updateActions}
+                fetchVaProfile={this.props.fetchVaProfile}/>
             </DowntimeNotification>
           </BetaApp>
         </RequiredLoginView>
