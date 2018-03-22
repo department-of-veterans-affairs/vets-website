@@ -25,7 +25,9 @@ VetSuccess on Campus (VSOC) supports Veterans, Servicemembers, and some eligible
 
 </div>
 
-This program is also available to dependents of Veterans for whom **at least one of the following is true**:
+This program is also available to dependents of Veterans who meet all of the requirements below.
+
+**To qualify as a dependent, all of these must be true. You:**
 
 - [Are eligible for the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), **or**
 - [Are eligible for the Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education/), **or**
