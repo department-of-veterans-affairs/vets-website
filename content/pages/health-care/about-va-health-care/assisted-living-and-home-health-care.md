@@ -43,7 +43,7 @@ As a Veteran, you may be able to get assisted living, residential (live-in), or 
 
 You can get this care in many different settings—some run by VA and others run by state or community organizations that we inspect and approve.
 
-**Care settings include:**
+**Care settings may include:**
 
 - Nursing homes
 - Assisted-living centers
@@ -60,7 +60,7 @@ You can learn more about the different types of care below or on our va.gov webs
 
 ### How do I access these services?
 
-You may be able to use one or more of these services if all of the requirements below are true for you.
+You may be able to use one or more of these services if you meet all of the requirements listed below.
 
 **All of these must be true:**
 
@@ -119,7 +119,7 @@ You can get nursing home care in 1 of the 3 different nursing home settings list
 
 You may be able to get VA benefits to help pay for nursing home care. It depends on your income and the level of your service-connected disability (a disability that resulted from your military service).
 
-Learn more about:
+**Learn more about:**
 
 [Community Living Centers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/VA_Community_Living_Centers.asp)
 VA nursing centers that are designed to feel like home
