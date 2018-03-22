@@ -32,9 +32,11 @@ You may be eligible for VR&E benefits and services if you’re a Veteran and you
 
 **All of these must be true. You:**
 
-- Have received a discharge that is other than dishonorable, **and**
+- Didn't receive a dishonorable discharge, **and**
 - Have a service-connected disability rating of at least 10% from VA, **and**
 - [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
+
+<br>
 
 #### Basic period of eligibility
 
