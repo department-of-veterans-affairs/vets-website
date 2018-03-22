@@ -28,7 +28,7 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 ### If I'm a Veteran, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&E benefits and services if you’re a Veteran and you meet all of the requirements listed below.
+You may be eligible for VR&E benefits and services if you’re a Veteran, and you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 
