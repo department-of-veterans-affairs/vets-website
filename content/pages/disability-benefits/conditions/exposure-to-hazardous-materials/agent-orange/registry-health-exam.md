@@ -18,7 +18,7 @@ If you think you had contact with Agent Orange, a toxic chemical used to clear t
 
 ### Can I get an Agent Orange Registry health exam?
 
-You can get an Agent Orange Registry health exam if you served in any of the below ways.
+You can get an Agent Orange Registry health exam if you served in any of the ways listed below.
 
 **You must have served in one of these ways:**
 
