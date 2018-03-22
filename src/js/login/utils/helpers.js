@@ -32,8 +32,8 @@ function popup(popupUrl, clickedEvent, openedEvent) {
     return apiRequest(
       popupUrl,
       null,
-      ({ url }) => { popupWindow.location.href = url; },
-      () => { popupWindow.location.href = `${environment.BASE_URL}/auth/login/callback`; }
+      ({ url }) => { popupWindow.location = url; },
+      () => { popupWindow.location = `${environment.BASE_URL}/auth/login/callback`; }
     ).then(() => Promise.resolve(popupWindow));
   }
 

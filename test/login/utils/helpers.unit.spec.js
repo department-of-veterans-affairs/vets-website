@@ -19,7 +19,7 @@ const fakeWindow = () => {
   oldWindow = global.window;
   windowOpen = sinon.stub().returns({
     focus: f => f,
-    location: { href: '' }
+    location: ''
   });
   global.window = {
     open: windowOpen,
@@ -38,7 +38,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ error: 'Couldn\'t find url' }, false);
       login('idme').then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location.href).to.include('/auth/login/callback');
+        expect(popup.location).to.include('/auth/login/callback');
         done();
       }).catch(done);
     });
@@ -47,7 +47,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'signup-url' });
       signup().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location.href).to.eq('signup-url');
+        expect(popup.location).to.eq('signup-url');
         done();
       }).catch(done);
     });
@@ -56,7 +56,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'login-url' });
       login('idme').then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location.href).to.eq('login-url');
+        expect(popup.location).to.eq('login-url');
         done();
       }).catch(done);
     });
@@ -65,7 +65,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'logout-url' });
       logout().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location.href).to.eq('logout-url');
+        expect(popup.location).to.eq('logout-url');
         done();
       }).catch(done);
     });
@@ -74,7 +74,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'mfa-url' });
       mfa().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location.href).to.eq('mfa-url');
+        expect(popup.location).to.eq('mfa-url');
         done();
       }).catch(done);
     });
@@ -83,7 +83,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'verify-url' });
       verify().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location.href).to.eq('verify-url');
+        expect(popup.location).to.eq('verify-url');
         done();
       }).catch(done);
     });
