@@ -48,7 +48,7 @@ You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: 
 
 <br>
 
-**You can get benefits through MGIB-AD** if you served at least 2 years on active duty and you meet all the requirements listed below.
+**You can get benefits through MGIB-AD** if you served at least 2 years on active duty and you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 
@@ -60,7 +60,7 @@ You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: 
 
 <br>
 
-**You can get benefits through MGIB-SR** if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you meet all the requirements listed below.
+**You can get benefits through MGIB-SR** if you’re a member of the Army, Navy, Air Force, Marine Corps or Cost Guard Reserves, Army National Guard, or Air National Guard, and you meet all of the requirements listed below.
 
 **All of these must be true. You:**
 - Have either a 6-year service obligation (you agreed to serve 6 years) in the Selected Service, **or**
