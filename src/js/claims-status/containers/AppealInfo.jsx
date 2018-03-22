@@ -55,7 +55,7 @@ export class AppealInfo extends React.Component {
         <div>
           <div>
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims and Appeals</Link></li>
+              <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
               <li><strong>{claimHeading}</strong></li>
             </Breadcrumbs>
           </div>
@@ -117,11 +117,12 @@ AppealInfo.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { appealsLoading, appealsAvailability } = state.disability.status.claimsV2;
+  const { v1ToV2IdMap } = state.disability.status.appeals;
   return {
-    appeal: isolateAppeal(state, ownProps.params.id),
+    appeal: isolateAppeal(state, ownProps.params.id, v1ToV2IdMap),
     appealsLoading,
     appealsAvailability,
-    fullName: state.user.profile.userFullName
+    fullName: state.user.profile.userFullName,
   };
 }
 
