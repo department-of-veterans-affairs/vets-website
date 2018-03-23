@@ -15,64 +15,11 @@ To receive some benefits, Veterans need a letter proving their status. You can a
 
 ### What types of VA letters can I download using this tool?
 
-You can download your VA letters for benefits you’re currently receiving. You can also download letters for benefits you’re eligible for based on your service history.
+You can download a variety of letters from VA that include information about your benefits and service history.
 
 <a href='/download-va-letters/letters' class='usa-button-primary'>Access Your VA Letters</a>
 
-<div class='va-callout'>
-
-### Based on your eligibility and service history, available letters might include:
-
-#### Proof of Service
-
-<ul>
-<li>
-<strong>Proof of Service Card</strong><br>
-This card shows that you served honorably in the Armed Forces. You can use it as proof of status to receive discounts at certain stores or restaurants.
-</li>
-<li>
-<strong>Service Verification Letter</strong><br>
-This letter shows your branch of service, the date you started active duty, and the date you were discharged from active duty.
-</li>
-<li>
-<strong>Civil Service Preference Letter</strong><br>
-This letter shows that you’re a disabled Veteran and you qualify for preference for civil service jobs.
-</li>
-</ul>
-
-#### Access to benefits
-
-<ul>
-<li>
-<strong>Commissary Letter</strong><br>
-This letter will help get you access to local base facilities, including the commissary and post exchange.
-</li>
-<li>
-<strong>Proof of Creditable Prescription Drug Coverage</strong><br>
-This letter proves that you qualify for Medicare Part D prescription drug coverage.
-</li>
-<li>
-<strong>Minimum Essential Coverage Letter</strong><br>
-This letter shows that you have Minimum Essential Coverage (MEC) as provided by VA. MEC means that your health care plan meets the health insurance requirements under the Affordable Care Act.
-</li>
-</ul>
-
-#### Summary of benefits
-
-<ul>
-<li>
-<strong>Benefit Summary and Service Verification Letter</strong><br>
-This letter shows your service history and some VA benefits information. You can customize this letter and use it for many things.
-</li>
-<li>
-<strong>Benefit Verification Letter</strong><br>
-This letter shows the benefits you’re receiving from VA.
-</li>
-</ul>
-</div>
 </section>
-
-<section>
 
 ### How do I download a VA letter?
 
