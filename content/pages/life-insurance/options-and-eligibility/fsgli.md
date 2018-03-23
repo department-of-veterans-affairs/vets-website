@@ -30,7 +30,7 @@ Are you the spouse or dependent child of a Servicemember who’s covered under S
 
 You may be able to get FSGLI if you’re the spouse or dependent child of a Servicemember who meets one of the requirements below.
 
-**One of these must be true of the Servicemember:**
+**One of these must be true. The Servicemember is:**
 
 - An active-duty Servicemember covered by full-time SGLI, **or**
 - A member of the National Guard or Ready Reserve covered by full-time SGLI
@@ -64,7 +64,9 @@ We’ll automatically insure you under FSGLI. In this case, we’ll automaticall
 
 We won’t automatically cover you. You’ll need to sign up through your Servicemember.
 
-**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember sign you up online. To access SOES, have your Servicemember:
+**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember sign you up online. 
+
+To access SOES, have your Servicemember:
 
 <ol class="process" markdown="1">
 
@@ -243,7 +245,9 @@ If you’re signed up as a spouse in the Defense Enrollment Eligibility Reportin
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
-**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES, have your Servicemember:
+**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online.
+
+To access SOES, have your Servicemember:
 
 <ol class="process" markdown="1">
 
@@ -284,9 +288,11 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 
 ### How much will my Servicemember pay for dependent coverage? 
 
-Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless **one of the the following is true for the child**:
-- The child is a full-time student, **or**
-- The child becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+Nothing. We provide dependent coverage at no cost until the child is 18 years old, or sometimes longer if the child meets one of the requirements listed below.
+
+**To continue receiving dependent coverage after age 18, one of these must be true. The child**:
+- Is a full-time student, **or**
+- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
 <br>
 
