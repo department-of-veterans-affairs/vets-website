@@ -21,7 +21,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     );
 
     expect(form.find('select').length).to.equal(4);
-    expect(form.find('input').length).to.equal(11);
+    expect(form.find('input').length).to.equal(10);
   });
 
   it('should add a private release', () => {
