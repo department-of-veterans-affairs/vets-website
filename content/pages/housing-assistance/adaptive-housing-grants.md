@@ -59,9 +59,9 @@ You may be able to get a Temporary Residence Adaptation (TRA) grant if you meet 
 - Qualify for an SAH or SHA grant (see above), **and**
 - Are living temporarily in a family member’s home that needs changes to meet your needs
 
-If you qualify for an SAH grant, you can get up to $35,593 through the TRA grant program for FY 2018.
+**If you qualify for an SAH grant**, you can get up to $35,593 through the TRA grant program for FY 2018.
 
-If you qualify for an SHA grant, you can get up to $6,355 through the TRA grant program for FY 2018.
+**If you qualify for an SHA grant**, you can get up to $6,355 through the TRA grant program for FY 2018.
 
 </div>
 
