@@ -16,7 +16,9 @@ If you’re a Veteran who owns a small business, you may qualify for advantages 
 
 ### Can I register my business as a Veteran-Owned Small Business (VOSB) through the Vets First Verification Program?
 
-You may qualify if you’re a Veteran, and **all of the following are true for you or another Veteran at the company**:
+You may qualify if you’re a Veteran, and you or another Veteran at your company meet all of the requirements listed below.
+
+**All of these must be true. You or another Veteran at your company:**
 
 - Owns 51% or more of the company you want to register, **and**
 - Has full control over the day-to-day management, decision-making, and strategic policy of the business, **and**
@@ -25,16 +27,22 @@ You may qualify if you’re a Veteran, and **all of the following are true for y
 - Works full time for the business, **and**
 - Holds the highest officer position in the company
 
-**Please note:** You’re considered a Veteran if **one of the following is true for you**:
+#### What qualifies me as a Veteran?
 
-- You served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
-- You served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
+You’re considered a Veteran if either of the descriptions below are true for you.
+
+**At least one of these must be true. You:**
+
+- Served on active duty with the Army, Air Force, Navy, Marine Corps, or Coast Guard for any length of time and were discharged under conditions other than dishonorable, **or**
+- Served as a Reservist or member of the National Guard and were called to federal active duty or disabled from a disease or injury that started or got worse in the line of duty or while in training status
 
 <br>
 
 ### Can I register my business as a Service-Disabled Veteran-Owned Small Business (SDVOSB)?
 
-You may qualify if you meet all the requirements of a VOSB listed above, and either you or another Veteran owner of the company has **at least one of the following**:
+You may qualify if you meet all the requirements of a VOSB listed above, and either you or another Veteran owner of the company meets at least one of the requirements listed below.
+
+**You or another Veteran owner of the company must have at least one of these:**
 
 - A disability rating letter from us confirming that you have a service-connected disability rating between 0 and 100%, **or**
 - A disability determination from the Department of Defense
@@ -44,6 +52,7 @@ You may qualify if you meet all the requirements of a VOSB listed above, and eit
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
 **There are 2 ways you can try to qualify:**
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
@@ -101,7 +110,7 @@ Contact your local VA Small Business Liaison. <br>
 
 #### What if I have other questions about these benefits?
 
-To learn more about how we can help you access opportunities:
+**To learn more about how we can help you access opportunities:**
 
 - Call the OSDBU Call Center at <a href="tel:+1866-584-2344">1-866-584-2344</a> anytime from 8:00 a.m. to 6:00 p.m. (ET), **or**
 - Email us at <a href="mailto:osdbu@va.gov">osdbu@va.gov</a><br>
