@@ -41,7 +41,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-vets">Service requirements for Veterans and Servicemembers on active duty</button>
 <div id="va-loan-eligibility-vets" class="usa-accordion-content">
 
-| When did you serve? | You meet the minimum active-duty service requirement if you served **in at least one of the following ways**: | 
+| When did you serve? | You meet the minimum active-duty service requirement if you served for at least this amount of time: | 
 | --- | --- | 
 | Between September 16, 1940, and July 25, 1947 (WWII) | 90 total days |
 | Between July 26, 1947, and June 26, 1950 (post-WWII period) | 181 continuous days |
@@ -59,10 +59,10 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-guard">Service requirements for National Guard and Reserve members</button>
 <div id="va-loan-eligibility-guard" class="usa-accordion-content">
 
-| When did you serve? | You meet the minimum active-duty service requirement if you served **in at least one of the following ways**: | 
+| When did you serve? | You meet the minimum active-duty service requirement if you meet these service requirements: | 
 | --- | --- | 
 | Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
-| Any time period | 6 creditable years in the Selected Reserve or National Guard, and you:<ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
+| Any time period | 6 creditable years in the Selected Reserve or National Guard, and one of the descriptions below is true for you.<br>**At least one of these must be true. You:**<br><ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
 
 </div>
 </li>
@@ -79,7 +79,9 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 
 ### What if I don’t meet the minimum service requirements?
 
-You may still be able to get a COE if you were discharged **for one of the following reasons**:
+You may still be able to get a COE if you were discharged for one of the reasons listed below.
+
+**You must have been discharged for one of these reasons:**
 
 - Hardship, **or**
 - The convenience of the government, **or**
@@ -102,7 +104,9 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 ### Can I get a COE as the spouse of a Veteran? 
 
-You may be able to get a COE if you’re the spouse of a Veteran **and at least one of following is true for that Veteran**:
+You may be able to get a COE if you’re the spouse of a Veteran, and at least one of the descriptions below is true for that Veteran.
+
+**At least one of these must be true. The Veteran:**
 
 - Is missing in action, **or**
 - Is a prisoner of war (POW), **or**
@@ -116,10 +120,12 @@ You may be able to get a COE if you’re the spouse of a Veteran **and at least 
 
 ### Can I get a COE in any other situations? 
 
-You may be able to get a COE if **one of the following is true for you**:
+You may be able to get a COE if you meet at least one of the requirements listed below.
 
-- You are a U.S. citizen who served in the Armed Forces of a government allied with the United States in World War II, **or**
-- You served as a member in certain organizations, such as a:
+**At least one of these must be true. You:**
+
+- Are a U.S. citizen who served in the Armed Forces of a government allied with the United States in World War II, **or**
+- Served as a member in certain organizations, such as a:
   - Public Health Service officer
   - Cadet at the United States Military, Air Force, or Coast Guard Academy
   - Midshipman at the United States Naval Academy
@@ -130,7 +136,9 @@ You may be able to get a COE if **one of the following is true for you**:
 
 ### Can I use a COE I used before?
 
-You may be able to “restore” an entitlement you used in the past to buy another home with a VA direct or VA-backed loan if **at least one of the following is true for you**:
+You may be able to “restore” an entitlement you used in the past to buy another home with a VA direct or VA-backed loan if you meet at least one of the requirements listed below.
+
+**At least one of these must be true:**
 
 - You’ve sold the home you bought with the prior loan and have paid that loan in full, **or**
 - A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
