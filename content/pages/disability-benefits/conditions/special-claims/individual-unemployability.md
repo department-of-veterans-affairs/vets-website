@@ -21,7 +21,7 @@ If you can’t work because of a disability related to your service in the milit
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if both of the below descriptions of your situation are true.
+You may be able to get disability benefits if you meet both of the requirements listed below.
 
 **Both of these must be true:**
   - You have at least 1 service-connected disability rated at 60% or more disabling, or 2 or more service-connected disabilities—with at least 1 rated at 40% or more disabling and a combined rating of 70% or more—**and**
