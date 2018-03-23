@@ -1,13 +1,12 @@
 ---
-title: Download VA Benefit Letters and Documents
+title: Download VA Letters and Documents
 layout: page-breadcrumbs.html
+template: level2-index
 ---
 
 <main>
 <section>
 <div class="row" markdown="1">
-
-# Download Your VA Letters
 
 <div class='va-introtext'>
 To receive some benefits, Veterans need a letter proving their status. You can access and download some of these benefit letters and documents online.

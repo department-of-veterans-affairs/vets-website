@@ -16,7 +16,7 @@ class AuthApplicationSection extends React.Component {
             <p key="claims"><a href="/track-claims">Check your claim and appeal status</a></p>
             <p key="post-911"><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>
             <p key="vic"><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>
-            <p key="letters"><a href="/download-va-letters">Download VA Letters</a></p>
+            <p key="letters"><a href="/download-va-letters">Download Your VA Letters</a></p>
             <p>
               <strong>Have a less than honorable discharge?</strong><br/>
               You can apply for an upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <a href="/discharge-upgrade-instructions/">Find out how to apply for a discharge upgrade</a>.
