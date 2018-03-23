@@ -22,7 +22,7 @@ If you qualify for these benefits, you’ll get what’s called a prestabilizati
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you recently ended your active military service and your situation meets both of the descriptions listed below. 
+You may be able to get disability benefits if you recently ended your active military service and you meet both of the requirements listed below. 
 
 **Both of these must be true:**
 - You have a severe service-connected disability that is unstable (meaning an illness or injury that will change or hasn’t yet been fully treated), **and**
