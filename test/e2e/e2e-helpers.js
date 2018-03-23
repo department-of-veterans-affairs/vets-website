@@ -93,13 +93,13 @@ function expectNavigateAwayFromExact(client, urlSubstring) {
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
-function expectNavigateTo(client, urlSubstring) {
+function expectLocation(client, urlSubstring) {
   client.expect.element('.js-test-location').attribute('data-location')
     .to.contain(urlSubstring).before(Timeouts.slow);
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
-function expectNavigateToExact(client, urlSubstring) {
+function expectExactLocation(client, urlSubstring) {
   client.expect.element('.js-test-location').attribute('data-location')
     .to.equal(urlSubstring).before(Timeouts.slow);
 }
@@ -118,8 +118,8 @@ module.exports = {
   createE2eTest,
   expectNavigateAwayFrom,
   expectNavigateAwayFromExact,
-  expectNavigateToExact,
-  expectNavigateTo,
+  expectExactLocation,
+  expectLocation,
   expectValueToBeBlank,
   expectInputToNotBeSelected,
   overrideVetsGovApi,
