@@ -17,6 +17,11 @@ import {
   privateMedicalRecordsIntro,
   facilityDescription,
   treatmentView,
+  recordReleaseWarning,
+  validateAddress,
+  // documentDescription
+  // additionalDocumentDescription
+  releaseView
 } from '../helpers';
 
 const {
@@ -38,6 +43,26 @@ const treatmentsSchema = _.set('items.properties.treatment.properties',
     ],
     treatments.items.properties.treatment.properties
   ), treatments);
+
+const privateRecordReleasesSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
+  privateMedicalRecordsReleaseAccepted: {
+    type: 'boolean'
+  },
+  'view:privateMedicalRecordsReleasePermissionRestricted': {
+    type: 'object',
+    'ui:collapsed': true,
+    properties: {}
+  },
+  treatmentCenterStreet1: {
+    type: 'string'
+  },
+  treatmentCenterStreet2: {
+    type: 'string'
+  },
+  treatmentCenterPostalCode: {
+    type: 'number'
+  }
+});
 
 const formConfig = {
   urlPrefix: '/',
@@ -279,7 +304,7 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateMedicalRecordsIntro,
+                'ui:description': privateMedicalRecordsIntro
               }
             }
           },
@@ -296,6 +321,113 @@ const formConfig = {
             }
           }
         },
+        privateMedicalRecordRelease: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-release',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // TODO: enable once previous chapter merged
+            // const requestsRecords = !_.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
+            const requestsRecords = true;
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+                privateRecordReleases: {
+                  'ui:options': {
+                    itemName: 'Private Medical Record',
+                    viewField: releaseView
+                  },
+                  items: {
+                    privateRecordRelease: {
+                      'ui:order': [
+                        'treatmentCenterName',
+                        'privateMedicalRecordsReleaseAccepted',
+                        'view:privateMedicalRecordsReleasePermissionRestricted',
+                        'startTreatment', 'endTreatment',
+                        'treatmentCenterCountry', 'treatmentCenterStreet1',
+                        'treatmentCenterStreet2', 'treatmentCenterCity',
+                        'treatmentCenterState', 'treatmentCenterPostalCode'
+                      ],
+                      treatmentCenterName: { // TODO: is this required?
+                        'ui:title': 'Name of private provider or hospital'
+                      },
+                      privateMedicalRecordsReleaseAccepted: {
+                        'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
+                      },
+                      'view:privateMedicalRecordsReleasePermissionRestricted': {
+                        'ui:description': () => recordReleaseWarning,
+                        'ui:options': {
+                          expandUnder: 'privateMedicalRecordsReleaseAccepted'
+                        }
+                      },
+                      startTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of first treatment since you received your rating'
+                      },
+                      endTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of last treatment'
+                      },
+                      treatmentCenterCountry: { // TODO: need to update schema to use default def
+                        'ui:title': 'Country'
+                      },
+                      treatmentCenterStreet1: {
+                        'ui:title': 'Street'
+                      },
+                      treatmentCenterStreet2: {
+                        'ui:title': 'Street'
+                      },
+                      treatmentCenterCity: {
+                        'ui:title': 'City'
+                      },
+                      treatmentCenterState: {
+                        'ui:title': 'State'
+                      },
+                      treatmentCenterPostalCode: {
+                        'ui:title': 'Postal code',
+                        'ui:options': {
+                          widgetClassNames: 'usa-input-medium'
+                        }
+                      },
+                      'ui:validations': [validateAddress]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    privateRecordReleases: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          privateRecordRelease: {
+                            type: 'object',
+                            properties: _.omit(['treatmentCenterType'], privateRecordReleasesSchema)
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        // pageFive: {},
         // pageSix: {},
         // pageSeven: {},
         // pageEight: {},
@@ -313,7 +445,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     }

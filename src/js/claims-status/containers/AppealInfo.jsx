@@ -7,7 +7,6 @@ import moment from 'moment';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { systemDownMessage } from '../../common/utils/error-messages';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
@@ -17,13 +16,31 @@ import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import {
   EVENT_TYPES,
   isolateAppeal,
-  USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
-  VALIDATION_ERROR,
-  BACKEND_SERVICE_ERROR,
-  FETCH_APPEALS_ERROR,
   AVAILABLE,
 } from '../utils/appeals-v2-helpers';
+
+const appealsDownMessage = (
+  <div className="row" id="appealsDownMessage">
+    <div className="small-12 columns">
+      <div className="react-container">
+        <h3>We’re sorry. Something went wrong on our end.</h3>
+        <p>Please refresh this page or try again later. If it still doesn’t work, you can call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
+      </div>
+    </div>
+  </div>
+);
+
+const recordsNotFoundMessage = (
+  <div className="row" id="recordsNotFoundMessage">
+    <div className="small-12 columns">
+      <div className="react-container">
+        <h3>We’re sorry. We can’t find your records in our system.</h3>
+        <p>If you think they should be here, please try again later or call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
+      </div>
+    </div>
+  </div>
+);
 
 export class AppealInfo extends React.Component {
   componentDidMount() {
@@ -81,18 +98,15 @@ export class AppealInfo extends React.Component {
     } else if (appealsAvailability === AVAILABLE && !appeal) {
       // Yes, we have your appeals. No, the one you requested isn't one of them.
       appealContent = <AppealNotFound/>;
-    } else if (appealsAvailability === USER_FORBIDDEN_ERROR) {
-      appealContent = <h1>We couldn’t find your records</h1>;
     } else if (appealsAvailability === RECORD_NOT_FOUND_ERROR) {
-      appealContent = <h1>We couldn’t find your records</h1>;
-    } else if (appealsAvailability === VALIDATION_ERROR) {
-      appealContent = systemDownMessage;
-    } else if (appealsAvailability === BACKEND_SERVICE_ERROR) {
-      appealContent = systemDownMessage;
-    } else if (appealsAvailability === FETCH_APPEALS_ERROR) {
-      appealContent = systemDownMessage;
+      appealContent = recordsNotFoundMessage;
     } else {
-      appealContent = systemDownMessage;
+      // This includes
+      //  USER_FORBIDDEN_ERROR,
+      //  VALIDATION_ERROR,
+      //  BACKEND_SERVICE_ERROR,
+      //  FETCH_APPEALS_ERROR
+      appealContent = appealsDownMessage;
     }
 
     return (appealContent);
@@ -116,12 +130,13 @@ AppealInfo.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { appealsLoading, appealsAvailability } = state.disability.status.claimsV2;
+  const { appealsLoading, v2Availability: appealsAvailability } = state.disability.status.claimsV2;
+  const { v1ToV2IdMap } = state.disability.status.appeals;
   return {
-    appeal: isolateAppeal(state, ownProps.params.id),
+    appeal: isolateAppeal(state, ownProps.params.id, v1ToV2IdMap),
     appealsLoading,
     appealsAvailability,
-    fullName: state.user.profile.userFullName
+    fullName: state.user.profile.userFullName,
   };
 }
 
