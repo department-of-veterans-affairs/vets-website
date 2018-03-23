@@ -15,5 +15,5 @@ The build process looks for manifest.json files in order to determine what appli
 - `entryFile`: The path to the entry file created in step 2, relative to the manifest file.
 - `entryName`: The name of the entry file bundle that will be created. This should match the name used in step 5.
 - `rootUrl`: The url of the application. This should resolve to the page you created in step 4. It should also start with a slash and have no trailing slashes.
-- `noRouting`: If you're app doesn't have multiple pages and doesn't need url rewriting, set this to true.
+- `noRouting`: If your app doesn't have multiple pages and doesn't need url rewriting, set this to true.
 - `production`: If this is false, the content page for your app will be added to the ignore list and not generated in production.
