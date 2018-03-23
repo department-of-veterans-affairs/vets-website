@@ -26,7 +26,7 @@ With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life 
 
 ### Can I get VGLI? 
 
-You may be able to get VGLI if you meet at least one of the requirements below.
+You may be able to get VGLI if you meet at least one of the requirements listed below.
 
 **At least one of these must be true. You:**
 
