@@ -352,7 +352,8 @@ const formConfig = {
                       'ui:order': [
                         'treatmentCenterName',
                         'privateMedicalRecordsReleaseAccepted',
-                        'view:privateMedicalRecordsReleasePermissionRestricted', 'startTreatment', 'endTreatment',
+                        'view:privateMedicalRecordsReleasePermissionRestricted',
+                        'startTreatment', 'endTreatment',
                         'treatmentCenterCountry', 'treatmentCenterStreet1',
                         'treatmentCenterStreet2', 'treatmentCenterCity',
                         'treatmentCenterState', 'treatmentCenterPostalCode'
