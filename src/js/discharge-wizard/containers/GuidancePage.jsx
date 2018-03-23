@@ -146,7 +146,7 @@ class GuidancePage extends React.Component {
             Important tips for completing Form {form.num}:
           </p>
           {this.props.formValues['4_reason'] === '8' ? dd214Tips : nonDd2014Tips}
-          <a target="_blank" href={form.link} className="usa-button-primary va-button" ref={(el) => { this.downloadFormBtn = el; }}>Download Form {form.num}</a>
+          <a target="_blank" href={form.link} rel="external" className="usa-button-primary usa-button" ref={(el) => { this.downloadFormBtn = el; }}>Download Form {form.num}</a>
           <AlertBox
             content={<div>
               <h4 className="usa-alert-heading">Need help preparing your application?</h4>
