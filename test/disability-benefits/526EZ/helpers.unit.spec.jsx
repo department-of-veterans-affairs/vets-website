@@ -4,14 +4,14 @@ import initialData from './schema/initialData.js';
 
 const formData = initialData;
 const treatments = [
-    {
-      "treatment": {
-      "treatmentCenterName": "asdf"
-      }
+  {
+    treatment: {
+      treatmentCenterName: 'local VA center'
     }
-  ];
+  }
+];
 initialData.disabilities[0].treatments = treatments;
-const flattened = flatten(formData)
+const flattened = flatten(formData);
 
 describe('526 helpers', () => {
   describe('flatten', () => {
@@ -22,7 +22,7 @@ describe('526 helpers', () => {
   });
   describe('nest', () => {
     it('should nest sibling arrays', () => {
-      const nested = nest(flattened)
+      const nested = nest(flattened);
       expect(nested).to.deep.equal(formData);
     });
   });
