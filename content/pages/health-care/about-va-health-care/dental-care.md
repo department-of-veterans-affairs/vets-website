@@ -95,11 +95,11 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class II
 
-**You may qualify for:** 1-time dental care
+**You may qualify for:** 1-time dental care if you meet all of the requirements listed below
 
-**To get this care, all of these must be true for you:**
+**All of these must be true for you:**
 
-- You were discharged or released under conditions other than dishonorable, **and**
+- You didn't receive a dishonorable discharge, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
 - Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged\*
 
@@ -135,9 +135,9 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class V
 
-**You may qualify for:** Dental care that a VA dental care provider concludes is needed to meet certain needs or goals.
+**You may qualify for:** Dental care that a VA dental care provider concludes is needed to achieve at least one of the goals listed below
 
-**To get this care, a VA dental care provider must conclude it's needed to achieve at least one of these goals:**
+**The dental care must be needed to achieve at least one of these goals:**
 
 - Make it possible for you to be in the vocational rehab program, **or**
 - Make it possible for you to reach the goals of your vocational rehab program, **or**
@@ -166,9 +166,9 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class IIB
 
-**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need for certain reasons.
+**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need to achieve at least one of the goals listed below.
 
-**To get this care, a VA dental care provide must conclude it's needed to achieve at least one of these goals:**
+**The dental care must be needed to achieve at least one of these goals:**
 
 - Relieve your pain, **or**
 - Help you get a job, **or**
