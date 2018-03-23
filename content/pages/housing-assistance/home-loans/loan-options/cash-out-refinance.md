@@ -20,7 +20,7 @@ You may be able to get a cash-out refinance loan if you meet all of the requirem
 
 **All of these must be true. You:**
 
--	Qualify for a VA-backed home loan Certificate of Eligibility **and**
+-	Qualify for a VA-backed home loan Certificate of Eligibility, **and**
 -	Meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re refinancing with the loan
 
