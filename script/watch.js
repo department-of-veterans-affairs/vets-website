@@ -51,6 +51,10 @@ async function runLints() {
   }
 
   const filesByLinter = changedFiles.reduce((groupedFiles, changedFile) => {
+    if (!changedFile.includes('src')) {
+      return groupedFiles;
+    }
+
     switch(path.extname(changedFile)) {
       case '.js':
       case '.jsx':
@@ -73,7 +77,7 @@ async function runLints() {
 
   filesByLinter.esLintable.forEach((esFile) => {
     const eslintResults = esLinter.executeOnFiles([esFile]).results;
-    if (eslintResults.errorCount > 0)  {
+    if (eslintResults[0].errorCount > 0)  {
       console.log(...formatter(eslintResults));
     } else {
       console.log(chalk.green(`${path.basename(esFile)} - lint free`)); }
@@ -98,6 +102,8 @@ async function runLints() {
 
   restart = false;
 }
+
+srcWatcher.on('change', runLints);
 
 console.log('watch started');
 runLints();
