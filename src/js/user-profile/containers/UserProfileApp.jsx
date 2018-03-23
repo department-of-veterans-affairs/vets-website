@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { getVerifyUrl } from '../../common/helpers/login-helpers.js';
-import { updateVerifyUrl } from '../../login/actions';
 import { removeSavedForm } from '../actions';
 import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
@@ -35,12 +33,6 @@ moment.updateLocale('en', {
 });
 
 class UserProfileApp extends React.Component {
-  componentDidMount() {
-    if (!this.props.verifyUrl) {
-      getVerifyUrl(this.props.updateVerifyUrl);
-    }
-  }
-
   render() {
     const view = (
       <div className="row user-profile-row">
@@ -65,9 +57,7 @@ class UserProfileApp extends React.Component {
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          userProfile={this.props.profile}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             {view}
           </DowntimeNotification>
@@ -79,17 +69,11 @@ class UserProfileApp extends React.Component {
 
 const mapStateToProps = (state) => {
   const userState = state.user;
-
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { profile: userState.profile, };
 };
 
 const mapDispatchToProps = {
   removeSavedForm,
-  updateVerifyUrl
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileApp);
