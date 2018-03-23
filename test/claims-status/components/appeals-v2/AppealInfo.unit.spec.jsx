@@ -76,39 +76,37 @@ describe('<AppealInfo/>', () => {
   it('should render no records warning when user forbidden', () => {
     const props = { ...defaultProps, appealsAvailability: USER_FORBIDDEN_ERROR };
     const wrapper = shallow(<AppealInfo {...props}/>);
-    const headerText = wrapper.find('h1').render().text();
-    expect(headerText).to.equal('We couldn’t find your records');
+    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
   });
 
   it('should render no records warning when RECORD_NOT_FOUND_ERROR present', () => {
     const props = { ...defaultProps, appealsAvailability: RECORD_NOT_FOUND_ERROR };
     const wrapper = shallow(<AppealInfo {...props}/>);
-    const headerText = wrapper.find('h1').render().text();
-    expect(headerText).to.equal('We couldn’t find your records');
+    expect(wrapper.find('#recordsNotFoundMessage').length).to.equal(1);
   });
 
   it('should render system down message when VALIDATION_ERROR present', () => {
     const props = { ...defaultProps, appealsAvailability: VALIDATION_ERROR };
     const wrapper = shallow(<AppealInfo {...props}/>);
-    expect(wrapper.find('#systemDownMessage').length).to.equal(1);
+    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
   });
 
   it('should render system down message when BACKEND_SERVICE_ERROR present', () => {
     const props = { ...defaultProps, appealsAvailability: BACKEND_SERVICE_ERROR };
     const wrapper = shallow(<AppealInfo {...props}/>);
-    expect(wrapper.find('#systemDownMessage').length).to.equal(1);
+    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
   });
 
   it('should render system down message when FETCH_APPEALS_ERROR present', () => {
     const props = { ...defaultProps, appealsAvailability: FETCH_APPEALS_ERROR };
     const wrapper = shallow(<AppealInfo {...props}/>);
-    expect(wrapper.find('#systemDownMessage').length).to.equal(1);
+    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
   });
 
-  it('should render system down message when other error present', () => {
+  it('should render appeals down message when other error present', () => {
     const props = { ...defaultProps, appealsAvailability: 'SOME_OTHER_ERROR' };
     const wrapper = shallow(<AppealInfo {...props}/>);
-    expect(wrapper.find('#systemDownMessage').length).to.equal(1);
+    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
   });
 });
 
