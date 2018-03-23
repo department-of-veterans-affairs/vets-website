@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 
@@ -136,6 +138,24 @@ export const treatmentView = ({ formData }) => {
   );
 };
 
+export const releaseView = ({ formData }) => {
+  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
+  let treatmentPeriod = '';
+
+  if (startTreatment && endTreatment) {
+    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
+  } else if (startTreatment || endTreatment) {
+    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  }
+
+
+  return (
+    <div>
+      <strong>{treatmentCenterName}</strong><br/>
+      {treatmentPeriod}
+    </div>
+  );
+};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
@@ -149,3 +169,48 @@ export const privateMedicalRecordsIntro = ({ formData }) => {
     <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
   );
 };
+
+export function validatePostalCodes(errors, formData) {
+  let isValidPostalCode = true;
+  // Checks if postal code is valid
+  if (formData.treatmentCenterCountry === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
+  }
+  if (formData.treatmentCenterCountry === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treatmentCenterPostalCode);
+  }
+
+  // Add error message for postal code if it exists and is invalid
+  if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
+    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
+  }
+}
+
+export function validateAddress(errors, formData) {
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
+    && formData.treatmentCenterState === undefined) {
+    // TODO: enable once validation determined 
+    // && currentSchema.required.length) {
+    errors.treatmentCenterState.addError('Please select a state or province');
+  }
+  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
+    // TODO: enable once validation determined 
+    // && !currentSchema.required.length
+    && typeof formData.treatmentCenterCity !== 'undefined'
+    && typeof formData.treatmentCenterStreet !== 'undefined'
+    && typeof formData.treatmentCenterPostalCode !== 'undefined';
+
+  if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
+    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
+  }
+
+  validatePostalCodes(errors, formData);
+}
+
+export const recordReleaseWarning = (
+  <div className="usa-alert usa-alert-warning no-background-image">
+    <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+  </div>
+);
