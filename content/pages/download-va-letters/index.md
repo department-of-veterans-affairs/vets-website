@@ -1,11 +1,10 @@
 ---
-title: Download VA Letters
+title: Download VA Benefit Letters and Documents
 layout: page-breadcrumbs.html
 ---
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
-<div class="main">
-<div class="section">
+<main>
+<section>
 <div class="row" markdown="1">
 
 # Download Your VA Letters
@@ -14,11 +13,13 @@ layout: page-breadcrumbs.html
 To receive some benefits, Veterans need a letter proving their status. You can access and download some of these benefit letters and documents online.
 </div>
 
+<section>
+
 ### What types of VA letters can I download using this tool?
 
 You can download your VA letters for benefits you’re currently receiving. You can also download letters for benefits you’re eligible for based on your service history.
 
-<a href='/download-va-letters/letters'><button class='usa-button-primary'>Access Your VA Letters</button></a>
+<a href='/download-va-letters/letters' class='usa-button-primary'>Access Your VA Letters</a>
 
 <div class='va-callout'>
 
@@ -71,6 +72,9 @@ This letter shows the benefits you’re receiving from VA.
 </li>
 </ul>
 </div>
+</section>
+
+<section>
 
 ### How do I download a VA letter?
 
@@ -81,6 +85,9 @@ This address will be listed on your letter. If this address isn’t correct, you
 **Note:** To download a letter, you’ll need the latest version of Adobe Reader. It’s free to download.
 
 [Get Adobe Reader](https://get.adobe.com/reader/).
+
+</section>
+<section>
 
 ### What if I want to download a letter or document that isn’t available from this tool?
 
@@ -94,11 +101,20 @@ Use these links to get access to other common VA letters and documents you may b
 
 [Sign in to eBenefits to request a copy of your discharge or separation papers (DD214)](https://eauth.va.gov/ebenefits/DPRIS).
 
+</section>
+<section>
+
 ### What if I have trouble downloading a VA letter?
 
 Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-877-8339).
 We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
+<br>
+<br>
+<br>
+</section>
 </div>
-</div>
-</div>
+</section>
+</main>
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
