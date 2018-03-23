@@ -26,7 +26,7 @@ If you’re a Servicemember who meets certain criteria, we’ll automatically si
 
 ### Can I get SGLI? 
 
-You may be able to get full-time SGLI coverage if any of the descriptions are true for you.
+You may be able to get full-time SGLI coverage if any of the descriptions below are true for you.
 
 **At least one of these must be true. You're:**
 
@@ -36,6 +36,8 @@ You may be able to get full-time SGLI coverage if any of the descriptions are tr
 - A member, cadet, or midshipman of the Reserve Officers Training Corps (ROTC) engaged in authorized training and practice cruises, **or**
 - A member of the Ready Reserve or National Guard, assigned to a unit, and scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
+
+<br>
 
 #### If you're in nonpay status with the Ready Reserve or National Guard
 
