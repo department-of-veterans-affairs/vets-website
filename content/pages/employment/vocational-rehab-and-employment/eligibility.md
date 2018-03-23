@@ -44,7 +44,7 @@ You may be eligible for VR&E benefits and services if you’re a Veteran, and yo
 - Date of separation from active military service, **or**
 - First VA service-connected disability rating
 
-**Note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) finds that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Please note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) finds that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, get, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 <br>
 
@@ -58,7 +58,7 @@ You may be eligible for VR&amp;E benefits and services if you're a Servicemember
 - Are participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. <br>
 [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
-**Please note:** Severely injured active-duty service members can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended September 30, 2018, through Sec. 724 of Public Law 113-291.
+**Please note:** Severely injured active-duty Servicemembers can automatically receive VR&E benefits before VA issues a disability rating, because of Sec. 1631(b) of the National Defense Authorization Act (PL 110-181). The sunset date of that law has been extended to September 30, 2018, through Sec. 724 of Public Law 113-291.
 
 <br>
 
