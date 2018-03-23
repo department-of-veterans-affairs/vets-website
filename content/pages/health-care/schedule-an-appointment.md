@@ -26,7 +26,8 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
+If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now.<br>
+<a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
 <div class="usa-alert usa-alert-warning">
@@ -70,16 +71,16 @@ VA now offers online scheduling for some appointments and facilities. We hope to
 
 If you have VA health care benefits, you can schedule a VA primary care appointment online if you meet all of the requirements listed below.
 
-**To schedule online, both of these must be true:**
+**Both of these must be true:**
 
 - You're scheduling your appointment with a VA medical facility that accepts online scheduling.<br>
 [Find out if your VA medical center accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
 - You've had an appointment at that VA medical facility within the last 2 years
 
 **And, you must have one of these free accounts:**
-- A premium <strong>My Health<em>e</em>Vet<strong> account <br>
+- A premium My Health<em>e</em>Vet account <br>
 [Sign up for a My Health*e*Vet account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
-- Or, a premium **DS Logon** account (used for eBenefits and milConnect) <br>
+- Or, a premium DS Logon account (used for eBenefits and milConnect) <br>
 [Sign up for a DS Logon account](https://mobile.va.gov/dslogon).
 
 <div>
