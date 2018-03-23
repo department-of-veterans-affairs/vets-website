@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import DropDown from '../../common/components/DropDown';
 import IconUser from '../../common/components/svgicons/IconUser';
+import { logout } from '../utils/helpers';
 
 class SignInProfileMenu extends React.Component {
   render() {
@@ -10,7 +12,7 @@ class SignInProfileMenu extends React.Component {
     const dropDownContents = (
       <ul>
         <li><a href="/profile">Account</a></li>
-        <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
+        <li><a href="#" onClick={logout}>Sign Out</a></li>
       </ul>
     );
 
@@ -32,7 +34,6 @@ SignInProfileMenu.propTypes = {
   cssClass: PropTypes.string,
   greeting: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
-  onUserLogout: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };
 

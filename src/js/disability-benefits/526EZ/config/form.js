@@ -20,8 +20,13 @@ import {
   treatmentView,
   recordReleaseWarning,
   validateAddress,
+<<<<<<< HEAD
   documentDescription,
   // additionaDocumentDescription,
+=======
+  // documentDescription
+  // additionalDocumentDescription
+>>>>>>> master
   releaseView
 } from '../helpers';
 
@@ -344,7 +349,11 @@ const formConfig = {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
                 privateRecordReleases: {
                   'ui:options': {
+<<<<<<< HEAD
                     itemName: 'Private Medical Record Release',
+=======
+                    itemName: 'Private Medical Record',
+>>>>>>> master
                     viewField: releaseView
                   },
                   items: {
@@ -352,7 +361,12 @@ const formConfig = {
                       'ui:order': [
                         'treatmentCenterName',
                         'privateMedicalRecordsReleaseAccepted',
+<<<<<<< HEAD
                         'view:privateMedicalRecordsReleasePermissionRestricted', 'startTreatment', 'endTreatment',
+=======
+                        'view:privateMedicalRecordsReleasePermissionRestricted',
+                        'startTreatment', 'endTreatment',
+>>>>>>> master
                         'treatmentCenterCountry', 'treatmentCenterStreet1',
                         'treatmentCenterStreet2', 'treatmentCenterCity',
                         'treatmentCenterState', 'treatmentCenterPostalCode'
@@ -430,6 +444,7 @@ const formConfig = {
               }
             }
           }
+<<<<<<< HEAD
         },
         recordUpload: {
           title: 'Upload your private medical records',
@@ -532,6 +547,13 @@ const formConfig = {
             }
           }
         }
+=======
+        }
+        // pageFive: {},
+        // pageSix: {},
+        // pageSeven: {},
+        // pageEight: {},
+>>>>>>> master
         // pageNine: {},
         // pageTen: {},
       }

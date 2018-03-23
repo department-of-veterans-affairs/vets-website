@@ -181,6 +181,7 @@ export const recordReleaseWarning = (
     <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
   </div>
 );
+<<<<<<< HEAD
 
 export const documentDescription = () => {
   return (
@@ -194,3 +195,5 @@ export const documentDescription = () => {
     </div>
   );
 };
+=======
+>>>>>>> master
