@@ -59,7 +59,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-guard">Service requirements for National Guard and Reserve members</button>
 <div id="va-loan-eligibility-guard" class="usa-accordion-content">
 
-| When did you serve? | You meet the minimum active-duty service requirement if you meet these service requirements: | 
+| When did you serve? | You meet the minimum active-duty service requirement if you served for at least this amount of time: | 
 | --- | --- | 
 | Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
 | Any time period | 6 creditable years in the Selected Reserve or National Guard, and one of the descriptions below is true for you.<br>**At least one of these must be true. You:**<br><ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
