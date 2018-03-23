@@ -87,7 +87,7 @@ Use our VMLI Premium Calculator to figure out what your premium may be. [Go to t
 
 The home covered by VMLI must be your primary residence (the home where you live most of the time).
 
-**To keep your VMLI coverage, you’ll need to let us know if you take any of these actions:
+**To keep your VMLI coverage, you’ll need to let us know if you make any of these changes:**
 
 - Move, **or**
 - Transfer your mortgage from one lender to another, **or**
