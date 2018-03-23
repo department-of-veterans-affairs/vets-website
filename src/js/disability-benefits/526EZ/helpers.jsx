@@ -149,7 +149,6 @@ export function validatePostalCodes(errors, formData) {
 
   // Add error message for postal code if it exists and is invalid
   if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
-
     errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
   }
 }

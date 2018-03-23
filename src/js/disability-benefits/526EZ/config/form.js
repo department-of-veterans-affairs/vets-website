@@ -3,7 +3,6 @@ import _ from '../../../common/utils/data-utils';
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 
-import phoneUI from '../../../common/schemaform/definitions/phone';
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -32,8 +31,7 @@ const {
 
 const {
   date,
-  // files,
-  phone
+  // files
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -67,8 +65,7 @@ const privateRecordReleasesSchema = Object.assign({}, treatments.items.propertie
   },
   treatmentCenterPostalCode: {
     type: 'number'
-  },
-  treatmentCenterPhone: phone,
+  }
 });
 
 const formConfig = {
@@ -358,8 +355,7 @@ const formConfig = {
                         'view:privateMedicalRecordsReleasePermissionRestricted', 'startTreatment', 'endTreatment',
                         'treatmentCenterCountry', 'treatmentCenterStreet1',
                         'treatmentCenterStreet2', 'treatmentCenterCity',
-                        'treatmentCenterState', 'treatmentCenterPostalCode',
-                        'treatmentCenterPhone'
+                        'treatmentCenterState', 'treatmentCenterPostalCode'
                       ],
                       treatmentCenterName: { // TODO: is this required?
                         'ui:title': 'Name of private provider or hospital'
@@ -402,7 +398,6 @@ const formConfig = {
                           widgetClassNames: 'usa-input-medium'
                         }
                       },
-                      treatmentCenterPhone: phoneUI('Primary phone number'),
                       'ui:validations': [validateAddress]
                     }
                   }
