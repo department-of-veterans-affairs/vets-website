@@ -113,7 +113,7 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   manifests.filter(m => !m.production).forEach(m => {
-    ignoreList.push(m.contentPath);
+    ignoreList.push(m.contentPage);
   });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');

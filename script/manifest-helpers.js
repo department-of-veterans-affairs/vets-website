@@ -4,12 +4,16 @@ const path = require('path');
 const fs = require('fs');
 
 function convertUrlToMarkdownPath(root, url) {
-  const contentPath = path.join(root, './content/pages', url);
+  let contentPath = path.join(root, './content/pages', url);
   if (fs.existsSync(`${contentPath}.md`)) {
-    return `${contentPath}.md`.replace(path.join(root, './content/pages'), '');
+    contentPath = `${contentPath}.md`;
+  } else {
+    contentPath = `${contentPath}/index.md`;
   }
 
-  return `${contentPath}/index.md`.replace(path.join(root, './content/pages'), '');
+  return contentPath
+    .replace(path.join(root, './content/pages'), '')
+    .replace(/^\//, '');
 }
 
 function getAppManifests(root) {
