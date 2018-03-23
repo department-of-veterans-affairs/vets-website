@@ -18,7 +18,7 @@ Did you spend time in a VA hospital or a VA-approved hospital for a disability r
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if one of the below experiences with hospital care is true for you.
+You may be able to get disability benefits if one of the situations below describes your experience.
 
 **One of these must be true:**
   - You spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability, **or**
