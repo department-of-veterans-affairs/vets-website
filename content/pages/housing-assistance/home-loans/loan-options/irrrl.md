@@ -17,11 +17,13 @@ Refinancing lets you replace your current loan with a new one under different te
 
 ### Can I get an IRRRL?
 
-You may be able to get an IRRRL if **all of the following are true for you**:
+You may be able to get an IRRRL if you meet all of the requirements listed below.
 
--	You already have a VA-backed home loan, **and**
--	You are using the IRRRL to refinance your existing VA-backed home loan, **and**
--	You can certify that you currently live in or used to live in the home covered by the loan
+**All of these must be true. You:**
+
+-	Already have a VA-backed home loan, **and**
+-	Are using the IRRRL to refinance your existing VA-backed home loan, **and**
+-	Can certify that you currently live in or used to live in the home covered by the loan
 
 **Note:** If you have a second mortgage on the home, the holder must agree to make your new VA-backed loan the first mortgage.  
 
@@ -31,7 +33,7 @@ You may be able to get an IRRRL if **all of the following are true for you**:
 
 ### Why might I want to get an IRRRL?
 
-Often called a “streamline” refinance, an IRRRL may help you to:
+**Often called a “streamline” refinance, an IRRRL may help you to:**
 
 -	Lower your monthly mortgage payment by getting you a lower interest rate, **or**
 -	Make your monthly payments more stable by moving from a loan with an adjustable or variable interest rate (an interest rate that changes over time) to one that’s fixed (the same interest rate over the life of the loan)
