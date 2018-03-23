@@ -44,7 +44,7 @@ You may be eligible for VR&E benefits and services if you’re a Veteran, and yo
 - Date of separation from active military service, **or**
 - First VA service-connected disability rating
 
-**Please note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) finds that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, get, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
+**Please note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) finds that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 <br>
 
