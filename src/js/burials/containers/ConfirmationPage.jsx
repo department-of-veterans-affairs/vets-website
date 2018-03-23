@@ -63,7 +63,7 @@ class ConfirmationPage extends React.Component {
               <span>{response.confirmationNumber}</span>
             </li>
             <li>
-              <strong>Date received</strong><br/>
+              <strong>Date submitted</strong><br/>
               <span>{submittedAt.utcOffset(offset).format('MMM D, YYYY h:mm a [CT]')}</span>
             </li>
             <li>
