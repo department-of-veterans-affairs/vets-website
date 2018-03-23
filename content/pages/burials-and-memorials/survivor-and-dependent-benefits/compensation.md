@@ -16,7 +16,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 ### As a surviving spouse, can I get compensation from VA?
 
-If you’re a surviving spouse, you can get compensation if one of the below descriptions is true for you.
+If you’re a surviving spouse, you can get compensation if at least one of the below descriptions is true for you.
 
 **One of these must be true. You:**
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
