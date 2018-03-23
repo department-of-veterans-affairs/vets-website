@@ -40,7 +40,7 @@ Find out if you can get disability compensation for an illness or injury that wa
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and at least one of the below descriptions is true for you.
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and at least one of the descriptions below is true for you.
 
 **At least one of these is true:**
 - You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
