@@ -131,7 +131,7 @@ const validDocumentData = {
 };
 
 describe('526EZ document upload', () => {
-  const page = formConfig.chapters.supportingEvidence.pages.recordUpload;
+  const page = formConfig.chapters.supportingEvidence.pages.documentUpload;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
