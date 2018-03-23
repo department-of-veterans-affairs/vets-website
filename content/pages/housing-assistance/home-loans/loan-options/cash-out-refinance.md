@@ -16,11 +16,13 @@ Refinancing lets you replace your current loan with a new one under different te
 
 ### Can I get a VA-backed cash-out refinance loan?
 
-You may be able to get a cash-out refinance loan if **all of the following are true for you**:
+You may be able to get a cash-out refinance loan if you meet all of the requirements listed below.
 
--	You qualify for a VA-backed home loan Certificate of Eligibility **and**
--	You meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
--	You will live in the home you’re refinancing with the loan
+**All of these must be true. You:**
+
+-	Qualify for a VA-backed home loan Certificate of Eligibility **and**
+-	Meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
+-	Will live in the home you’re refinancing with the loan
 
 [See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/)
 </div>
@@ -29,7 +31,7 @@ You may be able to get a cash-out refinance loan if **all of the following are t
 
 ### Why might I want to get a cash-out refinance loan?
 
-A cash-out refinance loan may help you to:
+**A cash-out refinance loan may help you to:**
 
 -	Take cash out of your home equity to pay off debt, pay for school, make home improvements, or take care of other needs, **or**
 -	Refinance a non-VA loan into a VA-backed loan
@@ -69,7 +71,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 #### Give your lender any needed information.
 
-In addition to your COE, you’ll need to give your lender:
+**In addition to your COE, you’ll need to give your lender:**
 -	Copies of paycheck stubs for the most recent 30-day period
 -	W-2 forms for the previous 2 years
 -	A copy of your federal income tax returns for the previous 2 years (required by many, but not all lenders)
