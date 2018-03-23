@@ -344,9 +344,9 @@ class GuidancePage extends React.Component {
 
     return (
       <ul>
-        <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
-        <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
-        <li><a target="_blank" href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
+        <li><a target="_blank" href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who experience military sexual trauma</a></li>
+        <li><a target="_blank" href="/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
+        <li><a target="_blank" href="/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
         <li><a target="_blank" href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf">VA Guidance on Character of Discharge Reviews</a></li>
         {serviceBranch === 'army' && <li><a target="_blank" href="http://arba.army.pentagon.mil">Army Review Boards Agency</a></li>}
         {serviceBranch === 'army' && board(this.props.formValues).abbr === 'DRB' && <li><a target="_blank" href="http://arba.army.pentagon.mil/adrb-overview.html">Army Discharge Review Board</a></li>}
