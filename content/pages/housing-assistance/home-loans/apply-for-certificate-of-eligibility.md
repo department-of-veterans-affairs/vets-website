@@ -141,7 +141,7 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 
 #### Apply for your COE
 
-You can apply in 1 of 3 ways:
+**You can apply in 1 of 3 ways:**
 
 **Online through eBenefits** <br>
 We recommend applying for your COE online.
