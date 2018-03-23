@@ -29,7 +29,7 @@ If you’re a dependent spouse or child—or the surviving spouse or child—of 
 -	The Servicemember was detained (held) by force while in the line of duty by a foreign government or power, **or**
 -	The Servicemember is in the hospital or getting outpatient treatment for a service-connected permanent and total disability, and is likely to be discharged for that disability. A service-connected permanent and total disability is a disability resulting from your service that doesn’t go away.
   
-**You may qualify for education benefits if you’re the child or spouse of a Veteran** and one of the below descriptions is true for that Veteran.
+**You may qualify for education benefits if you’re the child or spouse of a Veteran** and one of the below descriptions is true of the Veteran.
 
 **One of these must be true:**
 - The Servicemember is permanently and totally disabled due to a service-connected disability, **or**
