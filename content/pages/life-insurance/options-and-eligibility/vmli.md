@@ -27,7 +27,6 @@ You may be able to get VMLI if you have a severe disability, and you meet all of
 
 **All of these must be true. You:**
 
-- Have a severe, service-connected disability, **and**
 - Received a Specially Adapted Housing (SAH) grant to buy, build, or make changes (like installing ramps or widening doorways) to a home so you can live more independently, **and**
 - Have the title of the home, **and**
 - Have a mortgage on the home, **and**
