@@ -4,8 +4,7 @@ layout: page-breadcrumbs.html
 template: level2-index
 ---
 
-<main>
-<section>
+<div id='main'>
 <div class="row" markdown="1">
 
 <div class='va-introtext'>
@@ -108,12 +107,11 @@ Use these links to get access to other common VA letters and documents you may b
 Call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-877-8339).
 We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
-<br>
-<br>
-<br>
 </section>
 </div>
-</section>
-</main>
+</div>
 
+<br>
+<br>
+<br>
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
