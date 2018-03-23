@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
+    "apps": "node --eval \"require('./script/manifest-helpers.js').displayApplications()\"",
     "analyze": "webpack-bundle-analyzer build/production/generated/stats.json",
     "build": "node script/build.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",

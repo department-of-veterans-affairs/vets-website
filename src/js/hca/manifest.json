@@ -1,0 +1,7 @@
+{
+  "appName": "Health Care Application",
+  "entryFile": "./hca-entry.jsx",
+  "entryName": "hca",
+  "rootUrl": "/health-care/apply/application",
+  "production": true
+}

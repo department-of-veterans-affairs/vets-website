@@ -1,7 +1,7 @@
 {
   "appName": "Claims Status",
-  "entryPoint": "./src/js/claims-status/claims-status-entry.jsx",
-  "bundleName": "claims-status",
+  "entryFile": "./claims-status-entry.jsx",
+  "entryName": "claims-status",
   "rootUrl": "/track-claims",
   "production": true
 }

@@ -1,0 +1,7 @@
+{
+  "appName": "527EZ pension form",
+  "entryFile": "./pensions-entry.jsx",
+  "entryName": "pensions",
+  "rootUrl": "/pension/application/527EZ",
+  "production": true
+}
