@@ -27,6 +27,8 @@ You may qualify if you’re a Veteran, and you or another Veteran at your compan
 - Works full time for the business, **and**
 - Holds the highest officer position in the company
 
+<br>
+
 #### What qualifies me as a Veteran?
 
 You’re considered a Veteran if either of the descriptions below are true for you.
