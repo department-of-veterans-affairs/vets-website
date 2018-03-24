@@ -83,4 +83,11 @@
       }
     }
   }
+
+  .usa-button[href^=http],
+  .usa-button[rel=external] {
+    background-image: url(/img/icons/exit-icon-white.png);
+    background-position: right 1.2em center;
+    padding-right: 2.9em;
+  }
 }
