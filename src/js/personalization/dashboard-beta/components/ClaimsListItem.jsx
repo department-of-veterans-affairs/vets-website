@@ -26,7 +26,7 @@ export default function ClaimsListItem({ claim }) {
           ? <li className="claim-list-item-text"><i className="fa fa-exclamation-triangle claim-list-item-icon"></i>Items need attention</li>
           : null}
       </ul>
-      <Link className="usa-button usa-button-primary" href={`/track-claims/your-claims/${claim.id}/status`}>View claim</Link>
+      <Link className="usa-button usa-button-primary" href={`/track-claims/your-claims/${claim.id}/status`}>View claim <i className="fa fa-chevron-right"/></Link>
     </div>
   );
 }
