@@ -32,29 +32,37 @@ The Decision Ready Claims (DRC) Program is the fastest way to get your VA claim 
 
 
 <div class="feature" markdown="1">
-### Can I file my disability compensation claim through the Decision Ready Claim Program?
+<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Can I file my disability compensation claim through the Decision Ready Claim Program?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 Right now, you may be able to file a DRC if you meet at least one of the requirements listed below.
 
 **At least one of these must be true. You:**
 
-- Are filing a Pre-discharge Claim (a claim for disability compensation filed by Servicemembers who have less than 90 days remaining before separation from military service), **or**), **or**
-- Are filing a Dependency and Indemnity Compensaion (DIC) Claim (for surviving spouses of Veterans who died due to a service-related injury or disease and was rated 100% disabled due to service-connected conditions, including entitlement to Individual Unemployability, for 10 years before they died), **or** 
+- Are filing a **Pre-discharge Claim** for disability compensation less than 90 days before your separation from military service, **or**
+- Are filing a **Dependency and Indemnity Compensaion (DIC) Claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to service-connected conditions, including entitlement to Individual Unemployability, for 10 years before they died, **or** 
 - Have already filed a VA claim and received a rating decision from us on that claim, and you're now filing one of these types of claims:
-  - **Direct Service Connection Claims** for conditions that began during your military service or were caused by an event while serving
-  - **Presumptive Service Connection Claims** for conditions that are presumed to have been caused by an event during your military service, even if there's no specific evidence showing a connection between your condition and your military service in your records. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders)
-  - **Secondary Service Connection Claims** for conditions that were caused or made worse by a service-connected disability
-  - **Increased Disability Claims** for existing service-connected conditions that you have medical evidence to show have gotten worse
+  - A **Direct Service Connection Claim** for a condition that began during your military service or was caused by an event while serving
+  - A **Presumptive Service Connection Claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders).
+  - A **Secondary Service Connection Claim** for a condition caused or made worse by your service-connected disability
+  - An **Increased Disability Claims** for an existing service-connected condition that you have medical evidence to show has gotten worse
 
 **Note:** You'll need to also check the exclusions below to see if your claim may be disqualified from the DRC Program.
 
 </div>
+</div>
+</div>
+</div>
 
 <div class="feature" markdown="1">
+<h3 itemprop="name">What exclusions would disqualify me from being able to file my claim through the Decision Ready Claim Program?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
-### What exclusions would disqualify me from being able to file my claim through the Decision Ready Claim Program?
-
-You can't file your claim through the DRC program if any of the below is true.
+You can't file your claim through the DRC program if any of the below factors are true for you.
 
 **None of these can be true. You can't be filing:**
 - A claim for a previously denied condition, **or**
@@ -78,9 +86,9 @@ You can't file your claim through the DRC program if any of the below is true.
 - An incarcerated Veteran
 - Living outside of the U.S.
 
-#### If you're filing a Pre-Discharge Claim
+<h4>If you're filing a Pre-Discharge Claim</h4>
 
-You can't file your claim through the DRC program if any of the below is true.
+You can't file your claim through the DRC program if any of the below factors are true for you.
 
 **None of these can be true. You can't be filing a claim:**
 - Involving one or more of the factors in the lists above, **or**
@@ -89,14 +97,17 @@ You can't file your claim through the DRC program if any of the below is true.
 - Requiring a character of discharge determination, **or**
 - For aggravation of a condition that pre-existed service or was noted at the time of entry into service (unless evidence of pre-service baseline severity is provided)
 
-#### If you're filing a DIC Claim
+<h4>If you're filing a DIC Claim</h4>
 
-You can't file your claim through the DRC program if any of the below is true.
+You can't file your claim through the DRC program if any of the below factors are true for you.
 
 **None of these can be true. You can't be filing:**
 - A claim for Parents Dependency and Indemnity Compensation (DIC), **or**
 - A burial claim (unless it's submitted with a DRC-eligible DIC claim)
 
+</div>
+</div>
+</div>
 </div>
 
 ### How do I file a Decision Ready Claim?
@@ -104,16 +115,18 @@ You can't file your claim through the DRC program if any of the below is true.
 You'll need to follow the steps below. When you work with an accredited VSO and provide all the necessary evidence with your application, you can get a decision on your claim in 30 days or less.
 
 <ol class="process">
-  <li class="process-step list-one">Appoint and work with an accredited VSO</li>
-  Accredited VSOs are fully trained on the DRC Program. They can help you determine if a DRC is right for you. 
-  
-  <li class="process-step list-two">Gather all relevant and required evidence to support your claim</li>
-  This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
-  <li class="process-step list-three">Attend a VA claim exam, if needed</li>
-  If it's needed, your VSO can request a claim exam for you. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can then be included along with your application.
-  <li class="process-step list-three">Submit your claim</li>
-  Your VSO will check to make sure all of the necessary information is included and help you electronically submit your claim to VA. Giving VA all the relevant evidence when you submit your DRC allows your claim to go directly to a VA Rating Specialist for a decision.
-  
+  <li class="process-step list-one"><strong>Appoint and work with an accredited VSO</strong><br>
+    Accredited VSOs are fully trained on the DRC Program. They can help you determine if a DRC is right for you.
+    </li>  
+  <li class="process-step list-two"><strong>Gather all relevant and required evidence to support your claim</strong><br>
+    This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
+    </li>
+  <li class="process-step list-three"><strong>Attend a VA claim exam, if needed</strong><br>
+    If it's needed, your VSO can request a claim exam for you. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can then be included along with your application.
+    </li>
+  <li class="process-step list-three"><strong>Submit your claim</strong><br>
+    Your VSO will check to make sure all of the necessary information is included and help you electronically submit your claim to VA. Giving VA all the relevant evidence when you submit your DRC allows your claim to go directly to a VA Rating Specialist for a decision.
+    </li>  
 </ol>
 
 ### How do I find an accredited VSO?
