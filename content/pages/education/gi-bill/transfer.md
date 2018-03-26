@@ -26,10 +26,15 @@ Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to yo
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can transfer benefits if you’re on active duty or in the Selected Reserve and **at least one of the following is true for you**:
+You can transfer benefits if you’re on active duty or in the Selected Reserve and you meet the requirements listed below.
+
+**At least one of these must be true:**
  - You have completed at least 6 years of service on the date your request is approved and you agree to add 4 more years of service, **or**
- - You have completed at least 10 years of service on the date your request is approved, can’t commit to add 4 more years of service because of either a policy or statute, but agree to serve for the maximum amount of time allowed, **and**
-  - The person getting benefits has enrolled in the Defense Enrollment Eligibility Reporting System (DEERS)
+ - You have completed at least 10 years of service on the date your request is approved, can’t commit to add 4 more years of service because of either a policy or statute, but agree to serve for the maximum amount of time allowed
+
+**And this must also be true:**
+
+The person getting benefits has enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
 
   </div>
   </div>
