@@ -9,7 +9,7 @@ order: 9
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-The Yellow Ribbon Program can help you pay for higher out-of-state, private or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
+The Yellow Ribbon Program can help you pay for higher out-of-state, private school, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
 </div>
 
@@ -18,9 +18,11 @@ The Yellow Ribbon Program can help you pay for higher out-of-state, private or g
 <h3 itemprop="name">Can I get this benefit?</h3>
 <div itemprop="itemListElement">
 
-You can get this benefit if **both of the following are true for you**:
+You can get this benefit if you meet both of the requirements listed below.
+
+**Both of these must be true:**
 - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
-- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us. 
+- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us
 
 You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
 [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
@@ -70,7 +72,7 @@ If you qualify for benefits, you’ll get a Certificate of Eligibility (COE).
 
 ##### Turn in your COE
 
-Bring your COE to your school’s certifying official, or to the financial aid, military liaison or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
+Bring your COE to your school’s certifying official, or to the financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 
 </li>
 
