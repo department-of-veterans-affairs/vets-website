@@ -181,3 +181,16 @@ export const recordReleaseWarning = (
     <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
   </div>
 );
+
+export const documentDescription = () => {
+  return (
+    <div>
+      <p>File upload guidelines:</p>
+      <ul>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
+      </ul>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+    </div>
+  );
+};

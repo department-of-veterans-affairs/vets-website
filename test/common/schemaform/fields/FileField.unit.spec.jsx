@@ -392,4 +392,54 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('li').text()).to.contain('Test file name');
     expect(tree.find('SchemaField').prop('schema')).to.equal(schema.items[0].properties.attachmentId);
   });
+  it('should call onChange when field is updated', () => {
+    const idSchema = {
+      $id: 'field'
+    };
+    const schema = {
+      additionalItems: {
+        type: 'object',
+        properties: {}
+      },
+      items: [{
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          }
+        }
+      }]
+    };
+    const uiSchema = fileUploadUI('Files', {
+      attachmentName: {
+        'ui:title': 'Document name'
+      }
+    });
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name'
+      }
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
+    const onChange = sinon.spy();
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={onChange}
+        requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.find('li').text()).to.contain('Test file name');
+    expect(tree.find('SchemaField').prop('schema')).to.equal(schema.items[0].properties.name);
+  });
 });
