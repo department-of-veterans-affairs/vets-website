@@ -17,7 +17,9 @@ If you’re using VA educational assistance, and you’re struggling with the co
 <div class="feature" markdown="1">
 
 ### Can I get this benefit?
-You can get this benefit if you’re using VA educational assistance and **all of the following are true for you**:
+You can get this benefit if you’re using VA educational assistance and you meet all of the requirements listed below.
+
+**All of these must be true:**
   - You’re enrolled in an educational program for half-time or more, **and**
   - You’re taking a course that’s difficult, **and**
   - You have to take the course as part of your educational program
