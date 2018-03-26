@@ -9,14 +9,11 @@ require('../test/util/enzyme-setup.js');
 
 const { Writable } = require('stream');
 const chokidar = require('chokidar');
-const CLIEngine = require('eslint').CLIEngine;
+const uncache = require('recursive-uncache');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const glob = util.promisify(require('glob'));
 
-const eslint = new CLIEngine();
-const formatter = eslint.getFormatter('stylish');
-const sasslinter = require('sass-lint');
 const Mocha = require('mocha');
 
 const chalk = require('chalk');
@@ -42,84 +39,61 @@ if (process.argv.length === 2) {
   };
 }
 
-const watchArray = [
-  './src/**/*.jsx',
-  './src/**/*.js',
-  './test/**/*.unit.spec.*'
-];
+const unwatchedModules = Object.keys(require.cache).map(file => file);
+let watcher;
 
-if (options.sassLint) {
-  watchArray.push('./src/**/*.scss');
+async function runUnitTests(tests) {
+  const unitTests = tests || await glob('test/**/*.unit.spec.js?(x)')
+  console.log(chalk.cyan(`Running ${unitTests.length} unit test files`));
+
+  await runMochaTests(unitTests);
+
+  console.log(chalk.red('Watching for changes'));
+
+  if (!watcher) {
+    const watchedFiles = Object.keys(require.cache).filter(file => !unwatchedModules.includes(file) && !file.includes('node_modules'));
+    const unitTestsForSrc = getUnitTestsForSrc(watchedFiles);
+    watcher = chokidar.watch(watchedFiles).
+      on('change', file => {
+        if (file.includes('.unit.spec')) {
+          uncache(file);
+          runUnitTests([file]);
+        }
+
+        if (file.includes('src')) {
+          unitTestsForSrc[file].forEach(unitTest => uncache(unitTest));
+          runUnitTests(unitTestsForSrc[file]);
+        }
+      });
+  }
 }
 
-const srcWatcher = chokidar.watch(watchArray);
 
-async function runTests() {
-  const groupedFiles = groupFilesByTest(await getChangedFiles());
+function getUnitTestsForSrc(watchedFiles) {
+  return watchedFiles
+  .filter(file => file.includes('test'))
+  .reduce((acc, testFile) => {
+    const requiredSourceFiles = require.cache[testFile]
+      .children
+      .forEach(childModule => {
+        if (!childModule.id.includes('src')) {
+          return;
+        }
+        if (acc[childModule.id]) {
+          acc[childModule.id].push(testFile);
+        } else {
+          acc[childModule.id] = [testFile];
+        }
+      });
 
-  if (options.unit) {
-    const unitTests = groupedFiles.mocha.length > 0 ?
-      groupedFiles.mocha :
-      await glob('test/**/*.unit.spec.js?(x)');
-    console.log(`Running Mocha with ${unitTests.length} Files\n`);
-    // mocha requires flushing the require cache of all js files (tests and imports)
-    groupedFiles.eslint.forEach(file => delete require.cache[file]);
-    await runMochaTests(unitTests);
-  }
+    return acc;
 
-  if (options.eslint) {
-    const eslintTargets = groupedFiles.eslint.length > 0 ?
-      groupedFiles.eslint :
-      await glob('+(src|test)/**/*.js?(x)');
-    console.log(`Running Eslint with ${eslintTargets.length} Files\n`);
-    eslintFiles(eslintTargets);
-  }
-
-  if (options.sasslint) {
-    const sasslintTargets = groupedFiles.sasslint.length > 0 ?
-      groupedFiles.sasslint :
-      await glob('./**/*.scss');
-
-    console.log(`Running sassLint with ${sasslintTargets.length} Files\n`);
-    sasslintFiles(sasslintTargets);
-  }
-
-  console.log(chalk.cyan('Watching for changes'));
-}
-
-function groupFilesByTest(files) {
-  return files.reduce((groupedFiles, file) => {
-    if (file.includes('.unit.spec')) {
-      groupedFiles.mocha.push(file);
-    }
-
-    if (!file.includes('src') && !file.includes('test')) {
-      return groupedFiles;
-    }
-
-    switch(path.extname(file)) {
-      case '.js':
-      case '.jsx':
-        groupedFiles.eslint.push(file);
-        break;
-      case '.scss':
-        groupedFiles.sasslint.push(file);
-        break;
-      default:
-    }
-    return groupedFiles;
-
-  }, { eslint: [], mocha: [], sasslint: [] } );
-}
-
-async function getChangedFiles() {
-  const projectRoot = path.resolve();
-  // use gitDiffIndex to limit tests that are run to changed files
-  const gitDiffIndex = await exec('git diff-index --name-only HEAD');
-  return gitDiffIndex.stdout.split('\n').map(file => path.join(projectRoot, file));
+  }, {});
 }
 
 async function runMochaTests(files) {
+  console.log(chalk.yellow('Mocha starting'));
+  if (files.length < 10) files.forEach(file => console.log(chalk.blue(path.basename(file))));
   // keep errors from polluting the reporter by redirecting the error stream
   let errorStream;
   const consoleErr = process.stderr.write;
@@ -132,7 +106,7 @@ async function runMochaTests(files) {
     process.stderr.write = errorStream;
   }
 
-  const mocha = new Mocha({ignoreLeaks: true});
+  const mocha = new Mocha();
   mocha.reporter('nyan');
   mocha.addFile('./test/helper.js');
 
@@ -147,24 +121,9 @@ async function runMochaTests(files) {
   });
 }
 
-function eslintFiles(files) {
-  const eslintResults = eslint
-    .executeOnFiles(files)
-    .results
-    .filter(result => options.showErrors || result.errorCount > 0);
-  console.log(formatter(eslintResults) || chalk.green(`${files.length} js files lint free`));
-}
-
-function sasslintFiles(files) {
-  const sasslintResults = _.flattenDeep(files.map(sassFile =>
-    sasslinter.lintFiles(`./${sassFile}`, {}, './config/sass-lint.yml')
-  ));
-  console.log(formatter(sasslintResults) || chalk.green(`${files.length} scss files lint free`));
-}
-
 // ensures errors that blow up test watcher make it to console reporter
 process.on('uncaughtException', function(err) {
   console.error((err && err.stack) ? err.stack : err);
 });
-srcWatcher.on('change', runTests);
-runTests();
+
+runUnitTests();
