@@ -5,7 +5,8 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { systemDownMessage, unableToFindRecordWarning } from '../../common/utils/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
-import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
+// import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
+import { backendErrorMessage } from '../utils/helpers';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -19,20 +20,26 @@ export class Main extends React.Component {
         appContent = this.props.children;
         break;
       case 'awaitingResponse':
-        appContent = <LoadingIndicator message="Loading your Post-9/11 GI Bill benefit information..."/>;
+        appContent = <LoadingIndicator message="Please wait while we check if the tool is available for you."/>;
         break;
       case 'backendServiceError':
-        appContent = systemDownMessage;
+        appContent = backendErrorMessage();
         break;
       case 'backendAuthenticationError':
         appContent = unableToFindRecordWarning;
         break;
       case 'noChapter33Record':
-        appContent = noChapter33BenefitsWarning();
+        /*
+          Temporarily replace noChapter33BenefitsWarning() with systemDown.
+          See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/7677
+        */
+        // appContent = noChapter33BenefitsWarning();
+        appContent = systemDownMessage;
         break;
       case 'unavailable':
       default:
-        appContent = systemDownMessage;
+        // appContent = systemDownMessage;
+        appContent = backendErrorMessage();
     }
 
     return (

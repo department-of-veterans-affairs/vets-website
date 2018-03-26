@@ -14,6 +14,7 @@ import {
   validateBooleanGroup,
   validateMonthYear,
   validateCurrentOrPastMonthYear,
+  validateAutosuggestOption,
   isValidForm
 } from '../../../src/js/common/schemaform/validation';
 
@@ -329,8 +330,7 @@ describe('Schemaform validations', () => {
         errorMessage: 'test'
       }]);
 
-      expect(errors[0].__errors[0]).to.equal('Error: test');
-      expect(errors.__errors).not.to.be.empty;
+      expect(errors[0].__errors[0]).to.equal('test');
     });
     it('should mark files without confirmation number as invalid', () => {
       const errors = {};
@@ -527,6 +527,27 @@ describe('Schemaform validations', () => {
       validateCurrentOrPastMonthYear(errors, moment().add(1, 'year').format('YYYY-MM-[XX]'));
 
       expect(errors.addError.firstCall.args[0]).to.equal('Please provide a valid current or past date');
+    });
+  });
+  describe('validateAutosuggestOption', () => {
+    it('should validate that id is required with label', () => {
+      const errors = { addError: sinon.spy() };
+      validateAutosuggestOption(errors, {
+        widget: 'autosuggest',
+        label: 'blah'
+      });
+
+      expect(errors.addError.firstCall.args[0]).to.equal('Please select an option from the suggestions');
+    });
+    it('should pass if id is included', () => {
+      const errors = { addError: sinon.spy() };
+      validateAutosuggestOption(errors, {
+        widget: 'autosuggest',
+        id: '1',
+        label: 'blah'
+      });
+
+      expect(errors.addError.called).to.be.false;
     });
   });
 });

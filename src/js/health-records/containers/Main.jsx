@@ -7,19 +7,21 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+
 import ErrorView from '../components/ErrorView';
-import { reportTypes } from '../config';
+import { reportTypes as reportTypesConfig } from '../config';
 import {
   changeDateOption,
+  getEligibleClasses,
+  initialAppRefresh,
+  openModal,
+  resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType,
-  resetForm,
-} from '../actions/form';
-import { openModal } from '../actions/modal';
-import { initialAppRefresh } from '../actions/refresh';
+  toggleReportType
+} from '../actions';
 import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
@@ -40,10 +42,8 @@ export class Main extends React.Component {
 
   componentDidMount() {
     this.props.resetForm();
-    // kick off initial PHR refresh process
-    if (!this.props.loading) {
-      this.props.initialAppRefresh();
-    }
+    this.props.getEligibleClasses();
+    this.props.initialAppRefresh();
   }
 
   handleStartDateChange(startDate) {
@@ -108,27 +108,34 @@ export class Main extends React.Component {
   }
 
   renderInformationTypes() {
-    return Object.keys(reportTypes).map(k => {
-      const rt = reportTypes[k];
-      return (
+    const { reportTypes } = this.props.form;
+    return Object.keys(reportTypesConfig).map(k => {
+      const section = reportTypesConfig[k];
+      const possibleTypes = section.children.map(c => c.value);
+      const availableTypes = _.intersection(Object.keys(reportTypes), possibleTypes);
+
+      const shouldRenderType = c => availableTypes.includes(c.value);
+      const checkboxes = section.children.filter(shouldRenderType).map(c => {
+        const reportTypeOnChange = (checked) => {
+          this.props.toggleReportType(c.value, checked);
+        };
+        return (
+          <div key={c.value}>
+            <ErrorableCheckbox
+              name={c.value}
+              label={this.renderReportCheckBoxLabel(c)}
+              checked={this.props.form.reportTypes[c.value]}
+              onValueChange={reportTypeOnChange}/>
+          </div>
+        );
+      });
+
+      return checkboxes.length ? (
         <div key={k} className="info-type-section">
-          <h5>{rt.title}</h5>
-          {rt.children.map(c => {
-            const reportTypeOnChange = (checked) => {
-              this.props.toggleReportType(c.value, checked);
-            };
-            return (
-              <div key={c.value}>
-                <ErrorableCheckbox
-                  name={c.value}
-                  label={this.renderReportCheckBoxLabel(c)}
-                  checked={this.props.form.reportTypes[c.value]}
-                  onValueChange={reportTypeOnChange}/>
-              </div>
-            );
-          })}
+          <h5>{section.title}</h5>
+          {checkboxes}
         </div>
-      );
+      ) : null;
     });
   }
 
@@ -198,7 +205,9 @@ export class Main extends React.Component {
 
     const radioButtonProps = {
       name: 'dateRange',
-      label: '',
+      additionalFieldsetClass: 'health-record-fieldset',
+      label: <h4 className="highlight">Select Date Range</h4>,
+      additionalLegendClass: 'legend-heading-wrapper',
       options: [
         { label: 'Last 3 months', value: '3mo' },
         { label: 'Last 6 months', value: '6mo' },
@@ -218,38 +227,43 @@ export class Main extends React.Component {
                 !datePickerDisabled && !invalidFormatError && missingDateError && <p className="date-range-error">
                   {validationErrorMessages.missingDateError}</p>
               }
-              <span>Custom date range</span>
-              <div className="date-range-fields">
-                <DatePicker
-                  aria-label="Custom date range: start date"
-                  id="custom-date-start"
-                  onBlur={handleFormattedDate()}
-                  onChange={this.handleStartDateChange}
-                  onFocus={() => this.setState({ startDateError: null })}
-                  placeholderText="MM/DD/YYYY"
-                  selected={startDate}
-                  disabled={datePickerDisabled}
-                  maxDate={endDate}
-                  tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                  className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
-                <span>&nbsp;to&nbsp;</span>
-                <DatePicker
-                  aria-label="Custom date range: end date"
-                  id="custom-date-end"
-                  onBlur={handleFormattedDate(false)}
-                  onChange={this.handleEndDateChange}
-                  onFocus={() => this.setState({ endDateError: null })}
-                  placeholderText="MM/DD/YYYY"
-                  selected={endDate}
-                  disabled={datePickerDisabled}
-                  minDate={startDate}
-                  maxDate={moment()}
-                  tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                  className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
-              </div>
+              <span id="vets-custom-date-range">Custom date range</span>
+              <span className="usa-sr-only">You will be asked to enter a start and end date in two digit month, two digit day, four digit year format below.</span>
             </div>
           ),
-          value: 'custom'
+          value: 'custom',
+          content: (
+            <div className="date-range-fields">
+              <DatePicker
+                aria-label="Health record start date"
+                aria-describedby="vets-custom-date-range"
+                id="custom-date-start"
+                onBlur={handleFormattedDate()}
+                onChange={this.handleStartDateChange}
+                onFocus={() => this.setState({ startDateError: null })}
+                placeholderText="MM/DD/YYYY"
+                selected={startDate}
+                disabled={datePickerDisabled}
+                maxDate={endDate}
+                tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
+                className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
+              <span>&nbsp;to&nbsp;</span>
+              <DatePicker
+                aria-label="Health record end date"
+                aria-describedby="vets-custom-date-range"
+                id="custom-date-end"
+                onBlur={handleFormattedDate(false)}
+                onChange={this.handleEndDateChange}
+                onFocus={() => this.setState({ endDateError: null })}
+                placeholderText="MM/DD/YYYY"
+                selected={endDate}
+                disabled={datePickerDisabled}
+                minDate={startDate}
+                maxDate={moment()}
+                tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
+                className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
+            </div>
+          ),
         },
       ],
       onValueChange: (v) => {
@@ -268,7 +282,6 @@ export class Main extends React.Component {
 
     return (
       <div>
-        <h4 className="highlight">Select Date Range</h4>
         <ErrorableRadioButtons {...radioButtonProps}/>
       </div>
     );
@@ -282,8 +295,19 @@ export class Main extends React.Component {
     const noValuesChecked = !checkedCount;
     const hasCustomDateErrors = this.state.startDateError || this.state.endDateError;
 
-    if (this.props.loading) {
+    if (this.props.loading || this.props.refreshing) {
       return <LoadingIndicator message="Loading your application..."/>;
+    }
+
+    if (!Object.keys(selections).length) {
+      return (
+        <ErrorView errors={this.props.errors}>
+          <p>
+            The application failed to load your available health record types.
+            Click <a onClick={this.props.getEligibleClasses}>here</a> to try again.
+          </p>
+        </ErrorView>
+      );
     }
 
     return (
@@ -296,15 +320,19 @@ export class Main extends React.Component {
           <form>
             {this.renderDateOptions()}
             <div>
-              <h4 className="highlight">Select Types of Information</h4>
-              <ErrorableCheckbox
-                name="all"
-                label="All available VA health records"
-                checked={allValuesChecked}
-                onValueChange={(checked) => {
-                  this.props.toggleAllReports(checked);
-                }}/>
-              {this.renderInformationTypes()}
+              <fieldset className="fieldset-input health-record-fieldset">
+                <legend className="legend-label legend-heading-wrapper">
+                  <h4 className="highlight">Select Types of Information</h4>
+                </legend>
+                <ErrorableCheckbox
+                  name="all"
+                  label="All available VA health records"
+                  checked={allValuesChecked}
+                  onValueChange={(checked) => {
+                    this.props.toggleAllReports(checked);
+                  }}/>
+                {this.renderInformationTypes()}
+              </fieldset>
             </div>
             <div className="form-actions">
               <button
@@ -313,7 +341,7 @@ export class Main extends React.Component {
                 disabled={noValuesChecked || hasCustomDateErrors}>
                 Submit
               </button>
-              <a className="usa-button usa-button-secondary" href="/health-care" role="button">Cancel</a>
+              <a className="usa-button usa-button-secondary" href="/health-care/" role="button">Cancel</a>
             </div>
           </form>
         </div>
@@ -331,19 +359,21 @@ const mapStateToProps = (state) => {
 
   return {
     form: hrState.form,
-    loading: hrState.refresh.loading,
-    errors: hrState.refresh.errors,
+    loading: hrState.form.loading,
+    refreshing: hrState.refresh.loading,
+    errors: [...hrState.form.errors, ...hrState.refresh.errors]
   };
 };
 
 const mapDispatchToProps = {
   changeDateOption,
+  getEligibleClasses,
   initialAppRefresh,
   openModal,
+  resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType,
-  resetForm,
+  toggleReportType
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

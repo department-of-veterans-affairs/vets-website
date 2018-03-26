@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../utils/helpers';
 import moment from 'moment';
 
 function getDataClasses(formData) {
@@ -64,6 +64,25 @@ export function resetForm() {
   };
 }
 
+export function getEligibleClasses() {
+  return (dispatch) => {
+    dispatch({ type: 'FETCHING_ELIGIBLE_CLASSES' });
+
+    return apiRequest(
+      '/eligible_data_classes',
+      null,
+      (response) => dispatch({
+        type: 'FETCH_ELIGIBLE_CLASSES_SUCCESS',
+        classes: response.data.attributes.dataClasses
+      }),
+      (response) => dispatch({
+        type: 'FETCH_ELIGIBLE_CLASSES_FAILURE',
+        errors: response.errors
+      })
+    );
+  };
+}
+
 export function submitForm(formData) {
   return (dispatch) => {
     window.dataLayer.push({
@@ -72,24 +91,21 @@ export function submitForm(formData) {
 
     dispatch({ type: 'FORM_SUBMITTING' });
 
-    apiRequest('/health_records',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          dataClasses: getDataClasses(formData),
-          fromDate: getFromDate(formData),
-          toDate: getToDate(formData)
-        })
-      },
-      () => dispatch({
-        type: 'FORM_SUCCESS'
-      }),
-      () => dispatch({
-        type: 'FORM_FAILURE'
+    const settings = {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify({
+        dataClasses: getDataClasses(formData),
+        fromDate: getFromDate(formData),
+        toDate: getToDate(formData)
       })
+    };
+
+    return apiRequest(
+      '/',
+      settings,
+      () => dispatch({ type: 'FORM_SUCCESS' }),
+      () => dispatch({ type: 'FORM_FAILURE' })
     );
   };
 }

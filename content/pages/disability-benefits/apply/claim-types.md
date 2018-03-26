@@ -33,7 +33,7 @@ Find out when you can first file a claim for service-connected benefits—and wh
 
 - **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim. [Learn more about standard and fully developed claims](/disability-benefits/apply/evidence/).
 
-**You can also file an original claim for a disability that appears after discharge:** 
+**You can also file an original claim for a disability that appears after discharge:**
 
 This is called a postservice claim. There's no time limit on filing a postservice claim. But you should know that the process may become more complex the longer you wait.
 
@@ -85,7 +85,7 @@ You can file a new claim to request:
 - Special monthly payments
 - A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability). [Learn more about Individual Unemployability](https://www.vets.gov/disability-benefits/conditions/special-claims/individual-unemployability/).
 
-Our decision on your new claim will be based only on new evidence (like a doctor's report or medical test results) that you give us to support your claim. We won't consider any evidence you may have given us related to past claims. 
+Our decision on your new claim will be based only on new evidence (like a doctor's report or medical test results) that you give us to support your claim. We won't consider any evidence you may have given us related to past claims.
 
 [Apply for disability benefits](/disability-benefits/apply/).
 

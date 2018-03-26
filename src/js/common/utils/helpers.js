@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import Scroll from 'react-scroll';
+import fastLevenshtein from 'fast-levenshtein';
 
 export function getPageList(routes, prefix = '') {
   return routes.map(route => {
@@ -54,7 +55,7 @@ export function isInProgress(pathName) {
 
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
-    return page.depends(data);
+    return page.depends(data, page.index);
   }
 
   if (Array.isArray(page.depends)) {
@@ -118,14 +119,14 @@ export function formatDateParsedZoneShort(date) {
   return moment.parseZone(date).format('MM/DD/YYYY');
 }
 
-export function focusElement(selectorOrElement) {
+export function focusElement(selectorOrElement, options) {
   const el = typeof selectorOrElement === 'string'
     ? document.querySelector(selectorOrElement)
     : selectorOrElement;
 
   if (el) {
-    el.setAttribute('tabindex', '-1');
-    el.focus();
+    if (el.tabIndex === -1) el.setAttribute('tabindex', '-1');
+    el.focus(options);
   }
 }
 
@@ -152,10 +153,12 @@ export function scrollToFirstError() {
 }
 
 export function scrollAndFocus(errorEl) {
-  const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  const position = errorEl.getBoundingClientRect().top + currentPosition;
-  Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-  focusElement(errorEl);
+  if (errorEl) {
+    const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const position = errorEl.getBoundingClientRect().top + currentPosition;
+    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    focusElement(errorEl);
+  }
 }
 
 export function displayFileSize(size) {
@@ -177,15 +180,15 @@ function formatDiff(diff, desc) {
 }
 
 /**
- * dateDiffDesc returns the number of days, hours, or minutes until
+ * timeFromNow returns the number of days, hours, or minutes until
  * the provided date occurs. It’s meant to be less fuzzy than moment’s
- * dateDiffDesc so it can be used for expiration dates
+ * timeFromNow so it can be used for expiration dates
  *
  * @param date {Moment Date} The future date to check against
  * @param userFromDate {Moment Date} The earlier date in the range. Defaults to today.
  * @returns {string} The string description of how long until date occurs
  */
-export function dateDiffDesc(date, userFromDate = null) {
+export function timeFromNow(date, userFromDate = null) {
   // Not using defaulting because we want today to be when this function
   // is called, not when the file is parsed and run
   const fromDate = userFromDate || moment();
@@ -207,23 +210,63 @@ export function dateDiffDesc(date, userFromDate = null) {
     return formatDiff(minuteDiff, 'minute');
   }
 
-  return 'less than a minute';
-}
+  const secondDiff = date.diff(fromDate, 'seconds');
 
-function isGaLoaded() {
-  return !!(window.ga && ga.create);
-}
-
-// google analytics client Id
-/* global gaClientId ga:true */
-export function gaClientId() {
-  let clientId;
-  if (isGaLoaded()) {
-    for (const data of ga.getAll()) {
-      if (data.get('cookieDomain') === 'vets.gov') {
-        clientId = data.get('clientId');
-      }
-    }
+  if (secondDiff >= 1) {
+    return formatDiff(secondDiff, 'second');
   }
-  return clientId;
+
+  return 'a moment';
+}
+
+export function sortListByFuzzyMatch(value, list, prop = 'label') {
+  return list
+    .map(option => {
+      const label = option[prop].toUpperCase().replace(/[^a-zA-Z ]/g, '');
+      const val = value.toUpperCase().replace(/[^a-zA-Z ]/g, '');
+      let score = label.includes(val) ? 0 : Infinity;
+
+      // if the search term is just one word, split the
+      // list into words and find the best match
+      if (score > 0 && !val.includes(' ')) {
+        score = Math.min.apply(null,
+          label
+            .split(/[ ,]/)
+            .map(word => fastLevenshtein.get(word, val))
+            .filter(wordScore => wordScore < val.length)
+        );
+      } else if (score > 0) {
+        score = fastLevenshtein.get(label, val);
+      }
+
+      return {
+        score,
+        original: option
+      };
+    })
+    .sort((a, b) => {
+      const result = a.score - b.score;
+
+      if (result === 0) {
+        return a.original[prop].length - b.original[prop].length;
+      }
+
+      return result;
+    })
+    .map(sorted => sorted.original);
+}
+
+export function sanitizeForm(formData) {
+  try {
+    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
+    return JSON.stringify(formData, (key, value) => {
+      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+        return 'removed';
+      }
+
+      return value;
+    });
+  } catch (e) {
+    return null;
+  }
 }

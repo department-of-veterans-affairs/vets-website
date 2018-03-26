@@ -49,7 +49,7 @@ function completeVeteranContactInformation(client, data) {
   client
     .waitForElementVisible('input[name="root_email"]', Timeouts.normal)
     .setValue('input[name="root_email"]', data.email)
-    .setValue('input[name="root_view:emailConfirmation"]', data['root_view:emailConfirmation'])
+    .setValue('input[name="root_view:emailConfirmation"]', data['view:emailConfirmation'])
     .setValue('input[name="root_homePhone"]', data.homePhone)
     .setValue('input[name="root_mobilePhone"]', data.mobilePhone);
 }
@@ -58,8 +58,8 @@ function completeMilitaryService(client, data) {
   client
     .selectDropdown('root_lastServiceBranch', data.lastServiceBranch)
     .fillDate('root_lastEntryDate', data.lastEntryDate)
-    .selectDropdown('root_dischargeType', data.dischargeType)
-    .fillDate('root_lastDischargeDate', data.lastDischargeDate);
+    .fillDate('root_lastDischargeDate', data.lastDischargeDate)
+    .selectDropdown('root_dischargeType', data.dischargeType);
 }
 
 function completeAdditionalInformation(client) {
@@ -175,6 +175,41 @@ function completeVaInsuranceInformation(client, data) {
     .selectDropdown('root_view:preferredFacility_vaMedicalFacility', data['view:preferredFacility'].vaMedicalFacility)
     .click('input[name="root_isEssentialAcaCoverage"]')
     .click('input#root_wantsInitialVaContactYes');
+}
+
+function completeEntireForm(client, data) {
+  completePersonalInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeBirthInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeDemographicInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeVeteranAddress(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeVeteranContactInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeMilitaryService(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeAdditionalInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeVaBenefits(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeFinancialDisclosure(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeSpouseInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeDependentInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeAnnualIncomeInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeDeductibleExpenses(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeMedicareAndMedicaid(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeInsuranceInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
+  completeVaInsuranceInformation(client, data);
+  client.click('.form-panel .usa-button-primary');
 }
 
 function initApplicationSubmitMock() {
@@ -321,6 +356,8 @@ function initSaveInProgressMock(url, client) {
     .waitForElementVisible('body', Timeouts.normal);
 
   LoginHelpers.setUserToken(token, client);
+
+  return token;
 }
 module.exports = {
   completePersonalInformation,
@@ -339,6 +376,7 @@ module.exports = {
   completeInsuranceInformation,
   completeVaInsuranceInformation,
   completeAdditionalInformation,
+  completeEntireForm,
   initApplicationSubmitMock,
   initSaveInProgressMock
 };

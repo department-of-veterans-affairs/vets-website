@@ -1,24 +1,32 @@
 import React from 'react';
 import { Route, IndexRedirect, Redirect } from 'react-router';
 
-import YourClaimsPage from './containers/YourClaimsPage';
+// import YourClaimsPage from './containers/YourClaimsPage';
+import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import ClaimPage from './containers/ClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
-import AppealStatusPage from './containers/AppealStatusPage';
+// import AppealStatusPage from './containers/AppealStatusPage';
 import FilesPage from './containers/FilesPage';
 import DetailsPage from './containers/DetailsPage';
 import AskVAPage from './containers/AskVAPage';
 import DocumentRequestPage from './containers/DocumentRequestPage';
 import AdditionalEvidencePage from './containers/AdditionalEvidencePage';
 import ClaimEstimationPage from './containers/ClaimEstimationPage';
-import AppealLayout from './components/AppealLayout';
+// import AppealLayout from './components/AppealLayout';
 import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
+import AppealsV2DetailPage from './containers/AppealsV2DetailPage';
+import AppealInfo from './containers/AppealInfo';
 
 const routes = [
   <Redirect
     key="/track-claims/your-claims"
     from="/disability-benefits/track-claims*"
     to="/your-claims"/>,
+  <Route
+    component={YourClaimsPageV2}
+    key="/your-claims"
+    path="/your-claims"/>,
+  /*
   <Route
     component={YourClaimsPage}
     key="/your-claims"
@@ -37,14 +45,21 @@ const routes = [
       key=":id/status"
       path=":id/status"/>,
   </Route>,
+  */
   <Route
-    component={AppealLayout}
-    key="/appeals-v2"
-    path="/appeals-v2">
+    component={AppealInfo}
+    key="/appeals/:id"
+    path="/appeals/:id">
+    <IndexRedirect
+      to="status"/>
     <Route
       component={AppealsV2StatusPage}
-      key=":id/status"
-      path=":id/status"/>
+      key="status"
+      path="status"/>
+    <Route
+      component={AppealsV2DetailPage}
+      key="detail"
+      path="detail"/>
   </Route>,
   <Route
     component={ClaimPage}

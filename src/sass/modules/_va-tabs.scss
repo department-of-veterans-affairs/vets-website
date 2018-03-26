@@ -2,7 +2,7 @@
 
 .va-tabs {
   list-style: none;
-  // Prevents wrapping, forces horizontal scrolling 
+  // Prevents wrapping, forces horizontal scrolling
   // at QVGA widths in portrait orientation.
   margin-bottom: -1px;
   min-width: 260px;
@@ -17,6 +17,7 @@
     border-color: $color-gray;
     border-style: solid;
     display: inline-block;
+    margin-bottom: 0;
   }
 }
 

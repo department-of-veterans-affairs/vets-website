@@ -4,6 +4,10 @@
     font-size: 1.35em;
   }
 
+  .usa-accordion {
+    margin-top: 1em;
+  }
+
   .link-header {
     h3, h5 {
       display: inline-block;
@@ -14,9 +18,7 @@
   }
 
   .caution-flag {
-    .va-alert {
-      background-color: $color-gold;
-    }
+    background-color: $color-gold;
   }
 
   .additional-resources {
@@ -105,10 +107,6 @@
     }
   }
 
-  .usa-alert {
-    background-size: 3rem;
-  }
-
   .outcomes .graph-component {
     margin: 1em auto;
     clear: both;
@@ -123,9 +121,6 @@
   }
 
   .cautionary-information {
-    .va-alert {
-      margin: 0 0 1.5em 0;
-    }
 
     .table {
       table {
@@ -134,12 +129,6 @@
 
       th:first-child {
         width: 60%;
-      }
-
-      tr:last-child {
-        th, td {
-          border-bottom: 0;
-        }
       }
     }
 

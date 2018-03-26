@@ -26,65 +26,87 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-There are many ways for Veterans to make health care appointments.
+If you're a Veteran with VA health care benefits, you can make health care appointments in many ways. If you don't have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a>
 </div>
 
-<ul>
-<li>If you don’t have VA health care benefits, you can apply now. <a href='/health-care/apply/'>Apply for VA health care.</a></li>
-<li>If you’re having a medical emergency, please call <a href='tel:+1-911'>911</a> or call the Veterans Crisis Line at <a href='tel:+1-800-273-8255'>1-800-273-8255</a>, then press 1.</li>
-</ul>
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner usa-alert-text">
+	    <ul>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+  		  <li>Call <a href="tel:911">911</a>.</li>
+  		  <li>Go to the nearest emergency room.</li>
+		  </ul>
+	  </div>
+  	</div>
+  </div>
+</div>
+
+<br>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h3>Schedule an appointment</h3>
 
-<h4 itemprop="name">By phone</h4>
+<h4 itemprop="name">How to schedule by phone</h4>
 
 <div itemprop="itemListElement">
 
 You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. [Find your VA health facility’s phone number](/facilities).
 </div>
+</div>
 
-<h4 itemprop="name">Online</h4>
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h4 itemprop="name">How to schedule online</h4>
 
 <div itemprop="itemListElement">
 
-VA now offers online appointment scheduling for some appointments. We hope to expand the number of VA facilities and types of appointments in the future.
+VA now offers online scheduling for some appointments and facilities. We hope to expand the number of VA facilities and types of appointments in the future.
 
-If you have VA health care benefits, you can schedule your VA primary care appointments online if you:
+If you have VA health care benefits, you can schedule a VA primary care appointment online if:
 
-- Are scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
-- Have had an appointment at that VA medical facility within the last 2 years, **and**
-- Have a [My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication) or [DS Logon Premium account](https://mobile.va.gov/dslogon) (used for eBenefits and milConnect)
+- You're scheduling your appointment with a [VA medical facility that accepts online scheduling](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/keeping-up-with-all-your-va-appointments#facility-list), **and**
+- You've had an appointment at that VA medical facility within the last 2 years
 
-With your online status, you'll also be able to:
-
-- Track the status of requests
-- Send messages about requested appointments
-- Get notifications about appointments
-- Cancel appointments
+**To schedule online, you must have one of these free accounts:**
+- My Health*e*Vet Premium account <br>
+[Get a free My Health*e*Vet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
+- DS Logon Premium account (used for eBenefits and milConnect) <br>
+[Get a free DS Logon Premium account](https://mobile.va.gov/dslogon).
 
 <div>
   <a class="usa-button-primary va-button-primary" href="https://veteran.mobile.va.gov/var/v4/">Schedule a VA Appointment Online</a>
 </div>
-
-<br>
-
-##### Upgrade your existing accounts
-
-- [Upgrade your MyHealtheVet account to premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication).
-- [Upgrade your DS Logon account to premium](https://mobile.va.gov/dslogon).
+</div>
 </div>
 
-<h4 itemprop="name">Through secure messaging</h4>
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h4 itemprop="name">How to schedule through secure messaging</h4>
 
 <div itemprop="itemListElement">
 
-If you have a [Vets.gov](/?next=%2Fhealth-care%2Fmessaging) account or a [My HealtheVet Premium account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication), you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments.
+If you have a Vets.gov account or a My Health*e*Vet Premium account, you can send secure messages to your health care team about non-urgent, health-related questions like scheduling and canceling appointments. Send a secure message or sign up now through:
+- [Vets.gov](/?next=%2Fhealth-care%2Fmessaging), **or** <br>
+- [My Health*e*Vet Premium](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication)
 
-**Please note:** These online tools only allow you to schedule VA appointments. If you have appointments with non-VA facilities through the [Community Care Program](https://www.va.gov/COMMUNITYCARE/veterans.asp), please contact that health care facility directly.
+**Please note:** These online tools allow you to schedule only VA appointments. If you have appointments with non-VA facilities through the Community Care Program, please contact that health care facility directly.
+[Learn how the Community Care Program works](https://www.va.gov/COMMUNITYCARE/index.asp).
 
 </div>
-
+</div>
 </div> <!-- closes overall FAQ -->
 <br>
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>

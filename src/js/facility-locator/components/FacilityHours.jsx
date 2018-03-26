@@ -50,32 +50,20 @@ export default class FacilityHours extends Component {
       return null;
     }
 
-    let mappedHours = {};
+    const mappedHours = {};
 
-    if (isVetCenter) {
-      mappedHours = {
-        monday: '8am-4:30pm',
-        tuesday: '8am-4:30pm',
-        wednesday: '8am-4:30pm',
-        thursday: '8am-4:30pm',
-        friday: '8am-4:30pm',
-        saturday: 'CLOSED',
-        sunday: 'CLOSED',
-      };
-    } else {
-      Object.keys(hours).forEach(k => {
-        mappedHours[k] = hours[k];
-        if (hours[k] === '-') {
-          mappedHours[k] = 'Closed';
-        } else if (hours[k]) {
-          const regex = /(\d+\w\w)-(\d+\w\w)/;
-          const found = hours[k].match(regex);
-          if (found) {
-            mappedHours[k] = `${this.colonizeTime(found[1])}-${this.colonizeTime(found[2])}`;
-          }
+    Object.keys(hours).forEach(k => {
+      mappedHours[k] = hours[k];
+      if (hours[k] === '-') {
+        mappedHours[k] = 'Closed';
+      } else if (hours[k]) {
+        const regex = /(\d+\w\w)-(\d+\w\w)/;
+        const found = hours[k].match(regex);
+        if (found) {
+          mappedHours[k] = `${this.colonizeTime(found[1])}-${this.colonizeTime(found[2])}`;
         }
-      });
-    }
+      }
+    });
 
     const hourRows = Object.keys(mappedHours).map(h => {
       if (h !== 'notes' && mappedHours[h] && mappedHours[h] !== '') {

@@ -9,7 +9,6 @@
   .highlight {
     margin-bottom: 0.5em !important;
   }
-
   // TODO(css): Fix when #content .section h* is fixed
   h4 {
     padding: 0 !important;
@@ -19,6 +18,7 @@
     padding: 0.5rem 0;
 
     h1:first-child {
+      margin-top: 0;
       padding: 0 0 0 1.5rem;
     }
   }
@@ -31,6 +31,7 @@
   .leaflet-container {
     height: 500px;
     width: 100%;
+    z-index: 0;
   }
 
   .facility-phone-table {
@@ -296,6 +297,10 @@
       background: $color-gray-lightest;
     }
 
+    input[type=submit] {
+      margin-top: 2.5rem;
+    }
+
     .facility-dropdown-wrapper {
       position: relative;
       background: $color-white;
@@ -305,12 +310,11 @@
       box-sizing: border-box;
       color: $color-base;
       display: block;
-      font-size: 1.7rem;
+      font-size: 1.6rem;
       height: 4.4rem;
       line-height: 1.3;
       margin: 0.2em 0;
       max-width: 46rem;
-      outline: none;
       padding: 0 0.5em;
       width: 100%;
 
@@ -374,6 +378,7 @@
         top: 0;
         left: -1%;
         right: 0;
+        font-size: 1.6rem;
         background: $color-white;
         list-style: none;
         opacity: 0;
@@ -381,23 +386,34 @@
         z-index: 1010;
         max-height: 70vh;
         overflow-y: auto;
-        border-bottom: solid thin $color-black;
-
-        li {
-          color: $color-black;
-          display: block;
-          padding: 0.25em 1em;
-          text-decoration: none;
-          z-index: 1011;
+        border-top: solid 1px $color-black;
+        border-bottom: solid 1px $color-black;
+        border-right: solid 1px $color-black;
+        border-left: solid 1px $color-black;
+        .dropdown-option {
           border-bottom: solid 1px $color-black;
-          border-left: solid 1px $color-black;
-          border-right: solid 1px $color-black;
+          z-index: 1011;
+          width: 100%;
+          background-color: $color-white;
+          &.is-hovered, &.active, &:hover {
+            color: $color-white;
+            background: $color-primary-darker;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
         }
+      }
 
-        li:hover {
-          color: $color-white;
-          background: $color-primary-darker;
-        }
+      .dropdown-option {
+        font-weight: 400;
+        width: 100%;
+        background-color: inherit;
+        display: block;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        text-decoration: none;
       }
 
       &.active {

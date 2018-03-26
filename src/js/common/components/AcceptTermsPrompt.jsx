@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
@@ -9,11 +8,12 @@ class AcceptTermsPrompt extends React.Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
-    this.state = {};
+    this.state = { scrolledToBottom: false, yesSelected: false };
   }
 
-  componentWillMount() {
-    this.setState({ scrolledToBottom: false, yesSelected: false });
+  componentDidMount() {
+    window.dataLayer.push({ event: 'terms-shown' });
+    window.scrollTo(0, 0);
   }
 
   onCancel(e) {
@@ -81,16 +81,18 @@ class AcceptTermsPrompt extends React.Component {
       disabled: !this.state.scrolledToBottom
     });
 
+    /* eslint-disable react/no-danger */
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
     return (
       <div className="row primary terms-acceptance">
-        <div className="small-12 columns usa-content">
+        <div className="small-12 columns usa-content" role="region" aria-label="Terms and Conditions" tabIndex="0">
           <div dangerouslySetInnerHTML={{ __html: terms.headerContent }}/>
           <h1>{terms.title}</h1>
           <div className="terms-box">
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue
             </div>
-            <div className="terms-scroller" onScroll={this.handleScroll}>
+            <div className="terms-scroller" onScroll={this.handleScroll} tabIndex="0">
               <div dangerouslySetInnerHTML={{ __html: terms.termsContent }}/>
             </div>
             <div className={actionButtonClass}>
@@ -107,6 +109,8 @@ class AcceptTermsPrompt extends React.Component {
         </div>
       </div>
     );
+    /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    /* eslint-enable react/no-danger */
   }
 }
 

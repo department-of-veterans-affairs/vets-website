@@ -21,7 +21,7 @@ describe('<StepHeader>', () => {
     const tree = SkinDeep.shallowRender(<StepHeader {...defaultProps}/>);
     expect(tree.subTree('.form-process-step').text()).to.equal('3');
     expect(tree.subTree('.form-process-total').text()).to.equal('of 6');
-    expect(tree.subTree('.schemaform-chapter-progress').text()).to.contain('First step of the process');
+    expect(tree.subTree('.section-content').text()).to.contain('First step of the process');
   });
 });
 

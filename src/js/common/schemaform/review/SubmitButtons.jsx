@@ -1,32 +1,15 @@
 import React from 'react';
+import moment from 'moment';
 import ProgressButton from '../../components/form-elements/ProgressButton';
-import SaveFormLink from '../SaveFormLink';
+import { timeFromNow } from '../../utils/helpers';
 
 export default function SubmitButtons(props) {
   const {
-    errorMessage,
-    errorText,
     onBack,
     onSubmit,
     submission,
-    locationPathname,
-    form,
-    user,
-    saveAndRedirectToReturnUrl,
-    toggleLoginModal,
-    sipEnabled,
+    renderErrorMessage
   } = props;
-  // Pulling this out to here so LoginModal doesn't get re-created on state change
-  //  since saving happens in LoginModal.componentWillReceiveProps()
-  const saveLink = (<SaveFormLink
-    locationPathname={locationPathname}
-    form={form}
-    user={user}
-    saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-    toggleLoginModal={toggleLoginModal}>
-    save your application
-  </SaveFormLink>);
-  const Message = errorMessage;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
@@ -68,6 +51,21 @@ export default function SubmitButtons(props) {
         </div>
       </div>
     );
+  } else if (submission.status === 'throttledError') {
+    submitButton = (
+      <ProgressButton
+        onButtonClick={onSubmit}
+        buttonText="Submit Application"
+        buttonClass="usa-button-primary"/>
+    );
+    submitMessage = (
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
+        <div className="usa-alert-body">
+          <p className="schemaform-warning-header"><strong>We’ve run into a problem</strong></p>
+          <p>We’re sorry. Your submission didn’t go through because we received too many requests from you. Please wait {timeFromNow(moment.unix(submission.extra))} and submit your request again.</p>
+        </div>
+      </div>
+    );
   } else if (submission.status === 'validationError') {
     submitButton = (
       <ProgressButton
@@ -84,27 +82,8 @@ export default function SubmitButtons(props) {
       </div>
     );
   } else {
-    if (errorMessage) {
-      submitMessage = <Message/>;
-    } else if (sipEnabled) {
-      let InlineErrorComponent;
-      if (typeof errorText === 'function') {
-        InlineErrorComponent = errorText;
-      } else if (typeof errorText === 'string') {
-        InlineErrorComponent = () => <p>{errorText}</p>;
-      } else {
-        InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>;
-      }
-      submitMessage = (
-        <div className="usa-alert usa-alert-error schemaform-failure-alert">
-          <div className="usa-alert-body">
-            <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
-            <p>We’re working to fix the problem, but it may take us a little while. Please {saveLink} and try submitting it again tomorrow.</p>
-            {!user.login.currentlyLoggedIn && <p>If you don’t have an account, you’ll have to start over. Please try submitting your application again tomorrow.</p>}
-            <InlineErrorComponent/>
-          </div>
-        </div>
-      );
+    if (renderErrorMessage) {
+      submitMessage = renderErrorMessage();
     } else {
       submitMessage = (
         <div className="usa-alert usa-alert-error schemaform-failure-alert">

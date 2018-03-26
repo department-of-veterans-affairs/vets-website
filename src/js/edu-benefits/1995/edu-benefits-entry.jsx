@@ -10,12 +10,9 @@ import { Provider } from 'react-redux';
 import initReact from '../../common/init-react';
 import routes from './routes';
 import reducer from './reducer';
-import createLoginWidget from '../../login/login-entry';
-import createCommonStore from '../../common/store';
+import initCommon from '../../common/init-common';
 
-const store = createCommonStore(reducer);
-
-createLoginWidget(store);
+const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/education/apply-for-education-benefits/application/1995'

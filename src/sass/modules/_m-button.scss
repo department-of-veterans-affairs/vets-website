@@ -20,9 +20,12 @@ button,
     // background-color: $color-primary-darker;
   }
   &[href^=http] {
+    @include no-sr-content;
+
     background-image: none;
     // TODO: clean up #content .main.interior a then remove !important
     text-decoration: none !important;
+
   }
 }
 
@@ -175,7 +178,7 @@ button.short {
 }
 
 .va-btn-close-icon {
-  background: transparent url(assets/img/icons/close.svg) center no-repeat;
+  background: transparent url(/img/icons/close.svg) center no-repeat;
   background-size: 1rem 1rem;
   height: 2.2rem;
   padding: 2.2rem;

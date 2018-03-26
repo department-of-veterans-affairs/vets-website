@@ -7,7 +7,7 @@ import { isFullDate } from '../../common/utils/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import {
   transform,
@@ -39,7 +39,7 @@ import DisabilityField from '../components/DisabilityField';
 import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from '../../common/schemaform/FullNameField';
+import FullNameField from '../../common/schemaform/fields/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -59,7 +59,7 @@ import fileUploadUI from '../../common/schemaform/definitions/file';
 import createNonRequiredFullName from '../../common/schemaform/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from '../../common/schemaform/definitions/currency';
-import GetFormHelp from '../../common/schemaform/GetPensionOrBurialFormHelp';
+import GetFormHelp from '../../common/schemaform/components/GetPensionOrBurialFormHelp';
 
 import { validateServiceBirthDates, validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -229,10 +229,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            'ui:options': {
-              showPrefillMessage: true
-            }
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth')
           },
           schema: {
             type: 'object',
@@ -1592,7 +1589,7 @@ const formConfig = {
             'ui:title': 'Document upload',
             'ui:description': fileHelp,
             files: fileUploadUI('', {
-              hideLabelText: true,
+              hideLabelText: true
             }),
             'view:uploadMessage': {
               'ui:description': uploadMessage

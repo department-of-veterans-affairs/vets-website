@@ -4,6 +4,7 @@ template: detail-page
 title: Post-9/11 GI Bill
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
+gibsAlert: false
 order: 3
 ---
 
@@ -40,6 +41,19 @@ If you qualify for more than one VA education benefit, you’ll have to pick whi
 - Veterans
 - Qualified dependents
 
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Does this benefit expire?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Post-9/11 GI Bill benefits expire 15 years after your last separation date from active service. You must use all of your benefit by that time or you’ll lose whatever’s left.
+
+**If your service ended after January 1, 2013:** There’s no time limit for using your education benefits (known as a “delimiting date”). But our automated system still prints letters with outdated information about end dates. Any delimiting date that’s on your records right now isn’t correct, but it’ll remain until we update our system. [Learn more about this and other new provisions from Forever GI Bill - Harry W. Colmery Veterans Educational Assistance Act.](https://www.benefits.va.gov/GIBILL/ForeverGIBill.asp)
 </div>
 </div>
 </div>
@@ -154,7 +168,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 
 - Compare benefits by school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
 - [See the current payment rates for the Post-9/11 GI Bill](/education/rates/).
-- [Read the Post-9/11 GI Bill pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
+- [Read the Post-9/11 GI Bill pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).
 
 </div>
@@ -162,4 +176,4 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 </div>
 </div>
 
-GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).

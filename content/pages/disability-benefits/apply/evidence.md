@@ -88,6 +88,6 @@ With this program, you send in all the evidence (supporting documents) you haveâ
 We consider your disability benefits claims to be fully developed when:
 - You've sent us all related evidence, **and**
 - We plan to get your federal records, if needed, **and**
-- We plan to arrange for any added health exams or doctors' opinions that we may need 
+- We plan to arrange for any added health exams or doctors' opinions that we may need
 
 If we discover that there are other private records we need to decide your claim, weâ€™ll remove your claim from the FDC program and review it through the standard claims process.

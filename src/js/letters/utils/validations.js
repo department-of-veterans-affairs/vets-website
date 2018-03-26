@@ -1,7 +1,7 @@
-import { isValidUSZipCode } from '../../common/utils/validations';
+import { isValidUSZipCode } from '../../common/utils/address';
 import { ADDRESS_TYPES, MILITARY_CITIES } from './constants';
 
-const requiredMessage = 'Please enter a valid address'; // Change me! 
+const requiredMessage = 'Please enter a valid address'; // Change me!
 
 /**
  * Ensures the input isn't blank
@@ -12,6 +12,14 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
   }
 
   // Could return anything that isn't a string, really
+  return true;
+};
+
+const specialCharacterValidator = (input) => {
+  if (/[^A-Za-z0-9 #%&'()+,./:@]/.test(input)) {
+    return "Please only use letters, numbers, and the special characters #%&'()+,./:@";
+  }
+
   return true;
 };
 
@@ -27,7 +35,8 @@ const requiredValidator = (input, fullAddress, message = requiredMessage) => {
  *                               if an error message is returned)
  */
 export const addressOneValidations = [
-  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a street address')
+  (input, fullAddress) => requiredValidator(input, fullAddress, 'Please enter a street address'),
+  specialCharacterValidator
 ];
 
 export const postalCodeValidations = [

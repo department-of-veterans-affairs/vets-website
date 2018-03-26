@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Conditions Linked to Military Service
 display_title: Conditions
+description: Find out what conditions linked to your service we cover under VA disability benefits.
 order: 4
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
@@ -24,15 +25,18 @@ majorlinks:
       description: Get help with needs like special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
-<div class="va-introtext">
+<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemprop="description" class="va-introtext">
 
 Do you have illnesses or injuries that started—or got worse—while you were serving in the military?  Find out if you can  get disability compensation or benefits.
 
 </div>
 
-<div class="feature" markdown="1">
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 
-### Can I get disability benefits from VA?
+<h3 itemprop="name">Can I get disability benefits from VA?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
 - You got sick or injured while serving in the military and can link your condition to this illness or injury, 
@@ -40,24 +44,49 @@ You may be able to get disability benefits if you have a current illness or inju
 - You had an illness or injury before you joined the military, and serving made it worse
 
 <br>
+</div>
+</div>
 
-### Who’s covered?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Who’s covered?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - Veterans
 - Qualified dependents
 
 </div>
+</div>
+</div>
+</div>
 
-### What kind of disability benefits can I get?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">What kind of disability benefits can I get?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 - Health care
 - Compensation (payments)
 
-### How do I get these benefits?
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">How do I get these benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You’ll need to apply for benefits. When you apply, you‘ll have to show that your conditions were likely caused by—or got worse because of—your service. [Apply for benefits](/disability-benefits/apply/).
 
-#### What conditions are covered by these benefits?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h4 itemprop="name">What conditions are covered by these benefits?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 You may be able to get benefits for conditions such as:
 
@@ -77,8 +106,9 @@ You may also be able to get benefits for:
 - Anxiety
 
 
-[Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
+[Get more information about conditions that may be covered](https://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
 
-
-
-
+</div>
+</div>
+</div>
+</div>

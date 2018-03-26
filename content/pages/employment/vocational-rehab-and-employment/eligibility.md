@@ -28,16 +28,19 @@ If you have a disability that was caused—or made worse—by your active-duty s
 
 ### If I'm a Veteran, can I get VR&amp;E benefits and services?
 
-You may be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
-- Have a 20% or higher disability rating, **and**
-- Separated from the military or received a service-connected disability rating from VA within the past 12 years
+You may be eligible for VR&E benefits and services if you’re a Veteran, and you:
 
-You may also be eligible for VR&amp;E benefits and services if you're a Veteran who was discharged under conditions other than dishonorable and you:
-- Have a Serious Employment Handicap (SEH) due to significant impairments of your ability to prepare for, obtain, or retain employment, **and**
-- Have a 10% disability rating, **or**
-- Are beyond the 12-year basic period of eligibility
+- Didn't receive a dishonorable discharge, **and**
+- Have a service-connected disability rating of at least 10% from VA, **and**
+- [Apply for VR&E services](/employment/vocational-rehab-and-employment/apply-vre/)
 
-**Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active-duty service.
+**Basic period of eligibility**
+
+Your basic period of eligibility ends 12 years from the date you received notice of your:
+- Date of separation from active military service, **or**
+- First VA service-connected disability rating
+
+**Note:** The basic period of eligibility may be extended if a Vocational Rehabilitation Counselor (VRC) determines that you have a Serious Employment Handicap (SEH). Having an employment handicap means your service-connected disability limits your ability to prepare for, obtain, and maintain suitable employment (a job that doesn’t make your disability worse, is stable, and matches your abilities, aptitudes, and interests).
 
 <br>
 
@@ -45,12 +48,23 @@ You may also be eligible for VR&amp;E benefits and services if you're a Veteran 
 
 You may be eligible for VR&amp;E benefits and services if you're a Servicemember who:
 
-- Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
+- Has a 20% or higher pre-discharge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty. [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
 
-**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to Dec. 31, 2018.
+**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
 
 <br>
+
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
+<br>
+
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 
@@ -73,7 +87,7 @@ Depending on your needs and goals, services may include:
 - On the Job Training (OJT), apprenticeships, and non-paid work experiences
 - Post-secondary training at a college, vocational, technical, or business school
 - Supportive rehabilitation services including case management, counseling, and medical referrals
-- Independent-living services if you're unable to work due to the severity of your disabilities
+- Independent living services if you're unable to work due to the severity of your disabilities
 
 <br>
 

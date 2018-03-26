@@ -55,4 +55,22 @@
   &:active {
     background: $color-link-default-hover;
   }
+  &:focus {
+		outline: 2px dotted $color-gray-light;
+		outline-offset: 3px;
+  }
+}
+
+.dashed-underline {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+
+  &:hover {
+    text-decoration: none;
+    border-bottom: 1px dashed;
+  }
+}
+
+.clickable:hover {
+  cursor: pointer;
 }

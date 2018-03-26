@@ -1,17 +1,33 @@
+import org.kohsuke.github.GitHub
+
 def envNames = ['development', 'staging', 'production']
 
+def devBranch = 'master'
+def stagingBranch = 'master'
+def prodBranch = 'master'
+
 def isReviewable = {
-  env.BRANCH_NAME != 'production' &&
-    env.BRANCH_NAME != 'master'
+  env.BRANCH_NAME != devBranch &&
+    env.BRANCH_NAME != stagingBranch &&
+    env.BRANCH_NAME != prodBranch
 }
 
 env.CONCURRENCY = 10
 
 def isDeployable = {
-  (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production') &&
+  (env.BRANCH_NAME == devBranch ||
+   env.BRANCH_NAME == stagingBranch) &&
     !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild   // if there's a later build on this job (branch), don't deploy
+    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
+}
+
+def shouldBail = {
+  // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
+  env.BRANCH_NAME != devBranch &&
+  env.BRANCH_NAME != stagingBranch &&
+  env.BRANCH_NAME != prodBranch &&
+  !env.CHANGE_TARGET &&
+  currentBuild.nextBuild
 }
 
 def buildDetails = { vars ->
@@ -26,17 +42,41 @@ def buildDetails = { vars ->
   """.stripIndent()
 }
 
-def notify = { message, color='good' ->
-    if (env.BRANCH_NAME == 'master' ||
-        env.BRANCH_NAME == 'production') {
-        slackSend message: message,
-                  color: color,
-                  failOnError: true
-    }
+def notify = { ->
+  if (env.BRANCH_NAME == devBranch ||
+      env.BRANCH_NAME == stagingBranch ||
+      env.BRANCH_NAME == prodBranch) {
+    message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
+    slackSend message: message,
+    color: 'danger',
+    failOnError: true
+  }
+}
+
+def comment_broken_links = {
+  // Pull down console log replacing URL with IP since we can't hit internal DNS
+  sh "curl -O \$(echo ${env.BUILD_URL} | sed 's/jenkins.vetsgov-internal/172.31.1.100/')consoleText"
+
+  // Find all lines with broken links in production build
+  def broken_links = sh (
+    script: 'grep -o \'\\[production\\].*>>> href: ".*",\' consoleText',
+    returnStdout: true
+  ).trim()
+
+  def github = GitHub.connect()
+  def repo = github.getRepository('department-of-veterans-affairs/vets-website')
+  def pr = repo.queryPullRequests().head("department-of-veterans-affairs:${env.BRANCH_NAME}").list().asList().get(0)
+
+
+  // Post our comment with broken links formatted as a Markdown table
+  pr.comment("### Broken links found by Jenkins\n\n|File| Link URL to be fixed|\n|--|--|\n" +
+             broken_links.replaceAll(/\[production\] |>>> href: |,/,"|") +
+             "\n\n _Note: Long file names or URLs may be cut-off_")
 }
 
 node('vetsgov-general-purpose') {
-  def dockerImage, args, ref
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
+  def dockerImage, args, ref, imageTag
 
   // Checkout source, create output directories, build container
 
@@ -50,57 +90,55 @@ node('vetsgov-general-purpose') {
       sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
 
-      def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+      imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
       dockerImage = docker.build("vets-website:${imageTag}")
-      args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
+      args = "-v ${pwd()}:/application"
+      dockerImage.inside(args) {
+        sh "cd /application && yarn install --production=false"
+      }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in setup stage!", 'danger')
+      notify()
       throw error
     }
   }
 
-  // Check package.json for known vulnerabilities
-
-  stage('Security') {
+  stage('Lint|Security|Unit') {
     try {
-      dockerImage.inside(args) {
-        sh "cd /application && nsp check"
-      }
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in security stage!", 'danger')
-      throw error
-    }
-  }
+      parallel (
+        lint: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run lint"
+          }
+        },
 
-  // Check source for syntax issues
+        // Check package.json for known vulnerabilities
+        security: {
+          dockerImage.inside(args) {
+            sh "cd /application && nsp check"
+          }
+        },
 
-  stage('Lint') {
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run lint"
-      }
+        unit: {
+          dockerImage.inside(args) {
+            sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
+          }
+        }
+      )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in lint stage!", 'danger')
+      notify()
       throw error
-    }
-  }
-
-  stage('Unit') {
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run test:coverage"
-        sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
-      }
-    } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in unit stage!", 'danger')
-      throw error
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
     }
   }
 
   // Perform a build for each build type
 
   stage('Build') {
+    if (shouldBail()) { return }
+
     try {
       def builds = [:]
 
@@ -117,37 +155,43 @@ node('vetsgov-general-purpose') {
 
       parallel builds
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in build stage!", 'danger')
+      notify()
+
+      // For content team PRs, add comment in GH so they don't need direct Jenkins access to find broken links
+      if (env.BRANCH_NAME.startsWith("content")) {
+        comment_broken_links()
+      }
       throw error
     }
   }
 
   // Run E2E and accessibility tests
-
   stage('Integration') {
+    if (shouldBail()) { return }
+
     try {
       parallel (
         e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
-          }
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p e2e up -d && docker-compose -p e2e run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker"
         },
 
         accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
-          }
+          sh "export IMAGE_TAG=${imageTag} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=production vets-website --no-color run nightwatch:docker -- --env=accessibility"
         }
       )
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in integration stage!", 'danger')
+      notify()
       throw error
     } finally {
+      sh "docker-compose -p e2e down --remove-orphans"
+      sh "docker-compose -p accessibility down --remove-orphans"
       step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
     }
   }
 
   stage('Archive') {
+    if (shouldBail()) { return }
+
     try {
       def builds = [ 'development', 'staging', 'production' ]
 
@@ -161,12 +205,17 @@ node('vetsgov-general-purpose') {
         }
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in archive stage!", 'danger')
+      notify()
       throw error
     }
   }
 
   stage('Review') {
+    if (shouldBail()) {
+      currentBuild.result = 'ABORTED'
+      return
+    }
+
     try {
       if (!isReviewable()) {
         return
@@ -178,38 +227,33 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in review stage!", 'danger')
+      notify()
       throw error
     }
   }
 
-  stage('Deploy') {
+  stage('Deploy dev or staging') {
     try {
       if (!isDeployable()) {
         return
       }
-
-      // Create a new GitHub release for this merge to production
-      if (env.BRANCH_NAME == 'production') {
-        build job: 'releases/vets-website', parameters: [
-          stringParam(name: 'ref', value: ref),
-        ], wait: true
+      script {
+        commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
       }
-
-      def targets = [
-        'master': [ 'dev', 'staging' ],
-        'production': [ 'prod' ],
-      ][env.BRANCH_NAME]
-
-      // Deploy the build associated with this ref. To deploy from a release use 
-      // the `deploys/vets-website-env-from-build` jobs from the Jenkins web console.
-      for (int i=0; i<targets.size(); i++) {
-        build job: "deploys/vets-website-${targets.get(i)}-from-build", parameters: [
-          stringParam(name: 'ref', value: ref),
+      if (env.BRANCH_NAME == devBranch) {
+        build job: 'deploys/vets-website-dev', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
+        ], wait: false
+      }
+      if (env.BRANCH_NAME == stagingBranch) {
+        build job: 'deploys/vets-website-staging', parameters: [
+          booleanParam(name: 'notify_slack', value: true),
+          stringParam(name: 'ref', value: commit),
         ], wait: false
       }
     } catch (error) {
-      notify("vets-website ${env.BRANCH_NAME} branch CI failed in deploy stage!", 'danger')
+      notify()
       throw error
     }
   }

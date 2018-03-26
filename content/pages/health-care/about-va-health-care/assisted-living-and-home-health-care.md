@@ -147,7 +147,7 @@ Centers where Veterans can live in a rented room or apartment, and have access t
 
 #### What if I have a disability or chronic (long-term) health condition, but I want to stay in my home?
 
-If you’re signed up for VA health care, you can get help managing your disability or health condition while living at home. The services you qualify for will depend on your needs and whether a service is available in your area. If you need to, you may be able to use more than 1 service at the same time.
+If you’re signed up for VA health care, you can get help managing your disability or health condition while living at home. The services you qualify for will depend on your needs and whether a service is available in your area. If you need to, you may be able to use more than one service at the same time.
 
 Learn more about:
 

@@ -484,6 +484,30 @@ describe('Schemaform helpers:', () => {
       expect(output.arrayField.length).to.equal(1);
       expect(output.emptyArray).to.be.undefined;
     });
+    it('should convert autosuggest field to id', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        data: {
+          someField2: {
+            widget: 'autosuggest',
+            id: '1',
+            label: 'test'
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output.someField2).to.equal('1');
+    });
   });
   describe('setArrayRecordTouched', () => {
     /* eslint-disable camelcase */

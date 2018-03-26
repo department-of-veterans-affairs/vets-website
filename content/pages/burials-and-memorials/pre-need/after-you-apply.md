@@ -26,21 +26,20 @@ Find out what happens after you apply for a pre-need eligibility determination f
 
 ### How long does it take VA to make a decision?
 
-<div class="card information" markdown="0">
-<span class="number">About 90 days</span>
-<span class="description">If more than 90 days have passed since you sent us your application and you haven’t heard back, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
-</div>
-
 The amount of time it takes to review your application depends on:
-- The number of applications we're reviewing, **and**
+- The number of applications we’re reviewing, **and**
 - How much information you provided in your application, **and**
-- Whether you provided your (or your sponsor's) DD214 or other separation documents along with your application
+- Whether you provided your (or your sponsor’s) DD214 or other separation documents along with your application
+
+**Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
+
+For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
 <br>
 
 #### What should I do while I wait?
 
-You don't need to do anything while you wait. We'll contact you if we need more information to make a decision.
+You don’t need to do anything while you wait. We'll contact you if we need more information to make a decision.
 
 <br>
 
@@ -66,7 +65,7 @@ When you die, the person arranging your burial will need to call the National Ce
 
 We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
 
-[Learn more about planning a burial for a family member who has died](/burials-and-memorials/burial-planning).
+[Learn more about planning a burial for a family member who has died](/burials-and-memorials/burial-planning/).
 
 <br>
 

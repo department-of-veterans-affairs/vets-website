@@ -5,7 +5,7 @@ const Timeouts = require('./timeouts.js');
 
 const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-const BUILD_BASE_URL = 'http://www.vets.gov';
+const BUILD_BASE_URL = 'https://www.vets.gov';
 
 function sitemapURLs(callback) {
   fetch(SITEMAP_URL)
@@ -27,7 +27,11 @@ function sitemapURLs(callback) {
         // which violates WCAG 2.0 standards. This element id is referenced by
         // https://search.usa.gov/assets/sayt_loader_libs.js, so if we change the ID
         // of one of the elements, search won't work.
-        '/404.html'
+        '/404.html',
+        // This is here because aXe bug flags the custom select component on this page
+        '/facilities/',
+        // This is here because an aXe bug flags the autosuggest component on this page
+        '/gi-bill-comparison-tool/'
       ];
 
       callback(urls, onlyTest508Rules);

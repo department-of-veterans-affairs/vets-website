@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: What to Expect after You Get a Disability Rating
 display_title: After You Get a Disability Rating
+description: After you receive your VA disability rating, find out when you'll get your first VA disability check (sometimes called "VA disability back pay") and what to do if you disagree with your rating.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 ---
@@ -20,7 +21,7 @@ Disability compensation may include financial compensation (payments) as well as
 If you haven’t gotten your decision notice:
 
 - [Check your status](/track-claims/), **or**
-- [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
+- [Contact your local regional benefit office](https://www.benefits.va.gov/benefits/offices.asp), **or**
 - Call us at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
 - [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D)
 </div>
@@ -56,12 +57,12 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 <div itemprop="text">
 
 - **For Health Care:** If you served on active duty—and were discharged from the military under conditions other than dishonorable—you may be able to get VA health care. This includes access to VA doctors and care, plus medical equipment, prosthetics, and prescriptions. [Apply for VA health care](/health-care/apply/).
-- **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](http://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">1-800-669-8477</a>, Monday through Friday, 8:00 a.m. to 6:00 p.m. (<abbr title="eastern time">ET</abbr>).
-- **For Education Benefits:** You can get VA support for college or job training under special programs. Or, talk with a VA education counselor to find out what benefits you may be able to get. [Learn about education benefits](/education).
+- **For Life Insurance:** If you’re in good health other than your disability caused by service in the military, you can buy Service-Disabled Veterans’ Insurance (S-DVI)—a government life insurance policy. [Apply for S-DVI online](https://www.benefits.va.gov/insurance/s-dvi.asp). Or, call <a href="tel:+18006698477">1-800-669-8477</a>, Monday through Friday, 8:00 a.m. to 6:00 p.m. (<abbr title="eastern time">ET</abbr>).
+- **For Education Benefits:** You can get VA support for college or job training under special programs. Or, talk with a VA education counselor to find out what benefits you may be able to get. [Learn about education benefits](/education/).
 - **For Dependent Benefits:** If you’re 30% or more disabled due to a disability caused by service in the military, you can get financial support and benefits for your qualified dependents. There are 2 ways to register:
   - [Register through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), or
   - [Register through your local VA office](/facilities/).
-- **For Other Benefits:** Check with your local or state VA offices for other benefits you may be able to get—like help with buying a home or making changes to your home to make it more accessible, or help with getting a job. [Find a VA office near you](http://www.va.gov/statedva.htm).
+- **For Other Benefits:** Check with your local or state VA offices for other benefits you may be able to get—like help with buying a home or making changes to your home to make it more accessible, or help with getting a job. [Find a VA office near you](https://www.va.gov/statedva.htm).
 
 </div>
 </div>

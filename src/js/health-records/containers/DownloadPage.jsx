@@ -19,44 +19,22 @@ export class DownloadPage extends React.Component {
     };
 
     if (!form.ready) {
-      alertProps.content = (
-        <div>
-          <h4>Couldn’t generate your records</h4>
-          <p>
-            Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </p>
-        </div>
-      );
+      alertProps.headline = (<h4>Couldn’t generate your records</h4>);
+      alertProps.content = (<p>Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>);
       alertProps.status = 'error';
     } else if (refresh && !isEmpty(refresh.statuses.incomplete)) {
-      alertProps.content = (
-        <div>
-          <h4>Your health records are not up to date</h4>
-          <p>
-            This older version of your health records may have outdated or missing information.
-          </p>
-        </div>
+      alertProps.headline = (<h4>Your health records are not up to date</h4>);
+      alertProps.content = (<p>This older version of your health records may have outdated or missing information.</p>
       );
       alertProps.status = 'warning';
     } else if (refresh && !isEmpty(refresh.statuses.failed)) {
-      alertProps.content = (
-        <div>
-          <h4>Couldn’t update your records</h4>
-          <p>
-            Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.
-          </p>
-        </div>
-      );
+      alertProps.headline = (<h4>Couldn’t update your records</h4>);
+      alertProps.content = (<p>Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.</p>);
       alertProps.status = 'warning';
     } else {
-      alertProps.content = (
-        <div>
-          <h4>Your records are ready to download</h4>
-          <p>
-            For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you’ll have to start a new request to get your records.
-          </p>
-        </div>
-      );
+      alertProps.headline = (<h4>Your records are ready to download</h4>);
+      alertProps.content = (<p>
+            For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you’ll have to start a new request to get your records.</p>);
       alertProps.status = 'success';
     }
 

@@ -68,7 +68,7 @@ We won’t automatically cover you. You’ll need to sign up through your Servic
 
   <li class="process-step list-one">
   
-  [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
+  [Go to milConnect](https://www.dmdc.osd.mil/milconnect/).
   
   </li>
   
@@ -246,7 +246,7 @@ Yes. If you have spousal coverage and you want to reduce, turn down, or cancel i
 
   <li class="process-step list-one">
   
-  [Go to milConnect](https://www.dmdc.osd.mil/milconnect).
+  [Go to milConnect](https://www.dmdc.osd.mil/milconnect/).
   
   </li>
   
@@ -273,7 +273,7 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 **If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
 [Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
 <br>
-[Learn more about SOES and find out if your branch is using this new system](http://www.benefits.va.gov/INSURANCE/SOES.asp).
+[Learn more about SOES and find out if your branch is using this new system](https://www.benefits.va.gov/INSURANCE/SOES.asp).
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.
 
@@ -309,7 +309,7 @@ You can’t convert other types of policies—such as term, variable, or univers
 
 **If you’d like to convert FSGLI coverage, you must also:**
 
-- Choose a company from the list of companies that take part in this program. [View the companies you can choose from](http://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
+- Choose a company from the list of companies that take part in this program. [View the companies you can choose from](https://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
 - Apply at the local sales office of the company you chose.
 - Give a copy of the most recent Leave and Earnings Statement (LES) to the agent, showing the deduction for spousal SGLI. You’ll also have to provide proof of coverage with one of these documents:
   - The Servicemember’s separation document (Form DD214 or NGB-22, or written orders)
@@ -322,7 +322,7 @@ You can’t convert other types of policies—such as term, variable, or univers
 
 ### Where can I find more information?
 
-[Read our insurance publications](http://www.benefits.va.gov/INSURANCE/ins_publications.asp).
+[Read our insurance publications](https://www.benefits.va.gov/INSURANCE/ins_publications.asp).
 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

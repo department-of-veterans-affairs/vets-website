@@ -50,7 +50,7 @@ describe('<ConfirmationPage>', () => {
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.subTree('.confirmation-page-title').text()).to.equal('Claim received');
+    expect(tree.subTree('.confirmation-page-title').text()).to.equal('Claim submitted');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Sally Jane Doe');
     expect(tree.subTree('.claim-list').text()).to.include('Burial allowance');
     expect(tree.subTree('.claim-list').text()).to.include('Plot allowance');
@@ -58,7 +58,7 @@ describe('<ConfirmationPage>', () => {
     expect(tree.subTree('.claim-list').text()).to.include('Death certificate: 1 file');
     expect(tree.subTree('.claim-list').text()).to.include('Transportation documentation: 2 files');
     expect(tree.everySubTree('p')[0].text()).to.contain('We process claims in the order we receive them');
-    expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.Please print this page for your records');
+    expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.');
     expect(tree.everySubTree('p')[8].text()).to.contain('VA Regional Office');
   });
   it('should render', () => {

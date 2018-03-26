@@ -5,16 +5,50 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
+$color-inactive: #9b9b9b;
+
 .claim-list {
   margin-bottom: 2em;
 }
 
-.claim-file-border, .help-heading {
+.claim-file-border,
+.help-heading {
   border-bottom: 3px solid $color-primary;
-  margin: 0 0 0.3em;
+  margin: 10px 0 10px;
+  padding-bottom: 9px;
   font-size: 1.35em;
-  line-height: 1.5;
+  line-height: 1.2;
   font-weight: bold;
+  max-width: 22.5rem;
+}
+
+.claims-status-content {
+  .help-sidebar {
+    // Line up the bottom border under "Need help?" with the tab list bottom border
+    margin-top: calc(3rem - 16px);
+    margin-bottom: 50px;
+
+    & > div {
+      margin-bottom: 3rem;
+    }
+  }
+
+  // The claims container has a sizeable padding; don't make the whitespace bigger
+  .claims-container .help-sidebar {
+    margin-bottom: 0px;
+  }
+}
+
+.help-sidebar {
+  p {
+    margin: 0 0 4px;
+  }
+}
+
+@media (max-width: $medium-screen) {
+  .claims-status-content .help-sidebar {
+    margin-top: 0px;
+  }
 }
 
 .submit-additional-evidence {
@@ -66,6 +100,34 @@
   margin: 0 0 0.5em;
 }
 
+// Index page V2
+.claim-list-item-container .card-status {
+  margin: 0 0 0.5em;
+  display: flex;
+
+  .status-circle {
+    flex-shrink: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
+
+    &.open {
+      background-color: $color-green;
+    }
+
+    &.closed {
+      background-color: $color-gray-light;
+    }
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -93,6 +155,11 @@
 
 .claim-list-item-header {
   color: $color-primary;
+  margin-top: 0;
+}
+
+.claim-list-item-header-v2 {
+  margin-top: -2rem;
 }
 
 .claim-list-item:hover .claim-list-item-header {
@@ -117,12 +184,6 @@
     & + p {
       margin-top: 0;
     }
-  }
-}
-
-.va-modal-body {
-  h3 {
-    margin-top: 0;
   }
 }
 
@@ -238,11 +299,6 @@
   margin-left: 3.25rem;
 }
 
-.help-talk {
-  margin: 0.5em 0;
-  padding: 0;
-}
-
 .help-phone-number {
   margin: 0.5em 0;
 }
@@ -266,14 +322,6 @@
     width: 100px;
     margin: 2rem auto;
     display: block;
-  }
-}
-
-.claims-alert-checkbox {
-  > label {
-    margin-top: 0;
-    margin-bottom: 0;
-    max-width: 100%;
   }
 }
 
@@ -357,29 +405,6 @@
   margin-bottom: 2em;
 }
 
-.claims-alert {
-  position: relative;
-  &.usa-alert {
-    background-size: 4.1rem;
-    background-position: 2rem 1.9rem;
-  }
-  .usa-alert-heading {
-    padding-bottom: 0 !important;
-  }
-  > .usa-alert-body {
-    padding-left: 4.2rem;
-  }
-  &:focus {
-    outline: none;
-  }
-}
-
-.claims-alert.phase-back-alert {
-  margin-top: 0;
-  margin-bottom: 0;
-  background-position: 1rem 1.4rem;
-}
-
 .claims-header {
   margin: 0;
 }
@@ -407,13 +432,6 @@
   @include media($medium-large-screen) {
     float: left;
     width: 63%;
-  }
-}
-
-.need-files-alert {
-  padding-bottom: 4em;
-  @include media($medium-large-screen) {
-    padding-bottom: 1em;
   }
 }
 
@@ -454,16 +472,6 @@ h1:focus {
   @media (max-width: $small-screen) {
     margin: -5px 5px 0 0;
     width: 0;
-  }
-}
-
-.alert-with-details {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  @include media($medium-large-screen) {
-    flex-direction: row;
   }
 }
 
@@ -510,24 +518,6 @@ h1:focus {
   }
 }
 
-.claims-list-alert {
-  margin-bottom: 1em;
-  margin-top: 0;
-
-  &.usa-alert {
-    background-size: 3.4rem;
-    background-position: 1rem 1.9rem;
-  }
-
-  > .usa-alert-body {
-    padding-left: 3.7rem;
-  }
-}
-
-.va-alert-close-icon {
-  font-size: 1.1em !important;
-}
-
 .claims-closed-text {
   margin-top: 1em;
 }
@@ -543,15 +533,6 @@ h1:focus {
 
 .claims-paragraph-header {
   padding: 0.5em 0 0 !important;
-}
-
-.claims-alert-status {
-  margin-top: 0;
-  margin-bottom: 2em;
-}
-
-.claims-alert-header {
-  padding-bottom: 0 !important;
 }
 
 .claim-title {
@@ -599,6 +580,225 @@ h1:focus {
   > .section-current:not(.last),
   > .section-complete:not(.last) {
     cursor: pointer;
+  }
+}
+
+.usa-alert {
+  // Remove icons from standard USWDS alert styles
+  background-image: none;
+  padding-left: 1em;
+}
+
+// Slimmed version of .claim-timeline with appeals-specific stuff
+// To be used in conjunction with .process .form-process
+.appeal-timeline {
+  padding-top: 0;
+  padding-left: 0;
+
+  &.form-process {
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+
+  // To get all the li's to flow together, remove the top margin of the titles
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  li {
+    //   // Pull the first bullet point up just a hair to cover the top of the line
+    //   // for when the viewport is small.
+    //   &:first-child:before {
+    //     margin-top: 4px;
+    //   }
+
+    &:before {
+      background: $color-green;
+      border-radius: 50%;
+      border-width: 4.001px;
+    }
+
+    // Move up the headers to align with the bullet point better
+    h3 {
+      padding-top: 0.4em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      // Don't put the title on the next line down!
+      clear: none;
+    }
+
+    button {
+      margin-top: 0.1em;
+    }
+  }
+
+  // Child <li>s are expected to have .process-step as well as a .section-*
+  .process-step {
+    padding-bottom: 1em;
+
+    &:last-child {
+      padding-left: 2em;
+    }
+
+    .va-button-link {
+      h3 {
+        padding-top: 0;
+      }
+    }
+  }
+
+  .section-complete {
+    border-left: 5px solid $color-gray-lighter;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f00c";
+      margin-top: 5px; // Aligns the check bullets to their headers better
+    }
+  }
+
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
+
+    &:before,
+    button {
+      pointer-events: all;
+    }
+  }
+
+  .section-unexpanded {
+    // offset left border with padding so element doesn't move while toggling expander
+    &.process-step {
+      padding-left: calc(2em + 5px);
+    }
+
+    &::before {
+      font-family: FontAwesome;
+      content: "\f067";
+      color: $color-primary;
+      background-color: $color-white;
+      border-color: $color-primary;
+    }
+  }
+
+  .section-expanded {
+    border-left: 5px solid $color-gray-lighter;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f068";
+      color: $color-primary;
+      background-color: $color-white;
+      border-color: $color-primary;
+    }
+  }
+
+  .appeal-event-date {
+    color: $color-gray-medium;
+
+    & + .usa-alert {
+      margin-top: 1em;
+    }
+  }
+
+  & + .down-arrow {
+    width: 0;
+    border-left: 0.6em solid transparent;
+    border-right: 0.6em solid transparent;
+    border-top: 1.2em solid $color-gray-lighter;
+    margin-top: -0.9em;
+    margin-left: 0.8em;
+  }
+
+  .separator {
+    margin: 0.8em 0 0 -0.7em;
+    border-top: 1px solid $color-gray-lighter;
+  }
+}
+
+.current-status {
+  &.closed {
+    .current-status-content {
+      border-left-color: transparent;
+
+      &::before {
+        background-color: $color-inactive;
+        color: $color-inactive;
+      }
+    }
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
+  }
+
+  .current-status-content {
+    border-left: 5px solid $color-gray-lighter;
+    margin-left: 20px;
+    padding-left: 2em;
+
+    h3 {
+      clear: none;
+      padding-bottom: 0;
+      position: relative;
+      top: -0.2em;
+    }
+
+    + .down-arrow {
+      border-left: 0.6em solid transparent;
+      border-right: 0.6em solid transparent;
+      border-top: 1.2em solid $color-gray-lighter;
+      margin-left: 0.8em;
+      margin-top: -1em; // overlap flat part of arrowhead with bottom of gray line
+      width: 0;
+    }
+
+    &::before {
+      background: $color-green;
+      border: 4px solid $color-white;
+      border-radius: 50%;
+      color: $color-green;
+      content: "\2022";
+      display: block;
+      float: left;
+      font-size: 0.8em;
+      line-height: 1.4em;
+      margin-left: -3.64em;
+      position: relative;
+      top: -0.2em;
+      width: 2em;
+    }
+  }
+}
+
+.va-appeals-content {
+  padding-top: 1em;
+
+  .usa-alert-text {
+    margin-top: 1em;
+  }
+}
+
+.appeals-tabs-item {
+  flex: 1 1 0px;
+  text-align: center;
+
+  > .va-tab-trigger {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -743,4 +943,243 @@ h1:focus {
 
 .claim-item-label {
   font-weight: bold;
+}
+
+.appeals-next-list {
+  list-style-type: none;
+
+  li.next-event {
+    &:before {
+      // styles the bullets to mimic bullets in Timeline
+      display: block;
+      float: left;
+      width: 1em;
+      height: 1em;
+      content: "";
+      border: 4px solid $color-gray-medium;
+      border-radius: 50%;
+      background: $color-gray-medium;
+      margin-left: -0.6em;
+      position: relative;
+      top: 0.33em;
+    }
+
+    h3 {
+      clear: none;
+      margin-left: 1.5em;
+      margin-top: 0;
+      display: block;
+    }
+
+    p {
+      margin-left: 2.1em;
+    }
+
+    .card {
+      margin-left: 2.1em;
+
+      .number {
+        &:before {
+          font-family: FontAwesome;
+          content: "\f017 "; // space added at end to keep kerning consistent
+        }
+      }
+    }
+
+    .sidelines {
+      // line up the horizontal divider with the li::before 'bullets'
+      font-family: $font-serif;
+      font-size: 3rem; // match h2 size
+      margin-left: -0.6em;
+      width: 102%;
+    }
+  }
+
+  .decision-review-list {
+    li {
+      margin-left: 0.5em;
+    }
+  }
+}
+
+.alerts-list-container {
+  h3 {
+    // left-align heading with alert box
+    padding-left: 0.85em;
+  }
+
+  .alerts-list {
+    list-style: none;
+
+    li {
+      margin-left: -0.4em;
+    }
+
+    .usa-alert {
+      h4 {
+        margin-top: 0;
+      }
+
+      .usa-alert-text {
+        margin-top: 1em;
+      }
+    }
+  }
+}
+
+.decision-items {
+  h5 {
+    &.allowed-items {
+      color: $color-green;
+    }
+    &.denied-items {
+      color: $color-red;
+    }
+    font-weight: bold;
+  }
+}
+
+$end-of-docket-width: 4px;
+$docket-bar-width: calc(100% - #{$end-of-docket-width});
+$marker-width: 3rem;
+$marker-text-width: 9rem;
+
+.docket-container {
+  // This is slightly darker than the cards above it
+  background-color: $color-gray-light-alt;
+  padding: 16px;
+  margin: 3em 0px;
+
+  p {
+    margin: 0px;
+  }
+
+  .appeals-ahead {
+    font-family: Source Sans Pro, sans serif;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $color-gray-light;
+    width: 80%;
+    max-width: 24rem;
+
+    & + p {
+      margin-top: 6px;
+    }
+  }
+
+  .marker-container {
+    // Same width as .docket-bar so we can more easily line the marker
+    //  up with .docket-bar .completed
+    width: $docket-bar-width;
+    margin-bottom: -16px;
+
+    .marker-text-spacer {
+      display: inline-block;
+      min-width: $marker-text-width / 2;
+      max-width: calc(100% - #{$marker-text-width} / 2);
+    }
+
+    .spacer {
+      display: inline-block;
+    }
+
+    .marker {
+      display: inline-block;
+      width: $marker-width;
+      margin: 0px $marker-width / -2;
+    }
+
+    span.marker-text {
+      font-weight: bold;
+      color: $color-primary;
+      width: $marker-text-width;
+      margin: 0px $marker-text-width / -2;
+    }
+  }
+
+  .docket-bar {
+    display: inline-block;
+    // 100% - width of .end-of-docket
+    width: $docket-bar-width;
+    height: 40px;
+    border: 1px solid $color-gray-light;
+    // abuts the .end-of-docket
+    border-right: 0px;
+    background-color: $color-white;
+
+    .completed {
+      background-color: $color-primary-darker;
+      height: 100%;
+    }
+  }
+
+  .end-of-docket {
+    display: inline-block;
+    background-color: $color-gold;
+    height: 64px;
+    width: $end-of-docket-width;
+  }
+
+  .front-of-docket-text {
+    display: flex;
+    flex-direction: row-reverse;
+
+    p {
+      width: 8rem;
+      text-align: right;
+    }
+  }
+}
+
+.issues-container {
+  margin-bottom: 2em;
+
+  & > h2 {
+    margin-top: 0;
+  }
+  .usa-accordion-bordered {
+    .usa-accordion-button {
+      font-size: 2rem; // match standard h3
+    }
+
+    .usa-accordion-content {
+      padding-top: 1.25em;
+
+      h5 {
+        font-family: $font-sans;
+        margin-top: 0;
+      }
+    }
+
+    .granted-section {
+      h5 {
+        color: $color-green;
+      }
+    }
+
+    .denied-section {
+      h5 {
+        color: $color-secondary;
+      }
+    }
+  }
+}
+
+.closed-appeal-notice {
+  line-height: 40px;
+  text-align: center;
+  font-family: $font-sans;
+  font-weight: 700;
+  font-size: 2rem;
+  background-color: $color-gray-lightest;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.usa-button .fa-chevron-right {
+  margin-left: 1.4rem;
+  margin-right: -0.6rem;
+  font-size: 80%;
 }

@@ -4,11 +4,12 @@ export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
 export const GET_ENROLLMENT_DATA_FAILURE = 'GET_ENROLLMENT_DATA_FAILURE';
 export const GET_ENROLLMENT_DATA_SUCCESS = 'GET_ENROLLMENT_DATA_SUCCESS';
 export const NO_CHAPTER33_RECORD_AVAILABLE = 'NO_CHAPTER33_RECORD_AVAILABLE';
+export const SET_SERVICE_AVAILABILITY = 'SET_SERVICE_AVAILABILITY';
 
-// Errors reported in the EVSS 'meta' object
-export const metaStatus = {
-  OK: 'OK',
-  NOT_AUTHORIZED: 'NOT_AUTHORIZED',
-  NOT_FOUND: 'NOT_FOUND',
-  SERVER_ERROR: 'SERVER_ERROR'
-};
+// States
+export const SERVICE_AVAILABILITY_STATES = Object.freeze({
+  unrequested: 'unrequested',
+  pending: 'pending',
+  up: 'up',
+  down: 'down'
+});

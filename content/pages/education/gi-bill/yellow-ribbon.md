@@ -6,17 +6,17 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 order: 9
 ---
-
-<div class="va-introtext">
+<div itemscope itemtype ="http://schema.org/HowTo">
+<div class="va-introtext" itemprop="description">
 
 The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
 </div>
 
+<div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<div class="feature" markdown="1">
-
-### Can I get this benefit?
+<h3 itemprop="name">Can I get this benefit?</h3>
+<div itemprop="itemListElement">
 
 You can get this benefit if:
 - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
@@ -24,22 +24,37 @@ You can get this benefit if:
 
 You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. <br />
 [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
-[See the list of schools that offer the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp). <br />
+[See the list of schools that offer the Yellow Ribbon Program](https://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp). <br />
 
 
-### Who’s covered?
+</div>
+
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">Who’s covered?</h3>
+<div itemprop="itemListElement">
 
 - Veterans
 - Qualified dependents
 
 </div>
+</div>
+</div>
 
-### What benefits can I get?
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">What benefits can I get?</h3>
+<div itemprop="itemListElement">
 
 Money for tuition
 
+</div>
+</div>
 
-### How do I get this benefit?
+<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
+
+<h3 itemprop="name">How do I get this benefit?</h3>
+<div itemprop="itemListElement">
 
 <ol class="process">
 <li class="process-step list-one">
@@ -77,3 +92,6 @@ You’ll get a notice from your school about whether it has accepted you into th
 </li>
 </ol>
 
+</div>
+</div>
+</div>

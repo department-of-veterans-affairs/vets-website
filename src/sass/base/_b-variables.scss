@@ -9,11 +9,13 @@
 // Typography
 //===================================
 // These variables override values set in either
-// ~uswds/src/stylesheets/core/defaults" or 
+// ~uswds/src/stylesheets/core/defaults" or
 // ~uswds/src/stylesheets/core/variables"
 
 $base-font-size:      rem(16px);
-$font-serif:          "Roboto Slab", serif;
+$font-serif:          "Bitter", $georgia;
+
+$h6-font-size:        1.5rem;
 
 //===================================
 // Magic Numbers
@@ -65,7 +67,7 @@ $color-white-alpha70:        rgba(255,255,255,.7);
 $color-sidebar-nav-bg:   rgba($color-black, 0.25);
 
 //===================================
-// Deprecated Colors; 
+// Deprecated Colors;
 // Please avoid using.
 //===================================
 
@@ -73,5 +75,3 @@ $polar:       #E8F5FA;
 $wild-sand:   #f6f6f6;
 $green-white: #eff0e6;
 $olso-gray:   #849097;
-
-

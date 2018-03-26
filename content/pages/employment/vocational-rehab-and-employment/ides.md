@@ -8,7 +8,7 @@ relatedlinks:
   - heading: Other VA benefits you may want to explore
     links: 
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
-      title: Disability Benefits Predischarge Claim
+      title: Disability Benefits Pre-discharge Claim
       description: Find out how to file a disability claim as you're getting ready to leave the military to speed up the decision process.
     - url: /health-care/apply/
       title: Health Care Application Process
@@ -42,7 +42,7 @@ Depending on your needs and goals, services may include:
 -	On the Job Training (OJT), apprenticeships, and non-paid work experiences
 -	Post-secondary training at a college, vocational, technical, or business school
 -	Supportive rehabilitation services including case management, counseling, and medical referrals
--	Independent-living services if you're unable to work due to the severity of your disabilities
+-	Independent living services if you're unable to work due to the severity of your disabilities
 
 <hr>
 

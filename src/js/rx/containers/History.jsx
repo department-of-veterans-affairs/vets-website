@@ -153,7 +153,7 @@ class History extends React.Component {
               selected={currentSort}/>
           </div>
           <SortableTable
-            className="usa-table-borderless va-table-list rx-table rx-table-list"
+            className="va-table-list rx-table rx-table-list"
             currentSort={currentSort}
             data={data}
             fields={fields}

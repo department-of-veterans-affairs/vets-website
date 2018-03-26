@@ -1,6 +1,7 @@
 ---
 layout: page.html
 title: Logout
+private: true
 ---
 
 <div class="main home" role="main">

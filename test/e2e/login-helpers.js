@@ -17,7 +17,7 @@ function setUserToken(token, client) {
 }
 
 function getLogoutUrl() {
-  return 'http://example.com/fake_logout_url';
+  return 'http://example.com/logout_url';
 }
 
 /* eslint-disable camelcase */
@@ -49,6 +49,7 @@ function initUserMock(token, level) {
           }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          mhv_account_state: 'upgraded',
           health_terms_current: true,
           va_profile: {
             status: 'OK',
@@ -63,26 +64,14 @@ function initUserMock(token, level) {
     }
   });
 }
+/* eslint-enable camelcase */
 
 function initLogoutMock(token) {
   mock(token, {
-    path: '/v0/sessions',
-    verb: 'delete',
-    value: {
-      logout_via_get: getLogoutUrl()
-    }
-  });
-}
-/* eslint-enable camelcase */
-
-function initLoginUrlsMock() {
-  mock(null, {
-    path: '/v0/sessions/authn_urls',
+    path: '/sessions/slo/new',
     verb: 'get',
     value: {
-      idme: 'http://example.com/idme_url',
-      dslogon: 'http://example.com/dslogon_url',
-      mhv: 'http://example.com/mhv_url',
+      url: getLogoutUrl()
     }
   });
 }
@@ -121,8 +110,6 @@ function testUnauthedUserFlow(client, path) {
   client
     .url(appURL)
     .waitForElementVisible('body', Timeouts.normal);
-
-  initLoginUrlsMock();
 
   client
     .waitForElementVisible('.login', Timeouts.normal)

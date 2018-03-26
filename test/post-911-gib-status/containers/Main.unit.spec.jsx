@@ -36,7 +36,7 @@ describe('Main', () => {
   it('should show system down message for backend service error', () => {
     const props = _.merge({}, defaultProps, { availability: 'backendServiceError' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#systemDownMessage')).to.be.ok;
+    expect(tree.subTree('#backendErrorMessage')).to.be.ok;
   });
 
   it('should show backend authentication error', () => {
@@ -45,15 +45,25 @@ describe('Main', () => {
     expect(tree.subTree('#recordNotFound')).to.be.ok;
   });
 
-  it('should show record not found warning', () => {
+  /*
+    Temporarily switch out record not found and replace with System Down
+    See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/7677
+  */
+  // it('should show record not found warning', () => {
+  //   const props = _.merge({}, defaultProps, { availability: 'noChapter33Record' });
+  //   const tree = SkinDeep.shallowRender(<Main {...props}/>);
+  //   expect(tree.subTree('#noChapter33Benefits')).to.be.ok;
+  // });
+
+  it('should show System Down warning when record not found', () => {
     const props = _.merge({}, defaultProps, { availability: 'noChapter33Record' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#noChapter33Benefits')).to.be.ok;
+    expect(tree.subTree('#systemDownMessage')).to.be.ok;
   });
 
   it('should show system down message when service is unavailable', () => {
     const props = _.merge({}, defaultProps, { availability: 'unavailable' });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#systemDownMessage')).to.be.ok;
+    expect(tree.subTree('#backendErrorMessage')).to.be.ok;
   });
 });

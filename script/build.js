@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const fs = require('fs');
 const path = require('path');
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
@@ -19,9 +20,11 @@ const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
-const webpack = require('metalsmith-webpack');
+const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
-const webpackDevServer = require('metalsmith-webpack-dev-server');
+const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
+const createSettings = require('../config/create-settings');
+const nonceTransformer = require('./metalsmith/nonceTransformer');
 
 const sourceDir = '../content/pages';
 
@@ -33,6 +36,7 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
+  { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
 
@@ -92,8 +96,12 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/burial-planning/application.md');
-  ignoreList.push('veteran-id-card/index.md');
+  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
+  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter31.md');
+  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
+  ignoreList.push('veteran-id-card/how-to-get.md');
+  ignoreList.push('veteran-id-card/how-to-upload-photo.md');
+  ignoreList.push('disability-benefits/526/apply-for-increase.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -159,7 +167,7 @@ smith.use(collections({
     pattern: 'disability-benefits/after-you-apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'After You Apply'
     }
   },
   disabilityApply: {
@@ -187,7 +195,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Predischarge Claims'
+      name: 'Pre-discharge Claim'
     }
   },
   disabilityConditions: {
@@ -229,7 +237,7 @@ smith.use(collections({
     pattern: '',
     sortBy: 'order',
     metadata: {
-      name: 'Education Benefits'
+      name: 'Education and Training'
     }
   },
   educationAdvancedTraining: {
@@ -294,6 +302,13 @@ smith.use(collections({
       name: 'VA Health Care Coverage'
     }
   },
+  healthCareCoverageFamily: {
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Health Benefits'
+    }
+  },
   healthCareCoverageVision: {
     pattern: 'health-care/about-va-health-care/vision-care/*.md',
     sortBy: 'order',
@@ -319,7 +334,7 @@ smith.use(collections({
     pattern: 'health-care/health-conditions/conditions-related-to-service-era/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Conditions Related to Service Era'
+      name: 'Concerns Related to Service Era'
     }
   },
   housing: {
@@ -429,6 +444,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
         { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/discharge-upgrade-instructions(.*)', to: '/discharge-upgrade-instructions/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
         { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
@@ -438,7 +454,11 @@ if (options.watch) {
         { from: '^/letters(.*)', to: '/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/burial-planning/application(.*)', to: '/burials-and-memorials/burial-planning/application/' },
+        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter31(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter31/' },
+        { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
+        { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
+        { from: '^/disability-benefits/526/apply-for-increase(.*)', to: '/disability-benefits/526/apply-for-increase/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -446,7 +466,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
-    'public': options.public,
+    'public': options.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -455,7 +475,10 @@ if (options.watch) {
       timings: true,
       chunks: false,
       chunkModules: false,
-      children: false
+      entrypoints: false,
+      children: false,
+      modules: false,
+      warnings: true
     }
   };
 
@@ -570,10 +593,9 @@ smith.use(layouts({
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
-  hostname: 'http://www.vets.gov',
+  hostname: 'https://www.vets.gov',
   omitIndex: true
 }));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({
@@ -591,12 +613,15 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
+        '/veteran-id-card/apply',
+        '/veteran-id-card/how-to-get',
+        '/disability-benefits/apply-for-increase',
         '/letters'].join('|'))
   }));
 }
 
 if (options.buildtype !== 'development') {
-  //
+
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
   // files, so we have to replace the references to those files in HTML and CSS files after the
@@ -604,7 +629,7 @@ if (options.buildtype !== 'development') {
   // WebPack that maps the original file names to their hashed versions. Metalsmith actions
   // are passed a list of files that are included in the build. Those files are not yet written
   // to disk, but the contents are held in memory.
-  //
+
   smith.use((files, metalsmith, done) => {
     // Read in the data from the manifest file.
     const manifestKey = Object.keys(files).find((filename) => {
@@ -617,7 +642,7 @@ if (options.buildtype !== 'development') {
     const manifest = {};
     Object.keys(originalManifest).forEach((originalManifestKey) => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null && matchData[1] !== 'vendor') {
+      if (matchData !== null) {
         const newKey = `${matchData[1]}.entry.js`;
         manifest[newKey] = originalManifest[originalManifestKey];
       } else {
@@ -631,30 +656,12 @@ if (options.buildtype !== 'development') {
     Object.keys(files).forEach((filename) => {
       if (filename.match(/\.(html|css)$/) !== null) {
         Object.keys(manifest).forEach((originalAssetFilename) => {
-          const newAssetFilename = manifest[originalAssetFilename];
+          const newAssetFilename = manifest[originalAssetFilename].replace('/generated/', '');
           const file = files[filename];
           const contents = file.contents.toString();
           const regex = new RegExp(originalAssetFilename, 'g');
           file.contents = new Buffer(contents.replace(regex, newAssetFilename));
         });
-      }
-    });
-    done();
-  });
-
-  smith.use((files, metalsmith, done) => {
-    // Read in the data from the manifest file.
-    const chunkManifestKey = Object.keys(files).find((filename) => {
-      return filename.match(/chunk-manifest.json$/) !== null;
-    });
-    const chunkManifest = files[chunkManifestKey].contents.toString();
-
-    Object.keys(files).forEach((filename) => {
-      if (filename.match(/\.html$/) !== null) {
-        const file = files[filename];
-        const contents = file.contents.toString();
-        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
-        file.contents = new Buffer(contents.replace(regex, chunkManifest));
       }
     });
     done();
@@ -669,9 +676,25 @@ smith.use(redirect({
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
+/*
+Add nonce attribute with substition string to all inline script tags
+Convert onclick event handles into nonced script tags
+*/
+smith.use(nonceTransformer);
+
+function generateStaticSettings() {
+  const settings = createSettings(options);
+  const settingsPath = path.join(destination, 'js/settings.js');
+  const settingsContent = `window.settings = ${JSON.stringify(settings, null, ' ')};`;
+  fs.writeFileSync(settingsPath, settingsContent);
+}
+
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
+
+  generateStaticSettings();
+
   if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {

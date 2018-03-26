@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+
+import Main from './Main';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -42,13 +45,17 @@ class Post911GIBStatusApp extends React.Component {
         userProfile={this.props.profile}
         loginUrl={this.props.loginUrl}
         verifyUrl={this.props.verifyUrl}>
-        <AppContent>
-          <div className="row">
-            <div className="small-12 columns">
-              {this.props.children}
+        <DowntimeNotification appTitle="Post-9/11 GI Bill benefits tracking tool" dependencies={[services.evss]}>
+          <AppContent>
+            <div className="row">
+              <div className="small-12 columns">
+                <Main>
+                  {this.props.children}
+                </Main>
+              </div>
             </div>
-          </div>
-        </AppContent>
+          </AppContent>
+        </DowntimeNotification>
       </RequiredLoginView>
     );
   }

@@ -5,6 +5,7 @@ title: Burial and Memorial Benefits Eligibility
 display_title: Eligibility
 collection: burials
 order: 1
+
 ---
 
 <div class="va-introtext">
@@ -19,10 +20,23 @@ Servicemembers, Veterans, and family members may qualify for burial in a VA nati
 
 You may qualify for burial and memorial benefits if you're:
 
-- A Veteran who was discharged from the military under conditions other than dishonorable, **or**
+- A Veteran who didn't receive a dishonorable discharge, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
+
+<br>
+
+### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
+
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
+
+<br>
+
+**There are 2 ways you can try to qualify:**
+
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 
@@ -54,4 +68,4 @@ We give the surviving spouse, children, and parents of deceased Servicemembers a
 
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination. [Find out how to apply](/burials-and-memorials/pre-need/).
 
-**Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](http://www.cem.va.gov/cem/cems/listcem.asp).
+**Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [Find a state Veterans cemetery](https://www.cem.va.gov/cem/cems/listcem.asp).

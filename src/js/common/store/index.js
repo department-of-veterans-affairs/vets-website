@@ -1,14 +1,18 @@
 import _ from 'lodash/fp';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+import { scheduledDowntime } from '../reducers';
 import login from '../../login/reducers/login';
+import feedback from '../../feedback/reducers';
 import profile from '../../user-profile/reducers/profile';
 
 export const commonReducer = {
   user: combineReducers({
     login,
     profile
-  })
+  }),
+  feedback,
+  scheduledDowntime
 };
 
 export default function createCommonStore(appReducer = {}) {

@@ -17,6 +17,7 @@ import fullSchema5495 from '../../src/js/edu-benefits/5495/config/form';
 import fullSchema527EZ from '../../src/js/pensions/config/form';
 import fullSchema530 from '../../src/js/burials/config/form';
 import fullSchema10007 from '../../src/js/pre-need/config/form';
+import fullSchemaVIC from '../../src/js/vic-v2/config/form';
 
 import schemas from 'vets-json-schema/dist/schemas';
 
@@ -32,8 +33,15 @@ const schemaToConfigIds = {
   '22-5490': '5490',
   '22-5495': '5495',
   '40-10007': '40-10007',
+  VIC: 'VIC',
   definitions: 'N/A'
 };
+
+const excludedForms = new Set([
+  '28-1900',
+  '21-526EZ',
+  '28-8832'
+]);
 
 describe('profile helpers:', () => {
   describe('formTitles', () => {
@@ -62,9 +70,10 @@ describe('profile helpers:', () => {
         fullSchema5495,
         fullSchema527EZ,
         fullSchema530,
-        fullSchema10007
+        fullSchema10007,
+        fullSchemaVIC
       ];
-      const allFormIds = Object.keys(schemas);
+      const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
       const allMappedIds = Object.keys(schemaToConfigIds);
       const sipEnabledConfigs = configs.filter(config => !config.disableSave);
       const sipEnabledFormIds = sipEnabledConfigs.map(sipEnabledConfig => sipEnabledConfig.formId);
@@ -75,9 +84,6 @@ describe('profile helpers:', () => {
   describe('handleIncompleteInformation', () => {
     it('should push error into window if a form is missing title or link information', () => {
       expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
-    });
-    it('should throw an error if a form is not included the list of sipEnabledForms', () => {
-      expect(() => isSIPEnabledForm({ form: '40-10007' })).to.throw('Could not find form');
     });
   });
 });

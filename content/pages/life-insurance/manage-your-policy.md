@@ -21,7 +21,7 @@ If you have VA life insurance, the easiest way to manage your policy is online. 
 
 ### How do I access my policy?
 
-If you have a VA life insurance policy with a file number that starts with a V, RH, J, RS, K, or W—or if you’d like to apply for service-disabled life insurance (life insurance for Veterans who have become disabled as a result of serving in the military), access your policy online through VA. [Find your policy through VA](http://www.benefits.va.gov/INSURANCE/popups/opa.htm). 
+If you have a VA life insurance policy with a file number that starts with a V, RH, J, RS, K, or W—or if you’d like to apply for service-disabled life insurance (life insurance for Veterans who have become disabled as a result of serving in the military), access your policy online through VA. [Find your policy through VA](https://www.benefits.va.gov/INSURANCE/popups/opa.htm). 
 
 **Note:** For Service-Disabled Veterans Life Insurance (S-DVI) and Veterans’ Mortgage Life Insurance (VMLI), the Department of the Treasury requires that all payments be made through an electronic funds transfer, and will no longer send paper checks through the mail. You don’t have to share your bank information when applying for coverage. But, when you apply for an insurance payment (such as a policy loan, cash surrender, or beneficiary claim payment), you’ll be asked for this information. To make the process easier, send a voided check when you apply for your payment.
 

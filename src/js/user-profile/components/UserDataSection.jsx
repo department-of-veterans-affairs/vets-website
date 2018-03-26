@@ -1,39 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
-import AlertBox from '../../common/components/AlertBox';
 import _ from 'lodash';
-
 import moment from 'moment';
 
-import { getMultifactorUrl, handleMultifactor } from '../../common/helpers/login-helpers';
-import { updateMultifactorUrl } from '../../login/actions';
-
-import {
-  fetchLatestTerms,
-  acceptTerms,
-} from '../actions';
+import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
+import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
+import { mfa } from '../../login/utils/helpers';
+import { fetchLatestTerms, acceptTerms } from '../actions';
 
 class UserDataSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
-    this.getMultifactorUrl();
-    this.handleMultifactorRequest = this.handleMultifactorRequest.bind(this);
-  }
-
-  componentWillUnmount() {
-    this.multifactorUrlRequest.abort();
-  }
-
-  getMultifactorUrl() {
-    this.multifactorUrlRequest = getMultifactorUrl(this.props.updateMultifactorUrl);
-  }
-
-  handleMultifactorRequest() {
-    handleMultifactor(this.props.login.multifactorUrl);
   }
 
   openModal = () => {
@@ -51,8 +31,8 @@ class UserDataSection extends React.Component {
   }
 
   renderModalContents() {
-    const { terms } = this.props;
-    const termsAccepted = this.props.profile.healthTermsCurrent;
+    const { profile, terms } = this.props;
+    const termsAccepted = _.get(profile, 'mhv.terms.accepted');
     if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
       setTimeout(() => {
         this.props.fetchLatestTerms('mhvac');
@@ -77,7 +57,7 @@ class UserDataSection extends React.Component {
   }
 
   renderTermsLink() {
-    if (this.props.profile.healthTermsCurrent) {
+    if (_.get(this.props.profile, 'mhv.terms.accepted')) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
@@ -90,35 +70,32 @@ class UserDataSection extends React.Component {
   renderMultifactorMessage() {
     if (this.props.profile.multifactor) { return null; }
 
+    const headline = 'Add extra security to your account';
     const content = (
-      <div className="mfa-message">
-        <div className="medium-8 column">
-          <h2>Add extra security to your account</h2>
-          <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
-        </div>
-        <div className="medium-4 column">
-          <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
-        </div>
+      <div>
+        <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
+        <button className="usa-button usa-button-secondary" onClick={mfa}>Add security step</button>
       </div>
     );
 
     return (
-      <div>
+      <p>
         <AlertBox
+          headline={headline}
           content={content}
           isVisible
           status="warning"/>
-      </div>
+      </p>
     );
   }
 
   render() {
     const {
       profile: {
-        accountType,
         dob,
         email,
         gender,
+        verified
       },
       name: {
         first: firstName,
@@ -130,7 +107,7 @@ class UserDataSection extends React.Component {
     let content;
     const name = `${firstName || ''} ${middleName || ''} ${lastName || ''}`;
 
-    if (accountType === 3) {
+    if (verified) {
       content = (
         <span>
           <p><span className="label">Name:</span>{_.startCase(_.toLower(name))}</p>
@@ -143,10 +120,11 @@ class UserDataSection extends React.Component {
     return (
       <div className="profile-section">
         <h4 className="section-header">Account information</h4>
-        {this.renderMultifactorMessage()}
         <div className="info-container">
           {content}
           <p><span className="label">Email address:</span> {email}</p>
+          {this.renderMultifactorMessage()}
+          {!verified && <p><span className="label"><a href="/verify?next=/profile">Verify your identity</a> to access more services you may be eligible for.</span></p>}
           <p>Want to change your email, password, or other account settings?<br/>
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
@@ -169,14 +147,13 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.mhv.terms
   };
 };
 
 const mapDispatchToProps = {
   fetchLatestTerms,
-  acceptTerms,
-  updateMultifactorUrl,
+  acceptTerms
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);

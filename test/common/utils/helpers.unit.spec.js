@@ -5,7 +5,7 @@ import moment from 'moment';
 import {
   isActivePage,
   dateToMoment,
-  dateDiffDesc,
+  timeFromNow,
   formatDateShort,
   formatDateParsedZoneShort,
   formatDateLong,
@@ -103,19 +103,19 @@ describe('Helpers unit tests', () => {
       expect(date.date()).to.equal(1);
     });
   });
-  describe('dateDiffDesc', () => {
+  describe('timeFromNow', () => {
     const today = moment();
     it('should display time in days', () => {
-      expect(dateDiffDesc(moment(today).add(30, 'days'), today)).to.equal('30 days');
+      expect(timeFromNow(moment(today).add(30, 'days'), today)).to.equal('30 days');
     });
     it('should display time in hours', () => {
-      expect(dateDiffDesc(moment(today).add(23, 'hours'), today)).to.equal('23 hours');
+      expect(timeFromNow(moment(today).add(23, 'hours'), today)).to.equal('23 hours');
     });
     it('should display time in minutes', () => {
-      expect(dateDiffDesc(moment(today).add(59, 'minutes'), today)).to.equal('59 minutes');
+      expect(timeFromNow(moment(today).add(59, 'minutes'), today)).to.equal('59 minutes');
     });
-    it('should display time as less than a minute', () => {
-      expect(dateDiffDesc(moment(today).add(59, 'seconds'), today)).to.equal('less than a minute');
+    it('should display time in seconds', () => {
+      expect(timeFromNow(moment(today).add(59, 'seconds'), today)).to.equal('59 seconds');
     });
   });
   describe('formatDateShort', () => {

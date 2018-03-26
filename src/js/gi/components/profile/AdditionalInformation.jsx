@@ -155,7 +155,7 @@ export class AdditionalInformation extends React.Component {
         <div className="usa-width-one-half medium-6 columns">
           <div className="historical-information table">
             <h3>Historical Information</h3>
-            <table className="usa-table-borderless">
+            <table>
               <thead>
                 <tr>
                   <th>Benefit</th>

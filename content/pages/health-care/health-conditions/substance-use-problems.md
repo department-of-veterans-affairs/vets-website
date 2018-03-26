@@ -26,18 +26,18 @@ If you’re struggling with substance use problems, you’re not alone. Many Vet
 
 </div>
 
-<div class="usa-alert usa-alert-warning va-alert">
+<div class="usa-alert usa-alert-warning">
   <div class="usa-alert-body">
-	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
-	  <div class="expander-content-inner">
+	  <div class="expander-content-inner usa-alert-text">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1 to talk to someone now.</li>
-		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
-		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
-		  <li>Call <a href="tel:911">911</a>.</li>
-		  <li>Go to the nearest emergency room.</li>
-		</ul>
+  		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+  		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+  		  <li>Call <a href="tel:911">911</a>.</li>
+  		  <li>Go to the nearest emergency room.</li>
+		  </ul>
 	  </div>
   	</div>
   </div>

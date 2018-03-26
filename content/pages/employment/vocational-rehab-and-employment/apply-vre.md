@@ -75,7 +75,7 @@ You may be eligible for VR&amp;E benefits and services if you're:
 - Expecting an other-than-dishonorable discharge and have a VA memorandum rating of 20% or more, **or**
 - In the Integrated Disability Evaluation System (IDES). [Learn more about accessing VR&E services through IDES](/employment/vocational-rehab-and-employment/ides).
 
-**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to Dec. 31, 2018.
+**Please note:** Sec. 1631(b) of the National Defense Authorization Act (PL 110-181) established VR&E eligibility and automatic entitlement for severely injured active duty individuals before a VA rating is issued. Sec. 724 of Public Law 113-291 extends the sunset date of NDAA to September 30, 2018.
 
 </div>
 

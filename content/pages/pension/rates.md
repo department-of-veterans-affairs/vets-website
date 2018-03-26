@@ -70,7 +70,7 @@ If you have medical expenses, you may deduct only the amount that’s above 5% o
 - **If you have a child who works**, you may exclude their wages up to $10,400 for 2017.
 - **If you have medical expenses**, you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
-[Get historic rate charts from past years](http://www.benefits.va.gov/pension/current_rates_veteran_pen.asp).
+[Get historic rate charts from past years](https://www.benefits.va.gov/pension/current_rates_veteran_pen.asp).
 
 #### Read full regulations from Title 38 Code of Federal Regulations
 

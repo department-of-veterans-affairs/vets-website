@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-const electron = require('electron-prebuilt');
+const electron = require('electron');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
@@ -13,6 +13,7 @@ module.exports = {
   src_folders: ['./test'],
   output_folder: './logs/nightwatch',
   custom_commands_path: './test/util/nightwatch-commands',
+  custom_assertions_path: './test/util/nightwatch-assertions',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
@@ -59,9 +60,9 @@ module.exports = {
     accessibility: {
       filter: './test/accessibility/*.spec.js'
     },
-    wcag2a: {
+    bestpractice: {
       globals: {
-        rules: ['section508', 'wcag2a']
+        rules: ['section508', 'wcag2a', 'wcag2aa', 'best-practice']
       }
     }
   }

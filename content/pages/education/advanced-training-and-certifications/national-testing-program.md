@@ -67,4 +67,4 @@ We’ll charge your GI Bill benefit package for testing expenses. [Learn about h
 - ECE (Excelsior College Examinations)
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
-[See the complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
+[See the complete list of tests and fees](https://inquiry.vba.va.gov/weamspub/buildSearchNE.do).

@@ -1,13 +1,30 @@
 import React from 'react';
+import Raven from 'raven-js';
 import environment from '../../common/helpers/environment';
+import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
+import {
+  getStatus,
+  USER_FORBIDDEN_ERROR,
+  RECORD_NOT_FOUND_ERROR,
+  VALIDATION_ERROR,
+  BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  ROWS_PER_PAGE,
+  CHANGE_INDEX_PAGE
+} from '../utils/appeals-v2-helpers';
 
+// -------------------- v2 and v1 -------------
+export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
+// -------------------- v1 --------------------
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const SET_APPEALS = 'SET_APPEALS';
 export const FETCH_CLAIMS = 'FETCH_CLAIMS';
 export const FETCH_APPEALS = 'FETCH_APPEALS';
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -77,81 +94,80 @@ export function getAppeals(filter) {
 }
 
 export function fetchAppealsSuccess(response) {
+  const appeals = response.data;
+  const v1ToV2IdMap = {};
+  appeals.forEach(appeal => {
+    // In case there are no v1 appeal ids
+    if (!appeal.attributes.appealIds) {
+      return;
+    }
+
+    appeal.attributes.appealIds.forEach(id => {
+      v1ToV2IdMap[id] = appeal.id;
+    });
+  });
+
   return {
     type: FETCH_APPEALS_SUCCESS,
-    // filter: filter, // No idea why this would be needed, but it's in the old version
-    appeals: response.data
+    appeals,
+    v1ToV2IdMap
   };
 }
 
 export function getAppealsV2() {
   return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
-
-    // Fake the fetch by just returning a resolved promice with the object shape we expect
-    //  to get from the api.
-    // NOTE: This shape may change once we know what the api will be returning for sure. This
-    //  is just an example of what evss(?) is returning to the api.
-    return Promise.resolve({
-      data: [
-        {
-          id: '7387389', // Apparently this is a string...
-          type: 'appealSeries',
-          attributes: {
-            active: true,
-            incompleteHistory: false,
-            aoj: 'vba',
-            programArea: 'compensation',
-            description: 'Service connection for tinnitus, hearing loss, and two more',
-            type: 'original',
-            aod: false,
-            location: 'aoj',
-            status: {
-              type: 'nod', // This may or may not be a real status type
-              details: { // Don't actually know what's in here
-                regionalOffice: 'Chicago Regional Office'
-              }
-            },
-            docket: {
-              front: false,
-              total: 206900,
-              ahead: 109203,
-              ready: 22109,
-              eta: '2019-08-31'
-            },
-            issues: [
-              {
-                active: true,
-                description: 'Service connection for tinnitus',
-                lastAction: 'field_grant',
-                date: '2016-05-30'
-              }
-            ],
-            alerts: [
-              {
-                type: 'tbd', // Need to get a real status type
-                details: {}
-              }
-            ],
-            events: [
-              {
-                type: 'claim',
-                date: '2016-05-30',
-                details: {}
-              }
-            ],
-            evidence: [
-              {
-                description: 'Service treatment records',
-                date: '2017-09-30'
-              }
-            ]
-          }
+    return apiRequest(
+      '/appeals',
+      null,
+      (appeals) => dispatch(fetchAppealsSuccess(appeals)),
+      (response) => {
+        const status = getStatus(response);
+        const action = { type: '' };
+        switch (status) {
+          case '403':
+            action.type = USER_FORBIDDEN_ERROR;
+            break;
+          case '404':
+            action.type = RECORD_NOT_FOUND_ERROR;
+            break;
+          case '422':
+            action.type = VALIDATION_ERROR;
+            break;
+          case '502':
+            action.type = BACKEND_SERVICE_ERROR;
+            break;
+          default:
+            action.type = FETCH_APPEALS_ERROR;
+            break;
         }
-      ]
-    })
-      .then((response) => dispatch(fetchAppealsSuccess(response)))
-      .catch(() => dispatch({ type: SET_APPEALS_UNAVAILABLE }));
+        Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+        return dispatch(action);
+      }
+    );
+  };
+}
+
+export function fetchClaimsSuccess(response) {
+  const claims = response.data;
+  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims,
+    pages
+  };
+}
+
+export function getClaimsV2() {
+  return (dispatch) => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+    return apiRequest(
+      '/evss_claims',
+      null,
+      (response) => dispatch(fetchClaimsSuccess(response)),
+      // TO-DO: parse out errors, log in Sentry
+      () => dispatch({ type: FETCH_CLAIMS_ERROR })
+    );
   };
 }
 
@@ -171,6 +187,13 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
+    page
+  };
+}
+
+export function changePageV2(page) {
+  return {
+    type: CHANGE_INDEX_PAGE,
     page
   };
 }

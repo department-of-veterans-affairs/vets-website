@@ -25,7 +25,7 @@ You may be able to get a NADL if you’re a Native American Veteran or a non–N
 -	You have proof that you make enough money to cover the mortgage payments and other costs of owning a home, **and**
 -	You’ll live in the home you’re using the NADL to buy, build, or improve
 
-[Learn more about the MOU](http://www.benefits.va.gov/homeloans/nadl_mou.asp).
+[Learn more about the MOU](https://www.benefits.va.gov/homeloans/nadl_mou.asp).
 
 </div>
 
@@ -40,7 +40,7 @@ A NADL offers many benefits, including:
 - **Limited closing costs** (fees you pay for services and other costs related to getting a loan and buying a home)
 - **A low-interest, 30-year fixed mortgage** (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
 - **A reusable benefit**, which means you can get more than one NADL to buy, build, or improve another residence in the future
-- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](http://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
+- **The ability to borrow up to the FannieMae/FreddieMac conforming loan limit** on a no-down-payment loan in most areas—and more in some high-cost counties. You can borrow more than this amount if you want to make a down payment. [See current effective loan limits](https://www.benefits.va.gov/HOMELOANS/purchaseco_loan_limits.asp).
 
 <br>
 
@@ -60,7 +60,7 @@ This certification confirms that you qualify for the VA home loan benefit. <br /
 <li class="process-step list-two">
 
 #### Contact the VA regional loan center for your state to begin the NADL process.
-[Find your state’s VA regional loan center](http://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
+[Find your state’s VA regional loan center](https://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
 
 </li>
 </ol>

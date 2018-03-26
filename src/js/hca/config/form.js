@@ -1,14 +1,20 @@
 import _ from 'lodash/fp';
+import moment from 'moment';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import {
-  states,
   genders,
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
-import applicantDescription from '../../common/schemaform/ApplicantDescription';
+import {
+  states
+} from '../../common/utils/address';
+
+import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
+import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
+import MilitaryPrefillMessage from '../../common/schemaform/save-in-progress/MilitaryPrefillMessage';
 
 import GetFormHelp from '../components/GetFormHelp';
 import { validateMatch } from '../../common/schemaform/validation';
@@ -19,6 +25,7 @@ import {
   dischargeTypeLabels,
   lastServiceBranchLabels,
   facilityHelp,
+  isEssentialAcaCoverageDescription,
   medicaidDescription,
   medicalCentersByState,
   medicalCenterLabels,
@@ -46,6 +53,7 @@ import { schema as addressSchema, uiSchema as addressUI } from '../../common/sch
 
 import { createDependentSchema, uiSchema as dependentUI, createDependentIncomeSchema, dependentIncomeUiSchema } from '../definitions/dependent';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import dateUI from '../../common/schemaform/definitions/date';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import currencyUI from '../../common/schemaform/definitions/currency';
 
@@ -171,9 +179,6 @@ const formConfig = {
             }),
             mothersMaidenName: {
               'ui:title': 'Mother’s maiden name'
-            },
-            'ui:options': {
-              showPrefillMessage: true
             }
           },
           schema: {
@@ -189,6 +194,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
+            'ui:description': PrefillMessage,
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             veteranSocialSecurityNumber: ssnUI,
             'view:placeOfBirth': {
@@ -340,7 +346,7 @@ const formConfig = {
             'view:emailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
+                pattern: 'Please enter a valid email address'
               }
             },
             homePhone: phoneUI('Home telephone number'),
@@ -365,6 +371,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
+            'ui:description': __BUILDTYPE__ !== 'production' ? MilitaryPrefillMessage : undefined,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -374,11 +381,13 @@ const formConfig = {
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
             lastEntryDate: currentOrPastDateUI('Service start date'),
-            lastDischargeDate: currentOrPastDateUI('Service end date'),
+            lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
+              'ui:required': (formData) => !moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day')),
               'ui:options': {
-                labels: dischargeTypeLabels
+                labels: dischargeTypeLabels,
+                hideIf: (formData) => moment(_.get('lastDischargeDate', formData), 'YYYY-MM-DD').isAfter(moment().startOf('day'))
               }
             },
             'ui:validations': [
@@ -396,8 +405,7 @@ const formConfig = {
             required: [
               'lastServiceBranch',
               'lastEntryDate',
-              'lastDischargeDate',
-              'dischargeType'
+              'lastDischargeDate'
             ],
           }
         },
@@ -647,7 +655,7 @@ const formConfig = {
               'ui:field': 'BasicArrayField',
               items: dependentIncomeUiSchema,
               'ui:options': {
-                hideIf: (formData) => !_.get('dependents.length', formData)
+                hideIf: (formData) => !_.get('view:reportDependents', formData)
               }
             }
           },
@@ -822,7 +830,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'VA Facility',
             isEssentialAcaCoverage: {
-              'ui:title': 'I am enrolling to obtain minimum essential coverage under the Affordable Care Act'
+              'ui:title': isEssentialAcaCoverageDescription
             },
             'view:preferredFacility': {
               'ui:title': 'Select your preferred VA medical facility',

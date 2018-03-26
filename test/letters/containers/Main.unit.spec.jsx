@@ -36,9 +36,8 @@ const defaultProps = {
     serviceInfo: '',
   },
   optionsAvailable: {},
-  getLetterList: () => {},
   getMailingAddress: () => {},
-  getBenefitSummaryOptions: () => {},
+  getLetterListAndBSLOptions: () => {},
   getAddressCountries: () => {},
   getAddressStates: () => {},
   children: childElement,
@@ -106,10 +105,10 @@ describe('<Main>', () => {
     expect(childText).to.equal(testText);
   });
 
-  it('should show letters unavailable message when service is unavailable', () => {
+  it('should show system down message when service is unavailable', () => {
     const props = _.merge({}, defaultProps, { lettersAvailability: unavailable, addressAvailability: available });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    expect(tree.subTree('#lettersUnavailable')).to.not.be.false;
+    expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('renders system down message for all unspecified errors', () => {
@@ -120,9 +119,8 @@ describe('<Main>', () => {
 
   it('fetches all necessary data after mounting', () => {
     const spies = {
-      getLetterList: sinon.spy(),
       getMailingAddress: sinon.spy(),
-      getBenefitSummaryOptions: sinon.spy(),
+      getLetterListAndBSLOptions: sinon.spy(),
       getAddressCountries: sinon.spy(),
       getAddressStates: sinon.spy(),
     };
@@ -132,9 +130,7 @@ describe('<Main>', () => {
     const instance = tree.getMountedInstance();
     // mounted instance doesn't call lifecycle methods automatically so...
     instance.componentDidMount();
-    expect(props.getLetterList.callCount).to.equal(1);
-    expect(props.getMailingAddress.callCount).to.equal(1);
-    expect(props.getBenefitSummaryOptions.callCount).to.equal(1);
+    expect(props.getLetterListAndBSLOptions.callCount).to.equal(1);
     expect(props.getAddressCountries.callCount).to.equal(1);
     expect(props.getAddressStates.callCount).to.equal(1);
   });

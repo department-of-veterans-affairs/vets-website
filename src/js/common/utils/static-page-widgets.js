@@ -34,6 +34,8 @@ function mountWidgets(widgets) {
           }
         }, timeout);
       }
+
+      root.classList.remove('static-page-widget');
   });
 }
 

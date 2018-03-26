@@ -14,6 +14,14 @@ body {
   .row {
     max-width: 62.5em;
   }
+
+  // We have no container element, so elements that are full width have to redefine the container layout every time
+  // if they want to line up.
+  .row-padded {
+    max-width: 100rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+  }
 }
 
 .form-panel {
@@ -153,7 +161,7 @@ body {
   // No max height for small screens = no animation, which is fine
   // Also means the Apply Now button doesn't get cut off
   @include media($small-screen) {
-    max-height: 25em;
+    max-height: 35em;
   }
   overflow: hidden;
   transition: max-height 150ms ease-in-out;
@@ -243,22 +251,31 @@ form {
   }
 }
 
-// Ensure the info icon is centered in boxes with only one line of text
-.usa-alert-info {
-  min-height: 74px;
-}
+// .usa-alert shame moved to _m_alert.scss
 
-#hurricane-warning-container {
-
+#top-of-page-alert-container {
   width: 100%;
   background-color: $color-gibill-accent;
+  position: relative;
 
+  &:before {
+    background-color: #fdb81e;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1rem;
+  }
 }
 
-#hurricane-warning {
-
+#top-of-page-alert {
   max-width: 62.5em;
   margin: 0 auto;
+
+  &.usa-alert::before {
+    content: none;
+  }
 
   .usa-alert-body {
     margin: 0 auto;
@@ -270,4 +287,9 @@ form {
       padding: 0;
     }
   }
+}
+
+// force use of png; IE does not support SVG
+select {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAAXNSR0IArs4c6QAAAPFJREFUSA3tlr0OAUEUhZdCRSQSBVFsQuNtPCS9t7CFRqNAFAoPoeE7m72FiTHWXp2THPN3z7eJ3Z3ZLEtrTsmxsvqNNCN9xffK6mvuK+WkLthg1mpOa7U0ofqMDRK2WlPNRxpRdcAhJByrRrVvNWR1j8NwbKxaZV5qwOwOx8KxeWWUfVKf0RbHQql5ZcUo1eN3g1Oh1LoYYmUrB5hdbNkGNhXVSbMWoDFe4E5D6I38uiHjH+cf+MlNKQDbc9S0LfQcnhzvVcnqAvR69cQq5bo5GNR1+zKo6wZrUNcjwKCuh5RBczpux6hBXQ96g9b6FHkA0+zeRS2oYfAAAAAASUVORK5CYII=);
 }

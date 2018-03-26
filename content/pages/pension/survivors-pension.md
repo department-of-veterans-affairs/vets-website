@@ -44,17 +44,21 @@ You can apply in 1 of 3 ways:
 
 #### Apply by mail
 
-Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21-534EZ). [Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
+Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21-534EZ). <br>
+[Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
 
-Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/). 
+Mail it to the Pension Management Center (PMC) for your state. <br>
+[Find your PMC](/pension/pension-management-center/). 
 
 #### Work with a trained professional
 
-You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. [Find an accredited representative](/disability-benefits/apply/help/).
+You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. <br>
+[Get help filing your claim](/disability-benefits/apply/help/).
 
 #### Apply in person
 
-Bring your application to a Regional Benefits Office near you. [Find a Regional Benefits Office](/facilities/). 
+Bring your application to a regional benefit office near you. <br>
+[Find a regional benefit office](/facilities/). 
 
 ### How long does it take VA to make a decision?
 

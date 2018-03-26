@@ -1,46 +1,48 @@
 import React from 'react';
-import classNames from 'classnames';
+import AdditionalInfo from '../../common/components/AdditionalInfo';
+import { isVeteran, isUnmarriedChild } from '../utils/helpers';
 
-export default class SupportingDocumentsDescription extends React.Component {
-  constructor(props) {
-    super(props);
+export default function SupportingDocumentsDescription(props) {
+  let desc;
 
-    this.state = {
-      expandedAnswer1: false,
-      expandedAnswer2: false
-    };
-  }
-
-  toggleAnswer1 = () => {
-    this.setState({
-      expandedAnswer1: !this.state.expandedAnswer1
-    });
-  }
-
-  toggleAnswer2 = () => {
-    this.setState({
-      expandedAnswer2: !this.state.expandedAnswer2
-    });
-  }
-
-  render() {
-    const answerClass = classNames(
-      'usa-alert',
-      'usa-alert-info',
-      'no-background-image'
+  if (isVeteran(props.formData)) {
+    desc = (
+      <p>To apply, you’ll need a copy of your DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
     );
-
-    const answer1 = (
-      <div className={answerClass}>
-        <p>
-          Documents may include the most recent discharge document (DD Form 214) showing the highest rank and valor awards and decorations, active duty service records, or active duty for a minimum of 24 continuous months for enlisted Servicemembers after September 7, 1980; for officers, after October 16, 1981, or the full period for which the person was called to active duty. If you are unable to locate copies of military records, apply anyway, as VA will attempt to obtain records necessary to make a determination.
-        </p>
-        <button type="button" onClick={this.toggleAnswer1}>Close</button>
+  } else if (isUnmarriedChild(props.formData)) {
+    desc = (
+      <div>
+        <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
+        <p>You’ll need to also provide supporting documents showing:</p>
+        <ul>
+          <li>Medical evidence of a disability</li>
+          <li>Start date of a disability</li>
+          <li>Age when diagnosed with disability</li>
+        </ul>
       </div>
     );
+  } else {
+    desc = (
+      <p>To apply, you’ll need a copy of your sponsor’s DD214 or other separation papers. This will help us figure out if you qualify for burial in a VA national cemetery based on your sponsor’s military status and service history. If you don’t have these documents, you can still apply--and we’ll request the documents for you.</p>
+    );
+  }
 
-    const answer2 = (
-      <div className={answerClass}>
+  return (
+    <div id="supporting-documents-description">
+      <p>
+        If you have supporting documents readily available, you can upload them to help us make a determination quickly.
+      </p>
+      <AdditionalInfo triggerText="What kinds of documents should I provide?">
+        {desc}
+        <p>If you’re applying on behalf of someone else, you’ll need to provide supporting documents or an affidavit showing that you’re:</p>
+        <ul>
+          <li>The applicant’s court-appointed representative, <strong>or</strong></li>
+          <li>The applicant’s caregiver (including a spouse or other relative), <strong>or</strong></li>
+          <li>An attorney or agent acting on behalf of the applicant under a durable power of attorney, <strong>or</strong></li>
+          <li>The manager or principal officer of an institution in which the applicant is being cared for</li>
+        </ul>
+      </AdditionalInfo>
+      <AdditionalInfo triggerText="Can I mail or fax documents?">
         <p>
           Please upload your documents online to help VA process your request quickly.
         </p>
@@ -60,24 +62,9 @@ export default class SupportingDocumentsDescription extends React.Component {
             <p>Fax (toll-free): 1-855-840-8299</p>
           </li>
         </ol>
-        <button type="button" onClick={this.toggleAnswer1}>Close</button>
-      </div>
-    );
-
-    return (
-      <div id="supporting-documents-description">
-        <p>
-          If you have supporting documents readily available, you can upload them to help us make a determination quickly.
-        </p>
-        <p>
-          <a onClick={this.toggleAnswer1}>What kinds of documents should I provide?</a>
-        </p>
-        {this.state.expandedAnswer1 && answer1}
-        <p>
-          <a onClick={this.toggleAnswer2}>Can I mail or fax documents?</a>
-        </p>
-        {this.state.expandedAnswer2 && answer2}
-      </div>
-    );
-  }
+      </AdditionalInfo>
+      File types you can upload: PDF<br/>
+      Maximum file size: 15MB
+    </div>
+  );
 }

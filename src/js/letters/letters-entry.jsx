@@ -12,11 +12,9 @@ import LettersApp from './containers/LettersApp.jsx';
 import initReact from '../common/init-react';
 import routes from './routes.jsx';
 import reducer from './reducers';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initCommon from '../common/init-common';
 
-const store = createCommonStore(reducer);
-createLoginWidget(store);
+const store = initCommon(reducer);
 const history = useRouterHistory(createHistory)({
   basename: '/letters'
 });

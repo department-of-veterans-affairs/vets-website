@@ -37,8 +37,11 @@
   }
 
   a {
+    @include no-sr-content;
+
     padding: 0;
     background-image: none;
+
   }
 }
 

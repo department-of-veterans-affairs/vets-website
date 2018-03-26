@@ -5,14 +5,6 @@
 }
 
 #rx-history table {
-  tr {
-    &:last-child {
-      td {
-        border-bottom: none;
-      }
-    }
-  }
-
   td {
     &:nth-child(3) {
       a {

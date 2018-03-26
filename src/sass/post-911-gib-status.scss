@@ -25,9 +25,9 @@
     margin-bottom: .25em;
   }
 
-  .usa-alert {
+  /*.usa-alert {
     margin: 1em 0 1em 0;
-  }
+  }*/
 
   .feature {
       min-height: 0;
@@ -82,7 +82,19 @@
     }
 
     @media print {
+      font: $font-serif;
+      color: $color-gray-dark;
       padding: 0;
+      a {
+        text-decoration: none;
+        &:after {
+          content: " (https://vets.gov" attr(href) ")";
+        }
+      }
+
+      button {
+        display: none;
+      }
     }
   }
 }

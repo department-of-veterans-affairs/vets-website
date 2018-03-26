@@ -8,7 +8,7 @@ export const AdditionalResourcesLinks = () => (
       </a>
     </p>
     <p>
-      <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
+      <a href="https://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
         Get help choosing a school
       </a>
     </p>
@@ -18,7 +18,7 @@ export const AdditionalResourcesLinks = () => (
       </a>
     </p>
     <p>
-      <a href="/education/apply" target="_blank">
+      <a href="/education/apply/" target="_blank">
         Apply for education benefits
       </a>
     </p>

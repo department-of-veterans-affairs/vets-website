@@ -7,14 +7,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
-import SaveFormLink from '../SaveFormLink';
-import SaveStatus from '../SaveStatus';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../save-load-actions';
-import { toggleLoginModal } from '../../../login/actions';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
@@ -23,7 +19,7 @@ import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, u
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
     duration: 500,
     delay: 0,
     smooth: true,
@@ -33,8 +29,6 @@ const scrollToTop = () => {
 class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.autoSave = this.autoSave.bind(this);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     // this only needs to be run once
@@ -96,22 +90,6 @@ class ReviewPage extends React.Component {
     return { eligiblePageList, pageIndex };
   }
 
-  setData = (...args) => {
-    this.props.setData(...args);
-    this.debouncedAutoSave();
-  }
-
-  autoSave() {
-    const { form, user } = this.props;
-    if (!form.disableSave && user.login.currentlyLoggedIn) {
-      const data = form.data;
-      const { formId, version } = form;
-      const returnUrl = this.props.location.pathname;
-
-      this.props.autoSaveForm(formId, data, version, returnUrl);
-    }
-  }
-
   goBack() {
     const { eligiblePageList } = this.getEligiblePages();
     const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
@@ -151,7 +129,7 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { route, form, user } = this.props;
+    const { route, form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
     const formConfig = route.formConfig;
     const chapters = getActiveChapters(formConfig, form.data);
 
@@ -162,16 +140,16 @@ class ReviewPage extends React.Component {
             {chapters.map(chapter => (
               <ReviewCollapsibleChapter
                 key={chapter}
-                onBlur={this.debouncedAutoSave}
                 onEdit={this.handleEdit}
                 pages={this.pagesByChapter[chapter]}
                 chapterKey={chapter}
-                setData={this.setData}
+                setData={this.props.setData}
                 setValid={this.props.setValid}
                 uploadFile={this.props.uploadFile}
                 chapter={formConfig.chapters[chapter]}
                 viewedPages={this.state.viewedPages}
                 setPagesViewed={this.setPagesViewed}
+                formContext={formContext}
                 form={form}/>
             ))}
           </div>
@@ -182,30 +160,11 @@ class ReviewPage extends React.Component {
           checked={form.data.privacyAgreementAccepted}
           showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
-          errorText={formConfig.submitErrorText}
-          errorMessage={formConfig.errorMessage}
           onBack={this.goBack}
           onSubmit={this.handleSubmit}
           submission={form.submission}
-          locationPathname={this.props.location.pathname}
-          form={form}
-          user={this.props.user}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          showLoginModal={this.props.user.login.showModal}
-          toggleLoginModal={this.props.toggleLoginModal}
-          sipEnabled={!formConfig.disableSave}/>
-        {!form.disableSave && <SaveStatus
-          isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={this.props.user.login.showModal}
-          toggleLoginModal={this.props.toggleLoginModal}
-          form={form}>
-        </SaveStatus>}
-        {!form.disableSave && <SaveFormLink
-          locationPathname={this.props.location.pathname}
-          form={form}
-          user={this.props.user}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}/>}
+          renderErrorMessage={renderErrorMessage}/>
+        {contentAfterButtons}
       </div>
     );
   }
@@ -213,8 +172,7 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form,
-    user: state.user
+    form: state.form
   };
 }
 
@@ -224,17 +182,23 @@ const mapDispatchToProps = {
   submitForm,
   setPrivacyAgreement,
   setData,
-  uploadFile,
-  saveAndRedirectToReturnUrl,
-  autoSaveForm,
-  toggleLoginModal
+  uploadFile
 };
 
 ReviewPage.propTypes = {
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  setData: PropTypes.func.isRequired,
+  setEditMode: PropTypes.func.isRequired,
+  setSubmission: PropTypes.func.isRequired,
+  setPrivacyAgreement: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.element,
+  renderErrorMessage: PropTypes.func,
+  formContext: PropTypes.object
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));

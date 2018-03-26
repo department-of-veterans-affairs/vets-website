@@ -29,12 +29,16 @@ class ErrorableFileInput extends React.Component {
 
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className={`usa-input-error-message ${this.props.additionalErrorClass}`} id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = (
+        <span className={`usa-input-error-message ${this.props.additionalErrorClass}`} role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.errorMessage}
+        </span>
+      );
       inputErrorClass = 'usa-input-error';
       labelErrorClass = 'usa-input-error-label';
     }
 
-    // Calculate required.
+    // Calculate required
     let requiredSpan = undefined;
     if (this.props.required) {
       requiredSpan = <span className="form-required-span">*</span>;
@@ -50,7 +54,14 @@ class ErrorableFileInput extends React.Component {
             {requiredSpan}
           </label>
           {errorSpan}
-          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-secondary">{this.props.buttonText}</label>
+          <label
+            role="button"
+            tabIndex="0"
+            htmlFor={this.inputId}
+            aria-describedby={this.props['aria-describedby']}
+            className={this.props.triggerClass || 'usa-button usa-button-secondary'}>
+            {this.props.buttonText}
+          </label>
           <input
             multiple={this.props.multiple}
             style={{ display: 'none' }}
@@ -67,9 +78,12 @@ class ErrorableFileInput extends React.Component {
 
 ErrorableFileInput.propTypes = {
   multiple: PropTypes.bool,
-  buttonText: PropTypes.string,
+  buttonText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element]),
   additionalClass: PropTypes.string,
   additionalErrorClass: PropTypes.string,
+  triggerClass: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   accept: PropTypes.string,
   name: PropTypes.string.isRequired,

@@ -34,11 +34,10 @@ class AlertBox extends React.Component {
 
   render() {
     if (!this.props.isVisible) {
-      return <div aria-live="assertive"/>;
+      return <div aria-live="polite"/>;
     }
 
     const alertClass = classNames(
-      'va-alert',
       'usa-alert',
       `usa-alert-${this.props.status}`
     );
@@ -52,14 +51,21 @@ class AlertBox extends React.Component {
       );
     }
 
+    const headline = this.props.headline && (<h4 className="usa-alert-heading">{this.props.headline}</h4>);
+
     return (
       <div
-        aria-live="assertive"
+        aria-live="polite"
         className={alertClass}
         ref={(ref) => { this._ref = ref; }}>
-        <div className="va-alert-body usa-alert-body">
-          <div className="usa-alert-text usa-alert-heading">
+        <div className="usa-alert-body">
+          {headline}
+          <div className="usa-alert-text">
             {this.props.content}
+          </div>
+          <div className="alert-actions">
+            {this.props.primaryButton && <button className="usa-button" onClick={this.props.primaryButton.action}>{this.props.primaryButton.text}</button>}
+            {this.props.secondaryButton && <button className="usa-button-secondary" onClick={this.props.secondaryButton.action}>{this.props.secondaryButton.text}</button>}
           </div>
         </div>
         {closeButton}
@@ -67,13 +73,23 @@ class AlertBox extends React.Component {
       </div>
     );
   }
+
 }
 
 AlertBox.propTypes = {
+  headline: PropTypes.node,
   content: PropTypes.node.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onCloseAlert: PropTypes.func,
   scrollOnShow: PropTypes.bool,
+  primaryButton: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
+  secondaryButton: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
   status: PropTypes.oneOf([
     'info',
     'error',

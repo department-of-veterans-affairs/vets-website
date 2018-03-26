@@ -26,7 +26,8 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 </div>
 
-**Please note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. [Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
+**Note:** "Pre-need" means before death. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial for someone who has already died. <br>
+[Find out how to plan a burial for someone who has died](/burials-and-memorials/burial-planning/).
 
 <br>
 
@@ -104,7 +105,7 @@ To apply, you’ll need your (or your sponsor's):
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Get help filing your claim](/disability-benefits/apply/help/).
 
 [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
@@ -112,7 +113,7 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ### Ready to apply?
 
-Fill out the Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
+Fill out an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
 Print the form, fill it out, and send it to us along with copies of your supporting documents in 1 of 2 ways:
 
@@ -120,13 +121,12 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 <p class="va-address-block">
 	    National Cemetery Scheduling Office<br>
-	    P.O. Box 510543<br>
+	    PO Box 510543<br>
 	    St. Louis, MO 63151<br>
 </p>
 
 **Please note:** Don't send us the originals of your DD214 and other supporting documents. Send copies only.
 
-<br>
 
 #### By fax to 1-855-840-8299.
 
@@ -136,13 +136,9 @@ Print the form, fill it out, and send it to us along with copies of your support
 
 [Find out what happens after you apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/after-you-apply/).
 
-<br>
+**Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 
-### How long does it take VA to make a decision?
+For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
-<div class="card information" markdown="0">
-<span class="number">About 90 days</span>
-<span class="description">If more than 90 days has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).</span>
-</div>
 
 <div markdown="0"><br></div>

@@ -7,15 +7,14 @@ relatedlinks:
   - heading: More information about VA education and employment benefits and services for dependents
     links: 
     - url: /education/gi-bill/survivors-dependent-assistance/dependents-education/
-      title: Survivors' and Dependents' Educational Assistance (DEA) services
+      title: Chapter 35—Survivors' and Dependents' Educational Assistance (DEA)
       description: If you're the child or spouse of a Veteran who has died, is permanently and totally disabled, or is missing in action or was captured or interned in the line of duty, find out if you're eligible for DEA (also called Chapter 35) services.  
+    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
+      title: Chapter 18—Birth Defects (Spina Bifida)
+      description: If you're the child of a Vietnam or Korean War Veteran and you have spina bifida or certain other birth defects, find out if you're eligible for benefits like disability compensation (payments), health care, and job training (also called Chapter 18).
     - url: /employment/vocational-rehab-and-employment/vetsuccess/
       title: VetSuccess on Campus
-      description: Find out if our counselors can help you transition from military to college life.
-    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
-      title: Birth Defects (Spina Bifida)
-      description: If you're the child of a Vietnam or Korean War Veteran and you have spina bifida or certain other birth defects, find out if you're eligible for benefits like disability compensation (payments), health care, and job training (also called Chapter 18).
-    
+      description: Find out if our counselors can help you transition from military to college life.       
 ---
 
 <div class="va-introtext">
@@ -28,10 +27,11 @@ As the dependent family member of a Servicemember or Veteran with a service-conn
 
 ### Can I get educational and vocational counseling services provided by VR&amp;E (also called Chapter 36)?
 
-You may be eligible for educational and vocational counseling if you're:
-
-- The dependent of a Veteran, **and**
-- Eligible for a VA education benefit
+As the dependent of a Veteran, you may be eligible for educational and vocational counseling if you're eligible for a VA education benefit, including:
+  - [The Post-9/11 GI Bill (Chapter 33)](/education/gi-bill/post-9-11/)
+  - [The Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)](/education/gi-bill/montgomery-active-duty/)
+  - [The Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)](/education/gi-bill/montgomery-selected-reserve/)
+  - [Reserve Education Assistance Program (REAP, Chapter 1607)](/education/other-educational-assistance-programs/reap/)
 
 </div>
 

@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
+
 import AlertBox from '../../common/components/AlertBox';
+import { mhvAccessError } from '../../common/utils/error-messages';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
@@ -12,17 +14,14 @@ class ErrorView extends React.Component {
         return includes(codes, error.code);
       };
     };
+
+    let content;
     let title;
     let detail;
     let alert;
 
-    if (some(errors, errorCodeIncludes(errorCodes.acceptTerms))) {
-      title = 'Accept terms and conditions';
-      detail = (
-        <p>
-          To refill prescriptions, you need to accept the MyHealtheVet terms and conditions first. If you want to use Secure Messaging, please accept the Secure Messaging terms and conditions too. <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">Review terms and conditions</a>
-        </p>
-      );
+    if (some(errors, errorCodeIncludes(errorCodes.access))) {
+      content = mhvAccessError;
     } else if (some(errors, errorCodeIncludes(errorCodes.registration))) {
       alert = true;
       title = 'We’re not able to locate your records';
@@ -39,7 +38,7 @@ class ErrorView extends React.Component {
           Please <a onClick={() => { window.location.reload(true); }}>refresh this page</a> or try again later. If this problem persists, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
-    } else if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    } else if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
       alert = true;
       title = 'We couldn’t access your health tools';
       detail = (
@@ -49,14 +48,11 @@ class ErrorView extends React.Component {
       );
     }
 
-
-    const content = (
-      <div>
+    content = content || (
+      <span>
         <h4>{title}</h4>
-        <div>
-          {detail}
-        </div>
-      </div>
+        <div>{detail}</div>
+      </span>
     );
 
     if (alert) {
@@ -78,10 +74,10 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.acceptTerms,
+      errorCodes.access,
       errorCodes.registration,
       errorCodes.prescriptions,
-      errorCodes.accountcreation,
+      errorCodes.accountCreation,
     );
 
     // don’t block application if no errors, or errors not in the list above

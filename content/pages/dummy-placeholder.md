@@ -3,6 +3,7 @@ layout: home.html
 body_class: fourohfour
 title: Vets.gov
 permalink: false
+private: true
 ---
 
 <!--Question: What is the purpose of the `/dummy-placeholder.html` page?-->

@@ -9,15 +9,13 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import route from './routes';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import initCommon from '../common/init-common';
 import reducer from './reducer';
 
-const store = createCommonStore(reducer);
-createLoginWidget(store);
+const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/burials-and-memorials/burial-planning/application'
+  basename: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility'
 });
 
 function init() {

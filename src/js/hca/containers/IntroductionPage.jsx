@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import { focusElement } from '../../common/utils/helpers';
 import OMBInfo from '../../common/components/OMBInfo';
-import FormTitle from '../../common/schemaform/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/SaveInProgressIntro';
+import FormTitle from '../../common/schemaform/components/FormTitle';
+import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -39,7 +39,7 @@ class IntroductionPage extends React.Component {
                 <li>Most recent tax return</li>
                 <li>Account numbers for any health insurance you currently have (such as Medicare, private insurance, or insurance from an employer)</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative with a Veterans Service Organization (VSO) can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <div><h6>Vision and dental benefits</h6></div>
               <p>You may qualify for vision and dental benefits as part of your VA health care benefits.</p>
               <ul>

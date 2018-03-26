@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import FileField from '../FileField';
+import FileField from '../fields/FileField';
 import { validateFileField } from '../validation';
 
 export default function fileUiSchema(label, userOptions = {}) {
@@ -11,6 +11,20 @@ export default function fileUiSchema(label, userOptions = {}) {
       fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
       maxSize: 20971520,
       minSize: 1024,
+      createPayload: (file, formId) => {
+        const payload = new FormData();
+        payload.append('file', file);
+        payload.append('form_id', formId);
+
+        return payload;
+      },
+      parseResponse: (fileInfo) => {
+        return {
+          name: fileInfo.data.attributes.name,
+          size: fileInfo.data.attributes.size,
+          confirmationCode: fileInfo.data.attributes.confirmationCode
+        };
+      },
       endpoint: '/v0/claim_attachments',
       addAnotherLabel: 'Add Another',
       showFieldLabel: true,

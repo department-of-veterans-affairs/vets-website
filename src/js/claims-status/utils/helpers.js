@@ -244,96 +244,332 @@ export function getClaimType(claim) {
   return claim.attributes.claimType || 'Disability Compensation';
 }
 
-// TO DO: Replace made up properties and content with real versions once finalized.
-export const STATUS_TYPES = {
-  nod: 'nod',
-  awaitingHearingDate: 'awaiting_hearing_date',
-  bvaDecision: 'bva_decision',
+// NOTE: This shape may change once we know what the api will be returning for sure. This
+//  is just an example of what evss(?) is returning to the api.
+export const mockData = {
+  data: [
+    { // Status: Review your statement of the case - pending_form9
+      id: '7387389',
+      type: 'appealSeries',
+      attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
+        active: true,
+        incompleteHistory: true,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'pending_soc',
+          details: {
+            lastSocDate: '2015-09-12',
+            certificationTimeliness: [1, 4],
+            ssocTimeliness: [2, 16],
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Service connection for tinnitus',
+            lastAction: 'null',
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [
+          {
+            type: 'form9_needed',
+            details: {
+              date: '2018-01-28'
+            }
+          },
+          {
+            type: 'ramp_eligible',
+            details: {
+              date: '2016-05-30'
+            },
+          },
+          {
+            type: 'decision_soon',
+            details: {},
+          },
+        ],
+        events: [
+          {
+            type: 'claim',
+            date: '2016-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2016-06-10',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2016-09-12',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2016-12-15',
+            details: {}
+          }
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    },
+    { // Status: Waiting to be assigned to a judge - on_docket
+      id: '7387390',
+      type: 'appealSeries',
+      attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
+        active: true,
+        incompleteHistory: false,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'on_docket',
+          details: {
+            regionalOffice: 'Chicago Regional Office'
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Service connection for tinnitus',
+            lastAction: null,
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [],
+        events: [
+          {
+            type: 'claim',
+            date: '2010-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2012-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2013-06-01',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2014-06-12',
+            details: {}
+          },
+          {
+            type: 'certified',
+            date: '2014-09-21',
+            details: {}
+          },
+          {
+            type: 'hearing_held',
+            date: '2015-05-06',
+            details: {
+              regionalOffice: 'Chicago'
+            }
+          }
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    },
+    { // Status: The Board has made a decision on your appeal - bva_decision
+      id: '7387391',
+      type: 'appealSeries',
+      attributes: {
+        updated: '2018-01-03T09:30:15-05:00',
+        active: true,
+        incompleteHistory: false,
+        aoj: 'vba',
+        programArea: 'compensation',
+        description: 'Service connection for tinnitus, hearing loss, and two more',
+        type: 'original',
+        aod: false,
+        location: 'aoj',
+        status: {
+          type: 'bva_decision',
+          details: {
+            regionalOffice: 'Chicago Regional Office',
+            decisionIssues: [
+              {
+                description: 'Heel, increased rating',
+                disposition: 'allowed',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Knee, increased rating',
+                disposition: 'allowed',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Tinnitus, increased rating',
+                disposition: 'denied',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Leg, service connection',
+                disposition: 'denied',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Diabetes, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+              {
+                description: 'Shoulder, service connection',
+                disposition: 'remand',
+                date: '2016-05-30'
+              },
+            ]
+          }
+        },
+        docket: {
+          front: false,
+          total: 206900,
+          ahead: 109203,
+          ready: 22109,
+          eta: '2019-08-31'
+        },
+        issues: [
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Head, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Shoulder, increased rating',
+            lastAction: null,
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Knee, service connection',
+            lastAction: 'field_grant',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Toe, service connection',
+            lastAction: 'withdrawn',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'allowed',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'denied',
+            date: '2016-05-30'
+          },
+          {
+            active: true,
+            description: 'Tinnitus, service connection',
+            lastAction: 'remand',
+            date: '2016-05-30'
+          },
+          {
+            active: false,
+            description: 'Tinnitus, service connection',
+            lastAction: 'cavc_remand',
+            date: '2016-05-30'
+          }
+        ],
+        alerts: [],
+        events: [
+          {
+            type: 'claim',
+            date: '2010-05-30',
+            details: {}
+          },
+          {
+            type: 'nod',
+            date: '2011-06-10',
+            details: {}
+          },
+          {
+            type: 'soc',
+            date: '2012-06-10',
+            details: {}
+          },
+          {
+            type: 'form9',
+            date: '2013-06-10',
+            details: {}
+          },
+          {
+            type: 'certified',
+            date: '2014-06-10',
+            details: {}
+          },
+          {
+            type: 'hearing_held',
+            date: '2015-06-10',
+            details: {
+              regionalOffice: 'Chicago'
+            }
+          },
+          {
+            type: 'bva_decision',
+            date: '2016-06-10',
+            details: {}
+          },
+        ],
+        evidence: [
+          {
+            description: 'Service treatment records',
+            date: '2017-09-30'
+          }
+        ]
+      }
+    }
+  ]
 };
-
-// TO DO: Replace made up properties and content with real versions once finalized.
-/**
- * Grabs the matching title and dynamically-generated description for a given current status type
- * @typedef {Object} Contents
- * @property {string} title a current status type's title
- * @property {string} description a short paragraph describing the current status
- * ----------------------------------------------------------------------------------------------
- * @param {string} statusType the status type of a claim appeal as returned by the api
- * @param {Object} details optional, properties vary depending on the status type
- * @returns {Contents}
- */
-export function getStatusContents(type, details) {
-  const { nod, awaitingHearingDate, bvaDecision } = STATUS_TYPES;
-
-  const contents = {};
-  if (type === nod) {
-    const office = details.regionalOffice || 'Regional Office';
-    contents.title = `The ${office} is reviewing your appeal`;
-    contents.description = `The ${office} received your Notice of Disagreement and is revewing 
-      your appeal. This means they review all of the evidence related to your appeal, including 
-      any new evidence you submit. They may contact you to request additional evidence or 
-      medical examinations, as needed. When they have completed their review, they will 
-      determine whether or not they can grant your appeal.`;
-  } else if (type === awaitingHearingDate) {
-    const hearingType = details.hearingType || 'hearing';
-    const currenltyHearing = details.currentlyHearing || 'an earlier month';
-    contents.title = 'You are waiting for your hearing date';
-    contents.description = `You have selected to have a ${hearingType} in your form 9. 
-      Currently the Board is having hearings for appeals of ${currenltyHearing}`;
-  } else if (type === bvaDecision) {
-    const decisionType = details.decisionType || 'Unknown (please wait for your letter)';
-    contents.title = 'The Board has made a decision on your appeal';
-    contents.description = `The Board of Veterans’ Appeals has made a decision on your appeal. 
-    You will receive your decision letter in the mail in 7 business days. Your appeal  
-    decision is: ${decisionType}`;
-  } else {
-    contents.title = 'Current Status Unknown';
-    contents.description = 'Your current appeal status is unknown at this time';
-  }
-
-  return contents;
-}
-
-// Alternative implementation
-// export function getStatusContents(type, details) {
-//   // Define content for each status type
-//   const makeNodContents = (info) => {
-//     const office = info.regionalOffice || 'Regional Office';
-//     const title = `The ${office} is reviewing your appeal`;
-//     const description = `The ${office} received your Notice of Disagreement and is revewing 
-//       your appeal. This means they review all of the evidence related to your appeal, including 
-//       any new evidence you submit. They may contact you to request additional evidence or 
-//       medical examinations, as needed. When they have completed their review, they will 
-//       determine whether or not they can grant your appeal.`;
-//     return { title, description };
-//   };
-
-//   const makeAwaitingHearingDateContents = (info) => {
-//     const hearingType = info.hearingType || 'hearing';
-//     const currenltyHearing = info.currentlyHearing || 'an earlier month';
-//     const title = 'You are waiting for your hearing date';
-//     const description = `You have selected to have a ${hearingType} in your form 9. 
-//       Currently the Board is having hearings for appeals of ${currenltyHearing}`;
-//     return { title, description };
-//   };
-
-//   const makeBvaDecisionContents = (info) => {
-//     const decisionType = info.decisionType || 'Unknown (please wait for your letter)';
-//     const title = 'The Board has made a decision on your appeal';
-//     const description = `The Board of Veterans’ Appeals has made a decision on your appeal. 
-//     You will receive your decision letter in the mail in 7 business days. Your appeal  
-//     decision is: ${decisionType}`;
-//     return { title, description };
-//   };
-
-//   // map content to known 'current status' types
-//   // TO DO: what happens if we get a bad type from the api?
-//   const makeContent = {
-//     nod: makeNodContents,
-//     awaitingHearingDate: makeAwaitingHearingDateContents,
-//     bvaDecision: makeBvaDecisionContents
-//   };
-
-//   // Return a new content object with title and description
-//   return makeContent[type](details);
-// }

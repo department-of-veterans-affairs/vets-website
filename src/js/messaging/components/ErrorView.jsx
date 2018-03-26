@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
+
 import AlertBox from '../../common/components/AlertBox';
+import { mhvAccessError } from '../../common/utils/error-messages';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
@@ -12,11 +14,15 @@ class ErrorView extends React.Component {
         return includes(codes, error.code);
       };
     };
+
+    let content;
     let title;
     let detail;
     let alert;
 
-    if (some(errors, errorCodeIncludes(errorCodes.accountcreation))) {
+    if (some(errors, errorCodeIncludes(errorCodes.access))) {
+      content = mhvAccessError;
+    } else if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
       alert = true;
       title = 'We couldn’t access your health tools';
       detail = (
@@ -26,8 +32,7 @@ class ErrorView extends React.Component {
       );
     }
 
-
-    const content = (
+    content = content || (
       <div>
         <h4>{title}</h4>
         <div>
@@ -55,7 +60,8 @@ class ErrorView extends React.Component {
   render() {
     const { errors } = this.props;
     const blockingErrors = concat(
-      errorCodes.accountcreation,
+      errorCodes.access,
+      errorCodes.accountCreation
     );
 
     // don’t block application if no errors, or errors not in the list above

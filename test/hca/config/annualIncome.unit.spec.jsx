@@ -11,6 +11,7 @@ describe('Hca annual income', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.annualIncome;
   const marriedWithChildren = {
     maritalStatus: 'Married',
+    'view:reportDependents': true,
     dependents: [
       {
         fullName: {
@@ -67,8 +68,7 @@ describe('Hca annual income', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(12); // Change me!
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(12);
   });
 
   it('should not submit an empty form', () => {

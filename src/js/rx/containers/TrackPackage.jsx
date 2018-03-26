@@ -75,7 +75,6 @@ export class TrackPackage extends React.Component {
     ];
 
     const tableClass = classNames(
-      'usa-table-borderless',
       'va-table-list',
       'rx-table',
       'rx-table-list',

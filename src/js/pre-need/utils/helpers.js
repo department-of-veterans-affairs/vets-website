@@ -1,15 +1,74 @@
 import React from 'react';
-import { get, merge } from 'lodash/fp';
+import { get, omit, merge } from 'lodash/fp';
+import Raven from 'raven-js';
 
 import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 import TextWidget from '../../common/schemaform/widgets/TextWidget';
-import ServicePeriodView from '../../common/schemaform/ServicePeriodView';
+import ServicePeriodView from '../components/ServicePeriodView';
+import { serviceLabels } from './labels';
 import { stringifyFormReplacer, filterViewFields } from '../../common/schemaform/helpers';
+import environment from '../../common/helpers/environment.js';
+import * as autosuggest from '../../common/schemaform/definitions/autosuggest';
+
+export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
+export const contactInfoDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <p>We may contact you by phone if we need more information about your application.</p>
+    <p>You can also provide your email address to receive updates about new openings in VA national cemeteries or other burial benefits.</p>
+  </div>
+);
+
+export const authorizedAgentDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <p>A preparer may sign for an individual who’s:</p>
+    <ul>
+      <li>Under 18 years of age, <strong>or</strong></li>
+      <li>Is mentally incompetent, <strong>or</strong></li>
+      <li>Is physically unable to sign the application</li>
+    </ul>
+    <p>If you’re the preparer of this application, please provide your contact information.</p>
+  </div>
+);
+
+export const veteranRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>Servicemember or Veteran</strong> whose military status and history will be used to decide if you qualify for burial in a VA national cemetery.</div>
+);
+
+export const spouseRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+);
+
+export const childRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information. You’ll also need to provide supporting documents with information about your disability.</div>
+);
+
+export const otherRelationshipDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+);
+
+export const sponsorMilitaryStatusDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">If you’re not sure what your sponsor’s status is—or if it isn’t listed here—don’t worry. You can upload supporting documents showing your sponsor’s service history later in this application.</div>
+);
+
+export const desiredCemeteryNoteDescription = (
+  <div className="usa-alert usa-alert-info no-background-image">
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in your preferred cemetery. We’ll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
+  </div>
+);
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
+}
+
+export function isSpouse(item) {
+  return get('application.claimant.relationshipToVet', item) === '2';
+}
+
+export function isUnmarriedChild(item) {
+  return get('application.claimant.relationshipToVet', item) === '3';
 }
 
 export function isAuthorizedAgent(item) {
@@ -54,8 +113,6 @@ export function transform(formConfig, form) {
     return !isAuthorizedAgent({ application }) ?
       merge(application, {
         applicant: {
-          applicantEmail: application.claimant.email,
-          applicantPhoneNumber: application.claimant.phoneNumber,
           mailingAddress: application.claimant.address,
           name: application.claimant.name
         }
@@ -67,6 +124,10 @@ export function transform(formConfig, form) {
     return merge(application, {
       veteran: {
         serviceName: application.veteran.serviceName || application.veteran.currentName
+      },
+      applicant: {
+        applicantEmail: application.claimant.email,
+        applicantPhoneNumber: application.claimant.phoneNumber
       }
     });
   };
@@ -192,7 +253,10 @@ export const veteranUI = {
     'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
   },
   vaClaimNumber: {
-    'ui:title': 'VA claim number (if known)'
+    'ui:title': 'VA claim number (if known)',
+    'ui:errorMessages': {
+      pattern: 'Your VA claim number must be between 7 to 9 digits'
+    }
   },
   placeOfBirth: {
     'ui:title': 'Place of birth'
@@ -216,17 +280,16 @@ export const veteranUI = {
   },
   militaryStatus: {
     'ui:title': 'Current military status (You can add more service history information later in this application.)',
-    'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        V: 'Veteran',
-        R: 'Retired',
         A: 'Active Duty',
-        E: 'Retired Active Duty',
+        I: 'Death Related to Inactive Duty Training',
         D: 'Died on Active Duty',
         S: 'Reserve/National Guard',
+        R: 'Retired',
+        E: 'Retired Active Duty',
         O: 'Retired Reserve/National Guard',
-        I: 'Death Related to Inactive Duty Training',
+        V: 'Veteran',
         X: 'Other'
       }
     }
@@ -238,75 +301,19 @@ export const serviceRecordsUI = {
   'ui:description': 'Please record all periods of service',
   'ui:options': {
     viewField: ServicePeriodView,
+    itemName: 'Service Period'
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
-    serviceBranch: {
-      'ui:title': 'Branch of service',
+    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
-        labels: {
-          AC: 'US ARMY AIR CORPS',
-          AF: 'US AIR FORCE',
-          AR: 'US ARMY',
-          CG: 'US COAST GUARD',
-          CV: 'CIVILIAN WAKE ISLAND NAS',
-          FP: 'CIVILIAN FERRY PILOT',
-          MM: 'US MERCHANT MARINE',
-          PH: 'US PUBLIC HEALTH SERVICE',
-          NN: 'NAVY NURSE CORPS',
-          WA: 'WOMEN\'S ARMY AUX CORPS',
-          WS: 'WOMEN\'S ARMY CORPS',
-          CF: 'ROYAL CANADIAN AIR FORCE',
-          RO: 'ROTC OF ARMY NAVY OR AF',
-          CA: 'US CITIZEN WHO SERVED W/ ALLIES',
-          WR: 'WOMEN\'S RESERVE OF NAVY,MC,CG',
-          CS: 'CIVILIAN W/STRATEGIC SVC (OSS)',
-          KC: 'QRTRMASTER CORPS KESWICK CREW',
-          CB: 'DEFENSE OF BATAAN',
-          CO: 'US ARMY TRANSPORT SERVICE',
-          CI: 'CIV ID FRIEND/FOE (IFF) TECH',
-          CC: 'AMERICAN FIELD SERVICE',
-          GS: 'CIV CREW OF USCGS VESSELS',
-          FT: 'AMERICAN VOL GRP FLYING TIGERS',
-          CE: 'ROYAL CANADIAN CORPS SIGNAL',
-          C2: 'CIV AIR TRANSPORT CMD (UNITED)',
-          C3: 'CIV AIR TRANSPORT CMD (TWA)',
-          C4: 'CIV AIR TRANSPORT CMD (VULTEE)',
-          C5: 'CIV AIR TRANSPRT CMD(AMERICAN)',
-          C7: 'CIV AIR TRANSPORT COMMAND (NORTHWEST)',
-          CD: 'US NAVY TRANSPORT SERVICE',
-          NM: 'NON-MILITARY CIVILIAN',
-          AL: 'ALLIED FORCES',
-          AA: 'US ARMY AIR FORCES',
-          AT: 'US ARMY AIR FORCES (ATC)',
-          GP: 'GUAM COMBAT PATROL',
-          MC: 'US MARINE CORPS',
-          NO: 'NATIONAL OCEAN/ATMOSPHER ADMIN',
-          PS: 'REGULAR PHILIPPINE SCOUTS',
-          CM: 'CADET OR MIDSHIPMAN',
-          WP: 'WOMEN AIR FORCE SERVICE PILOTS',
-          GU: 'WAKE ISLAND DEFENDERS-GUAM',
-          MO: 'MERCHANT SN IN OPER MULBERRY',
-          FS: 'AMERICAN FIELD SERVICE',
-          ES: 'AMERICAN VOLUNTEER GUARD',
-          FF: 'FOREIGN FORCES',
-          GC: 'US COAST & GEODETIC SURVEY',
-          PA: 'PHILIPPINE ARMY',
-          AG: 'US AIR NATIONAL GUARD',
-          NG: 'US ARMY NATIONAL GUARD',
-          PG: 'PHILIPPINE GUERILLA',
-          XA: 'US NAVY RESERVE',
-          XR: 'US ARMY RESERVE',
-          XF: 'US AIR FORCE RESERVE',
-          XC: 'US MARINE CORP RESERVE',
-          XG: 'COAST GUARD RESERVE'
-        }
+        labels: serviceLabels
       }
-    },
+    }),
     dateRange: dateRangeUI(
-      'Start of service period',
-      'End of service period',
-      'End of service must be after start of service'
+      'Service start date',
+      'Service end date',
+      'Service start date must be after end date'
     ),
     dischargeType: {
       'ui:title': 'Discharge character of service',
@@ -341,18 +348,41 @@ export const militaryNameUI = {
         'ui:title': 'Did you serve under another name?',
         'ui:widget': 'yesNo'
       },
-      serviceName: merge(fullMaidenNameUI, {
-        'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
+      serviceName: merge(nonRequiredFullNameUI, {
         'ui:options': {
           expandUnder: 'view:hasServiceName'
         },
-        first: {
-          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
-        },
-        last: {
-          'ui:required': (formData) => formData.application.veteran['view:hasServiceName'],
-        }
       })
     }
   }
 };
+
+export function getCemeteries() {
+  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+    headers: {
+      'X-Key-Inflection': 'camel'
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      return Promise.reject(res);
+    }
+
+    return res.json();
+  }).then(res => {
+    const options = res.data.map(item => ({
+      label: item.attributes.name,
+      id: item.id
+    }));
+
+    return options;
+  }).catch(res => {
+    if (res instanceof Error) {
+      Raven.captureException(res);
+      Raven.captureMessage('vets_preneed_cemeteries_error');
+    }
+
+    // May change this to a reject later, depending on how we want
+    // to surface errors in autosuggest field
+    return Promise.resolve([]);
+  });
+}

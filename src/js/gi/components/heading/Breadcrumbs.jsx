@@ -8,8 +8,8 @@ class Breadcrumbs extends React.Component {
 
     const crumbs = [
       <a href="/" key="home">Home</a>,
-      <a href="/education" key="education">Education Benefits</a>,
-      <a href="/education/gi-bill" key="gi-bill">GI Bill</a>,
+      <a href="/education/" key="education">Education Benefits</a>,
+      <a href="/education/gi-bill/" key="gi-bill">GI Bill</a>,
     ];
 
     if (pathname.match(/search|profile/)) {

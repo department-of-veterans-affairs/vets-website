@@ -12,13 +12,23 @@
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta content="Vets.gov" property="og:site_name">
+
+<!--twitter cards-->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="DeptVetAffairs">
+<!-- description, title tags added below-->
+<meta name="twitter:image:src" content="https://www.vets.gov/img/design/logo/og-twitter-image.jpg">
+<!-- end twitter cards -->
+
 {% if lastupdate %}
 <meta name="DC.Date" content="{{lastupdate| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
 {% endif %}
 {% if title %}
 <meta content="{{ title }}" property="og:title">
+<meta content="Vets.gov - {{ title }}" name="twitter:title" >
 {% else %}
 <meta content="https://www.vets.gov" property="og:title">
+<meta content="https://www.vets.gov" name="twitter:title">
 {% endif %}
 <meta content="website" property="og:type">
 {% if path %}
@@ -26,6 +36,7 @@
 {% endif %}
 {% if description %}
 <meta content="{{ description }}" property="og:description">
+<meta content="{{ description }}" name="twitter:description" >
 <meta content="{{ description }}" name="description">
 {% endif %}
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
@@ -62,22 +73,15 @@
 <link rel="stylesheet" href="/generated/no-react.css">
 {% endif %}
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700|Roboto+Slab" rel="stylesheet" type="text/css">
-
 <!-- Old IE -->
 
 <!--[if lt IE 9]>
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<script>
-//<![CDATA[
-window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
-//]]>
-</script>
+<script src="/js/settings.js"></script>
 
-<script defer src="/generated/vendor.js"></script>
+<script defer src="/generated/vendor.entry.js"></script>
 {% if entryname %}
 <script defer src="/generated/{{ entryname }}.entry.js"></script>
 {% else %}
@@ -89,9 +93,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
 
 </head>
 <body class="{{ body_class }}">
-
-<a class="show-on-focus" href="#content">Skip to Content</a>
-
+  <a class="show-on-focus" href="#content">Skip to Content</a>
 {% if !noHeader %}
   {% include "content/includes/top-nav.html" %}
 {% endif %}
