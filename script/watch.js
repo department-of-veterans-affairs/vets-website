@@ -1,3 +1,15 @@
+const { Writable } = require('stream');
+const chokidar = require('chokidar');
+const uncache = require('recursive-uncache');
+const util = require('util');
+const glob = util.promisify(require('glob'));
+const Mocha = require('mocha');
+const chalk = require('chalk');
+const path = require('path');
+const _ = require('lodash');
+
+console.log(chalk.cyan('Performing initial set up'));
+
 // babel-register only looks for environment variables
 process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
@@ -7,59 +19,46 @@ require('babel-register');
 require('../test/util/mocha-setup.js');
 require('../test/util/enzyme-setup.js');
 
-const { Writable } = require('stream');
-const chokidar = require('chokidar');
-const uncache = require('recursive-uncache');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const glob = util.promisify(require('glob'));
+const showErrors = process.argv.includes('showErrors');
 
-const Mocha = require('mocha');
-
-const chalk = require('chalk');
-const path = require('path');
-const _ = require('lodash');
-
-// no arguments, run unit tests
-// any arguments provited then tests run must be explicitly provided
-let options;
-if (process.argv.length === 2) {
-  options= {
-    eslint: false,
-    sasslint: false,
-    showErrors: false,
-    unit: true
-  };
-} else {
-  options = {
-    eslint: process.argv.includes('eslint'),
-    sasslint: process.argv.includes('sasslint'),
-    showErrors: process.argv.includes('showErrors'),
-    unit: process.argv.includes('unit')
-  };
-}
-
-const unwatchedModules = Object.keys(require.cache).map(file => file);
+// file watcher
 let watcher;
 
-async function runUnitTests(tests) {
-  const unitTests = tests || await glob('test/**/*.unit.spec.js?(x)')
-  console.log(chalk.cyan(`Running ${unitTests.length} unit test files`));
+// keys for current require.cache
+const unwatchedModules = Object.keys(require.cache).map(file => file);
 
+// all unit test files
+const allUnitTests = glob.sync('test/**/*.unit.spec.js?(x)')
+
+// runs array of test files passed in or all tests if no value provided
+async function runUnitTests(unitTests = allUnitTests) {
+  console.log(chalk.cyan(`Running ${unitTests.length} unit test files`));
   await runMochaTests(unitTests);
 
-  console.log(chalk.red('Watching for changes'));
+  console.log(chalk.yellow('Watching for changes'));
+  console.log(chalk.yellow('======\n\n'));
 
+  // watcher is only created once- if new files are added, then watcher must be restarted
   if (!watcher) {
-    const watchedFiles = Object.keys(require.cache).filter(file => !unwatchedModules.includes(file) && !file.includes('node_modules'));
+    // watched files are all files added to the require cache after mocha was run
+    // filters node_modules
+    const watchedFiles = Object
+      .keys(require.cache)
+      .filter(file => !unwatchedModules.includes(file) && !file.includes('node_modules'));
+
+    // use require cache to get list of unit tests that import each src file
     const unitTestsForSrc = getUnitTestsForSrc(watchedFiles);
+
+    // start watcher
     watcher = chokidar.watch(watchedFiles).
       on('change', file => {
+        // if change is from a unit test, recursively uncache and run that test file
         if (file.includes('.unit.spec')) {
           uncache(file);
           runUnitTests([file]);
         }
 
+        // if change is from a src file, recursively uncache each unit test and run them all
         if (file.includes('src')) {
           unitTestsForSrc[file].forEach(unitTest => uncache(unitTest));
           runUnitTests(unitTestsForSrc[file]);
@@ -71,33 +70,48 @@ async function runUnitTests(tests) {
 
 function getUnitTestsForSrc(watchedFiles) {
   return watchedFiles
-  .filter(file => file.includes('test'))
-  .reduce((acc, testFile) => {
-    const requiredSourceFiles = require.cache[testFile]
-      .children
-      .forEach(childModule => {
-        if (!childModule.id.includes('src')) {
-          return;
-        }
-        if (acc[childModule.id]) {
-          acc[childModule.id].push(testFile);
-        } else {
-          acc[childModule.id] = [testFile];
-        }
-      });
+  // only use files in test directory
+    .filter(file => file.includes('test'))
+  // iterate over each test file
+    .reduce((acc, testFile) => {
+      // get the test files require.cache
+      const requiredSourceFiles = require.cache[testFile]
+      // children is an array of modules the test file imports
+        .children
+        .forEach(childModule => {
+          // filter anything that isn't in the src directory
+          if (!childModule.id.includes('src')) {
+            return;
+          }
 
-    return acc;
+          // add the file path as a key to the accumulator
+          // add the test file to the tests array
+          if (acc[childModule.id]) {
+            acc[childModule.id].push(testFile);
+          } else {
+            acc[childModule.id] = [testFile];
+          }
+        });
 
-  }, {});
+      return acc;
+
+    }, {});
 }
 
 async function runMochaTests(files) {
-  console.log(chalk.yellow('Mocha starting'));
-  if (files.length < 10) files.forEach(file => console.log(chalk.blue(path.basename(file))));
+  // show the file names if fewer than ten
+  if (files.length < 10) {
+    files.forEach(file => {
+      let fileParts = path.basename(file).split('.');
+      console.log(`${chalk.cyan(fileParts.shift())}.${chalk.blue(fileParts.join('.'))}`);
+    });
+  }
+  console.log(' ');
+
   // keep errors from polluting the reporter by redirecting the error stream
   let errorStream;
   const consoleErr = process.stderr.write;
-  if (!options.showErrors) {
+  if (!showErrors) {
     errorStream = new Writable({
       write(chunk, encoding, callback) {
         callback();
@@ -108,6 +122,7 @@ async function runMochaTests(files) {
 
   const mocha = new Mocha();
   mocha.reporter('nyan');
+  // sets up globals
   mocha.addFile('./test/helper.js');
 
   files.forEach(file => mocha.addFile(file));

@@ -39,7 +39,7 @@
     "test:unit:gi": "BABEL_ENV=test mocha test/helper.js --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "BABEL_ENV=test mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:unit:db": "BABEL_ENV=test mocha --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
-    "test:watch": "BABEL_ENV=test mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:watch": "node script/watch.js",
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
