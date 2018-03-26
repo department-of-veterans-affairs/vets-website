@@ -29,7 +29,7 @@ Find out if you can get help paying for school or job training through the Survi
 **If you’re the child of the Veteran or Servicemember:**
 
 - You can get benefits if you’re between the ages of 18 and 26, except in certain cases. You may be married or unmarried.
-- If you’re older than 18 years old and using DEA, you can’t get Dependency and Indemnity Compensation (DIC) from us.<br>
+- If you’re over 18 years old and using DEA, you can’t get Dependency and Indemnity Compensation (DIC) from us.<br>
 [Learn about DIC](https://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp).
 - If you join the military, you can’t use this benefit while on active duty, and you must not be discharged under dishonorable conditions. Military service can extend your eligibility, but this increase doesn’t usually go past your 31st birthday.
 
