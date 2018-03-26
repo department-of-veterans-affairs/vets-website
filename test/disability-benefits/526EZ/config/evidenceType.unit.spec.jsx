@@ -10,11 +10,9 @@ import initialData from '../schema/initialData.js';
 describe('Disability benefits 526EZ evidence type', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.evidenceType;
   it('renders evidence type form', () => {
-    const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       arrayPath={arrayPath}
       pagePerItemIndex={0}
-      onSubmit={onSubmit}
       definitions={formConfig.defaultDefinitions}
       schema={schema}
       data={initialData}
