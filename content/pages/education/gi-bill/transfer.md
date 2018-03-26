@@ -82,13 +82,13 @@ These conditions apply to family members using transferred benefits:
 
 #### Spouses
 - May use the benefit right away
-- May use the benefit while you’re on active duty or after you've separated from service
+- May use the benefit while you’re on active duty or after you’ve separated from service
 - Don’t qualify for the monthly housing allowance while you’re on active duty
 - May use the benefit for up to 15 years after your separation from active duty
 
 #### Children
 - May start to use the benefit only after you’ve finished at least 10 years of service
-- May use the benefit while you’re on active duty or after you've separated from service
+- May use the benefit while you’re on active duty or after you’ve separated from service
 - May not use the benefit until they’ve gotten a high school diploma (or equivalency certificate), or have reached 18 years of age
 - Qualify for the monthly housing allowance even when you’re on active duty
 - Don’t have to use the benefit within 15 years after your separation from active duty, but can’t use the benefit after they’ve turned 26 years old.
