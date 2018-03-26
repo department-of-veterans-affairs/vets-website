@@ -123,12 +123,12 @@ Only the insured Servicemember or Veteran may apply for accelerated benefits. No
 
 **Use the application form for the type of coverage you have:**
  
-**If you’re an SGLI or VGLI policyholder**, fill out a Claim for Accelerated Benefits. <br>
+**If you’re an SGLI or VGLI policyholder,** fill out a Claim for Accelerated Benefits. <br>
 [Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284.htm).
 
-- **If you’re still on active duty or you’re a Reservist**, turn in the form to your service branch. They will need to fill out part of the form. 
+- **If you’re still on active duty or you’re a Reservist,** turn in the form to your service branch. They will need to fill out part of the form. 
 
-- **If you’re a Veteran**, have your doctor fill out their part of the form, then send the completed form to:
+- **If you’re a Veteran,** have your doctor fill out their part of the form, then send the completed form to:
 
 <p class="va-address-block">
   The Prudential Insurance Company of America<br>
@@ -140,7 +140,7 @@ Or, fax the form to 1-877-832-4943.
 
 <br>
 
-**If you’re covered under Family SGLI**, fill out a Claim for Accelerated Benefits. <br>
+**If you’re covered under Family SGLI,** fill out a Claim for Accelerated Benefits. <br>
 [Download the Claim for Accelerated Benefits form](https://benefits.va.gov/INSURANCE/forms/8284A.htm).
  
 You’ll need to fill out one part of the application, and your doctor will need to fill out another part of it.
