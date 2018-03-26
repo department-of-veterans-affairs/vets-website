@@ -150,8 +150,8 @@ Your VA social worker will help to make sure you get consistent care from the ti
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="Hospital-far-from-home">Can a VA social worker help my family to find a free place to stay if I'm being treated in a hospital far from home?</button>
 <div id="Hospital-far-from-home" class="usa-accordion-content">
 
-Yes. Your social worker will connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at military and VA medical centers around the world.<br>
-[Find a Fisher House near where you'll be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
+Yes. Your social worker can connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at many military and VA medical centers around the world.<br>
+[Find out if there's a Fisher House near where you'll be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
 [Learn more about all Fisher House Foundation programs](https://www.fisherhouse.org/).
