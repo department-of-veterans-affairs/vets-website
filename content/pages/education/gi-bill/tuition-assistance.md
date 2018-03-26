@@ -17,7 +17,9 @@ Does your college tuition cost more than what’s covered by the Tuition Assista
 <div class="feature" markdown="1">
 
 ### Can I get tuition assistance?
-You can get tuition assistance if you’re approved for federal TA, and **both of the following are true for you**:
+You can get tuition assistance if you’re approved for federal TA and you meet both of the requirements listed below.
+
+**Both of these must be true:**
   - You qualify for Montgomery GI Bill Active Duty (MGIB-AD) or Post-9/11 GI Bill benefits, **and**
   - The cost of the course and fees is more than TA will cover.
 
