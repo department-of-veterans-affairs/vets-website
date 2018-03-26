@@ -67,9 +67,11 @@ Right now, you may be able to file a DRC if you meet the requirements listed bel
 You can't file your claim through the DRC program if any of the exclusions listed below apply to you.
 
 **Review exclusions for:**
-[All DRC claims](#all)
-[Pre-discharge claims](#pre-discharge)
+[All DRC claims](#all)<br>
+[Pre-discharge claims](#pre-discharge)<br>
 [Dependency and indemnity compensation (DIC) claims)](#dic)
+
+<br>
 
 <span id="all"></span>
 <h4>Exclusions for all DRC claims</h4>
