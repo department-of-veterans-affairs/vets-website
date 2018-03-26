@@ -5,7 +5,7 @@ description: Learn how we decide the effective date, or the date you'll start ge
 concurrence: complete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
-relatedlinks:
+relatedlinks: 
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/evidence/
