@@ -27,20 +27,28 @@ relatedlinks:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
+  
 The Decision Ready Claims (DRC) program is the fastest way to get your VA claim processed. Find out if you can use the DRC program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).
+
 </div>
 
-<div class="feature" markdown="1">
+<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
+
 <h3 itemprop="name">What types of disability compensation claims can be filed through the DRC program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
+
+**Right now, you can file these types of claims through the DRC program:**
+
 - **Direct service connection claim** for a condition that began during your military service or was caused by an event while serving
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders).
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
 - **Dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died
 - **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
-  
+
+**Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
+
 </div>
 </div>
 
@@ -57,11 +65,13 @@ You can file a DRC if you meet all of the requirements listed below.
 - You're filing one of the claim types listed above, **and**
 - You've already filed a VA claim and received a rating decision from us on that claim (unless you're filing a Pre-discharge or DIC claim), **and**
 - None of the exclusions listed in the blue box below apply to you
+
 </div>
 </div>
 </div>
 
-<div class="feature" markdown="1">
+<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
+  
 <h3 itemprop="name">What exclusions disqualify me from being able to file my claim through the DRC Program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
