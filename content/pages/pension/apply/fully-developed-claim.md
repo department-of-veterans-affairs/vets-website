@@ -60,9 +60,9 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 
 2. You’re at least 65 years old or have a permanent and total disability. You’re considered permanently and totally disabled if medical evidence shows that **at least one of the following is true for you**:
 
-    - You are a patient in a nursing home for long-term care, **or**
+    - You’re a patient in a nursing home for long-term care, **or**
     - You receive Social Security disability benefits, **or**
-    - You are unemployable because of a disability that doesn’t go away, **or**
+    - You’re unemployable because of a disability that doesn’t go away, **or**
     - You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
     - You have a disease or disorder that we decide is the cause of your permanent and total disability
 
@@ -72,9 +72,9 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 
   - You have corrected vision of 5/200 or less in both eyes, **or**
   - You have contraction of the concentric visual field to 5 degrees or less, **or**
-  - You are a patient in a nursing home due to the loss of mental or physical abilities, **or**
+  - You’re a patient in a nursing home due to the loss of mental or physical abilities, **or**
   - You need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, **or**
-  - You are bedridden and have to spend most of the day in bed because of your disability
+  - You’re bedridden and have to spend most of the day in bed because of your disability
 
 To support a claim for increased disability pension benefits based on being housebound, the evidence must show that **at least one of the following is true for you**:
 
@@ -165,13 +165,13 @@ You can work with a trained professional called an accredited representative to 
 #### Special Situations
 If any of the below situations apply to you, you’ll need to turn in the additional forms at the same time as you file your pension claim.
 If you’re:
-- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits**, you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). <br>
+- **Claiming non-service-connected pension with Housebound or Aid and Attendance benefits,** you and your doctor will need to fill out Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680). <br>
 [Download VA Form 21-2680](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-2680). <br>
 **Note:** If you’re in a care facility, please also fill out Request for Nursing Home Information in Connection with Claim for Aid and Attendance (VA Form 21-0770). <br>
 [Download VA Form 21-0779](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-0779).
-- **Claiming a child in school between the ages of 18 and 23**, fill out Request for Approval of School Attendance (VA Form 21-674). <br>
+- **Claiming a child in school between the ages of 18 and 23,** fill out Request for Approval of School Attendance (VA Form 21-674). <br>
 [Download VA Form 21-674](https://www.va.gov/vaforms/form_detail.asp?FormNo=21-674).
-- **Claiming benefits for a seriously disabled child**, turn in all private medical records for the child’s disabilities.
+- **Claiming benefits for a seriously disabled child,** turn in all private medical records for the child’s disabilities.
 
 </div>
 
