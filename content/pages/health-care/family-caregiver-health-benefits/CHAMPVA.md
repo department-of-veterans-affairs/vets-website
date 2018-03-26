@@ -44,8 +44,8 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="expecting">A new or expectant parent</button>
       <div id="expecting" class="usa-accordion-content">
-        <p>If you’re expecting a baby, you’ll need to take the 2 steps listed below before you can apply for CHAMPVA for your newborn./p>
-        <p><b>You’ll need to:</b></p>  
+        <p>If you’re expecting a baby, you’ll need to take the 2 steps listed below before you can apply for CHAMPVA for your newborn.</p>
+        <p><b>You’ll need to:</b></p>
         <ul>
           <li>Get a Social Security number for your baby by applying at the nearest Social Security Administration office, <b>and</b></li>
           <li>Set up the baby’s status as a dependent of the Veteran sponsor by contacting your local VA regional benefit office.</li>
@@ -151,10 +151,12 @@ You’ll need to apply for these benefits.
 
 **To speed up the processing of your application, you can also send copies (*not* originals) of these optional documents:**
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
-- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives. [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
+- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives.<br>
+[Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
   - A copy of each child’s birth certificate or adoption papers
-  - School certification of full-time enrollment for children ages 18-23. [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
+  - School certification of full-time enrollment for children ages 18-23.<br> 
+  [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
 
 **If you’re a surviving spouse who remarried but is once again single,** also send a copy of the legal document that ended your marriage. This may be a divorce decree, death certificate, or annulment decree.
 
@@ -173,7 +175,8 @@ Or fax it to: 1-303-331-7809
 
 
 ### What happens after I apply?
-Once we get your application, we’ll review it to be sure it’s complete and includes all required forms. If it’s not complete, we’ll return it to you with more instructions. [Download application instructions](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-03.pdf).
+Once we get your application, we’ll review it to be sure it’s complete and includes all required forms. If it’s not complete, we’ll return it to you with more instructions.<br> 
+[Download application instructions](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-03.pdf).
 
 ### How long will it take to hear back about my application?
 If you send us all required and optional documents—and if your application is complete—it’ll take about 6 weeks after we get your package until you get your CHAMPVA ID card and related materials.
