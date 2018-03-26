@@ -18,7 +18,7 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if your situation meets both of the descriptions listed below. 
+You may be able to get disability benefits if both of the descriptions listed below are true for you. 
 
 **Both of these must be true:**
 
