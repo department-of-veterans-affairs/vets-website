@@ -29,7 +29,7 @@ You may be able to get an SAH grant if you’re using the grant money to buy, bu
 
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $81,080—through the SAH grant program.
 
-**Please note:** We can only give this grant to 30 Veterans and Servicemembers each fiscal year (FY). We've already given out all of the available grants for 2018. If you qualify, but don't receive, a grant in 2018 because the cap was reached, you may be able to use this benefit in FY 2019 or future years if the law continues to grant us the authority to offer these grants and we don't pass the new FY cap.
+**Please note:** We can only give this grant to 30 Veterans and Servicemembers each fiscal year (FY). We've already given out all of the available grants for 2018. If you qualify for but don't receive a grant in 2018 because the cap was reached, you may be able to use this benefit in FY 2019 or future years if the law continues to give us the authority to offer these grants and we don't go beyond the new FY cap.
 
 <br>
 
