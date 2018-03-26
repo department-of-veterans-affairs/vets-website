@@ -65,7 +65,7 @@ class ClaimsAppealsWidget extends React.Component {
           </div>
         </div>);
       } else if (bothRequestsLoaded) {
-        content = <p>No recent activity on your claims or appeals</p>;
+        content = <p>We don’t have any new updates for you right now.</p>;
       }
     }
 
