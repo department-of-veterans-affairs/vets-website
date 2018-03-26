@@ -45,7 +45,7 @@ There are other factors that may affect whether you or other family members qual
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="expecting">A new or expectant parent</button>
       <div id="expecting" class="usa-accordion-content">
         <p>If you’re expecting a baby, you’ll need to take the 2 steps listed below before you can apply for CHAMPVA for your newborn./p>
-        <p><strong>You'll need to:</p>  
+        <p><b>You’ll need to:</b></p>  
         <ul>
           <li>Get a Social Security number for your baby by applying at the nearest Social Security Administration office, <b>and</b></li>
           <li>Set up the baby’s status as a dependent of the Veteran sponsor by contacting your local VA regional benefit office.</li>
@@ -58,8 +58,8 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse">A surviving spouse who’s currently remarried</button>
       <div id="spouse" class="usa-accordion-content">
-        <p><strong>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55</strong>, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage.</p>
-        <p><strong>If you remarry on or after your 55th birthday</strong>, you can keep your CHAMPVA benefits.</p>
+        <p><b>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55</b>, you no longer qualify for CHAMPVA as of midnight on the date of your remarriage.</p>
+        <p><b>If you remarry on or after your 55th birthday</b>, you can keep your CHAMPVA benefits.</p>
       </div>
     </li>
     <li>
@@ -85,9 +85,9 @@ There are other factors that may affect whether you or other family members qual
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="caregiver">A primary family caregiver of a Veteran with injuries and/or disabilities </button>
       <div id="caregiver" class="usa-accordion-content">
-        <p><strong>If you’re a family member caring for a Veteran with disabilities</strong>, and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
+        <p><b>If you’re a family member caring for a Veteran with disabilities</b>, and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
         <p><a href='https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_11-01.pdf'>Download a fact sheet on CHAMPVA for primary family caregivers</a>.</p>
-        <p><strong>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001</strong>, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
+        <p><b>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001</b>, you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
         <p><a href='/health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
     </li>
@@ -147,7 +147,7 @@ You’ll need to apply for these benefits.
 - [Other Health Insurance Certification (VA Form 10-7959c)](http://www.va.gov/vaforms/form_detail.asp?FormNo=7959c), **and**
 - Documents related to your Medicare status:
   - **If you qualify for Medicare for any reason,** you’ll need to submit a copy of your Medicare card. 
-  - **If you’re 65 years old or older and don't qualify for Medicare,** you’ll need to send us documentation from the Social Security Administration that confirms you don't qualify for Medicare benefits under anyone’s Social Security number.
+  - **If you’re 65 years old or older and don’t qualify for Medicare,** you’ll need to send us documentation from the Social Security Administration that confirms you don't qualify for Medicare benefits under anyone’s Social Security number.
 
 **To speed up the processing of your application, you can also send copies (*not* originals) of these optional documents:**
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
