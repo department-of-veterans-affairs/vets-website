@@ -40,8 +40,9 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
 - **Dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died
 - **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
-  </div>
-  </div>
+  
+</div>
+</div>
 
 <br>
 
@@ -56,7 +57,6 @@ You can file a DRC if you meet all of the requirements listed below.
 - You're filing one of the claim types listed above, **and**
 - You've already filed a VA claim and received a rating decision from us on that claim (unless you're filing a Pre-discharge or DIC claim), **and**
 - None of the exclusions listed in the blue box below apply to you
-</div>
 </div>
 </div>
 </div>
@@ -128,7 +128,6 @@ You can't file your DIC claim through the DRC program if any of the below factor
 </div>
 </div>
 </div>
-</div>
 
 ### How do I file a DRC?
 
@@ -180,12 +179,12 @@ Within 30 days or less from the time you submit your claim.
 
 ### What if I have more questions or want more information?
 
-**Download helpful PDFs:
-[Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf)
-[Decision Ready Claims FAQs](https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf)
-[Pre-discharge Decision Ready Claim Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf)
-[Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf)
-
 [Watch a video on the DRC program](https://www.benefits.va.gov/compensation/DRC.asp).
+
+**Download helpful PDFs:** <br>
+[Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf)<br>
+[Decision Ready Claims FAQs](https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf)<br>
+[Pre-discharge Decision Ready Claim Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf)<br>
+[Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf)
 
 Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
