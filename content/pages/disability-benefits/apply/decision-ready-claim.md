@@ -39,14 +39,10 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 
 Right now, you may be able to file a DRC if you meet the requirements listed below.
 
-**You must be filing one of these types of claims:**
-- **A pre-discharge claim** for disability compensation less than 90 days before your separation from military service, **or**
-- **A dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died
-
-**Or, all of these must be true:**
-- You've already filed a VA claim, **and**
-- You've received a rating decision from us on that claim, **and**
-- You're now filing one of these claims:**
+**At least one of these must be true:**
+- You're filing a **pre-discharge claim** for disability compensation less than 90 days before your separation from military service, **or**
+- You're filing a **dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died, **or**
+- You've already filed a VA claim and received a rating decision from us on that claim, and you're now filing one of these claims:
   - **A direct service connection claim** for a condition that began during your military service or was caused by an event while serving
   - **A presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders).
   - **A secondary service connection claim** for a condition caused or made worse by your service-connected disability
