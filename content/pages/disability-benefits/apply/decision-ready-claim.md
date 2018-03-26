@@ -30,26 +30,32 @@ relatedlinks:
 The Decision Ready Claims (DRC) program is the fastest way to get your VA claim processed. Find out if you can use the DRC program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).
 </div>
 
-
 <div class="feature" markdown="1">
-<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">What types of disability compensation claims can be filed through the DRC program?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+- **Direct service connection claim** for a condition that began during your military service or was caused by an event while serving
+- **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders).
+- **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
+- **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
+- **Dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died
+- **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
+  </div>
+  </div>
+
+<br>
+
 <h3 itemprop="name">Can I file my disability compensation claim through the DRC program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Right now, you may be able to file a DRC if you meet the requirements listed below.
+You can file a DRC if you meet all of the requirements listed below.
 
-**At least one of these must be true:**
-- You're filing a **pre-discharge claim** for disability compensation less than 90 days before your separation from military service, **or**
-- You're filing a **dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died, **or**
-- You've already filed a VA claim and received a rating decision from us on that claim, and you're now filing one of these claims:
-  - **A direct service connection claim** for a condition that began during your military service or was caused by an event while serving
-  - **A presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders).
-  - **A secondary service connection claim** for a condition caused or made worse by your service-connected disability
-  - **An increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
+**All of these must be true:**
 
-**And, you can't have any of the exclusions listed in the blue box below.**
-
+- You're filing one of the claim types listed above, **and**
+- You've already filed a VA claim and received a rating decision from us on that claim (unless you're filing a Pre-discharge or DIC claim), **and**
+- None of the exclusions listed in the blue box below apply to you
 </div>
 </div>
 </div>
@@ -137,18 +143,12 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
     This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
     </li>
   <li class="process-step list-three"><strong>Attend a VA claim exam, if needed</strong><br>
-    Your VSO can request a claim exam for you. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can then be included along with your application.
+    Your VSO can request a VA claim exam for you. This exam is also sometimes called a compensation & pension (C&P) exam. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can then be included along with your application.
     </li>
   <li class="process-step list-three"><strong>Submit your claim</strong><br>
     Your VSO will check to make sure your application includes all of the needed information and help you electronically submit your claim. Giving us all the relevant evidence when you submit your DRC allows us to send your claim directly to a VA Rating Specialist for a decision.
     </li>  
 </ol>
-
-### When can I expect a decision on my DRC?
-
-Within 30 days or less.
-
-<br>
 
 ### How do I find an accredited VSO?
 
@@ -159,9 +159,33 @@ Within 30 days or less.
 - Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br> 
 [Search the VA Office of the General Counsel’s list](https://www.va.gov/ogc/apps/accreditation/index.asp).
 
-<br>
+### What information do I need to submit so that my claim is decision-ready?
 
-### What if I have more questions?
+**You'll need to submit copies of:**
+- Your federal records
+- Your medical records
+- Completed Disability Benefits Questionnaires (DBQs)
+- Any other evidence that supports your claim (like doctor's reports or medical test results)
 
-Reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+**Depending on the type of DRC you're filing, you may also need to submit copies of:**
+- Your Service Treatment Records (STRs)
+- The Veteran's death certificate
+- The Veteran's medical records
+- The report from your VA claim exam
 
+
+### When can I expect a decision on my DRC?
+
+Within 30 days or less from the time you submit your claim.
+
+### What if I have more questions or want more information?
+
+**Download helpful PDFs:
+[Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf)
+[Decision Ready Claims FAQs](https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf)
+[Pre-discharge Decision Ready Claim Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf)
+[Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf)
+
+[Watch a video on the DRC program](https://www.benefits.va.gov/compensation/DRC.asp).
+
+Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
