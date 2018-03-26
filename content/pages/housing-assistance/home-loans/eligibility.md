@@ -125,7 +125,7 @@ You may be able to get a COE if you meet at least one of the requirements listed
 **At least one of these must be true. You:**
 
 - Are a U.S. citizen who served in the Armed Forces of a government allied with the United States in World War II, **or**
-- Served as a member in certain organizations, such as a:
+- Served as a member in certain organizations, like a:
   - Public Health Service officer
   - Cadet at the United States Military, Air Force, or Coast Guard Academy
   - Midshipman at the United States Naval Academy
