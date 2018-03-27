@@ -5,7 +5,7 @@ description: Get help filing a VA claim or appeal by working with an accredited 
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 5
+order: 4
 relatedlinks:
   - heading: More information about filing disability claims
     links:
