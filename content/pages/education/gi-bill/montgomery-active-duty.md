@@ -40,7 +40,7 @@ You can get education benefits if you were honorably discharged and you meet the
 -	You have a high school diploma, GED, or 12 hours of college credit, **and**
 - You entered active duty before January 1, 1977, or you entered active duty before January 2, 1978, under a delayed enlistment program contracted before January 1, 1977, **and**
 - You served at least 1 day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within 1 year of leaving active duty and served 4 years), **and**
-- You had at least 1 day remaining of chapter 34 entitlement as of December 31, 1989.
+- You had at least 1 day remaining of chapter 34 entitlement as of December 31, 1989
 
 ##### CATEGORY III
 
