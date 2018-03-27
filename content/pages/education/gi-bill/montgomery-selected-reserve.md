@@ -20,10 +20,10 @@ If you’re a member of the Army, Navy, Air Force, Marine Corps or Coast Guard R
 You can get education benefits if you meet the requirements listed below.
 
 **One of these must be true:**
-- You have a 6-year service obligation (you agreed to serve 6 years) in the Selected Reserve **or**
+- You have a 6-year service obligation (you agreed to serve 6 years) in the Selected Reserve, **or**
 - You’re an officer in the Selected Reserve and you agreed to serve 6 years in addition to your initial service obligation
 
-**And all of these must also be true:**
+**And all of these must also be true. You:**
 - Finish your initial active duty for training (IADT), **and**
 - Get a high school diploma or something of equal value, like a High School Equivalency Diploma or GED, before finishing IADT, **and**
 - Stay in good standing while serving in an active Selected Reserve unit.
