@@ -7,7 +7,7 @@ import {
   orderProperties,
   shouldRender,
   getDefaultRegistry,
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veteran-affairs/react-jsonschema-form/lib/utils';
 
 /*
  * This is largely copied from the react-jsonschema-form library,

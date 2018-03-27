@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
-import Form from 'react-jsonschema-form';
-import { deepEquals } from 'react-jsonschema-form/lib/utils';
+import Form from '@department-of-veteran-affairs/react-jsonschema-form';
+import { deepEquals } from '@department-of-veteran-affairs/react-jsonschema-form/lib/utils';
 
 import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';

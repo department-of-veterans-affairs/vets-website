@@ -4,7 +4,7 @@ import React from 'react';
 import {
   toIdSchema,
   deepEquals
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veteran-affairs/react-jsonschema-form/lib/utils';
 
 class ReadOnlyArrayField extends React.Component {
   shouldComponentUpdate = (nextProps) => {

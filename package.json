@@ -198,6 +198,7 @@
   },
   "private": true,
   "dependencies": {
+    "@department-of-veteran-affairs/react-jsonschema-form": "file:.yalc/@department-of-veteran-affairs/react-jsonschema-form",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
