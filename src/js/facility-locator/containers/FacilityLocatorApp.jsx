@@ -6,20 +6,20 @@ import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcr
 
 class FacilityLocatorApp extends React.Component {
   componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumb-facility', 'va-breadcrumb-facility-list');
+    buildMobileBreadcrumb('va-breadcrumbs-facility', 'va-breadcrumbs-facility-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
     });
 
     window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumb-facility-list');
+      debouncedToggleLinks('va-breadcrumbs-facility-list');
       debouncedToggleLinks.bind(this);
     });
   }
 
   componentDidUpdate() {
-    buildMobileBreadcrumb('va-breadcrumb-facility', 'va-breadcrumb-facility-list');
+    buildMobileBreadcrumb('va-breadcrumbs-facility', 'va-breadcrumbs-facility-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);

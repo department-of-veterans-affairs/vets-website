@@ -3,14 +3,14 @@ import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcr
 
 class Breadcrumbs extends React.Component {
   componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumb-claims', 'va-breadcrumb-claims-list');
+    buildMobileBreadcrumb('va-breadcrumbs-claims', 'va-breadcrumbs-claims-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
     });
 
     window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumb-claims-list');
+      debouncedToggleLinks('va-breadcrumbs-claims-list');
       debouncedToggleLinks.bind(this);
     });
   }
@@ -30,10 +30,10 @@ class Breadcrumbs extends React.Component {
       <nav
         aria-label="Breadcrumb"
         className="va-nav-breadcrumbs"
-        id="va-breadcrumb-claims">
+        id="va-breadcrumbs-claims">
         <ul
           className="row va-nav-breadcrumbs-list columns claims-breadcrumbs"
-          id="va-breadcrumb-claims-list"
+          id="va-breadcrumbs-claims-list"
           role="menubar">
           <li><a href="/" key="home">Home</a></li>
           <li><a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a></li>

@@ -13,14 +13,14 @@ class Breadcrumbs extends React.Component {
   }
 
   componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumb-prescriptions', 'va-breadcrumb-prescriptions-list');
+    buildMobileBreadcrumb('va-breadcrumbs-prescriptions', 'va-breadcrumbs-prescriptions-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
     });
 
     window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumb-prescriptions-list');
+      debouncedToggleLinks('va-breadcrumbs-prescriptions-list');
       debouncedToggleLinks.bind(this);
     });
   }
@@ -85,10 +85,10 @@ class Breadcrumbs extends React.Component {
       <nav
         aria-label="Breadcrumb"
         className="va-nav-breadcrumbs"
-        id="va-breadcrumb-prescriptions">
+        id="va-breadcrumbs-prescriptions">
         <ul
           className="row va-nav-breadcrumbs-list columns"
-          id="va-breadcrumb-prescriptions-list"
+          id="va-breadcrumbs-prescriptions-list"
           role="menubar">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;

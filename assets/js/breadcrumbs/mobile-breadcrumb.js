@@ -1,16 +1,12 @@
 var config = {
-  containerString: 'va-breadcrumb',
-  listString: 'va-breadcrumb-list',
+  containerString: 'va-breadcrumbs',
+  listString: 'va-breadcrumbs-list',
   jsHiddenClass: 'js-hide',
   jsVisualClass: 'js-visual',
   mobileClass: 'va-nav-breadcrumbs-list__mobile-link',
   triggerDelay: 500,
   triggerWidth: 425,
 };
-
-var debouncedToggleLinks = _debounce(function(targetId) {
-  toggleLinks(targetId);
-}, config.triggerDelay);
 
 // https://davidwalsh.name/javascript-debounce-function
 function _debounce(func, wait, immediate) {
@@ -41,6 +37,16 @@ function _debounce(func, wait, immediate) {
   };
 }
 
+/**
+ * Returns this model's attributes as...
+ *
+ * @method _isElement
+ * @type {Object} Copy of ...
+ */
+function _isElement(el) {
+  return el instanceof Element;
+}
+
 function cloneList(target, targetId) {
   var clone = target.cloneNode();
 
@@ -51,23 +57,29 @@ function cloneList(target, targetId) {
 }
 
 function sliceMobileLink(targetId) {
+  // Targeted unordered list and cloned list
   var target = document.getElementById(targetId);
   var clonedTarget = target.cloneNode(true);
+  
+  // Cloned list items and array conversion
   var targetList = clonedTarget.children;
-
   var listArr = Array.prototype.slice.call(targetList);
 
-  var breadcrumbLink = listArr.slice(-2, -1);
-  var textString = breadcrumbLink[0].children[0].innerText.trim();
+  // The second to last list item and child link being
+  // manipulated to pull off the "Back by one" mobile
+  // breadcrumb handling
+  var breadcrumbList = listArr.slice(-2, -1);
+  var breadcrumbLink = breadcrumbList[0].children[0];
 
-  breadcrumbLink[0].classList.add(config.mobileClass);
-  breadcrumbLink[0].children[0].innerText = textString;
-  breadcrumbLink[0].children[0].setAttribute(
+  breadcrumbList[0].classList.add(config.mobileClass);
+  breadcrumbLink.innerText = breadcrumbLink.innerText.trim();
+  breadcrumbLink.removeAttribute('aria-current');
+  breadcrumbLink.setAttribute(
     'aria-label',
-    'Previous step: ' + textString.trim()
+    `Previous step: ${breadcrumbLink.innerText}`
   );
 
-  return breadcrumbLink;
+  return breadcrumbList;
 }
 
 function toggleLinks(targetId) {
@@ -111,6 +123,10 @@ function buildMobileBreadcrumb(parentId, targetId) {
   // Reveal the correct breadcrumb list
   container.classList.remove(config.jsVisualClass);
 }
+
+var debouncedToggleLinks = _debounce(function(targetId) {
+  toggleLinks(targetId);
+}, config.triggerDelay);
 
 // Check for breadcrumb on page load
 window.addEventListener('DOMContentLoaded', function() {

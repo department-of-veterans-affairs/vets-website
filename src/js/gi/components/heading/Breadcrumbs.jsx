@@ -5,14 +5,14 @@ import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../../utils/brea
 
 class Breadcrumbs extends React.Component {
   componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumb-education', 'va-breadcrumb-education-list');
+    buildMobileBreadcrumb('va-breadcrumbs-education', 'va-breadcrumbs-education-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
     });
 
     window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumb-education-list');
+      debouncedToggleLinks('va-breadcrumbs-education-list');
       debouncedToggleLinks.bind(this);
     });
   }
@@ -51,10 +51,10 @@ class Breadcrumbs extends React.Component {
       <nav
         aria-label="Breadcrumb"
         className="va-nav-breadcrumbs"
-        id="va-breadcrumb-education">
+        id="va-breadcrumbs-education">
         <ul
           className="row va-nav-breadcrumbs-list columns"
-          id="va-breadcrumb-education-list"
+          id="va-breadcrumbs-education-list"
           role="menubar">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;

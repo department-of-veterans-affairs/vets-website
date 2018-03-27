@@ -9,11 +9,11 @@ class Breadcrumbs extends Component {
       return (
         <ul
           className="row va-nav-breadcrumbs-list"
-          id="va-breadcrumb-facility-list"
+          id="va-breadcrumbs-facility-list"
           role="menubar">
           <li><a href="/">Home</a></li>
           <li><Link to="/">Facility Locator</Link></li>
-          <li><Link to={`/facility/${selectedFacility.id}`}>{ `${selectedFacility.attributes.name}` }</Link></li>
+          <li><Link to={`/facility/${selectedFacility.id}`}>Facility Detail</Link></li>
         </ul>
       );
     }
@@ -21,7 +21,7 @@ class Breadcrumbs extends Component {
     return (
       <ul
         className="row va-nav-breadcrumbs-list"
-        id="va-breadcrumb-facility-list"
+        id="va-breadcrumbs-facility-list"
         role="menubar">
         <li><a href="/">Home</a></li>
         <li><Link to="/">Facility Locator</Link></li>
@@ -34,7 +34,7 @@ class Breadcrumbs extends Component {
       <nav
         aria-label="Breadcrumb"
         className="va-nav-breadcrumbs"
-        id="va-breadcrumb-facility">
+        id="va-breadcrumbs-facility">
         { this.renderBreadcrumbs() }
       </nav>
     );

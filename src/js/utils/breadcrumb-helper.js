@@ -6,6 +6,12 @@ const config = {
   triggerWidth: 425,
 };
 
+/**
+ * ========================================
+ * HELPER METHODS
+ * ========================================
+ */
+
 // https://davidwalsh.name/javascript-debounce-function
 function _debounce(func, wait, immediate) {
   // Time to wait in milliseconds
@@ -14,7 +20,6 @@ function _debounce(func, wait, immediate) {
   return (...args) => {
     const later = () => {
       timeout = null;
-
       if (!immediate) func.apply(this, args);
     };
     const callNow = immediate && !timeout;
@@ -33,6 +38,15 @@ function _debounce(func, wait, immediate) {
   };
 }
 
+function _isElement(el) {
+  return el instanceof Element;
+}
+
+/**
+ * ========================================
+ * INTERNAL METHODS
+ * ========================================
+ */
 function addAriaCurrent(targetList) {
   const listItems = document.querySelectorAll(targetList);
   const listArr = Array.prototype.slice.call(listItems);
@@ -46,6 +60,12 @@ function addAriaCurrent(targetList) {
 }
 
 function cloneList(target, targetId) {
+  const removedClone = document.getElementById(`${targetId}-clone`);
+
+  if (_isElement(removedClone)) {
+    removedClone.remove();
+  }
+
   const clone = target.cloneNode();
 
   clone.setAttribute('id', `${targetId}-clone`);
@@ -55,23 +75,29 @@ function cloneList(target, targetId) {
 }
 
 function sliceMobileLink(targetId) {
+  // Targeted unordered list and cloned list
   const target = document.getElementById(targetId);
   const clonedTarget = target.cloneNode(true);
-  const targetList = clonedTarget.children;
 
+  // Cloned list items and array conversion
+  const targetList = clonedTarget.children;
   const listArr = Array.prototype.slice.call(targetList);
 
-  const breadcrumbLink = listArr.slice(-2, -1);
-  const textString = breadcrumbLink[0].children[0].innerText.trim();
+  // The second to last list item and child link being
+  // manipulated to pull off the "Back by one" mobile
+  // breadcrumb handling
+  const breadcrumbList = listArr.slice(-2, -1);
+  const breadcrumbLink = breadcrumbList[0].children[0];
 
-  breadcrumbLink[0].classList.add(config.mobileClass);
-  breadcrumbLink[0].children[0].innerText = textString;
-  breadcrumbLink[0].children[0].setAttribute(
+  breadcrumbList[0].classList.add(config.mobileClass);
+  breadcrumbLink.innerText = breadcrumbLink.innerText.trim();
+  breadcrumbLink.removeAttribute('aria-current');
+  breadcrumbLink.setAttribute(
     'aria-label',
-    `Previous step: ${textString.trim()}`
+    `Previous step: ${breadcrumbLink.innerText}`
   );
 
-  return breadcrumbLink;
+  return breadcrumbList;
 }
 
 function toggleLinks(targetId) {
@@ -87,8 +113,18 @@ function toggleLinks(targetId) {
   }
 }
 
+/**
+ * ========================================
+ * EXPORTED METHOD & CONST
+ * 
+ * The exported const debouncedToggleLinks
+ * is a way to listen for resize events,
+ * and delay the class toggles by 500ms,
+ * per the triggerDelay key in the
+ * config object at the top of the scrip
+ * ========================================
+ */
 export function buildMobileBreadcrumb(parentId, targetId) {
-  console.log('called buildMobileBreadcrumb');
   const container = document.getElementById(parentId);
   const target = document.getElementById(targetId);
 
@@ -99,6 +135,9 @@ export function buildMobileBreadcrumb(parentId, targetId) {
   // decide page width first, then determine which
   // breadcrumb to show.
   target.classList.add(config.jsHiddenClass);
+
+  // Add aria-current attribute to last standard link
+  addAriaCurrent(`#${targetId} li`);
 
   // Append the sliced mobile breadcrumb to cloned <ul>
   clonedList.appendChild(mobileLink[0]);
@@ -113,13 +152,15 @@ export function buildMobileBreadcrumb(parentId, targetId) {
     target.classList.remove(config.jsHiddenClass);
   }
 
-  // Add aria-current attribute to last standard link
-  addAriaCurrent(`#${targetId} li`);
-
-  // Reveal the correct breadcrumb list
+  // Reveal the correct breadcrumb list by removing
+  // our .js-visibility { visibility: hidden; } class
   container.classList.remove(config.jsVisualClass);
 }
 
+// Ready access to the debounced toggleLinks method. This
+// gives us a sure way to listen for resize, and not be
+// adding or removing classes without a reasonable delay.
+// Saves CPU resources and offers a smoother user experience.
 export const debouncedToggleLinks = _debounce(targetId => {
   toggleLinks(targetId);
 }, config.triggerDelay);

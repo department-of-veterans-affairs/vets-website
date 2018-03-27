@@ -9,7 +9,7 @@ module.exports = (files, metalsmith, done) => {
     const data = files[file];
     const $ = cheerio.load(data.contents.toString());
 
-    $('#va-breadcrumb').each(() => {
+    $('#va-breadcrumbs').each(() => {
       $.root().append(
         '<script type="text/javascript" src="/js/breadcrumbs/mobile-breadcrumb.js"></script>'
       );

@@ -3,14 +3,14 @@ import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcr
 
 class Breadcrumbs extends Component {
   componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumb-discharge', 'va-breadcrumb-discharge-list');
+    buildMobileBreadcrumb('va-breadcrumbs-discharge', 'va-breadcrumbs-discharge-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
     });
 
     window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumb-discharge-list');
+      debouncedToggleLinks('va-breadcrumbs-discharge-list');
       debouncedToggleLinks.bind(this);
     });
   }
@@ -30,10 +30,10 @@ class Breadcrumbs extends Component {
       <nav
         aria-label="Breadcrumbs"
         className="va-nav-breadcrumbs"
-        id="va-breadcrumb-discharge">
+        id="va-breadcrumbs-discharge">
         <ul
           className="row va-nav-breadcrumbs-list columns"
-          id="va-breadcrumb-discharge-list"
+          id="va-breadcrumbs-discharge-list"
           role="menubar">
           <li><a href="/" id="dw-home-link">Home</a></li>
           <li><a href="/discharge-upgrade-instructions/">Discharge Upgrade Instructions</a></li>
