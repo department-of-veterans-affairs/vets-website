@@ -31,7 +31,7 @@ Without a break in service, you then spent the rest of your obligated service:
   - On active duty in the Armed Forces, **or**
   - In the Selected Reserve, **or**
   -	In the Individual Ready Reserve, **or**
-  -	In AmeriCorps, or another domestic national service program jointly designated by the Secretary of Defense.
+  -	In AmeriCorps, or another domestic national service program jointly designated by the Secretary of Defense
 
 ### Who’s covered?
 Veterans
