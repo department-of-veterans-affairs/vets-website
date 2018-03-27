@@ -20,10 +20,10 @@ module.exports = E2eHelpers.createE2eTest(
     LettersHelpers.initApplicationMock(token);
 
     // Ensure main status page renders.
-    LoginHelpers.logIn(token, client, '/download-va-letters/letters', 3)
+    LoginHelpers.logIn(token, client, '/letters', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
-      .assert.title('Download VA Letters and Documents: Vets.gov')
+      .assert.title('Download VA Letters: Vets.gov')
       .waitForElementVisible('.letters', Timeouts.slow);  // First render of React may be slow.
 
     client.axeCheck('.main');
