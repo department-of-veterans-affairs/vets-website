@@ -451,7 +451,7 @@ if (options.watch) {
         { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
         { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
         { from: '^/health-care/prescriptions(.*)', to: '/health-care/prescriptions/' },
-        { from: '^/letters(.*)', to: '/letters/' },
+        { from: '^/download-va-letters/letters(.*)', to: '/download-va-letters/letters/' },
         { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
         { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
         { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
@@ -616,7 +616,7 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/veteran-id-card/apply',
         '/veteran-id-card/how-to-get',
         '/disability-benefits/apply-for-increase',
-        '/letters'].join('|'))
+        '/download-va-letters/letters'].join('|'))
   }));
 }
 

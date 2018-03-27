@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
       '/health-care/health-records',
       '/health-care/messaging',
       '/health-care/prescriptions',
-      '/letters',
+      'download-va-letters/letters',
       '/track-claims',
     ];
 
