@@ -19,7 +19,9 @@ import {
   FETCH_VA_PROFILE_SUCCESS,
   FETCH_VA_PROFILE_FAIL,
 
-  OPEN_MODAL
+  OPEN_MODAL,
+
+  UPDATE_PROFILE_FORM_FIELD
 } from '../actions';
 
 const initialState = {
@@ -34,7 +36,8 @@ const initialState = {
   serviceHistory: null,
   pendingSaves: [],
   errors: [],
-  loading: true
+  loading: true,
+  formFields: {}
 };
 
 function vaProfile(state = initialState, action) {
@@ -56,6 +59,11 @@ function vaProfile(state = initialState, action) {
     case OPEN_MODAL: {
       const modal = action.modal;
       return { ...state, modal };
+    }
+
+    case UPDATE_PROFILE_FORM_FIELD: {
+      const formFields = { ...state.formFields, [action.field]: action.newState };
+      return { ...state, formFields };
     }
 
     case SAVE_EMAIL_ADDRESS:
