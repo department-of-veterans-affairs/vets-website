@@ -59,9 +59,11 @@ async function runUnitTests(unitTests = allUnitTests) {
         }
 
         // if change is from a src file, recursively uncache each unit test and run them all
-        if (file.includes('src')) {
+        if (file.includes('src') && unitTestsForSrc[file]) {
           unitTestsForSrc[file].forEach(unitTest => uncache(unitTest));
           runUnitTests(unitTestsForSrc[file]);
+        } else {
+          console.log(chalk.yellow(`${path.basename(file)} changed - no unit tests found`));
         }
       });
   }
