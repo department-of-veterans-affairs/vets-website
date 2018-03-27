@@ -450,7 +450,6 @@ const formConfig = {
               items: {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
-                    allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
@@ -533,10 +532,7 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
-          depends: (formData, index) => {
-            const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
-            return hasOtherEvidence;
-          },
+          depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
           arrayPath: 'disabilities',
@@ -545,7 +541,6 @@ const formConfig = {
               items: {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
-                    allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
