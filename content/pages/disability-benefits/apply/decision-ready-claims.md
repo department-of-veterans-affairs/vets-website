@@ -103,6 +103,9 @@ You can't file your claim through the DRC program if any of the exclusions liste
 - An incarcerated Veteran
 - Living outside of the U.S.
 
+</div>
+</div>
+
 **Check more exclusions for certain claim types:**
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -135,8 +138,6 @@ You can't file your DIC claim through the DRC program if any of the below factor
 </li>
 </ul>
 
-</div>
-</div>
 </div>
 
 ### How do I file a DRC?
