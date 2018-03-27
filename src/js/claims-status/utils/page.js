@@ -2,7 +2,6 @@ import Scroll from 'react-scroll';
 
 const scroller = Scroll.animateScroll;
 
-export const basename = '/track-claims';
 import { getScrollOptions } from '../../common/utils/helpers';
 
 export function scrollToTop() {

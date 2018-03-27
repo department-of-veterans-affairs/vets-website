@@ -71,6 +71,16 @@ const runTest = E2eHelpers.createE2eTest(
       client.click('.usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/private-medical-records-release');
 
+      // Record upload
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/documents');
+
+      // Additional document upload
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/additionalDocuments');
+
       // Second Disability Evidence Type
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
