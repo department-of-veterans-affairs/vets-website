@@ -73,8 +73,6 @@ describe('Child information page', () => {
     formDOM.submitForm(form);
     const errors = formDOM.querySelectorAll('.usa-input-error-label');
 
-    errors.forEach(e => console.log(e.getAttribute('for'))); // eslint-disable-line no-console
-
     expect(errors.length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
