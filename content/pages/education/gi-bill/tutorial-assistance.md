@@ -9,7 +9,7 @@ order: 12
 
 <div class="va-introtext">
 
-If you’re using VA educational assistance, and you’re struggling with the course work, we may help you pay for a tutor. Find out how it works.
+If you’re using VA educational assistance, and you’re struggling with the coursework, we may help you pay for a tutor. Find out how it works.
 
 </div>
 
