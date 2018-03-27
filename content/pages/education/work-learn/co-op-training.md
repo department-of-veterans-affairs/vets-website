@@ -17,7 +17,11 @@ A college or university co-op training program lets you get full-time work exper
 <div class="feature" markdown="1">
 
 ### Can I get education benefits for co-op training?
-You may be able to get money for books, tuition, and housing if **all of the following are true for you**:
+
+You may be able to get money for books, tuition, and housing if you meet all of the requirements listed below.
+
+**All of these must be true:**
+
 - You’re using VA educational assistance, **and**
 - You’re enrolled at an approved Institution of Higher Learning (IHL), **and**
 - You’re in an educational program that requires part-time study and part-time work or training
