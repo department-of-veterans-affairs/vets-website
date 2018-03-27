@@ -1,40 +1,49 @@
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import React from 'react';
+import Breadcrumbs from '../components/Breadcrumbs';
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcrumb-helper';
 
 class FacilityLocatorApp extends React.Component {
-  renderBreadcrumbs() {
-    const { location, selectedFacility } = this.props;
+  componentDidMount() {
+    buildMobileBreadcrumb('va-breadcrumb-facility', 'va-breadcrumb-facility-list');
 
-    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
-      return (
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li>
-            <Link to="/">
-              Facility Locator
-            </Link>
-          </li>
-        </ul>
-      );
-    }
+    window.addEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
 
-    return (
-      <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-        <li><a href="/">Home</a></li>
-      </ul>
-    );
+    window.addEventListener('resize', () => {
+      debouncedToggleLinks('va-breadcrumb-facility-list');
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
+  componentDidUpdate() {
+    buildMobileBreadcrumb('va-breadcrumb-facility', 'va-breadcrumb-facility-list');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.removeEventListener('resize', () => {
+      debouncedToggleLinks.bind(this);
+    });
   }
 
   render() {
+    const { selectedFacility } = this.props;
+
     return (
       <div>
         <div className="row">
           <div className="title-section">
-            <nav className="va-nav-breadcrumbs">
-              {this.renderBreadcrumbs()}
-            </nav>
+            <Breadcrumbs selectedFacility={selectedFacility}/>
           </div>
           <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
             <div className="facility-locator">

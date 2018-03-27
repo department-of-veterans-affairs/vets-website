@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcrumb-helper';
 
-class Breadcrumbs extends React.Component {
+class Breadcrumbs extends Component {
   componentDidMount() {
-    buildMobileBreadcrumb('va-breadcrumb-claims', 'va-breadcrumb-claims-list');
+    buildMobileBreadcrumb('va-breadcrumb-discharge', 'va-breadcrumb-discharge-list');
 
     window.addEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
     });
 
     window.addEventListener('resize', () => {
-      debouncedToggleLinks('va-breadcrumb-claims-list');
+      debouncedToggleLinks('va-breadcrumb-discharge-list');
       debouncedToggleLinks.bind(this);
     });
   }
@@ -28,16 +28,15 @@ class Breadcrumbs extends React.Component {
   render() {
     return (
       <nav
-        aria-label="Breadcrumb"
+        aria-label="Breadcrumbs"
         className="va-nav-breadcrumbs"
-        id="va-breadcrumb-claims">
+        id="va-breadcrumb-discharge">
         <ul
-          className="row va-nav-breadcrumbs-list columns claims-breadcrumbs"
-          id="va-breadcrumb-claims-list"
+          className="row va-nav-breadcrumbs-list columns"
+          id="va-breadcrumb-discharge-list"
           role="menubar">
-          <li><a href="/" key="home">Home</a></li>
-          <li><a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a></li>
-          <li><a href="/track-claims/your-claims/" key="your-claims">Your Claims</a></li>
+          <li><a href="/" id="dw-home-link">Home</a></li>
+          <li><a href="/discharge-upgrade-instructions/">Discharge Upgrade Instructions</a></li>
         </ul>
       </nav>
     );

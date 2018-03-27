@@ -1,8 +1,32 @@
 import { Link, browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../../utils/breadcrumb-helper';
 
 class Breadcrumbs extends React.Component {
+  componentDidMount() {
+    buildMobileBreadcrumb('va-breadcrumb-education', 'va-breadcrumb-education-list');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.addEventListener('resize', () => {
+      debouncedToggleLinks('va-breadcrumb-education-list');
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.removeEventListener('resize', () => {
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
   render() {
     const { pathname, query: { version } } = this.props.location;
 
@@ -24,8 +48,14 @@ class Breadcrumbs extends React.Component {
     }
 
     return (
-      <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+      <nav
+        aria-label="Breadcrumb"
+        className="va-nav-breadcrumbs"
+        id="va-breadcrumb-education">
+        <ul
+          className="row va-nav-breadcrumbs-list columns"
+          id="va-breadcrumb-education-list"
+          role="menubar">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;
           })}

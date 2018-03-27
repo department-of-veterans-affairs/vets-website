@@ -1,7 +1,31 @@
 import { Link } from 'react-router';
 import React from 'react';
+import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcrumb-helper';
 
 class Breadcrumbs extends React.Component {
+  componentDidMount() {
+    buildMobileBreadcrumb('va-breadcrumb-healthcare', 'va-breadcrumb-healthcare-list');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.addEventListener('resize', () => {
+      debouncedToggleLinks('va-breadcrumb-healthcare-list');
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.removeEventListener('resize', () => {
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
   render() {
     const { location: { pathname } } = this.props;
 
@@ -12,14 +36,26 @@ class Breadcrumbs extends React.Component {
 
     if (pathname.match(/download\/?$/)) {
       crumbs.push(<Link to="/" key="main">Get Your VA Health Records</Link>);
-      crumbs.push(<span key="download"><strong>Download Your Health Records</strong></span>);
+      crumbs.push(<Link to="/" key="download">Download Your VA Health Records</Link>);
     } else {
-      crumbs.push(<span key="main"><strong>Get Your VA Health Records</strong></span>);
+      crumbs.push(<Link to="/" key="main">Get Your VA Health Records</Link>);
     }
 
-    return (<div className="bb-breadcrumbs">
-      {crumbs.reduce((content, e) => { return [...content, ' › ', e]; }, []).slice(1)}
-    </div>);
+    return (
+      <nav
+        aria-label="Breadcrumb"
+        className="va-nav-breadcrumbs"
+        id="va-breadcrumb-healthcare">
+        <ul
+          className="row va-nav-breadcrumbs-list columns"
+          id="va-breadcrumb-healthcare-list"
+          role="menubar">
+          {crumbs.map((c, i) => {
+            return <li key={i}>{c}</li>;
+          })}
+        </ul>
+      </nav>
+    );
   }
 }
 

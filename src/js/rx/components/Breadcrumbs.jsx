@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Link } from 'react-router';
 import React from 'react';
+import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcrumb-helper';
 
 class Breadcrumbs extends React.Component {
   constructor(props) {
@@ -11,10 +12,33 @@ class Breadcrumbs extends React.Component {
     };
   }
 
+  componentDidMount() {
+    buildMobileBreadcrumb('va-breadcrumb-prescriptions', 'va-breadcrumb-prescriptions-list');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.addEventListener('resize', () => {
+      debouncedToggleLinks('va-breadcrumb-prescriptions-list');
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       this.setState({ prevPath: this.props.location.pathname });
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.removeEventListener('resize', () => {
+      debouncedToggleLinks.bind(this);
+    });
   }
 
   render() {
@@ -58,8 +82,14 @@ class Breadcrumbs extends React.Component {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
     }
     return (
-      <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+      <nav
+        aria-label="Breadcrumb"
+        className="va-nav-breadcrumbs"
+        id="va-breadcrumb-prescriptions">
+        <ul
+          className="row va-nav-breadcrumbs-list columns"
+          id="va-breadcrumb-prescriptions-list"
+          role="menubar">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;
           })}
