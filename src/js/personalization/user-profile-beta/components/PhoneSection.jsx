@@ -6,23 +6,23 @@ import LoadingButton from './LoadingButton';
 
 class EditPhoneModal extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { phoneResponseData: props.phoneResponseData || {} };
+  componentDidMount() {
+    const defaultFieldValue = this.props.phoneResponseData || {};
+    this.props.onChange(defaultFieldValue);
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.phoneResponseData);
+    this.props.onSubmit(this.props.field.value);
   }
 
   onChange = (field) => {
     return ({ target: { value } }) => {
-      const phoneResponseData = {
-        ...this.state.phoneResponseData,
+      const newFieldValue = {
+        ...this.props.field.value,
         [field]: value
       };
-      this.setState({ phoneResponseData });
+      this.props.onChange(newFieldValue);
     };
   }
 
@@ -31,22 +31,24 @@ class EditPhoneModal extends React.Component {
     return (
       <Modal id="profile-phone-modal" onClose={onClose} visible>
         <h3>{title}</h3>
-        <form onSubmit={this.onSubmit}>
-          <label htmlFor="cc">Country Code</label>
-          <input type="text" name="cc" onChange={this.onChange('countyCode')} value={this.state.phoneResponseData.countryCode}/>
-          <label htmlFor="number">Number</label>
-          <input type="text" name="number" onChange={this.onChange('number')} value={this.state.phoneResponseData.number}/>
-          <label htmlFor="ex">Extension</label>
-          <input type="text" name="ex" onChange={this.onChange('extension')} value={this.state.phoneResponseData.extension}/>
-          <LoadingButton isLoading={this.props.isLoading}>Save Phone</LoadingButton>
-        </form>
+        {this.props.field && (
+          <form onSubmit={this.onSubmit}>
+            <label htmlFor="cc">Country Code</label>
+            <input type="text" name="cc" onChange={this.onChange('countyCode')} value={this.props.field.value.countryCode}/>
+            <label htmlFor="number">Number</label>
+            <input type="text" name="number" onChange={this.onChange('number')} value={this.props.field.value.number}/>
+            <label htmlFor="ex">Extension</label>
+            <input type="text" name="ex" onChange={this.onChange('extension')} value={this.props.field.value.extension}/>
+            <LoadingButton isLoading={this.props.isLoading}>Save Phone</LoadingButton>
+          </form>
+        )}
       </Modal>
     );
   }
 }
 
 
-export default function PhoneSection({ phoneResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneResponseData, title, field, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let phoneDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
   let modal = null;
 
@@ -61,6 +63,8 @@ export default function PhoneSection({ phoneResponseData, title, isEditing, isLo
     modal = (
       <EditPhoneModal
         title={`Edit ${title.toLowerCase()}`}
+        field={field}
+        onChange={onChange}
         phoneResponseData={phoneResponseData}
         onSubmit={onSubmit}
         isLoading={isLoading}
