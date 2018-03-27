@@ -20,7 +20,7 @@ function validatePostalCodes(errors, address) {
   }
 }
 
-const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
+export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 
 function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:

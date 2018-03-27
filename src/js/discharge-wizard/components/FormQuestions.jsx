@@ -111,7 +111,7 @@ class FormQuestions extends React.Component {
       { label: questionLabels[key]['7'], value: '7' },
     ];
 
-    const label = <div><h4>Which of the following best describes why you want to change your discharge paperwork? Choose the one that's closest to your situation.</h4><p><strong>Note:</strong> If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.</p></div>;
+    const label = <div><h4>Which of the following best describes why you want to change your discharge paperwork? Choose the one that’s closest to your situation.</h4><p><strong>Note:</strong> If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.</p></div>;
 
     return this.renderQuestion(key, label, options);
   }
@@ -134,7 +134,7 @@ class FormQuestions extends React.Component {
     // explicit override for dd214 condition
     if (this.props.formValues['4_reason'] === '8') { return null; }
 
-    const label = <h4>Do you want to change your name, discharge date, or anything written in the "other remarks" section of your DD214?</h4>;
+    const label = <h4>Do you want to change your name, discharge date, or anything written in the “other remarks” section of your DD214?</h4>;
     const options = [
       { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
       { label: `No, ${questionLabels[key][2]}`, value: '2' },
@@ -293,7 +293,7 @@ class FormQuestions extends React.Component {
 
     if (!shouldShowQuestion(key, formValues.questions)) { return null; }
 
-    const prevApplicationTypeLabel = <h4>Was your application denied due to "failure to exhaust other remedies"? Note: "Failure to exhaust other remedies" generally means you applied to the wrong board.</h4>;
+    const prevApplicationTypeLabel = <h4>Was your application denied due to “failure to exhaust other remedies”? Note: “Failure to exhaust other remedies” generally means you applied to the wrong board.</h4>;
 
     let boardLabel = 'BCMR';
     if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
@@ -301,7 +301,7 @@ class FormQuestions extends React.Component {
     }
 
     const prevApplicationTypeOptions = [
-      { label: `Yes, the ${boardLabel} denied my application due to "failure to exhaust other remedies."`, value: '1' },
+      { label: `Yes, the ${boardLabel} denied my application due to “failure to exhaust other remedies.”`, value: '1' },
       { label: `No, the ${boardLabel} denied my application for other reasons, such as not agreeing with the evidence in my application.`, value: '2' },
     ];
 

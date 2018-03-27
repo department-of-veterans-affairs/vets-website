@@ -1,39 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import Modal from '../../common/components/Modal';
-import AlertBox from '../../common/components/AlertBox';
 import _ from 'lodash';
-
 import moment from 'moment';
 
-import { getMultifactorUrl, handleMultifactor } from '../../common/helpers/login-helpers';
-import { updateMultifactorUrl } from '../../login/actions';
-
-import {
-  fetchLatestTerms,
-  acceptTerms,
-} from '../actions';
+import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
+import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Modal from '../../common/components/Modal';
+import { mfa } from '../../login/utils/helpers';
+import { fetchLatestTerms, acceptTerms } from '../actions';
 
 class UserDataSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
-    this.getMultifactorUrl();
-    this.handleMultifactorRequest = this.handleMultifactorRequest.bind(this);
-  }
-
-  componentWillUnmount() {
-    this.multifactorUrlRequest.abort();
-  }
-
-  getMultifactorUrl() {
-    this.multifactorUrlRequest = getMultifactorUrl(this.props.updateMultifactorUrl);
-  }
-
-  handleMultifactorRequest() {
-    handleMultifactor(this.props.login.multifactorUrl);
   }
 
   openModal = () => {
@@ -94,7 +74,7 @@ class UserDataSection extends React.Component {
     const content = (
       <div>
         <p>For additional protection, we encourage you to add a second security step for signing in to your account.</p>
-        <button className="usa-button usa-button-secondary" onClick={this.handleMultifactorRequest}>Add security step</button>
+        <button className="usa-button usa-button-secondary" onClick={mfa}>Add security step</button>
       </div>
     );
 
@@ -173,8 +153,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchLatestTerms,
-  acceptTerms,
-  updateMultifactorUrl,
+  acceptTerms
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataSection);
