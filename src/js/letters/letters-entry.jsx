@@ -16,7 +16,7 @@ import initCommon from '../common/init-common';
 
 const store = initCommon(reducer);
 const history = useRouterHistory(createHistory)({
-  basename: '/download-va-letters/letters'
+  basename: '/letters'
 });
 
 function init() {
