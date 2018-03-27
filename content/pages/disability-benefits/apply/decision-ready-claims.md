@@ -5,7 +5,7 @@ description:
 concurrence: incomplete
 plainlanguage: 
 template: detail-page
-order: 6
+order: 3
 relatedlinks:
   - heading: More information about filing disability claims
     links:
@@ -41,10 +41,10 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 **Right now, you can file these types of claims through the DRC program:**
 
 - **Direct service connection claim** for a condition that began during your military service or was caused by an event while serving
-- **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link. This includes conditions related to Agent Orange, chronic disailibilities, and conditions tied to service during the Gulf War (like fibromyalgia, chronic fatigue syndrome, and functional gastrointestinal disorders).
+- **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **Dependency and indemnity compensation (DIC) claim** as the surviving spouse of a Veteran who died due to a service-related injury or disease and had a 100% disabled rating due to a service-connected condition, including entitlement to Individual Unemployability, for 10 years before they died
+- **[Dependency and indemnity compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the surviving spouse of a Veteran who died due to a service-related injury or illness
 - **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
@@ -78,13 +78,6 @@ You can file a DRC if you meet all of the requirements listed below.
 
 You can't file your claim through the DRC program if any of the exclusions listed below apply to you.
 
-**Review exclusions for:**<br>
-[All DRC claims](#all)<br>
-[Pre-discharge claims](#pre-discharge)<br>
-[Dependency and indemnity compensation (DIC) claims)](#dic)
-
-<br>
-
 <span id="all"></span>
 <h4>Exclusions for all DRC claims</h4>
 
@@ -110,10 +103,12 @@ You can't file your claim through the DRC program if any of the exclusions liste
 - An incarcerated Veteran
 - Living outside of the U.S.
 
-<br>
-
-<span id="pre-discharge"></span>
-<h4>Exclusions for pre-discharge claims</h4>
+**Check more exclusions for certain claim types:**
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-predischarge">More exclusions for pre-discharge claims</button>
+<div id="exclusions-predischarge" class="usa-accordion-content">
 
 You can't file your pre-discharge claim through the DRC program if any of the below factors are true for you.
 
@@ -124,16 +119,21 @@ You can't file your pre-discharge claim through the DRC program if any of the be
 - Requiring a character of discharge determination, **or**
 - For aggravation of a condition that pre-existed service or was noted at the time of entry into service (unless evidence of pre-service baseline severity is provided)
 
-<br>
-
-<span id="dic"></span>
-<h4>Exclusions for dependency and indemnity compensation (DIC) claims</h4>
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-dic">More exclusions for dependency and indemnity compensation (DIC) claims</button>
+<div id="exclusions-predischarge" class="usa-accordion-content">
 
 You can't file your DIC claim through the DRC program if any of the below factors are true for you.
 
 **None of these can be true. You can't be filing:**
 - A claim for parents' DIC, **or**
 - A burial claim (unless it's submitted with a DRC-eligible DIC claim)
+
+</div>
+</li>
+</ul>
 
 </div>
 </div>
@@ -198,3 +198,5 @@ Within 30 days or less from the time you submit your claim.
 [Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf)
 
 Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
