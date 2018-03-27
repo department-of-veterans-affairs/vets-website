@@ -17,7 +17,7 @@ Were you part of testing or storing Agent Orange on bases in the United States o
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you meet both of the descriptions listed below. 
+You may be able to get disability benefits if you meet both of the requirements listed below. 
 
 **Both of these must be true:**
 - You have 1 or more illnesses believed to be caused by Agent Orange, **and**
