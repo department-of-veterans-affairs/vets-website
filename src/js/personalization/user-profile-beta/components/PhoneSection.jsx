@@ -1,5 +1,6 @@
 import React from 'react';
 import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '../../../common/components/Modal';
 import LoadingButton from './LoadingButton';
@@ -17,7 +18,7 @@ class EditPhoneModal extends React.Component {
   }
 
   onChange = (field) => {
-    return ({ target: { value } }) => {
+    return ({ value }) => {
       const newFieldValue = {
         ...this.props.field.value,
         [field]: value
@@ -27,19 +28,35 @@ class EditPhoneModal extends React.Component {
   }
 
   render() {
-    const { title, onClose } = this.props;
+    const {
+      title,
+      onClose,
+      isLoading,
+      field
+    } = this.props;
+
     return (
       <Modal id="profile-phone-modal" onClose={onClose} visible>
         <h3>{title}</h3>
-        {this.props.field && (
+        {field && (
           <form onSubmit={this.onSubmit}>
-            <label htmlFor="cc">Country Code</label>
-            <input type="text" name="cc" onChange={this.onChange('countyCode')} value={this.props.field.value.countryCode}/>
-            <label htmlFor="number">Number</label>
-            <input type="text" name="number" onChange={this.onChange('number')} value={this.props.field.value.number}/>
-            <label htmlFor="ex">Extension</label>
-            <input type="text" name="ex" onChange={this.onChange('extension')} value={this.props.field.value.extension}/>
-            <LoadingButton isLoading={this.props.isLoading}>Save Phone</LoadingButton>
+
+            <ErrorableTextInput
+              label="Country Code"
+              field={{ value: field.value.countryCode, dirty: false }}
+              onValueChange={this.onChange('countryCode')}/>
+
+            <ErrorableTextInput
+              label="Number"
+              field={{ value: field.value.number, dirty: false }}
+              onValueChange={this.onChange('number')}/>
+
+            <ErrorableTextInput
+              label="Extension"
+              field={{ value: field.value.extension, dirty: false }}
+              onValueChange={this.onChange('extension')}/>
+
+            <LoadingButton isLoading={isLoading}>Save Phone</LoadingButton>
           </form>
         )}
       </Modal>

@@ -1,6 +1,7 @@
 import React from 'react';
-import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '../../../common/components/Modal';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
 
 class EditEmailModal extends React.Component {
@@ -15,20 +16,30 @@ class EditEmailModal extends React.Component {
     this.props.onSubmit(this.props.field.value);
   }
 
-  onChange = ({ target: { value: email } }) => {
+  onChange = ({ value: email }) => {
     const newFieldValue = { ...this.props.field.value, email };
     this.props.onChange(newFieldValue);
   }
 
   render() {
-    const { title, onClose } = this.props;
+    const {
+      title,
+      onClose,
+      isLoading,
+      field
+    } = this.props;
+
     return (
       <Modal id="profile-email-modal" onClose={onClose} visible>
         <h3>{title}</h3>
-        {this.props.field && (
+        {field && (
           <form onSubmit={this.onSubmit}>
-            <input type="email" onChange={this.onChange} value={this.props.field.value.email}/>
-            <LoadingButton isLoading={this.props.isLoading}>Save Email</LoadingButton>
+            <ErrorableTextInput
+              label="Email Address"
+              field={{ value: field.value.email, dirty: false }}
+              errorMessage={field.errorMessage}
+              onValueChange={this.onChange}/>
+            <LoadingButton isLoading={isLoading}>Save Email</LoadingButton>
           </form>
         )}
       </Modal>

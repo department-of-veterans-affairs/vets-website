@@ -1,4 +1,5 @@
 import { apiRequest } from '../../../common/helpers/api';
+import { isValidEmail, isValidPhone } from '../../../common/utils/validations';
 
 export const OPEN_MODAL = 'OPEN_MODAL';
 
@@ -108,11 +109,19 @@ export function openModal(modal) {
   return { type: OPEN_MODAL, modal };
 }
 
+function validateEmail({ email }) {
+  return isValidEmail(email) ? '' : 'Please enter a valid email.';
+}
+
+function validateTelephone({ number }) {
+  return isValidPhone(number) ? '' : 'Please enter a valid phone.';
+}
+
 export const updateFormField = {
-  email: updateProfileFormField('email'),
+  email: updateProfileFormField('email', validateEmail),
   mailingAddress: updateProfileFormField('mailingAddress'),
-  primaryTelephone: updateProfileFormField('primaryTelephone'),
-  alternateTelephone: updateProfileFormField('alternateTelephone')
+  primaryTelephone: updateProfileFormField('primaryTelephone', validateTelephone),
+  alternateTelephone: updateProfileFormField('alternateTelephone', validateTelephone)
 };
 
 export const saveField = {
