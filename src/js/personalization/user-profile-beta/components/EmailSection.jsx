@@ -7,18 +7,19 @@ import LoadingButton from './LoadingButton';
 class EditEmailModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.emailResponseData || {};
+    const defaultFieldValue = this.props.emailResponseData || { email: '' };
     this.props.onChange(defaultFieldValue);
   }
 
   onSubmit = (event) => {
     event.preventDefault();
+    if (this.props.field.errorMessage) return;
     this.props.onSubmit(this.props.field.value);
   }
 
-  onChange = ({ value: email }) => {
+  onChange = ({ value: email, dirty }) => {
     const newFieldValue = { ...this.props.field.value, email };
-    this.props.onChange(newFieldValue);
+    this.props.onChange(newFieldValue, dirty);
   }
 
   render() {

@@ -34,6 +34,7 @@ const initialState = {
   alternateTelephone: null,
   mailingAddress: null,
   serviceHistory: null,
+  modal: null,
   pendingSaves: [],
   errors: [],
   loading: true,

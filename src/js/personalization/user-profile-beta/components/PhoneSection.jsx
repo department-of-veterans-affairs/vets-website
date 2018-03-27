@@ -8,22 +8,23 @@ import LoadingButton from './LoadingButton';
 class EditPhoneModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.phoneResponseData || {};
+    const defaultFieldValue = this.props.phoneResponseData || { number: '' };
     this.props.onChange(defaultFieldValue);
   }
 
   onSubmit = (event) => {
     event.preventDefault();
+    if (this.props.field.errorMessage) return;
     this.props.onSubmit(this.props.field.value);
   }
 
   onChange = (field) => {
-    return ({ value }) => {
+    return ({ value, dirty }) => {
       const newFieldValue = {
         ...this.props.field.value,
         [field]: value
       };
-      this.props.onChange(newFieldValue);
+      this.props.onChange(newFieldValue, dirty);
     };
   }
 
@@ -49,7 +50,8 @@ class EditPhoneModal extends React.Component {
             <ErrorableTextInput
               label="Number"
               field={{ value: field.value.number, dirty: false }}
-              onValueChange={this.onChange('number')}/>
+              onValueChange={this.onChange('number')}
+              errorMessage={field.errorMessage}/>
 
             <ErrorableTextInput
               label="Extension"

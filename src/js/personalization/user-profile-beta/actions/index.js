@@ -30,8 +30,8 @@ export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
 export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
 
 function updateProfileFormField(field, validator) {
-  return (value) => {
-    const errorMessage = validator && validator(value);
+  return (value, dirty) => {
+    const errorMessage = validator && dirty ? validator(value) : '';
     return {
       type: UPDATE_PROFILE_FORM_FIELD,
       field,
