@@ -31,7 +31,7 @@ You may qualify if you’re a Veteran, and you or another Veteran at your compan
 
 #### What qualifies me as a Veteran?
 
-You’re considered a Veteran if either of the descriptions below are true for you.
+You’re considered a Veteran if you meet either of the descriptions listed below.
 
 **At least one of these must be true. You:**
 
@@ -134,4 +134,5 @@ Find out about these training programs offered by the Institute for Veterans and
 - [Entrepreneurship Bootcamp for Veterans with Disabilities (for post-9/11 Veterans with service-connected disabilities and their family caregivers)](http://ebv.vets.syr.edu/)
 - [Veteran Women Igniting the Spirit of Entrepreneurship (for women Veterans and female military spouses and partners)](https://ivmf.syracuse.edu/veteran-and-family-resources/starting-growing-a-business/v-wise/)<br>
 
-If you’re already open for business and want to sell to the federal government, the Procurement Technical Assistance Center (PTAC) can help with the required documentation and registration to bid on government contracts. [Find a PTAC near you](http://www.aptac-us.org/).
+If you’re already open for business and want to sell to the federal government, the Procurement Technical Assistance Center (PTAC) can help with the required documentation and registration to bid on government contracts.<br>
+[Find a PTAC near you](http://www.aptac-us.org/).
