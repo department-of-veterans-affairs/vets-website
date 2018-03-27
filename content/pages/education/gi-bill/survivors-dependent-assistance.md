@@ -32,8 +32,8 @@ If you’re a dependent spouse or child—or the surviving spouse or child—of 
 **You may qualify for education benefits if you’re the child or spouse of a Veteran** and one of the below descriptions is true of the Veteran.
 
 **One of these must be true:**
-- The Servicemember is permanently and totally disabled due to a service-connected disability, **or**
--	The Servicemember died while on active duty or as a result of a service-connected disability
+- The Veteran is permanently and totally disabled due to a service-connected disability, **or**
+-	The Veteran died while on active duty or as a result of a service-connected disability
 
 If you’re a dependent who doesn’t meet the above criteria, you may still qualify for education benefits if the Veteran or Servicemember transferred some or all of their Post-9/11 GI Bill entitlement to you while they were on active duty. <br>
 [Learn about transferred benefits](/education/gi-bill/transfer/).
