@@ -5,7 +5,7 @@ display_title: Claim Types and When to File
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityClaimTypes
-order: 2
+order: 1
 relatedlinks:
   - heading:
     links:
