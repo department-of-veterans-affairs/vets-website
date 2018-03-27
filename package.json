@@ -168,6 +168,7 @@
     "react-transition-group": "^1.1.2",
     "reactable": "^0.14.0",
     "recompose": "^0.21.2",
+    "recursive-uncache": "^0.1.1",
     "redbox-react": "^1.2.10",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
