@@ -50,7 +50,7 @@ You can get education benefits if you were honorably discharged and you meet the
 - You don’t qualify for MGIB under categories I or II, **and**
 - Before separation, you had military pay reduced by $1,200
 
-**And 1 of these is true:**
+**And one of these is true:**
 
 - You were on active duty on September 30, 1990, and you separated involuntarily (not by your choice) after February 2, 1991, **or**
 - You involuntarily separated on or after November 30, 1993, **or**
@@ -63,7 +63,7 @@ You can get education benefits if you were honorably discharged and you meet the
 -	You have a high school diploma, GED, or 12 hours of college credit, **and**
 - You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution (meaning you paid it all at once)
 
-**And 1 of these is true:**
+**And one of these is true:**
 
 - You were on active duty on October 9, 1996, had money left in a VEAP account on that date, and chose MGIB before October 9, 1997, **or**
 - You entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you chose MGIB between October 9, 1996, and July 9, 1997
