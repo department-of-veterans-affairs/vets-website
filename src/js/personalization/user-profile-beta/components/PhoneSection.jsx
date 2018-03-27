@@ -43,6 +43,7 @@ class EditPhoneModal extends React.Component {
           <form onSubmit={this.onSubmit}>
 
             <ErrorableTextInput
+              autoFocus
               label="Country Code"
               field={{ value: field.value.countryCode, dirty: false }}
               onValueChange={this.onChange('countryCode')}/>

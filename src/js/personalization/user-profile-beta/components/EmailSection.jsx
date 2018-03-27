@@ -36,6 +36,7 @@ class EditEmailModal extends React.Component {
         {field && (
           <form onSubmit={this.onSubmit}>
             <ErrorableTextInput
+              autoFocus
               label="Email Address"
               field={{ value: field.value.email, dirty: false }}
               errorMessage={field.errorMessage}
