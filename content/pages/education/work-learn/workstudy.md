@@ -24,7 +24,7 @@ You can be a part of VA’s work-study program if you’re enrolled at least thr
 
     - Post-9/11 GI Bill <br>
     ([Veterans](/education/gi-bill/post-9-11/) and <br>
-    [family members using transferred benefits](/education/gi-bill/transfer/))
+    [Family members using transferred benefits](/education/gi-bill/transfer/))
     - Montgomery GI Bill <br>
     [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and <br>
     [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
