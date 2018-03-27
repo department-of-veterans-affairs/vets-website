@@ -24,10 +24,10 @@ You can only get health care through CHAMPVA if you don’t qualify for TRICARE 
 
 **At least one of these must be true. You’re:**
 
-- The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional benefit office, **or**
-- The surviving spouse or child of a Veteran who died from a VA-rated service-connected disability, **or**
-- The surviving spouse or child of a Veteran who was at the time of death rated permanently and totally disabled from a service-connected disability, **or**
-- The surviving spouse or child of a Servicemember who died in the line of duty, not due to misconduct (in most of these cases, family members qualify for TRICARE, not CHAMPVA).
+* The spouse or child of a Veteran who’s been rated permanently and totally disabled for a service-connected disability by a VA regional benefit office, **or**
+* The surviving spouse or child of a Veteran who died from a VA-rated service-connected disability, **or**
+* The surviving spouse or child of a Veteran who was at the time of death rated permanently and totally disabled from a service-connected disability, **or**
+* The surviving spouse or child of a Servicemember who died in the line of duty, not due to misconduct (in most of these cases, family members qualify for TRICARE, not CHAMPVA).
 
 A service-connected disability is a disability that we’ve concluded was caused—or made worse—by the Veteran’s active-duty service. A permanent disability is one that's not expected to improve.
 
@@ -114,28 +114,29 @@ There are other factors that may affect whether you or other family members qual
 
 ### What benefits do I get with CHAMPVA?
 
-With CHAMPVA, you’ll be covered for services and supplies when we determine they are medically necessary and were received from an authorized provider. When providers are performing services within the scope of their license or certification, we consider them to be authorized. 
+With CHAMPVA, you’ll be covered for services and supplies when we determine they are medically necessary and were received from an authorized provider. When providers are performing services within the scope of their license or certification, we consider them to be authorized.
 
 **Covered services include:**
-- Ambulance service
-- Ambulatory surgery
-- Durable medical equipment (DME)
-- Family planning and maternity
-- Hospice
-- Inpatient services
-- Mental health services
-- Outpatient services
-- Pharmacy (prescription medicines)
-- Skilled nursing care
-- Transplants
+
+* Ambulance service
+* Ambulatory surgery
+* Durable medical equipment (DME)
+* Family planning and maternity
+* Hospice
+* Inpatient services
+* Mental health services
+* Outpatient services
+* Pharmacy (prescription medicines)
+* Skilled nursing care
+* Transplants
 
 When you’re signed up for CHAMPVA, you’ll get a copy of the CHAMPVA Program Guide. This guide will tell you more about covered and non-covered services and supplies.
 
-- [Download the CHAMPVA Program Guide](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/programguides/champva_guide.pdf).
+* [Download the CHAMPVA Program Guide](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/programguides/champva_guide.pdf).
 
-- [See a complete list of non-covered services and supplies in the CHAMPVA Policy Manual](https://www.vha.cc.va.gov/system/templates/selfservice/va_ss/#!portal/554400000001036?LANGUAGE=en&COUNTRY=us).
+* [See a complete list of non-covered services and supplies in the CHAMPVA Policy Manual](https://www.vha.cc.va.gov/system/templates/selfservice/va_ss/#!portal/554400000001036?LANGUAGE=en&COUNTRY=us).
 
-- [Download fact sheets on CHAMPVA benefits](https://www.va.gov/COMMUNITYCARE/pubs/factsheets.asp#champva).
+* [Download fact sheets on CHAMPVA benefits](https://www.va.gov/COMMUNITYCARE/pubs/factsheets.asp#champva).
 
 ### How do I get CHAMPVA benefits?
 
@@ -158,6 +159,7 @@ You’ll need to apply for these benefits.
   - School certification of full-time enrollment for children ages 18-23.<br> 
   [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
 
+
 **If you’re a surviving spouse who remarried but is once again single,** also send a copy of the legal document that ended your marriage. This may be a divorce decree, death certificate, or annulment decree.
 
 Be sure to sign and date your application. If your Veteran is applying for you as a spouse, be sure to also include the date of the marriage on the application.
@@ -173,23 +175,27 @@ Denver, CO 80246-9028
 
 Or fax it to: 1-303-331-7809
 
-
 ### What happens after I apply?
+
 Once we get your application, we’ll review it to be sure it’s complete and includes all required forms. If it’s not complete, we’ll return it to you with more instructions.<br> 
 [Download application instructions](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-03.pdf).
 
+
 ### How long will it take to hear back about my application?
+
 If you send us all required and optional documents—and if your application is complete—it’ll take about 6 weeks after we get your package until you get your CHAMPVA ID card and related materials.
 
 If you send us only the required documents, it may take 2 to 8 months since we’ll need to confirm your information with other federal agencies.
 
 ### Get more information
+
 [Get answers to frequently asked questions about CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/CHAMPVA_faq.asp).<br>
 [Find out how to file a CHAMPVA claim](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/champva_claim.asp).<br>
 [Find out if you can get care at a local VA medical center when you're covered under CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/citi/index.asp).
 <br>
 <br>
-<br>  
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<br>
+
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

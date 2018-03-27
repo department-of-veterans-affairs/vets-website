@@ -75,12 +75,29 @@ const enrollmentData = {
   }
 };
 
+const backendStatus = {
+  data: {
+    id: '',
+    type: 'backend_statuses',
+    attributes: {
+      name: 'gibs',
+      isAvailable: true
+    }
+  }
+};
+
 // Create API routes
 function initApplicationMock(token) {
   mock(token, {
     path: '/v0/post911_gi_bill_status',
     verb: 'get',
     value: enrollmentData
+  });
+
+  mock(token, {
+    path: '/v0/backend_statuses/gibs',
+    verb: 'get',
+    value: backendStatus
   });
 }
 

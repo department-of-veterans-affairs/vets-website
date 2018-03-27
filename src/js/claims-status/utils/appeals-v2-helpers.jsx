@@ -148,13 +148,15 @@ export function addStatusToIssues(issues) {
 }
 
 /**
- * Finds an appeal from the Redux store with ID matching arg ID
+ * Finds an appeal from the Redux store with ID matching arg ID.
+ * `id` may be a v1 id or a v2 id.
+ *
  * @param {object} state Full redux store state tree
  * @param {string} id Appeal ID of the appeal to find
  * @returns {object} One appeal object or undefined if not found in the array
  */
-export function isolateAppeal(state, id) {
-  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id);
+export function isolateAppeal(state, id, v1ToV2IdMap) {
+  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id || v1ToV2IdMap[id]);
 }
 
 export function formatDate(date) {
@@ -1175,7 +1177,7 @@ export function getAlertContent(alert, appealIsActive) {
           </div>
         ),
         displayType: 'info',
-        type,
+        type
       };
     }
     case ALERT_TYPES.rampIneligible: {
@@ -1187,7 +1189,7 @@ export function getAlertContent(alert, appealIsActive) {
           <p>On {formattedDate}, VA sent you a letter to let you know about a new program called the Rapid Appeals Modernization Program (RAMP). However, this appeal isn’t eligible for RAMP because it {statusDescription}. If you have other appeals, they may be eligible for RAMP.</p>
         ),
         displayType: 'info',
-        type,
+        type
       };
     }
     case ALERT_TYPES.decisionSoon:
@@ -1197,7 +1199,7 @@ export function getAlertContent(alert, appealIsActive) {
           <p>Your appeal will soon receive a Board decision. Submitting new evidence at this time could delay review of your appeal. If you’ve moved recently, please make sure that VA has your up-to-date mailing address.</p>
         ),
         displayType: 'info',
-        type,
+        type
       };
     case ALERT_TYPES.blockedByVso:
       return {
@@ -1206,7 +1208,7 @@ export function getAlertContent(alert, appealIsActive) {
           <p>Your appeal is eligible to be assigned to a judge based on its place in line, but they’re prevented from reviewing your appeal because your Veterans Service Organization, {details.vsoName}, is reviewing it right now. For more information, please contact your Veterans Service Organization or representative.</p>
         ),
         displayType: 'info',
-        type,
+        type
       };
     case ALERT_TYPES.cavcOption: {
       const formattedDueDate = formatDate(details.dueDate);
@@ -1222,8 +1224,10 @@ export function getAlertContent(alert, appealIsActive) {
             </ul>
           </div>
         ),
-        displayType: 'info',
-        type,
+        // displayType is blank because it doesn't apply; this gets pulled out and displayed as a
+        //  non-alert after "What happens next?"
+        displayType: '',
+        type
       };
     }
     default:
@@ -1231,7 +1235,7 @@ export function getAlertContent(alert, appealIsActive) {
         title: '',
         description: null,
         displayType: '',
-        type,
+        type
       };
   }
 }

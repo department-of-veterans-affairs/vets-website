@@ -103,7 +103,7 @@ Click on the statement below that describes you best to find out your benefits c
 - You apply for dental care within 180 days of discharge or release, **and**
 - Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged\*
 
-**\*Please note:** If you got a dental award letter from VBA dated before 1955 stating that your dental conditions aren't compensable, then you are no longer eligible for Class II outpatient dental treatment. This is because of Public Law 83, which was enacted June 16, 1955, and which amended Veterans’ eligibility for outpatient dental services. 
+**Please note:** If you got a dental award letter from VBA dated before 1955 stating that your dental conditions aren't compensable, then you are no longer eligible for Class II outpatient dental treatment. This is because of Public Law 83, which was enacted June 16, 1955, and which amended Veterans’ eligibility for outpatient dental services. 
 
 </div>
 </li>
@@ -139,13 +139,13 @@ Click on the statement below that describes you best to find out your benefits c
 
 **The dental care must be needed to:**
 
-- Make it possible for you to be in the vocational rehab program, **or**
-- Make it possible for you to reach the goals of your vocational rehab program, **or**
-- Prevent you from having to stop your rehab program, **or**
-- Help you get back to your rehab program faster if you’ve had to stop (and are in “interrupted” or “leave” status), **or**
-- Help you get back to your rehab program faster if you’ve had to stop (and are in “discontinued” status) because of an illness, injury, or dental condition, **or**
-- Make it possible for you to get and adjust to a job during the period of employment assistance, **or**
-- Make it possible for you to be fully independent in your daily living
+* Make it possible for you to be in the vocational rehab program, **or**
+* Make it possible for you to reach the goals of your vocational rehab program, **or**
+* Prevent you from having to stop your rehab program, **or**
+* Help you get back to your rehab program faster if you’ve had to stop (and are in “interrupted” or “leave” status), **or**
+* Help you get back to your rehab program faster if you’ve had to stop (and are in “discontinued” status) because of an illness, injury, or dental condition, **or**
+* Make it possible for you to get and adjust to a job during the period of employment assistance, **or**
+* Make it possible for you to be fully independent in your daily living
 
 </div>
 </li>
@@ -173,6 +173,7 @@ Click on the statement below that describes you best to find out your benefits c
 - Relieve your pain, **or**
 - Help you get a job, **or**
 - Treat your moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
+
 
 </div>
 </li>
@@ -217,6 +218,7 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 - Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). <br>
 [Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
 
+
 [Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>

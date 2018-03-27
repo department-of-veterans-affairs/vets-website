@@ -1,14 +1,10 @@
 const E2eHelpers = require('../e2e/e2e-helpers');
-// const Timeouts = require('../e2e/timeouts.js');
-// const GibsHelpers = require('../e2e/post-911-gib-status-helpers.js');
-// const LoginHelpers = require('../e2e/login-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const GibsHelpers = require('../e2e/post-911-gib-status-helpers.js');
+const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    // Short-circuit the test while the page is in maintenance mode
-    client.end();
-
-    /*
     const token = LoginHelpers.getUserToken();
 
     GibsHelpers.initApplicationMock(token);
@@ -18,7 +14,10 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Check Benefit: Vets.gov')
-      .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
+      .waitForElementVisible('#viewGIBS', Timeouts.slow);  // First render of React may be slow.
+
+    client.click('#viewGIBS');
+    client.waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
 
     // Checking field in UserInfoSection has rendered
     client.expect.element('#gibs-full-name').text.to.contain('First Last');
@@ -48,6 +47,5 @@ module.exports = E2eHelpers.createE2eTest(
     //   });
 
     client.end();
-    */
   }
 );

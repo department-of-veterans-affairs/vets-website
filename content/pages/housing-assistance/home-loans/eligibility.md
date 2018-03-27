@@ -18,7 +18,7 @@ relatedlinks:
       description: Have an existing VA home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
     - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
       title: Cash-Out Refinance Loan
-      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan. 
+      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
 ---
 
 <div class="va-introtext">
@@ -53,6 +53,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 | Between August 2, 1990, and the present (Gulf War) | <ul><li>24 continuous months, **or**</li><li>The full period (at least 90 days) for which you were called or ordered to active duty</li></ul> |
 | I’m on active duty now | 90 continuous days |
 
+
 </div>
 </li>
 <li>
@@ -63,6 +64,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 | --- | --- | 
 | Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
 | Any time period | 6 creditable years in the Selected Reserve or National Guard, and one of the descriptions below is true for you<br><br>**At least one of these must be true. You:**<br><ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
+
 
 </div>
 </li>
@@ -83,11 +85,11 @@ You may still be able to get a COE if you were discharged for one of the reasons
 
 **You must have been discharged for one of these reasons:**
 
-- Hardship, **or**
-- The convenience of the government, **or**
-- Reduction in force, **or**
-- Certain medical conditions, **or**
-- A service-connected disability (a disability related to your military service)
+* Hardship, **or**
+* The convenience of the government, **or**
+* Reduction in force, **or**
+* Certain medical conditions, **or**
+* A service-connected disability (a disability related to your military service)
 
 <br>
 
@@ -102,23 +104,23 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 <br>
 
-### Can I get a COE as the spouse of a Veteran? 
+### Can I get a COE as the spouse of a Veteran?
 
 You may be able to get a COE if you’re the spouse of a Veteran, and at least one of the descriptions below is true for that Veteran.
 
 **At least one of these must be true. The Veteran:**
 
-- Is missing in action, **or**
-- Is a prisoner of war (POW), **or**
-- Died while in service or from a service-connected disability and you didn’t remarry, **or**
-- Died while in service or from a service-connected disability and you didn’t remarry before you were 57 years old or before December 16, 2003, **or**
-- Had been totally disabled and then died, but whose disability may not have been the cause of death (in certain situations)
+* Is missing in action, **or**
+* Is a prisoner of war (POW), **or**
+* Died while in service or from a service-connected disability and you didn’t remarry, **or**
+* Died while in service or from a service-connected disability and you didn’t remarry before you were 57 years old or before December 16, 2003, **or**
+* Had been totally disabled and then died, but whose disability may not have been the cause of death (in certain situations)
 
 **Note:** A surviving spouse who remarried before December 16, 2003, and on or after their 57th birthday, must have applied no later than December 15, 2004, to establish home loan eligibility. We must deny applications we received after December 15, 2004, from surviving spouses who remarried before December 16, 2003.
 
 <br>
 
-### Can I get a COE in any other situations? 
+### Can I get a COE in any other situations?
 
 You may be able to get a COE if you meet at least one of the requirements listed below.
 
@@ -132,6 +134,7 @@ You may be able to get a COE if you meet at least one of the requirements listed
   - Officer of the National Oceanic & Atmospheric Administration
   - Merchant seaman during World War II
 
+
 <br>
 
 ### Can I use a COE I used before?
@@ -140,14 +143,14 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 
 **At least one of these must be true:**
 
-- You’ve sold the home you bought with the prior loan and have paid that loan in full, **or**
-- A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
-- You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this one time)
+* You’ve sold the home you bought with the prior loan and have paid that loan in full, **or**
+* A qualified Veteran-transferee agrees to assume your loan and substitute their entitlement for the same amount of entitlement you used originally, **or**
+* You’ve repaid your prior loan in full, but haven’t sold the home you bought with that loan (you can only do this one time)
 
 To request an entitlement restoration, fill out a Request for a Certificate of Eligibility (VA Form 26-1880) and send it to the VA regional loan center for your state. <br>
 [Download VA Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). <br>
-[Find your state’s VA regional loan center](https://www.benefits.va.gov/homeloans/contact_rlc_info.asp). 
+[Find your state’s VA regional loan center](https://www.benefits.va.gov/homeloans/contact_rlc_info.asp).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->
