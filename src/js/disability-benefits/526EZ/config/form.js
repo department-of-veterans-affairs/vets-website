@@ -1,6 +1,7 @@
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fileUploadUI from '../../../common/schemaform/definitions/file';
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
@@ -19,8 +20,8 @@ import {
   treatmentView,
   recordReleaseWarning,
   validateAddress,
-  // documentDescription
-  // additionalDocumentDescription
+  documentDescription,
+  additionalDocumentDescription,
   releaseView
 } from '../helpers';
 
@@ -29,8 +30,11 @@ const {
 } = fullSchema526EZ.properties;
 
 const {
-  date
+  date,
+  // files
 } = fullSchema526EZ.definitions;
+
+const FIFTY_MB = 52428800;
 
 // We may add these back in after the typeahead, but for now...
 const treatmentsSchema = _.set('items.properties.treatment.properties',
@@ -79,7 +83,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    date
+    date,
+    // files
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
@@ -339,7 +344,7 @@ const formConfig = {
                 'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
                 privateRecordReleases: {
                   'ui:options': {
-                    itemName: 'Private Medical Record',
+                    itemName: 'Private Medical Record Release',
                     viewField: releaseView
                   },
                   items: {
@@ -426,11 +431,200 @@ const formConfig = {
               }
             }
           }
+        },
+        recordUpload: {
+          title: 'Upload your private medical records',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // TODO: enable once previous chapter merged
+            // const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
+            const uploadRecords = true;
+            return hasRecords && uploadRecords;
+          },
+          path: 'supporting-evidence/:index/documents',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                privateRecords: Object.assign({},
+                  fileUploadUI('Upload your private medical records', {
+                    allowRename: true,
+                    itemDescription: 'Adding additional evidence:',
+                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    addAnotherLabel: 'Add Another Document',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
+                    createPayload: (file) => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+
+                      return payload;
+                    },
+                    parseResponse: (response, file) => {
+                      return {
+                        name: file.name,
+                        confirmationCode: response.data.attributes.guid
+                      };
+                    },
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name'
+                    }
+                  }),
+                  { 'ui:description': documentDescription }
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    privateRecords: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        required: ['name', 'attachmentId'],
+                        properties: {
+                          name: {
+                            type: 'string'
+                          },
+                          size: {
+                            type: 'integer'
+                          },
+                          confirmationCode: {
+                            type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              // '4',
+                              '5',
+                              '6'
+                            ],
+                            enumNames: [
+                              'Discharge',
+                              'Marriage related',
+                              'Dependent related',
+                              // 'VA preneed form',
+                              'Letter',
+                              'Other'
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        documentUpload: {
+          title: 'Lay statements or other evidence',
+          depends: (formData, index) => {
+            const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
+            return hasOtherEvidence;
+          },
+          path: 'supporting-evidence/:index/additionalDocuments',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                additionalDocuments: Object.assign({},
+                  fileUploadUI('Lay statements or other evidence', {
+                    allowRename: true,
+                    itemDescription: 'Adding additional evidence:',
+                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    addAnotherLabel: 'Add Another Document',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
+                    createPayload: (file) => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+
+                      return payload;
+                    },
+                    parseResponse: (response, file) => {
+                      return {
+                        name: file.name,
+                        confirmationCode: response.data.attributes.guid
+                      };
+                    },
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name'
+                    }
+                  }),
+                  { 'ui:description': additionalDocumentDescription }
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    additionalDocuments: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        required: ['name', 'attachmentId'],
+                        properties: {
+                          name: {
+                            type: 'string'
+                          },
+                          size: {
+                            type: 'integer'
+                          },
+                          confirmationCode: {
+                            type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              // '4',
+                              '5',
+                              '6'
+                            ],
+                            enumNames: [
+                              'Discharge',
+                              'Marriage related',
+                              'Dependent related',
+                              // 'VA preneed form',
+                              'Letter',
+                              'Other'
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
-        // pageFive: {},
-        // pageSix: {},
-        // pageSeven: {},
-        // pageEight: {},
         // pageNine: {},
         // pageTen: {},
       }
