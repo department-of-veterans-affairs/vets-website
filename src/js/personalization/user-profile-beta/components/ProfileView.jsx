@@ -27,7 +27,7 @@ class ProfileView extends React.Component {
   }
 
   closeModal = () => {
-    this.openModalHandler(null)();
+    this.props.modal.open(null);
   }
 
   render() {
@@ -37,28 +37,34 @@ class ProfileView extends React.Component {
 
     if (this.props.profile.errors.includes(FETCH_VA_PROFILE_FAIL)) {
       return (
-        <AlertBox status="error" isVisible
-          content={<h4 className="usa-alert-heading">Failed to load extended profile</h4>}/>
+        <div className="row">
+          <AlertBox status="error" isVisible
+            content={<h4 className="usa-alert-heading">Failed to load VA Profile</h4>}/>
+        </div>
       );
     }
 
     const {
-      currentlyOpen: currentlyOpenModal,
-      pendingSaves
-    } = this.props.modal;
-
-    const {
-      email,
-      userFullName,
-      profilePicture,
-      mailingAddress,
-      primaryTelephone,
-      alternateTelephone,
-      ssn,
-      dob,
-      gender,
-      serviceHistory
-    } = this.props.profile;
+      modal: {
+        currentlyOpen: currentlyOpenModal,
+        pendingSaves,
+        formFields
+      },
+      profile: {
+        email,
+        userFullName,
+        profilePicture,
+        mailingAddress,
+        primaryTelephone,
+        alternateTelephone,
+        ssn,
+        dob,
+        gender,
+        serviceHistory
+      },
+      updateFormFieldActions,
+      updateActions
+    } = this.props;
 
     return (
       <div className="row" style={{ marginBottom: 35 }}>
@@ -71,37 +77,45 @@ class ProfileView extends React.Component {
           <AddressSection
             title="Mailing Address"
             addressResponseData={mailingAddress}
+            field={formFields.mailingAddress}
+            onChange={updateFormFieldActions.mailingAddress}
             isEditing={currentlyOpenModal === 'mailingAddress'}
             isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
             onEdit={this.openModalHandler('mailingAddress')}
-            onSubmit={this.props.updateActions.updateMailingAddress}
+            onSubmit={updateActions.updateMailingAddress}
             onCancel={this.closeModal}/>
 
           <PhoneSection
             title="Primary Phone"
             phoneResponseData={primaryTelephone}
+            field={formFields.primaryTelephone}
+            onChange={updateFormFieldActions.primaryTelephone}
             isEditing={currentlyOpenModal === 'primaryPhone'}
             isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
             onEdit={this.openModalHandler('primaryPhone')}
-            onSubmit={this.props.updateActions.updatePrimaryPhone}
+            onSubmit={updateActions.updatePrimaryPhone}
             onCancel={this.closeModal}/>
 
           <PhoneSection
             title="Alternate Phone"
             phoneResponseData={alternateTelephone}
+            field={formFields.alternateTelephone}
+            onChange={updateFormFieldActions.alternateTelephone}
             isEditing={currentlyOpenModal === 'altPhone'}
             isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
             onEdit={this.openModalHandler('altPhone')}
-            onSubmit={this.props.updateActions.updateAlternatePhone}
+            onSubmit={updateActions.updateAlternatePhone}
             onCancel={this.closeModal}/>
 
           <EmailSection
             title="Email Address"
             emailResponseData={email}
+            field={formFields.email}
+            onChange={updateFormFieldActions.email}
             isEditing={currentlyOpenModal === 'email'}
             isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}
             onEdit={this.openModalHandler('email')}
-            onSubmit={this.props.updateActions.updateEmailAddress}
+            onSubmit={updateActions.updateEmailAddress}
             onCancel={this.closeModal}/>
 
           <h2>Personal Information</h2>

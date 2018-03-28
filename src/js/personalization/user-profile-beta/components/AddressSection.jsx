@@ -5,27 +5,28 @@ import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
 
 class EditAddressModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { addressResponseData: props.addressResponseData || {} };
+
+  componentDidMount() {
+    const defaultFieldValue = this.props.addressResponseData || { address: {} };
+    this.props.onChange(defaultFieldValue);
   }
 
   onInput = (field, value) => {
-    const addressResponseData = {
+    const newFieldValue = {
       address: {
-        ...this.state.addressResponseData.address,
+        ...this.props.field.value.address,
         [field]: value
       }
     };
-    this.setState({ addressResponseData });
+    this.props.onChange(newFieldValue);
   }
 
-  // Receives the field name as its first arg but that fails the liner
+  // Receives the field name as its first arg but that fails the linter
   onBlur = () => {}
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.addressResponseData);
+    this.props.onSubmit(this.props.field.value);
   }
 
   render() {
@@ -33,7 +34,9 @@ class EditAddressModal extends React.Component {
       <Modal id="profile-address-modal" onClose={this.props.onClose} visible>
         <h3>{this.props.title}</h3>
         <form onSubmit={this.onSubmit}>
-          <Address address={this.state.addressResponseData.address || {}} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
+          {this.props.field && (
+            <Address address={this.props.field.value.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
+          )}
           <LoadingButton isLoading={this.props.isLoading}>Save Address</LoadingButton>
         </form>
       </Modal>
@@ -41,7 +44,7 @@ class EditAddressModal extends React.Component {
   }
 }
 
-export default function AddressSection({ addressResponseData, title, isEditing, isLoading, onEdit, onCancel, onSubmit }) {
+export default function AddressSection({ addressResponseData, title, field, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let addressDisplay = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
   let modal = null;
 
@@ -62,6 +65,8 @@ export default function AddressSection({ addressResponseData, title, isEditing, 
       <EditAddressModal
         title="Edit mailing address"
         addressResponseData={addressResponseData}
+        onChange={onChange}
+        field={field}
         onSubmit={onSubmit}
         isLoading={isLoading}
         onClose={onCancel}/>
