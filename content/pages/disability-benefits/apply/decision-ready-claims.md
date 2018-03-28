@@ -106,28 +106,26 @@ You can't file your claim through the Decision Ready Claims program if any of th
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-predischarge">More exclusions for pre-discharge claims</button>
 <div id="exclusions-predischarge" class="usa-accordion-content">
-
-You can't file your pre-discharge claim through the DRC program if any of the below factors are true for you.
-
-**None of these can be true. You can't file a claim:**
-- Involving one or more of the factors in the lists above, **or**
-- In which the Servicemember has more than 90 days left on active duty, unless there's a pending BDD claim, **or**
-- In which the Servicemember is currently enrolled in IDES, awaiting discharge while hospitalized in a VA or military treatment facility, or pregnant, **or**
-- Requiring a character of discharge determination, **or**
-- For aggravation of a condition that pre-existed service or was noted at the time of entry into service (unless evidence of pre-service baseline severity is provided)
-
+<p>You can't file your pre-discharge claim through the DRC program if any of the below factors are true for you.</p>
+  <p><strong>None of these can be true. You can't file a claim:</strong></p>
+  <ul>
+    <li>Involving one or more of the factors in the lists above, <strong>or</strong></li>
+    <li>In which the Servicemember has more than 90 days left on active duty, unless there's a pending BDD claim, <strong>or</strong></li>
+    <li>In which the Servicemember is currently enrolled in IDES, awaiting discharge while hospitalized in a VA or military treatment facility, or pregnant, <strong>or</strong></li>
+    <li>Requiring a character of discharge determination, <strong>or</strong></li>
+    <li>For aggravation of a condition that pre-existed service or was noted at the time of entry into service (unless evidence of pre-service baseline severity is provided)</li>
+  </ul>
 </div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-dic">More exclusions for dependency and indemnity compensation (DIC) claims</button>
 <div id="exclusions-dic" class="usa-accordion-content">
-
-You can't file your DIC claim through the DRC program if any of the below factors are true for you.
-
-**None of these can be true. You can't file:**
-- A claim for parents' DIC, **or**
-- A burial claim (unless it's submitted with a DRC-eligible DIC claim)
-
+<p>You can't file your DIC claim through the DRC program if any of the below factors are true for you.</p>
+<p><strong>None of these can be true. You can't file a:</strong></p>
+<ul>
+  <li>Claim for parents' DIC, <strong>or</strong></li>
+  <li>Burial claim (unless it's submitted with a DRC-eligible DIC claim)</li>
+</ul>  
 </div>
 </li>
 </ul>
@@ -142,7 +140,7 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
 <ol class="process">
   <li class="process-step list-one"><strong>Appoint and work with an accredited VSO</strong><br>
     Accredited VSOs are fully trained on the DRC Program. They can help you determine if a DRC is right for you.<br>
-    [Go to eBenefits to search for a VSO near you](https://www.ebenefits.va.gov/ebenefits/vso-search).
+    <a href="https://www.ebenefits.va.gov/ebenefits/vso-search" class="login-required">Sign in now</a>.
     </li>  
   <li class="process-step list-two"><strong>Gather all relevant and required evidence to support your claim</strong><br>
     This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
@@ -166,21 +164,18 @@ Within 30 days or less from the time you submit your claim.
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vso">How do I find an accredited VSO?</button>
 <div id="vso" class="usa-accordion-content">
-
+  
 **You can find a or a VSO in 1 of 2 ways:**
-
 - Go to eBenefits to find a local VSO by state/territory, zip code, or the organization’s name.<br> 
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
 - Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br> 
 [Search the VA Office of the General Counsel’s list](https://www.va.gov/ogc/apps/accreditation/index.asp).
-
 </div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="info">What information do I need to submit so that my claim is decision-ready?</button>
 <div id="info" class="usa-accordion-content">
-
-**You'll need to submit copies of:**
+  <strong>You'll need to submit copies of:</strong>
 - Your federal records
 - Your medical records
 - Completed Disability Benefits Questionnaires (DBQs)
