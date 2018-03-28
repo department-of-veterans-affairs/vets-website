@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import classNames from 'classnames';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import classNames from 'classnames';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
+export default AlertBox;
+
+/*
 class AlertBox extends React.Component {
   constructor(props) {
     super(props);
@@ -97,5 +101,5 @@ AlertBox.propTypes = {
     'warning'
   ]).isRequired
 };
+*/
 
-export default AlertBox;
