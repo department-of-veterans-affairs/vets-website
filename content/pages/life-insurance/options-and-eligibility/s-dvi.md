@@ -23,12 +23,14 @@ If you have a disability that we’ve concluded was caused—or made worse—by 
 
 ### Can I apply for S-DVI? 
 
-You can apply for S-DVI if you meet these 4 criteria:
+You can apply for S-DVI if you meet all of the requirements listed below.
 
-- You were released from active duty (and didn't receive a dishonorable discharge) on or after April 25, 1951
-- You were rated for a service-connected disability (even if only 0%)
-- You’re in good health except for any service-connected conditions
-- You apply within 2 years from the date we grant your new service-connected disability
+**All of these must be true. You:**
+
+- Were released from active duty (and didn't receive a dishonorable discharge) on or after April 25, 1951, **and**
+- Were rated for a service-connected disability (even if only 0%), **and**
+- Are in good health except for any service-connected conditions, **and**
+- Apply within 2 years from the date we grant your new service-connected disability
 
 **Note:** An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.
 
@@ -38,7 +40,9 @@ You can apply for S-DVI if you meet these 4 criteria:
 
 If you carry the basic S-DVI coverage and become totally disabled and unable to work, you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
 
-You may be able to get $30,000 of supplemental coverage if you qualify for a premiums waiver, and you:
+You may be able to get $30,000 of supplemental coverage if you qualify for a premiums waiver, and you meet both of the requirements listed below.
+
+**Both of these must be true. You:**
 - Apply for the coverage within 1 year from the date you get notice of the grant of waiver, **and**
 - Are younger than age 65
 
@@ -55,8 +59,6 @@ Veterans
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
-
-<br>
 
 **There are 2 ways you can try to qualify:**
 
@@ -77,11 +79,12 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits in 1 of 2 ways:
+**You’ll need to apply for benefits in 1 of 2 ways:**
 
  - [Apply for basic S-DVI online](https://www.insurance.va.gov/portal/), **or**
 
- - Fill out an Application for Service-Disabled Veterans Life Insurance (VA Form 29-4364). [Download VA Form 29-4364](https://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
+ - Fill out an Application for Service-Disabled Veterans Life Insurance (VA Form 29-4364). <br>
+ [Download VA Form 29-4364](https://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
  
  Fax it to 1-888-748-5822, or mail it to: 
 
@@ -92,7 +95,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
   Philadelphia, PA 19101<br>
 </p> 
 
-If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file an Application for Supplemental Service-Disabled Veterans Insurance (VA Form 29-0188) or send a letter requesting this insurance over your signature. You must apply for the coverage within one year from the date you receive notice of the grant of waiver of premiums.
+If you want to apply for Supplemental S-DVI, you must have already applied for and been granted a waiver of premiums. (See our information below about getting a waiver.) To apply for Supplemental S-DVI, file an Application for Supplemental Service-Disabled Veterans Insurance (VA Form 29-0188) or send a letter requesting this insurance over your signature. You must apply for the coverage within one year from the date you receive notice of the grant of waiver of premiums.<br>
 
 [Download VA Form 29-0188](https://benefits.va.gov/INSURANCE/forms/29-0188.pdf).
 
@@ -100,7 +103,9 @@ If you want to apply for Supplemental S-DVI, you must have already applied for a
 
 ### How much will I pay for these benefits?
 
-Your premium rate (the amount you’ll pay each month for your coverage) depends on:
+Your premium rate (the amount you’ll pay each month for your coverage) depends on all of the factors listed below.
+
+**Your premium rate depends on:**
 -	Your age, **and**
 -	The amount of insurance you want, **and**
 - The coverage plan requested
@@ -112,7 +117,8 @@ See the premium rates and a description of the plan options. <br>
 
 ### Can I get a waiver so I don’t have to pay the premiums? 
 
-Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/#waiver).
+Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. <br>
+[Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/#waiver).
 
 You must pay your premiums for Supplemental S-DVI.
 

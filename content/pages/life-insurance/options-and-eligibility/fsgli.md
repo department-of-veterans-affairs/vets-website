@@ -28,7 +28,9 @@ Are you the spouse or dependent child of a Servicemember who’s covered under S
 
 ### Can I get FSGLI?
 
-You may be able to get FSGLI if you’re the spouse or dependent child of:
+You may be able to get FSGLI if you’re the spouse or dependent child of a Servicemember who meets one of the requirements listed below.
+
+**One of these must be true. The Servicemember is:**
 
 * An active-duty Servicemember covered by full-time SGLI, **or**
 * A member of the National Guard or Ready Reserve covered by full-time SGLI
@@ -62,7 +64,9 @@ We’ll automatically insure you under FSGLI. In this case, we’ll automaticall
 
 We won’t automatically cover you. You’ll need to sign up through your Servicemember.
 
-**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember sign you up online. To access SOES, have your Servicemember:
+**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember sign you up online. 
+
+To access SOES, have your Servicemember:
 
 <ol class="process" markdown="1">
 
@@ -86,7 +90,8 @@ We won’t automatically cover you. You’ll need to sign up through your Servic
 
 Your Servicemember can log in with their CAC or DS Logon using Internet Explorer as soon as they receive notice that they can start using SOES.
 
-**If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
+**If your Servicemember’s branch of service hasn’t yet started using SOES,** fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. <br>
+[Download the Spouse Coverage Election and Certificate](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-10.PDF).
 
 <br>
 
@@ -240,7 +245,9 @@ If you’re signed up as a spouse in the Defense Enrollment Eligibility Reportin
 
 Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it:
 
-**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online. To access SOES, have your Servicemember:
+**If your Servicemember’s branch of service has started using the new SGLI Online Enrollment System (SOES),** have your Servicemember submit your changes online.
+
+To access SOES, have your Servicemember:
 
 <ol class="process" markdown="1">
 
@@ -281,10 +288,12 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 
 ### How much will my Servicemember pay for dependent coverage?
 
-Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
+Nothing. We provide dependent coverage at no cost until the child is 18 years old, or sometimes longer if the child meets one of the requirements listed below.
 
-* Is a full-time student, **or**
-* Becomes permanently and totally disabled—before turning 18—and can’t support themselves
+**To continue receiving dependent coverage after age 18, one of these must be true. The child**:
+- Is a full-time student, **or**
+- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+
 
 <br>
 
@@ -310,14 +319,16 @@ You can’t convert other types of policies—such as term, variable, or univers
 
 **If you’d like to convert FSGLI coverage, you must also:**
 
-* Choose a company from the list of companies that take part in this program. [View the companies you can choose from](https://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
-* Apply at the local sales office of the company you chose.
-* Give a copy of the most recent Leave and Earnings Statement (LES) to the agent, showing the deduction for spousal SGLI. You’ll also have to provide proof of coverage with one of these documents:
-  * The Servicemember’s separation document (Form DD214 or NGB-22, or written orders)
-  * The Certificate of Dissolution of Marriage between the spouse and the Servicemember
-  * The Servicemember’s FSGLI spousal declination
-  * The Servicemember’s SGLI declination
-  * The Servicemember’s proof of death (DD1300: Report of Casualty, or a civilian death certificate)
+- Choose a company from the list of companies that take part in this program. <br>
+[View the companies you can choose from](https://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
+- Apply at the local sales office of the company you chose.
+- Give a copy of the most recent Leave and Earnings Statement (LES) to the agent, showing the deduction for spousal SGLI. You’ll also have to provide proof of coverage with one of these documents:
+  - The Servicemember’s separation document (Form DD214 or NGB-22, or written orders)
+  - The Certificate of Dissolution of Marriage between the spouse and the Servicemember
+  - The Servicemember’s FSGLI spousal declination
+  - The Servicemember’s SGLI declination
+  - The Servicemember’s proof of death (DD1300: Report of Casualty, or a civilian death certificate)
+
 
 <br>
 
