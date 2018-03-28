@@ -18,7 +18,7 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if both of the descriptions listed below are true for you. 
+You may be able to get disability benefits if you meet both of the requirements listed below. 
 
 **Both of these must be true:**
 
@@ -41,7 +41,7 @@ Veterans
 
 You’ll need to apply for benefits.
 
-To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if at least one of the below situations describes you:
+To get your yearly payment, you’ll need to qualify by August 1 of that year. You may be able to get more than one payment if you meet at least one of the requirements listed below.
 
 **At least one of these must be true:**
 - You have more than one prosthetic or orthopedic device, **or**
