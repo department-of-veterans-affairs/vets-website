@@ -18,7 +18,7 @@ Asbestos is a material that was once used in many buildings and products. If you
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have an illness believed to be caused by contact with asbestos and you meet both of the descriptions listed below. 
+You may be able to get disability benefits if you have an illness believed to be caused by contact with asbestos and you meet both of the requirements listed below. 
 
 **Both of these must be true:**
 
