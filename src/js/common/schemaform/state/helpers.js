@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import {
   checkValidSchema,
