@@ -21,7 +21,7 @@ You can get this benefit if you’re an active-duty GI Bill recipient (both degr
 **Both of these must be true:**
 
 -	You’re a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for 2 years or less, **and**
--	Your tuition and fees are more than 200% of the monthly amount of educational assistance you would otherwise qualify to get during the certified enrollment period.
+-	Your tuition and fees are more than 200% of the monthly amount of educational assistance you would otherwise qualify to get during the certified enrollment period
 <br />
 
 **Exception:** 
