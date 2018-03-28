@@ -13,13 +13,13 @@ import initReact from '../common/init-react';
 import initCommon from '../common/init-common';
 import routes from './routes.jsx';
 import { setLastPage } from './actions/index.jsx';
-import { basename } from './utils/page';
 import reducer from './reducers';
+import manifest from './manifest.json';
 
 const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
-  basename
+  basename: manifest.rootUrl
 });
 
 history.listen((location) => {
