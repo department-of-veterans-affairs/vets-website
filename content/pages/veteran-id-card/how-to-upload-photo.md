@@ -30,7 +30,7 @@ Find out how to upload a good quality photo that meets the requirements for a Ve
 <li>Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
 <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
 <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
-<li>Be taken in clothing you'd wear for a driver's license photo, <strong>and</strong></li>
+<li>Be taken in clothing you’d wear for a driver’s license photo, <strong>and</strong></li>
 <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo), <strong>and</strong></li>
 <li>Show what you look like now (a photo taken sometime in the last 10 years), <strong>and</strong></li>
 <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
