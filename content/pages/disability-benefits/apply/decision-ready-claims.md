@@ -41,7 +41,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **[Dependency and indemnity compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the surviving spouse of a Veteran who died due to a service-related injury or illness
+- **[Dependency and indemnity compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran 
 - **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
@@ -75,7 +75,7 @@ You can't file your claim through the Decision Ready Claims program if any of th
 
 <h4>Exclusions for all Decision Ready Claims</h4>
 
-**None of these can be true. You can't be filing:**
+**None of these can be true. You can't file:**
 - A claim for a previously denied condition, **or**
 - A claim for a disability incurred during a prior period of active duty for training or inactive duty for training, unless you are a Service member filing a VA claim prior to discharge, **or**
 - A claim for pension benefits, **or**
@@ -109,7 +109,7 @@ You can't file your claim through the Decision Ready Claims program if any of th
 
 You can't file your pre-discharge claim through the DRC program if any of the below factors are true for you.
 
-**None of these can be true. You can't be filing a claim:**
+**None of these can be true. You can't file a claim:**
 - Involving one or more of the factors in the lists above, **or**
 - In which the Servicemember has more than 90 days left on active duty, unless there's a pending BDD claim, **or**
 - In which the Servicemember is currently enrolled in IDES, awaiting discharge while hospitalized in a VA or military treatment facility, or pregnant, **or**
@@ -120,11 +120,11 @@ You can't file your pre-discharge claim through the DRC program if any of the be
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-dic">More exclusions for dependency and indemnity compensation (DIC) claims</button>
-<div id="exclusions-predischarge" class="usa-accordion-content">
+<div id="exclusions-dic" class="usa-accordion-content">
 
 You can't file your DIC claim through the DRC program if any of the below factors are true for you.
 
-**None of these can be true. You can't be filing:**
+**None of these can be true. You can't file:**
 - A claim for parents' DIC, **or**
 - A burial claim (unless it's submitted with a DRC-eligible DIC claim)
 
@@ -155,7 +155,17 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
     </li>  
 </ol>
 
-### How do I find an accredited VSO?
+### When can I expect a decision on my DRC?
+
+Within 30 days or less from the time you submit your claim.
+
+### More questions about the Decision Ready Claims program
+
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vso">How do I find an accredited VSO?</button>
+<div id="vso" class="usa-accordion-content">
 
 **You can find a or a VSO in 1 of 2 ways:**
 
@@ -164,7 +174,11 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
 - Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br> 
 [Search the VA Office of the General Counsel’s list](https://www.va.gov/ogc/apps/accreditation/index.asp).
 
-### What information do I need to submit so that my claim is decision-ready?
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="info">What information do I need to submit so that my claim is decision-ready?</button>
+<div id="info" class="usa-accordion-content">
 
 **You'll need to submit copies of:**
 - Your federal records
@@ -178,12 +192,12 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
 - The Veteran's medical records
 - The report from your VA claim exam
 
+</div>
+</li>
 
-### When can I expect a decision on my DRC?
-
-Within 30 days or less from the time you submit your claim.
-
-### What if I have more questions or want more information?
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="info">What if I have more questions or want more information?</button>
+<div id="info" class="usa-accordion-content">
 
 [Watch a video on the DRC program](https://www.benefits.va.gov/compensation/DRC.asp).
 
@@ -194,5 +208,10 @@ Within 30 days or less from the time you submit your claim.
 [Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf)
 
 Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+
+</div>
+</li>
+</ul>
+</div>
 
 <script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
