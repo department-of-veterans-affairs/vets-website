@@ -2,6 +2,6 @@
   "appName": "Letters",
   "entryFile": "./letters-entry.jsx",
   "entryName": "letters",
-  "rootUrl": "/letters",
+  "rootUrl": "/download-va-letters/letters",
   "production": true
 }
