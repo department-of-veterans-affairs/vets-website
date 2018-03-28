@@ -10,7 +10,7 @@ import FeedbackSubmitted from '../../../src/js/feedback/components/FeedbackSubmi
 
 const defaultProps = {
   formIsVisible: false,
-  formValues: {},
+  formValues: { shouldSendResponse: 'no' },
   formErrors: {},
   setFormValues() {},
   revealForm() {},
@@ -31,7 +31,7 @@ describe('<Main/>', () => {
 
   it('should render FeedbackForm with correct props', () => {
     const sendFeedback = sinon.spy();
-    const formValues = { description: 'test', email: 'test@test.com' };
+    const formValues = { description: 'test', email: 'test@test.com', shouldSendResponse: 'yes' };
     const overrides = { formIsVisible: true, formValues, sendFeedback };
     const props = { ...defaultProps, ...overrides };
     const wrapper = enzyme.shallow(<Main {...props}/>);
@@ -46,7 +46,7 @@ describe('<Main/>', () => {
     expect(event.preventDefault.calledOnce).to.be.true;
 
     const calledWith = sendFeedback.args[0][0];
-    expect(calledWith).to.contain.all.keys('description', 'email');
+    expect(calledWith).to.contain.all.keys('description', 'email', 'shouldSendResponse');
   });
 
   it('should render FeedbackSubmitted', () => {

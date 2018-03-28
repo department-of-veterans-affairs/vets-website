@@ -13,7 +13,8 @@ describe('<DefaultView/>', () => {
   it('should render', () => {
     const wrapper = enzyme.shallow(<DefaultView {...props}/>);
     const text = wrapper.text();
-    expect(text.includes('Tell us what you think')).to.be.true;
+    // console.log(text);
+    expect(text.includes('Send us your suggestions')).to.be.true;
   });
 
 });

@@ -1,5 +1,4 @@
 import { apiRequest } from '../../common/helpers/api';
-import { isValidEmail } from '../../common/utils/validations';
 
 export const REVEAL_FORM = 'REVEAL_FORM';
 export const SET_FORM_VALUES = 'SET_FORM_VALUES';
@@ -16,7 +15,6 @@ export function revealForm() {
 export function setFormValues(formValues) {
   const formErrors = {};
   if (formValues.description !== undefined) formErrors.description = formValues.description.length > 0 ? '' : 'Please enter a description';
-  if (formValues.email !== undefined) formErrors.email = isValidEmail(formValues.email) ? '' : 'Please enter a valid email';
 
   return {
     type: SET_FORM_VALUES,
@@ -44,11 +42,10 @@ function errorMessage(status) {
 
 export function sendFeedback(formValues) {
   return (dispatch) => {
-    const { description, shouldSendResponse, email: ownerEmail } = formValues;
+
+    const { description } = formValues;
     const targetPage = window.location.pathname;
     const body = { description, targetPage };
-    if (shouldSendResponse) body.ownerEmail = ownerEmail;
-
     const settings = {
       headers: { 'Content-Type': 'application/json', Authorization: '' },
       method: 'post',

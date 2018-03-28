@@ -44,7 +44,6 @@ Main.propTypes = {
   formIsSubmittable: PropTypes.bool,
   requestPending: PropTypes.bool,
   feedbackReceived: PropTypes.bool,
-  shouldSendResponse: PropTypes.bool,
   setFormValues: PropTypes.func.isRequired,
   revealForm: PropTypes.func.isRequired,
   sendFeedback: PropTypes.func.isRequired,
