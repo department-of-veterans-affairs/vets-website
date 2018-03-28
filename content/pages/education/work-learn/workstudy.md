@@ -16,24 +16,20 @@ Find out if you can earn money while you go to school through our work-study pro
 <div class="feature" markdown="1">
 
 ### Can I be a part of the work-study program?
-You can be a part of VA’s work-study program if you’re enrolled at least three-quarter time at an institution of higher learning and **all of the following are true for you**:
+You can be a part of VA’s work-study program if you’re enrolled at least three-quarter time at an institution of higher learning and all of the requirements listed below describe the work-study situation you’re interested in.
 
   - There’s an open job either at a nearby VA facility or in a VA-related role at your school, **and**
   - You can finish the work-study contract while you still qualify for education benefits, **and**
   - You’re using one of these VA education benefits: 
 
-    - Post-9/11 GI Bill <br>
-    ([Veterans](/education/gi-bill/post-9-11/) and <br>
-    [Family members using transferred benefits](/education/gi-bill/transfer/))
-    - Montgomery GI Bill <br>
-    [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and <br>
-    [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
-    - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP)
-    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) <br>
-    (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
+    - Post-9/11 GI Bill (for [Veterans](/education/gi-bill/post-9-11/) or for [family members using transferred benefits](/education/gi-bill/transfer/))
+    - Montgomery GI Bill [Active Duty (MGIB-AD)](/education/gi-bill/montgomery-active-duty/) or [Selected Reserve (MGIB-SR)](/education/gi-bill/montgomery-selected-reserve/)
+    - [Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap/)
+    - [Survivors’ and Dependents’ Educational Assistance program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
     - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
-    - [Vocational Rehabilitation and Employment program](https://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
+    - [Vocational Rehabilitation and Employment program (VR&E)](https://www.benefits.va.gov/vocrehab/index.asp)
 
+<br>
 
 ### Who’s covered?
 
