@@ -1,6 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+// import PropTypes from 'prop-types';
+// import React from 'react';
 
+import IconHelp from '@department-of-veterans-affairs/jean-pants/IconHelp';
+
+/*
 class IconHelp extends React.Component {
   render() {
     return (
@@ -18,8 +21,10 @@ class IconHelp extends React.Component {
 
 IconHelp.propTypes = {
   color: PropTypes.string, /* Should be a CSS color */
+/*
   cssClass: PropTypes.string,
   id: PropTypes.string
 };
+*/
 
 export default IconHelp;

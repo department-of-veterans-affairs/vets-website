@@ -1,12 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import _ from 'lodash';
-import classNames from 'classnames';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import _ from 'lodash';
+// import classNames from 'classnames';
 
-import ToolTip from './ToolTip';
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+// import ToolTip from './ToolTip';
+// import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 
-import { makeField } from '../../model/fields.js';
+// import { makeField } from '../../model/fields.js';
+
+import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
 
 /**
  * A radio button group with a label.
@@ -24,6 +26,7 @@ import { makeField } from '../../model/fields.js';
  * `value` - string. Value of the select field.
  * `onValueChange` - a function with this prototype: (newValue)
  */
+/*
 class ErrorableRadioButtons extends React.Component {
   constructor() {
     super();
@@ -203,5 +206,6 @@ ErrorableRadioButtons.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };
+*/
 
 export default ErrorableRadioButtons;

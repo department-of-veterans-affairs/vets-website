@@ -1,6 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import _ from 'lodash';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import _ from 'lodash';
+
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 
 /**
  * A form input with a label that can display error messages.
@@ -19,6 +21,7 @@ import _ from 'lodash';
  *                     by tests
  * `onValueChange` - a function with this prototype: (newValue)
  */
+/*
 class ErrorableTextInput extends React.Component {
   componentWillMount() {
     this.inputId = _.uniqueId('errorable-text-input-');
@@ -104,5 +107,6 @@ ErrorableTextInput.propTypes = {
 ErrorableTextInput.defaultProps = {
   type: 'text'
 };
+*/
 
 export default ErrorableTextInput;

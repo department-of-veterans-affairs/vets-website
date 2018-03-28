@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import classnames from 'classnames';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+// import classnames from 'classnames';
 
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
+
+export default ExpandingGroup;
 /*
  * Component that expands to show a hidden child element with a fade in/slide down animation
  *
@@ -12,6 +15,7 @@ import classnames from 'classnames';
  * additionalClass - A string added as a class to the parent element of the second child
  * showPlus - Boolean to display a "+" or "-" icon based on open status
  */
+/*
 export default function ExpandingGroup({ children, open, showPlus, additionalClass, expandedContentId }) {
   const classNames = classnames(
     'form-expanding-group',
@@ -39,3 +43,4 @@ ExpandingGroup.propTypes = {
   showPlus: PropTypes.bool,
   expandedContentId: PropTypes.string
 };
+*/

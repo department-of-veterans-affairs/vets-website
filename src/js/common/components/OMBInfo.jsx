@@ -1,3 +1,6 @@
+import OMBInfo from '@department-of-veterans-affairs/jean-pants/OMBInfo';
+
+/*
 import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from './Modal';
@@ -50,5 +53,6 @@ OMBInfo.propTypes = {
   ombNumber: PropTypes.string,
   expDate: PropTypes.string
 };
+*/
 
 export default OMBInfo;

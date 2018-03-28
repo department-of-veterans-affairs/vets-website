@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import _ from 'lodash';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import _ from 'lodash';
 
 import ToolTip from './ToolTip';
 
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 /**
  * A form checkbox with a label that can display error messages.
@@ -19,6 +20,7 @@ import ToolTip from './ToolTip';
  * `onValueChange` - a function with this prototype: (newValue)
  * `required` - boolean. Render marker indicating field is required.
  */
+/*
 class ErrorableCheckbox extends React.Component {
   constructor() {
     super();
@@ -103,5 +105,6 @@ ErrorableCheckbox.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };
+*/
 
 export default ErrorableCheckbox;

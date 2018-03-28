@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import classNames from 'classnames';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import classNames from 'classnames';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 
+/*
 const ESCAPE_KEY = 27;
 
 function focusListener(selector) {
@@ -126,6 +128,7 @@ class Modal extends React.Component {
 
 Modal.propTypes = {
   contents: PropTypes.node, /* alternatively used child nodes */
+/*
   cssClass: PropTypes.string,
   id: PropTypes.string,
   onClose: PropTypes.func.isRequired,
@@ -152,5 +155,6 @@ Modal.propTypes = {
 Modal.defaultProps = {
   focusSelector: 'button, input, select, a'
 };
+*/
 
 export default Modal;

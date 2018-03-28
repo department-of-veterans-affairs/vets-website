@@ -1,3 +1,6 @@
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
+
+/*
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
@@ -13,6 +16,7 @@ import _ from 'lodash';
  * `afterText`: String. Stores the value for the icon that will appear after the button text.
  */
 
+/*
 class ProgressButton extends React.Component {
   componentWillMount() {
     this.id = _.uniqueId();
@@ -43,4 +47,5 @@ ProgressButton.propTypes = {
   submitButton: PropTypes.bool
 };
 
+*/
 export default ProgressButton;

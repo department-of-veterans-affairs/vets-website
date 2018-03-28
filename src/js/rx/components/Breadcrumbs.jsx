@@ -1,7 +1,9 @@
-import _ from 'lodash';
-import { Link } from 'react-router';
-import React from 'react';
+// import _ from 'lodash';
+// import { Link } from 'react-router';
+// import React from 'react';
+import Breadcrumbs from '@department-of-veterans-affairs/jean-pants/Breadcrumbs';
 
+/*
 class Breadcrumbs extends React.Component {
   constructor(props) {
     super(props);
@@ -68,5 +70,6 @@ class Breadcrumbs extends React.Component {
     );
   }
 }
+*/
 
 export default Breadcrumbs;

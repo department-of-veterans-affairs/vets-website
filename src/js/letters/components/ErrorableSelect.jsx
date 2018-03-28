@@ -1,6 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import _ from 'lodash';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+// import _ from 'lodash';
+
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 /**
  * A form select with a label that can display error messages.
@@ -19,6 +21,7 @@ import _ from 'lodash';
  *   - `dirty`: boolean. Whether a field has been touched by the user.
  * `onValueChange` - a function with this prototype: (newValue)
  */
+/*
 class ErrorableSelect extends React.Component {
   componentWillMount() {
     this.selectId = _.uniqueId('errorable-select-');
@@ -120,5 +123,6 @@ ErrorableSelect.propTypes = {
 ErrorableSelect.defaultProps = {
   includeBlankOption: true
 };
+*/
 
 export default ErrorableSelect;

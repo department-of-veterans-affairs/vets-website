@@ -1,6 +1,8 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+// import PropTypes from 'prop-types';
+// import React from 'react';
+import Dropdown from '@department-of-veterans-affairs/jean-pants/Dropdown';
 
+/*
 class Dropdown extends React.Component {
 
   render() {
@@ -51,5 +53,6 @@ Dropdown.defaultProps = {
   className: 'form-group top-aligned',
   visible: false,
 };
+*/
 
 export default Dropdown;

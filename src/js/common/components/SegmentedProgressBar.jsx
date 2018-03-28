@@ -1,3 +1,6 @@
+import SegmentedProgessBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
+
+/*
 import React from 'react';
 import _ from 'lodash';
 
@@ -7,6 +10,7 @@ import _ from 'lodash';
  * @param {number} current - The index of the current chapter
  * @param {number} total   - The total number of chapters in the form
  */
+/*
 export default function SegmentedProgressBar({ current, total }) {
   return (
     <div className="progress-bar-segmented" role="progressbar" aria-valuenow={current} aria-valuemin="0" aria-valuemax={total} tabIndex="0">
@@ -16,3 +20,4 @@ export default function SegmentedProgressBar({ current, total }) {
     </div>
   );
 }
+*/

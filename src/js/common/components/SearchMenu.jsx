@@ -1,3 +1,6 @@
+import SearchMenu from '@department-of-veterans-affairs/jean-pants/SearchMenu';
+
+/*
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
@@ -70,5 +73,6 @@ SearchMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func
 };
+*/
 
 export default SearchMenu;

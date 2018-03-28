@@ -1,5 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import ToolTip from '@department-of-veterans-affairs/jean-pants/ToolTip';
+
+// import PropTypes from 'prop-types';
+// import React from 'react';
 
 /**
  * A tooltip to give users more information about the question.
@@ -10,6 +12,7 @@ import React from 'react';
  * The tabindex attribute specifies the tab order of an element (when the "tab" button is used for navigating).
  */
 
+/*
 class ToolTip extends React.Component {
   constructor(props) {
     super(props);
@@ -48,5 +51,6 @@ ToolTip.propTypes = {
   tabIndex: PropTypes.number,
   toolTipText: PropTypes.string,
 };
+*/
 
 export default ToolTip;
