@@ -1,5 +1,5 @@
 import React from 'react';
-import { asNumber } from '@department-of-veteran-affairs/react-jsonschema-form/lib/utils';
+import { asNumber } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 function processValue({ type }, value) {

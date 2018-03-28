@@ -155,7 +155,6 @@
     "react-autosuggest-ie11-compatible": "^8.0.6",
     "react-datepicker": "^0.29.0",
     "react-dom": "^15.5.4",
-    "react-jsonschema-form": "0.43.0",
     "react-leaflet": "^1.2.0",
     "react-redux": "4.4.8",
     "react-router": "3",
@@ -198,7 +197,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veteran-affairs/react-jsonschema-form": "file:.yalc/@department-of-veteran-affairs/react-jsonschema-form",
+    "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",

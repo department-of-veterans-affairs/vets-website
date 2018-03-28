@@ -10,7 +10,7 @@ import {
   toIdSchema,
   getDefaultFormState,
   deepEquals
-} from '@department-of-veteran-affairs/react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { errorSchemaIsValid } from '../validation';
 
