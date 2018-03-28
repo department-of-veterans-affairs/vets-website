@@ -100,7 +100,7 @@ You can't file your claim through the Decision Ready Claims program if any of th
 </div>
 </div>
 
-**Check more exclusions for certain claim types:**
+<h4>Check more exclusions for certain claim types:</h4>
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -140,7 +140,7 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
 <ol class="process">
   <li class="process-step list-one"><strong>Appoint and work with an accredited VSO</strong><br>
     Accredited VSOs are fully trained on the DRC Program. They can help you determine if a DRC is right for you.<br>
-    <a href="https://www.ebenefits.va.gov/ebenefits/vso-search" class="login-required">Sign in now</a>.
+    <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits to find a VSO near you</a>.
     </li>  
   <li class="process-step list-two"><strong>Gather all relevant and required evidence to support your claim</strong><br>
     This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
@@ -164,46 +164,46 @@ Within 30 days or less from the time you submit your claim.
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="vso">How do I find an accredited VSO?</button>
 <div id="vso" class="usa-accordion-content">
-  
-**You can find a or a VSO in 1 of 2 ways:**
-- Go to eBenefits to find a local VSO by state/territory, zip code, or the organization’s name.<br> 
-[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
-- Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br> 
-[Search the VA Office of the General Counsel’s list](https://www.va.gov/ogc/apps/accreditation/index.asp).
+  <p><strong>You can find a or a VSO in 1 of 2 ways:</strong></p>
+  <ul>
+    <li>Go to eBenefits to find a local VSO by state/territory, zip code, or the organization’s name.<br>
+      <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits</a>.</li>
+    <li>Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br>
+      <a href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search the VA Office of the General Counsel’s list</a>.</li>
+  </ul>
 </div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="info">What information do I need to submit so that my claim is decision-ready?</button>
 <div id="info" class="usa-accordion-content">
-  <strong>You'll need to submit copies of:</strong>
-- Your federal records
-- Your medical records
-- Completed Disability Benefits Questionnaires (DBQs)
-- Any other evidence that supports your claim (like doctor's reports or medical test results)
-
-**Depending on the type of DRC you're filing, you may also need to submit copies of:**
-- Your Service Treatment Records (STRs)
-- The Veteran's death certificate
-- The Veteran's medical records
-- The report from your VA claim exam
-
+  <p><strong>You'll need to submit copies of:</strong></p>
+  <ul>
+    <li>Your federal records</li>
+    <li>Your medical records</li>
+    <li>Completed Disability Benefits Questionnaires (DBQs)</li>
+    <li>Any other evidence that supports your claim (like doctor's reports or medical test results)</li>
+  </ul>
+<br>
+  <p><strong>Depending on the type of DRC you're filing, you may also need to submit copies of:<strong></p>
+    <ul>
+      <li>Your Service Treatment Records (STRs)</li>
+      <li>The Veteran's death certificate</li>
+      <li>The Veteran's medical records</li>
+      <li>The report from your VA claim exam</li>
+    </ul>
 </div>
 </li>
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="info">What if I have more questions or want more information?</button>
 <div id="info" class="usa-accordion-content">
-
-[Watch a video on the DRC program](https://www.benefits.va.gov/compensation/DRC.asp).
-
-**Download helpful PDFs:** <br>
-[Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf)<br>
-[Decision Ready Claims FAQs](https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf)<br>
-[Pre-discharge Decision Ready Claim Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf)<br>
-[Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet](https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf)
-
-Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
-
+<p><a href="https://www.benefits.va.gov/compensation/DRC.asp">Watch a video on the DRC program</a>.</li>
+<br>
+  <p><strong>Download helpful PDFs:</strong></p>
+  <p><a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf">Decision Ready Claims Fact Sheet</a></p>
+  <p><a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf">Pre-discharge Decision Ready Claim Fact Sheet</a></p>
+  <p><a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf">Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet</a></p>
+<br>  
+<p>Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
 </div>
 </li>
 </ul>
