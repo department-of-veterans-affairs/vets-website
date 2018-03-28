@@ -162,7 +162,7 @@ class YourClaimsPageV2 extends React.Component {
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1 className="claims-container-title">Your Compensation Appeals and Claims</h1>
+                <h1 className="claims-container-title">Track Your Compensation Appeals and Claims</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}
@@ -188,6 +188,14 @@ class YourClaimsPageV2 extends React.Component {
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <FeaturesWarning/>
             <AskVAQuestions/>
+            <div>
+              <h2 className="help-heading">Can’t find your appeal?</h2>
+              <p>
+                If you submitted a Notice of Disagreement for an appeal within the last 3 months,
+                VA might still be processing your appeal. For more information, contact your Veterans
+                Service Organization or representative.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -209,7 +217,7 @@ function mapStateToProps(state) {
   const list = getVisibleRows(sortedList, claimsV2Root.page);
 
   return {
-    appealsAvailable: claimsV2Root.appealsAvailability,
+    appealsAvailable: claimsV2Root.v2Availability,
     claimsAvailable: claimsV2Root.claimsAvailability,
     // claimsAuthorized: claimsState.claimSync.authorized,
     claimsLoading: claimsV2Root.claimsLoading,

@@ -211,8 +211,8 @@ table {
 // Adds external icon to all links that begin
 // with http (including https)
 // Using this selector makes it easier for the content team to write content
-[href^='http'],
-[rel='external'] {
+[href^="http"],
+[rel="external"] {
   @include exit-icon;
 }
 
@@ -523,13 +523,13 @@ ol {
     position: absolute;
   }
 
-  [type='text'] {
+  [type="text"] {
     height: 5.7rem;
     margin: 0;
     max-width: 100%;
   }
 
-  [type='submit'] {
+  [type="submit"] {
     border-radius: 0 3px 3px 0;
     height: 5.7rem;
     margin: 0;
@@ -1136,7 +1136,7 @@ li {
 
 // USDS component styles
 // Accordion
-.usa-accordion-content[aria-hidden='true'] {
+.usa-accordion-content[aria-hidden="true"] {
   display: none !important;
 }
 
@@ -1415,16 +1415,18 @@ p.info-message {
 
 .vertical-list-group .list-group-item {
   border: none;
-  border-left: 3px solid $color-gray-light;
+  border-left: 4px solid $color-gray-lighter;
   box-sizing: border-box;
   border-radius: 0;
   padding-left: 20px;
   padding-right: 0px;
   padding-bottom: 20px;
   padding-top: 0px;
+  margin-bottom: -30px;
 
   &:last-child {
     border: none;
+    margin-bottom: 24px;
   }
   h4 {
     clear: none;
@@ -1432,20 +1434,22 @@ p.info-message {
 }
 
 .vertical-list-group .list-group-item:last-child {
-  border-left: 3px solid transparent;
+  border-left: 4px solid transparent;
   padding-bottom: 0;
 }
 .vertical-list-group .list-group-item::before {
   border-radius: 50%;
+  border: 3px $color-white solid;
   background-color: $color-gray-medium;
-  content: '';
-  display: inline-block;
+  content: "";
+  display: inline;
   float: left;
-  height: 12px;
+  height: 18px;
   line-height: 12px;
-  margin-left: -28px;
+  margin-left: -31px;
   text-align: center;
-  width: 12px;
+  width: 18px;
+  position: absolute;
 }
 
 .legend-heading-wrapper {
@@ -1472,7 +1476,7 @@ p.info-message {
   }
 }
 
-[itemprop='acceptedAnswer'] {
+[itemprop="acceptedAnswer"] {
   // margin-bottom: 3em;
 }
 

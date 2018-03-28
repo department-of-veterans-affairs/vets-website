@@ -26,6 +26,11 @@ const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const breadcrumbTransformer = require('./metalsmith/breadcrumbTransformer');
+const {
+  getRoutes,
+  getWebpackEntryPoints,
+  getAppManifests
+} = require('./manifest-helpers.js');
 
 const sourceDir = '../content/pages';
 
@@ -79,8 +84,19 @@ switch (options.buildtype) {
   default:
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
+const manifests = getAppManifests(path.join(__dirname, '..'));
 
-const webpackConfig = webpackConfigGenerator(options);
+let manifestsToBuild = manifests;
+if (options.entry) {
+  const entryNames = options.entry.split(',').map(name => name.trim());
+  manifestsToBuild = manifests
+    .filter(manifest => entryNames.includes(manifest.entryName));
+}
+
+const webpackConfig = webpackConfigGenerator(
+  options,
+  getWebpackEntryPoints(manifestsToBuild)
+);
 
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = dt => moment(dt).format('MMMM D, YYYY');
@@ -100,18 +116,11 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push(
-    'burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md'
-  );
-  ignoreList.push(
-    'employment/vocational-rehab-and-employment/application/chapter31.md'
-  );
-  ignoreList.push(
-    'employment/vocational-rehab-and-employment/application/chapter36.md'
-  );
+  manifests.filter(m => !m.production).forEach(m => {
+    ignoreList.push(m.contentPage);
+  });
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
-  ignoreList.push('disability-benefits/526/apply-for-increase.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -449,103 +458,21 @@ if (options.watch) {
     })
   );
 
+  const appRewrites = getRoutes(manifests).map(url => {
+    return {
+      from: `^${url}(.*)`,
+      to: `${url}/`
+    };
+  }).sort((a, b) => b.from.length - a.from.length);
+
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
-        { from: '^/track-claims(.*)', to: '/track-claims/' },
-        {
-          from:
-            '^/education/apply-for-education-benefits/application/1990[eE](.*)',
-          to: '/education/apply-for-education-benefits/application/1990E/'
-        },
-        {
-          from:
-            '^/education/apply-for-education-benefits/application/1990[nN](.*)',
-          to: '/education/apply-for-education-benefits/application/1990N/'
-        },
-        {
-          from: '^/education/apply-for-education-benefits/application/1990(.*)',
-          to: '/education/apply-for-education-benefits/application/1990/'
-        },
-        {
-          from: '^/education/apply-for-education-benefits/application/1995(.*)',
-          to: '/education/apply-for-education-benefits/application/1995/'
-        },
-        {
-          from: '^/education/apply-for-education-benefits/application/5490(.*)',
-          to: '/education/apply-for-education-benefits/application/5490/'
-        },
-        {
-          from: '^/education/apply-for-education-benefits/application/5495(.*)',
-          to: '/education/apply-for-education-benefits/application/5495/'
-        },
-        { from: '^/facilities(.*)', to: '/facilities/' },
-        {
-          from: '^/discharge-upgrade-instructions(.*)',
-          to: '/discharge-upgrade-instructions/'
-        },
-        {
-          from: '^/gi-bill-comparison-tool(.*)',
-          to: '/gi-bill-comparison-tool/'
-        },
-        {
-          from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)',
-          to: '/education/gi-bill/post-9-11/ch-33-benefit/'
-        },
-        {
-          from: '^/health-care/apply/application(.*)',
-          to: '/health-care/apply/application/'
-        },
-        {
-          from: '^/health-care/health-records(.*)',
-          to: '/health-care/health-records/'
-        },
-        { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
-        {
-          from: '^/health-care/prescriptions(.*)',
-          to: '/health-care/prescriptions/'
-        },
-        { from: '^/letters(.*)', to: '/letters/' },
-        {
-          from: '^/pension/application/527EZ(.*)',
-          to: '/pension/application/527EZ/'
-        },
-        {
-          from: '^/burials-and-memorials/application/530(.*)',
-          to: '/burials-and-memorials/application/530/'
-        },
-        {
-          from:
-            '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)',
-          to:
-            '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/'
-        },
-        {
-          from:
-            '^/employment/vocational-rehab-and-employment/application/chapter31(.*)',
-          to:
-            '/employment/vocational-rehab-and-employment/application/chapter31/'
-        },
-        {
-          from:
-            '^/employment/vocational-rehab-and-employment/application/chapter36(.*)',
-          to:
-            '/employment/vocational-rehab-and-employment/application/chapter36/'
-        },
-        { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
-        {
-          from: '^/disability-benefits/526/apply-for-increase(.*)',
-          to: '/disability-benefits/526/apply-for-increase/'
-        },
-        {
-          from: '^/(.*)',
-          to(context) {
-            return context.parsedUrl.pathname;
-          }
-        }
-      ]
+        ...appRewrites,
+        { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
+      ],
     },
     hot: true,
     port: options.port,
@@ -695,31 +622,26 @@ smith.use(
 );
 
 if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
-  smith.use(
-    blc({
-      allowRedirects: true, // Don't require trailing slash for index.html links.
-      warn: false, // Throw an Error when encountering the first broken link not just a warning.
-      allowRegex: new RegExp(
-        [
-          '/education/gi-bill/post-9-11/ch-33-benefit',
-          '/employment/commitments',
-          '/employment/employers',
-          '/employment/job-seekers/create-resume',
-          '/employment/job-seekers/search-jobs',
-          '/employment/job-seekers/skills-translator',
-          '/gi-bill-comparison-tool/',
-          '/education/apply-for-education-benefits/application',
-          '/pension/application/527EZ',
-          '/burials-and-memorials/application/530',
-          '/health-care/apply/application',
-          '/veteran-id-card/apply',
-          '/veteran-id-card/how-to-get',
-          '/disability-benefits/apply-for-increase',
-          '/letters'
-        ].join('|')
-      )
-    })
-  );
+  smith.use(blc({
+    allowRedirects: true,  // Don't require trailing slash for index.html links.
+    warn: false,           // Throw an Error when encountering the first broken link not just a warning.
+    allowRegex: new RegExp(
+      ['/education/gi-bill/post-9-11/ch-33-benefit',
+        '/employment/commitments',
+        '/employment/employers',
+        '/employment/job-seekers/create-resume',
+        '/employment/job-seekers/search-jobs',
+        '/employment/job-seekers/skills-translator',
+        '/gi-bill-comparison-tool/',
+        '/education/apply-for-education-benefits/application',
+        '/pension/application/527EZ',
+        '/burials-and-memorials/application/530',
+        '/health-care/apply/application',
+        '/veteran-id-card/apply',
+        '/veteran-id-card/how-to-get',
+        '/disability-benefits/apply-for-increase',
+        '/download-va-letters/letters'].join('|'))
+  }));
 }
 
 if (options.buildtype !== 'development') {

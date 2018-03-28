@@ -2,6 +2,8 @@ import { expect } from 'chai';
 
 import post911GIBStatus from '../../../src/js/post-911-gib-status/reducers';
 
+import { SET_SERVICE_AVAILABILITY, SERVICE_AVAILABILITY_STATES } from '../../../src/js/post-911-gib-status/utils/constants';
+
 const initialState = {
   enrollmentData: null,
   availability: 'awaitingResponse'
@@ -64,5 +66,17 @@ describe('post911GIBStatus reducer', () => {
 
     expect(state.enrollmentData).to.be.null;
     expect(state.availability).to.equal('unavailable');
+  });
+
+  it('should handle setting the service availability', () => {
+    const state = post911GIBStatus.post911GIBStatus(
+      initialState,
+      {
+        type: SET_SERVICE_AVAILABILITY,
+        serviceAvailability: SERVICE_AVAILABILITY_STATES.up
+      }
+    );
+
+    expect(state.serviceAvailability).to.equal(SERVICE_AVAILABILITY_STATES.up);
   });
 });

@@ -11,11 +11,12 @@ import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
 import initCommon from '../common/init-common';
+import manifest from './manifest.json';
 
 const store = initCommon(reducer);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/health-care/prescriptions'
+  basename: manifest.rootUrl
 });
 
 function init() {

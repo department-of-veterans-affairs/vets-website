@@ -11,15 +11,17 @@ import initReact from '../common/init-react';
 import route from './routes';
 import initCommon from '../common/init-common';
 import reducer from './reducer';
+import manifest from './manifest.json';
 
 const store = initCommon(reducer);
 
-const folderName = window.location.pathname.indexOf('health-care/') >= 0
-  ? 'health-care'
-  : 'healthcare';
+let rootUrl = manifest.rootUrl;
+if (window.location.pathname.indexOf('healthcare/') >= 0) {
+  rootUrl = rootUrl.replace('health-care/', 'healthcare/');
+}
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: `/${folderName}/apply/application`
+  basename: rootUrl
 });
 
 function init() {

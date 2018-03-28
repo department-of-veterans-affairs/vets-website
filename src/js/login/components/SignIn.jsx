@@ -2,24 +2,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 
-class Signin extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
-  }
+import { login, signup } from '../utils/helpers';
 
+const loginHandler = (loginType) => () => {
+  window.dataLayer.push({ event: `login-attempted-${loginType}` });
+  login(loginType);
+};
+
+const handleDsLogon = loginHandler('dslogon');
+const handleMhv = loginHandler('mhv');
+const handleIdMe = loginHandler('idme');
+
+class SignIn extends React.Component {
   componentDidMount() {
     this.checkLoggedInStatus();
     window.dataLayer.push({ event: 'login-modal-opened' });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.checkLoggedInStatus(nextProps.currentlyLoggedIn);
+  componentDidUpdate() {
+    this.checkLoggedInStatus();
   }
 
-  checkLoggedInStatus(loggedIn) {
-    if (this.props.currentlyLoggedIn || loggedIn) {
+  checkLoggedInStatus = () => {
+    if (this.props.currentlyLoggedIn) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next') || '';
 
@@ -32,17 +37,6 @@ class Signin extends React.Component {
         window.location.replace(path);
       }
     }
-  }
-
-  handleLogin(loginType) {
-    return () => {
-      window.dataLayer.push({ event: `login-attempted-${loginType}` });
-      this.props.handleLogin(loginType);
-    };
-  }
-
-  handleSignup() {
-    this.props.handleSignup();
   }
 
   render() {
@@ -79,19 +73,19 @@ class Signin extends React.Component {
                 <div className="signin-actions">
                   <h5>Sign in with an existing account</h5>
                   <div>
-                    <button className="dslogon" onClick={this.handleLogin('dslogon')}>
+                    <button className="dslogon" onClick={handleDsLogon}>
                       <img alt="DS Logon" src="/img/signin/dslogon-icon.svg"/><strong> Sign in with DS Logon</strong>
                     </button>
-                    <button className="mhv" onClick={this.handleLogin('mhv')}>
+                    <button className="mhv" onClick={handleMhv}>
                       <img alt="My HealtheVet" src="/img/signin/mhv-icon.svg"/><strong> Sign in with My HealtheVet</strong>
                     </button>
-                    <button className="usa-button-primary va-button-primary" onClick={this.handleLogin('idme')}>
+                    <button className="usa-button-primary va-button-primary" onClick={handleIdMe}>
                       <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Sign in with ID.me</strong>
                     </button>
                     <span className="sidelines">OR</span>
                     <div className="alternate-signin">
                       <h5>Don't have those accounts?</h5>
-                      <button className="idme-create usa-button usa-button-secondary" onClick={this.handleSignup}>
+                      <button className="idme-create usa-button usa-button-secondary" onClick={signup}>
                         <img alt="ID.me" src="/img/signin/idme-icon-dark.svg"/><strong> Create an ID.me account</strong>
                       </button>
                       <p>Use your email, Google, or Facebook</p>
@@ -150,11 +144,9 @@ class Signin extends React.Component {
   }
 }
 
-Signin.propTypes = {
+SignIn.propTypes = {
   onLoggedIn: PropTypes.func,
   currentlyLoggedIn: PropTypes.bool,
-  handleLogin: PropTypes.func,
-  handleSignup: PropTypes.func,
 };
 
-export default Signin;
+export default SignIn;

@@ -65,21 +65,22 @@ describe('VIC photo upload', () => {
     });
   });
 
-  // it/ should accept a valid file and render the cropper
+  it('should parse doc response', () => {
+    const parseResponse = uiSchema.photo['ui:options'].parseResponse;
 
-  // it/ should allow the user to upload a new file
-  // it/ should display a warning when the image is fully zoomed in
-
-  // it/ should crop a photo and render the preview
-
-  // it/ should all the user to return to the cropper from preview
-
-  // it/ should allow the user to upload a new photo
-  // it/ should display an error if upload fails
-  // it/ should display a progres indicator while the file is uploading
-
-  // it/ should submit with a valid photo
-
-  // non-sighted path
-  // it/ should submit with a valid photo
+    expect(parseResponse({
+      data: {
+        attributes: {
+          guid: 'testing'
+        }
+      }
+    },
+    {
+      name: 'filename'
+    }
+    )).to.deep.equal({
+      name: 'filename',
+      confirmationCode: 'testing'
+    });
+  });
 });
