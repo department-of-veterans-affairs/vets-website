@@ -31,7 +31,7 @@ You may qualify if you’re a Veteran, and you or another Veteran at your compan
 
 #### What qualifies me as a Veteran?
 
-You’re considered a Veteran if you meet either of the descriptions listed below.
+You’re considered a Veteran if you meet either of the requirements listed below.
 
 **At least one of these must be true. You:**
 
