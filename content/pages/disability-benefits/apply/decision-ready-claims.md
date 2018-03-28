@@ -64,21 +64,18 @@ You can file a DRC if you meet all of the requirements listed below.
 
 - You're filing one of the claim types listed above, **and**
 - You've already filed a VA claim and received a rating decision from us on that claim (unless you're filing a Pre-discharge or DIC claim), **and**
-- None of the exclusions listed in the blue box below apply to you
+- None of the exclusions listed below apply to you
 
 </div>
 </div>
 </div>
 
-<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
-  
 <h3 itemprop="name">What exclusions disqualify me from being able to file my claim through the DRC Program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
 You can't file your claim through the DRC program if any of the exclusions listed below apply to you.
 
-<span id="all"></span>
 <h4>Exclusions for all DRC claims</h4>
 
 **None of these can be true. You can't be filing:**
@@ -137,8 +134,9 @@ You can't file your DIC claim through the DRC program if any of the below factor
 </div>
 </li>
 </ul>
-
 </div>
+
+-----
 
 ### How do I file a DRC?
 
