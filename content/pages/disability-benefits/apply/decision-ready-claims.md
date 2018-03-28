@@ -9,21 +9,18 @@ order: 3
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-      title: Fully Developed Claim 
-      description: "File a fully developed claim and get a faster decision on your disability benefits claim."
+    - url: /disability-benefits/apply/evidence/
+      title: Evidence for Standard and Fully Developed Claims
+      description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
       description: "Apply online now, or find out how to apply in person, by mail, or with the help of a trained professional."
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
-    - url: /disability-benefits/apply/one-year/
+    - url: /disability-benefits/eligibility/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: "You may be able to get disability benefits if you have an illness that started within a year after you were discharged from service."
-    - url: /disability-benefits/after-you-apply/date/
-      title: Effective Date of Disability 
-      description: "Learn how VA decides the date you can start getting your disability benefits. "
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
@@ -34,11 +31,11 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 
 <div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What types of disability compensation claims can be filed through the DRC program?</h3>
+<h3 itemprop="name">What types of disability compensation claims can be filed through the Decision Ready Claims program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**Right now, you can file these types of claims through the DRC program:**
+**Right now, you can file these types of claims through the Decision Ready Claims program:**
 
 - **Direct service connection claim** for a condition that began during your military service or was caused by an event while serving
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
@@ -54,46 +51,46 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 
 <br>
 
-<h3 itemprop="name">Can I file my disability compensation claim through the DRC program?</h3>
+<h3 itemprop="name">Can I file my disability compensation claim through the Decision Ready Claims program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can file a DRC if you meet all of the requirements listed below.
+You can file a Decision Ready Claim if you meet all of the requirements listed below.
 
 **All of these must be true:**
 
 - You're filing one of the claim types listed above, **and**
-- You've already filed a VA claim and received a rating decision from us on that claim (unless you're filing a Pre-discharge or DIC claim), **and**
+- You've already filed a VA claim and received a rating decision from us on that claim (unless you're filing a pre-discharge or DIC claim), **and**
 - None of the exclusions listed below apply to you
 
 </div>
 </div>
 </div>
 
-<h3 itemprop="name">What exclusions disqualify me from being able to file my claim through the DRC Program?</h3>
+<h3 itemprop="name">What exclusions disqualify me from being able to file my claim through the Decision Ready Claims program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can't file your claim through the DRC program if any of the exclusions listed below apply to you.
+You can't file your claim through the Decision Ready Claims program if any of the exclusions listed below apply to you.
 
-<h4>Exclusions for all DRC claims</h4>
+<h4>Exclusions for all Decision Ready Claims</h4>
 
 **None of these can be true. You can't be filing:**
 - A claim for a previously denied condition, **or**
 - A claim for a disability incurred during a prior period of active duty for training or inactive duty for training, unless you are a Service member filing a VA claim prior to discharge, **or**
-- A claim for Pension, **or**
+- A claim for pension benefits, **or**
 - For Chapter 18 (Spina Bifida) or any other birth defects for dependent children, **or**
 - A restricted access claim (includes VBA employees, relatives of VBA employees, National Service Officers, or high-ranking government officials), **or**
-- A direct service connection DRC for Posttraumatic Stress Disorder (PTSD), Traumatic Brain Injury (TBI), Camp Lejeune Contaminated Water (CLCW), and conditions related to Mustard Gas or as a Former Prisoner of War (FPOW)<br>
-**Exception:** Pre-Discharge claims involving PTSD, and/or TBI may be processed under the DRC program if an in-service diagnosis has been documented on examination
+- A direct service connection DRC for posttraumatic stress disorder (PTSD), traumatic brain injury (TBI), Camp Lejeune contaminated water (CLCW), and conditions related to mustard gas or as a former prisoner of war (FPOW)<br>
+**Exception:** Pre-discharge claims involving PTSD, and/or TBI may be processed under the Decision Ready Claims program if an in-service diagnosis has been documented on examination.
 
 **And none of these can be true. You can't be:**
 - Waiting for a decision on a pending disability claim, unless the claim was submitted via the Benefits Delivery at Discharge (BDD) program, **or**
 - Currently appealing the condition you want to file a DRC for, **or**
-- Claiming Individual Unemployability, **or**
-- Seeking Special Monthly Pension, **or**
-- Seeking only Special Monthly Compensation, **or**
-- Submitting a DRC application without a Veteran signature
+- Claiming individual unemployability, **or**
+- Seeking special monthly pension benefits, **or**
+- Seeking only special monthly compensation, **or**
+- Submitting a Decision Ready Claims application without a Veteran signature
 
 **And none of these can be true. You can't be:**
 - Rated at 100% for your condition
