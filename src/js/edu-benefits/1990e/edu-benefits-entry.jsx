@@ -11,11 +11,12 @@ import initReact from '../../common/init-react';
 import routes from './routes';
 import reducer from './reducer';
 import initCommon from '../../common/init-common';
+import manifest from './manifest.json';
 
 const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/education/apply-for-education-benefits/application/1990E'
+  basename: manifest.rootUrl
 });
 
 function init() {

@@ -13,10 +13,11 @@ import initReact from '../common/init-react';
 import routes from './routes.jsx';
 import reducer from './reducers';
 import initCommon from '../common/init-common';
+import manifest from './manifest.json';
 
 const store = initCommon(reducer);
 const history = useRouterHistory(createHistory)({
-  basename: '/download-va-letters/letters'
+  basename: manifest.rootUrl
 });
 
 function init() {
