@@ -50,9 +50,9 @@ export class AppealInfo extends React.Component {
   }
 
   createHeading = () => {
-    const firstClaim = this.props.appeal.attributes.events.find(a => a.type === EVENT_TYPES.claim);
+    const firstClaim = this.props.appeal.attributes.events.find(a => a.type === EVENT_TYPES.claimDecision);
     const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
-    return `Appeal of Claim Decision${appealDate}`;
+    return `Appeal of ${appealDate} Claim Decision`;
   }
 
   render() {

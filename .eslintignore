@@ -11,3 +11,5 @@ src/rx-migrate/*
 coverage/*
 .nyc_output/*
 src/js/common/utils/static-page-widgets.js
+script/watch.js
+script/mocha.js

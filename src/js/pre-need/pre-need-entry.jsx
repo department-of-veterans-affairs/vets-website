@@ -11,11 +11,12 @@ import initReact from '../common/init-react';
 import route from './routes';
 import initCommon from '../common/init-common';
 import reducer from './reducer';
+import manifest from './manifest.json';
 
 const store = initCommon(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility'
+  basename: manifest.rootUrl
 });
 
 function init() {

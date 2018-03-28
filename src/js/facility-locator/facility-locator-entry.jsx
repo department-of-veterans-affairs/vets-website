@@ -10,11 +10,12 @@ import ReactDOM from 'react-dom';
 import routes from './routes';
 import { store } from './store';
 import { renderCommonComponents } from '../common/init-common';
+import manifest from './manifest.json';
 
 renderCommonComponents(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/facilities'
+  basename: manifest.rootUrl
 });
 
 function init() {
