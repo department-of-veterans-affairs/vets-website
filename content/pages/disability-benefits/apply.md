@@ -65,7 +65,7 @@ For all disability claims, please provide:
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<img src="526-wizard.png" />
+<img src="526-wizard.png" alt="" title="just comped image as mockup" />
 
 </div>
 
