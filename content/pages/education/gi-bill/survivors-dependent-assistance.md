@@ -20,7 +20,7 @@ If you’re a dependent spouse or child—or the surviving spouse or child—of 
 
 ### Can I get education benefits?
 
-**You may qualify for education benefits if you’re the child or spouse of a Servicemember** and at least one of the below descriptions is true of the Servicemember.
+**You may qualify for education benefits if you’re the child or spouse of a Servicemember** and one of the below descriptions is true of the Servicemember.
 
 **One of these must be true. The Servicemember:**
 
