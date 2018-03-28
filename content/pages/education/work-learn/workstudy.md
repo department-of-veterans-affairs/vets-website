@@ -18,6 +18,8 @@ Find out if you can earn money while you go to school through our work-study pro
 ### Can I be a part of the work-study program?
 You can be a part of VA’s work-study program if you’re enrolled at least three-quarter time at an institution of higher learning and all of the requirements listed below describe the work-study situation you’re interested in.
 
+**All of these must be true:**
+
   - There’s an open job either at a nearby VA facility or in a VA-related role at your school, **and**
   - You can finish the work-study contract while you still qualify for education benefits, **and**
   - You’re using one of these VA education benefits: 
