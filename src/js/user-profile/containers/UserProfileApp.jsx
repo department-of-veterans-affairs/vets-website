@@ -42,7 +42,7 @@ class UserProfileApp extends React.Component {
             <FormList
               userProfile={this.props.user.profile}
               removeSavedForm={this.props.removeSavedForm}
-              savedForms={this.props.profile.savedForms}/>
+              savedForms={this.props.user.profile.savedForms}/>
             <AuthApplicationSection
               userProfile={this.props.user.profile}
               verifyUrl={this.props.verifyUrl}/>
