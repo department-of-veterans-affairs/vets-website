@@ -114,7 +114,7 @@ You can find an accredited representative or a VSO in 1 of 2 ways:
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">How do I set up an accredited representative or a VSO to work on my behalf?</h4>
+<h3 itemprop="name">How do I set up an accredited representative or a VSO to work on my behalf?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -129,9 +129,33 @@ You'll need to either use eBenefits or fill out a form and mail it in.
 - To have a claims agent or attorney help you, fill out an Appointment of Individual as Claimant's Representative (VA Form 21-22a). <br>
 [Download VA Form 21-22a](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf).
 
-
 If you're filling out one of the forms, you'll need to mail it to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
 [Find a VA regional office near you](/facilities/).
+
+</div>
+</div>
+</div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">What's the Decision Ready Claims program?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+For certain types of claims, you may be able to work with your VSO to submit a claim that's decision-ready so you can get your claim processed as fast as possible.
+
+**To submit a DRC, you'll need to:**
+
+- Appoint and work with an accredited Veterans Service Organization (VSO), **and**
+- Gather all relevant and required evidence to support your claim, **and**
+- Attend a VA claim exam, if needed, before submitting your claim
+
+When you work with an accredited VSO and provide all the needed evidence with your application, you can get a decision on your claim in 30 days or less. <br>
+[Find out if you're eligible for the Decision Ready Claims program](/disability-benefits/apply/decision-ready-claims/).
+
+</div>
+</div>
+</div>
 
 </div>
 </div>
