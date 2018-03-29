@@ -1,8 +1,8 @@
-import UserProfileApp from './containers/UserProfileApp';
+import VAProfileApp from './containers/VAProfileApp';
 
 const routes = {
   path: '/profile-beta',
-  component: UserProfileApp
+  component: VAProfileApp
 };
 
 export default routes;
