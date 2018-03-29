@@ -212,4 +212,5 @@ Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1p
 </ul>
 </div>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
