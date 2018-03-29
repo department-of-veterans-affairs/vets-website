@@ -4,7 +4,7 @@ import React from 'react';
 import { formatDate } from '../../../rx/utils/helpers';
 
 export default function PrescriptionCard({ prescription }) {
-  const { prescriptionName, refillSubmitDate, refillStatus } = prescription.attributes;
+  const { prescriptionName, refillSubmitDate, refillDate, refillStatus } = prescription.attributes;
 
   const headerText = {
     refillinprocess: 'Your prescription refill is in progress',
@@ -16,7 +16,7 @@ export default function PrescriptionCard({ prescription }) {
         {headerText[refillStatus]}
       </h3>
       <p><strong>Submit date:</strong> {
-        formatDate(refillSubmitDate, {
+        formatDate(refillSubmitDate || refillDate, {
           format: 'L'
         })
       }</p>
