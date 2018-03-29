@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Evidence Needed for Standard and Fully Developed Claims
-display_title: Evidence for Standard and Fully Developed Claims
+title: How to Gather Evidence for Your Claim
+display_title: How to Gather Evidence for Your Claim
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 2
@@ -42,7 +42,17 @@ We require certain documents to support all claims for disability benefits. You'
 </div>
 
 ### Your options for gathering evidence: <br>
-### Standard vs. fully developed claims
+
+#### Standard claims
+With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize, so we can decide your claim.
+
+#### Fully developed claims
+You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim.<br>
+
+#### Decision-ready claims
+For certain types of claims, you may be eligible to file through our Decision Ready Claims program. Through this program, you may be able to get a decision on your claim within 30 days or less by working with an accredited Veterans Service Organization (VSO).<br>
+[Find out if you qualify for the Decision Ready Claims program](/disability-benefits/apply/decision-ready-claims/).
+
 
 When you file your claim, you have 2 options for gathering evidence. You can choose to file:
 
