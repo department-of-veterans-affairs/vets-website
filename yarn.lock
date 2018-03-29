@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.0.0.tgz#dc69722f49088edac5a74d9effdf0d118f854703"
+  dependencies:
+    jsonschema "^1.0.2"
+    lodash.topath "^4.5.2"
+    prop-types "^15.6.1"
+    setimmediate "^1.0.5"
+
 "@types/node@^6.0.46":
   version "6.0.87"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.87.tgz#5ab5774f8351a33a935099fa6be850aa0b0ad564"
@@ -7959,14 +7968,6 @@ react-element-to-string@^1.0.2:
   dependencies:
     indent-string "^2.1.0"
     json-stringify-pretty-compact "^1.0.1"
-
-react-jsonschema-form@0.43.0:
-  version "0.43.0"
-  resolved "https://registry.yarnpkg.com/react-jsonschema-form/-/react-jsonschema-form-0.43.0.tgz#586b69de7bda6d3a9cd9f74c1bee9b7fa353d1e5"
-  dependencies:
-    jsonschema "^1.0.2"
-    lodash.topath "^4.5.2"
-    setimmediate "^1.0.5"
 
 react-leaflet@^1.2.0:
   version "1.2.0"
