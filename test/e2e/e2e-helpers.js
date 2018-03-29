@@ -86,6 +86,24 @@ function expectNavigateAwayFrom(client, urlSubstring) {
     .to.not.contain(urlSubstring).before(Timeouts.slow);
 }
 
+// Expects navigation lands at a path with the given `urlSubstring`.
+function expectNavigateAwayFromExact(client, urlSubstring) {
+  client.expect.element('.js-test-location').attribute('data-location')
+    .to.not.equal(urlSubstring).before(Timeouts.slow);
+}
+
+// Expects navigation lands at a path with the given `urlSubstring`.
+function expectLocation(client, urlSubstring) {
+  client.expect.element('.js-test-location').attribute('data-location')
+    .to.contain(urlSubstring).before(Timeouts.slow);
+}
+
+// Expects navigation lands at a path with the given `urlSubstring`.
+function expectExactLocation(client, urlSubstring) {
+  client.expect.element('.js-test-location').attribute('data-location')
+    .to.equal(urlSubstring).before(Timeouts.slow);
+}
+
 function expectValueToBeBlank(client, field) {
   client.expect.element(field).to.have.value.that.equals('');
 }
@@ -99,6 +117,9 @@ module.exports = {
   apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env.API_PORT || 3000}`,
   createE2eTest,
   expectNavigateAwayFrom,
+  expectNavigateAwayFromExact,
+  expectExactLocation,
+  expectLocation,
   expectValueToBeBlank,
   expectInputToNotBeSelected,
   overrideVetsGovApi,

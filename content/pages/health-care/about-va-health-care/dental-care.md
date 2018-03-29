@@ -95,15 +95,15 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class II
 
-**You may qualify for:** 1-time dental care
+**You may qualify for:** 1-time dental care if you meet all of the requirements listed below
 
-**You can get this care only if:**
+**All of these must be true for you:**
 
-- You were discharged or released under conditions other than dishonorable, **and**
+- You didn't receive a dishonorable discharge, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
 - Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged\*
 
-**\*Please note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
+**Please note:** If you got a dental award letter from VBA dated before 1955 stating that your dental conditions aren't compensable, then you are no longer eligible for Class II outpatient dental treatment. This is because of Public Law 83, which was enacted June 16, 1955, and which amended Veterans’ eligibility for outpatient dental services. 
 
 </div>
 </li>
@@ -135,15 +135,17 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class V
 
-**You may qualify for:** Dental care that a VA dental care provider concludes is needed to:
+**You may qualify for:** Dental care that a VA dental care provider concludes is needed to achieve at least one of the goals listed below
 
-- Make it possible for you to be in the vocational rehab program, **or**
-- Make it possible for you to reach the goals of your vocational rehab program, **or**
-- Prevent you from having to stop your rehab program, **or**
-- Help you get back to your rehab program faster if you’ve had to stop (and are in “interrupted” or “leave” status), **or**
-- Help you get back to your rehab program faster if you’ve had to stop (and are in “discontinued” status) because of an illness, injury, or dental condition, **or**
-- Make it possible for you to get and adjust to a job during the period of employment assistance, **or**
-- Make it possible for you to be fully independent in your daily living
+**The dental care must be needed to:**
+
+* Make it possible for you to be in the vocational rehab program, **or**
+* Make it possible for you to reach the goals of your vocational rehab program, **or**
+* Prevent you from having to stop your rehab program, **or**
+* Help you get back to your rehab program faster if you’ve had to stop (and are in “interrupted” or “leave” status), **or**
+* Help you get back to your rehab program faster if you’ve had to stop (and are in “discontinued” status) because of an illness, injury, or dental condition, **or**
+* Make it possible for you to get and adjust to a job during the period of employment assistance, **or**
+* Make it possible for you to be fully independent in your daily living
 
 </div>
 </li>
@@ -164,11 +166,14 @@ Click on the statement below that describes you best to find out your benefits c
 
 **You’re in:** Class IIB
 
-**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need to:
+**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need to achieve at least one of the goals listed below.
 
-- Relieve pain, **or**
-- Get a job, **or**
-- Treat moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
+**The dental care must be needed to:**
+
+- Relieve your pain, **or**
+- Help you get a job, **or**
+- Treat your moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
+
 
 </div>
 </li>
@@ -197,17 +202,23 @@ You can apply online by filling out the 10-10EZ health care application.
 
 ### Where do I go for VA dental care?
 
-We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. [Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
+We provide dental care to qualified Veterans at over 200 dental clinics across the country, including Alaska and Puerto Rico. <br>
+[Find a VA dental clinic near you](https://www.va.gov/DENTAL/Dental-Clinic-Locations-Finder.asp).
 
 <br>
 
 ### If I can’t get VA dental care benefits, can I get help buying dental insurance?
 
-You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you:
+You may be able to buy dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP) if you meet at least one of the requirements listed below.
 
-- Are signed up for VA health care ([apply now](/health-care/apply/)), **or**
-- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). [Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
+**At least one of these must be true. You:**
+
+- Are signed up for VA health care <br>
+([Apply now](/health-care/apply/)), **or**
+- Are signed up for our Civilian Health and Medical Program (also called CHAMPVA, a health insurance program for dependents of Veterans). <br>
+[Find out if you can sign up for CHAMPVA](https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/index.asp).
+
 
 [Learn more about VADIP](https://www.va.gov/healthbenefits/VADIP/).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>

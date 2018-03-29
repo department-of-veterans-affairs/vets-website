@@ -20,6 +20,7 @@ You have the right to appeal any benefits decision made by the Veterans Benefits
 When the Veterans Benefits Administration Regional Office receives your Notice of Disagreement, you’ll be able to check the status of your appeal on Vets.gov.
 
 <a class="usa-button-primary" href="/track-claims">Track Your Appeal</a>
+
 </div>
 
 <h3>Appeals Process Overview</h3>
@@ -28,7 +29,8 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 </p>
 
 <span id="time-to-complete-claim"></span>
-  ### How long does it take VA to make a decision?
+
+### How long does it take VA to make a decision?
 
   <div class="card information" markdown="0">
     <span class="number">12-18 months</span>
@@ -39,7 +41,6 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     <span class="number">5-7 years</span>
     <span class="description">When you request a review from a Veterans Law Judge at the Board of Veterans’ Appeals, it could take 5-7 years for you to get a decision.</span>
   </div>
-
 
 <section id="appeal-steps">
   <h4>An appeal follows these steps:</h4>
@@ -110,6 +111,6 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You’ll need to hire a VA-accredited attorney to represent you, or you may represent yourself. You’ll need to file your Court appeal within 120 days of the Board’s decision.
 [Learn how to file a Court appeal](https://www.uscourts.cavc.gov/appeal.php).
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

@@ -1,6 +1,5 @@
 .downtime-notification {
-
-  &[data-status=down] {
+  &[data-status="down"] {
     margin-bottom: 4em;
     h3 {
       margin-top: 0;
@@ -8,8 +7,6 @@
     }
   }
 
-  &[data-status=downtimeApproaching] {
-
-  }
-
+  // &[data-status="downtimeApproaching"] {
+  // }
 }

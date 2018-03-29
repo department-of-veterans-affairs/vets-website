@@ -2,7 +2,7 @@
 import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
 import asyncLoader from '../../common/components/asyncLoader';

@@ -84,4 +84,23 @@ describe('VIC document upload', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
   });
+
+  it('should parse doc response', () => {
+    const parseResponse = uiSchema.dd214['ui:options'].parseResponse;
+
+    expect(parseResponse({
+      data: {
+        attributes: {
+          guid: 'testing'
+        }
+      }
+    },
+    {
+      name: 'filename'
+    }
+    )).to.deep.equal({
+      name: 'filename',
+      confirmationCode: 'testing'
+    });
+  });
 });

@@ -11,13 +11,14 @@ import initReact from '../common/init-react';
 import routes from './routes';
 import { store } from './store';
 import { updateRoute } from './actions';
+import manifest from './manifest.json';
 
 import { renderCommonComponents } from '../common/init-common';
 
 renderCommonComponents(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: '/gi-bill-comparison-tool'
+  basename: manifest.rootUrl
 });
 
 function init() {

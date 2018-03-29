@@ -20,7 +20,7 @@ class SearchHelpSignIn extends React.Component {
     }
   }
 
-  handleSigninSignup = (e) => {
+  handleSignInSignUp = (e) => {
     e.preventDefault();
     window.dataLayer.push({ event: 'login-link-clicked' });
     this.props.toggleLoginModal(true);
@@ -52,12 +52,11 @@ class SearchHelpSignIn extends React.Component {
         }}
         isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
         greeting={greeting}
-        isOpen={login.utilitiesMenuIsOpen.account}
-        onUserLogout={this.props.onUserLogout}/>);
+        isOpen={login.utilitiesMenuIsOpen.account}/>);
     } else {
       const classes = classNames({ disabled: isLoading });
       content = (<div>
-        <a href="#" className={classes} onClick={this.handleSigninSignup}><span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span></a>
+        <a href="#" className={classes} onClick={this.handleSignInSignUp}><span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span></a>
       </div>
       );
     }

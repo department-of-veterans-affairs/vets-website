@@ -17,13 +17,13 @@ Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse
 
 ### Can I get this benefit as a surviving spouse?
 
-You may be able to get this benefit if you haven’t remarried after the Veteran’s death, and if the deceased Veteran was discharged from service under conditions other than dishonorable, and:
+You may be able to get this benefit if you haven’t remarried after the Veteran’s death, and if the deceased Veteran was discharged from service under conditions other than dishonorable, and **at least one of the following is true for the Veteran**:
 
-- Entered active duty on or before September 7, 1980, and served at least 90 days on active military service, with at least 1 day during a wartime period, **or**
+- The Veteran entered active duty on or before September 7, 1980, and served at least 90 days on active military service, with at least 1 day during a wartime period, **or**
 
-- Entered active duty after September 7, 1980, and served at least 24 months or the full period for which called or ordered to active duty (with some exceptions), with at least 1 day during a wartime period **or**
+- The Veteran entered active duty after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions), with at least 1 day during a wartime period **or**
 
-- Was an officer and started on active duty after October 16, 1981, and hadn’t previously served on active duty for at least 24 months
+- The Veteran was an officer and started on active duty after October 16, 1981, and hadn’t previously served on active duty for at least 24 months
 
 **And:**
 
@@ -31,10 +31,10 @@ You may be able to get this benefit if you haven’t remarried after the Veteran
 
 ### Can I get this benefit as the child of a deceased wartime Veteran?
 
-You may be able to get this benefit if you’re unmarried and: 
-- Under age 18, **or**
-- Under age 23 and attending a VA-approved school, **or**
-- Unable to care for yourself due to a disability that happened before age 18
+You may be able to get this benefit if you’re unmarried and **at least one of the following is true for you**: 
+- You're under age 18, **or**
+- You're under age 23 and attending a VA-approved school, **or**
+- You're unable to care for yourself due to a disability that happened before age 18
 
 </div>
 
