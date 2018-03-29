@@ -85,10 +85,7 @@ async function sendProfileRequests() {
 function combineWithMockData(profile, realData) {
   return {
     ...realData,
-    userFullName: profile.userFullName,
-    dob: profile.dob,
-    gender: profile.gender,
-    ssn: 'XXXXX1232'
+    userFullName: profile.userFullName
   };
 }
 
