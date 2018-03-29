@@ -1,11 +1,13 @@
 import initCommon from './common/init-common';
 import createApplicationStatus from './common/components/createApplicationStatus';
 import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
+import createDisabilityIncreaseApplicationEntry from './disability-benefits/526EZ/components/createDisabilityIncreaseApplicationEntry';
 
 // const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
 // const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/']);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const disabilityPages = new Set(['/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
 // No-react styles.
 import '../sass/no-react.scss';
@@ -37,6 +39,9 @@ if (healthcarePages.has(location.pathname)) {
 }
 if (eduPages.has(location.pathname)) {
   createEducationApplicationStatus(store);
+}
+if (disabilityPages.has(location.pathname)) {
+  createDisabilityIncreaseApplicationEntry(store);
 }
 // if (burialPages.has(location.pathname)) {
 //   createApplicationStatus(store, {

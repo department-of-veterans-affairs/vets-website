@@ -9,7 +9,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import { makeField } from '../../model/fields.js';
 
 /**
- * A radio button group with a label.
+ * A checkbox button group with a label.
  *
  * Validation has the following props.
 
@@ -21,10 +21,10 @@ import { makeField } from '../../model/fields.js';
  * `tabIndex` - Number for keyboard tab order.
  * `options` - Array of options to populate group.
  * `required` - is this field required.
- * `value` - string. Value of the select field.
+ * `values` - object. Values of the checkbox field.
  * `onValueChange` - a function with this prototype: (newValue)
  */
-class ErrorableRadioButtons extends React.Component {
+class ErrorableCheckboxes extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -32,13 +32,13 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   componentWillMount() {
-    this.inputId = this.props.id || _.uniqueId('errorable-radio-buttons-');
+    this.inputId = this.props.id || _.uniqueId('errorable-checkbox-buttons-');
   }
 
-  getMatchingSubSection(checked, optionValue) {
+  getMatchingSubSection(checked, optionValues) {
     if (checked && this.props.children) {
       const children = _.isArray(this.props.children) ? this.props.children : [this.props.children];
-      const subsections = children.filter((child) => child.props.showIfValueChosen === optionValue);
+      const subsections = children.filter((child) => optionValues.contains(child.props.showIfValueChosen));
       return subsections.length > 0 ? subsections[0] : null;
     }
 
@@ -46,7 +46,7 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onValueChange(makeField(domEvent.target.value, true));
+    this.props.onValueChange(makeField(domEvent.target.value, true), domEvent.target.checked);
   }
 
   render() {
@@ -80,7 +80,7 @@ class ErrorableRadioButtons extends React.Component {
     }
 
     const options = _.isArray(this.props.options) ? this.props.options : [];
-    const storedValue = this.props.value.value;
+    const storedValues = this.props.values;
     const optionElements = options.map((obj, index) => {
       let optionLabel;
       let optionValue;
@@ -95,16 +95,16 @@ class ErrorableRadioButtons extends React.Component {
           optionAdditional = (<div>{obj.additional}</div>);
         }
       }
-      const checked = optionValue === storedValue ? 'checked=true' : '';
-      const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
-      const radioButton = (
-        <div key={optionAdditional ? undefined : index} className="form-radio-buttons">
+      const checked = storedValues[optionValue] ? 'checked=true' : '';
+      const matchingSubSection = this.getMatchingSubSection(checked, optionValue);
+      const checkboxButton = (
+        <div key={optionAdditional ? undefined : index} className="form-checkbox-buttons">
           <input
             autoComplete="false"
             checked={checked}
             id={`${this.inputId}-${index}`}
             name={this.props.name}
-            type="radio"
+            type="checkbox"
             onMouseDown={this.props.onMouseDown}
             onKeyDown={this.props.onKeyDown}
             value={optionValue}
@@ -119,16 +119,16 @@ class ErrorableRadioButtons extends React.Component {
         </div>
       );
 
-      let output = radioButton;
+      let output = checkboxButton;
 
       // Return an expanding group for buttons with additional content
       if (optionAdditional) {
         output = (
           <ExpandingGroup
-            additionalClass="form-expanding-group-active-radio"
+            additionalClass="form-expanding-group-active-checkbox"
             open={checked}
             key={index}>
-            {radioButton}
+            {checkboxButton}
             <div>{optionAdditional}</div>
           </ExpandingGroup>
         );
@@ -162,7 +162,7 @@ class ErrorableRadioButtons extends React.Component {
   }
 }
 
-ErrorableRadioButtons.propTypes = {
+ErrorableCheckboxes.propTypes = {
   additionalFieldsetClass: PropTypes.string,
   additionalLegendClass: PropTypes.string,
   errorMessage: PropTypes.string,
@@ -194,14 +194,11 @@ ErrorableRadioButtons.propTypes = {
         ])
       })
     ])).isRequired,
-  value: PropTypes.shape({
-    value: PropTypes.string,
-    dirty: PropTypes.bool
-  }).isRequired,
+  values: PropTypes.object.isRequired,
   onMouseDown: PropTypes.func,
   onKeyDown: PropTypes.func,
   onValueChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };
 
-export default ErrorableRadioButtons;
+export default ErrorableCheckboxes;

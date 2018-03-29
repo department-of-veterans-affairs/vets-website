@@ -36,6 +36,8 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 </div>
 
+<div id="react-applicationEntry"/>
+
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility/).
@@ -62,16 +64,6 @@ For all disability claims, please provide:
 </div>
 </div>
 
-
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-
-<h4 itemprop="name">Ready to apply?</h4>
-<div itemprop="itemListElement">
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
-
-</div>
-</div>
 <div markdown="0"><br></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
