@@ -14,7 +14,8 @@ const initialState = {
 export default function refresh(state = initialState, action) {
   switch (action.type) {
     case 'INITIAL_LOADING':
-      return { ...state, loading: true };
+      return { ...initialState, loading: true };
+
     case 'INITIAL_REFRESH_SUCCESS':
       return { ...state, loading: false };
 
