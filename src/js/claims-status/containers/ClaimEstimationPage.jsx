@@ -13,13 +13,25 @@ class ClaimEstimationPage extends React.Component {
   }
   render() {
     const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
+
+    const breadcrumbArr = [
+      { key: 'home', href: '/', text: 'Home' },
+      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
+      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
+    ];
+
+    const listItem = breadcrumbArr.map(item => {
+      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
+    });
+
     return (
       <div>
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims</Link></li>
+              {listItem}
               <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
+              <li><Link to="/">Claim Estimation</Link></li>
             </Breadcrumbs>
           </div>
         </div>

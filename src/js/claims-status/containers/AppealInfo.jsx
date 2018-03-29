@@ -68,12 +68,23 @@ export class AppealInfo extends React.Component {
     } else if (appealsAvailability === AVAILABLE && appeal) {
       // Maybe could simplify this to just check if (appeal) instead
       const claimHeading = this.createHeading();
+
+      const breadcrumbArr = [
+        { key: 'home', href: '/', text: 'Home' },
+        { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
+        { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
+      ];
+
+      const listItem = breadcrumbArr.map(item => {
+        return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
+      });
+
       appealContent = (
         <div>
           <div>
             <Breadcrumbs>
-              <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
-              <li><strong>{claimHeading}</strong></li>
+              {listItem}
+              <li><Link to="/">{claimHeading}</Link></li>
             </Breadcrumbs>
           </div>
           <div className="row">

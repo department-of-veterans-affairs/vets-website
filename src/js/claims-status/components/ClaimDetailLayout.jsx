@@ -14,7 +14,7 @@ const MAX_CONTENTIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
-    const { claim, loading, message, clearNotification, currentTab, synced } = this.props;
+    const { claim, loading, message, clearNotification, currentTab, synced, links } = this.props;
     const tabs = [
       'Status',
       'Files',
@@ -23,13 +23,14 @@ export default class ClaimDetailLayout extends React.Component {
 
     let content;
     if (!loading) {
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
+      // const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
+                {links}
+                <li><Link to="/">Your {getClaimType(claim)} Claim</Link></li>
               </Breadcrumbs>
             </div>
           </div>

@@ -15,6 +15,19 @@ class Breadcrumbs extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    buildMobileBreadcrumb('va-breadcrumbs-claims', 'va-breadcrumbs-claims-list');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildMobileBreadcrumb.bind(this);
+    });
+
+    window.addEventListener('resize', () => {
+      debouncedToggleLinks('va-breadcrumbs-claims-list');
+      debouncedToggleLinks.bind(this);
+    });
+  }
+
   componentWillUnmount() {
     window.removeEventListener('DOMContentLoaded', () => {
       buildMobileBreadcrumb.bind(this);
@@ -35,9 +48,7 @@ class Breadcrumbs extends React.Component {
           className="row va-nav-breadcrumbs-list columns claims-breadcrumbs"
           id="va-breadcrumbs-claims-list"
           role="menubar">
-          <li><a href="/" key="home">Home</a></li>
-          <li><a href="/disability-benefits/" key="disability-benefits">Disability Benefits</a></li>
-          <li><a href="/track-claims/your-claims/" key="your-claims">Your Claims</a></li>
+          {this.props.children}
         </ul>
       </nav>
     );

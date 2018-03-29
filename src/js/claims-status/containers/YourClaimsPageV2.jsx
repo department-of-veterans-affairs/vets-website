@@ -155,14 +155,27 @@ class YourClaimsPageV2 extends React.Component {
       content = (<div className="va-tab-content">{content}</div>);
     }
 
+    const breadcrumbArr = [
+      { key: 'home', href: '/', text: 'Home' },
+      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
+      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
+    ];
+
+    const listItem = breadcrumbArr.map(item => {
+      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
+    });
+
+
     return (
       <div className="claims-container">
-        <Breadcrumbs/>
+        <Breadcrumbs>
+          {listItem}
+        </Breadcrumbs>
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1 className="claims-container-title">Track Your Compensation Appeals and Claims</h1>
+                <h1 className="claims-container-title">Track Your Compensation Claims and Appeals</h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}

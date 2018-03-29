@@ -64,6 +64,16 @@ class AdditionalEvidencePage extends React.Component {
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
   render() {
+    const breadcrumbArr = [
+      { key: 'home', href: '/', text: 'Home' },
+      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
+      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
+    ];
+
+    const listItem = breadcrumbArr.map(item => {
+      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
+    });
+
     let content;
 
     if (this.props.loading) {
@@ -71,7 +81,6 @@ class AdditionalEvidencePage extends React.Component {
     } else {
       const claim = this.props.claim;
       const filesPath = `your-claims/${claim.id}/files`;
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -79,8 +88,9 @@ class AdditionalEvidencePage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
+                {listItem}
                 <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
+                <li><Link to="/">Additional Evidence</Link></li>
               </Breadcrumbs>
             </div>
           </div>
@@ -92,7 +102,7 @@ class AdditionalEvidencePage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">Additional evidence</h1>
+                <h1 className="claims-header">Additional Evidence</h1>
                 <EvidenceWarning/>
                 <AddFilesForm
                   field={this.props.uploadField}

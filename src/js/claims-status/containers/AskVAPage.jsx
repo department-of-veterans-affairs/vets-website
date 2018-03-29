@@ -35,6 +35,16 @@ class AskVAPage extends React.Component {
     const { loadingDecisionRequest, decisionRequestError } = this.props;
     const submitDisabled = !this.state.submittedDocs || loadingDecisionRequest || decisionRequestError;
 
+    const breadcrumbArr = [
+      { key: 'home', href: '/', text: 'Home' },
+      { key: 'disability-benefits', href: '/disability-benefits/', text: 'Disability Benefits' },
+      { key: 'your-claims', href: '/track-claims/your-claims/', text: 'Track Your Claims and Appeals' }
+    ];
+
+    const listItem = breadcrumbArr.map(item => {
+      return <li key={item.key}><a href={item.href}>{item.text}</a></li>;
+    });
+
     let buttonMsg = 'Submit';
     if (loadingDecisionRequest) {
       buttonMsg = 'Submitting...';
@@ -46,8 +56,9 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="medium-12 columns">
             <Breadcrumbs>
-              <li><Link to="your-claims">Your Claims</Link></li>
+              {listItem}
               <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
+              <li><Link to="/">Ask VA</Link></li>
             </Breadcrumbs>
           </div>
         </div>
