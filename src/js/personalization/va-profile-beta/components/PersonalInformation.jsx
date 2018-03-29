@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from '../../../common/utils/moment-setup';
-import SSNWidget from '../../../common/schemaform/review/SSNWidget';
+// import SSNWidget from '../../../common/schemaform/review/SSNWidget';
 
-export default function PersonalInformation({ gender, dob, ssn, serviceHistoryResponseData }) {
+export default function PersonalInformation({ personalInformation: { gender, birthDate }, serviceHistoryResponseData }) {
   let serviceHistory = serviceHistoryResponseData && serviceHistoryResponseData.serviceHistory;
   if (!serviceHistory) serviceHistory = [];
 
@@ -11,9 +11,9 @@ export default function PersonalInformation({ gender, dob, ssn, serviceHistoryRe
       <h3>Gender</h3>
       {gender === 'M' ? 'Male' : 'Female'}
       <h3>Birth date</h3>
-      {moment(dob).format('MMM D, YYYY')}
-      <h3>Social security number</h3>
-      <SSNWidget value={ssn}/>
+      {moment(birthDate).format('MMM D, YYYY')}
+      {/* <h3>Social security number</h3>
+      <SSNWidget value={ssn}/> */}
       <h2>Military Service</h2>
       {serviceHistory.map((service, index) => {
         return (

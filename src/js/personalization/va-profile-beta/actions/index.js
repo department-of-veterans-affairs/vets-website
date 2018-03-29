@@ -65,7 +65,8 @@ async function sendProfileRequests() {
     ['primaryTelephone', '/profile/primary_phone'],
     ['alternateTelephone', '/profile/alternate_phone'],
     ['mailingAddress', '/profile/mailing_address'],
-    ['serviceHistory', '/profile/service_history']
+    ['serviceHistory', '/profile/service_history'],
+    ['personalInformation', '/profile/personal_information'],
   ];
 
   /* eslint-disable no-await-in-loop */

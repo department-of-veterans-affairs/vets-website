@@ -57,9 +57,7 @@ class ProfileView extends React.Component {
         mailingAddress,
         primaryTelephone,
         alternateTelephone,
-        ssn,
-        dob,
-        gender,
+        personalInformation,
         serviceHistory
       },
       updateFormFieldActions,
@@ -119,7 +117,7 @@ class ProfileView extends React.Component {
             onCancel={this.closeModal}/>
 
           <h2>Personal Information</h2>
-          <PersonalInformation gender={gender} dob={dob} ssn={ssn} serviceHistoryResponseData={serviceHistory}/>
+          <PersonalInformation personalInformation={personalInformation} serviceHistoryResponseData={serviceHistory}/>
         </div>
       </div>
     );
