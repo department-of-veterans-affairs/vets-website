@@ -35,6 +35,8 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
+      } else if (establishCreateDate) {
+
       } else if (prefillAvailable) {
         alert = (
           <div>
@@ -125,6 +127,7 @@ export default class SaveInProgressIntro extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           prefillTransformer={this.props.prefillTransformer}
+          goToBeginning={this.props.goToBeginning}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}

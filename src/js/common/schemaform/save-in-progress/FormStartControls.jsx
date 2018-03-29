@@ -19,6 +19,10 @@ class FormStartControls extends React.Component {
   }
 
   goToBeginning = () => {
+    if (this.props.goToBeginning) {
+      // set ITF date
+      this.props.this.props.goToBeginning();
+    }
     this.props.router.push(this.props.startPage);
   }
 

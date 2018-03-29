@@ -6,8 +6,6 @@ import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import ErrorableCheckboxes from '../../../common/components/form-elements/ErrorableCheckboxes';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
-import { toggleLoginModal } from '../../../login/actions';
-
 import { disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
 
 const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
@@ -22,8 +20,8 @@ class DisabilityWizard extends React.Component {
   }
 
     getButtonContainer = () => {
-      const { currentLayout, disabilityStatus, add, increase } = this.state;
-      const { profile, loginUrl, verifyUrl } = this.props;
+      const { currentLayout, disabilityStatus, add, increase, signingIn } = this.state;
+      const { profile, loginUrl, verifyUrl, hideSignInButton } = this.props;
       const notUpdatingStatus = disabilityStatus === 'first' || disabilityStatus === 'appeal';
       const updatingStatus = disabilityStatus === 'update';
       const eligibleForIncrease = updatingStatus && !add && increase;
@@ -37,9 +35,9 @@ class DisabilityWizard extends React.Component {
         <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
         }
         {atIncreaseGuidance && !sessionStorage.userToken &&
-        <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign in<span className="button-icon"> »</span></a>
+        <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
         }
-        {atIncreaseGuidance && sessionStorage.userToken &&
+        {atIncreaseGuidance && (sessionStorage.userToken || signingIn) &&
         <RequiredLoginView
           containerClass="login-container"
           authRequired={3}
@@ -63,7 +61,7 @@ class DisabilityWizard extends React.Component {
     this.setState(newState);
   };
 
-  goToNextPage = () => {
+  goToNextPage = () => {    
     let nextLayout = applyGuidance;
     if (this.state.currentLayout === chooseStatus && this.state.disabilityStatus === 'update') {
       nextLayout = chooseUpdate;
@@ -100,26 +98,22 @@ class DisabilityWizard extends React.Component {
       return this.goToNextPage();
     }
     if (currentLayout === chooseUpdate && increase) {
+      //if (!add && this.props.onEligibilityUpdate) this.props.onEligibilityUpdate(true);
       return this.goToNextPage();
     }
     if (currentLayout === chooseUpdate && !increase) {
+      //if (this.props.onEligibilityUpdate) this.props.onEligibilityUpdate(false);
       this.goToNextPage();
       return this.setState({ errorMessage: '' });
     }
     return false;
   };
 
-  authenticate = (e) => {
-    e.preventDefault();
-    const nextQuery = { next: e.target.getAttribute('href') };
-    const nextPath = appendQuery('/', nextQuery);
-    history.pushState({}, e.target.textContent, nextPath);
-    this.props.toggleLoginModal(true);
-  }
-
   render() {
     const { currentLayout, errorMessage, disabilityStatus, add, increase } = this.state;
-    const signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
+    const { profile } = this.props;
+    let signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
+    if (profile.accountType === 1) signInMessage = 'Verify your account to get started.';
     let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
     if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
       getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
@@ -136,6 +130,7 @@ class DisabilityWizard extends React.Component {
       <div className="va-nav-linkslist--related form-expanding-group-open">
         <h3>{titleContent}</h3>
         <div>
+          {/* Move title into own component */}
           {currentLayout === applyGuidance && <p>{getStartedMessage}</p>}
           {currentLayout === chooseStatus &&
           <ErrorableRadioButtons

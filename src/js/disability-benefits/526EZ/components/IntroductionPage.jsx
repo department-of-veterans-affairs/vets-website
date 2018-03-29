@@ -1,30 +1,66 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import appendQuery from 'append-query';
+
 import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
-
+import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
+import DisabilityWizard from './DisabilityWizard';
+
 class IntroductionPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isEligibleForIncrease: false
+    };
+  }
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   render() {
+    const { isEligibleForIncrease } = this.state;
+    const { profile, loginUrl, verifyUrl } = this.props;
+    const savedForm = profile && profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="This page needs attention"/>
         <p>Equal to VA Form 21-526EZ.</p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 22-5495 form to apply for education benefits.
-        </SaveInProgressIntro>
+        {/*(!savedForm || !sessionStorage.userToken) && !isEligibleForIncrease*/ true &&
+          <DisabilityWizard
+            //hideSignInButton
+            />
+        }
+        {savedForm || (sessionStorage.userToken && isEligibleForIncrease) && <RequiredLoginView
+          containerClass="login-container"
+          authRequired={3}
+          serviceRequired={['disability-benefits']}
+          userProfile={profile}
+          loginUrl={loginUrl}
+          verifyUrl={verifyUrl}>
+          <SaveInProgressIntro
+            buttonOnly
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            goToBeginning={this.setITFDate}
+            startText="Start the Disability Compensation Application"
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}>
+          Start the Disability Compensation Application.
+          </SaveInProgressIntro>
+          {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted . This intent to file will expire one year from now.</p>}
+        </RequiredLoginView>}
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -75,8 +111,10 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const userState = state.user;
   return {
-    saveInProgress: introSelector(state)
+    saveInProgress: introSelector(state),
+    profile: userState.profile
   };
 }
 
