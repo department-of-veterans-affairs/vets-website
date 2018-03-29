@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-const eduForms = new Set(['22-1990', '22-1995', '22-5490', '22-5495', '22-1990E', '22-1990N']);
+const disabilityForms = new Set(['21-526EZ']);
 
 export default function createDisabilityIncreaseApplicationEntry(store) {
   const root = document.getElementById('react-applicationEntry');
@@ -14,7 +14,7 @@ export default function createDisabilityIncreaseApplicationEntry(store) {
       ReactDOM.render((
         <Provider store={store}>
           <ApplicationStatus
-            formIds={eduForms}
+            formIds={disabilityForms}
             formType="education"
             showApplyButton={root.getAttribute('data-hide-apply-button') === null}
             stayAfterDelete
