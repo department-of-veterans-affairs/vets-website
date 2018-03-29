@@ -46,8 +46,10 @@ export class UpdatePage extends React.Component {
   }
 
   render() {
-    const statuses = this.props.refresh.statuses;
-    const completionPercentage = statuses.succeeded.length / (statuses.succeeded.length + statuses.failed.length) * 100;
+    const { statuses } = this.props.refresh;
+    const successes = statuses.succeeded.length || 0;
+    const failures = statuses.failed.length || 0;
+    const completionPercentage = successes / (successes + failures) * 100;
 
     return (
       <div className="update-page usa-width-one-half medium-6">
