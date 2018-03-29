@@ -7,7 +7,7 @@ template: detail-page
 children: disabilityClaimTypes
 order: 1
 relatedlinks:
-  - heading: Programs to Speed Up Your Claim Decision
+  - heading: Programs to help speed up your claim decision
     links:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
