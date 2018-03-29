@@ -3,11 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   fetchVaProfile,
-  updateEmailAddress,
-  updatePrimaryPhone,
-  updateAlternatePhone,
-  updateResidentialAddress,
-  updateMailingAddress,
+  saveField,
+  updateFormField,
   openModal
 } from '../actions';
 
@@ -30,14 +27,16 @@ class UserProfileApp extends React.Component {
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <ProfileView
                 profile={this.props.profile}
+                updateActions={this.props.updateActions}
+                updateFormFieldActions={this.props.updateFormFieldActions}
+                fetchVaProfile={this.props.fetchVaProfile}
                 modal={{
                   open: this.props.openModal,
                   currentlyOpen: this.props.profile.modal,
+                  formFields: this.props.profile.formFields,
                   pendingSaves: this.props.profile.pendingSaves,
                   errors: this.props.profile.errors
-                }}
-                updateActions={this.props.updateActions}
-                fetchVaProfile={this.props.fetchVaProfile}/>
+                }}/>
             </DowntimeNotification>
           </BetaApp>
         </RequiredLoginView>
@@ -60,14 +59,8 @@ const mapDispatchToProps = (dispatch) => {
     openModal
   }, dispatch);
 
-  actions.updateActions = bindActionCreators({
-    updateEmailAddress,
-    updatePrimaryPhone,
-    updateAlternatePhone,
-    updateResidentialAddress,
-    updateMailingAddress
-  }, dispatch);
-
+  actions.updateActions = bindActionCreators(saveField, dispatch);
+  actions.updateFormFieldActions = bindActionCreators(updateFormField, dispatch);
   return actions;
 };
 
