@@ -21,7 +21,7 @@ class DisabilityWizard extends React.Component {
     };
   }
 
-    getButtonContainer = () => {
+    ButtonContainer = () => {
       const { currentLayout, disabilityStatus, add, increase } = this.state;
       const { profile, loginUrl, verifyUrl } = this.props;
       const notUpdatingStatus = disabilityStatus === 'first' || disabilityStatus === 'appeal';
@@ -83,6 +83,22 @@ class DisabilityWizard extends React.Component {
     this.setState({ errorMessage: 'Please select an option' });
   }
 
+  GetStartedMessage = () => {
+    const { disabilityStatus, add, increase } = this.state;
+    const signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
+    let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
+    if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
+      getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
+    }
+    if (add && !increase) {
+      getStartedMessage = 'Because you’re adding new conditions, you’ll need to apply using eBenefits.';
+    }
+    if (add && increase) {
+      getStartedMessage = 'Because you have both new and worsening conditions, you’ll need to apply using eBenefits.';
+    }
+    return <p>{getStartedMessage}</p>;
+  }
+
   goForward = () => {
     const { currentLayout, disabilityStatus, increase, add } = this.state;
     const isUpdate = disabilityStatus === 'update';
@@ -118,25 +134,15 @@ class DisabilityWizard extends React.Component {
   }
 
   render() {
-    const { currentLayout, errorMessage, disabilityStatus, add, increase } = this.state;
-    const signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
-    let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
-    if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
-      getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
-    }
-    if (add && !increase) {
-      getStartedMessage = 'Because you’re adding new conditions, you’ll need to apply using eBenefits.';
-    }
-    if (add && increase) {
-      getStartedMessage = 'Because you have both new and worsening conditions, you’ll need to apply using eBenefits.';
-    }
+    const { currentLayout, errorMessage, disabilityStatus } = this.state;
+    const { GetStartedMessage, ButtonContainer } = this;
     const titleContent = currentLayout === applyGuidance ? 'You should make a claim for increase' : 'Find out what kind of claim to file';
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
         <h3>{titleContent}</h3>
         <div>
-          {currentLayout === applyGuidance && <p>{getStartedMessage}</p>}
+          {currentLayout === applyGuidance && <GetStartedMessage/>}
           {currentLayout === chooseStatus &&
           <ErrorableRadioButtons
             name="disabilityStatus"
@@ -159,7 +165,7 @@ class DisabilityWizard extends React.Component {
               onValueChange={(option, checked) => this.setState({ [option.value]: checked })}
               values={this.state}/>
           }
-          {this.getButtonContainer()}
+          {<ButtonContainer/>}
         </div>
       </div>
     );
