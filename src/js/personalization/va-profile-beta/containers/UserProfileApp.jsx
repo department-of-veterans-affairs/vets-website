@@ -1,8 +1,6 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
-import { updateVerifyUrl } from '../../../login/actions';
 import {
   fetchVaProfile,
   updateEmailAddress,
@@ -19,12 +17,6 @@ import DowntimeNotification, { services } from '../../../common/containers/Downt
 import ProfileView from '../components/ProfileView';
 
 class UserProfileApp extends React.Component {
-  componentDidMount() {
-    if (!this.props.verifyUrl) {
-      getVerifyUrl(this.props.updateVerifyUrl);
-    }
-  }
-
   render() {
     return (
       <div>
@@ -57,8 +49,6 @@ class UserProfileApp extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl,
     account: userState.profile,
     profile: state.vaProfile
   };
@@ -66,7 +56,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
-    updateVerifyUrl,
     fetchVaProfile,
     openModal
   }, dispatch);

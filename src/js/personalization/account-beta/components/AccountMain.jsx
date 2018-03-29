@@ -3,8 +3,6 @@ import AcceptTermsPrompt from '../../../common/components/AcceptTermsPrompt';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import Modal from '../../../common/components/Modal';
 
-import { getMultifactorUrl, handleMultifactor } from '../../../common/helpers/login-helpers';
-
 import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
@@ -14,19 +12,6 @@ class UserDataSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
-    this.getMultifactorUrl();
-  }
-
-  componentWillUnmount() {
-    this.multifactorUrlRequest.abort();
-  }
-
-  getMultifactorUrl() {
-    this.multifactorUrlRequest = getMultifactorUrl(this.props.updateMultifactorUrl);
-  }
-
-  handleMultifactorRequest = () => {
-    handleMultifactor(this.props.login.multifactorUrl);
   }
 
   openModal = () => {
@@ -80,7 +65,7 @@ class UserDataSection extends React.Component {
 
     return (
       <div>
-        <MultifactorMessage multifactor={multifactor} handleMultifactorRequest={this.handleMultifactorRequest}/>
+        <MultifactorMessage multifactor={multifactor}/>
         <AccountVerification loa={loa}/>
         <LoginSettings/>
         <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>

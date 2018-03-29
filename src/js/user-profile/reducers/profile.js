@@ -51,7 +51,8 @@ const initialState = {
   },
   savedForms: [],
   prefillsAvailable: [],
-  loading: true
+  loading: true,
+  services: []
 };
 
 function profileInformation(state = initialState, action) {
