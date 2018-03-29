@@ -2,7 +2,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import appendQuery from 'append-query';
 
 import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
@@ -10,7 +9,6 @@ import FormTitle from '../../../common/schemaform/components/FormTitle';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-import DisabilityWizard from './DisabilityWizard';
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -26,7 +24,7 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { isEligibleForIncrease } = this.state;
+    const { signingIn } = this.state;
     const { profile, loginUrl, verifyUrl } = this.props;
     const savedForm = profile && profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
@@ -36,12 +34,15 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="This page needs attention"/>
         <p>Equal to VA Form 21-526EZ.</p>
-        {/*(!savedForm || !sessionStorage.userToken) && !isEligibleForIncrease*/ true &&
-          <DisabilityWizard
-            //hideSignInButton
-            />
-        }
-        {savedForm || (sessionStorage.userToken && isEligibleForIncrease) && <RequiredLoginView
+        {(!signingIn || !sessionStorage.userToken) && (
+          <div>
+            <p>Please sign in to your Vets.gov account so we can get your current Disability Compensation claim.
+            </p>
+            <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
+            <p>Once you sign in, you’ll be able to select the conditions you want to claim an increase for and request any necessary exams.
+            </p>
+          </div>)}
+        {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
           containerClass="login-container"
           authRequired={3}
           serviceRequired={['disability-benefits']}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import appendQuery from 'append-query';
 
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import ErrorableCheckboxes from '../../../common/components/form-elements/ErrorableCheckboxes';
@@ -21,7 +20,7 @@ class DisabilityWizard extends React.Component {
 
     getButtonContainer = () => {
       const { currentLayout, disabilityStatus, add, increase, signingIn } = this.state;
-      const { profile, loginUrl, verifyUrl, hideSignInButton } = this.props;
+      const { profile, loginUrl, verifyUrl } = this.props;
       const notUpdatingStatus = disabilityStatus === 'first' || disabilityStatus === 'appeal';
       const updatingStatus = disabilityStatus === 'update';
       const eligibleForIncrease = updatingStatus && !add && increase;
@@ -61,7 +60,7 @@ class DisabilityWizard extends React.Component {
     this.setState(newState);
   };
 
-  goToNextPage = () => {    
+  goToNextPage = () => {
     let nextLayout = applyGuidance;
     if (this.state.currentLayout === chooseStatus && this.state.disabilityStatus === 'update') {
       nextLayout = chooseUpdate;
@@ -113,7 +112,7 @@ class DisabilityWizard extends React.Component {
     const { currentLayout, errorMessage, disabilityStatus, add, increase } = this.state;
     const { profile } = this.props;
     let signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
-    if (profile.accountType === 1) signInMessage = 'Verify your account to get started.';
+    if (profile.accountType === 1) signInMessage = ' Verify your account to get started.';
     let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
     if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
       getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
@@ -168,14 +167,6 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleLoginModal: (update) => {
-      dispatch(toggleLoginModal(update));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DisabilityWizard);
+export default connect(mapStateToProps)(DisabilityWizard);
 
 export { DisabilityWizard };
