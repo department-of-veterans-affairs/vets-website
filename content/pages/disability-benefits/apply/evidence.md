@@ -5,6 +5,16 @@ display_title: Evidence for Standard and Fully Developed Claims
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 2
+relatedlinks:
+  - heading: Programs to Help Speed Up Your Claim Decision
+    links:
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: Predischarge Claim
+      description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
+    - url: /disability-benefits/apply/decision-ready-claims/
+      title: Decision Ready Claims Program
+      description: Find out if you can use the Decision Ready Claims program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).
+
 ---
 
 <div class="va-introtext">
@@ -40,6 +50,9 @@ When you file your claim, you have 2 options for gathering evidence. You can cho
 - A fully developed claim (where you send in all evidence you have—or can easily get—when you file your claim)
 
 Filing a fully developed claim may speed up the claim process and help you get your decision sooner.
+
+**For certain types of claims, you may be eligible to file through our Decision Ready Claims program.** Through this program, you may be able to get a decision on your claim within 30 days or less by working with an accredited Veterans Service Organization (VSO).<br>
+[Find out if you qualify for the Decision Ready Claims program](/disability-benefits/apply/decision-ready-claims/).
 
 **Jump to a section to learn more about the:**</br>
 [Standard claims process](#claim-standard)</br>
