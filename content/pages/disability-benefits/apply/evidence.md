@@ -6,7 +6,7 @@ plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
 order: 2
 relatedlinks:
-  - heading: Programs to Help Speed Up Your Claim Decision
+  - heading: Programs to help speed up your claim decision
     links:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
