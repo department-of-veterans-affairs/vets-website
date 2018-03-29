@@ -1,4 +1,4 @@
-import SegmentedDownView from '@department-of-veterans-affairs/jean-pants/SegmentedDownView';
+import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
 
 /*
 import PropTypes from 'prop-types';
