@@ -111,6 +111,7 @@ describe('<DisabilityWizard>', () => {
 
     tree.setState({ disabilityStatus: 'update', increase: true, currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Sign in »');
+    expect(tree.find('p').text()).to.equal('Based on your answers, you can file a claim for increase. Sign in to your account to get started.');
   });
   it('should show authenticated increase guidance page', () => {
     const oldStorage = global.sessionStorage;
@@ -121,7 +122,8 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'update', increase: true, currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Next »');
+    expect(tree.find('a').text()).to.equal('Apply now »');
+    expect(tree.find('p').text()).to.equal('Based on your answers, you can file a claim for increase.');
     global.sessionStorage = oldStorage;
   });
 });

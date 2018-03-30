@@ -32,7 +32,6 @@ class DisabilityWizard extends React.Component {
       const atEbenefitsGuidance = currentLayout === applyGuidance && (notUpdatingStatus || ineligibleForIncrease);
 
       return  (<div>
-        {/* TODO: Check with @goldenmeanie that users shouldn't be able to go back from third page */}
         {currentLayout !== chooseStatus &&
         <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
         }
