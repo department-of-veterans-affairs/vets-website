@@ -88,7 +88,6 @@ function logIn(token, client, url, level) {
 
   client
     .url(`${E2eHelpers.baseUrl}${url}`)
-    .pause(500)
     .waitForElementVisible('body', Timeouts.normal);
 
   setUserToken(token, client);
