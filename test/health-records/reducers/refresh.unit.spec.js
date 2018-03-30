@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import refreshReducer from '../../../src/js/health-records/reducers/refresh';
 
-const createExtractStatus = (status, lastUpdated) => ({
+const createExtractStatus = (status, lastUpdated = moment()) => ({
   attributes: { status, lastUpdated }
 });
 
@@ -16,12 +16,12 @@ describe('refresh reducer', () => {
   it('should reset when starting initial refresh', () => {
     const state = refreshReducer({
       statuses: {
-        failed: [{}],
-        incomplete: [{}],
-        succeeded: [{}]
+        failed: [createExtractStatus('ERROR')],
+        incomplete: [createExtractStatus('OK', moment().subtract(3, 'days'))],
+        succeeded: [createExtractStatus('OK')]
       },
       loading: false,
-      errors: [{}]
+      errors: [{ code: '500' }]
     }, { type: 'INITIAL_LOADING' });
     expect(state.loading).to.be.true;
     expect(state.statuses.failed).to.have.lengthOf(0);
@@ -36,7 +36,10 @@ describe('refresh reducer', () => {
   });
 
   it('should handle failed refresh', () => {
-    const state = refreshReducer(undefined, { type: 'INITIAL_REFRESH_FAILURE', errors: [{ code: '500' }] });
+    const state = refreshReducer(undefined, {
+      type: 'INITIAL_REFRESH_FAILURE',
+      errors: [{ code: '500' }]
+    });
     expect(state.loading).to.be.false;
     expect(state.errors).to.have.lengthOf(1);
     expect(state.errors[0].code).to.equal('500');
