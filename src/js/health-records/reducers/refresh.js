@@ -1,4 +1,4 @@
-import { groupBy } from 'lodash/fp';
+import { groupBy, merge } from 'lodash/fp';
 import moment from 'moment';
 
 const initialState = {
@@ -23,15 +23,16 @@ export default function refresh(state = initialState, action) {
       return { ...state, loading: false, errors: action.errors };
 
     case 'REFRESH_POLL_SUCCESS': {
-      // returns group in form { succeeded: [], failed: [] }
       const now = moment();
-      const statuses = groupBy(extractStatus => {
-        const { lastUpdated, status } = extractStatus.attributes;
-        const isOutdated = now.diff(lastUpdated, 'hours', true) > 24;
-        if (isOutdated) { return 'incomplete'; }
-        return (status === 'OK') ? 'succeeded' : 'failed';
-      })(action.data);
-
+      const statuses = merge(
+        initialState.statuses,
+        groupBy(extractStatus => {
+          const { lastUpdated, status } = extractStatus.attributes;
+          const isOutdated = now.diff(lastUpdated, 'hours', true) > 24;
+          if (isOutdated) { return 'incomplete'; }
+          return (status === 'OK') ? 'succeeded' : 'failed';
+        })(action.data)
+      );
       return { ...state, statuses };
     }
 

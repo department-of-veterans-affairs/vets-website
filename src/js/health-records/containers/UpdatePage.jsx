@@ -47,13 +47,13 @@ export class UpdatePage extends React.Component {
 
   render() {
     const { statuses } = this.props.refresh;
-    const successes = statuses.succeeded.length || 0;
-    const failures = statuses.failed.length || 0;
-    const completionPercentage = successes / (successes + failures) * 100;
+    const successes = statuses.succeeded.length;
+    const failures = statuses.failed.length;
+    const completionPercentage = (successes / (successes + failures) * 100) || 0;
 
     return (
       <div className="update-page usa-width-one-half medium-6">
-        <ProgressBar percent={completionPercentage || 0}/>
+        <ProgressBar percent={completionPercentage}/>
         <h1>Updating your records</h1>
         <p>
           To get the most up-to-date information, please wait for your health records to finish updating. This may take a few minutes.
