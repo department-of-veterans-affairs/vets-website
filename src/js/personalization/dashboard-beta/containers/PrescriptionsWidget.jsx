@@ -15,7 +15,7 @@ import PrescriptionCard from '../components/PrescriptionCard';
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
     if (!this.props.loading) {
-      this.props.loadPrescriptions({ active: true });
+      this.props.loadPrescriptions({ active: true, sort: '-refill_submit_date' });
     }
   }
 

@@ -1,5 +1,7 @@
 import { merge, set } from 'lodash/fp';
+
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
+
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,

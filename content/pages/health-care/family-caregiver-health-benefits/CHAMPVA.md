@@ -59,7 +59,7 @@ There are other factors that may affect whether you or other family members qual
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse">A surviving spouse who’s currently remarried</button>
       <div id="spouse" class="usa-accordion-content">
         <p><b>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55,</b> you no longer qualify for CHAMPVA as of midnight on the date of your remarriage.</p>
-        <p><b>If you remarry on or after your 55th birthday,</b> you can keep your CHAMPVA benefits.</p>
+        <p><b>If you remarry on or after your 55th birthday,</b> you can keep your CHAMPVA benefits.</p>
       </div>
     </li>
     <li>
@@ -152,7 +152,7 @@ You’ll need to apply for these benefits.
 
 **To speed up the processing of your application, you can also send copies (*not* originals) of these optional documents:**
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
-- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives.<br>
+- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives.<br>
 [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
   - A copy of each child’s birth certificate or adoption papers
