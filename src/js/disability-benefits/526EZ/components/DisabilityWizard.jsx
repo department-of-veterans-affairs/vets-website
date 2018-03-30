@@ -42,7 +42,7 @@ class DisabilityWizard extends React.Component {
         {atIncreaseGuidance && sessionStorage.userToken &&
         <RequiredLoginView
           containerClass="login-container"
-          authRequired={3}
+          authRequired={1}
           serviceRequired={['disability-benefits']}
           userProfile={profile}
           loginUrl={loginUrl}
