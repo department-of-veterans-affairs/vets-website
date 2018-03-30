@@ -25,7 +25,7 @@ class IntroductionPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  goToBeginning = () => {
+  handleLoadPrefill = () => {
     // TODO: determine payload
     submitIntentToFile('name/ssn/other', formConfig.intentToFileUrl, formConfig.trackingPrefix);
     // TODO: store confirmation number in formData
@@ -64,7 +64,7 @@ class IntroductionPage extends React.Component {
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
-            goToBeginning={this.goToBeginning}
+            handleLoadPrefill={this.handleLoadPrefill}
             startText="Start the Disability Compensation Application"
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}/>
