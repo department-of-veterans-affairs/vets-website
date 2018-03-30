@@ -1,0 +1,7 @@
+{
+  "appName": "Account Beta",
+  "entryFile": "./account-entry.jsx",
+  "entryName": "account-beta",
+  "rootUrl": "/account-beta",
+  "production": true
+}

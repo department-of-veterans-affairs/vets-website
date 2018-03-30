@@ -18,7 +18,9 @@ The Affordable Care Act (ACA)—also known as the health care law—was created 
 
 ### What does the ACA mean for me?
 
-Under this law, if you’re a U.S. taxpayer, you and your family members must: 
+Under this law, if you’re a U.S. taxpayer, you and your family members must meet one of the requirements listed below.
+
+**You and your family members must:**
 
 - Have health coverage that meets a minimum standard (called the “minimum essential coverage” requirement), **or**
 - Qualify for an exemption, **or**
@@ -28,7 +30,9 @@ Under this law, if you’re a U.S. taxpayer, you and your family members must:�
 [Learn more about the individual shared responsibility payment from the Internal Revenue Service]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).<br>
 
 #### Does my health coverage through VA meet the ACA’s minimum essential coverage requirement? 
-Your health coverage meets the minimum essential coverage requirement if you’re signed up for one of these: 
+Your health coverage meets the minimum essential coverage requirement if you’re signed up for one of the programs listed below.
+
+**To qualify, you must be signed up for one of these programs:**
 - [The VA health care program](/health-care/about-va-health-care/), **or** 
 - [The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)](/health-care/family-caregiver-health-benefits/CHAMPVA/), **or** 
 - [CHAMPVA through the Program of Comprehensive Assistance to Family Caregivers]( /health-care/family-caregiver-health-benefits/comprehensive-assistance-family-caregivers/), **or** 

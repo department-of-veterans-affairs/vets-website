@@ -6,55 +6,15 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const _ = require('lodash');
 
 require('babel-polyfill');
 
 const timestamp = new Date().getTime();
 
-const entryFiles = {
-  '1990-edu-benefits': './src/js/edu-benefits/1990/edu-benefits-entry.jsx',
-  '1990e-edu-benefits': './src/js/edu-benefits/1990e/edu-benefits-entry.jsx',
-  '1990n-edu-benefits': './src/js/edu-benefits/1990n/edu-benefits-entry.jsx',
-  '1995-edu-benefits': './src/js/edu-benefits/1995/edu-benefits-entry.jsx',
-  '5490-edu-benefits': './src/js/edu-benefits/5490/edu-benefits-entry.jsx',
-  '5495-edu-benefits': './src/js/edu-benefits/5495/edu-benefits-entry.jsx',
-  '526EZ-claims-increase': './src/js/disability-benefits/526EZ/form-entry.jsx',
-  'beta-enrollment': './src/js/beta-enrollment/beta-enrollment-entry.jsx',
-  'claims-status': './src/js/claims-status/claims-status-entry.jsx',
-  'dashboard-beta': './src/js/personalization/dashboard-beta/dashboard-entry.jsx',
-  'discharge-upgrade-instructions': './src/js/discharge-wizard/discharge-wizard-entry.jsx',
-  'health-records': './src/js/health-records/health-records-entry.jsx',
-  'id-card-beta': './src/js/id-card-beta/id-card-beta-entry.jsx',
+const globalEntryFiles = {
   'no-react': './src/js/no-react-entry.js',
-  'post-911-gib-status': './src/js/post-911-gib-status/post-911-gib-status-entry.jsx',
-  'pre-need': './src/js/pre-need/pre-need-entry.jsx',
-  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-  'user-profile-beta': './src/js/personalization/user-profile-beta/user-profile-entry.jsx',
-  'veteran-id-card': './src/js/veteran-id-card/veteran-id-card-entry.jsx',
-  'account-beta': './src/js/personalization/account-beta/account-entry.jsx',
-  auth: './src/js/auth/auth-entry.jsx',
-  burials: './src/js/burials/burials-entry.jsx',
-  facilities: './src/js/facility-locator/facility-locator-entry.jsx',
-  gi: './src/js/gi/gi-entry.jsx',
-  hca: './src/js/hca/hca-entry.jsx',
-  letters: './src/js/letters/letters-entry.jsx',
-  messaging: './src/js/messaging/messaging-entry.jsx',
-  pensions: './src/js/pensions/pensions-entry.jsx',
-  rx: './src/js/rx/rx-entry.jsx',
-  verify: './src/js/login/verify-entry.jsx',
-  'chapter31-vre': './src/js/vre/chapter31/chapter31-entry.jsx',
-  'chapter36-vre': './src/js/vre/chapter36/chapter36-entry.jsx',
-  'vic-v2': './src/js/vic-v2/veteran-id-card-entry.jsx',
   style: './src/sass/style.scss',
-};
-
-const configGenerator = (options) => {
-  var filesToBuild = entryFiles; // eslint-disable-line no-var
-  if (options.entry) {
-    filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
-  }
-  filesToBuild.vendor = [
+  vendor: [
     './src/js/common/polyfills',
     'history',
     'react',
@@ -64,10 +24,14 @@ const configGenerator = (options) => {
     'redux',
     'redux-thunk',
     'raven-js'
-  ];
+  ]
+};
+
+const configGenerator = (options, apps) => {
+  const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const baseConfig = {
     mode: 'development',
-    entry: filesToBuild,
+    entry: entryFiles,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',

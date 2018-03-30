@@ -68,7 +68,7 @@ describe('Schemaform <FormSaved>', () => {
   });
   it('should not display verify link if user is verified', () => {
     const u = user();
-    u.profile.accountType = 3;
+    u.profile.verified = true;
     const tree = SkinDeep.shallowRender(
       <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={u}/>
     );

@@ -3,15 +3,9 @@ import React from 'react';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '../../common/components/AlertBox';
-import { handleVerify } from '../../common/helpers/login-helpers.js';
+import { verify } from '../utils/helpers';
 
 class Verify extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleVerify = this.handleVerify.bind(this);
-  }
-
   componentDidMount() {
     if (!sessionStorage.userToken) {
       return window.location.replace('/');
@@ -20,48 +14,17 @@ class Verify extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { accountType } = this.props.profile;
-    const shouldCheckAccount = prevProps.profile.accountType !== accountType;
-    if (shouldCheckAccount) { this.checkAccountAccess(accountType); }
+    const { verified } = this.props.profile;
+    const shouldCheckAccount = prevProps.profile.verified !== verified;
+    if (shouldCheckAccount) { this.checkAccountAccess(); }
   }
 
-  checkAccountAccess(accountType) {
-    if ((accountType > 1) && this.props.shouldRedirect) {
+  checkAccountAccess() {
+    if (this.props.profile.verified && this.props.shouldRedirect) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
       window.location.replace(nextPath || '/');
     }
-  }
-
-  handleLogin(loginType) {
-    return () => {
-      window.dataLayer.push({ event: `login-attempted-${loginType}` });
-      this.props.handleLogin(loginType);
-    };
-  }
-
-  handleVerify() {
-    handleVerify(this.props.login.verifyUrl);
-  }
-
-  // TODO: bring back alternate methods after working out kinks with ID.me
-  renderAlternateVerificationMethods() {
-    if (!this.props.profile.authnContext) {
-      return (
-        <div>
-          <span className="sidelines">OR</span>
-
-          <h4>Already using other VA online services?</h4>
-          <p>If you have a <strong>premium account</strong> with DS Logon, you can use it to verify your identity automatically:</p>
-
-          <button className="dslogon" onClick={this.handleLogin('dslogon')}>
-            <img alt="ID.me" src="/img/signin/dslogon-icon.svg"/><strong> Verify with DS Logon</strong>
-          </button>
-          <span>(Used for eBenefits and milConnect)</span>
-        </div>
-      );
-    }
-    return null;
   }
 
   render() {
@@ -86,7 +49,7 @@ class Verify extends React.Component {
                   <a href="/faq/#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
                 </p>
                 <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
-                <button className="usa-button-primary va-button-primary" onClick={this.handleVerify}>
+                <button className="usa-button-primary va-button-primary" onClick={verify}>
                   <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
                 </button>
               </div>
@@ -112,8 +75,6 @@ class Verify extends React.Component {
 
 Verify.propTypes = {
   shouldRedirect: PropTypes.bool,
-  handleLogin: PropTypes.func,
-  login: PropTypes.object,
   profile: PropTypes.object,
 };
 

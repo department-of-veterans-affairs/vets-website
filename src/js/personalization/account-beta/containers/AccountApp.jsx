@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import '../../../common/utils/moment-setup';
 
-import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
-import { updateVerifyUrl, updateMultifactorUrl } from '../../../login/actions';
 import { fetchLatestTerms, acceptTerms } from '../actions';
 
 import AccountMain from '../components/AccountMain';
@@ -12,21 +10,13 @@ import DowntimeNotification, { services } from '../../../common/containers/Downt
 import BetaApp, { features } from '../../../common/containers/BetaApp';
 
 class UserProfileApp extends React.Component {
-  componentDidMount() {
-    if (!this.props.verifyUrl) {
-      getVerifyUrl(this.props.updateVerifyUrl);
-    }
-  }
-
   render() {
     return (
       <div>
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}
-          loginUrl={this.props.login.loginUrl}
-          verifyUrl={this.props.login.verifyUrl}>
+          userProfile={this.props.profile}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <div className="row user-profile-row">
@@ -36,7 +26,6 @@ class UserProfileApp extends React.Component {
                     login={this.props.login}
                     profile={this.props.profile}
                     terms={this.props.terms}
-                    updateMultifactorUrl={this.props.updateMultifactorUrl}
                     fetchLatestTerms={this.props.fetchLatestTerms}
                     acceptTerms={this.props.acceptTerms}/>
                 </div>
@@ -59,8 +48,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  updateVerifyUrl,
-  updateMultifactorUrl,
   fetchLatestTerms,
   acceptTerms
 };

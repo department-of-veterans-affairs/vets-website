@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { getVerifyUrl } from '../../../common/helpers/login-helpers.js';
-import { updateVerifyUrl } from '../../../login/actions';
 import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
@@ -39,12 +37,6 @@ moment.updateLocale('en', {
 });
 
 class DashboardApp extends React.Component {
-  componentDidMount() {
-    if (!this.props.verifyUrl) {
-      getVerifyUrl(this.props.updateVerifyUrl);
-    }
-  }
-
   render() {
     const view = (
       <div className="row user-profile-row">
@@ -68,9 +60,7 @@ class DashboardApp extends React.Component {
         <RequiredLoginView
           authRequired={3}
           serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          userProfile={this.props.profile}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
               {view}
@@ -86,15 +76,12 @@ const mapStateToProps = (state) => {
   const userState = state.user;
 
   return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
+    profile: userState.profile
   };
 };
 
 const mapDispatchToProps = {
-  removeSavedForm,
-  updateVerifyUrl
+  removeSavedForm
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardApp);

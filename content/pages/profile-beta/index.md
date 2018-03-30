@@ -1,7 +1,7 @@
 ---
 title: Your Vets.gov Profile
 layout: page-react.html
-entryname: user-profile-beta
+entryname: va-profile-beta
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
