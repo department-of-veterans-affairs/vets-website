@@ -8,15 +8,16 @@ order: 2
 majorlinks:
   - heading: Explore your options for gathering evidence
     links:
-    - url: 
+    - url: /disability-benefits/apply/evidence/standard-disability-claims/
       title: Standard Disability Claims
       description: With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize, so we can decide your claim. Find out how to file a standard disability claim.
-    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+    - url: /disability-benefits/apply/evidence/fully-developed-disability-claims/
       title: Fully Developed Disability Claims
       description: With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. Find out how you can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim.
     - url: /disability-benefits/apply/decision-ready-claims/
       title: Decision Ready Claims Program
       description: For certain types of claims, you may be able to get a decision on your claim within 30 days or less by working with an accredited Veterans Service Organization (VSO). Find out if you qualify for the Decision Ready Claims program.
+      
 ---
 
 <div class="va-introtext">
@@ -43,5 +44,5 @@ We require certain documents to support all claims for disability benefits. You'
 -	Your DD214 or other separation documents
 -	Service treatment records
 -	Medical evidence related to your illness or injury (like doctor's reports, X-rays, and medical test results)
-</div>
+
 
