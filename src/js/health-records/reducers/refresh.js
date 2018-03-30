@@ -24,10 +24,11 @@ export default function refresh(state = initialState, action) {
 
     case 'REFRESH_POLL_SUCCESS': {
       // returns group in form { succeeded: [], failed: [] }
+      const now = moment();
       const statuses = groupBy(extractStatus => {
         const { lastUpdated, status } = extractStatus.attributes;
-        const isUpdated = moment().isSame(lastUpdated, 'day');
-        if (!isUpdated) { return 'incomplete'; }
+        const isOutdated = now.diff(lastUpdated, 'hours', true) > 24;
+        if (isOutdated) { return 'incomplete'; }
         return (status === 'OK') ? 'succeeded' : 'failed';
       })(action.data);
 
