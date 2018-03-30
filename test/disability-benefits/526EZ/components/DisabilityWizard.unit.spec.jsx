@@ -6,7 +6,7 @@ import createCommonStore from '../../../../src/js/common/store';
 import DisabilityWizard from '../../../../src/js/disability-benefits/526EZ/components/DisabilityWizard';
 import { layouts } from '../../../../src/js/disability-benefits/526EZ/helpers';
 
-const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
+const { chooseUpdate, applyGuidance } = layouts;
 
 const defaultProps = {
   store: createCommonStore()
