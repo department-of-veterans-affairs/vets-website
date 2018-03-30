@@ -12,6 +12,15 @@ const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 
 class RequiredLoginView extends React.Component {
+  componentDidUpdate() {
+    const isLoading = this.props.user.profile.loading;
+    if (!isLoading && this.shouldSignIn()) {
+      window.location.replace(signInUrl);
+    }
+  }
+
+  shouldSignIn = () => !this.props.user.login.currentlyLoggedIn;
+
   // Checks that (1) session has a valid authentication token and
   // (2) the user is authorized to use services required by this application
   isAccessible = () => {
@@ -83,8 +92,8 @@ class RequiredLoginView extends React.Component {
       return <LoadingIndicator setFocus message="Loading your information..."/>;
     }
 
-    if (!user.login.currentlyLoggedIn) {
-      return window.location.replace(signInUrl);
+    if (this.shouldSignIn()) {
+      return <LoadingIndicator setFocus message="Redirecting to login..."/>;
     }
 
     if (verify) {
