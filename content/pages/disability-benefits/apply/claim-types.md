@@ -12,7 +12,7 @@ relatedlinks:
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
       title: Predischarge Claim
       description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
-    - url: /disability-benefits/apply/decision-ready-claims/
+    - url: /disability-benefits/apply/evidence/decision-ready-claims/
       title: Decision Ready Claims Program
       description: Find out if you can use the Decision Ready Claims program to get a decision on your claim in 30 days or less by working with an accredited Veterans Service Organization (VSO).
 ---
