@@ -1,7 +1,7 @@
-import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgessBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
+
 export default SegmentedProgressBar;
-/*
-import React from 'react';
+/* import React from 'react';
 import _ from 'lodash';
 
 /**
