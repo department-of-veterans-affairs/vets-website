@@ -16,20 +16,24 @@ Find out if you can earn money while you go to school through our work-study pro
 <div class="feature" markdown="1">
 
 ### Can I be a part of the work-study program?
-You can be a part of VA’s work-study program if you’re enrolled at least three-quarter time at an institution of higher learning and:
+You can take part in VA’s work-study program if you meet all of the requirements listed below.
 
-  - There’s an open job either at a nearby VA facility or in a VA-related role at your school, **and**
+**All of these must be true:**
+
+  - You’re enrolled at least three-quarter time at an institution of higher learning, **and**
+  - You’ve found an open job either at a nearby VA facility or in a VA-related role at your school, **and**
   - You can finish the work-study contract while you still qualify for education benefits, **and**
   - You’re using one of these VA education benefits: 
 
-    - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [family members using transferred benefits](/education/gi-bill/transfer/))
-    - Montgomery GI Bill [Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
-    - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP)
-    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) <br>
+    - Post-9/11 GI Bill (for [Veterans](/education/gi-bill/post-9-11/) or for [family members using transferred benefits](/education/gi-bill/transfer/))
+    - Montgomery GI Bill [Active Duty (MGIB-AD)](/education/gi-bill/montgomery-active-duty/) or [Selected Reserve (MGIB-SR)](/education/gi-bill/montgomery-selected-reserve/)
+    - [Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap/)
+    - [Survivors’ and Dependents’ Educational Assistance program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/) <br>
     (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
     - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
-    - [Vocational Rehabilitation and Employment program](https://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
+    - [Vocational Rehabilitation and Employment program (VR&E)](https://www.benefits.va.gov/vocrehab/index.asp)
 
+<br>
 
 ### Who’s covered?
 
@@ -45,9 +49,11 @@ You can get a paid for a part-time job while you study.
 
 ### How do I get these benefits? 
 
-You’ll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). [Download VA Form 22-8691](https://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
+You’ll need to apply for the work-study program by filling out an Application for Work-Study Allowance (VA Form 22-8691). <br>
+[Download VA Form 22-8691](https://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
 
-Get in touch with the regional processing office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
+Get in touch with the regional processing office that handles your claim if you have any questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. <br>
+[Contact your regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### What kind of job can I get?
 Under VA’s work-study program, you can:

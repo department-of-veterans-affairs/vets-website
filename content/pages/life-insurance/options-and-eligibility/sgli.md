@@ -26,7 +26,9 @@ If you’re a Servicemember who meets certain criteria, we’ll automatically si
 
 ### Can I get SGLI? 
 
-You may be able to get full-time SGLI coverage if you’re: 
+You may be able to get full-time SGLI coverage if any of the descriptions below are true for you.
+
+**At least one of these must be true. You're:**
 
 - An active-duty member of the Army, Navy, Air Force, Marines, or Coast Guard, **or**
 - A commissioned member of the National Oceanic and Atmospheric Administration (NOAA) or the U.S. Public Health Service (USPHS), **or**
@@ -35,7 +37,13 @@ You may be able to get full-time SGLI coverage if you’re:
 - A member of the Ready Reserve or National Guard, assigned to a unit, and scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
 
-You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and you’re:
+<br>
+
+#### If you're in nonpay status with the Ready Reserve or National Guard
+
+You may be able to get full-time SGLI coverage if you meet both of the requirements below.
+
+**Both of these must be true. You're:**
 
 - Scheduled for 12 periods of inactive training for the year, **and**
 - Drilling for points rather than pay
@@ -56,7 +64,8 @@ Servicemembers
 
 - Coverage up to the top limit of $400,000—in $50,000 increments
 - 120 days of free coverage from the date you left the military
-- Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. [See below for information on the SGLI-Disability Extension](#extension).
+- Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. <br>
+[See below for information on the SGLI-Disability Extension](#extension).
 - Part-time coverage (if you’re a Reserve member who doesn’t qualify for full-time coverage)
 
 <br>
@@ -71,7 +80,7 @@ If you qualify for SGLI, we’ll automatically sign you up through your service 
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
-To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage: 
+**To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage:** 
 
 **If your branch of service has started using the new SGLI Online Enrollment System (SOES),** submit your changes online. To access SOES:
 
@@ -114,9 +123,10 @@ You can log in with your CAC or DS Logon using Internet Explorer as soon as you 
 
 ### How much will I pay for these benefits?
 
-If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
+If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). <br>
+[Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
-These are the SGLI premium rates effective July 1, 2014:
+**These are the SGLI premium rates effective July 1, 2014:**
 
 | Coverage amount | Monthly premium rate | TSGLI premium | Total monthly premium deduction |
 | --- | --- | --- | --- |
@@ -132,16 +142,20 @@ These are the SGLI premium rates effective July 1, 2014:
 <br>
 
 ### How do I convert my SGLI when I leave the military? 
-When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
+When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. <br>
+[Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
-You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Learn how to convert your SGLI coverage to an individual policy](https://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
+You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. <br>
+[Learn how to convert your SGLI coverage to an individual policy](https://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
 <br>
 
 <span id="extension"></span>
 
 ### Can I get a free extension of my SGLI coverage if I’m disabled when I leave the military? 
-You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and:
+You may be able to keep your coverage for up to 2 years after the date you left the military if you’re within 2 years of your separation date and you meet either of the requirements listed below.
+
+**At least one of these must be true:**
 
 - You’re totally disabled at the time of your discharge and unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
@@ -161,11 +175,13 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
-To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. [Download the SGLI Disability Extension Application](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8715_ed2017-09.pdf).
+To apply, fill out the SGLI Disability Extension Application and send it to the OSGLI address listed on the application. <br>
+[Download the SGLI Disability Extension Application](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8715_ed2017-09.pdf).
 
 If you get approved, you’ll receive a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
-If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
+If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. <br>
+[Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
 <br>
 

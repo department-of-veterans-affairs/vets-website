@@ -23,7 +23,9 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others) and you can't return to work right away, you may qualify for independent living services through the Vocational Rehabilitation and Employment (VR&E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your VRC can help you restore your daily-living activities. Find out if you may be eligible for services to help you live as independently as possible.
+If your service-connected disability limits your ability to perform activities of daily living (like bathing, dressing, accessing the community, and interacting with others) and you can't return to work right away, you may qualify for independent living services through the Vocational Rehabilitation and Employment (VR&amp;E) Independent Living track. You may also receive these services as you work to find a job if that’s a goal you and your Vocational Rehabilitation Counselor (VRC) have created. In both cases, your VRC can help you restore your daily-living activities.
+
+Find out if you may be eligible for services to help you live as independently as possible.
 
 </div>
 
@@ -31,7 +33,9 @@ If your service-connected disability limits your ability to perform activities o
 
 ### Can I get independent living services through VR&amp;E?
 
-You may be eligible for independent living services if you’re a Servicemember or Veteran with a service-connected disability who is eligible for VR&E benefits, and:
+You may be eligible for independent living services if you’re a Servicemember or Veteran with a service-connected disability who is eligible for VR&E benefits, and you meet all of the requirements listed below.
+
+**All of these must be true:**
 
 - You have a serious employment handicap (SEH), **and**
 - Your disabilities prevent you from looking for or returning to work, **and**
@@ -44,12 +48,13 @@ You may be eligible for independent living services if you’re a Servicemember 
 
 ### What kind of benefits can I get?
 
-Depending on your needs, services may include:
+**Depending on your needs, services may include:**
 
 - Evaluation and counseling to identify your needs and goals
 - Home consultations with specialists
 - Referral to support resources
-- Guidance to help you understand if you’re eligible for our adaptive-housing programs. These programs can help you make changes to your home—like widening doorways or adding ramps—so you can live more independently. [Learn more about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+- Guidance to help you understand if you’re eligible for our adaptive-housing programs. These programs can help you make changes to your home—like widening doorways or adding ramps—so you can live more independently. <br>
+[Learn more about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
 
 These services generally last up to 24 months. In some cases, you may be able to use services for longer than this.
 
