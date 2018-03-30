@@ -209,32 +209,3 @@ export const additionalDocumentDescription = () => {
   );
 };
 
-export const disabilityStatusOptions = [
-  {
-    value: 'first',
-    label: 'I have never filed a disability claim before'
-  },
-  {
-    value: 'update',
-    label: 'I have a new or worsening condition to add to my rated disability claims'
-  },
-  {
-    value: 'appeal',
-    label: 'I want to appeal the VA decision on my disability claim'
-  }];
-
-export const disabilityUpdateOptions = [
-  {
-    value: 'add',
-    label: 'I have new conditions to add to my rated disabilities'
-  },
-  {
-    value: 'increase',
-    label: 'One or more of my rated disabilities have gotten worse'
-  }];
-
-export const layouts = {
-  chooseStatus: 'choose_status',
-  chooseUpdate: 'choose_update',
-  applyGuidance: 'apply_guidance'
-};

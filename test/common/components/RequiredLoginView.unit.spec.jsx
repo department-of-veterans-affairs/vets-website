@@ -8,11 +8,9 @@ import RequiredLoginView from '../../../src/js/common/components/RequiredLoginVi
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();
   let oldWindow;
-  let oldStorage;
 
   const initialSetup = () => {
     oldWindow = global.window;
-    oldStorage = global.sessionStorage;
     global.sessionStorage = { userToken: 'abcdefg' };
 
     global.window = {
@@ -24,7 +22,6 @@ describe('<RequiredLoginView>', () => {
   };
   const teardown = () => {
     global.window = oldWindow;
-    global.sessionStorage = oldStorage;
   };
 
   beforeEach(initialSetup);
