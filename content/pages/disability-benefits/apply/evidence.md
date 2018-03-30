@@ -14,7 +14,7 @@ majorlinks:
     - url: /disability-benefits/apply/evidence/fully-developed-disability-claims/
       title: Fully Developed Disability Claims
       description: With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. Find out how you can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim.
-    - url: /disability-benefits/apply/decision-ready-claims/
+    - url: /disability-benefits/apply/evidence/decision-ready-claims/
       title: Decision Ready Claims Program
       description: For certain types of claims, you may be able to get a decision on your claim within 30 days or less by working with an accredited Veterans Service Organization (VSO). Find out if you qualify for the Decision Ready Claims program.
       
