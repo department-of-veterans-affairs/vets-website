@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import appendQuery from 'append-query';
 
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import ErrorableCheckboxes from '../../../common/components/form-elements/ErrorableCheckboxes';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+
+import { toggleLoginModal } from '../../../login/actions';
 
 import { disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
 
@@ -18,8 +21,8 @@ class DisabilityWizard extends React.Component {
     };
   }
 
-    getButtonContainer = () => {
-      const { currentLayout, disabilityStatus, add, increase, signingIn } = this.state;
+    ButtonContainer = () => {
+      const { currentLayout, disabilityStatus, add, increase } = this.state;
       const { profile, loginUrl, verifyUrl } = this.props;
       const notUpdatingStatus = disabilityStatus === 'first' || disabilityStatus === 'appeal';
       const updatingStatus = disabilityStatus === 'update';
@@ -34,12 +37,12 @@ class DisabilityWizard extends React.Component {
         <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
         }
         {atIncreaseGuidance && !sessionStorage.userToken &&
-        <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
+        <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign in<span className="button-icon"> »</span></a>
         }
-        {atIncreaseGuidance && (sessionStorage.userToken || signingIn) &&
+        {atIncreaseGuidance && sessionStorage.userToken &&
         <RequiredLoginView
           containerClass="login-container"
-          authRequired={3}
+          authRequired={1}
           serviceRequired={['disability-benefits']}
           userProfile={profile}
           loginUrl={loginUrl}
@@ -80,6 +83,22 @@ class DisabilityWizard extends React.Component {
     this.setState({ errorMessage: 'Please select an option' });
   }
 
+  GetStartedMessage = () => {
+    const { disabilityStatus, add, increase } = this.state;
+    const signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
+    let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
+    if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
+      getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
+    }
+    if (add && !increase) {
+      getStartedMessage = 'Because you’re adding new conditions, you’ll need to apply using eBenefits.';
+    }
+    if (add && increase) {
+      getStartedMessage = 'Because you have both new and worsening conditions, you’ll need to apply using eBenefits.';
+    }
+    return <p>{getStartedMessage}</p>;
+  }
+
   goForward = () => {
     const { currentLayout, disabilityStatus, increase, add } = this.state;
     const isUpdate = disabilityStatus === 'update';
@@ -97,40 +116,33 @@ class DisabilityWizard extends React.Component {
       return this.goToNextPage();
     }
     if (currentLayout === chooseUpdate && increase) {
-      //if (!add && this.props.onEligibilityUpdate) this.props.onEligibilityUpdate(true);
       return this.goToNextPage();
     }
     if (currentLayout === chooseUpdate && !increase) {
-      //if (this.props.onEligibilityUpdate) this.props.onEligibilityUpdate(false);
       this.goToNextPage();
       return this.setState({ errorMessage: '' });
     }
     return false;
   };
 
+  authenticate = (e) => {
+    e.preventDefault();
+    const nextQuery = { next: e.target.getAttribute('href') };
+    const nextPath = appendQuery('/', nextQuery);
+    history.pushState({}, e.target.textContent, nextPath);
+    this.props.toggleLoginModal(true);
+  }
+
   render() {
-    const { currentLayout, errorMessage, disabilityStatus, add, increase } = this.state;
-    const { profile } = this.props;
-    let signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
-    if (profile.accountType === 1) signInMessage = ' Verify your account to get started.';
-    let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
-    if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
-      getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
-    }
-    if (add && !increase) {
-      getStartedMessage = 'Because you’re adding new conditions, you’ll need to apply using eBenefits.';
-    }
-    if (add && increase) {
-      getStartedMessage = 'Because you have both new and worsening conditions, you’ll need to apply using eBenefits.';
-    }
+    const { currentLayout, errorMessage, disabilityStatus } = this.state;
+    const { GetStartedMessage, ButtonContainer } = this;
     const titleContent = currentLayout === applyGuidance ? 'You should make a claim for increase' : 'Find out what kind of claim to file';
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
         <h3>{titleContent}</h3>
         <div>
-          {/* Move title into own component */}
-          {currentLayout === applyGuidance && <p>{getStartedMessage}</p>}
+          {currentLayout === applyGuidance && <GetStartedMessage/>}
           {currentLayout === chooseStatus &&
           <ErrorableRadioButtons
             name="disabilityStatus"
@@ -153,7 +165,7 @@ class DisabilityWizard extends React.Component {
               onValueChange={(option, checked) => this.setState({ [option.value]: checked })}
               values={this.state}/>
           }
-          {this.getButtonContainer()}
+          {<ButtonContainer/>}
         </div>
       </div>
     );
@@ -167,6 +179,14 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DisabilityWizard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleLoginModal: (update) => {
+      dispatch(toggleLoginModal(update));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DisabilityWizard);
 
 export { DisabilityWizard };

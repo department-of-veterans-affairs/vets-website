@@ -33,14 +33,6 @@ Find out if you can get disability compensation for an illness or injury that wa
 
 </div>
 
-<div id="react-applicationEntry"/>
-
-[Learn about the application process](/disability-benefits/apply/).
-
-</div>
-</div>
-</div>
-
 <div class="feature" markdown="1">
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -90,7 +82,12 @@ If you've received one of these discharge statuses, you may not be eligible for 
 </div>
 </div>
 
-<div markdown="0"><br></div>
+<div id="react-applicationEntry"></div>
+<div itemscope itemtype="http://schema.org/Question">
+
+[Learn about the application process](/disability-benefits/apply/).
+
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 

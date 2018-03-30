@@ -36,8 +36,6 @@ You can apply for disability benefits online. We’ve listed all the steps below
 
 </div>
 
-<div id="react-applicationEntry"/>
-
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility/).
@@ -64,7 +62,8 @@ For all disability claims, please provide:
 </div>
 </div>
 
-<div markdown="0"><br></div>
+
+<div id="react-applicationEntry"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
