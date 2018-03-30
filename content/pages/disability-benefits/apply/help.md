@@ -9,7 +9,7 @@ order: 4
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-      - url: /disability-benefits/apply/evidence/
+      - url: /disability-benefits/apply/evidence/full-developed-disability-claims/
         title: How can I get my claim processed faster with a fully developed claim?
         description: ""
       - url: /disability-benefits/apply/
@@ -40,7 +40,7 @@ VSOs work on behalf of Veterans and Servicemembers—as well as their dependents
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Accredited representatives and VSOs need to:
+**Accredited representatives and VSOs need to:**
   - Pass an exam
   - Pass a background check
   - Take continuing-education courses to make sure they’re providing the most up-to-date information
@@ -58,7 +58,7 @@ Recognized organizations and individuals can legally represent a Veteran, Servic
 <div itemprop="text">
 
 
-Accredited representatives and VSOs can help you understand and apply for VA benefits, like:
+**Accredited representatives and VSOs can help you understand and apply for VA benefits, like:**
 
 - Financial support (monthly payments)
 - Education
@@ -69,7 +69,7 @@ Accredited representatives and VSOs can help you understand and apply for VA ben
 - Health care
 - Burial benefits
 
-These trained professionals can also:
+**These trained professionals can also:**
 - Help you gather supporting documents (like a doctor’s report or medical test results)
 - File a claim or appeal on your behalf
 - Provide added support, like helping with transportation to medical appointments or emergency funds
@@ -101,7 +101,7 @@ In general, no individual or organization may charge you a fee to help you file 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can find an accredited representative or a VSO in 1 of 2 ways:
+**You can find an accredited representative or a VSO in 1 of 2 ways:**
 
 - Go to eBenefits to find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
