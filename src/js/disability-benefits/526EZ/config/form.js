@@ -623,14 +623,7 @@ const formConfig = {
         },
         evidenceSummary: {
           title: 'Summary of evidence',
-          depends: () => {
-            // TODO: needs one of the types of evidence?, checkbox validation?
-            // const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
-            // return hasOtherEvidence;
-            return true;
-          },
           path: 'supporting-evidence/:index/evidence-summary',
-          // editPageOnReview: true,
           showPagePerItem: true,
           arrayPath: 'disabilities',
           uiSchema: {
