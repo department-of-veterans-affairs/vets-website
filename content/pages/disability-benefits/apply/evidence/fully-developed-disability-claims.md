@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: Fully Developed Claims Program
-display_title: Fully Developed Claims Program
+title: Fully Developed Disability Claims
+display_title: Fully Developed Disability Claims
 plainlanguage: 
 template: detail-page
 order: 2
@@ -10,7 +10,7 @@ relatedlinks:
     links:
     - url: 
       title: 
-      description: I
+      description: 
 ---
 <div itemprop="description" class="va-introtext">
   
