@@ -76,6 +76,8 @@ const formConfig = {
   formId: '21-526EZ',
   version: 1,
   migrations: [],
+  prefillEnabled: true,
+  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'

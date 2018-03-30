@@ -176,10 +176,11 @@ export function submitIntentToFile(formConfig, form) {
       event: `${formConfig.trackingPrefix}-submission`,
     });
 
+    // TODO: determine payload
     const body = formConfig.transformForSubmit
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
-    const promise = submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix);
+    const promise = submitToUrl(body, formConfig.intentToFileUrl, formConfig.trackingPrefix);
 
     return promise
       .then(resp => dispatch(setSubmitted(resp)))
