@@ -18,21 +18,6 @@ import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
 import { scrollToFirstError } from '../../utils/helpers';
 
-const fields = {
-  ObjectField,
-  ArrayField,
-  BasicArrayField,
-  TitleField
-};
-
-const reviewFields = {
-  ObjectField: ReviewObjectField,
-  ArrayField: ReadOnlyArrayField,
-  BasicArrayField,
-  address: ReviewObjectField,
-  StringField
-};
-
 /*
  * Each page uses this component and passes in config. This is where most of the page level
  * form logic should live.
@@ -136,6 +121,21 @@ class SchemaForm extends React.Component {
   }
 
   render() {
+    const fields = {
+      ObjectField,
+      ArrayField,
+      BasicArrayField,
+      TitleField
+    };
+
+    const reviewFields = {
+      ObjectField: ReviewObjectField,
+      ArrayField: ReadOnlyArrayField,
+      BasicArrayField,
+      address: ReviewObjectField,
+      StringField
+    };
+
     const {
       data,
       schema,
