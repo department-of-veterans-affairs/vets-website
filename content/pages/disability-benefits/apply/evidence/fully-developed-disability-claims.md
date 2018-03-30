@@ -44,6 +44,7 @@ If we discover that there are other private records we need to decide your claim
 
 </div>
 </div>
+</div>
 
 <h3 itemprop="name">What should the evidence show to support my claim? </h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
