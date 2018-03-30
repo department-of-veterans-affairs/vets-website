@@ -151,7 +151,7 @@ For certain types of claims, you may be able to work with your VSO to submit a c
 - Attend a VA claim exam, if needed, before submitting your claim
 
 When you work with an accredited VSO and provide all the needed evidence with your application, you can get a decision on your claim in 30 days or less. <br>
-[Find out if you're eligible for the Decision Ready Claims program](/disability-benefits/apply/decision-ready-claims/).
+[Find out if you're eligible for the Decision Ready Claims program](/disability-benefits/apply/evidence/decision-ready-claims/).
 
 </div>
 </div>
