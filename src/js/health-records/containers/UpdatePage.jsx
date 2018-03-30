@@ -21,8 +21,8 @@ export class UpdatePage extends React.Component {
     this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const incompleteUpdates = nextProps.refresh.statuses.incomplete;
+  componentDidUpdate() {
+    const incompleteUpdates = this.props.refresh.statuses.incomplete;
     // automatically go to Download page when all statuses have resolved
     // in either success or failure
     if (!incompleteUpdates || incompleteUpdates.length === 0) {
@@ -68,11 +68,7 @@ export class UpdatePage extends React.Component {
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
-
-  return {
-    refresh: hrState.refresh,
-    form: hrState.form,
-  };
+  return { refresh: hrState.refresh };
 };
 
 const mapDispatchToProps = {
