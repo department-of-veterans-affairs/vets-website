@@ -189,6 +189,8 @@ To support a claim for increased benefits based on your spouse's need for aid an
 
 **Note:** For a spouse to be eligible for benefits, the Veteran must be eligible for disability compensation and rated at 30% or more disabling.
 
+</div>
+</li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-sah-sha">A claim for specially adapted housing (SAH) or a special home adaptation (SHA) grant</button>
 <div id="claim-sah-sha" class="usa-accordion-content">
 
@@ -211,6 +213,8 @@ To support a claim for an automobile allowance or adaptive equipment, your evide
 - Amyotrophic lateral sclerosis (ALS), **or**
 - Ankylosis in one or both knees or hips (**Note:** This qualifies you for an adaptive-equipment grant only)
 
+</div>
+</li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-child">A claim for benefits for a disabled child</button>
 <div id="claim-child" class="usa-accordion-content">
 
