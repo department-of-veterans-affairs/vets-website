@@ -1,30 +1,75 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
-
+import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import { submitIntentToFile } from '../../../common/schemaform/actions';
+
+import formConfig from '../config/form';
 
 class IntroductionPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      requiredAccountLevel: 1
+    };
+  }
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
+  goToBeginning = () => {
+    // TODO: determine payload
+    submitIntentToFile('name/ssn/other', formConfig.intentToFileUrl, formConfig.trackingPrefix);
+    // TODO: store confirmation number in formData
+  }
+
   render() {
+    const { signingIn, requiredAccountLevel } = this.state;
+    const { profile, loginUrl, verifyUrl } = this.props;
+    const savedForm = profile && profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="This page needs attention"/>
         <p>Equal to VA Form 21-526EZ.</p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
-          Please complete the 22-5495 form to apply for education benefits.
-        </SaveInProgressIntro>
+        {(!signingIn && !sessionStorage.userToken) && (
+          <div>
+            <p>Please sign in to your Vets.gov account so we can get your current Disability Compensation claim.
+            </p>
+            <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
+            <p>Once you sign in, you’ll be able to select the conditions you want to claim an increase for and request any necessary exams.
+            </p>
+          </div>)}
+        {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
+          containerClass="login-container"
+          authRequired={requiredAccountLevel}
+          serviceRequired={['disability-benefits']}
+          userProfile={profile}
+          loginUrl={loginUrl}
+          verifyUrl={verifyUrl}>
+          <SaveInProgressIntro
+            prefillAvailable={profile.accountType === 3}
+            toggleAuthLevel={(newLevel) => this.setState({ requiredAccountLevel: newLevel })}
+            verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            goToBeginning={this.goToBeginning}
+            startText="Start the Disability Compensation Application"
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}/>
+          {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
+        </RequiredLoginView>}
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -58,13 +103,34 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Education Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+        {(!signingIn && !sessionStorage.userToken) && (
+          <div>
+            <p>Please sign in to your Vets.gov account so we can get your current Disability Compensation claim.
+            </p>
+            <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
+            <p>Once you sign in, you’ll be able to select the conditions you want to claim an increase for and request any necessary exams.
+            </p>
+          </div>)}
+        {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
+          containerClass="login-container"
+          authRequired={requiredAccountLevel}
+          serviceRequired={['disability-benefits']}
+          userProfile={profile}
+          loginUrl={loginUrl}
+          verifyUrl={verifyUrl}>
+          <SaveInProgressIntro
+            prefillAvailable={profile.accountType === 1}
+            toggleAuthLevel={(newLevel) => this.setState({ requiredAccountLevel: newLevel })}
+            verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            goToBeginning={this.goToBeginning}
+            startText="Start the Disability Compensation Application"
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}/>
+          {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
+        </RequiredLoginView>}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={20} ombNumber="2900-0074" expDate="05/31/2018"/>
@@ -75,8 +141,10 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const userState = state.user;
   return {
-    saveInProgress: introSelector(state)
+    saveInProgress: introSelector(state),
+    profile: userState.profile
   };
 }
 

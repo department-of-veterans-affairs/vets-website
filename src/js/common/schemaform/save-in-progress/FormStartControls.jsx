@@ -19,14 +19,19 @@ class FormStartControls extends React.Component {
   }
 
   goToBeginning = () => {
+    if (this.props.goToBeginning) {
+      // set ITF date
+      this.props.this.props.goToBeginning();
+    }
     this.props.router.push(this.props.startPage);
   }
 
   handleLoadPrefill = () => {
+    if (this.props.goToBeginning) {
+      this.props.goToBeginning();
+    }
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
-    } else {
-      this.goToBeginning();
     }
   }
 
@@ -92,6 +97,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
+  goToBeginning: PropTypes.func,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
