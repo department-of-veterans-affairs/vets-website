@@ -76,7 +76,7 @@ const runTest = E2eHelpers.createE2eTest(
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectLocation(client, '/supporting-evidence/0/additionalDocuments');
-      
+
       // Additional document upload
       E2eHelpers.expectLocation(client, '/supporting-evidence/0/additionalDocuments');
       client.axeCheck('.main');
