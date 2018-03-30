@@ -8,7 +8,9 @@ import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import { submitIntentToFile } from '../../../common/schemaform/actions';
 
+import formConfig from '../config/form';
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -21,6 +23,12 @@ class IntroductionPage extends React.Component {
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+  }
+
+  goToBeginning = () => {
+    // TODO: determine payload
+    submitIntentToFile('name/ssn/other', formConfig.intentToFileUrl, formConfig.trackingPrefix);
+    // TODO: store confirmation number in formData
   }
 
   render() {
@@ -54,7 +62,7 @@ class IntroductionPage extends React.Component {
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
-            goToBeginning={this.setITFDate}
+            goToBeginning={this.gotToBeginning}
             startText="Start the Disability Compensation Application"
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}>

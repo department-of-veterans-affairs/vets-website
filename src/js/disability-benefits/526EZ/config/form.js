@@ -70,6 +70,7 @@ const privateRecordReleasesSchema = Object.assign({}, treatments.items.propertie
 
 const formConfig = {
   urlPrefix: '/',
+  intentToFileUrl: '/v0/21-526EZ',
   submitUrl: '/v0/21-526EZ',
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
