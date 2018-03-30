@@ -201,7 +201,8 @@ describe('<RequiredLoginView>', () => {
 
   describe('not logged in', () => {
     it('should prompt for login', () => {
-      setup({ user: anonymousUser });
+      const { tree } = setup({ user: anonymousUser });
+      tree.getMountedInstance().componentDidUpdate();
       expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
     });
   });
