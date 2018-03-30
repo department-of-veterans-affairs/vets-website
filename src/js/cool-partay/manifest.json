@@ -1,0 +1,7 @@
+{
+  "appName": "cool-party",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "cooler-party",
+  "rootUrl": "awesome-wow",
+  "production": false
+}
