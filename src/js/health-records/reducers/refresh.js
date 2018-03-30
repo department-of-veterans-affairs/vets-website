@@ -1,4 +1,4 @@
-import { groupBy } from 'lodash';
+import { groupBy } from 'lodash/fp';
 import moment from 'moment';
 
 const initialState = {
