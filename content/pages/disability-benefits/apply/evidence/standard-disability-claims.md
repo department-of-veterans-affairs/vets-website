@@ -38,6 +38,7 @@ You'll also need to go to any medical exams that we schedule, if we decide these
 
 </div>
 </div>
+</div>
 
 ### What evidence is VA responsible for when I submit a standard disability claim?
 
