@@ -63,7 +63,7 @@ class ErrorableRadioButtons extends React.Component {
       );
     }
 
-    // Adds ToolTip if text is provided.
+    // Addes ToolTip if text is provided.
     let toolTip;
     if (this.props.toolTipText) {
       toolTip = (
