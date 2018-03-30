@@ -14,7 +14,7 @@ relatedlinks:
 ---
 <div itemprop="description" class="va-introtext">
   
-With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim to speed up the decision process. Find out how you can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. 
+With the Fully Developed Claims (FDC) program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim to speed up the decision process. Find out how you can use this program to get a faster decision on your disability benefits claim. 
 
 </div>
 
@@ -29,8 +29,6 @@ With this program, you send in all the evidence (supporting documents) you have�
 - Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
 - Submit all the evidence you have—or can easily get—along with your claim, **and**
 - Go to any VA medical exams required to decide your claim. We'll let you know if we need to schedule any exams.
-
-<br>
 
 <h3 itemprop="name">What evidence will I need to submit along with my claim?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -233,9 +231,15 @@ To support a claim for benefits for a disabled child, your evidence will need to
 - Request relevant private medical records that you authorize us to get from a non-VA hospital or doctor
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
 
+<br>
+
 ### When should I turn in my evidence? 
 
 To submit your claim through the Fully Developed Claims program, you’ll need to turn in the information and evidence at the same time you file your claim.
+
+**Note:** If you turn in more information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before one year from the date we receive the claim, you’ll have the rest of that one-year period to turn in additional information or evidence to support your claim.
+
+<br>
 
 ### How do I turn in my information and evidence?
 
