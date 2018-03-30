@@ -1,0 +1,7 @@
+{
+  "appName": "Beta Enrollment",
+  "entryFile": "./beta-enrollment-entry.jsx",
+  "entryName": "beta-enrollment",
+  "rootUrl": "/beta-enrollment",
+  "production": true
+}

@@ -3,15 +3,28 @@ import React from 'react';
 
 import DropDown from '../../common/components/DropDown';
 import IconUser from '../../common/components/svgicons/IconUser';
+<<<<<<< HEAD
+=======
+import { features } from '../../common/containers/BetaApp';
+import DashboardRedirect from '../../common/components/DashboardRedirect';
+
+>>>>>>> personalization-dev-merge
 import { logout } from '../utils/helpers';
 
 class SignInProfileMenu extends React.Component {
   render() {
     const icon = <IconUser color="#fff"/>;
-
+    const betaProfile = this.props.isUserRegisteredForBeta(features.dashboard);
     const dropDownContents = (
       <ul>
+<<<<<<< HEAD
         <li><a href="/profile">Account</a></li>
+=======
+        {betaProfile && <li><a href="/dashboard-beta"><DashboardRedirect/> Dashboard</a></li>}
+        {betaProfile && <li><a href="/profile-beta">Profile</a></li>}
+        {betaProfile && <li><a href="/account-beta">Account</a></li>}
+        {!betaProfile && <li><a href="/profile">Account</a></li>}
+>>>>>>> personalization-dev-merge
         <li><a href="#" onClick={logout}>Sign Out</a></li>
       </ul>
     );
@@ -35,6 +48,10 @@ SignInProfileMenu.propTypes = {
   greeting: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
   disabled: PropTypes.bool
+};
+
+SignInProfileMenu.defaultProps = {
+  services: []
 };
 
 export default SignInProfileMenu;

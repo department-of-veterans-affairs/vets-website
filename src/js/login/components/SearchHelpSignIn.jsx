@@ -9,6 +9,7 @@ import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
 import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
+import { isUserRegisteredForBeta } from '../../beta-enrollment/actions';
 
 class SearchHelpSignIn extends React.Component {
   componentDidMount() {
@@ -49,6 +50,7 @@ class SearchHelpSignIn extends React.Component {
         clickHandler={() => {
           this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
+        isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}/>);
     } else {
@@ -89,6 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
+  isUserRegisteredForBeta
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);

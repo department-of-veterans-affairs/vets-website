@@ -19,6 +19,10 @@ import {
   CREATE_MHV_ACCOUNT_SUCCESS
 } from '../actions';
 
+import {
+  REGISTER_SERVICE
+} from '../../beta-enrollment/actions';
+
 const MAX_POLL_TIMES = 10;
 
 const initialState = {
@@ -49,7 +53,8 @@ const initialState = {
   },
   savedForms: [],
   prefillsAvailable: [],
-  loading: true
+  loading: true,
+  services: []
 };
 
 function profileInformation(state = initialState, action) {
@@ -131,6 +136,13 @@ function profileInformation(state = initialState, action) {
         polledTimes: 0,
         state: accountState
       }, state);
+    }
+
+    case REGISTER_SERVICE: {
+      return {
+        ...state,
+        services: state.services.concat(action.service)
+      };
     }
 
     default:

@@ -1,0 +1,7 @@
+{
+  "appName": "VA Profile Beta",
+  "entryFile": "./va-profile-entry.jsx",
+  "entryName": "va-profile-beta",
+  "rootUrl": "/profile-beta",
+  "production": true
+}
