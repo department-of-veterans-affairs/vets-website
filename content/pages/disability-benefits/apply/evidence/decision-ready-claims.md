@@ -10,7 +10,7 @@ relatedlinks:
   - heading: More information about filing disability claims
     links:
     - url: /disability-benefits/apply/evidence/
-      title: Evidence for Standard and Fully Developed Claims
+      title: How to Gather Evidence for Your Claim
       description: "Find out what evidence we’ll need—and what your options are for gathering documents to support your claim."
     - url: /disability-benefits/apply/
       title: Disability Benefits Application Process
