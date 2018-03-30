@@ -30,6 +30,9 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 - Submit all the evidence you have—or can easily get—along with your claim, **and**
 - Go to any VA medical exams required to decide your claim. We'll let you know if we need to schedule any exams.
 
+</div>
+</div>
+
 <h3 itemprop="name">What evidence will I need to submit along with my claim?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -130,6 +133,7 @@ To support a claim for a temporary total disability rating if you’ve had surge
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-total-unemployability">A claim for a total disability rating based on individual unemployability</button>
 <div id="claim-total-unemployability" class="usa-accordion-content">
 
@@ -141,6 +145,7 @@ To support a claim for a total disability rating based on individual unemployabi
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-added-or-worse">A claim that you suffered an added disability or your existing disability got worse because of VA medical treatment, surgery, hospitalization, or vocational rehabilitation or compensated work therapy</button>
 <div id="claim-added-or-worse" class="usa-accordion-content">
 
@@ -155,6 +160,7 @@ To support a claim that you suffered an added disability or your existing disabi
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-aid-and-attendance">A claim for increased benefits based on the need for aid and attendance</button>
 <div id="claim-aid-and-attendance" class="usa-accordion-content">
 
@@ -166,6 +172,7 @@ To support a claim for increased benefits based on the need for aid and attendan
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-additional-disability-or-housebound">A claim for increased benefits based on an additional disability or being housebound</button>
 <div id="claim-additional-disability-or-housebound" class="usa-accordion-content">
 
@@ -177,6 +184,7 @@ To support a claim for increased benefits based on an additional disability or b
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-spouse-aid-attendance">A claim for increased benefits based on an additional disability or being housebound</button>
 <div id="claim-spouse-aid-attendance" class="usa-accordion-content">
 
@@ -191,6 +199,7 @@ To support a claim for increased benefits based on your spouse's need for aid an
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-sah-sha">A claim for specially adapted housing (SAH) or a special home adaptation (SHA) grant</button>
 <div id="claim-sah-sha" class="usa-accordion-content">
 
@@ -200,6 +209,9 @@ To support a claim for specially adapted housing (SAH) or a special home adaptat
 • A Veteran eligible for compensation under 38 U.S.C. Chapter 11 for a permanent and totally disabling qualifying condition, **or**
 • An active-duty Servicemember who has a permanent and totally disabling condition that was caused by, or got worse because of, your service 
 
+</div>
+</li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-automobile">A claim for an automobile allowance or adaptive equipment</button>
 <div id="claim-automobile" class="usa-accordion-content">
 
@@ -215,6 +227,7 @@ To support a claim for an automobile allowance or adaptive equipment, your evide
 
 </div>
 </li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-child">A claim for benefits for a disabled child</button>
 <div id="claim-child" class="usa-accordion-content">
 
