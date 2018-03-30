@@ -8242,10 +8242,6 @@ recursive-readdir@^2.1.0:
   dependencies:
     minimatch "3.0.3"
 
-recursive-uncache@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/recursive-uncache/-/recursive-uncache-0.1.1.tgz#774c0960f432678dcb270b426bec1c7d6c5ee7dd"
-
 redbox-react@^1.2.10:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/redbox-react/-/redbox-react-1.3.6.tgz#70314c57c066257eb70b0a24dc794b5cef4f1c4e"
