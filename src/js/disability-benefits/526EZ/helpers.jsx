@@ -4,12 +4,18 @@ import classNames from 'classnames';
 import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
-
+import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
+
+/*
+ * Flatten nested array form data into sibling properties
+ *
+ * @param {object} data - Form data for a full form, including nested array properties
+ */
 export function flatten(data) {
-  const formData = Object.assign({}, data);
+  const formData = cloneDeep(data);
   formData.disabilities.forEach((disability, idx) => {
     siblings.forEach(sibling => {
       if (disability[sibling]) {
@@ -22,25 +28,8 @@ export function flatten(data) {
   return formData;
 }
 
-export function nest(data) {
-  const formData = Object.assign({}, data);
-  siblings.forEach(sibling => {
-    if (formData[sibling]) {
-      formData[sibling].forEach((siblingData, idx, list) => {
-        formData.disabilities[idx][sibling] = siblingData; // eslint-disable-line no-param-reassign
-        delete formData[sibling][idx]; // eslint-disable-line no-param-reassign
-        if (idx === list.length - 1) {
-          delete formData[sibling]; // eslint-disable-line no-param-reassign
-        }
-      });
-    }
-  });
-  return formData;
-}
-
 export function transform(formConfig, form) {
-  let formData = transformForSubmit(formConfig, form);
-  formData = flatten(formData);
+  const formData = flatten(transformForSubmit(formConfig, form));
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
