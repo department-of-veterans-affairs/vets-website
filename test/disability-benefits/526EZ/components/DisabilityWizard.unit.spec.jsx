@@ -56,7 +56,7 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Go to eBenefits to Apply »');
+    expect(tree.find('a').text()).to.equal('Go to eBenefits »');
   });
   it('should show ebenefits guidance page for first claims', () => {
     const tree = mount(
@@ -66,19 +66,8 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Go to eBenefits to Apply »');
-    expect(tree.find('p').text()).to.equal('We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.');
-  });
-  it('should show ebenefits guidance page for appeals', () => {
-    const tree = mount(
-      shallow(
-        <DisabilityWizard {...defaultProps}/>
-      ).get(0)
-    );
-
-    tree.setState({ disabilityStatus: 'appeal', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Go to eBenefits to Apply »');
-    expect(tree.find('p').text()).to.equal('We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.');
+    expect(tree.find('a').text()).to.equal('Go to eBenefits »');
+    expect(tree.find('p').text()).to.equal('We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.');
   });
   it('should show ebenefits guidance page for new claims', () => {
     const tree = mount(
@@ -88,8 +77,8 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'update', add: true, currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Go to eBenefits to Apply »');
-    expect(tree.find('p').text()).to.equal('Because you’re adding new conditions, you’ll need to apply using eBenefits.');
+    expect(tree.find('a').text()).to.equal('Go to eBenefits »');
+    expect(tree.find('p').text()).to.equal('Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.');
   });
   it('should show ebenefits guidance page for new and increase claims', () => {
     const tree = mount(
@@ -99,8 +88,19 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'update', add: true, increase: true, currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Go to eBenefits to Apply »');
-    expect(tree.find('p').text()).to.equal('Because you have both new and worsening conditions, you’ll need to apply using eBenefits.');
+    expect(tree.find('a').text()).to.equal('Go to eBenefits »');
+    expect(tree.find('p').text()).to.equal('Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.');
+  });
+  it('should show appeals guidance page', () => {
+    const tree = mount(
+      shallow(
+        <DisabilityWizard {...defaultProps}/>
+      ).get(0)
+    );
+
+    tree.setState({ disabilityStatus: 'appeal', currentLayout: applyGuidance });
+    expect(tree.find('a').text()).to.equal('Learn How to File an Appeal »');
+    expect(tree.find('p').text()).to.equal('Based on your answers, you should file an appeal.');
   });
   it('should show increase guidance page', () => {
     const tree = mount(
@@ -110,8 +110,8 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'update', increase: true, currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Sign in »');
-    expect(tree.find('p').text()).to.equal('Based on your answers, you can file a claim for increase. Sign in to your account to get started.');
+    expect(tree.find('a').text()).to.equal('Sign In or Create an Account »');
+    expect(tree.find('p').text()).to.equal('Based on your answers, you can file a claim for increase. Sign in or create an account before starting the Claim for Increase application.');
   });
   it('should show authenticated increase guidance page', () => {
     const oldStorage = global.sessionStorage;

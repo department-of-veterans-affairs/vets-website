@@ -212,25 +212,25 @@ export const additionalDocumentDescription = () => {
 export const disabilityStatusOptions = [
   {
     value: 'first',
-    label: 'I have never filed a disability claim before'
+    label: 'I have never filed a disability claim before.'
   },
   {
     value: 'update',
-    label: 'I have a new or worsening condition to add to my rated disability claims'
+    label: 'I have a new or worsening condition to add to my rated disability claim.'
   },
   {
     value: 'appeal',
-    label: 'I want to appeal the VA decision on my disability claim'
+    label: 'I want to appeal the VA decision on my disability claim.'
   }];
 
 export const disabilityUpdateOptions = [
   {
     value: 'add',
-    label: 'I have new conditions to add to my rated disabilities'
+    label: 'I have a new condition to add to my rated disability claim.'
   },
   {
     value: 'increase',
-    label: 'One or more of my rated disabilities have gotten worse'
+    label: 'One or more of my rated disabilities has gotten worse.'
   }];
 
 export const layouts = {

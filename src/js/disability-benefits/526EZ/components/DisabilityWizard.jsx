@@ -21,13 +21,26 @@ class DisabilityWizard extends React.Component {
     };
   }
 
+    TitleContent = () => {
+      const { currentLayout, disabilityStatus, add, increase } = this.state;
+      let titleContent = 'You should file a disability claim on eBenefits';
+      const atGuidance = currentLayout === applyGuidance;
+      const isUpdate = disabilityStatus === 'update';
+      if (!atGuidance) titleContent = 'What type of disability claim should I file?';
+      if (atGuidance && disabilityStatus === 'appeal') titleContent = 'You should file an appeal';
+      if (atGuidance && isUpdate && !add && increase) titleContent = 'You should make a claim for increase';
+      return <h3>{titleContent}</h3>;
+    }
+
     ButtonContainer = () => {
       const { currentLayout, disabilityStatus, add, increase } = this.state;
       const { profile, loginUrl, verifyUrl } = this.props;
-      const notUpdatingStatus = disabilityStatus === 'first' || disabilityStatus === 'appeal';
+      const appealingClaim = disabilityStatus === 'appeal';
+      const notUpdatingStatus = disabilityStatus === 'first';
       const updatingStatus = disabilityStatus === 'update';
       const eligibleForIncrease = updatingStatus && !add && increase;
       const ineligibleForIncrease = updatingStatus && add;
+      const atAppealGuidance = currentLayout === applyGuidance && appealingClaim;
       const atIncreaseGuidance = currentLayout === applyGuidance && eligibleForIncrease;
       const atEbenefitsGuidance = currentLayout === applyGuidance && (notUpdatingStatus || ineligibleForIncrease);
 
@@ -36,7 +49,7 @@ class DisabilityWizard extends React.Component {
         <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
         }
         {atIncreaseGuidance && !sessionStorage.userToken &&
-        <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign in<span className="button-icon"> »</span></a>
+        <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In or Create an Account<span className="button-icon"> »</span></a>
         }
         {atIncreaseGuidance && sessionStorage.userToken &&
         <RequiredLoginView
@@ -46,10 +59,13 @@ class DisabilityWizard extends React.Component {
           userProfile={profile}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
-          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply now<span className="button-icon"> »</span></a>
+          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>
         </RequiredLoginView>}
         {atEbenefitsGuidance &&
-        <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply<span className="button-icon"> »</span></a>
+        <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
+        }
+        {atAppealGuidance &&
+        <a className="usa-button-primary" href="/disability-benefits/claims-appeal/">Learn How to File an Appeal<span className="button-icon"> »</span></a>
         }
         {currentLayout !== applyGuidance &&
         <a className="usa-button-primary" onClick={this.goForward}>Next<span className="button-icon"> »</span></a>
@@ -84,16 +100,19 @@ class DisabilityWizard extends React.Component {
 
   GetStartedMessage = () => {
     const { disabilityStatus, add, increase } = this.state;
-    const signInMessage = sessionStorage.userToken ? '' : ' Sign in to your account to get started.';
+    const signInMessage = sessionStorage.userToken ? '' : ' Sign in or create an account before starting the Claim for Increase application.';
     let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
-    if (disabilityStatus === 'first' || disabilityStatus === 'appeal') {
-      getStartedMessage = 'We currently aren’t able to file an original claim on Vets.gov. Please go to eBenefits to apply.';
+    if (disabilityStatus === 'first') {
+      getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
+    }
+    if (disabilityStatus === 'appeal') {
+      getStartedMessage = 'Based on your answers, you should file an appeal.';
     }
     if (add && !increase) {
-      getStartedMessage = 'Because you’re adding new conditions, you’ll need to apply using eBenefits.';
+      getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
     }
     if (add && increase) {
-      getStartedMessage = 'Because you have both new and worsening conditions, you’ll need to apply using eBenefits.';
+      getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
     }
     return <p>{getStartedMessage}</p>;
   }
@@ -134,18 +153,18 @@ class DisabilityWizard extends React.Component {
 
   render() {
     const { currentLayout, errorMessage, disabilityStatus } = this.state;
-    const { GetStartedMessage, ButtonContainer } = this;
-    const titleContent = currentLayout === applyGuidance ? 'You should make a claim for increase' : 'Find out what kind of claim to file';
+    const { TitleContent, GetStartedMessage, ButtonContainer } = this;
+
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
-        <h3>{titleContent}</h3>
+        <TitleContent/>
         <div>
           {currentLayout === applyGuidance && <GetStartedMessage/>}
           {currentLayout === chooseStatus &&
           <ErrorableRadioButtons
             name="disabilityStatus"
-            label="Please select the option that applies to you."
+            label="Please choose the option that describes you:"
             required
             id="disabilityStatus"
             options={disabilityStatusOptions}
@@ -156,7 +175,7 @@ class DisabilityWizard extends React.Component {
           {currentLayout === chooseUpdate &&
             <ErrorableCheckboxes
               name="disabilityUpdate"
-              label="Please check all that apply to you."
+              label="Please choose the option that describes you:"
               required
               id="disabilityUpdate"
               options={disabilityUpdateOptions}
