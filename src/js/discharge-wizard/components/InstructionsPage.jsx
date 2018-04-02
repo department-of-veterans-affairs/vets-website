@@ -71,7 +71,7 @@ class InstructionsPage extends React.Component {
 </p>
                                 <p>Learn more about:</p>
                                 <ul>
-                                  <li><a href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who'ave experienced military sexual trauma</a></li>
+                                  <li><a href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who've experienced military sexual trauma</a></li>
                                   <li><a href="/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
                                   <li><a href="/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
                                 </ul>
