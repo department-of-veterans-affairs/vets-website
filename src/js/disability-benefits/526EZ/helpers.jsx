@@ -209,3 +209,55 @@ export const additionalDocumentDescription = () => {
   );
 };
 
+const documentLabels = {
+  1: 'Discharge',
+  2: 'Marriage related',
+  3: 'Dependent related',
+  // 4: 'VA preneed form',
+  5: 'Letter',
+  6: 'Other'
+};
+
+const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
+
+const listifyCenters = (center, idx, list) => {
+  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
+  const notLast = idx < (list.length - 1);
+  const justOne = list.length === 1;
+  const atLeastThree = list.length > 2;
+  return (
+    <span key={idx}>
+      {!notLast && !justOne && <span className="repose"> and </span>}
+      {centerName}
+      {atLeastThree && notLast && ', '}
+    </span>
+  );
+};
+
+
+export const evidenceSummaryView = ({ formData }) => {
+  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  return (
+    <div>
+      <ul>
+        {VATreatments &&
+        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
+        {privateRecordReleases &&
+        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        {additionalDocuments &&
+        <li>We have received the additional evidence you uploaded:
+          <ul>
+            {additionalDocuments.map((document, id) => {
+              return (<li className="dashed-bullet" key={id}>
+                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
+              </li>);
+            })
+            }
+          </ul>
+        </li>}
+      </ul>
+    </div>
+  );
+};
