@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Print Out Your VA Welcome Kit
+title: Print out your VA Welcome Kit
 display_title: Your VA Welcome Kit
 order: 1
 plainlanguage: 
@@ -33,6 +33,7 @@ majorlinks:
       title: Burials and Memorials
       description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
 ---
+
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 

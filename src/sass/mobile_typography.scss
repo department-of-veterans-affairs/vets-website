@@ -4,17 +4,16 @@
 // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/6214
 // ===========================================
 
-@media (max-width: $small-screen)  {
-
+@media (max-width: $small-screen) {
   h1 {
-    font-size:30px;
+    font-size: 30px;
   }
 
   h2 {
-    font-size:24px;
+    font-size: 24px;
   }
 
   .va-introtext {
-    font-size:16px;
+    font-size: 16px;
   }
 }
