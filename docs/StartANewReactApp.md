@@ -7,7 +7,7 @@ npm install -g yo
 npm install -g @department-of-veterans-affairs/generator-vets-website
 ```
 
-Then generate your new project, at the root directory of vets-website:
+Then generate your new application, at the root directory of vets-website:
 
 ```bash
 yo @department-of-veterans-affairs/vets-website
