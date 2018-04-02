@@ -18,7 +18,9 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 
 ### Can I get Veterans pension benefits from VA?
 
-You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. <br>
+You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and your yearly family income and net worth meet certain limits set by Congress. 
+
+**Note:** Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. <br>
 [Find out about Veterans pension rates](/pension/rates/).
 
 You'll also need to meet the requirements listed below.
