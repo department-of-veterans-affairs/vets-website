@@ -18,18 +18,18 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 
 ### Can I get Veterans pension benefits from VA?
 
-You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and **at least one of the following is true for you**:
+You may be able to get pension benefits if you were discharged from service under conditions other than dishonorable and your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. <br>
+[Find out about Veterans pension rates](/pension/rates/).
+
+You'll also need to meet the requirements listed below.
+
+**At least one of these must be true:**
 
 - You started on active duty before September 8, 1980, and you served at least 90 days on active duty with at least 1 day during wartime, **or**
 - You started on active duty as an enlisted person after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 1 day during wartime, **or**
 - You were an officer and started on active duty after October 16, 1981, and you hadn’t previously served on active duty for at least 24 months
 
-**And:**
-
-- Your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. <br>
-[Find out about Veterans pension rates](/pension/rates/).
-
-**And at least one of these is true:**
+**And at least one of these must be true:**
 
 - You’re at least 65 years old, **or**
 - You have a permanent and total disability, **or**
