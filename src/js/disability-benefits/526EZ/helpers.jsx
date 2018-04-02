@@ -4,10 +4,32 @@ import classNames from 'classnames';
 import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+
+
+/*
+ * Flatten nested array form data into sibling properties
+ *
+ * @param {object} data - Form data for a full form, including nested array properties
+ */
+export function flatten(data) {
+  const formData = cloneDeep(data);
+  formData.disabilities.forEach((disability, idx) => {
+    siblings.forEach(sibling => {
+      if (disability[sibling]) {
+        formData[sibling] = [];
+        formData[sibling][idx] = disability[sibling];
+        delete disability[sibling]; // eslint-disable-line no-param-reassign
+      }
+    });
+  });
+  return formData;
+}
 
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  const formData = flatten(transformForSubmit(formConfig, form));
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
