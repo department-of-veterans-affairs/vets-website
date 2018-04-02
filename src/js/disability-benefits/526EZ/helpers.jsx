@@ -250,7 +250,7 @@ export const evidenceSummaryView = ({ formData }) => {
         <li>We have received the additional evidence you uploaded:
           <ul>
             {additionalDocuments.map((document, id) => {
-              return (<li className="dashed" key={id}>
+              return (<li className="dashed-bullet" key={id}>
                 <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
               </li>);
             })

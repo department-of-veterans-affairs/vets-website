@@ -10,11 +10,11 @@
 @import "modules/m-form-confirmation";
 
 
-.dashed {
+.dashed-bullet {
   list-style-type: none;
 }
 
-.dashed:before {
+.dashed-bullet:before {
   content: "-";
   padding-right: 10px;
 }
