@@ -55,7 +55,7 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 We provide free, confidential (private) counseling and treatment to male and female Veterans for both mental and physical health problems linked to MST.
 
 **Our services include:**
-- MST-related services at every VA medical center, with providers knowledgeable about treating the aftereffects of MST located at each facility
+- MST-related services at every VA medical center, with providers knowledgeable about treating the after effects of MST located at each facility
 - Specialized outpatient mental health services focused on sexual trauma at many VA locations
 - Counseling with professionals who are specially trained to treat conditions related to sexual trauma at Vet Centers across the country
 - Specialized MST treatment in a residential (live-in) or inpatient setting—including gender-specific programs—for Veterans who need more intensive care
@@ -110,12 +110,12 @@ Or, get help applying for disability compensation by:
 - Download our military sexual trauma brochure for Veterans:
   - [In English](https://www.mentalhealth.va.gov/docs/mst/MST_General_Brochure_2016_English_508.pdf)
   - [In Spanish](https://www.mentalhealth.va.gov/docs/mst/MST_General_Brochure_2016_Spanish_508.pdf)
-- Download an educational brochure for men who've experienced MST:
+- Download our educational brochure for men who've experienced MST:
   - [In English](https://www.mentalhealth.va.gov/docs/Men_Overcoming_MST.pdf)
   - [In Spanish](https://www.mentalhealth.va.gov/docs/mst/Strength_Recovery-Men_Overcoming_MST_Spanish_508.pdf)
-- Access other fact sheets, articles, and resources and learn more about our programs and services on the VA.gov website.<br>
-[Go to the VA.gov MST website](https://www.mentalhealth.va.gov/msthome.asp).
 - Watch a video about MST, its effects on survivors, and VA services available to Veterans who’ve experienced MST. [Watch the video](https://www.youtube.com/watch?v=b9snig5gZfk).
+- Access more fact sheets, articles, and resources, and learn more about our programs and services on the VA.gov website.<br>
+[Go to the VA.gov MST website](https://www.mentalhealth.va.gov/msthome.asp).
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
 - Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
 
