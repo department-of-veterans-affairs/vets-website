@@ -23,12 +23,12 @@ class DisabilityWizard extends React.Component {
 
     TitleContent = () => {
       const { currentLayout, disabilityStatus, add, increase } = this.state;
-      let titleContent = 'You should file a disability claim on eBenefits';
+      let titleContent = 'You need to file a disability claim on eBenefits';
       const atGuidance = currentLayout === applyGuidance;
       const isUpdate = disabilityStatus === 'update';
       if (!atGuidance) titleContent = 'What type of disability claim should I file?';
-      if (atGuidance && disabilityStatus === 'appeal') titleContent = 'You should file an appeal';
-      if (atGuidance && isUpdate && !add && increase) titleContent = 'You should make a claim for increase';
+      if (atGuidance && disabilityStatus === 'appeal') titleContent = 'You need to file an appeal';
+      if (atGuidance && isUpdate && !add && increase) titleContent = 'You need to file a claim for increase';
       return <h3>{titleContent}</h3>;
     }
 
@@ -64,9 +64,6 @@ class DisabilityWizard extends React.Component {
         {atEbenefitsGuidance &&
         <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
         }
-        {atAppealGuidance &&
-        <a className="usa-button-primary" href="/disability-benefits/claims-appeal/">Learn How to File an Appeal<span className="button-icon"> »</span></a>
-        }
         {currentLayout !== applyGuidance &&
         <a className="usa-button-primary" onClick={this.goForward}>Next<span className="button-icon"> »</span></a>
         }
@@ -100,13 +97,13 @@ class DisabilityWizard extends React.Component {
 
   GetStartedMessage = () => {
     const { disabilityStatus, add, increase } = this.state;
-    const signInMessage = sessionStorage.userToken ? '' : ' Sign in or create an account before starting the Claim for Increase application.';
-    let getStartedMessage = `Based on your answers, you can file a claim for increase.${signInMessage}`;
+    const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
+    let getStartedMessage = `Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
     if (disabilityStatus === 'first') {
       getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
     }
     if (disabilityStatus === 'appeal') {
-      getStartedMessage = 'Based on your answers, you should file an appeal.';
+      getStartedMessage = <span>If you disagree with our decision on your disability claim, you can appeal it. <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a></span>;
     }
     if (add && !increase) {
       getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
@@ -165,7 +162,6 @@ class DisabilityWizard extends React.Component {
           <ErrorableRadioButtons
             name="disabilityStatus"
             label="Please choose the option that describes you:"
-            required
             id="disabilityStatus"
             options={disabilityStatusOptions}
             errorMessage={errorMessage}
@@ -176,7 +172,6 @@ class DisabilityWizard extends React.Component {
             <ErrorableCheckboxes
               name="disabilityUpdate"
               label="Please choose the option that describes you:"
-              required
               id="disabilityUpdate"
               options={disabilityUpdateOptions}
               errorMessage={errorMessage}
