@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import SegmentedProgressBar from '../../../src/js/common/components/SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
 
 describe('SegmentedProgressBar', () => {
   it('should render', () => {
