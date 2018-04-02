@@ -32,6 +32,20 @@ class SchemaForm extends React.Component {
     this.onBlur = this.onBlur.bind(this);
     this.setTouched = this.setTouched.bind(this);
     this.state = this.getEmptyState(props);
+    this.fields = {
+      ObjectField,
+      ArrayField,
+      BasicArrayField,
+      TitleField
+    };
+
+    this.reviewFields = {
+      ObjectField: ReviewObjectField,
+      ArrayField: ReadOnlyArrayField,
+      BasicArrayField,
+      address: ReviewObjectField,
+      StringField
+    };
   }
 
   componentWillReceiveProps(newProps) {
@@ -121,21 +135,6 @@ class SchemaForm extends React.Component {
   }
 
   render() {
-    const fields = {
-      ObjectField,
-      ArrayField,
-      BasicArrayField,
-      TitleField
-    };
-
-    const reviewFields = {
-      ObjectField: ReviewObjectField,
-      ArrayField: ReadOnlyArrayField,
-      BasicArrayField,
-      address: ReviewObjectField,
-      StringField
-    };
-
     const {
       data,
       schema,
@@ -168,7 +167,7 @@ class SchemaForm extends React.Component {
           showErrorList={false}
           formData={data}
           widgets={useReviewMode ? reviewWidgets : widgets}
-          fields={useReviewMode ? reviewFields : fields}
+          fields={useReviewMode ? this.reviewFields : this.fields}
           transformErrors={this.transformErrors}>
           {children}
         </Form>
