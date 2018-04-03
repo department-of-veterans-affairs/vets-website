@@ -57,13 +57,14 @@ export default class SaveInProgressIntro extends React.Component {
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account, you can save your form in progress, and come back later to finish filling it out.
                 <ul>
-                  <li>You have 100 days from the date you start or update your application to submit the form. After 100 days, the form won’t be saved, and you’ll need to start over.</li>
+                  <li>You have 1 year from the date you start or update your application to submit the form. After 1 year, the form won’t be saved, and you’ll need to start over.</li>
                 </ul><br/>
                 If you’re account is verified, your application process can go more smoothly. Here’s why:<br/>
                 <ul>
+                  <li>We can submit your Intent to File right away.</li>
                   <li>We can prefill part of your application based on your account details.</li>
                 </ul><br/>
-                <button className="va-button-link" onClick={() => this.props.toggleAuthLevel(3)}>Verify your account.</button>
+                <button className="va-button-link" onClick={() => this.props.toggleAuthLevel(true)}>Verify your account.</button>
               </div>
             </div>
             <br/>
@@ -83,7 +84,7 @@ export default class SaveInProgressIntro extends React.Component {
       }
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
-    } else if (prefillEnabled) {
+    } else if (prefillEnabled && !verifyRequiredPrefill) {
       alert = (
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -104,8 +105,9 @@ export default class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              If you’re signed in to your account and your account is verified, your application process can go more smoothly. Here’s why:<br/>
+              You must be signed in to your account to apply. If your account is verified, your application process can go more smoothly. Here’s why:<br/>
               <ul>
+                <li>We can submit your Intent to File right away.</li>
                 <li>We can prefill part of your application based on your account details.</li>
                 <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
               </ul><br/>
@@ -155,7 +157,7 @@ export default class SaveInProgressIntro extends React.Component {
     return (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
-        <FormStartControls
+        {!this.props.hideButton && <FormStartControls
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
           startText={this.props.startText}
@@ -168,7 +170,7 @@ export default class SaveInProgressIntro extends React.Component {
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
-          formSaved={!!savedForm}/>
+          formSaved={!!savedForm}/>}
         <br/>
       </div>
     );

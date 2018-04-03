@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
     super(props);
 
     this.state = {
-      requiredAccountLevel: 1
+      verify: false
     };
   }
 
@@ -33,33 +33,38 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { signingIn, requiredAccountLevel } = this.state;
-    const { profile, loginUrl, verifyUrl } = this.props;
-    const savedForm = profile && profile.savedForms
+    const { user, loginUrl, verifyUrl } = this.props;
+    const savedForm = user.profile && user.profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title="This page needs attention"/>
+        <FormTitle title="Disability Claims for Increase"/>
         <p>Equal to VA Form 21-526EZ.</p>
-        {(!signingIn && !sessionStorage.userToken) && (
-          <div>
-            <p>Please sign in to your Vets.gov account so we can get your current Disability Compensation claim.
-            </p>
-            <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
-            <p>Once you sign in, you’ll be able to select the conditions you want to claim an increase for and request any necessary exams.
-            </p>
-          </div>)}
+        {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
+          prefillAvailable={user.profile.accountType === 3}
+          hideButton
+          toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
+          verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          handleLoadPrefill={this.handleLoadPrefill}
+          startText="Start the Disability Compensation Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>}
         {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
           containerClass="login-container"
+          verify={this.state.verify}
           authRequired={requiredAccountLevel}
           serviceRequired={['disability-benefits']}
-          userProfile={profile}
+          user={user}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <SaveInProgressIntro
-            prefillAvailable={profile.accountType === 3}
-            toggleAuthLevel={(newLevel) => this.setState({ requiredAccountLevel: newLevel })}
+            prefillAvailable={user.profile.accountType === 3}
+            toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
             verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
@@ -70,18 +75,18 @@ class IntroductionPage extends React.Component {
             {...this.props.saveInProgress}/>
           {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
-        <h4>Follow the steps below to apply for education benefits.</h4>
+        <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
-              <div><h6>To fill out this application, you’ll need your:</h6></div>
+              <div><h6>When you apply for a disability increase, be sure to have these on hand:</h6></div>
               <ul>
-                <li>Social Security number (required)</li>
-                <li>Basic information about the school or training facility you want to attend (required)</li>
-                <li>Bank account direct deposit information</li>
-                <li>Education history</li>
+                <li>Your Social Security number</li>
+                <li>VA medical and hospital records that show your claimed disability has gotten worse</li>
+                <li>Private medical and hospital records that show your claimed disability has gotten worse</li>
               </ul>
+              <p>In some situations you may need to turn in additional forms with your claim, for example, if you’re claiming a dependent or benefits for a seriously disabled child. <a href="#">See the list of required forms for these special situations</a>.</p>
               <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <h6>Learn about educational programs</h6>
               <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
@@ -103,29 +108,35 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {(!signingIn && !sessionStorage.userToken) && (
-          <div>
-            <p>Please sign in to your Vets.gov account so we can get your current Disability Compensation claim.
-            </p>
-            <button className="usa-button-primary" onClick={() => this.setState({ signingIn: true })}>Sign in<span className="button-icon"> »</span></button>
-            <p>Once you sign in, you’ll be able to select the conditions you want to claim an increase for and request any necessary exams.
-            </p>
-          </div>)}
+        {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
+          prefillAvailable={user.profile.accountType === 1}
+          hideButton
+          buttonOnly
+          toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
+          verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          goToBeginning={this.goToBeginning}
+          startText="Start the Disability Compensation Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>}
         {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
           containerClass="login-container"
-          authRequired={requiredAccountLevel}
+          verify={this.state.verify}
           serviceRequired={['disability-benefits']}
-          userProfile={profile}
+          user={user}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <SaveInProgressIntro
-            prefillAvailable={profile.accountType === 1}
-            toggleAuthLevel={(newLevel) => this.setState({ requiredAccountLevel: newLevel })}
+            buttonOnly
+            prefillAvailable={user.profile.accountType === 3}
+            toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
             verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
-            goToBeginning={this.goToBeginning}
+            handleLoadPrefill={this.handleLoadPrefill}
             startText="Start the Disability Compensation Application"
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}/>
@@ -144,7 +155,7 @@ function mapStateToProps(state) {
   const userState = state.user;
   return {
     saveInProgress: introSelector(state),
-    profile: userState.profile
+    user: userState
   };
 }
 
