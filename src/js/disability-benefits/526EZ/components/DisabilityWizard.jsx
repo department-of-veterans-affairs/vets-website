@@ -21,37 +21,37 @@ class DisabilityWizard extends React.Component {
     };
   }
 
-    TitleContent = () => {
-      const { currentLayout, disabilityStatus, add, increase } = this.state;
-      let titleContent = 'You need to file a disability claim on eBenefits';
-      const atGuidance = currentLayout === applyGuidance;
-      const isUpdate = disabilityStatus === 'update';
-      if (!atGuidance) titleContent = 'What type of disability claim should I file?';
-      if (atGuidance && disabilityStatus === 'appeal') titleContent = 'You need to file an appeal';
-      if (atGuidance && isUpdate && !add && increase) titleContent = 'You need to file a claim for increase';
-      return <h3>{titleContent}</h3>;
-    }
+  TitleContent = () => {
+    const { currentLayout, disabilityStatus, add, increase } = this.state;
+    let titleContent = 'You need to file a disability claim on eBenefits';
+    const atGuidance = currentLayout === applyGuidance;
+    const isUpdate = disabilityStatus === 'update';
+    if (!atGuidance) titleContent = 'What type of disability claim should I file?';
+    if (atGuidance && disabilityStatus === 'appeal') titleContent = 'You need to file an appeal';
+    if (atGuidance && isUpdate && !add && increase) titleContent = 'You need to file a claim for increase';
+    return <h3>{titleContent}</h3>;
+  }
 
-    ButtonContainer = () => {
-      const { currentLayout, disabilityStatus, add, increase } = this.state;
-      const { profile, loginUrl, verifyUrl } = this.props;
-      const appealingClaim = disabilityStatus === 'appeal';
-      const notUpdatingStatus = disabilityStatus === 'first';
-      const updatingStatus = disabilityStatus === 'update';
-      const eligibleForIncrease = updatingStatus && !add && increase;
-      const ineligibleForIncrease = updatingStatus && add;
-      const atAppealGuidance = currentLayout === applyGuidance && appealingClaim;
-      const atIncreaseGuidance = currentLayout === applyGuidance && eligibleForIncrease;
-      const atEbenefitsGuidance = currentLayout === applyGuidance && (notUpdatingStatus || ineligibleForIncrease);
+  ButtonContainer = () => {
+    const { currentLayout, disabilityStatus, add, increase } = this.state;
+    const { profile, loginUrl, verifyUrl } = this.props;
+    // const appealingClaim = disabilityStatus === 'appeal';
+    const notUpdatingStatus = disabilityStatus === 'first';
+    const updatingStatus = disabilityStatus === 'update';
+    const eligibleForIncrease = updatingStatus && !add && increase;
+    const ineligibleForIncrease = updatingStatus && add;
+    // const atAppealGuidance = currentLayout === applyGuidance && appealingClaim;
+    const atIncreaseGuidance = currentLayout === applyGuidance && eligibleForIncrease;
+    const atEbenefitsGuidance = currentLayout === applyGuidance && (notUpdatingStatus || ineligibleForIncrease);
 
-      return  (<div>
-        {currentLayout !== chooseStatus &&
+    return  (<div>
+      {currentLayout !== chooseStatus &&
         <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
-        }
-        {atIncreaseGuidance && !sessionStorage.userToken &&
+      }
+      {atIncreaseGuidance && !sessionStorage.userToken &&
         <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In or Create an Account<span className="button-icon"> »</span></a>
-        }
-        {atIncreaseGuidance && sessionStorage.userToken &&
+      }
+      {atIncreaseGuidance && sessionStorage.userToken &&
         <RequiredLoginView
           containerClass="login-container"
           authRequired={1}
@@ -61,14 +61,14 @@ class DisabilityWizard extends React.Component {
           verifyUrl={verifyUrl}>
           <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>
         </RequiredLoginView>}
-        {atEbenefitsGuidance &&
+      {atEbenefitsGuidance &&
         <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
-        }
-        {currentLayout !== applyGuidance &&
+      }
+      {currentLayout !== applyGuidance &&
         <a className="usa-button-primary" onClick={this.goForward}>Next<span className="button-icon"> »</span></a>
-        }
-      </div>);
-    }
+      }
+    </div>);
+  }
 
   answerQuestion = (field, answer) => {
     const newState = Object.assign({}, { [field]: answer });

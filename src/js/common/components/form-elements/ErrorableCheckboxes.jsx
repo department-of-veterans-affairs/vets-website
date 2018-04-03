@@ -25,17 +25,12 @@ import { makeField } from '../../model/fields.js';
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableCheckboxes extends React.Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.getMatchingSubSection = this.getMatchingSubSection.bind(this);
-  }
 
   componentWillMount() {
     this.inputId = this.props.id || _.uniqueId('errorable-checkbox-buttons-');
   }
 
-  getMatchingSubSection(checked, optionValues) {
+  getMatchingSubSection = (checked, optionValues) => {
     if (checked && this.props.children) {
       const children = _.isArray(this.props.children) ? this.props.children : [this.props.children];
       const subsections = children.filter((child) => optionValues.contains(child.props.showIfValueChosen));
@@ -45,7 +40,7 @@ class ErrorableCheckboxes extends React.Component {
     return null;
   }
 
-  handleChange(domEvent) {
+  handleChange = (domEvent) => {
     this.props.onValueChange(makeField(domEvent.target.value, true), domEvent.target.checked);
   }
 
@@ -58,7 +53,7 @@ class ErrorableCheckboxes extends React.Component {
       errorSpanId = `${this.inputId}-error-message`;
       errorSpan = (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-          <span className="sr-only">Error</span> {this.props.errorMessage}
+          <span className="sr-only">Error:</span> {this.props.errorMessage}
         </span>
       );
     }
@@ -95,7 +90,7 @@ class ErrorableCheckboxes extends React.Component {
           optionAdditional = (<div>{obj.additional}</div>);
         }
       }
-      const checked = storedValues[optionValue] ? 'checked=true' : '';
+      const checked = storedValues[optionValue];
       const matchingSubSection = this.getMatchingSubSection(checked, optionValue);
       const checkboxButton = (
         <div key={optionAdditional ? undefined : index} className="form-checkbox-buttons">
