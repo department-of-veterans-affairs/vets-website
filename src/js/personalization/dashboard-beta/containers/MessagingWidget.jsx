@@ -74,7 +74,7 @@ class MessagingWidget extends React.Component {
           fields={fields}/>
       );
     } else {
-      content = <p>You have no recent messages</p>;
+      content = <p>You don't have any unread messages from your health care team.</p>;
     }
 
     return (
