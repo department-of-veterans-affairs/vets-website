@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
+import SystemDownView from '../../common/components/SystemDownView';
 
 class RequiredVeteranView extends React.Component {
   render() {
