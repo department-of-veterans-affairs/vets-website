@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
 import chai, { expect } from 'chai';
 
-import ProgressButton from '../../../../src/js/common/components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
 chai.use(chaiAsPromised);
 
