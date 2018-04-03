@@ -39,7 +39,7 @@ describe('<UpdatePage>', () => {
 
   it('should correctly redirect when update is complete', () => {
     const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
-    tree.getMountedInstance().componentWillReceiveProps(props);
+    tree.getMountedInstance().componentDidUpdate();
     expect(props.submitForm.called).to.be.true;
   });
 
