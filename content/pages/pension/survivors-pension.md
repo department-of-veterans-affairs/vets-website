@@ -17,7 +17,7 @@ Survivors pension is a tax-free monetary benefit. If you’re a surviving spouse
 
 ### Can I get this benefit as a surviving spouse?
 
-You may be able to get this benefit if you haven’t remarried after the Veteran’s death, if the deceased Veteran didn't receive a dishonorable discharge, and if the Veteran meets at least one of the requirements listed below.
+You may be able to get this benefit if you haven’t remarried after the Veteran’s death, if the deceased Veteran didn't receive a dishonorable discharge, and if the Veteran’s service meets at least one of the requirements listed below.
 
 **At least one of these must be true. The Veteran:**
 
@@ -29,7 +29,7 @@ You may be able to get this benefit if you haven’t remarried after the Veteran
 
 **And this must be true:**
 
-- Your yearly family income and net worth meet certain limits set by Congress. Your net worth equals the value of everything you own (except your house, your car, and most home furnishings), minus any debt you owe.
+Your yearly family income and net worth meet certain limits set by Congress. Your net worth equals the value of everything you own (except your house, your car, and most home furnishings), minus any debt you owe.
 
 <br>
 
