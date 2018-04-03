@@ -17,7 +17,7 @@ describe('<ClaimsStatusApp>', () => {
     expect(tree.everySubTree('.test-child')).not.to.be.empty;
     expect(tree.everySubTree('RequiredLoginView')).not.to.be.empty;
     expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.eql(['evss-claims', 'appeals-status']);
-    expect(tree.subTree('RequiredLoginView').props.authRequired).to.equal(3);
+    expect(tree.subTree('RequiredLoginView').props.verify).to.be.true;
   });
   it('should render children', () => {
     const tree = SkinDeep.shallowRender(
