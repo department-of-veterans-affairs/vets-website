@@ -76,7 +76,7 @@ describe('<DisabilityWizard>', () => {
       ).get(0)
     );
 
-    tree.setState({ disabilityStatus: 'update', add: true, currentLayout: applyGuidance });
+    tree.setState({ disabilityStatus: 'add', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal('Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.');
   });
@@ -87,7 +87,7 @@ describe('<DisabilityWizard>', () => {
       ).get(0)
     );
 
-    tree.setState({ disabilityStatus: 'update', add: true, increase: true, currentLayout: applyGuidance });
+    tree.setState({ disabilityStatus: 'addAndIncrease', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal('Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.');
   });
@@ -99,31 +99,33 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'appeal', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Learn How to File an Appeal »');
-    expect(tree.find('p').text()).to.equal('Based on your answers, you should file an appeal.');
+    expect(tree.find('a').text()).to.equal('Learn how to file an appeal.');
+    expect(tree.find('p').text()).to.equal('If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal.');
   });
-  it('should show increase guidance page', () => {
+  it('should show unauthenticated increase guidance page', () => {
     const tree = mount(
       shallow(
         <DisabilityWizard {...defaultProps}/>
       ).get(0)
     );
 
-    tree.setState({ disabilityStatus: 'update', increase: true, currentLayout: applyGuidance });
+    tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Sign In or Create an Account »');
-    expect(tree.find('p').text()).to.equal('Based on your answers, you can file a claim for increase. Sign in or create an account before starting the Claim for Increase application.');
+    expect(tree.find('p').text()).to.equal('Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability. Please sign in or create an account before starting the application.');
   });
   it('should show authenticated increase guidance page', () => {
     const oldStorage = global.sessionStorage;
     global.sessionStorage = { userToken: 'abcdefg' };
 
     const tree = mount(
-      <DisabilityWizard {...defaultProps}/>
+      shallow(
+        <DisabilityWizard {...defaultProps}/>
+      ).get(0)
     );
 
-    tree.setState({ disabilityStatus: 'update', increase: true, currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Apply now »');
-    expect(tree.find('p').text()).to.equal('Based on your answers, you can file a claim for increase.');
+    tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
+    expect(tree.find('.login-container').text()).to.equal('Loading your information...');
+    expect(tree.find('p').text()).to.equal('Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.');
     global.sessionStorage = oldStorage;
   });
 });

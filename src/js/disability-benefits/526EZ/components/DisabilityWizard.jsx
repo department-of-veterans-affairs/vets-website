@@ -17,35 +17,89 @@ class DisabilityWizard extends React.Component {
     super(props);
 
     this.state = {
-      currentLayout: chooseStatus
+      currentLayout: chooseStatus,
+      updates: {
+        add: false,
+        increase: false
+      }
+    };
+  }
+
+  getDisabilityStatus = () => {
+    const { isAppeal, isFirst, isUndefined } = this.checkDisabilityStatus();
+    if (isAppeal) return 'appeal';
+    if (isFirst) return 'first';
+    if (isUndefined) return undefined;
+    return 'update';
+  }
+
+  getDisabilityUpdate = (option, checked) => {
+    const { isUpdate, isAddAndIncrease } = this.checkDisabilityStatus();
+    if (checked) {
+      if (isUpdate) {
+        return option;
+      }
+      return 'addAndIncrease';
+    }
+    if (!checked) {
+      if (isAddAndIncrease) {
+        if (option === 'add') {
+          return 'increase';
+        }
+        if (option === 'increase') {
+          return 'add';
+        }
+      }
+      return 'update';
+    }
+    return false;
+  };
+
+  isChoosingStatus = () => this.state.currentLayout === chooseStatus;
+
+  isChoosingUpdate = () => this.state.currentLayout === chooseUpdate;
+
+  atGuidance = () => this.state.currentLayout === applyGuidance;
+
+  checkGuidanceStatus = () => {
+    const { isAppeal, isIncreaseOnly, containsAdd, isFirst } = this.checkDisabilityStatus();
+    return {
+      atAppealGuidance: (this.atGuidance() && isAppeal),
+      atIncreaseGuidance: (this.atGuidance() && isIncreaseOnly),
+      atEbenefitsGuidance: (this.atGuidance() && (containsAdd || isFirst))
+    };
+  };
+
+  checkDisabilityStatus = () => {
+    const { disabilityStatus } = this.state;
+    return {
+      isUpdate: (disabilityStatus === 'update'),
+      isAppeal: (disabilityStatus === 'appeal'),
+      isFirst: (disabilityStatus === 'first'),
+      isAddOnly: (disabilityStatus === 'add'),
+      containsAdd: (disabilityStatus === 'add' || disabilityStatus === 'addAndIncrease'),
+      isIncreaseOnly: (disabilityStatus === 'increase'),
+      isAddAndIncrease: (disabilityStatus === 'addAndIncrease'),
+      isUndefined: (!disabilityStatus)
     };
   }
 
   TitleContent = () => {
-    const { currentLayout, disabilityStatus, add, increase } = this.state;
+    const atGuidance = this.atGuidance();
+    const { atAppealGuidance, atIncreaseGuidance } = this.checkGuidanceStatus();
     let titleContent = 'You need to file a disability claim on eBenefits';
-    const atGuidance = currentLayout === applyGuidance;
-    const isUpdate = disabilityStatus === 'update';
     if (!atGuidance) titleContent = 'What type of disability claim should I file?';
-    if (atGuidance && disabilityStatus === 'appeal') titleContent = 'You need to file an appeal';
-    if (atGuidance && isUpdate && !add && increase) titleContent = 'You need to file a claim for increase';
+    if (atAppealGuidance) titleContent = 'You need to file an appeal';
+    if (atIncreaseGuidance) titleContent = 'You need to file a claim for increase';
     return <h3>{titleContent}</h3>;
   }
 
   ButtonContainer = () => {
-    const { currentLayout, disabilityStatus, add, increase } = this.state;
+    const { atIncreaseGuidance, atEbenefitsGuidance } = this.checkGuidanceStatus();
     const { profile, loginUrl, verifyUrl } = this.props;
-    // const appealingClaim = disabilityStatus === 'appeal';
-    const notUpdatingStatus = disabilityStatus === 'first';
-    const updatingStatus = disabilityStatus === 'update';
-    const eligibleForIncrease = updatingStatus && !add && increase;
-    const ineligibleForIncrease = updatingStatus && add;
-    // const atAppealGuidance = currentLayout === applyGuidance && appealingClaim;
-    const atIncreaseGuidance = currentLayout === applyGuidance && eligibleForIncrease;
-    const atEbenefitsGuidance = currentLayout === applyGuidance && (notUpdatingStatus || ineligibleForIncrease);
 
     return  (<div>
-      {currentLayout !== chooseStatus &&
+      {!this.isChoosingStatus() &&
         <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
       }
       {atIncreaseGuidance && !sessionStorage.userToken &&
@@ -64,20 +118,25 @@ class DisabilityWizard extends React.Component {
       {atEbenefitsGuidance &&
         <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
       }
-      {currentLayout !== applyGuidance &&
+      {!this.atGuidance() &&
         <a className="usa-button-primary" onClick={this.goForward}>Next<span className="button-icon"> »</span></a>
       }
     </div>);
   }
 
   answerQuestion = (field, answer) => {
-    const newState = Object.assign({}, { [field]: answer });
-    this.setState(newState);
+    if (field === 'disabilityStatus') {
+      this.setState({ [field]: answer });
+    } else {
+      const disabilityStatus = this.getDisabilityUpdate(field, answer);
+      this.setState({ disabilityStatus, updates: { ...this.state.updates, [field]: answer } });
+    }
   };
 
   goToNextPage = () => {
+    const { isUpdate } = this.checkDisabilityStatus();
     let nextLayout = applyGuidance;
-    if (this.state.currentLayout === chooseStatus && this.state.disabilityStatus === 'update') {
+    if (this.isChoosingStatus() && isUpdate) {
       nextLayout = chooseUpdate;
     }
     this.setState({ currentLayout: nextLayout, errorMessage: '' });
@@ -85,7 +144,9 @@ class DisabilityWizard extends React.Component {
 
   goBack = () => {
     let nextLayout = chooseStatus;
-    if (this.state.currentLayout === applyGuidance && this.state.disabilityStatus === 'update') {
+    const { atGuidance } = this;
+    const isUpdate = this.getDisabilityStatus() === 'update';
+    if (atGuidance() && isUpdate) {
       nextLayout = chooseUpdate;
     }
     this.setState({ currentLayout: nextLayout, errorMessage: '' });
@@ -96,50 +157,40 @@ class DisabilityWizard extends React.Component {
   }
 
   GetStartedMessage = () => {
-    const { disabilityStatus, add, increase } = this.state;
+    const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = this.checkDisabilityStatus();
     const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
     let getStartedMessage = `Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
-    if (disabilityStatus === 'first') {
+    if (isFirst) {
       getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
     }
-    if (disabilityStatus === 'appeal') {
+    if (isAppeal) {
       getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
         <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a>
       </span>);
     }
-    if (add && !increase) {
+    if (isAddOnly) {
       getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
     }
-    if (add && increase) {
+    if (isAddAndIncrease) {
       getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
     }
     return <p>{getStartedMessage}</p>;
   }
 
   goForward = () => {
-    const { currentLayout, disabilityStatus, increase, add } = this.state;
-    const isUpdate = disabilityStatus === 'update';
-    if (currentLayout === chooseStatus && !disabilityStatus) {
+    const { isUpdate, isUndefined } = this.checkDisabilityStatus();
+    const isChoosingStatus = this.isChoosingStatus();
+    const isChoosingUpdate = this.isChoosingUpdate();
+    if (isChoosingStatus && isUndefined) {
       return this.displayErrorMessage();
     }
-    if (currentLayout === chooseUpdate && !add && !increase) {
+    if (isChoosingUpdate && isUpdate) {
       return this.displayErrorMessage();
     }
-    if (currentLayout === chooseStatus && !isUpdate) {
-      this.goToNextPage();
-      return this.setState({ errorMessage: '', add: false, increase: false });
+    if (isChoosingStatus && !isUpdate) {
+      this.setState({ updates: { add: false, increase: false } });
     }
-    if (currentLayout === chooseStatus && isUpdate) {
-      return this.goToNextPage();
-    }
-    if (currentLayout === chooseUpdate && increase) {
-      return this.goToNextPage();
-    }
-    if (currentLayout === chooseUpdate && !increase) {
-      this.goToNextPage();
-      return this.setState({ errorMessage: '' });
-    }
-    return false;
+    return this.goToNextPage();
   };
 
   authenticate = (e) => {
@@ -151,16 +202,16 @@ class DisabilityWizard extends React.Component {
   }
 
   render() {
-    const { currentLayout, errorMessage, disabilityStatus } = this.state;
-    const { TitleContent, GetStartedMessage, ButtonContainer } = this;
-
+    const { isChoosingStatus, isChoosingUpdate, atGuidance,
+      TitleContent, GetStartedMessage, ButtonContainer } = this;
+    const { errorMessage, updates } = this.state;
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
         <TitleContent/>
         <div>
-          {currentLayout === applyGuidance && <GetStartedMessage/>}
-          {currentLayout === chooseStatus &&
+          {atGuidance() && <GetStartedMessage/>}
+          {isChoosingStatus() &&
           <ErrorableRadioButtons
             name="disabilityStatus"
             label="Please choose the option that describes you:"
@@ -168,17 +219,17 @@ class DisabilityWizard extends React.Component {
             options={disabilityStatusOptions}
             errorMessage={errorMessage}
             onValueChange={({ value }) => this.answerQuestion('disabilityStatus', value)}
-            value={{ value: disabilityStatus }}/>
+            value={{ value: this.getDisabilityStatus() }}/>
           }
-          {currentLayout === chooseUpdate &&
+          {isChoosingUpdate() &&
             <ErrorableCheckboxes
               name="disabilityUpdate"
               label="Please choose the option that describes you:"
               id="disabilityUpdate"
               options={disabilityUpdateOptions}
               errorMessage={errorMessage}
-              onValueChange={(option, checked) => this.setState({ [option.value]: checked })}
-              values={this.state}/>
+              onValueChange={(option, checked) => this.answerQuestion(option.value, checked)}
+              values={updates}/>
           }
           {<ButtonContainer/>}
         </div>
