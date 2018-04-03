@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
-import SystemDownView from './SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Main from '../../login/containers/Main';
 
