@@ -65,7 +65,8 @@ async function sendProfileRequests() {
     ['primaryTelephone', '/profile/primary_phone'],
     ['alternateTelephone', '/profile/alternate_phone'],
     ['mailingAddress', '/profile/mailing_address'],
-    ['serviceHistory', '/profile/service_history']
+    ['serviceHistory', '/profile/service_history'],
+    ['personalInformation', '/profile/personal_information'],
   ];
 
   /* eslint-disable no-await-in-loop */
@@ -84,10 +85,7 @@ async function sendProfileRequests() {
 function combineWithMockData(profile, realData) {
   return {
     ...realData,
-    userFullName: profile.userFullName,
-    dob: profile.dob,
-    gender: profile.gender,
-    ssn: 'XXXXX1232'
+    userFullName: profile.userFullName
   };
 }
 
