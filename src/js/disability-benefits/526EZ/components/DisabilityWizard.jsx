@@ -103,7 +103,9 @@ class DisabilityWizard extends React.Component {
       getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
     }
     if (disabilityStatus === 'appeal') {
-      getStartedMessage = <span>If you disagree with our decision on your disability claim, you can appeal it. <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a></span>;
+      getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
+        <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a>
+      </span>);
     }
     if (add && !increase) {
       getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
