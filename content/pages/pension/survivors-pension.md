@@ -27,7 +27,7 @@ You may be able to get this benefit if you haven’t remarried after the Veteran
 
 - Was an officer and started on active duty after October 16, 1981, and hadn’t previously served on active duty for at least 24 months
 
-**And this must be true:**
+**And this must be true for you:**
 
 Your yearly family income and net worth meet certain limits set by Congress. Your net worth equals the value of everything you own (except your house, your car, and most home furnishings), minus any debt you owe.
 
