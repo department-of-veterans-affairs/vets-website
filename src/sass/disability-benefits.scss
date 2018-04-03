@@ -8,3 +8,22 @@
 // @import "modules/m-modal";
 // @import "modules/m-omb-info";
 @import "modules/m-form-confirmation";
+
+
+.dashed-bullet {
+  list-style-type: none;
+}
+
+.dashed-bullet:before {
+  content: "-";
+  padding-right: 10px;
+}
+
+.treatment-centers {
+  font-weight: bold;
+}
+
+.repose {
+  font-weight: normal;
+}
+

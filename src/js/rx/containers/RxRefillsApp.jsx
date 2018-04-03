@@ -39,9 +39,9 @@ class RxRefillsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
+        verify
         serviceRequired="rx"
-        userProfile={this.props.profile}>
+        user={this.props.user}>
         <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
           <AppContent>
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
@@ -71,14 +71,13 @@ RxRefillsApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
-  const modals = rxState.modals;
-  const userState = state.user;
+  const { modals, prescriptions } = rxState;
 
   return {
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
-    prescription: rxState.prescriptions.currentItem,
-    profile: userState.profile
+    prescription: prescriptions.currentItem,
+    user: state.user
   };
 };
 

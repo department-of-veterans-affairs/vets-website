@@ -4,10 +4,32 @@ import classNames from 'classnames';
 import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+
+
+/*
+ * Flatten nested array form data into sibling properties
+ *
+ * @param {object} data - Form data for a full form, including nested array properties
+ */
+export function flatten(data) {
+  const formData = cloneDeep(data);
+  formData.disabilities.forEach((disability, idx) => {
+    siblings.forEach(sibling => {
+      if (disability[sibling]) {
+        formData[sibling] = [];
+        formData[sibling][idx] = disability[sibling];
+        delete disability[sibling]; // eslint-disable-line no-param-reassign
+      }
+    });
+  });
+  return formData;
+}
 
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  const formData = flatten(transformForSubmit(formConfig, form));
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
@@ -221,7 +243,8 @@ export const disabilityStatusOptions = [
   {
     value: 'appeal',
     label: 'I want to appeal the VA decision on my disability claim.'
-  }];
+  }
+];
 
 export const disabilityUpdateOptions = [
   {
@@ -231,10 +254,64 @@ export const disabilityUpdateOptions = [
   {
     value: 'increase',
     label: 'One or more of my rated disabilities has gotten worse.'
-  }];
+  }
+];
 
 export const layouts = {
   chooseStatus: 'choose_status',
   chooseUpdate: 'choose_update',
   applyGuidance: 'apply_guidance'
+};
+
+const documentLabels = {
+  1: 'Discharge',
+  2: 'Marriage related',
+  3: 'Dependent related',
+  // 4: 'VA preneed form',
+  5: 'Letter',
+  6: 'Other'
+};
+
+const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
+
+const listifyCenters = (center, idx, list) => {
+  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
+  const notLast = idx < (list.length - 1);
+  const justOne = list.length === 1;
+  const atLeastThree = list.length > 2;
+  return (
+    <span key={idx}>
+      {!notLast && !justOne && <span className="repose"> and </span>}
+      {centerName}
+      {atLeastThree && notLast && ', '}
+    </span>
+  );
+};
+
+
+export const evidenceSummaryView = ({ formData }) => {
+  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  return (
+    <div>
+      <ul>
+        {VATreatments &&
+        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
+        {privateRecordReleases &&
+        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        {additionalDocuments &&
+        <li>We have received the additional evidence you uploaded:
+          <ul>
+            {additionalDocuments.map((document, id) => {
+              return (<li className="dashed-bullet" key={id}>
+                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
+              </li>);
+            })
+            }
+          </ul>
+        </li>}
+      </ul>
+    </div>
+  );
 };

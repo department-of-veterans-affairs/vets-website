@@ -1,5 +1,5 @@
 ---
-title: Download VA Letters
+title: Download VA Letters and Documents
 entryname: letters
 layout: page-react.html
 includeBreadcrumbs: true

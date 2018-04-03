@@ -29,15 +29,15 @@ function initUserMock(token, level) {
       data: {
         attributes: {
           profile: {
+            authn_context: 'idme',
             email: 'fake@fake.com',
-            loa: {
-              current: level
-            },
+            loa: { current: level },
             first_name: 'Jane',
             middle_name: '',
             last_name: 'Doe',
             gender: 'F',
-            birth_date: '1985-01-01'
+            birth_date: '1985-01-01',
+            verified: level === 3
           },
           veteran_status: {
             status: 'OK',

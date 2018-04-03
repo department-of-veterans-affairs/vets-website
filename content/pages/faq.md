@@ -4,6 +4,7 @@ permalink: /faq.html
 title: Frequently Asked Questions about Signing In to Vets.gov
 display_title: Frequently Asked Questions
 ---
+
 <main itemscope itemtype="http://schema.org/FAQPage">
   <div class="row">
     <article class="usa-content columns faq-page">
@@ -320,8 +321,7 @@ display_title: Frequently Asked Questions
   </div>
 </main>
 
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
 
 <script type="text/javascript">
 (function() {
@@ -340,6 +340,5 @@ display_title: Frequently Asked Questions
   }
 })();
 </script>
-
 
 <!--- TODO: find a proper place to import USWDS JS for static pages -->

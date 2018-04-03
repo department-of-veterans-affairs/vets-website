@@ -31,52 +31,70 @@ describe('<RequiredLoginView>', () => {
   afterEach(teardown);
 
   const anonymousUser = {
-    accountType: null,
-    dob: null,
-    email: null,
-    gender: null,
-    userFullName: {
-      first: null,
-      last: null,
-      middle: null,
-      suffix: null
-    }
+    login: {
+      currentlyLoggedIn: false
+    },
+    profile: {
+      accountType: null,
+      dob: null,
+      email: null,
+      gender: null,
+      userFullName: {
+        first: null,
+        last: null,
+        middle: null,
+        suffix: null
+      }
+    },
+    verified: false
   };
+
   const loa1User = {
-    accountType: 1,
-    dob: null,
-    email: 'fake@aol.com',
-    gender: null,
-    services: ['user-profile'],
-    userFullName: {
-      first: null,
-      last: null,
-      middle: null,
-      suffix: null
+    login: {
+      currentlyLoggedIn: true
+    },
+    profile: {
+      accountType: 1,
+      dob: null,
+      email: 'fake@aol.com',
+      gender: null,
+      services: ['user-profile'],
+      userFullName: {
+        first: null,
+        last: null,
+        middle: null,
+        suffix: null
+      },
+      verified: false
     }
   };
 
   const loa3User = {
-    accountType: 3,
-    dob: '1984-07-17',
-    email: 'fake@aol.com',
-    gender: 'M',
-    // TODO: use services that actually require LOA3 for clarity?
-    services: ['facilities', 'hca', 'user-profile', 'edu-benefits'],
-    status: 'OK',
-    userFullName: {
-      first: 'WILLIAM',
-      last: 'RYAN',
-      middle: 'PETER',
-      suffix: null
+    login: {
+      currentlyLoggedIn: true
+    },
+    profile: {
+      accountType: 3,
+      dob: '1984-07-17',
+      email: 'fake@aol.com',
+      gender: 'M',
+      // TODO: use services that actually require LOA3 for clarity?
+      services: ['facilities', 'hca', 'user-profile', 'edu-benefits'],
+      status: 'OK',
+      userFullName: {
+        first: 'WILLIAM',
+        last: 'RYAN',
+        middle: 'PETER',
+        suffix: null
+      },
+      verified: true
     }
   };
 
   const defaultProps = {
-    // TODO: use service that actually requires level 3 auth for clarity?
-    authRequired: 3,
+    verify: true,
     serviceRequired: 'hca',
-    userProfile: loa1User,
+    user: loa1User,
     loginUrl: 'http://fake-login-url',
     verifyUrl: 'http://fake-verify-url'
   };
@@ -107,14 +125,14 @@ describe('<RequiredLoginView>', () => {
 
   it('should render a loading graphic while loading', () => {
     const { tree } = setup({
-      userProfile: { loading: true }
+      user: { profile: { loading: true } }
     });
     const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
     expect(loadingIndicatorElement.text()).to.contain('Loading your information');
   });
 
   it('should display children when service is available', () => {
-    const loa3Props = _.merge({}, defaultProps, { userProfile: loa3User });
+    const loa3Props = _.merge({}, defaultProps, { user: loa3User });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...loa3Props}>
         <TestChildComponent name="one"/>
@@ -130,7 +148,7 @@ describe('<RequiredLoginView>', () => {
   });
 
   it('should display children and pass prop when service is not available', () => {
-    const props = _.merge({}, defaultProps, { userProfile: loa3User, serviceRequired: 'messaging' });
+    const props = _.merge({}, defaultProps, { user: loa3User, serviceRequired: 'messaging' });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...props}>
         <TestChildComponent name="one"/>
@@ -146,47 +164,49 @@ describe('<RequiredLoginView>', () => {
   });
 
   describe('logged in at LOA 1', () => {
-    describe('authRequired=3', () => {
+    describe('needs verification', () => {
       it('should prompt for verification', () => {
-        const { tree } = setup({ userProfile: loa1User });
+        const { tree } = setup({ user: loa1User });
         expect(tree.subTree('Connect(Main)').props.renderType).to.equal('verifyPage');
       });
     });
-    describe('authRequired=1', () => {
+
+    describe('does not need verification', () => {
       it('should display children elements', () => {
-        const { tree } = setup({ authRequired: 1, serviceRequired: 'user-profile' });
+        const { tree } = setup({ verify: false, serviceRequired: 'user-profile' });
         expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
       });
     });
   });
+
   describe('logged in at LOA 3', () => {
     it('should display children elements', () => {
-      const { tree } = setup({ userProfile: loa3User });
+      const { tree } = setup({ user: loa3User });
       expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
     });
-    describe('userProfile.status=SERVER_ERROR', () => {
+
+    describe('user profile with SERVER_ERROR', () => {
       it('should display server error message', () => {
-        const serverErrorProfile = _.merge({}, loa3User, { status: 'SERVER_ERROR' });
-        const { tree } = setup({ userProfile: serverErrorProfile });
+        const serverErrorProfile = _.merge({}, loa3User, { profile: { status: 'SERVER_ERROR' } });
+        const { tree } = setup({ user: serverErrorProfile });
         expect(tree.toString()).to.contain('Sorry, our system is temporarily down while we fix a few things');
       });
     });
-    describe('userProfile.status=NOT_FOUND', () => {
+
+    describe('user profile NOT_FOUND', () => {
       it('should display not found message', () => {
-        const notFoundProfile = _.merge({}, loa3User, { status: 'NOT_FOUND' });
-        const { tree } = setup({ userProfile: notFoundProfile });
+        const notFoundProfile = _.merge({}, loa3User, { profile: { status: 'NOT_FOUND' } });
+        const { tree } = setup({ user: notFoundProfile });
         expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn’t find your records with that information.');
       });
     });
   });
+
   describe('not logged in', () => {
     it('should prompt for login', () => {
-      setup({ userProfile: anonymousUser });
+      const { tree } = setup({ user: anonymousUser });
+      tree.getMountedInstance().componentDidUpdate();
       expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
-    });
-    it('should display children when no LOA required', () => {
-      const { tree } = setup({ userProfile: anonymousUser, authRequired: null });
-      expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
     });
   });
 });
