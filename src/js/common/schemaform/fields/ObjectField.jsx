@@ -11,7 +11,7 @@ import {
   getDefaultRegistry
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import ExpandingGroup from '../../components/form-elements/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
 
 /*
  * This is largely copied from the react-jsonschema-form library,

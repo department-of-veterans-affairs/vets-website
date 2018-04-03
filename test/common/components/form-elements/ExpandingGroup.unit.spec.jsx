@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ExpandingGroup from '../../../../src/js/common/components/form-elements/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
 
 
 describe('<ExpandingGroup>', () => {
