@@ -96,7 +96,7 @@ class DisabilityWizard extends React.Component {
 
   ButtonContainer = () => {
     const { atIncreaseGuidance, atEbenefitsGuidance } = this.checkGuidanceStatus();
-    const { profile, loginUrl, verifyUrl } = this.props;
+    const { user, loginUrl, verifyUrl } = this.props;
 
     return  (<div>
       {!this.isChoosingStatus() &&
@@ -108,9 +108,8 @@ class DisabilityWizard extends React.Component {
       {atIncreaseGuidance && sessionStorage.userToken &&
         <RequiredLoginView
           containerClass="login-container"
-          authRequired={1}
           serviceRequired={['disability-benefits']}
-          userProfile={profile}
+          user={user}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>
@@ -241,7 +240,7 @@ class DisabilityWizard extends React.Component {
 function mapStateToProps(state) {
   const userState = state.user;
   return {
-    profile: userState.profile
+    user: userState
   };
 }
 
