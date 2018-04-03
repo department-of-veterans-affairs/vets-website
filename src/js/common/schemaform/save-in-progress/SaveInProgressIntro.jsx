@@ -11,10 +11,14 @@ import { getIntroState } from './selectors';
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
+    let prefillAvailable;
+    const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill } = this.props;
     const { profile, login } = this.props.user;
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    const { renderSignInMessage, prefillEnabled } = this.props;
-
+    if (!this.props.prefillAvailable) {
+      prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    } else {
+      prefillAvailable = this.props.prefillAvailable;
+    }
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -46,6 +50,25 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
+      } else if (verifyRequiredPrefill) {
+        alert = (
+          <div>
+            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+              <div className="usa-alert-body">
+                <strong>Note:</strong> Since you’re signed in to your account, you can save your form in progress, and come back later to finish filling it out.
+                <ul>
+                  <li>You have 100 days from the date you start or update your application to submit the form. After 100 days, the form won’t be saved, and you’ll need to start over.</li>
+                </ul><br/>
+                If you’re account is verified, your application process can go more smoothly. Here’s why:<br/>
+                <ul>
+                  <li>We can prefill part of your application based on your account details.</li>
+                </ul><br/>
+                <button className="va-button-link" onClick={() => this.props.toggleAuthLevel(3)}>Verify your account.</button>
+              </div>
+            </div>
+            <br/>
+          </div>
+        );
       } else {
         alert = (
           <div>
@@ -66,6 +89,22 @@ export default class SaveInProgressIntro extends React.Component {
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
               If you’re signed in to your account, your application process can go more smoothly. Here’s why:<br/>
+              <ul>
+                <li>We can prefill part of your application based on your account details.</li>
+                <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
+              </ul><br/>
+              <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
+            </div>
+          </div>
+          <br/>
+        </div>
+      );
+    } else if (verifyRequiredPrefill) {
+      alert = (
+        <div>
+          <div className="usa-alert usa-alert-info schemaform-sip-alert">
+            <div className="usa-alert-body">
+              If you’re signed in to your account and your account is verified, your application process can go more smoothly. Here’s why:<br/>
               <ul>
                 <li>We can prefill part of your application based on your account details.</li>
                 <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
@@ -125,6 +164,7 @@ export default class SaveInProgressIntro extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           prefillTransformer={this.props.prefillTransformer}
+          handleLoadPrefill={this.props.handleLoadPrefill}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}

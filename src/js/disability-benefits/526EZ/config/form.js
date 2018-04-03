@@ -71,11 +71,14 @@ const privateRecordReleasesSchema = Object.assign({}, treatments.items.propertie
 
 const formConfig = {
   urlPrefix: '/',
+  intentToFileUrl: '/v0/21-526EZ',
   submitUrl: '/v0/21-526EZ',
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
   migrations: [],
+  prefillEnabled: true,
+  verifyRequiredPrefill: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'

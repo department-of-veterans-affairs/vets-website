@@ -23,6 +23,10 @@ class FormStartControls extends React.Component {
   }
 
   handleLoadPrefill = () => {
+    if (this.props.handleLoadPrefill) {
+      // set ITF date
+      this.props.handleLoadPrefill();
+    }
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
     } else {
@@ -92,6 +96,7 @@ class FormStartControls extends React.Component {
 
 FormStartControls.propTypes = {
   formId: PropTypes.string.isRequired,
+  handleLoadPrefill: PropTypes.func,
   migrations: PropTypes.array,
   returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,

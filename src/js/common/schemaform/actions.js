@@ -156,6 +156,49 @@ export function submitForm(formConfig, form) {
   };
 }
 
+export function submitIntentToFile(formConfig, form) {
+  const captureError = (error, errorType) => {
+    Raven.captureException(error, {
+      fingerprint: [formConfig.trackingPrefix, error.message],
+      extra: {
+        errorType,
+        statusText: error.statusText
+      }
+    });
+    window.dataLayer.push({
+      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
+    });
+  };
+
+  return dispatch => {
+    dispatch(setSubmission('status', 'submitPending'));
+    window.dataLayer.push({
+      event: `${formConfig.trackingPrefix}-submission`,
+    });
+
+    // TODO: determine payload
+    const body = formConfig.transformForSubmit
+      ? formConfig.transformForSubmit(formConfig, form)
+      : transformForSubmit(formConfig, form);
+    const promise = submitToUrl(body, formConfig.intentToFileUrl, formConfig.trackingPrefix);
+
+    return promise
+      .then(resp => dispatch(setSubmitted(resp)))
+      .catch(error => {
+        // overly cautious
+        const errorMessage = _.get('message', error);
+        let errorType = 'clientError';
+        if (errorMessage.startsWith('vets_throttled_error')) {
+          errorType = 'throttledError';
+        } else if (errorMessage.startsWith('vets_server_error')) {
+          errorType = 'serverError';
+        }
+        captureError(error, errorType);
+        dispatch(setSubmission('status', errorType, error.extra));
+      });
+  };
+}
+
 export function uploadFile(file, uiOptions, onProgress, onChange, onError) {
   return (dispatch, getState) => {
     if (file.size > uiOptions.maxSize) {
