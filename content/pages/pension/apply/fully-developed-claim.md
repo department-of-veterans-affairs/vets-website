@@ -59,23 +59,20 @@ The evidence must show that you meet the requirements listed below.
 
 - Any length of time on active duty during wartime, and were discharged because of a service-connected disability, **or**
 - 90 consecutive days (without a break) on active duty, with at least 1 day being during wartime, **or**
-- 90 days combined on active duty, with at least 1 day being during wartime
-
+- 90 days combined on active duty, with at least 1 day being during wartime <br>
 **Note:** If your active-duty service began after September 7, 1980, additional service requirements may apply. Generally, you need to have served for at least 2 years continually (without a break) or for the full period for which you were called to active duty, with at least 1 day being during wartime. Some exceptions may apply.
 
 **And both of these must be true about your current situation:**
 
 - Your net worth and income are within certain limits, **and**
 
-- You’re at least 65 years old or have a permanent and total disability. 
-
+- You’re at least 65 years old or have a permanent and total disability. <br>
 **Note:** You’re considered permanently and totally disabled if medical evidence shows that at least one of these describes you:
-
-- You’re a patient in a nursing home for long-term care, **or**
-- You receive Social Security disability benefits, **or**
-- You’re unemployable because of a disability that doesn’t go away, **or**
-- You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
-- You have a disease or disorder that we decide is the cause of your permanent and total disability
+  - You’re a patient in a nursing home for long-term care, **or**
+  - You receive Social Security disability benefits, **or**
+  - You’re unemployable because of a disability that doesn’t go away, **or**
+  - You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
+  - You have a disease or disorder that we decide is the cause of your permanent and total disability
 
 <h4>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</h4>
 
