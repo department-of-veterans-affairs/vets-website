@@ -51,27 +51,35 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-must-show">What should the evidence show to support my claim?</button>
 <div id="evidence-must-show" class="usa-accordion-content">
 
-**If you’re claiming non-service-connected pension benefits,** the evidence must show that the 3 items listed below are true for you.
+<h>If you’re claiming non-service-connected pension benefits</h> 
 
-1. You meet at least one of these minimum requirements for active service during a period of war:
+The evidence must show that you meet the requirements listed below.
 
-    - You served 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
-    - You served 90 days of combined service, with at least 1 day during wartime <br>
+**At least one of these minimum requirements must be true about your active service during a period of war. You served for:**
+
+- 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
+- 90 days of combined service, with at least 1 day during wartime <br>
     (**Note:** If your service began after September 7, 1980, additional service requirements may apply, typically 2 years of continuous service or completion of active-duty service), **or**
-    - You served any length of active-duty service during wartime, with discharge because of a service-connected disability
+- Any length of active-duty service during wartime, with discharge because of a service-connected disability
 
-2. You’re at least 65 years old or have a permanent and total disability. You’re considered permanently and totally disabled if medical evidence shows that at least one of these describes you:
+**And both of these must be true about your current situation:**
 
-    - You’re a patient in a nursing home for long-term care, **or**
-    - You receive Social Security disability benefits, **or**
-    - You’re unemployable because of a disability that doesn’t go away, **or**
-    - You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
-    - You have a disease or disorder that we decide is the cause of your permanent and total disability
+- Your net worth and income are within certain limits, **and**
+
+- You’re at least 65 years old or have a permanent and total disability. 
+
+**Note:** You’re considered permanently and totally disabled if medical evidence shows that at least one of these describes you:
+
+- You’re a patient in a nursing home for long-term care, **or**
+- You receive Social Security disability benefits, **or**
+- You’re unemployable because of a disability that doesn’t go away, **or**
+- You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
+- You have a disease or disorder that we decide is the cause of your permanent and total disability
 
 
-3.  Your net worth and income are within certain limits.
+<h>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</h>
 
-**If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits,** the evidence must show that you meet at least one of the requirements listed below.
+The evidence must show that you meet at least one of the requirements listed below.
 
 **At least one of these must be true:**
 
@@ -90,7 +98,9 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
   - You have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
 
-**If you’re claiming benefits for a disabled child,** the evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
+<h>If you’re claiming benefits for a disabled child</h> 
+
+The evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
 
 </div>
 </li>
@@ -100,7 +110,7 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 
 #### FDC Program
 
-Under the FDC program, we’ll take care of these:
+Under the FDC program, we’ll take care of the evidence gathering listed here. We'll:
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
@@ -109,7 +119,7 @@ Under the FDC program, we’ll take care of these:
 
 #### Standard Claim Process
 
-With the standard claim process, we’ll take care of these:
+With the standard claim process, we’ll take care of the evidence gathering listed here. We'll:
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
