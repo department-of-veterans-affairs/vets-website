@@ -1,6 +1,3 @@
-import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
-
-/*
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -24,6 +21,5 @@ SystemDownView.propTypes = {
   messageLine1: PropTypes.string.isRequired,
   messageLine2: PropTypes.string,
 };
-*/
 
 export default SystemDownView;
