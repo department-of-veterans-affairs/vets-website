@@ -51,16 +51,17 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-must-show">What should the evidence show to support my claim?</button>
 <div id="evidence-must-show" class="usa-accordion-content">
 
-<h>If you’re claiming non-service-connected pension benefits</h> 
+<h4>If you’re claiming non-service-connected pension benefits</h4> 
 
 The evidence must show that you meet the requirements listed below.
 
-**At least one of these minimum requirements must be true about your active service during a period of war. You served for:**
+**At least one of these must be true about your service. You served for:**
 
-- 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
-- 90 days of combined service, with at least 1 day during wartime <br>
-    (**Note:** If your service began after September 7, 1980, additional service requirements may apply, typically 2 years of continuous service or completion of active-duty service), **or**
-- Any length of active-duty service during wartime, with discharge because of a service-connected disability
+- Any length of time on active duty during wartime, and were discharged because of a service-connected disability, **or**
+- 90 consecutive days (without a break) on active duty, with at least 1 day being during wartime, **or**
+- 90 days combined on active duty, with at least 1 day being during wartime
+
+**Note:** If your active-duty service began after September 7, 1980, additional service requirements may apply. Generally, you need to have served for at least 2 years continually (without a break) or for the full period for which you were called to active duty, with at least 1 day being during wartime. Some exceptions may apply.
 
 **And both of these must be true about your current situation:**
 
@@ -76,29 +77,28 @@ The evidence must show that you meet the requirements listed below.
 - You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
 - You have a disease or disorder that we decide is the cause of your permanent and total disability
 
-
-<h>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</h>
+<h4>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</h4>
 
 The evidence must show that you meet at least one of the requirements listed below.
 
-**At least one of these must be true:**
+**At least one of these must be true. You:**
 
-  - You have corrected vision of 5/200 or less in both eyes, **or**
-  - You have contraction of the concentric visual field to 5 degrees or less, **or**
-  - You’re a patient in a nursing home due to the loss of mental or physical abilities, **or**
-  - You need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, **or**
-  - You’re bedridden and have to spend most of the day in bed because of your disability
+  - Have corrected vision of 5/200 or less in both eyes, **or**
+  - Have contraction of the concentric visual field to 5 degrees or less, **or**
+  - Are a patient in a nursing home due to the loss of mental or physical abilities, **or**
+  - Need another person to help you with daily activities like bathing, eating, dressing, adjusting prosthetic devices, or protecting you from the hazards of your environment, **or**
+  - Are bedridden and have to spend most of the day in bed because of your disability
 
+<h4>If you're claiming increased disability pension benefits based on being housebound</h4>
 
-**To support a claim for increased disability pension benefits based on being housebound,** the evidence must show that you meet at least one of the requirements listed below.
+The evidence must show that you meet at least one of the requirements listed below.
 
-**At least one of these must be true:**
+**At least one of these must be true. You have a:**
 
-  - You have a single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
-  - You have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
+  - Single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
+  - Disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
-
-<h>If you’re claiming benefits for a disabled child</h> 
+<h4>If you’re claiming benefits for a disabled child</h4> 
 
 The evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
 
