@@ -30,7 +30,7 @@ When turning in your claim under the FDC program, please send us all the support
 
 1. Fill out an Application for Pension. <br>
 [Download Application for Pension (VA Form 21P-527EZ)](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf).
-2. When you file your claim, please include **all of the following**:
+2. When you file your claim, please include:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
     - Information about any health records that are available at a federal facility, like a VA medical center or clinic
@@ -51,15 +51,16 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-must-show">What should the evidence show to support my claim?</button>
 <div id="evidence-must-show" class="usa-accordion-content">
 
-**If you’re claiming non-service-connected pension benefits,** the evidence needs to show that **the following three items are true for you**:
-1. You meet **at least one of the following** minimum requirements for active service during a period of war:
+**If you’re claiming non-service-connected pension benefits,** the evidence must show that the 3 items listed below are true for you.
+
+1. You meet at least one of these minimum requirements for active service during a period of war:
 
     - You served 90 days of consecutive (without a break) active service, with at least 1 day during wartime, **or**
-    - You served 90 days of combined service, with at least 1 day during wartime
+    - You served 90 days of combined service, with at least 1 day during wartime <br>
     (**Note:** If your service began after September 7, 1980, additional service requirements may apply, typically 2 years of continuous service or completion of active-duty service), **or**
     - You served any length of active-duty service during wartime, with discharge because of a service-connected disability
 
-2. You’re at least 65 years old or have a permanent and total disability. You’re considered permanently and totally disabled if medical evidence shows that **at least one of the following is true for you**:
+2. You’re at least 65 years old or have a permanent and total disability. You’re considered permanently and totally disabled if medical evidence shows that at least one of these describes you:
 
     - You’re a patient in a nursing home for long-term care, **or**
     - You receive Social Security disability benefits, **or**
@@ -70,7 +71,9 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 
 3.  Your net worth and income are within certain limits.
 
-**If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits,** the evidence must show that **at least one of the following is true for you**:
+**If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits,** the evidence must show that you meet at least one of the requirements listed below.
+
+**At least one of these must be true:**
 
   - You have corrected vision of 5/200 or less in both eyes, **or**
   - You have contraction of the concentric visual field to 5 degrees or less, **or**
@@ -79,7 +82,9 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
   - You’re bedridden and have to spend most of the day in bed because of your disability
 
 
-To support a claim for increased disability pension benefits based on being housebound, the evidence must show that **at least one of the following is true for you**:
+**To support a claim for increased disability pension benefits based on being housebound,** the evidence must show that you meet at least one of the requirements listed below.
+
+**At least one of these must be true:**
 
   - You have a single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
   - You have a disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
@@ -95,7 +100,7 @@ To support a claim for increased disability pension benefits based on being hous
 
 #### FDC Program
 
-Under the FDC program, we’ll:
+Under the FDC program, we’ll take care of these:
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
@@ -104,7 +109,7 @@ Under the FDC program, we’ll:
 
 #### Standard Claim Process
 
-With the standard claim process, we’ll:
+With the standard claim process, we’ll take care of these:
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
