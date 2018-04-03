@@ -1,6 +1,6 @@
 import claimsAppeals from '../../../claims-status/reducers';
 import prescriptions from '../../../rx/reducers/prescriptions';
-import messages from '../../../messaging/reducers/messages';
+import recipients from '../../../messaging/reducers/recipients';
 import folders from '../../../messaging/reducers/folders';
 import { combineReducers } from 'redux';
 
@@ -11,7 +11,7 @@ export default {
       prescriptions,
     }),
     msg: combineReducers({
-      messages,
+      recipients,
       folders,
     }),
   })
