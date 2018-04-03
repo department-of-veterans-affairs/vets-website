@@ -4,7 +4,7 @@ const LoginHelpers = require('../e2e/login-helpers');
 
 const selectors = {
   menu: '#login-root button[aria-controls="accountMenu"]',
-  signOut: '#accountMenu > ul > li:nth-child(4) > a'
+  signOut: '#accountMenu > ul > li:nth-child(2) > a'
 };
 
 module.exports = E2eHelpers.createE2eTest(
