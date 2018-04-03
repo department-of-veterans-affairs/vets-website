@@ -97,7 +97,7 @@ export class MHVApp extends React.Component {
       return mhvAccessError;
     }
 
-    return this.props.children;
+    return <div>{this.props.children}</div>;
   }
 }
 
@@ -111,7 +111,7 @@ MHVApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { profile } = state.profile;
+  const { profile } = state.user;
   const { account, terms } = profile.mhv;
   const availableServices = profile.services;
   return { account, availableServices, terms };
