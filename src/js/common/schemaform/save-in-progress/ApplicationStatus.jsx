@@ -6,7 +6,7 @@ import Raven from 'raven-js';
 
 import { formLinks, formTitles } from '../../../user-profile/helpers';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '../../../common/components/Modal';
 import { removeSavedForm } from '../../../user-profile/actions';
 

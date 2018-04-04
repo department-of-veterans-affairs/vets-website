@@ -1,5 +1,21 @@
 # How to Start a New ReactJS Project
 
+## Approach 1: Yeoman generator
+
+```bash
+npm install -g yo
+npm install -g @department-of-veterans-affairs/generator-vets-website
+```
+
+Then generate your new application, at the root directory of vets-website:
+
+```bash
+yo @department-of-veterans-affairs/vets-website
+```
+
+Generator code is located at https://github.com/department-of-veterans-affairs/generator-vets-website.
+
+## Approach 2: Manually add files and folder
 
 1. Create a directory for your project inside of `vets-website/src/js/`. 
 2. Create an entry file for your project directory using the project name to prefix the filename: `vets-website/src/js/[project-name]/[project-name]-entry.jsx`. Example: `vets-website/src/js/edu-benefits/edu-benefits-entry.jsx`.

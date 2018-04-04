@@ -63,7 +63,7 @@ class VeteranIDCard extends React.Component {
         <RequiredLoginView
           verify
           serviceRequired="id-card"
-          user={this.props.user.user}>
+          user={this.props.user}>
           <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[services.vic]}>
             <RequiredVeteranView userProfile={this.props.user.profile}>
               {this.props.children}

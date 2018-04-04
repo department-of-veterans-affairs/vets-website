@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import { messages } from '../config';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class Main extends React.Component {
 

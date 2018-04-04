@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { submitEmail, setEmail } from '../actions';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 
 class EmailCapture extends React.Component {
