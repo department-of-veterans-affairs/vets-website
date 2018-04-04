@@ -97,20 +97,6 @@ const formConfig = {
   chapters: {
     reviewVeteranInformation: createVeteranInfoChapter(fullSchema526EZ, true),
     veteranInformation: createVeteranInfoChapter(fullSchema526EZ, false),
-    chapterTwo: {
-      title: 'Chapter Two',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-two/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
-          },
-        }
-      }
-    },
     chapterThree: {
       title: 'Chapter Three',
       pages: {

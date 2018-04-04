@@ -10,10 +10,6 @@ import ProgressButton from '../../../common/components/form-elements/ProgressBut
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-
-/*
- * Displays all the pages in a chapter on the review page
- */
 export default class ReviewCollapsiblePage extends React.Component {
   constructor() {
     super();

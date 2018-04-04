@@ -82,6 +82,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
       dateOfBirth: date
     }
   };
+
   const reviewString = isReview ? 'Review ' : '';
   const pageName = isReview ? 'reviewVeteranInformation' : 'veteranInformation';
   const pageDescription = isReview ? 'Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.' : undefined;
@@ -90,7 +91,8 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
   const verifiedDepends = (formData, prefilled) => !!prefilled;
   const unverifiedDepends = (formData, prefilled) => !prefilled;
   const depends = isReview ? verifiedDepends : unverifiedDepends;
-  const chapter = {
+
+  return {
     title: `${reviewString}Veteran Information`,
     reviewTitle: 'Veteran Information',
     pages: {
@@ -105,6 +107,4 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
       }
     }
   };
-
-  return chapter;
 }
