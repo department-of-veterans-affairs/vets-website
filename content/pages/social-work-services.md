@@ -109,6 +109,7 @@ That's 100% okay. We're here to help you figure out what's wrong, and how we can
 
 ### Working with a VA social worker 
 
+<<span id="fisher"></span>
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
@@ -181,4 +182,21 @@ And, your social worker can help connect you to other community resources. These
       document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
     });
 </script>
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function() {
+  var openAccordion = function(id) {
+    document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);
+    document.getElementById(id).setAttribute('aria-hidden', false);
+  }
+
+  switch(window.location.hash) {
+    case '#fisher':
+      openAccordion('Hospital-far-from-home');
+      break;    
+  }
+})();
+</script>
+
 
