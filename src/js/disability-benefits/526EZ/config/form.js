@@ -94,7 +94,8 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
-    veteranInformation: createVeteranInfoChapter(fullSchema526EZ),
+    reviewVeteranInformation: createVeteranInfoChapter(fullSchema526EZ, true),
+    veteranInformation: createVeteranInfoChapter(fullSchema526EZ, false),
     chapterTwo: {
       title: 'Chapter Two',
       pages: {

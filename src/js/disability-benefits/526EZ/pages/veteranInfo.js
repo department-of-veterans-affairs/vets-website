@@ -7,7 +7,7 @@ import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../common/utils/labels';
 import VerifiedReviewPage from '../components/VerifiedReviewPage';
 
-export default function createVeteranInfoChapter(formSchema) {
+export default function createVeteranInfoChapter(formSchema, isReview) {
 
   const { fullName, date } = formSchema.definitions;
 
@@ -50,7 +50,7 @@ export default function createVeteranInfoChapter(formSchema) {
         viewField: ({ formData }) => {
           const dateOfBirth = formData.split('-');
           dateOfBirth.push(dateOfBirth.shift());
-          return <p>{dateOfBirth.join('/')}</p>;
+          return <p>Date of birth: {dateOfBirth.join('/')}</p>;
         }
       }
     }),
@@ -82,22 +82,21 @@ export default function createVeteranInfoChapter(formSchema) {
       dateOfBirth: date
     }
   };
-
+  const reviewString = isReview ? 'Review ' : '';
+  const pageName = isReview ? 'reviewVeteranInformation' : 'veteranInformation';
+  const pageDescription = isReview ? 'Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.' : undefined;
+  const pagePath = isReview ? 'review-veteran-information' : 'veteran-information';
+  const pageComponent = isReview ? VerifiedReviewPage : undefined;
   const chapter = {
-    title: 'Veteran Information',
+    title: `${reviewString}Veteran Information`,
+    reviewTitle: 'Veteran Information',
     pages: {
-      reviewVeteranInformation: {
-        title: 'Review Veteran Information',
-        path: 'review-veteran-information',
-        component: VerifiedReviewPage,
-        depends: (formData) => formData.verifiedITF,
-        uiSchema,
-        schema
-      },
-      veteranInformation: {
-        title: 'Veteran Information',
-        path: 'veteran-information',
-        depends: (formData) => !formData.verifiedITF,
+      [pageName]: {
+        title: `${reviewString}Veteran Information`,
+        description: pageDescription,
+        path: pagePath,
+        component: pageComponent,
+        depends: true,
         uiSchema,
         schema
       }

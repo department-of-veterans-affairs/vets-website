@@ -99,11 +99,13 @@ class VerifiedReviewPage extends React.Component {
 
   render() {
     const { form, contentAfterButtons, formContext } = this.props;
-    const chapter = 'veteranInformation';
+    const chapter = 'reviewVeteranInformation';
     const page = 'reviewVeteranInformation';
+    const description = formConfig.chapters[chapter].pages[page].description;
 
     return (
       <div>
+        {description && <p>{description}</p>}
         <div className="input-section">
           <div>
             <ReviewCollapsiblePage
@@ -120,10 +122,6 @@ class VerifiedReviewPage extends React.Component {
               form={form}/>
           </div>
         </div>
-        {/* <PrivacyAgreement required
-          onChange={this.props.setPrivacyAgreement}
-          checked={form.data.privacyAgreementAccepted}
-          showError={form.submission.hasAttemptedSubmit}/> */}
         <div className="row form-progress-buttons schemaform-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
