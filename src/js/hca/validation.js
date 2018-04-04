@@ -4,13 +4,19 @@ import { convertToDateField, validateCurrentOrPastDate } from '../common/schemaf
 import { isValidDateRange } from '../common/utils/validations';
 
 export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
+  let endDateLimit;
+  if (process.env.BUILDTYPE === 'production') {
+    endDateLimit = 180;
+  } else {
+    endDateLimit = 730;
+  }
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
-  const endDate = moment().endOf('day').add(180, 'days');
+  const endDate = moment().endOf('day').add(endDateLimit, 'days');
 
   // TODO: Use a constant instead of a magic string
   if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDate)) {
-    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (180 days from today)`);
+    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (${endDateLimit} days from today)`);
   }
 
   if (veteranDateOfBirth) {
