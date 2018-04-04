@@ -113,6 +113,7 @@ export default class ReviewCollapsiblePage extends React.Component {
             hideHeaderRow={page.hideHeaderRow}
             hideEditButton
             hideTitle
+            hideBorders
             pagePerItemIndex={page.index}
             onBlur={this.props.onBlur}
             onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
