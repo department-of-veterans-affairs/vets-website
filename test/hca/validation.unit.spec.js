@@ -16,12 +16,16 @@ describe('hca validation', () => {
           addError: sinon.spy()
         }
       };
-      validateServiceDates(errors, {
-        lastDischargeDate: '2010-01-01',
-        lastEntryDate: '2011-01-01'
-      }, {
-        veteranDateOfBirth: '1980-01-01'
-      });
+      validateServiceDates(
+        errors,
+        {
+          lastDischargeDate: '2010-01-01',
+          lastEntryDate: '2011-01-01'
+        },
+        {
+          veteranDateOfBirth: '1980-01-01'
+        }
+      );
 
       expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
     });
@@ -31,12 +35,21 @@ describe('hca validation', () => {
           addError: sinon.spy()
         }
       };
-      validateServiceDates(errors, {
-        lastDischargeDate: moment().add(1, 'years').format('YYYY-MM-DD'),
-        lastEntryDate: '2011-01-01'
-      }, {});
-
-      expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
+      validateServiceDates(
+        errors,
+        {
+          lastDischargeDate: moment()
+            .add(1, 'years')
+            .format('YYYY-MM-DD'),
+          lastEntryDate: '2011-01-01'
+        },
+        {}
+      );
+      if (process.env.BUILDTYPE === 'production') {
+        expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
+      } else {
+        expect(errors.lastDischargeDate.addError.callCount).to.equal(0);
+      }
     });
     it('should set message if entry date is less than 15 years after dob', () => {
       const errors = {
@@ -44,12 +57,16 @@ describe('hca validation', () => {
           addError: sinon.spy()
         }
       };
-      validateServiceDates(errors, {
-        lastDischargeDate: '2010-03-01',
-        lastEntryDate: '2000-01-01'
-      }, {
-        veteranDateOfBirth: '1990-01-01'
-      });
+      validateServiceDates(
+        errors,
+        {
+          lastDischargeDate: '2010-03-01',
+          lastEntryDate: '2000-01-01'
+        },
+        {
+          veteranDateOfBirth: '1990-01-01'
+        }
+      );
 
       expect(errors.lastEntryDate.addError.callCount).to.equal(1);
     });
@@ -59,13 +76,11 @@ describe('hca validation', () => {
       const errors = {
         addError: sinon.spy()
       };
-      validateMarriageDate(errors,
-        '2010-01-01',
-        {
-          spouseDateOfBirth: '2011-01-01',
-          veteranDateOfBirth: '1980-01-01',
-          discloseFinancialInformation: true
-        });
+      validateMarriageDate(errors, '2010-01-01', {
+        spouseDateOfBirth: '2011-01-01',
+        veteranDateOfBirth: '1980-01-01',
+        discloseFinancialInformation: true
+      });
 
       expect(errors.addError.callCount).to.equal(1);
     });
@@ -73,13 +88,11 @@ describe('hca validation', () => {
       const errors = {
         addError: sinon.spy()
       };
-      validateMarriageDate(errors,
-        '2010-01-01',
-        {
-          veteranDateOfBirth: '2011-01-01',
-          spouseDateOfBirth: '1980-01-01',
-          discloseFinancialInformation: true
-        });
+      validateMarriageDate(errors, '2010-01-01', {
+        veteranDateOfBirth: '2011-01-01',
+        spouseDateOfBirth: '1980-01-01',
+        discloseFinancialInformation: true
+      });
 
       expect(errors.addError.callCount).to.equal(1);
     });
@@ -87,13 +100,11 @@ describe('hca validation', () => {
       const errors = {
         addError: sinon.spy()
       };
-      validateMarriageDate(errors,
-        '2010-01-01',
-        {
-          veteranDateOfBirth: '2011-01-01',
-          spouseDateOfBirth: '2011-01-01',
-          discloseFinancialInformation: false
-        });
+      validateMarriageDate(errors, '2010-01-01', {
+        veteranDateOfBirth: '2011-01-01',
+        spouseDateOfBirth: '2011-01-01',
+        discloseFinancialInformation: false
+      });
 
       expect(errors.addError.callCount).to.equal(0);
     });
@@ -103,7 +114,8 @@ describe('hca validation', () => {
       const errors = {
         addError: sinon.spy()
       };
-      validateDependentDate(errors,
+      validateDependentDate(
+        errors,
         '2010-01-01',
         {
           discloseFinancialInformation: true,
@@ -112,7 +124,11 @@ describe('hca validation', () => {
               childDateOfBirth: '2011-01-01'
             }
           ]
-        }, null, null, 0);
+        },
+        null,
+        null,
+        0
+      );
 
       expect(errors.addError.callCount).to.equal(1);
     });
@@ -120,7 +136,8 @@ describe('hca validation', () => {
       const errors = {
         addError: sinon.spy()
       };
-      validateDependentDate(errors,
+      validateDependentDate(
+        errors,
         '2010-01-01',
         {
           discloseFinancialInformation: false,
@@ -129,7 +146,11 @@ describe('hca validation', () => {
               childDateOfBirth: '2011-01-01'
             }
           ]
-        }, null, null, 0);
+        },
+        null,
+        null,
+        0
+      );
 
       expect(errors.addError.callCount).to.equal(0);
     });
