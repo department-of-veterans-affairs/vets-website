@@ -55,24 +55,23 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 
 The evidence must show that you meet the requirements listed below.
 
-**At least one of these must be true about your service. You served for:**
+**This must be true:**
+- Your net worth and income are within certain limits
 
-- Any length of time on active duty during wartime, and were discharged because of a service-connected disability, **or**
-- 90 consecutive days (without a break) on active duty, with at least 1 day being during wartime, **or**
-- 90 days combined on active duty, with at least 1 day being during wartime <br>
-**Note:** If your active-duty service began after September 7, 1980, additional service requirements may apply. Generally, you need to have served for at least 2 years continually (without a break) or for the full period for which you were called to active duty, with at least 1 day being during wartime. Some exceptions may apply.
+**And at least one of these must be true about your service. You:**
 
-**And both of these must be true about your current situation:**
+- Served on active duty for any length of time during a period of war and were discharged due to a service-connected disability, **or**
+- Started on active duty before September 8, 1980, and you served at least 90 days (either all at one time or combined over time) on active duty with at least 1 day being during wartime, **or**
+- Started on active duty after September 7, 1980, and you served at least 2 years or the full period for which you were called or ordered to active duty, with at least 1 day being during wartime. Some exceptions may apply to this longer service requirement. 
+ 
+**And at least one of these must be true about true about your current situation. You:**
 
-- Your net worth and income are within certain limits, **and**
-
-- You’re at least 65 years old or have a permanent and total disability. <br>
-**Note:** You’re considered permanently and totally disabled if medical evidence shows that at least one of these describes you:
-  - You’re a patient in a nursing home for long-term care, **or**
-  - You receive Social Security disability benefits, **or**
-  - You’re unemployable because of a disability that doesn’t go away, **or**
-  - You have a disability that doesn’t go away and that makes it impossible for you to work, **or**
-  - You have a disease or disorder that we decide is the cause of your permanent and total disability
+- Are at least 65 years old, **or**
+- Are a patient in a nursing home for long-term care, **or**
+- Receive Social Security disability benefits, **or**
+- Are unemployable because of a disability that doesn’t go away, **or**
+- Have a disability that doesn’t go away and that makes it impossible for you to work, **or**
+- Have a disease or disorder that we determine causes permanent and total disability
 
 <h4>If you’re claiming non-service-connected pension benefits with Aid and Attendance or Housebound benefits</h4>
 
@@ -107,7 +106,9 @@ The evidence must show that the child, before turning 18 years old, became unabl
 
 #### FDC Program
 
-Under the FDC program, we’ll take care of the evidence gathering listed here. We'll:
+Under the FDC program, we’ll handle the evidence-gathering steps listed below. 
+
+**We'll:**
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
@@ -116,11 +117,13 @@ Under the FDC program, we’ll take care of the evidence gathering listed here. 
 
 #### Standard Claim Process
 
-With the standard claim process, we’ll take care of the evidence gathering listed here. We'll:
+With the standard claim process, we’ll handle the evidence-gathering steps listed below.
+
+**We'll:**
 
 * Request relevant records that you identify and authorize us to get from a federal facility, like a VA medical center
 * Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
-* Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers
+* Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility. These may include records from state or local governments, documents from a private doctor, hospital records, or records from current or former employers.
 
 </div>
 </li>
