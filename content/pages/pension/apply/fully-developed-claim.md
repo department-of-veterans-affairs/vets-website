@@ -56,7 +56,8 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 The evidence must show that you meet the requirements listed below.
 
 **This must be true:**
-- Your net worth and income are within certain limits
+
+Your net worth and income are within certain limits.
 
 **And at least one of these must be true about your service. You:**
 
