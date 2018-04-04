@@ -74,7 +74,7 @@ export const saveInProgressReducers = {
 
       // We get an empty object back when we attempt to prefill and there's
       // no information
-      if (Object.keys(action.data.formData).length > 0) {
+      if (_.keys(_.get('data.formData', action)).length > 0) {
         newState.prefillStatus = PREFILL_STATUSES.success;
       } else {
         newState.prefillStatus = PREFILL_STATUSES.unfilled;
