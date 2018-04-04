@@ -1,9 +1,7 @@
+import React from 'react';
+import { Route } from 'react-router';
 import UserProfileApp from './containers/UserProfileApp';
 
-const routes = {
-  path: '/profile',
-  component: UserProfileApp
-};
-
-export default routes;
-
+export default (
+  <Route path="/" component={UserProfileApp}/>
+);
