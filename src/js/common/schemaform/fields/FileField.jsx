@@ -160,7 +160,7 @@ export default class FileField extends React.Component {
                         disabled={this.props.disabled}
                         readonly={this.props.readonly}/>
                     </div>}
-                  {!hasErrors && uiOptions.allowRename &&
+                  {!hasErrors && uiOptions.attachmentName &&
                   <div className="schemaform-file-attachment">
                     <SchemaField
                       name="attachmentName"
