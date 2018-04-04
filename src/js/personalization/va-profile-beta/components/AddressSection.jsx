@@ -34,7 +34,11 @@ class EditAddressModal extends React.Component {
     return (
       <Modal id="profile-address-modal" onClose={this.props.onCancel} visible>
         <h3>{this.props.title}</h3>
-        <AlertBox isVisible={!!this.props.error} status="error" content="An error occurred." onCloseAlert={this.props.clearErrors}/>
+        <AlertBox
+          isVisible={!!this.props.error}
+          status="error"
+          content={<p>We’re sorry. We couldn’t update your address. Please try again.</p>}
+          onCloseAlert={this.props.clearErrors}/>
         <form onSubmit={this.onSubmit}>
           {this.props.field && (
             <Address address={this.props.field.value.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>

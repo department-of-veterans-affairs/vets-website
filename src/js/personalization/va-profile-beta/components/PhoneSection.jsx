@@ -41,7 +41,11 @@ class EditPhoneModal extends React.Component {
     return (
       <Modal id="profile-phone-modal" onClose={onCancel} visible>
         <h3>{title}</h3>
-        <AlertBox isVisible={!!this.props.error} status="error" content="An error occurred." onCloseAlert={clearErrors}/>
+        <AlertBox
+          isVisible={!!this.props.error}
+          status="error"
+          content={<p>We’re sorry. We couldn’t update your phone number. Please try again.</p>}
+          onCloseAlert={clearErrors}/>
         {field && (
           <form onSubmit={this.onSubmit}>
 
