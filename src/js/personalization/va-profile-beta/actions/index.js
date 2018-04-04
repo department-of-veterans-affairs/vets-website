@@ -61,6 +61,7 @@ async function sendProfileRequests() {
     ['mailingAddress', '/profile/mailing_address'],
     ['serviceHistory', '/profile/service_history'],
     ['personalInformation', '/profile/personal_information'],
+    ['userFullName', '/profile/full_name']
   ];
 
   /* eslint-disable no-await-in-loop */
@@ -76,21 +77,12 @@ async function sendProfileRequests() {
   return result;
 }
 
-function combineWithMockData(profile, realData) {
-  return {
-    ...realData,
-    userFullName: profile.userFullName
-  };
-}
-
 export function fetchVaProfile() {
-  return async (dispatch, getState) => {
-    const { user: { profile } } = getState();
+  return async (dispatch) => {
     dispatch({ type: FETCH_VA_PROFILE });
     try {
       const vaProfile = await sendProfileRequests();
-      const withMocked = combineWithMockData(profile, vaProfile);
-      dispatch({ type: FETCH_VA_PROFILE_SUCCESS, newState: withMocked });
+      dispatch({ type: FETCH_VA_PROFILE_SUCCESS, newState: vaProfile });
     } catch (err) {
       dispatch({ type: FETCH_VA_PROFILE_FAIL });
     }
