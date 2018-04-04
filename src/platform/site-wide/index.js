@@ -1,3 +1,8 @@
+/**
+ * Module for site wide components  
+ * @module platform/site-wide
+ */
+
 // This will move later, mostly likely
 import '../../js/common/sentry.js';
 
@@ -8,6 +13,12 @@ import addMenuListeners from '../../js/common/utils/accessible-menus';
 import createLoginWidget from '../../js/login/login-entry';
 import createFeedbackWidget from '../../js/feedback/feedback-entry';
 
+/**
+ * Start up the site-wide components that live on every page, like 
+ * the login widget, the header menus, and the feedback widget.
+ *
+ * @param {Store} commonStore The Redux store being used by this application
+ */
 export default function startSitewideComponents(commonStore) {
   addMenuListeners(document.querySelector('#vetnav-menu'), true);
 

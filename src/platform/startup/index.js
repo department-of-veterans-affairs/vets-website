@@ -1,3 +1,7 @@
+/**
+ * Module for functions related to starting up and application
+ * @module platform/startup
+ */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory } from 'react-router';
@@ -7,6 +11,18 @@ import createCommonStore from './store';
 import startSitewideComponents from '../site-wide';
 import startReactApp from './react';
 
+/**
+ * Starts an application in the default element for standalone React
+ * applications. It also sets up the common store, starts the site-wide
+ * components (like the header menus and login widget), and wraps the provided
+ * routes in the Redux and React Router boilerplate common to most applications.
+ *
+ * @param {object} appInfo The UI and business logic of your React application 
+ * @param {Route|array<Route>} appInfo.routes The routes for the application
+ * @param {object} appInfo.reducer An object containing reducer functions. Will have
+ * combineReducers run on it after being merged with the common, cross-site reducer.
+ * @param {string} appInfo.url The base url for the React application
+ */
 export default function startApp({ routes, reducer, url }) {
   const store = createCommonStore(reducer);
 

@@ -1,9 +1,7 @@
-// Common Javascript environment setup to be used by all entrypoints.
-//
-// Keep this short. It should mostly be polyfills, global site style, and any
-// truly pervasive libraries. Be careful if you are tempted to put jquery or
-// other such libraries in here. Most of the site does not use these legacy
-// frameworks and it belongs in a lower-level module.
+/**
+ * Polyfills used by all applications
+ * @name platform/polyfills
+ */
 
 import 'babel-polyfill';
 

@@ -1,5 +1,18 @@
+/**
+ * Module for React related startup functions
+ * @module platform/startup/react
+ * @see module:platform/startup
+ */
 import ReactDOM from 'react-dom';
 
+/**
+ * Mounts a React application in a given location. Also sets up dev tools and sets the global
+ * VetsGov object on window.
+ *
+ * @param {ReactElement} component The React element you want to mount
+ * @param {Element} [root=null] A DOM element to mount the react application into. By default,
+ * this will be the element with an id of 'react-root'.
+ */
 export default function startReactApp(component, root = null) {
   // Detect if this is a child frame. If yes, initialize the react devtools hook to work around
   //   https://github.com/facebook/react-devtools/issues/57
