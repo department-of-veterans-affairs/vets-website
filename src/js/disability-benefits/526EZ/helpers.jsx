@@ -30,6 +30,7 @@ export function flatten(data) {
 
 export function transform(formConfig, form) {
   const formData = flatten(transformForSubmit(formConfig, form));
+  delete formData.storePrefillStatus;
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
