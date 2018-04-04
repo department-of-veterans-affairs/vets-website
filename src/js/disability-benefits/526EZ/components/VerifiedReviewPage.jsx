@@ -6,7 +6,7 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from '../../../common/schemaform/save-in-progress/actions';
+import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
 import { toggleLoginModal } from '../../../login/actions';
 import ReviewCollapsiblePage from './ReviewCollapsiblePage';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
@@ -15,7 +15,6 @@ import { isValidForm } from '../../../common/schemaform/validation';
 import formConfig from '../config/form';
 
 import { focusElement } from '../../../common/utils/helpers';
-import { expandArrayPages } from '../../../common/schemaform/helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
 
 const scroller = Scroll.scroller;
@@ -66,7 +65,7 @@ class VerifiedReviewPage extends React.Component {
   goBack = () => {
     this.props.router.push('introduction');
   }
-  
+
   goForward = () => {
     this.props.router.push('chapter-two/page-one');
   }
@@ -95,16 +94,11 @@ class VerifiedReviewPage extends React.Component {
   }
 
   handleEdit = (pageKey, editing, index = null) => {
-    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
-    if (editing) {
-      // this.setPagesViewed([fullPageKey]);
-    }
     this.props.setEditMode(pageKey, editing, index);
   }
 
   render() {
-    const { form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
-    // const { chapter } = this.props;
+    const { form, contentAfterButtons, formContext } = this.props;
     const chapter = 'veteranInformation';
     const page = 'reviewVeteranInformation';
 
