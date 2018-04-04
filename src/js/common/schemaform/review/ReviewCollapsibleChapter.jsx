@@ -8,7 +8,7 @@ import { focusElement, getActivePages } from '../../utils/helpers';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
 import ArrayField from './ArrayField';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
