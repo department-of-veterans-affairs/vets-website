@@ -48,8 +48,8 @@ class DashboardApp extends React.Component {
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
             <ClaimsAppealsWidget/>
-            <PrescriptionsWidget/>
             <MessagingWidget/>
+            <PrescriptionsWidget/>
           </div>
         </div>
       </div>
