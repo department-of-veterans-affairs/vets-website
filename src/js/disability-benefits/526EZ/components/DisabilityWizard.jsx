@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
-import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import ErrorableCheckboxes from '../../../common/components/form-elements/ErrorableCheckboxes';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { toggleLoginModal } from '../../../login/actions';
 
+import DisabilityWizardButtonContainer from './DisabilityWizardButtonContainer';
+import DisabilityWizardTitleContent from './DisabilityWizardTitleContent';
+import DisabilityWizardGetStartedMessage from './DisabilityWizardGetStartedMessage';
 import { disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
 
 const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
@@ -84,45 +86,6 @@ class DisabilityWizard extends React.Component {
     };
   }
 
-  TitleContent = () => {
-    const atGuidance = this.atGuidance();
-    const { atAppealGuidance, atIncreaseGuidance } = this.checkGuidanceStatus();
-    let titleContent = 'You need to file a disability claim on eBenefits';
-    if (!atGuidance) titleContent = 'What type of disability claim should I file?';
-    if (atAppealGuidance) titleContent = 'You need to file an appeal';
-    if (atIncreaseGuidance) titleContent = 'You need to file a claim for increase';
-    return <h3>{titleContent}</h3>;
-  }
-
-  ButtonContainer = () => {
-    const { atIncreaseGuidance, atEbenefitsGuidance } = this.checkGuidanceStatus();
-    const { user, loginUrl, verifyUrl } = this.props;
-
-    return  (<div>
-      {!this.isChoosingStatus() &&
-        <button type="button" className="usa-button-secondary" onClick={this.goBack}><span className="button-icon">« </span>Back</button>
-      }
-      {atIncreaseGuidance && !sessionStorage.userToken &&
-        <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In or Create an Account<span className="button-icon"> »</span></a>
-      }
-      {atIncreaseGuidance && sessionStorage.userToken &&
-        <RequiredLoginView
-          containerClass="login-container"
-          serviceRequired={['disability-benefits']}
-          user={user}
-          loginUrl={loginUrl}
-          verifyUrl={verifyUrl}>
-          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>
-        </RequiredLoginView>}
-      {atEbenefitsGuidance &&
-        <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
-      }
-      {!this.atGuidance() &&
-        <a className="usa-button-primary" onClick={this.goForward}>Next<span className="button-icon"> »</span></a>
-      }
-    </div>);
-  }
-
   answerQuestion = (field, answer) => {
     if (field === 'disabilityStatus') {
       this.setState({ [field]: answer });
@@ -155,27 +118,6 @@ class DisabilityWizard extends React.Component {
     this.setState({ errorMessage: 'Please select an option' });
   }
 
-  GetStartedMessage = () => {
-    const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = this.checkDisabilityStatus();
-    const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
-    let getStartedMessage = `Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
-    if (isFirst) {
-      getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
-    }
-    if (isAppeal) {
-      getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
-        <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a>
-      </span>);
-    }
-    if (isAddOnly) {
-      getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
-    }
-    if (isAddAndIncrease) {
-      getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
-    }
-    return <p>{getStartedMessage}</p>;
-  }
-
   goForward = () => {
     const { isUpdate, isUndefined } = this.checkDisabilityStatus();
     const isChoosingStatus = this.isChoosingStatus();
@@ -201,15 +143,16 @@ class DisabilityWizard extends React.Component {
   }
 
   render() {
-    const { isChoosingStatus, isChoosingUpdate, atGuidance,
-      TitleContent, GetStartedMessage, ButtonContainer } = this;
+    const { isChoosingStatus, isChoosingUpdate, atGuidance } = this;
     const { errorMessage, updates } = this.state;
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
-        <TitleContent/>
+        <DisabilityWizardTitleContent
+          atGuidance={this.atGuidance}
+          checkGuidanceStatus={this.checkGuidanceStatus}/>
         <div>
-          {atGuidance() && <GetStartedMessage/>}
+          {atGuidance() && <DisabilityWizardGetStartedMessage checkDisabilityStatus={this.checkDisabilityStatus}/>}
           {isChoosingStatus() &&
           <ErrorableRadioButtons
             name="disabilityStatus"
@@ -230,7 +173,14 @@ class DisabilityWizard extends React.Component {
               onValueChange={(option, checked) => this.answerQuestion(option.value, checked)}
               values={updates}/>
           }
-          {<ButtonContainer/>}
+          {<DisabilityWizardButtonContainer
+            {...this.props}
+            checkGuidanceStatus={this.checkGuidanceStatus}
+            isChoosingStatus={this.isChoosingStatus}
+            atGuidance={this.atGuidance}
+            goBack={this.goBack}
+            goForward={this.goForward}
+            authenticate={this.authenticate}/>}
         </div>
       </div>
     );

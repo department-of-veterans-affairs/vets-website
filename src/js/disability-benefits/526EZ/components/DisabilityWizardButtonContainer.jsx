@@ -1,0 +1,45 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import RequiredLoginView from '../../../common/components/RequiredLoginView';
+
+export default function DisabilityWizardButtonContainer(props) {
+  const { user, loginUrl, verifyUrl, checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate } = props;
+  const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
+
+  return  (<div>
+    {!isChoosingStatus() &&
+    <button type="button" className="usa-button-secondary" onClick={goBack}><span className="button-icon">« </span>Back</button>
+    }
+    {atIncreaseGuidance && !sessionStorage.userToken &&
+    <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={authenticate}>Sign In or Create an Account<span className="button-icon"> »</span></a>
+    }
+    {atIncreaseGuidance && sessionStorage.userToken &&
+    <RequiredLoginView
+      className="login-container"
+      serviceRequired={['disability-benefits']}
+      user={user}
+      loginUrl={loginUrl}
+      verifyUrl={verifyUrl}>
+      <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>
+    </RequiredLoginView>}
+    {atEbenefitsGuidance &&
+    <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
+    }
+    {!atGuidance() &&
+    <a className="usa-button-primary" onClick={goForward}>Next<span className="button-icon"> »</span></a>
+    }
+  </div>);
+}
+
+DisabilityWizardButtonContainer.propTypes = {
+  user: PropTypes.object.isRequired,
+  loginUrl: PropTypes.string.isRequired,
+  verifyUrl: PropTypes.function.isRequired,
+  checkGuidanceStatus: PropTypes.function.isRequired,
+  isChoosingStatus: PropTypes.function.isRequired,
+  atGuidance: PropTypes.function.isRequired,
+  goBack: PropTypes.function.isRequired,
+  goForward: PropTypes.function.isRequired,
+  authenticate: PropTypes.function.isRequired,
+};
