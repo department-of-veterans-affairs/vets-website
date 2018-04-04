@@ -26,3 +26,13 @@
 .repose {
   font-weight: normal;
 }
+
+.form-review-panel .accordion-header > .accordion-title {
+  background-image: unset;
+  display: flex;
+  padding: 2.5rem 3rem 2.5rem 3rem;
+}
+
+.viewfield-edit-container > .usa-accordion-content {
+  background-color: $color-gray-lightest;
+}

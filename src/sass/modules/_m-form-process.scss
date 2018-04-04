@@ -114,12 +114,14 @@
       }
     }
   }
-  .accordion-header > button {
+  .accordion-header {
+    > button, > .accordion-title {
     min-height: 7rem;
     padding: 2.5rem 6.5rem 2.5rem 3rem;
     font-size: 1.15em;
     line-height: 1.5;
     font-weight: bold;
+    }
   }
   .section-label {
     padding-bottom: 1rem;

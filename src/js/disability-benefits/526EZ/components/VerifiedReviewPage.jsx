@@ -9,7 +9,7 @@ import { withRouter } from 'react-router';
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from '../../../common/schemaform/save-in-progress/actions';
 import { toggleLoginModal } from '../../../login/actions';
 import ReviewCollapsiblePage from './ReviewCollapsiblePage';
-import SubmitButtons from '../../../common/schemaform/review/SubmitButtons';
+import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import { isValidForm } from '../../../common/schemaform/validation';
 
 import formConfig from '../config/form';
@@ -65,6 +65,10 @@ class VerifiedReviewPage extends React.Component {
 
   goBack = () => {
     this.props.router.push('introduction');
+  }
+  
+  goForward = () => {
+    this.props.router.push('chapter-two/page-one');
   }
 
   handleSubmit = () => {
@@ -126,11 +130,23 @@ class VerifiedReviewPage extends React.Component {
           onChange={this.props.setPrivacyAgreement}
           checked={form.data.privacyAgreementAccepted}
           showError={form.submission.hasAttemptedSubmit}/> */}
-        <SubmitButtons
-          onBack={this.goBack}
-          onSubmit={this.handleSubmit}
-          submission={form.submission}
-          renderErrorMessage={renderErrorMessage}/>
+        <div className="row form-progress-buttons schemaform-buttons">
+          <div className="small-6 medium-5 columns">
+            <ProgressButton
+              onButtonClick={this.goBack}
+              buttonText="Back"
+              buttonClass="usa-button-secondary"
+              beforeText="«"/>
+          </div>
+          <div className="small-6 medium-5 end columns">
+            <ProgressButton
+              submitButton
+              onButtonClick={this.goForward}
+              buttonText="Continue"
+              buttonClass="usa-button-primary"
+              afterText="»"/>
+          </div>
+        </div>
         {contentAfterButtons}
       </div>
     );

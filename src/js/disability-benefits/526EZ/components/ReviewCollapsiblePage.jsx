@@ -111,6 +111,8 @@ export default class ReviewCollapsiblePage extends React.Component {
             schema={page.schema}
             uiSchema={page.uiSchema}
             hideHeaderRow={page.hideHeaderRow}
+            hideEditButton
+            hideTitle
             pagePerItemIndex={page.index}
             onBlur={this.props.onBlur}
             onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
@@ -130,6 +132,9 @@ export default class ReviewCollapsiblePage extends React.Component {
     );
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel');
+    const editClasses = classNames({
+      'viewfield-edit-container': editing
+    });
 
     return (
       <div id={`${this.id}-collapsiblePanel`} className={classes}>
@@ -137,15 +142,21 @@ export default class ReviewCollapsiblePage extends React.Component {
         <ul className="usa-unstyled-list">
           <li>
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
-              <button
-                className="usa-button-unstyled"
-                aria-expanded={this.state.open ? 'true' : 'false'}
-                aria-controls={`collapsible-${this.id}`}
-                onClick={() => this.handleEdit('reviewVeteranInformation', !editing, page.index)}>
-                {this.props.chapter.reviewTitle || this.props.chapter.title}
-              </button>
+              <div
+                className="accordion-title">
+                <h4 className="form-review-panel-page-header">{this.props.chapter.reviewTitle || this.props.chapter.title}</h4>
+                {!editing &&
+                <button
+                  type="button"
+                  aria-expanded={this.state.open ? 'true' : 'false'}
+                  aria-controls={`collapsible-${this.id}`}
+                  className="edit-btn primary-outline"
+                  onClick={() => this.handleEdit('reviewVeteranInformation', !editing, page.index)}>
+                Edit
+                </button>}
+              </div>
             </div>
-            <div id={`collapsible-${this.id}`}>
+            <div className={editClasses} id={`collapsible-${this.id}`}>
               {pageContent}
             </div>
           </li>

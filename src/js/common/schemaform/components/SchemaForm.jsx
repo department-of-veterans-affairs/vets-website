@@ -94,7 +94,7 @@ class SchemaForm extends React.Component {
   }
 
   getEmptyState(props) {
-    const { onEdit, hideTitle, title, reviewMode, reviewTitle, pagePerItemIndex, uploadFile, hideHeaderRow, formContext } = props;
+    const { onEdit, hideTitle, title, reviewMode, reviewTitle, pagePerItemIndex, uploadFile, hideHeaderRow, hideEditButton, formContext } = props;
     return {
       formContext: Object.assign({
         touched: {},
@@ -107,6 +107,7 @@ class SchemaForm extends React.Component {
         pagePerItemIndex,
         reviewMode,
         hideHeaderRow,
+        hideEditButton,
         uploadFile
       }, formContext)
     };
