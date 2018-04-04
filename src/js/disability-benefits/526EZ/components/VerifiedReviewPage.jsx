@@ -65,7 +65,6 @@ class VerifiedReviewPage extends React.Component {
   goBack = () => {
     const { form, route: { pageList }, location } = this.props;
     const path = getPreviousPagePath(pageList, form.data, location.pathname);
-
     this.props.router.push(path);
   }
 

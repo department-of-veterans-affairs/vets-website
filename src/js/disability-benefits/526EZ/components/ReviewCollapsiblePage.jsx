@@ -152,7 +152,7 @@ export default class ReviewCollapsiblePage extends React.Component {
 
 ReviewCollapsiblePage.propTypes = {
   chapter: PropTypes.object.isRequired,
-  page: PropTypes.array.isRequired,
+  page: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired
 };

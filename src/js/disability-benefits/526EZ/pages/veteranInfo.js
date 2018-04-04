@@ -88,8 +88,10 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
   const pageDescription = isReview ? 'Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.' : undefined;
   const pagePath = isReview ? 'review-veteran-information' : 'veteran-information';
   const pageComponent = isReview ? VerifiedReviewPage : undefined;
-  const verifiedDepends = (formData, prefilled) => !!prefilled;
-  const unverifiedDepends = (formData, prefilled) => !prefilled;
+  // const verifiedDepends = (formData, prefilled) => !!prefilled;
+  // const unverifiedDepends = (formData, prefilled) => !prefilled;
+  const verifiedDepends = () => true;
+  const unverifiedDepends = () => false;
   const depends = isReview ? verifiedDepends : unverifiedDepends;
 
   return {
