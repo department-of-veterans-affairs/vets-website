@@ -6,16 +6,16 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
-import { toggleLoginModal } from '../../../login/actions';
-import ReviewCollapsiblePage from './ReviewCollapsiblePage';
+import { focusElement } from '../../../common/utils/helpers';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import { isValidForm } from '../../../common/schemaform/validation';
+import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
+import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
+import { toggleLoginModal } from '../../../login/actions';
+import { getNextPagePath, getPreviousPagePath } from '../../../common/schemaform/routing';
 
 import formConfig from '../config/form';
-
-import { focusElement } from '../../../common/utils/helpers';
-import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
+import ReviewCollapsiblePage from './ReviewCollapsiblePage';
 
 const scroller = Scroll.scroller;
 
@@ -63,11 +63,17 @@ class VerifiedReviewPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.router.push('introduction');
+    const { form, route: { pageList }, location } = this.props;
+    const path = getPreviousPagePath(pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
   }
 
   goForward = () => {
-    this.props.router.push('chapter-two/page-one');
+    const { form, route, location } = this.props;
+    const path = getNextPagePath(route.pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
   }
 
   handleSubmit = () => {
@@ -98,10 +104,8 @@ class VerifiedReviewPage extends React.Component {
   }
 
   render() {
-    const { form, contentAfterButtons, formContext } = this.props;
-    const chapter = 'reviewVeteranInformation';
-    const page = 'reviewVeteranInformation';
-    const description = formConfig.chapters[chapter].pages[page].description;
+    const { form, contentAfterButtons, formContext, route } = this.props;
+    const { chapterReviewTitle, chapterKey, description, pageKey } = route.pageConfig;
 
     return (
       <div>
@@ -109,15 +113,15 @@ class VerifiedReviewPage extends React.Component {
         <div className="input-section">
           <div>
             <ReviewCollapsiblePage
-              key={'Review Veteran Information'}
+              key={chapterReviewTitle}
               onEdit={this.handleEdit}
-              page={formConfig.chapters[chapter].pages[page]}
-              chapterKey={chapter}
-              fullPageKey={page}
+              page={formConfig.chapters[chapterKey].pages[pageKey]}
+              chapterKey={chapterKey}
+              fullPageKey={pageKey}
               setData={this.props.setData}
               setValid={this.props.setValid}
               uploadFile={this.props.uploadFile}
-              chapter={formConfig.chapters[chapter]}
+              chapter={formConfig.chapters[chapterKey]}
               formContext={formContext}
               form={form}/>
           </div>

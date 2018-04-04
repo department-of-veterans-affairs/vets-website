@@ -14,11 +14,14 @@ import { getInactivePages, getActivePages } from '../utils/helpers';
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
+      // TODO: explore creating a helper to build this dynamically
       const chapterTitle = formConfig.chapters[chapter].title;
+      const chapterReviewTitle = formConfig.chapters[chapter].reviewTitle;
       const pages = Object.keys(formConfig.chapters[chapter].pages)
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
             chapterTitle,
+            chapterReviewTitle,
             chapterKey: chapter,
             pageKey: page
           });
