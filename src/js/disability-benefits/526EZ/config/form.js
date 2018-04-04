@@ -7,6 +7,7 @@ import initialData from '../../../../../test/disability-benefits/526EZ/schema/in
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import createVeteranInfoChapter from '../pages/veteranInfo';
 
 import {
   transform,
@@ -32,6 +33,7 @@ const {
 
 const {
   date,
+  fullName,
   // files
 } = fullSchema526EZ.definitions;
 
@@ -85,26 +87,14 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
+    fullName,
     // files
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
-    chapterOne: {
-      title: 'Chapter One',
-      pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-one/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
-          },
-        }
-      }
-    },
+    veteranInformation: createVeteranInfoChapter(fullSchema526EZ),
     chapterTwo: {
       title: 'Chapter Two',
       pages: {

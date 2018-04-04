@@ -1,0 +1,173 @@
+import PropTypes from 'prop-types';
+import Raven from 'raven-js';
+import React from 'react';
+import Scroll from 'react-scroll';
+import _ from 'lodash/fp';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+
+import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from '../../../common/schemaform/save-in-progress/actions';
+import { toggleLoginModal } from '../../../login/actions';
+import ReviewCollapsiblePage from './ReviewCollapsiblePage';
+import SubmitButtons from '../../../common/schemaform/review/SubmitButtons';
+import { isValidForm } from '../../../common/schemaform/validation';
+
+import formConfig from '../config/form';
+
+import { focusElement } from '../../../common/utils/helpers';
+import { expandArrayPages } from '../../../common/schemaform/helpers';
+import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
+
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
+class VerifiedReviewPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+  }
+
+  componentDidMount() {
+    scrollToTop();
+    focusElement('h4');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextStatus = nextProps.form.submission.status;
+    const previousStatus = this.props.form.submission.status;
+    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
+      this.props.router.push(`${formConfig.urlPrefix}confirmation`);
+    }
+  }
+
+  setData = (...args) => {
+    this.props.setData(...args);
+    this.debouncedAutoSave();
+  }
+
+  autoSave = () => {
+    const { form, user } = this.props;
+    if (user.login.currentlyLoggedIn) {
+      const data = form.data;
+      const { formId, version } = form;
+      const returnUrl = this.props.location.pathname;
+
+      this.props.autoSaveForm(formId, data, version, returnUrl);
+    }
+  }
+
+  goBack = () => {
+    this.props.router.push('introduction');
+  }
+
+  handleSubmit = () => {
+    const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
+    if (isValid) {
+      this.props.submitForm(formConfig, this.props.form);
+    } else {
+      // validation errors in this situation are not visible, so we’d
+      // like to know if they’re common
+      if (this.props.form.data.privacyAgreementAccepted) {
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-validation-failed`,
+        });
+        Raven.captureMessage('Validation issue not displayed', {
+          extra: {
+            errors,
+            prefix: formConfig.trackingPrefix
+          }
+        });
+        this.props.setSubmission('status', 'validationError');
+      }
+      this.props.setSubmission('hasAttemptedSubmit', true);
+    }
+  }
+
+  handleEdit = (pageKey, editing, index = null) => {
+    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+    if (editing) {
+      // this.setPagesViewed([fullPageKey]);
+    }
+    this.props.setEditMode(pageKey, editing, index);
+  }
+
+  render() {
+    const { form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
+    // const { chapter } = this.props;
+    const chapter = 'veteranInformation';
+    const page = 'reviewVeteranInformation';
+
+    return (
+      <div>
+        <div className="input-section">
+          <div>
+            <ReviewCollapsiblePage
+              key={'Review Veteran Information'}
+              onEdit={this.handleEdit}
+              page={formConfig.chapters[chapter].pages[page]}
+              chapterKey={chapter}
+              fullPageKey={page}
+              setData={this.props.setData}
+              setValid={this.props.setValid}
+              uploadFile={this.props.uploadFile}
+              chapter={formConfig.chapters[chapter]}
+              formContext={formContext}
+              form={form}/>
+          </div>
+        </div>
+        {/* <PrivacyAgreement required
+          onChange={this.props.setPrivacyAgreement}
+          checked={form.data.privacyAgreementAccepted}
+          showError={form.submission.hasAttemptedSubmit}/> */}
+        <SubmitButtons
+          onBack={this.goBack}
+          onSubmit={this.handleSubmit}
+          submission={form.submission}
+          renderErrorMessage={renderErrorMessage}/>
+        {contentAfterButtons}
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    form: state.form
+  };
+}
+
+const mapDispatchToProps = {
+  setEditMode,
+  setSubmission,
+  submitForm,
+  setPrivacyAgreement,
+  setData,
+  uploadFile,
+  saveAndRedirectToReturnUrl,
+  autoSaveForm,
+  toggleLoginModal
+};
+
+VerifiedReviewPage.propTypes = {
+  form: PropTypes.object.isRequired,
+  setData: PropTypes.func.isRequired,
+  setEditMode: PropTypes.func.isRequired,
+  setSubmission: PropTypes.func.isRequired,
+  setPrivacyAgreement: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.element,
+  renderErrorMessage: PropTypes.func,
+  formContext: PropTypes.object
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VerifiedReviewPage));
+
+export { VerifiedReviewPage };
