@@ -14,7 +14,7 @@ relatedlinks:
 ---
 <div itemprop="description" class="va-introtext">
   
-With standard disability claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize, so we can decide your claim.
+Find out how to submit a standard disability claim so you can have us take more responsibility for gathering the evidence (supporting documents) we need to make a decision on your claim. 
 
 </div>
 
@@ -26,32 +26,40 @@ With standard disability claims, we take more responsibility for gathering relat
 
 **You'll need to:**
 - Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
-- Let us know about related records not held by a federal agency, and give us any information we may need in order to get them. These may include records from:
+- Let us know about related records not held by a federal agency, and give us any information we may need in order to get them, **and**
+- Go to any medical exams that we schedule, if we decide these exams are needed to make a decision on your claim
+
+**Note:** You should know that if a person or agency refuses to turn over the evidence we need, asks for money for the evidence, or can’t get the evidence, we’ll ask you to try to get it for us. It’s your responsibility to make sure we receive all requested records that aren’t at a federal agency or office.
+
+</div>
+</div>
+
+<h3 itemprop="name">What kinds of records might VA need that aren't held by a federal agency?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+**We need any records related to your claim from sources like:**
   - State or local governments
   - Any private (non-VA) doctors you've been treated by
   - Any private (non-VA) hospitals or other health facilities where you've been treated
   - Your current or former employers
   
-You should know that if a person or agency refuses to turn over the evidence, asks for money for the evidence, or can’t get the evidence, we’ll ask you to try to get the evidence or records. It’s your responsibility to make sure we receive all requested records that aren’t at a federal agency or office.
-
-You'll also need to go to any medical exams that we schedule, if we decide these exams are needed to make a decision on your claim.
-
 </div>
 </div>
 </div>
 
-### What evidence is VA responsible for when I submit a standard disability claim?
+### What evidence will VA take responsibility for gathering when I submit a standard disability claim?
 
 **With your permission, we’ll get related records from:**
 - Any federal agency (including the military)
-- VA medical centers (including private facilities where VA has authorized treatment)
+- VA medical centers (including private facilities where we've authorized treatment)
 - The Social Security Administration
 
 **We'll also:**
 - Make every reasonable effort to request relevant records that you authorize us to get that aren’t at a federal facility (including records from non-VA doctors and hospitals), **and**
 - Provide a medical exam for you, or get a doctor’s opinion, if we need it to make a decision on your claim
 
-**Example**
+**Example**<br>
 A Veteran filed a disability claim that included prior treatment from a private doctor and a prior Social Security disability award. In this case, we were responsible for getting the Social Security records. We also helped to get the private doctor’s records, but the Veteran was responsible for making sure we got those.
 
 <br>
@@ -60,14 +68,14 @@ A Veteran filed a disability claim that included prior treatment from a private 
 
 You’ll need to turn in the information and evidence as soon as you can.
 
-You have up to one year from the date we receive your claim to turn in any information and evidence. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of the one-year period to turn in additional information or evidence to support your claim.
+You have up to one year from the date we receive your claim to turn in any information and evidence. If we decide your claim before this, you’ll have the rest of the one-year period to turn in more information or evidence to support your claim.
 
 <br>
 
 ### How do I get started with filing my standard claim?
 
 You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional. <br>
-[Apply for disability benefits](/disability-benefits/apply/).
+[Find out how to apply for disability benefits](/disability-benefits/apply/).
 
 <br>
 
