@@ -4,6 +4,12 @@ import {
   SAVE_PRIMARY_PHONE,
   SAVE_ALTERNATE_PHONE,
   SAVE_EMAIL_ADDRESS,
+
+  SAVE_ALTERNATE_PHONE_FAIL,
+  SAVE_PRIMARY_PHONE_FAIL,
+  SAVE_MAILING_ADDRESS_FAIL,
+  SAVE_EMAIL_ADDRESS_FAIL,
+
   FETCH_VA_PROFILE_FAIL
 } from '../actions';
 
@@ -48,7 +54,9 @@ class ProfileView extends React.Component {
       modal: {
         currentlyOpen: currentlyOpenModal,
         pendingSaves,
-        formFields
+        formFields,
+        errors,
+        clearErrors
       },
       profile: {
         email,
@@ -76,6 +84,8 @@ class ProfileView extends React.Component {
             title="Mailing Address"
             addressResponseData={mailingAddress}
             field={formFields.mailingAddress}
+            error={errors.includes(SAVE_MAILING_ADDRESS_FAIL)}
+            clearErrors={clearErrors}
             onChange={updateFormFieldActions.mailingAddress}
             isEditing={currentlyOpenModal === 'mailingAddress'}
             isLoading={pendingSaves.includes(SAVE_MAILING_ADDRESS)}
@@ -87,6 +97,8 @@ class ProfileView extends React.Component {
             title="Primary Phone"
             phoneResponseData={primaryTelephone}
             field={formFields.primaryTelephone}
+            error={errors.includes(SAVE_PRIMARY_PHONE_FAIL)}
+            clearErrors={clearErrors}
             onChange={updateFormFieldActions.primaryTelephone}
             isEditing={currentlyOpenModal === 'primaryPhone'}
             isLoading={pendingSaves.includes(SAVE_PRIMARY_PHONE)}
@@ -98,6 +110,8 @@ class ProfileView extends React.Component {
             title="Alternate Phone"
             phoneResponseData={alternateTelephone}
             field={formFields.alternateTelephone}
+            error={errors.includes(SAVE_ALTERNATE_PHONE_FAIL)}
+            clearErrors={clearErrors}
             onChange={updateFormFieldActions.alternateTelephone}
             isEditing={currentlyOpenModal === 'altPhone'}
             isLoading={pendingSaves.includes(SAVE_ALTERNATE_PHONE)}
@@ -109,6 +123,8 @@ class ProfileView extends React.Component {
             title="Email Address"
             emailResponseData={email}
             field={formFields.email}
+            error={errors.includes(SAVE_EMAIL_ADDRESS_FAIL)}
+            clearErrors={clearErrors}
             onChange={updateFormFieldActions.email}
             isEditing={currentlyOpenModal === 'email'}
             isLoading={pendingSaves.includes(SAVE_EMAIL_ADDRESS)}

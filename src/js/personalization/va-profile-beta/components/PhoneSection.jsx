@@ -8,7 +8,7 @@ import LoadingButton from './LoadingButton';
 class EditPhoneModal extends React.Component {
 
   componentDidMount() {
-    const defaultFieldValue = this.props.phoneResponseData || { number: '' };
+    const defaultFieldValue = this.props.phoneResponseData || { countryCode: '', extension: '', number: '' };
     this.props.onChange(defaultFieldValue);
   }
 
