@@ -62,9 +62,9 @@ The evidence must show that you meet the requirements listed below.
 
 - Served on active duty for any length of time during a period of war and were discharged due to a service-connected disability, **or**
 - Started on active duty before September 8, 1980, and you served at least 90 days (either all at one time or combined over time) on active duty with at least 1 day being during wartime, **or**
-- Started on active duty after September 7, 1980, and you served at least 2 years or the full period for which you were called or ordered to active duty, with at least 1 day being during wartime. Some exceptions may apply to this longer service requirement. 
+- Started on active duty after September 7, 1980, and you served at least 2 years or the full period for which you were called or ordered to active duty, with at least 1 day being during wartime. Some exceptions may apply to this longer minimum service requirement. 
  
-**And at least one of these must be true about true about your current situation. You:**
+**And at least one of these must also be true about your current situation. You:**
 
 - Are at least 65 years old, **or**
 - Are a patient in a nursing home for long-term care, **or**
