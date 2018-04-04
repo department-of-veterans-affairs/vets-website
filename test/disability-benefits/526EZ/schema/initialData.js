@@ -1,5 +1,6 @@
 export default {
   // For testing purposes only
+  prefilled: true,
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
