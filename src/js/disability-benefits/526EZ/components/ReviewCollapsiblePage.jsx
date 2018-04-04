@@ -17,9 +17,6 @@ const scroller = Scroll.scroller;
 export default class ReviewCollapsiblePage extends React.Component {
   constructor() {
     super();
-    this.handleEdit = this.handleEdit.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this);
-    this.toggleChapter = this.toggleChapter.bind(this);
     this.state = { open: false };
   }
 
@@ -41,12 +38,12 @@ export default class ReviewCollapsiblePage extends React.Component {
     this.props.setData(newData);
   }
 
-  focusOnPage(key) {
+  focusOnPage = (key) => {
     const pageDiv = document.querySelector(`#${key}`);
     focusElement(pageDiv);
   }
 
-  handleEdit(key, editing, index = null) {
+  handleEdit = (key, editing, index = null) => {
     this.props.onEdit(key, editing, index);
     this.scrollToPage(`${key}${index === null ? '' : index}`);
     this.focusOnPage(`${key}${index === null ? '' : index}`);
@@ -63,7 +60,7 @@ export default class ReviewCollapsiblePage extends React.Component {
     this.handleEdit(key, false, index);
   }
 
-  scrollToTop() {
+  scrollToTop = () => {
     scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
@@ -71,7 +68,7 @@ export default class ReviewCollapsiblePage extends React.Component {
     });
   }
 
-  scrollToPage(key) {
+  scrollToPage = (key) => {
     scroller.scrollTo(`${key}ScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
@@ -79,17 +76,7 @@ export default class ReviewCollapsiblePage extends React.Component {
     });
   }
 
-  toggleChapter() {
-    const opening = !this.state.open;
-    this.setState({ open: opening });
-
-    if (!opening) {
-      this.props.setPagesViewed(this.pageKeys);
-    }
-  }
-
   render() {
-
     const { page, chapter, formContext, fullPageKey, form } = this.props;
     page.pageKey = fullPageKey;
     const pageState = form.pages[page.pageKey];
@@ -132,13 +119,13 @@ export default class ReviewCollapsiblePage extends React.Component {
       </div>
     );
 
-    const classes = classNames('usa-accordion-bordered', 'form-review-panel');
+    const containerClasses = classNames('usa-accordion-bordered', 'form-review-panel');
     const editClasses = classNames({
       'viewfield-edit-container': editing
     });
 
     return (
-      <div id={`${this.id}-collapsiblePanel`} className={classes}>
+      <div id={`${this.id}-collapsiblePanel`} className={containerClasses}>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`}/>
         <ul className="usa-unstyled-list">
           <li>
@@ -169,7 +156,7 @@ export default class ReviewCollapsiblePage extends React.Component {
 
 ReviewCollapsiblePage.propTypes = {
   chapter: PropTypes.object.isRequired,
-  // page: PropTypes.array.isRequired,
+  page: PropTypes.array.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired
 };

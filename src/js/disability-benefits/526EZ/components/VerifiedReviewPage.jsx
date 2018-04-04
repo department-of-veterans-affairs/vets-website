@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import Raven from 'raven-js';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
@@ -8,7 +7,6 @@ import { withRouter } from 'react-router';
 
 import { focusElement } from '../../../common/utils/helpers';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
-import { isValidForm } from '../../../common/schemaform/validation';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
 import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
 import { toggleLoginModal } from '../../../login/actions';
@@ -34,15 +32,17 @@ class VerifiedReviewPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop();
-    focusElement('h4');
+    if (!this.props.blockScrollOnMount) {
+      scrollToTop();
+      focusElement('h4');
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const nextStatus = nextProps.form.submission.status;
-    const previousStatus = this.props.form.submission.status;
-    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
-      this.props.router.push(`${formConfig.urlPrefix}confirmation`);
+  componentDidUpdate(prevProps) {
+    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey ||
+      _.get('params.index', prevProps) !== _.get('params.index', this.props)) {
+      scrollToTop();
+      focusElement('h4');
     }
   }
 
@@ -76,29 +76,6 @@ class VerifiedReviewPage extends React.Component {
     this.props.router.push(path);
   }
 
-  handleSubmit = () => {
-    const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
-    if (isValid) {
-      this.props.submitForm(formConfig, this.props.form);
-    } else {
-      // validation errors in this situation are not visible, so we’d
-      // like to know if they’re common
-      if (this.props.form.data.privacyAgreementAccepted) {
-        window.dataLayer.push({
-          event: `${formConfig.trackingPrefix}-validation-failed`,
-        });
-        Raven.captureMessage('Validation issue not displayed', {
-          extra: {
-            errors,
-            prefix: formConfig.trackingPrefix
-          }
-        });
-        this.props.setSubmission('status', 'validationError');
-      }
-      this.props.setSubmission('hasAttemptedSubmit', true);
-    }
-  }
-
   handleEdit = (pageKey, editing, index = null) => {
     this.props.setEditMode(pageKey, editing, index);
   }
@@ -106,6 +83,7 @@ class VerifiedReviewPage extends React.Component {
   render() {
     const { form, contentAfterButtons, formContext, route } = this.props;
     const { chapterReviewTitle, chapterKey, description, pageKey } = route.pageConfig;
+    const page = formConfig.chapters[chapterKey].pages[pageKey];
 
     return (
       <div>
@@ -115,7 +93,7 @@ class VerifiedReviewPage extends React.Component {
             <ReviewCollapsiblePage
               key={chapterReviewTitle}
               onEdit={this.handleEdit}
-              page={formConfig.chapters[chapterKey].pages[pageKey]}
+              page={page}
               chapterKey={chapterKey}
               fullPageKey={pageKey}
               setData={this.props.setData}
