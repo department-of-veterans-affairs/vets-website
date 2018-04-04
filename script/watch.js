@@ -27,11 +27,18 @@ async function runUnitTests(unitTests = allUnitTests) {
   // watchedFiles: all of the project files that mocha required (no node_modules)
   // list of source files and their associated unit tests
   busy = true;
-  const {
-    watchedFiles,
-    unitTestsForSrc
-  } = await runMochaTests(unitTests);
-   busy = false;
+  let watchedFiles, unitTestsForSrc;
+  try {
+    ({ watchedFiles, unitTestsForSrc } = await runMochaTests(unitTests));
+  } catch (e) {
+    if (!watcher) {
+      console.log(chalk.red('Mocha failed. Fix error and restart watch'));
+      process.exit(1);
+    } else {
+      console.log(chalk.red('Mocha failed. Fix error'));
+    }
+  }
+  busy = false;
   if (pendingTests.length > 0) {
     busy = false;
     process.nextTick(() => {
@@ -78,9 +85,12 @@ function runMochaTests(tests) {
       tests,
       showErrors
     });
-    forked.on('message', (requiredProjectFiles) => {
+    forked.on('message', (message) => {
+      if (message.error) {
+        reject(message.error);
+      }
       // sent the watcher the files to watch
-      fulfill(requiredProjectFiles);
+      fulfill(message);
       // kill mocha
       forked.kill('SIGHUP');
     });

@@ -11,7 +11,6 @@ require('../test/util/mocha-setup.js');
 require('../test/util/enzyme-setup.js');
 
 let showErrors = false;
-
 // keys for current require.cache
 const unwatchedModules = Object.keys(require.cache).map(file => file);
 
@@ -42,7 +41,6 @@ async function runMochaTests(files) {
 
   // keep errors from polluting the reporter by redirecting the error stream
   let errorStream;
-  const consoleErr = process.stderr.write;
   if (!showErrors) {
     errorStream = new Writable({
       write(chunk, encoding, callback) {
@@ -63,9 +61,13 @@ async function runMochaTests(files) {
     mocha.run()
       .once('end', function() {
         // reattach error stream
-        process.stderr.write = consoleErr;
         fulfill();
       });
+  }).catch(error => {
+    console.log(error);
+    process.send({
+      error
+    });
   });
 }
 
