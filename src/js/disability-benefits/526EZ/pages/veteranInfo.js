@@ -21,7 +21,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
       }
     }),
     socialSecurityNumber: _.assign(ssnUI, {
-      'ui:title': 'Social Security number (must have this or a VA file number)',
+      'ui:title': 'Social Security number',
       'ui:required': form => !form.veteranVaFileNumber,
       'ui:options': {
         viewField: ({ formData }) => {
@@ -32,7 +32,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
       }
     }),
     vaFileNumber: {
-      'ui:title': 'VA file number (must have this or a Social Security number)',
+      'ui:title': 'VA file number',
       'ui:required': form => !form.veteranSocialSecurityNumber,
       'ui:errorMessages': {
         pattern: 'Your VA file number must be between 7 to 9 digits'
@@ -88,10 +88,8 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
   const pageDescription = isReview ? 'Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.' : undefined;
   const pagePath = isReview ? 'review-veteran-information' : 'veteran-information';
   const pageComponent = isReview ? VerifiedReviewPage : undefined;
-  // const verifiedDepends = (formData, prefilled) => !!prefilled;
-  // const unverifiedDepends = (formData, prefilled) => !prefilled;
-  const verifiedDepends = () => true;
-  const unverifiedDepends = () => false;
+  const verifiedDepends = ({ prefilled }) => !!prefilled;
+  const unverifiedDepends = ({ prefilled }) => !prefilled;
   const depends = isReview ? verifiedDepends : unverifiedDepends;
 
   return {
