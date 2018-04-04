@@ -3,20 +3,27 @@ import _ from 'lodash/fp';
 import { convertToDateField, validateCurrentOrPastDate } from '../common/schemaform/validation';
 import { isValidDateRange } from '../common/utils/validations';
 
-export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
+function calculateEndDate() {
   let endDateLimit;
   if (process.env.BUILDTYPE === 'production') {
     endDateLimit = 180;
   } else {
     endDateLimit = 730;
   }
+  return {
+    endDateLimit,
+    endDate: moment().endOf('day').add(endDateLimit, 'days')
+  };
+}
+
+export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate }, { veteranDateOfBirth }) {
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
-  const endDate = moment().endOf('day').add(endDateLimit, 'days');
+  const endDateInfo = calculateEndDate();
 
   // TODO: Use a constant instead of a magic string
-  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDate)) {
-    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDate.format('MMMM D, YYYY')} (${endDateLimit} days from today)`);
+  if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDateInfo.endDate)) {
+    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDateInfo.endDate.format('MMMM D, YYYY')} (${endDateInfo.endDateLimit} days from today)`);
   }
 
   if (veteranDateOfBirth) {
