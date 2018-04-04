@@ -3,6 +3,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '../../../common/components/Modal';
 import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
+import AlertBox from '../../../common/components/AlertBox';
 
 class EditAddressModal extends React.Component {
 
@@ -31,8 +32,9 @@ class EditAddressModal extends React.Component {
 
   render() {
     return (
-      <Modal id="profile-address-modal" onClose={this.props.onClose} visible>
+      <Modal id="profile-address-modal" onClose={this.props.onCancel} visible>
         <h3>{this.props.title}</h3>
+        <AlertBox isVisible={!!this.props.error} status="error" content="An error occurred." onCloseAlert={this.props.clearErrors}/>
         <form onSubmit={this.onSubmit}>
           {this.props.field && (
             <Address address={this.props.field.value.address} onInput={this.onInput} onBlur={this.onBlur} errorMessages={{}} countries={['USA']}/>
@@ -44,7 +46,7 @@ class EditAddressModal extends React.Component {
   }
 }
 
-export default function AddressSection({ addressResponseData, title, field, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function AddressSection({ addressResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let addressDisplay = <button type="button" onClick={onEdit} className="usa-button-secondary">Add</button>;
   let modal = null;
 
@@ -67,9 +69,11 @@ export default function AddressSection({ addressResponseData, title, field, isEd
         addressResponseData={addressResponseData}
         onChange={onChange}
         field={field}
+        error={error}
+        clearErrors={clearErrors}
         onSubmit={onSubmit}
         isLoading={isLoading}
-        onClose={onCancel}/>
+        onCancel={onCancel}/>
     );
   }
 

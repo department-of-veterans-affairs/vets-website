@@ -4,6 +4,7 @@ import ErrorableTextInput from '../../../common/components/form-elements/Errorab
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '../../../common/components/Modal';
 import LoadingButton from './LoadingButton';
+import AlertBox from '../../../common/components/AlertBox';
 
 class EditPhoneModal extends React.Component {
 
@@ -31,14 +32,16 @@ class EditPhoneModal extends React.Component {
   render() {
     const {
       title,
-      onClose,
+      onCancel,
       isLoading,
-      field
+      field,
+      clearErrors
     } = this.props;
 
     return (
-      <Modal id="profile-phone-modal" onClose={onClose} visible>
+      <Modal id="profile-phone-modal" onClose={onCancel} visible>
         <h3>{title}</h3>
+        <AlertBox isVisible={!!this.props.error} status="error" content="An error occurred." onCloseAlert={clearErrors}/>
         {field && (
           <form onSubmit={this.onSubmit}>
 
@@ -68,7 +71,7 @@ class EditPhoneModal extends React.Component {
 }
 
 
-export default function PhoneSection({ phoneResponseData, title, field, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function PhoneSection({ phoneResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let phoneDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
   let modal = null;
 
@@ -84,11 +87,13 @@ export default function PhoneSection({ phoneResponseData, title, field, isEditin
       <EditPhoneModal
         title={`Edit ${title.toLowerCase()}`}
         field={field}
+        error={error}
+        clearErrors={clearErrors}
         onChange={onChange}
         phoneResponseData={phoneResponseData}
         onSubmit={onSubmit}
         isLoading={isLoading}
-        onClose={onCancel}/>
+        onCancel={onCancel}/>
     );
   }
 

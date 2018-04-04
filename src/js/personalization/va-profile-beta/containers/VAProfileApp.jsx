@@ -21,7 +21,7 @@ class UserProfileApp extends React.Component {
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.account}
+          user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
@@ -48,9 +48,8 @@ class UserProfileApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
   return {
-    account: userState.profile,
+    account: state.user,
     profile: state.vaProfile
   };
 };
