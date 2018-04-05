@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
 
 import ToolTip from './ToolTip';
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
-
 import { makeField } from '../../model/fields.js';
 
 /**
