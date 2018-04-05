@@ -41,7 +41,7 @@ When you file a disability claim, we review all available evidence (supporting d
 
 We require certain documents to support all claims for disability benefits. 
 
-**You'll need to provide or give us permission to gather:**
+**You'll need to submit (or give us permission to gather):**
 -	Your DD214 or other separation documents
 -	Your service treatment records
 -	Any medical evidence related to your illness or injury (like doctor's reports, X-rays, and medical test results)
