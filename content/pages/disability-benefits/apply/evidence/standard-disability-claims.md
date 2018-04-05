@@ -14,7 +14,7 @@ relatedlinks:
 ---
 <div itemprop="description" class="va-introtext">
   
-Find out how to submit a standard disability claim so you can have us take more responsibility for gathering the evidence (supporting documents) we need to make a decision on your claim. 
+Find out how to submit a standard disability claim if you'd like us to take more responsibility for gathering the evidence (supporting documents) we need to make a decision on your claim. 
 
 </div>
 
