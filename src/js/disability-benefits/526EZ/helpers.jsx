@@ -234,11 +234,11 @@ export const additionalDocumentDescription = () => {
 export const disabilityStatusOptions = [
   {
     value: 'first',
-    label: 'I have never filed a disability claim before.'
+    label: 'I’ve never filed a disability claim before.'
   },
   {
     value: 'update',
-    label: 'I have a new or worsening condition to add to my rated disability claim.'
+    label: 'I have a new condition, or a condition that’s gotten worse, to add to my rated disability claim.'
   },
   {
     value: 'appeal',
@@ -319,19 +319,19 @@ export const evidenceSummaryView = ({ formData }) => {
 export const TitleContent = (props) => {
   const { atGuidance, checkGuidanceStatus } = props;
   const { atAppealGuidance, atIncreaseGuidance } = checkGuidanceStatus();
-  let titleContent = 'You need to file a disability claim on eBenefits';
+  let titleContent = 'You’ll need to file a disability claim on eBenefits';
   if (!atGuidance()) titleContent = 'What type of disability claim should I file?';
-  if (atAppealGuidance) titleContent = 'You need to file an appeal';
-  if (atIncreaseGuidance) titleContent = 'You need to file a claim for increase';
+  if (atAppealGuidance) titleContent = 'You’ll need to file an appeal';
+  if (atIncreaseGuidance) titleContent = 'You’ll need to file a claim for increase';
   return <h3>{titleContent}</h3>;
 };
 
 export const GetStartedMessage = ({ checkDisabilityStatus }) => {
   const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
   const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
-  let getStartedMessage = `Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
+  let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim for increased disability.${signInMessage}`;
   if (isFirst) {
-    getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
+    getStartedMessage = 'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file a disability claim on eBenefits.';
   }
   if (isAppeal) {
     getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
