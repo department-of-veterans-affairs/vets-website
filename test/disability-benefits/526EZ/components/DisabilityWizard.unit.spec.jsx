@@ -110,7 +110,7 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
-    expect(tree.find('a').text()).to.equal('Sign In or Create an Account »');
+    expect(tree.text()).to.contain('Sign In or Create an Account »');
     expect(tree.find('p').text()).to.equal('Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability. Please sign in or create an account before starting the application.');
   });
   it('should show authenticated increase guidance page', () => {
@@ -124,7 +124,7 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.setState({ disabilityStatus: 'increase', currentLayout: applyGuidance });
-    expect(tree.find('.login-container').text()).to.equal('Loading your information...');
+    expect(tree.text()).to.contain('Loading your information...');
     expect(tree.find('p').text()).to.equal('Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.');
     global.sessionStorage = oldStorage;
   });
