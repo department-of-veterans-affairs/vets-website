@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -147,6 +148,14 @@ function mapDispatchToProps(dispatch) {
     },
   };
 }
+
+IntroductionPage.PropTypes = {
+  user: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+  verifyUrl: PropTypes.string.isRequired,
+  loginUrl: PropTypes.string.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
 

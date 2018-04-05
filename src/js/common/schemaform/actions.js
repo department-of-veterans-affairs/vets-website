@@ -108,19 +108,20 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
   });
 }
 
+const captureError = (error, errorType, formConfig, submissionPrefix = '') => {
+  Raven.captureException(error, {
+    fingerprint: [formConfig.trackingPrefix, error.message],
+    extra: {
+      errorType,
+      statusText: error.statusText
+    }
+  });
+  window.dataLayer.push({
+    event: `${formConfig.trackingPrefix}-${submissionPrefix}submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
+  });
+};
+
 export function submitForm(formConfig, form) {
-  const captureError = (error, errorType) => {
-    Raven.captureException(error, {
-      fingerprint: [formConfig.trackingPrefix, error.message],
-      extra: {
-        errorType,
-        statusText: error.statusText
-      }
-    });
-    window.dataLayer.push({
-      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
-    });
-  };
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
@@ -150,30 +151,18 @@ export function submitForm(formConfig, form) {
         } else if (errorMessage.startsWith('vets_server_error')) {
           errorType = 'serverError';
         }
-        captureError(error, errorType);
+        captureError(error, errorType, formConfig);
         dispatch(setSubmission('status', errorType, error.extra));
       });
   };
 }
 
 export function submitIntentToFile(formConfig, form) {
-  const captureError = (error, errorType) => {
-    Raven.captureException(error, {
-      fingerprint: [formConfig.trackingPrefix, error.message],
-      extra: {
-        errorType,
-        statusText: error.statusText
-      }
-    });
-    window.dataLayer.push({
-      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
-    });
-  };
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
     window.dataLayer.push({
-      event: `${formConfig.trackingPrefix}-submission`,
+      event: `${formConfig.trackingPrefix}-ITF-submission`,
     });
 
     // TODO: determine payload
@@ -193,7 +182,7 @@ export function submitIntentToFile(formConfig, form) {
         } else if (errorMessage.startsWith('vets_server_error')) {
           errorType = 'serverError';
         }
-        captureError(error, errorType);
+        captureError(error, errorType, formConfig, 'ITF-');
         dispatch(setSubmission('status', errorType, error.extra));
       });
   };
