@@ -11,14 +11,10 @@ import { getIntroState } from './selectors';
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
-    let prefillAvailable;
     const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill } = this.props;
     const { profile, login } = this.props.user;
-    if (!this.props.prefillAvailable) {
-      prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-    } else {
-      prefillAvailable = this.props.prefillAvailable;
-    }
+    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -157,7 +153,7 @@ export default class SaveInProgressIntro extends React.Component {
     return (
       <div>
         {!this.props.buttonOnly && this.getAlert(savedForm)}
-        {!this.props.hideButton && <FormStartControls
+        <FormStartControls
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
           startText={this.props.startText}
@@ -170,7 +166,7 @@ export default class SaveInProgressIntro extends React.Component {
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
-          formSaved={!!savedForm}/>}
+          formSaved={!!savedForm}/>
         <br/>
       </div>
     );

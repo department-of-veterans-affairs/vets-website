@@ -7,10 +7,11 @@ import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
-import SaveInProgressIntro, { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { submitIntentToFile } from '../../../common/schemaform/actions';
 
 import formConfig from '../config/form';
+import SaveInProgressIntro from './SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -25,6 +26,13 @@ class IntroductionPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
+  hasSavedForm = () => {
+    const { user } = this.props;
+    return user.profile && user.profile.savedForms
+      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
+      .find(f => f.form === this.props.formId);
+  }
+
   handleLoadPrefill = () => {
     // TODO: determine payload
     submitIntentToFile('name/ssn/other', formConfig.intentToFileUrl, formConfig.trackingPrefix);
@@ -34,26 +42,17 @@ class IntroductionPage extends React.Component {
   render() {
     const { signingIn, requiredAccountLevel } = this.state;
     const { user, loginUrl, verifyUrl } = this.props;
-    const savedForm = user.profile && user.profile.savedForms
-      .filter(f => moment.unix(f.metadata.expires_at).isAfter())
-      .find(f => f.form === this.props.formId);
+    const savedForm = this.hasSavedForm();
 
     return (
       <div className="schemaform-intro">
         <FormTitle title="Disability Claims for Increase"/>
         <p>Equal to VA Form 21-526EZ.</p>
         {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
-          prefillAvailable={user.profile.accountType === 3}
-          hideButton
+          {...this.props}
+          disableButton
           toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
-          verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          handleLoadPrefill={this.handleLoadPrefill}
-          startText="Start the Disability Compensation Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>}
+          handleLoadPrefill={this.handleLoadPrefill}/>}
         {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
           className="login-container"
           verify={this.state.verify}
@@ -63,16 +62,9 @@ class IntroductionPage extends React.Component {
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <SaveInProgressIntro
-            prefillAvailable={user.profile.accountType === 3}
+            {...this.props}
             toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
-            verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            handleLoadPrefill={this.handleLoadPrefill}
-            startText="Start the Disability Compensation Application"
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
+            handleLoadPrefill={this.handleLoadPrefill}/>
           {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
@@ -109,18 +101,11 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
-          prefillAvailable={user.profile.accountType === 1}
-          hideButton
+          {...this.props}
+          disableButton
           buttonOnly
           toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
-          verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          goToBeginning={this.goToBeginning}
-          startText="Start the Disability Compensation Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>}
+          handleLoadPrefill={this.handleLoadPrefill}/>}
         {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
           containerClass="login-container"
           verify={this.state.verify}
@@ -129,17 +114,11 @@ class IntroductionPage extends React.Component {
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <SaveInProgressIntro
+            {...this.props}
+            disableButton
             buttonOnly
-            prefillAvailable={user.profile.accountType === 3}
             toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
-            verifyRequiredPrefill={this.props.route.formConfig.verifyRequiredPrefill}
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            handleLoadPrefill={this.handleLoadPrefill}
-            startText="Start the Disability Compensation Application"
-            {...this.props.saveInProgressActions}
-            {...this.props.saveInProgress}/>
+            handleLoadPrefill={this.handleLoadPrefill}/>
           {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
