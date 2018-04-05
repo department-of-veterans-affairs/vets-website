@@ -106,6 +106,7 @@ Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="
 That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
 
 <span id="working"></span>
+
 ### Working with a VA social worker 
 
 <span id="fisher"></span>
@@ -163,7 +164,8 @@ And, your social worker can help connect you to other community resources like:
 - **Corporate Angel Network**, which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment.
 [Learn more about the Corporate Angel Network](http://www.corpangelnetwork.org/home).
 - **Mercy Medical Lift**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation.
-[Learn more about Mercy Medical Lift](http://mercymedical.org).  
+[Learn more about Mercy Medical Lift](http://mercymedical.org).
+
 </div>
 </li>
 </ul>
@@ -180,7 +182,6 @@ And, your social worker can help connect you to other community resources like:
     });
 </script>
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function() {
   var openAccordion = function(id) {
