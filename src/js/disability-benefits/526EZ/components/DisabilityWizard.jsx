@@ -18,11 +18,7 @@ class DisabilityWizard extends React.Component {
     super(props);
 
     this.state = {
-      currentLayout: chooseStatus,
-      updates: {
-        add: false,
-        increase: false
-      }
+      currentLayout: chooseStatus
     };
   }
 
@@ -56,6 +52,15 @@ class DisabilityWizard extends React.Component {
     return false;
   };
 
+  getUpdates = () => {
+    const { disabilityStatus } = this.state;
+    const updates = { add: false, increase: false };
+    const regexIncrease = RegExp(/increase/i);
+    if (disabilityStatus && disabilityStatus.includes('add')) updates.add = true;
+    if (disabilityStatus && regexIncrease.test(disabilityStatus)) updates.increase = true;
+    return updates;
+  }
+
   isChoosingStatus = () => this.state.currentLayout === chooseStatus;
 
   isChoosingUpdate = () => this.state.currentLayout === chooseUpdate;
@@ -87,10 +92,10 @@ class DisabilityWizard extends React.Component {
 
   answerQuestion = (field, answer) => {
     if (field === 'disabilityStatus') {
-      this.setState({ [field]: answer });
+      this.setState({ disabilityStatus: answer });
     } else {
       const disabilityStatus = this.getDisabilityUpdate(field, answer);
-      this.setState({ disabilityStatus, updates: { ...this.state.updates, [field]: answer } });
+      this.setState({ disabilityStatus });
     }
   };
 
@@ -106,8 +111,9 @@ class DisabilityWizard extends React.Component {
   goBack = () => {
     let nextLayout = chooseStatus;
     const { atGuidance } = this;
-    const isUpdate = this.getDisabilityStatus() === 'update';
-    if (atGuidance() && isUpdate) {
+    const { isAddAndIncrease, isAddOnly, isIncreaseOnly } = this.checkDisabilityStatus();
+    const updateProvided = !!(isAddAndIncrease || isAddOnly || isIncreaseOnly);
+    if (atGuidance() && updateProvided) {
       nextLayout = chooseUpdate;
     }
     this.setState({ currentLayout: nextLayout, errorMessage: '' });
@@ -127,9 +133,6 @@ class DisabilityWizard extends React.Component {
     if (isChoosingUpdate && isUpdate) {
       return this.displayErrorMessage();
     }
-    if (isChoosingStatus && !isUpdate) {
-      this.setState({ updates: { add: false, increase: false } });
-    }
     return this.goToNextPage();
   };
 
@@ -143,7 +146,7 @@ class DisabilityWizard extends React.Component {
 
   render() {
     const { isChoosingStatus, isChoosingUpdate, atGuidance } = this;
-    const { errorMessage, updates } = this.state;
+    const { errorMessage } = this.state;
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
@@ -170,7 +173,7 @@ class DisabilityWizard extends React.Component {
               options={disabilityUpdateOptions}
               errorMessage={errorMessage}
               onValueChange={(option, checked) => this.answerQuestion(option.value, checked)}
-              values={updates}/>
+              values={this.getUpdates()}/>
           }
           {<ButtonContainer
             {...this.props}
