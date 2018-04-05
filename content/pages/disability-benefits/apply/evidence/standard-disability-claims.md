@@ -1,7 +1,6 @@
 ---
 layout: page-breadcrumbs.html
 title: Standard Disability Claims
-display_title: Standard Disability Claims
 plainlanguage: 
 template: detail-page
 order: 1
