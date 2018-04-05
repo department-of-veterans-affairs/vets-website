@@ -315,3 +315,34 @@ export const evidenceSummaryView = ({ formData }) => {
     </div>
   );
 };
+
+export const TitleContent = (props) => {
+  const { atGuidance, checkGuidanceStatus } = props;
+  const { atAppealGuidance, atIncreaseGuidance } = checkGuidanceStatus();
+  let titleContent = 'You need to file a disability claim on eBenefits';
+  if (!atGuidance()) titleContent = 'What type of disability claim should I file?';
+  if (atAppealGuidance) titleContent = 'You need to file an appeal';
+  if (atIncreaseGuidance) titleContent = 'You need to file a claim for increase';
+  return <h3>{titleContent}</h3>;
+};
+
+export const GetStartedMessage = ({ checkDisabilityStatus }) => {
+  const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
+  const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
+  let getStartedMessage = `Since you have a worsening condition to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
+  if (isFirst) {
+    getStartedMessage = 'We’re sorry. We’re unable to file original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file your claim on eBenefits.';
+  }
+  if (isAppeal) {
+    getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
+      <a href="/disability-benefits/claims-appeal/">Learn how to file an appeal.</a>
+    </span>);
+  }
+  if (isAddOnly) {
+    getStartedMessage = 'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.';
+  }
+  if (isAddAndIncrease) {
+    getStartedMessage = 'Since you have both new and worsening conditions, you’ll need to file your disability claim on eBenefits.';
+  }
+  return <p>{getStartedMessage}</p>;
+};

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 
-export default function DisabilityWizardButtonContainer(props) {
+export default function ButtonContainer(props) {
   const { user, loginUrl, verifyUrl, checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
@@ -32,7 +32,7 @@ export default function DisabilityWizardButtonContainer(props) {
   </div>);
 }
 
-DisabilityWizardButtonContainer.propTypes = {
+ButtonContainer.propTypes = {
   user: PropTypes.object.isRequired,
   loginUrl: PropTypes.string.isRequired,
   verifyUrl: PropTypes.func.isRequired,

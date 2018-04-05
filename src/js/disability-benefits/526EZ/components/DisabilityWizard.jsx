@@ -8,10 +8,8 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 
 import { toggleLoginModal } from '../../../login/actions';
 
-import DisabilityWizardButtonContainer from './DisabilityWizardButtonContainer';
-import DisabilityWizardTitleContent from './DisabilityWizardTitleContent';
-import DisabilityWizardGetStartedMessage from './DisabilityWizardGetStartedMessage';
-import { disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
+import ButtonContainer from './ButtonContainer';
+import { TitleContent, GetStartedMessage, disabilityStatusOptions, disabilityUpdateOptions, layouts } from '../helpers';
 
 const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
 
@@ -149,11 +147,11 @@ class DisabilityWizard extends React.Component {
 
     return (
       <div className="va-nav-linkslist--related form-expanding-group-open">
-        <DisabilityWizardTitleContent
+        <TitleContent
           atGuidance={this.atGuidance}
           checkGuidanceStatus={this.checkGuidanceStatus}/>
         <div>
-          {atGuidance() && <DisabilityWizardGetStartedMessage checkDisabilityStatus={this.checkDisabilityStatus}/>}
+          {atGuidance() && <GetStartedMessage checkDisabilityStatus={this.checkDisabilityStatus}/>}
           {isChoosingStatus() &&
           <ErrorableRadioButtons
             name="disabilityStatus"
@@ -174,7 +172,7 @@ class DisabilityWizard extends React.Component {
               onValueChange={(option, checked) => this.answerQuestion(option.value, checked)}
               values={updates}/>
           }
-          {<DisabilityWizardButtonContainer
+          {<ButtonContainer
             {...this.props}
             checkGuidanceStatus={this.checkGuidanceStatus}
             isChoosingStatus={this.isChoosingStatus}
