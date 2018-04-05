@@ -55,7 +55,7 @@ class IntroductionPage extends React.Component {
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}/>}
         {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
-          containerClass="login-container"
+          className="login-container"
           verify={this.state.verify}
           authRequired={requiredAccountLevel}
           serviceRequired={['disability-benefits']}
