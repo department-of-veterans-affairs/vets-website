@@ -5,7 +5,7 @@ import { isValidDateRange } from '../common/utils/validations';
 
 function calculateEndDate() {
   let endDateLimit;
-  if (process.env.BUILDTYPE === 'production') {
+  if (__BUILDTYPE__ === 'production') {
     endDateLimit = 180;
   } else {
     endDateLimit = 730;

@@ -35,7 +35,7 @@ describe('hca validation', () => {
         lastDischargeDate: moment().add(1, 'years').format('YYYY-MM-DD'),
         lastEntryDate: '2011-01-01'
       }, {});
-      if (process.env.BUILDTYPE === 'production') {
+      if (__BUILDTYPE__ === 'production') {
         expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
       } else {
         expect(errors.lastDischargeDate.addError.callCount).to.equal(0);
@@ -65,7 +65,6 @@ describe('hca validation', () => {
       }, {
         veteranDateOfBirth: '1990-01-01'
       });
-
       expect(errors.lastEntryDate.addError.callCount).to.equal(1);
     });
   });
