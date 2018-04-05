@@ -14,7 +14,7 @@ relatedlinks:
 ---
 <div itemprop="description" class="va-introtext">
   
-With the Fully Developed Claims (FDC) program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim to speed up the decision process. Find out how you can use this program to get a faster decision on your disability benefits claim. 
+Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by sending in all the evidence (supporting documents) you have—or can easily get—when you file your claim. 
 
 </div>
 
@@ -51,11 +51,11 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**You'll need to send us all:**
-- Records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military, **and**
--	Military personnel records that relate to the claimed condition, **and**
--	Private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
-- Information about any health records that you don't have, but that we can get from a federal facility like a VA medical center or clinic
+**You'll need to send us:**
+-	All private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
+- Any records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military, **and**
+-	Any military personnel records you have that relate to the claimed condition, **and**
+- Information about any health records that you don't have, but that we can request on your behalf from a federal facility like a VA medical center or clinic
 
 **If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened (called "buddy statements").
 
