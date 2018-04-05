@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
-import AlertBox from '../components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { mhvAccessError } from '../utils/error-messages';
 import {
