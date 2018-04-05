@@ -9,21 +9,21 @@ order: 3
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability-benefits/apply/evidence/full-developed-disability-claims/
-      title: How can I get my claim processed faster with a fully developed claim?
-      description: ""
-    - url: /disability-benefits/apply/
-      title: How do I file a claim?
-      description: ""
+    - url: /disability-benefits/apply/evidence/fully-developed-disability-claims/
+      title: Fully Developed Disability Claims
+      description: Find out how to use the Fully Developed Claims program to get a faster decision on your claim by sending in all the evidence you have—or can easily get—when you file your claim.
+    - url: /disability-benefits/apply/evidence/decision-ready-claims/
+      title: Decision Ready Claims Program
+      description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less by working with an accredited VSO.
     - url: /disability-benefits/apply/claim-types/predischarge-claim/
-      title: How do I file while on active duty?
-      description: ""
-    - url: /disability-benefits/eligibility/one-year/
-      title: How do I file for an illness that started after I was discharged from active duty?
-      description: ""
-    - url: /disability-benefits/after-you-apply/date/
-      title: How does VA decide when my disability compensation starts?
-      description: ""
+      title: Pre-discharge Claim
+      description: If you have 90 to 180 days left on active duty, find out how to file a disability claim through the Benefits Delivery at Discharge (BDD) program to get your benefits sooner.
+    - url: /disability-benefits/eligibility/ratings/
+      title: How VA Assigns Disability Ratings
+      description: Find out how we assign ratings for service-connected disabilities.
+    - url: /disability-benefits/eligibility/one-year/ 
+      title: Disabilities That Appear Within 1 Year After Discharge
+      description: Find out if you're eligible for disability compensation for a disability that appeared within a year after you were discharged from service.      
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
