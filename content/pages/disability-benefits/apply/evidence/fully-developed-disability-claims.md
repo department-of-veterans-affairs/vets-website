@@ -14,7 +14,7 @@ relatedlinks:
 ---
 <div itemprop="description" class="va-introtext">
   
-Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim. 
+Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting evidence along with your claim. 
 
 </div>
 
@@ -90,8 +90,8 @@ This depends on the type of claim you're filing.
 
 **You'll need to submit:**
 - Medical evidence of a current physical or mental disability, **and**
-- Evidence of an event, injury or disease in service, **and**
-- Evidence of a link between your current disability and the event, injury, or disease in military service (like medical records or medical opinions from health care providers)
+- Evidence of an event, injury, or disease that happened during your active-dutry service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease that happened during your service. Usually, we need medical records or medical opinions from health care providers to support this link.
 
 </div>
 </li>
@@ -101,15 +101,15 @@ This depends on the type of claim you're filing.
 
 **You'll need to submit:**
 - Medical evidence of a current physical or mental disability, **and**
-- Evidence of an event, injury or disease in service, **and**
-- Evidence of a link between your current disability and the event, injury, or disease in military service (like medical records or medical opinions from health care providers)
+- Evidence of an event, injury, or disease that happened during your active-duty service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease that happened during your service. Usually, we need medical records or medical opinions from health care providers to support this link.
 </div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim providing new evidence to support a disability claim that was denied at least one year ago</button>
 <div id="claim-reopened" class="usa-accordion-content">
 
-You'll need to submit new evidence that we haven't ever considered that's related to the issue you're claiming.
+You'll need to submit new evidence that we've never considered before and that's related to the issue you're claiming.
 
 </div>
 </li>
@@ -127,7 +127,7 @@ You'll need to submit current medical evidence that shows your disability has go
 
 **You'll need to submit:**
 - Medical evidence of the new physical or mental disability, **and**
-- Evidence of a link between the new disability and the disability we've already determined is service-connected (like medical records or medical opinions from health care providers).
+- Evidence of a link between the new disability and the disability we've already determined is service-connected. Usually, we need medical records or medical opinions from health care providers to support this link.
 
 </div>
 </li>
