@@ -11,10 +11,9 @@ import { getIntroState } from './selectors';
 export default class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
-    const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, UnauthenticatedVerifyAlert, AuthenticatedVerifyAlert } = this.props;
+    const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, prefillAlert } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
-
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -35,7 +34,7 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
-      } else if (prefillAvailable) {
+      } else if (prefillAvailable && !prefillAlert) {
         alert = (
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -46,8 +45,8 @@ export default class SaveInProgressIntro extends React.Component {
             <br/>
           </div>
         );
-      } else if (verifyRequiredPrefill) {
-        alert = <AuthenticatedVerifyAlert toggleAuthLevel={this.props.toggleAuthLevel}/>;
+      } else if (prefillAvailable && prefillAlert) {
+        alert = prefillAlert;
       } else {
         alert = (
           <div>
@@ -78,8 +77,6 @@ export default class SaveInProgressIntro extends React.Component {
           <br/>
         </div>
       );
-    } else if (verifyRequiredPrefill) {
-      alert = <UnauthenticatedVerifyAlert toggleLoginModal={this.props.toggleLoginModal}/>;
     } else {
       alert = (
         <div>

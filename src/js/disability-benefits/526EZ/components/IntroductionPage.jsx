@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import appendQuery from 'append-query';
 
 import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
@@ -9,17 +10,17 @@ import FormTitle from '../../../common/schemaform/components/FormTitle';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { submitIntentToFile } from '../../../common/schemaform/actions';
+import { toggleLoginModal } from '../../../login/actions';
 
 import formConfig from '../config/form';
 import SaveInProgressIntro from './SaveInProgressIntro';
+import { UnauthenticatedAlert } from '../helpers';
 
 class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      verify: false
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -39,8 +40,16 @@ class IntroductionPage extends React.Component {
     // TODO: store confirmation number in formData
   }
 
+  authenticate = (e) => {
+    e.preventDefault();
+    const nextQuery = { next: e.target.getAttribute('href') };
+    const nextPath = appendQuery('/', nextQuery);
+    history.pushState({}, e.target.textContent, nextPath);
+    this.props.toggleLoginModal(true);
+  }
+
   render() {
-    const { signingIn, requiredAccountLevel } = this.state;
+    const { requiredAccountLevel } = this.state;
     const { user, loginUrl, verifyUrl } = this.props;
     const savedForm = this.hasSavedForm();
 
@@ -48,14 +57,13 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Disability Claims for Increase"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
-        {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
-          {...this.props}
-          disableButton
-          toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
-          handleLoadPrefill={this.handleLoadPrefill}/>}
-        {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
+        {!sessionStorage.userToken && <div>
+          {UnauthenticatedAlert}
+          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Account<span className="button-icon"> »</span></a>
+        </div>}
+        {(savedForm || sessionStorage.userToken) && <RequiredLoginView
           className="login-container"
-          verify={this.state.verify}
+          verify
           authRequired={requiredAccountLevel}
           serviceRequired={['disability-benefits']}
           user={user}
@@ -108,26 +116,20 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
-          {...this.props}
-          disableButton
-          buttonOnly
-          toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
-          handleLoadPrefill={this.handleLoadPrefill}/>}
-        {(savedForm || sessionStorage.userToken || signingIn) && <RequiredLoginView
+        {!sessionStorage.userToken && <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Account<span className="button-icon"> »</span></a>}
+        {(savedForm || sessionStorage.userToken) && <RequiredLoginView
           containerClass="login-container"
-          verify={this.state.verify}
+          verify
           serviceRequired={['disability-benefits']}
           user={user}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <SaveInProgressIntro
             {...this.props}
-            disableButton
             buttonOnly
             toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
             handleLoadPrefill={this.handleLoadPrefill}/>
-          {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
+          {!savedForm && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
@@ -148,7 +150,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch)
+    saveInProgressActions: bindActionCreators(introActions, dispatch),
+    toggleLoginModal: (update) => {
+      dispatch(toggleLoginModal(update));
+    },
   };
 }
 

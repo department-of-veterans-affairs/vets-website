@@ -2,14 +2,13 @@ import React from 'react';
 
 import SaveInProgressIntro from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-import { UnauthenticatedVerifyAlert, AuthenticatedVerifyAlert } from '../helpers';
+import { VerifiedAlert } from '../helpers';
 
 export default function SIPIntro(props) {
   return (<SaveInProgressIntro
     buttonOnly={props.buttonOnly}
     hideButton={props.hideButton}
-    UnauthenticatedVerifyAlert={UnauthenticatedVerifyAlert}
-    AuthenticatedVerifyAlert={AuthenticatedVerifyAlert}
+    prefillAlert={VerifiedAlert}
     toggleAuthLevel={props.toggleAuthLevel}
     verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
     prefillEnabled={props.route.formConfig.prefillEnabled}

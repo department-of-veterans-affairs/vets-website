@@ -284,40 +284,34 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
-export const UnauthenticatedVerifyAlert = ({ toggleLoginModal }) => {
-  return (
-    <div>
-      <div className="usa-alert usa-alert-info schemaform-sip-alert">
-        <div className="usa-alert-body">
-          You must be signed in to your account and your account must be verified to apply.<br/>
-          <button className="va-button-link" onClick={() => toggleLoginModal(true)}>Sign in to your account.</button>
-        </div>
+export const UnauthenticatedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        You must be signed in to your account and your account must be verified to apply.
       </div>
-      <br/>
     </div>
-  );
-};
+    <br/>
+  </div>
+);
 
-export const AuthenticatedVerifyAlert = ({ toggleAuthLevel }) => {
-  return (
-    <div>
-      <div className="usa-alert usa-alert-info schemaform-sip-alert">
-        <div className="usa-alert-body">
-          Your account must be verified to apply.<br/>
-          <button className="va-button-link" onClick={() => toggleAuthLevel(true)}>Verify your account.</button>
-        </div>
+export const VerifiedAlert =  (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        <strong>Note:</strong> Since you’re signed in to your account and your account is verified, we can prefill part of your application based on your account details. You can also save your form in progress for up to 1 year, and come back later to finish filling it out.
       </div>
-      <br/>
     </div>
-  );
-};
+    <br/>
+  </div>
+);
 
 export const GetFormHelp = () => {
   return (
     <div>
       <p className="help-talk">For help filling out this form, please call:</p>
       <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-VETS</a>(<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
+        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-VETS</a> (<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
         Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
       </p>
     </div>
