@@ -3,6 +3,7 @@ import Modal from '../../../common/components/Modal';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
+import AlertBox from '../../../common/components/AlertBox';
 
 class EditEmailModal extends React.Component {
 
@@ -25,14 +26,20 @@ class EditEmailModal extends React.Component {
   render() {
     const {
       title,
-      onClose,
+      onCancel,
       isLoading,
-      field
+      field,
+      clearErrors
     } = this.props;
 
     return (
-      <Modal id="profile-email-modal" onClose={onClose} visible>
+      <Modal id="profile-email-modal" onClose={onCancel} visible>
         <h3>{title}</h3>
+        <AlertBox
+          isVisible={!!this.props.error}
+          status="error"
+          content={<p>We’re sorry. We couldn’t update your email. Please try again.</p>}
+          onCloseAlert={clearErrors}/>
         {field && (
           <form onSubmit={this.onSubmit}>
             <ErrorableTextInput
@@ -50,7 +57,7 @@ class EditEmailModal extends React.Component {
 }
 
 
-export default function EmailSection({ emailResponseData, title, field, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
+export default function EmailSection({ emailResponseData, title, field, error, clearErrors, isEditing, isLoading, onChange, onEdit, onCancel, onSubmit }) {
   let emailDisplay = <button type="button" onClick={onEdit} className="usa-button usa-button-secondary">Add</button>;
   let modal = null;
 
@@ -64,10 +71,12 @@ export default function EmailSection({ emailResponseData, title, field, isEditin
         title="Edit email"
         emailResponseData={emailResponseData}
         field={field}
+        error={error}
+        clearErrors={clearErrors}
         onChange={onChange}
         onSubmit={onSubmit}
         isLoading={isLoading}
-        onClose={onCancel}/>
+        onCancel={onCancel}/>
     );
   }
 

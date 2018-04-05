@@ -5,7 +5,8 @@ import {
   fetchVaProfile,
   saveField,
   updateFormField,
-  openModal
+  openModal,
+  clearErrors
 } from '../actions';
 
 import BetaApp, { features } from '../../../common/containers/BetaApp';
@@ -20,7 +21,7 @@ class UserProfileApp extends React.Component {
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.account}
+          user={this.props.account}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
@@ -35,7 +36,8 @@ class UserProfileApp extends React.Component {
                   currentlyOpen: this.props.profile.modal,
                   formFields: this.props.profile.formFields,
                   pendingSaves: this.props.profile.pendingSaves,
-                  errors: this.props.profile.errors
+                  errors: this.props.profile.errors,
+                  clearErrors: this.props.clearErrors
                 }}/>
             </DowntimeNotification>
           </BetaApp>
@@ -46,9 +48,8 @@ class UserProfileApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
   return {
-    account: userState.profile,
+    account: state.user,
     profile: state.vaProfile
   };
 };
@@ -56,7 +57,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
     fetchVaProfile,
-    openModal
+    openModal,
+    clearErrors
   }, dispatch);
 
   actions.updateActions = bindActionCreators(saveField, dispatch);

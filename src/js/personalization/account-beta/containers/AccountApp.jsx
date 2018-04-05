@@ -16,7 +16,7 @@ class UserProfileApp extends React.Component {
         <RequiredLoginView
           authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}>
+          user={this.props.user}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
               <div className="row user-profile-row">
@@ -43,7 +43,8 @@ const mapStateToProps = (state) => {
   return {
     login: userState.login,
     profile: userState.profile,
-    terms: userState.profile.terms
+    terms: userState.profile.terms,
+    user: userState
   };
 };
 
