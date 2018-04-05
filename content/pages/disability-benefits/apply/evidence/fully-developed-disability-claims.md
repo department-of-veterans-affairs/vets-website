@@ -24,34 +24,24 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can submit a fully developed disability claim if you're apply for compensation for:
+**You can submit a fully developed disability claim if you're apply for compensation for:**
 - An injury, disability, or condition believed to have occurred or been aggravated by military service, **or**
 - A condition caused or aggravated by an existing service-related condition
 
-
-**In order for us to consider your claim fully developed, you'll need to:**
-
-- Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
-- Submit all the evidence you have—or can easily get—along with your claim, **and**
-- Go to any VA medical exams required to decide your claim. We'll let you know if we need to schedule any exams.
-
 </div>
 </div>
-
-
-
-<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">What do I need to do to submit a fully developed claim?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
 **In order for us to consider your claim fully developed, you'll need to:**
-
 - Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
 - Submit all the evidence you have—or can easily get—along with your claim, **and**
+- Certify that there's no more evidence we might need to decide on your claim, **and**
 - Go to any VA medical exams required to decide your claim. We'll let you know if we need to schedule any exams.
 
+</div>
 </div>
 </div>
 
@@ -60,19 +50,23 @@ You can submit a fully developed disability claim if you're apply for compensati
 <div itemprop="text">
 
 **You'll need to send us all:**
-- Records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military
--	Military personnel records that relate to the claimed condition
--	Private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center
+- Records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military, **and**
+-	Military personnel records that relate to the claimed condition, **and**
+-	Private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
 - Information about any health records that are available at a federal facility like a VA medical center or clinic
 
 </div>
 </div>
 
-<h3 itemprop="name">What happens if VA finds out they need more of my private medical records to decide my claim?</h3>
+<h3 itemprop="name">Are there any risks to using the Fully Developed Claims program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We’ll remove your claim from the FDC program and review it through the standard claims process.
+No. Filing a fully developed claim won't affect the attention we give to your claim or the benefits you're entitled to receive.
+
+If we determine that we need other non-federal records to make a decision on your claim, we'll simply the claim from the Fully Developed Claims program and process it as a standard claim. 
+
+Once you start your fully developed claim, you'll have up to one year to complete it. Should VA approve your claim, you'll be paid back to the day you started your claim.
 
 </div>
 </div>
@@ -80,16 +74,76 @@ We’ll remove your claim from the FDC program and review it through the standar
 
 ### What should the evidence show to support my claim?
 
-This depends on the type of claim you're filing. In general, the evidence will need to show that you...
+This depends on the type of claim you're filing. 
 
-[Check to see if you're eligible for disability benefits](https://www.vets.gov/disability-benefits/eligibility/).
+**Find out what evidence you'll need to file these different claim types:**
 
-Find out the eligibility requirements your evidence will need to show to support a claim for:
-- [Disabilities that prevent you from driving (Automobile Allowance and Adaptive Equipment)](/disability-benefits/conditions/special-claims/automobile/)
-- [Replacing damanged clothing](/disability-benefits/conditions/special-claims/clothing/)
-- [Recovery from surgery or an immbolizing disability (convalescence)](/disability-benefits/conditions/special-claims/convalescence/)
-- 
-*WILL FINISH ADDING AFTER WE TALK*
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original disability claim—the first claim you file for disability compensation from VA</button>
+<div id="claim-original" class="usa-accordion-content">
+
+**You'll need to submit:**
+- Medical evidence of a current physical or mental disability, **and**
+- Evidence of an event, injury or disease in service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease in military service. Medical records or medical opinions are usually required to establish this relationship.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for service connection for a disability that you haven't filed before</button>
+<div id="claim-new" class="usa-accordion-content">
+
+**You'll need to submit:**
+- Medical evidence of a current physical or mental disability, **and**
+- Evidence of an event, injury or disease in service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease in military service. Medical records or medical opinions are usually required to establish this relationship.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim that we couldn't grant and the decision is over 1 year old</button>
+<div id="claim-reopened" class="usa-accordion-content">
+
+You'll need to submit new evidence that we haven't ever considered that's related to the issue you're claiming.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for an increased evaluation of a disability that we've already determined to be service-connected</button>
+<div id="claim-increased" class="usa-accordion-content">
+
+You'll need to submit current medical evidence that shows your disability has gotten worse.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a disability that developed as a result or got because of a disability that we've already determined to be service-connected</button>
+<div id="claim-secondary" class="usa-accordion-content">
+
+You'll need to submit current medical evidence that shows your disability has gotten worse.
+
+</div>
+</li>
+</ul>
+</div>
+
+**Find out the additional forms you'll need if you're filing a claim for certain special issues:**
+
+- **If you file a claim for Individual Unemployability status**, you'll need to submit the evidence above dependending on your claim type as well as:
+  - A completed Veteran's Application for Increased Compensation Based on Unemployability (VA Form 21-8940), **and**<br>
+  [(Download VA Form 21-8940)](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf)
+  - A completed Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192), completed by your last employer, **and**<br>
+  [(Download VA Form 21-4192)](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf)
+  - Medical evidence that a service-connected disability prevents you from getting or keeping a job
+- **If you file a claim for PTSD (posttraumatic stress disorder)**, you'll need to submit the evidence listed above depending on your claim type as well as one of these forms:
+  - A completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781), **or**<br>
+  [(Download VA Form 21-0781)](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.pdf)
+  - If claiming PTSD based on personal assault, a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
+  [(Download VA Form 21-0781a)](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
+
+
 
 ### Will VA help me at all with gathering evidence?
 
