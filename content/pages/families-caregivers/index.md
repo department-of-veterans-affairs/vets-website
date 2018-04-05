@@ -165,10 +165,11 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 **Looking for information about buying, building, or making changes to a home to help a Veteran with disabilities?**<br>
 [Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
 
-**Looking for information to help a Veteran or Servicemember who's homeless or can't live by themselves any longer?**<br>
-If the Veteran or Servicemember is homeless or at risk of becoming homeless, call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about VA and local community homeless programs and services. The call is free and completely private.  
+**Looking for information to help a Veteran who's homeless or at risk of becoming homeless?**<br>
+Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about VA and local community homeless programs and services. The call is free and completely private.  
 
-If the Veteran or Servicemember needs long-term care, they may be eligible for assisted living, residential (live-in), or home health care. <br>
+**Looking for information to help a Veteran who can no longer live by themselves?**
+The Veteran be eligible for assisted living, residential (live-in), or home health care. <br>
 [Learn about long-term care housing options and services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
 If you have questions or need help accessing services, ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
