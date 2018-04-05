@@ -3,7 +3,7 @@ import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '../../../common/components/Modal';
 import Address from '../../../letters/components/Address';
 import LoadingButton from './LoadingButton';
-import AlertBox from '../../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class EditAddressModal extends React.Component {
 

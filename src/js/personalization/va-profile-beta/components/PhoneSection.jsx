@@ -4,7 +4,7 @@ import ErrorableTextInput from '../../../common/components/form-elements/Errorab
 import HeadingWithEdit from './HeadingWithEdit';
 import Modal from '../../../common/components/Modal';
 import LoadingButton from './LoadingButton';
-import AlertBox from '../../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class EditPhoneModal extends React.Component {
 

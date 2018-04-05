@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '../../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import { mfa } from '../../../login/utils/helpers';
 
 export default function MultifactorMessage({ multifactor }) {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerBeta, isUserRegisteredForBeta } from '../actions';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class BetaEnrollmentButton extends React.Component {
   static propTypes = {

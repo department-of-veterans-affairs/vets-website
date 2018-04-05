@@ -3,7 +3,7 @@ import Modal from '../../../common/components/Modal';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
 import LoadingButton from './LoadingButton';
-import AlertBox from '../../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class EditEmailModal extends React.Component {
 
