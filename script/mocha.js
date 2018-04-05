@@ -17,14 +17,14 @@ const unwatchedModules = Object.keys(require.cache).map(file => file);
 process.on('message', ({tests, shouldShowErrors}) => {
   showErrors = shouldShowErrors;
   runMochaTests(tests).then(() => {
-    // create a list of src and test files imported by mocha
-    const watchedFiles = Object
+    // create a list of src and test files required by mocha
+    const requiredFiles = Object
       .keys(require.cache)
       .filter(file => !unwatchedModules.includes(file) && !file.includes('node_modules'));
     // send list of imported files and unit tests for each src file to the runner
     process.send({
-      watchedFiles,
-      unitTestsForSrc: getUnitTestsForSrc(watchedFiles)
+      requiredFiles,
+      unitTestsForSrc: getUnitTestsForSrc(requiredFiles)
     });
   });
 });
@@ -71,8 +71,8 @@ async function runMochaTests(files) {
   });
 }
 
-function getUnitTestsForSrc(watchedFiles) {
-  return watchedFiles
+function getUnitTestsForSrc(requiredFiles) {
+  return requiredFiles
   // only use files in test directory
     .filter(file => file.includes('test'))
   // iterate over each test file

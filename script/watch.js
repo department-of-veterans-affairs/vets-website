@@ -29,16 +29,22 @@ async function runUnitTests(unitTests = allUnitTests) {
   busy = true;
   let watchedFiles, unitTestsForSrc;
   try {
-    ({ watchedFiles, unitTestsForSrc } = await runMochaTests(unitTests));
+    ({ requiredFiles, unitTestsForSrc } = await runMochaTests(unitTests));
   } catch (e) {
+
     if (!watcher) {
+      // mocha errored before setting up watcher; exit process
       console.log(chalk.red('Mocha failed. Fix error and restart watch'));
       process.exit(1);
     } else {
+      // mocha errored after setting up watcher; continue watching for changes
       console.log(chalk.red('Mocha failed. Fix error'));
     }
   }
+
   busy = false;
+
+  // changes were detected during a test run; run these tests and clear the queue
   if (pendingTests.length > 0) {
     busy = false;
     process.nextTick(() => {
@@ -53,11 +59,10 @@ async function runUnitTests(unitTests = allUnitTests) {
     console.log(chalk.yellow('======\n\n'));
   };
 
-
   // watcher is only created once- if new files are added, then watcher must be restarted
   if (!watcher) {
     // start watcher with the files that mocha imported
-    watcher = chokidar.watch(watchedFiles).
+    watcher = chokidar.watch(requiredFiles).
       on('change', file => {
         // if a unit test is updated just run that unit test
         if (file.includes('.unit.spec')) {
@@ -85,12 +90,14 @@ function runMochaTests(tests) {
       tests,
       showErrors
     });
-    forked.on('message', (message) => {
-      if (message.error) {
-        reject(message.error);
+    forked.on('message', ({error, requiredFiles, unitTestsForSrc }) => {
+      if (error) {
+        // mocha runner returned an error
+        reject(error);
+      } else {
+        // mocha runner a list of files it required and a map of unit tests to source files
+        fulfill({ requiredFiles, unitTestsForSrc });
       }
-      // sent the watcher the files to watch
-      fulfill(message);
       // kill mocha
       forked.kill('SIGHUP');
     });
