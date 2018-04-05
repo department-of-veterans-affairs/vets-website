@@ -14,7 +14,7 @@ relatedlinks:
 ---
 <div itemprop="description" class="va-introtext">
   
-Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by sending in all the evidence (supporting documents) you have—or can easily get—when you file your claim. 
+Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim. 
 
 </div>
 
@@ -39,7 +39,7 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 
 **In order for us to consider your claim fully developed, you'll need to:**
 - Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
-- Submit all the evidence you have—or can easily get—along with your claim, **and**
+- Submit all the evidence (supporting documents) you have—or can easily get—along with your claim, **and**
 - Certify that there's no more evidence we might need to decide on your claim, **and**
 - Go to any VA medical exams required to decide your claim. We'll let you know if we need to schedule any exams.
 
