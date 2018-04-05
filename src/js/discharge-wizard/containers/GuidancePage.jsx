@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import moment from 'moment';
 
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
 import { branchOfService, board, formData, venueAddress } from '../utils';
 import { venueWarning, upgradeVenueWarning } from '../config';

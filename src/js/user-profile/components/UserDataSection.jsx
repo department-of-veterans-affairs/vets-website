@@ -4,7 +4,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 import { mfa } from '../../login/utils/helpers';
