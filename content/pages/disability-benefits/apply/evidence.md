@@ -4,6 +4,7 @@ title: How to Gather Evidence for Your Claim
 display_title: How to Gather Evidence for Your Claim
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
+children: disabilityEvidence
 order: 2
 majorlinks:
   - heading: Explore your options for gathering evidence
