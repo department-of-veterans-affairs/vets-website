@@ -5,25 +5,25 @@ description: Get help filing a VA claim or appeal by working with an accredited 
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 4
+order: 3
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-      - url: /disability-benefits/apply/evidence/full-developed-disability-claims/
-        title: How can I get my claim processed faster with a fully developed claim?
-        description: ""
-      - url: /disability-benefits/apply/
-        title: How do I file a claim?
-        description: ""
-      - url: /disability-benefits/apply/claim-types/predischarge-claim/
-        title: How do I file while on active duty?
-        description: ""
-      - url: /disability-benefits/eligibility/one-year/
-        title: How do I file for an illness that started after I was discharged from active duty?
-        description: ""
-      - url: /disability-benefits/after-you-apply/date/
-        title: How does VA decide when my disability compensation starts?
-        description: ""
+    - url: /disability-benefits/apply/evidence/full-developed-disability-claims/
+      title: How can I get my claim processed faster with a fully developed claim?
+      description: ""
+    - url: /disability-benefits/apply/
+      title: How do I file a claim?
+      description: ""
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: How do I file while on active duty?
+      description: ""
+    - url: /disability-benefits/eligibility/one-year/
+      title: How do I file for an illness that started after I was discharged from active duty?
+      description: ""
+    - url: /disability-benefits/after-you-apply/date/
+      title: How does VA decide when my disability compensation starts?
+      description: ""
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
