@@ -20,10 +20,10 @@ export default function SIPIntro(props) {
 }
 
 SIPIntro.PropTypes = {
-  buttonOnly: PropTypes.boolean.isRequired,
+  buttonOnly: PropTypes.boolean,
   prefillAlert: PropTypes.func.isRequired,
   verifyRequiredPrefill: PropTypes.func.isRequired,
-  prefillEnabled: PropTypes.boolean.isRequired,
+  prefillEnabled: PropTypes.boolean,
   messages: PropTypes.array.isRequired,
   pageList: PropTypes.array.isRequired,
   handleLoadPrefill: PropTypes.func.isRequired,

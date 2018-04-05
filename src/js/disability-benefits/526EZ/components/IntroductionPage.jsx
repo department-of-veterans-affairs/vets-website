@@ -24,7 +24,7 @@ class IntroductionPage extends React.Component {
   }
 
   hasSavedForm = () => {
-    const { user } = this.props;
+    const { saveInProgress: { user } } = this.props;
     return user.profile && user.profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
@@ -45,18 +45,18 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { user, loginUrl, verifyUrl } = this.props;
+    const { saveInProgress: { user }, loginUrl, verifyUrl } = this.props;
     const savedForm = this.hasSavedForm();
 
     return (
       <div className="schemaform-intro">
         <FormTitle title="Disability Claims for Increase"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
-        {!sessionStorage.userToken && <div>
+        {!user.login.currentlyLoggedIn && <div>
           {UnauthenticatedAlert}
-          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Account<span className="button-icon"> »</span></a>
+          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>
         </div>}
-        {(savedForm || sessionStorage.userToken) && <RequiredLoginView
+        {user.login.currentlyLoggedIn && <RequiredLoginView
           className="login-container"
           verify
           serviceRequired={['disability-benefits']}
@@ -109,8 +109,8 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {!sessionStorage.userToken && <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Account<span className="button-icon"> »</span></a>}
-        {(savedForm || sessionStorage.userToken) && <RequiredLoginView
+        {!user.login.currentlyLoggedIn && <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>}
+        {user.login.currentlyLoggedIn && <RequiredLoginView
           containerClass="login-container"
           verify
           serviceRequired={['disability-benefits']}
@@ -133,10 +133,8 @@ class IntroductionPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userState = state.user;
   return {
-    saveInProgress: introSelector(state),
-    user: userState
+    saveInProgress: introSelector(state)
   };
 }
 
@@ -150,8 +148,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 IntroductionPage.PropTypes = {
-  user: PropTypes.object.isRequired,
-  formId: PropTypes.string.isRequired,
+  saveInProgress: PropTypes.object.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   verifyUrl: PropTypes.string.isRequired,
   loginUrl: PropTypes.string.isRequired
