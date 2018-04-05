@@ -95,7 +95,7 @@ function runMochaTests(tests) {
         // mocha runner returned an error
         reject(error);
       } else {
-        // mocha runner a list of files it required and a map of unit tests to source files
+        // mocha runner returend a list of files it required and a map of unit tests to source files
         fulfill({ requiredFiles, unitTestsForSrc });
       }
       // kill mocha
