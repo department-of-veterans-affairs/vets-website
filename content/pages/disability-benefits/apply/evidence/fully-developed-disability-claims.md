@@ -125,7 +125,9 @@ You'll need to submit current medical evidence that shows your disability has go
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a new disability that's linked to a service-connected disability you already have</button>
 <div id="claim-secondary" class="usa-accordion-content">
 
-You'll need to submit current medical evidence that shows your disability has gotten worse.
+**You'll need to submit:**
+- Medical evidence of the new physical or mental disability, **and**
+- Evidence of a link between the new disability and the disability we've already determined is service-connected (like medical records or medical opinions from health care providers).
 
 </div>
 </li>
