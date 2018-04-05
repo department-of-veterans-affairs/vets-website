@@ -17,9 +17,11 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 ### Can I use the BDD program to get my disability benefits sooner?
 
-**You can use the BDD program if all of these are true for you:**
+You can use the BDD program if you meet all of the requirements listed below.
 
--	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
+**All of these must be true:**
+
+-	You’re a Servicemember on full-time active duty (including a member of the National Guard, Reserves, or Coast Guard), **and**
 - You have a known separation date, **and**
 -	Your separation date is in the next 180 to 90 days
 
@@ -36,7 +38,7 @@ You can't file a BDD claim or add more medical conditions to your initial claim.
 
 You can't use the BDD program if your claim requires special handling—even if you're on full-time active duty, with more than 90 days left of service.
 
-**You can't use the BDD program if you:**
+**You can't use the BDD program if any of these are true. You:**
 
 - Need case management for a serious injury or illness, **or**
 - Have suffered the loss of a body part, **or**
@@ -93,7 +95,7 @@ If you’re on a military base or other installation, contact your local Transit
 Apply through the Decision Ready Claim (DRC) program or file a fully developed or standard claim</button>
 <div id="drc-program" class="usa-accordion-content">
 
-If you have less than 90 days left on active duty, you have 2 options for filing a disability claim:
+If you have less than 90 days left on active duty, you have 3 options for filing a disability claim:
 
 ### Go through the Decision Ready Claim (DRC) program
 
@@ -106,23 +108,22 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 
 **Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.<br>
 [Learn about the IDES program](/employment/vocational-rehab-and-employment/ides/). <br>
-[See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp).
+[See the full list of DRC program exclusions](/disability-benefits/apply/evidence/decision-ready-claims/#exclusions).
 
-**For more information on the DRC program:**
+<br>
+[Find out how to file a decision-ready claim](/disability-benefits/apply/evidence/decision-ready-claims/#how-to-file)
 
-Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. <br>
+### File a fully developed disability claim
 
-Watch a video and download fact sheets at VA.gov. <br>
-[Visit VA.gov for more DRC information](https://www.benefits.va.gov/compensation/drc.asp). <br>
+With the Fully Developed Claims (FDC) program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim to speed up the decision process. Find out how you can use this program to get a faster decision on your disability benefits claim.<br>
 
-Or contact your local VSO.<br>
-[Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
+[Find out how to file a fully developed claim](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
 
-### File a fully developed or standard claim
+### File a standard disability claim
 
-The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
-[Learn about the application process](/disability-benefits/apply/).<br>
-[Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
+Find out how to submit a standard disability claim if you'd like us to take more responsibility for gathering the evidence (supporting documents) we need to make a decision on your claim.<br>
+
+[Find out how to file a standard claim](/disability-benefits/apply/evidence/standard-disability-claims/).
 
 </div>
 </li>
