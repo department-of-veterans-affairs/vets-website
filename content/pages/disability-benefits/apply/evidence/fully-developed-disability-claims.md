@@ -25,8 +25,8 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 <div itemprop="text">
 
 **You can submit a fully developed disability claim if you're applying for compensation for:**
-- An injury, disability, or condition you believe was caused by—or got worse because of—your active-duty service, **or**
-- A condition you believe was caused—or made worse—by a disability we've already determined is service-connected
+- An illness or injury (also called a condition) that was caused by—or got worse because of—your active-duty service, **or**
+- A condition that was caused—or made worse—by a disability we've already determined is service-connected
 
 </div>
 </div>
@@ -53,11 +53,11 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 
 **You'll need to send us:**
 -	All private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
-- Any records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military, **and**
+- Any records of medical treatment you've received for the claimed condition while serving in the military, **and**
 -	Any military personnel records you have that relate to the claimed condition, **and**
-- Information about any health records that you don't have, but that we can request on your behalf from a federal facility like a VA medical center or clinic
+- Information about any related health records that you don't have, but that we can request on your behalf from a federal facility like a VA medical center or clinic
 
-**If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened (called "buddy statements").
+**If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened.
 
 </div>
 </div>
@@ -68,9 +68,9 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 
 No. Filing a fully developed claim won't affect the attention we give to your claim or the benefits you're entitled to receive.
 
-If we determine that we need other non-federal records to make a decision on your claim, we'll simply the claim from the Fully Developed Claims program and process it as a standard claim. 
+If we determine that we need other non-federal records to make a decision on your claim, we'll simply remove the claim from the Fully Developed Claims program and process it as a standard claim. 
 
-Once you start your fully developed claim, you'll have up to one year to complete it. Should VA approve your claim, you'll be paid back to the day you started your claim.
+Once you start your fully developed claim, you'll have up to one year to complete it. If we approve your claim, you'll be paid back to the day you started it.
 
 <br>
 
@@ -80,7 +80,7 @@ This depends on the type of claim you're filing.
 
 <br>
 
-**Find out what evidence you'll need to file these different claim types:**
+**Find out what the evidence will need to show for these different claim types:**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
