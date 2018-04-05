@@ -17,11 +17,6 @@ import SaveInProgressIntro from './SaveInProgressIntro';
 import { UnauthenticatedAlert } from '../helpers';
 
 class IntroductionPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -49,7 +44,6 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { requiredAccountLevel } = this.state;
     const { user, loginUrl, verifyUrl } = this.props;
     const savedForm = this.hasSavedForm();
 
@@ -64,14 +58,12 @@ class IntroductionPage extends React.Component {
         {(savedForm || sessionStorage.userToken) && <RequiredLoginView
           className="login-container"
           verify
-          authRequired={requiredAccountLevel}
           serviceRequired={['disability-benefits']}
           user={user}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
           <SaveInProgressIntro
             {...this.props}
-            toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
             handleLoadPrefill={this.handleLoadPrefill}/>
           {!savedForm && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
@@ -127,7 +119,6 @@ class IntroductionPage extends React.Component {
           <SaveInProgressIntro
             {...this.props}
             buttonOnly
-            toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
             handleLoadPrefill={this.handleLoadPrefill}/>
           {!savedForm && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
