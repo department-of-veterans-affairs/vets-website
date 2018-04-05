@@ -283,3 +283,44 @@ export const evidenceSummaryView = ({ formData }) => {
     </div>
   );
 };
+
+export const UnauthenticatedVerifyAlert = ({ toggleLoginModal }) => {
+  return (
+    <div>
+      <div className="usa-alert usa-alert-info schemaform-sip-alert">
+        <div className="usa-alert-body">
+              You must be signed in to your account to apply. If your account is verified, your application process can go more smoothly. Here’s why:<br/>
+          <ul>
+            <li>We can submit your Intent to File right away.</li>
+            <li>We can prefill part of your application based on your account details.</li>
+            <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
+          </ul><br/>
+          <button className="va-button-link" onClick={() => toggleLoginModal(true)}>Sign in to your account.</button>
+        </div>
+      </div>
+      <br/>
+    </div>
+  );
+};
+
+export const AuthenticatedVerifyAlert = ({ toggleAuthLevel }) => {
+  return (
+    <div>
+      <div className="usa-alert usa-alert-info schemaform-sip-alert">
+        <div className="usa-alert-body">
+          <strong>Note:</strong> Since you’re signed in to your account, you can save your form in progress, and come back later to finish filling it out.
+          <ul>
+            <li>You have 1 year from the date you start or update your application to submit the form. After 1 year, the form won’t be saved, and you’ll need to start over.</li>
+          </ul><br/>
+                If you’re account is verified, your application process can go more smoothly. Here’s why:<br/>
+          <ul>
+            <li>We can submit your Intent to File right away.</li>
+            <li>We can prefill part of your application based on your account details.</li>
+          </ul><br/>
+          <button className="va-button-link" onClick={() => toggleAuthLevel(true)}>Verify your account.</button>
+        </div>
+      </div>
+      <br/>
+    </div>
+  );
+};
