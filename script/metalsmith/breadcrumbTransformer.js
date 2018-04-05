@@ -10,7 +10,7 @@ module.exports = (files, metalsmith, done) => {
     const $ = cheerio.load(data.contents.toString());
 
     $('#va-breadcrumbs').each(() => {
-      $.root().append(
+      $.root().appendChild(
         '<script type="text/javascript" src="/js/breadcrumbs/mobile-breadcrumb.js"></script>'
       );
     });
