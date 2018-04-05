@@ -5,13 +5,20 @@ import { isValidDateRange } from '../common/utils/validations';
 
 function calculateEndDate() {
   let endDateLimit;
+  let description;
   if (__BUILDTYPE__ === 'production') {
     endDateLimit = 180;
   } else {
     endDateLimit = 730;
   }
+  if (endDateLimit === 730) {
+    description = '2 years';
+  } else {
+    description = '180 days';
+  }
   return {
     endDateLimit,
+    description,
     endDate: moment().endOf('day').add(endDateLimit, 'days')
   };
 }
@@ -23,7 +30,7 @@ export function validateServiceDates(errors, { lastDischargeDate, lastEntryDate 
 
   // TODO: Use a constant instead of a magic string
   if (!isValidDateRange(fromDate, toDate) || moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDateInfo.endDate)) {
-    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDateInfo.endDate.format('MMMM D, YYYY')} (${endDateInfo.endDateLimit} days from today)`);
+    errors.lastDischargeDate.addError(`Discharge date must be after the service period start date and before ${endDateInfo.endDate.format('MMMM D, YYYY')} (${endDateInfo.description} from today)`);
   }
 
   if (veteranDateOfBirth) {
