@@ -5,7 +5,7 @@ display_title: Application Process
 description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today. 
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: detail-page
+template: level2-index
 children: disabilityApply
 majorlinks:
   - heading: More information about filing disability claims
