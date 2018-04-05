@@ -17,10 +17,9 @@ Once you have that set up, navigate to the root of the vets-website repository a
 yo @department-of-veterans-affairs/vets-website
 ```
 
-The generator will start up and ask you a series of questions, which are explained next.
-
 ## Generating an application
-To generate a regular React app, the generator will ask you a series of questions. They are:
+
+After running the above command, the generator will start up and ask you a series of questions:
 
 ### What's the name of your application?
 
