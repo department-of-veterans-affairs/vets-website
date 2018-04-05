@@ -36,8 +36,8 @@ We refer to the first claim you file for a disability as your original claim.
 
 **You can file a claim up to 180 days before leaving the service:**
 
-- **If you have 90-180 days left on active duty**, you may be able to file a predischarge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner.<br>
-[Find out how to file a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
+- **If you have 90-180 days left on active duty**, you may be able to file a pre-discharge claim through the Benefits Delivery at Discharge (BDD) program. This may help speed up the claim decision process so you can get your benefits sooner.<br>
+[Find out how to file a pre-discharge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
 
 - **If you have less than 90 days left on active duty**, you can't file your claim through the BDD program. But you can still file before you're discharged, and your claim will be processed after separation as a fully developed or standard claim.<br>
 [Learn more about gathering evidence for standard and fully developed claims](/disability-benefits/apply/evidence/).
@@ -100,7 +100,7 @@ For example, you might file a reopened claim if you were treated for pain in you
 - More financial support
 - Special monthly payments
 - A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability).<br>
-[Learn more about Individual Unemployability](https://www.vets.gov/disability-benefits/conditions/special-claims/individual-unemployability/).
+[Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 
 Our decision on your new claim will be based only on new evidence (like a doctor's report or medical test results) that you give us to support your claim. We won't consider any evidence you may have given us related to past claims.
 
