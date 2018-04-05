@@ -84,7 +84,7 @@ You can start your online application right now, or find out how to apply by mai
 Yes. The process is slower for getting a decision on a standard disability claim. This is because we need time to gather evidence for your claim. 
 
 If you'd like to get a decision on your claim faster, you can submit a fully developed claim. This is when you gather all of the evidence—or as much as you can get easily—and submit it at the same time as your claim. <br>
-[Learn more about submitting a fully developed disability claim](/disability-benefits/apply/evidence/fully-developed-disability-claim/).
+[Learn more about submitting a fully developed disability claim](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
 
 For certain types of claims, you can work with an accredited Veterans Service Organization (VSO) to submit a decision-ready claim and get a decision within 30 days or less from when you file your claim.<br>
 [Learn more about submitting a decision-ready disability claim](/disability-benefits/apply/decision-ready-claims/).
