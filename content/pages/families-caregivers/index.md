@@ -39,8 +39,8 @@ And, if a Veteran or Servicemember in your family needs treatment in a hospital 
 [Learn more about the Fisher House Foundation](/social-work-services/#fisher).
 
 **Looking for other health care or disability insurance information on behalf of a Veteran or Servicemember?**<br>
-- [Learn about health care benefits for Veterans or Servicemembers](/health-care/).<br>
-- [Learn about disability benefits for Veterans or Servicemembers](/disability-benefits/).
+- [Learn about health care benefits for Veterans and Servicemembers](/health-care/).<br>
+- [Learn about disability benefits for Veterans and Servicemembers](/disability-benefits/).
 
 <span id="education-benefits">
 
@@ -193,7 +193,7 @@ If you need help accessing services, help connecting with your local Caregiver S
 **Looking for someone to help support you, the Veteran or Servicemember you're caring for, or your whole family?**<br>
 
 Our VA social workers can help with most any need, or connect you with the right person for help.<br>
-[Find out how a VA social worker can helpu support your family](/social-work-services/#caregiver).
+[Find out how a VA social worker can help support your family](/social-work-services/#caregiver).
 <br>
 <br>
 <br>
