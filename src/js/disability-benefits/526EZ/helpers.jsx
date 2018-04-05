@@ -289,12 +289,7 @@ export const UnauthenticatedVerifyAlert = ({ toggleLoginModal }) => {
     <div>
       <div className="usa-alert usa-alert-info schemaform-sip-alert">
         <div className="usa-alert-body">
-              You must be signed in to your account to apply. If your account is verified, your application process can go more smoothly. Here’s why:<br/>
-          <ul>
-            <li>We can submit your Intent to File right away.</li>
-            <li>We can prefill part of your application based on your account details.</li>
-            <li>You can save your form in progress, and come back later to finish filling it out. You have 60 days from the date you start or update your application to submit the form. After 60 days, the form won’t be saved, and you’ll need to start over.</li>
-          </ul><br/>
+          You must be signed in to your account and your account must be verified to apply.<br/>
           <button className="va-button-link" onClick={() => toggleLoginModal(true)}>Sign in to your account.</button>
         </div>
       </div>
@@ -308,15 +303,7 @@ export const AuthenticatedVerifyAlert = ({ toggleAuthLevel }) => {
     <div>
       <div className="usa-alert usa-alert-info schemaform-sip-alert">
         <div className="usa-alert-body">
-          <strong>Note:</strong> Since you’re signed in to your account, you can save your form in progress, and come back later to finish filling it out.
-          <ul>
-            <li>You have 1 year from the date you start or update your application to submit the form. After 1 year, the form won’t be saved, and you’ll need to start over.</li>
-          </ul><br/>
-                If you’re account is verified, your application process can go more smoothly. Here’s why:<br/>
-          <ul>
-            <li>We can submit your Intent to File right away.</li>
-            <li>We can prefill part of your application based on your account details.</li>
-          </ul><br/>
+          Your account must be verified to apply.<br/>
           <button className="va-button-link" onClick={() => toggleAuthLevel(true)}>Verify your account.</button>
         </div>
       </div>
@@ -324,3 +311,16 @@ export const AuthenticatedVerifyAlert = ({ toggleAuthLevel }) => {
     </div>
   );
 };
+
+export const GetFormHelp = () => {
+  return (
+    <div>
+      <p className="help-talk">For help filling out this form, please call:</p>
+      <p className="help-phone-number">
+        <a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-VETS</a>(<a className="help-phone-number-link" href="tel:+1-877-222-8387">1-877-222-8387</a>)<br/>
+        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+      </p>
+    </div>
+  );
+};
+

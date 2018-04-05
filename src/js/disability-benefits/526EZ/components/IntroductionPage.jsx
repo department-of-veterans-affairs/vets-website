@@ -47,7 +47,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Disability Claims for Increase"/>
-        <p>Equal to VA Form 21-526EZ.</p>
+        <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
         {(!signingIn && !sessionStorage.userToken) && <SaveInProgressIntro
           {...this.props}
           disableButton
@@ -65,7 +65,7 @@ class IntroductionPage extends React.Component {
             {...this.props}
             toggleAuthLevel={(shouldVerify) => this.setState({ verify: shouldVerify })}
             handleLoadPrefill={this.handleLoadPrefill}/>
-          {!savedForm && <p>Clicking the following button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
+          {!savedForm && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
@@ -79,24 +79,32 @@ class IntroductionPage extends React.Component {
                 <li>Private medical and hospital records that show your claimed disability has gotten worse</li>
               </ul>
               <p>In some situations you may need to turn in additional forms with your claim, for example, if you’re claiming a dependent or benefits for a seriously disabled child. <a href="#">See the list of required forms for these special situations</a>.</p>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
-              <h6>Learn about educational programs</h6>
-              <p>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</p>
+              <p><strong>What if I need help filling out my application?</strong></p>
+              <p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. </p>
+              <p><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
+              <div>
+                <div className="usa-alert usa-alert-info schemaform-sip-alert">
+                  <div className="usa-alert-body">
+                    <p><strong>Disability ratings</strong></p>
+                    <p>We assign disability ratings with a severity from 0% to 100% for each disability claim. This rating can change if there are changes in your condition. We’ll decide a claim for increase based on the medical evidence and supporting documents you turn in with your claim.</p>
+                    <p><a href="/disability-benefits/eligibility/ratings/">Learn how VA assigns disability ratings</a>.</p>
+                  </div>
+                </div>
+                <br/>
+              </div>
             </li>
             <li className="process-step list-two">
               <div><h5>Apply</h5></div>
-              <p>Complete this education benefits form.</p>
+              <p>Complete this disability compensation benefits form.</p>
               <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
-              <p>We usually process claims within 30 days. We’ll let you know by mail if we need more information.</p>
-              <p>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></p>
+              <p>We process applications in the order we receive them. We may contact you if we have questions or need more information.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
-              <p>You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application. Bring this to the VA certifying official at your school.</p>
-              <p>If your application wasn’t approved, you’ll get a denial letter in the mail.</p>
+              <p>Once we’ve processed your claim, you’ll get a notice in the mail with our decision.</p>
             </li>
           </ol>
         </div>
@@ -123,7 +131,7 @@ class IntroductionPage extends React.Component {
         </RequiredLoginView>}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={20} ombNumber="2900-0074" expDate="05/31/2018"/>
+          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017"/>
         </div>
       </div>
     );

@@ -23,7 +23,8 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  releaseView
+  releaseView,
+  GetFormHelp
 } from '../helpers';
 
 const {
@@ -86,6 +87,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     // files
