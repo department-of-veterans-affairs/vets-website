@@ -30,6 +30,9 @@ export default function startApp({ routes, component, reducer, url }) {
 
   let history = browserHistory;
   if (url) {
+    if (url.endsWith('/')) {
+      throw new Error('Root urls should not end with a slash. Check your manifest.json file and application entry file.');
+    }
     history = useRouterHistory(createHistory)({
       basename: url
     });
