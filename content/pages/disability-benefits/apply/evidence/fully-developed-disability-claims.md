@@ -31,6 +31,8 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 </div>
 </div>
 
+<br>
+
 <h3 itemprop="name">What do I need to do to submit a fully developed claim?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -55,12 +57,14 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 -	Private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
 - Information about any health records that are available at a federal facility like a VA medical center or clinic
 
+**If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened (called "buddy statements").
+
 </div>
 </div>
 
-<h3 itemprop="name">Are there any risks to using the Fully Developed Claims program?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<br>
+
+### Are there any risks to using the Fully Developed Claims program?
 
 No. Filing a fully developed claim won't affect the attention we give to your claim or the benefits you're entitled to receive.
 
@@ -68,42 +72,41 @@ If we determine that we need other non-federal records to make a decision on you
 
 Once you start your fully developed claim, you'll have up to one year to complete it. Should VA approve your claim, you'll be paid back to the day you started your claim.
 
-</div>
-</div>
-</div>
+<br>
 
 ### What should the evidence show to support my claim?
 
-This depends on the type of claim you're filing. 
+This depends on the type of claim you're filing.
+
+<br>
 
 **Find out what evidence you'll need to file these different claim types:**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original disability claim—the first claim you file for disability compensation from VA</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original disability claim—the first claim you file for disability benefits</button>
 <div id="claim-original" class="usa-accordion-content">
 
 **You'll need to submit:**
 - Medical evidence of a current physical or mental disability, **and**
 - Evidence of an event, injury or disease in service, **and**
-- Evidence of a link between your current disability and the event, injury, or disease in military service. Medical records or medical opinions are usually required to establish this relationship.
+- Evidence of a link between your current disability and the event, injury, or disease in military service (like medical records or medical opinions from health care providers)
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for service connection for a disability that you haven't filed before</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for added benefits or other benefits requests related to an existing service-connected disability</button>
 <div id="claim-new" class="usa-accordion-content">
 
 **You'll need to submit:**
 - Medical evidence of a current physical or mental disability, **and**
 - Evidence of an event, injury or disease in service, **and**
-- Evidence of a link between your current disability and the event, injury, or disease in military service. Medical records or medical opinions are usually required to establish this relationship.
-
+- Evidence of a link between your current disability and the event, injury, or disease in military service (like medical records or medical opinions from health care providers)
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim that we couldn't grant and the decision is over 1 year old</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim providing new evidence to support a disability claim that was denied at least one year ago</button>
 <div id="claim-reopened" class="usa-accordion-content">
 
 You'll need to submit new evidence that we haven't ever considered that's related to the issue you're claiming.
@@ -111,7 +114,7 @@ You'll need to submit new evidence that we haven't ever considered that's relate
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for an increased evaluation of a disability that we've already determined to be service-connected</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we've already determined to be service-connected and that's gotten worse</button>
 <div id="claim-increased" class="usa-accordion-content">
 
 You'll need to submit current medical evidence that shows your disability has gotten worse.
@@ -119,7 +122,7 @@ You'll need to submit current medical evidence that shows your disability has go
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a disability that developed as a result or got because of a disability that we've already determined to be service-connected</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a new disability that's linked to a service-connected disability you already have</button>
 <div id="claim-secondary" class="usa-accordion-content">
 
 You'll need to submit current medical evidence that shows your disability has gotten worse.
@@ -128,6 +131,8 @@ You'll need to submit current medical evidence that shows your disability has go
 </li>
 </ul>
 </div>
+
+<br>
 
 **Find out the additional forms you'll need if you're filing a claim for certain special issues:**
 
@@ -143,16 +148,18 @@ You'll need to submit current medical evidence that shows your disability has go
   - If claiming PTSD based on personal assault, a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
   [(Download VA Form 21-0781a)](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
 
-
+<br>
 
 ### Will VA help me at all with gathering evidence?
 
 Yes. 
 
 **Under the Fully Developed Claims program, we’ll:** 
-- Request relevant medical records that you identify and authorize us to get from a federal facility, like a VA medical center, **and**
-- Request relevant private medical records that you authorize us to get from a non-VA hospital or doctor
+- Request your military service records with your permission, **and**
+- Request relevant Social Security benefits information and medical records that you identify and authorize us to get from a federal facility, like a VA medical center, **and**
 - Schedule a health exam or get a medical opinion for you, if we decide we need it for your claim
+
+**Note:** Even though we'll gather federal records on your behalf, like your DD214 or VA medical records, we encourage you to submit these if you have them to save time in the process
 
 <br>
 
@@ -161,6 +168,16 @@ Yes.
 To submit your claim through the Fully Developed Claims program, you’ll need to turn in the information and evidence at the same time you file your claim.
 
 **Note:** If you turn in more information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before one year from the date we receive the claim, you’ll have the rest of that one-year period to turn in additional information or evidence to support your claim.
+
+<br>
+
+### Should I work with a Veterans Service Officer (VSO) to file my claim?
+
+You don't have to, but we encourage you to work with an accredited VSO. These trained professionals can help you file your claim and gather the needed medical records and evidence.<br>
+[Find out how to get help filing your claim](/disability-benefits/apply/help/).
+
+For some types of claims, you can work with a VSO to submit a decision-ready claim and get your decision in 30 days or less.<br>
+[Find out if you're eligible for the Decision Ready Claims program](/disability-benefits/apply/evidence/decision-ready-claims/).
 
 <br>
 
