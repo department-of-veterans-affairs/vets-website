@@ -66,6 +66,7 @@ You can file a Decision Ready Claim if you meet all of the requirements listed b
 </div>
 </div>
 
+<span id="exclusions"></span>
 <h3 itemprop="name">What exclusions disqualify me from being able to file my claim through the Decision Ready Claims program?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -135,6 +136,7 @@ You can't file your DIC claim through the DRC program if any of the below factor
 
 -----
 
+<span id="how-to-file"></span>
 ### How do I file a DRC?
 
 You'll need to follow the steps below. When you work with an accredited VSO and provide all the necessary evidence with your application, you can get a decision on your claim in 30 days or less.
