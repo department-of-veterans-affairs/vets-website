@@ -90,7 +90,7 @@ function runMochaTests(tests) {
       tests,
       showErrors
     });
-    forked.on('message', ({error, requiredFiles, unitTestsForSrc }) => {
+    forked.on('message', ({ error, requiredFiles, unitTestsForSrc }) => {
       if (error) {
         // mocha runner returned an error
         reject(error);
