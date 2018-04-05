@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
@@ -201,6 +202,11 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
+DisabilityWizard.propTypes = {
+  toggleLoginModal: PropTypes.func.isRequired,
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(DisabilityWizard);
 
