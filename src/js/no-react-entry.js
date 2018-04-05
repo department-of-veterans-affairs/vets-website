@@ -1,3 +1,5 @@
+import '../platform/polyfills';
+
 import createCommonStore from '../platform/startup/store';
 import startSitewideComponents from '../platform/site-wide';
 

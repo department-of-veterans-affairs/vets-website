@@ -19,6 +19,8 @@ import startReactApp from './react';
  *
  * @param {object} appInfo The UI and business logic of your React application 
  * @param {Route|array<Route>} appInfo.routes The routes for the application
+ * @param {ReactElement} appInfo.component A React element to render. Only used if routes
+ * is not passed
  * @param {object} appInfo.reducer An object containing reducer functions. Will have
  * combineReducers run on it after being merged with the common, cross-site reducer.
  * @param {string} appInfo.url The base url for the React application
@@ -35,15 +37,13 @@ export default function startApp({ routes, component, reducer, url }) {
 
   startSitewideComponents(store);
 
-  let content;
+  let content = component;
   if (routes) {
     content = (
       <Router history={history}>
         {routes}
       </Router>
     );
-  } else {
-    content = component;
   }
 
   startReactApp(
