@@ -51,7 +51,11 @@ Our shared form code sends events to Google Analytics and we need a unique prefi
 
 ### What's the respondent burden of this form in minutes?
 
-Each paper form has OMB information that lives in the margins of each page (usually in the top right). This is the respondent burden value from that information. All the information from this question and the next two can be found in the form's introduction page, passed as props to the OMBInfo component, if you need to change it later.
+Each paper form has OMB information that lives in the margins of each page (usually in the top right):
+
+![Form page with OMB info](omb_form_info.png)
+
+This is the respondent burden value from that information. All the information from this question and the next two can be found in the props for the `OMBInfo` component in `containers/IntroductionPage.jsx`, if you need to change it later.
 
 ### What's the OMB control number for this form?
 
