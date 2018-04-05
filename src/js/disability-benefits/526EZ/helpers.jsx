@@ -5,6 +5,7 @@ import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/addre
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import { genderLabels } from '../../common/utils/labels';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -281,6 +282,43 @@ export const evidenceSummaryView = ({ formData }) => {
           </ul>
         </li>}
       </ul>
+    </div>
+  );
+};
+
+const FullNameViewField = ({ formData }) => {
+  const { first, middle, last, suffix } = formData;
+  return <strong>{first} {middle} {last} {suffix}</strong>;
+};
+
+const SsnViewField = ({ formData }) => {
+  const ssn = formData.slice(5);
+  const mask = <span>•••-••-</span>;
+  return <p>Social Security number: {mask}{ssn}</p>;
+};
+
+const VAFileNumberViewField = ({ formData }) => {
+  const vaFileNumber = formData.slice(5);
+  const mask = <span>•••-••-</span>;
+  return <p>VA file number: {mask}{vaFileNumber}</p>;
+};
+
+const DateOfBirthViewField = ({ formData }) => {
+  const dateOfBirth = formData.split('-');
+  dateOfBirth.push(dateOfBirth.shift());
+  return <p>Date of birth: {dateOfBirth.join('/')}</p>;
+};
+
+const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
+
+export const veteranInformationViewField = ({ formData }) => {
+  return (
+    <div>
+      <FullNameViewField formData={formData.veteranFullName}/>
+      <SsnViewField formData={formData.ssn}/>
+      <VAFileNumberViewField formData={formData.vaFileNumber}/>
+      <GenderViewField formData={formData.gender}/>
+      <DateOfBirthViewField formData={formData.dateOfBirth}/>
     </div>
   );
 };

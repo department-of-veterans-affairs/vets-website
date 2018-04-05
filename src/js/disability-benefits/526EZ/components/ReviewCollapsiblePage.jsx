@@ -86,7 +86,9 @@ export default class ReviewCollapsiblePage extends React.Component {
         <ChapterDescription/>}
         <div key={`${fullPageKey}`} className={'form-review-panel-page'}>
           <Element name={`${fullPageKey}ScrollElement`}/>
-          {page.schema &&
+          {page.verifiedReviewComponent && !editing &&
+          <page.verifiedReviewComponent formData={pageData}/>}
+          {page.schema && editing &&
           <SchemaForm
             name={page.pageKey}
             title={page.reviewTitle || page.title}

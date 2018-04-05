@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash';
 
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -7,58 +6,30 @@ import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../common/utils/labels';
 import VerifiedReviewPage from '../components/VerifiedReviewPage';
 
+import { veteranInformationViewField } from '../helpers';
+
 export default function createVeteranInfoChapter(formSchema, isReview) {
 
   const { fullName, date } = formSchema.definitions;
 
   const uiSchema = {
-    fullName: _.merge(fullNameUI, {
-      'ui:options': {
-        summaryViewField: ({ formData }) => {
-          const { first, middle, last, suffix } = formData;
-          return <strong>{first} {middle} {last} {suffix}</strong>;
-        }
-      }
-    }),
+    veteranFullName: fullNameUI,
     socialSecurityNumber: _.assign(ssnUI, {
       'ui:title': 'Social Security number',
-      'ui:required': form => !form.veteranVaFileNumber,
-      'ui:options': {
-        viewField: ({ formData }) => {
-          const ssn = formData.slice(5);
-          const mask = <span>•••-••-</span>;
-          return <p>Social Security number: {mask}{ssn}</p>;
-        }
-      }
+      'ui:required': form => !form.vaFileNumber,
     }),
     vaFileNumber: {
       'ui:title': 'VA file number',
-      'ui:required': form => !form.veteranSocialSecurityNumber,
+      'ui:required': form => !form.socialSecurityNumber,
       'ui:errorMessages': {
         pattern: 'Your VA file number must be between 7 to 9 digits'
-      },
-      'ui:options': {
-        viewField: ({ formData }) => {
-          const vaFileNumber = formData.slice(5);
-          const mask = <span>•••-••-</span>;
-          return <p>VA file number: {mask}{vaFileNumber}</p>;
-        }
       }
     },
-    dateOfBirth: _.merge(currentOrPastDateUI('Date of birth'), {
-      'ui:options': {
-        viewField: ({ formData }) => {
-          const dateOfBirth = formData.split('-');
-          dateOfBirth.push(dateOfBirth.shift());
-          return <p>Date of birth: {dateOfBirth.join('/')}</p>;
-        }
-      }
-    }),
+    dateOfBirth: currentOrPastDateUI('Date of birth'),
     gender: {
       'ui:title': 'Gender',
       'ui:options': {
-        labels: genderLabels,
-        viewField: ({ formData }) => <p>Gender: {genderLabels[formData]}</p>
+        labels: genderLabels
       },
     }
   };
@@ -67,7 +38,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
     type: 'object',
     required: ['fullName', 'socialSecurityNumber', 'vaFileNumber', 'gender', 'dateOfBirth'],
     properties: {
-      fullName,
+      veteranFullName: fullName,
       socialSecurityNumber: {
         type: 'string'
       },
@@ -101,6 +72,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
         description: pageDescription,
         path: pagePath,
         component: pageComponent,
+        verifiedReviewComponent: veteranInformationViewField,
         depends,
         uiSchema,
         schema
