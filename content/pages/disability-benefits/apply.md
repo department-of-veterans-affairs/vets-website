@@ -14,8 +14,8 @@ majorlinks:
       title: Claim Types and When to File 
       description: Learn about standard claims, reopened claims, secondary claims, and more. 
     - url: /disability-benefits/apply/evidence/
-      title: Evidence Needed for Standard and Fully Developed Claims
-      description: Find out which supporting documents you’ll need to give us so we can decide your claim.    
+      title: How to Gather Evidence for Your Claim
+      description: Find out your options for gathering documents to support your disability claim.
     - url: /disability-benefits/eligibility/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: Find out if you can get disability benefits if you have signs of an illness within a year after being discharged from service.
