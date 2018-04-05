@@ -12,6 +12,6 @@ export default function TitleContent(props) {
 }
 
 TitleContent.propTypes = {
-  checkGuidanceStatus: PropTypes.function.isRequired,
-  atGuidance: PropTypes.function.isRequired
+  checkGuidanceStatus: PropTypes.func.isRequired,
+  atGuidance: PropTypes.func.isRequired
 };

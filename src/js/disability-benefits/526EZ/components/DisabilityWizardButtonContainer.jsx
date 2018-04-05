@@ -35,11 +35,11 @@ export default function DisabilityWizardButtonContainer(props) {
 DisabilityWizardButtonContainer.propTypes = {
   user: PropTypes.object.isRequired,
   loginUrl: PropTypes.string.isRequired,
-  verifyUrl: PropTypes.function.isRequired,
-  checkGuidanceStatus: PropTypes.function.isRequired,
-  isChoosingStatus: PropTypes.function.isRequired,
-  atGuidance: PropTypes.function.isRequired,
-  goBack: PropTypes.function.isRequired,
-  goForward: PropTypes.function.isRequired,
-  authenticate: PropTypes.function.isRequired,
+  verifyUrl: PropTypes.func.isRequired,
+  checkGuidanceStatus: PropTypes.func.isRequired,
+  isChoosingStatus: PropTypes.func.isRequired,
+  atGuidance: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  authenticate: PropTypes.func.isRequired,
 };

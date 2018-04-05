@@ -23,5 +23,5 @@ export default function GetStartedMessage({ checkDisabilityStatus }) {
 }
 
 GetStartedMessage.propTypes = {
-  checkDisabilityStatus: PropTypes.function.isRequired
+  checkDisabilityStatus: PropTypes.func.isRequired
 };
