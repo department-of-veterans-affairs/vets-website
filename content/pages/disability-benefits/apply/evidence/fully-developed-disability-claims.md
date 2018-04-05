@@ -24,9 +24,9 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**You can submit a fully developed disability claim if you're apply for compensation for:**
-- An injury, disability, or condition believed to have occurred or been aggravated by military service, **or**
-- A condition caused or aggravated by an existing service-related condition
+**You can submit a fully developed disability claim if you're applying for compensation for:**
+- An injury, disability, or condition you believe was caused by—or got worse because of—your active-duty service, **or**
+- A condition you believe was caused—or made worse—by a disability we've already determined is service-connected
 
 </div>
 </div>
@@ -55,7 +55,7 @@ With the Fully Developed Claims (FDC) program, you send in all the evidence (sup
 - Records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military, **and**
 -	Military personnel records that relate to the claimed condition, **and**
 -	Private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
-- Information about any health records that are available at a federal facility like a VA medical center or clinic
+- Information about any health records that you don't have, but that we can get from a federal facility like a VA medical center or clinic
 
 **If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened (called "buddy statements").
 
@@ -144,12 +144,12 @@ You'll need to submit current medical evidence that shows your disability has go
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="special-umemployable">Individual Unemployability</button>
 <div id="special-umemployable" class="usa-accordion-content">
 
-**You'll need to submit the evidence above dependending on your claim type as well as:**
+**You'll need to also submit all of these items:**
   - A completed Veteran's Application for Increased Compensation Based on Unemployability (VA Form 21-8940), **and**<br>
   [(Download VA Form 21-8940)](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf)
   - A completed Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192), completed by your last employer, **and**<br>
   [(Download VA Form 21-4192)](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf)
-  - Medical evidence that a service-connected disability prevents you from getting or keeping a job
+  - Medical evidence that a service-connected disability prevents you from getting or keeping substantially gainful employment (work that brings in enough money to earn a livelihood)
 
 </div>
 </li>
@@ -157,10 +157,10 @@ You'll need to submit current medical evidence that shows your disability has go
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="special-ptsd">PTSD (posttraumatic stress disorder)</button>
 <div id="special-ptsd" class="usa-accordion-content">
 
-**You'll need to submit the evidence listed above depending on your claim type as well as one of these forms:**
+**You'll need to also submit one of these forms:**
   - A completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781), **or**<br>
   [(Download VA Form 21-0781)](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.pdf)
-  - If claiming PTSD based on personal assault, a Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
+  - **If you're claiming PTSD based on personal assault**, a completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
   [(Download VA Form 21-0781a)](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
 
 </div>
@@ -170,7 +170,17 @@ You'll need to submit current medical evidence that shows your disability has go
 
 <br>
 
-### Will VA help me at all with gathering evidence?
+[Learn more about claims for conditions related to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). <br>
+
+[Learn more about claims for former Prisoners of War (POWs)](/disability-benefits/conditions/pow/).<br>
+
+[Learn more about other special claims](/disability-benefits/conditions/special-claims/).
+
+<br>
+
+### Can VA help me at all with gathering evidence?
+
+Yes.
 
 **Under the Fully Developed Claims program, we can:** 
 - Request your military service records with your permission, **and**
