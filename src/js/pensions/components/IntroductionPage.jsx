@@ -38,7 +38,7 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Declare Intent to File</h5></div>
-              <div>Your date of claim is the date VA receives your completed application. Starting your pension application doesn’t show your intent to file. Submitting an intent to file. Submitting an intent to file form before you begin the application sets earlest possible effective date (the date you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application.</div>
+              <div>Your date of claim is the date VA receives your completed application. Starting your pension application doesn’t show your intent to file. Submitting an intent to file form before you begin the application sets earliest possible effective date (the date you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application.</div><br/>
               <div><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf">Download Intent to File a Claim for Compensation Pension, or Survivors Pension and/or DIC (VA Form 211-0966)</a></div>
             </li>
             <li className="process-step list-two">
