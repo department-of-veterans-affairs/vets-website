@@ -6,7 +6,7 @@ display_title:
 concurrence: 
 lastupdate: 
 relatedlinks:
-  - heading: Other VA Benefits and Services You May Find Helpful
+  - heading: Other VA benefits and services you may find helpful
     links: 
     - url: /health-care/about-va-health-care/assisted-living-and-home-health-care/ 
       title: Assisted Living and Home Health Care
@@ -105,6 +105,7 @@ Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="
 
 That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
 
+<span id="working"></span>
 ### Working with a VA social worker 
 
 <span id="fisher"></span>
