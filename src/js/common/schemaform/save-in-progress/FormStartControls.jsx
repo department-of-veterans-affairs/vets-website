@@ -24,7 +24,6 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     if (this.props.handleLoadPrefill) {
-      // set ITF date
       this.props.handleLoadPrefill();
     }
     if (this.props.prefillAvailable) {
