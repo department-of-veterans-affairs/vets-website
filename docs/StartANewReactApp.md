@@ -2,16 +2,7 @@
 
 ## Approach 1: Yeoman generator
 
-```bash
-npm install -g yo
-npm install -g @department-of-veterans-affairs/generator-vets-website
-```
-
-Then generate your new application, at the root directory of vets-website:
-
-```bash
-yo @department-of-veterans-affairs/vets-website
-```
+Follow the [instructions for running the generators](https://github.com/department-of-veterans-affairs/vets-website/blob/master/docs/GeneratorOptions.md).
 
 Generator code is located at https://github.com/department-of-veterans-affairs/generator-vets-website.
 
