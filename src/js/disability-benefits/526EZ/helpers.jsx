@@ -317,7 +317,7 @@ export const veteranInformationViewField = ({ formData }) => {
   return (
     <div>
       <FullNameViewField formData={formData.veteranFullName}/>
-      <SsnViewField formData={formData.ssn}/>
+      <SsnViewField formData={formData.socialSecurityNumber}/>
       <VAFileNumberViewField formData={formData.vaFileNumber}/>
       <GenderViewField formData={formData.gender}/>
       <DateOfBirthViewField formData={formData.dateOfBirth}/>
