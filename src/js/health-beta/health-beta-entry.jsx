@@ -1,27 +1,14 @@
-import 'core-js';
-import '../common';
+import '../../platform/polyfills';
 import '../../sass/rx/rx.scss';
 import '../../sass/user-profile.scss';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import startApp from '../../platform/startup';
 
-import { Router, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
-
-import initReact from '../common/init-react';
 import routes from './routes';
 import reducer from './reducers';
-import initCommon from '../common/init-common';
 
-const commonStore = initCommon(reducer);
-
-function init() {
-  ReactDOM.render((
-    <Provider store={commonStore}>
-      <Router history={browserHistory} routes={routes}/>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
-
-initReact(init);
+// This will need a url when/if it gets turned back on
+startApp({
+  reducer,
+  routes
+});
