@@ -12,7 +12,48 @@ import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';
 
 export class DownloadPage extends React.Component {
-  renderMessageBanner() {
+  renderIncompleteMessage = () => {
+    const outdatedStatuses = this.props.refresh.statuses.incomplete;
+    let alertProps = {
+      headline: 'Parts of your health record may not be current.',
+      content: (<p>Most of your health record should be up to date. But we’re having trouble accessing some of your data right now. Please refresh this page or try again later. If you still don’t see your updated information, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need this information right away, please call your VA health care provider.</p>)
+    };
+
+    if (outdatedStatuses.length === 1) {
+      const { extractType } = outdatedStatuses[0];
+      switch (extractType) {
+        case 'ImagingStudy':
+          alertProps = {
+            headline: 'Your radiology reports may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing data for VA radiology reports right now. Please refresh this page or try again later. If you still don’t see your most recent radiology reports, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need your reports right away, please call your VA health care provider.</p>)
+          };
+          break;
+        case 'ChemistryHematology':
+          alertProps = {
+            headline: 'Your labs and tests information may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing data for VA laboratory results and/or pathology reports right now. Please refresh this page or try again later. If you still don’t see your most recent lab results or pathology reports, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need your reports right away, please call your VA health care provider.</p>)
+          };
+          break;
+        case 'VPR':
+          alertProps = {
+            headline: 'Your VA electronic health record history may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing your VA electronic health record history right now. Please refresh this page or try again later. If you still don’t see your updated history information, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need this information right away, please call your VA health care provider.</p>)
+          };
+          break;
+        case 'DodMilitaryService':
+          alertProps = {
+            headline: 'Your Department of Defense information may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing your Department of Defense (DoD) information right now. Please refresh this page or try again later. If you still don’t see your updated DoD information, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need this information right away, please call your VA health care provider.</p>)
+          };
+          break;
+        default: // Keep default message.
+      }
+    }
+
+    return <AlertBox isVisible status="warning" {...alertProps}/>;
+  }
+
+  renderMessageBanner = () => {
     const { form, refresh } = this.props;
     let alertProps;
 
@@ -23,11 +64,7 @@ export class DownloadPage extends React.Component {
         status: 'error'
       };
     } else if (refresh && !isEmpty(refresh.statuses.incomplete)) {
-      alertProps = {
-        headline: 'Your health records are not up to date',
-        content: (<p>This older version of your health records may have outdated or missing information.</p>),
-        status: 'warning'
-      };
+      return this.renderIncompleteMessage();
     } else if (refresh && !isEmpty(refresh.statuses.failed)) {
       alertProps = {
         headline: 'Couldn’t update your records',
