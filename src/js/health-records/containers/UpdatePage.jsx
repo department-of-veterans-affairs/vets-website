@@ -21,8 +21,8 @@ export class UpdatePage extends React.Component {
     this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const incompleteUpdates = nextProps.refresh.statuses.incomplete;
+  componentDidUpdate() {
+    const incompleteUpdates = this.props.refresh.statuses.incomplete;
     // automatically go to Download page when all statuses have resolved
     // in either success or failure
     if (!incompleteUpdates || incompleteUpdates.length === 0) {
@@ -46,12 +46,14 @@ export class UpdatePage extends React.Component {
   }
 
   render() {
-    const statuses = this.props.refresh.statuses;
-    const completionPercentage = statuses.succeeded.length / (statuses.succeeded.length + statuses.failed.length) * 100;
+    const { statuses } = this.props.refresh;
+    const successes = statuses.succeeded.length;
+    const failures = statuses.failed.length;
+    const completionPercentage = (successes / (successes + failures) * 100) || 0;
 
     return (
-      <div className="updatePage usa-width-one-half medium-6">
-        <ProgressBar percent={completionPercentage || 0}/>
+      <div className="update-page usa-width-one-half medium-6">
+        <ProgressBar percent={completionPercentage}/>
         <h1>Updating your records</h1>
         <p>
           To get the most up-to-date information, please wait for your health records to finish updating. This may take a few minutes.
@@ -66,11 +68,7 @@ export class UpdatePage extends React.Component {
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
-
-  return {
-    refresh: hrState.refresh,
-    form: hrState.form,
-  };
+  return { refresh: hrState.refresh };
 };
 
 const mapDispatchToProps = {

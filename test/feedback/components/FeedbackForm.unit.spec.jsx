@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
-import AlertBox from '../../../src/js/common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 const defaultProps = {
   formValues: {},

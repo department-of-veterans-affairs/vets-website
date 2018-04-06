@@ -62,6 +62,7 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
+    "@department-of-veterans-affairs/jean-pants": "^0.1.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
     "axe-core": "^2.3.1",

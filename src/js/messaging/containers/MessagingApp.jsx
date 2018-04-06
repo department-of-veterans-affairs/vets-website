@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import MHVApp from '../../common/containers/MHVApp';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { mhvAccessError } from '../../common/utils/error-messages';
 import { closeAlert } from '../actions';
@@ -55,9 +55,9 @@ class MessagingApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
+        verify
         serviceRequired="messaging"
-        userProfile={this.props.profile}>
+        user={this.props.user}>
         <DowntimeNotification appTitle="secure messaging tool" dependencies={[services.mhv]}>
           <AppContent>
             <MHVApp>
@@ -90,13 +90,12 @@ MessagingApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const msgState = state.health.msg;
-  const userState = state.user;
 
   return {
     alert: msgState.alert,
-    recipients: msgState.recipients.data,
     loading: msgState.loading,
-    profile: userState.profile
+    recipients: msgState.recipients.data,
+    user: state.user
   };
 };
 

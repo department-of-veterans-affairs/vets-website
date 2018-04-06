@@ -15,7 +15,7 @@ const globalEntryFiles = {
   'no-react': './src/js/no-react-entry.js',
   style: './src/sass/style.scss',
   vendor: [
-    './src/js/common/polyfills',
+    './src/platform/polyfills',
     'history',
     'react',
     'react-dom',

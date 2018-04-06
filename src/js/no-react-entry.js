@@ -1,4 +1,8 @@
-import initCommon from './common/init-common';
+import '../platform/polyfills';
+
+import createCommonStore from '../platform/startup/store';
+import startSitewideComponents from '../platform/site-wide';
+
 import createApplicationStatus from './common/components/createApplicationStatus';
 import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
 
@@ -10,15 +14,11 @@ const eduPages = new Set(['/education/', '/education/apply/', '/education/eligib
 // No-react styles.
 import '../sass/no-react.scss';
 
-import './common';
-
-// Used in the footer.
-import './legacy/menu.js';
-
 // New sidebar menu
 import './legacy/sidebar-navigation.js';
 
-const store = initCommon();
+const store = createCommonStore();
+startSitewideComponents(store);
 
 // if (pensionPages.has(location.pathname)) {
 //   createApplicationStatus(store, {

@@ -35,20 +35,20 @@ function completeVAFacilitiesInformation(client, data) {
 function completeRecordReleaseInformation(client, data) {
   data.treatments.forEach((treatment, i, list) => {
     client
-      .waitForElementVisible(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, Timeouts.normal)
-      .fill(`input[name="root_treatments_${i}_treatment_startTreatmentYear"]`,
+      .waitForElementVisible(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterName"]`, Timeouts.normal)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentYear"]`,
         data.treatments[0].startTreatmentYear)
-      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentMonth`, data.treatments[0].startTreatmentMonth)
-      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentDay`, data.treatments[0].startTreatmentDay)
-      .fill(`input[name="root_treatments_${i}_treatment_endTreatmentYear"]`, data.treatments[0].endTreatmentYear)
-      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentMonth`, data.treatments[0].endTreatmentMonth)
-      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentDay`, data.treatments[0].endTreatmentDay)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, data.treatments[0].treatmentCenterName)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterCountry"]`, data.treatments[0].treatmentCenterCountry)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterCity"]`, data.treatments[0].treatmentCenterCity)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterState"]`, data.treatments[0].treatmentCenterState)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterStreet1"]`, data.treatments[0].treatmentCenterStreet)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterPostalCode"]`, data.treatments[0].treatmentCenterPostalCode);
+      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentMonth`, data.treatments[0].startTreatmentMonth)
+      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentDay`, data.treatments[0].startTreatmentDay)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentYear"]`, data.treatments[0].endTreatmentYear)
+      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentMonth`, data.treatments[0].endTreatmentMonth)
+      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentDay`, data.treatments[0].endTreatmentDay)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterName"]`, data.treatments[0].treatmentCenterName)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterCountry"]`, data.treatments[0].treatmentCenterCountry)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterCity"]`, data.treatments[0].treatmentCenterCity)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterState"]`, data.treatments[0].treatmentCenterState)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterStreet1"]`, data.treatments[0].treatmentCenterStreet)
+      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterPostalCode"]`, data.treatments[0].treatmentCenterPostalCode);
     if (i < list.length - 1) client.click('.va-growable-add-btn');
   });
 }
