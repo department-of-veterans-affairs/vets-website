@@ -68,9 +68,9 @@ export const saveInProgressReducers = {
 
     // if we’re prefilling, we want to use whatever initial data the form has
     if (state.prefillStatus === PREFILL_STATUSES.pending) {
-      let formData = _.merge(state.data, action.data.formData);
+      const formData = _.merge(state.data, action.data.formData);
       if (state.storePrefillStatus) {
-        formData = _.merge(state.data, action.data.formData, { prefilled: true });
+        formData.prefilled = true;
       }
       const loadedData = _.set('formData', formData, action.data);
       newState = _.set('loadedData', loadedData, state);
