@@ -5,7 +5,7 @@ description:
 concurrence: incomplete
 plainlanguage: 
 template: detail-page
-order: 3
+order: 1
 relatedlinks:
   - heading: More information about filing disability claims
     links:
