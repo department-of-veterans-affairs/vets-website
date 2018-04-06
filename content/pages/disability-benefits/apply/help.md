@@ -156,8 +156,3 @@ When you work with an accredited VSO and provide all the needed evidence with yo
 </div>
 </div>
 </div>
-
-</div>
-</div>
-</div>
-</div>
