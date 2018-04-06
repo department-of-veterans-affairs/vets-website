@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Appointment of Veterans Service Organization As Claimant's Representative",
+  "type": "object",
+  "definitions": {
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "properties": {
+    "veteran": {
+      "name": {
+        "$ref": "#/definitions/fullName"
+      },
+      "ssn": {
+        "type": "string"
+      },
+      "vaFileNumber": {
+        "type": "string"
+      },
+      "insuranceNumber": {
+        "type": "string"
+      }
+    },
+    "claimant": {
+      "name": {
+        "$ref": "#/definitions/fullName"
+      },
+      "address": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "phone": {
+        "type": "string",
+        "daytime": {
+          "type": "string"
+        },
+        "evening": {
+          "type": "string"
+        }
+      },
+      "relationship": {
+        "type": "string"
+      }
+    },
+    "appointmentDate": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "organization": {
+      "name": {
+        "$ref": "#/definitions/fullName"
+      },
+      "email": {
+        "type": "string"
+      },
+      "jobTitle": {
+        "type": "string"
+      }
+    },
+    "disclosureExceptions": {
+      "drugAbuse": {
+        "type": "boolean"
+      },
+      "alcoholism": {
+        "type": "boolean"
+      },
+      "hiv": {
+        "type": "boolean"
+      },
+      "sickleCellAnemia": {
+        "type": "boolean"
+      }
+    }
+  }
+}

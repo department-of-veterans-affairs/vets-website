@@ -84,7 +84,6 @@ export function createRoutes(formConfig) {
         urlPrefix: formConfig.urlPrefix
       };
     });
-
   if (formConfig.introduction) {
     routes = [
       {
@@ -519,6 +518,7 @@ export function getPageKeys(pages, formData) {
 
   return expandedPageList.map(page => {
     let pageKey = page.pageKey;
+    console.log(pageKey);
     if (typeof page.index !== 'undefined') {
       pageKey += page.index;
     }
@@ -541,4 +541,3 @@ export function getActiveChapters(formConfig, formData) {
 
   return _.uniq(expandedPageList.map(p => p.chapterKey).filter(key => !!key && key !== 'review'));
 }
-

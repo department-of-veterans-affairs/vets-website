@@ -1,14 +1,13 @@
 // import fullSchema from 'vets-json-schema/dist/21-22-schema.json';
+// import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
-// this is only in use while Graham is building the actual schema, commented out above:
-import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
+import fullSchema from '../2122-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
 import asyncLoader from '../../common/components/asyncLoader';
-import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
@@ -16,31 +15,29 @@ import ssnUI from '../../common/schemaform/definitions/ssn';
 import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
-import fileUploadUI from '../../common/schemaform/definitions/file';
 import { genderLabels } from '../../common/utils/labels';
 import { validateMatch } from '../../common/schemaform/validation';
-import validateFile from '../validation';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 
 const {
   veteranDateOfBirth,
-  veteranSocialSecurityNumber,
-  veteranFullName,
-  email,
-  serviceBranch,
-  photo
-} = fullSchemaVIC.properties;
+  // email,
+  // serviceBranch,
+  // photo
+} = fullSchema.properties;
 
 const {
   fullName,
-  ssn,
   date,
-  phone,
-  gender
-} = fullSchemaVIC.definitions;
+  // phone,
+  gender,
+} = fullSchema.definitions;
+
+const { ssn, vaFileNumber, insuranceNumber } = fullSchema.properties.veteran;
+const { address, email, phone, relationship } = fullSchema.properties.claimant;
+
+console.log("full schema", fullSchema);
+console.log("claimantAddress", address);
+
 
 const formConfig = {
   urlPrefix: '/',
@@ -57,6 +54,14 @@ const formConfig = {
   },
   title: 'Appoint a Veteran Service Officer as your representative',
   defaultDefinitions: {
+    fullName,
+    ssn,
+    vaFileNumber,
+    insuranceNumber,
+    address,
+    email,
+    phone,
+    relationship,
   },
   chapters: {
     veteranInformation: {
@@ -66,22 +71,24 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
-            email: {
-              'ui:title': 'Email address'
-            },
-            'view:confirmEmail': {
-              'ui:title': 'Re-enter email address',
-              'ui:options': {
-                hideOnReview: true
-              }
-            },
+            fullName: fullNameUI,
+            ssn: ssnUI,
+            vaFileNumber: { 'ui:title': 'VA file number'},
+            insuranceNumber: {'ui:title': 'Insurance Number'},
           },
           schema: {
             type: 'object',
-            required: ['email', 'view:confirmEmail'],
+            required: [
+              'fullName',
+              'ssn',
+              'vaFileNumber',
+              'insuranceNumber',
+            ],
             properties: {
-              email,
-              'view:confirmEmail': email,
+              fullName,
+              ssn,
+              vaFileNumber,
+              insuranceNumber,
             }
           }
         }
@@ -94,10 +101,27 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant Information',
           uiSchema: {
+            fullName: fullNameUI,
+            relationship: { 'ui:title': 'Relationship to Veteran (parent, spouse, child, ?)'},
+            // address: ,
+            email: { 'ui:title': 'Email address' },
+            phone: phoneUI,
           },
           schema: {
             type: 'object',
+            required: [
+              'fullName',
+              'address',
+              'email',
+              'phone',
+              'relationship',
+            ],
             properties: {
+              fullName,
+              address,
+              email,
+              phone,
+              relationship,
             }
           }
         }
