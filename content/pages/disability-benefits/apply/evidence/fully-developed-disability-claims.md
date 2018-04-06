@@ -25,7 +25,7 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 
 **You can submit a fully developed disability claim if you're applying for compensation for:**
 - An illness or injury (also called a condition) that was caused by—or got worse because of—your active-duty service, **or**
-- A condition that was caused—or made worse—by a disability we've already determined is service-connected
+- A condition that was caused—or made worse—by a disability we’ve already determined is service-connected
 
 </div>
 </div>
@@ -36,11 +36,11 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**In order for us to consider your claim fully developed, you'll need to:**
+**For us to consider your claim fully developed, you’ll need to:**
 - Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
 - Submit all the evidence (supporting documents) you have—or can easily get—along with your claim, **and**
-- Certify that there's no more evidence we might need to decide on your claim, **and**
-- Go to any VA medical exams required to decide your claim. We'll let you know if we need to schedule any exams.
+- Certify that there’s no more evidence we might need to decide your claim, **and**
+- Go to any VA medical exams required for us to decide your claim. We’ll let you know if you need any exams.
 
 </div>
 </div>
@@ -54,7 +54,7 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 -	All private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
 - Any records of medical treatment you've received for the claimed condition while serving in the military, **and**
 -	Any military personnel records you have that relate to the claimed condition, **and**
-- Information about any related health records that you don't have, but that we can request on your behalf from a federal facility like a VA medical center or clinic
+- Information about any related health records that you don't have but that we can request on your behalf from a federal facility like a VA medical center or clinic
 
 **If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened.
 
@@ -69,7 +69,7 @@ No. Filing a fully developed claim won't affect the attention we give to your cl
 
 If we determine that we need other non-federal records to make a decision on your claim, we'll simply remove the claim from the Fully Developed Claims program and process it as a standard claim. 
 
-Once you start your fully developed claim, you'll have up to one year to complete it. If we approve your claim, you'll be paid back to the day you started it.
+Once you start your fully developed claim, you'll have up to 1 year to complete it. If we approve your claim, you'll be paid back to the day you started it.
 
 <br>
 
@@ -95,7 +95,7 @@ This depends on the type of claim you're filing.
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for added benefits or other benefits requests related to an existing service-connected disability</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for added benefits or other benefit requests related to an existing service-connected disability</button>
 <div id="claim-new" class="usa-accordion-content">
 
 **You'll need to submit:**
@@ -105,7 +105,7 @@ This depends on the type of claim you're filing.
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim providing new evidence to support a disability claim that was denied at least one year ago</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim providing new evidence to support a disability claim that was denied at least 1 year ago</button>
 <div id="claim-reopened" class="usa-accordion-content">
 
 You'll need to submit new evidence that we've never considered before and that's related to the issue you're claiming.
@@ -113,7 +113,7 @@ You'll need to submit new evidence that we've never considered before and that's
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we've already determined to be service-connected and that's gotten worse</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we've already determined to be service connected and that's gotten worse</button>
 <div id="claim-increased" class="usa-accordion-content">
 
 You'll need to submit current medical evidence that shows your disability has gotten worse.
@@ -135,7 +135,7 @@ You'll need to submit current medical evidence that shows your disability has go
 
 <br>
 
-**Find out the additional forms you'll need if you're filing a claim for certain special issues:**
+**Find out which additional forms you'll need if you're filing a claim for these issues:**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -143,10 +143,10 @@ You'll need to submit current medical evidence that shows your disability has go
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="special-umemployable">Individual Unemployability</button>
 <div id="special-umemployable" class="usa-accordion-content">
 
-**You'll need to also submit all of these items:**
-  - A completed Veteran's Application for Increased Compensation Based on Unemployability (VA Form 21-8940), **and**<br>
+**You'll also need to submit all of these items:**
+  - A completed Veteran's Application for Increased Compensation Based on Unemployability (VA Form 21-8940)<br>
   [(Download VA Form 21-8940)](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf)
-  - A completed Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192), completed by your last employer, **and**<br>
+  - A completed Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192), completed by your last employer<br>
   [(Download VA Form 21-4192)](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf)
   - Medical evidence that a service-connected disability prevents you from getting or keeping substantially gainful employment (work that brings in enough money to earn a livelihood)
 
@@ -156,10 +156,11 @@ You'll need to submit current medical evidence that shows your disability has go
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="special-ptsd">PTSD (posttraumatic stress disorder)</button>
 <div id="special-ptsd" class="usa-accordion-content">
 
-**You'll need to also submit one of these forms:**
-  - A completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781), **or**<br>
-  [(Download VA Form 21-0781)](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.pdf)
-  - **If you're claiming PTSD based on personal assault**, a completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
+**You'll also need to submit 1 of these forms:**
+  - A completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781), <br>
+  [(Download VA Form 21-0781)](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.pdf)<br>
+  **or**<br>
+  - If you're claiming PTSD based on personal assault, a completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
   [(Download VA Form 21-0781a)](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
 
 </div>
@@ -177,24 +178,24 @@ You'll need to submit current medical evidence that shows your disability has go
 
 <br>
 
-### Can VA help me at all with gathering evidence?
+### Can VA help me gather evidence?
 
-Yes.
+Yes. We can help you through the Fully Developed Claims program.
 
-**Under the Fully Developed Claims program, we can:** 
-- Request your military service records with your permission, **and**
+**We'll:** 
+- Request your military service records (with your permission), **and**
 - Request relevant Social Security benefits information and medical records that you identify and authorize us to get from a federal facility, like a VA medical center, **and**
-- Schedule a health exam or get a medical opinion from a health care provide for you, if we decide we need it for your claim
+- Schedule a health exam for you or get a medical opinion from a health care provider if we decide we need it for your claim
 
-**Note:** Even though we'll gather federal records on your behalf, like your DD214 or VA medical records, we encourage you to submit these if you have them to save time in the process.
+**Note:** Even though we'll gather federal records (like your DD214 or VA medical records) on your behalf, we encourage you to submit these if you have them to save time in the process.
 
 <br>
 
 ### When should I turn in my evidence? 
 
-To submit your claim through the Fully Developed Claims program, you’ll need to turn in the information and evidence at the same time you file your claim.
+To submit your claim through the Fully Developed Claims program, you’ll need to turn in the information and evidence at the same time as you file your claim.
 
-**Note:** If you turn in more information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before one year from the date we receive the claim, you’ll have the rest of that one-year period to turn in additional information or evidence to support your claim.
+**Note:** If you turn in more information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
 
 <br>
 
