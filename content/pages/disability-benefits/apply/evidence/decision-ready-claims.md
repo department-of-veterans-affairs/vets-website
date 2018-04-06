@@ -40,7 +40,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **[Dependency and indemnity compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran 
+- **[Dependency and Indemnity Compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran 
 - **Pre-discharge claim** for disability compensation less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
@@ -76,13 +76,13 @@ You can't file your claim through the Decision Ready Claims program if any of th
 <h4>Exclusions for all Decision Ready Claims</h4>
 
 **None of these can be true. You can't file:**
-- A claim for a previously denied condition, **or**
-- A claim for a disability incurred during a prior period of active duty for training or inactive duty for training, unless you are a Service member filing a VA claim prior to discharge, **or**
+- A claim for a condition that's already been denied, **or**
+- A claim for a disability you got during an earlier period of active duty for training or inactive duty for training, unless you're a Servicemember filing a VA claim before discharge, **or**
 - A claim for pension benefits, **or**
 - For Chapter 18 (Spina Bifida) or any other birth defects for dependent children, **or**
 - A restricted access claim (includes VBA employees, relatives of VBA employees, National Service Officers, or high-ranking government officials), **or**
 - A direct service connection DRC for posttraumatic stress disorder (PTSD), traumatic brain injury (TBI), Camp Lejeune contaminated water (CLCW), and conditions related to mustard gas or as a former prisoner of war (FPOW)<br>
-**Exception:** Pre-discharge claims involving PTSD, and/or TBI may be processed under the Decision Ready Claims program if an in-service diagnosis has been documented on examination.
+**Exception:** Pre-discharge claims involving PTSD and/or TBI may be processed under the Decision Ready Claims program if an in-service diagnosis has been documented on examination.
 
 **And none of these can be true. You can't be:**
 - Waiting for a decision on a pending disability claim, unless the claim was submitted via the Benefits Delivery at Discharge (BDD) program, **or**
@@ -93,9 +93,9 @@ You can't file your claim through the Decision Ready Claims program if any of th
 - Submitting a Decision Ready Claims application without a Veteran signature
 
 **And none of these can be true. You can't be:**
-- Rated at 100% for your condition
-- An incarcerated Veteran
-- Living outside of the U.S.
+- Rated at 100% for your condition, **or**
+- An incarcerated Veteran, **or**
+- Living outside the U.S.
 
 </div>
 </div>
@@ -120,7 +120,7 @@ You can't file your pre-discharge claim through the DRC program if any of the be
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-dic">More exclusions for dependency and indemnity compensation (DIC) claims</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-dic">More exclusions for Dependency and Indemnity Compensation (DIC) claims</button>
 <div id="exclusions-dic" class="usa-accordion-content">
 
 You can't file your DIC claim through the DRC program if any of the below factors are true for you.
@@ -143,23 +143,23 @@ You'll need to follow the steps below. When you work with an accredited VSO and 
 
 <ol class="process">
   <li class="process-step list-one"><strong>Appoint and work with an accredited VSO</strong><br>
-    Accredited VSOs are fully trained on the DRC Program. They can help you determine if a DRC is right for you.<br>
+    Accredited VSOs are fully trained on the DRC program. They can help you determine if a DRC is right for you.<br>
     <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits to find a VSO near you</a>.
     </li>  
   <li class="process-step list-two"><strong>Gather all relevant and required evidence to support your claim</strong><br>
     This includes your federal and medical records as well as any needed Disability Benefits Questionnaires (DBQs). Your VSO will help you gather everything you need.
     </li>
-  <li class="process-step list-three"><strong>Attend a VA claim exam, if needed</strong><br>
-    Your VSO can request a VA claim exam for you. This exam is also sometimes called a compensation & pension (C&P) exam. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can then be included along with your application.
+  <li class="process-step list-three"><strong>Attend a VA claim exam if needed</strong><br>
+    Your VSO can request a VA claim exam for you. This exam is sometimes called a compensation & pension (C&P) exam. You'll then work with a VA partner to quickly schedule an exam at a time that works best for you. The results of your exam can be included along with your application.
     </li>
-  <li class="process-step list-three"><strong>Submit your claim</strong><br>
-    Your VSO will check to make sure your application includes all of the needed information and help you electronically submit your claim. Giving us all the relevant evidence when you submit your DRC allows us to send your claim directly to a VA Rating Specialist for a decision.
+  <li class="process-step list-four"><strong>Submit your claim</strong><br>
+    Your VSO will check to make sure your application includes all the needed information and help you electronically submit your claim. Giving us all the relevant evidence when you submit your DRC allows us to send your claim directly to a VA Rating Specialist for a decision.
     </li>  
 </ol>
 
 ### When can I expect a decision on my DRC?
 
-Within 30 days or less from the time you submit your claim.
+You can expect a decision within 30 days or less from the time you submit your claim.
 
 ### More questions about the Decision Ready Claims program
 
@@ -169,7 +169,7 @@ Within 30 days or less from the time you submit your claim.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-vso">How do I find an accredited VSO?</button>
 <div id="more-vso" class="usa-accordion-content">
  
-**You can find a or a VSO in 1 of 2 ways:**
+**You can find an accredited VSO in 1 of 2 ways:**
 - Go to eBenefits to find a local VSO by state/territory, zip code, or the organization’s name.<br>
 <a href="https://www.ebenefits.va.gov/ebenefits/vso-search">Go to eBenefits</a>.
 - Or search the VA Office of the General Counsel’s list to find a VSO representative name, city, state, or zip code.<br>
@@ -207,7 +207,7 @@ Within 30 days or less from the time you submit your claim.
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf">Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet</a><br>
 <br>
 
-Or, reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+Reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </li>
