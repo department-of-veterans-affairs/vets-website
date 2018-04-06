@@ -67,7 +67,7 @@ A Veteran filed a disability claim that included prior treatment from a private 
 
 You’ll need to turn in the information and evidence as soon as you can.
 
-You have up to one year from the date we receive your claim to turn in any information and evidence. If we decide your claim before this, you’ll have the rest of the one-year period to turn in more information or evidence to support your claim.
+You have up to 1 year from the date we receive your claim to turn in any information and evidence. If we decide your claim before this, you’ll have the rest of the one-year period to turn in more information or evidence to support your claim.
 
 <br>
 
