@@ -9,7 +9,7 @@ import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 
-import BetaApp, { features } from '../../../common/containers/BetaApp';
+import BetaApp, { features } from '../../beta-enrollment/containers/BetaApp';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import DowntimeNotification, { services } from '../../../common/containers/DowntimeNotification';
 

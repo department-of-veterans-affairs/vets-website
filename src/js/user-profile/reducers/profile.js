@@ -21,7 +21,7 @@ import {
 
 import {
   REGISTER_SERVICE
-} from '../../beta-enrollment/actions';
+} from '../../personalization/beta-enrollment/actions';
 
 const MAX_POLL_TIMES = 10;
 

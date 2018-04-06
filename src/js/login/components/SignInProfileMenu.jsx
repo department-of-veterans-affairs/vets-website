@@ -3,7 +3,7 @@ import React from 'react';
 
 import DropDown from '../../common/components/DropDown';
 import IconUser from '../../common/components/svgicons/IconUser';
-import { features } from '../../common/containers/BetaApp';
+import { features } from '../../personalization/beta-enrollment/containers/BetaApp';
 import BetaDropdown from './BetaDropdown';
 
 import { logout } from '../utils/helpers';
