@@ -34,7 +34,8 @@ function checkStatus(guid) {
     headers.Authorization = `Token token=${userToken}`;
   }
   return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    headers
+    headers,
+    mode: 'cors'
   })
     .then(res => {
       if (res.ok) {
@@ -101,9 +102,10 @@ export function submit(form, formConfig) {
   const body = transform(formConfig, form);
 
   return fetch(`${environment.API_URL}/v0/pension_claims`, {
-    method: 'POST',
+    body,
     headers,
-    body
+    method: 'POST',
+    mode: 'cors'
   }).then((res) => {
     if (res.ok) {
       return res.json();
