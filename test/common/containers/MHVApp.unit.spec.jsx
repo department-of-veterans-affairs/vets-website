@@ -15,6 +15,8 @@ describe('<MHVApp>', () => {
       polledTimes: 0,
       state: 'unknown'
     },
+    availableServices: ['facilities', 'hca', 'user-profile'],
+    serviceRequired: 'rx',
     terms: {
       accepted: false,
       errors: null,
@@ -64,7 +66,7 @@ describe('<MHVApp>', () => {
     expect(wrapper.find('AcceptTermsPrompt').exists()).to.be.true;
   });
 
-  it('should create an account if the app is not accessible', () => {
+  it('should create an account if the user does not have an account', () => {
     shallow(<MHVApp {...props}/>);
     expect(props.createMHVAccount.calledOnce).to.be.true;
   });
@@ -112,6 +114,21 @@ describe('<MHVApp>', () => {
   it('should show MHV access error if nothing is loading and terms do not have to be accepted', () => {
     const wrapper = shallow(<MHVApp {...props}/>);
     expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
+  });
+
+  it('should show MHV access error if user has an account but not the required service', () => {
+    const newProps = set('account.state', 'existing', props);
+    const wrapper = shallow(<MHVApp {...newProps}/>);
+    expect(wrapper.find('#mhv-access-error').exists()).to.be.true;
+  });
+
+  it('should render children if user has the required service', () => {
+    const newProps = merge(props, {
+      account: { state: 'existing' },
+      availableServices: ['rx']
+    });
+    const wrapper = shallow(<MHVApp {...newProps}><div id="test"/></MHVApp>);
+    expect(wrapper.find('#test').exists()).to.be.true;
   });
 
   it('should show account error', () => {
