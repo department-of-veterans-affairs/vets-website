@@ -5,7 +5,8 @@ import {
   fetchVaProfile,
   saveField,
   updateFormField,
-  openModal
+  openModal,
+  clearErrors
 } from '../actions';
 
 import BetaApp, { features } from '../../../common/containers/BetaApp';
@@ -35,7 +36,8 @@ class UserProfileApp extends React.Component {
                   currentlyOpen: this.props.profile.modal,
                   formFields: this.props.profile.formFields,
                   pendingSaves: this.props.profile.pendingSaves,
-                  errors: this.props.profile.errors
+                  errors: this.props.profile.errors,
+                  clearErrors: this.props.clearErrors
                 }}/>
             </DowntimeNotification>
           </BetaApp>
@@ -55,7 +57,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   const actions = bindActionCreators({
     fetchVaProfile,
-    openModal
+    openModal,
+    clearErrors
   }, dispatch);
 
   actions.updateActions = bindActionCreators(saveField, dispatch);

@@ -48,8 +48,8 @@ class DashboardApp extends React.Component {
               removeSavedForm={this.props.removeSavedForm}
               savedForms={this.props.profile.savedForms}/>
             <ClaimsAppealsWidget/>
-            <PrescriptionsWidget/>
             <MessagingWidget/>
+            <PrescriptionsWidget/>
           </div>
         </div>
       </div>
@@ -73,9 +73,10 @@ class DashboardApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const userState = state.user;
   return {
-    user: state.user,
-    profile: state.user.profile
+    profile: userState.profile,
+    user: userState
   };
 };
 

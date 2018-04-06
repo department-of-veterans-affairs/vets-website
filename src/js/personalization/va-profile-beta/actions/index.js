@@ -13,10 +13,6 @@ export const SAVE_MAILING_ADDRESS = 'SAVE_MAILING_ADDRESS';
 export const SAVE_MAILING_ADDRESS_FAIL = 'SAVE_MAILING_ADDRESS_FAIL';
 export const SAVE_MAILING_ADDRESS_SUCCESS = 'SAVE_MAILING_ADDRESS_SUCCESS';
 
-export const SAVE_RESIDENTIAL_ADDRESS = 'SAVE_RESIDENTIAL_ADDRESS';
-export const SAVE_RESIDENTIAL_ADDRESS_FAIL = 'SAVE_RESIDENTIAL_ADDRESS_FAIL';
-export const SAVE_RESIDENTIAL_ADDRESS_SUCCESS = 'SAVE_RESIDENTIAL_ADDRESS_SUCCESS';
-
 export const SAVE_PRIMARY_PHONE = 'SAVE_PRIMARY_PHONE';
 export const SAVE_PRIMARY_PHONE_FAIL = 'SAVE_PRIMARY_PHONE_FAIL';
 export const SAVE_PRIMARY_PHONE_SUCCESS = 'SAVE_PRIMARY_PHONE_SUCCESS';
@@ -28,6 +24,8 @@ export const SAVE_ALTERNATE_PHONE_SUCCESS = 'SAVE_ALTERNATE_PHONE_SUCCESS';
 export const SAVE_EMAIL_ADDRESS = 'SAVE_EMAIL_ADDRESS';
 export const SAVE_EMAIL_ADDRESS_FAIL = 'SAVE_EMAIL_ADDRESS_FAIL';
 export const SAVE_EMAIL_ADDRESS_SUCCESS = 'SAVE_EMAIL_ADDRESS_SUCCESS';
+
+export const CLEAR_PROFILE_ERRORS = 'CLEAR_PROFILE_ERRORS';
 
 function updateProfileFormField(field, validator) {
   return (value, dirty) => {
@@ -43,17 +41,13 @@ function updateProfileFormField(field, validator) {
   };
 }
 
-// @todo once the endpoints are built we can actually send an API request.
-function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction) {
+function saveFieldHandler(apiRoute, requestStartAction, requestSuccessAction, requestFailAction) {
   return fieldValue => {
     return dispatch => {
       dispatch({ type: requestStartAction });
-
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(dispatch({ type: requestSuccessAction, newValue: fieldValue }));
-        }, 2000);
-      });
+      return apiRequest(apiRoute, { method: 'post', body: JSON.stringify(fieldValue) })
+        .then(() => dispatch({ type: requestSuccessAction, newValue: fieldValue }))
+        .catch(() => dispatch({ type: requestFailAction }));
     };
   };
 }
@@ -65,7 +59,9 @@ async function sendProfileRequests() {
     ['primaryTelephone', '/profile/primary_phone'],
     ['alternateTelephone', '/profile/alternate_phone'],
     ['mailingAddress', '/profile/mailing_address'],
-    ['serviceHistory', '/profile/service_history']
+    ['serviceHistory', '/profile/service_history'],
+    ['personalInformation', '/profile/personal_information'],
+    ['userFullName', '/profile/full_name']
   ];
 
   /* eslint-disable no-await-in-loop */
@@ -81,24 +77,12 @@ async function sendProfileRequests() {
   return result;
 }
 
-function combineWithMockData(profile, realData) {
-  return {
-    ...realData,
-    userFullName: profile.userFullName,
-    dob: profile.dob,
-    gender: profile.gender,
-    ssn: 'XXXXX1232'
-  };
-}
-
 export function fetchVaProfile() {
-  return async (dispatch, getState) => {
-    const { user: { profile } } = getState();
+  return async (dispatch) => {
     dispatch({ type: FETCH_VA_PROFILE });
     try {
       const vaProfile = await sendProfileRequests();
-      const withMocked = combineWithMockData(profile, vaProfile);
-      dispatch({ type: FETCH_VA_PROFILE_SUCCESS, newState: withMocked });
+      dispatch({ type: FETCH_VA_PROFILE_SUCCESS, newState: vaProfile });
     } catch (err) {
       dispatch({ type: FETCH_VA_PROFILE_FAIL });
     }
@@ -126,26 +110,30 @@ export const updateFormField = {
 
 export const saveField = {
   updateEmailAddress: saveFieldHandler(
-    '/v0/email',
+    '/profile/email',
     SAVE_EMAIL_ADDRESS,
     SAVE_EMAIL_ADDRESS_SUCCESS,
     SAVE_EMAIL_ADDRESS_FAIL),
 
   updatePrimaryPhone: saveFieldHandler(
-    '/v0/phone/primary',
+    '/profile/primary_phone',
     SAVE_PRIMARY_PHONE,
     SAVE_PRIMARY_PHONE_SUCCESS,
     SAVE_PRIMARY_PHONE_FAIL),
 
   updateAlternatePhone: saveFieldHandler(
-    '/v0/phone/alternate',
+    '/profile/alternate_phone',
     SAVE_ALTERNATE_PHONE,
     SAVE_ALTERNATE_PHONE_SUCCESS,
     SAVE_ALTERNATE_PHONE_FAIL),
 
   updateMailingAddress: saveFieldHandler(
-    '/v0/address/mailing',
+    '/profile/mailing_address',
     SAVE_MAILING_ADDRESS,
     SAVE_MAILING_ADDRESS_SUCCESS,
     SAVE_MAILING_ADDRESS_FAIL)
 };
+
+export function clearErrors() {
+  return { type: CLEAR_PROFILE_ERRORS };
+}

@@ -21,7 +21,9 @@ import {
 
   OPEN_MODAL,
 
-  UPDATE_PROFILE_FORM_FIELD
+  UPDATE_PROFILE_FORM_FIELD,
+
+  CLEAR_PROFILE_ERRORS
 } from '../actions';
 
 const initialState = {
@@ -77,26 +79,22 @@ function vaProfile(state = initialState, action) {
 
     case SAVE_EMAIL_ADDRESS_SUCCESS: {
       const email = action.newValue;
-      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_EMAIL_ADDRESS);
-      return { ...state, email, pendingSaves, modal: null };
+      return { ...state, email, pendingSaves: [], modal: null };
     }
 
     case SAVE_PRIMARY_PHONE_SUCCESS: {
       const primaryTelephone = action.newValue;
-      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_PRIMARY_PHONE);
-      return { ...state, primaryTelephone, pendingSaves, modal: null };
+      return { ...state, primaryTelephone, pendingSaves: [], modal: null };
     }
 
     case SAVE_ALTERNATE_PHONE_SUCCESS: {
       const alternateTelephone = action.newValue;
-      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_ALTERNATE_PHONE);
-      return { ...state, alternateTelephone, pendingSaves, modal: null };
+      return { ...state, alternateTelephone, pendingSaves: [], modal: null };
     }
 
     case SAVE_MAILING_ADDRESS_SUCCESS: {
       const mailingAddress = action.newValue;
-      const pendingSaves = state.pendingSaves.filter(p => p !== SAVE_MAILING_ADDRESS);
-      return { ...state, mailingAddress, pendingSaves, modal: null };
+      return { ...state, mailingAddress, pendingSaves: [], modal: null };
     }
 
     case SAVE_EMAIL_ADDRESS_FAIL:
@@ -104,8 +102,11 @@ function vaProfile(state = initialState, action) {
     case SAVE_ALTERNATE_PHONE_FAIL:
     case SAVE_MAILING_ADDRESS_FAIL: {
       const errors = state.errors.concat(action.type);
-      return { ...state, errors };
+      return { ...state, pendingSaves: [], errors };
     }
+
+    case CLEAR_PROFILE_ERRORS:
+      return { ...state, errors: [] };
 
     default:
       return state;

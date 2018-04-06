@@ -1,7 +1,8 @@
 import React from 'react';
 
-class DashboardRedirect extends React.Component {
+import { logout } from '../utils/helpers';
 
+class BetaDropdown extends React.Component {
   componentDidMount() {
     // If when this component is mounted the user is on the index page without the "next" parameter in the URL...
     if (window.location.pathname === '/' && !window.location.search) {
@@ -27,10 +28,16 @@ class DashboardRedirect extends React.Component {
   redirectToDashboard() {
     window.location.replace('/dashboard-beta');
   }
-
   render() {
-    return <span></span>;
+    return (
+      <ul>
+        <li><a href="/dashboard-beta">Dashboard</a></li>
+        <li><a href="/profile-beta">Profile</a></li>
+        <li><a href="/account-beta">Account</a></li>
+        <li><a href="#" onClick={logout}>Sign Out</a></li>
+      </ul>
+    );
   }
 }
 
-export default DashboardRedirect;
+export default BetaDropdown;
