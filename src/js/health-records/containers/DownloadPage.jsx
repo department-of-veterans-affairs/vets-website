@@ -14,9 +14,7 @@ import { openModal, closeModal } from '../actions/modal';
 export class DownloadPage extends React.Component {
   renderMessageBanner() {
     const { form, refresh } = this.props;
-    const alertProps = {
-      isVisible: true,
-    };
+    let alertProps;
 
     if (!form.ready) {
       alertProps = {
@@ -31,9 +29,11 @@ export class DownloadPage extends React.Component {
         status: 'warning'
       };
     } else if (refresh && !isEmpty(refresh.statuses.failed)) {
-      alertProps.headline = (<h4>Couldn’t update your records</h4>);
-      alertProps.content = (<p>Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.</p>);
-      alertProps.status = 'warning';
+      alertProps = {
+        headline: 'Couldn’t update your records',
+        content: (<p>Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.</p>),
+        status: 'warning'
+      };
     } else {
       alertProps = {
         headline: 'Your records are ready to download',
