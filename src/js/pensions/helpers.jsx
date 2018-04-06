@@ -1,6 +1,7 @@
 import React from 'react';
+import Raven from 'raven-js';
 import moment from 'moment';
-
+import environment from '../common/helpers/environment.js';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 function replacer(key, value) {
@@ -32,7 +33,7 @@ function checkStatus(guid) {
   if (userToken) {
     headers.Authorization = `Token token=${userToken}`;
   }
-  return fetch(`${environment.API_URL}/v0/vic/vic_submissions/${guid}`, {
+  return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
     headers
   })
     .then(res => {
@@ -44,7 +45,7 @@ function checkStatus(guid) {
     }).catch(res => {
       if (res instanceof Error) {
         Raven.captureException(res);
-        Raven.captureMessage('vets_vic_poll_client_error');
+        Raven.captureMessage('vets_pension_poll_client_error');
 
         // keep polling because we know they submitted earlier
         // and this is likely a network error
@@ -55,6 +56,8 @@ function checkStatus(guid) {
       return Promise.reject(res);
     });
 }
+
+const POLLING_INTERVAL = 1000;
 
 function pollStatus(guid, onDone, onError) {
   setTimeout(() => {
@@ -73,6 +76,17 @@ function pollStatus(guid, onDone, onError) {
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
+function transform(formConfig, form) {
+  const formData = transformForSubmit(formConfig, form, replacer);
+  return JSON.stringify({
+    pensionClaim: {
+      form: formData
+    },
+    // can’t use toISOString because we need the offset
+    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
+  });
+}
+
 export function submit(form, formConfig) {
   const userToken = window.sessionStorage.userToken;
   const headers = {
@@ -84,7 +98,7 @@ export function submit(form, formConfig) {
     headers.Authorization = `Token token=${userToken}`;
   }
 
-  const body = transform(form, formConfig);
+  const body = transform(formConfig, form);
 
   return fetch(`${environment.API_URL}/v0/pension_claims`, {
     method: 'POST',
@@ -101,30 +115,19 @@ export function submit(form, formConfig) {
       window.dataLayer.push({
         event: `${formConfig.trackingPrefix}-submission-successful`,
       });
-      resolve(response);
-    }, reject);
+      return response;
+    }, error => Promise.reject(error));
   }).catch(respOrError => {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_pensions');
         error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
 
-        reject(error);
+        Promise.reject(error);
         return;
       }
     }
-    reject(respOrError);
-  });
-}
-
-function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, replacer);
-  return JSON.stringify({
-    pensionClaim: {
-      form: formData
-    },
-    // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ')
+    Promise.reject(respOrError);
   });
 }
 
