@@ -4,13 +4,13 @@ import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../common/utils/validations';
+import { submit } from '../helpers';
 
 import * as address from '../../common/schemaform/definitions/address';
 import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import {
-  transform,
   employmentDescription,
   getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
@@ -176,9 +176,8 @@ function createSpouseLabelSelector(nameTemplate) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/pension_claims',
+  submit,
   trackingPrefix: 'pensions-527EZ-',
-  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',

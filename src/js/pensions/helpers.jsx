@@ -22,7 +22,102 @@ function replacer(key, value) {
   return value;
 }
 
-export function transform(formConfig, form) {
+function checkStatus(guid) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+  return fetch(`${environment.API_URL}/v0/vic/vic_submissions/${guid}`, {
+    headers
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res);
+    }).catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_vic_poll_client_error');
+
+        // keep polling because we know they submitted earlier
+        // and this is likely a network error
+        return Promise.resolve();
+      }
+
+      // if we get here, it's likely that we hit a server error
+      return Promise.reject(res);
+    });
+}
+
+function pollStatus(guid, onDone, onError) {
+  setTimeout(() => {
+    checkStatus(guid)
+      .then(res => {
+        if (!res || res.data.attributes.state === 'pending') {
+          pollStatus(guid, onDone, onError);
+        } else if (res.data.attributes.state === 'success') {
+          onDone(res.data.attributes.response);
+        } else {
+          // needs to start with this string to get the right message on the form
+          throw new Error(`vets_server_error_pensions: status ${res.data.attributes.state}`);
+        }
+      })
+      .catch(onError);
+  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
+}
+
+export function submit(form, formConfig) {
+  const userToken = window.sessionStorage.userToken;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Key-Inflection': 'camel',
+  };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
+
+  const body = transform(form, formConfig);
+
+  return fetch(`${environment.API_URL}/v0/pension_claims`, {
+    method: 'POST',
+    headers,
+    body
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res);
+  }).then(resp => {
+    const guid = resp.data.id;
+    pollStatus(guid, response => {
+      window.dataLayer.push({
+        event: `${formConfig.trackingPrefix}-submission-successful`,
+      });
+      resolve(response);
+    }, reject);
+  }).catch(respOrError => {
+    if (respOrError instanceof Response) {
+      if (respOrError.status === 429) {
+        const error = new Error('vets_throttled_error_pensions');
+        error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+        reject(error);
+        return;
+      }
+    }
+    reject(respOrError);
+  });
+}
+
+function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
     pensionClaim: {
