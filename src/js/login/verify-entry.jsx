@@ -17,6 +17,6 @@ startSitewideComponents(store);
 
 startReactApp(
   <Provider store={store}>
-    <Main renderType="verifyPage" shouldRedirect/>
+    <Main renderType="verifyPage"/>
   </Provider>
 );

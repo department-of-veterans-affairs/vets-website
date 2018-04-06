@@ -20,7 +20,7 @@ class Verify extends React.Component {
   }
 
   checkAccountAccess() {
-    if (this.props.profile.verified && this.props.shouldRedirect) {
+    if (this.props.profile.verified) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
       window.location.replace(nextPath || '/');
@@ -74,7 +74,6 @@ class Verify extends React.Component {
 }
 
 Verify.propTypes = {
-  shouldRedirect: PropTypes.bool,
   profile: PropTypes.object,
 };
 

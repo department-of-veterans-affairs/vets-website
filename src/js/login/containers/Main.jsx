@@ -110,7 +110,6 @@ class Main extends React.Component {
         content = this.props.profile.loading ?
           (<LoadingIndicator message="Loading the application..."/>) :
           (<Verify
-            shouldRedirect={this.props.shouldRedirect}
             login={this.props.login}
             profile={this.props.profile}/>);
         break;
@@ -154,7 +153,6 @@ Main.propTypes = {
     'navComponent',
     'verifyPage',
   ]).isRequired,
-  shouldRedirect: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
