@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import MHVApp from '../../common/containers/MHVApp';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';

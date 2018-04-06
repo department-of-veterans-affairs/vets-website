@@ -1,25 +1,22 @@
-import '../common';
+import '../../platform/polyfills';
 import '../../sass/login.scss';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 import { Provider } from 'react-redux';
 
-import initCommon from '../common/init-common';
-import initReact from '../common/init-react';
+import startReactApp from '../../platform/startup/react';
+import createCommonStore from '../../platform/startup/store';
+import startSitewideComponents from '../../platform/site-wide';
 
 import reducer from './reducers/login';
 import Main from './containers/Main';
 
-const store = initCommon(reducer);
+const store = createCommonStore(reducer);
 
-function init() {
-  ReactDOM.render((
-    <Provider store={store}>
-      <Main renderType="verifyPage" shouldRedirect/>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
+startSitewideComponents(store);
 
-initReact(init);
+startReactApp(
+  <Provider store={store}>
+    <Main renderType="verifyPage" shouldRedirect/>
+  </Provider>
+);
