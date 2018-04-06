@@ -8,6 +8,9 @@ import { withRouter } from 'react-router';
 import { focusElement } from '../../../common/utils/helpers';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
+
+import SaveFormLink from '../../../common/schemaform/save-in-progress/SaveFormLink';
+import SaveStatus from '../../../common/schemaform/save-in-progress/SaveStatus';
 import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
 import { toggleLoginModal } from '../../../login/actions';
 import { getNextPagePath, getPreviousPagePath } from '../../../common/schemaform/routing';
@@ -80,13 +83,13 @@ class VerifiedReviewPage extends React.Component {
   }
 
   render() {
-    const { form, contentAfterButtons, formContext, route } = this.props;
-    const { chapterReviewTitle, chapterKey, description, pageKey } = route.pageConfig;
+    const { form, user, formContext, route } = this.props;
+    const { chapterReviewTitle, chapterKey, pageKey } = route.pageConfig;
     const page = formConfig.chapters[chapterKey].pages[pageKey];
 
     return (
       <div>
-        {description && <p>{description}</p>}
+        <p>Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.</p>
         <div className="input-section">
           <div>
             <ReviewCollapsiblePage
@@ -103,6 +106,7 @@ class VerifiedReviewPage extends React.Component {
               form={form}/>
           </div>
         </div>
+        {page.contentBeforeButtons}
         <div className="row form-progress-buttons schemaform-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
@@ -120,7 +124,20 @@ class VerifiedReviewPage extends React.Component {
               afterText="»"/>
           </div>
         </div>
-        {contentAfterButtons}
+        <div>
+          <SaveStatus
+            isLoggedIn={user.login.currentlyLoggedIn}
+            showLoginModal={user.login.showModal}
+            toggleLoginModal={this.props.toggleLoginModal}
+            form={form}>
+          </SaveStatus>
+          <SaveFormLink
+            locationPathname={this.props.location.pathname}
+            form={form}
+            user={user}
+            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+            toggleLoginModal={this.props.toggleLoginModal}/>
+        </div>
       </div>
     );
   }
@@ -128,7 +145,8 @@ class VerifiedReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    user: state.user
   };
 }
 

@@ -7,6 +7,8 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 import { genderLabels } from '../../common/utils/labels';
 
+import VerifiedReviewPage from './components/VerifiedReviewPage';
+
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
 
@@ -321,4 +323,62 @@ export const veteranInformationViewField = ({ formData }) => {
       <DateOfBirthViewField formData={formData.dateOfBirth}/>
     </div>
   );
+};
+
+const lowerCaseFirstLetter = (word) => word[0].toLowerCase().concat(word.slice(1));
+
+const lowerCaseAll = (words) => words.map(word => lowerCaseFirstLetter(word));
+
+const camelize = (words) => {
+  const word = words[0];
+  const rest = words.slice(1).join('');
+  return lowerCaseFirstLetter(word).concat(rest);
+};
+
+const kebabize = (words) => {
+  return lowerCaseAll(words).join('-');
+};
+
+const getVerifiedPairPageNames = (chapterTitleWords) => {
+  const unverifiedPageName = camelize(chapterTitleWords);
+  chapterTitleWords.unshift('review');
+  const verifiedPageName = camelize(chapterTitleWords);
+  return { unverifiedPageName, verifiedPageName };
+};
+
+const getVerifiedPairPagePaths = (chapterTitleWords) => {
+  const unverifiedPagePath = kebabize(chapterTitleWords);
+  chapterTitleWords.unshift('review');
+  const verifiedPagePath = kebabize(chapterTitleWords);
+  return { unverifiedPagePath, verifiedPagePath };
+};
+
+export const getVerifiedChapterPair = (chapterConfig) => {
+  const { chapterTitle, isReview, ...rest } = chapterConfig;
+  const chapterTitleWords = chapterTitle.split(' ');
+  const { verifiedPageName, unverifiedPageName } = getVerifiedPairPageNames(chapterTitleWords.slice(0));
+  const { verifiedPagePath, unverifiedPagePath } = getVerifiedPairPagePaths(chapterTitleWords.slice(0));
+  const reviewString = isReview ? 'Review ' : '';
+  const reviewTitle = isReview ? chapterTitle : undefined;
+  const pageTitle = chapterTitle;
+  const pagePath = isReview ? verifiedPagePath : unverifiedPagePath;
+  const pageComponent = isReview ? VerifiedReviewPage : undefined;
+  const verifiedDepends = ({ prefilled }) => !!prefilled;
+  const unverifiedDepends = ({ prefilled }) => !prefilled;
+  const depends = isReview ? verifiedDepends : unverifiedDepends;
+  const pageName = isReview ? verifiedPageName : unverifiedPageName;
+
+  return {
+    title: `${reviewString}${chapterTitle}`,
+    reviewTitle,
+    pages: {
+      [pageName]: {
+        title: `${reviewString}${pageTitle}`,
+        path: pagePath,
+        component: pageComponent,
+        depends,
+        ...rest
+      }
+    }
+  };
 };

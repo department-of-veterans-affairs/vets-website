@@ -73,17 +73,14 @@ export default class ReviewCollapsiblePage extends React.Component {
   }
 
   render() {
-    const { page, chapter, formContext, fullPageKey, form } = this.props;
+    const { page, formContext, fullPageKey, form } = this.props;
     page.pageKey = fullPageKey;
     const pageState = form.pages[page.pageKey];
     const editing = pageState.editMode;
-    const ChapterDescription = chapter.reviewDescription;
     const pageData = form.data;
 
     const pageContent = (
       <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
-        {ChapterDescription &&
-        <ChapterDescription/>}
         <div key={`${fullPageKey}`} className={'form-review-panel-page'}>
           <Element name={`${fullPageKey}ScrollElement`}/>
           {page.verifiedReviewComponent && !editing &&
@@ -91,7 +88,7 @@ export default class ReviewCollapsiblePage extends React.Component {
           {page.schema && editing &&
           <SchemaForm
             name={page.pageKey}
-            title={page.reviewTitle || page.title}
+            title={page.title.replace('Review ', '')}
             data={pageData}
             schema={page.schema}
             uiSchema={page.uiSchema}
