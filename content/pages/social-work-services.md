@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Get Support From a VA Social Worker
+title: Get Support from a VA Social Worker
 display_title:
 concurrence: 
 lastupdate: 
@@ -63,14 +63,14 @@ Our social workers can help you with many different needs.
 **You can reach out to a VA social worker for support if you're:**
 
 - **In a crisis situation.** We can counsel you through the crisis, and then help connect you to VA and community resources to meet your long-term needs.
-- **Homeless, often in the hospital, or unable to care for yourself any longer.** We can help you find housing, including in an assisted living facility or nursing home if needed.
+- **Homeless, often in the hospital, or unable to care for yourself any longer.** We can help you find housing—even in an assisted living facility or nursing home if needed.
 - **In the hospital.** We can help you plan for your ongoing care at home or in a rehab or other facility. 
 - **Living in a rural location far from a VA health facility.** We can work with your health care team to make sure you get the care you need from VA or in your community.
-- **Having trouble speaking up for yourself or feeling overwhelmed by trying to arrange your care.** We can serve as your voice to make sure your wishes are respected and you get what you need.
-- **Struggling with problems like depression, sadness, stress, anxiety, PTSD, drinking or drug use.** We can offer counseling and work with you and your health care team to create a treatment plan.
-- **Dealing with end-of-life issues.** We can help you make decisions about life support, organ donation, and other issues and communicate these decisions to your family and your health care team.
+- **Having trouble speaking up for yourself or feeling overwhelmed as you try to set up your care.** We can serve as your voice to make sure your wishes are respected and you get what you need.
+- **Struggling with problems like depression, sadness, stress, anxiety, PTSD, drinking, or drug use.** We offer counseling and can work with you and your health care team to create a treatment plan.
+- **Dealing with end-of-life issues.** We can help you make decisions about life support, organ donation, and other issues—and communicate these decisions to your family and your health care team.
 
-If you don't see your needs on the list, don't worry. You can contact a VA social worker with any questions or problems, any time. We'll help you or connect you with the right person to help.
+If you don't see your needs listed here, don't worry. You can contact a VA social worker anytime with questions or problems. We'll help you—or connect you with the right person to help.
 
 <span id="caregiver"></span>
 <div class="feature" markdown=“1”>
