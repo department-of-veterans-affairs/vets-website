@@ -16,7 +16,9 @@ import {
   FETCH_MHV_ACCOUNT_SUCCESS,
   CREATING_MHV_ACCOUNT,
   CREATE_MHV_ACCOUNT_FAILURE,
-  CREATE_MHV_ACCOUNT_SUCCESS
+  CREATE_MHV_ACCOUNT_SUCCESS,
+  REMOVING_SAVED_FORM,
+  REMOVING_SAVED_FORM_SUCCESS
 } from '../actions';
 
 const MAX_POLL_TIMES = 10;
@@ -131,6 +133,21 @@ function profileInformation(state = initialState, action) {
         polledTimes: 0,
         state: accountState
       }, state);
+    }
+    case REMOVING_SAVED_FORM: {
+      return set('loading', true, state);
+    }
+    case REMOVING_SAVED_FORM_SUCCESS: {
+      const forms = state.savedForms;
+      const formIndex = state.savedForms.findIndex((el) => {
+        return el.form === action.formId;
+      });
+      forms.splice(formIndex, 1);
+      return {
+        ...state,
+        savedForms: forms,
+        loading: false
+      };
     }
 
     default:
