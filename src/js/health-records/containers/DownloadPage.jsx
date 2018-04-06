@@ -59,7 +59,7 @@ export class DownloadPage extends React.Component {
 
     if (!form.ready) {
       alertProps = {
-        headline: 'Couldn’t generate your records',
+        headline: 'Your records couldn’t be generated.',
         content: (<p>Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>),
         status: 'error'
       };
@@ -67,13 +67,13 @@ export class DownloadPage extends React.Component {
       return this.renderIncompleteMessage();
     } else if (refresh && !isEmpty(refresh.statuses.failed)) {
       alertProps = {
-        headline: 'Couldn’t update your records',
+        headline: 'Your records couldn’t be updated.',
         content: (<p>Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.</p>),
         status: 'warning'
       };
     } else {
       alertProps = {
-        headline: 'Your records are ready to download',
+        headline: 'Your records are ready to download.',
         content: (<p>For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you’ll have to start a new request to get your records.</p>),
         status: 'success'
       };
