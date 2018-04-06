@@ -1,6 +1,6 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
 
 import { DownloadPage } from '../../../src/js/health-records/containers/DownloadPage';
 
@@ -21,44 +21,64 @@ const props = () => {
 };
 
 describe('<DownloadPage>', () => {
-  it('should render', () => {
-    const tree = SkinDeep.shallowRender(<DownloadPage {...props()}/>);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.exist;
-  });
-
   it('should render success state correctly', () => {
-    const tree = SkinDeep.shallowRender(<DownloadPage {...props()}/>);
-    const alertBox = tree.subTree('AlertBox');
-    expect(alertBox).to.be.ok;
-    expect(alertBox.props.status).to.equal('success');
+    const wrapper = shallow(<DownloadPage {...props()}/>);
+    const alertBox = wrapper.find('AlertBox');
+    expect(alertBox.exists()).to.be.true;
+    expect(alertBox.prop('status')).to.equal('success');
   });
 
   it('should render refresh error correctly', () => {
     const errorProps = Object.assign({}, props());
     errorProps.refresh.statuses.failed.push({ id: 0 });
-    const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
-    const alertBox = tree.subTree('AlertBox');
-    expect(alertBox).to.be.ok;
-    expect(alertBox.props.status).to.equal('warning');
+    const wrapper = shallow(<DownloadPage {...errorProps}/>);
+    const alertBox = wrapper.find('AlertBox');
+    expect(alertBox.exists()).to.be.true;
+    expect(alertBox.prop('status')).to.equal('warning');
   });
 
   it('should render report generation error correctly', () => {
     const errorProps = Object.assign({}, props());
     errorProps.form.ready = false;
-    const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
-    const alertBox = tree.subTree('AlertBox');
-    expect(alertBox).to.be.ok;
-    expect(alertBox.props.status).to.equal('error');
+    const wrapper = shallow(<DownloadPage {...errorProps}/>);
+    const alertBox = wrapper.find('AlertBox');
+    expect(alertBox.exists()).to.be.true;
+    expect(alertBox.prop('status')).to.equal('error');
   });
 
-  it('should render skipped update warning correctly', () => {
+  it('should render generic skipped update warning correctly', () => {
     const errorProps = Object.assign({}, props());
-    errorProps.form.ready = true;
     errorProps.refresh.statuses.incomplete.push({ id: 0 });
-    const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
-    const alertBox = tree.subTree('AlertBox');
-    expect(alertBox).to.be.ok;
-    expect(alertBox.props.status).to.equal('warning');
+    const wrapper = shallow(<DownloadPage {...errorProps}/>);
+    const alertBox = wrapper.find('AlertBox');
+    expect(alertBox.exists()).to.be.true;
+    expect(alertBox.prop('status')).to.equal('warning');
+    expect(alertBox.prop('headline')).to.equal('Parts of your health record may not be current.');
+  });
+
+  it('should render skipped update warning for specific categories', () => {
+    const extractTypes = [
+      'ImagingStudy',
+      'ChemistryHematology',
+      'VPR',
+      'DodMilitaryService'
+    ];
+
+    const expectedHeadlines = [
+      'Your radiology reports may not be current.',
+      'Your labs and tests information may not be current.',
+      'Your VA electronic health record history may not be current.',
+      'Your Department of Defense information may not be current.'
+    ];
+
+    extractTypes.forEach((extractType, index) => {
+      const errorProps = Object.assign({}, props());
+      errorProps.refresh.statuses.incomplete.push({ extractType });
+      const wrapper = shallow(<DownloadPage {...errorProps}/>);
+      const alertBox = wrapper.find('AlertBox');
+      expect(alertBox.exists()).to.be.true;
+      expect(alertBox.prop('status')).to.equal('warning');
+      expect(alertBox.prop('headline')).to.equal(expectedHeadlines[index]);
+    });
   });
 });
