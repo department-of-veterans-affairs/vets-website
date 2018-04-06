@@ -2,7 +2,7 @@ import React from 'react';
 import PhoneNumberWidget from '../../../common/schemaform/review/PhoneNumberWidget';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import HeadingWithEdit from './HeadingWithEdit';
-import Modal from '../../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import LoadingButton from './LoadingButton';
 
 class EditPhoneModal extends React.Component {

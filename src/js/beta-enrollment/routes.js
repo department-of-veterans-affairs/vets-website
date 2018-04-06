@@ -8,7 +8,7 @@ export const features = {
 };
 
 const routes = {
-  path: '/beta-enrollment/',
+  path: '/',
   childRoutes: [
     { path: 'personalization', component: createBetaEnrollmentButton(features.dashboard, '/dashboard-beta') }
   ]

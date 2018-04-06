@@ -60,7 +60,7 @@ class DashboardApp extends React.Component {
         <RequiredLoginView
           authRequired={3}
           serviceRequired={['evss-claims', 'appeals-status', 'user-profile']}
-          userProfile={this.props.profile}>
+          user={this.props.user}>
           <BetaApp featureName={features.dashboard} redirect="/beta-enrollment/personalization/">
             <DowntimeNotification appTitle="user dashboard" dependencies={[services.mvi, services.emis]}>
               {view}
@@ -73,10 +73,9 @@ class DashboardApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
-
   return {
-    profile: userState.profile
+    user: state.user,
+    profile: state.user.profile
   };
 };
 

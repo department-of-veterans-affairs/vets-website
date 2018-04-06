@@ -7,7 +7,7 @@ import {
   FETCH_VA_PROFILE_FAIL
 } from '../actions';
 
-import AlertBox from '../../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import Hero from '../components/Hero';
 import PhoneSection from '../components/PhoneSection';

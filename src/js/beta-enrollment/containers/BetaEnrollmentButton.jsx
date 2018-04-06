@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerBeta, isUserRegisteredForBeta } from '../actions';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 class BetaEnrollmentButton extends React.Component {
   static propTypes = {
@@ -34,7 +34,7 @@ class BetaEnrollmentButton extends React.Component {
       <RequiredLoginView
         authRequired={1}
         serviceRequired={[]}
-        userProfile={this.props.profile}>
+        user={this.props.user}>
         <button className="usa-button-primary"
           disabled={this.state.isLoading}
           onClick={this.onClick}>
@@ -50,7 +50,7 @@ class BetaEnrollmentButton extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.user.profile
+    user: state.user
   };
 };
 

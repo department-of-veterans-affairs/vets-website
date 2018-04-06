@@ -1,7 +1,7 @@
 import VAProfileApp from './containers/VAProfileApp';
 
 const routes = {
-  path: '/profile-beta',
+  path: '/',
   component: VAProfileApp
 };
 

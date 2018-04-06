@@ -1,7 +1,7 @@
 import AccountApp from './containers/AccountApp';
 
 const routes = {
-  path: '/account-beta',
+  path: '/',
   component: AccountApp
 };
 
