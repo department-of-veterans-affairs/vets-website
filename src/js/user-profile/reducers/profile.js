@@ -2,6 +2,8 @@ import { merge, set } from 'lodash/fp';
 
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
+import { findFormIndex } from '../helpers';
+
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
@@ -139,9 +141,7 @@ function profileInformation(state = initialState, action) {
     }
     case REMOVING_SAVED_FORM_SUCCESS: {
       const forms = state.savedForms;
-      const formIndex = state.savedForms.findIndex((el) => {
-        return el.form === action.formId;
-      });
+      const formIndex = findFormIndex(state.savedForms, action.formId);
       forms.splice(formIndex, 1);
       return {
         ...state,
