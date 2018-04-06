@@ -1,6 +1,14 @@
 export default {
   // For testing purposes only
   prefilled: true,
+  veteranFullName: {
+    first: 'Sally',
+    last: 'Alphonse'
+  },
+  socialSecurityNumber: '234234234',
+  vaFileNumber: '345345345',
+  gender: 'F',
+  dateOfBirth: '1990-04-02',
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
