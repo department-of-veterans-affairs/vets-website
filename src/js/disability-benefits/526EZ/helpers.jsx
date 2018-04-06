@@ -254,7 +254,7 @@ const listifyCenters = (center, idx, list) => {
   const atLeastThree = list.length > 2;
   return (
     <span key={idx}>
-      {!notLast && !justOne && <span className="repose"> and </span>}
+      {!notLast && !justOne && <span className="unstyled-word"> and </span>}
       {centerName}
       {atLeastThree && notLast && ', '}
     </span>
