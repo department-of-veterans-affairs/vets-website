@@ -233,6 +233,13 @@ smith.use(collections({
       name: 'Eligibility'
     }
   },
+  disabilityEvidence: {
+    pattern: 'disability-benefits/apply/evidence/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Evidence Options'
+    }
+  },  
   education: {
     pattern: '',
     sortBy: 'order',
