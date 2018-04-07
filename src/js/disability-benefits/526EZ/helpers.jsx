@@ -380,7 +380,6 @@ export const getVerifiedChapterPair = (chapterConfig) => {
   };
   const pageTitle = chapterTitle;
   const pagePath = isReview ? verifiedPagePath : unverifiedPagePath;
-  const pageComponent = isReview ? VerifiedReviewPage : undefined;
   const verifiedDepends = ({ prefilled }) => !!prefilled;
   const unverifiedDepends = ({ prefilled }) => !prefilled;
   const depends = isReview ? verifiedDepends : unverifiedDepends;
@@ -392,7 +391,7 @@ export const getVerifiedChapterPair = (chapterConfig) => {
       [pageName]: {
         title: `${reviewString}${pageTitle}`,
         path: pagePath,
-        component: pageComponent,
+        component: VerifiedReviewPage,
         depends,
         ...rest
       }

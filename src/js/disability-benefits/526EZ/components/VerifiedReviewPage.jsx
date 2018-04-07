@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { focusElement } from '../../../common/utils/helpers';
+import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
 
@@ -86,7 +87,9 @@ class VerifiedReviewPage extends React.Component {
     const { form, user, formContext, route } = this.props;
     const { chapterReviewTitle, chapterKey, pageKey } = route.pageConfig;
     const page = formConfig.chapters[chapterKey].pages[pageKey];
+    const isPrefilled = form.data.prefilled;
 
+    if (!form.data.prefilled) return <RoutedSavablePage {...this.props}/>;
     return (
       <div>
         <p>Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.</p>
