@@ -323,9 +323,7 @@ const VAFileNumberViewField = ({ formData }) => {
 };
 
 const DateOfBirthViewField = ({ formData }) => {
-  const dateOfBirth = formData.split('-');
-  dateOfBirth.push(dateOfBirth.shift());
-  return <p>Date of birth: {dateOfBirth.join('/')}</p>;
+  return <p><DateWidget value={formData} options={{ monthYear: true }}/></p>;
 };
 
 const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
