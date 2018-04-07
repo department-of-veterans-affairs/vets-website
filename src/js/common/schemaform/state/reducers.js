@@ -1,6 +1,9 @@
 import _ from 'lodash/fp';
 
-import { SET_DATA,
+import {
+  CLOSE_REVIEW_CHAPTER,
+  OPEN_REVIEW_CHAPTER,
+  SET_DATA,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
@@ -12,6 +15,23 @@ import {
 } from '../state/helpers';
 
 export default {
+  [OPEN_REVIEW_CHAPTER]: (state, action) => {
+    const openChapters = _.concat(
+      _.get('reviewPageView.openChapters', state) || [],
+      action.openedChapter
+    );
+
+    return _.set('reviewPageView.openChapters', openChapters, state);
+  },
+  [CLOSE_REVIEW_CHAPTER]: (state, action) => {
+
+    const openChapters = _.remove(
+      value => value === action.closedChapter,
+      state.reviewPageView.openChapters
+    );
+
+    return _.set('reviewPageView.openChapters', openChapters, state);
+  },
   [SET_DATA]: (state, action) => {
     const newState = _.set('data', action.data, state);
 
