@@ -75,20 +75,20 @@ If you don't see your needs listed here, don't worry. You can contact a VA socia
 <span id="caregiver"></span>
 <div class="feature" markdown=“1”>
 
-### What if I'm the caregiver or family member of a Veteran or Servicemember—how can a VA social worker help me?
+### How can a VA social worker help me if I'm the caregiver or family member of a Veteran or Servicemember?
 
-VA social workers can help to support you in many different ways.
+VA social workers can support you in many different ways.
 
-**You can reach out to a VA social work for support if you need help:**
+**You can reach out to a VA social worker for support if you need help:**
 
-- **Getting family counseling.** We can help you work through any relationship struggles.
-- **Understanding your loved one's condition.** We can teach you about the Veteran or Servicemember's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need.
-- **Accessing rural health care.** We can help you find medical services for the Veteran or Servicemember in the community if you live far from a VA health facility.
+- **Getting family counseling.** We can help you work through relationship struggles.
+- **Understanding your loved one's condition.** We can teach you about the Veteran's or Servicemember's health problems and how to help them live a more healthy life, deal with stress, and access the programs and services they need.
+- **Accessing rural health care.** We can help you find medical services in the community for the Veteran or Servicemember if you live far from a VA health facility.
 - **Caring for a Veteran or Servicemember who can't care for themselves.** We can help you get support to care for your loved one at home, or make arrangements for their long-term care if you can no longer provide that care yourself.
 - **Supporting a Veteran or Servicemember who's struggling.** We can help you get treatment and support for your loved one if they're struggling with mental health problems, substance use problems, homelessness, or end-of-life issues—or if they just feel like something isn't right.
-- **Advocating for your loved one.** We can act as your family's voice to make sure your wishes are respected and you get what you need.
+- **Advocating for your loved one.** We can speak on behalf of your family to make sure your wishes are respected and you get what you need.
 
-These are just some examples. If you have any questions or problems, feel free to ask for an appointment with a VA social worker. We'll help you or connect you with the right person to help.
+These are just some examples. If you have any questions or problems, feel free to ask for an appointment with a VA social worker. We'll help you or connect you with the right person who can help.
 
 </div>
 
