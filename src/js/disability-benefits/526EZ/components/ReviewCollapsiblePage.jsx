@@ -127,7 +127,7 @@ export default class ReviewCollapsiblePage extends React.Component {
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <div
                 className="accordion-title">
-                <h4 className="form-review-panel-page-header">{this.props.chapter.reviewTitle || this.props.chapter.title}</h4>
+                <h4 className="form-review-panel-page-header">{this.props.chapter.title(true)}</h4>
                 {!editing &&
                 <button
                   type="button"
