@@ -10,7 +10,7 @@ const express = require('express');
 const fallback = require('express-history-api-fallback');
 const path = require('path');
 const morgan = require('morgan');
-const { getAppManifests, getRoutes } = require('../../script/manifest-helpers.js');
+const { getAppManifests, getRoutes } = require('../../../../script/manifest-helpers.js');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },

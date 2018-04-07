@@ -1,4 +1,4 @@
-const mock = require('../../../test/e2e/mock-helpers');
+const mock = require('../../../../../test/e2e/mock-helpers');
 const util = require('util');
 const events = require('events');
 

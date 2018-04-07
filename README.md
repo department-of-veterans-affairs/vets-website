@@ -206,7 +206,7 @@ the mocha test runner without going through karma or PhantomJS. This means they 
 
 Unfortunately, it also means there is no true `window` or `document` provided which
 breaks `ReactTestUtils`'s simulate calls. To rememdy, a fake `window` and
-`document` are provided using `jsdom` and bootstrapped in `test/util/mocha-setup.js`
+`document` are provided using `jsdom` and bootstrapped in `src/platform/testing/unit/mocha-setup.js`
 which is required via `test/mocha.opts`.
 
 With this, most everything (except code that accesses HTML5 `dataset`) is testable
@@ -299,7 +299,7 @@ feature is still active within the code base, but the UI is either enabled or
 disabled by the feature flag.
 
 To enable or disable the feature in a specific build type, toggle the feature
-in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
+in `src/platform/testing/unit/mocha-setup.js` and `config/webpack.config.js`. See
 [`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
 example implementation.
 

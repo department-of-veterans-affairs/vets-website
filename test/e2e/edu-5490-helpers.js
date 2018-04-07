@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-const Timeouts = require('./timeouts.js');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
 
 
 function completeBenefitRelinquishment(client, data) {

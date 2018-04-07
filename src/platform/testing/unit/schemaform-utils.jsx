@@ -5,13 +5,13 @@ import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import SchemaForm from '../../src/js/common/schemaform/components/SchemaForm';
-import { fillDate as oldFillDate } from './unit-helpers';
+import SchemaForm from '../../../js/common/schemaform/components/SchemaForm';
+import { fillDate as oldFillDate } from './helpers';
 
 import {
   replaceRefSchemas,
   updateSchemaAndData
-} from '../../src/js/common/schemaform/state/helpers';
+} from '../../../js/common/schemaform/state/helpers';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {
@@ -136,6 +136,7 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
 }
 
 export function getFormDOM(form) {
+  // eslint-disable-next-line react/no-find-dom-node
   const formDOM = findDOMNode(form);
 
   if (formDOM === null) {
