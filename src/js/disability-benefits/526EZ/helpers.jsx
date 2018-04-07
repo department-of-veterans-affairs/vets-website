@@ -374,7 +374,10 @@ export const getVerifiedChapterPair = (chapterConfig) => {
   const { verifiedPageName, unverifiedPageName } = getVerifiedPairPageNames(chapterTitleWords.slice(0));
   const { verifiedPagePath, unverifiedPagePath } = getVerifiedPairPagePaths(chapterTitleWords.slice(0));
   const reviewString = isReview ? 'Review ' : '';
-  const reviewTitle = isReview ? chapterTitle : undefined;
+  const getChapterTitle = (shouldOmitReview) => {
+    if (shouldOmitReview) return chapterTitle;
+    return `${reviewString}${chapterTitle}`;
+  };
   const pageTitle = chapterTitle;
   const pagePath = isReview ? verifiedPagePath : unverifiedPagePath;
   const pageComponent = isReview ? VerifiedReviewPage : undefined;
@@ -384,8 +387,7 @@ export const getVerifiedChapterPair = (chapterConfig) => {
   const pageName = isReview ? verifiedPageName : unverifiedPageName;
 
   return {
-    title: `${reviewString}${chapterTitle}`,
-    reviewTitle,
+    title: getChapterTitle,
     pages: {
       [pageName]: {
         title: `${reviewString}${pageTitle}`,
