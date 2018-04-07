@@ -35,7 +35,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
 
   const schema = {
     type: 'object',
-    required: ['fullName', 'socialSecurityNumber', 'vaFileNumber', 'gender', 'dateOfBirth'],
+    required: ['veteranFullName', 'socialSecurityNumber', 'vaFileNumber', 'gender', 'dateOfBirth'],
     properties: {
       veteranFullName: fullName,
       socialSecurityNumber: {
