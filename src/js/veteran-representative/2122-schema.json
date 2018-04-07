@@ -19,71 +19,63 @@
     }
   },
   "properties": {
-    "veteran": {
-      "name": {
-        "$ref": "#/definitions/fullName"
-      },
-      "ssn": {
-        "type": "string"
-      },
-      "vaFileNumber": {
-        "type": "string"
-      },
-      "insuranceNumber": {
-        "type": "string"
-      }
+    "veteranFullName": {
+      "type": "string"
     },
-    "claimant": {
-      "name": {
-        "$ref": "#/definitions/fullName"
-      },
-      "address": {
-        "type": "string"
-      },
-      "email": {
-        "type": "string"
-      },
-      "phone": {
-        "type": "string",
-        "daytime": {
-          "type": "string"
-        },
-        "evening": {
-          "type": "string"
-        }
-      },
-      "relationship": {
-        "type": "string"
-      }
+    "veteranSSN": {
+      "type": "string"
+    },
+    "vaFileNumber": {
+      "type": "string"
+    },
+    "insuranceNumber": {
+      "type": "string"
+    },
+    "claimantFullName": {
+      "type": "string"
+    },
+    "claimantAddress": {
+      "type": "string"
+    },
+    "claimantEmail": {
+      "type": "string"
+    },
+    "claimantDaytimePhone": {
+      "type": "string"
+    },
+    "claimantEveningPhone": {
+      "type": "string"
+    },
+    "relationship": {
+      "type": "string"
     },
     "appointmentDate": {
       "type": "string",
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
     },
-    "organization": {
-      "name": {
-        "$ref": "#/definitions/fullName"
-      },
-      "email": {
-        "type": "string"
-      },
-      "jobTitle": {
-        "type": "string"
-      }
+    "organizationName": {
+      "type": "string"
     },
-    "disclosureExceptions": {
-      "drugAbuse": {
-        "type": "boolean"
-      },
-      "alcoholism": {
-        "type": "boolean"
-      },
-      "hiv": {
-        "type": "boolean"
-      },
-      "sickleCellAnemia": {
-        "type": "boolean"
-      }
+    "organizationEmail": {
+      "type": "string"
+    },
+    "organizationRepresentativeName": {
+      "type": "string"
+    },
+    "organizationRepresentativeTitle": {
+      "type": "string"
+    },
+    "disclosureExceptionDrugAbuse": {
+      "type": "boolean"
+    },
+    "disclosureExceptionAlcoholism": {
+      "type": "boolean"
+    },
+    "disclosureExceptionHIV": {
+      "type": "boolean"
+    },
+    "disclosureExceptionSickleCellAnemia": {
+      "type": "boolean"
     }
   }
 }

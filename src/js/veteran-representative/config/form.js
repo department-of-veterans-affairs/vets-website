@@ -19,7 +19,16 @@ import { genderLabels } from '../../common/utils/labels';
 import { validateMatch } from '../../common/schemaform/validation';
 
 const {
-  veteranDateOfBirth,
+  veteranFullName,
+  veteranSSN,
+  vaFileNumber,
+  insuranceNumber,
+  claimantFullName,
+  claimantAddress,
+  claimantEmail,
+  claimantDaytimePhone,
+  claimantEveningPhone,
+  relationship
   // email,
   // serviceBranch,
   // photo
@@ -27,17 +36,9 @@ const {
 
 const {
   fullName,
-  date,
-  // phone,
-  gender,
 } = fullSchema.definitions;
 
-const { ssn, vaFileNumber, insuranceNumber } = fullSchema.properties.veteran;
-const { address, email, phone, relationship } = fullSchema.properties.claimant;
-
 console.log("full schema", fullSchema);
-console.log("claimantAddress", address);
-
 
 const formConfig = {
   urlPrefix: '/',
@@ -55,13 +56,13 @@ const formConfig = {
   title: 'Appoint a Veteran Service Officer as your representative',
   defaultDefinitions: {
     fullName,
-    ssn,
-    vaFileNumber,
-    insuranceNumber,
-    address,
-    email,
-    phone,
-    relationship,
+    // ssn,
+    // vaFileNumber,
+    // insuranceNumber,
+    // address,
+    // email,
+    // phone,
+    // relationship,
   },
   chapters: {
     veteranInformation: {
@@ -72,21 +73,21 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: {
             fullName: fullNameUI,
-            ssn: ssnUI,
+            veteranSSN: ssnUI,
             vaFileNumber: { 'ui:title': 'VA file number'},
             insuranceNumber: {'ui:title': 'Insurance Number'},
           },
           schema: {
             type: 'object',
-            required: [
-              'fullName',
-              'ssn',
-              'vaFileNumber',
-              'insuranceNumber',
-            ],
+            // required: [
+            //   'fullName',
+            //   'veteranSSN',
+            //   'vaFileNumber',
+            //   'insuranceNumber',
+            // ],
             properties: {
               fullName,
-              ssn,
+              veteranSSN,
               vaFileNumber,
               insuranceNumber,
             }
@@ -103,24 +104,27 @@ const formConfig = {
           uiSchema: {
             fullName: fullNameUI,
             relationship: { 'ui:title': 'Relationship to Veteran (parent, spouse, child, ?)'},
-            // address: ,
-            email: { 'ui:title': 'Email address' },
-            phone: phoneUI,
+            claimantAddress: {'ui:title': 'Address'},
+            claimantEmail: { 'ui:title': 'Email address' },
+            claimantDaytimePhone: phoneUI('Daytime phone number'),
+            claimantEveningPhone: phoneUI('Evening phone number'),
           },
           schema: {
             type: 'object',
-            required: [
-              'fullName',
-              'address',
-              'email',
-              'phone',
-              'relationship',
-            ],
+            // required: [
+            //   'fullName',
+            //   'claimantAddress',
+            //   'claimantEmail',
+            //   'claimantDaytimePhone',
+            //   'claimantEveningPhone',
+            //   'relationship',
+            // ],
             properties: {
               fullName,
-              address,
-              email,
-              phone,
+              claimantAddress,
+              claimantEmail,
+              claimantDaytimePhone,
+              claimantEveningPhone,
               relationship,
             }
           }
