@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { getNextPagePath } from '../routing';
 import { toggleLoginModal } from '../../../login/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import LoadingIndicator from '../../components/LoadingIndicator';
@@ -93,8 +94,16 @@ export default class SaveInProgressIntro extends React.Component {
     return alert;
   }
 
+  getStartPage = () => {
+    const { form, route, location } = this.props;
+    const formData = form && form.data || {};
+    if (route && location) return getNextPagePath(route.pageList, formData, location.pathname);
+    return this.props.pageList[1].path;
+  }
+
   render() {
     const { profile } = this.props.user;
+    const startPage = this.getStartPage();
     const savedForm = profile && profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
@@ -120,7 +129,7 @@ export default class SaveInProgressIntro extends React.Component {
           resumeOnly={this.props.resumeOnly}
           messages={this.props.messages}
           startText={this.props.startText}
-          startPage={this.props.pageList[1].path}
+          startPage={startPage}
           formId={this.props.formId}
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}

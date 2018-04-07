@@ -17,6 +17,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="This page needs attention"/>
         <p>Equal to VA Form 21-526EZ.</p>
         <SaveInProgressIntro
+          {...this.props}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -59,6 +60,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          {...this.props}
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
