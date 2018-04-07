@@ -11,6 +11,10 @@ import VerifiedReviewPage from './components/VerifiedReviewPage';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
+import {
+  PREFILL_STATUSES
+} from '../../common/schemaform/save-in-progress/actions';
+import { DateWidget } from '../../common/schemaform/review/widgets';
 
 /*
  * Flatten nested array form data into sibling properties
@@ -41,6 +45,19 @@ export function transform(formConfig, form) {
   });
 }
 
+export function prefillTransformer(pages, formData, metadata, state) {
+  const newData = cloneDeep(formData);
+
+  if (state.prefilStatus === PREFILL_STATUSES.success) {
+    newData.prefilled = true;
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages
+  };
+}
 
 export const supportingEvidenceOrientation = (
   <p>We’ll now ask you where we can find medical records or evidence about your worsened conditions after they were rated. You don’t need to turn in any medical records that you’ve already submitted with your original claim. <strong>We only need new medical records or other evidence about your condition after you got your disability rating.</strong></p>
