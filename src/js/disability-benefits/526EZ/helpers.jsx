@@ -329,9 +329,9 @@ export const TitleContent = (props) => {
 export const GetStartedMessage = ({ checkDisabilityStatus }) => {
   const { isFirst, isAppeal, isAddOnly, isAddAndIncrease } = checkDisabilityStatus();
   const signInMessage = sessionStorage.userToken ? '' : ' Please sign in or create an account before starting the application.';
-  let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim for increased disability.${signInMessage}`;
+  let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
   if (isFirst) {
-    getStartedMessage = 'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file a disability claim on eBenefits.';
+    getStartedMessage = 'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.';
   }
   if (isAppeal) {
     getStartedMessage = (<span>If you disagree with our decision on your disability claim, you can appeal it. <br/>
