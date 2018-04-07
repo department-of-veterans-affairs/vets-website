@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
-import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
+import ErrorableFileInput from '@department-of-veterans-affairs/jean-pants/ErrorableFileInput';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 
 import Modal from '../../common/components/Modal';
