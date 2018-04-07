@@ -112,7 +112,7 @@ export function submit(form, formConfig) {
     }
     return Promise.reject(res);
   }).then(resp => {
-    const guid = resp.data.id;
+    const guid = resp.data.attributes.guid;
     pollStatus(guid, response => {
       window.dataLayer.push({
         event: `${formConfig.trackingPrefix}-submission-successful`,
