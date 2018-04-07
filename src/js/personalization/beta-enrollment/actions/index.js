@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../common/helpers/api';
 
 export const REGISTERING_SERVICE = 'REGISTERING_SERVICE';
 export const REGISTER_SERVICE = 'REGISTER_SERVICE';

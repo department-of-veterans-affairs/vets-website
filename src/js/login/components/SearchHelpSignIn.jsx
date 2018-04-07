@@ -9,7 +9,7 @@ import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
 import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
-import { isUserRegisteredForBeta } from '../../beta-enrollment/actions';
+import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
 
 class SearchHelpSignIn extends React.Component {
   componentDidMount() {
