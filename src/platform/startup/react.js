@@ -1,11 +1,19 @@
-// Exports a function for initialize a React app.
+/**
+ * Module for React related startup functions
+ * @module platform/startup/react
+ * @see module:platform/startup
+ */
+import ReactDOM from 'react-dom';
 
 /**
- * Initializes react for the page. This should be the first Javascript call.
+ * Mounts a React application in a given location. Also sets up dev tools and sets the global
+ * VetsGov object on window.
  *
- * @callback onDOMContentLoaded Called on the DOMContentLoaded event.
+ * @param {ReactElement} component The React element you want to mount
+ * @param {Element} [root=null] A DOM element to mount the react application into. By default,
+ * this will be the element with an id of 'react-root'.
  */
-export default function initReact(onDOMContentLoaded) {
+export default function startReactApp(component, root = null) {
   // Detect if this is a child frame. If yes, initialize the react devtools hook to work around
   //   https://github.com/facebook/react-devtools/issues/57
   // This must occur before any react code is loaded.
@@ -26,8 +34,13 @@ export default function initReact(onDOMContentLoaded) {
     }
   };
 
+  let mountElement = root;
+  if (!mountElement) {
+    mountElement = document.getElementById('react-root');
+  }
   // eslint-disable-next-line scanjs-rules/call_addEventListener
   document.addEventListener('DOMContentLoaded', () => {
-    onDOMContentLoaded();
+    ReactDOM.render(component, mountElement);
   });
 }
+
