@@ -92,18 +92,18 @@ These are just some examples. If you have any questions or problems, feel free t
 
 </div>
 
-### How do I ask for an appointment with a VA social worker?
+### How do I request an appointment with a VA social worker?
 
-Talk to your VA primary care team. Or, call your nearest VA health facility and ask to be connected to a local social worker.<br>
-[Find your closest VA health care facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+Talk to your VA primary care team, or call your nearest VA health facility and ask to be connected to a local social worker.<br>
+[Find your nearest VA health care facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 ### How do I get help right away if I'm homeless or at risk of becoming homeless? 
 
 Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about homeless programs and services near you. The call is free and completely private.
 
-### What if I don't know what I need, but just think I need help?
+### What if I don't know what I need, but I just think I need help?
 
-That's 100% okay. We're here to help you figure out what's wrong, and how we can help.
+That's 100% OK. We're here to help you figure out what's wrong, and how we can help.
 
 <span id="working"></span>
 
@@ -116,8 +116,6 @@ That's 100% okay. We're here to help you figure out what's wrong, and how we can
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="Meet-with-social-worker">What will happen when I meet with a VA social worker?</button>
 <div id="Meet-with-social-worker" class="usa-accordion-content">
 
-You can meet with a social worker by yourself, or you can bring your family caregiver or other support person with you if you'd like.
-
 **Your social worker will ask questions about your:**
 - Health
 - Living situation
@@ -127,13 +125,15 @@ You can meet with a social worker by yourself, or you can bring your family care
 
 Then, they'll write up an asssessment that will help you, your family caregiver or other support person, and your VA health care team make plans to get you the treatment and support you need.
 
+**Note:** You can meet with a social worker by yourself, or you can bring your family caregiver or other support person with you if you'd like.
+
 </div>
 </li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="Disagree-with-social-worker">What if I don't agree with the social worker's assessment?</button>
 <div id="Disagree-with-social-worker" class="usa-accordion-content">
 
-That's okay. Your social worker is here to help you. If you don't agree with their assessment, talk with your social worker and others on your VA health care team about your concerns so you can work together to find a plan that works for you.
+That's OK. Your social worker is here to help you. If you don't agree with their assessment, talk with them and others on your VA health care team about your concerns. They'll work together with you to figure out a plan that works.
 
 </div>
 </li>
@@ -141,30 +141,30 @@ That's okay. Your social worker is here to help you. If you don't agree with the
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="Help-in-hospital">How will a VA social worker support me if I'm in the hospital?</button>
 <div id="Help-in-hospital" class="usa-accordion-content">
 
-Your VA social worker will help to make sure you get consistent care from the time you're admitted to the hospital through to any ongoing follow-up treatment or support you may need when you're discharged. This includes planning for and providing any needed services based on your health, family and living situation, and government and community resources.
+Your VA social worker will make sure you get consistent care from the time you're admitted to the hospital to after you're discharged, including any ongoing follow-up treatment or support you may need. They can plan for and provide any needed services based on your health, help you with your family and living situation, and point you to government and community resources.
   
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="Hospital-far-from-home">Can a VA social worker help my family to find a free place to stay if I'm being treated in a hospital far from home?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="Hospital-far-from-home">Can a VA social worker help my family find a free place to stay if I'm being treated in a hospital far from home?</button>
 <div id="Hospital-far-from-home" class="usa-accordion-content">
 
-Yes. Your social worker can connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at many military and VA medical centers around the world.<br>
+Yes. Your social worker can connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths. They share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at many military and VA medical centers around the world.<br>
 [Find out if there's a Fisher House near where you'll be treated](https://www.fisherhouse.org/programs/houses/house-locations/).<br>
 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
 [Learn more about all Fisher House Foundation programs](https://www.fisherhouse.org/).
 
-Your social worker can also help you find out if you're eligible for VA help with travel expenses if you need to travel for care.<br>
+Your social worker can also help you find out if you're eligible for VA help with travel expenses if you need to travel to get care.<br>
 [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 
-And, your social worker can help connect you to other community resources like:
-- **Angel Flight**, which provides free flights to patients in private planes. <br>
+**Your social worker can help connect you to other community resources, like:**
+- **Angel Flight,** which provides free flights to patients in private planes. <br>
 [Learn more about Angel Flight](http://www.angelflight.com).
-- **Corporate Angel Network**, which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment.
+- **Corporate Angel Network,** which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment.
 [Learn more about the Corporate Angel Network](http://www.corpangelnetwork.org/home).
-- **Mercy Medical Lift**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation.
-[Learn more about Mercy Medical Lift](http://mercymedical.org).
+- **Mercy Medical Angels,** which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation.
+[Learn more about Mercy Medical Angels](http://mercymedical.org).
 
 </div>
 </li>
