@@ -30,12 +30,12 @@ export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
     <h3>Types of evidence</h3>
     <h4>VA medical records</h4>
-    <p>If you were treated at a VA medical center or clinic, you have VA medical records. This includes Tri-Care.</p>
+    <p>If you were treated at a VA medical center or clinic, or by a doctor through the TRICARE health care program, you’ll have VA medical records.</p>
     <h4>Private medical records</h4>
     <p>If you were treated by a private doctor, including a Veteran’s Choice doctor, you’ll have private medical records.
       We’ll need to see those records to make a decision on your claim. A Disability Benefit Questionnaire is an example of a private medical record.</p>
     <h4>Lay statements or other evidence</h4>
-    <p>Lay statements, also called “buddy statements,” are documents from someone outside of the medical field. These are written statements from family, friends, or coworkers to help you support your claim. In most cases your medical records are enough to support your claim, but some claims, for example, for Posttraumatic Stress Disorder or Military Sexual Trauma, can benefit from a lay statement.</p>
+    <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statement are also called “buddy statements.” In most cases, you only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
   </AdditionalInfo>
 );
 
@@ -93,12 +93,11 @@ export const privateRecordsChoice = ({ formData }) => {
 
 export const privateRecordsChoiceHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
-    <h5>You upload your medical records</h5>
-    <p>If you have an electronic copy of your medical records, uploading your records can speed the review of your claim.</p>
+    <h4>You upload your medical records</h4>
     <p>If you upload a digital copy of all your medical records, we can review your claim more quickly. Uploading a digital
       file works best if you have a computer with a fast Internet connection. The digital file could be uploaded as a .pdf
       or other photo file format, like a .jpeg or .png.</p>
-    <h5>We get your records for you</h5>
+    <h4>We get your medical records for you</h4>
     <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
   </AdditionalInfo>
 );
