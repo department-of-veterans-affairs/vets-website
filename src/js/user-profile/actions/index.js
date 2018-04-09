@@ -75,7 +75,7 @@ export function removeSavedForm(formId) {
     dispatch({ type: REMOVING_SAVED_FORM });
     return removeFormApi(formId)
       .then(() => {
-        dispatch({ type: REMOVING_SAVED_FORM_SUCCESS });
+        dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });
         getUserData(dispatch);
       })
       .catch(() => dispatch({ type: REMOVING_SAVED_FORM_FAILURE }));

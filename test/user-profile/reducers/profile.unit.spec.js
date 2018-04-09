@@ -16,7 +16,8 @@ import {
   FETCHING_LATEST_MHV_TERMS_FAILURE,
   FETCHING_LATEST_MHV_TERMS_SUCCESS,
   FETCHING_MHV_ACCOUNT,
-  PROFILE_LOADING_FINISHED
+  PROFILE_LOADING_FINISHED,
+  REMOVING_SAVED_FORM_SUCCESS
 } from '../../../src/js/user-profile/actions';
 
 describe('Profile reducer', () => {
@@ -236,5 +237,17 @@ describe('Profile reducer', () => {
 
     expect(state.mhv.account.polling).to.be.false;
     expect(state.mhv.account.polledTimes).to.eq(0);
+  });
+
+  it('should remove the right form when deleting a form', () => {
+    const state = reducer({
+      savedForms: [{ form: 1 }, { form: 2 }]
+    },  {
+      type: REMOVING_SAVED_FORM_SUCCESS,
+      formId: 1
+    });
+
+    expect(state.savedForms.length).to.eq(1);
+    expect(state.savedForms).to.deep.equal([{ form: 2 }]);
   });
 });

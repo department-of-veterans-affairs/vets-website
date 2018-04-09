@@ -2,8 +2,6 @@ import { merge, set } from 'lodash/fp';
 
 import { UPDATE_LOGGEDIN_STATUS } from '../../login/actions';
 
-import { findFormIndex } from '../helpers';
-
 import {
   UPDATE_PROFILE_FIELDS,
   PROFILE_LOADING_FINISHED,
@@ -19,7 +17,6 @@ import {
   CREATING_MHV_ACCOUNT,
   CREATE_MHV_ACCOUNT_FAILURE,
   CREATE_MHV_ACCOUNT_SUCCESS,
-  REMOVING_SAVED_FORM,
   REMOVING_SAVED_FORM_SUCCESS
 } from '../actions';
 
@@ -136,18 +133,10 @@ function profileInformation(state = initialState, action) {
         state: accountState
       }, state);
     }
-    case REMOVING_SAVED_FORM: {
-      return set('loading', true, state);
-    }
+
     case REMOVING_SAVED_FORM_SUCCESS: {
-      const forms = state.savedForms;
-      const formIndex = findFormIndex(state.savedForms, action.formId);
-      forms.splice(formIndex, 1);
-      return {
-        ...state,
-        savedForms: forms,
-        loading: false
-      };
+      const forms = state.savedForms.filter(el => el.form !== action.formId);
+      return set('savedForms', forms, state);
     }
 
     default:
