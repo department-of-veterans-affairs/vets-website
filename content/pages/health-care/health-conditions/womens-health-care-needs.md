@@ -109,7 +109,7 @@ Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programov
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers.<br>
 [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
+  - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Visit our website to learn about VA programs for Veterans who are homeless.<br>
   [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community.<br>
@@ -131,14 +131,14 @@ The most important thing is your safety and the safety of your children.
 **If you don’t feel safe at home right now:**
 
 - Call 911 to get help right away.
-- Or, contact one of these organizations for help 24 hours a day, 7 days a week:
+- Or contact one of these organizations for help 24 hours a day, 7 days a week:
   - **[National Domestic Violence Hotline](http://www.thehotline.org/):** Call 1-800-799-SAFE (1-800-799-7233) for free, confidential (private) crisis intervention.
   - **[National Sexual Assault Hotline](https://www.rainn.org/):** Call 1-800-656-4673 for free, confidential (private) live help for issues related to sexual assault, provided by the Rape, Abuse & Incest National Network (RAINN).
 
 **If you do feel safe now, but worry about the future:**
 
 - Talk to the Intimate Partner Violence Coordinator at your nearest VA medical center, or to any of your VA health care providers. We can help you get confidential (private) counseling, create a safety plan, and connect with local resources, like domestic violence shelters.<br>
-[Find your closest VA medical center](/facilities/?facilityType=health&page=1&zoomLevel=10).
+[Find the nearest VA medical center](/facilities/?facilityType=health&page=1&zoomLevel=10).
 - Tell your trusted friends and family about what's going on and come up with a safe place you could go if needed.
 - Learn more about intimate partner violence among women Veterans and Servicemembers.<br>
 [Visit Women Veterans Health Care](https://www.womenshealth.va.gov/WOMENSHEALTH/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp).
@@ -150,7 +150,7 @@ The most important thing is your safety and the safety of your children.
   - **[Domestic Shelters](https://www.domesticshelters.org/)**<br>
   For help finding verified information on domestic violence shelters and programs across the U.S. based on location, service, and language needs
   - **[Battered Women's Justice Project](http://www.bwjp.org/index.html)**<br>
-  For guidance and referrals on civil or criminal cases involving intimate partner violence.
+  For guidance and referrals on civil or criminal cases involving intimate partner violence
   - **[Futures Without Violence](https://www.futureswithoutviolence.org/)**<br>
   For information about programs and policies to help end violence against women and children around the world  
   - **[GLBTQ Domestic Violence Project](http://www.glbtqdvp.org/)**<br>
@@ -165,3 +165,5 @@ The most important thing is your safety and the safety of your children.
 - Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans.<br>
 [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/).
 - Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential guidance. Call the Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>).
+- The staff at your nearest VA health facility can connect you with a local VA social worker.<br>
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
