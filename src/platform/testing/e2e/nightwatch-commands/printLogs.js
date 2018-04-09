@@ -13,8 +13,8 @@
  *                           some logs to be skipped. For all log levels, See
  *                           https://github.com/SeleniumHQ/selenium/wiki/Logging#log-levels
  *                           If no level is provided, all levels are output.
- * @param {bool}   printAll  Prints all the logs from 0 on. In case some logs
- *                           got skipped because of log level specificity.
+ * @param {bool}   [printAll=false]  Prints all the logs from 0 on. In case some logs
+         *                           got skipped because of log level specificity.
  */
 exports.command = function printLogs(level, printAll = false) {
   if (!this.nextLogIndex) {

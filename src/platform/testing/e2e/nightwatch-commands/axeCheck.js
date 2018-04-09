@@ -1,5 +1,11 @@
 import axeCore from 'axe-core'; // eslint-disable-line no-unused-vars
 
+/**
+ * Runs aXe checker on the given context
+ * @param  {string} context The selector to run the axe check against
+ * @param  {object} config Additional axe configuration options
+ * @api commands
+ */
 export function command(context, config, _callback) {
   // Find the source of the axe module
 
