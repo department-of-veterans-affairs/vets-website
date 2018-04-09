@@ -3,5 +3,6 @@
   "entryFile": "./beta-enrollment-entry.jsx",
   "entryName": "beta-enrollment",
   "rootUrl": "/beta-enrollment",
-  "production": true
+  "production": false,
+  "contentPage": "beta-enrollment/index.md"
 }
