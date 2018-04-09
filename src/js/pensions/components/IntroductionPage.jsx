@@ -38,8 +38,9 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <div><h5>Declare Intent to File</h5></div>
-              <div>Your date of claim is the date VA receives your completed application. Starting your pension application doesn’t show your intent to file. Submitting an intent to file form before you begin the application sets earliest possible effective date (the date you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application.</div><br/>
-              <div><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf">Download Intent to File a Claim for Compensation Pension, or Survivors Pension and/or DIC (VA Form 211-0966)</a></div>
+              <div>If you’d like to submit an intent to file to set the earliest possible date that you can start getting benefits, you’ll need to complete an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension, and/or DIC (VA Form 21-0966). Starting your pension application doesn't show your intent to file.</div>
+              <div><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf">Download VA Form 21-0966.</a></div>
+              <div><strong>Note:</strong> Your date of claim is the date that VA receives your completed application.</div>
             </li>
             <li className="process-step list-two">
               <div><h5>Prepare</h5></div>
@@ -74,8 +75,8 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div><h5>Apply</h5></div>
-              <p>Complete an Application for Pension (VA Form 21P-527EZ). <br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ</a>.</p>
-              <p>Mail the application to the Pension Management Center (PMC) for your state. <br/><a href="/pension/pension-management-center/">Find your PMC</a>.</p>
+              <p>Complete this pension benefits form.</p>
+              <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>VA Review</h5></div>
@@ -88,12 +89,14 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {/* <SaveInProgressIntro */}
-        {/*   buttonOnly */}
-        {/*   pageList={this.props.route.pageList} */}
-        {/*   startText="Start the Pension Application" */}
-        {/*   {...this.props.saveInProgressActions} */}
-        {/*   {...this.props.saveInProgress}/> */}
+        {!isProduction && <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          pageList={this.props.route.pageList}
+          startText="Start the Pension Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 21-527EZ form to apply for pension benefits.
+        </SaveInProgressIntro>}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>
