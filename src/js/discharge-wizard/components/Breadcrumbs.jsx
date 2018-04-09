@@ -28,16 +28,18 @@ class Breadcrumbs extends Component {
   render() {
     return (
       <nav
-        aria-label="Breadcrumbs"
+        aria-label="Breadcrumb"
+        aria-live="polite"
+        aria-relevant="additions text"
         className="va-nav-breadcrumbs"
         id="va-breadcrumbs-discharge">
-        <ul
-          className="row va-nav-breadcrumbs-list columns"
-          id="va-breadcrumbs-discharge-list"
-          role="menubar">
+        <p className="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
+        <ol
+          className="row va-nav-breadcrumbs-list columns claims-breadcrumbs"
+          id="va-breadcrumbs-discharge-list">
           <li><a href="/" id="dw-home-link">Home</a></li>
           <li><a href="/discharge-upgrade-instructions/">Discharge Upgrade Instructions</a></li>
-        </ul>
+        </ol>
       </nav>
     );
   }

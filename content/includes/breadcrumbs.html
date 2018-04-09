@@ -1,7 +1,10 @@
 {% if gatePage === true %} {% assign gatePageClassName = 'va-nav-breadcrumbs--gate' %} {% endif %}
 
-<nav aria-label="Breadcrumb" class="va-nav-breadcrumbs js-visual {{gatePageClassName}}" id="va-breadcrumbs">
-  <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list" role="menubar">
+<nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual {{gatePageClassName}}"
+  id="va-breadcrumbs">
+  <p class="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or
+    viewed on a mobile device.</p>
+  <ol class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li>
       <a href="/">Home</a>
     </li>
@@ -26,5 +29,5 @@
       {% endif %}
     </li>
     {% endfor %}
-  </ul>
+  </ol>
 </nav>

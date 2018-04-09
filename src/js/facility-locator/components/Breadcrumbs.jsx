@@ -19,13 +19,12 @@ class Breadcrumbs extends Component {
     }
 
     return (
-      <ul
+      <ol
         className="row va-nav-breadcrumbs-list"
-        id="va-breadcrumbs-facility-list"
-        role="menubar">
+        id="va-breadcrumbs-facility-list">
         <li><a href="/">Home</a></li>
         <li><Link to="/">Facility Locator</Link></li>
-      </ul>
+      </ol>
     );
   }
 
@@ -33,8 +32,11 @@ class Breadcrumbs extends Component {
     return (
       <nav
         aria-label="Breadcrumb"
+        aria-live="polite"
+        aria-relevant="additions text"
         className="va-nav-breadcrumbs"
         id="va-breadcrumbs-facility">
+        <p className="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
         { this.renderBreadcrumbs() }
       </nav>
     );

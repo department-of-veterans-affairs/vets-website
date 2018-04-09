@@ -107,13 +107,13 @@ function buildMobileBreadcrumb(parentId, targetId) {
   // breadcrumb to show.
   target.classList.add(config.jsHiddenClass);
 
-  // Append the sliced mobile breadcrumb to cloned <ul>
+  // Append the sliced mobile breadcrumb to cloned <ol>
   clonedList.appendChild(mobileLink[0]);
 
-  // Append cloned <ul> to <nav>
+  // Append cloned <ol> to <nav>
   container.appendChild(clonedList);
 
-  // Determine which breadcrumb <ul> to show
+  // Determine which breadcrumb <ol> to show
   if (window.innerWidth <= config.triggerWidth) {
     clonedList.classList.remove(config.jsHiddenClass);
   } else {

@@ -5,12 +5,14 @@ layout: page-react.html
 description: Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.
 ---
 <div id="main">
-  <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+  <nav aria-label="Breadcrumb" aria-live="polite" aria-relevant="additions text" class="va-nav-breadcrumbs js-visual"
+  id="va-breadcrumbs">
+    <p class="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
+    <ol class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Disability Benefits</a></li>
-      <li class="parent"><a href="/disability-benefits/526/apply-for-increase/">Apply for Increase</a></li>
-    </ul>
+      <li class="parent"><a aria-current="page" href="/disability-benefits/526/apply-for-increase/">Apply for Increase</a></li>
+    </ol>
   </nav>
   <div class="section">
     <div id="react-root">

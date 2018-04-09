@@ -44,16 +44,18 @@ class Breadcrumbs extends React.Component {
     return (
       <nav
         aria-label="Breadcrumb"
+        aria-live="polite"
+        aria-relevant="additions text"
         className="va-nav-breadcrumbs"
         id="va-breadcrumbs-healthcare">
-        <ul
+        <p className="usa-sr-only">Breadcrumb navigation will usually show all page links. It will adjust to show only the previous page when zoomed in, or viewed on a mobile device.</p>
+        <ol
           className="row va-nav-breadcrumbs-list columns"
-          id="va-breadcrumbs-healthcare-list"
-          role="menubar">
+          id="va-breadcrumbs-healthcare-list">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;
           })}
-        </ul>
+        </ol>
       </nav>
     );
   }
