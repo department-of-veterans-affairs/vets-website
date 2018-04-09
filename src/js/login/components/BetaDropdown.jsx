@@ -28,6 +28,7 @@ class BetaDropdown extends React.Component {
   redirectToDashboard() {
     window.location.replace('/dashboard-beta');
   }
+
   render() {
     return (
       <ul>
