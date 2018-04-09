@@ -17,6 +17,7 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import phoneUI from '../../common/schemaform/definitions/phone';
 import { genderLabels } from '../../common/utils/labels';
 import { validateMatch } from '../../common/schemaform/validation';
+import {CheckboxWidget} from '../../common/schemaform/widgets';
 
 const {
   veteranFullName,
@@ -28,7 +29,13 @@ const {
   claimantEmail,
   claimantDaytimePhone,
   claimantEveningPhone,
-  relationship
+  relationship,
+  appointmentDate,
+  organizationName,
+  organizationEmail,
+  organizationRepresentativeName,
+  organizationRepresentativeTitle,
+  authorization,
   // email,
   // serviceBranch,
   // photo
@@ -37,6 +44,8 @@ const {
 const {
   fullName,
 } = fullSchema.definitions;
+
+const authorizationForRepresentativeAccessToRecordsDescription = "I authorize the VA facility having custody of my VA claimant records to disclose to the service organization named in Item 3A treatment records relating to drug abuse, alcoholism or alcohol abuse, infection with the human immunodeficiency virus (HIV), or sickle cell anemia. Redisclosure of these records by my service organization representative, other than to the VA or the Court of Appeals for Veterans Claims, is not authorized without my further consent. This authorization will remain in effect until the earlier of the following events: (1) I revoke this authorization by filing a written revocation with VA; or (2) I revoke the appointment of the service organization named above, either by explicit revocation or the appointment if another representative"
 
 console.log("full schema", fullSchema);
 
@@ -108,6 +117,7 @@ const formConfig = {
             claimantEmail: { 'ui:title': 'Email address' },
             claimantDaytimePhone: phoneUI('Daytime phone number'),
             claimantEveningPhone: phoneUI('Evening phone number'),
+            appointmentDate: currentOrPastDateUI("Date of claimaint's appointment"),
           },
           schema: {
             type: 'object',
@@ -118,6 +128,7 @@ const formConfig = {
             //   'claimantDaytimePhone',
             //   'claimantEveningPhone',
             //   'relationship',
+            //   'appointmentDate',
             // ],
             properties: {
               fullName,
@@ -126,6 +137,7 @@ const formConfig = {
               claimantDaytimePhone,
               claimantEveningPhone,
               relationship,
+              appointmentDate,
             }
           }
         }
@@ -138,10 +150,24 @@ const formConfig = {
           path: 'veteran-service-organization',
           title: 'Veteran Service Organization',
           uiSchema: {
+            organizationName: {'ui:title': 'Service organization name'},
+            organizationEmail: {'ui:title': 'Service organization email address'},
+            organizationRepresentativeName: {'ui:title': "Official representative's name"},
+            organizationRepresentativeTitle: {'ui:title': "Official representative's job title"},
           },
           schema: {
             type: 'object',
+            // required: [
+            //   'organizationName',
+            //   'organizationEmail',
+            //   'organizationRepresentativeName',
+            //   'organizationRepresentativeTitle',
+            // ],
             properties: {
+              organizationName,
+              organizationEmail,
+              organizationRepresentativeName,
+              organizationRepresentativeTitle,
             }
           }
         }
@@ -154,10 +180,15 @@ const formConfig = {
           path: 'authorization-for-representative-access-to-records',
           title: "Authorization for Representative's Access to Records Protected by Section 7332, TITLE 38, U.S.C.",
           uiSchema: {
+            authorization: {
+              'ui:title': authorizationForRepresentativeAccessToRecordsDescription,
+            },
           },
           schema: {
             type: 'object',
+            // required: [authorization],
             properties: {
+              authorization
             }
           }
         }

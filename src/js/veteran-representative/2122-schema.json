@@ -65,6 +65,9 @@
     "organizationRepresentativeTitle": {
       "type": "string"
     },
+    "authorization": {
+      "type": "boolean"
+    },
     "disclosureExceptionDrugAbuse": {
       "type": "boolean"
     },
