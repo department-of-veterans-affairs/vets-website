@@ -15,12 +15,12 @@ class IntroductionPage extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
-    const isProduction = __BUILDTYPE__ === 'production';
+    const isLive = __BUILDTYPE__ !== 'production' || window.location.href.includes('?uat');
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Veterans pension benefits"/>
         <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
-        {!isProduction && <SaveInProgressIntro
+        {isLive && <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Pension Application"
@@ -28,7 +28,7 @@ class IntroductionPage extends React.Component {
           {...this.props.saveInProgress}>
           Please complete the 21-527EZ form to apply for pension benefits.
         </SaveInProgressIntro>}
-        {isProduction && <div className="usa-alert usa-alert-warning">
+        {!isLive && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             We’re sorry. Our online application isn’t available right now. We’re working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
           </div>
@@ -83,12 +83,12 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {/* <SaveInProgressIntro */}
-        {/*   buttonOnly */}
-        {/*   pageList={this.props.route.pageList} */}
-        {/*   startText="Start the Pension Application" */}
-        {/*   {...this.props.saveInProgressActions} */}
-        {/*   {...this.props.saveInProgress}/> */}
+        {isLive && <SaveInProgressIntro
+          buttonOnly
+          pageList={this.props.route.pageList}
+          startText="Start the Pension Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}/>}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019"/>
         </div>
