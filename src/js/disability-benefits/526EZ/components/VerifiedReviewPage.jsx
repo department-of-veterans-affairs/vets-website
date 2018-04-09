@@ -85,7 +85,7 @@ class VerifiedReviewPage extends React.Component {
 
   render() {
     const { form, user, formContext, route } = this.props;
-    const { chapterReviewTitle, chapterKey, pageKey } = route.pageConfig;
+    const { chapterTitle, chapterKey, pageKey } = route.pageConfig;
     const page = formConfig.chapters[chapterKey].pages[pageKey];
     const isPrefilled = form.data.prefilled;
 
@@ -96,7 +96,7 @@ class VerifiedReviewPage extends React.Component {
         <div className="input-section">
           <div>
             <ReviewCollapsiblePage
-              key={chapterReviewTitle}
+              key={chapterTitle(true)}
               onEdit={this.handleEdit}
               page={page}
               chapterKey={chapterKey}
