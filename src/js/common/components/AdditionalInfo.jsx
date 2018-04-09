@@ -29,7 +29,7 @@ export default class AdditionalInfo extends React.Component {
         aria-expanded={this.state.open ? 'true' : 'false'}
         aria-controls={this.expandedContentId}
         onClick={this.toggle}>
-        <span className="additional-info-title">{triggerText}<i className={iconClass}></i></span>
+        <span className={`additional-info-title ${this.props.className}`}>{triggerText}<i className={iconClass}></i></span>
       </button>
     );
 

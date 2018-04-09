@@ -5,7 +5,7 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../common/utils/labels';
 
-import { veteranInformationViewField, getVerifiedChapterPair } from '../helpers';
+import { veteranInformationViewField, getVerifiedChapterPair, VAFileNumberDescription } from '../helpers';
 
 export default function createVeteranInfoChapter(formSchema, isReview) {
 
@@ -20,6 +20,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
     vaFileNumber: {
       'ui:title': 'VA file number',
       'ui:required': form => !form.socialSecurityNumber,
+      'ui:help': VAFileNumberDescription,
       'ui:errorMessages': {
         pattern: 'Your VA file number must be between 7 to 9 digits'
       }
