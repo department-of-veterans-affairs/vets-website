@@ -7,7 +7,7 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 
 import SchemaForm from '../components/SchemaForm';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 
