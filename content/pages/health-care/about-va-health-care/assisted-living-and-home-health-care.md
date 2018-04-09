@@ -68,8 +68,8 @@ We may also consider other factors, like your service-connected disability statu
 
 To find out how to access these services:
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
-- Or, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+- Or call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 If you’re not currently in the VA health care program, you can apply for benefits now.<br>
 [Apply now](/health-care/apply/).
@@ -209,10 +209,10 @@ Other services for home health care (like adult day health care or skilled healt
 
 #### What if my family and I need help making decisions about my long-term care?
 
-Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions about your long-term services and support. They can also help you stay in your own home with long-term support, or help you find an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your health care team.
+Your VA social worker or care coordinator can help. They'll work with you, your family caregiver or other support person, and your care team to make shared decisions about your long-term services and support. They can also help you stay in your own home with long-term support, or help you find an assisted living facility, foster home, or nursing home. Your social worker can help you with many other needs too, like dealing with stress related to your condition and communicating your wishes for end-of-life care to your health care team.
 
 To connect with a VA social worker, ask the staff at the VA health facility where you receive your primary care for an appointment. If you're not enrolled in the VA health care program, or haven't received care at a VA health facility yet, call your nearest VA health facility and ask them to connect you to a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).<br>
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).<br>
 [Learn more about the shared decision-making process](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
 
 <br>
@@ -223,17 +223,17 @@ To connect with a VA social worker, ask the staff at the VA health facility wher
 
 You may find these non-VA resources helpful:
 
-[AARP](https://www.aarp.org/)
+[AARP](https://www.aarp.org/) <br>
 A nonprofit organization dedicated to helping empower people to choose how they live while they age
 
-[The Administration for Community Living](https://www.acl.gov/)
+[The Administration for Community Living](https://www.acl.gov/) <br>
 A government program dedicated to helping older adults and people with disabilities of all ages live where they choose and with the people they choose, while participating fully in their communities
 
-[The National Institutes of Health's National Institute on Aging](https://www.nia.nih.gov)
+[The National Institutes of Health's National Institute on Aging](https://www.nia.nih.gov) <br>
 An agency that leads the federal government in conducting and supporting research on aging and the health and well-being of older people
 
-[The National Council on Aging's Benefits Check Up](https://www.benefitscheckup.org/)
+[The National Council on Aging's Benefits Check Up](https://www.benefitscheckup.org/) <br>
 A site that offers one central place where people over the age of 55 can get information about federal, state, and private benefits like Medicare, Medicaid, Meals on Wheels, and food stamps
 
-[The National Alliance For Caregiving](http://www.caregiving.org)
+[The National Alliance For Caregiving](http://www.caregiving.org) <br>
 A nonprofit coalition of national organization that offers free publications and other services to family caregivers
