@@ -35,7 +35,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 If the Veteran or Servicemember you're caring for is in the hospital, or if your family needs help understanding their condition or accessing programs and services, our VA social workers can help.<br>
 [Find out how a social worker can help you and your family](/social-work-services/#caregiver).
 
-And, if a Veteran or Servicemember in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location. Your VA social worker can connect you to the Fisher House Foundation for help.<br> 
+And if a Veteran or Servicemember in your family needs treatment in a hospital far from home, you may be able to get help traveling to and staying nearby their treatment location. Your VA social worker can connect you to the Fisher House Foundation for help.<br> 
 [Learn more about the Fisher House Foundation](/social-work-services/#fisher).
 
 **Looking for other health care or disability insurance information on behalf of a Veteran or Servicemember?**<br>
@@ -168,12 +168,12 @@ If you have a VA-backed home loan and you’re having trouble making your mortga
 **Looking for information to help a Veteran who's homeless or at risk of becoming homeless?**<br>
 Call the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+1phonenumber">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will give you information about VA and local community homeless programs and services. The call is free and completely private.  
 
-**Looking for information to help a Veteran who can no longer live by themselves?**
-The Veteran be eligible for assisted living, residential (live-in), or home health care. <br>
+**Looking for information to help a Veteran who can no longer live by themselves?** <br>
+The Veteran may be eligible for assisted living, residential (live-in), or home health care. <br>
 [Learn about long-term care housing options and services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
 
 If you have questions or need help accessing services, ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 <br>
 
 <span id="caregiver-support">
@@ -191,9 +191,9 @@ We also have trained Caregiver Support Coordinators at each of our VA medical ce
 If you need help accessing services, help connecting with your local Caregiver Support Coordinator, or just a listening ear, call our toll-free Caregiver Support Line at 1-855-260-3274. Our caring, licensed professionals are ready to help.<br>
 [Get more information and tools for caregivers](https://www.caregiver.va.gov/index.asp).
 
-**Looking for someone to help support you, the Veteran or Servicemember you're caring for, or your whole family?**<br>
+**Looking for someone to support you, the Veteran or Servicemember you're caring for, or your whole family?**<br>
 
-Our VA social workers can help with most any need, or connect you with the right person for help.<br>
+Our VA social workers can help with just about any need, or can connect you with the right person who can help.<br>
 [Find out how a VA social worker can help support your family](/social-work-services/#caregiver).
 <br>
 <br>
