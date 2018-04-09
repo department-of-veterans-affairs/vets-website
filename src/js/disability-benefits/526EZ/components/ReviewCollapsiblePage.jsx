@@ -57,7 +57,7 @@ export default class ReviewCollapsiblePage extends React.Component {
   }
 
   scrollToTop = () => {
-    scroller.scrollTo(`chapter${this.props.chapterKey}ScrollElement`, window.VetsGov.scroll || {
+    scroller.scrollTo(`${this.props.pageKey}TitleScrollElement`, window.VetsGov.scroll || {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -73,22 +73,22 @@ export default class ReviewCollapsiblePage extends React.Component {
   }
 
   render() {
-    const { page, formContext, fullPageKey, form } = this.props;
-    page.pageKey = fullPageKey;
+    const { page, formContext, pageKey, form } = this.props;
+    page.pageKey = pageKey;
     const pageState = form.pages[page.pageKey];
     const editing = pageState.editMode;
     const pageData = form.data;
 
     const pageContent = (
       <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
-        <div key={`${fullPageKey}`} className={'form-review-panel-page'}>
-          <Element name={`${fullPageKey}ScrollElement`}/>
-          {page.verifiedReviewComponent && !editing &&
+        <div key={`${pageKey}`} className={'form-review-panel-page'}>
+          <Element name={`${pageKey}ScrollElement`}/>
+          {!editing &&
           <page.verifiedReviewComponent formData={pageData}/>}
-          {page.schema && editing &&
+          {editing &&
           <SchemaForm
             name={page.pageKey}
-            title={page.title.replace('Review ', '')}
+            title={page.title(true)}
             data={pageData}
             schema={page.schema}
             uiSchema={page.uiSchema}
@@ -105,10 +105,10 @@ export default class ReviewCollapsiblePage extends React.Component {
             reviewMode={!editing}
             formContext={formContext}
             editModeOnReviewPage={page.editModeOnReviewPage}>
-            {!editing ? <div/> : <ProgressButton
+            <ProgressButton
               submitButton
               buttonText="Update Page"
-              buttonClass="usa-button-primary"/>}
+              buttonClass="usa-button-primary"/>
           </SchemaForm>}
         </div>
       </div>
@@ -121,13 +121,13 @@ export default class ReviewCollapsiblePage extends React.Component {
 
     return (
       <div id={`${this.id}-collapsiblePanel`} className={containerClasses}>
-        <Element name={`chapter${this.props.chapterKey}ScrollElement`}/>
+        <Element name={`${pageKey}TitleScrollElement`}/>
         <ul className="usa-unstyled-list">
           <li>
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <div
                 className="accordion-title">
-                <h4 className="form-review-panel-page-header">{this.props.chapter.title(true)}</h4>
+                <h4 className="form-review-panel-page-header">{this.props.page.title(true)}</h4>
                 {!editing &&
                 <button
                   type="button"
@@ -150,7 +150,7 @@ export default class ReviewCollapsiblePage extends React.Component {
 }
 
 ReviewCollapsiblePage.propTypes = {
-  chapter: PropTypes.object.isRequired,
+  pageKey: PropTypes.string.isRequired,
   page: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired

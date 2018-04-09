@@ -85,26 +85,23 @@ class VerifiedReviewPage extends React.Component {
 
   render() {
     const { form, user, formContext, route } = this.props;
-    const { chapterTitle, chapterKey, pageKey } = route.pageConfig;
+    const { chapterKey, pageKey } = route.pageConfig;
     const page = formConfig.chapters[chapterKey].pages[pageKey];
-    const isPrefilled = form.data.prefilled;
+    const isNotPrefilled = !form.data.prefilled;
 
-    if (!form.data.prefilled) return <RoutedSavablePage {...this.props}/>;
+    if (isNotPrefilled) return <RoutedSavablePage {...this.props}/>;
     return (
       <div>
         <p>Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.</p>
         <div className="input-section">
           <div>
             <ReviewCollapsiblePage
-              key={chapterTitle(true)}
               onEdit={this.handleEdit}
               page={page}
-              chapterKey={chapterKey}
-              fullPageKey={pageKey}
+              pageKey={pageKey}
               setData={this.props.setData}
               setValid={this.props.setValid}
               uploadFile={this.props.uploadFile}
-              chapter={formConfig.chapters[chapterKey]}
               formContext={formContext}
               form={form}/>
           </div>
