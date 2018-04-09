@@ -92,8 +92,8 @@ If you’re signed up for VA health care, you can manage your VA health and bene
 
 **If you need help accessing services, you can:**
 - Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
-- Or, ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+- Or ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <br>
 
