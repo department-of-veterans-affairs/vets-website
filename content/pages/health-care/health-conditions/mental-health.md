@@ -20,7 +20,7 @@ If you qualify for VA health care, you can get high-quality mental health servic
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+            <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
@@ -132,7 +132,7 @@ The VA health care program covers mental health services. To get these services,
 - [Find more resources for help in a crisis](https://www.mentalhealth.va.gov/gethelp.asp).<br />
 - [Access additional resources for ongoing support](https://www.mentalhealth.va.gov/Resources.asp).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 <script type="text/javascript">
 
