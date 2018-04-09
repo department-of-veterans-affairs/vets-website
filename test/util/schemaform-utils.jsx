@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import Form from 'react-jsonschema-form';
+import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 

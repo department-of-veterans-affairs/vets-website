@@ -20,11 +20,20 @@ relatedlinks:
 
 <div class="va-introtext">
 
-VetSuccess on Campus (VSOC) supports Veterans, Servicemembers, and some eligible dependents in their transition from military to college life. We have Vocational Rehabilitation Counselors (called VSOC Counselors) at 94 college campuses across the country. Our counselors can help you with your Veterans’ benefits, which may include VA health services and education benefits. They can also show you how to get referrals for health services and disability accommodations (like help with taking notes or completing writing assignments) in the classroom. [Find out if your college has a VSOC Counselor](http://www.benefits.va.gov/vocrehab/vsoc.asp).
+VetSuccess on Campus (VSOC) supports Veterans, Servicemembers, and some eligible dependents in their transition from military to college life. We have Vocational Rehabilitation Counselors (called VSOC Counselors) at 94 college campuses across the country.
 
 </div>
 
-This program is also available to dependents of Veterans who:
+### How our counselors can help you as a Veteran or Servicemember
+
+Our counselors can help you with your Veterans’ benefits, which may include VA health services and education benefits. They can also show you how to get referrals for health services and disability accommodations (like help with taking notes or completing writing assignments) in the classroom. <br>
+[Find out if your college has a VSOC Counselor](http://www.benefits.va.gov/vocrehab/vsoc.asp).
+
+### VetSuccess for dependents
+
+This program is also available to dependents of Veterans who meet at least one of the requirements listed below.
+
+**To qualify as a dependent, at least one of these must be true. You:**
 
 - [Are eligible for the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), **or**
 - [Are eligible for the Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education/), **or**

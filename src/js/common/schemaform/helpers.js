@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import shouldUpdate from 'recompose/shouldUpdate';
-import { deepEquals } from 'react-jsonschema-form/lib/utils';
+import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import FormPage from './containers/FormPage';
 import ReviewPage from './review/ReviewPage';

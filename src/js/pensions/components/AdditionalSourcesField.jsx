@@ -9,7 +9,7 @@ import currencyUI from '../../common/schemaform/definitions/currency';
 import {
   toIdSchema,
   deepEquals
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { errorSchemaIsValid } from '../../common/schemaform/validation';
 

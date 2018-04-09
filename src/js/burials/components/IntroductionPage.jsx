@@ -3,9 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { focusElement } from '../../common/utils/helpers';
-import OMBInfo from '../../common/components/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/jean-pants/OMBInfo';
 import FormTitle from '../../common/schemaform/components/FormTitle';
-import { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro, { introActions, introSelector } from '../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -15,23 +15,24 @@ class IntroductionPage extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
+    const isProduction = __BUILDTYPE__ === 'production';
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for burial benefits"/>
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
-        {/* <SaveInProgressIntro */}
-        {/*   prefillEnabled={this.props.route.formConfig.prefillEnabled} */}
-        {/*   pageList={this.props.route.pageList} */}
-        {/*   startText="Start the Burial Benefits Application" */}
-        {/*   {...this.props.saveInProgressActions} */}
-        {/*   {...this.props.saveInProgress}> */}
-        {/*   Please complete the 21P-530 form to apply for burial benefits. */}
-        {/* </SaveInProgressIntro> */}
-        <div className="usa-alert usa-alert-warning">
+        {!isProduction && <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          pageList={this.props.route.pageList}
+          startText="Start the Burial Benefits Application"
+          {...this.props.saveInProgressActions}
+          {...this.props.saveInProgress}>
+          Please complete the 21P-530 form to apply for burial benefits.
+        </SaveInProgressIntro>}
+        {isProduction && <div className="usa-alert usa-alert-warning">
           <div className="usa-alert-body">
             We’re sorry. Our online application isn’t available right now. We’re working to make it easier for you to apply for benefits online, so please check back later to see our new and improved process.
           </div>
-        </div>
+        </div>}
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>

@@ -4,8 +4,7 @@ import Cropper from 'react-cropper';
 import classNames from 'classnames';
 
 const MIN_SIZE = 350;
-const SMALL_CROP_BOX_SIZE = 240;
-const LARGE_CROP_BOX_SIZE = 300;
+const CROP_BOX_SIZE = 240;
 const LARGE_SCREEN = 1201;
 const WARN_RATIO = 1.3;
 const MAX_CROPPED_HEIGHT_WIDTH = 600;
@@ -128,7 +127,6 @@ export default class CropperControls extends React.Component {
 
     const windowWidth = window.innerWidth;
     this.state = {
-      smallCropBox: props.forceNarrowLayout || windowWidth < LARGE_SCREEN,
       windowWidth,
       zoomMin: 0.2,
       zoomMax: 1.7,
@@ -168,19 +166,19 @@ export default class CropperControls extends React.Component {
   }
 
   onDone = () => {
-    const croppedCanvasOptions = this.refs.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
+    const croppedCanvasOptions = this.cropper.getData().width > MAX_CROPPED_HEIGHT_WIDTH ?
       { width: MAX_CROPPED_HEIGHT_WIDTH, height: MAX_CROPPED_HEIGHT_WIDTH } :
       {};
 
     croppedCanvasOptions.imageSmoothingQuality = 'high';
 
-    this.refs.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
+    this.cropper.getCroppedCanvas(croppedCanvasOptions).toBlob(blob => {
       this.props.onPhotoCropped(blob);
     });
   }
 
   onSliderChange = (e) => {
-    this.refs.cropper.zoomTo(e.target.value);
+    this.cropper.zoomTo(e.target.value);
   }
 
   // IE 10 requires explicit handling of slider control
@@ -217,7 +215,7 @@ export default class CropperControls extends React.Component {
 
     // force zoom within zoom bounds
     if (zoomBoundaryValue) {
-      this.refs.cropper.zoomTo(zoomBoundaryValue); // force zoom within constraints
+      this.cropper.zoomTo(zoomBoundaryValue); // force zoom within constraints
       e.preventDefault(); // prevents bad zoom attempt
       return; // don't update state until the subsequent zoom attempt
     }
@@ -283,10 +281,10 @@ export default class CropperControls extends React.Component {
 
   // examines photo and cropper positions to determine if photo is at any edges
   getBoundariesMet = () => {
-    const photoData = this.refs.cropper.getCanvasData();
-    const cropBoxData = this.refs.cropper.getCropBoxData();
+    const photoData = this.cropper.getCanvasData();
+    const cropBoxData = this.cropper.getCropBoxData();
     const boundaries = getPhotoBoundaries({ photoData, cropBoxData });
-    const croppedPhotoWidth = this.refs.cropper.getData().width;
+    const croppedPhotoWidth = this.cropper.getData().width;
 
     const highZoom = croppedPhotoWidth < MIN_SIZE || this.state.zoomValue > WARN_RATIO;
 
@@ -322,10 +320,10 @@ export default class CropperControls extends React.Component {
   // initialize cropbox
   setCropBox = () => {
     // use container and cropbox constants to set cropbox size
-    const containerWidth = this.refs.cropper.getContainerData().width;
-    const heightWidth = this.state.smallCropBox ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE;
+    const containerWidth = this.cropper.getContainerData().width;
+    const heightWidth = CROP_BOX_SIZE;
     const left = (containerWidth / 2) - (heightWidth / 2);
-    this.refs.cropper.setCropBoxData({
+    this.cropper.setCropBoxData({
       top: 0,
       left,
       height: heightWidth,
@@ -343,30 +341,29 @@ export default class CropperControls extends React.Component {
   detectWidth = () => {
     const windowWidth = window.innerWidth;
     this.setState({
-      windowWidth,
-      smallCropBox: this.props.forceNarrowLayout || windowWidth < LARGE_SCREEN
+      windowWidth
     });
   }
 
   // explicit positioning
   movePhotoToPosition = (position) => {
-    this.refs.cropper.setCanvasData(position);
+    this.cropper.setCanvasData(position);
   }
 
   // explicit positioning
   movePhotoToDefaultPosition = () => {
     const defaultPhotoPosition = getDefaultPhotoPosition({
-      photoData: this.refs.cropper.getCanvasData(),
-      cropBoxData: this.refs.cropper.getCropBoxData(),
-      containerWidth: this.refs.cropper.getContainerData().width
+      photoData: this.cropper.getCanvasData(),
+      cropBoxData: this.cropper.getCropBoxData(),
+      containerWidth: this.cropper.getContainerData().width
     });
     this.movePhotoToPosition(defaultPhotoPosition);
   }
 
   // moves photo within bounds
   movePhoto = ({ x = 0, y = 0 } = {}) => {
-    const photoData = this.refs.cropper.getCanvasData();
-    const cropBoxData = this.refs.cropper.getCropBoxData();
+    const photoData = this.cropper.getCanvasData();
+    const cropBoxData = this.cropper.getCropBoxData();
     const boundaries = getPhotoBoundaries({ photoData, cropBoxData });
 
     const newPhotoPosition = getNewPhotoPosition({ photoData, boundaries, x, y });
@@ -376,19 +373,19 @@ export default class CropperControls extends React.Component {
 
   // relative positioning
   rotatePhoto = (degrees) => {
-    this.refs.cropper.rotate(degrees);
+    this.cropper.rotate(degrees);
   }
 
   zoomPhoto = (direction) => {
     switch (direction) {
       case 'IN':
         if (this.state.zoomValue < this.state.zoomMax) {
-          this.refs.cropper.zoom(0.1);
+          this.cropper.zoom(0.1);
         }
         break;
       case 'OUT':
         if (this.state.zoomValue > this.state.zoomMin) {
-          this.refs.cropper.zoom(-0.1);
+          this.cropper.zoom(-0.1);
         }
         break;
       default:
@@ -408,7 +405,7 @@ export default class CropperControls extends React.Component {
   }
 
   updateZoomToDefaultState = () => {
-    const photoData = this.refs.cropper.getCanvasData();
+    const photoData = this.cropper.getCanvasData();
     const zoomMin = photoData.width / photoData.naturalWidth;
 
     this.setState({
@@ -421,17 +418,13 @@ export default class CropperControls extends React.Component {
   // use the windowWidth as a key to for the component to remount when the window width changes
   render() {
 
-    // narrow-layout class controls visiblity of elements based on window width
-    // if layout is forced narrow, remove this behavior
-    const narrowLayoutButtonsClassNames = classNames('cropper-control-row', { 'narrow-layout': !this.props.forceNarrowLayout });
-
-    // prevent the cropper from re-mounting when forcing narrow layout and width is in large screen range
-    const cropperKey = this.props.forceNarrowLayout && this.state.windowWidth >= LARGE_SCREEN ? LARGE_SCREEN : this.state.windowWidth;
+    // prevent the cropper from re-mounting when width is in large screen range
+    const cropperKey = this.state.windowWidth >= LARGE_SCREEN ? LARGE_SCREEN : this.state.windowWidth;
 
     return (
       <div className="cropper-container-outer">
         <Cropper
-          ref="cropper"
+          ref={element => { this.cropper = element; }}
           key={cropperKey}
           ready={this.setCropBox}
           responsive
@@ -441,7 +434,7 @@ export default class CropperControls extends React.Component {
           cropstart={this.onCropstart}
           cropend={this.onCropend}
           cropmove={() => true}
-          minContainerHeight={this.state.smallCropBox ? SMALL_CROP_BOX_SIZE : LARGE_CROP_BOX_SIZE}
+          minContainerHeight={CROP_BOX_SIZE}
           toggleDragModeOnDblclick={false}
           dragMode="move"
           guides={false}
@@ -450,7 +443,6 @@ export default class CropperControls extends React.Component {
         <div className="cropper-zoom-container">
           <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={this.onZoomOut}>
             <span className="cropper-control-label">
-              {this.props.forceNarrowLayout || <span className="normal-layout">Make smaller</span>}
               <i className="fa fa-search-minus">
               </i>
             </span>
@@ -470,14 +462,13 @@ export default class CropperControls extends React.Component {
             value={this.state.zoomValue}/>
           <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={this.onZoomIn}>
             <span className="cropper-control-label">
-              {this.props.forceNarrowLayout || <span className="normal-layout">Make larger</span>}
               <i className="fa fa-search-plus">
               </i>
             </span>
           </button>
         </div>
         <div className="cropper-control-container">
-          <div className={narrowLayoutButtonsClassNames}>
+          <div className="cropper-control-row">
             <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={this.onZoomOut}>
               <span className="cropper-control-label">Make smaller</span>
             </button>
@@ -486,21 +477,21 @@ export default class CropperControls extends React.Component {
             </button>
           </div>
           <div className="cropper-control-row">
-            <MoveRotateButton disabled={this.state.moveUpDisabled} onClick={this.onMoveUp} label="Move up" iconClassName="fa fa-arrow-up"/>
-            <MoveRotateButton disabled={this.state.moveDownDisabled} onClick={this.onMoveDown} label="Move down" iconClassName="fa fa-arrow-down"/>
-          </div>
-          <div className="cropper-control-row">
-            <MoveRotateButton disabled={this.state.moveLeftDisabled} onClick={this.onMoveLeft} label="Move left" iconClassName="fa fa-arrow-left"/>
-            <MoveRotateButton disabled={this.state.moveRightDisabled} onClick={this.onMoveRight} label="Move right" iconClassName="fa fa-arrow-right"/>
+            <div>
+              <MoveRotateButton disabled={this.state.moveUpDisabled} onClick={this.onMoveUp} label="Move up" iconClassName="fa fa-arrow-up"/>
+              <MoveRotateButton disabled={this.state.moveDownDisabled} onClick={this.onMoveDown} label="Move down" iconClassName="fa fa-arrow-down"/>
+            </div>
+            <div>
+              <MoveRotateButton disabled={this.state.moveLeftDisabled} onClick={this.onMoveLeft} label="Move left" iconClassName="fa fa-arrow-left"/>
+              <MoveRotateButton disabled={this.state.moveRightDisabled} onClick={this.onMoveRight} label="Move right" iconClassName="fa fa-arrow-right"/>
+            </div>
           </div>
           <div className="cropper-control-row">
             <MoveRotateButton onClick={this.onRotateLeft} label="Rotate left" iconClassName="fa fa-rotate-left"/>
             <MoveRotateButton onClick={this.onRotateRight} label="Rotate left" iconClassName="fa fa-rotate-right"/>
           </div>
         </div>
-        <div style={{ margin: '1em 1em 4em' }}>
-          {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-        </div>
+        {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
         <div className="crop-button-container">
           <button type="button" className="usa-button-primary" onClick={this.onDone}>
             I’m Done
@@ -512,7 +503,6 @@ export default class CropperControls extends React.Component {
 }
 
 CropperControls.PropTypes = {
-  forceNarrowLayout: React.PropTypes.bool,
   onPhotoCropped: React.PropTypes.func.isRequired,
   src: React.PropTypes.string.isRequired
 };

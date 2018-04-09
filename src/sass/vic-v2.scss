@@ -11,7 +11,7 @@
   margin-left: 1.25em;
 }
 
-input[type=range] {
+input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
   height: 30px; // necessary to allow IE thumb to be taller than track
@@ -94,7 +94,6 @@ input[type=range] {
   }
 }
 
-
 .fa {
   font-size: 1.07em !important;
 }
@@ -126,7 +125,7 @@ input[type=range] {
 
 .cropper-container-outer {
   @media (min-width: $large-screen) {
-    padding: 10px 50px;
+    padding: 10px 20px;
   }
   .form-review-panel-page & {
     padding: 0;
@@ -136,9 +135,6 @@ input[type=range] {
 .cropper-container {
   height: 240px !important;
   width: 100% !important;
-  @media (min-width: $large-screen) {
-    height: 300px !important;
-  }
   .form-review-panel-page & {
     height: 240px !important;
   }
@@ -196,9 +192,6 @@ input[type=range] {
   justify-content: space-around;
   flex-flow: row wrap;
   margin-bottom: 30px;
-  @media (min-width: $large-screen) {
-    min-width: 600px;
-  }
   .form-review-panel-page & {
     min-width: auto;
   }
@@ -207,7 +200,8 @@ input[type=range] {
 .cropper-control-row {
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: center;
+  flex-wrap: wrap;
   @media (min-width: $large-screen) {
     width: inherit;
   }
@@ -254,23 +248,16 @@ input[type=range] {
 .cropper-control.cropper-control-zoom {
   width: auto !important;
   padding: 0 10px !important;
-  @media (min-width: $large-screen) {
-    padding: 0px !important;
-    width: 25% !important;
-  }
   .form-review-panel-page & {
     width: auto !important;
     padding: 0 10px !important;
   }
-  &.cropper-control-zoom-in{
+  &.cropper-control-zoom-in {
     &.label-container {
       width: 50% !important;
       margin-right: 20px;
     }
     .cropper-control-label {
-      @media (min-width: $large-screen) {
-        float: right;
-      }
       .form-review-panel-page & {
         float: auto;
       }
@@ -280,25 +267,6 @@ input[type=range] {
     .cropper-control-label {
       float: left;
     }
-  }
-}
-
-.narrow-layout {
-  @media (min-width: $large-screen) {
-    display: none;
-  }
-}
-
-.normal-layout {
-  display: none;
-  @media (min-width: $large-screen) {
-    display: inline;
-  }
-}
-
-.fa {
-  @media (min-width: $large-screen) {
-    padding: 0 15px 0 5px !important;
   }
 }
 
@@ -313,11 +281,6 @@ input[type=range] {
 
 .fa-search-plus {
   font-size: 2em !important;
-  @media (min-width: $large-screen) {
-    font-size: 1.07em !important;
-    padding: 0 5px !important;
-    float: left;
-  }
   .form-review-panel-page & {
     font-size: 2em !important;
     padding: 0 !important;
@@ -327,11 +290,6 @@ input[type=range] {
 
 .fa-search-minus {
   font-size: 2em !important;
-  @media (min-width: $large-screen) {
-    font-size: 1.07em !important;
-    padding: 0 4px 0 4px !important;
-    float: right;
-  }
   .form-review-panel-page & {
     font-size: 2em !important;
     padding: auto !important;
@@ -501,7 +459,7 @@ input[type=range] {
 
 .schemaform-label.photo-label {
   font-weight: bold;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .photo-error-message {
@@ -513,9 +471,11 @@ input[type=range] {
 }
 
 /* USWDS overrides */
-.usa-accordion, .usa-accordion-bordered {
+.usa-accordion,
+.usa-accordion-bordered {
   > ul {
-    button.cropper-control, button.photo-edit-button {
+    button.cropper-control,
+    button.photo-edit-button {
       font-weight: $font-normal;
     }
     .photo-preview-link {
@@ -546,4 +506,8 @@ input[type=range] {
 
 .vic-processing-warning {
   margin-bottom: 2em;
+}
+
+.photo-field-page {
+  max-width: 100%;
 }

@@ -29,7 +29,7 @@
     }
 
     &-undefined {
-      background: white;
+      background: $color-white;
       padding-left: 2rem;
     }
 
@@ -70,8 +70,12 @@
         padding: 0;
       }
     }
-    &-title { margin-top: 0; }
-    &-list { margin-top: 10px; }
+    &-title {
+      margin-top: 0;
+    }
+    &-list {
+      margin-top: 10px;
+    }
     &-divider {
       background: $color-primary-alt-lightest;
       width: 3px;
@@ -108,7 +112,7 @@
     // font-size: 2.4rem;
     margin: 0;
     // Abusing important until #content .section h3 is cleared up.
-    padding: .5rem 2rem !important;
+    padding: 0.5rem 2rem !important;
   }
 
   &-inner {
@@ -184,9 +188,9 @@ button.va-modal-close {
   background-color: transparent;
   color: $color-va-modal-close;
   font-size: 2.5rem;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   position: absolute;
-  margin: .25rem;
+  margin: 0.25rem;
   right: 0;
   top: 0;
   width: auto;

@@ -25,7 +25,7 @@ describe('Appeals V2 Docket', () => {
   it('should display frontOfDocket text', () => {
     const props = { ...defaultProps, frontOfDocket: true };
     const wrapper = shallow(<Docket {...props}/>);
-    expect(wrapper.text()).to.contain('The Board is currently working on appeals from');
+    expect(wrapper.text()).to.contain('The Board is currently reviewing appeals from');
   });
 
   it('should display non-frontOfDocket text', () => {

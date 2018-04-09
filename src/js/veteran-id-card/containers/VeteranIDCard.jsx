@@ -20,17 +20,14 @@ function createVicSettings() {
 }
 
 class VeteranIDCard extends React.Component {
-
   componentWillReceiveProps(nextProps) {
-
     // Once the login logic is all done...
     // This will occur even for unauthenticated users and should only occur once.
-    if (this.props.profile.loading && !nextProps.profile.loading) {
-      const userProfile = nextProps.profile;
+    if (this.props.user.profile.loading && !nextProps.user.profile.loading) {
+      const userProfile = nextProps.user.profile;
       const { serviceRateLimitedAuthed, serviceRateLimitedUnauthed } = this.props.vicSettings;
-      const isloggedIn = !!userProfile.accountType;
 
-      if (isloggedIn) {
+      if (nextProps.user.login.currentlyLoggedIn) {
         if (serviceRateLimitedAuthed) {
           window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
           this.renderEmailCapture = true;
@@ -64,13 +61,11 @@ class VeteranIDCard extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={3}
+          verify
           serviceRequired="id-card"
-          userProfile={this.props.profile}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}>
+          user={this.props.user}>
           <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[services.vic]}>
-            <RequiredVeteranView userProfile={this.props.profile}>
+            <RequiredVeteranView userProfile={this.props.user.profile}>
               {this.props.children}
             </RequiredVeteranView>
           </DowntimeNotification>
@@ -85,12 +80,7 @@ VeteranIDCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { user: state.user };
 };
 
 export default connect(mapStateToProps)(VeteranIDCard);

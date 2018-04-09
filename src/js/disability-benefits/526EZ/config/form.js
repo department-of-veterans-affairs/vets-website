@@ -1,7 +1,9 @@
 import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fileUploadUI from '../../../common/schemaform/definitions/file';
 
+import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -17,7 +19,13 @@ import {
   privateRecordsChoice,
   privateRecordsChoiceHelp,
   facilityDescription,
-  treatmentView
+  treatmentView,
+  recordReleaseWarning,
+  validateAddress,
+  documentDescription,
+  evidenceSummaryView,
+  additionalDocumentDescription,
+  releaseView
 } from '../helpers';
 
 const {
@@ -25,8 +33,11 @@ const {
 } = fullSchema526EZ.properties;
 
 const {
-  date
+  date,
+  // files
 } = fullSchema526EZ.definitions;
+
+const FIFTY_MB = 52428800;
 
 // We may add these back in after the typeahead, but for now...
 const treatmentsSchema = _.set('items.properties.treatment.properties',
@@ -40,63 +51,25 @@ const treatmentsSchema = _.set('items.properties.treatment.properties',
     treatments.items.properties.treatment.properties
   ), treatments);
 
-const initialData = {
-  // For testing purposes only
-  disabilities: [
-    {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'PTSD',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
-        },
-        ratedDisabilityId: '12345',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '67890',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    },
-    {
-      disability: { // Is this extra nesting necessary?
-        diagnosticText: 'Second Disability',
-        decisionCode: 'Filler text', // Should this be a string?
-        // Is this supposed to be an array?
-        specialIssues: {
-          specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
-        },
-        ratedDisabilityId: '54321',
-        disabilityActionType: 'Filler text',
-        ratingDecisionId: '09876',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
-        secondaryDisabilities: [
-          {
-            diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
-          },
-          {
-            diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    }
-  ]
-};
+const privateRecordReleasesSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
+  privateMedicalRecordsReleaseAccepted: {
+    type: 'boolean'
+  },
+  'view:privateMedicalRecordsReleasePermissionRestricted': {
+    type: 'object',
+    'ui:collapsed': true,
+    properties: {}
+  },
+  treatmentCenterStreet1: {
+    type: 'string'
+  },
+  treatmentCenterStreet2: {
+    type: 'string'
+  },
+  treatmentCenterPostalCode: {
+    type: 'number'
+  }
+});
 
 const formConfig = {
   urlPrefix: '/',
@@ -113,7 +86,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    date
+    date,
+    // files
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
@@ -338,7 +312,7 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateMedicalRecordsIntro,
+                'ui:description': privateMedicalRecordsIntro
               }
             }
           },
@@ -404,10 +378,326 @@ const formConfig = {
             }
           }
         },
-        // pageSeven: {},
-        // pageEight: {},
-        // pageNine: {},
-        // pageTen: {},
+        privateMedicalRecordRelease: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-release',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // TODO: enable once previous chapter merged
+            // const requestsRecords = !_.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
+            const requestsRecords = true;
+            return hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
+                privateRecordReleases: {
+                  'ui:options': {
+                    itemName: 'Private Medical Record Release',
+                    viewField: releaseView
+                  },
+                  items: {
+                    privateRecordRelease: {
+                      'ui:order': [
+                        'treatmentCenterName',
+                        'privateMedicalRecordsReleaseAccepted',
+                        'view:privateMedicalRecordsReleasePermissionRestricted',
+                        'startTreatment', 'endTreatment',
+                        'treatmentCenterCountry', 'treatmentCenterStreet1',
+                        'treatmentCenterStreet2', 'treatmentCenterCity',
+                        'treatmentCenterState', 'treatmentCenterPostalCode'
+                      ],
+                      treatmentCenterName: { // TODO: is this required?
+                        'ui:title': 'Name of private provider or hospital'
+                      },
+                      privateMedicalRecordsReleaseAccepted: {
+                        'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
+                      },
+                      'view:privateMedicalRecordsReleasePermissionRestricted': {
+                        'ui:description': () => recordReleaseWarning,
+                        'ui:options': {
+                          expandUnder: 'privateMedicalRecordsReleaseAccepted'
+                        }
+                      },
+                      startTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of first treatment since you received your rating'
+                      },
+                      endTreatment: {
+                        'ui:widget': 'date',
+                        'ui:title': 'Approximate date of last treatment'
+                      },
+                      treatmentCenterCountry: { // TODO: need to update schema to use default def
+                        'ui:title': 'Country'
+                      },
+                      treatmentCenterStreet1: {
+                        'ui:title': 'Street'
+                      },
+                      treatmentCenterStreet2: {
+                        'ui:title': 'Street'
+                      },
+                      treatmentCenterCity: {
+                        'ui:title': 'City'
+                      },
+                      treatmentCenterState: {
+                        'ui:title': 'State'
+                      },
+                      treatmentCenterPostalCode: {
+                        'ui:title': 'Postal code',
+                        'ui:options': {
+                          widgetClassNames: 'usa-input-medium'
+                        }
+                      },
+                      'ui:validations': [validateAddress]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    privateRecordReleases: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          privateRecordRelease: {
+                            type: 'object',
+                            properties: _.omit(['treatmentCenterType'], privateRecordReleasesSchema)
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        recordUpload: {
+          title: 'Upload your private medical records',
+          depends: (formData, index) => {
+            const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
+            // TODO: enable once previous chapter merged
+            // const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
+            const uploadRecords = true;
+            return hasRecords && uploadRecords;
+          },
+          path: 'supporting-evidence/:index/documents',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                privateRecords: Object.assign({},
+                  fileUploadUI('Upload your private medical records', {
+                    itemDescription: 'Adding additional evidence:',
+                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    addAnotherLabel: 'Add Another Document',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
+                    createPayload: (file) => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+
+                      return payload;
+                    },
+                    parseResponse: (response, file) => {
+                      return {
+                        name: file.name,
+                        confirmationCode: response.data.attributes.guid
+                      };
+                    },
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name'
+                    }
+                  }),
+                  { 'ui:description': documentDescription }
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    privateRecords: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        required: ['name', 'attachmentId'],
+                        properties: {
+                          name: {
+                            type: 'string'
+                          },
+                          size: {
+                            type: 'integer'
+                          },
+                          confirmationCode: {
+                            type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              // '4',
+                              '5',
+                              '6'
+                            ],
+                            enumNames: [
+                              'Discharge',
+                              'Marriage related',
+                              'Dependent related',
+                              // 'VA preneed form',
+                              'Letter',
+                              'Other'
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        documentUpload: {
+          title: 'Lay statements or other evidence',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
+          path: 'supporting-evidence/:index/additionalDocuments',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                additionalDocuments: Object.assign({},
+                  fileUploadUI('Lay statements or other evidence', {
+                    itemDescription: 'Adding additional evidence:',
+                    endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
+                    addAnotherLabel: 'Add Another Document',
+                    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+                    maxSize: FIFTY_MB,
+                    createPayload: (file) => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file); // TODO: update this with correct property (e.g. 'health_record[file_data]')
+
+                      return payload;
+                    },
+                    parseResponse: (response, file) => {
+                      return {
+                        name: file.name,
+                        confirmationCode: response.data.attributes.guid
+                      };
+                    },
+                    attachmentSchema: {
+                      'ui:title': 'Document type'
+                    },
+                    attachmentName: {
+                      'ui:title': 'Document name'
+                    }
+                  }),
+                  { 'ui:description': additionalDocumentDescription }
+                )
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    additionalDocuments: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        required: ['name', 'attachmentId'],
+                        properties: {
+                          name: {
+                            type: 'string'
+                          },
+                          size: {
+                            type: 'integer'
+                          },
+                          confirmationCode: {
+                            type: 'string'
+                          },
+                          attachmentId: {
+                            type: 'string',
+                            'enum': [
+                              '1',
+                              '2',
+                              '3',
+                              // '4',
+                              '5',
+                              '6'
+                            ],
+                            enumNames: [
+                              'Discharge',
+                              'Marriage related',
+                              'Dependent related',
+                              // 'VA preneed form',
+                              'Letter',
+                              'Other'
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        evidenceSummary: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/:index/evidence-summary',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': 'Summary of evidence',
+                'ui:description': evidenceSummaryView
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
+        }
       }
     },
     chapterFive: {
@@ -420,7 +710,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     }
