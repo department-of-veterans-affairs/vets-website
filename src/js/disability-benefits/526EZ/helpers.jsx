@@ -4,10 +4,32 @@ import classNames from 'classnames';
 import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+
+
+/*
+ * Flatten nested array form data into sibling properties
+ *
+ * @param {object} data - Form data for a full form, including nested array properties
+ */
+export function flatten(data) {
+  const formData = cloneDeep(data);
+  formData.disabilities.forEach((disability, idx) => {
+    siblings.forEach(sibling => {
+      if (disability[sibling]) {
+        formData[sibling] = [];
+        formData[sibling][idx] = disability[sibling];
+        delete disability[sibling]; // eslint-disable-line no-param-reassign
+      }
+    });
+  });
+  return formData;
+}
 
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  const formData = flatten(transformForSubmit(formConfig, form));
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
@@ -181,3 +203,83 @@ export const recordReleaseWarning = (
     <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
   </div>
 );
+
+export const documentDescription = () => {
+  return (
+    <div>
+      <p>File upload guidelines:</p>
+      <ul>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
+      </ul>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+    </div>
+  );
+};
+
+export const additionalDocumentDescription = () => {
+  return (
+    <div>
+      <p>If you have other evidence, like lay or buddy statements, that you would like to submit, you can upload them here.</p>
+      <p>File upload guidelines:</p>
+      <ul>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 50 MB</li>
+      </ul>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+    </div>
+  );
+};
+
+const documentLabels = {
+  1: 'Discharge',
+  2: 'Marriage related',
+  3: 'Dependent related',
+  // 4: 'VA preneed form',
+  5: 'Letter',
+  6: 'Other'
+};
+
+const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
+
+const listifyCenters = (center, idx, list) => {
+  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
+  const notLast = idx < (list.length - 1);
+  const justOne = list.length === 1;
+  const atLeastThree = list.length > 2;
+  return (
+    <span key={idx}>
+      {!notLast && !justOne && <span className="repose"> and </span>}
+      {centerName}
+      {atLeastThree && notLast && ', '}
+    </span>
+  );
+};
+
+
+export const evidenceSummaryView = ({ formData }) => {
+  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  return (
+    <div>
+      <ul>
+        {VATreatments &&
+        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
+        {privateRecordReleases &&
+        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        {additionalDocuments &&
+        <li>We have received the additional evidence you uploaded:
+          <ul>
+            {additionalDocuments.map((document, id) => {
+              return (<li className="dashed-bullet" key={id}>
+                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
+              </li>);
+            })
+            }
+          </ul>
+        </li>}
+      </ul>
+    </div>
+  );
+};

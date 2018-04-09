@@ -9,7 +9,6 @@
   text-align: center;
 }
 
-
 body {
   .row {
     max-width: 62.5em;
@@ -145,12 +144,12 @@ body {
     background-image: url("/img/arrow-down-white.svg");
     background-position: right bottom;
     background-repeat: no-repeat;
-    background-size: .6em auto;
+    background-size: 0.6em auto;
     content: ""; // Add content for accessibility purposes?
     display: inline-block;
     height: 1em;
-    margin-left: .5em;
-    margin-right: -.3em;
+    margin-left: 0.5em;
+    margin-right: -0.3em;
     text-indent: -9999em;
     width: 1em;
   }
@@ -197,7 +196,7 @@ body {
 // See: https://github.com/18F/web-design-standards/issues/1899
 // ===========================================
 
-@include media($medium-large-screen)  {
+@include media($medium-large-screen) {
   .usa-grid {
     .usa-width-one-fourth {
       margin-right: 2.35765%;
@@ -214,7 +213,8 @@ body {
 // At some point between 0.10 and 1.4, USWDS modified radio/checkbox style
 // so be position: absolute, and left: -999em. This isn't compatible with our
 // e2e test cases, because Nightwatch can't find the elements on screen.
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
   margin-left: -2rem;
   opacity: 0;
   position: absolute;
@@ -225,14 +225,14 @@ input[type="checkbox"], input[type="radio"] {
 // [hidden] { display: none !important; }
 // However, some apps set the property to false and expect the element to be visible.
 // So, we do this shameful override to get around it.
-[hidden=false]{
+[hidden="false"] {
   display: block !important;
 }
 
 // USWDS adds an increased margin for submit buttons, which break out grid display when we have a
 // back button on the left and a submit on the right.
 form {
-  [type=submit] {
+  [type="submit"] {
     @include media($medium-screen) {
       padding-left: 2rem;
       padding-right: 2rem;
@@ -259,8 +259,8 @@ form {
   position: relative;
 
   &:before {
-    background-color: #fdb81e;
-    content: '';
+    background-color: $color-gold;
+    content: "";
     height: 100%;
     left: 0;
     position: absolute;
@@ -282,7 +282,6 @@ form {
     text-align: left;
 
     .usa-alert-heading {
-
       margin: 0 auto;
       padding: 0;
     }

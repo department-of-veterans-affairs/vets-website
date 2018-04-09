@@ -40,23 +40,25 @@ You can't use the BDD program if your claim requires special handling—even if 
 
 **You can't use the BDD program if any of these are true. You:**
 
-- Need case management for a serious injury or illness, **or**
-- Have suffered the loss of a body part, **or**
-- Are terminally ill, **or**
-- Are waiting to be discharged while being treated at a VA hospital or other military treatment facility, **or**
-- Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany, or Yongsan, Korea), **or**
-- Are pregnant, **or**
-- Are waiting for us to determine your Character of Discharge, **or**
-- Can't go to a VA exam during the 45 day period after you submit your claim, **or**
-- Didn't submit copies of your treatment records for your current period of service, **or**
-- Added a medical condition to your original claim when you had less than 90 days left on active duty (**Note:** We'll process the added conditions after your discharge.)
+* Need case management for a serious injury or illness, **or**
+* Have suffered the loss of a body part, **or**
+* Are terminally ill, **or**
+* Are waiting to be discharged while being treated at a VA hospital or other military treatment facility, **or**
+* Need to have a VA exam done in a foreign country (except if the exam can be requested by the overseas BDD office in either Landstuhl, Germany, or Yongsan, Korea), **or**
+* Are pregnant, **or**
+* Are waiting for us to determine your Character of Discharge, **or**
+* Can't go to a VA exam during the 45 day period after you submit your claim, **or**
+* Didn't submit copies of your treatment records for your current period of service, **or**
+* Added a medical condition to your original claim when you had less than 90 days left on active duty (**Note:** We'll process the added conditions after your discharge.)
 
 </div>
 
 ### What kind of disability benefits can I get?
+
 Compensation (monthly payments)
 
------
+---
+
 <span id="ways-to-file"></span>
 
 ### How do I apply for disability benefits before I leave the service?
@@ -73,21 +75,25 @@ Apply through the BDD program</button>
 If you have 180 to 90 days left on active duty, you'll need to apply for benefits through the BDD program. The application process depends on where you're stationed.
 
 ### If you're stationed in the U.S.
+
 You can apply for benefits online, by mail, or in person. <br>
 [Learn more about how to apply for benefits](/disability-benefits/apply/).
 
 **To complete the process, you'll need to:**
 
-- Submit your service treatment records along with your application, **and**
-- Be available for 45 days from the date you apply for a VA medical exam, **and**
-- Finish all phases of the VA/DoD medical separation examination process before your release from the military
+* Submit your service treatment records along with your application, **and**
+* Be available for 45 days from the date you apply for a VA medical exam, **and**
+* Finish all phases of the VA/DoD medical separation examination process before your release from the military
 
 ### If you're stationed overseas
+
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
 [Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
 #### Need help applying?
+
 If you’re on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you’ll learn how to start your claim. You can also call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>.
+
 </div>
 </li>
 <li>
@@ -102,9 +108,10 @@ If you have less than 90 days left on active duty, you have 3 options for filing
 This is the fastest way to get your claim processed. You'll work with an accredited Veterans Service Organization (VSO) to file your claim. A VSO is a private nonprofit group that serves as an advocate for Veterans and Servicemembers as well as their dependents and survivors. With your VSO's help, you can get a decision within 30 days.
 
 **To file a claim through the DRC program, you'll need to:**
-- Appoint and work with an accredited VSO, **and**
-- Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
-- Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
+
+* Appoint and work with an accredited VSO, **and**
+* Gather all relevant and required evidence (documents like doctor's reports and medical test results) to support your claim, **and**
+* Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
 
 **Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.<br>
 [Learn about the IDES program](/employment/vocational-rehab-and-employment/ides/). <br>
@@ -144,4 +151,4 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 
 <br>
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>

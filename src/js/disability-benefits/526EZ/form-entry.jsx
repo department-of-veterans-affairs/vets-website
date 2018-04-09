@@ -1,33 +1,14 @@
-import 'core-js';
+import '../../../platform/polyfills';
 import '../../../sass/disability-benefits.scss';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createHistory } from 'history';
-import { Router, useRouterHistory } from 'react-router';
-import { Provider } from 'react-redux';
+import startApp from '../../../platform/startup';
 
-import initReact from '../../common/init-react';
 import routes from './routes';
 import reducer from './reducer';
-import initCommon from '../../common/init-common';
+import manifest from './manifest.json';
 
-const store = initCommon(reducer);
-
-// TODO: Get the real url
-const browserHistory = useRouterHistory(createHistory)({
-  basename: '/disability-benefits/526/apply-for-increase'
+startApp({
+  url: manifest.rootUrl,
+  reducer,
+  routes
 });
-
-function init() {
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={browserHistory}>
-        {routes}
-      </Router>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
-
-// Start react.
-initReact(init);
