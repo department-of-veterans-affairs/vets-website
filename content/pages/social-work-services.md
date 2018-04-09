@@ -37,7 +37,7 @@ Find out how our VA social workers can help you and your family—and how to con
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-            <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+            <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
@@ -63,7 +63,7 @@ Our social workers can help you with many different needs.
 **You can reach out to a VA social worker for support if you're:**
 
 - **In a crisis situation.** We can counsel you through the crisis, and then help connect you to VA and community resources to meet your long-term needs.
-- **Homeless, often in the hospital, or unable to care for yourself any longer.** We can help you find housing—even in an assisted living facility or nursing home if needed.
+- **Homeless, often in the hospital, or unable to care for yourself any longer.** We can help you find housing—if needed, in an assisted living facility or nursing home.
 - **In the hospital.** We can help you plan for your ongoing care at home or in a rehab or other facility. 
 - **Living in a rural location far from a VA health facility.** We can work with your health care team to make sure you get the care you need from VA or in your community.
 - **Having trouble speaking up for yourself or feeling overwhelmed as you try to set up your care.** We can serve as your voice to make sure your wishes are respected and you get what you need.
@@ -123,14 +123,14 @@ That's 100% OK. We're here to help you figure out what's wrong, and how we can h
 - Military experience
 - Thoughts about what you need help with
 
-Then, they'll write up an asssessment that will help you, your family caregiver or other support person, and your VA health care team make plans to get you the treatment and support you need.
+Then they'll write up an asssessment that will help you, your family caregiver or other support person, and your VA health care team make plans to get you the treatment and support you need.
 
 **Note:** You can meet with a social worker by yourself, or you can bring your family caregiver or other support person with you if you'd like.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="Disagree-with-social-worker">What if I don't agree with the social worker's assessment?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="Disagree-with-social-worker">What if I don’t agree with the social worker’s assessment?</button>
 <div id="Disagree-with-social-worker" class="usa-accordion-content">
 
 That's OK. Your social worker is here to help you. If you don't agree with their assessment, talk with them and others on your VA health care team about your concerns. They'll work together with you to figure out a plan that works.
@@ -138,7 +138,7 @@ That's OK. Your social worker is here to help you. If you don't agree with their
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="Help-in-hospital">How will a VA social worker support me if I'm in the hospital?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="Help-in-hospital">How will a VA social worker support me if I’m in the hospital?</button>
 <div id="Help-in-hospital" class="usa-accordion-content">
 
 Your VA social worker will make sure you get consistent care from the time you're admitted to the hospital to after you're discharged, including any ongoing follow-up treatment or support you may need. They can plan for and provide any needed services based on your health, help you with your family and living situation, and point you to government and community resources.
@@ -146,7 +146,7 @@ Your VA social worker will make sure you get consistent care from the time you'r
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="Hospital-far-from-home">Can a VA social worker help my family find a free place to stay if I'm being treated in a hospital far from home?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="Hospital-far-from-home">Can a VA social worker help my family find a free place to stay if I’m being treated in a hospital far from home?</button>
 <div id="Hospital-far-from-home" class="usa-accordion-content">
 
 Yes. Your social worker can connect you to a nonprofit organization called the Fisher House Foundation. This Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths. They share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at many military and VA medical centers around the world.<br>
