@@ -103,10 +103,10 @@ We're here to help you figure out what's wrong, and how we can help. We have exp
 - Your military experience
 - The things you think you need help with
 
-After the meeting, your social worker will write up an assessment. Then, they'll work with you and your VA health care team to create a plan to get you the treatment and support you need.
+After the meeting, your social worker will write up an assessment. Then they'll work with you and your VA health care team to create a plan to get you the treatment and support you need.
 
 If you're feeling stressed, mistreated, or overwhelmed—or just have questions or problems you need help with—ask the staff at your nearest VA health facility to connect you with a local VA social worker. We can help with almost any need, or connect you with the right person for help.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 </div>
 </div>
@@ -124,8 +124,8 @@ If you want to know more about your VA health care benefits, your health care te
 
 **If you need help accessing services:**
 - Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+1-877-222-8387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
-- Or, ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+- Or ask the staff at your nearest VA health facility to connect you with a local VA social worker. <br>
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 </div>
 </div>
