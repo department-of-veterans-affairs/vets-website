@@ -68,8 +68,8 @@ It depends. We process claims in the order we receive them, unless a claim requi
 
 ### What if my family and I need help making decisions about my long-term care?
 
-Your VA social work or care coordinator can help. They'll work with you, your family caregiver or other support person, and your VA health care team to make shared decisions based on your needs and wishes. They can help you stay in your own home with support, or move into an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs like dealing with stress related to your condition and communicating your wishes for end-of-life care to your family and health care team.
+Your VA social worker or care coordinator can help. They'll work with you, your family caregiver or other support person, and your VA health care team to make shared decisions based on your needs and wishes. They can help you stay in your own home with support, or help you move into an assisted living facility, foster home, or nursing home. Your social worker can also help you with many other needs, like dealing with stress related to your condition and communicating your wishes for end-of-life care to your family and health care team.
 
 To talk with a VA social worker, ask your VA primary care provider to set up an appointment for you. If you're not enrolled in the VA health care program, or don't have a VA primary care provider, call your nearest VA health facility and ask them to connect you to a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).<br>
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).<br>
 [Find out more about assisted living and home health care services](/health-care/about-va-health-care/assisted-living-and-home-health-care/).
