@@ -33,9 +33,10 @@ Find out if you can get disability compensation for an illness or injury that wa
 
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and you meet at least one of the requirements listed below.
 
-**At least one of these must be true:**
-- You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
-- You had an illness or injury before you joined the military—and serving made it worse
+**At least one of these must be true. You:**
+- Got sick or injured while serving in the military—and can link this condition to your illness or injury (called an inservice disability claim), **or**
+- Had an illness or injury before you joined the military—and serving made it worse (called a preservice disability claim), **or**
+- Have a disability related to your active-duty service that didn’t appear until after you ended your service (called a postservice disability claim)
 
 <h4>Presumed disabilities</h4>
 If you have a disability that's been diagnosed by a doctor and that we consider to be related to your military service because of a specific aspect of that service, you may be able to get disability benefits based on this presumed disability. This usually applies to:
