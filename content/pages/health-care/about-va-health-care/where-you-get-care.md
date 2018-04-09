@@ -162,7 +162,7 @@ You can schedule VA health care appointments by phone or through our online sche
 
 #### Can you help me get to and from appointments?
 
-Yes, we may be able to help you get to and from appointments in certain cases. Or, we may pay you back for the cost of transportation if you qualify for help. <br>
+We may be able to help you get to and from appointments in certain cases. Or we may pay you back for the cost of transportation if you qualify for help. <br>
 [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 
 <br>
@@ -171,7 +171,7 @@ Yes, we may be able to help you get to and from appointments in certain cases. O
 
 #### Can you help me cover travel expenses if I need to travel for care?
 
-Yes, we may be able to help with travel expenses if you need to travel for care. <br>
+We may be able to help with travel expenses if you need to travel for care. <br>
 [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 
 **You can also check out these community resources for help with travel expenses:**
@@ -180,8 +180,8 @@ Yes, we may be able to help with travel expenses if you need to travel for care.
 [Learn more about Angel Flight](http://www.angelflight.com).
 - **Corporate Angel Network**, which uses the empty seats on private and corporate planes to offer free flights to cancer patients who need to get to a specific hospital for specialized treatment. <br>
 [Learn more about the Corporate Angel Network](http://www.corpangelnetwork.org/home).
-- **Mercy Medical Lift**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation. <br>
-[Learn more about Mercy Medical Lift](http://mercymedical.org).  
+- **Mercy Medical Angels**, which provides long-distance medical air transport to people who don't have health insurance or can't afford transportation. <br>
+[Learn more about Mercy Medical Angels](http://mercymedical.org).  
 
 <br>
 
@@ -189,7 +189,7 @@ Yes, we may be able to help with travel expenses if you need to travel for care.
   
 #### Can my family get help staying close by if I'm being treated in a hospital far from home?
 
-Yes. A nonprofit organization called the Fisher House Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths and share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at many military and VA medical centers around the world.<br>
+Yes. A nonprofit organization called the Fisher House Foundation offers comfortable homes where military and Veteran families can stay free of charge while their loved one is in the hospital. In these homes, families stay in a private suite with private bedrooms and baths. They share a common kitchen, laundry facilities, and dining and living rooms. You can find Fisher House Foundation homes at many military and VA medical centers around the world.<br>
 [Find out if there's a Fisher House near where you'll be treated](https://fisherhouse.org/programs/houses/house-locations/).
 
 The Fisher House Foundation also runs a program that uses donated frequent flyer miles to bring family members to the bedside of wounded, injured, and ill Servicemembers and a program that uses donated hotel points to allow family members to stay at hotels near medical centers for free.<br>
