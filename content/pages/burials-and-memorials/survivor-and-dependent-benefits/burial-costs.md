@@ -21,24 +21,31 @@ If you’re the legally recognized spouse or a designated (legally chosen) famil
 
 ### Can I get burial allowances?
 
-You may be able to get burial allowances if you’re:
+You may be able to get burial allowances if you're paying for the burial and funeral costs, and if any of the below relationships or professional roles describes your connection to the deceased.
+
+**One of these must describe your relationship or role. You’re:**
 
 - The Veteran’s surviving spouse (**Note:** we recognize same-sex marriages), **or**
 - A surviving child of the Veteran, **or**
 - A parent of the Veteran, **or**
 - The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
 
-To get this benefit, the Veteran must have been discharged under conditions other than dishonorable, and must have:
+<br>
+
+To get this benefit, the Veteran must have been discharged under conditions other than dishonorable, and one of the below circumstances must be true.
+
+**One of these must be true of the deceased Veteran. They:**
 
 - Died as a result of a service-connected disability (a disability related to service), **or**
-- Been getting a VA pension or compensation when they died, **or**
-- Chosen to get military retired pay instead of compensation, **or**
+- Had been getting a VA pension or compensation when they died, **or**
+- Had chosen to get military retired pay instead of compensation, **or**
 - Died while getting VA care, either at a VA facility or at a facility contracted by VA, **or**
 - Died while traveling to approved VA care, **or**
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
 - Died on or after October 9, 1996, while a patient at a VA-approved state nursing home
 
-VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
+**Note:** VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
+
 
 </div>
 
@@ -72,9 +79,11 @@ You may need a copy of:
 
 ##### By mail
 
-Apply by mail using an Application for Burial Benefits (VA Form 21P-530). [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
+Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
+[Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
-Mail the application and other paperwork to your local regional benefits office. [Find your local regional benefits office](/facilities).
+Mail the application and other paperwork to your local regional benefit office. <br> 
+[Find your local regional benefit office](/facilities).
 
 If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TDD number for the hearing-impaired is 711. Or call your regional benefits office.
 
