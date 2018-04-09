@@ -3,5 +3,6 @@
   "entryFile": "./dashboard-entry.jsx",
   "entryName": "dashboard-beta",
   "rootUrl": "/dashboard-beta",
-  "production": true
+  "production": false,
+  "contentPage": "dashboard-beta/index.md"
 }
