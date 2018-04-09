@@ -205,7 +205,7 @@ const formConfig = {
           },
           schema: {
             type: "object",
-            required: [authorization],
+            // required: [authorization],
             properties: {
               authorization,
             },
@@ -260,7 +260,7 @@ const formConfig = {
           },
           schema: {
             type: "object",
-            required: [authorizationToChangeClaimantAddress],
+            // required: [authorizationToChangeClaimantAddress],
             properties: {
               authorizationToChangeClaimantAddress,
             },
