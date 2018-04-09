@@ -254,7 +254,7 @@ smith.use(collections({
     metadata: {
       name: 'How to Gather Evidence For Your Claim'
     }
-  },  
+  },
   education: {
     pattern: '',
     sortBy: 'order',
