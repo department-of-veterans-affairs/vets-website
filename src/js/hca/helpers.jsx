@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import AdditionalInfo from '../common/components/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 
 import {
   stringifyFormReplacer,
