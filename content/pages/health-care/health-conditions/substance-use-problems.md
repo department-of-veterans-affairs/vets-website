@@ -31,7 +31,7 @@ If you’re struggling with substance use problems, you’re not alone. Many Vet
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-	    <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
 	    <ul>
 	  	  <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
@@ -115,7 +115,7 @@ The VA health care program covers services to treat substance use problems. To a
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Visit our website to learn about VA programs for Veterans who are homeless.<br>
   [Learn about our homelessness programs](https://www.va.gov/homeless/).
-  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community.<br>
+  - Call or visit your local VA Community Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community.<br>
   [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 <br>
@@ -132,7 +132,7 @@ The VA health care program covers services to treat substance use problems. To a
 - Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more.<br>
 [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 
 
 <script type="text/javascript">
