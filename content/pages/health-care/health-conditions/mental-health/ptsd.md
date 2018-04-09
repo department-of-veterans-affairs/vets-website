@@ -36,7 +36,7 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 	 <h4 class="usa-alert-title">Are you in crisis? <a id="crisis-expander-link">You have options.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-	    <p>Whatever you're struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
             <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>		  
 	    <ul>
 	  	  <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
@@ -135,7 +135,7 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts.<br>
 [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Ask the staff at your nearest VA health facility to connect you with a local VA social worker.<br>
-[Find your closest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
+[Find the nearest VA health facility](/facilities/?facilityType=health&page=1&zoomLevel=10).
 - Call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 <script type="text/javascript">
