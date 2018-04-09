@@ -113,12 +113,14 @@ export function submit(form, formConfig) {
     return Promise.reject(res);
   }).then(resp => {
     const guid = resp.data.attributes.guid;
-    pollStatus(guid, response => {
-      window.dataLayer.push({
-        event: `${formConfig.trackingPrefix}-submission-successful`,
-      });
-      return response;
-    }, error => Promise.reject(error));
+    return new Promise((resolve, reject) => {
+      pollStatus(guid, response => {
+        window.dataLayer.push({
+          event: `${formConfig.trackingPrefix}-submission-successful`,
+        });
+        return resolve(response);
+      }, error => reject(error));
+    });
   }).catch(respOrError => {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
