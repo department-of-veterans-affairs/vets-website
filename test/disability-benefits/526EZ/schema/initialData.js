@@ -1,7 +1,7 @@
 export default {
   // For testing purposes only
   prefilled: true,
-  veteranFullName: {
+  fullName: {
     first: 'Sally',
     last: 'Alphonse'
   },

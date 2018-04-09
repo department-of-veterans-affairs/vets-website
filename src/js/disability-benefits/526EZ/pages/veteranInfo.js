@@ -12,7 +12,7 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
   const { fullName, date } = formSchema.definitions;
 
   const uiSchema = {
-    veteranFullName: fullNameUI,
+    fullName: fullNameUI,
     socialSecurityNumber: _.assign(ssnUI, {
       'ui:title': 'Social Security number',
       'ui:required': form => !form.vaFileNumber,
@@ -35,9 +35,9 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
 
   const schema = {
     type: 'object',
-    required: ['veteranFullName', 'socialSecurityNumber', 'vaFileNumber', 'gender', 'dateOfBirth'],
+    required: ['fullName', 'socialSecurityNumber', 'vaFileNumber', 'gender', 'dateOfBirth'],
     properties: {
-      veteranFullName: fullName,
+      fullName,
       socialSecurityNumber: {
         type: 'string'
       },

@@ -331,7 +331,7 @@ const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p
 export const veteranInformationViewField = ({ formData }) => {
   return (
     <div>
-      <FullNameViewField formData={formData.veteranFullName}/>
+      <FullNameViewField formData={formData.fullName}/>
       <SsnViewField formData={formData.socialSecurityNumber}/>
       <VAFileNumberViewField formData={formData.vaFileNumber}/>
       <GenderViewField formData={formData.gender}/>
