@@ -255,7 +255,8 @@ export function getBenefitOptionText(option, value, isVeteran, awardEffectiveDat
     valueString = value;
   }
 
-  const isAvailable = value && value !== AVAILABILITY_STATUSES.unavailable;
+  // NOTE: 0 is a legitimate return value
+  const isAvailable = (value === 0 || value) && value !== AVAILABILITY_STATUSES.unavailable;
   const availableOptions = new Set([BENEFIT_OPTIONS.awardEffectiveDate, BENEFIT_OPTIONS.monthlyAwardAmount, BENEFIT_OPTIONS.serviceConnectedPercentage]);
 
   if (!availableOptions.has(option)) {
