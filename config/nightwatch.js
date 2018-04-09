@@ -12,7 +12,10 @@ const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 module.exports = {
   src_folders: ['./test'],
   output_folder: './logs/nightwatch',
-  custom_commands_path: './src/platform/testing/e2e/nightwatch-commands',
+  custom_commands_path: [
+    './src/platform/testing/e2e/nightwatch-commands',
+    './node_modules/nightwatch-axe/src/commands'
+  ],
   custom_assertions_path: './src/platform/testing/e2e/nightwatch-assertions',
   live_output: true,
   parallel_process_delay: 10,
