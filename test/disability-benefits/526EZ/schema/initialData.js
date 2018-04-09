@@ -3,6 +3,7 @@ export default {
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
+        diagnosticCode: '123',
         diagnosticText: 'PTSD',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
@@ -13,8 +14,6 @@ export default {
         ratedDisabilityId: '12345',
         disabilityActionType: 'Filler text',
         ratingDecisionId: '67890',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
         secondaryDisabilities: [
           {
             diagnosticText: 'First secondary disability',
@@ -29,6 +28,7 @@ export default {
     },
     {
       disability: { // Is this extra nesting necessary?
+        diagnosticCode: '1234',
         diagnosticText: 'Second Disability',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
@@ -39,8 +39,6 @@ export default {
         ratedDisabilityId: '54321',
         disabilityActionType: 'Filler text',
         ratingDecisionId: '09876',
-        diagnosticCode: 'Filler text',
-        // Presumably, this should be an array...
         secondaryDisabilities: [
           {
             diagnosticText: 'First secondary disability',
