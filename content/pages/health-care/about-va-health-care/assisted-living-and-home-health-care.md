@@ -223,17 +223,17 @@ To connect with a VA social worker, ask the staff at the VA health facility wher
 
 You may find these non-VA resources helpful:
 
-[AARP](https://www.aarp.org/) <br>
+[AARP](https://www.aarp.org/) 
 A nonprofit organization dedicated to helping empower people to choose how they live while they age
 
-[The Administration for Community Living](https://www.acl.gov/) <br>
+[The Administration for Community Living](https://www.acl.gov/) 
 A government program dedicated to helping older adults and people with disabilities of all ages live where they choose and with the people they choose, while participating fully in their communities
 
-[The National Institutes of Health's National Institute on Aging](https://www.nia.nih.gov) <br>
+[The National Institutes of Health's National Institute on Aging](https://www.nia.nih.gov) 
 An agency that leads the federal government in conducting and supporting research on aging and the health and well-being of older people
 
-[The National Council on Aging's Benefits Check Up](https://www.benefitscheckup.org/) <br>
+[The National Council on Aging's Benefits Check Up](https://www.benefitscheckup.org/) 
 A site that offers one central place where people over the age of 55 can get information about federal, state, and private benefits like Medicare, Medicaid, Meals on Wheels, and food stamps
 
-[The National Alliance For Caregiving](http://www.caregiving.org) <br>
+[The National Alliance For Caregiving](http://www.caregiving.org) 
 A nonprofit coalition of national organization that offers free publications and other services to family caregivers
