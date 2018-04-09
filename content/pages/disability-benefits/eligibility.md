@@ -16,6 +16,16 @@ majorlinks:
     - url: /disability-benefits/eligibility/one-year/
       title: Disabilities That Appear Within 1 Year After Discharge
       description: If you have signs of an illness that started within a year after you were discharged from active service, find out if you can get disability benefits.
+relatedlinks:
+  - heading: Vocational Rehabilitation and Employment (VR&E)
+    links:
+    - url: /employment/vocational-rehab-and-employment/eligibility/
+      title: VR&E Eligibility
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+    - url: /employment/vocational-rehab-and-employment/ides/
+      title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
+      description: If you've been referred to IDES to determine if you're medically unfit for duty due to a service-connected disability, find out how to access VR&E services as quickly as possible.
+
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description"  class="va-introtext">
@@ -42,6 +52,10 @@ You may be able to get disability benefits if you have a current illness or inju
 If you have a disability that's been diagnosed by a doctor and that we consider to be related to your military service because of a specific aspect of that service, you may be able to get disability benefits based on this presumed disability. This usually applies to:
 - [A chronic (long-lasting) illness that appears within 1 year after discharge](/disability-benefits/eligibility/one-year/), **or**
 - [An illness caused by contact with contaminants (toxic chemicals) or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
+
+<h4>Who's covered?</h4>
+- Veterans
+- Qualified dependents
 
 </div>
 </div>
