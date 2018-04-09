@@ -171,7 +171,6 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
  * @returns {object} An DOM node for the form, with added helper methods
  */
 export function getFormDOM(form) {
-  // eslint-disable-next-line react/no-find-dom-node
   const formDOM = findDOMNode(form);
 
   if (formDOM === null) {

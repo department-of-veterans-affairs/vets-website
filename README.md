@@ -205,7 +205,7 @@ Unittests are done via `mocha` with the `chai` assertion library run directly vi
 the mocha test runner without going through karma or PhantomJS. This means they run very fast.
 
 Unfortunately, it also means there is no true `window` or `document` provided which
-breaks `ReactTestUtils`'s simulate calls. To rememdy, a fake `window` and
+breaks `ReactTestUtils`'s simulate calls. To remedy, a fake `window` and
 `document` are provided using `jsdom` and bootstrapped in `src/platform/testing/unit/mocha-setup.js`
 which is required via `test/mocha.opts`.
 

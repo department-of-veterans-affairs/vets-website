@@ -3,7 +3,7 @@
  *  logging as the browser is running through the test due to the way nightwatch
  *  runs all the code beforehand.
  *
- * @param {String} [message=''] The message you want to log to the console
+ * @param {string} [message=''] The message you want to log to the console
  */
 exports.command = function log(message = '') {
   console.log(message); // eslint-disable-line no-console
