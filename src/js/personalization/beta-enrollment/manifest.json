@@ -4,5 +4,5 @@
   "entryName": "beta-enrollment",
   "rootUrl": "/beta-enrollment",
   "production": false,
-  "contentPage": "beta-enrollment/index.md"
+  "contentPage": "beta-enrollment/personalization/index.md"
 }
