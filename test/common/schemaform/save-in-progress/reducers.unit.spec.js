@@ -168,6 +168,19 @@ describe('schemaform createSaveInProgressInitialState', () => {
 
       expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
     });
+    it('should handle undefined formData', () => {
+      const state = reducer({
+        data: {},
+        prefillStatus: PREFILL_STATUSES.pending,
+        pages: {}
+      }, {
+        type: SET_IN_PROGRESS_FORM,
+        data: { formData: undefined },
+        pages: {}
+      });
+
+      expect(state.prefillStatus).to.equal(PREFILL_STATUSES.unfilled);
+    });
     it('should set fetch form pending', () => {
       const state = reducer({
       }, {

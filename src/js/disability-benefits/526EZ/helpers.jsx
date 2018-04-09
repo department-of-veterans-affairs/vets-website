@@ -1,12 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 import { genderLabels } from '../../common/utils/labels';
-import AdditionalInfo from '../../common/components/AdditionalInfo';
 import VerifiedReviewPage from './components/VerifiedReviewPage';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
@@ -400,7 +400,9 @@ export const getVerifiedChapterPair = (chapterConfig) => {
 };
 
 export const VAFileNumberDescription = (
-  <AdditionalInfo className="additional-info-title-help" triggerText="What does this mean?">
-    <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
-  </AdditionalInfo>
+  <div className="additional-info-title-help">
+    <AdditionalInfo triggerText="What does this mean?">
+      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+    </AdditionalInfo>
+  </div>
 );

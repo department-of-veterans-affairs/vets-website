@@ -1,35 +1,14 @@
-import 'core-js';
-import '../common';
+import '../../platform/polyfills';
 import '../../sass/post-911-gib-status.scss';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createHistory } from 'history';
-import { Router, Route, useRouterHistory } from 'react-router';
-import { Provider } from 'react-redux';
+import startApp from '../../platform/startup';
 
-import initReact from '../common/init-react';
-import routes from './routes.jsx';
+import routes from './routes';
 import reducer from './reducers';
-import initCommon from '../common/init-common';
 import manifest from './manifest.json';
 
-const store = initCommon(reducer);
-
-const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl
+startApp({
+  url: manifest.rootUrl,
+  reducer,
+  routes
 });
-
-function init() {
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={history}>
-        <Route path="/">
-          {routes}
-        </Route>
-      </Router>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
-
-initReact(init);
