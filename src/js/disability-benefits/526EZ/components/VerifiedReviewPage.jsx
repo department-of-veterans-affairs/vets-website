@@ -2,179 +2,157 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import classNames from 'classnames';
 
 import { focusElement } from '../../../common/utils/helpers';
-import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
-import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
+import SchemaForm from '../../../common/schemaform/components/SchemaForm';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
-import SaveFormLink from '../../../common/schemaform/save-in-progress/SaveFormLink';
-import SaveStatus from '../../../common/schemaform/save-in-progress/SaveStatus';
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
-import { toggleLoginModal } from '../../../login/actions';
-import { getNextPagePath, getPreviousPagePath } from '../../../common/schemaform/routing';
-
-import formConfig from '../config/form';
-import ReviewCollapsiblePage from './ReviewCollapsiblePage';
-
+const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
-
-class VerifiedReviewPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+export default class VerifiedReviewPage extends React.Component {
+  constructor() {
+    super();
+    this.state = { open: false };
   }
 
-  componentDidMount() {
-    if (!this.props.blockScrollOnMount) {
-      scrollToTop();
-      focusElement('h4');
+  componentWillMount() {
+    this.id = _.uniqueId();
+  }
+
+  componentDidUpdate(oldProps, oldState) {
+    if (!oldState.open && this.state.open) {
+      this.scrollToTop();
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)) {
-      scrollToTop();
-      focusElement('h4');
+  onChange(formData, path = null, index = null) {
+    let newData = formData;
+    if (path) {
+      newData = _.set([path, index], formData, this.props.form.data);
     }
+    this.props.setData(newData);
   }
 
-  setData = (...args) => {
-    this.props.setData(...args);
-    this.debouncedAutoSave();
+  focusOnPage = (key) => {
+    const pageDiv = document.querySelector(`#${key}`);
+    focusElement(pageDiv);
   }
 
-  autoSave = () => {
-    const { form, user } = this.props;
-    if (user.login.currentlyLoggedIn) {
-      const data = form.data;
-      const { formId, version } = form;
-      const returnUrl = this.props.location.pathname;
+  handleEdit = (key, editing, index = null) => {
+    this.props.onEdit(key, editing, index);
+    this.scrollToPage(`${key}${index === null ? '' : index}`);
+    this.focusOnPage(`${key}${index === null ? '' : index}`);
+  }
 
-      this.props.autoSaveForm(formId, data, version, returnUrl);
+  handleSubmit = (formData, key, path = null, index = null) => {
+    // This makes sure defaulted data on a page with no changes is saved
+    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
+    if (path) {
+      const newData = _.set([path, index], formData, this.props.form.data);
+      this.props.setData(newData);
     }
+
+    this.handleEdit(key, false, index);
   }
 
-  goBack = () => {
-    const { form, route: { pageList }, location } = this.props;
-    const path = getPreviousPagePath(pageList, form.data, location.pathname);
-    this.props.router.push(path);
+  scrollToTop = () => {
+    scroller.scrollTo(`${this.props.pageKey}TitleScrollElement`, window.VetsGov.scroll || {
+      duration: 500,
+      delay: 2,
+      smooth: true,
+    });
   }
 
-  goForward = () => {
-    const { form, route, location } = this.props;
-    const path = getNextPagePath(route.pageList, form.data, location.pathname);
-
-    this.props.router.push(path);
-  }
-
-  handleEdit = (pageKey, editing, index = null) => {
-    this.props.setEditMode(pageKey, editing, index);
+  scrollToPage = (key) => {
+    scroller.scrollTo(`${key}ScrollElement`, window.VetsGov.scroll || {
+      duration: 500,
+      delay: 2,
+      smooth: true,
+    });
   }
 
   render() {
-    const { form, user, formContext, route } = this.props;
-    const { chapterKey, pageKey } = route.pageConfig;
-    const page = formConfig.chapters[chapterKey].pages[pageKey];
-    const isNotPrefilled = !form.data.prefilled;
+    const { page, formContext, pageKey, form } = this.props;
+    page.pageKey = pageKey;
+    const pageState = form.pages[page.pageKey];
+    const editing = pageState.editMode;
+    const pageData = form.data;
 
-    if (isNotPrefilled) return <RoutedSavablePage {...this.props}/>;
+    const pageContent = (
+      <div className="input-section">
+        <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
+          <div key={`${pageKey}`} className={'form-review-panel-page'}>
+            <Element name={`${pageKey}ScrollElement`}/>
+            {!editing &&
+              <page.verifiedReviewComponent formData={pageData}/>}
+            {editing &&
+              <SchemaForm
+                name={page.pageKey}
+                title={page.title(true)}
+                data={pageData}
+                schema={page.schema}
+                uiSchema={page.uiSchema}
+                hideHeaderRow={page.hideHeaderRow}
+                hideTitle
+                pagePerItemIndex={page.index}
+                onBlur={this.props.onBlur}
+                onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+                onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
+                onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
+                uploadFile={this.props.uploadFile}
+                reviewMode={!editing}
+                formContext={formContext}
+                editModeOnReviewPage={page.editModeOnReviewPage}>
+                <ProgressButton
+                  submitButton
+                  buttonText="Update Page"
+                  buttonClass="usa-button-primary"/>
+              </SchemaForm>}
+          </div>
+        </div>
+      </div>
+    );
+
+    const containerClasses = classNames('usa-accordion-bordered', 'form-review-panel');
+    const editClasses = classNames({
+      'viewfield-edit-container': editing
+    });
+
     return (
-      <div>
+      <div id={`${this.id}-collapsiblePanel`} className={containerClasses}>
         <p>Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.</p>
-        <div className="input-section">
-          <div>
-            <ReviewCollapsiblePage
-              onEdit={this.handleEdit}
-              page={page}
-              pageKey={pageKey}
-              setData={this.props.setData}
-              setValid={this.props.setValid}
-              uploadFile={this.props.uploadFile}
-              formContext={formContext}
-              form={form}/>
-          </div>
-        </div>
-        {page.contentBeforeButtons}
-        <div className="row form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
-            <ProgressButton
-              onButtonClick={this.goBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary"
-              beforeText="«"/>
-          </div>
-          <div className="small-6 medium-5 end columns">
-            <ProgressButton
-              submitButton
-              onButtonClick={this.goForward}
-              buttonText="Continue"
-              buttonClass="usa-button-primary"
-              afterText="»"/>
-          </div>
-        </div>
-        <div>
-          <SaveStatus
-            isLoggedIn={user.login.currentlyLoggedIn}
-            showLoginModal={user.login.showModal}
-            toggleLoginModal={this.props.toggleLoginModal}
-            form={form}>
-          </SaveStatus>
-          <SaveFormLink
-            locationPathname={this.props.location.pathname}
-            form={form}
-            user={user}
-            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-            toggleLoginModal={this.props.toggleLoginModal}/>
-        </div>
+        <Element name={`${pageKey}TitleScrollElement`}/>
+        <ul className="usa-unstyled-list">
+          <li>
+            <div className="accordion-header clearfix schemaform-chapter-accordion-header">
+              <div
+                className="accordion-title">
+                <h4 className="form-review-panel-page-header">{this.props.page.title(true)}</h4>
+                {!editing &&
+                <button
+                  type="button"
+                  aria-expanded={this.state.open ? 'true' : 'false'}
+                  aria-controls={`collapsible-${this.id}`}
+                  className="edit-btn primary-outline"
+                  onClick={() => this.handleEdit('reviewVeteranInformation', !editing, page.index)}>
+                Edit
+                </button>}
+              </div>
+            </div>
+            <div className={editClasses} id={`collapsible-${this.id}`}>
+              {pageContent}
+            </div>
+          </li>
+        </ul>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-    user: state.user
-  };
-}
-
-const mapDispatchToProps = {
-  setEditMode,
-  setSubmission,
-  submitForm,
-  setPrivacyAgreement,
-  setData,
-  uploadFile,
-  saveAndRedirectToReturnUrl,
-  autoSaveForm,
-  toggleLoginModal
-};
-
 VerifiedReviewPage.propTypes = {
+  pageKey: PropTypes.string.isRequired,
+  page: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
-  setData: PropTypes.func.isRequired,
-  setEditMode: PropTypes.func.isRequired,
-  setSubmission: PropTypes.func.isRequired,
-  setPrivacyAgreement: PropTypes.func.isRequired,
-  uploadFile: PropTypes.func.isRequired,
-  submitForm: PropTypes.func.isRequired,
-  contentAfterButtons: PropTypes.element,
-  renderErrorMessage: PropTypes.func,
-  formContext: PropTypes.object
+  onEdit: PropTypes.func.isRequired
 };
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VerifiedReviewPage));
-
-export { VerifiedReviewPage };

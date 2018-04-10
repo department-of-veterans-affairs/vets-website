@@ -5,9 +5,9 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../common/utils/labels';
 
-import { veteranInformationViewField, getVerifiedChapterPair, VAFileNumberDescription } from '../helpers';
+import { veteranInformationViewField, getChapter, VAFileNumberDescription } from '../helpers';
 
-export default function createVeteranInfoChapter(formSchema, isReview) {
+function createVeteranInfoChapter(formSchema, isReview) {
 
   const { fullName, date } = formSchema.definitions;
 
@@ -62,5 +62,9 @@ export default function createVeteranInfoChapter(formSchema, isReview) {
     schema
   };
 
-  return getVerifiedChapterPair(chapterConfig);
+  return getChapter(chapterConfig);
 }
+
+export const createVerifiedVeteranInfoChapter = (formConfig) => createVeteranInfoChapter(formConfig, true);
+
+export const createUnverifiedVeteranInfoChapter = (formConfig) => createVeteranInfoChapter(formConfig, false);

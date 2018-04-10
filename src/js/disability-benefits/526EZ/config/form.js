@@ -7,7 +7,7 @@ import initialData from '../../../../../test/disability-benefits/526EZ/schema/in
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import createVeteranInfoChapter from '../pages/veteranInfo';
+import { createVerifiedVeteranInfoChapter, createUnverifiedVeteranInfoChapter } from '../chapters/veteranInfo';
 
 import {
   transform,
@@ -84,7 +84,6 @@ const formConfig = {
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth: 'Please sign in again to resume your application for disability claims increase.'
   },
-  storePrefillStatus: true,
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -97,8 +96,8 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
-    reviewVeteranInformation: createVeteranInfoChapter(fullSchema526EZ, true),
-    veteranInformation: createVeteranInfoChapter(fullSchema526EZ, false),
+    reviewVeteranInformation: createVerifiedVeteranInfoChapter(fullSchema526EZ),
+    veteranInformation: createUnverifiedVeteranInfoChapter(fullSchema526EZ),
     chapterThree: {
       title: 'Chapter Three',
       pages: {

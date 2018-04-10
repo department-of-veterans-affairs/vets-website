@@ -6,8 +6,9 @@ import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/addre
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import set from '../../common/utils/data-utils/set';
 import { genderLabels } from '../../common/utils/labels';
-import VerifiedReviewPage from './components/VerifiedReviewPage';
+import VerifiedReviewContainer from './components/VerifiedReviewContainer';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -37,19 +38,19 @@ export function flatten(data) {
 
 export function transform(formConfig, form) {
   const formData = flatten(transformForSubmit(formConfig, form));
-  delete formData.storePrefillStatus;
+  delete formData.prefilled;
   return JSON.stringify({
-    educationBenefitsClaim: {
+    disabilityBenefitsClaim: {
       form: formData
     }
   });
 }
 
 export function prefillTransformer(pages, formData, metadata, state) {
-  const newData = cloneDeep(formData);
+  let newData = formData;
 
   if (state.prefilStatus === PREFILL_STATUSES.success) {
-    newData.prefilled = true;
+    newData = set('prefilled', true, newData);
   }
 
   return {
@@ -340,50 +341,70 @@ export const veteranInformationViewField = ({ formData }) => {
   );
 };
 
-const lowerCaseFirstLetter = (word) => word[0].toLowerCase().concat(word.slice(1));
+function lowerCaseFirstLetter(word) {
+  return word[0].toLowerCase().concat(word.slice(1));
+}
 
-const lowerCaseAll = (words) => words.map(word => lowerCaseFirstLetter(word));
+function lowerCaseAll(words) {
+  return words.map(word => lowerCaseFirstLetter(word));
+}
 
-const camelize = (words) => {
+function camelize(words) {
   const word = words[0];
   const rest = words.slice(1).join('');
   return lowerCaseFirstLetter(word).concat(rest);
-};
+}
 
-const kebabize = (words) => {
+function kebabize(words) {
   return lowerCaseAll(words).join('-');
-};
+}
 
-const getVerifiedPairPageNames = (chapterTitleWords) => {
-  const unverifiedPageName = camelize(chapterTitleWords);
-  chapterTitleWords.unshift('review');
-  const verifiedPageName = camelize(chapterTitleWords);
-  return { unverifiedPageName, verifiedPageName };
-};
+function getVerifiedPageName(chapterTitleWords) {
+  const verifiedPageName = chapterTitleWords.slice(0);
+  verifiedPageName.unshift('review');
+  return camelize(verifiedPageName);
+}
 
-const getVerifiedPairPagePaths = (chapterTitleWords) => {
-  const unverifiedPagePath = kebabize(chapterTitleWords);
-  chapterTitleWords.unshift('review');
-  const verifiedPagePath = kebabize(chapterTitleWords);
-  return { unverifiedPagePath, verifiedPagePath };
-};
+function getUnverifiedPageName(chapterTitleWords) {
+  const unverifiedPageName = chapterTitleWords.slice(0);
+  return camelize(unverifiedPageName);
+}
 
-export const getVerifiedChapterPair = (chapterConfig) => {
-  const { chapterTitle, isReview, ...rest } = chapterConfig;
+function getVerifiedPagePath(chapterTitleWords) {
+  const verifiedPagePath = chapterTitleWords.slice(0);
+  verifiedPagePath.unshift('review');
+  return kebabize(verifiedPagePath);
+}
+
+function getUnverifiedPagePath(chapterTitleWords) {
+  const unverifiedPagePath = chapterTitleWords.slice(0);
+  return kebabize(unverifiedPagePath);
+}
+
+function getPageAndPath(chapterTitle, isReview) {
   const chapterTitleWords = chapterTitle.split(' ');
-  const { verifiedPageName, unverifiedPageName } = getVerifiedPairPageNames(chapterTitleWords.slice(0));
-  const { verifiedPagePath, unverifiedPagePath } = getVerifiedPairPagePaths(chapterTitleWords.slice(0));
+  const getPagePath = isReview ? getVerifiedPagePath : getUnverifiedPagePath;
+  const pagePath = getPagePath(chapterTitleWords);
+  const getPageName = isReview ? getVerifiedPageName : getUnverifiedPageName;
+  const pageName = getPageName(chapterTitleWords);
+  return { pageName, pagePath };
+}
+
+const verifiedDepends = ({ prefilled }) => !!prefilled;
+
+const unverifiedDepends = ({ prefilled }) => !prefilled;
+
+export function getChapter(chapterConfig) {
+  const { chapterTitle, isReview, ...rest } = chapterConfig;
   const reviewString = isReview ? 'Review ' : '';
   const pageTitle = chapterTitle;
   const getPageTitle = (shouldOmitReview) => {
     if (shouldOmitReview) return pageTitle;
     return `${reviewString}${pageTitle}`;
   };
-  const pagePath = isReview ? verifiedPagePath : unverifiedPagePath;
-  const verifiedDepends = ({ prefilled }) => !!prefilled;
-  const unverifiedDepends = ({ prefilled }) => !prefilled;
+  const { pageName, pagePath } = getPageAndPath(chapterTitle, isReview);
   const depends = isReview ? verifiedDepends : unverifiedDepends;
-  const pageName = isReview ? verifiedPageName : unverifiedPageName;
+  const component = isReview ? VerifiedReviewContainer : null;
 
   return {
     title: `${reviewString}${chapterTitle}`,
@@ -391,13 +412,13 @@ export const getVerifiedChapterPair = (chapterConfig) => {
       [pageName]: {
         title: getPageTitle,
         path: pagePath,
-        component: VerifiedReviewPage,
+        component,
         depends,
         ...rest
       }
     }
   };
-};
+}
 
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">

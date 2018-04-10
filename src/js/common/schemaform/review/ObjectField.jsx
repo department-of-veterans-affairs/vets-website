@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
-import classNames from 'classnames';
 
 import {
   getDefaultFormState,
@@ -115,9 +114,6 @@ class ObjectField extends React.Component {
 
     if (isRoot) {
       let title = formContext.pageTitle;
-      const classes = classNames({
-        review: !formContext.hideBorders
-      });
       if (!formContext.hideTitle && typeof title === 'function') {
         title = title(formData, formContext);
       }
@@ -125,9 +121,9 @@ class ObjectField extends React.Component {
         <div>
           {!formContext.hideHeaderRow && <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
-            {!formContext.hideEditButton && <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>}
+            <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
           </div>}
-          <dl className={classes}>
+          <dl className="review">
             {renderedProperties}
           </dl>
         </div>
