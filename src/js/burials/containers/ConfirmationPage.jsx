@@ -35,7 +35,7 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = form.submission.response
-      ? form.submission.response.attributes
+      ? form.submission.response
       : {};
     const { 'view:claimedBenefits': benefits,
       claimantFullName: claimantName,
