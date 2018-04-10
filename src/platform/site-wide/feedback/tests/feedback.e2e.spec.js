@@ -1,6 +1,6 @@
-const mock = require('../e2e/mock-helpers');
-const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../src/platform/testing/e2e/timeouts');
+const mock = require('../../../../../test/e2e/mock-helpers');
+const E2eHelpers = require('../../../testing/e2e/helpers');
+const Timeouts = require('../../../testing/e2e/timeouts');
 
 const selectors = {
   root: '#feedback-root',

@@ -5,7 +5,7 @@ this will be .va-btn-sidebarnav-trigger
 */
 
 class SideBarMenu {
-   constructor(menuTrigger) {
+  constructor(menuTrigger) {
     this.menuTrigger = Array.from(menuTrigger);
     this.init = this.init.bind(this);
     this.getMenu = this.getMenu.bind(this);
@@ -16,12 +16,12 @@ class SideBarMenu {
   }
 
   init() {
-    this.menuTrigger.map((mt) => {
+    this.menuTrigger.forEach((mt) => {
       mt.addEventListener('click', (domEvent) => {
         this.openMenu(domEvent.currentTarget);
       });
     });
-  }      
+  }
 
   getMenu(element) {
     const el = document.querySelector(`#${element.getAttribute('aria-controls')}`);
@@ -35,15 +35,16 @@ class SideBarMenu {
     this.closeMenu(trigger);
   }
 
-  closeMenu(trigger) {
+  closeMenu() {
     const close = this.menu.querySelector('.va-sidebarnav-close');
-    close.addEventListener('click', (domEvent) => {
+    close.addEventListener('click', () => {
       this.menu.classList.remove('va-sidebarnav--opened');
       document.body.classList.remove('va-pos-fixed');
-    })
-  }  
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // eslint-disable-next-line no-new
   new SideBarMenu(document.querySelectorAll('.va-btn-sidebarnav-trigger'));
 });

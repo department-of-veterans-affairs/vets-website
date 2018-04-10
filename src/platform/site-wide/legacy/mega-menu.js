@@ -1,4 +1,10 @@
-import { isWideScreen, isEscape, isReverseTab, isTab, getTabbableElements } from '../common/utils/accessibility-helpers';
+import {
+  isWideScreen,
+  isEscape,
+  isReverseTab,
+  isTab,
+  getTabbableElements
+} from '../../../js/common/utils/accessibility-helpers';
 
 class MegaMenu {
   constructor(menuElement, openMenuElement, closeMenuElement) {

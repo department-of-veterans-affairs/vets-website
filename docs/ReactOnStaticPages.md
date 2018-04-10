@@ -2,7 +2,7 @@
 
 The way vets-website is built means that we have two types of content to users: static pages and React apps. Our static pages are rendered ahead of time, while React apps are rendered client-side. However, the static pages do have some content rendered client-side, namely the sign in widget. This means we're including React on all static pages, so it is possible to use it if you need it.
 
-All the static pages use the no-react entry bundle, so any JS code included from that file will be on all static pages. You can easily create a div with a particular id in a static content page, then include JS that renders a React component into that div, the same way any of our React apps do.
+All the static pages use the static-pages entry bundle, so any JS code included from that file will be on all static pages. You can easily create a div with a particular id in a static content page, then include JS that renders a React component into that div, the same way any of our React apps do.
 
 ### Guidelines for using React on a static page
 
@@ -10,7 +10,7 @@ All that said, we should be careful to not create a bad user experience when usi
 
 1. JS and React take time to download, parse, and render. Make sure you are providing the appropriate feedback to users while that is happening, with a spinner or another method from the UX team.
 2. Make sure the page is still usable if your React code fails to work. This can mean it fails to download, an error occurs, or just handling the different login states a user can be in.
-3. Be aware of how much weight you're adding to the no-react bundle and code-split/lazy load when it makes sense.
+3. Be aware of how much weight you're adding to the static-pages bundle and code-split/lazy load when it makes sense.
 
 ### Common widget code
 

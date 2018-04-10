@@ -4,7 +4,6 @@ docs/*
 old/*
 vendor/*
 build/*
-src/js/legacy/*
 src/js/**/README.md
 src/hca-migrate/*
 src/rx-migrate/*
