@@ -3,13 +3,8 @@ import _ from "lodash/fp";
 import IntroductionPage from "../containers/IntroductionPage";
 import ConfirmationPage from "../containers/ConfirmationPage";
 
-import IdentityFieldsWarning from "../components/IdentityFieldsWarning";
-import asyncLoader from "../../common/components/asyncLoader";
-import { prefillTransformer, submit, identityMatchesPrefill } from "../helpers";
-
 import fullNameUI from "../../common/schemaform/definitions/fullName";
 import ssnUI from "../../common/schemaform/definitions/ssn";
-// import * as vaFileNumberUI from "../../common/schemaform/definitions/personId";
 import * as addressDefinition from "../definitions/address";
 import currentOrPastDateUI from "../../common/schemaform/definitions/currentOrPastDate";
 import phoneUI from "../../common/schemaform/definitions/phone";
