@@ -34,7 +34,7 @@ export function updateRoute(location) {
 
 export function showModal(modal) {
   if (modal) {
-    recordEvent.push({
+    recordEvent({
       event: 'gibct-learn-more',
       'gibct-modal-displayed': modal,
     });
@@ -136,7 +136,7 @@ export function clearAutocompleteSuggestions() {
 export function eligibilityChange(e) {
   const field = e.target.name;
   const value = e.target.value;
-  recordEvent.push({
+  recordEvent({
     event: 'gibct-form-change',
     'gibct-form-field': field,
     'gibct-form-value': value,
