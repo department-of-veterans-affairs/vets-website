@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '../../js/common/components/LoadingIndicator';
 
-/*
+/**
+ * React component for enabling or disabling access to content based on a randomizer and an integer representing the threshold.
+ * The integers representing the threshold are defined in the create-settings build process.
+ * For content to be enabled, a randomly-generated number must be greater than than that integer.
+ * For example, in theory a "1" would mean 100% of users will be denied access, while a "4" means only 40% of users would be denied.
+ *
  * Expects a settings object that looks like:
  *
  * settings: {
@@ -12,6 +17,8 @@ import LoadingIndicator from '../../js/common/components/LoadingIndicator';
  *     rateLimitUnauthed: 1
  *   }
  * }
+ * @module platform/monitoring/RateLimiter
+ * @see module:config/create-settings
  */
 export class RateLimiter extends React.Component {
   constructor(props) {

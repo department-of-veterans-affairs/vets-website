@@ -70,6 +70,7 @@ function DowntimeNotificationWrapper({ status, children }) {
 
 /**
  * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of Vets.gov services.
+ * @module platorm/monitoring/DowntimeNotification
  */
 class DowntimeNotification extends React.Component {
 
