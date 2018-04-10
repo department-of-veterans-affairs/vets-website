@@ -87,3 +87,4 @@ export const disabledForms = {
   '21P-527EZ': <div><span className="error">We’re sorry. We can’t give you access to your saved form right now. We’re working on ways to make it easier for you to apply for benefits online. Please check back later or apply by mail.</span><a href="/pension/apply/">Find out how to apply by mail</a>.</div>,
   '21P-530': <div><span className="error">We’re sorry. We can’t give you access to your saved form right now. We’re working on ways to make it easier for you to apply for benefits online. Please check back later or apply by mail.</span><a href="/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/">Find out how to apply by mail</a>.</div>
 };
+
