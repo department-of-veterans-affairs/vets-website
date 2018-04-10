@@ -1,6 +1,10 @@
+/**
+ * Initializes error reporting to Sentry when running at a higher enviroment than localhost
+ */
+
 import Raven from 'raven-js';
 
-import environment from './helpers/environment';
+import environment from '../env';
 
 // url check is necessary for e2e tests and local environments
 const trackErrors = environment.BASE_URL.indexOf('localhost') < 0;
