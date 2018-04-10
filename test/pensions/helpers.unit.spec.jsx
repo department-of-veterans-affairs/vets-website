@@ -115,14 +115,7 @@ describe('Pensions helpers', () => {
       };
 
       return submit(form, formConfig).then((res) => {
-        expect(res).to.deep.equal({
-          data: {
-            attributes: {
-              response: {},
-              state: 'success'
-            }
-          }
-        });
+        expect(res).to.deep.equal(response);
       });
     });
     it('should reject if polling state is failed', () => {
