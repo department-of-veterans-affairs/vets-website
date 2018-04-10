@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { submit } from '../../src/js/burials/helpers.jsx';
 
-import { mockFetch } from '../util/unit-helpers.js';
+import { mockFetch, resetFetch } from '../../src/platform/testing/unit/helpers.js';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
@@ -113,5 +113,9 @@ describe('Burials helpers', () => {
         expect(err.message).to.equal('vets_server_error_burial: status failed');
       });
     });
+  });
+  afterEach(() => {
+    resetFetch();
+    delete window.URL;
   });
 });

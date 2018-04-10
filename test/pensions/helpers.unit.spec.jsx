@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { fileHelp, submit } from '../../src/js/pensions/helpers.jsx';
 
-import { mockFetch } from '../util/unit-helpers.js';
+import { mockFetch, resetFetch } from '../../src/platform/testing/unit/helpers.js';
 
 function setFetchResponse(stub, data) {
   const response = new Response();
@@ -156,5 +156,9 @@ describe('Pensions helpers', () => {
         expect(err.message).to.equal('vets_server_error_pensions: status failed');
       });
     });
+  });
+  afterEach(() => {
+    resetFetch();
+    delete window.URL;
   });
 });
