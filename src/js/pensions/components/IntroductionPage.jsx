@@ -37,10 +37,10 @@ class IntroductionPage extends React.Component {
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
-              <div><h5>Declare Intent to File</h5></div>
-              <div>If you’d like to submit an intent to file to set the earliest possible date that you can start getting benefits, you’ll need to complete an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension, and/or DIC (VA Form 21-0966). Starting your pension application doesn't show your intent to file.</div>
+              <div><h5>Declare Your Intent to File</h5></div>
+              <div>If you’d like to submit an intent to file to set the earliest possible date that you can start getting benefits, you’ll need to complete an Intent to File a Claim for Compensation and/or Pension, or Survivors Pension, and/or DIC (VA Form 21-0966). Starting your pension application doesn’t show your intent to file.</div>
               <div><a href="https://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf">Download VA Form 21-0966.</a></div>
-              <div><strong>Note:</strong> Your date of claim is the date that VA receives your completed application.</div>
+              <div><strong>Note:</strong> Your date of claim is the date that we receive your completed application.</div>
             </li>
             <li className="process-step list-two">
               <div><h5>Prepare</h5></div>
@@ -67,7 +67,7 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <br/>
-              <p><strong>You might quality for Aid and Attendance and Housebound benefits</strong></p>
+              <p><strong>You might qualify for Aid and Attendance and Housebound benefits</strong></p>
               <a href="/pension/aid-attendance-housebound/" target="_blank">Learn more about Aid and Attendance and Housebound Benefits</a>.<br/><br/>
               <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
               <h6>Learn about Veterans pension rates</h6>
@@ -90,6 +90,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         {!isProduction && <SaveInProgressIntro
+          buttonOnly
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Pension Application"
