@@ -189,7 +189,7 @@ const formConfig = {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth: 'Please sign in again to resume your application for pension benefits.'
   },
-  title: 'Apply for pension',
+  title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
   getHelp: GetFormHelp,
   defaultDefinitions: {

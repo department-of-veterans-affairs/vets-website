@@ -78,7 +78,7 @@ class ConfirmationPage extends React.Component {
                 <p key={index}>{line}</p>)}</address>
             </li>
             <li>
-              <strong>Note:</strong> If you choose to mail your documents, you don’t have to send in a paper copy of VA Form 21P-527EZ with these documents.
+              <strong>Note:</strong> If you choose to mail in your supporting documents, you don’t have to send in a paper copy of VA Form 21P-527EZ with the documents.
             </li>
           </ul>
         </div>
