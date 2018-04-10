@@ -94,7 +94,7 @@ const formConfig = {
               'insuranceNumber',
             ],
             properties: {
-              fullName,
+              veteranFullName,
               veteranSSN,
               vaFileNumber,
               insuranceNumber,
@@ -147,7 +147,7 @@ const formConfig = {
               'appointmentDate',
             ],
             properties: {
-              fullName,
+              claimantFullName,
               claimantAddress,
               claimantEmail,
               claimantDaytimePhone,
@@ -252,11 +252,11 @@ const formConfig = {
       },
     },
     authorizationToChangeClaimantAddress: {
-      title: "Authorization to Change Claimaint's Address",
+      title: "Authorization to Change Claimant's Address",
       pages: {
         authorizationToChangeClaimantAddress: {
           path: "authorization-to-change-claimant-address",
-          title: "Authorization to change claimaint's address",
+          title: "Authorization to change claimant's address",
           uiSchema: {
             authorizationToChangeClaimantAddress: {
               "ui:title": authorizationToChangeClaimantAddressDescription,
