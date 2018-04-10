@@ -4,7 +4,7 @@
 
 import Raven from 'raven-js';
 
-import environment from '../env';
+import environment from '../../js/common/helpers/environment';
 
 // url check is necessary for e2e tests and local environments
 const trackErrors = environment.BASE_URL.indexOf('localhost') < 0;

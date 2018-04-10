@@ -3,7 +3,7 @@
  * @module platform/site-wide
  */
 
-import '../startup/sentry.js';
+import '../monitoring/sentry.js';
 import '../../js/legacy/menu';  // Used in the footer.
 import '../../js/common/usa-banner-toggle';
 import '../../js/common/utils/accessible-VCL-modal';
