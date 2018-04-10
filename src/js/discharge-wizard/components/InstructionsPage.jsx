@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 class InstructionsPage extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class InstructionsPage extends React.Component {
 
   handleFAQToggle = (e) => {
     e.preventDefault();
-    window.dataLayer.push({ event: 'discharge-upgrade-faq-toggle' });
+    recordEvent({ event: 'discharge-upgrade-faq-toggle' });
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });

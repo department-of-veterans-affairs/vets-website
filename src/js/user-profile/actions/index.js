@@ -1,3 +1,4 @@
+import recordEvent from '../../../platform/monitoring/record-event';
 import { removeFormApi } from '../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
@@ -66,7 +67,7 @@ export function fetchLatestTerms(termsName) {
 export function acceptTerms(termsName) {
   return dispatch => {
     dispatch({ type: ACCEPTING_LATEST_MHV_TERMS });
-    window.dataLayer.push({ event: 'terms-accepted' });
+    recordEvent({ event: 'terms-accepted' });
 
     const settings = {
       method: 'POST',

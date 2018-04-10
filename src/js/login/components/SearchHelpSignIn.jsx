@@ -4,6 +4,7 @@ import _ from 'lodash';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -22,7 +23,7 @@ class SearchHelpSignIn extends React.Component {
 
   handleSignInSignUp = (e) => {
     e.preventDefault();
-    window.dataLayer.push({ event: 'login-link-clicked' });
+    recordEvent({ event: 'login-link-clicked' });
     this.props.toggleLoginModal(true);
   }
 

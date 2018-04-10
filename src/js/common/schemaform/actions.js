@@ -1,5 +1,6 @@
 import Raven from 'raven-js';
 import moment from 'moment';
+import recordEvent from '../../../platform/monitoring/record-event';
 import _ from '../utils/data-utils';
 import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
@@ -58,7 +59,7 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
     req.open('POST', `${environment.API_URL}${submitUrl}`);
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}-submission-successful`,
         });
         // got this from the fetch polyfill, keeping it to be safe
@@ -117,14 +118,14 @@ export function submitForm(formConfig, form) {
         statusText: error.statusText
       }
     });
-    window.dataLayer.push({
+    recordEvent({
       event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
     });
   };
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
-    window.dataLayer.push({
+    recordEvent({
       event: `${formConfig.trackingPrefix}-submission`,
     });
 
