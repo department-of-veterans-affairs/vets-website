@@ -104,7 +104,7 @@ class RequiredLoginView extends React.Component {
   }
 
   render() {
-    return <div className={this.props.className}>{this.renderWrappedContent()}</div>;
+    return <div>{this.renderWrappedContent()}</div>;
   }
 }
 

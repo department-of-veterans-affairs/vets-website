@@ -284,6 +284,14 @@ export const evidenceSummaryView = ({ formData }) => {
   );
 };
 
+export const ITFErrorAlert = (
+  <div className="usa-alert usa-alert-warning">
+    <div className="usa-alert-body">
+      <h3>We were not able to submit your Intent to File</h3>
+    </div>
+  </div>
+);
+
 export const UnauthenticatedAlert = (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">

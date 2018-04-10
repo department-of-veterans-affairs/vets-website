@@ -72,7 +72,7 @@ const privateRecordReleasesSchema = Object.assign({}, treatments.items.propertie
 
 const formConfig = {
   urlPrefix: '/',
-  intentToFileUrl: '/v0/21-526EZ',
+  intentToFileUrl: '/21-526EZ', // TODO: update with ITF endpoint
   submitUrl: '/v0/21-526EZ',
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',

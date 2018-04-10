@@ -10,15 +10,14 @@ import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
-import { submitIntentToFile } from '../../../common/schemaform/actions';
 import { toggleLoginModal } from '../../../login/actions';
 
 import formConfig from '../config/form';
+import { submitIntentToFile } from '../actions';
 import SaveInProgressIntro from './SaveInProgressIntro';
 import { UnauthenticatedAlert } from '../helpers';
 
 class IntroductionPage extends React.Component {
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -30,10 +29,14 @@ class IntroductionPage extends React.Component {
       .find(f => f.form === this.props.formId);
   }
 
+  updateITFStatus = (ITFStatus) => {
+    this.setState(ITFStatus);
+  }
+
   handleLoadPrefill = () => {
-    // TODO: determine payload
-    submitIntentToFile('name/ssn/other', formConfig.intentToFileUrl, formConfig.trackingPrefix);
-    // TODO: store confirmation number in formData
+    this.props.submitIntentToFile(
+      formConfig,
+      this.updateITFStatus);
   }
 
   authenticate = (e) => {
@@ -46,7 +49,8 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { saveInProgress: { user }, loginUrl, verifyUrl } = this.props;
-    const savedForm = this.hasSavedForm();
+    // TODO: determine whether content changes for returning applicants
+    // const savedForm = this.hasSavedForm();
 
     return (
       <div className="schemaform-intro">
@@ -57,16 +61,15 @@ class IntroductionPage extends React.Component {
           <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>
         </div>}
         {user.login.currentlyLoggedIn && <RequiredLoginView
-          className="login-container"
-          verify
           serviceRequired={['disability-benefits']}
+          verify
           user={user}
           loginUrl={loginUrl}
           verifyUrl={verifyUrl}>
-          <SaveInProgressIntro
+          {<SaveInProgressIntro
             {...this.props}
-            handleLoadPrefill={this.handleLoadPrefill}/>
-          {!savedForm && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
+            {...this.state}
+            handleLoadPrefill={this.handleLoadPrefill}/>}
         </RequiredLoginView>}
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
@@ -111,7 +114,6 @@ class IntroductionPage extends React.Component {
         </div>
         {!user.login.currentlyLoggedIn && <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>}
         {user.login.currentlyLoggedIn && <RequiredLoginView
-          containerClass="login-container"
           verify
           serviceRequired={['disability-benefits']}
           user={user}
@@ -121,7 +123,6 @@ class IntroductionPage extends React.Component {
             {...this.props}
             buttonOnly
             handleLoadPrefill={this.handleLoadPrefill}/>
-          {!savedForm && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
         </RequiredLoginView>}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
@@ -141,9 +142,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     saveInProgressActions: bindActionCreators(introActions, dispatch),
+    submitIntentToFile: (config, onChange) => {
+      dispatch(submitIntentToFile(config, onChange));
+    },
     toggleLoginModal: (update) => {
       dispatch(toggleLoginModal(update));
-    },
+    }
   };
 }
 

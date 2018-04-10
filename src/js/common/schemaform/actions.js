@@ -108,20 +108,19 @@ function submitToUrl(body, submitUrl, trackingPrefix) {
   });
 }
 
-const captureError = (error, errorType, formConfig, submissionPrefix = '') => {
-  Raven.captureException(error, {
-    fingerprint: [formConfig.trackingPrefix, error.message],
-    extra: {
-      errorType,
-      statusText: error.statusText
-    }
-  });
-  window.dataLayer.push({
-    event: `${formConfig.trackingPrefix}-${submissionPrefix}submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
-  });
-};
-
 export function submitForm(formConfig, form) {
+  const captureError = (error, errorType) => {
+    Raven.captureException(error, {
+      fingerprint: [formConfig.trackingPrefix, error.message],
+      extra: {
+        errorType,
+        statusText: error.statusText
+      }
+    });
+    window.dataLayer.push({
+      event: `${formConfig.trackingPrefix}-submission-failed${errorType.startsWith('client') ? '-client' : ''}`,
+    });
+  };
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
@@ -151,38 +150,7 @@ export function submitForm(formConfig, form) {
         } else if (errorMessage.startsWith('vets_server_error')) {
           errorType = 'serverError';
         }
-        captureError(error, errorType, formConfig);
-        dispatch(setSubmission('status', errorType, error.extra));
-      });
-  };
-}
-
-export function submitIntentToFile(formConfig, form) {
-
-  return dispatch => {
-    dispatch(setSubmission('status', 'submitPending'));
-    window.dataLayer.push({
-      event: `${formConfig.trackingPrefix}-ITF-submission`,
-    });
-
-    // TODO: determine payload
-    const body = formConfig.transformForSubmit
-      ? formConfig.transformForSubmit(formConfig, form)
-      : transformForSubmit(formConfig, form);
-    const promise = submitToUrl(body, formConfig.intentToFileUrl, formConfig.trackingPrefix);
-
-    return promise
-      .then(resp => dispatch(setSubmitted(resp)))
-      .catch(error => {
-        // overly cautious
-        const errorMessage = _.get('message', error);
-        let errorType = 'clientError';
-        if (errorMessage.startsWith('vets_throttled_error')) {
-          errorType = 'throttledError';
-        } else if (errorMessage.startsWith('vets_server_error')) {
-          errorType = 'serverError';
-        }
-        captureError(error, errorType, formConfig, 'ITF-');
+        captureError(error, errorType);
         dispatch(setSubmission('status', errorType, error.extra));
       });
   };
