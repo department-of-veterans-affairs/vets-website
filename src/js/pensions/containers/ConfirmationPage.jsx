@@ -33,7 +33,7 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
+      ? this.props.form.submission.response
       : {};
     const name = form.data.veteranFullName;
     const regionalOffice = response.regionalOffice || [];

@@ -60,14 +60,14 @@ function checkStatus(guid) {
 
 const POLLING_INTERVAL = 1000;
 
-function pollStatus({ guid, confirmationNumber }, onDone, onError) {
+function pollStatus({ guid, confirmationNumber, regionalOffice }, onDone, onError) {
   setTimeout(() => {
     checkStatus(guid)
       .then(res => {
         if (!res || res.data.attributes.state === 'pending') {
-          pollStatus({ guid, confirmationNumber }, onDone, onError);
+          pollStatus({ guid, confirmationNumber, regionalOffice }, onDone, onError);
         } else if (res.data.attributes.state === 'success') {
-          const response = res.data.attributes.response || { confirmationNumber };
+          const response = res.data.attributes.response || { confirmationNumber, regionalOffice };
           onDone(response);
         } else {
           // needs to start with this string to get the right message on the form
@@ -113,9 +113,9 @@ export function submit(form, formConfig) {
     }
     return Promise.reject(res);
   }).then(resp => {
-    const { guid, confirmationNumber } = resp.data.attributes;
+    const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
     return new Promise((resolve, reject) => {
-      pollStatus({ guid, confirmationNumber }, response => {
+      pollStatus({ guid, confirmationNumber, regionalOffice }, response => {
         window.dataLayer.push({
           event: `${formConfig.trackingPrefix}-submission-successful`,
         });
