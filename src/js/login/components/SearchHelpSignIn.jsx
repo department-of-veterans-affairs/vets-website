@@ -11,11 +11,14 @@ import SignInProfileMenu from './SignInProfileMenu';
 import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 
 class SearchHelpSignIn extends React.Component {
-  componentDidMount() {
-    const nextParams = new URLSearchParams(window.location.search);
-    const nextPath = nextParams.get('next');
-    if (nextPath) {
-      this.props.toggleLoginModal(true);
+  componentDidUpdate() {
+    const { currentlyLoggedIn, showModal } = this.props.login;
+    if (!currentlyLoggedIn && !showModal) {
+      const nextParams = new URLSearchParams(window.location.search);
+      const nextPath = nextParams.get('next');
+      if (nextPath) {
+        this.props.toggleLoginModal(true);
+      }
     }
   }
 
