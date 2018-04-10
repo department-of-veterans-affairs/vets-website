@@ -69,20 +69,7 @@ You may be able to get disability benefits if you have a current illness or inju
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you've received one of these discharge statuses, you may not be eligible for VA benefits. 
-
-If any of these apply to you, then you’ll file your disability claim on eBenefits:
-
-- This is the first time I’m filing a disability claim, **or**
-- I have a new condition to add to my rated disability claim, **or**
-- I have both a new and worsening condition to add to my rated disability claim
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Apply on eBenefits</a>
-
-If you have a worsening condition to add to your rated disability claim, then you'll file your claim using the online application. 
-
-<a class="usa-button-primary va-button-primary" href="/disability-benefits/URL">Apply for Increased Disability Compensation</a>
-
+If you've received one of these discharge statuses, you may not be eligible for VA benefits.
 <br>
 
 **There are 2 ways you can try to qualify:**
