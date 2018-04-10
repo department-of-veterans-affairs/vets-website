@@ -54,7 +54,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Disability Claims for Increase"/>
+        <FormTitle title="Apply for increased disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
         {!user.login.currentlyLoggedIn && <div>
           {UnauthenticatedAlert}

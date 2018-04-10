@@ -287,7 +287,7 @@ export const evidenceSummaryView = ({ formData }) => {
 export const ITFErrorAlert = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h3>We were not able to submit your Intent to File</h3>
+      <h3>We’re sorry. Your intent to file request didn’t go through. Please try again.</h3>
     </div>
   </div>
 );
@@ -296,7 +296,7 @@ export const UnauthenticatedAlert = (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
-        You must be signed in to your account and verify your identity to apply.
+        To apply for a disability increase, you need to sign in and verify your account.
       </div>
     </div>
     <br/>
@@ -307,7 +307,7 @@ export const VerifiedAlert =  (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
-        <strong>Note:</strong> Since you’re signed in to your account and you have verified your identity, we can prefill part of your application based on your account details. You can also save your form in progress for up to 1 year, and come back later to finish filling it out.
+        <strong>Note:</strong> Since you’re signed in to your account and your account is verified, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out. You have 1 year from the date you start or update your application to submit the form.
       </div>
     </div>
     <br/>
@@ -326,3 +326,6 @@ export const GetFormHelp = () => {
   );
 };
 
+export const ITFDescription = (
+  <span><strong>Note:</strong> Clicking the button to start the disability application will declare your intent to file and will set the date that you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
+);

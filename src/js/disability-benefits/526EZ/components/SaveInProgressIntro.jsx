@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import SaveInProgressIntro from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 
-import { ITFErrorAlert, VerifiedAlert } from '../helpers';
+import { ITFErrorAlert, VerifiedAlert, UnauthenticatedAlert, ITFDescription } from '../helpers';
 
 export default function SIPIntro(props) {
 
@@ -14,11 +14,13 @@ export default function SIPIntro(props) {
   return (
     <div>
       {somethingWentWrong && ITFErrorAlert}
-      {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your Intent to File is submitted."/>}
+      {props.ITFStatus === 'pending' && <LoadingIndicator message="Please wait while we check that your intent to file has been submitted."/>}
       {!props.ITFStatus && <SaveInProgressIntro
         {...props}
         buttonOnly={props.buttonOnly}
-        prefillAlert={VerifiedAlert}
+        afterButtonContent={ITFDescription}
+        verifiedPrefillAlert={VerifiedAlert}
+        unverifiedPrefillAlert={UnauthenticatedAlert}
         verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
@@ -27,7 +29,6 @@ export default function SIPIntro(props) {
         startText="Start the Disability Compensation Application"
         {...props.saveInProgressActions}
         {...props.saveInProgress}/>}
-      {!props.ITFStatus && <p>Clicking this button establishes your Intent to File. This will make today the effective date for any benefits granted. This intent to file will expire one year from now.</p>}
     </div>
   );
 }
