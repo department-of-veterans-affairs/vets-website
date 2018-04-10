@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import 'isomorphic-fetch';
 
-import { mockFetch, resetFetch } from '../../util/unit-helpers.js';
+import { mockFetch, resetFetch } from '../../../src/platform/testing/unit/helpers.js';
 
 import PhotoPreview from '../../../src/js/vic-v2/components/PhotoPreview.jsx';
 

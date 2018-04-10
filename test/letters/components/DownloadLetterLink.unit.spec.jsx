@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import _ from 'lodash/fp';
 
-import { getFormDOM } from '../../util/schemaform-utils';
+import { getFormDOM } from '../../../src/platform/testing/unit/schemaform-utils';
 import { DownloadLetterLink } from '../../../src/js/letters/components/DownloadLetterLink.jsx';
 import { DOWNLOAD_STATUSES } from '../../../src/js/letters/utils/constants';
 

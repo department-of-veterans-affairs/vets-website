@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig5495 from '../../../src/js/edu-benefits/5495/config/form';
 import formConfig5490 from '../../../src/js/edu-benefits/5490/config/form';
 import formConfig1990e from '../../../src/js/edu-benefits/1990e/config/form';

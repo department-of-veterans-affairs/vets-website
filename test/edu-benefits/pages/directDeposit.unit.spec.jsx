@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig1990n from '../../../src/js/edu-benefits/1990n/config/form';
 import formConfig1990e from '../../../src/js/edu-benefits/1990e/config/form';
 import formConfig5490 from '../../../src/js/edu-benefits/5490/config/form';
