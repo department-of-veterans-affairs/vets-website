@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingIndicator from './LoadingIndicator';
+import LoadingIndicator from '../../js/common/components/LoadingIndicator';
 
 /*
  * Expects a settings object that looks like:
