@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ErrorableCheckbox from '../../../../src/js/common/components/form-elements/ErrorableCheckbox';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 describe('<ErrorableCheckbox>', () => {
   it('ensure checked changes propagate', () => {
