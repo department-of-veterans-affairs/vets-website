@@ -127,11 +127,10 @@ export function submit(form, formConfig) {
         const error = new Error('vets_throttled_error_pensions');
         error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
 
-        Promise.reject(error);
-        return;
+        return Promise.reject(error);
       }
     }
-    Promise.reject(respOrError);
+    return Promise.reject(respOrError);
   });
 }
 
