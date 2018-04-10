@@ -9,6 +9,7 @@ import { prefillTransformer, submit, identityMatchesPrefill } from "../helpers";
 
 import fullNameUI from "../../common/schemaform/definitions/fullName";
 import ssnUI from "../../common/schemaform/definitions/ssn";
+// import * as vaFileNumberUI from "../../common/schemaform/definitions/personId";
 import * as addressDefinition from "../definitions/address";
 import currentOrPastDateUI from "../../common/schemaform/definitions/currentOrPastDate";
 import phoneUI from "../../common/schemaform/definitions/phone";
@@ -16,7 +17,6 @@ import phoneUI from "../../common/schemaform/definitions/phone";
 const {
   veteranFullName,
   veteranSSN,
-  vaFileNumber,
   insuranceNumber,
   claimantFullName,
   claimantAddress,
@@ -37,7 +37,7 @@ const {
   authorizationToChangeClaimantAddress,
 } = fullSchema.properties;
 
-const { fullName } = fullSchema.definitions;
+const { fullName, address, vaFileNumber } = fullSchema.definitions;
 
 const authorizationForRepresentativeAccessToRecordsDescription =
   "I authorize the VA facility having custody of my VA claimant records to disclose to the service organization named in Item 3A treatment records relating to drug abuse, alcoholism or alcohol abuse, infection with the human immunodeficiency virus (HIV), or sickle cell anemia. Redisclosure of these records by my service organization representative, other than to the VA or the Court of Appeals for Veterans Claims, is not authorized without my further consent. This authorization will remain in effect until the earlier of the following events: (1) I revoke this authorization by filing a written revocation with VA; or (2) I revoke the appointment of the service organization named above, either by explicit revocation or the appointment if another representative";
@@ -65,6 +65,8 @@ const formConfig = {
   title: "Appoint a Veteran Service Officer as your representative",
   defaultDefinitions: {
     fullName,
+    address,
+    vaFileNumber,
   },
   chapters: {
     veteranInformation: {
@@ -76,7 +78,12 @@ const formConfig = {
           uiSchema: {
             fullName: fullNameUI,
             veteranSSN: ssnUI,
-            vaFileNumber: { "ui:title": "VA file number" },
+            vaFileNumber: {
+                'ui:title': 'VA file number',
+                'ui:errorMessages': {
+                  pattern: 'Your VA file number must be between 7 to 9 digits'
+                }
+            },
             insuranceNumber: { "ui:title": "Insurance Number" },
           },
           schema: {
@@ -84,7 +91,6 @@ const formConfig = {
             required: [
               'fullName',
               'veteranSSN',
-              'vaFileNumber',
               'insuranceNumber',
             ],
             properties: {
@@ -102,7 +108,7 @@ const formConfig = {
       pages: {
         claimantInformation: {
           path: "claimant-information",
-          title: "Claimant Information",
+          title: "Claimant information",
           uiSchema: {
             fullName: _.merge(fullNameUI, {
               first: {
@@ -118,11 +124,10 @@ const formConfig = {
                 "ui:title": "Claimant’s suffix",
               },
             }),
-            // FIX: need a default field for dropdown
             relationship: {
               "ui:select": "Relationship to Veteran",
             },
-            claimantAddress: { "ui:title": "Address" },
+            claimantAddress: addressDefinition,
             claimantEmail: { "ui:title": "Email address" },
             claimantDaytimePhone: phoneUI("Daytime phone number"),
             claimantEveningPhone: phoneUI("Evening phone number"),
@@ -159,7 +164,7 @@ const formConfig = {
       pages: {
         veteranServiceOrganization: {
           path: "veteran-service-organization",
-          title: "Veteran Service Organization",
+          title: "Veteran service organization",
           uiSchema: {
             organizationName: { "ui:title": "Service organization name" },
             organizationEmail: {
@@ -192,12 +197,12 @@ const formConfig = {
     },
     authorizationForRepresentativeAccessToRecords: {
       title:
-        "Authorization for Representative's Access to Records Protected by Section 7332, TITLE 38, U.S.C.",
+        "Authorization for Representative's Access to Records",
       pages: {
         authorizationForRepresentativeAccessToRecords: {
           path: "authorization-for-representative-access-to-records",
           title:
-            "Authorization for Representative's Access to Records Protected by Section 7332, TITLE 38, U.S.C.",
+            "Authorization for representative's access to records",
           uiSchema: {
             authorization: {
               "ui:title": authorizationForRepresentativeAccessToRecordsDescription,
@@ -205,7 +210,6 @@ const formConfig = {
           },
           schema: {
             type: "object",
-            // required: [authorization],
             properties: {
               authorization,
             },
@@ -218,7 +222,7 @@ const formConfig = {
       pages: {
         limitationOfConsent: {
           path: "limitation-of-consent",
-          title: "Limitation of Consent",
+          title: "Limitation of consent",
           uiSchema: {
             "ui:title": limitationOfConsentDescription,
             disclosureExceptionHIV: {
@@ -252,7 +256,7 @@ const formConfig = {
       pages: {
         authorizationToChangeClaimantAddress: {
           path: "authorization-to-change-claimant-address",
-          title: "Authorization to Change Claimaint's Address",
+          title: "Authorization to change claimaint's address",
           uiSchema: {
             authorizationToChangeClaimantAddress: {
               "ui:title": authorizationToChangeClaimantAddressDescription,
@@ -260,7 +264,6 @@ const formConfig = {
           },
           schema: {
             type: "object",
-            // required: [authorizationToChangeClaimantAddress],
             properties: {
               authorizationToChangeClaimantAddress,
             },
