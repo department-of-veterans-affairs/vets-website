@@ -518,7 +518,6 @@ export function getPageKeys(pages, formData) {
 
   return expandedPageList.map(page => {
     let pageKey = page.pageKey;
-    console.log(pageKey);
     if (typeof page.index !== 'undefined') {
       pageKey += page.index;
     }
