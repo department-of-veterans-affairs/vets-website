@@ -20,7 +20,7 @@ Through this program, we cover the cost of some of your health care services and
 
 ### Can I get health care through CHAMPVA?
 
-You can only get health care through CHAMPVA if you don’t qualify for TRICARE and at least one of the descriptions below is true for you. 
+You can only get health care through CHAMPVA if you don’t qualify for TRICARE and at least one of the descriptions below is true for you.
 
 **At least one of these must be true. You’re:**
 
@@ -59,7 +59,7 @@ There are other factors that may affect whether you or other family members qual
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="spouse">A surviving spouse who’s currently remarried</button>
       <div id="spouse" class="usa-accordion-content">
         <p><b>If you’re the surviving spouse of a qualifying CHAMPVA sponsor and you remarry before age 55,</b> you no longer qualify for CHAMPVA as of midnight on the date of your remarriage.</p>
-        <p><b>If you remarry on or after your 55th birthday,</b> you can keep your CHAMPVA benefits.</p>
+        <p><b>If you remarry on or after your 55th birthday,</b> you can keep your CHAMPVA benefits.</p>
       </div>
     </li>
     <li>
@@ -97,7 +97,7 @@ There are other factors that may affect whether you or other family members qual
         <p>CHAMPVA is always the second payer to Medicare. Here are some requirements you need to know:</p>
         <p><b>If you’re under 65 years old,</b> you’re eligible for CHAMPVA if you meet both of the requirements below.</br>
       <b>Both of these must be true. You:</b></p>
-        <ul> 
+        <ul>
           <li>Have both Medicare Parts A and B, <b>and</b></li>
           <li>Are otherwise eligible for CHAMPVA</li>
           </ul>
@@ -140,7 +140,7 @@ When you’re signed up for CHAMPVA, you’ll get a copy of the CHAMPVA Program 
 
 ### How do I get CHAMPVA benefits?
 
-You’ll need to apply for these benefits. 
+You’ll need to apply for these benefits.
 
 **To apply, submit these required documents:**
 
@@ -152,11 +152,11 @@ You’ll need to apply for these benefits.
 
 **To speed up the processing of your application, you can also send copies (*not* originals) of these optional documents:**
 - The page from the VBA rating decision showing your Veteran is permanently and totally disabled (or the death rating if you're a survivor)
-- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives.<br>
+- Your Veteran's DD214 (Certificate of Release or Discharge from Active Duty)—or, if the Veteran was a World War II or Korean War Veteran, the Report of Separation. If you don’t have a copy of the necessary form, you can request it by submitting a Standard Form 180, Request Pertaining to Military Records, from the National Archives.<br>
 [Find out how to request military service records online, by mail, or by fax](https://www.archives.gov/veterans/military-service-records).
 - Documents related to any dependent children you’re including in your application:
   - A copy of each child’s birth certificate or adoption papers
-  - School certification of full-time enrollment for children ages 18-23.<br> 
+  - School certification of full-time enrollment for children ages 18-23.<br>
   [Download our fact sheet on school enrollment certification requirements](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf).
 
 
@@ -177,7 +177,7 @@ Or fax it to: 1-303-331-7809
 
 ### What happens after I apply?
 
-Once we get your application, we’ll review it to be sure it’s complete and includes all required forms. If it’s not complete, we’ll return it to you with more instructions.<br> 
+Once we get your application, we’ll review it to be sure it’s complete and includes all required forms. If it’s not complete, we’ll return it to you with more instructions.<br>
 [Download application instructions](https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-03.pdf).
 
 

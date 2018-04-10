@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 
-import { getFormDOM } from '../../util/schemaform-utils';
+import { getFormDOM } from '../../../src/platform/testing/unit/schemaform-utils';
 
 import UpdateFailureAlert from '../../../src/js/letters/components/UpdateFailureAlert';
 
