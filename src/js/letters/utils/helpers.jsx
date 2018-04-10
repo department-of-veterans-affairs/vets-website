@@ -6,7 +6,6 @@ import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 import { formatDateShort } from '../../common/utils/helpers';
 import {
-  AVAILABILITY_STATUSES,
   BENEFIT_OPTIONS,
   STATE_CODE_TO_NAME,
   ADDRESS_TYPES,
