@@ -9,6 +9,6 @@ src/hca-migrate/*
 src/rx-migrate/*
 coverage/*
 .nyc_output/*
-src/js/common/utils/static-page-widgets.js
+src/js/static-pages/static-page-widgets.js
 script/watch.js
 script/mocha.js
