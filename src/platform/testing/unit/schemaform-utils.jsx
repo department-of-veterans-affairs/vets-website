@@ -1,3 +1,7 @@
+/** 
+ * Utilities for testing forms built with our schema based form library
+ */
+
 import _ from 'lodash/fp';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -5,13 +9,13 @@ import sinon from 'sinon';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import SchemaForm from '../../src/js/common/schemaform/components/SchemaForm';
-import { fillDate as oldFillDate } from './unit-helpers';
+import SchemaForm from '../../../js/common/schemaform/components/SchemaForm';
+import { fillDate as oldFillDate } from './helpers';
 
 import {
   replaceRefSchemas,
   updateSchemaAndData
-} from '../../src/js/common/schemaform/state/helpers';
+} from '../../../js/common/schemaform/state/helpers';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {
@@ -22,6 +26,25 @@ function getDefaultData(schema) {
 
   return undefined;
 }
+
+/**
+ * A React component that takes in a schema, uiSchema, and formData
+ * and renders a form. We use this to test that definitions from form configs
+ * are correct without having to setup a whole form and handle state
+ * management.
+ *
+ * @extends {React.Component}
+ * @property {object} schema JSON Schema object for a form snippet
+ * @property {object} uiSchema  Object with UI information for a form snippet
+ * @property {object} data  Object with form data
+ * @property {string} arrayPath This is the array path in the schema that you want
+ * to render as a pagePerItem page
+ * @property {number} pagePerItemIndex When simulating a page per item form page,
+ * this is the index for the item to render.
+ * @property {boolean} reviewMode Renders the form in review mode if true 
+ * @property {function} onSubmit Will be called if a form is submitted
+ * @property {function} onFileUpload Will be called if a file upload is triggered
+ */
 export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
@@ -94,6 +117,12 @@ export class DefinitionTester extends React.Component {
   }
 }
 
+/**
+ * Finds a form rendered into the DOM with ReactTestUtils
+ * and triggers a submit event on it.
+ *
+ * @param {Element} form The element containing the form
+ */
 export function submitForm(form) {
   ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
     preventDefault: f => f
@@ -135,6 +164,12 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
   });
 }
 
+/**
+ * Gets the DOM node associated with the form tree passed in.
+ *
+ * @param {React.Element} form The root level of a rendered form
+ * @returns {object} An DOM node for the form, with added helper methods
+ */
 export function getFormDOM(form) {
   const formDOM = findDOMNode(form);
 
@@ -221,6 +256,14 @@ export function getFormDOM(form) {
   return formDOM;
 }
 
+/**
+ * Enzyme helper that fires a change event with a value for
+ * an element at the given selector
+ *
+ * @param {Enzyme} form The enzyme object that contains a form
+ * @param {string} selector The selector to find the input to fill
+ * @param {string} value The data to fill in the input
+ */
 export function fillData(form, selector, value) {
   form.find(selector).simulate('change', {
     target: {
@@ -229,18 +272,42 @@ export function fillData(form, selector, value) {
   });
 }
 
+/**
+ * Enzyme helper that fires a change event with a value for
+ * a checkbox at the given name
+ *
+ * @param {Enzyme} form The enzyme object that contains a form
+ * @param {string} fieldName The input name of the checkbox
+ * @param {string} value The data to fill in the input
+ */
 export function selectCheckbox(form, fieldName, value) {
   form.find(`input[name*="${fieldName}"]`).simulate('change', {
     target: { checked: value }
   });
 }
 
+/**
+ * Enzyme helper that fires a change event with a value for
+ * a radio button at the given name
+ *
+ * @param {Enzyme} form The enzyme object that contains a form
+ * @param {string} fieldName The input name of the radio button
+ * @param {string} value The data to fill in the input
+ */
 export function selectRadio(form, fieldName, value) {
   form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
     target: { value }
   });
 }
 
+/**
+ * Enzyme helper that fills in a date field with data from the
+ * given date string.
+ *
+ * @param {Enzyme} form The enzyme object that contains a form
+ * @param {string} partialId The id for the date field, without the month/day/year prefix 
+ * @param {string} dateString The date to fill in the input
+ */
 export function fillDate(form, partialId, dateString) {
   const date = dateString.split('-');
   const month = form.find(`select#${partialId}Month`);

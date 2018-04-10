@@ -1,5 +1,8 @@
 /**
  * Fills the address form elements.
+ *
+ * @param {string} baseName The start of the field name for the address elements
+ * @param {object} address The address object
  */
 exports.command = function fillAddress(baseName, address) {
   this

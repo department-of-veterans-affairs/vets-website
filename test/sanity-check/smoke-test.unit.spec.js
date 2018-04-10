@@ -1,4 +1,4 @@
-import { expect } from '../util/unit-helpers.js';
+import { expect } from '../../src/platform/testing/unit/helpers.js';
 
 describe('Unittest sanity test', () => {
   it('Trivial reflexive equality of true should pass.', () => {

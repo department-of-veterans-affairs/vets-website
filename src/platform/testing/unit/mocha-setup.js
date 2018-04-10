@@ -1,3 +1,9 @@
+/**
+ * Global set up code for the Mocha unit testing environment
+ *
+ * If you're looking to add polyfills for all unit tests, this is the place.
+ */
+
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
@@ -11,7 +17,9 @@ global.__SAMPLE_ENABLED__ = (process.env.SAMPLE_ENABLED === 'true');
 
 chai.use(chaiAsPromised);
 
-// Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
+/**
+ * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
+ */
 export default function setupJSDom() {
   // if (global.document || global.window) {
   //   throw new Error('Refusing to override existing document and window.');

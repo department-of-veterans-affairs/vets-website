@@ -16,12 +16,9 @@ import {
   FETCH_MHV_ACCOUNT_SUCCESS,
   CREATING_MHV_ACCOUNT,
   CREATE_MHV_ACCOUNT_FAILURE,
-  CREATE_MHV_ACCOUNT_SUCCESS
+  CREATE_MHV_ACCOUNT_SUCCESS,
+  REMOVING_SAVED_FORM_SUCCESS
 } from '../actions';
-
-import {
-  REGISTER_SERVICE
-} from '../../personalization/beta-enrollment/actions';
 
 const MAX_POLL_TIMES = 10;
 
@@ -138,11 +135,9 @@ function profileInformation(state = initialState, action) {
       }, state);
     }
 
-    case REGISTER_SERVICE: {
-      return {
-        ...state,
-        services: state.services.concat(action.service)
-      };
+    case REMOVING_SAVED_FORM_SUCCESS: {
+      const forms = state.savedForms.filter(el => el.form !== action.formId);
+      return set('savedForms', forms, state);
     }
 
     default:

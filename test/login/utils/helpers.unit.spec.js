@@ -10,7 +10,7 @@ import {
   signup
 } from '../../../src/js/login/utils/helpers';
 
-import { mockApiRequest, resetFetch } from '../../util/unit-helpers';
+import { mockApiRequest, resetFetch } from '../../../src/platform/testing/unit/helpers';
 
 let windowOpen;
 let oldWindow;

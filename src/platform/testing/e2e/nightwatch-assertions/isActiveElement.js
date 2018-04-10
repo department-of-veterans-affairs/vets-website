@@ -12,7 +12,6 @@
  * @param {string} [message] Optional log message to display in the output. If missing, one is displayed by default.
  * @api assertions
  */
-
 exports.assertion = function isActiveElement(selector, msg) {
   this.message = msg || `Testing if element that matches ${selector} is focused.`;
   this.expected = true;

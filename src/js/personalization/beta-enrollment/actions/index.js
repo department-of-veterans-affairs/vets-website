@@ -22,4 +22,3 @@ export function registerBeta(service) {
       .then(() => dispatch({ type: REGISTER_SERVICE, service }));
   };
 }
-
