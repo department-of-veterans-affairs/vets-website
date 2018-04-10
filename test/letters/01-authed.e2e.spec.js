@@ -1,7 +1,7 @@
 import startCase from 'lodash/startCase';
 
-const E2eHelpers = require('../e2e/e2e-helpers');
-const Timeouts = require('../e2e/timeouts.js');
+const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
 const LettersHelpers = require('../e2e/letters-helpers.js');
 const LoginHelpers = require('../e2e/login-helpers');
 
@@ -20,10 +20,10 @@ module.exports = E2eHelpers.createE2eTest(
     LettersHelpers.initApplicationMock(token);
 
     // Ensure main status page renders.
-    LoginHelpers.logIn(token, client, '/letters', 3)
+    LoginHelpers.logIn(token, client, '/download-va-letters/letters', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
-      .assert.title('Download VA Letters: Vets.gov')
+      .assert.title('Download VA Letters and Documents: Vets.gov')
       .waitForElementVisible('.letters', Timeouts.slow);  // First render of React may be slow.
 
     client.axeCheck('.main');

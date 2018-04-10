@@ -67,6 +67,7 @@ Our services include:
 
 </div>
 
+<span id="no-benefits"></span>
 ### How do I access VA services for MST?
 
 If you’re a Veteran who has experienced MST, you can get help through VA. You don’t need to have a service-connected disability rating, and you may be able to get MST-related care even if you don’t qualify for other VA services. You also don’t need to have reported the MST or have other proof that it happened.

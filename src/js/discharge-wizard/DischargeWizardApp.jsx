@@ -9,7 +9,7 @@ export default function DischargeWizardApp({ children }) {
         </ul>
       </nav>
       <div className="row">
-        <div className="columns small-12">
+        <div className="columns small-12" aria-live="polite" aria-relevant="additions">
           {children}
         </div>
       </div>

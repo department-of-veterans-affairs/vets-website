@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig1990 from '../../../../src/js/edu-benefits/1990/config/form';
 

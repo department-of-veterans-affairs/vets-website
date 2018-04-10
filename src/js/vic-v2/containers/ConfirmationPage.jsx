@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
@@ -10,7 +9,7 @@ import VeteranIDCard from '../components/VeteranIDCard';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
     duration: 500,
     delay: 0,
     smooth: true,
@@ -18,42 +17,50 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
-  toggleExpanded = (e) => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  }
-
   render() {
-    const form = this.props.form;
-    const userSignedIn = this.props.userSignedIn;
+    const { form, userSignedIn } = this.props;
     // If someone refreshes this page after submitting a form and it loads
     // without an empty response object, we don't want to throw errors
-    const response = form.submission.response
-      ? form.submission.response.attributes
-      : {};
-    const { veteranFullName, verified } = form.data;
-    const submittedAt = moment(form.submission.submittedAt);
+    const {
+      first: firstName = '',
+      middle: middleName = '',
+      last: lastName = '',
+      suffix = ''
+    } = form.data.veteranFullName;
+
+    const { serviceBranch } = form.data;
+
+    // temporarily hide verified confirmation page design w/ temp card
+    const verified = false;
+
+    const response = form.submission.response || {};
+    const submittedAt = moment();
+
+    const veteranFullNameStr =
+      `${firstName.toUpperCase()} ${middleName.toUpperCase()} ${lastName.toUpperCase()} ${suffix.toUpperCase()}` // upper case name
+        .replace(/ +(?= )/g, ''); // remove extra spaces from absent name parts
 
     return (
       <div>
-        <p>We’ve received your application. Thank you for applying for a Veteran ID Card.<br/>
+        <p><strong>We’ve received your application.</strong> Thank you for applying for a Veteran ID Card.<br/>
           We process applications and print cards in the order we receive them.</p>
 
         <h2 className="schemaform-confirmation-section-header">What happens after I apply?</h2>
         {verified && userSignedIn && <div>
           <p>We’ll send you emails updating you on the status of your application. You can also print this page for your records. You should receive your Veteran ID Card by mail in about 60 days.<br/>
             In the meantime, you can print a temporary digital Veteran ID Card.</p>
-          <VeteranIDCard/>
+          <div className="id-card-preview">
+            {!!response.photo && <VeteranIDCard
+              veteranFullName={veteranFullNameStr}
+              veteranBranchCode={serviceBranch}
+              caseId={response.caseId}
+              veteranPhotoUrl={response.photo}/>}
+          </div>
           <button type="button" className="va-button-link" onClick={() => window.print()}>Print your temporary Veteran ID Card.</button>
         </div>}
         {(!verified || !userSignedIn) && <div>
@@ -70,11 +77,11 @@ class ConfirmationPage extends React.Component {
         </div>}
         <div className="inset">
           <h3 className="schemaform-confirmation-claim-header">Veteran ID Card claim</h3>
-          <span>for {veteranFullName.first} {veteranFullName.middle} {veteranFullName.last} {veteranFullName.suffix}</span>
+          <span>for {firstName} {middleName} {lastName} {suffix}</span>
           <ul className="claim-list">
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.confirmationNumber}</span>
+              <span>{response.caseNumber}</span>
             </li>
             <li>
               <strong>Date received</strong><br/>
@@ -99,10 +106,9 @@ class ConfirmationPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userSignedIn = _.get(state, 'user.login.currentlyLoggedIn', false);
   return {
     form: state.form,
-    userSignedIn
+    userSignedIn: state.user.login.currentlyLoggedIn
   };
 }
 

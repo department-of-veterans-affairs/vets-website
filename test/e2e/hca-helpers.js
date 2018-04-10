@@ -1,5 +1,5 @@
 const mock = require('./mock-helpers');
-const Timeouts = require('./timeouts.js');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
 const LoginHelpers = require('./login-helpers.js');
 const moment = require('moment');
 
@@ -58,8 +58,8 @@ function completeMilitaryService(client, data) {
   client
     .selectDropdown('root_lastServiceBranch', data.lastServiceBranch)
     .fillDate('root_lastEntryDate', data.lastEntryDate)
-    .selectDropdown('root_dischargeType', data.dischargeType)
-    .fillDate('root_lastDischargeDate', data.lastDischargeDate);
+    .fillDate('root_lastDischargeDate', data.lastDischargeDate)
+    .selectDropdown('root_dischargeType', data.dischargeType);
 }
 
 function completeAdditionalInformation(client) {

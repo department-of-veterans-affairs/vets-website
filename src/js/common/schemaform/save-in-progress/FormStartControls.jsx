@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '../../../common/components/Modal';
 
 class FormStartControls extends React.Component {
@@ -42,7 +42,7 @@ class FormStartControls extends React.Component {
 
   startOver = () => {
     this.toggleModal();
-    this.props.removeInProgressForm(this.props.formId, this.props.migrations);
+    this.props.removeInProgressForm(this.props.formId, this.props.migrations, this.props.prefillTransformer);
   }
 
   render() {
@@ -63,11 +63,11 @@ class FormStartControls extends React.Component {
             id="start-over-modal"
             onClose={this.toggleModal}
             visible={this.state.modalOpen}>
-            <h4>Starting over would delete your in progress form.</h4>
+            <h4>Starting over will delete your in-progress form.</h4>
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start over"
+              buttonText="Start Over"
               buttonClass="usa-button-primary"/>
             <ProgressButton
               onButtonClick={this.toggleModal}

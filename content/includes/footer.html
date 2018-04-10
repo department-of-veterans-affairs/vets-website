@@ -18,12 +18,17 @@
     </ul>
     <ul class="va-footer-linkgroup" id="footer-popular">
       <li><h4 class="va-footer-linkgroup-title">Popular on Vets.gov</h4></li>
-      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for Printed Veteran ID Card</a></li>
+      {% if buildtype != 'production' %}
+      <li><a href="/veteran-id-card/how-to-get" onClick="footerNavClick(this);">Apply for a printed Veteran ID Card</a></li>
+      {% else %}
+      <li><a href="/veteran-id-card/" onClick="footerNavClick(this);">Apply for a printed Veteran ID Card</a></li>
+      {% endif %}
       <li><a href="/health-care/apply/" onClick="footerNavClick(this);">Apply for health care</a></li>
       <li><a href="/education/apply-for-education-benefits/" onClick="footerNavClick(this);">Apply for education benefits</a></li>
-      <li><a href="/track-claims/" onClick="footerNavClick(this);">Check your claim and appeal status</a></li>
-      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Education benefits by school</a></li>
+      <li><a href="/track-claims/" onClick="footerNavClick(this);">Track your claims and appeals</a></li>
+      <li><a href="/gi-bill-comparison-tool/" onClick="footerNavClick(this);">Check education benefits by school</a></li>
       <li><a href="/health-care/prescriptions/" onClick="footerNavClick(this);">Refill prescriptions</a></li>
+      <li><a href="/download-va-letters/" onClick="footerNavClick(this);">Download Your VA Letters</a></li>
     </ul>
     <ul class="va-footer-linkgroup va-list--plain" id="footer-contact">
       <li><h4 class="va-footer-linkgroup-title">Contact</h4></li>
@@ -35,7 +40,7 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
       <li><p><button class="va-overlay-trigger usa-button-unstyled va-footer-vcl-trigger" data-show="#modal-crisisline">Get help from the Veterans Crisis Line</button></p></li>
       <li><br></li>
       <li><h4 class="va-footer-linkgroup-title">New to VA?</h4></li>
-      <li><a href="/welcome-to-va">Print Out Your VA Welcome Kit</a></li>
+      <li><a href="/welcome-to-va">Print out your VA Welcome Kit</a></li>
     </ul>
   </div>
     <div class="row" id="va-footer-supplementallinks">
@@ -50,7 +55,7 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     </div>
     <div>
       <div class="footer-seal">
-        <abbr>VA</abbr> | U.S. Department of Veterans Affairs
+        <abbr title="Department of Veterans Affairs">VA</abbr> | U.S. Department of Veterans Affairs
       </div>
     </div>
   </div>
@@ -62,12 +67,6 @@ Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">E
     {% endif %}
   </div>
 
-  <div class="va-notice--banner va-notice--banner--alt">
-    <div class="usa-grid">
-      <h4>A new way to give us feedback</h4>
-      <p>Check back soon to share your feedback on what you’d like to see on Vets.gov.</p>
-    </div>
-  </div>
 </footer>
 
 <!-- End mobile crisis line overlay. See desktop overlay at end of footer -->

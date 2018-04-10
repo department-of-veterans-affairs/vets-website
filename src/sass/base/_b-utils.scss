@@ -60,3 +60,17 @@
 		outline-offset: 3px;
   }
 }
+
+.dashed-underline {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+
+  &:hover {
+    text-decoration: none;
+    border-bottom: 1px dashed;
+  }
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

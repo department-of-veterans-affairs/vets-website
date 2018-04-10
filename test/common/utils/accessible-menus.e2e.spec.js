@@ -1,5 +1,5 @@
-const E2eHelpers = require('../../e2e/e2e-helpers');
-const Timeouts = require('../../e2e/timeouts.js');
+const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../../src/platform/testing/e2e/timeouts.js');
 
 const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
 const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';
@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Explore benefits menu items
     const firstMenuItem = 'button[aria-controls="vetnav-disability"]';
     const secondMenuItem = 'button[aria-controls="vetnav-healthcare"]';
-    const lastMenuItem = 'button[aria-controls="vetnav-burials"]';
+    const lastMenuItem = 'a[href="/families-caregivers/"]';
 
     const testOpenExploreMenu = (key, focusedOn, keyName) => {
       if (keyName) {

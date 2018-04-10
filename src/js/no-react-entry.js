@@ -1,24 +1,26 @@
-import initCommon from './common/init-common';
+import '../platform/polyfills';
+
+import createCommonStore from '../platform/startup/store';
+import startSitewideComponents from '../platform/site-wide';
+
 import createApplicationStatus from './common/components/createApplicationStatus';
 import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
+import createDisabilityIncreaseApplicationEntry from './disability-benefits/526EZ/components/createDisabilityIncreaseApplicationEntry';
 
 // const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
 // const burialPages = new Set(['/burials-and-memorials/', '/burials-and-memorials/survivor-and-dependent-benefits/']);
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
+const disabilityPages = new Set(['/disability-benefits/apply/', '/disability-benefits/eligibility/']);
 
 // No-react styles.
 import '../sass/no-react.scss';
 
-import './common';
-
-// Used in the footer.
-import './legacy/menu.js';
-
 // New sidebar menu
 import './legacy/sidebar-navigation.js';
 
-const store = initCommon();
+const store = createCommonStore();
+startSitewideComponents(store);
 
 // if (pensionPages.has(location.pathname)) {
 //   createApplicationStatus(store, {
@@ -37,6 +39,9 @@ if (healthcarePages.has(location.pathname)) {
 }
 if (eduPages.has(location.pathname)) {
   createEducationApplicationStatus(store);
+}
+if (disabilityPages.has(location.pathname)) {
+  createDisabilityIncreaseApplicationEntry(store);
 }
 // if (burialPages.has(location.pathname)) {
 //   createApplicationStatus(store, {

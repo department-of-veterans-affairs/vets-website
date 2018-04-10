@@ -23,11 +23,9 @@ class ClaimsStatusApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
+        verify
         serviceRequired={['evss-claims', 'appeals-status']}
-        userProfile={this.props.profile}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}>
+        user={this.props.user}>
         <AppContent>
           {this.props.children}
         </AppContent>
@@ -37,12 +35,7 @@ class ClaimsStatusApp extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userState = state.user;
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { user: state.user };
 }
 
 export default connect(mapStateToProps)(ClaimsStatusApp);

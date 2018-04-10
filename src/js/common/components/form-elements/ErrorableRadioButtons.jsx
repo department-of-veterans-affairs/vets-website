@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
 
 import { makeField } from '../../model/fields.js';
 
@@ -63,7 +63,7 @@ class ErrorableRadioButtons extends React.Component {
       );
     }
 
-    // Addes ToolTip if text is provided.
+    // Adds ToolTip if text is provided.
     let toolTip;
     if (this.props.toolTipText) {
       toolTip = (

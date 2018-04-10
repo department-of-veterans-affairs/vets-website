@@ -26,6 +26,8 @@
 // ============ SETTINGS ============//
 // Order matters here! Please don't change it.
 
+$font-path: "~uswds/src/fonts";
+$image-path: "~uswds/src/img";
 @import "~uswds/src/stylesheets/core/variables";
 
 // A VA partial. Here so that we can override the
@@ -85,6 +87,11 @@
 @import "modules/m-education-wizard";
 @import "modules/m-applications";
 @import "modules/m-additional-info";
+@import "modules/m-downtime-notification";
+
+// ----- mobile typography -- see #6214 on vets.gov-team ---- //
+
+@import "mobile_typography";
 
 // ----- VA SHAME ---- //
 

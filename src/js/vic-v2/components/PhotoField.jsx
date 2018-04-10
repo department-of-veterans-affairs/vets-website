@@ -1,140 +1,24 @@
 import React from 'react';
-import Cropper from 'react-cropper';
 import Dropzone from 'react-dropzone';
-import classNames from 'classnames';
+
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import ProgressBar from '../../common/components/ProgressBar';
-
-const PhotoDescription = (
-  <div className="feature">
-    <h3>What makes a good photo?</h3>
-    <div>
-      <p>To meet the requirements for a Veteran ID Card, your photo should follow the guidance listed below. It must:</p>
-      <ul>
-        <li>Show a full front view of your face and neck, (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), <strong>and</strong></li>
-        <li>Be cropped from your shoulders up (much like a passport photo), <strong>and</strong></li>
-        <li>Show you with your eyes open and a neutral expression, <strong>and</strong></li>
-        <li>Be a square size and have a white or plain-color background (with no scenery or other people in the photo)</li>
-        <li>Be uploaded as a .jpeg, .png, .bmp, or .tiff file</li>
-      </ul>
-      <h3>Examples of good ID photos</h3>
-      <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
-      <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
-    </div>
-  </div>);
+import { scrollAndFocus } from '../../common/utils/helpers';
+import PhotoPreview from '../components/PhotoPreview';
+import CropperController from '../components/CropperController';
 
 const MIN_SIZE = 350;
-const MIN_RATIO = 0.2;
-const MAX_RATIO = 1.7;
-const WARN_RATIO = 1.3;
-const LARGE_SCREEN = 1201;
-const MAX_DIMENSION = 1024;
 
-function getMoveBoundariesMet(canvasData, cropboxData) {
-  const { height: canvasHeight, width: canvasWidth, left: canvasLeft, top: canvasTop } = canvasData;
-  const { height: cropboxHeight, width: cropboxWidth, left: cropboxLeft, top: cropboxTop } = cropboxData;
-
-  // origin is at center
-  // coodinates are for canvas's container
-  const canvasBoundaries = {
-    minLeft: Math.round(-canvasWidth + cropboxLeft + cropboxWidth, 2),
-    maxLeft: Math.round(cropboxLeft, 2),
-    minTop: Math.round(-canvasHeight + cropboxTop + cropboxHeight, 2),
-    maxTop: Math.round(cropboxTop, 2),
-  };
-
-  return {
-    bottomBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.minTop,
-    topBoundaryMet: Math.round(canvasTop, 2) === canvasBoundaries.maxTop,
-    leftBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.maxLeft,
-    rightBoundaryMet: Math.round(canvasLeft, 2) === canvasBoundaries.minLeft
-  };
-}
-
-function isSmallScreen(width) {
-  return  width < LARGE_SCREEN;
-}
+const layouts = {
+  choosePhoto: 'choose_photo',
+  cropPhoto: 'crop_photo',
+  watchUpload: 'watch_upload',
+  previewPhoto: 'preview_photo',
+  screenReaderError: 'screen_reader_error'
+};
 
 function isValidFileType(fileName, fileTypes) {
   return fileTypes.some(type => fileName.toLowerCase().endsWith(type));
-}
-
-function getBoundaryEdgeWarningDirection({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
-  let direction = '';
-  if (topBoundaryMet) {
-    direction = 'down';
-  }
-
-  if (bottomBoundaryMet) {
-    direction = 'up';
-  }
-
-  if (leftBoundaryMet) {
-    direction = 'right';
-  }
-
-  if (rightBoundaryMet) {
-    direction = 'left';
-  }
-
-  return direction;
-}
-
-function makeBoundaryEdgeWarning(direction) {
-  return direction ?
-    `You have reached the edge of your photo and can't move it any farther ${direction}. To continue to edit your photo, click on the other arrows to move it or to make it larger.` :
-    '';
-}
-
-function hasParallelBoundariesMet({ topBoundaryMet, bottomBoundaryMet, leftBoundaryMet, rightBoundaryMet }) {
-  return (topBoundaryMet && bottomBoundaryMet) || (leftBoundaryMet && rightBoundaryMet);
-}
-
-function makeCropBoundaryWarningMessage({ zoomWarn = false, ...boundariesMet }) {
-  if (zoomWarn) {
-    return 'If you zoom in this close, your ID photo will be less clear.';
-  } else if (hasParallelBoundariesMet(boundariesMet)) {
-    return 'Your photo currently fits within the square frame. If you’d like to adjust the position of your photo, click Make larger.';
-  }
-
-  return makeBoundaryEdgeWarning(getBoundaryEdgeWarningDirection(boundariesMet));
-}
-
-function makeMoveButtonsEnabledStates({ topBoundaryMet, bottomBoundaryMet, rightBoundaryMet, leftBoundaryMet }) {
-  return {
-    moveUpDisabled: bottomBoundaryMet,
-    moveDownDisabled: topBoundaryMet,
-    moveLeftDisabled: rightBoundaryMet,
-    moveRightDisabled: leftBoundaryMet
-  };
-}
-
-// If any of the image dimensions are greater than the max specified,
-// resize it down to that dimension while keeping the aspect ratio
-// intact
-function resizeIfAboveMaxDimension(img, mimeType, maxDimension) {
-  const oc = document.createElement('canvas');
-  const octx = oc.getContext('2d');
-  let height = img.height;
-  let width = img.width;
-
-  if (Math.max(img.width, img.height) > maxDimension) {
-    if (img.width > img.height) {
-      height = (height / width) * maxDimension;
-      width = maxDimension;
-    } else {
-      width = (width / height) * maxDimension;
-      height = maxDimension;
-    }
-
-    oc.width = width;
-    oc.height = height;
-    octx.drawImage(img, 0, 0, oc.width, oc.height);
-
-    return oc.toDataURL(mimeType);
-  }
-
-  return img.src;
 }
 
 function isValidImageSize(img) {
@@ -152,80 +36,122 @@ function loadImage(dataUrl) {
   });
 }
 
+function isSquareImage(img) {
+  return img.width === img.height;
+}
+
 export default class PhotoField extends React.Component {
   constructor(props) {
     super(props);
+    const formData = props.formData || {};
+    let previewSrc;
+    if (formData.file instanceof Blob) {
+      previewSrc = window.URL.createObjectURL(formData.file);
+    }
+
     this.state = {
+      currentLayout: layouts.choosePhoto,
+      progress: 0,
       src: null,
-      cropResult: null,
-      zoomValue: 0.4,
-      errorMessage: null,
-      warningMessage: null,
-      progress: 0
+      previewSrc,
+      previewProcessing: false
     };
   }
 
   componentWillMount() {
     this.detectDrag();
-    this.detectWidth();
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', this.detectWidth);
-  }
+  componentWillReceiveProps(nextProps) {
+    const nextFormData = nextProps.formData || {};
+    const prevFormData = this.props.formData || {};
 
-  componentWillReceiveProps(newProps) {
-    const newFile = newProps.formData || {};
-    const file = this.props.formData || {};
-    const isUploading = newFile.uploading;
-    const wasUploading = file.uploading;
-    if (isUploading && !wasUploading) {
-      this.setState({ progress: 0 });
+    if (nextFormData.file instanceof Blob && nextFormData.file !== prevFormData.file) {
+      if (this.state.previewSrc) {
+        window.URL.revokeObjectURL(this.state.previewSrc);
+      }
+      this.setState({ previewSrc: window.URL.createObjectURL(nextFormData.file) });
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.windowWidth !== this.state.windowWidth) {
-      const cropper = this.refs.cropper;
-      if (cropper) {
-        this.setCropBox();
-      }
+  componentDidUpdate(prevProps, prevState) {
+    const newFile = this.props.formData || {};
+    const oldFile = prevProps.formData || {};
+    const newState = this.state;
+    if (newFile.errorMessage && oldFile.errorMessage !== newFile.errorMessage) {
+      scrollAndFocus(this.errorMessage);
+    } else if (prevState.currentLayout !== layouts.cropPhoto && newState.currentLayout === layouts.cropPhoto) {
+      scrollAndFocus(this.borderBox);
+    } else if (typeof this.props.formData === 'undefined' && this.props.formData !== prevProps.formData) {
+      scrollAndFocus(this.borderBox);
     }
-    if (nextState.zoomValue !== this.state.zoomValue) {
-      const slider = this.refs.slider;
-      if (slider) {
-        slider.value = nextState.zoomValue;
-      }
+  }
+
+  componentWillUnmount() {
+    if (this.state.previewSrc) {
+      window.URL.revokeObjectURL(this.state.previewSrc);
     }
   }
 
   onEdit = () => {
-    this.setState({ progress: 0, warningMessage: null });
-  }
-
-  onDone = () => {
-    const filePath = this.props.idSchema.$id.split('_').slice(1);
-    this.refs.cropper.getCroppedCanvas().toBlob(blob => {
-      const file = blob;
-      file.lastModifiedDate = new Date();
-      file.name = this.state.fileName;
-      this.props.formContext.uploadFile(
-        file,
-        filePath,
-        this.props.uiSchema['ui:options'],
-        this.updateProgress
-      ).catch(() => {
-        // rather not use the promise here, but seems better than trying to pass
-        // a blur function
-        // this.props.onBlur(`${this.props.idSchema.$id}_${idx}`);
-      });
-
-      this.setState({ warningMessage: null });
+    this.setState({
+      currentLayout: layouts.cropPhoto,
+      fileName: this.props.formData.name,
+      src: this.state.previewSrc,
+      warningMessage: null
     });
   }
 
-  onChange = (files) => {
+  onChangeScreenReader = (files) => {
+    const file = files[0];
+
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
+    if (!isValidFileType(file.name, fileTypes)) {
+      this.props.onChange({
+        errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, or .png file and try again.'
+      });
+      this.setState({ currentLayout: layouts.screenReaderError });
+    } else {
+      const reader = new FileReader();
+      reader.onload = () => {
+        loadImage(reader.result)
+          .then((img) => {
+            if (!isSquareImage(img)) {
+              this.props.onChange({
+                errorMessage: 'The photo you uploaded isn’t a square photo. Please upload a new one that fits the requirements.'
+              });
+              this.setState({ currentLayout: layouts.screenReaderError });
+            } else if (!isValidImageSize(img)) {
+              this.props.onChange({
+                errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
+              });
+
+              this.setState({ currentLayout: layouts.screenReaderError });
+            } else {
+              this.setState({
+                currentLayout: layouts.watchUpload,
+                progress: 0,
+                warningMessage: null
+              });
+              this.uploadRequest = this.props.formContext.uploadFile(
+                file,
+                this.props.uiSchema['ui:options'],
+                this.updateProgress,
+                (formData) => this.handleUploadComplete(formData, file),
+                () => {
+                  this.props.onBlur(this.props.idSchema.$id);
+                  this.uploadRequest = null;
+                }
+              );
+            }
+          });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onChange = (files) => {
+    const fileTypes = this.props.uiSchema['ui:options'].fileTypes.concat('bmp');
     if (files && files[0]) {
       const file = files[0];
       const fileName = file.name;
@@ -234,99 +160,99 @@ export default class PhotoField extends React.Component {
         window.URL.revokeObjectURL(file.preview);
       }
       if (!isValidFileType(fileName, fileTypes)) {
-        this.setState({
-          src: null,
-          done: false,
-          cropResult: null,
-          errorMessage: 'Please choose a file from one of the accepted types.'
+        this.props.onChange({
+          errorMessage: 'We weren’t able to upload your file. Please make sure the file you’re uploading is a jpeg, tiff, .gif, .png, or .bmp file and try again.'
         });
+        this.setState({ dragActive: false });
       } else {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
         reader.onload = () => {
           loadImage(reader.result)
             .then((img) => {
               if (!isValidImageSize(img)) {
-                this.setState({
-                  src: null,
-                  done: false,
-                  cropResult: null,
-                  errorMessage: 'The file you selected is smaller than the 350px minimum file width or height and could not be added.'
+                this.props.onChange({
+                  errorMessage: 'The file you selected is smaller than the 350-pixel minimum file width or height and couldn’t be uploaded. Please try to upload a different photo.'
                 });
+                this.setState({ dragActive: false });
               } else {
+                // Clear any error messages
+                this.props.onChange();
                 this.setState({
-                  src: resizeIfAboveMaxDimension(img, file.type, MAX_DIMENSION),
+                  dragActive: false,
+                  currentLayout: layouts.cropPhoto,
                   fileName,
-                  done: false,
-                  cropResult: null,
-                  errorMessage: null
+                  src: img.src
                 });
               }
             })
             .catch(() => {
-              this.setState({
-                src: null,
-                fileType: null,
-                done: false,
-                cropResult: null,
-                errorMessage: 'Sorry, we weren’t able to load the image you selected'
+              this.props.onChange({
+                errorMessage: 'Sorry, we weren’t able to load the image you selected.'
               });
+              this.setState({ dragActive: false });
             });
         };
+        reader.readAsDataURL(file);
       }
     }
 
     this.setState({ warningMessage: '' });
   }
 
-  onZoomSliderChange = (e) => {
-    this.refs.cropper.zoomTo(e.target.value);
+  onPreviewError = () => {
+    this.setState({ previewProcessing: true });
   }
 
-  onZoom = (e) => {
-    const zoomValue = e.detail.ratio;
-    if (zoomValue < MAX_RATIO && zoomValue > MIN_RATIO) {
-      this.setState({ zoomValue });
-      this.updateBoundaryWarningAndButtonStates();
-
-      const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
-      const zoomWarn = zoomValue >= WARN_RATIO;
-
+  handleUploadComplete = (formData, file) => {
+    if (formData.confirmationCode) {
+      this.props.onChange(Object.assign({}, formData, {
+        file
+      }));
+      this.uploadRequest = null;
       this.setState({
-        warningMessage: makeCropBoundaryWarningMessage({ zoomWarn, ...moveBoundariesMet }),
-        ...makeMoveButtonsEnabledStates(moveBoundariesMet)
+        currentLayout: layouts.previewPhoto
       });
     } else {
-      e.preventDefault();
+      this.props.onChange(formData);
     }
   }
 
-  setCropBox = () => {
-    const cropper = this.refs.cropper;
-    const slider = this.refs.slider;
-    const { width, naturalWidth } = this.refs.cropper.getImageData();
-    slider.value = width / naturalWidth;
-    const containerData = cropper.getContainerData();
-    const containerWidth = containerData.width;
-    const smallScreen = isSmallScreen(this.state.windowWidth);
-    const cropBoxSize = smallScreen ? 240 : 300;
-    const cropBoxLeftOffset = (containerWidth - cropBoxSize) / 2;
-    const cropBoxData = {
-      left: cropBoxLeftOffset,
-      top: 0,
-      width: cropBoxSize,
-      height: cropBoxSize
-    };
-    cropper.setCropBoxData(cropBoxData);
+  cancelUpload = () => {
+    if (this.uploadRequest) {
+      this.uploadRequest.abort();
+    }
+    this.props.onChange();
+  }
+
+  uploadPhoto = (blob) => {
+    this.setState({
+      currentLayout: layouts.watchUpload,
+      progress: 0,
+      warningMessage: null });
+    const file = blob;
+    file.lastModifiedDate = new Date();
+    file.name = 'profile_photo.png';
+
+    this.uploadRequest = this.props.formContext.uploadFile(
+      file,
+      this.props.uiSchema['ui:options'],
+      this.updateProgress,
+      (formData) => this.handleUploadComplete(formData, file),
+      () => {
+        this.uploadRequest = null;
+      }
+    );
+  }
+
+  resetFile = () => {
+    this.props.onChange();
+    this.setState({
+      currentLayout: layouts.choosePhoto
+    });
   }
 
   updateProgress = (progress) => {
     this.setState({ progress });
-  }
-
-  detectWidth = () => {
-    const windowWidth = window.innerWidth;
-    this.setState({ windowWidth });
   }
 
   detectDrag = () => {
@@ -337,200 +263,160 @@ export default class PhotoField extends React.Component {
     this.setState({ dragAndDropSupported: dragAndDropSupported && !iOS });
   }
 
-  updateBoundaryWarningAndButtonStates = () => {
-    const moveBoundariesMet = getMoveBoundariesMet(this.refs.cropper.getCanvasData(), this.refs.cropper.getCropBoxData());
-
-    this.setState({
-      warningMessage: makeCropBoundaryWarningMessage(moveBoundariesMet),
-      ...makeMoveButtonsEnabledStates(moveBoundariesMet)
-    });
+  handleDrag(dragActive) {
+    this.setState(dragActive);
   }
 
-  handleCropend = () => { // casing matches Cropper argument
-    this.updateBoundaryWarningAndButtonStates();
-  }
-
-  handleMove = (direction) => {
-    switch (direction) {
-      case 'up':
-        this.refs.cropper.move(0, -5);
-        break;
-      case 'down':
-        this.refs.cropper.move(0, 5);
-        break;
-      case 'right':
-        this.refs.cropper.move(5, 0);
-        break;
-      case 'left':
-        this.refs.cropper.move(-5, 0);
-        break;
-      default:
-    }
-
-    this.updateBoundaryWarningAndButtonStates();
-  }
-
-  handleZoomButtonClick = (direction) => {
-    switch (direction) {
-      case 'IN':
-        if (this.state.zoomValue < MAX_RATIO) {
-          this.refs.cropper.zoom(0.1);
-        }
-        break;
-      case 'OUT':
-        if (this.state.zoomValue > MIN_RATIO) {
-          this.refs.cropper.zoom(-0.1);
-        }
-        break;
-      default:
-    }
+  updatePreviewSrc = (src) => {
+    this.setState({ previewSrc: src });
   }
 
   render() {
-    const file = this.props.formData || {};
-    const errorMessage = file.errorMessage || this.state.errorMessage;
-    const smallScreen = isSmallScreen(this.state.windowWidth);
-    const moveControlClass = ['cropper-control', 'cropper-control-label-container', 'va-button-link'];
+    const { formData, formContext } = this.props;
+    const file = formData || {};
+    const onReview = formContext.reviewMode;
+
+    if (onReview) {
+      return (
+        <div className="va-growable-background">
+          <PhotoPreview
+            id={file.confirmationCode}
+            className="photo-review"
+            isLoggedIn={formContext.isLoggedIn}
+            processing={this.state.previewProcessing}
+            src={this.state.previewSrc}
+            onUpdatePreview={this.updatePreviewSrc}
+            onError={this.onPreviewError}/>
+        </div>
+      );
+    }
+
+    const errorMessage = file.errorMessage;
+    const label = this.props.uiSchema['ui:title'];
     const fileTypes = this.props.uiSchema['ui:options'].fileTypes;
-    const isDone = !!file.confirmationCode;
-    const progressBarContainerClass = classNames('schemaform-file-uploading', 'progress-bar-container');
-    let uploadMessage;
-    if (smallScreen) {
-      uploadMessage = <span>Upload <i className="fa fa-upload"></i></span>;
-    } else if (this.state.src) {
-      uploadMessage = 'Upload a New Photo';
-    } else {
-      uploadMessage = 'Upload Your Photo';
-    }
+    const cropperTypes = fileTypes.concat('bmp');
+    const progressBarContainerClass = 'schemaform-file-uploading progress-bar-container';
+
+    let currentLayout = this.state.currentLayout;
+    let uploadButtonText = 'Your Photo';
     let instruction;
-    if (!isDone) {
-      if (!this.state.src) {
-        instruction = <p><strong>Step 1 of 2:</strong> Upload a digital photo.</p>;
-      }
-      if (this.state.src) {
-        instruction = <p><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame</p>;
-      }
-    }
     let description;
-    if (this.state.dragAndDropSupported) {
-      description = <p>Drag and drop your image into the square or click the upload button.</p>;
+    let uploadControlClass = 'photo-input-container';
+    switch (currentLayout) {
+      case layouts.choosePhoto:
+        description = <p>Drag and drop your image into the square or click the upload button.</p>;
+        instruction = <span><strong>Step 1 of 2:</strong> Upload a digital photo.</span>;
+        break;
+      case layouts.cropPhoto:
+        uploadButtonText = 'a New Photo';
+        instruction = <span><strong>Step 2 of 2:</strong> Fit your head and shoulders in the frame.</span>;
+        description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
+        break;
+      case layouts.watchUpload:
+        break;
+      case layouts.previewPhoto:
+        description = <div>Success! This photo will be printed on your Veteran ID Card.</div>;
+        uploadControlClass = 'photo-input-container photo-input-container-left';
+        break;
+      case layouts.screenReaderError:
+        uploadControlClass = 'photo-input-container photo-input-container-left';
+        break;
+      default:
+        currentLayout = layouts.choosePhoto;
+        description = <p>Drag and drop your image into the square or click the upload button.</p>;
     }
-    if (this.state.src) {
-      description = <p>Move and resize your photo, so your head and shoulders fit in the square frame below. Click and drag, or use the arrow and magnifying buttons to help.</p>;
-    }
-    if (isDone) description = <p>Success! This photo will be printed on your Veteran ID card.</p>;
 
     return (
-      <div>
-        {PhotoDescription}
-        {!smallScreen && <h3>Upload a digital photo<span className="form-required-span">(Required)*</span></h3>}
-        {errorMessage && <span className="usa-input-error-message">{errorMessage}</span>}
-        <div className={errorMessage ? 'error-box' : 'border-box'}>
-          <div style={{ margin: '1em 1em 4em' }}>
-            {smallScreen && <h3>Photo upload <span className="form-required-span">(Required)*</span></h3>}
+      <fieldset className="photo-fieldset">
+        <legend className="schemaform-label photo-label">{label}<span className="form-required-span">(*Required)</span></legend>
+        <div ref={element => { this.borderBox = element; }} className={errorMessage ? 'error-box' : 'border-box'}>
+          {currentLayout === layouts.cropPhoto && <span className="sr-only">
+            This is a photo editing tool that requires sight to use. If you're using a screen reader <button type="button" onClick={this.resetFile}>go back one step to upload your photo without cropping.</button>
+          </span>}
+          <div>
+            {errorMessage && <div className="photo-error-wrapper">
+              <div ref={element => { this.errorMessage = element; }} role="alert" className="usa-input-error-message photo-error-message">
+                We’ve run into a problem.
+                <p>{errorMessage}</p>
+              </div>
+              <a href="/veteran-id-card/how-to-upload-photo" target="_blank">
+                Learn more about uploading a photo for your Veteran ID Card
+              </a>
+            </div>}
             {instruction}
-            {description}
-            {isDone && <img className="photo-preview" src={this.state.cropResult.src} alt="cropped"/>}
+            {!this.state.previewProcessing && description}
+            {currentLayout === layouts.previewPhoto && <PhotoPreview
+              id={file.confirmationCode}
+              className="photo-preview"
+              isLoggedIn={formContext.isLoggedIn}
+              processing={this.state.previewProcessing}
+              src={this.state.previewSrc}
+              onUpdatePreview={this.updatePreviewSrc}
+              onError={this.onPreviewError}/>
+            }
           </div>
-          {file.uploading && <div className={progressBarContainerClass}>
+          {currentLayout === layouts.watchUpload && <div className={progressBarContainerClass}>
             <span>{this.state.fileName}</span><br/>
             <ProgressBar percent={this.state.progress}/>
+            <button type="button" className="va-button-link" onClick={this.cancelUpload}>
+              Cancel
+            </button>
           </div>}
-          {!isDone && this.state.src && <div className="cropper-container-outer">
-            <Cropper
-              ref="cropper"
-              ready={this.setCropBox}
-              responsive
-              src={this.state.src}
-              aspectRatio={1}
-              cropBoxMovable={false}
-              cropend={this.handleCropend}
-              toggleDragModeOnDblclick={false}
-              dragMode="move"
-              guides={false}
-              viewMode={1}
-              zoom={this.onZoom}/>
-            <div className="cropper-zoom-container">
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}><i className="fa fa-search-minus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-out va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
-                <span className="cropper-control-label">Make smaller<i className="fa fa-search-minus"></i></span>
-              </button>}
-              <input type="range"
-                ref="slider"
-                className="cropper-zoom-slider"
-                min={MIN_RATIO}
-                max={MAX_RATIO}
-                defaultValue="0.4"
-                step="0.01"
-                aria-valuemin={MIN_RATIO}
-                aria-valuemax={MAX_RATIO}
-                aria-valuenow={this.state.zoomValue}
-                onInput={this.onZoomSliderChange}/>
-              {smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}><i className="fa fa-search-plus"></i></button>}
-              {!smallScreen && <button className="cropper-control cropper-control-zoom cropper-control-zoom-in va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
-                <span className="cropper-control-label">Make larger<i className="fa fa-search-plus"></i></span>
-              </button>}
-            </div>
-            <div className="cropper-control-container">
-              <div className="cropper-control-row">
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('OUT')}>
-                  <span className="cropper-control-label">Make smaller</span>
-                </button>}
-                {smallScreen && <button className="cropper-control cropper-control-label-container va-button va-button-link" type="button" onClick={() => this.handleZoomButtonClick('IN')}>
-                  <span className="cropper-control-label">Make larger</span>
-                </button>}
-              </div>
-              {[
-                [{
-                  direction: 'up',
-                  disabled: this.state.moveUpDisabled
-                }, {
-                  direction: 'down',
-                  disabled: this.state.moveDownDisabled
-                }],
-                [{
-                  direction: 'left',
-                  disabled: this.state.moveLeftDisabled
-                }, {
-                  direction: 'right',
-                  disabled: this.state.moveRightDisabled
-                }]
-              ].map((row, index) => (
-                <div className="cropper-control-row" key={index}>
-                  {row.map((button) => (
-                    <button className={classNames(moveControlClass, { disabled: button.disabled })} type="button" onClick={() => this.handleMove(button.direction)} key={button.direction}>
-                      <span className="cropper-control-label">{`Move ${button.direction}`}<i className={`fa fa-arrow-${button.direction}`}></i></span>
-                    </button>))
-                  }
-                </div>))
-              }
-            </div>
-            <div style={{ margin: '1em 1em 4em' }}>
-              {this.state.warningMessage && <div className="photo-warning">{this.state.warningMessage}</div>}
-            </div>
-            <div className="crop-button-container">
-              <button type="button" className="usa-button-primary" onClick={this.onDone}>
-                I’m done
-              </button>
-            </div>
-          </div>
+          {currentLayout === layouts.cropPhoto && <CropperController
+            windowWidth={this.state.windowWidth}
+            onPhotoCropped={blob => this.uploadPhoto(blob)}
+            src={this.state.src}/>
           }
-          {!this.state.src && !isDone && <div className="drop-target-container">
-            <Dropzone className="drop-target" onDrop={this.onChange} accept="image/jpeg, image/jpg, image/png, image/tiff, image/tif, image/bmp">
-              <img alt="placeholder" src="/img/photo-placeholder.png"/>
+          {currentLayout === layouts.choosePhoto && <div className="drop-target-container">
+            <Dropzone
+              className={`drop-target ${this.state.dragActive && 'drag-active'}`}
+              onDragEnter={() => this.handleDrag({ dragActive: true })}
+              onDragLeave={() => this.handleDrag({ dragActive: false })}
+              onDrop={this.onChange}
+              accept="image/jpeg, image/gif, image/jpg, image/png, image/tiff, image/tif, image/bmp">
+              {this.state.dragActive ? <div className="drag-active-text">
+                <span>DROP PHOTO</span>
+              </div> : <img alt="placeholder" src="/img/photo-placeholder.png"/>}
             </Dropzone>
           </div>}
-          <div className={isDone ? 'photo-input-container photo-input-container-left' : 'photo-input-container'}>
-            {isDone && <button className="photo-edit-button usa-button" onClick={this.onEdit}>Edit Your Photo</button>}
-            <ErrorableFileInput
-              accept={fileTypes.map(type => `.${type}`).join(',')}
+          <div className={uploadControlClass}>
+            {currentLayout === layouts.previewPhoto && <button
+              className="photo-preview-link va-button-link"
+              type="button"
+              onClick={this.resetFile}>
+              Go back and change your photo
+            </button>}
+            {currentLayout === layouts.previewPhoto && !this.state.previewProcessing && <button
+              className="photo-preview-link va-button-link"
+              type="button"
+              aria-describedby="editButtonDescription"
+              onClick={this.onEdit}>
+              Edit your photo
+            </button>}
+            {(currentLayout === layouts.choosePhoto || currentLayout === layouts.cropPhoto) && <ErrorableFileInput
+              accept={cropperTypes.map(type => `.${type}`).join(',')}
               onChange={this.onChange}
-              buttonText={uploadMessage}
-              name="fileUpload"
-              additionalErrorClass="claims-upload-input-error-message"/>
+              buttonText={`Upload ${uploadButtonText}`}
+              aria-describedby="croppingToolDescription"
+              name="fileUpload"/>}
+            {currentLayout === layouts.choosePhoto && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeScreenReader}
+              buttonText="Use our screen reader-friendly photo upload tool."
+              aria-describedby="screenReaderPathDescription"
+              triggerClass="va-button-link"
+              name="screenReaderFileUpload"/>}
+            {currentLayout === layouts.screenReaderError && <ErrorableFileInput
+              accept={fileTypes.map(type => `.${type}`).join(',')}
+              onChange={this.onChangeScreenReader}
+              buttonText="Upload Photo Again"
+              name="screenReaderFileUpload"/>}
           </div>
+          <span className="sr-only" id="croppingToolDescription">This button will take you to a photo cropping tool which requires sight to use. The recommended path for screen readers is to use the screen-reader friendly upload tool button.</span>
+          <span className="sr-only" id="editButtonDescription">This button will take you into a photo cropping tool, which requires sight to use. This button is not recommended if you are using a screen reader.</span>
+          <span className="sr-only" id="screenReaderPathDescription">This is the recommended path if you are using a screen reader. It will allow you to upload your photo without having to crop, as long as you have a photo that is square and at least 350 pixels wide.</span>
         </div>
-      </div>
+      </fieldset>
     );
   }
 }

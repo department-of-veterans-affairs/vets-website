@@ -16,11 +16,11 @@ If you fall far behind on your mortgage payments, your mortgage servicer (the co
 
 ### Can I get VA financial counseling to help avoid foreclosure?
 
-- If you’re a Veteran or the surviving spouse of a Veteran, we’ll provide financial counseling—even if your loan isn’t a VA direct or VA-backed loan.
+- **If you’re a Veteran or the surviving spouse of a Veteran**, we’ll provide financial counseling—even if your loan isn’t a VA direct or VA-backed loan.
 
-- If you have a VA direct or VA-backed loan, you can contact us anytime to request that we assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer (or work with you directly in the case of a VA direct loan).
+- **If you have a VA direct or VA-backed loan**, you can contact us anytime to request that we assign a VA Loan Technician to your loan. Our technicians can offer you financial counseling and help you deal with your servicer (or work with you directly in the case of a VA direct loan).
 
-- If you have a VA direct or VA-backed loan and it’s 61 days past due, we’ll automatically assign a VA Loan Technician to your loan.
+- **If you have a VA direct or VA-backed loan and it’s 61 days past due**, we’ll automatically assign a VA Loan Technician to your loan.
 
 </div>
 
@@ -36,7 +36,7 @@ If you’re nervous about contacting your servicer, or if you’d like our help 
 
 ### How can I avoid foreclosure?
 
-There are 6 general ways you can try to avoid a foreclosure:
+**There are 6 general ways you can try to avoid a foreclosure:**
 
 1. **Repayment plan:** If you’ve missed a few payments, this plan lets you go back to making your regular payments, with an added amount each month to cover the ones you’ve missed.
 

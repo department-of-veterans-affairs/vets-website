@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
+import classNames from 'classnames';
 
 import SchemaForm from '../components/SchemaForm';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 
@@ -92,6 +93,7 @@ class FormPage extends React.Component {
       uiSchema
     } = form.pages[route.pageConfig.pageKey];
 
+    const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     let data = form.data;
 
     if (route.pageConfig.showPagePerItem) {
@@ -105,7 +107,7 @@ class FormPage extends React.Component {
     }
 
     return (
-      <div className="form-panel">
+      <div className={pageClasses}>
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}

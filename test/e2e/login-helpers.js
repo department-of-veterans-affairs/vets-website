@@ -1,6 +1,6 @@
 const process = require('process');
-const E2eHelpers = require('./e2e-helpers');
-const Timeouts = require('./timeouts');
+const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts');
 const mock = require('./mock-helpers');
 
 function setUserToken(token, client) {
@@ -17,7 +17,7 @@ function setUserToken(token, client) {
 }
 
 function getLogoutUrl() {
-  return 'http://example.com/fake_logout_url';
+  return 'http://example.com/logout_url';
 }
 
 /* eslint-disable camelcase */
@@ -29,15 +29,15 @@ function initUserMock(token, level) {
       data: {
         attributes: {
           profile: {
+            authn_context: 'idme',
             email: 'fake@fake.com',
-            loa: {
-              current: level
-            },
+            loa: { current: level },
             first_name: 'Jane',
             middle_name: '',
             last_name: 'Doe',
             gender: 'F',
-            birth_date: '1985-01-01'
+            birth_date: '1985-01-01',
+            verified: level === 3
           },
           veteran_status: {
             status: 'OK',
@@ -49,6 +49,7 @@ function initUserMock(token, level) {
           }],
           prefills_available: [],
           services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
+          mhv_account_state: 'upgraded',
           health_terms_current: true,
           va_profile: {
             status: 'OK',
@@ -63,26 +64,14 @@ function initUserMock(token, level) {
     }
   });
 }
+/* eslint-enable camelcase */
 
 function initLogoutMock(token) {
   mock(token, {
-    path: '/v0/sessions',
-    verb: 'delete',
-    value: {
-      logout_via_get: getLogoutUrl()
-    }
-  });
-}
-/* eslint-enable camelcase */
-
-function initLoginUrlsMock() {
-  mock(null, {
-    path: '/v0/sessions/authn_urls',
+    path: '/sessions/slo/new',
     verb: 'get',
     value: {
-      idme: 'http://example.com/idme_url',
-      dslogon: 'http://example.com/dslogon_url',
-      mhv: 'http://example.com/mhv_url',
+      url: getLogoutUrl()
     }
   });
 }
@@ -96,7 +85,6 @@ function getUserToken() {
 function logIn(token, client, url, level) {
   initUserMock(token, level);
   initLogoutMock(token);
-  initLoginUrlsMock(token);
 
   client
     .url(`${E2eHelpers.baseUrl}${url}`)
@@ -122,8 +110,6 @@ function testUnauthedUserFlow(client, path) {
   client
     .url(appURL)
     .waitForElementVisible('body', Timeouts.normal);
-
-  initLoginUrlsMock();
 
   client
     .waitForElementVisible('.login', Timeouts.normal)

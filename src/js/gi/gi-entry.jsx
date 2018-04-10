@@ -1,33 +1,14 @@
-import '../common';
+import '../../platform/polyfills';
 import '../../sass/gi/gi.scss';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, useRouterHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import { createHistory } from 'history';
+import startApp from '../../platform/startup';
 
-import initReact from '../common/init-react';
 import routes from './routes';
-import { store } from './store';
-import { updateRoute } from './actions';
+import reducer from './reducers';
+import manifest from './manifest.json';
 
-import { renderCommonComponents } from '../common/init-common';
-
-renderCommonComponents(store);
-
-const history = useRouterHistory(createHistory)({
-  basename: '/gi-bill-comparison-tool'
+startApp({
+  url: manifest.rootUrl,
+  reducer,
+  routes
 });
-
-function init() {
-  history.listen((location) => store.dispatch(updateRoute(location)));
-
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={history} routes={routes}/>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
-
-initReact(init);

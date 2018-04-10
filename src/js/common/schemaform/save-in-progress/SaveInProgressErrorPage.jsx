@@ -12,7 +12,7 @@ import {
 } from './actions';
 
 import SignInLink from '../../components/SignInLink';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
 import { toggleLoginModal } from '../../../login/actions';
 
@@ -59,7 +59,7 @@ class SaveInProgressErrorPage extends React.Component {
       case LOAD_STATUSES.noAuth:
         content = (
           <div>
-            <div className="usa-alert usa-alert-error no-background-image">You have been signed out. {noAuth}</div>
+            <div className="usa-alert usa-alert-error no-background-image">You’re signed out of your account. {noAuth}</div>
             <div>
               <div style={{ marginTop: '30px' }}>
                 {this.getBackButton()}
@@ -69,7 +69,7 @@ class SaveInProgressErrorPage extends React.Component {
                   onLogin={this.reloadForm}
                   isLoggedIn={this.props.isLoggedIn}
                   showLoginModal={this.props.showLoginModal}
-                  toggleLoginModal={this.props.toggleLoginModal}>Sign in</SignInLink>
+                  toggleLoginModal={this.props.toggleLoginModal}>Sign In</SignInLink>
               </div>
             </div>
           </div>
@@ -151,7 +151,6 @@ const mapStateToProps = (store) => ({
   prefillStatus: store.form.prefillStatus,
   isLoggedIn: store.user.login.currentlyLoggedIn,
   showLoginModal: store.user.login.showModal,
-  loginUrls: store.user.login.loginUrls,
   isStartingOver: store.form.isStartingOver
 });
 

@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import {
   getDefaultFormState
-} from 'react-jsonschema-form/lib/utils';
+} from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import SchemaForm from '../components/SchemaForm';
 
@@ -162,7 +162,8 @@ class ArrayField extends React.Component {
       schema,
       uiSchema,
       path,
-      pageTitle
+      pageTitle,
+      formContext
     } = this.props;
 
     const uiOptions = uiSchema['ui:options'] || {};
@@ -215,6 +216,7 @@ class ArrayField extends React.Component {
                         title={pageTitle}
                         hideTitle
                         name={fieldName}
+                        formContext={formContext}
                         onBlur={this.props.onBlur}
                         onChange={(data) => this.handleSetData(index, data)}
                         onEdit={() => this.handleEdit(index, !isEditing)}

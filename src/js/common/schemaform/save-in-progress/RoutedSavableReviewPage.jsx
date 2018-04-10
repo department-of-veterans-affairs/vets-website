@@ -12,6 +12,7 @@ import { toggleLoginModal } from '../../../login/actions';
 
 import { ReviewPage } from '../review/ReviewPage';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
+import { getFormContext } from './selectors';
 
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
@@ -98,6 +99,7 @@ class RoutedSavableReviewPage extends React.Component {
       <ReviewPage
         {...this.props}
         setData={this.setData}
+        formContext={getFormContext({ user, form })}
         contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
         renderErrorMessage={this.renderErrorMessage}/>
     );

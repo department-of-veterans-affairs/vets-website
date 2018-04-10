@@ -26,6 +26,9 @@ majorlinks:
     - url: /burials-and-memorials/survivor-and-dependent-benefits/
       title: Learn about Burial Allowances and Survivor Compensation
       description: Find out if you can get help paying for funeral costs or other tax-free monetary benefits.
+    - url: /burials-and-memorials/bereavement-counseling/
+      title: Bereavement Counseling
+      description: Find out if you qualify for assistance and support to help you through the emotional and psychological stress of a loved one’s death.
   - heading: More Helpful Information
     links:
     - url: /burials-and-memorials/what-to-expect-at-a-funeral/

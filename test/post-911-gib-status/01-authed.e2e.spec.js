@@ -1,5 +1,5 @@
-const E2eHelpers = require('../e2e/e2e-helpers');
-const Timeouts = require('../e2e/timeouts.js');
+const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
 const GibsHelpers = require('../e2e/post-911-gib-status-helpers.js');
 const LoginHelpers = require('../e2e/login-helpers');
 
@@ -14,7 +14,10 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main')
       .assert.title('Check Benefit: Vets.gov')
-      .waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
+      .waitForElementVisible('#viewGIBS', Timeouts.slow);  // First render of React may be slow.
+
+    client.click('#viewGIBS');
+    client.waitForElementVisible('.schemaform-title', Timeouts.slow);  // First render of React may be slow.
 
     // Checking field in UserInfoSection has rendered
     client.expect.element('#gibs-full-name').text.to.contain('First Last');

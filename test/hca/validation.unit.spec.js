@@ -35,7 +35,22 @@ describe('hca validation', () => {
         lastDischargeDate: moment().add(1, 'years').format('YYYY-MM-DD'),
         lastEntryDate: '2011-01-01'
       }, {});
-
+      if (__BUILDTYPE__ === 'production') {
+        expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
+      } else {
+        expect(errors.lastDischargeDate.addError.callCount).to.equal(0);
+      }
+    });
+    it('should set message if discharge date is later than 730 days when env is not production', () => {
+      const errors = {
+        lastDischargeDate: {
+          addError: sinon.spy()
+        }
+      };
+      validateServiceDates(errors, {
+        lastDischargeDate: moment().add(731, 'days').format('YYYY-MM-DD'),
+        lastEntryDate: '2011-01-01'
+      }, {});
       expect(errors.lastDischargeDate.addError.callCount).to.equal(1);
     });
     it('should set message if entry date is less than 15 years after dob', () => {
@@ -50,7 +65,6 @@ describe('hca validation', () => {
       }, {
         veteranDateOfBirth: '1990-01-01'
       });
-
       expect(errors.lastEntryDate.addError.callCount).to.equal(1);
     });
   });

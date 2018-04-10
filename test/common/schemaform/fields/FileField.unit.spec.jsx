@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 
-import { DefinitionTester, getFormDOM } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 
 import FileField from '../../../../src/js/common/schemaform/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../../src/js/common/schemaform/definitions/file';
@@ -156,8 +156,8 @@ describe('Schemaform <FileField>', () => {
         requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.find('ProgressBar').isEmpty()).to.be.false;
-    expect(tree.find('button').isEmpty()).to.be.true;
+    expect(tree.find('ProgressBar').exists()).to.be.true;
+    expect(tree.find('button').text()).to.equal('Cancel');
   });
 
   it('should update progress', () => {
@@ -279,7 +279,7 @@ describe('Schemaform <FileField>', () => {
         requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.find('label').isEmpty()).to.be.true;
+    expect(tree.find('label').exists()).to.be.false;
   });
 
   it('should delete file', () => {
@@ -321,7 +321,7 @@ describe('Schemaform <FileField>', () => {
         fileField: fileSchema
       }
     };
-    const uploadFile = sinon.stub().returns(Promise.resolve());
+    const uploadFile = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -338,9 +338,10 @@ describe('Schemaform <FileField>', () => {
     formDOM.files('input[type=file]', [{}]);
 
     expect(uploadFile.firstCall.args[0]).to.eql({});
-    expect(uploadFile.firstCall.args[1]).to.eql(['fileField', 0]);
-    expect(uploadFile.firstCall.args[2]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[2]).to.be.a('function');
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
+    expect(uploadFile.firstCall.args[4]).to.be.a('function');
   });
   it('should render file with attachment type', () => {
     const idSchema = {
@@ -390,5 +391,58 @@ describe('Schemaform <FileField>', () => {
 
     expect(tree.find('li').text()).to.contain('Test file name');
     expect(tree.find('SchemaField').prop('schema')).to.equal(schema.items[0].properties.attachmentId);
+  });
+  it('should render file with attachment name', () => {
+    const idSchema = {
+      $id: 'field'
+    };
+    const schema = {
+      additionalItems: {
+        type: 'object',
+        properties: {
+          attachmentId: {
+            type: 'string'
+          }
+        }
+      },
+      items: [{
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          }
+        }
+      }]
+    };
+    const uiSchema = fileUploadUI('Files', {
+      attachmentName: {
+        'ui:title': 'Document name'
+      }
+    });
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name'
+      }
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f
+      }
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.find('li').text()).to.contain('Test file name');
+    expect(tree.find('SchemaField').prop('schema')).to.equal(schema.items[0].properties.name);
   });
 });

@@ -5,27 +5,32 @@
 @import "modules/m-progress-bar";
 @import "modules/va-tabs";
 
-$color-inactive: #9B9B9B;
+$color-inactive: #9b9b9b;
 
 .claim-list {
   margin-bottom: 2em;
 }
 
-.claim-file-border, .help-heading {
+.claim-file-border,
+.help-heading {
   border-bottom: 3px solid $color-primary;
   margin: 10px 0 10px;
   padding-bottom: 9px;
   font-size: 1.35em;
-  line-height: 1.5;
+  line-height: 1.2;
   font-weight: bold;
   max-width: 22.5rem;
 }
 
-.claims-status-content  {
+.claims-status-content {
   .help-sidebar {
     // Line up the bottom border under "Need help?" with the tab list bottom border
     margin-top: calc(3rem - 16px);
     margin-bottom: 50px;
+
+    & > div {
+      margin-bottom: 3rem;
+    }
   }
 
   // The claims container has a sizeable padding; don't make the whitespace bigger
@@ -95,6 +100,34 @@ $color-inactive: #9B9B9B;
   margin: 0 0 0.5em;
 }
 
+// Index page V2
+.claim-list-item-container .card-status {
+  margin: 0 0 0.5em;
+  display: flex;
+
+  .status-circle {
+    flex-shrink: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
+
+    &.open {
+      background-color: $color-green;
+    }
+
+    &.closed {
+      background-color: $color-gray-light;
+    }
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -123,6 +156,10 @@ $color-inactive: #9B9B9B;
 .claim-list-item-header {
   color: $color-primary;
   margin-top: 0;
+}
+
+.claim-list-item-header-v2 {
+  margin-top: -2rem;
 }
 
 .claim-list-item:hover .claim-list-item-header {
@@ -481,8 +518,6 @@ h1:focus {
   }
 }
 
-
-
 .claims-closed-text {
   margin-top: 1em;
 }
@@ -499,7 +534,6 @@ h1:focus {
 .claims-paragraph-header {
   padding: 0.5em 0 0 !important;
 }
-
 
 .claim-title {
   margin: 0;
@@ -567,17 +601,20 @@ h1:focus {
   }
 
   // To get all the li's to flow together, remove the top margin of the titles
-  h2, h3, h4, h5 {
+  h2,
+  h3,
+  h4,
+  h5 {
     margin-top: 0px;
     margin-bottom: 0px;
   }
 
   li {
-  //   // Pull the first bullet point up just a hair to cover the top of the line
-  //   // for when the viewport is small.
-  //   &:first-child:before {
-  //     margin-top: 4px;
-  //   }
+    //   // Pull the first bullet point up just a hair to cover the top of the line
+    //   // for when the viewport is small.
+    //   &:first-child:before {
+    //     margin-top: 4px;
+    //   }
 
     &:before {
       background: $color-green;
@@ -590,7 +627,11 @@ h1:focus {
       padding-top: 0.4em;
     }
 
-    h1, h2, h3, h4, h5 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       // Don't put the title on the next line down!
       clear: none;
     }
@@ -624,8 +665,17 @@ h1:focus {
     }
   }
 
-  .section-unexpanded {
+  // Only let the (+) and "See / Hide past events" be clickable
+  .past-events-expander {
+    pointer-events: none;
 
+    &:before,
+    button {
+      pointer-events: all;
+    }
+  }
+
+  .section-unexpanded {
     // offset left border with padding so element doesn't move while toggling expander
     &.process-step {
       padding-left: calc(2em + 5px);
@@ -664,7 +714,7 @@ h1:focus {
     border-left: 0.6em solid transparent;
     border-right: 0.6em solid transparent;
     border-top: 1.2em solid $color-gray-lighter;
-    margin-top: -.9em;
+    margin-top: -0.9em;
     margin-left: 0.8em;
   }
 
@@ -689,7 +739,10 @@ h1:focus {
   h2 {
     margin-top: 1em;
   }
-  
+
+  a.appeals-process-link {
+    margin-left: calc(24px + 2em);
+  }
 
   .current-status-content {
     border-left: 5px solid $color-gray-lighter;
@@ -700,14 +753,14 @@ h1:focus {
       clear: none;
       padding-bottom: 0;
       position: relative;
-      top: -.2em;
+      top: -0.2em;
     }
 
     + .down-arrow {
-      border-left: .6em solid transparent;
-      border-right: .6em solid transparent;
+      border-left: 0.6em solid transparent;
+      border-right: 0.6em solid transparent;
       border-top: 1.2em solid $color-gray-lighter;
-      margin-left: .8em;
+      margin-left: 0.8em;
       margin-top: -1em; // overlap flat part of arrowhead with bottom of gray line
       width: 0;
     }
@@ -720,16 +773,14 @@ h1:focus {
       content: "\2022";
       display: block;
       float: left;
-      font-size: .8em;
+      font-size: 0.8em;
       line-height: 1.4em;
       margin-left: -3.64em;
       position: relative;
-      top: -.2em;
+      top: -0.2em;
       width: 2em;
-
     }
   }
-
 }
 
 .va-appeals-content {
@@ -898,7 +949,8 @@ h1:focus {
   list-style-type: none;
 
   li.next-event {
-    &:before { // styles the bullets to mimic bullets in Timeline
+    &:before {
+      // styles the bullets to mimic bullets in Timeline
       display: block;
       float: left;
       width: 1em;
@@ -907,9 +959,9 @@ h1:focus {
       border: 4px solid $color-gray-medium;
       border-radius: 50%;
       background: $color-gray-medium;
-      margin-left: -.6em;
+      margin-left: -0.6em;
       position: relative;
-      top: .33em;
+      top: 0.33em;
     }
 
     h3 {
@@ -938,14 +990,14 @@ h1:focus {
       // line up the horizontal divider with the li::before 'bullets'
       font-family: $font-serif;
       font-size: 3rem; // match h2 size
-      margin-left: -.6em;
+      margin-left: -0.6em;
       width: 102%;
     }
   }
 
   .decision-review-list {
     li {
-      margin-left: .5em;
+      margin-left: 0.5em;
     }
   }
 }
@@ -953,14 +1005,14 @@ h1:focus {
 .alerts-list-container {
   h3 {
     // left-align heading with alert box
-    padding-left: .85em;
+    padding-left: 0.85em;
   }
 
   .alerts-list {
     list-style: none;
 
     li {
-      margin-left: -.4em;
+      margin-left: -0.4em;
     }
 
     .usa-alert {
@@ -986,7 +1038,6 @@ h1:focus {
     font-weight: bold;
   }
 }
-
 
 $end-of-docket-width: 4px;
 $docket-bar-width: calc(100% - #{$end-of-docket-width});
@@ -1085,23 +1136,33 @@ $marker-text-width: 9rem;
 .issues-container {
   margin-bottom: 2em;
 
-  &>h2 {
+  & > h2 {
     margin-top: 0;
   }
-
-  .usa-accordion-button {
-    font-size: 2rem; // match standard h3
-  }
-
-  .granted-section {
-    h5 {
-      color: $color-green;
+  .usa-accordion-bordered {
+    .usa-accordion-button {
+      font-size: 2rem; // match standard h3
     }
-  }
 
-  .denied-section {
-    h5 {
-      color: $color-secondary;
+    .usa-accordion-content {
+      padding-top: 1.25em;
+
+      h5 {
+        font-family: $font-sans;
+        margin-top: 0;
+      }
+    }
+
+    .granted-section {
+      h5 {
+        color: $color-green;
+      }
+    }
+
+    .denied-section {
+      h5 {
+        color: $color-secondary;
+      }
     }
   }
 }
@@ -1109,9 +1170,16 @@ $marker-text-width: 9rem;
 .closed-appeal-notice {
   line-height: 40px;
   text-align: center;
-  font-family:  $font-sans;
+  font-family: $font-sans;
   font-weight: 700;
   font-size: 2rem;
   background-color: $color-gray-lightest;
+  margin-top: 2em;
   margin-bottom: 2em;
+}
+
+.usa-button .fa-chevron-right {
+  margin-left: 1.4rem;
+  margin-right: -0.6rem;
+  font-size: 80%;
 }

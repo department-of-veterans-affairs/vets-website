@@ -4,22 +4,24 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import moment from 'moment';
 
-import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Child information page', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenInformation;
-  const dependentData = {
-    'view:hasDependents': true,
-    dependents: [
-      {
-        fullName: {
-          first: 'Jane',
-          last: 'Doe'
-        },
-        dependentRelationship: 'child',
-      }
-    ]
+  const dependentData = () => {
+    return {
+      'view:hasDependents': true,
+      dependents: [
+        {
+          fullName: {
+            first: 'Jane',
+            last: 'Doe'
+          },
+          dependentRelationship: 'child',
+        }
+      ]
+    };
   };
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -28,7 +30,7 @@ describe('Child information page', () => {
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={dependentData}
+        data={dependentData()}
         uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
@@ -45,7 +47,7 @@ describe('Child information page', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         onSubmit={onSubmit}
-        data={dependentData}
+        data={dependentData()}
         uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
@@ -63,15 +65,13 @@ describe('Child information page', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         onSubmit={onSubmit}
-        data={dependentData}
+        data={dependentData()}
         uiSchema={uiSchema}/>
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:noSSN', true);
     formDOM.submitForm(form);
     const errors = formDOM.querySelectorAll('.usa-input-error-label');
-
-    errors.forEach(e => console.log(e.getAttribute('for'))); // eslint-disable-line no-console
 
     expect(errors.length).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
@@ -85,7 +85,7 @@ describe('Child information page', () => {
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={dependentData}
+        data={dependentData()}
         onSubmit={onSubmit}
         uiSchema={uiSchema}/>
     );
@@ -102,7 +102,7 @@ describe('Child information page', () => {
   });
 
   it('should ask if the child is in school', () => {
-    const data = Object.assign({}, dependentData);
+    const data = Object.assign({}, dependentData());
     data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
 
     const onSubmit = sinon.spy();
@@ -122,7 +122,7 @@ describe('Child information page', () => {
   });
 
   it('should ask if the child is disabled', () => {
-    const data = Object.assign({}, dependentData);
+    const data = Object.assign({}, dependentData());
     data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
 
     const onSubmit = sinon.spy();

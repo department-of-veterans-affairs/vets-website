@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
-import Form from 'react-jsonschema-form';
-import { deepEquals } from 'react-jsonschema-form/lib/utils';
+import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';
@@ -18,21 +18,6 @@ import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
 import { scrollToFirstError } from '../../utils/helpers';
 
-const fields = {
-  ObjectField,
-  ArrayField,
-  BasicArrayField,
-  TitleField
-};
-
-const reviewFields = {
-  ObjectField: ReviewObjectField,
-  ArrayField: ReadOnlyArrayField,
-  BasicArrayField,
-  address: ReviewObjectField,
-  StringField
-};
-
 /*
  * Each page uses this component and passes in config. This is where most of the page level
  * form logic should live.
@@ -47,6 +32,20 @@ class SchemaForm extends React.Component {
     this.onBlur = this.onBlur.bind(this);
     this.setTouched = this.setTouched.bind(this);
     this.state = this.getEmptyState(props);
+    this.fields = {
+      ObjectField,
+      ArrayField,
+      BasicArrayField,
+      TitleField
+    };
+
+    this.reviewFields = {
+      ObjectField: ReviewObjectField,
+      ArrayField: ReadOnlyArrayField,
+      BasicArrayField,
+      address: ReviewObjectField,
+      StringField
+    };
   }
 
   componentWillReceiveProps(newProps) {
@@ -95,7 +94,7 @@ class SchemaForm extends React.Component {
   }
 
   getEmptyState(props) {
-    const { onEdit, hideTitle, title, reviewMode, pagePerItemIndex, uploadFile, hideHeaderRow, formContext } = props;
+    const { onEdit, hideTitle, title, reviewMode, reviewTitle, pagePerItemIndex, uploadFile, hideHeaderRow, formContext } = props;
     return {
       formContext: Object.assign({
         touched: {},
@@ -103,6 +102,7 @@ class SchemaForm extends React.Component {
         onEdit,
         hideTitle,
         setTouched: this.setTouched,
+        reviewTitle,
         pageTitle: title,
         pagePerItemIndex,
         reviewMode,
@@ -167,7 +167,7 @@ class SchemaForm extends React.Component {
           showErrorList={false}
           formData={data}
           widgets={useReviewMode ? reviewWidgets : widgets}
-          fields={useReviewMode ? reviewFields : fields}
+          fields={useReviewMode ? this.reviewFields : this.fields}
           transformErrors={this.transformErrors}>
           {children}
         </Form>

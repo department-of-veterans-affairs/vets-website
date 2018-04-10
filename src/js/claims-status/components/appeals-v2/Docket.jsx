@@ -2,52 +2,64 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-// TODO: Depending on when this gets rendered, we may want to return null if either
-//  `ahead` or `total` don't exist (or if `total` === 0 because of the divide by 0  error)
-function Docket({ ahead, total, form9Date }) {
-  const completedWidth = { width: `${((total - ahead) / total) * 100}%` };
-  const date = moment(form9Date, 'YYYY-MM-DD').format('MMMM YYYY');
+import DocketCard from './DocketCard';
+import { APPEAL_TYPES } from '../../utils/appeals-v2-helpers';
 
+/**
+ * @param {Number} ahead - The number of appeals ahead of this one
+ * @param {Number} total - The total number of appeals in the docket line
+ * @param {String} form9Date - The date the form 9 was sent in (or something)
+ * @param {String} docketMonth- The month that the board is looking at (or older)
+ * @param {String} appealType - The type of appeal
+ * @param {Bool}   aod - Whether the appeal is Advanced on Docket
+ * @param {Bool}   front - Whether the appeal is at the front of the docket
+ */
+function Docket({ ahead, total, form9Date, docketMonth, appealType, aod, front: frontOfDocket }) {
   // TODO: Assess how accessible this is
+
+  const form9DateFormatted = moment(form9Date, 'YYYY-MM-DD').format('MMMM YYYY');
+  const docketMonthFormatted = moment(docketMonth, 'YYYY-MM-DD').format('MMMM YYYY');
+
+  // This is the only part that's different between the two "normal" contents
+  let yourPlaceText;
+  if (frontOfDocket) {
+    yourPlaceText = <p>The Board is currently reviewing appeals from {docketMonthFormatted} or older. Your appeal is eligible to be sent to a judge when it is ready for their review.</p>;
+  } else {
+    yourPlaceText = <p>There are {total.toLocaleString()} appeals on the docket, not including Advanced on Docket and Court Remand appeals. Some of these appeals are not ready to be sent to a judge. A judge will begin work on your appeal when it is among the oldest appeals that are ready for their review. The Board is currently reviewing appeals from {docketMonthFormatted} or older.</p>;
+  }
+
+  // Start with the basic content...
+  let content = (
+    <div>
+      <p>The Board of Veterans’ Appeals reviews cases in the order they are received. When you completed a VA Form 9 in {form9DateFormatted}, your appeal was added to the Board’s docket, securing your spot in line.</p>
+      {yourPlaceText}
+      <DocketCard total={total} ahead={ahead}/>
+      <h2>Is there a way to prioritize my appeal?</h2>
+      <p>If you are suffering a serious illness or are in financial distress, or for other sufficient cause, you can apply to have your appeal <strong>Advanced on Docket</strong>. If you are older than 75, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so that they are always at the front of the line.</p>
+      <p><a target="_blank" href="/disability-benefits/claims-appeal/request-a-priority-review/">Learn more about requesting Advanced on Docket status.</a></p>
+    </div>
+  );
+
+  // ...and override it if necessary
+
+  if (aod) {
+    content = (
+      <div>
+        <p>Your appeal is Advanced on Docket. This could be because you are older than 75, because you are suffering a serious illness or are in financial distress, or for other sufficient cause.</p>
+        <p>Advanced on Docket appeals are prioritized so that they are always at the front of the line. Your appeal will be sent to a judge as soon as it is ready for their review.</p>
+      </div>
+    );
+  }
+
+  // This should override the aod section
+  if (appealType === APPEAL_TYPES.postCavcRemand) {
+    content = <p>Your appeal was remanded by the Court of Appeals for Veterans’ Claims. Court Remand appeals are prioritized so that they are always at the front of the line. Your appeal will be sent to a judge as soon as it is ready for their review.</p>;
+  }
+
   return (
     <div>
-      <h2>How long until a judge is ready to write your decision?</h2>
-      <p>The Board of Veterans’ Appeals hears cases in the order they are received. When you completed a Form 9 in {date}, you secured your spot in line. Your appeal is near the front of the line.</p>
-      <div className="docket-container">
-        <p className="appeals-ahead">{ahead.toLocaleString()}</p>
-        <p>Appeals ahead of you</p>
-
-        <div className="marker-container">
-          <div>
-            <div className="marker-text-spacer" style={completedWidth}/>
-            <span className="marker-text">You are here</span>
-          </div>
-          <div>
-            <div className="spacer" style={completedWidth}/>
-            <div className="marker">
-              <img src="/img/Docket-line-pin.svg" alt=""/>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="docket-bar">
-            <div className="completed" style={completedWidth}/>
-          </div>
-          <div className="end-of-docket"/>
-        </div>
-
-        <div className="front-of-docket-text"><p>Front of docket line</p></div>
-        <p><strong>{total.toLocaleString()}</strong> total appeals on the docket</p>
-      </div>
-      <h2>Is there a way for my appeal to be decided more quickly?</h2>
-      <p>The Board can move your appeal to the front of the docket line if you:</p>
-      <ul>
-        <li>Are 75 years or older</li>
-        <li>Have a terminal illness</li>
-        <li>Are in financial distress</li>
-      </ul>
-      <p>These appeals are called Advanced on Docket (AOD). When you turn 75, your appeal automatically becomes AOD. If you have a terminal illness or are in financial distress, ask your VSO or representative to file a motion with the Board for AOD status.</p>
+      <h2>How long until a judge is ready for your appeal?</h2>
+      {content}
     </div>
   );
 }
@@ -55,7 +67,11 @@ function Docket({ ahead, total, form9Date }) {
 Docket.propTypes = {
   ahead: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  form9Date: PropTypes.string.isRequired
+  form9Date: PropTypes.string.isRequired,
+  docketMonth: PropTypes.string,
+  appealType: PropTypes.string,
+  aod: PropTypes.bool,
+  front: PropTypes.bool,
 };
 
 export default Docket;

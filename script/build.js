@@ -20,10 +20,16 @@ const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
-const webpack = require('metalsmith-webpack');
+const webpack = require('./metalsmith-webpack').webpackPlugin;
 const webpackConfigGenerator = require('../config/webpack.config');
-const webpackDevServer = require('metalsmith-webpack-dev-server');
+const webpackDevServer = require('./metalsmith-webpack').webpackDevServerPlugin;
 const createSettings = require('../config/create-settings');
+const nonceTransformer = require('./metalsmith/nonceTransformer');
+const {
+  getRoutes,
+  getWebpackEntryPoints,
+  getAppManifests
+} = require('./manifest-helpers.js');
 
 const sourceDir = '../content/pages';
 
@@ -35,6 +41,7 @@ const optionDefinitions = [
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
+  { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
 
@@ -72,8 +79,19 @@ switch (options.buildtype) {
   default:
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
 }
+const manifests = getAppManifests(path.join(__dirname, '..'));
 
-const webpackConfig = webpackConfigGenerator(options);
+let manifestsToBuild = manifests;
+if (options.entry) {
+  const entryNames = options.entry.split(',').map(name => name.trim());
+  manifestsToBuild = manifests
+    .filter(manifest => entryNames.includes(manifest.entryName));
+}
+
+const webpackConfig = webpackConfigGenerator(
+  options,
+  getWebpackEntryPoints(manifestsToBuild)
+);
 
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
@@ -94,9 +112,12 @@ const ignore = require('metalsmith-ignore');
 
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('burials-and-memorials/pre-need/form-10007-apply-for-eligibility.md');
-  ignoreList.push('employment/vocational-rehab-and-employment/application/chapter36.md');
-  ignoreList.push('veteran-id-card/apply.md');
+  manifests.filter(m => !m.production).forEach(m => {
+    ignoreList.push(m.contentPage);
+  });
+  ignoreList.push('beta-enrollment/personalization.md');
+  ignoreList.push('veteran-id-card/how-to-get.md');
+  ignoreList.push('veteran-id-card/how-to-upload-photo.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -162,7 +183,7 @@ smith.use(collections({
     pattern: 'disability-benefits/after-you-apply/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Application Process'
+      name: 'After You Apply'
     }
   },
   disabilityApply: {
@@ -190,7 +211,7 @@ smith.use(collections({
     pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
     sortBy: 'order',
     metadata: {
-      name: 'Predischarge Claims'
+      name: 'Pre-discharge Claim'
     }
   },
   disabilityConditions: {
@@ -232,7 +253,7 @@ smith.use(collections({
     pattern: '',
     sortBy: 'order',
     metadata: {
-      name: 'Education Benefits'
+      name: 'Education and Training'
     }
   },
   educationAdvancedTraining: {
@@ -295,6 +316,13 @@ smith.use(collections({
     sortBy: 'order',
     metadata: {
       name: 'VA Health Care Coverage'
+    }
+  },
+  healthCareCoverageFamily: {
+    pattern: 'health-care/family-caregiver-health-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Family and Caregiver Health Benefits'
     }
   },
   healthCareCoverageVision: {
@@ -419,32 +447,19 @@ if (options.watch) {
     })
   );
 
+  const appRewrites = getRoutes(manifests).map(url => {
+    return {
+      from: `^${url}(.*)`,
+      to: `${url}/`
+    };
+  }).sort((a, b) => b.from.length - a.from.length);
+
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
-        { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/education/apply-for-education-benefits/application/1990[eE](.*)', to: '/education/apply-for-education-benefits/application/1990E/' },
-        { from: '^/education/apply-for-education-benefits/application/1990[nN](.*)', to: '/education/apply-for-education-benefits/application/1990N/' },
-        { from: '^/education/apply-for-education-benefits/application/1990(.*)', to: '/education/apply-for-education-benefits/application/1990/' },
-        { from: '^/education/apply-for-education-benefits/application/1995(.*)', to: '/education/apply-for-education-benefits/application/1995/' },
-        { from: '^/education/apply-for-education-benefits/application/5490(.*)', to: '/education/apply-for-education-benefits/application/5490/' },
-        { from: '^/education/apply-for-education-benefits/application/5495(.*)', to: '/education/apply-for-education-benefits/application/5495/' },
-        { from: '^/facilities(.*)', to: '/facilities/' },
-        { from: '^/discharge-upgrade-instructions(.*)', to: '/discharge-upgrade-instructions/' },
-        { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
-        { from: '^/education/gi-bill/post-9-11/ch-33-benefit(.*)', to: '/education/gi-bill/post-9-11/ch-33-benefit/' },
-        { from: '^/health-care/apply/application(.*)', to: '/health-care/apply/application/' },
-        { from: '^/health-care/health-records(.*)', to: '/health-care/health-records/' },
-        { from: '^/health-care/messaging(.*)', to: '/health-care/messaging/' },
-        { from: '^/health-care/prescriptions(.*)', to: '/health-care/prescriptions/' },
-        { from: '^/letters(.*)', to: '/letters/' },
-        { from: '^/pension/application/527EZ(.*)', to: '/pension/application/527EZ/' },
-        { from: '^/burials-and-memorials/application/530(.*)', to: '/burials-and-memorials/application/530/' },
-        { from: '^/burials-and-memorials/pre-need/form-10007-apply-for-eligibility(.*)', to: '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/' },
-        { from: '^/employment/vocational-rehab-and-employment/application/chapter36(.*)', to: '/employment/vocational-rehab-and-employment/application/chapter36/' },
-        { from: '^/veteran-id-card/apply(.*)', to: '/veteran-id-card/apply/' },
+        ...appRewrites,
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -452,7 +467,7 @@ if (options.watch) {
     port: options.port,
     publicPath: '/generated/',
     host: options.host,
-    'public': options.public,
+    'public': options.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -461,7 +476,10 @@ if (options.watch) {
       timings: true,
       chunks: false,
       chunkModules: false,
-      children: false
+      entrypoints: false,
+      children: false,
+      modules: false,
+      warnings: true
     }
   };
 
@@ -596,12 +614,15 @@ if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
         '/pension/application/527EZ',
         '/burials-and-memorials/application/530',
         '/health-care/apply/application',
-        '/letters'].join('|'))
+        '/veteran-id-card/apply',
+        '/veteran-id-card/how-to-get',
+        '/disability-benefits/apply-for-increase',
+        '/download-va-letters/letters'].join('|'))
   }));
 }
 
 if (options.buildtype !== 'development') {
-  //
+
   // In non-development modes, we add hashes to the names of asset files in order to support
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
   // files, so we have to replace the references to those files in HTML and CSS files after the
@@ -609,12 +630,13 @@ if (options.buildtype !== 'development') {
   // WebPack that maps the original file names to their hashed versions. Metalsmith actions
   // are passed a list of files that are included in the build. Those files are not yet written
   // to disk, but the contents are held in memory.
-  //
+
   smith.use((files, metalsmith, done) => {
     // Read in the data from the manifest file.
     const manifestKey = Object.keys(files).find((filename) => {
       return filename.match(/file-manifest.json$/) !== null;
     });
+
     const originalManifest = JSON.parse(files[manifestKey].contents.toString());
 
     // The manifest contains the original filenames without the addition of .entry
@@ -622,7 +644,7 @@ if (options.buildtype !== 'development') {
     const manifest = {};
     Object.keys(originalManifest).forEach((originalManifestKey) => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null && matchData[1] !== 'vendor') {
+      if (matchData !== null) {
         const newKey = `${matchData[1]}.entry.js`;
         manifest[newKey] = originalManifest[originalManifestKey];
       } else {
@@ -636,30 +658,12 @@ if (options.buildtype !== 'development') {
     Object.keys(files).forEach((filename) => {
       if (filename.match(/\.(html|css)$/) !== null) {
         Object.keys(manifest).forEach((originalAssetFilename) => {
-          const newAssetFilename = manifest[originalAssetFilename];
+          const newAssetFilename = manifest[originalAssetFilename].replace('/generated/', '');
           const file = files[filename];
           const contents = file.contents.toString();
           const regex = new RegExp(originalAssetFilename, 'g');
           file.contents = new Buffer(contents.replace(regex, newAssetFilename));
         });
-      }
-    });
-    done();
-  });
-
-  smith.use((files, metalsmith, done) => {
-    // Read in the data from the manifest file.
-    const chunkManifestKey = Object.keys(files).find((filename) => {
-      return filename.match(/chunk-manifest.json$/) !== null;
-    });
-    const chunkManifest = files[chunkManifestKey].contents.toString();
-
-    Object.keys(files).forEach((filename) => {
-      if (filename.match(/\.html$/) !== null) {
-        const file = files[filename];
-        const contents = file.contents.toString();
-        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
-        file.contents = new Buffer(contents.replace(regex, chunkManifest));
       }
     });
     done();
@@ -673,6 +677,12 @@ smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
+
+/*
+Add nonce attribute with substition string to all inline script tags
+Convert onclick event handles into nonced script tags
+*/
+smith.use(nonceTransformer);
 
 function generateStaticSettings() {
   const settings = createSettings(options);

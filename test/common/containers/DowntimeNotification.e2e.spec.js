@@ -1,7 +1,7 @@
 const moment = require('moment');
 const createMockEndpoint = require('../../e2e/mock-helpers');
-const E2eHelpers = require('../../e2e/e2e-helpers');
-const Timeouts = require('../../e2e/timeouts');
+const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../../src/platform/testing/e2e/timeouts');
 const FacilityHelpers = require('../../e2e/facility-helpers');
 
 const token = null;
@@ -12,7 +12,6 @@ const endTime = moment().add(6, 'hour').toISOString();
 
 const selectors = {
   app: '.facility-locator',
-  downtimeNotification: '#downtime-notification',
   statusDown: '[data-status="down"]',
   statusDownApproachingModal: '[data-status="downtimeApproaching"] #downtime-approaching-modal'
 };
