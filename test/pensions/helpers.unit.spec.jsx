@@ -156,9 +156,9 @@ describe('Pensions helpers', () => {
         expect(err.message).to.equal('vets_server_error_pensions: status failed');
       });
     });
-  });
-  afterEach(() => {
-    resetFetch();
-    delete window.URL;
+    afterEach(() => {
+      resetFetch();
+      delete window.URL;
+    });
   });
 });
