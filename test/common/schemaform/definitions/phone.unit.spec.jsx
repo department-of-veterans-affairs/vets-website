@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../../src/js/common/schemaform/definitions/phone';
 import { phone as schema } from 'vets-json-schema/dist/definitions.json';
 

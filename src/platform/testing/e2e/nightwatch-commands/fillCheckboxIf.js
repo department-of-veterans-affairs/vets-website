@@ -1,5 +1,10 @@
 /**
- * The first parameter is the field name, not the whole selector.
+ * Checks a checkbox if a condition is true
+ *
+ * @param {string} selector The css selector for the checkbox to fill
+ * @param {function} condition Function that will be run to determine
+ * whether or not to check the checkbox
+ * @param {...any} params Parameters that will be passed to condition
  */
 exports.command = function fillCheckboxIf(selector, condition, ...params) {
   let shouldClick = !!condition;

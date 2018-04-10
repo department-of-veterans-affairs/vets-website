@@ -1,7 +1,7 @@
 /**
  * Focus on the element specified in `selector`.
  *
- * @param {String} selector  CSS selector pointing to the element to focus on
+ * @param {string} selector  CSS selector pointing to the element to focus on
  */
 exports.command = function focusOn(selector) {
   this.execute((sel) => {

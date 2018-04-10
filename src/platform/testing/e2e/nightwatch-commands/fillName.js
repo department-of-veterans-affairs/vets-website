@@ -1,5 +1,8 @@
 /**
  * Fills the name form elements.
+ *
+ * @param {string} baseName The start of the field name for the name elements
+ * @param {object} name The name object
  */
 exports.command = function fillName(baseName, name) {
   this

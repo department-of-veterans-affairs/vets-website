@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/vre/chapter31/config/form.js';
 
 describe('VRE chapter 31 education information', () => {
