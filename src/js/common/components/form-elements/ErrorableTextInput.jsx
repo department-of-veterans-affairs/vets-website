@@ -35,6 +35,10 @@ class ErrorableTextInput extends React.Component {
     this.inputId = _.uniqueId('errorable-text-input-');
   }
 
+  componentDidMount() {
+    if (this.props.autoFocus && this.inputEl) this.inputEl.focus();
+  }
+
   handleChange(domEvent) {
     this.props.onValueChange(makeField(domEvent.target.value, this.props.field.dirty));
   }
@@ -94,6 +98,7 @@ class ErrorableTextInput extends React.Component {
         </label>
         {errorSpan}
         <input
+          ref={el => { this.inputEl = el; }}
           className={this.props.additionalClass}
           aria-describedby={errorSpanId}
           id={this.inputId}

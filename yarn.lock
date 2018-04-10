@@ -2,17 +2,20 @@
 # yarn lockfile v1
 
 
-"@department-of-veterans-affairs/jean-pants@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/jean-pants/-/jean-pants-0.1.0.tgz#56d25ef8e5ea5b05b4c4958b39c5957268c77aa6"
+"@department-of-veterans-affairs/jean-pants@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/jean-pants/-/jean-pants-0.2.0.tgz#bd76a9ec9cc935091e69aa8e814be4acc589d85b"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
     foundation-sites "5"
+    is-docker "^1.1.0"
     lodash "^4.5.1"
+    moment "^2.21.0"
     prop-types "^15.6.0"
     react-transition-group "^1.x"
-    uswds "^1.2.1"
+    uswds "^1.6.1"
+    window-or-global "^1.0.1"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
   version "1.0.0"
@@ -4935,6 +4938,10 @@ is-descriptor@^1.0.0, is-descriptor@^1.0.2:
     is-data-descriptor "^1.0.0"
     kind-of "^6.0.2"
 
+is-docker@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-1.1.0.tgz#f04374d4eee5310e9a8e113bf1495411e46176a1"
+
 is-dotfile@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.2.tgz#2c132383f39199f8edc268ca01b9b007d205cc4d"
@@ -6558,6 +6565,10 @@ module-deps@^4.0.8:
 moment@^2.10.3, moment@^2.13.0, moment@^2.15.1, moment@^2.5.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+
+moment@^2.21.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
 
 morgan@^1.7.0:
   version "1.8.1"
@@ -9993,11 +10004,11 @@ user-home@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
-uswds@^1.2.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.6.1.tgz#9879a4abdad31126067bb3ea8ed0d55f50eded7c"
+uswds@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.2.tgz#a64617a83d79deff20503cc5b879072e547a3c29"
   dependencies:
-    "@types/node" "^8.5.5"
+    "@types/node" "^8.0.14"
     array-filter "^1.0.0"
     array-foreach "^1.0.2"
     browserify "^13.0.0"
@@ -10011,11 +10022,11 @@ uswds@^1.2.1:
     typescript "^2.4.1"
     yargs "^8.0.2"
 
-uswds@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.2.tgz#a64617a83d79deff20503cc5b879072e547a3c29"
+uswds@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.6.1.tgz#9879a4abdad31126067bb3ea8ed0d55f50eded7c"
   dependencies:
-    "@types/node" "^8.0.14"
+    "@types/node" "^8.5.5"
     array-filter "^1.0.0"
     array-foreach "^1.0.2"
     browserify "^13.0.0"
@@ -10295,6 +10306,10 @@ wide-align@^1.1.0:
 win-fork@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/win-fork/-/win-fork-1.1.1.tgz#8f58e0656fca00adc8c86a2b89e3cd2d6a2d5e5e"
+
+window-or-global@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/window-or-global/-/window-or-global-1.0.1.tgz#dbe45ba2a291aabc56d62cf66c45b7fa322946de"
 
 window-size@0.1.0:
   version "0.1.0"

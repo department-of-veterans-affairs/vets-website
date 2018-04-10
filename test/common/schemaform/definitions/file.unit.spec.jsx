@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import uiSchema, { fileSchema } from '../../../../src/js/common/schemaform/definitions/file';
 
 describe('Schemaform definition file', () => {

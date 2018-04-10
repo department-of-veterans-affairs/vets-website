@@ -3,6 +3,5 @@
   "entryFile": "./user-profile-entry.jsx",
   "entryName": "user-profile",
   "rootUrl": "/profile",
-  "noRouting": true,
   "production": true
 }
