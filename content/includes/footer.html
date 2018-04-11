@@ -140,7 +140,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};
-  {% include "src/js/common/utils/static-page-widgets.js" %}
+  {% include "src/js/static-pages/static-page-widgets.js" %}
   mountWidgets(widgets);
 })();
 </script>

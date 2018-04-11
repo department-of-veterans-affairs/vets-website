@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
 import { calculatorConstants } from '../../e2e/gibct-helpers';
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 import reducer from '../../../src/js/gi/reducers';
 import { getCalculatedBenefits } from '../../../src/js/gi/selectors/calculator';
 

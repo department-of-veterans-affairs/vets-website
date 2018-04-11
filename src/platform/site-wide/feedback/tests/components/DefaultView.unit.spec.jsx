@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import DefaultView from '../../../src/js/feedback/components/DefaultView';
+import DefaultView from '../../components/DefaultView';
 
 const props = {
   revealForm() {}

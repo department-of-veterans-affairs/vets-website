@@ -3,10 +3,10 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Main } from '../../../src/js/feedback/containers/Main';
-import DefaultView from '../../../src/js/feedback/components/DefaultView';
-import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
-import FeedbackSubmitted from '../../../src/js/feedback/components/FeedbackSubmitted';
+import { Main } from '../../containers/Main';
+import DefaultView from '../../components/DefaultView';
+import FeedbackForm from '../../components/FeedbackForm';
+import FeedbackSubmitted from '../../components/FeedbackSubmitted';
 
 const defaultProps = {
   formIsVisible: false,

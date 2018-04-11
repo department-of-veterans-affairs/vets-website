@@ -1,6 +1,6 @@
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../common/helpers/api';
-import { isValidEmail } from '../../common/utils/validations';
+import recordEvent from '../../../monitoring/record-event';
+import { apiRequest } from '../../../../js/common/helpers/api';
+import { isValidEmail } from '../../../../js/common/utils/validations';
 
 export const REVEAL_FORM = 'REVEAL_FORM';
 export const SET_FORM_VALUES = 'SET_FORM_VALUES';

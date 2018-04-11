@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../../js/common/utils/helpers';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableTextarea from '../../../../js/common/components/form-elements/ErrorableTextarea';
+import ErrorableTextInput from '../../../../js/common/components/form-elements/ErrorableTextInput';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class FeedbackForm extends React.Component {
 
