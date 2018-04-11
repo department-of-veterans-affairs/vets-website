@@ -3,9 +3,7 @@
  * @module platform/site-wide
  */
 
-// This will move later, most likely
 import '../monitoring/sentry.js';
-
 import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
