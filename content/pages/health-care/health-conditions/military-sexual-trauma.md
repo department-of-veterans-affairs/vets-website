@@ -55,7 +55,7 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 We provide free, confidential (private) counseling and treatment to male and female Veterans for both mental and physical health problems linked to MST.
 
 **Our services include:**
-- MST-related services at every VA medical center, with providers knowledgeable about treating the after effects of MST located at each facility
+- MST-related treatment and support at every VA medical center, and providers knowledgeable about treating the aftereffects of MST at each facility
 - Specialized outpatient mental health services focused on sexual trauma at many VA locations
 - Counseling with professionals who are specially trained to treat conditions related to sexual trauma at Vet Centers across the country
 - Specialized MST treatment in a residential (live-in) or inpatient setting—including gender-specific programs—for Veterans who need more intensive care
@@ -82,7 +82,7 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Visit our website to learn about VA programs for Veterans who are homeless.<br>
   [Learn about our homelessness programs](https://www.va.gov/homeless/).  
-  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. <br>
+  - Call or visit your local VA Community Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. <br>
   [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 You can also call the VA general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>).<br>
@@ -96,7 +96,7 @@ You can also call the VA general information hotline at <a href="tel:+1-800-827-
 You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST).<br>
 [Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
 
-Or, get help applying for disability compensation by:
+Or get help applying for disability compensation by:
 
 - Reading our fact sheet on disability compensation for conditions related to MST. <br>
 [Read the fact sheet](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf).
