@@ -1,7 +1,7 @@
 import {
   RECEIVE_SCHEDULED_DOWNTIME,
   RETREIVE_SCHEDULED_DOWNTIME
-} from '../actions';
+} from './actions';
 
 
 const initialState = {

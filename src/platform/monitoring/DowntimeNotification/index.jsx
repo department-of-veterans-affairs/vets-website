@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import objectValues from 'lodash/fp/values';
 import { connect } from 'react-redux';
 
-import { getScheduledDowntime } from '../../js/common/actions';
-import moment from '../../js/common/utils/moment-setup';
-import Modal from '../../js/common/components/Modal';
-import LoadingIndicator from '../../js/common/components/LoadingIndicator';
+import { getScheduledDowntime } from '../../../js/common/actions';
+import moment from '../../../js/common/utils/moment-setup';
+import Modal from '../../../js/common/components/Modal';
+import LoadingIndicator from '../../../js/common/components/LoadingIndicator';
 
 /**
  * A list of services that correspond to those which we have downtime information as provided by the API.
