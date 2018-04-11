@@ -1,4 +1,4 @@
-import { apiRequest } from '../helpers/api';
+import { apiRequest } from '../../../js/common/helpers/api';
 
 export const RETREIVE_SCHEDULED_DOWNTIME = 'RETREIVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';

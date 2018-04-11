@@ -1,11 +1,9 @@
 /**
- * Module for site wide components  
+ * Module for site wide components
  * @module platform/site-wide
  */
 
-// This will move later, most likely
-import '../../js/common/sentry.js';
-
+import '../monitoring/sentry.js';
 import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
@@ -14,7 +12,7 @@ import createLoginWidget from '../../js/login/login-entry';
 import createFeedbackWidget from './feedback/feedback-entry';
 
 /**
- * Start up the site-wide components that live on every page, like 
+ * Start up the site-wide components that live on every page, like
  * the login widget, the header menus, and the feedback widget.
  *
  * @param {Store} commonStore The Redux store being used by this application

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from '../utils/moment-setup';
 import objectValues from 'lodash/fp/values';
 import { connect } from 'react-redux';
-import { getScheduledDowntime } from '../actions';
-import Modal from '../components/Modal';
-import LoadingIndicator from '../components/LoadingIndicator';
 
+import { getScheduledDowntime } from './actions';
+
+import moment from '../../../js/common/utils/moment-setup';
+import Modal from '../../../js/common/components/Modal';
+import LoadingIndicator from '../../../js/common/components/LoadingIndicator';
+
+/**
+ * A list of services that correspond to those which we have downtime information as provided by the API.
+ */
 export const services = {
   appeals: 'appeals',
   arcgis: 'arcgis',
@@ -21,20 +26,23 @@ export const services = {
   vic: 'vic'
 };
 
+/**
+ * A list of statues that will be used to indicate whether the downtime of a service, as well as the resultant status of the consuming application.
+ */
 export const serviceStatus = {
   down: 'down',
   downtimeApproaching: 'downtimeApproaching',
   ok: 'ok'
 };
 
-// Simple data structure that abstracts away add/removing dismissed flags in the session.
-// The Downtime Approaching warning should only be shown once, so we store that flag in the session.
-// We store it using the appTitle (which should be unique to the app) in an array so that other apps
-// that may be experiencing downtime will still have the warning.
+/**
+ * Simple data structure that abstracts away add/removing dismissed flags in the session.
+ * The Downtime Approaching warning should only be shown once, so we store that flag in the session.
+ * We store it using the appTitle (which should be unique to the app) in an array so that other apps
+ * that may be experiencing downtime will still have the warning.
+ */
 const dismissedDowntimeNotifications = {
   key: 'downtime-notifications-dismissed',
-  // A setup method is used so that sessionStorage is evaluated during the constructor instead of at module import.
-  // This is smoother for backfilling during unit tests.
   setup() {
     const rawData = window.sessionStorage[this.key];
     this._dismissedDowntimeNotifications = rawData ? JSON.parse(rawData) : [];
@@ -52,6 +60,30 @@ function DowntimeNotificationWrapper({ status, children }) {
   return <div className="downtime-notification row-padded" data-status={status}>{children}</div>;
 }
 
+/**
+ * Downtime object definition
+ * @typedef Downtime
+ * @type {object}
+ * @property {string} service
+ * @property {string} description
+ * @property {Date} startTime
+ * @property {Date} [endTime]
+ */
+
+/**
+ * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of Vets.gov services.
+ * @property {string} [appTitle] - The name of the consuming application, which will be displayed in downtime messaging.
+ * @property {node} [children] - React components to be rendered based on downtime.
+ * @property {node} [content] - Alias for React.children.
+ * @property {Array<string>} dependencies - An array of services that the consuming application requires in order to operate.
+ * @property {function} [determineStatus] - A function that may optionally be supplied so that the consuming application can manually derive the status of an application. Receives a map containing statuses/services as its first argument.
+ * @property {function} getScheduledDowntime - [Provided by container] An action creator that retrieves the array of downtime from the API downtime endpoint.
+ * @property {boolean} isReady - [Provided by container] A flag for indicating whether the downtime array has been retrieved from the API and if the component can render.
+ * @property {Node} [loadingIndicator] - A React component that will be rendered while the request to the API for downtime information is pending.
+ * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
+ * @property {Array<Downtime>} scheduledDowntime - [Provided by container] The array of service downtime as provided by the API endpoint.
+ * @module platorm/monitoring/DowntimeNotification
+ */
 class DowntimeNotification extends React.Component {
 
   static propTypes = {
@@ -91,10 +123,13 @@ class DowntimeNotification extends React.Component {
     this.props.getScheduledDowntime();
   }
 
-  // This is here just for caching the result of calculateDowntime, so that it isn't run every time a prop changes.
-  // Currently, this component should only do its calculations once, because it would be weird if in the middle of filling
-  // out a form a modal or alert appears alerting them of downtime, or if it just shuts down the app because we entered
-  // scheduled downtime.
+  /**
+   * Here just for caching the result of calculateDowntime, so that it isn't run every time a prop changes.
+   * Currently, this component should only do its calculations once, because it would be weird if in the middle of filling
+   * out a form a modal or alert appears alerting them of downtime, or if it just shuts down the app because we entered
+   * scheduled downtime.
+   * @param {Object} newProps
+   */
   componentWillReceiveProps(newProps) {
     const firstLoad = newProps.isReady && !this.props.isReady;
     if (firstLoad) {
@@ -113,6 +148,11 @@ class DowntimeNotification extends React.Component {
     return nextState.cache.status !== serviceStatus.down;
   }
 
+  /**
+   * Uses the timeframes of a Downtime object to determine the status of the corresponding service
+   * @param {Downtime} downtime
+   * @param {Moment} now
+   */
   getStatusForDowntime(downtime, now = moment()) {
     // If the current time is after the start...
     if (now.isSameOrAfter(downtime.startTime)) {
@@ -126,9 +166,12 @@ class DowntimeNotification extends React.Component {
     return serviceStatus.ok;
   }
 
-  // This is used to calculate the timeframe of the current or impending downtime.
-  // To keep things simple, it finds the downtime with the soonest start time and uses those
-  // start/end times.
+  /**
+   * Used to calculate the timeframe of the current or impending downtime.
+   * To keep things simple, it finds the downtime with the soonest start time and uses those start/end times.
+   * @param {Array<Downtime>} downtimes
+   * @returns {Object}
+   */
   getDowntimeWindow(downtimes) {
     // Cycle through the array of downtimes and find the downtime with the soonest start time.
     const soonestDowntime = downtimes.reduce((currentSoonest, downtime) => {
@@ -145,14 +188,19 @@ class DowntimeNotification extends React.Component {
     };
   }
 
-  // Converts the array of dependencies/service names into key/value pairs, with service statuses as keys and a list of
-  // downtime information (each downtime corresponding to a dependency/service name) as the values.
-  // Ultimately a Map that looks like this (but as a Map):
-  // {
-  //   "ok": []
-  //   "downApproaching": [{ serviceName: "arcgis", description: "We never show this anyway", startTime: new Date("Sometime within the hour"), endTime: new Date() }],
-  //   "down": []
-  // }
+  /**
+   * Converts the array of dependencies/service names into key/value pairs, with service statuses as keys and a list of
+   * downtime information (each downtime corresponding to a dependency/service name) as the values.
+   * Ultimately a Map that looks like this (but as a Map):
+   * {
+   *   "ok": []
+   *   "downApproaching": [{ serviceName: "arcgis", description: "We never show this anyway", startTime: new Date("Sometime within the hour"), endTime: new Date() }],
+   *   "down": []
+   * }
+   * @param {Array<string>} dependencies - the consuming application's list of dependencies
+   * @param {Array<Downtime>} scheduledDowntime - the downtime information as provided by the API
+   * @returns {Map}
+   */
   calculateDowntime(dependencies, scheduledDowntime) {
     const downtimeMap = new Map();
 
@@ -178,6 +226,10 @@ class DowntimeNotification extends React.Component {
     return downtimeMap;
   }
 
+  /**
+   * Uses the map of dependencies/downtime to determine the consuming application's final status.
+   * @param {Map} downtimeMap
+   */
   determineStatus(downtimeMap) {
     if (this.props.determineStatus) return this.props.determineStatus(downtimeMap);
 
@@ -192,11 +244,18 @@ class DowntimeNotification extends React.Component {
     return serviceStatus.ok;
   }
 
+  /**
+   * Handler for removing the modal that appears when an application is determined to have the status of downtime approaching.
+   */
   dismissModal = () => {
     dismissedDowntimeNotifications.push(this.props.appTitle);
     this.setState({ modalDismissed: true });
   }
 
+  /**
+   * The default render method for applications that have been determined to be down.
+   * @param {object} downtimeWindow
+   */
   renderStatusDown({ endTime }) {
     let message = <p>We’re making some updates to the {this.props.appTitle}. We’re sorry it’s not working right now. Please check back soon.</p>;
     if (endTime) {
@@ -214,6 +273,10 @@ class DowntimeNotification extends React.Component {
     );
   }
 
+  /**
+   * The default render method for applications that have been determine to have downtime approaching.
+   * @param {object} downtimeWindow
+   */
   renderStatusDownApproaching({ startTime, endTime }) {
     let downtimeNotification = null;
     if (!this.state.modalDismissed) {
@@ -234,6 +297,9 @@ class DowntimeNotification extends React.Component {
     );
   }
 
+  /**
+   * The render method was designed to be flexible - the loading indicator, method for determining app status, and render methods can all be overriden via props.
+   */
   render() {
     if (!this.props.isReady) {
       return this.props.loadingIndicator || <LoadingIndicator message={`Checking the ${this.props.appTitle} status...`}/>;
@@ -271,4 +337,7 @@ const mapDispatchToProps = {
 
 export { DowntimeNotification };
 
+/**
+ * Exports a container that supplies the necessary action creator for retreiving downtime information from the API.
+ */
 export default connect(mapStateToProps, mapDispatchToProps)(DowntimeNotification);

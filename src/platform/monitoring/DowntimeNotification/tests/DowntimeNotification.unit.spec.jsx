@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { DowntimeNotification, services, serviceStatus } from '../../../src/js/common/containers/DowntimeNotification';
+import { DowntimeNotification, services, serviceStatus } from '../index';
 
 const beforeNow = moment().subtract(1, 'minute').toDate();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toDate();

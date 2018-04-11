@@ -7,7 +7,7 @@ import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {

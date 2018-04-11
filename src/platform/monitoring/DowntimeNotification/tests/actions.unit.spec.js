@@ -4,7 +4,7 @@ import {
   getScheduledDowntime,
   RECEIVE_SCHEDULED_DOWNTIME,
   RETREIVE_SCHEDULED_DOWNTIME
-} from '../../../src/js/common/actions';
+} from '../actions';
 
 describe('getScheduledDowntime', () => {
   const dispatch = sinon.spy();

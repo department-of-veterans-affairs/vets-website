@@ -1,5 +1,6 @@
 import React from 'react';
 import Raven from 'raven-js';
+import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../common/helpers/environment';
 import { apiRequest } from '../../common/helpers/api';
 import { makeAuthRequest } from '../utils/helpers';
@@ -285,7 +286,7 @@ export function submitFiles(claimId, trackedItem, files) {
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
-  window.dataLayer.push({
+  recordEvent({
     event: 'claims-upload-start',
   });
 
@@ -318,7 +319,7 @@ export function submitFiles(claimId, trackedItem, files) {
         callbacks: {
           onAllComplete: () => {
             if (!hasError) {
-              window.dataLayer.push({
+              recordEvent({
                 event: 'claims-upload-success',
               });
               dispatch({
@@ -329,7 +330,7 @@ export function submitFiles(claimId, trackedItem, files) {
                 body: <span>Thank you for sending us {trackedItem ? trackedItem.displayName : 'additional evidence'}. We’ll let you know when we’ve reviewed it.<br/>Note: It may take a few minutes for your uploaded file to show here. If you don’t see your file, please try refreshing the page.</span>
               }));
             } else {
-              window.dataLayer.push({
+              recordEvent({
                 event: 'claims-upload-failure',
               });
               dispatch({
@@ -409,7 +410,7 @@ export function showMailOrFaxModal(visible) {
 export function cancelUpload() {
   return (dispatch, getState) => {
     const uploader = getState().disability.status.uploads.uploader;
-    window.dataLayer.push({
+    recordEvent({
       event: 'claims-upload-cancel',
     });
 

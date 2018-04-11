@@ -102,19 +102,17 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
   <script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ environment: '{{ buildtype }}' });
+    recordEvent({ environment: '{{ buildtype }}' });
   </script>
   <script async src="/js/google-analytics-dev.js"></script>
 {% else %}
   <!-- Google Tag Manager -->
   <script>
     // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ environment: '{{ buildtype }}' });
+    recordEvent({ environment: '{{ buildtype }}' });
     // We want to know if we are being iframed
     if ( self !== top ) {
-      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
+      recordEvent({ event: 'iframed', embeddedIn: document.referrer});
     }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
@@ -131,7 +129,7 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 <script type="text/javascript">
   function footerNavClick(elem) {
     const eventLabel = 'nav-' + elem.parentElement.parentElement.id
-    window.dataLayer.push({
+    recordEvent({
       event: eventLabel,
       navlabel: elem.innerText
     });
