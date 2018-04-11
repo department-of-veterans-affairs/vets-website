@@ -14,7 +14,17 @@ import { isValidForm } from '../validation';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
-import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
+import { getReviewPageOpenChapters } from '../state/selectors';
+import {
+  closeReviewChapter,
+  openReviewChapter,
+  setData,
+  setPrivacyAgreement,
+  setEditMode,
+  setSubmission,
+  submitForm,
+  uploadFile
+} from '../actions';
 
 const scroller = Scroll.scroller;
 
@@ -128,6 +138,14 @@ class ReviewPage extends React.Component {
     this.props.setEditMode(pageKey, editing, index);
   }
 
+  handleToggleChapter(toggledChapter) {
+    if (this.props.openChapters.includes(toggledChapter)) {
+      this.props.closeReviewChapter(toggledChapter);
+    } else {
+      this.props.openReviewChapter(toggledChapter);
+    }
+  }
+
   render() {
     const { route, form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
     const formConfig = route.formConfig;
@@ -141,6 +159,8 @@ class ReviewPage extends React.Component {
               <ReviewCollapsibleChapter
                 key={chapter}
                 onEdit={this.handleEdit}
+                toggleChapter={() => this.handleToggleChapter(chapter)}
+                open={this.props.openChapters.includes(chapter)}
                 pages={this.pagesByChapter[chapter]}
                 chapterKey={chapter}
                 setData={this.props.setData}
@@ -172,11 +192,14 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    openChapters: getReviewPageOpenChapters(state)
   };
 }
 
 const mapDispatchToProps = {
+  closeReviewChapter,
+  openReviewChapter,
   setEditMode,
   setSubmission,
   submitForm,
@@ -186,10 +209,13 @@ const mapDispatchToProps = {
 };
 
 ReviewPage.propTypes = {
+  closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired
   }).isRequired,
+  openChapters: PropTypes.array.isRequired,
+  openReviewChapter: PropTypes.func.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,

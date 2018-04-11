@@ -13,6 +13,20 @@ export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 
+export function closeReviewChapter(closedChapter) {
+  return {
+    type: CLOSE_REVIEW_CHAPTER,
+    closedChapter
+  };
+}
+
+export function openReviewChapter(openedChapter) {
+  return {
+    type: OPEN_REVIEW_CHAPTER,
+    openedChapter
+  };
+}
+
 export function setData(data) {
   return {
     type: SET_DATA,
