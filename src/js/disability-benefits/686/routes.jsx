@@ -1,4 +1,4 @@
-import { createRoutes as createFormRoutes } from '../common/schemaform/helpers';
+import { createRoutes as createFormRoutes } from '../../common/schemaform/helpers';
 import formConfig from './config/form';
 import Form686App from './containers/Form686App.jsx';
 

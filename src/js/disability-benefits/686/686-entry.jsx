@@ -1,7 +1,7 @@
-import '../../platform/polyfills';
-import '../../sass/686-dependent-status.scss';
+import '../../../platform/polyfills';
+import '../../../sass/686-dependent-status.scss';
 
-import startApp from '../../platform/startup';
+import startApp from '../../../platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
