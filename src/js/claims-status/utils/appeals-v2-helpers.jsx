@@ -155,8 +155,10 @@ export function addStatusToIssues(issues) {
  * @param {string} id Appeal ID of the appeal to find
  * @returns {object} One appeal object or undefined if not found in the array
  */
-export function isolateAppeal(state, id, v1ToV2IdMap) {
-  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id || v1ToV2IdMap[id]);
+export function isolateAppeal(state, id) {
+  return _.find(state.disability.status.claimsV2.appeals,
+    (a) => a.id === id || (_.get('attributes.appealIds', a) || []).includes(id)
+  );
 }
 
 export function formatDate(date) {
@@ -250,8 +252,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
-        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate}
-        because, after completing the remand instructions from the Board, they couldn’t fully grant
+        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate} because,
+          after completing the remand instructions from the Board, they couldn’t fully grant
         your appeal.</p>
       );
       break;
