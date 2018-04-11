@@ -61,7 +61,8 @@ function DowntimeNotificationWrapper({ status, children }) {
 
 /**
  * Downtime object definition
- * @typedef {Object} Downtime
+ * @typedef Downtime
+ * @type {object}
  * @property {string} service
  * @property {string} description
  * @property {Date} startTime
@@ -70,45 +71,30 @@ function DowntimeNotificationWrapper({ status, children }) {
 
 /**
  * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of Vets.gov services.
+ * @property {string} appTitle - The name of the consuming application, which will be displayed in downtime messaging.
+ * @property {node} children - React components to be rendered based on downtime.
+ * @property {node} content - Alias for React.children.
+ * @property {Array<string>} dependencies - An array of services that your application requires in order to operate.
+ * @property {function} [determineStatus] - A function that may optionally be supplied so that the consuming application can manually derive the status of an application. Receives a map containing statuses/services as its first argument.
+ * @property {function} getScheduledDowntime - An action creator that retrieves the array of downtime from the API downtime endpoint. Should be provided by the higher-level container.
+ * @property {boolean} isReady - A flag for indicating whether the downtime array has been retrieved from the API and if the component can render.
+ * @property {Node} loadingIndicator - A React component that will be rendered while the request to the API for downtime information is pending.
+ * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
+ * @property {Array<Downtime>} scheduledDowntime - The array of service downtime as provided by the API endpoint.
  * @module platorm/monitoring/DowntimeNotification
  */
 class DowntimeNotification extends React.Component {
 
   static propTypes = {
-
-    /** The name of the consuming application, which will be displayed in downtime messaging. */
     appTitle: PropTypes.string,
-
-    /** React components to be rendered based on downtime */
     children: PropTypes.node,
-
-    /** alias for React.children */
     content: PropTypes.node,
-
-    /** An array of services that your application requires in order to operate */
     dependencies: PropTypes.arrayOf(PropTypes.oneOf(objectValues(services))).isRequired,
-
-    /**
-     * A function that may optionally be supplied so that the consuming application can manually derive the status of an application.
-     * Receives a map containing statuses/services as its first argument.
-     * */
     determineStatus: PropTypes.func,
-
-    /** An action creator that retrieves the array of downtime from the API downtime endpoint. */
     getScheduledDowntime: PropTypes.func.isRequired,
-
-    /** A flag for indicating whether the downtime array has been retrieved from the API and if the component can render. */
     isReady: PropTypes.bool,
-
-    /** A React component that will be rendered while the request to the API for downtime information is pending. */
     loadingIndicator: PropTypes.node,
-
-    /** A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled.
-     * Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
-    */
     render: PropTypes.func,
-
-    /** The array of service downtime as provided by the API endpoint. */
     scheduledDowntime: PropTypes.arrayOf(
       PropTypes.shape({
         service: PropTypes.string,

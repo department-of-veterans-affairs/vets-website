@@ -8,15 +8,13 @@ import LoadingIndicator from '../../js/common/components/LoadingIndicator';
  * The integers representing the threshold are defined in the create-settings build process.
  * For content to be enabled, a randomly-generated number must be greater than than that integer.
  * For example, in theory a "1" would mean 100% of users will be denied access, while a "4" means only 40% of users would be denied.
- *
- * Expects a settings object that looks like:
- *
- * settings: {
- *   [id]: {
- *     rateLimitAuthed: 1,
- *     rateLimitUnauthed: 1
- *   }
- * }
+ * @example Expects a settings object that looks like:
+ *  settings: {
+ *    [id]: {
+ *      rateLimitAuthed: 1,
+ *      rateLimitUnauthed: 1
+ *    }
+ *  }
  * @module platform/monitoring/RateLimiter
  * @see module:config/create-settings
  */
