@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import FeedbackForm from '../../../src/js/feedback/components/FeedbackForm';
+import FeedbackForm from '../../components/FeedbackForm';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 const defaultProps = {

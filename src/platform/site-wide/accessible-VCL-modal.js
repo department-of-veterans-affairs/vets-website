@@ -1,9 +1,13 @@
-import { isEscape, isTab, isReverseTab, getTabbableElements } from './accessibility-helpers';
+import {
+  isEscape,
+  isTab,
+  isReverseTab,
+  getTabbableElements
+} from '../../js/common/utils/accessibility-helpers';
 
 /*
  * Creates function that captures/releases Veterans Crisis Line modal focus.
  */
-
 document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('modal-crisisline');
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');

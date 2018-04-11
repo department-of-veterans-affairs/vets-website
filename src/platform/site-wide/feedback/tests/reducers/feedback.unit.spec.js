@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import reducer from '../../../src/js/feedback/reducers';
+import reducer from '../../reducers';
 import {
   SEND_FEEDBACK,
   FEEDBACK_RECEIVED,
   FEEDBACK_ERROR,
   CLEAR_FEEDBACK_ERROR
-} from '../../../src/js/feedback/actions';
+} from '../../actions';
 
 const reducerInterface = ['requestPending', 'feedbackReceived', 'errorMessage', 'formErrors', 'formIsSubmittable', 'formIsVisible', 'formValues'];
 

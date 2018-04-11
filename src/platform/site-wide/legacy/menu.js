@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleOverlay = (domEvent) => {
     const overlayTarget = domEvent.currentTarget; // The overlay to open or close
     const clickTarget = domEvent.target; // The element clicked
-    
+
     /* 
     overlayId will be _either_    
     - The value of element.getAttribute('href')
@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
       overlay.querySelector('a').focus();
       document.body.classList.add('va-pos-fixed');
     }
-  }   
+  };
 
-  Array.from(overlays).map((ol) => {
+  Array.from(overlays).forEach((ol) => {
     ol.addEventListener('click', toggleOverlay);
   });
 });

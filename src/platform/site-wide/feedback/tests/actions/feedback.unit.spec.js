@@ -7,7 +7,7 @@ import {
   FEEDBACK_RECEIVED,
   FEEDBACK_ERROR,
   CLEAR_FEEDBACK_ERROR
-} from '../../../src/js/feedback/actions';
+} from '../../actions';
 
 describe('sendFeedback', () => {
 

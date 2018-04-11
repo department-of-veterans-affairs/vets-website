@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import FeedbackSubmitted from '../../../src/js/feedback/components/FeedbackSubmitted';
+import FeedbackSubmitted from '../../components/FeedbackSubmitted';
 
 describe('<FeedbackSubmitted/>', () => {
 
