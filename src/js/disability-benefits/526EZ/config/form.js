@@ -120,10 +120,10 @@ const formConfig = {
       }
     },
     chapterThree: {
-      title: 'Chapter Three',
+      title: 'Your Rated Disabilities',
       pages: {
         pageOne: {
-          title: 'Page One',
+          title: 'Your Rated Disabilities',
           path: 'chapter-three/page-one',
           uiSchema: {},
           schema: {

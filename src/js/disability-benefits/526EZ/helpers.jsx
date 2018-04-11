@@ -5,6 +5,7 @@ import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/addre
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -283,3 +284,23 @@ export const evidenceSummaryView = ({ formData }) => {
     </div>
   );
 };
+
+
+/**
+ * @param {string} diagnosticCode
+ * @param {string} diagnosticText
+ */
+export const disabilityOption = ({ disability }) => {
+  const { diagnosticCode, diagnosticText } = disability;
+
+  // TODO: Figure out where the rating comes from
+  return (
+    <div>
+      <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>
+      <p>{getDiagnosticText(diagnosticText)}</p>
+      <br/>
+      <p>Current rating: <strong>%</strong></p>
+    </div>
+  );
+};
+
