@@ -6,5 +6,5 @@
  */
 
 export default function recordEvent(data) {
-  window.dataLayer.push(data);
+  return window.dataLayer.push(data);
 }

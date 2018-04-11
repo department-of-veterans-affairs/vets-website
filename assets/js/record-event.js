@@ -7,5 +7,5 @@
  */
 window.dataLayer = [] || window.dataLayer;
 window.recordEvent = function(data) {
-  window.dataLayer.push(data);
+  return window.dataLayer.push(data);
 }
