@@ -68,7 +68,11 @@ describe('schemaform createSchemaFormReducer', () => {
     const reducer = createSchemaFormReducer(formConfig);
 
     it('adds the chapter name to openChapters on OPEN_REVIEW_CHAPTER', () => {
-      const previousState = {};
+      const previousState = {
+        reviewPageView: {
+          openChapters: []
+        }
+      };
 
       const expectedState = {
         reviewPageView: {

@@ -31,6 +31,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
     if (!oldProps.open && this.props.open) {
       this.scrollToTop();
     }
+    if (oldProps.open && !this.props.open) {
+      this.props.setPagesViewed(this.pageKeys);
+    }
   }
 
   onChange(formData, path = null, index = null) {

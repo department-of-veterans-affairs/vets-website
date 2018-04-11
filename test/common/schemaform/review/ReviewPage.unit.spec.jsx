@@ -61,6 +61,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         form={form}
         user={user}
+        openChapters={[]}
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -136,6 +137,7 @@ describe('Schemaform review: ReviewPage', () => {
         router={router}
         setData={setData}
         form={form}
+        openChapters={[]}
         user={user}
         onSubmit={onSubmit}
         setEditMode={f => f}
@@ -213,6 +215,7 @@ describe('Schemaform review: ReviewPage', () => {
         submitForm={submitForm}
         form={form}
         user={user}
+        openChapters={[]}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -286,6 +289,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        openChapters={[]}
         user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -357,6 +361,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        openChapters={[]}
         user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -425,6 +430,7 @@ describe('Schemaform review: ReviewPage', () => {
         router={router}
         form={form}
         user={user}
+        openChapters={[]}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -496,6 +502,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         form={form}
         user={user}
+        openChapters={[]}
         route={{ formConfig, pageList }}
         setEditMode={setEditMode}
         setPrivacyAgreement={f => f}
