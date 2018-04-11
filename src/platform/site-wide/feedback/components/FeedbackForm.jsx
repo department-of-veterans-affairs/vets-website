@@ -5,7 +5,7 @@ import { focusElement } from '../../../../js/common/utils/helpers';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import ErrorableTextarea from '../../../../js/common/components/form-elements/ErrorableTextarea';
 import ErrorableTextInput from '../../../../js/common/components/form-elements/ErrorableTextInput';
-import ErrorableCheckbox from '../../../../js/common/components/form-elements/ErrorableCheckbox';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class FeedbackForm extends React.Component {
 
