@@ -13,8 +13,8 @@ describe('526EZ <VerifiedReviewContainer>', () => {
   it('should include VerifiedReviewPage, SaveLink, and SaveStatus when prefilled', () => {
     const route = {
       pageConfig: {
-        chapterKey: 'reviewVeteranInformation',
-        pageKey: 'reviewVeteranInformation',
+        chapterKey: 'reviewVeteranDetails',
+        pageKey: 'veteranInformation',
         schema: {},
         uiSchema: {},
         errorMessages: {},
@@ -63,8 +63,8 @@ describe('526EZ <VerifiedReviewContainer>', () => {
   it('should not include VerifiedReviewPage when not prefilled', () => {
     const route = {
       pageConfig: {
-        chapterKey: 'reviewVeteranInformation',
-        pageKey: 'reviewVeteranInformation',
+        chapterKey: 'reviewVeteranDetails',
+        pageKey: 'veteranInformation',
         schema: {},
         uiSchema: {},
         errorMessages: {},
@@ -109,8 +109,8 @@ describe('526EZ <VerifiedReviewContainer>', () => {
   it('should auto save on change', () => {
     const route = {
       pageConfig: {
-        chapterKey: 'reviewVeteranInformation',
-        pageKey: 'reviewVeteranInformation',
+        chapterKey: 'reviewVeteranDetails',
+        pageKey: 'veteranInformation',
         schema: {},
         uiSchema: {},
         errorMessages: {},

@@ -88,7 +88,7 @@ export default class VerifiedReviewPage extends React.Component {
             {editing &&
               <SchemaForm
                 name={pageKey}
-                title={page.title(true)}
+                title={page.title}
                 data={pageData}
                 schema={page.schema}
                 uiSchema={page.uiSchema}
@@ -125,14 +125,14 @@ export default class VerifiedReviewPage extends React.Component {
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <div
                 className="accordion-title">
-                <h4 className="form-review-panel-page-header">{this.props.page.title(true)}</h4>
+                <h4 className="form-review-panel-page-header">{this.props.page.title}</h4>
                 {!editing &&
                 <button
                   type="button"
                   aria-expanded={this.state.open ? 'true' : 'false'}
                   aria-controls={`collapsible-${this.id}`}
                   className="edit-btn primary-outline"
-                  onClick={() => this.handleEdit('reviewVeteranInformation', !editing)}>
+                  onClick={() => this.handleEdit(pageKey, !editing)}>
                 Edit
                 </button>}
               </div>

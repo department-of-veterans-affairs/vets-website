@@ -7,7 +7,7 @@ import initialData from '../../../../../test/disability-benefits/526EZ/schema/in
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { createVerifiedVeteranInfoChapter, createUnverifiedVeteranInfoChapter } from '../chapters/veteranInfo';
+import { createVerifiedVeteranInfoPage } from '../pages/veteranInfo';
 
 import {
   transform,
@@ -96,8 +96,12 @@ const formConfig = {
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
-    reviewVeteranInformation: createVerifiedVeteranInfoChapter(fullSchema526EZ),
-    veteranInformation: createUnverifiedVeteranInfoChapter(fullSchema526EZ),
+    reviewVeteranDetails: {
+      title: 'Review Veteran Details',
+      pages: {
+        veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
+      }
+    },
     chapterThree: {
       title: 'Chapter Three',
       pages: {

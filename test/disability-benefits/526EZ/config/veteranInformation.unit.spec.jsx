@@ -11,7 +11,7 @@ import initialData from '../schema/initialData.js';
 initialData.prefilled = false;
 
 describe('526EZ veteran information', () => {
-  const page = formConfig.chapters.veteranInformation.pages.veteranInformation;
+  const page = formConfig.chapters.reviewVeteranDetails.pages.veteranInformation;
   const { schema, uiSchema } = page;
 
   it('should render', () => {

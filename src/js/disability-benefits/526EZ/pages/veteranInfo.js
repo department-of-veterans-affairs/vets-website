@@ -8,11 +8,11 @@ import { genderLabels } from '../../../common/utils/labels';
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
 import {
   veteranInformationViewField,
-  getChapter,
+  getPage,
   VAFileNumberDescription
 } from '../helpers';
 
-function createVeteranInfoChapter(formSchema, isReview) {
+function createVeteranInfoPage(formSchema, isReview) {
   const { fullName, date } = formSchema.definitions;
 
   const uiSchema = {
@@ -58,8 +58,8 @@ function createVeteranInfoChapter(formSchema, isReview) {
     }
   };
 
-  const chapterConfig = {
-    chapterTitle: 'Veteran Information',
+  const pageConfig = {
+    pageTitle: 'Veteran Information',
     isReview,
     component: VerifiedReviewContainer,
     verifiedReviewComponent: veteranInformationViewField,
@@ -67,11 +67,11 @@ function createVeteranInfoChapter(formSchema, isReview) {
     schema
   };
 
-  return getChapter(chapterConfig);
+  return getPage(pageConfig, 'Veteran Details');
 }
 
-export const createVerifiedVeteranInfoChapter = formConfig =>
-  createVeteranInfoChapter(formConfig, true);
+export const createVerifiedVeteranInfoPage = formConfig =>
+  createVeteranInfoPage(formConfig, true);
 
-export const createUnverifiedVeteranInfoChapter = formConfig =>
-  createVeteranInfoChapter(formConfig, false);
+export const createUnverifiedVeteranInfoPage = formConfig =>
+  createVeteranInfoPage(formConfig, false);

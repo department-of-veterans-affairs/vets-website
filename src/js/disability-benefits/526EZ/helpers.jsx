@@ -348,74 +348,46 @@ function lowerCaseAll(words) {
   return words.map(word => lowerCaseFirstLetter(word));
 }
 
-function camelize(words) {
-  const word = words[0];
-  const rest = words.slice(1).join('');
-  return lowerCaseFirstLetter(word).concat(rest);
-}
-
 function kebabize(words) {
   return lowerCaseAll(words).join('-');
 }
 
-function getVerifiedPageName(chapterTitleWords) {
-  const verifiedPageName = chapterTitleWords.slice(0);
-  verifiedPageName.unshift('review');
-  return camelize(verifiedPageName);
+function getVerifiedPagePath(chapterTitleWords, pageTitleWords) {
+  const verifiedChapterPath = chapterTitleWords.slice(0);
+  verifiedChapterPath.unshift('review');
+  const verifiedPagePath = pageTitleWords.slice(0);
+  return `${kebabize(verifiedChapterPath)}/${kebabize(verifiedPagePath)}`;
 }
 
-function getUnverifiedPageName(chapterTitleWords) {
-  const unverifiedPageName = chapterTitleWords.slice(0);
-  return camelize(unverifiedPageName);
+function getUnverifiedPagePath(chapterTitleWords, pageTitleWords) {
+  const unverifiedChapterPath = chapterTitleWords.slice(0);
+  const unverifiedPagePath = pageTitleWords.slice(0);
+  return `${kebabize(unverifiedPagePath)}/${kebabize(unverifiedChapterPath)}`;
 }
 
-function getVerifiedPagePath(chapterTitleWords) {
-  const verifiedPagePath = chapterTitleWords.slice(0);
-  verifiedPagePath.unshift('review');
-  return kebabize(verifiedPagePath);
-}
-
-function getUnverifiedPagePath(chapterTitleWords) {
-  const unverifiedPagePath = chapterTitleWords.slice(0);
-  return kebabize(unverifiedPagePath);
-}
-
-function getPageAndPath(chapterTitle, isReview) {
+function getPath(chapterTitle, pageTitle, isReview) {
   const chapterTitleWords = chapterTitle.split(' ');
+  const pageTitleWords = pageTitle.split(' ');
   const getPagePath = isReview ? getVerifiedPagePath : getUnverifiedPagePath;
-  const pagePath = getPagePath(chapterTitleWords);
-  const getPageName = isReview ? getVerifiedPageName : getUnverifiedPageName;
-  const pageName = getPageName(chapterTitleWords);
-  return { pageName, pagePath };
+  return getPagePath(chapterTitleWords, pageTitleWords);
 }
 
 const verifiedDepends = ({ prefilled }) => !!prefilled;
 
 const unverifiedDepends = ({ prefilled }) => !prefilled;
 
-export function getChapter(chapterConfig) {
-  const { chapterTitle, component, isReview, ...rest } = chapterConfig;
-  const reviewString = isReview ? 'Review ' : '';
-  const pageTitle = chapterTitle;
-  const getPageTitle = (shouldOmitReview) => {
-    if (shouldOmitReview) return pageTitle;
-    return `${reviewString}${pageTitle}`;
-  };
-  const { pageName, pagePath } = getPageAndPath(chapterTitle, isReview);
+export function getPage(pageConfig, chapterTitle) {
+  const { pageTitle, component, isReview, ...rest } = pageConfig;
+  const pagePath = getPath(chapterTitle, pageTitle, isReview);
   const depends = isReview ? verifiedDepends : unverifiedDepends;
   const pageComponent = isReview ? component : undefined;
 
   return {
-    title: `${reviewString}${chapterTitle}`,
-    pages: {
-      [pageName]: {
-        title: getPageTitle,
-        path: pagePath,
-        component: pageComponent,
-        depends,
-        ...rest
-      }
-    }
+    title: pageTitle,
+    path: pagePath,
+    component: pageComponent,
+    depends,
+    ...rest
   };
 }
 
