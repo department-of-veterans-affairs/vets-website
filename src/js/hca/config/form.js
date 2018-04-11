@@ -69,6 +69,7 @@ const emptyObjectSchema = {
 };
 
 const {
+  gender,
   mothersMaidenName,
   cityOfBirth,
   isSpanishHispanicLatino,
@@ -276,11 +277,7 @@ const formConfig = {
             type: 'object',
             required: ['gender', 'maritalStatus'],
             properties: {
-              gender: {
-                type: 'string',
-                'enum': Object.keys(genderLabels),
-                enumNames: Object.keys(genderLabels).map(el => genderLabels[el])
-              },
+              gender,
               maritalStatus: {
                 type: 'string',
                 'enum': maritalStatuses
