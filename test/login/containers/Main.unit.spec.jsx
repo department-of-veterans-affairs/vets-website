@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import Main from '../../../src/js/login/containers/Main';
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 
 const store = createCommonStore();
 

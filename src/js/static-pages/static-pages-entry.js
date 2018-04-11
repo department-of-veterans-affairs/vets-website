@@ -1,10 +1,10 @@
-import '../platform/polyfills';
+import '../../platform/polyfills';
 
-import createCommonStore from '../platform/startup/store';
-import startSitewideComponents from '../platform/site-wide';
+import createCommonStore from '../../platform/startup/store';
+import startSitewideComponents from '../../platform/site-wide';
 
-import createApplicationStatus from './common/components/createApplicationStatus';
-import createEducationApplicationStatus from './edu-benefits/components/createEducationApplicationStatus';
+import createApplicationStatus from '../common/components/createApplicationStatus';
+import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 
 // const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/eligibility/']);
@@ -12,10 +12,10 @@ const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/healt
 const eduPages = new Set(['/education/', '/education/apply/', '/education/eligibility/']);
 
 // No-react styles.
-import '../sass/no-react.scss';
+import '../../sass/static-pages.scss';
 
 // New sidebar menu
-import './legacy/sidebar-navigation.js';
+import './sidebar-navigation.js';
 
 const store = createCommonStore();
 startSitewideComponents(store);
