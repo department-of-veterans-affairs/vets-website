@@ -27,7 +27,7 @@ describe('<DisabilityWizard>', () => {
     );
 
     tree.find('a').simulate('click');
-    expect(tree.find('.usa-input-error-message').length).to.equal(1);
+    expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
   it('should show update page', () => {
     const tree = mount(
@@ -46,7 +46,7 @@ describe('<DisabilityWizard>', () => {
 
     tree.setState({ disabilityStatus: 'update', currentLayout: chooseUpdate });
     tree.find('a').simulate('click');
-    expect(tree.find('.usa-input-error-message').length).to.equal(1);
+    expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
   it('should show ebenefits guidance page', () => {
     const tree = mount(
