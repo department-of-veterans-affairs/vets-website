@@ -73,9 +73,8 @@ export default class VerifiedReviewPage extends React.Component {
   }
 
   render() {
-    const { page, formContext, pageKey, form } = this.props;
-    page.pageKey = pageKey;
-    const pageState = form.pages[page.pageKey];
+    const { form, formContext, page, pageKey } = this.props;
+    const pageState = form.pages[pageKey];
     const editing = pageState.editMode;
     const pageData = form.data;
 
@@ -88,22 +87,20 @@ export default class VerifiedReviewPage extends React.Component {
               <page.verifiedReviewComponent formData={pageData}/>}
             {editing &&
               <SchemaForm
-                name={page.pageKey}
+                name={pageKey}
                 title={page.title(true)}
                 data={pageData}
                 schema={page.schema}
                 uiSchema={page.uiSchema}
                 hideHeaderRow={page.hideHeaderRow}
                 hideTitle
-                pagePerItemIndex={page.index}
                 onBlur={this.props.onBlur}
-                onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-                onSubmit={({ formData }) => this.handleSubmit(formData, page.pageKey, page.arrayPath, page.index)}
-                onChange={(formData) => this.onChange(formData, page.arrayPath, page.index)}
+                onEdit={() => this.handleEdit(pageKey, !editing)}
+                onSubmit={({ formData }) => this.handleSubmit(formData, pageKey)}
+                onChange={(formData) => this.onChange(formData)}
                 uploadFile={this.props.uploadFile}
                 reviewMode={!editing}
-                formContext={formContext}
-                editModeOnReviewPage={page.editModeOnReviewPage}>
+                formContext={formContext}>
                 <ProgressButton
                   submitButton
                   buttonText="Update Page"
@@ -135,7 +132,7 @@ export default class VerifiedReviewPage extends React.Component {
                   aria-expanded={this.state.open ? 'true' : 'false'}
                   aria-controls={`collapsible-${this.id}`}
                   className="edit-btn primary-outline"
-                  onClick={() => this.handleEdit('reviewVeteranInformation', !editing, page.index)}>
+                  onClick={() => this.handleEdit('reviewVeteranInformation', !editing)}>
                 Edit
                 </button>}
               </div>

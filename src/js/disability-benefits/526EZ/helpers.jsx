@@ -8,7 +8,6 @@ import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 import set from '../../common/utils/data-utils/set';
 import { genderLabels } from '../../common/utils/labels';
-import VerifiedReviewContainer from './components/VerifiedReviewContainer';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -395,7 +394,7 @@ const verifiedDepends = ({ prefilled }) => !!prefilled;
 const unverifiedDepends = ({ prefilled }) => !prefilled;
 
 export function getChapter(chapterConfig) {
-  const { chapterTitle, isReview, ...rest } = chapterConfig;
+  const { chapterTitle, component, isReview, ...rest } = chapterConfig;
   const reviewString = isReview ? 'Review ' : '';
   const pageTitle = chapterTitle;
   const getPageTitle = (shouldOmitReview) => {
@@ -404,7 +403,7 @@ export function getChapter(chapterConfig) {
   };
   const { pageName, pagePath } = getPageAndPath(chapterTitle, isReview);
   const depends = isReview ? verifiedDepends : unverifiedDepends;
-  const component = isReview ? VerifiedReviewContainer : null;
+  const pageComponent = isReview ? component : undefined;
 
   return {
     title: `${reviewString}${chapterTitle}`,
@@ -412,7 +411,7 @@ export function getChapter(chapterConfig) {
       [pageName]: {
         title: getPageTitle,
         path: pagePath,
-        component,
+        component: pageComponent,
         depends,
         ...rest
       }

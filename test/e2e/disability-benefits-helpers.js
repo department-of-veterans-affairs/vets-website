@@ -3,10 +3,10 @@ const Timeouts = require('./timeouts.js');
 
 function completeApplicantInformation(client, data) {
   client
-    .fillName('root_veteranFullName', data.veteranFullName)
-    .selectRadio('root_gender', data.gender)
-    .fill('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber)
-    .fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth)
+    .fillName('root_fullName', data.fullName)
+    .selectDropdown('root_gender', data.gender)
+    .fill('input[name="root_socialSecurityNumber"]', data.socialSecurityNumber)
+    .fillDate('root_dateOfBirth', data.dateOfBirth)
     .selectDropdown('root_serviceBranch', data.serviceBranch);
 }
 

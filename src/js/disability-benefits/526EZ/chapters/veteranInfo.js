@@ -5,17 +5,21 @@ import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
 import { genderLabels } from '../../../common/utils/labels';
 
-import { veteranInformationViewField, getChapter, VAFileNumberDescription } from '../helpers';
+import VerifiedReviewContainer from '../components/VerifiedReviewContainer';
+import {
+  veteranInformationViewField,
+  getChapter,
+  VAFileNumberDescription
+} from '../helpers';
 
 function createVeteranInfoChapter(formSchema, isReview) {
-
   const { fullName, date } = formSchema.definitions;
 
   const uiSchema = {
     fullName: fullNameUI,
     socialSecurityNumber: _.assign(ssnUI, {
       'ui:title': 'Social Security number (must have this or a VA file number)',
-      'ui:required': form => !form.vaFileNumber,
+      'ui:required': form => !form.vaFileNumber
     }),
     vaFileNumber: {
       'ui:title': 'VA file number (must have this or a Social Security number)',
@@ -30,7 +34,7 @@ function createVeteranInfoChapter(formSchema, isReview) {
       'ui:title': 'Gender',
       'ui:options': {
         labels: genderLabels
-      },
+      }
     }
   };
 
@@ -57,6 +61,7 @@ function createVeteranInfoChapter(formSchema, isReview) {
   const chapterConfig = {
     chapterTitle: 'Veteran Information',
     isReview,
+    component: VerifiedReviewContainer,
     verifiedReviewComponent: veteranInformationViewField,
     uiSchema,
     schema
@@ -65,6 +70,8 @@ function createVeteranInfoChapter(formSchema, isReview) {
   return getChapter(chapterConfig);
 }
 
-export const createVerifiedVeteranInfoChapter = (formConfig) => createVeteranInfoChapter(formConfig, true);
+export const createVerifiedVeteranInfoChapter = formConfig =>
+  createVeteranInfoChapter(formConfig, true);
 
-export const createUnverifiedVeteranInfoChapter = (formConfig) => createVeteranInfoChapter(formConfig, false);
+export const createUnverifiedVeteranInfoChapter = formConfig =>
+  createVeteranInfoChapter(formConfig, false);

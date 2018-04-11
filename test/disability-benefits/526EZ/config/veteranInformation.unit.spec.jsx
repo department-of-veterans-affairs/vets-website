@@ -47,6 +47,7 @@ describe('526EZ veteran information', () => {
       definitions={formConfig.defaultDefinitions}
       schema={schema}
       data={initialData}
+      onSubmit={onSubmit}
       uiSchema={uiSchema}/>
     );
 
