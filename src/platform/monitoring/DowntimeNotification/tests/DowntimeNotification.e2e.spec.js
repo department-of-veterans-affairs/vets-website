@@ -1,11 +1,11 @@
 const moment = require('moment');
-const createMockEndpoint = require('../../e2e/mock-helpers');
-const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../../src/platform/testing/e2e/timeouts');
-const FacilityHelpers = require('../../e2e/facility-helpers');
+const E2eHelpers = require('../../../testing/e2e/helpers');
+const Timeouts = require('../../../testing/e2e/timeouts');
+
+const createMockEndpoint = require('../../../../../test/e2e/mock-helpers');
+const FacilityHelpers = require('../../../../../test/e2e/facility-helpers');
 
 const token = null;
-
 const beforeNow = moment().subtract(1, 'minute').toISOString();
 const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toISOString();
 const endTime = moment().add(6, 'hour').toISOString();

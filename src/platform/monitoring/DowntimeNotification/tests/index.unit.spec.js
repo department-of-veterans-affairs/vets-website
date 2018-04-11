@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { scheduledDowntime } from '../../../src/js/common/reducers';
-import { RECEIVE_SCHEDULED_DOWNTIME } from '../../../src/js/common/actions';
+import scheduledDowntime from '../reducer';
+import { RECEIVE_SCHEDULED_DOWNTIME } from '../actions';
 
-describe('Common Reducer', () => {
+describe('Downtime Notification Reducer', () => {
   describe('scheduledDowntime', () => {
     const scheduledDowntimeInterface = ['isReady', 'values'];
     it('returns the initial state', () => {
