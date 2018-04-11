@@ -460,6 +460,9 @@ export function createInitialState(formConfig) {
       formData: {},
       metadata: {}
     },
+    reviewPageView: {
+      openChapters: [],
+    },
     trackingPrefix: formConfig.trackingPrefix
   };
 

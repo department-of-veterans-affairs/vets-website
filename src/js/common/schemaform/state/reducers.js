@@ -16,19 +16,18 @@ import {
 
 export default {
   [OPEN_REVIEW_CHAPTER]: (state, action) => {
-    const openChapters = _.concat(
-      _.get('reviewPageView.openChapters', state) || [],
+    const openChapters = [
+      ...state.reviewPageView.openChapters,
       action.openedChapter
-    );
+    ];
 
     return _.set('reviewPageView.openChapters', openChapters, state);
   },
   [CLOSE_REVIEW_CHAPTER]: (state, action) => {
-
-    const openChapters = _.remove(
-      value => value === action.closedChapter,
-      state.reviewPageView.openChapters
-    );
+    const openChapters = state
+      .reviewPageView
+      .openChapters
+      .filter(value => value !== action.closedChapter);
 
     return _.set('reviewPageView.openChapters', openChapters, state);
   },
