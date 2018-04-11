@@ -67,8 +67,7 @@ class InstructionsPage extends React.Component {
                                 </p>
                                 <p>You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you. <a href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you.</a></p>
                                 <p><strong>Note:</strong> You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.</p>
-                                <p>If you need mental health services related to PTSD or other mental health problems linked to your service (including conditions related to an experience of military sexual trauma), you may qualify for VA health benefits right away, even without a VA Character of Discharge review or a discharge upgrade.
-</p>
+                                <p>If you need mental health services related to PTSD or other mental health problems linked to your service (including conditions related to an experience of military sexual trauma), you may qualify for VA health benefits right away, even without a VA Character of Discharge review or a discharge upgrade.</p>
                                 <p>Learn more about:</p>
                                 <ul>
                                   <li><a href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who've experienced military sexual trauma</a></li>
