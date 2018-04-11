@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils';
+import { DefinitionTester, submitForm } from '../../../src/platform/testing/unit/schemaform-utils';
 import formConfig from '../../../src/js/hca/config/form';
 
 describe('Hca annual income', () => {

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm, getFormDOM } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm, getFormDOM } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../src/js/burials/config/form.js';
 
 describe('Burials burial allowance', () => {

@@ -58,6 +58,11 @@
     "instrument": false,
     "include": [
       "src/**"
+    ],
+    "exclude": [
+      "src/platform/testing/**",
+      "**/*.spec.js",
+      "**/*.spec.jsx"
     ]
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",

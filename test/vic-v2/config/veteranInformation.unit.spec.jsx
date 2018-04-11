@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio, fillDate } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectRadio, fillDate } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../src/js/vic-v2/config/form.js';
 
 describe('VIC veteran information', () => {
