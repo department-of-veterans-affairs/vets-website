@@ -7,15 +7,13 @@ import { ConfirmationPage } from '../../../src/js/pensions/containers/Confirmati
 const form = {
   submission: {
     response: {
-      attributes: {
-        confirmationNumber: 'V-PEN-177',
-        regionalOffice: [
-          'Attention: Western Region',
-          'VA Regional Office',
-          'P.O. Box 8888',
-          'Muskogee, OK 74402-8888'
-        ]
-      }
+      confirmationNumber: 'V-PEN-177',
+      regionalOffice: [
+        'Attention: Western Region',
+        'VA Regional Office',
+        'P.O. Box 8888',
+        'Muskogee, OK 74402-8888'
+      ]
     }
   },
   data: {

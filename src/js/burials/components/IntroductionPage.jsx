@@ -61,6 +61,13 @@ class IntroductionPage extends React.Component {
               <div><h5>Apply</h5></div>
               <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
               <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href="/facilities">Find your local regional benefit office</a>.</p>
+              {!isLive ? <div>
+                <p>Complete an Application for Burial Benefits (VA Form 21P-530).<br/><a href="https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf">Download VA Form 21P-530</a>.</p>
+                <p>Mail the application and other paperwork to your local regional benefit office.<br/><a href="/facilities">Find your local regional benefit office</a>.</p>
+              </div> : <div>
+                <p>Complete this burial benefits form.</p>
+                <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
+              </div>}
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
