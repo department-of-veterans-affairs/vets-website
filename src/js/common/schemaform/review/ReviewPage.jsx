@@ -159,7 +159,7 @@ class ReviewPage extends React.Component {
               <ReviewCollapsibleChapter
                 key={chapter}
                 onEdit={this.handleEdit}
-                toggleChapter={() => this.handleToggleChapter(chapter)}
+                toggleButtonClicked={() => this.handleToggleChapter(chapter)}
                 open={this.props.openChapters.includes(chapter)}
                 pages={this.pagesByChapter[chapter]}
                 chapterKey={chapter}
