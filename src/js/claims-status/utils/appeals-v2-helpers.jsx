@@ -1247,6 +1247,9 @@ export function getAlertContent(alert, appealIsActive) {
  * @returns {string} status code or 'unknown'
  */
 export const getStatus = (response) => {
+  if (response instanceof Error) {
+    Raven.captureException(response, { tags: { location: 'getStatus' } });
+  }
   return (response.errors && response.errors.length)
     ? response.errors[0].status
     : 'unknown';
