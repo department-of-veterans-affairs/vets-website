@@ -16,8 +16,11 @@ class RequiredLoginView extends React.Component {
     const isLoading = this.props.user.profile.loading;
 
     if (!isLoading) {
-      if (this.shouldSignIn()) { window.location.replace(signInUrl); }
-      if (this.shouldVerify()) { window.location.replace(verifyUrl); }
+      if (this.shouldSignIn()) {
+        window.location.replace(signInUrl);
+      } else if (this.shouldVerify()) {
+        window.location.replace(verifyUrl);
+      }
     }
   }
 
