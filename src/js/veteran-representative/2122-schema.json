@@ -8,19 +8,23 @@
       "properties": {
         "first": {
           "type": "string",
+          "ui:title": "First name",
           "minLength": 1,
           "maxLength": 30
         },
         "middle": {
-          "type": "string"
+          "type": "string",
+          "ui:title": "Middle name"
         },
         "last": {
           "type": "string",
+          "ui:title": "Last name",
           "minLength": 1,
           "maxLength": 30
         },
         "suffix": {
           "type": "string",
+          "ui:title": "Middle name",
           "enum": [
             "Jr.",
             "Sr.",
@@ -139,7 +143,7 @@
       "type": "string"
     },
     "claimantFullName": {
-      "type": "string"
+      "$ref": "#/definitions/fullName"
     },
     "claimantAddress": {
       "$ref": "#/definitions/address"

@@ -71,20 +71,33 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
-            fullName: fullNameUI,
+            veteranFullName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Veteran’s first name',
+              },
+              last: {
+                'ui:title': 'Veteran’s last name',
+              },
+              middle: {
+                'ui:title': 'Veteran’s middle name',
+              },
+              suffix: {
+                'ui:title': 'Veteran’s suffix',
+              },
+            }),
             veteranSSN: ssnUI,
             vaFileNumber: {
-              'ui:title': 'VA file number',
+              'ui:title': 'Veteran’s VA file number',
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            insuranceNumber: { 'ui:title': 'Insurance Number' },
+            insuranceNumber: { 'ui:title': 'Veteran’s insurance Number' },
           },
           schema: {
             type: 'object',
             required: [
-              'fullName',
+              'veteranFullName',
               'veteranSSN',
               'insuranceNumber',
             ],
@@ -105,7 +118,7 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant information',
           uiSchema: {
-            fullName: _.merge(fullNameUI, {
+            claimantFullName: _.merge(fullNameUI, {
               first: {
                 'ui:title': 'Claimant’s first name',
               },
