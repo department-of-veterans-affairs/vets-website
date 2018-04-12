@@ -4,7 +4,7 @@ import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { verify } from '../utils/helpers';
+import { verify } from '../../login/utils/helpers';
 
 export class Verify extends React.Component {
   componentDidMount() {
