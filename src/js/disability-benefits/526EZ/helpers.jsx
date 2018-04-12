@@ -362,7 +362,7 @@ function getVerifiedPagePath(chapterTitleWords, pageTitleWords) {
 function getUnverifiedPagePath(chapterTitleWords, pageTitleWords) {
   const unverifiedChapterPath = chapterTitleWords.slice(0);
   const unverifiedPagePath = pageTitleWords.slice(0);
-  return `${kebabize(unverifiedPagePath)}/${kebabize(unverifiedChapterPath)}`;
+  return `${kebabize(unverifiedChapterPath)}/${kebabize(unverifiedPagePath)}`;
 }
 
 function getPath(chapterTitle, pageTitle, isReview) {
