@@ -49,6 +49,12 @@ Use these links to get access to other common VA letters and documents you may b
 </section>
 <section>
 
+### How can I get my Benefit Summary Letter updated with an effective date?
+
+If you're totally and permanently disabled because of your service-connected disabilities and need us to add the effective date of this decision to your Benefit Summary Letter, please call us at 1-800-827-1000. We can email or fax you a copy of your letter with the effective date added to it.
+</section>
+
+<section>
 ### What if I have trouble downloading a VA letter?
 
 Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).
