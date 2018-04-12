@@ -6,7 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { verify } from '../../login/utils/helpers';
 
-export class Verify extends React.Component {
+export class VerifyApp extends React.Component {
   componentDidMount() {
     if (!sessionStorage.userToken) {
       return window.location.replace('/');
@@ -87,4 +87,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Verify);
+export default connect(mapStateToProps)(VerifyApp);

@@ -5,6 +5,6 @@ import React from 'react';
 
 import startApp from '../../platform/startup';
 
-import Verify from './containers/Verify';
+import VerifyApp from './containers/VerifyApp';
 
-startApp({ component: <Verify/> });
+startApp({ component: <VerifyApp/> });
