@@ -146,7 +146,7 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              'fullName',
+              'claimantFullName',
               'claimantAddress',
               'claimantEmail',
               'claimantDaytimePhone',
