@@ -89,7 +89,7 @@ describe('Letters helpers: ', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
-        expect(getBenefitOptionText(option, null, true)).to.be.undefined;
+        expect(getBenefitOptionText(option, 'unavailable', true)).to.be.undefined;
       }, ['monthlyAwardAmount', 'serviceConnectedPercentage']);
     });
 
