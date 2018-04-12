@@ -49,9 +49,9 @@ Use these links to get access to other common VA letters and documents you may b
 </section>
 <section>
 
-### How can I get my Benefit Summary Letter updated with an effective date?
+### Can you add an effective date to my Benefit Summary Letter?
 
-If you're totally and permanently disabled because of your service-connected disabilities and need us to add the effective date of this decision to your Benefit Summary Letter, please call us at 1-800-827-1000. We can email or fax you a copy of your letter with the effective date added to it.
+Yes. If you're totally and permanently disabled because of your service-connected disabilities and need us to add the effective date of this decision to your Benefit Summary Letter, please call us at 1-800-827-1000. We can email or fax you a copy of your letter with the effective date added to it.
 </section>
 
 <section>
