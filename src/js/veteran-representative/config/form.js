@@ -5,7 +5,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressDefinition from '../definitions/address';
+import * as addressUI from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 
@@ -85,21 +85,22 @@ const formConfig = {
                 'ui:title': 'Veteran’s suffix',
               },
             }),
-            veteranSSN: ssnUI,
+            veteranSSN: _.merge(ssnUI, {
+              'ui:title': 'Veteran’s Social Security number'
+            }),
             vaFileNumber: {
               'ui:title': 'Veteran’s VA file number',
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be between 7 to 9 digits'
               }
             },
-            insuranceNumber: { 'ui:title': 'Veteran’s insurance Number' },
+            insuranceNumber: { 'ui:title': 'Veteran’s Insurance number' },
           },
           schema: {
             type: 'object',
             required: [
               'veteranFullName',
               'veteranSSN',
-              'insuranceNumber',
             ],
             properties: {
               veteranFullName,
@@ -135,7 +136,7 @@ const formConfig = {
             relationship: {
               'ui:select': 'Relationship to Veteran',
             },
-            claimantAddress: addressDefinition,
+            claimantAddress: addressUI.uiSchema(fullSchema, 'Claimant’s Address'),
             claimantEmail: { 'ui:title': 'Email address' },
             claimantDaytimePhone: phoneUI('Daytime phone number'),
             claimantEveningPhone: phoneUI('Evening phone number'),
@@ -147,20 +148,17 @@ const formConfig = {
             type: 'object',
             required: [
               'claimantFullName',
+              'relationship',
               'claimantAddress',
               'claimantEmail',
-              'claimantDaytimePhone',
-              'claimantEveningPhone',
-              'relationship',
-              'appointmentDate',
             ],
             properties: {
               claimantFullName,
-              claimantAddress,
+              relationship,
+              claimantAddress: addressUI.schema(fullSchema, true),
               claimantEmail,
               claimantDaytimePhone,
               claimantEveningPhone,
-              relationship,
               appointmentDate,
             },
           },
