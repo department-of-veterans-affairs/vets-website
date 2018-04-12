@@ -2,6 +2,7 @@ import _ from '../../../common/utils/data-utils';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
+import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
@@ -35,23 +36,19 @@ const {
 const {
   date,
   // files
+  dateRange
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
 
 // We may add these back in after the typeahead, but for now...
-const treatmentsSchema = _.set('items.properties.treatment.properties',
+const treatmentsSchema = _.set('items.properties',
   _.omit(
-    [
-      'treatmentCenterType',
-      'treatmentCenterCountry',
-      'treatmentCenterState',
-      'treatmentCenterCity'
-    ],
-    treatments.items.properties.treatment.properties
+    ['treatmentCenterAddress', 'treatmentCenterType'],
+    treatments.items.properties
   ), treatments);
 
-const privateRecordReleasesSchema = Object.assign({}, treatments.items.properties.treatment.properties, {
+const privateRecordReleasesSchema = Object.assign({}, treatmentsSchema.items.properties, {
   privateMedicalRecordsReleaseAccepted: {
     type: 'boolean'
   },
@@ -87,6 +84,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
+    dateRange
     // files
   },
   title: 'Disability Claims for Increase',
@@ -247,41 +245,36 @@ const formConfig = {
                   },
                   items: {
                     // Hopefully we can get rid of this annoying nesting
-                    treatment: {
-                      treatmentCenterName: {
-                        // May have to change this to 'Name of [first]...'
-                        'ui:title': 'Name of VA medical facility'
-                      },
-                      startTreatment: {
-                        'ui:widget': 'date',
-                        'ui:title': 'Approximate date of first treatment since you received your rating'
-                      },
-                      endTreatment: {
-                        'ui:widget': 'date',
-                        'ui:title': 'Approximate date of last treatment'
-                      }
-                      // I think we're planning on filling these in with the typeahead?
-                      // treatmentCenterType: {
-                      //   'ui:options': {
-                      //     hideIf: () => true
-                      //   }
-                      // },
-                      // treatmentCenterCountry: {
-                      //   'ui:options': {
-                      //     hideIf: () => true
-                      //   }
-                      // },
-                      // treatmentCenterState: {
-                      //   'ui:options': {
-                      //     hideIf: () => true
-                      //   }
-                      // },
-                      // treatmentCenterCity: {
-                      //   'ui:options': {
-                      //     hideIf: () => true
-                      //   }
-                      // }
-                    }
+                    treatmentCenterName: {
+                      // May have to change this to 'Name of [first]...'
+                      'ui:title': 'Name of VA medical facility'
+                    },
+                    treatmentDateRange: dateRangeUI(
+                      'Approximate date of first treatment',
+                      'Approximate date of last treatment',
+                      'Date of last treatment must be after date of first treatment'
+                    ),
+                    // I think we're planning on filling these in with the typeahead?
+                    // treatmentCenterType: {
+                    //   'ui:options': {
+                    //     hideIf: () => true
+                    //   }
+                    // },
+                    // treatmentCenterCountry: {
+                    //   'ui:options': {
+                    //     hideIf: () => true
+                    //   }
+                    // },
+                    // treatmentCenterState: {
+                    //   'ui:options': {
+                    //     hideIf: () => true
+                    //   }
+                    // },
+                    // treatmentCenterCity: {
+                    //   'ui:options': {
+                    //     hideIf: () => true
+                    //   }
+                    // }
                   }
                 }
               }
