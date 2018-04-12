@@ -157,7 +157,7 @@ export function addStatusToIssues(issues) {
  */
 export function isolateAppeal(state, id) {
   return _.find(state.disability.status.claimsV2.appeals,
-    (a) => a.id === id || (_.get('attributes.appealIds', a) || []).includes(id)
+    (a) => a.id === id || (_.get(a, 'attributes.appealIds') || []).includes(id)
   );
 }
 
