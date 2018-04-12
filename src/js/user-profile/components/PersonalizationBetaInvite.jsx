@@ -11,13 +11,13 @@ const eligibleServices = [
 ];
 
 function meetsCriteria(profile) {
-  return enabled && profile.services.some(service => {
+  return profile.services.some(service => {
     return eligibleServices.includes(service);
   });
 }
 
 export default function PersonalizationBetaInvite({ profile }) {
-  if (!meetsCriteria(profile)) return null;
+  if (!enabled || !meetsCriteria(profile)) return null;
 
   return (
     <div>
