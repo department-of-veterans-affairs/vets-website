@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
+import ErrorableFileInput from '@department-of-veterans-affairs/jean-pants/ErrorableFileInput';
 import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 
 import Modal from '../../common/components/Modal';
