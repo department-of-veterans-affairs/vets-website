@@ -764,7 +764,7 @@ export const makeDurationText = (timeliness) => {
 export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
-      const socDuration = makeDurationText(details.ssocTimeliness);
+      const socDuration = makeDurationText(details.socTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough
           evidence to decide in your favor.`,
