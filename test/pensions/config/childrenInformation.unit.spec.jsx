@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import moment from 'moment';
 
-import { DefinitionTester, getFormDOM } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, getFormDOM } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pensions/config/form.js';
 
 describe('Child information page', () => {

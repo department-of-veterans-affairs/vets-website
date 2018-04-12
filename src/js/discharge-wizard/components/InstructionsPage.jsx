@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 class InstructionsPage extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class InstructionsPage extends React.Component {
 
   handleFAQToggle = (e) => {
     e.preventDefault();
-    window.dataLayer.push({ event: 'discharge-upgrade-faq-toggle' });
+    recordEvent({ event: 'discharge-upgrade-faq-toggle' });
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });
@@ -42,7 +43,7 @@ class InstructionsPage extends React.Component {
                         <ul>
                           <li>Mental health conditions, including posttraumatic stress disorder (PTSD)</li>
                           <li>Traumatic brain injury (TBI)</li>
-                          <li>Sexual assault or harassment during military service</li>
+                          <li>Sexual assault or harassment during military service (at VA, we refer to this as military sexual trauma or MST)</li>
                           <li>Sexual orientation (including under the Don’t Ask, Don’t Tell policy)</li>
                         </ul>
                         <p>
@@ -67,10 +68,10 @@ class InstructionsPage extends React.Component {
                                 </p>
                                 <p>You may want to consider finding someone to advocate on your behalf, depending on the complexity of your case. A lawyer or Veterans Service Organization (VSO) can collect and submit supporting documents for you. <a href="https://www.benefits.va.gov/vso/varo.asp">Find a VSO near you.</a></p>
                                 <p><strong>Note:</strong> You can ask for a VA Character of Discharge review while at the same time applying for a discharge upgrade from the Department of Defense (DoD) or the Coast Guard.</p>
-                                <p>If you experienced sexual assault or harassment while in the military, or need mental health services related to PTSD or other mental health conditions linked to your service, you may qualify immediately for VA health benefits, even without a VA Character of Discharge review or a discharge upgrade.</p>
+                                <p>If you need mental health services related to PTSD or other mental health problems linked to your service (including conditions related to an experience of military sexual trauma), you may qualify for VA health benefits right away, even without a VA Character of Discharge review or a discharge upgrade.</p>
                                 <p>Learn more about:</p>
                                 <ul>
-                                  <li><a href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who have experienced military sexual trauma</a></li>
+                                  <li><a href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who've experienced military sexual trauma</a></li>
                                   <li><a href="/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
                                   <li><a href="/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
                                 </ul>

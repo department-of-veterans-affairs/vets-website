@@ -115,6 +115,7 @@ if (options.buildtype === 'production') {
   manifests.filter(m => !m.production).forEach(m => {
     ignoreList.push(m.contentPage);
   });
+  ignoreList.push('beta-enrollment/personalization.md');
   ignoreList.push('veteran-id-card/how-to-get.md');
   ignoreList.push('veteran-id-card/how-to-upload-photo.md');
 }
@@ -635,6 +636,7 @@ if (options.buildtype !== 'development') {
     const manifestKey = Object.keys(files).find((filename) => {
       return filename.match(/file-manifest.json$/) !== null;
     });
+
     const originalManifest = JSON.parse(files[manifestKey].contents.toString());
 
     // The manifest contains the original filenames without the addition of .entry

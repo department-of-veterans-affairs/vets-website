@@ -33,15 +33,13 @@ describe('<ConfirmationPage>', () => {
       submission: {
         submittedAt: Date.now(),
         response: {
-          attributes: {
-            confirmationNumber: 'V-EBC-177',
-            regionalOffice: [
-              'Western Region',
-              'VA Regional Office',
-              'P.O. Box 8888',
-              'Muskogee, OK 74402-8888'
-            ]
-          }
+          confirmationNumber: 'V-EBC-177',
+          regionalOffice: [
+            'Western Region',
+            'VA Regional Office',
+            'P.O. Box 8888',
+            'Muskogee, OK 74402-8888'
+          ]
         }
       }
     };

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData, selectRadio } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pre-need/config/form';
 
 describe('Pre-need veteran information', () => {

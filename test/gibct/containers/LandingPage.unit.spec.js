@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 import { LandingPage } from '../../../src/js/gi/containers/LandingPage';
 import reducer from '../../../src/js/gi/reducers';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { browserHistory } from 'react-router';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 class AcceptTermsPrompt extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class AcceptTermsPrompt extends React.Component {
   }
 
   componentDidMount() {
-    window.dataLayer.push({ event: 'terms-shown' });
+    recordEvent({ event: 'terms-shown' });
     window.scrollTo(0, 0);
   }
 
