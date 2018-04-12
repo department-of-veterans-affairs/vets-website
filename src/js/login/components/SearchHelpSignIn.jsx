@@ -4,11 +4,13 @@ import _ from 'lodash';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
 import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
+import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
 
 class SearchHelpSignIn extends React.Component {
   componentDidMount() {
@@ -21,7 +23,7 @@ class SearchHelpSignIn extends React.Component {
 
   handleSignInSignUp = (e) => {
     e.preventDefault();
-    window.dataLayer.push({ event: 'login-link-clicked' });
+    recordEvent({ event: 'login-link-clicked' });
     this.props.toggleLoginModal(true);
   }
 
@@ -49,6 +51,7 @@ class SearchHelpSignIn extends React.Component {
         clickHandler={() => {
           this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
         }}
+        isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
         greeting={greeting}
         isOpen={login.utilitiesMenuIsOpen.account}/>);
     } else {
@@ -89,6 +92,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
+  isUserRegisteredForBeta
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);

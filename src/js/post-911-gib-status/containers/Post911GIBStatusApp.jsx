@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 import Main from './Main';
 
@@ -40,11 +40,9 @@ class Post911GIBStatusApp extends React.Component {
   render() {
     return (
       <RequiredLoginView
-        authRequired={3}
+        verify
         serviceRequired="evss-claims"
-        userProfile={this.props.profile}
-        loginUrl={this.props.loginUrl}
-        verifyUrl={this.props.verifyUrl}>
+        user={this.props.user}>
         <DowntimeNotification appTitle="Post-9/11 GI Bill benefits tracking tool" dependencies={[services.evss]}>
           <AppContent>
             <div className="row">
@@ -62,12 +60,7 @@ class Post911GIBStatusApp extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const userState = state.user;
-  return {
-    profile: userState.profile,
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl
-  };
+  return { user: state.user };
 }
 
 export default connect(mapStateToProps)(Post911GIBStatusApp);

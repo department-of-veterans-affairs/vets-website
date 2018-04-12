@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import Breadcrumbs from '../components/Breadcrumbs';
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
 import { buildMobileBreadcrumb, debouncedToggleLinks } from '../../utils/breadcrumb-helper';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 class FacilityLocatorApp extends React.Component {
   componentDidMount() {

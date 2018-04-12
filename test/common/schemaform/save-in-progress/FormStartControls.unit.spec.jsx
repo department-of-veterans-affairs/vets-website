@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getFormDOM } from '../../../util/schemaform-utils';
+import { getFormDOM } from '../../../../src/platform/testing/unit/schemaform-utils';
 import { FormStartControls } from '../../../../src/js/common/schemaform/save-in-progress/FormStartControls';
 
 describe('Schemaform <FormStartControls>', () => {

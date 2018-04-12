@@ -6,7 +6,7 @@ import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import Breadcrumbs from '../components/Breadcrumbs';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
   constructor() {

@@ -26,13 +26,15 @@ With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life 
 
 ### Can I get VGLI?
 
-You may be able to get VGLI if:
+You may be able to get VGLI if you meet at least one of the requirements listed below.
 
-* You had part-time Servicemembers’ Group Life Insurance (SGLI) as a member of the National Guard or Reserves, and you suffered an injury or disability (damage to your body or mind that makes it hard for you to do everyday tasks, including meaningful work) while on duty—including direct traveling to and from duty—that disqualified you for standard premium insurance rates, **or**
-* You had SGLI while you were in the military and you’re within 1 year and 120 days of being released from an active-duty period of 31 or more days, **or**
-* You’re within 1 year and 120 days of retiring or being released from the Ready Reserves or National Guard, **or**
-* You’re within 1 year and 120 days of assignment to the Individual Ready Reserves (IRR) of a branch of service, or to the Inactive National Guard (ING). This includes members of the United States Public Health Service Inactive Reserve Corps (IRC), **or**
-* You’re within 1 year and 120 days of being put on the Temporary Disability Retirement List (TDRL)
+**At least one of these must be true. You:**
+
+- Had part-time Servicemembers’ Group Life Insurance (SGLI) as a member of the National Guard or Reserves, and you suffered an    injury or disability (damage to your body or mind that makes it hard for you to do everyday tasks, including meaningful work) while on duty—including direct traveling to and from duty—that disqualified you for standard premium insurance rates, **or**
+- Had SGLI while you were in the military and you’re within 1 year and 120 days of being released from an active-duty period of 31 or more days, **or**
+- Are within 1 year and 120 days of retiring or being released from the Ready Reserves or National Guard, **or**
+- Are within 1 year and 120 days of assignment to the Individual Ready Reserves (IRR) of a branch of service, or to the Inactive National Guard (ING). This includes members of the United States Public Health Service Inactive Reserve Corps (IRC), **or**
+- Are within 1 year and 120 days of being put on the Temporary Disability Retirement List (TDRL)
 
 <br>
 
@@ -57,11 +59,14 @@ $10,000 to $400,000 in life insurance benefits, based on the amount of SGLI cove
 
 You’ll need to apply for these benefits. When you apply, you won’t need to prove you’re in good health as long as you sign up within 240 days of leaving the military.
 
-Apply in 1 of 3 ways:
+**Apply in 1 of 3 ways:**
 
-* Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. [Apply online through OSGLI](https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment).
-* [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
-* Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. [Download the Application for Veterans’ Group Life Insurance](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
+- Apply through the Office of Servicemembers' Group Life Insurance (OSGLI), using the Prudential website. <br>
+[Apply online through OSGLI](https://giosgli.prudential.com/osgli/OnlineFillableAppController/NBEnrollment).
+- [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vgli-policy-management).
+- Apply by mail or fax. Fill out the Application for Veterans’ Group Life Insurance. <br>
+[Download the Application for Veterans’ Group Life Insurance](https://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
+
 
 Fax the form to 1-800-236-6142, or mail it to:
 
@@ -75,7 +80,9 @@ Fax the form to 1-800-236-6142, or mail it to:
 
 ### How much will I pay for these benefits?
 
-VGLI premium rates are based on your age and the amount of insurance coverage you want. Choose your age to find monthly premium rates as of July 1, 2014.
+VGLI premium rates are based on your age and the amount of insurance coverage you want. 
+
+**Choose your age to find monthly premium rates as of July 1, 2014.**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -631,13 +638,14 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 Yes. You can convert your policy into a commercial (civilian) policy at any time. You’ll be able to convert at standard premium rates, without having to provide proof that you’re in good health.
 
-To convert your VGLI policy:
+**To convert your VGLI policy:**
 
 <ol class="process" markdown="1">
 
   <li class="process-step list-one">
   
-  Choose your new insurance company. [View our list of companies that take part in this program]( https://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2016-06.pdf).
+  Choose your new insurance company. <br>
+  [View our list of companies that take part in this program]( https://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2016-06.pdf).
   
   </li>
   

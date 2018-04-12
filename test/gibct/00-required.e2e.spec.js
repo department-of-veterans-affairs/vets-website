@@ -1,5 +1,5 @@
-const E2eHelpers = require('../e2e/e2e-helpers');
-const Timeouts = require('../e2e/timeouts.js');
+const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
 const GiHelpers = require('../e2e/gibct-helpers');
 
 module.exports = E2eHelpers.createE2eTest(

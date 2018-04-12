@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
-import AlertBox from '../components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { mhvAccessError } from '../utils/error-messages';
 import {
@@ -32,7 +32,7 @@ export class MHVApp extends React.Component {
     const accountStateChanged = prevProps.account.state !== account.state;
     if (accountStateChanged) { this.handleAccountState(); }
 
-    const shouldPollAccount = account.polling && !account.loading && !this.isAccessible();
+    const shouldPollAccount = account.polling && !account.loading && !this.hasAccount();
     if (shouldPollAccount) {
       setTimeout(() => {
         this.props.fetchMHVAccount();
@@ -42,7 +42,9 @@ export class MHVApp extends React.Component {
 
   needsTermsAcceptance = () => this.props.account.state === 'needs_terms_acceptance';
 
-  isAccessible = () => ['existing', 'upgraded'].includes(this.props.account.state);
+  hasAccount = () => ['existing', 'upgraded'].includes(this.props.account.state);
+
+  hasService = () => this.props.availableServices.includes(this.props.serviceRequired);
 
   isIneligible = () => this.props.account.state === 'ineligible';
 
@@ -51,7 +53,7 @@ export class MHVApp extends React.Component {
 
     if (this.needsTermsAcceptance()) {
       this.props.fetchLatestTerms(TERMS_NAME);
-    } else if (!this.isAccessible()) {
+    } else if (!this.hasAccount()) {
       this.props.createMHVAccount();
     }
   }
@@ -91,33 +93,28 @@ export class MHVApp extends React.Component {
       return <AcceptTermsPrompt terms={terms} cancelPath="/health-care/" onAccept={this.props.acceptTerms}/>;
     }
 
-    if (!this.isAccessible()) {
+    if (!this.hasService()) {
       return mhvAccessError;
     }
 
-    const enabled = this.props.isDataAvailable === true || typeof this.props.isDataAvailable === 'undefined';
-
-    const view = React.Children.map(this.props.children,
-      (child) => {
-        let props = null;
-        if (typeof child.type === 'function') {
-          props = { isDataAvailable: enabled };
-        }
-        return React.cloneElement(child, props);
-      }
-    );
-
-    return <div>{view}</div>;
+    return <div>{this.props.children}</div>;
   }
 }
 
 MHVApp.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  serviceRequired: PropTypes.oneOf([
+    'health-records',
+    'messaging',
+    'rx'
+  ])
 };
 
 const mapStateToProps = (state) => {
-  const { account, terms } = state.user.profile.mhv;
-  return { account, terms };
+  const { profile } = state.user;
+  const { account, terms } = profile.mhv;
+  const availableServices = profile.services;
+  return { account, availableServices, terms };
 };
 
 const mapDispatchToProps = {

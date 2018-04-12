@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ToolTip from '../../common/components/form-elements/ToolTip';
-import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
+import ExpandingGroup from '@department-of-veterans-affairs/jean-pants/ExpandingGroup';
 
 /**
  * A radio button group with a label.

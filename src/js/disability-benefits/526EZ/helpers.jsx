@@ -1,13 +1,35 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
+import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
+import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 
+const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+
+
+/*
+ * Flatten nested array form data into sibling properties
+ *
+ * @param {object} data - Form data for a full form, including nested array properties
+ */
+export function flatten(data) {
+  const formData = cloneDeep(data);
+  formData.disabilities.forEach((disability, idx) => {
+    siblings.forEach(sibling => {
+      if (disability[sibling]) {
+        formData[sibling] = [];
+        formData[sibling][idx] = disability[sibling];
+        delete disability[sibling]; // eslint-disable-line no-param-reassign
+      }
+    });
+  });
+  return formData;
+}
 
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  const formData = flatten(transformForSubmit(formConfig, form));
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
@@ -28,48 +50,18 @@ export const evidenceTypesDescription = ({ formData }) => {
 };
 
 
-// Shows or collapses the "Which should I choose?" link at the bottom of the evidence types page
-// TODO: Investigate whether this should just use `expandUnder`
-export class EvidenceTypeHelp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false
-    };
-  }
-
-  toggleOpen = (e) => {
-    e.preventDefault();
-    this.setState({ open: !this.state.open });
-  }
-
-  expandedContent = (
-    <div>
-      <h3>Types of evidence</h3>
-      <h4>VA medical records</h4>
-      <p>If you were treated at a VA medical center or clinic, you have VA medical records. This includes Tri-Care.</p>
-      <h4>Private medical records</h4>
-      <p>If you were treated by a private doctor, including Veteran’s Choice, we will need to see those records to proceed with your claim. Like DBQs.</p>
-      <h4>Lay statements or other evidence</h4>
-      <p>Also known as "buddy statements," written accounts from family or other people who know you can help support a claim. In most cases your medical records are enough, but claims involving Post Traumatic Stress Disorder or Military Sexual Trauma sometimes benefit from Lay Statements.</p>
-      <button className="va-button-link" onClick={this.toggleOpen}>Close</button>
-    </div>
-  )
-
-  render() {
-    const className = classNames(
-      'form-expanding-group',
-      { 'form-expanding-group-open': this.state.open }
-    );
-
-    return (
-      <div className={className}>
-        <button className="va-button-link dashed-underline" onClick={this.toggleOpen}>Which should I choose?</button>
-        {this.state.open && this.expandedContent}
-      </div>
-    );
-  }
-}
+export const evidenceTypeHelp = (
+  <AdditionalInfo triggerText="Which should I choose?">
+    <h3>Types of evidence</h3>
+    <h4>VA medical records</h4>
+    <p>If you were treated at a VA medical center or clinic, or by a doctor through the TRICARE health care program, you’ll have VA medical records.</p>
+    <h4>Private medical records</h4>
+    <p>If you were treated by a private doctor, including a Veteran’s Choice doctor, you’ll have private medical records.
+      We’ll need to see those records to make a decision on your claim. A Disability Benefit Questionnaire is an example of a private medical record.</p>
+    <h4>Lay statements or other evidence</h4>
+    <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statement are also called “buddy statements.” In most cases, you only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
+  </AdditionalInfo>
+);
 
 
 export const disabilityNameTitle = ({ formData }) => {
@@ -129,6 +121,28 @@ export const vaMedicalRecordsIntro = ({ formData }) => {
     <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
   );
 };
+
+
+export const privateRecordsChoice = ({ formData }) => {
+  return (
+    <div>
+      <h4>About private medical records</h4>
+      <p>You said you were treated for {formData.disability.diagnosticText} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+    </div>
+  );
+};
+
+
+export const privateRecordsChoiceHelp = (
+  <AdditionalInfo triggerText="Which should I choose?">
+    <h4>You upload your medical records</h4>
+    <p>If you upload a digital copy of all your medical records, we can review your claim more quickly. Uploading a digital
+      file works best if you have a computer with a fast Internet connection. The digital file could be uploaded as a .pdf
+      or other photo file format, like a .jpeg or .png.</p>
+    <h4>We get your medical records for you</h4>
+    <p>If you tell us which VA medical center treated you for your condition, we can get your medical records for you. Getting your records may take us some time. This could take us longer to make a decision on your claim.</p>
+  </AdditionalInfo>
+);
 
 
 export const privateMedicalRecordsIntro = ({ formData }) => {
@@ -209,3 +223,55 @@ export const additionalDocumentDescription = () => {
   );
 };
 
+const documentLabels = {
+  1: 'Discharge',
+  2: 'Marriage related',
+  3: 'Dependent related',
+  // 4: 'VA preneed form',
+  5: 'Letter',
+  6: 'Other'
+};
+
+const getVACenterName = (center) => center.treatment.treatmentCenterName;
+const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
+
+const listifyCenters = (center, idx, list) => {
+  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
+  const notLast = idx < (list.length - 1);
+  const justOne = list.length === 1;
+  const atLeastThree = list.length > 2;
+  return (
+    <span key={idx}>
+      {!notLast && !justOne && <span className="repose"> and </span>}
+      {centerName}
+      {atLeastThree && notLast && ', '}
+    </span>
+  );
+};
+
+
+export const evidenceSummaryView = ({ formData }) => {
+  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  return (
+    <div>
+      <ul>
+        {VATreatments &&
+        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
+        {privateRecordReleases &&
+        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
+        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
+        {additionalDocuments &&
+        <li>We have received the additional evidence you uploaded:
+          <ul>
+            {additionalDocuments.map((document, id) => {
+              return (<li className="dashed-bullet" key={id}>
+                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
+              </li>);
+            })
+            }
+          </ul>
+        </li>}
+      </ul>
+    </div>
+  );
+};

@@ -9,7 +9,7 @@
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
-    "heroku-postbuild": "npm run build --  --entry no-react,style",
+    "heroku-postbuild": "npm run build --  --entry static-pages,style",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
@@ -44,8 +44,7 @@
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
-    "watch:ip": "node script/build.js --host '0.0.0.0' --watch",
-    "watch:static": "npm run watch -- --entry no-react"
+    "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
     "type": "git",
@@ -59,10 +58,16 @@
     "instrument": false,
     "include": [
       "src/**"
+    ],
+    "exclude": [
+      "src/platform/testing/**",
+      "**/*.spec.js",
+      "**/*.spec.jsx"
     ]
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
+    "@department-of-veterans-affairs/jean-pants": "^0.2.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
     "axe-core": "^2.3.1",
@@ -160,7 +165,6 @@
     "react-autosuggest-ie11-compatible": "^8.0.6",
     "react-datepicker": "^0.29.0",
     "react-dom": "^15.5.4",
-    "react-jsonschema-form": "0.43.0",
     "react-leaflet": "^1.2.0",
     "react-redux": "4.4.8",
     "react-router": "3",
@@ -204,6 +208,7 @@
   },
   "private": true,
   "dependencies": {
+    "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",

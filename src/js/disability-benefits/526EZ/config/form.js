@@ -12,15 +12,18 @@ import {
   transform,
   supportingEvidenceOrientation,
   evidenceTypesDescription,
-  EvidenceTypeHelp,
+  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
+  privateRecordsChoice,
+  privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
   recordReleaseWarning,
   validateAddress,
   documentDescription,
+  evidenceSummaryView,
   additionalDocumentDescription,
   releaseView
 } from '../helpers';
@@ -167,7 +170,7 @@ const formConfig = {
                   'ui:title': 'Lay statements or other evidence'
                 },
                 'view:evidenceTypeHelp': {
-                  'ui:description': EvidenceTypeHelp
+                  'ui:description': evidenceTypeHelp
                 }
               }
             }
@@ -326,6 +329,55 @@ const formConfig = {
             }
           }
         },
+        privateRecordChoice: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-choice',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateRecordsChoice,
+                'view:uploadPrivateRecords': {
+                  'ui:title': 'Do you want to upload your private medical records?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No, please get them from my doctor'
+                    }
+                  }
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': privateRecordsChoiceHelp
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    'view:uploadPrivateRecords': {
+                      type: 'string',
+                      'enum': ['yes', 'no']
+                    },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         privateMedicalRecordRelease: {
           title: '',
           path: 'supporting-evidence/:index/private-medical-records-release',
@@ -449,7 +501,6 @@ const formConfig = {
               items: {
                 privateRecords: Object.assign({},
                   fileUploadUI('Upload your private medical records', {
-                    allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
@@ -532,10 +583,7 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
-          depends: (formData, index) => {
-            const hasOtherEvidence = _.get(`disabilities.${index}.view:otherEvidence`, formData);
-            return hasOtherEvidence;
-          },
+          depends: (formData, index) => _.get(`disabilities.${index}.view:otherEvidence`, formData),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
           arrayPath: 'disabilities',
@@ -544,7 +592,6 @@ const formConfig = {
               items: {
                 additionalDocuments: Object.assign({},
                   fileUploadUI('Lay statements or other evidence', {
-                    allowRename: true,
                     itemDescription: 'Adding additional evidence:',
                     endpoint: '/v0/preneeds/preneed_attachments', // TODO: update this with correct endpoint (e.g. '/v0/21-526EZ/medical_records')
                     addAnotherLabel: 'Add Another Document',
@@ -624,9 +671,33 @@ const formConfig = {
               }
             }
           }
+        },
+        evidenceSummary: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/:index/evidence-summary',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': 'Summary of evidence',
+                'ui:description': evidenceSummaryView
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {}
+                }
+              }
+            }
+          }
         }
-        // pageNine: {},
-        // pageTen: {},
       }
     },
     chapterFive: {

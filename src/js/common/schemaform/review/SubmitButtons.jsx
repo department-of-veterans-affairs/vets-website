@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import ProgressButton from '../../components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import { timeFromNow } from '../../utils/helpers';
 
 export default function SubmitButtons(props) {

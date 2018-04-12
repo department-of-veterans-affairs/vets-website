@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form.js';
 
 describe('Edu 5490 applicantInformation', () => {

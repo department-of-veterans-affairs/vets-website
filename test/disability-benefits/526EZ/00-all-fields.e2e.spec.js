@@ -1,5 +1,5 @@
-const E2eHelpers = require('../../e2e/e2e-helpers');
-const Timeouts = require('../../e2e/timeouts');
+const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../../src/platform/testing/e2e/timeouts');
 const PageHelpers = require('../../e2e/disability-benefits-helpers');
 const testData = require('./schema/maximal-test.json');
 
@@ -65,29 +65,44 @@ const runTest = E2eHelpers.createE2eTest(
       E2eHelpers.expectNavigateAwayFromExact(client, '/supporting-evidence/0/private-medical-records');
 
       // Records Release
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/private-medical-records-release');
       client.axeCheck('.main');
-      // BUG: form is prefilled on this page
-      // PageHelpers.completeRecordReleaseInformation(client, testData.data);
+      PageHelpers.completeRecordReleaseInformation(client, testData.data);
       client.click('.usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/private-medical-records-release');
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/documents');
 
       // Record upload
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/documents');
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/documents');
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/additionalDocuments');
 
       // Additional document upload
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/additionalDocuments');
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/0/additionalDocuments');
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/evidence-summary');
+
+      // Evidence Summary
+      E2eHelpers.expectLocation(client, '/supporting-evidence/0/evidence-summary');
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-type');
 
       // Second Disability Evidence Type
+      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-type');
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/1/evidence-type');
+      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-summary');
 
+      // Second Evidence Summary
+      E2eHelpers.expectLocation(client, '/supporting-evidence/1/evidence-summary');
+      client.axeCheck('.main');
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectLocation(client, '/chapter-five/page-one');
 
       // chapter 5 page 1
+      E2eHelpers.expectLocation(client, '/chapter-five/page-one');
       client.axeCheck('.main');
       client.click('.form-panel .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/chapter-five/page-one');

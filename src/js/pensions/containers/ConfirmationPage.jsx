@@ -33,7 +33,7 @@ class ConfirmationPage extends React.Component {
   render() {
     const form = this.props.form;
     const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
+      ? this.props.form.submission.response
       : {};
     const name = form.data.veteranFullName;
     const regionalOffice = response.regionalOffice || [];
@@ -49,7 +49,7 @@ class ConfirmationPage extends React.Component {
     return (
       <div>
         <h3 className="confirmation-page-title">Claim submitted</h3>
-        <p>We process claims in the order we receive them. Please print this page for your records. We'll also send you an email to confirm that we've received your application. Please note, it may take up to 24 hours to receive this email.</p>
+        <p>We process claims in the order we receive them. Please print this page for your records.</p>
         <p>
           We may contact you for more information or documents.
         </p>
@@ -78,7 +78,7 @@ class ConfirmationPage extends React.Component {
                 <p key={index}>{line}</p>)}</address>
             </li>
             <li>
-              <strong>Note:</strong> If you choose to mail your documents, you don’t have to send in a paper copy of VA Form 21P-527EZ with these documents.
+              <strong>Note:</strong> If you choose to mail in your supporting documents, you don’t have to send in a paper copy of VA Form 21P-527EZ with the documents.
             </li>
           </ul>
         </div>

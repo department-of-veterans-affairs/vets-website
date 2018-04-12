@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import {
   fetchLatestTerms,
@@ -16,7 +17,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
       this.props.fetchLatestTerms(this.props.termsName);
       window.scrollTo(0, 0);
     }
-    window.dataLayer.push({ event: 'terms-shown' });
+    recordEvent({ event: 'terms-shown' });
   }
 
   componentDidUpdate(prevProps) {

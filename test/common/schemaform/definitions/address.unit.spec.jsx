@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillData } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import recordEvent from '../../../platform/monitoring/record-event';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import RequiredVeteranView from '../components/RequiredVeteranView';
 import EmailCapture from './EmailCapture';
@@ -29,25 +30,25 @@ class VeteranIDCard extends React.Component {
 
       if (nextProps.user.login.currentlyLoggedIn) {
         if (serviceRateLimitedAuthed) {
-          window.dataLayer.push({ event: 'vic-authenticated-ratelimited' });
+          recordEvent({ event: 'vic-authenticated-ratelimited' });
           this.renderEmailCapture = true;
           if (userProfile.veteranStatus === 'NOT_FOUND') {
-            window.dataLayer.push({ events: 'vic-emis-lookup-failed' });
+            recordEvent({ events: 'vic-emis-lookup-failed' });
           } else if (userProfile.veteranStatus === 'SERVER_ERROR') {
-            window.dataLayer.push({ events: 'vic-emis-error' });
+            recordEvent({ events: 'vic-emis-error' });
           }
         } else {
-          window.dataLayer.push({ event: 'vic-authenticated' });
+          recordEvent({ event: 'vic-authenticated' });
         }
       } else {
         if (serviceRateLimitedUnauthed) {
-          window.dataLayer.push({ event: 'vic-unauthenticated-ratelimited' });
+          recordEvent({ event: 'vic-unauthenticated-ratelimited' });
           this.renderEmailCapture = true;
         } else {
           // Set the flag that the user was already rate limited and allowed to pass through as an unauthorized
           // user so that the serviceRateLimitedAuthed won't also be applied.
           window.sessionStorage.setItem('vicDisableRateLimitedAuth', 'true');
-          window.dataLayer.push({ event: 'vic-unauthenticated' });
+          recordEvent({ event: 'vic-unauthenticated' });
         }
       }
     }
@@ -61,9 +62,9 @@ class VeteranIDCard extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={3}
+          verify
           serviceRequired="id-card"
-          userProfile={this.props.user.profile}>
+          user={this.props.user}>
           <DowntimeNotification appTitle="Veteran ID Card application" dependencies={[services.vic]}>
             <RequiredVeteranView userProfile={this.props.user.profile}>
               {this.props.children}

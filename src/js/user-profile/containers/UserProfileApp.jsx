@@ -7,7 +7,7 @@ import UserDataSection from '../components/UserDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import FormList from '../components/FormList';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import DowntimeNotification, { services } from '../../common/containers/DowntimeNotification';
+import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
 
 moment.updateLocale('en', {
   meridiem: (hour) => {
@@ -40,11 +40,11 @@ class UserProfileApp extends React.Component {
           <h1>Your Account</h1>
           <div>
             <FormList
-              userProfile={this.props.profile}
+              userProfile={this.props.user.profile}
               removeSavedForm={this.props.removeSavedForm}
-              savedForms={this.props.profile.savedForms}/>
+              savedForms={this.props.user.profile.savedForms}/>
             <AuthApplicationSection
-              userProfile={this.props.profile}
+              userProfile={this.props.user.profile}
               verifyUrl={this.props.verifyUrl}/>
             <UserDataSection/>
           </div>
@@ -55,9 +55,8 @@ class UserProfileApp extends React.Component {
     return (
       <div>
         <RequiredLoginView
-          authRequired={1}
           serviceRequired="user-profile"
-          userProfile={this.props.profile}>
+          user={this.props.user}>
           <DowntimeNotification appTitle="user profile page" dependencies={[services.mvi, services.emis]}>
             {view}
           </DowntimeNotification>
@@ -68,8 +67,7 @@ class UserProfileApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const userState = state.user;
-  return { profile: userState.profile, };
+  return { user: state.user };
 };
 
 const mapDispatchToProps = {

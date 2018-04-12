@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
-import AlertBox from '../../common/components/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 import { mfa } from '../../login/utils/helpers';
@@ -17,7 +18,7 @@ class UserDataSection extends React.Component {
   }
 
   openModal = () => {
-    window.dataLayer.push({ event: 'terms-shown-profile' });
+    recordEvent({ event: 'terms-shown-profile' });
     this.setState({ modalOpen: true });
   }
 
@@ -31,8 +32,8 @@ class UserDataSection extends React.Component {
   }
 
   renderModalContents() {
-    const { profile, terms } = this.props;
-    const termsAccepted = _.get(profile, 'mhv.terms.accepted');
+    const { terms } = this.props;
+    const termsAccepted = this.props.profile.healthTermsCurrent;
     if (!termsAccepted && this.state.modalOpen && terms.loading === false && !terms.termsContent) {
       setTimeout(() => {
         this.props.fetchLatestTerms('mhvac');
@@ -57,7 +58,7 @@ class UserDataSection extends React.Component {
   }
 
   renderTermsLink() {
-    if (_.get(this.props.profile, 'mhv.terms.accepted')) {
+    if (this.props.profile.healthTermsCurrent) {
       return (
         <p>You have accepted the latest health terms and conditions for this site.</p>
       );
@@ -147,7 +148,7 @@ const mapStateToProps = (state) => {
     login: userState.login,
     name: userState.profile.userFullName,
     profile: userState.profile,
-    terms: userState.profile.mhv.terms
+    terms: userState.profile.terms
   };
 };
 
