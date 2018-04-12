@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillDate } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, fillDate } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../src/js/pre-need/config/form';
 
 describe('Pre-need service periods', () => {

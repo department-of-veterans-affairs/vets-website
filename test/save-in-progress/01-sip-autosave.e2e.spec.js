@@ -1,6 +1,6 @@
 const moment = require('moment');
-const E2eHelpers = require('../e2e/e2e-helpers');
-const Timeouts = require('../e2e/timeouts.js');
+const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../src/platform/testing/e2e/timeouts.js');
 const HcaHelpers = require('../e2e/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(

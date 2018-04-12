@@ -1,3 +1,4 @@
+import recordEvent from '../../../platform/monitoring/record-event';
 import { removeFormApi } from '../../common/schemaform/save-in-progress/api';
 import { apiRequest } from '../../common/helpers/api';
 import { getUserData } from '../../common/helpers/login-helpers';
@@ -29,6 +30,24 @@ export function profileLoadingFinished() {
   };
 }
 
+export function removingSavedForm() {
+  return {
+    type: REMOVING_SAVED_FORM
+  };
+}
+
+export function removingSavedFormSuccess() {
+  return {
+    type: REMOVING_SAVED_FORM_SUCCESS
+  };
+}
+
+export function removingSavedFormFailure() {
+  return {
+    type: REMOVING_SAVED_FORM_FAILURE
+  };
+}
+
 export function fetchLatestTerms(termsName) {
   return dispatch => {
     dispatch({ type: FETCHING_LATEST_MHV_TERMS });
@@ -36,11 +55,11 @@ export function fetchLatestTerms(termsName) {
     apiRequest(
       `/terms_and_conditions/${termsName}/versions/latest`,
       null,
-      ({ data }) => dispatch({
+      response => dispatch({
         type: FETCHING_LATEST_MHV_TERMS_SUCCESS,
-        terms: data.attributes
+        terms: response.data.attributes
       }),
-      ({ errors }) => dispatch({ type: FETCHING_LATEST_MHV_TERMS_FAILURE, errors })
+      () => dispatch({ type: FETCHING_LATEST_MHV_TERMS_FAILURE })
     );
   };
 }
@@ -48,7 +67,7 @@ export function fetchLatestTerms(termsName) {
 export function acceptTerms(termsName) {
   return dispatch => {
     dispatch({ type: ACCEPTING_LATEST_MHV_TERMS });
-    window.dataLayer.push({ event: 'terms-accepted' });
+    recordEvent({ event: 'terms-accepted' });
 
     const settings = {
       method: 'POST',
@@ -65,19 +84,19 @@ export function acceptTerms(termsName) {
         dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS });
         getUserData(dispatch);
       },
-      ({ errors }) => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE, errors })
+      () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
   };
 }
 
 export function removeSavedForm(formId) {
   return dispatch => {
-    dispatch({ type: REMOVING_SAVED_FORM });
+    dispatch(removingSavedForm());
     return removeFormApi(formId)
       .then(() => {
-        dispatch({ type: REMOVING_SAVED_FORM_SUCCESS });
+        dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });
         getUserData(dispatch);
       })
-      .catch(() => dispatch({ type: REMOVING_SAVED_FORM_FAILURE }));
+      .catch(() => dispatch(removingSavedFormFailure()));
   };
 }

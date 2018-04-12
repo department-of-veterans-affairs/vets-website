@@ -1,3 +1,4 @@
+import recordEvent from '../../../platform/monitoring/record-event';
 import {
   apiRequest,
   createUrlWithQuery
@@ -91,7 +92,7 @@ export function createNewFolder(folderName) {
     body: JSON.stringify(folderData)
   };
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-create-folder',
   });
 

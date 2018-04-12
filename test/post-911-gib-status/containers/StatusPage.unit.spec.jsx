@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import StatusPage from '../../../src/js/post-911-gib-status/containers/StatusPage.jsx';
 
 import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 
 const store = createCommonStore(reducer);
 const defaultProps = store.getState();

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import createOldSchoolPage from '../../../src/js/edu-benefits/pages/oldSchool';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 

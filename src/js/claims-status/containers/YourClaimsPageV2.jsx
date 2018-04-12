@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import Modal from '../../common/components/Modal';
 import {
@@ -171,7 +172,7 @@ class YourClaimsPageV2 extends React.Component {
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
-                window.dataLayer.push({
+                recordEvent({
                   event: 'claims-consolidated-modal',
                 });
                 this.props.showConsolidatedMessage(true);

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
@@ -48,7 +49,7 @@ export class Settings extends React.Component {
       emailAddress: email.value,
       rxFlag: flag.value === 'true'
     });
-    window.dataLayer.push({
+    recordEvent({
       event: 'rx-notification-setting',
       'rx-notify': flag.value,
     });

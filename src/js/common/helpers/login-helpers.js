@@ -1,4 +1,5 @@
 import environment from './environment.js';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
 
@@ -21,7 +22,7 @@ export function getUserData(dispatch) {
       sessionStorage.setItem('userFirstName', userData.first_name);
     }
     // Report out the current level of assurance for the user
-    window.dataLayer.push({ event: `login-loa-current-${userData.loa.current}` });
+    recordEvent({ event: `login-loa-current-${userData.loa.current}` });
     dispatch(updateProfileFields({
       savedForms: json.data.attributes.in_progress_forms,
       prefillsAvailable: json.data.attributes.prefills_available,

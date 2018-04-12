@@ -155,8 +155,10 @@ export function addStatusToIssues(issues) {
  * @param {string} id Appeal ID of the appeal to find
  * @returns {object} One appeal object or undefined if not found in the array
  */
-export function isolateAppeal(state, id, v1ToV2IdMap) {
-  return _.find(state.disability.status.claimsV2.appeals, (a) => a.id === id || v1ToV2IdMap[id]);
+export function isolateAppeal(state, id) {
+  return _.find(state.disability.status.claimsV2.appeals,
+    (a) => a.id === id || (_.get(a, 'attributes.appealIds') || []).includes(id)
+  );
 }
 
 export function formatDate(date) {
@@ -250,9 +252,8 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format('MMMM Do, YYYY');
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
-        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate}
-        because, after completing the remand instructions from the Board, they couldn’t fully grant
-        your appeal.</p>
+        <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate} because,
+        after completing the remand instructions from the Board, they couldn’t fully grant your appeal.</p>
       );
       break;
     }
@@ -1247,6 +1248,9 @@ export function getAlertContent(alert, appealIsActive) {
  * @returns {string} status code or 'unknown'
  */
 export const getStatus = (response) => {
+  if (response instanceof Error) {
+    Raven.captureException(response, { tags: { location: 'getStatus' } });
+  }
   return (response.errors && response.errors.length)
     ? response.errors[0].status
     : 'unknown';
