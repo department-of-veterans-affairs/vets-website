@@ -45,7 +45,7 @@ export const supportingEvidenceOrientation = (
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
-    <p>What supporting evidence do you have that shows how your {formData.disability.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence do you have that shows how your {formData.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
   );
 };
 
@@ -66,32 +66,32 @@ export const evidenceTypeHelp = (
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{formData.disability.diagnosticText}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{formData.diagnosticText}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {formData.disability.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+    <p>Tell us about facilities where VA treated you for {formData.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
   );
 };
 
 
 export const treatmentView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
+  const { from, to } = formData.treatmentDateRange;
   let treatmentPeriod = '';
 
-  if (startTreatment && endTreatment) {
-    treatmentPeriod = `${startTreatment} — ${endTreatment}`;
-  } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+  if (from && to) {
+    treatmentPeriod = `${from} — ${to}`;
+  } else if (from || to) {
+    treatmentPeriod = `${(from || to)}`;
   }
 
 
   return (
     <div>
-      <strong>{treatmentCenterName}</strong><br/>
+      <strong>{formData.treatmentCenterName}</strong><br/>
       {treatmentPeriod}
     </div>
   );
@@ -118,7 +118,7 @@ export const releaseView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>Ok, first we’ll ask about your VA medical records related to your {formData.diagnosticText}.</p>
   );
 };
 
@@ -127,7 +127,7 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {formData.disability.diagnosticText} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+      <p>You said you were treated for {formData.diagnosticText} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
     </div>
   );
 };
@@ -146,8 +146,9 @@ export const privateRecordsChoiceHelp = (
 
 
 export const privateMedicalRecordsIntro = ({ formData }) => {
+  const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
   return (
-    <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {formData.diagnosticText}.</p>
   );
 };
 
