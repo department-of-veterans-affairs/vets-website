@@ -1,13 +1,26 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import {
+  isValidUSZipCode,
+  isValidCanPostalCode
+} from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
+import { DateWidget } from '../../common/schemaform/review/widgets';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+import {
+  stateLabels,
+  militaryPostOfficeTypeLabels
+} from './pages/primaryAddress';
 
+const siblings = [
+  'treatments',
+  'privateRecordReleases',
+  'privateRecords',
+  'additionalDocuments'
+];
 
 /*
  * Flatten nested array form data into sibling properties
@@ -280,6 +293,132 @@ export const evidenceSummaryView = ({ formData }) => {
           </ul>
         </li>}
       </ul>
+    </div>
+  );
+};
+
+function lowerCaseFirstLetter(word) {
+  return word[0].toLowerCase().concat(word.slice(1));
+}
+
+function lowerCaseAll(words) {
+  return words.map(word => lowerCaseFirstLetter(word));
+}
+
+function kebabize(words) {
+  return lowerCaseAll(words).join('-');
+}
+
+function getVerifiedPagePath(chapterTitleWords, pageTitleWords) {
+  const verifiedChapterPath = chapterTitleWords.slice(0);
+  verifiedChapterPath.unshift('review');
+  const verifiedPagePath = pageTitleWords.slice(0);
+  return `${kebabize(verifiedChapterPath)}/${kebabize(verifiedPagePath)}`;
+}
+
+function getUnverifiedPagePath(chapterTitleWords, pageTitleWords) {
+  const unverifiedChapterPath = chapterTitleWords.slice(0);
+  const unverifiedPagePath = pageTitleWords.slice(0);
+  return `${kebabize(unverifiedPagePath)}/${kebabize(unverifiedChapterPath)}`;
+}
+
+function getPath(chapterTitle, pageTitle, isReview) {
+  const chapterTitleWords = chapterTitle.split(' ');
+  const pageTitleWords = pageTitle.split(' ');
+  const getPagePath = isReview ? getVerifiedPagePath : getUnverifiedPagePath;
+  return getPagePath(chapterTitleWords, pageTitleWords);
+}
+
+const verifiedDepends = ({ prefilled }) => !!prefilled;
+
+const unverifiedDepends = ({ prefilled }) => !prefilled;
+
+export function getPage(pageConfig, chapterTitle) {
+  const { pageTitle, component, isReview, ...rest } = pageConfig;
+  const pagePath = getPath(chapterTitle, pageTitle, isReview);
+  const depends = isReview ? verifiedDepends : unverifiedDepends;
+  const pageComponent = isReview ? component : undefined;
+
+  return {
+    title: pageTitle,
+    path: pagePath,
+    component: pageComponent,
+    depends,
+    ...rest
+  };
+}
+
+// TODO: update misspelling when fixed in BE schema
+const AddressViewField = ({ formData }) => {
+  const {
+    country,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    state,
+    zipCode,
+    militaryStateCode,
+    militaryPostOfficeTypeCode
+  } = formData;
+  const cityString = `${city},`;
+  const stateString = state || militaryStateCode;
+  const zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+  const cityStateOrZIP = cityString || stateString || zipString;
+
+  return (
+    <div>
+      <p>{addressLine1}</p>
+      {addressLine2 && <p>{addressLine2}</p>}
+      {addressLine3 && <p>{addressLine3}</p>}
+      {cityStateOrZIP && (
+        <p>
+          {cityString} {stateString} {zipString}
+        </p>
+      )}
+      {militaryPostOfficeTypeCode && (
+        <p>${militaryPostOfficeTypeLabels[militaryPostOfficeTypeCode]}</p>
+      )}
+      {country !== 'USA' && <p>country</p>}
+    </div>
+  );
+};
+
+const PhoneViewField = ({ formData: phoneNumber, name }) => {
+  const isDomestic = phoneNumber.length <= 10;
+  const midBreakpoint = isDomestic ? -7 : -8;
+  const lastPhoneString = `${phoneNumber.slice(-4)}`;
+  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
+  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+
+  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  return <p><strong>{name}</strong>: {phoneString}</p>;
+};
+
+const EmailViewField = ({ formData, name }) => {
+  return <p><strong>{name}</strong>: {formData}</p>;
+};
+
+const EffectiveDateViewField = ({ formData }) => {
+  return (
+    <p>
+      Effective Date:{' '}
+      <DateWidget value={formData} options={{ monthYear: false }}/>
+    </p>
+  );
+};
+
+export const PrimaryAddressViewField = ({ formData }) => {
+  return (
+    <div>
+      <AddressViewField formData={formData.primaryAddress}/>
+      <PhoneViewField formData={formData.primaryPhone} name="Primary phone number"/>
+      <PhoneViewField formData={formData.secondaryPhone} name="Secondary phone number"/>
+      <EmailViewField formData={formData.emailAddress} name="Email address"/>
+      {formData['view:hasSecondaryAddress'] && (
+        <AddressViewField formData={formData.secondaryAddress}/>
+      )}
+      {formData['view:hasSecondaryAddress'] && <EffectiveDateViewField formData={formData.effectiveDate}/>}
     </div>
   );
 };
