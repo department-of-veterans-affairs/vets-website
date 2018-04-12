@@ -13,5 +13,5 @@ export default function PersonalizationBetaInvite({ profile }) {
       <p>You’re invited to try our new online tools that make it easier to see important updates and keep your information current.</p>
       <a type="button" href="/beta-enrollment/personalization">Learn more</a>
     </div>
-  )
+  );
 }
