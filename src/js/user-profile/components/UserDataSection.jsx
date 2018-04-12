@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import AcceptTermsPrompt from '../../common/components/AcceptTermsPrompt';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -17,7 +18,7 @@ class UserDataSection extends React.Component {
   }
 
   openModal = () => {
-    window.dataLayer.push({ event: 'terms-shown-profile' });
+    recordEvent({ event: 'terms-shown-profile' });
     this.setState({ modalOpen: true });
   }
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import Modal from '../../common/components/Modal';
 import { getAppeals, getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions/index.jsx';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
@@ -215,7 +216,7 @@ class YourClaimsPage extends React.Component {
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
-                window.dataLayer.push({
+                recordEvent({
                   event: 'claims-consolidated-modal',
                 });
                 this.props.showConsolidatedMessage(true);

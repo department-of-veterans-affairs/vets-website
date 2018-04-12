@@ -27,6 +27,7 @@ import {
   makeDurationText,
   makeDecisionReviewContent,
   addStatusToIssues,
+  isolateAppeal,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -644,6 +645,36 @@ describe('Disability benefits helpers: ', () => {
       const decisionReviewContent = makeDecisionReviewContent('Once your representative has completed their review, your case will be returned to the Board. ');
       const descText = shallow(decisionReviewContent).render().text();
       expect(descText).to.equal('Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.');
+    });
+  });
+
+  describe('isolateAppeal', () => {
+    const state = {
+      disability: {
+        status: {
+          claimsV2: {
+            appeals: mockData.data
+          }
+        }
+      }
+    };
+
+    it('should find the right appeal if the given id matches', () => {
+      const expectedAppeal = mockData.data[1];
+      const appeal = isolateAppeal(state, expectedAppeal.id);
+      expect(appeal).to.equal(expectedAppeal);
+    });
+
+    it('should find the right appeal if the given v1 id matches a v2 appeal', () => {
+      const expectedAppeal = mockData.data[1];
+      // appealIds[1] is the fake v1 id
+      const appeal = isolateAppeal(state, expectedAppeal.attributes.appealIds[1]);
+      expect(appeal).to.equal(expectedAppeal);
+    });
+
+    it('should return undefined if no appeal matches the id given', () => {
+      const appeal = isolateAppeal(state, 'non-existent id');
+      expect(appeal).to.be.undefined;
     });
   });
 });

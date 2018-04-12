@@ -99,16 +99,6 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  /*
-  describe('getStateName', () => {
-    // Seems kind of pointless...
-    it('should return valid state names', () => {});
-
-    // Can we really test for this?
-    it('should send an error to sentry if the state code is unknown', () => {});
-  });
-  */
-
   describe('inferAddressType', () => {
     it('should set the type to international if USA isn\'t selected', () => {
       const newAddress = Object.assign({}, address, { countryName: 'Uganda' });

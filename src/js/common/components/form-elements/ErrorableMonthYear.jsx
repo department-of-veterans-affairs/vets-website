@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { set } from 'lodash/fp';
 import moment from 'moment';
 
-import ErrorableSelect from './ErrorableSelect';
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 import ErrorableNumberInput from './ErrorableNumberInput';
 
 import ToolTip from './ToolTip';

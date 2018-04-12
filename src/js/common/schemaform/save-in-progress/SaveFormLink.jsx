@@ -1,6 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utils/helpers';
@@ -57,7 +58,7 @@ class SaveFormLink extends React.Component {
   }
 
   saveFormAfterLogin = () => {
-    window.dataLayer.push({
+    recordEvent({
       event: `${this.props.form.trackingPrefix}sip-login-before-save`
     });
     this.handleSave();

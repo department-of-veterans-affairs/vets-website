@@ -9,7 +9,14 @@ import applicantDescription from '../../common/schemaform/components/ApplicantDe
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileHelp, transportationWarning, serviceRecordNotification, serviceRecordWarning, burialDateWarning, transform } from '../helpers';
+import {
+  burialDateWarning,
+  fileHelp,
+  transportationWarning,
+  serviceRecordNotification,
+  serviceRecordWarning,
+  submit
+} from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
 import { isFullDate } from '../../common/utils/validations';
@@ -74,11 +81,10 @@ function isEligibleNonService(veteranBurialDate) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/burial_claims',
+  submit,
   trackingPrefix: 'burials-530-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  transformForSubmit: transform,
   formId: '21P-530',
   version: 0,
   prefillEnabled: true,
