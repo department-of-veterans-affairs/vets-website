@@ -253,8 +253,7 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
         <p>The Veterans Benefits Administration sent you a Supplemental Statement of the Case on {formattedSocDate} because,
-          after completing the remand instructions from the Board, they couldn’t fully grant
-        your appeal.</p>
+        after completing the remand instructions from the Board, they couldn’t fully grant your appeal.</p>
       );
       break;
     }
