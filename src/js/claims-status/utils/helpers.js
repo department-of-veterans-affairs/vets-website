@@ -436,7 +436,7 @@ export const mockData = {
           type: 'bva_decision',
           details: {
             regionalOffice: 'Chicago Regional Office',
-            decisionIssues: [
+            issues: [
               {
                 description: 'Heel, increased rating',
                 disposition: 'allowed',
