@@ -10,7 +10,7 @@ import SignInProfileMenu from './SignInProfileMenu';
 
 import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 
-class SearchHelpSignIn extends React.Component {
+export class SearchHelpSignIn extends React.Component {
   componentDidUpdate() {
     const { currentlyLoggedIn, showModal } = this.props.login;
     if (!currentlyLoggedIn && !showModal) {
@@ -96,4 +96,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
-export { SearchHelpSignIn };
