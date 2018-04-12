@@ -1,5 +1,8 @@
 import React from 'react';
+import dashboardManifest from '../../personalization/dashboard-beta/manifest.json';
 
+// If it's production, check the dashboard manifest.json production flag
+const enabled = document.location.hostname === 'www.vets.gov' ? dashboardManifest.production : true;
 const eligibleServices = [
   'evss-claims',
   'appeals-status',
@@ -8,7 +11,7 @@ const eligibleServices = [
 ];
 
 function meetsCriteria(profile) {
-  return profile.services.some(service => {
+  return enabled && profile.services.some(service => {
     return eligibleServices.includes(service);
   });
 }
