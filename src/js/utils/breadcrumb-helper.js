@@ -90,11 +90,11 @@ function sliceMobileLink(targetId) {
   const breadcrumbLink = breadcrumbList[0].children[0];
 
   breadcrumbList[0].classList.add(config.mobileClass);
-  breadcrumbLink.innerText = breadcrumbLink.innerText.trim();
+  breadcrumbLink.textContent = breadcrumbLink.textContent.trim();
   breadcrumbLink.removeAttribute('aria-current');
   breadcrumbLink.setAttribute(
     'aria-label',
-    `Previous step: ${breadcrumbLink.innerText}`
+    `Previous step: ${breadcrumbLink.textContent}`
   );
 
   return breadcrumbList;

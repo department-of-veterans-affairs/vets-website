@@ -1,8 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 
 import { AdditionalEvidencePage } from '../../../src/js/claims-status/containers/AdditionalEvidencePage';
 
@@ -99,15 +99,15 @@ describe('<AdditionalEvidencePage>', () => {
       attributes: {}
     };
     const resetUploads = sinon.spy();
-    const mainDiv = document.createElement('div');
-    mainDiv.classList.add('va-nav-breadcrumbs');
-    document.body.appendChild(mainDiv);
-    ReactTestUtils.renderIntoDocument(
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    ReactDOM.render(
       <AdditionalEvidencePage
         claim={claim}
         files={[]}
         uploadField={{ value: null, dirty: false }}
-        resetUploads={resetUploads}/>
+        resetUploads={resetUploads}/>,
+      div
     );
 
     expect(document.title).to.equal('Additional Evidence');

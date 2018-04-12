@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 
 import { DocumentRequestPage } from '../../../src/js/claims-status/containers/DocumentRequestPage';
+
+global.Element = global.window.Element;
 
 describe('<DocumentRequestPage>', () => {
   it('should render loading div', () => {
@@ -150,16 +152,17 @@ describe('<DocumentRequestPage>', () => {
       attributes: {}
     };
     const resetUploads = sinon.spy();
-    const mainDiv = document.createElement('div');
-    mainDiv.classList.add('va-nav-breadcrumbs');
-    document.body.appendChild(mainDiv);
-    ReactTestUtils.renderIntoDocument(
+
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    ReactDOM.render(
       <DocumentRequestPage
         claim={claim}
         files={[]}
         uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
-        resetUploads={resetUploads}/>
+        resetUploads={resetUploads}/>,
+      div
     );
 
     expect(document.title).to.equal('Request for Testing');

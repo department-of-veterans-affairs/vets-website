@@ -8,6 +8,8 @@ describe('<Breadcrumbs>', () => {
   it('should render first two items', () => {
     const tree = SkinDeep.shallowRender(
       <Breadcrumbs>
+        <li><a href="/">Home</a></li>
+        <li><a href="/disability-benefits/">Disability Benefits</a></li>
         <li>Testing</li>
       </Breadcrumbs>
     );
