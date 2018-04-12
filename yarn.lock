@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@department-of-veterans-affairs/jean-pants@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/jean-pants/-/jean-pants-0.2.0.tgz#bd76a9ec9cc935091e69aa8e814be4acc589d85b"
+"@department-of-veterans-affairs/jean-pants@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/jean-pants/-/jean-pants-0.3.0.tgz#ffa53c8693dc72a96918457434d08ee460f2934a"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
@@ -14,7 +14,6 @@
     moment "^2.21.0"
     prop-types "^15.6.0"
     react-transition-group "^1.x"
-    uswds "^1.6.1"
     window-or-global "^1.0.1"
 
 "@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
@@ -37,10 +36,6 @@
 "@types/node@^8.0.14":
   version "8.0.47"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.47.tgz#968e596f91acd59069054558a00708c445ca30c2"
-
-"@types/node@^8.5.5":
-  version "8.10.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.1.tgz#aac98b810c50568054486f2bb8c486d824713be8"
 
 CSSselect@~0.4.0:
   version "0.4.1"
@@ -10009,24 +10004,6 @@ uswds@^1.4.2:
   resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.4.2.tgz#a64617a83d79deff20503cc5b879072e547a3c29"
   dependencies:
     "@types/node" "^8.0.14"
-    array-filter "^1.0.0"
-    array-foreach "^1.0.2"
-    browserify "^13.0.0"
-    classlist-polyfill "^1.0.3"
-    domready "^1.0.8"
-    elem-dataset "^1.1.1"
-    lodash.debounce "^4.0.7"
-    object-assign "^4.1.1"
-    receptor "^1.0.0"
-    resolve-id-refs "^0.1.0"
-    typescript "^2.4.1"
-    yargs "^8.0.2"
-
-uswds@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.6.1.tgz#9879a4abdad31126067bb3ea8ed0d55f50eded7c"
-  dependencies:
-    "@types/node" "^8.5.5"
     array-filter "^1.0.0"
     array-foreach "^1.0.2"
     browserify "^13.0.0"

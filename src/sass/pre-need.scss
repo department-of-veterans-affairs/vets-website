@@ -1,10 +1,10 @@
-@import "shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
 @import "modules/m-process-list";
-@import "modules/m-form-process";
-@import "modules/m-progress-bar";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-progress-bar";
 @import "modules/m-schemaform";
-@import "modules/m-modal";
-@import "modules/m-omb-info";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-omb-info";
 @import "modules/m-form-confirmation";
 
 #supporting-documents-description {
