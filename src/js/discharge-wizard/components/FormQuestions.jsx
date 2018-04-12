@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 import { months } from '../../common/utils/options-for-select.js';
 import { focusElement } from '../../common/utils/helpers';
 import { questionLabels, prevApplicationYearCutoff, answerReview } from '../config';
@@ -58,7 +59,7 @@ class FormQuestions extends React.Component {
   handleScrollTo = (e) => {
     e.preventDefault();
 
-    window.dataLayer.push({ event: 'discharge-upgrade-review-edit' });
+    recordEvent({ event: 'discharge-upgrade-review-edit' });
 
     scroller.scrollTo(e.target.name, window.VetsGov.scroll || {
       duration: 1000,

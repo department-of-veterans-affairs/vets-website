@@ -1,4 +1,5 @@
 import Raven from 'raven-js';
+import recordEvent from '../../../../platform/monitoring/record-event';
 import environment from '../../helpers/environment.js';
 import 'isomorphic-fetch';
 import { logOut } from '../../../login/actions';
@@ -263,7 +264,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
 
         dispatch(setInProgressForm({ formData, metadata }, pages));
 
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}sip-form-loaded`
         });
 
@@ -297,7 +298,7 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
       // they didn’t have info to use and we can continue on as usual
       if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
         dispatch(setPrefillComplete());
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}sip-form-prefill-failed`
         });
       } else {
@@ -305,12 +306,12 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
         // where they can sign in again. This isn't an error, it's expected
         // when a session expires
         if (loadedStatus === LOAD_STATUSES.noAuth) {
-          window.dataLayer.push({
+          recordEvent({
             event: `${trackingPrefix}sip-form-load-signed-out`
           });
         } else {
           Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
-          window.dataLayer.push({
+          recordEvent({
             event: `${trackingPrefix}sip-form-load-failed`
           });
         }
@@ -338,7 +339,7 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
         return Promise.reject(res);
       })
       .then(() => {
-        window.dataLayer.push({
+        recordEvent({
           event: `${trackingPrefix}sip-form-start-over`
         });
         // after deleting, go fetch prefill info if they’ve got it

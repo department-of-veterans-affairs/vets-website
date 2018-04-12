@@ -42,7 +42,7 @@ Partials should begin with an `_` so that Sass won't compile them separately int
             -  Bourbon and Neat
         - FontAwesome
         - Foundation
-    - **`no-react.scss`**: Contains partials used exclusively for non-React pages. It also imports `style.scss`.
+    - **`static-pages.scss`**: Contains partials used exclusively for non-React pages. It also imports `style.scss`.
 - Each React product also has a corresponding SCSS file.
 - **`_shame.scss`** should be used to override / augment USWDS, normalize, or Font Awesome styles, and terrible CSS you added to make something work.
 - Site-wide/non-product partials are grouped into `base`, `modules`, and `layouts`.

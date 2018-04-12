@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
@@ -105,7 +106,7 @@ class ReviewPage extends React.Component {
       // validation errors in this situation are not visible, so we’d
       // like to know if they’re common
       if (this.props.form.data.privacyAgreementAccepted) {
-        window.dataLayer.push({
+        recordEvent({
           event: `${formConfig.trackingPrefix}-validation-failed`,
         });
         Raven.captureMessage('Validation issue not displayed', {

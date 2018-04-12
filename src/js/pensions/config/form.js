@@ -10,7 +10,6 @@ import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 
 import {
-  transform,
   employmentDescription,
   getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
@@ -32,6 +31,7 @@ import {
   dependentWarning,
   expectedIncomeDescription,
   spouseExpectedIncomeDescription,
+  submit,
   dependentExpectedIncomeDescription
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -176,9 +176,8 @@ function createSpouseLabelSelector(nameTemplate) {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/pension_claims',
+  submit,
   trackingPrefix: 'pensions-527EZ-',
-  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21P-527EZ',

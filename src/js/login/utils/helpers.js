@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 
@@ -23,10 +24,10 @@ const loginUrl = (policy) => {
 };
 
 function popup(popupUrl, clickedEvent, openedEvent) {
-  window.dataLayer.push({ event: clickedEvent });
+  recordEvent({ event: clickedEvent });
   const popupWindow = window.open('', 'vets.gov-popup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
   if (popupWindow) {
-    window.dataLayer.push({ event: openedEvent });
+    recordEvent({ event: openedEvent });
     popupWindow.focus();
 
     return apiRequest(
