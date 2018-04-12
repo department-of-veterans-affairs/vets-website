@@ -485,7 +485,7 @@ describe('Disability benefits helpers: ', () => {
     // so we should test them specifically to ensure we're getting the desired output
     it('returns the right number of allowed / denied / remand items for remand status', () => {
       const details = {
-        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+        issues: mockData.data[2].attributes.status.details.issues
       };
       const contents = getStatusContents('remand', details);
       expect(contents.title).to.equal('The Board made a decision on your appeal');
@@ -495,9 +495,9 @@ describe('Disability benefits helpers: ', () => {
       const deniedList = wrapper.find('.denied-items ~ ul');
       const remandList = wrapper.find('.remand-items ~ ul');
 
-      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
-      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
-      const remandDisposition = details.decisionIssues.filter(i => i.disposition === 'remand');
+      const allowedDisposition = details.issues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.issues.filter(i => i.disposition === 'denied');
+      const remandDisposition = details.issues.filter(i => i.disposition === 'remand');
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
@@ -506,7 +506,7 @@ describe('Disability benefits helpers: ', () => {
 
     it('returns the right number of allowed / denied items for bva_decision status', () => {
       const details = {
-        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+        issues: mockData.data[2].attributes.status.details.issues
       };
       const contents = getStatusContents('bva_decision', details);
       expect(contents.title).to.equal('The Board made a decision on your appeal');
@@ -515,8 +515,8 @@ describe('Disability benefits helpers: ', () => {
       const allowedList = wrapper.find('.allowed-items ~ ul');
       const deniedList = wrapper.find('.denied-items ~ ul');
 
-      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
-      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
+      const allowedDisposition = details.issues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.issues.filter(i => i.disposition === 'denied');
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
