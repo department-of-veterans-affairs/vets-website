@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import {
   loadPrescriptions,
@@ -117,7 +118,7 @@ class Active extends React.Component {
   }
 
   pushAnalyticsEvent() {
-    window.dataLayer.push({
+    recordEvent({
       event: 'rx-view-change',
       viewType: this.state.view
     });

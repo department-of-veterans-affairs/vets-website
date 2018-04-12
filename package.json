@@ -9,7 +9,7 @@
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
-    "heroku-postbuild": "npm run build --  --entry no-react,style",
+    "heroku-postbuild": "npm run build --  --entry static-pages,style",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
@@ -44,7 +44,7 @@
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "watch": "node script/build.js --watch",
-    "watch:static": "npm run watch -- --entry no-react"
+    "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {
     "type": "git",
@@ -58,6 +58,11 @@
     "instrument": false,
     "include": [
       "src/**"
+    ],
+    "exclude": [
+      "src/platform/testing/**",
+      "**/*.spec.js",
+      "**/*.spec.jsx"
     ]
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",

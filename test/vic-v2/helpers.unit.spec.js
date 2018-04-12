@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from '../util/unit-helpers.js';
+import { mockFetch, resetFetch } from '../../src/platform/testing/unit/helpers.js';
 
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import fullFormConfig from '../../src/js/vic-v2/config/form';

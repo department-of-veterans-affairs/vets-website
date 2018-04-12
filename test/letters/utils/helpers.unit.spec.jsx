@@ -89,7 +89,7 @@ describe('Letters helpers: ', () => {
       _.forEach(option => {
         expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
         expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
-        expect(getBenefitOptionText(option, 'unavailable', true)).to.be.undefined;
+        expect(getBenefitOptionText(option, null, true)).to.be.undefined;
       }, ['monthlyAwardAmount', 'serviceConnectedPercentage']);
     });
 
@@ -98,16 +98,6 @@ describe('Letters helpers: ', () => {
       expect(tree.text()).to.contain('The effective date');
     });
   });
-
-  /*
-  describe('getStateName', () => {
-    // Seems kind of pointless...
-    it('should return valid state names', () => {});
-
-    // Can we really test for this?
-    it('should send an error to sentry if the state code is unknown', () => {});
-  });
-  */
 
   describe('inferAddressType', () => {
     it('should set the type to international if USA isn\'t selected', () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import Modal from '../../common/components/Modal';
 import { getUserData } from '../../common/helpers/login-helpers';
 
@@ -67,7 +68,7 @@ export class Main extends React.Component {
 
       // @todo after doing the above, remove this code.
       if (this.props.getUserData()) {
-        window.dataLayer.push({ event: 'login-user-logged-in' });
+        recordEvent({ event: 'login-user-logged-in' });
         this.props.updateLoggedInStatus(true);
       }
     } else {
@@ -77,7 +78,7 @@ export class Main extends React.Component {
 
   handleCloseModal = () => {
     this.props.toggleLoginModal(false);
-    window.dataLayer.push({ event: 'login-modal-closed' });
+    recordEvent({ event: 'login-modal-closed' });
   }
 
   render() {

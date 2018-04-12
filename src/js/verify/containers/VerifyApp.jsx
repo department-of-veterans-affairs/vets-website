@@ -4,6 +4,7 @@ import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../login/utils/helpers';
 
 export class VerifyApp extends React.Component {
@@ -11,7 +12,7 @@ export class VerifyApp extends React.Component {
     if (!sessionStorage.userToken) {
       return window.location.replace('/');
     }
-    return window.dataLayer.push({ event: 'verify-prompt-displayed' });
+    return recordEvent({ event: 'verify-prompt-displayed' });
   }
 
   componentDidUpdate(prevProps) {

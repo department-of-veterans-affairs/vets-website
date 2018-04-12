@@ -3,8 +3,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
+import recordEvent from '../../../platform/monitoring/record-event';
+
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 
 import Modal from '../../common/components/Modal';
 
@@ -80,7 +82,7 @@ class AddFilesForm extends React.Component {
         <div>
           <p><a href onClick={(evt) => {
             evt.preventDefault();
-            window.dataLayer.push({
+            recordEvent({
               event: 'claims-mailfax-modal',
             });
             this.props.onShowMailOrFax(true);
