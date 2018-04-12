@@ -125,10 +125,7 @@ export function focusElement(selectorOrElement, options) {
     : selectorOrElement;
 
   if (el) {
-    if (el.tabindex !== -1) {
-      el.setAttribute('tabindex', '-1');
-    }
-
+    if (el.tabIndex === -1) el.setAttribute('tabindex', '-1');
     el.focus(options);
   }
 }
