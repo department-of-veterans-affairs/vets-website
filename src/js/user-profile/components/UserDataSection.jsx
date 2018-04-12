@@ -10,6 +10,7 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 import { mfa } from '../../login/utils/helpers';
 import { fetchLatestTerms, acceptTerms } from '../actions';
+import PersonalizationBetaInvite from './PersonalizationBetaInvite';
 
 class UserDataSection extends React.Component {
   constructor(props) {
@@ -130,6 +131,7 @@ class UserDataSection extends React.Component {
             <a href="https://wallet.id.me/settings" target="_blank">Go to ID.me to manage your account</a>
           </p>
           {this.renderTermsLink()}
+          <PersonalizationBetaInvite profile={this.props.profile}/>
         </div>
         <Modal
           cssClass="va-modal-large"
