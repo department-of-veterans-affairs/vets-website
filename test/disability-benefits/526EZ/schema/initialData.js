@@ -1,5 +1,19 @@
 export default {
   // For testing purposes only
+  prefilled: true,
+  primaryAddress: {
+    country: 'USA',
+    addressLine1: '234 Beech Tree Lane',
+    addressLine2: 'Apt 23',
+    state: 'MA',
+    city: 'Boston',
+    zipCode: '234233453',
+    type: 'DOMESTIC'
+  },
+  primaryPhone: '24342342342',
+  secondaryPhone: '43453453453',
+  emailAddress: 'test@test.com',
+  'view:hasSecondaryAddress': false,
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?

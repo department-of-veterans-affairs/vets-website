@@ -5,6 +5,8 @@ import fileUploadUI from '../../../common/schemaform/definitions/file';
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
+import { createVerifiedPrimaryAddressPage } from '../pages/primaryAddress';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -34,6 +36,7 @@ const {
 
 const {
   date,
+  address,
   // files
 } = fullSchema526EZ.definitions;
 
@@ -87,24 +90,18 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
+    address,
     // files
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
-    chapterOne: {
-      title: 'Chapter One',
+    reviewVeteranDetails: {
+      title: 'Review Veteran Details',
       pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-one/page-one',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {}
-          },
-        }
+        // veteranInformation: {},
+        primaryAddress: createVerifiedPrimaryAddressPage(fullSchema526EZ)
       }
     },
     chapterTwo: {
