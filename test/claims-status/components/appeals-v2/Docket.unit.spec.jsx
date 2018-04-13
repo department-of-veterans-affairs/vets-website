@@ -50,6 +50,12 @@ describe('Appeals V2 Docket', () => {
     expect(wrapper.find('DocketCard').length).to.equal(0);
   });
 
+  it('should render aod when both aod and appeal type postCavcRemand', () => {
+    const props = { ...defaultProps, appealType: APPEAL_TYPES.postCavcRemand, aod: true };
+    const wrapper = shallow(<Docket {...props}/>);
+    expect(wrapper.render().text()).to.contain('Your appeal is Advanced on Docket.');
+  });
+
   it('should display aod text', () => {
     const props = { ...defaultProps, aod: true };
     const wrapper = shallow(<Docket {...props}/>);

@@ -67,7 +67,6 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
-    "@department-of-veterans-affairs/jean-pants": "^0.2.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
     "axe-core": "^2.3.1",
@@ -209,6 +208,7 @@
   },
   "private": true,
   "dependencies": {
+    "@department-of-veterans-affairs/jean-pants": "^0.4.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",

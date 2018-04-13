@@ -1,9 +1,9 @@
-@import "shared-variables";
-@import "modules/m-process-list";
-@import "modules/va-pagination";
-@import "modules/m-modal";
-@import "modules/m-progress-bar";
-@import "modules/va-tabs";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-progress-bar";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/va-tabs";
 
 $color-inactive: #9b9b9b;
 
