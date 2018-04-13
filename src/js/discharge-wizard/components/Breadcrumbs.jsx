@@ -37,7 +37,7 @@ class Breadcrumbs extends Component {
         <ol
           className="row va-nav-breadcrumbs-list columns claims-breadcrumbs"
           id="va-breadcrumbs-discharge-list">
-          <li><a href="/" id="dw-home-link">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="/discharge-upgrade-instructions/">Discharge Upgrade Instructions</a></li>
         </ol>
       </nav>

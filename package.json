@@ -191,6 +191,7 @@
     "style-loader": "^0.20.2",
     "svg-url-loader": "^2.3.2",
     "tinyliquid": "^0.2.33",
+    "uglify-js": "^3.3.21",
     "url-loader": "^0.6.2",
     "uswds": "^1.4.2",
     "webpack": "^4.1.1",
