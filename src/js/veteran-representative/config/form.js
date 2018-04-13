@@ -45,7 +45,7 @@ const authorizationToChangeClaimantAddressDescription =
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: '/v0/vso_appointments',
   trackingPrefix: 'form-2122-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
