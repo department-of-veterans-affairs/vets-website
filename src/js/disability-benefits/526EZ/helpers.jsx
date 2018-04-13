@@ -596,30 +596,65 @@ const EffectiveDateViewField = ({ formData }) => {
 };
 
 const AddressViewField = ({ formData }) => {
+  const {
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    state,
+    zipCode,
+    militaryStateCode,
+    militaryPostOfficeTypeCode
+  } = formData;
+  let zipString;
+  let stateString;
+  let cityString;
+  if (zipCode) zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+  if (city || militaryPostOfficeTypeCode) {
+    cityString = `${city},` || `${militaryPostOfficeTypeCode},`;
+  }
+  if (state || militaryStateCode) {
+    stateString = `${state}` || `${militaryStateCode}`;
+  }
   return (
     <div>
+      {addressLine1 && <p>{addressLine1}</p>}
+      {addressLine2 && <p>{addressLine2}</p>}
+      {addressLine3 && <p>{addressLine3}</p>}
       <p>
-        <strong>Type</strong>: {formData.type}
-      </p>
-      <p>
-        <strong>Country</strong>: {formData.country}
-      </p>
-      <p>
-        <strong>State</strong>: {formData.state}
+        {cityString} {stateString} {zipString}
       </p>
     </div>
   );
 };
 
 export const PrimaryAddressViewField = ({ formData }) => {
+  const {
+    mailingAddress,
+    primaryPhone,
+    secondaryPhone,
+    emailAddress,
+    effectiveDate,
+    forwardingAddress
+  } = formData;
   return (
     <div>
-      <AddressViewField formData={formData.primaryAddress}/>
-      <PhoneViewField formData={formData.primaryPhone} name="Primary phone"/>
-      <PhoneViewField
-        formData={formData.secondaryPhone}
-        name="Secondary phone"/>
-      <EmailViewField formData={formData.emailAddress} name="Email address"/>
+      <AddressViewField formData={mailingAddress}/>
+      {primaryPhone && (
+        <PhoneViewField formData={primaryPhone} name="Primary phone"/>
+      )}
+      {secondaryPhone && (
+        <PhoneViewField formData={secondaryPhone} name="Secondary phone"/>
+      )}
+      {emailAddress && (
+        <EmailViewField formData={emailAddress} name="Email address"/>
+      )}
+      {formData['view:hasForwardingAddress'] && (
+        <AddressViewField formData={forwardingAddress}/>
+      )}
+      {formData.effectiveDate && (
+        <EffectiveDateViewField formData={effectiveDate}/>
+      )}
     </div>
   );
 };

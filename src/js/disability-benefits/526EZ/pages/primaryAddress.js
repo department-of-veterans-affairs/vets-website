@@ -402,7 +402,7 @@ const countries = [
   'Zimbabwe'
 ];
 
-const militaryPostOfficeTypeLabels = {
+export const militaryPostOfficeTypeLabels = { // TODO: determine whether these are necessary
   APO: 'Army Post Office',
   FPO: 'Fleet Post Office',
   DPO: 'Diplomatic Post Office'
@@ -562,8 +562,8 @@ function createPrimaryAddressPage(formSchema, isReview) {
     'view:hasForwardingAddress': {
       'ui:title': 'This address needs to change soon.'
     },
-    secondaryAddress: _.merge(
-      addressUISchema('secondaryAddress', 'Forwarding address'),
+    forwardingAddress: _.merge(
+      addressUISchema('forwardingAddress', 'Forwarding address'),
       {
         'ui:options': {
           expandUnder: 'view:hasForwardingAddress'
@@ -600,7 +600,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
       'view:hasForwardingAddress': {
         type: 'boolean'
       },
-      secondaryAddress: addressSchema(),
+      forwardingAddress: addressSchema(),
       effectiveDate: date
     }
   };
