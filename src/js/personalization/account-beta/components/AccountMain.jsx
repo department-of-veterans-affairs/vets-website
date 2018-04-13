@@ -66,8 +66,8 @@ class UserDataSection extends React.Component {
 
     return (
       <div>
-        <MultifactorMessage multifactor={multifactor}/>
         <AccountVerification loa={loa}/>
+        <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
         <TermsAndConditions healthTermsCurrent={healthTermsCurrent} openModal={this.openModal}/>
         <Modal
