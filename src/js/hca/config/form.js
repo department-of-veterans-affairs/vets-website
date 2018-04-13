@@ -241,7 +241,7 @@ const formConfig = {
           },
           uiSchema: {
             gender: {
-              'ui:title': 'Gender',
+              'ui:title': 'What gender is listed on your DD-214?',
               'ui:options': {
                 labels: genderLabels
               }
