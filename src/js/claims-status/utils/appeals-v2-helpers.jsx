@@ -310,14 +310,14 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     case STATUS_TYPES.remand: {
       // TODO: break this out into its own template/component
-      const { decisionIssues } = details;
-      const allowedIssues = decisionIssues
+      const { issues } = details;
+      const allowedIssues = issues
         .filter((issue) => (issue.disposition === 'allowed'))
         .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
-      const deniedIssues = decisionIssues
+      const deniedIssues = issues
         .filter((issue) => (issue.disposition === 'denied'))
         .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
-      const remandIssues = decisionIssues
+      const remandIssues = issues
         .filter((issue) => (issue.disposition === 'remand'))
         .map((issue, i) => (<li key={`remanded-${i}`}>{issue.description}</li>));
 
@@ -381,11 +381,11 @@ export function getStatusContents(statusType, details = {}, name = {}) {
       break;
     }
     case STATUS_TYPES.bvaDecision: {
-      const { decisionIssues } = details;
-      const allowedIssues = decisionIssues
+      const { issues } = details;
+      const allowedIssues = issues
         .filter((issue) => (issue.disposition === 'allowed'))
         .map((issue, i) => (<li key={`allowed-${i}`}>{issue.description}</li>));
-      const deniedIssues = decisionIssues
+      const deniedIssues = issues
         .filter((issue) => (issue.disposition === 'denied'))
         .map((issue, i) => (<li key={`denied-${i}`}>{issue.description}</li>));
 
@@ -764,7 +764,7 @@ export const makeDurationText = (timeliness) => {
 export function getNextEvents(currentStatus, details) {
   switch (currentStatus) {
     case STATUS_TYPES.pendingSoc: {
-      const socDuration = makeDurationText(details.ssocTimeliness);
+      const socDuration = makeDurationText(details.socTimeliness);
       return {
         header: `What happens next depends on whether the Decision Review Officer has enough
           evidence to decide in your favor.`,

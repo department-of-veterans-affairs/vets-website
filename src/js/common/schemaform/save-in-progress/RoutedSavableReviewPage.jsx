@@ -8,10 +8,20 @@ import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
 
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
+import { getReviewPageOpenChapters } from '../state/selectors';
 import { toggleLoginModal } from '../../../login/actions';
 
 import { ReviewPage } from '../review/ReviewPage';
-import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../actions';
+import {
+  closeReviewChapter,
+  openReviewChapter,
+  setData,
+  setPrivacyAgreement,
+  setEditMode,
+  setSubmission,
+  submitForm,
+  uploadFile
+} from '../actions';
 import { getFormContext } from './selectors';
 
 class RoutedSavableReviewPage extends React.Component {
@@ -109,11 +119,14 @@ class RoutedSavableReviewPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    openChapters: getReviewPageOpenChapters(state),
     user: state.user
   };
 }
 
 const mapDispatchToProps = {
+  closeReviewChapter,
+  openReviewChapter,
   setEditMode,
   setSubmission,
   submitForm,
