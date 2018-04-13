@@ -22,13 +22,17 @@ class BetaEnrollmentButton extends React.Component {
     this.setState({ isLoading: false, hasError: true });
   }
 
+  onRegistered = () => {
+    document.location.replace(this.props.returnUrl);
+  }
+
   onClick = () => {
     this.setState({ isLoading: true });
     this.props.registerBeta(this.props.feature).then(this.onRegistered).catch(this.onError);
   }
 
   render() {
-    if (this.props.isUserRegisteredForBeta(this.props.feature)) document.location.replace(this.props.returnUrl);
+    if (this.props.isUserRegisteredForBeta(this.props.feature)) this.onRegistered();
 
     return (
       <RequiredLoginView
