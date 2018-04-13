@@ -79,7 +79,7 @@ export default class VerifiedReviewPage extends React.Component {
   };
 
   render() {
-    const { form, formContext, verifiedReviewComponent, pageKey, title, hideHeaderRow } = this.props;
+    const { form, formContext, verifiedReviewComponent, pageKey, title, description, hideHeaderRow } = this.props;
     const pageState = form.pages[pageKey];
     const editing = pageState.editMode;
     const { data } = form;
@@ -132,8 +132,7 @@ export default class VerifiedReviewPage extends React.Component {
     return (
       <div id={`${this.id}-collapsiblePanel`} className={containerClasses}>
         <p>
-          Please review the information we have on file for you. If something
-          doesn’t look right, you can fix it by clicking the Edit button.
+          {description || 'Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.'}
         </p>
         <Element name={`${pageKey}TitleScrollElement`}/>
         <ul className="usa-unstyled-list">

@@ -8,6 +8,10 @@ import initialData from '../../../../../test/disability-benefits/526EZ/schema/in
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createVerifiedVeteranInfoPage } from '../pages/veteranInfo';
+import {
+  createVerifiedPaymentInfoPage,
+  createUnverifiedPaymentInfoPage
+} from '../pages/paymentInfo';
 
 import {
   transform,
@@ -100,6 +104,14 @@ const formConfig = {
       title: 'Review Veteran Details',
       pages: {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
+        // primaryAddress
+        paymentInformation: createVerifiedPaymentInfoPage(fullSchema526EZ)
+      }
+    },
+    veteranDetails: {
+      title: 'Veteran Details',
+      pages: {
+        paymentInformation: createUnverifiedPaymentInfoPage(fullSchema526EZ)
       }
     },
     chapterThree: {

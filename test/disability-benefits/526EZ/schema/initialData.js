@@ -9,6 +9,12 @@ export default {
   vaFileNumber: '345345345',
   gender: 'F',
   dateOfBirth: '1990-04-02',
+  directDeposit: {
+    accountType: 'CHECKING',
+    accountNumber: '234234234234',
+    routingNumber: '234234234234',
+    bankName: 'Local bank'
+  },
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
