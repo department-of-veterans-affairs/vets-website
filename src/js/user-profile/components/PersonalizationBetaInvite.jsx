@@ -1,8 +1,6 @@
 import React from 'react';
 import dashboardManifest from '../../personalization/dashboard-beta/manifest.json';
 
-// If it's production, check the dashboard manifest.json production flag
-const enabled = document.location.hostname === 'www.vets.gov' ? dashboardManifest.production : true;
 const eligibleServices = [
   'evss-claims',
   'appeals-status',
@@ -10,14 +8,24 @@ const eligibleServices = [
   'rx'
 ];
 
+function enabled() {
+  if (dashboardManifest.hideInvitation) return false;
+  if (document.location.hostname === 'www.vets.gov') return dashboardManifest.production;
+  return true;
+}
+
 function meetsCriteria(profile) {
+  // Check if they are already enrolled
+  if (profile.services.includes('dashbord-beta')) return false;
+
+  // Otherwise, they should be a user of at least one of the applications listed above
   return profile.services.some(service => {
     return eligibleServices.includes(service);
   });
 }
 
 export default function PersonalizationBetaInvite({ profile }) {
-  if (!enabled || !meetsCriteria(profile)) return null;
+  if (!enabled() || !meetsCriteria(profile)) return null;
 
   return (
     <div>
