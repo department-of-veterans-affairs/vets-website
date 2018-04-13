@@ -111,8 +111,7 @@ const formConfig = {
                 <p>
                   You can apply using the Fully Developed Claim (FDC) program if
                   you’ve uploaded all the supporting documents or supplemental
-                  forms needed to support your claim. Learn more about the FDC
-                  program.
+                  forms needed to support your claim.
                 </p>
                 <a href="/pension/apply/fully-developed-claim/" target="_blank">
                   Learn more about the FDC program
