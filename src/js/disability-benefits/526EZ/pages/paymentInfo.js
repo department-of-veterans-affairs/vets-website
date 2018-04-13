@@ -90,7 +90,7 @@ function createPaymentInfoPage(formSchema, isReview) {
         }
       },
       'view:noBank': {
-        'ui:description': (<p>The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="https://www.usdirectexpress.com">www.usdirectexpress.com</a> or by telephone at 1-800-333-1795. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at 1-888-224-2950. They will address any questions or concerns yo may have and encourage your participation in EFT.</p>),
+        'ui:description': (<p>The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="https://www.usdirectexpress.com">www.usdirectexpress.com</a> or by telephone at 1-800-333-1795. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at 1-888-224-2950. They’ll address any questions or concerns you may have and encourage your participation in EFT.</p>),
         'ui:options': {
           hideIf: formData => formData.directDeposit.accountType !== 'NOBANK'
         }
@@ -119,7 +119,7 @@ function createPaymentInfoPage(formSchema, isReview) {
   const pageConfig = {
     pageTitle: 'Payment Information',
     isReview,
-    description: 'This is the bank account we have on file for you. We’ll pay your benefit to this account.',
+    description: 'This is the bank account information we have on file for you. We’ll pay your benefit to this account. If you need to make changes to your bank information, you can click the Edit button.',
     component: VerifiedReviewContainer,
     verifiedReviewComponent: paymentInformationViewField,
     uiSchema,

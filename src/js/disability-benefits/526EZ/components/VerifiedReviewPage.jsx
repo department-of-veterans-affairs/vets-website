@@ -132,7 +132,7 @@ export default class VerifiedReviewPage extends React.Component {
     return (
       <div id={`${this.id}-collapsiblePanel`} className={containerClasses}>
         <p>
-          {description || 'Please review the information we have on file for you. If something doesn’t look right, you can fix it by clicking the Edit button.'}
+          {description}
         </p>
         <Element name={`${pageKey}TitleScrollElement`}/>
         <ul className="usa-unstyled-list">
