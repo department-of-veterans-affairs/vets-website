@@ -400,6 +400,9 @@ const internationalCountries = [
   'Zimbabwe'
 ];
 
+const allCountries = internationalCountries.slice(0);
+allCountries.unshift('USA');
+
 const militaryPostOfficeTypeLabels = {
   APO: 'Army Post Office',
   FPO: 'Fleet Post Office',
@@ -425,16 +428,16 @@ function createPrimaryAddressPage(formSchema, isReview) {
           updateSchema: (formData, schema) => {
             const { primaryAddress } = formData;
             const newSchema = _.set(schema);
-            if (primaryAddress.type === 'INTERNATIONAL') {
+            if (
+              primaryAddress.type === 'INTERNATIONAL' ||
+              primaryAddress.type === 'MILITARY'
+            ) {
               newSchema.enum = internationalCountries;
               if (primaryAddress && primaryAddress.country === 'USA') {
                 delete formData.primaryAddress.country; // eslint-disable-line no-param-reassign
               }
             }
-            if (
-              primaryAddress.type === 'DOMESTIC' ||
-              primaryAddress.type === 'MILITARY'
-            ) {
+            if (primaryAddress.type === 'DOMESTIC') {
               newSchema.enum = USAOnly;
               if (primaryAddress && primaryAddress.country !== 'USA') {
                 delete formData.primaryAddress.country; // eslint-disable-line no-param-reassign
@@ -447,12 +450,50 @@ function createPrimaryAddressPage(formSchema, isReview) {
       state: {
         'ui:title': 'State',
         'ui:options': {
+          labels: stateLabels,
           hideIf: ({ primaryAddress }) => {
             return (
               primaryAddress.type === 'INTERNATIONAL' ||
               primaryAddress.type === 'MILITARY'
             );
           }
+        }
+      },
+      addressLine1: {
+        'ui:title': 'Street'
+      },
+      addressLine2: {
+        'ui:title': 'Line 2'
+      },
+      addressLine3: {
+        'ui:title': 'Line 3'
+      },
+      city: {
+        'ui:title': 'City'
+      },
+      militaryStateCode: {
+        'ui:title': 'Military State Code',
+        'ui:options': {
+          labels: stateLabels,
+          hideIf: formData => formData.primaryAddress.type !== 'MILITARY' // TODO: determine expand under conditions
+        }
+      },
+      zipCode: {
+        'ui:title': 'ZIP code',
+        'ui:validations': [validateZIP],
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
+        },
+        'ui:options': {
+          widgetClassNames: 'va-input-medium-large',
+          hideIf: formData => formData.primaryAddress.type !== 'DOMESTIC' // TODO: determine expand under
+        }
+      },
+      militaryPostOfficeTypeCode: {
+        'ui:title': 'Military Post Office Type Code',
+        'ui:options': {
+          labels: militaryPostOfficeTypeLabels,
+          hideIf: formData => formData.primaryAddress.type !== 'MILITARY'
         }
       }
     },
@@ -503,6 +544,37 @@ function createPrimaryAddressPage(formSchema, isReview) {
           state: {
             type: 'string',
             'enum': states
+          },
+          addressLine1: {
+            type: 'string',
+            maxLength: 35,
+            pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+          },
+          addressLine2: {
+            type: 'string',
+            maxLength: 35,
+            pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+          },
+          addressLine3: {
+            type: 'string',
+            maxLength: 35,
+            pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+          },
+          city: {
+            type: 'string',
+            maxLength: 35,
+            pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
+          },
+          zipCode: {
+            type: 'string'
+          },
+          militaryPostOfficeTypeCode: {
+            type: 'string',
+            'enum': ['APO', 'DPO', 'FPO']
+          },
+          militaryStateCode: {
+            type: 'string',
+            'enum': ['AA', 'AE', 'AP']
           }
         }
       },
