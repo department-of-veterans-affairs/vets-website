@@ -151,7 +151,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {pageSchema &&
                   <SchemaForm
                     name={page.pageKey}
-                    title={page.reviewTitle || page.title}
+                    title={page.title.replace('Review ', '')}
                     data={pageData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
@@ -209,7 +209,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.state.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.toggleChapter}>
-                {this.props.chapter.reviewTitle || this.props.chapter.title}
+                {this.props.chapter.title.replace('Review ', '')}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>
