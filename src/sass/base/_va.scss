@@ -1469,3 +1469,11 @@ p.info-message {
     margin-top: 0.5em;
   }
 }
+
+.usa-label {
+  &.va-label-primary {
+    background-color: $color-green;
+    color: #fff;
+  }
+}
+
