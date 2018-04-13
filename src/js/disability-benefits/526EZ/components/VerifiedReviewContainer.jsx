@@ -106,7 +106,7 @@ class VerifiedReviewContainer extends React.Component {
     const { form, user, formContext, route } = this.props;
     const { chapterKey, pageKey } = route.pageConfig;
     const { 
-      title, verifiedReviewComponent,
+      title, description, verifiedReviewComponent,
       hideHeaderRow, contentBeforeButtons
     } = formConfig.chapters[chapterKey].pages[pageKey];
     const isNotPrefilled = !form.data.prefilled;
@@ -119,6 +119,7 @@ class VerifiedReviewContainer extends React.Component {
           verifiedReviewComponent={verifiedReviewComponent}
           pageKey={pageKey}
           title={title}
+          description={description}
           hideHeaderRow={hideHeaderRow}
           setData={this.props.setData}
           setValid={this.props.setValid}

@@ -63,6 +63,7 @@ function createVeteranInfoPage(formSchema, isReview) {
     pageTitle: 'Veteran Information',
     isReview,
     component: VerifiedReviewContainer,
+    description: 'Please review the information we have on file for you. If something doesn’t look right, you can click the Edit button to fix it.',
     verifiedReviewComponent: veteranInformationViewField,
     uiSchema,
     schema,
