@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
+import dateUI from '../../../common/schemaform/definitions/date';
 import * as address from '../../../common/schemaform/definitions/address';
 import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -417,7 +418,7 @@ const addressUISchema = (addressName, title) => {
       }
     },
     country: {
-      'ui:title': 'Country',
+      'ui:title': 'Country'
     },
     state: {
       'ui:title': 'State',
@@ -431,7 +432,7 @@ const addressUISchema = (addressName, title) => {
       }
     },
     addressLine1: {
-      'ui:title': 'Street',
+      'ui:title': 'Street'
     },
     addressLine2: {
       'ui:title': 'Line 2'
@@ -526,6 +527,8 @@ const addressSchema = (isRequired = false) => {
 };
 
 function createPrimaryAddressPage(formSchema, isReview) {
+  const { date } = formSchema.definitions;
+
   const uiSchema = {
     mailingAddress: addressUISchema('mailingAddress'),
     primaryPhone: {
@@ -566,13 +569,18 @@ function createPrimaryAddressPage(formSchema, isReview) {
           expandUnder: 'view:hasForwardingAddress'
         },
         country: {
-          'ui:required': (formData) => formData['view:hasForwardingAddress']
+          'ui:required': formData => formData['view:hasForwardingAddress']
         },
         addressLine1: {
-          'ui:required': (formData) => formData['view:hasForwardingAddress']
+          'ui:required': formData => formData['view:hasForwardingAddress']
         }
       }
-    )
+    ),
+    effectiveDate: _.merge(dateUI('Effective date'), {
+      'ui:options': {
+        expandUnder: 'view:hasForwardingAddress'
+      }
+    })
   };
 
   const schema = {
@@ -592,7 +600,8 @@ function createPrimaryAddressPage(formSchema, isReview) {
       'view:hasForwardingAddress': {
         type: 'boolean'
       },
-      secondaryAddress: addressSchema()
+      secondaryAddress: addressSchema(),
+      effectiveDate: date
     }
   };
   const pageConfig = {
