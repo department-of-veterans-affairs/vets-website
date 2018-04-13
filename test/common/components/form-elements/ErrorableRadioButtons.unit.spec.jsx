@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import ErrorableRadioButtons from '../../../../src/js/common/components/form-elements/ErrorableRadioButtons';
-import { makeField } from '../../../../src/js/common/model/fields';
+import { makeField } from '../../../../src/platform/forms/fields';
 
 describe('<ErrorableRadioButtons>', () => {
   const options = [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];

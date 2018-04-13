@@ -4,7 +4,7 @@ import Raven from 'raven-js';
 
 import { apiRequest as commonApiClient } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
-import { formatDateShort } from '../../common/utils/helpers';
+import { formatDateShort } from '../../../platform/utilities/date';
 import {
   AVAILABILITY_STATUSES,
   BENEFIT_OPTIONS,

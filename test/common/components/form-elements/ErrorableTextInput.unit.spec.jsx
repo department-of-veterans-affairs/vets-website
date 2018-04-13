@@ -5,7 +5,7 @@ import chaiAsPromised from 'chai-as-promised';
 import chai, { expect } from 'chai';
 
 import ErrorableTextInput from '../../../../src/js/common/components/form-elements/ErrorableTextInput';
-import { makeField } from '../../../../src/js/common/model/fields';
+import { makeField } from '../../../../src/platform/forms/fields';
 
 chai.use(chaiAsPromised);
 

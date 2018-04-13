@@ -4,7 +4,7 @@ import React from 'react';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import Modal from '../../common/components/Modal';
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../platform/forms/fields';
 import { validateFolderName } from '../utils/validations';
 import { createNewFolderSettings } from '../config';
 

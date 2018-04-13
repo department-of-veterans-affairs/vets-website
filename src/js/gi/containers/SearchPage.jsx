@@ -17,7 +17,7 @@ import {
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Pagination from '../../common/components/Pagination';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import InstitutionFilterForm from '../components/search/InstitutionFilterForm';

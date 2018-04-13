@@ -4,7 +4,7 @@ import {
   validateIfDirty
 } from '../../common/utils/validations';
 
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../platform/forms/fields';
 
 export function validateNumAttachments(files, maxAttachments) {
   return files.length > maxAttachments;

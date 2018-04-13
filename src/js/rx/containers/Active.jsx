@@ -18,7 +18,7 @@ import {
 } from '../actions/modals';
 
 import Pagination from '../../common/components/Pagination';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import PrescriptionList from '../components/PrescriptionList';

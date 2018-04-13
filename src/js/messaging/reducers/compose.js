@@ -1,6 +1,6 @@
 import set from 'lodash/fp/set';
 
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../platform/forms/fields';
 
 import {
   ADD_COMPOSE_ATTACHMENTS,

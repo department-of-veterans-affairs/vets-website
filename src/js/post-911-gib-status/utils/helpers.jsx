@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { formatDateParsedZoneLong } from '../../common/utils/helpers';
+import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
 
 export function formatPercent(percent) {
   let validPercent = undefined;

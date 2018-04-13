@@ -10,7 +10,7 @@ import EvidenceWarning from '../components/EvidenceWarning';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 
 import {
   addFile,

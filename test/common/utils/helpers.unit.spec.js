@@ -10,7 +10,7 @@ import {
   formatDateParsedZoneShort,
   formatDateLong,
   formatDateParsedZoneLong
-} from '../../../src/js/common/utils/helpers.js';
+} from '../../../src/platform/utilities/date';
 
 describe('Helpers unit tests', () => {
   describe('isActivePage', () => {

@@ -6,7 +6,7 @@ import chai, { expect } from 'chai';
 import sinon from 'sinon';
 
 import ErrorableTextarea from '../../../../src/js/common/components/form-elements/ErrorableTextarea';
-import { makeField } from '../../../../src/js/common/model/fields';
+import { makeField } from '../../../../src/platform/forms/fields';
 
 chai.use(chaiAsPromised);
 

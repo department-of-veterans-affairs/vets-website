@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { dirtyAllFields, makeField } from '../../../src/js/common/model/fields';
+import { dirtyAllFields, makeField } from '../../../src/platform/forms/fields';
 
 describe('fields model', () => {
   it('field creation method defaults to clean', () => {

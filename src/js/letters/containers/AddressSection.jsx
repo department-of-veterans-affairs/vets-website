@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 import Raven from 'raven-js';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { scrollToFirstError, focusElement } from '../../common/utils/helpers';
+import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Modal from '../../common/components/Modal';
 
