@@ -3,6 +3,7 @@ import React from 'react';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../utils/helpers';
 
 class Verify extends React.Component {
@@ -10,7 +11,7 @@ class Verify extends React.Component {
     if (!sessionStorage.userToken) {
       return window.location.replace('/');
     }
-    return window.dataLayer.push({ event: 'verify-prompt-displayed' });
+    return recordEvent({ event: 'verify-prompt-displayed' });
   }
 
   componentDidUpdate(prevProps) {

@@ -1,5 +1,6 @@
 import { snakeCase } from 'lodash';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { api } from '../config';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -33,7 +34,7 @@ export function updateRoute(location) {
 
 export function showModal(modal) {
   if (modal) {
-    window.dataLayer.push({
+    recordEvent({
       event: 'gibct-learn-more',
       'gibct-modal-displayed': modal,
     });
@@ -135,7 +136,7 @@ export function clearAutocompleteSuggestions() {
 export function eligibilityChange(e) {
   const field = e.target.name;
   const value = e.target.value;
-  window.dataLayer.push({
+  recordEvent({
     event: 'gibct-form-change',
     'gibct-form-field': field,
     'gibct-form-value': value,

@@ -1,3 +1,4 @@
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../utils/helpers';
 
 import {
@@ -34,7 +35,7 @@ import {
 const baseUrl = '/messages';
 
 export function addDraftAttachments(files) {
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-add-attachment',
   });
   return { type: ADD_DRAFT_ATTACHMENTS, files };
@@ -51,7 +52,7 @@ export function deleteDraftAttachment(index) {
 export function deleteMessage(messageId) {
   const url = `${baseUrl}/${messageId}`;
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-delete-message',
   });
 
@@ -108,7 +109,7 @@ export function fetchThreadMessage(messageId) {
 export function moveMessageToFolder(messageId, folder) {
   const url = `${baseUrl}/${messageId}/move?folder_id=${folder.folderId}`;
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-move-message',
   });
 
@@ -134,7 +135,7 @@ export function createFolderAndMoveMessage(folderName, messageId) {
     body: JSON.stringify(folderData)
   };
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-move-message',
   });
 
@@ -181,7 +182,7 @@ export function saveDraft(message) {
     method = 'PUT';
   }
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-save-draft',
   });
 
@@ -243,7 +244,7 @@ export function sendMessage(message) {
     payload.append('uploads[]', file);
   });
 
-  window.dataLayer.push({
+  recordEvent({
     event: 'sm-send-message',
     hasAdditionalSubject: message.subject.length > 0,
   });

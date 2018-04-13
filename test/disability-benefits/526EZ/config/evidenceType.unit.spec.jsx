@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, selectCheckbox } from '../../../../src/platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form.js';
 import initialData from '../schema/initialData.js';
 
