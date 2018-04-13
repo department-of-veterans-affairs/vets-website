@@ -13,9 +13,10 @@ import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
 
 export class SearchHelpSignIn extends React.Component {
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { currentlyLoggedIn, showModal } = this.props.login;
-    if (!currentlyLoggedIn && !showModal) {
+    const isModalStillClosed = !prevProps.login.showModal && !showModal;
+    if (!currentlyLoggedIn && isModalStillClosed) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
       if (nextPath) {
