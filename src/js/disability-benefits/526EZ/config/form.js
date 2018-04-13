@@ -112,12 +112,18 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': 'To help us better understand your situation, please tell us if any of the below situations apply to you. Are you:',
+            'ui:description': (
+              <p>
+                To help us better understand your situation, please tell us if
+                any of the below situations apply to you.{' '}
+                <strong>Are you:</strong>
+              </p>
+            ),
             'view:suicidal': {
               'ui:title': 'In crisis or thinking of suicide?'
             },
             'view:homeless': {
-              'ui:title': 'Homeless or in danger of becoming homless?'
+              'ui:title': 'Homeless or at risk of becoming homeless?'
             },
             'view:extremeFinancialHardship': {
               'ui:title': 'Suffering from extreme financial hardship?'
@@ -156,7 +162,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     },
