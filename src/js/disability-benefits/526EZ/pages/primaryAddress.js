@@ -18,6 +18,13 @@ import {
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
+function isValidZIP(value) {
+  if (value !== null) {
+    return /^\d{9}$/.test(value) || /^\d{5}-\d{4}$/.test(value);
+  }
+  return true;
+}
+
 function isValidPhone(value) {
   if (value !== null) {
     return /^\d{10}$/.test(value) || /^\d{11}$/.test(value);
@@ -30,6 +37,12 @@ function validatePhone(errors, phone) {
     errors.addError(
       'Phone numbers must be at least 10 digits (dashes allowed)'
     );
+  }
+}
+
+function validateZIP(errors, zip) {
+  if (zip && !isValidZIP(zip)) {
+    errors.addError('Please enter a valid 9 digit ZIP (dashes allowed)');
   }
 }
 
@@ -105,6 +118,73 @@ const states = [
   'PI',
   'UM'
 ];
+
+const stateLabels = {
+  AL: 'Alabama',
+  AK: 'Alaska',
+  AS: 'American Samoa',
+  AZ: 'Arizona',
+  AR: 'Arkansas',
+  AA: 'Armed Forces Americas (AA)',
+  AE: 'Armed Forces Europe (AE)',
+  AP: 'Armed Forces Pacific (AP)',
+  CA: 'California',
+  CO: 'Colorado',
+  CT: 'Connecticut',
+  DE: 'Delaware',
+  DC: 'District Of Columbia',
+  FM: 'Federated States Of Micronesia',
+  FL: 'Florida',
+  GA: 'Georgia',
+  GU: 'Guam',
+  HI: 'Hawaii',
+  ID: 'Idaho',
+  IL: 'Illinois',
+  IN: 'Indiana',
+  IA: 'Iowa',
+  KS: 'Kansas',
+  KY: 'Kentucky',
+  LA: 'Louisiana',
+  ME: 'Maine',
+  MH: 'Marshall Islands',
+  MD: 'Maryland',
+  MA: 'Massachusetts',
+  MI: 'Michigan',
+  MN: 'Minnesota',
+  MS: 'Mississippi',
+  MO: 'Missouri',
+  MT: 'Montana',
+  NE: 'Nebraska',
+  NV: 'Nevada',
+  NH: 'New Hampshire',
+  NJ: 'New Jersey',
+  NM: 'New Mexico',
+  NY: 'New York',
+  NC: 'North Carolina',
+  ND: 'North Dakota',
+  MP: 'Northern Mariana Islands',
+  OH: 'Ohio',
+  OK: 'Oklahoma',
+  OR: 'Oregon',
+  PW: 'Palau',
+  PA: 'Pennsylvania',
+  PR: 'Puerto Rico',
+  RI: 'Rhode Island',
+  SC: 'South Carolina',
+  SD: 'South Dakota',
+  TN: 'Tennessee',
+  TX: 'Texas',
+  UT: 'Utah',
+  VT: 'Vermont',
+  VI: 'Virgin Islands',
+  VA: 'Virginia',
+  WA: 'Washington',
+  WV: 'West Virginia',
+  WI: 'Wisconsin',
+  WY: 'Wyoming',
+  PI: 'Rizal state',
+  UM: 'United States Minor Outlying Islands'
+};
 
 const internationalCountries = [
   'Afghanistan',
@@ -320,7 +400,15 @@ const internationalCountries = [
   'Zimbabwe'
 ];
 
+const militaryPostOfficeTypeLabels = {
+  APO: 'Army Post Office',
+  FPO: 'Fleet Post Office',
+  DPO: 'Diplomatic Post Office'
+};
+
 const USAOnly = ['USA'];
+
+const requiredFields = ['country', 'addressLine1'];
 
 function createPrimaryAddressPage(formSchema, isReview) {
   const uiSchema = {
@@ -335,7 +423,6 @@ function createPrimaryAddressPage(formSchema, isReview) {
         'ui:title': 'Country',
         'ui:options': {
           updateSchema: (formData, schema) => {
-            console.log('updating schema', schema);
             const { primaryAddress } = formData;
             const newSchema = _.set(schema);
             if (primaryAddress.type === 'INTERNATIONAL') {
@@ -361,7 +448,10 @@ function createPrimaryAddressPage(formSchema, isReview) {
         'ui:title': 'State',
         'ui:options': {
           hideIf: ({ primaryAddress }) => {
-            return primaryAddress.type === 'INTERNATIONAL';
+            return (
+              primaryAddress.type === 'INTERNATIONAL' ||
+              primaryAddress.type === 'MILITARY'
+            );
           }
         }
       }
@@ -397,6 +487,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
   };
   const schema = {
     type: 'object',
+    // required: requiredFields,
     properties: {
       primaryAddress: {
         type: 'object',

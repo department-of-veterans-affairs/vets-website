@@ -13,8 +13,6 @@ import {
   VAFileNumberDescription
 } from '../helpers';
 
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
-
 function createVeteranInfoPage(formSchema, isReview) {
   const { fullName, date } = formSchema.definitions;
 

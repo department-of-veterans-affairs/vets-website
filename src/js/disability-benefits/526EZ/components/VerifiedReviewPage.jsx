@@ -79,7 +79,14 @@ export default class VerifiedReviewPage extends React.Component {
   };
 
   render() {
-    const { form, formContext, verifiedReviewComponent, pageKey, title, hideHeaderRow } = this.props;
+    const {
+      form,
+      formContext,
+      verifiedReviewComponent,
+      pageKey,
+      title,
+      hideHeaderRow
+    } = this.props;
     const pageState = form.pages[pageKey];
     const editing = pageState.editMode;
     const { data } = form;
@@ -140,9 +147,7 @@ export default class VerifiedReviewPage extends React.Component {
           <li>
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <div className="accordion-title">
-                <h4 className="form-review-panel-page-header">
-                  {title}
-                </h4>
+                <h4 className="form-review-panel-page-header">{title}</h4>
                 {!editing && (
                   <button
                     type="button"
