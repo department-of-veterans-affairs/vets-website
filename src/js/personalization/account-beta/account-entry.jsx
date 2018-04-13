@@ -1,5 +1,6 @@
 import '../../../sass/va-profile.scss';
 import '../../../platform/polyfills';
+import '../../../sass/user-profile.scss';
 
 import startApp from '../../../platform/startup';
 
@@ -12,4 +13,3 @@ startApp({
   reducer,
   routes
 });
-
