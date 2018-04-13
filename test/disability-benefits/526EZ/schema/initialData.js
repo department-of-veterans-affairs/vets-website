@@ -1,5 +1,9 @@
 export default {
   // For testing purposes only
+  veteranFullName: {
+    first: 'Sally',
+    last: 'Alphonse'
+  },
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?

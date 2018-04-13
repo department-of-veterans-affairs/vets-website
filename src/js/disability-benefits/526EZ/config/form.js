@@ -26,12 +26,10 @@ import {
   releaseView
 } from '../helpers';
 
-const {
-  treatments
-} = fullSchema526EZ.properties;
+const { treatments } = fullSchema526EZ.properties;
 
 const {
-  date,
+  date
   // files
 } = fullSchema526EZ.definitions;
 
@@ -72,23 +70,25 @@ const FIFTY_MB = 52428800;
 const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/21-526EZ',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
   migrations: [],
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
-    noAuth: 'Please sign in again to resume your application for disability claims increase.'
+    noAuth:
+      'Please sign in again to resume your application for disability claims increase.'
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    date,
+    date
     // files
   },
-  title: 'Disability Claims for Increase',
+  title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   // getHelp: GetFormHelp,
   chapters: {
@@ -102,7 +102,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     },
@@ -116,7 +116,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     },
@@ -130,10 +130,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
-    },
+    }
     // supportingEvidence: {
     //   title: 'Supporting Evidence',
     //   pages: {
@@ -666,6 +666,5 @@ const formConfig = {
     // }
   }
 };
-
 
 export default formConfig;
