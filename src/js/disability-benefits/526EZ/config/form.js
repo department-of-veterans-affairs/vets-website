@@ -34,8 +34,11 @@ const {
 
 const {
   date,
+  disabilities: disabilitiesSchema
   // files
 } = fullSchema526EZ.definitions;
+
+console.log('definitions:', fullSchema526EZ.definitions);
 
 const FIFTY_MB = 52428800;
 
@@ -127,11 +130,23 @@ const formConfig = {
         pageOne: {
           title: 'Your Rated Disabilities',
           path: 'chapter-three/page-one',
-          uiSchema: {},
+          uiSchema: {
+            disabilities: {
+              'ui:widget': 'SelectArrayItemsWidget'
+            }
+          },
           schema: {
             type: 'object',
-            properties: {}
-          },
+            properties: {
+              disabilities: {
+                type: 'object',
+                properties: {
+                  'view:preFilled': disabilitiesSchema,
+                  selected: disabilitiesSchema
+                }
+              }
+            }
+          }
         }
       }
     },

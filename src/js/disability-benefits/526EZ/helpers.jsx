@@ -279,8 +279,11 @@ export const evidenceSummaryView = ({ formData }) => {
 
 
 /**
- * @param {string} diagnosticCode
- * @param {string} diagnosticText
+ * @typedef {Object} Disability
+ * @property {String} diagnosticCode
+ * @property {String} diagnosticText
+ *
+ * @param {Disability} disability
  */
 export const disabilityOption = ({ disability }) => {
   const { diagnosticCode, diagnosticText } = disability;
@@ -291,7 +294,7 @@ export const disabilityOption = ({ disability }) => {
       <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>
       <p>{getDiagnosticText(diagnosticText)}</p>
       <br/>
-      <p>Current rating: <strong>%</strong></p>
+      <p>Current rating: <strong>??%</strong></p>
     </div>
   );
 };
