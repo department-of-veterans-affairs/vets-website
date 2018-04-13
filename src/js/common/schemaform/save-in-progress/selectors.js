@@ -16,7 +16,8 @@ export const getSaveInProgressState = createStructuredSelector({
 });
 
 export const getIntroState = createStructuredSelector({
-  formId: state =>  state.form.formId,
+  formData: getFormData,
+  formId: state => state.form.formId,
   migrations: state => state.form.migrations,
   prefillTransformer: state => state.form.prefillTransformer,
   returnUrl: state => state.form.loadedData.metadata.returnUrl,

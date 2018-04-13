@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -9,7 +10,7 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 
-export default class SaveInProgressIntro extends React.Component {
+class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
     const { profile, login } = this.props.user;
@@ -95,11 +96,12 @@ export default class SaveInProgressIntro extends React.Component {
   }
 
   getStartPage = () => {
-    const { form, route, location } = this.props;
-    const formData = form && form.data || {};
-    if (route && location) return getNextPagePath(route.pageList, formData, location.pathname);
-    return this.props.pageList[1].path;
-  }
+    const { pageList, pathname, saveInProgress: { formData } } = this.props;
+    const data = formData || {};
+    // pathname is only provided when the first page is conditional
+    if (pathname) return getNextPagePath(pageList, data, pathname);
+    return pageList[1].path;
+  };
 
   render() {
     const { profile } = this.props.user;
@@ -154,17 +156,27 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
+  saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
   startText: PropTypes.string,
+  pathname: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
   renderSignInMessage: PropTypes.func
 };
 
 export const introSelector = getIntroState;
 
+function mapStateToProps(state) {
+  return {
+    saveInProgress: introSelector(state)
+  };
+}
+
+export default connect(mapStateToProps)(SaveInProgressIntro);
+
 export const introActions = {
   fetchInProgressForm,
   removeInProgressForm,
-  toggleLoginModal,
+  toggleLoginModal
 };
