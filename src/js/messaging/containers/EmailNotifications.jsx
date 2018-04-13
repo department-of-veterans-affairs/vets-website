@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { makeField } from '../../common/model/fields';
