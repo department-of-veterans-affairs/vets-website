@@ -25,12 +25,12 @@ majorlinks:
     - url: /gi-bill-comparison-tool/
       title: Compare GI Bill Benefits
       description: Use the GI Bill Comparison Tool to see what benefits you’ll get at the school you want to attend.
+    - url: /employment/
+      title: Education and Career Tools
+      description: Dear SoCo, please may I have some copy?
     - url: /education/gi-bill/
       title: GI Bill&reg;
       description: Since 1944, millions of Veterans have used the GI Bill to pay for college.
-    - url: /education/tools-programs/
-      title: Career Counseling
-      description: VA can help you chart your course.
     - url: /education/advanced-training-and-certifications/
       title: Advanced Training and Certifications
       description: You can use the GI Bill for more than just academic programs.
@@ -40,11 +40,14 @@ majorlinks:
     - url: /education/other-educational-assistance-programs/
       title: Other Educational Assistance Programs
       description: If you don’t qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
-  - heading: Learn about Vocational Rehabilitation and Employment (VR&E)
+  - heading: Additional Education Benefits and Services
     links:
     - url: /employment/vocational-rehab-and-employment/
       title: VR&E Benefits and Services
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+    - url: /education/tools-programs/
+      title: Education and Career Counseling
+      description: VA can help you chart your course. (This is original copy; SoCo should we update?)
 
 ---
 
