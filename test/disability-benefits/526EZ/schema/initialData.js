@@ -12,10 +12,12 @@ export default {
   primaryPhone: '2342342342',
   secondaryPhone: '3242342342',
   emailAddress: 'test@test.com',
-  primaryAddress: {
+  mailingAddress: {
     type: 'DOMESTIC',
     country: 'USA',
+    city: 'Detroit',
     state: 'MI',
+    zipCode: '234563453',
     addressLine1: '234 Maple St.'
   },
   disabilities: [
