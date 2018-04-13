@@ -8,13 +8,26 @@ import { withRouter } from 'react-router';
 import { focusElement } from '../../../common/utils/helpers';
 import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
-import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm, uploadFile } from '../../../common/schemaform/actions';
+import {
+  setData,
+  setPrivacyAgreement,
+  setEditMode,
+  setSubmission,
+  submitForm,
+  uploadFile
+} from '../../../common/schemaform/actions';
 
 import SaveFormLink from '../../../common/schemaform/save-in-progress/SaveFormLink';
 import SaveStatus from '../../../common/schemaform/save-in-progress/SaveStatus';
-import { saveAndRedirectToReturnUrl, autoSaveForm } from '../../../common/schemaform/save-in-progress/actions';
+import {
+  saveAndRedirectToReturnUrl,
+  autoSaveForm
+} from '../../../common/schemaform/save-in-progress/actions';
 import { toggleLoginModal } from '../../../login/actions';
-import { getNextPagePath, getPreviousPagePath } from '../../../common/schemaform/routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath
+} from '../../../common/schemaform/routing';
 
 import formConfig from '../config/form';
 import VerifiedReviewPage from './VerifiedReviewPage';
@@ -22,11 +35,14 @@ import VerifiedReviewPage from './VerifiedReviewPage';
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo(
+    'topScrollElement',
+    window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true
+    }
+  );
 };
 
 class VerifiedReviewContainer extends React.Component {
@@ -43,8 +59,11 @@ class VerifiedReviewContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)) {
+    if (
+      prevProps.route.pageConfig.pageKey !==
+        this.props.route.pageConfig.pageKey ||
+      _.get('params.index', prevProps) !== _.get('params.index', this.props)
+    ) {
       scrollToTop();
       focusElement('h4');
     }
@@ -53,7 +72,7 @@ class VerifiedReviewContainer extends React.Component {
   setData = (...args) => {
     this.props.setData(...args);
     this.debouncedAutoSave();
-  }
+  };
 
   autoSave = () => {
     const { form, user } = this.props;
@@ -64,29 +83,32 @@ class VerifiedReviewContainer extends React.Component {
 
       this.props.autoSaveForm(formId, data, version, returnUrl);
     }
-  }
+  };
 
   goBack = () => {
     const { form, route: { pageList }, location } = this.props;
     const path = getPreviousPagePath(pageList, form.data, location.pathname);
     this.props.router.push(path);
-  }
+  };
 
   goForward = () => {
     const { form, route, location } = this.props;
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
     this.props.router.push(path);
-  }
+  };
 
   handleEdit = (pageKey, editing, index = null) => {
     this.props.setEditMode(pageKey, editing, index);
-  }
+  };
 
   render() {
     const { form, user, formContext, route } = this.props;
     const { chapterKey, pageKey } = route.pageConfig;
-    const page = formConfig.chapters[chapterKey].pages[pageKey];
+    const { 
+      title, verifiedReviewComponent,
+      hideHeaderRow, contentBeforeButtons
+    } = formConfig.chapters[chapterKey].pages[pageKey];
     const isNotPrefilled = !form.data.prefilled;
 
     if (isNotPrefilled) return <RoutedSavablePage {...this.props}/>;
@@ -94,14 +116,16 @@ class VerifiedReviewContainer extends React.Component {
       <div>
         <VerifiedReviewPage
           onEdit={this.handleEdit}
-          page={page}
+          verifiedReviewComponent={verifiedReviewComponent}
           pageKey={pageKey}
+          title={title}
+          hideHeaderRow={hideHeaderRow}
           setData={this.props.setData}
           setValid={this.props.setValid}
           uploadFile={this.props.uploadFile}
           formContext={formContext}
           form={form}/>
-        {page.contentBeforeButtons}
+        {contentBeforeButtons}
         <div className="row form-progress-buttons schemaform-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
@@ -124,8 +148,7 @@ class VerifiedReviewContainer extends React.Component {
             isLoggedIn={user.login.currentlyLoggedIn}
             showLoginModal={user.login.showModal}
             toggleLoginModal={this.props.toggleLoginModal}
-            form={form}>
-          </SaveStatus>
+            form={form}/>
           <SaveFormLink
             locationPathname={this.props.location.pathname}
             form={form}
@@ -170,6 +193,8 @@ VerifiedReviewContainer.propTypes = {
   formContext: PropTypes.object
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VerifiedReviewContainer));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(VerifiedReviewContainer)
+);
 
 export { VerifiedReviewContainer };

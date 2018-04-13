@@ -2,18 +2,24 @@ import React from 'react';
 import classNames from 'classnames';
 import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import {
+  isValidUSZipCode,
+  isValidCanPostalCode
+} from '../../common/utils/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import cloneDeep from '../../common/utils/data-utils/cloneDeep';
 import set from '../../common/utils/data-utils/set';
 import { genderLabels } from '../../common/utils/labels';
 
-const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
+const siblings = [
+  'treatments',
+  'privateRecordReleases',
+  'privateRecords',
+  'additionalDocuments'
+];
 
-import {
-  PREFILL_STATUSES
-} from '../../common/schemaform/save-in-progress/actions';
+import { PREFILL_STATUSES } from '../../common/schemaform/save-in-progress/actions';
 import { DateWidget } from '../../common/schemaform/review/widgets';
 
 /*
@@ -60,16 +66,26 @@ export function prefillTransformer(pages, formData, metadata, state) {
 }
 
 export const supportingEvidenceOrientation = (
-  <p>We’ll now ask you where we can find medical records or evidence about your worsened conditions after they were rated. You don’t need to turn in any medical records that you’ve already submitted with your original claim. <strong>We only need new medical records or other evidence about your condition after you got your disability rating.</strong></p>
+  <p>
+    We’ll now ask you where we can find medical records or evidence about your
+    worsened conditions after they were rated. You don’t need to turn in any
+    medical records that you’ve already submitted with your original claim.{' '}
+    <strong>
+      We only need new medical records or other evidence about your condition
+      after you got your disability rating.
+    </strong>
+  </p>
 );
-
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
-    <p>What supporting evidence do you have that shows how your {formData.disability.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>
+      What supporting evidence do you have that shows how your{' '}
+      {formData.disability.diagnosticText}{' '}
+      <strong>has worsened since VA rated your disability</strong>?
+    </p>
   );
 };
-
 
 // Shows or collapses the "Which should I choose?" link at the bottom of the evidence types page
 // TODO: Investigate whether this should just use `expandUnder`
@@ -81,87 +97,114 @@ export class EvidenceTypeHelp extends React.Component {
     };
   }
 
-  toggleOpen = (e) => {
+  toggleOpen = e => {
     e.preventDefault();
     this.setState({ open: !this.state.open });
-  }
+  };
 
   expandedContent = (
     <div>
       <h3>Types of evidence</h3>
       <h4>VA medical records</h4>
-      <p>If you were treated at a VA medical center or clinic, you have VA medical records. This includes Tri-Care.</p>
+      <p>
+        If you were treated at a VA medical center or clinic, you have VA
+        medical records. This includes Tri-Care.
+      </p>
       <h4>Private medical records</h4>
-      <p>If you were treated by a private doctor, including Veteran’s Choice, we will need to see those records to proceed with your claim. Like DBQs.</p>
+      <p>
+        If you were treated by a private doctor, including Veteran’s Choice, we
+        will need to see those records to proceed with your claim. Like DBQs.
+      </p>
       <h4>Lay statements or other evidence</h4>
-      <p>Also known as "buddy statements," written accounts from family or other people who know you can help support a claim. In most cases your medical records are enough, but claims involving Post Traumatic Stress Disorder or Military Sexual Trauma sometimes benefit from Lay Statements.</p>
-      <button className="va-button-link" onClick={this.toggleOpen}>Close</button>
+      <p>
+        Also known as "buddy statements," written accounts from family or other
+        people who know you can help support a claim. In most cases your medical
+        records are enough, but claims involving Post Traumatic Stress Disorder
+        or Military Sexual Trauma sometimes benefit from Lay Statements.
+      </p>
+      <button className="va-button-link" onClick={this.toggleOpen}>
+        Close
+      </button>
     </div>
-  )
+  );
 
   render() {
-    const className = classNames(
-      'form-expanding-group',
-      { 'form-expanding-group-open': this.state.open }
-    );
+    const className = classNames('form-expanding-group', {
+      'form-expanding-group-open': this.state.open
+    });
 
     return (
       <div className={className}>
-        <button className="va-button-link dashed-underline" onClick={this.toggleOpen}>Which should I choose?</button>
+        <button
+          className="va-button-link dashed-underline"
+          onClick={this.toggleOpen}>
+          Which should I choose?
+        </button>
         {this.state.open && this.expandedContent}
       </div>
     );
   }
 }
 
-
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{formData.disability.diagnosticText}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">
+      {formData.disability.diagnosticText}
+    </legend>
   );
 };
-
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {formData.disability.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+    <p>
+      Tell us about facilities where VA treated you for{' '}
+      {formData.disability.diagnosticText},{' '}
+      <strong>after you got your disability rating</strong>.
+    </p>
   );
 };
 
-
 export const treatmentView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.treatment;
+  const {
+    startTreatment,
+    endTreatment,
+    treatmentCenterName
+  } = formData.treatment;
   let treatmentPeriod = '';
 
   if (startTreatment && endTreatment) {
     treatmentPeriod = `${startTreatment} — ${endTreatment}`;
   } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+    treatmentPeriod = `${startTreatment || endTreatment}`;
   }
-
 
   return (
     <div>
-      <strong>{treatmentCenterName}</strong><br/>
+      <strong>{treatmentCenterName}</strong>
+      <br/>
       {treatmentPeriod}
     </div>
   );
 };
 
 export const releaseView = ({ formData }) => {
-  const { startTreatment, endTreatment, treatmentCenterName } = formData.privateRecordRelease;
+  const {
+    startTreatment,
+    endTreatment,
+    treatmentCenterName
+  } = formData.privateRecordRelease;
   let treatmentPeriod = '';
 
   if (startTreatment && endTreatment) {
     treatmentPeriod = `${startTreatment} — ${endTreatment}`;
   } else if (startTreatment || endTreatment) {
-    treatmentPeriod = `${(startTreatment || endTreatment)}`;
+    treatmentPeriod = `${startTreatment || endTreatment}`;
   }
-
 
   return (
     <div>
-      <strong>{treatmentCenterName}</strong><br/>
+      <strong>{treatmentCenterName}</strong>
+      <br/>
       {treatmentPeriod}
     </div>
   );
@@ -169,14 +212,19 @@ export const releaseView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>
+      Ok, first we’ll ask about your VA medical records related to your{' '}
+      {formData.disability.diagnosticText}.
+    </p>
   );
 };
 
-
 export const privateMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>
+      Ok, first we’ll ask about your private medical records related to your{' '}
+      {formData.disability.diagnosticText}.
+    </p>
   );
 };
 
@@ -184,36 +232,46 @@ export function validatePostalCodes(errors, formData) {
   let isValidPostalCode = true;
   // Checks if postal code is valid
   if (formData.treatmentCenterCountry === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
+    isValidPostalCode =
+      isValidPostalCode && isValidUSZipCode(formData.treatmentCenterPostalCode);
   }
   if (formData.treatmentCenterCountry === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(formData.treatmentCenterPostalCode);
+    isValidPostalCode =
+      isValidPostalCode &&
+      isValidCanPostalCode(formData.treatmentCenterPostalCode);
   }
 
   // Add error message for postal code if it exists and is invalid
   if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
-    errors.treatmentCenterPostalCode.addError('Please provide a valid postal code');
+    errors.treatmentCenterPostalCode.addError(
+      'Please provide a valid postal code'
+    );
   }
 }
 
 export function validateAddress(errors, formData) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (stateRequiredCountries.has(formData.treatmentCenterCountry)
-    && formData.treatmentCenterState === undefined) {
-    // TODO: enable once validation determined 
+  if (
+    stateRequiredCountries.has(formData.treatmentCenterCountry) &&
+    formData.treatmentCenterState === undefined
+  ) {
+    // TODO: enable once validation determined
     // && currentSchema.required.length) {
     errors.treatmentCenterState.addError('Please select a state or province');
   }
-  const hasAddressInfo = stateRequiredCountries.has(formData.treatmentCenterCountry)
-    // TODO: enable once validation determined 
+  const hasAddressInfo =
+    stateRequiredCountries.has(formData.treatmentCenterCountry) &&
+    // TODO: enable once validation determined
     // && !currentSchema.required.length
-    && typeof formData.treatmentCenterCity !== 'undefined'
-    && typeof formData.treatmentCenterStreet !== 'undefined'
-    && typeof formData.treatmentCenterPostalCode !== 'undefined';
+    typeof formData.treatmentCenterCity !== 'undefined' &&
+    typeof formData.treatmentCenterStreet !== 'undefined' &&
+    typeof formData.treatmentCenterPostalCode !== 'undefined';
 
   if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
-    errors.treatmentCenterState.addError('Please enter a state or province, or remove other address information.');
+    errors.treatmentCenterState.addError(
+      'Please enter a state or province, or remove other address information.'
+    );
   }
 
   validatePostalCodes(errors, formData);
@@ -221,7 +279,11 @@ export function validateAddress(errors, formData) {
 
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning no-background-image">
-    <span>Limiting consent means that your doctor can only share records that are directly related to your condition. This could add to the time it takes to get your private medical records.</span>
+    <span>
+      Limiting consent means that your doctor can only share records that are
+      directly related to your condition. This could add to the time it takes to
+      get your private medical records.
+    </span>
   </div>
 );
 
@@ -233,7 +295,12 @@ export const documentDescription = () => {
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+      <p>
+        <em>
+          Large files can be more difficult to upload with a slow Internet
+          connection
+        </em>
+      </p>
     </div>
   );
 };
@@ -241,13 +308,21 @@ export const documentDescription = () => {
 export const additionalDocumentDescription = () => {
   return (
     <div>
-      <p>If you have other evidence, like lay or buddy statements, that you would like to submit, you can upload them here.</p>
+      <p>
+        If you have other evidence, like lay or buddy statements, that you would
+        like to submit, you can upload them here.
+      </p>
       <p>File upload guidelines:</p>
       <ul>
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+      <p>
+        <em>
+          Large files can be more difficult to upload with a slow Internet
+          connection
+        </em>
+      </p>
     </div>
   );
 };
@@ -261,12 +336,15 @@ const documentLabels = {
   6: 'Other'
 };
 
-const getVACenterName = (center) => center.treatment.treatmentCenterName;
-const getPrivateCenterName = (release) => release.privateRecordRelease.treatmentCenterName;
+const getVACenterName = center => center.treatment.treatmentCenterName;
+const getPrivateCenterName = release =>
+  release.privateRecordRelease.treatmentCenterName;
 
 const listifyCenters = (center, idx, list) => {
-  const centerName = center.treatment ? getVACenterName(center) : getPrivateCenterName(center);
-  const notLast = idx < (list.length - 1);
+  const centerName = center.treatment
+    ? getVACenterName(center)
+    : getPrivateCenterName(center);
+  const notLast = idx < list.length - 1;
   const justOne = list.length === 1;
   const atLeastThree = list.length > 2;
   return (
@@ -278,28 +356,51 @@ const listifyCenters = (center, idx, list) => {
   );
 };
 
-
 export const evidenceSummaryView = ({ formData }) => {
-  const { treatments: VATreatments, privateRecordReleases, privateRecords, additionalDocuments } = formData;
+  const {
+    treatments: VATreatments,
+    privateRecordReleases,
+    privateRecords,
+    additionalDocuments
+  } = formData;
   return (
     <div>
       <ul>
-        {VATreatments &&
-        <li>We’ll get your medical records from <span className="treatment-centers">{VATreatments.map(listifyCenters)}</span>.</li>}
-        {privateRecordReleases &&
-        <li>We’ll get your private medical records from <span className="treatment-centers">{privateRecordReleases.map(listifyCenters)}</span>.</li>}
-        {privateRecords && <li>We have received the private medical records you uploaded.</li>}
-        {additionalDocuments &&
-        <li>We have received the additional evidence you uploaded:
-          <ul>
-            {additionalDocuments.map((document, id) => {
-              return (<li className="dashed-bullet" key={id}>
-                <strong>{`${documentLabels[document.attachmentId]} (${document.name})`}</strong>
-              </li>);
-            })
-            }
-          </ul>
-        </li>}
+        {VATreatments && (
+          <li>
+            We’ll get your medical records from{' '}
+            <span className="treatment-centers">
+              {VATreatments.map(listifyCenters)}
+            </span>.
+          </li>
+        )}
+        {privateRecordReleases && (
+          <li>
+            We’ll get your private medical records from{' '}
+            <span className="treatment-centers">
+              {privateRecordReleases.map(listifyCenters)}
+            </span>.
+          </li>
+        )}
+        {privateRecords && (
+          <li>We have received the private medical records you uploaded.</li>
+        )}
+        {additionalDocuments && (
+          <li>
+            We have received the additional evidence you uploaded:
+            <ul>
+              {additionalDocuments.map((document, id) => {
+                return (
+                  <li className="dashed-bullet" key={id}>
+                    <strong>{`${documentLabels[document.attachmentId]} (${
+                      document.name
+                    })`}</strong>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        )}
       </ul>
     </div>
   );
@@ -307,26 +408,47 @@ export const evidenceSummaryView = ({ formData }) => {
 
 const FullNameViewField = ({ formData }) => {
   const { first, middle, last, suffix } = formData;
-  return <strong>{first} {middle} {last} {suffix}</strong>;
+  return (
+    <strong>
+      {first} {middle} {last} {suffix}
+    </strong>
+  );
 };
 
 const SsnViewField = ({ formData }) => {
   const ssn = formData.slice(5);
   const mask = <span>•••-••-</span>;
-  return <p>Social Security number: {mask}{ssn}</p>;
+  return (
+    <p>
+      Social Security number: {mask}
+      {ssn}
+    </p>
+  );
 };
 
 const VAFileNumberViewField = ({ formData }) => {
   const vaFileNumber = formData.slice(5);
   const mask = <span>•••-••-</span>;
-  return <p>VA file number: {mask}{vaFileNumber}</p>;
+  return (
+    <p>
+      VA file number: {mask}
+      {vaFileNumber}
+    </p>
+  );
 };
 
 const DateOfBirthViewField = ({ formData }) => {
-  return <p>Date of birth: <DateWidget value={formData} options={{ monthYear: false }}/></p>;
+  return (
+    <p>
+      Date of birth:{' '}
+      <DateWidget value={formData} options={{ monthYear: false }}/>
+    </p>
+  );
 };
 
-const GenderViewField = ({ formData }) => <p>Gender: {genderLabels[formData]}</p>;
+const GenderViewField = ({ formData }) => (
+  <p>Gender: {genderLabels[formData]}</p>
+);
 
 export const veteranInformationViewField = ({ formData }) => {
   return (
@@ -394,7 +516,125 @@ export function getPage(pageConfig, chapterTitle) {
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
-      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security Number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+      <p>
+        The VA file number is the number used to track your disability claim and
+        evidence through the VA system. For most Veterans, your VA file number
+        is the same as your Social Security Number. However, if you filed your
+        first disability claim a long time ago, your VA file number may be a
+        different number.
+      </p>
     </AdditionalInfo>
   </div>
 );
+
+// TODO: update misspelling when fixed in BE schema
+// const AddressViewField = ({ formData }) => {
+//   const {
+//     country,
+//     addressLine1,
+//     addressLine2,
+//     addressLine3,
+//     city,
+//     state,
+//     zipCode,
+//     militaryStateCode,
+//     militaryPostOfficeTypeCode
+//   } = formData;
+//   const cityString = `${city},`;
+//   const stateString = state || militaryStateCode;
+//   const zipString = `${zipCode.slice(0, 5)}-${zipCode.slice(5)}`;
+//   const cityStateOrZIP = cityString || stateString || zipString;
+
+//   return (
+//     <div>
+//       <p>{addressLine1}</p>
+//       {addressLine2 && <p>{addressLine2}</p>}
+//       {addressLine3 && <p>{addressLine3}</p>}
+//       {cityStateOrZIP && (
+//         <p>
+//           {cityString} {stateString} {zipString}
+//         </p>
+//       )}
+//       {militaryPostOfficeTypeCode && (
+//         <p>${militaryPostOfficeTypeLabels[militaryPostOfficeTypeCode]}</p>
+//       )}
+//       {country !== 'USA' && <p>country</p>}
+//     </div>
+//   );
+// };
+
+const PhoneViewField = ({ formData: phoneNumber, name }) => {
+  const isDomestic = phoneNumber.length <= 10;
+  const midBreakpoint = isDomestic ? -7 : -8;
+  const lastPhoneString = `${phoneNumber.slice(-4)}`;
+  const middlePhoneString = `${phoneNumber.slice(midBreakpoint, -4)}-`;
+  const firstPhoneString = `${phoneNumber.slice(0, midBreakpoint)}-`;
+
+  const phoneString = `${firstPhoneString}${middlePhoneString}${lastPhoneString}`;
+  return (
+    <p>
+      <strong>{name}</strong>: {phoneString}
+    </p>
+  );
+};
+
+const EmailViewField = ({ formData, name }) => {
+  return (
+    <p>
+      <strong>{name}</strong>: {formData}
+    </p>
+  );
+};
+
+const EffectiveDateViewField = ({ formData }) => {
+  return (
+    <p>
+      Effective Date:{' '}
+      <DateWidget value={formData} options={{ monthYear: false }}/>
+    </p>
+  );
+};
+
+const AddressViewField = ({ formData }) => {
+  return (
+    <div>
+      <p>
+        <strong>Type</strong>: {formData.type}
+      </p>
+      <p>
+        <strong>Country</strong>: {formData.country}
+      </p>
+      <p>
+        <strong>State</strong>: {formData.state}
+      </p>
+    </div>
+  );
+};
+
+export const PrimaryAddressViewField = ({ formData }) => {
+  return (
+    <div>
+      <AddressViewField formData={formData.primaryAddress}/>
+      <PhoneViewField formData={formData.primaryPhone} name="Primary phone"/>
+      <PhoneViewField
+        formData={formData.secondaryPhone}
+        name="Secondary phone"/>
+      <EmailViewField formData={formData.emailAddress} name="Email address"/>
+    </div>
+  );
+};
+
+// export const PrimaryAddressViewField = ({ formData }) => {
+//   return (
+//     <div>
+//       <AddressViewField formData={formData.primaryAddress}/>
+//       <PhoneViewField formData={formData.primaryPhone} name="Primary phone number"/>
+//       <PhoneViewField formData={formData.secondaryPhone} name="Secondary phone number"/>
+//       <EmailViewField formData={formData.emailAddress} name="Email address"/>
+//       {formData['view:hasSecondaryAddress'] && (
+//         <AddressViewField formData={formData.secondaryAddress}/>
+//       )}
+//       {formData['view:hasSecondaryAddress'] && <EffectiveDateViewField formData={formData.effectiveDate}/>}
+//     </div>
+//   );
+// };

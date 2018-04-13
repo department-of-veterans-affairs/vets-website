@@ -9,6 +9,14 @@ export default {
   vaFileNumber: '345345345',
   gender: 'F',
   dateOfBirth: '1990-04-02',
+  primaryPhone: '2342342342',
+  secondaryPhone: '3242342342',
+  emailAddress: 'test@test.com',
+  primaryAddress: {
+    type: 'DOMESTIC',
+    country: 'USA',
+    state: 'MI'
+  },
   disabilities: [
     {
       disability: { // Is this extra nesting necessary?
