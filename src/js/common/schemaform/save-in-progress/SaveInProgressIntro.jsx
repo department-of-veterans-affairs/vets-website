@@ -156,9 +156,11 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   user: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
+  saveInProgress: PropTypes.object.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
   startText: PropTypes.string,
+  pathname: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
   renderSignInMessage: PropTypes.func
 };
