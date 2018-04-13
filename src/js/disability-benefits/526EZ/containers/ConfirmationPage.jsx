@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
+import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 
 const scroller = Scroll.scroller;
@@ -27,12 +28,12 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const form = /* this.props.form */ initialData;
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.data.relativeFullName;
-    const benefit = form.data.benefit;
+    const name = form.veteranFullName;
+    const selectedDisabilities = form.disabilities; // Need to narrow this to selected disabilities
 
     return (
       <div>
@@ -43,11 +44,11 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Education Benefit Claim <span className="additional">(Form 21-526)</span></h4>
+          <h4>Disability Increase Claim <span className="additional">(Form 21-526)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">
-            {benefit && <li>
+            {selectedDisabilities && <li>
               <strong>Benefit</strong><br/>
               {/* survivorBenefitsLabels[benefit] */}
             </li>}
@@ -57,7 +58,8 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
+              <span>{moment(Date.now()).format('MMM D, YYYY')}</span>
+              {/* <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span> */}
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
