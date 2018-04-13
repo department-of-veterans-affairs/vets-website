@@ -37,16 +37,6 @@ function _debounce(func, wait, immediate) {
   };
 }
 
-/**
- * Returns this model's attributes as...
- *
- * @method _isElement
- * @type {Object} Copy of ...
- */
-function _isElement(el) {
-  return el instanceof Element;
-}
-
 function cloneList(target, targetId) {
   var clone = target.cloneNode();
 
@@ -76,7 +66,7 @@ function sliceMobileLink(targetId) {
   breadcrumbLink.removeAttribute('aria-current');
   breadcrumbLink.setAttribute(
     'aria-label',
-    `Previous step: ${breadcrumbLink.innerText}`
+    'Previous step: ' + breadcrumbLink.innerText
   );
 
   return breadcrumbList;

@@ -38,6 +38,9 @@ function _debounce(func, wait, immediate) {
   };
 }
 
+// Used to check for the existence of a cloned breadcrumb
+// when the cloneList method is invoked. Otherwise we
+// end up with multiple clones.
 function _isElement(el) {
   return el instanceof Element;
 }
@@ -63,7 +66,7 @@ function cloneList(target, targetId) {
   const removedClone = document.getElementById(`${targetId}-clone`);
 
   if (_isElement(removedClone)) {
-    removedClone.remove();
+    removedClone.parentNode.removeChild(removedClone);
   }
 
   const clone = target.cloneNode();
