@@ -186,7 +186,8 @@ const stateLabels = {
   UM: 'United States Minor Outlying Islands'
 };
 
-const internationalCountries = [
+const countries = [
+  'USA',
   'Afghanistan',
   'Albania',
   'Algeria',
@@ -400,103 +401,133 @@ const internationalCountries = [
   'Zimbabwe'
 ];
 
-const allCountries = internationalCountries.slice(0);
-allCountries.unshift('USA');
-
 const militaryPostOfficeTypeLabels = {
   APO: 'Army Post Office',
   FPO: 'Fleet Post Office',
   DPO: 'Diplomatic Post Office'
 };
 
-const USAOnly = ['USA'];
-
-const requiredFields = ['country', 'addressLine1'];
-
-function createPrimaryAddressPage(formSchema, isReview) {
-  const uiSchema = {
-    primaryAddress: {
-      type: {
-        'ui:title': 'Type',
-        'ui:options': {
-          labels: typeLabels
-        }
-      },
-      country: {
-        'ui:title': 'Country',
-        'ui:options': {
-          updateSchema: (formData, schema) => {
-            const { primaryAddress } = formData;
-            const newSchema = _.set(schema);
-            if (
-              primaryAddress.type === 'INTERNATIONAL' ||
-              primaryAddress.type === 'MILITARY'
-            ) {
-              newSchema.enum = internationalCountries;
-              if (primaryAddress && primaryAddress.country === 'USA') {
-                delete formData.primaryAddress.country; // eslint-disable-line no-param-reassign
-              }
-            }
-            if (primaryAddress.type === 'DOMESTIC') {
-              newSchema.enum = USAOnly;
-              if (primaryAddress && primaryAddress.country !== 'USA') {
-                delete formData.primaryAddress.country; // eslint-disable-line no-param-reassign
-              }
-            }
-            return newSchema;
-          }
-        }
-      },
-      state: {
-        'ui:title': 'State',
-        'ui:options': {
-          labels: stateLabels,
-          hideIf: ({ primaryAddress }) => {
-            return (
-              primaryAddress.type === 'INTERNATIONAL' ||
-              primaryAddress.type === 'MILITARY'
-            );
-          }
-        }
-      },
-      addressLine1: {
-        'ui:title': 'Street'
-      },
-      addressLine2: {
-        'ui:title': 'Line 2'
-      },
-      addressLine3: {
-        'ui:title': 'Line 3'
-      },
-      city: {
-        'ui:title': 'City'
-      },
-      militaryStateCode: {
-        'ui:title': 'Military State Code',
-        'ui:options': {
-          labels: stateLabels,
-          hideIf: formData => formData.primaryAddress.type !== 'MILITARY' // TODO: determine expand under conditions
-        }
-      },
-      zipCode: {
-        'ui:title': 'ZIP code',
-        'ui:validations': [validateZIP],
-        'ui:errorMessages': {
-          pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large',
-          hideIf: formData => formData.primaryAddress.type !== 'DOMESTIC' // TODO: determine expand under
-        }
-      },
-      militaryPostOfficeTypeCode: {
-        'ui:title': 'Military Post Office Type Code',
-        'ui:options': {
-          labels: militaryPostOfficeTypeLabels,
-          hideIf: formData => formData.primaryAddress.type !== 'MILITARY'
+const addressUISchema = (addressName, title) => {
+  return {
+    'ui:title': title,
+    type: {
+      'ui:title': 'Type',
+      'ui:options': {
+        labels: typeLabels
+      }
+    },
+    country: {
+      'ui:title': 'Country',
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:options': {
+        labels: stateLabels,
+        hideIf: formData => {
+          return (
+            formData[addressName] && formData[addressName].country !== 'USA'
+          );
         }
       }
     },
+    addressLine1: {
+      'ui:title': 'Street',
+    },
+    addressLine2: {
+      'ui:title': 'Line 2'
+    },
+    addressLine3: {
+      'ui:title': 'Line 3'
+    },
+    city: {
+      'ui:title': 'City'
+    },
+    militaryStateCode: {
+      'ui:title': 'Military State Code',
+      'ui:options': {
+        labels: stateLabels,
+        hideIf: formData =>
+          formData[addressName] && formData[addressName].type !== 'MILITARY' // TODO: determine expand under conditions
+      }
+    },
+    zipCode: {
+      'ui:title': 'ZIP code',
+      'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: formData =>
+          formData[addressName] && formData[addressName].type !== 'DOMESTIC' // TODO: determine expand under
+      }
+    },
+    militaryPostOfficeTypeCode: {
+      'ui:title': 'Military Post Office Type Code',
+      'ui:options': {
+        labels: militaryPostOfficeTypeLabels,
+        hideIf: formData =>
+          formData[addressName] && formData[addressName].type !== 'MILITARY'
+      }
+    }
+  };
+};
+
+const addressSchema = (isRequired = false) => {
+  return {
+    type: 'object',
+    required: isRequired ? ['country', 'addressLine1'] : [],
+    properties: {
+      type: {
+        type: 'string',
+        'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
+      },
+      country: {
+        type: 'string',
+        'enum': countries
+      },
+      state: {
+        type: 'string',
+        'enum': states
+      },
+      addressLine1: {
+        type: 'string',
+        maxLength: 35,
+        pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+      },
+      addressLine2: {
+        type: 'string',
+        maxLength: 35,
+        pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+      },
+      addressLine3: {
+        type: 'string',
+        maxLength: 35,
+        pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
+      },
+      city: {
+        type: 'string',
+        maxLength: 35,
+        pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
+      },
+      zipCode: {
+        type: 'string'
+      },
+      militaryPostOfficeTypeCode: {
+        type: 'string',
+        'enum': ['APO', 'DPO', 'FPO']
+      },
+      militaryStateCode: {
+        type: 'string',
+        'enum': ['AA', 'AE', 'AP']
+      }
+    }
+  };
+};
+
+function createPrimaryAddressPage(formSchema, isReview) {
+  const uiSchema = {
+    mailingAddress: addressUISchema('mailingAddress'),
     primaryPhone: {
       'ui:title': 'Primary telephone number',
       'ui:widget': SSNWidget, // TODO: determine whether to rename widget
@@ -524,60 +555,30 @@ function createPrimaryAddressPage(formSchema, isReview) {
       'ui:errorMessages': {
         pattern: 'Please put your email in this format x@x.xxx'
       }
-    }
+    },
+    'view:hasForwardingAddress': {
+      'ui:title': 'This address needs to change soon.'
+    },
+    secondaryAddress: _.merge(
+      addressUISchema('secondaryAddress', 'Forwarding address'),
+      {
+        'ui:options': {
+          expandUnder: 'view:hasForwardingAddress'
+        },
+        country: {
+          'ui:required': (formData) => formData['view:hasForwardingAddress']
+        },
+        addressLine1: {
+          'ui:required': (formData) => formData['view:hasForwardingAddress']
+        }
+      }
+    )
   };
+
   const schema = {
     type: 'object',
-    // required: requiredFields,
     properties: {
-      primaryAddress: {
-        type: 'object',
-        properties: {
-          type: {
-            type: 'string',
-            'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
-          },
-          country: {
-            type: 'string',
-            'enum': ['USA']
-          },
-          state: {
-            type: 'string',
-            'enum': states
-          },
-          addressLine1: {
-            type: 'string',
-            maxLength: 35,
-            pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-          },
-          addressLine2: {
-            type: 'string',
-            maxLength: 35,
-            pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-          },
-          addressLine3: {
-            type: 'string',
-            maxLength: 35,
-            pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-          },
-          city: {
-            type: 'string',
-            maxLength: 35,
-            pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
-          },
-          zipCode: {
-            type: 'string'
-          },
-          militaryPostOfficeTypeCode: {
-            type: 'string',
-            'enum': ['APO', 'DPO', 'FPO']
-          },
-          militaryStateCode: {
-            type: 'string',
-            'enum': ['AA', 'AE', 'AP']
-          }
-        }
-      },
+      mailingAddress: addressSchema(true),
       primaryPhone: {
         type: 'string'
       },
@@ -587,7 +588,11 @@ function createPrimaryAddressPage(formSchema, isReview) {
       emailAddress: {
         type: 'string',
         format: 'email'
-      }
+      },
+      'view:hasForwardingAddress': {
+        type: 'boolean'
+      },
+      secondaryAddress: addressSchema()
     }
   };
   const pageConfig = {

@@ -15,7 +15,8 @@ export default {
   primaryAddress: {
     type: 'DOMESTIC',
     country: 'USA',
-    state: 'MI'
+    state: 'MI',
+    addressLine1: '234 Maple St.'
   },
   disabilities: [
     {
