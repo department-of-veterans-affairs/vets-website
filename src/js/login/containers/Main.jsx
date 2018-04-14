@@ -25,39 +25,20 @@ export class Main extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { currentlyLoggedIn, showModal } = this.props.login;
-    const searchParams = new URLSearchParams(window.location.search);
-    const nextParam = searchParams.get('next');
+    const nextParam = this.getRedirectUrl();
 
     const shouldRedirect =
-      currentlyLoggedIn &&
-      nextParam &&
-      !window.location.pathname.includes('verify');
+      currentlyLoggedIn && nextParam && !window.location.pathname.includes('verify');
 
     if (shouldRedirect) {
       const redirectPath = nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
       window.location.replace(redirectPath);
     }
 
-    /*
-     * Hide the login modal when logged in or show it when not logged in and there is a redirect.
-     * Automatically toggle the modal when its current visibility doesn't match that condition.
-     *
-     * Before that, ensure this wasn't an update where the modal changed visibility,
-     * in order to prevent any toggle from reversing itself with this automatic toggle and
-     * effectively locking any interaction from opening or closing the modal.
-     *
-     */
+    const shouldCloseLoginModal =
+      !prevProps.login.currentlyLoggedIn && currentlyLoggedIn && showModal;
 
-    const hasModalBeenToggled = prevProps.login.showModal !== showModal;
-    const shouldShowModal = !currentlyLoggedIn && !!nextParam;
-    const shouldToggleModal =
-      !this.props.profile.loading &&
-      !hasModalBeenToggled &&
-      showModal !== shouldShowModal;
-
-    if (shouldToggleModal) {
-      this.props.toggleLoginModal(shouldShowModal);
-    }
+    if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
   }
 
   componentWillUnmount() {
@@ -67,6 +48,8 @@ export class Main extends React.Component {
   setToken = (event) => {
     if (event.data === sessionStorage.userToken) { this.props.getUserData(); }
   }
+
+  getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
 
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
@@ -90,7 +73,6 @@ export class Main extends React.Component {
 
   checkTokenStatus = () => {
     if (sessionStorage.userToken) {
-
       // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
       // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
       //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
@@ -111,6 +93,7 @@ export class Main extends React.Component {
       }
     } else {
       this.props.updateLoggedInStatus(false);
+      if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
     }
   }
 
