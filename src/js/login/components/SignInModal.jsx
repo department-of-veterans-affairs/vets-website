@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../../platform/monitoring/record-event';
+import Modal from '../../common/components/Modal';
 import { login, signup } from '../utils/helpers';
 
 const loginHandler = (loginType) => () => {
@@ -14,33 +14,12 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
-class SignIn extends React.Component {
+class SignInModal extends React.Component {
   componentDidMount() {
-    this.checkLoggedInStatus();
     recordEvent({ event: 'login-modal-opened' });
   }
 
-  componentDidUpdate() {
-    this.checkLoggedInStatus();
-  }
-
-  checkLoggedInStatus = () => {
-    if (this.props.currentlyLoggedIn) {
-      const nextParams = new URLSearchParams(window.location.search);
-      const nextPath = nextParams.get('next') || '';
-
-      if (this.props.onLoggedIn) {
-        this.props.onLoggedIn();
-      }
-
-      if (nextPath && window.location.pathname.indexOf('verify') === -1) {
-        const path = nextPath.startsWith('/') ? nextPath : `/${nextPath}`;
-        window.location.replace(path);
-      }
-    }
-  }
-
-  render() {
+  renderModalContent = () => {
     return (
       <main className="login">
         <div className="row">
@@ -143,11 +122,25 @@ class SignIn extends React.Component {
       </main>
     );
   }
+
+  render() {
+    return (
+      <Modal
+        cssClass="va-modal-large"
+        visible={this.props.visible}
+        focusSelector="button"
+        onClose={this.props.onClose}
+        id="signin-signup-modal"
+        title="Sign in to Vets.gov">
+        {this.renderModalContent()}
+      </Modal>
+    );
+  }
 }
 
-SignIn.propTypes = {
-  onLoggedIn: PropTypes.func,
-  currentlyLoggedIn: PropTypes.bool,
+SignInModal.propTypes = {
+  onClose: PropTypes.func,
+  visible: PropTypes.bool
 };
 
-export default SignIn;
+export default SignInModal;

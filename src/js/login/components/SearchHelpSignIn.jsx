@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 
 import recordEvent from '../../../platform/monitoring/record-event';
@@ -13,18 +12,6 @@ import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
 
 export class SearchHelpSignIn extends React.Component {
-  componentDidUpdate(prevProps) {
-    const { currentlyLoggedIn, showModal } = this.props.login;
-    const isModalStillClosed = !prevProps.login.showModal && !showModal;
-    if (!currentlyLoggedIn && isModalStillClosed) {
-      const nextParams = new URLSearchParams(window.location.search);
-      const nextPath = nextParams.get('next');
-      if (nextPath) {
-        this.props.toggleLoginModal(true);
-      }
-    }
-  }
-
   handleSignInSignUp = (e) => {
     e.preventDefault();
     recordEvent({ event: 'login-link-clicked' });

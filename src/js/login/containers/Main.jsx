@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import Modal from '../../common/components/Modal';
 import { getUserData } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, toggleLoginModal } from '../actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import SignIn from '../components/SignIn';
+import SignInModal from '../components/SignInModal';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
@@ -24,6 +23,40 @@ export class Main extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { currentlyLoggedIn, showModal } = this.props.login;
+    const searchParams = new URLSearchParams(window.location.search);
+    const nextParam = searchParams.get('next');
+
+    const shouldRedirect =
+      currentlyLoggedIn &&
+      nextParam &&
+      !window.location.pathname.includes('verify');
+
+    if (shouldRedirect) {
+      const redirectPath = nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
+      window.location.replace(redirectPath);
+    }
+
+    /*
+     * Check whether this is an update where the modal changed visibility,
+     * in order to prevent a loop whereby any toggle can cause this automatic
+     * toggle to infinitely trigger itself.
+     *
+     * Hide the login modal if logged in or show it if not logged in and there is a redirect.
+     * Only toggle the modal when its current visibility doesn't match that condition.
+     *
+     */
+
+    const hasModalBeenToggled = prevProps.login.showModal !== showModal;
+    const shouldShowModal = !currentlyLoggedIn && !!nextParam;
+    const shouldToggleModal = !hasModalBeenToggled && showModal !== shouldShowModal;
+
+    if (shouldToggleModal) {
+      this.props.toggleLoginModal(shouldShowModal);
+    }
+  }
+
   componentWillUnmount() {
     this.unbindNavbarLinks();
   }
@@ -35,11 +68,13 @@ export class Main extends React.Component {
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
-        e.preventDefault();
-        const nextQuery = { next: el.getAttribute('href') };
-        const nextPath = appendQuery('/', nextQuery);
-        history.pushState({}, el.textContent, nextPath);
-        this.props.toggleLoginModal(true);
+        if (!this.props.login.currentlyLoggedIn) {
+          e.preventDefault();
+          const nextQuery = { next: el.getAttribute('href') };
+          const nextPath = appendQuery('/', nextQuery);
+          history.pushState({}, el.textContent, nextPath);
+          this.props.toggleLoginModal(true);
+        }
       });
     });
   }
@@ -85,17 +120,9 @@ export class Main extends React.Component {
     return (
       <div>
         <SearchHelpSignIn/>
-        <Modal
-          cssClass="va-modal-large"
-          visible={this.props.login.showModal}
-          focusSelector="button"
+        <SignInModal
           onClose={this.handleCloseModal}
-          id="signin-signup-modal"
-          title="Sign in to Vets.gov">
-          <SignIn
-            onLoggedIn={() => this.props.toggleLoginModal(false)}
-            currentlyLoggedIn={this.props.login.currentlyLoggedIn}/>
-        </Modal>
+          visible={this.props.login.showModal}/>
       </div>
     );
   }
