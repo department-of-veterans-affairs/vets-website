@@ -39,18 +39,21 @@ export class Main extends React.Component {
     }
 
     /*
-     * Check whether this is an update where the modal changed visibility,
-     * in order to prevent a loop whereby any toggle can cause this automatic
-     * toggle to infinitely trigger itself.
+     * Hide the login modal when logged in or show it when not logged in and there is a redirect.
+     * Automatically toggle the modal when its current visibility doesn't match that condition.
      *
-     * Hide the login modal if logged in or show it if not logged in and there is a redirect.
-     * Only toggle the modal when its current visibility doesn't match that condition.
+     * Before that, ensure this wasn't an update where the modal changed visibility,
+     * in order to prevent any toggle from reversing itself with this automatic toggle and
+     * effectively locking any interaction from opening or closing the modal.
      *
      */
 
     const hasModalBeenToggled = prevProps.login.showModal !== showModal;
     const shouldShowModal = !currentlyLoggedIn && !!nextParam;
-    const shouldToggleModal = !hasModalBeenToggled && showModal !== shouldShowModal;
+    const shouldToggleModal =
+      !this.props.profile.loading &&
+      !hasModalBeenToggled &&
+      showModal !== shouldShowModal;
 
     if (shouldToggleModal) {
       this.props.toggleLoginModal(shouldShowModal);
