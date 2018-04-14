@@ -31,6 +31,14 @@ export class SearchHelpSignIn extends React.Component {
     this.props.toggleLoginModal(true);
   }
 
+  handleMenuClick = (menu) => (() => {
+    this.props.toggleSearchHelpUserMenu(menu, !this.props.login.utilitiesMenuIsOpen[menu]);
+  });
+
+  handleSearchMenuClick = this.handleMenuClick('search');
+  handleHelpMenuClick = this.handleMenuClick('help');
+  handleAccountMenuClick = this.handleMenuClick('account');
+
   hasSession() {
     // Includes a safety check because sessionStorage is not defined during e2e testing
     return !!(window.sessionStorage && window.sessionStorage.getItem('userFirstName'));
@@ -50,14 +58,14 @@ export class SearchHelpSignIn extends React.Component {
       ));
       const greeting = firstName || this.props.profile.email;
 
-      content = (<SignInProfileMenu
-        disabled={isLoading}
-        clickHandler={() => {
-          this.props.toggleSearchHelpUserMenu('account', !login.utilitiesMenuIsOpen.account);
-        }}
-        isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
-        greeting={greeting}
-        isOpen={login.utilitiesMenuIsOpen.account}/>);
+      content = (
+        <SignInProfileMenu
+          disabled={isLoading}
+          clickHandler={this.handleAccountMenuClick}
+          isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
+          greeting={greeting}
+          isOpen={login.utilitiesMenuIsOpen.account}/>
+      );
     } else {
       const classes = classNames({ disabled: isLoading });
       content = (<div>
@@ -70,14 +78,10 @@ export class SearchHelpSignIn extends React.Component {
       <div className="profile-nav">
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
-          clickHandler={() => {
-            this.props.toggleSearchHelpUserMenu('search', !login.utilitiesMenuIsOpen.search);
-          }}/>
+          clickHandler={this.handleSearchMenuClick}/>
         <HelpMenu
           isOpen={login.utilitiesMenuIsOpen.help}
-          clickHandler={() => {
-            this.props.toggleSearchHelpUserMenu('help', !login.utilitiesMenuIsOpen.help);
-          }}/>
+          clickHandler={this.handleHelpMenuClick}/>
         <div className="sign-in-link">
           {content}
         </div>
