@@ -543,7 +543,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
       }
     },
     secondaryPhone: {
-      'ui:title': 'Primary telephone number',
+      'ui:title': 'Secondary telephone number',
       'ui:widget': SSNWidget,
       'ui:validations': [validatePhone],
       'ui:errorMessages': {
@@ -560,7 +560,8 @@ function createPrimaryAddressPage(formSchema, isReview) {
       }
     },
     'view:hasForwardingAddress': {
-      'ui:title': 'This address needs to change soon.'
+      'ui:title':
+        'I want to provide a forwarding address since my address will be changing soon.'
     },
     forwardingAddress: _.merge(
       addressUISchema('forwardingAddress', 'Forwarding address'),
@@ -608,6 +609,7 @@ function createPrimaryAddressPage(formSchema, isReview) {
     pageTitle: 'Address information',
     isReview,
     component: VerifiedReviewContainer,
+    description: 'Here’s the address we have on file for you. We’ll use this address to mail you any important information about your disability claim. If you need to update your address, you can click the Edit button.',
     verifiedReviewComponent: PrimaryAddressViewField,
     uiSchema,
     schema,
