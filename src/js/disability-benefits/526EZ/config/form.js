@@ -74,7 +74,7 @@ const privateRecordReleasesSchema = Object.assign({}, treatments.items.propertie
 const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/21-526EZ',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),  
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
