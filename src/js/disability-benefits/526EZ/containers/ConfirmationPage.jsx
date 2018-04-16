@@ -36,15 +36,10 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">Claim submitted</h3>
         <p>
-          We’ve received your application. Thank you for applying for a disability claim for compensation increase.<br/>
-        </p>
-        <p>
-          We usually process claims within <strong>30 days</strong>.
-        </p>
-        <p>We may contact you if we have questions or need more information.</p>
-        <p>You can print this page for your records.</p>
+           We usually process claims within <strong>30 days</strong>.<br/>
+        <p>We may contact you if we have questions or need more information. You can print this page for your records.</p>
 
         <h4 className="confirmation-guidance-heading">
           What happens after I apply?
@@ -71,7 +66,7 @@ class ConfirmationPage extends React.Component {
           </span>
 
           <ul className="claim-list">
-            <strong>Conditions Claimed</strong>
+            <strong>Conditions claimed</strong>
             <br/>
             <ul className="disability-list">
               {selectedDisabilities.map(({ disability }, i) => {
@@ -85,7 +80,7 @@ class ConfirmationPage extends React.Component {
               {/* <span>{response.confirmationNumber}</span> */}
             </li>
             <li>
-              <strong>Date received</strong>
+              <strong>Date submitted</strong>
               <br/>
               <span>{moment(Date.now()).format('MMM D, YYYY')}</span>
               {/* <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span> */}
