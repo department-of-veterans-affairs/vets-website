@@ -8,7 +8,7 @@ import formConfig from '../../../../src/js/disability-benefits/526EZ/config/form
 
 describe('Disability benefits 526EZ special circumstances', () => {
   const { schema, uiSchema } = formConfig.chapters.reviewVeteranDetails.pages.specialCircumstances;
-  it('renders evidence type form', () => {
+  it('renders special circumstances form', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       onSubmit={onSubmit}
