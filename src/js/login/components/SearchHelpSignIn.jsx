@@ -12,12 +12,16 @@ import SignInProfileMenu from './SignInProfileMenu';
 import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
 import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
 
-class SearchHelpSignIn extends React.Component {
-  componentDidMount() {
-    const nextParams = new URLSearchParams(window.location.search);
-    const nextPath = nextParams.get('next');
-    if (nextPath) {
-      this.props.toggleLoginModal(true);
+export class SearchHelpSignIn extends React.Component {
+  componentDidUpdate(prevProps) {
+    const { currentlyLoggedIn, showModal } = this.props.login;
+    const isModalStillClosed = !prevProps.login.showModal && !showModal;
+    if (!currentlyLoggedIn && isModalStillClosed) {
+      const nextParams = new URLSearchParams(window.location.search);
+      const nextPath = nextParams.get('next');
+      if (nextPath) {
+        this.props.toggleLoginModal(true);
+      }
     }
   }
 
@@ -61,8 +65,9 @@ class SearchHelpSignIn extends React.Component {
       </div>
       );
     }
+
     return (
-      <div className="profileNav">
+      <div className="profile-nav">
         <SearchMenu
           isOpen={login.utilitiesMenuIsOpen.search}
           clickHandler={() => {
@@ -96,4 +101,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
-export { SearchHelpSignIn };

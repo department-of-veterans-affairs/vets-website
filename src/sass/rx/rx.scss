@@ -1,8 +1,7 @@
-@import "../shared-variables";
-@import "../modules/m-modal";
-@import "../modules/m-alert";
-@import "../modules/va-pagination";
-@import "../modules/va-tabs";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/va-tabs";
 
 // RX-specific partials
 @import "partials/rx-contact-card";
