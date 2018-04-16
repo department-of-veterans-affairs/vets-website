@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../login/utils/helpers';
 

@@ -7,7 +7,7 @@ import { getScheduledDowntime } from './actions';
 
 import moment from '../../../platform/startup/moment-setup';
 import Modal from '../../../js/common/components/Modal';
-import LoadingIndicator from '../../../js/common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 /**
  * A list of services that correspond to those which we have downtime information as provided by the API.

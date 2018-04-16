@@ -1,6 +1,6 @@
 // Adapted from https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
 import React from 'react';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 export default function asyncLoader(getComponent, message) {
   return class AsyncComponent extends React.Component {

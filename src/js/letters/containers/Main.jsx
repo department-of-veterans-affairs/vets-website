@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import { systemDownMessage } from '../../../platform/static-data/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound } from '../utils/helpers';
