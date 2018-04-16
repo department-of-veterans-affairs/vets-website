@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import Modal from '../../common/components/Modal';
 import { makeField } from '../../common/model/fields';
 import { validateFolderName } from '../utils/validations';

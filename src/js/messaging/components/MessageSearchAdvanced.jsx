@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class MessageSearchAdvanced extends React.Component {
