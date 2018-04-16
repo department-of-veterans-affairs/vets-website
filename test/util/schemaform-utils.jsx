@@ -222,6 +222,9 @@ export function getFormDOM(form) {
 }
 
 export function fillData(form, selector, value) {
+  console.log(form.find(selector));
+  console.log("selector:", selector);
+  console.log("value:", value);
   form.find(selector).simulate('change', {
     target: {
       value

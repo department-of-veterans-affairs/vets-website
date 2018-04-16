@@ -19,4 +19,21 @@ describe('authorization to change claimant address', () => {
 
     expect(form.find('input[type="checkbox"]').length).to.equal(1);
   });
+
+  it('should continue without any check boxes filled in', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}/>
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
 });
