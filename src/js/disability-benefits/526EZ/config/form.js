@@ -23,7 +23,8 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  releaseView
+  releaseView,
+  specialCircumstancesDescription
 } from '../helpers';
 
 const {
@@ -112,13 +113,7 @@ const formConfig = {
           title: 'Special Circumstances',
           path: 'special-circumstances',
           uiSchema: {
-            'ui:description': (
-              <p>
-                To help us better understand your situation, please tell us if
-                any of the below situations apply to you.{' '}
-                <strong>Are you:</strong>
-              </p>
-            ),
+            'ui:description': specialCircumstancesDescription,
             'view:suicidal': {
               'ui:title': 'In crisis or thinking of suicide?'
             },
