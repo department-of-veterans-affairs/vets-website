@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-import environment from '../../common/helpers/environment';
+import environment from '../../../platform/utilities/environment';
 import { glossary } from '../config';
 
-import { apiRequest as commonApiClient } from '../../common/helpers/api';
+import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 
 export function formatDate(date, options = {}) {
   const momentDate = moment(date);

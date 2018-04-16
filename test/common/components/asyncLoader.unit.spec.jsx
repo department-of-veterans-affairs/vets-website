@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import asyncLoader from '../../../src/platform/utilities/react/asyncLoader';
+import asyncLoader from '../../../src/platform/utilities/ui/asyncLoader';
 
 describe('asyncLoader', () => {
   it('should display loading indicator while waiting', () => {

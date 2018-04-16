@@ -1,6 +1,6 @@
 import Raven from 'raven-js';
 import recordEvent from '../../../../platform/monitoring/record-event';
-import environment from '../../helpers/environment.js';
+import environment from '../../../../platform/utilities/environment';
 import 'isomorphic-fetch';
 import { logOut } from '../../../login/actions';
 

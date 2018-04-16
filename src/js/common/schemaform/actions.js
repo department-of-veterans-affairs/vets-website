@@ -3,7 +3,7 @@ import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import _ from '../../../platform/utilities/data';
 import { transformForSubmit } from './helpers';
-import environment from '../helpers/environment.js';
+import environment from '../../../platform/utilities/environment';
 import { timeFromNow } from '../../../platform/utilities/date';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';

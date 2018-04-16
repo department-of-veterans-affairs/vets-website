@@ -1,5 +1,5 @@
 import recordEvent from '../../../monitoring/record-event';
-import { apiRequest } from '../../../../js/common/helpers/api';
+import { apiRequest } from '../../../utilities/api';
 import { isValidEmail } from '../../../forms/validations';
 
 export const REVEAL_FORM = 'REVEAL_FORM';
