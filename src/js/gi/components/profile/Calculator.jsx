@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
 
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import { calculatorInputChange, showModal } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 import { GiBillApp } from '../../../src/js/gi/containers/GiBillApp';
 import reducer from '../../../src/js/gi/reducers';
 

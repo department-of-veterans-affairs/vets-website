@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from '../../../common/utils/moment-setup';
+import moment from '../../../../platform/startup/moment-setup';
 // import SSNWidget from '../../../common/schemaform/review/SSNWidget';
 
 export default function PersonalInformation({ personalInformation: { gender, birthDate }, serviceHistoryResponseData }) {

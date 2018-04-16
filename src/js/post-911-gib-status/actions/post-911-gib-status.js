@@ -1,5 +1,6 @@
 import Raven from 'raven-js';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../common/helpers/api';
 
 import {
@@ -18,14 +19,14 @@ export function getEnrollmentData() {
       '/post911_gi_bill_status',
       null,
       (response) => {
-        window.dataLayer.push({ event: 'post911-status-success' });
+        recordEvent({ event: 'post911-status-success' });
         return dispatch({
           type: GET_ENROLLMENT_DATA_SUCCESS,
           data: response.data.attributes,
         });
       },
       (response) => {
-        window.dataLayer.push({ event: 'post911-status-failure' });
+        recordEvent({ event: 'post911-status-failure' });
         const error = response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
           if (error.status === '503' || error.status === '504') {

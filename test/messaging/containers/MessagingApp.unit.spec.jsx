@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import MessagingApp from '../../../src/js/messaging/containers/MessagingApp';
 import reducer from '../../../src/js/messaging/reducers';
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 
 const store = createCommonStore(reducer);
 

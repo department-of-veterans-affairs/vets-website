@@ -21,17 +21,18 @@ export default class ReviewCollapsibleChapter extends React.Component {
     super();
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
-    this.toggleChapter = this.toggleChapter.bind(this);
-    this.state = { open: false };
   }
 
   componentWillMount() {
     this.id = _.uniqueId();
   }
 
-  componentDidUpdate(oldProps, oldState) {
-    if (!oldState.open && this.state.open) {
+  componentDidUpdate(oldProps) {
+    if (!oldProps.open && this.props.open) {
       this.scrollToTop();
+    }
+    if (oldProps.open && !this.props.open) {
+      this.props.setPagesViewed(this.pageKeys);
     }
   }
 
@@ -81,15 +82,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
     });
   }
 
-  toggleChapter() {
-    const opening = !this.state.open;
-    this.setState({ open: opening });
-
-    if (!opening) {
-      this.props.setPagesViewed(this.pageKeys);
-    }
-  }
-
   render() {
     let pageContent = null;
 
@@ -101,8 +93,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
     const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
 
     const ChapterDescription = chapter.reviewDescription;
+    let chapterTitle = chapter.title;
+    if (typeof chapter.title === 'function') chapterTitle = chapter.title(true);
+    if (chapter.reviewTitle) chapterTitle = chapter.reviewTitle;
 
-    if (this.state.open) {
+    if (this.props.open) {
       pageContent = (
         <div className="usa-accordion-content schemaform-chapter-accordion-content" aria-hidden="false">
           {ChapterDescription &&
@@ -151,7 +146,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {pageSchema &&
                   <SchemaForm
                     name={page.pageKey}
-                    title={page.title.replace('Review ', '')}
+                    title={page.reviewTitle || page.title}
                     data={pageData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
@@ -206,10 +201,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
             <div className="accordion-header clearfix schemaform-chapter-accordion-header">
               <button
                 className="usa-button-unstyled"
-                aria-expanded={this.state.open ? 'true' : 'false'}
+                aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
-                onClick={this.toggleChapter}>
-                {this.props.chapter.title.replace('Review ', '')}
+                onClick={this.props.toggleButtonClicked}>
+                {chapterTitle}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>

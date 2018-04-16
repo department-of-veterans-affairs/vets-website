@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import {
   loadPrescriptions,
@@ -18,7 +19,7 @@ import {
 
 import Pagination from '../../common/components/Pagination';
 import { getScrollOptions } from '../../common/utils/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import PrescriptionList from '../components/PrescriptionList';
 import PrescriptionTable from '../components/PrescriptionTable';
@@ -117,7 +118,7 @@ class Active extends React.Component {
   }
 
   pushAnalyticsEvent() {
-    window.dataLayer.push({
+    recordEvent({
       event: 'rx-view-change',
       viewType: this.state.view
     });

@@ -4,7 +4,7 @@ import applicantDescription from '../components/ApplicantDescription';
 import currentOrPastDateUI from '../definitions/currentOrPastDate';
 import fullNameUI from '../definitions/fullName';
 
-import { relationshipLabels, genderLabels } from '../../utils/labels';
+import { relationshipLabels, genderLabels } from '../../../../platform/static-data/labels';
 import * as personId from '../definitions/personId';
 
 
