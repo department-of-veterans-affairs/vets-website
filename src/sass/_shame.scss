@@ -294,7 +294,8 @@ select {
 }
 
 /* focus hacking */
-a:focus, *:focus, .usa-focus {
+a:focus, *:focus, .usa-focus,
+.form-radio-buttons > input[type="radio"] + label::before:hover {
   outline: solid 3px $color-focus;
   //outline: none;
   outline-offset: 1px;
