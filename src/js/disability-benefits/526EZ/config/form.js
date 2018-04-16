@@ -702,17 +702,17 @@ const formConfig = {
     },
     chapterFive: {
       title: 'Chapter Five',
-        pages: {
-          pageOne: {
-            title: 'Page One',
-              path: 'chapter-five/page-one',
-              uiSchema: {},
-              schema: {
-                type: 'object',
-                  properties: {}
-              }
+      pages: {
+        pageOne: {
+          title: 'Page One',
+          path: 'chapter-five/page-one',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {}
           }
         }
+      }
     }
   }
 };

@@ -28,9 +28,9 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = /* this.props.form */ initialData;
-    const response = this.props.form.submission.response
-      ? this.props.form.submission.response.attributes
-      : {};
+    // const response = this.props.form.submission.response
+    // ? this.props.form.submission.response.attributes
+    // : {};
     const name = form.veteranFullName;
     const selectedDisabilities = form.disabilities; // Need to narrow this to selected disabilities
 
