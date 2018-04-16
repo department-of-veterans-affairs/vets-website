@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import recordEvent from '../../../platform/monitoring/record-event';
-import { verify } from '../utils/helpers';
+import { verify } from '../../login/utils/helpers';
 
-class Verify extends React.Component {
+export class VerifyApp extends React.Component {
   componentDidMount() {
     if (!sessionStorage.userToken) {
       return window.location.replace('/');
@@ -21,7 +22,7 @@ class Verify extends React.Component {
   }
 
   checkAccountAccess() {
-    if (this.props.profile.verified && this.props.shouldRedirect) {
+    if (this.props.profile.verified) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
       window.location.replace(nextPath || '/');
@@ -29,6 +30,10 @@ class Verify extends React.Component {
   }
 
   render() {
+    if (this.props.profile.loading) {
+      return <LoadingIndicator message="Loading the application..."/>;
+    }
+
     const signinMethod = {
       dslogon: 'DS Logon',
       myhealthevet: 'My HealtheVet'
@@ -74,9 +79,13 @@ class Verify extends React.Component {
   }
 }
 
-Verify.propTypes = {
-  shouldRedirect: PropTypes.bool,
-  profile: PropTypes.object,
+
+const mapStateToProps = (state) => {
+  const userState = state.user;
+  return {
+    login: userState.login,
+    profile: userState.profile
+  };
 };
 
-export default Verify;
+export default connect(mapStateToProps)(VerifyApp);

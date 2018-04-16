@@ -36,7 +36,7 @@ This address will be listed on your letter. If this address isn’t correct, you
 
 ### What if I want to download a letter or document that isn’t available from this tool?
 
-Right now, you can only download the VA letters listed above.
+Right now, you can only download the VA letters you see listed when you click the blue **Access Your VA Letters** button above. 
 
 Use these links to get access to other common VA letters and documents you may be eligible for:
 
@@ -47,6 +47,13 @@ Use these links to get access to other common VA letters and documents you may b
 [Sign in to eBenefits to request a copy of your discharge or separation papers (DD214)](https://eauth.va.gov/ebenefits/DPRIS).
 
 </section>
+<section>
+
+### Can VA add an effective date to my Benefit Summary Letter?
+
+Yes. If you're totally and permanently disabled because of your service-connected disabilities and need us to add the effective date of this decision to your Benefit Summary Letter, please call us at <a href="tel:+18008271000">1-800-827-1000</a>. We can email or fax you a copy of your letter with the effective date added to it.
+</section>
+
 <section>
 
 ### What if I have trouble downloading a VA letter?
