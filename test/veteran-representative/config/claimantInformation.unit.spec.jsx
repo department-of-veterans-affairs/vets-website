@@ -52,13 +52,12 @@ describe('claimant information', () => {
     fillData(form, 'input#root_claimantFullName_first', 'Bob');
     fillData(form, 'input#root_claimantFullName_last', 'Test');
     fillData(form, 'select#root_relationship', 'Child');
-    fillData(form, 'select#root_claimantAddress_country', 'United States');
-    fillData(form, 'input#root_claimantEmail', 'bob@test.com');
+    fillData(form, 'select#root_claimantAddress_country', 'USA');
     fillData(form, 'input#root_claimantAddress_street', '123 Test St');
     fillData(form, 'input#root_claimantAddress_city', 'Anywhere');
     fillData(form, 'select#root_claimantAddress_state', 'MA');
     fillData(form, 'input#root_claimantAddress_postalCode', '01040');
-    // console.log(form.debug());
+    fillData(form, 'input#root_claimantEmail', 'bob@test.com');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
