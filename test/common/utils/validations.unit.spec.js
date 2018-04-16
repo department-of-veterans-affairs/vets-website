@@ -16,7 +16,7 @@ import {
   isValidPartialMonthYearRange,
   isValidSSN,
   validateCustomFormComponent
-} from '../../../src/js/common/utils/validations.js';
+} from '../../../src/platform/forms/validations';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {

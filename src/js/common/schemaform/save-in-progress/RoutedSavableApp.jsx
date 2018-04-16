@@ -15,7 +15,7 @@ import {
 } from './actions';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
-import { isInProgress } from '../../utils/helpers';
+import { isInProgress } from '../../../../platform/forms/helpers';
 import { getSaveInProgressState } from './selectors';
 
 const Element = Scroll.Element;

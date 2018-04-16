@@ -2,7 +2,7 @@ import {
   isBlank,
   isNotBlank,
   validateIfDirty
-} from '../../common/utils/validations';
+} from '../../../platform/forms/validations';
 
 import { makeField } from '../../../platform/forms/fields';
 

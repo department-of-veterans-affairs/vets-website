@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import environment from '../../helpers/environment';
-import { sanitizeForm } from '../../utils/helpers';
+import { sanitizeForm } from '../../../../platform/forms/helpers';
 
 export function removeFormApi(formId) {
   const userToken = sessionStorage.userToken;
