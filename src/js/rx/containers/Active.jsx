@@ -19,7 +19,7 @@ import {
 
 import Pagination from '../../common/components/Pagination';
 import { getScrollOptions } from '../../common/utils/helpers';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import PrescriptionList from '../components/PrescriptionList';
 import PrescriptionTable from '../components/PrescriptionTable';

@@ -5,7 +5,7 @@ import { intersection } from 'lodash';
 
 import SystemDownView from '@department-of-veterans-affairs/jean-pants/SystemDownView';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 const healthTools = ['health-records', 'rx', 'messaging'];
 const nextQuery = { next: window.location.pathname };
