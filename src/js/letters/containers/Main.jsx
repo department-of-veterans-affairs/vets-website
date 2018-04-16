@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { systemDownMessage } from '../../common/utils/error-messages';
+import { systemDownMessage } from '../../../platform/static-data/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound } from '../utils/helpers';
 

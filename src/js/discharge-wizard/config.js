@@ -1,4 +1,4 @@
-const options = require('../common/utils/options-for-select.js');
+import * as options from '../../platform/static-data/options-for-select';
 
 export const labels = {
   drb: 'Discharge Review Board',

@@ -1,8 +1,7 @@
 // Variables
 
-@import "shared-variables";
-@import "modules/m-modal";
-@import "modules/m-alert";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
 
 .vet-id-card {
   padding: 0 0 2rem 2.4rem;
