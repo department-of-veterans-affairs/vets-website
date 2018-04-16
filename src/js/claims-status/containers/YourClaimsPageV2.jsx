@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import Modal from '../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import {
   changePageV2,
   getAppealsV2,
