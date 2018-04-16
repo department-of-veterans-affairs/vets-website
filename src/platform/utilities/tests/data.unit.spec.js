@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import _ from '../../../src/platform/utilities/data';
-import deconstructPath from '../../../src/platform/utilities/data/deconstructPath';
-import checkValidPath from '../../../src/platform/utilities/data/checkValidPath';
+import _ from '../data';
+import deconstructPath from '../data/deconstructPath';
+import checkValidPath from '../data/checkValidPath';
 
 
 // Could split these out into separate files...
