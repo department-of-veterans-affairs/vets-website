@@ -4,7 +4,8 @@ import Scroll from 'react-scroll';
 
 import InfoPair from './InfoPair';
 
-import { formatDateParsedZoneShort, getScrollOptions } from '../../../platform/utilities/date';
+import { formatDateParsedZoneShort } from '../../../platform/utilities/date';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 

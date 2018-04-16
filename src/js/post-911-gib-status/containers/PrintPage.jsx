@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import UserInfoSection from '../components/UserInfoSection';
 
-import { formatDateLong, focusElement } from '../../../platform/utilities/date';
+import { focusElement } from '../../../platform/utilities/ui';
+import { formatDateLong } from '../../../platform/utilities/date';
 
 export class PrintPage extends React.Component {
   componentDidMount() {
