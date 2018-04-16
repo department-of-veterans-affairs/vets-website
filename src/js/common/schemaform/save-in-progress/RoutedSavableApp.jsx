@@ -13,7 +13,7 @@ import {
   setFetchFormStatus,
   fetchInProgressForm
 } from './actions';
-import LoadingIndicator from '../../components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import { isInProgress } from '../../../../platform/forms/helpers';
 import { getSaveInProgressState } from './selectors';

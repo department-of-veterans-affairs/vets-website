@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import AcceptTermsPrompt from '../../../common/components/AcceptTermsPrompt';
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Modal from '../../../common/components/Modal';
 
 import AccountVerification from './AccountVerification';
