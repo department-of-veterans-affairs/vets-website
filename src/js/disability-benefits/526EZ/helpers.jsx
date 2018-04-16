@@ -296,7 +296,7 @@ export const UnauthenticatedAlert = (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
-        To apply for a disability increase, you need to sign in and verify your account.
+        To apply for a disability increase, you’ll need to sign in and verify your account.
       </div>
     </div>
     <br/>
@@ -327,5 +327,5 @@ export const GetFormHelp = () => {
 };
 
 export const ITFDescription = (
-  <span><strong>Note:</strong> Clicking the button to start the disability application will declare your intent to file and will set the date that you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
+  <span><strong>Note:</strong> By clicking the button to start the disability application, you’ll declare your intent to file, and this will set the date you can start getting benefits. This intent to file will expire 1 year from the day you start your application.</span>
 );

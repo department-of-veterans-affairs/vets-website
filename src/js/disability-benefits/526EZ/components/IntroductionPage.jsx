@@ -82,7 +82,7 @@ class IntroductionPage extends React.Component {
                 <li>VA medical and hospital records that show your claimed disability has gotten worse</li>
                 <li>Private medical and hospital records that show your claimed disability has gotten worse</li>
               </ul>
-              <p>In some situations you may need to turn in additional forms with your claim, for example, if you’re claiming a dependent or benefits for a seriously disabled child. <a href="#">See the list of required forms for these special situations</a>.</p>
+              <p>In some situations you may need to turn in additional forms to support your claim. For example, you’ll need to fill out another form if you’re claiming a dependent or requesting aid and attendance benefits. <a href="#">Learn more about what additional forms you may need to file with your disability claim</a>.</p>
               <p><strong>What if I need help filling out my application?</strong></p>
               <p>An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. </p>
               <p><a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
@@ -104,7 +104,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
-              <p>We process applications in the order we receive them. We may contact you if we have questions or need more information.</p>
+              <p>We usually process claims within <strong>103 days</strong>.</p>
             </li>
             <li className="process-step list-four">
               <div><h5>Decision</h5></div>
