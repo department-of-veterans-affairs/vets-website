@@ -5,9 +5,9 @@ import classNames from 'classnames';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import { makeField } from '../../common/model/fields';
 
 import { closeAlert } from '../actions/alert';

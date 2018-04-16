@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from '../../../../js/common/utils/helpers';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import ErrorableTextarea from '../../../../js/common/components/form-elements/ErrorableTextarea';
-import ErrorableTextInput from '../../../../js/common/components/form-elements/ErrorableTextInput';
+import ErrorableTextArea from '@department-of-veterans-affairs/jean-pants/ErrorableTextArea';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 
 class FeedbackForm extends React.Component {
@@ -61,7 +61,7 @@ class FeedbackForm extends React.Component {
         <div className="va-flex">
           <div className="feedback-widget-form-container">
             <div className="feedback-widget-desc-container">
-              <ErrorableTextarea
+              <ErrorableTextArea
                 label="What can we do to make Vets.gov better?"
                 name="description"
                 onValueChange={this.setDescription}
