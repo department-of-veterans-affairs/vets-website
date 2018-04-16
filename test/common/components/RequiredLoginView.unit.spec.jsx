@@ -164,7 +164,8 @@ describe('<RequiredLoginView>', () => {
     describe('needs verification', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ user: loa1User });
-        expect(tree.subTree('Connect(Main)').props.renderType).to.equal('verifyPage');
+        tree.getMountedInstance().componentDidUpdate();
+        expect(redirectFunc.calledWith(sinon.match('/verify'))).to.be.true;
       });
     });
 

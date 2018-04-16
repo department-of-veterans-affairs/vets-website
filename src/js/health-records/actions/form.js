@@ -1,5 +1,6 @@
 import { apiRequest } from '../utils/helpers';
 import moment from 'moment';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 function getDataClasses(formData) {
   return Object.keys(formData.reportTypes).filter((reportType) => {
@@ -85,7 +86,7 @@ export function getEligibleClasses() {
 
 export function submitForm(formData) {
   return (dispatch) => {
-    window.dataLayer.push({
+    recordEvent({
       event: 'health-record-request',
     });
 

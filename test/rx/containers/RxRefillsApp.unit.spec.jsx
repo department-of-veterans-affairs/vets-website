@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import RxRefillsApp from '../../../src/js/rx/containers/RxRefillsApp';
 import reducer from '../../../src/js/rx/reducers';
-import createCommonStore from '../../../src/js/common/store';
+import createCommonStore from '../../../src/platform/startup/store';
 
 const store = createCommonStore(reducer);
 

@@ -27,6 +27,7 @@ import {
   makeDurationText,
   makeDecisionReviewContent,
   addStatusToIssues,
+  isolateAppeal,
   STATUS_TYPES
 } from '../../../src/js/claims-status/utils/appeals-v2-helpers';
 
@@ -484,7 +485,7 @@ describe('Disability benefits helpers: ', () => {
     // so we should test them specifically to ensure we're getting the desired output
     it('returns the right number of allowed / denied / remand items for remand status', () => {
       const details = {
-        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+        issues: mockData.data[2].attributes.status.details.issues
       };
       const contents = getStatusContents('remand', details);
       expect(contents.title).to.equal('The Board made a decision on your appeal');
@@ -494,9 +495,9 @@ describe('Disability benefits helpers: ', () => {
       const deniedList = wrapper.find('.denied-items ~ ul');
       const remandList = wrapper.find('.remand-items ~ ul');
 
-      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
-      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
-      const remandDisposition = details.decisionIssues.filter(i => i.disposition === 'remand');
+      const allowedDisposition = details.issues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.issues.filter(i => i.disposition === 'denied');
+      const remandDisposition = details.issues.filter(i => i.disposition === 'remand');
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
@@ -505,7 +506,7 @@ describe('Disability benefits helpers: ', () => {
 
     it('returns the right number of allowed / denied items for bva_decision status', () => {
       const details = {
-        decisionIssues: mockData.data[2].attributes.status.details.decisionIssues
+        issues: mockData.data[2].attributes.status.details.issues
       };
       const contents = getStatusContents('bva_decision', details);
       expect(contents.title).to.equal('The Board made a decision on your appeal');
@@ -514,8 +515,8 @@ describe('Disability benefits helpers: ', () => {
       const allowedList = wrapper.find('.allowed-items ~ ul');
       const deniedList = wrapper.find('.denied-items ~ ul');
 
-      const allowedDisposition = details.decisionIssues.filter(i => i.disposition === 'allowed');
-      const deniedDisposition = details.decisionIssues.filter(i => i.disposition === 'denied');
+      const allowedDisposition = details.issues.filter(i => i.disposition === 'allowed');
+      const deniedDisposition = details.issues.filter(i => i.disposition === 'denied');
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
@@ -644,6 +645,36 @@ describe('Disability benefits helpers: ', () => {
       const decisionReviewContent = makeDecisionReviewContent('Once your representative has completed their review, your case will be returned to the Board. ');
       const descText = shallow(decisionReviewContent).render().text();
       expect(descText).to.equal('Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.');
+    });
+  });
+
+  describe('isolateAppeal', () => {
+    const state = {
+      disability: {
+        status: {
+          claimsV2: {
+            appeals: mockData.data
+          }
+        }
+      }
+    };
+
+    it('should find the right appeal if the given id matches', () => {
+      const expectedAppeal = mockData.data[1];
+      const appeal = isolateAppeal(state, expectedAppeal.id);
+      expect(appeal).to.equal(expectedAppeal);
+    });
+
+    it('should find the right appeal if the given v1 id matches a v2 appeal', () => {
+      const expectedAppeal = mockData.data[1];
+      // appealIds[1] is the fake v1 id
+      const appeal = isolateAppeal(state, expectedAppeal.attributes.appealIds[1]);
+      expect(appeal).to.equal(expectedAppeal);
+    });
+
+    it('should return undefined if no appeal matches the id given', () => {
+      const appeal = isolateAppeal(state, 'non-existent id');
+      expect(appeal).to.be.undefined;
     });
   });
 });

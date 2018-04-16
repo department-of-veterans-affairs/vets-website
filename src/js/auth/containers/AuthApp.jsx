@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import recordEvent from '../../../platform/monitoring/record-event';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+
 import { apiRequest } from '../../common/helpers/api';
 import environment from '../../common/helpers/environment';
 
@@ -48,7 +50,7 @@ export class AuthApp extends React.Component {
     // Upon successful authentication, push analytics event and store the token.
     const userData = data.attributes.profile;
     const loginPolicy = userData.authnContext || 'idme';
-    window.dataLayer.push({ event: `login-success-${loginPolicy}` });
+    recordEvent({ event: `login-success-${loginPolicy}` });
     this.setToken();
   }
 

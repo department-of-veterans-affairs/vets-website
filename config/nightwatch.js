@@ -10,7 +10,7 @@ require('babel-core/register');
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 
 module.exports = {
-  src_folders: ['./test'],
+  src_folders: ['./src', './test'],
   output_folder: './logs/nightwatch',
   custom_commands_path: './src/platform/testing/e2e/nightwatch-commands',
   custom_assertions_path: './src/platform/testing/e2e/nightwatch-assertions',
@@ -21,7 +21,7 @@ module.exports = {
   test_settings: {
     'default': {
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
-      filter: './test/**/*.e2e.spec.js',
+      filter: '**/*.e2e.spec.js',
       selenium_host: 'localhost',
       selenium_port: selenium_server_port,
       use_ssl: false,

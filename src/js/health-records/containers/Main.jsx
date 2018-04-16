@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import ErrorableCheckbox from '@department-of-veterans-affairs/jean-pants/ErrorableCheckbox';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 
 import ErrorView from '../components/ErrorView';
