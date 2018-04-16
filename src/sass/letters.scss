@@ -1,6 +1,6 @@
-@import "shared-variables";
-@import "modules/m-form-process";
-@import "modules/m-progress-bar";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-progress-bar";
 
 @mixin schemaform-padding {
   // query borrowed from _m-schemaform.scss

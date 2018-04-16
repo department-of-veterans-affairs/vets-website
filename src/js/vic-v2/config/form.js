@@ -16,7 +16,7 @@ import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import phoneUI from '../../common/schemaform/definitions/phone';
 import fileUploadUI from '../../common/schemaform/definitions/file';
-import { genderLabels } from '../../common/utils/labels';
+import { genderLabels } from '../../../platform/static-data/labels';
 import { validateMatch } from '../../common/schemaform/validation';
 import validateFile from '../validation';
 
