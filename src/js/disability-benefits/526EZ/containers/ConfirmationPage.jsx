@@ -38,7 +38,7 @@ class ConfirmationPage extends React.Component {
       <div>
         <h3 className="confirmation-page-title">Claim submitted</h3>
         <p>
-           We usually process claims within <strong>30 days</strong>.<br/>
+           We usually process claims within <strong>103 days</strong>.<br/>
         <p>We may contact you if we have questions or need more information. You can print this page for your records.</p>
 
         <h4 className="confirmation-guidance-heading">
