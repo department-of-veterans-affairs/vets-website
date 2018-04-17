@@ -45,7 +45,7 @@ export const supportingEvidenceOrientation = (
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
-    <p>What supporting evidence do you have that shows how your {formData.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence do you have that shows how your {formData.name} <strong>has worsened since VA rated your disability</strong>?</p>
   );
 };
 
@@ -66,14 +66,14 @@ export const evidenceTypeHelp = (
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{formData.diagnosticText}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{formData.name}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {formData.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+    <p>Tell us about facilities where VA treated you for {formData.name}, <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -118,7 +118,7 @@ export const releaseView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {formData.diagnosticText}.</p>
+    <p>Ok, first we’ll ask about your VA medical records related to your {formData.name}.</p>
   );
 };
 
@@ -127,7 +127,7 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {formData.diagnosticText} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+      <p>You said you were treated for {formData.name} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
     </div>
   );
 };
@@ -148,7 +148,7 @@ export const privateRecordsChoiceHelp = (
 export const privateMedicalRecordsIntro = ({ formData }) => {
   const firstOrNext = formData['view:vaMedicalRecords'] ? 'next' : 'first';
   return (
-    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {formData.diagnosticText}.</p>
+    <p>Ok, {firstOrNext} we’ll ask about your private medical records related to your {formData.name}.</p>
   );
 };
 
