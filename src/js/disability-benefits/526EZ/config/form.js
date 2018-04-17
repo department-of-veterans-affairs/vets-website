@@ -135,8 +135,7 @@ const formConfig = {
             },
             disabilities: {
               // Using StringField because it doesn't do much and we just need to render the widget.
-              // If this becomes a common(ish) pattern, we should make a ListField or something that
-              //  renders out each item in an array.
+              // If this becomes a common(ish) pattern, we should make a BasicField or something.
               'ui:field': 'StringField',
               'ui:widget': 'SelectArrayItemsWidget',
               'ui:options': {
