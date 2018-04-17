@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import reducer from '../../../src/js/user-profile/reducers/profile.js';
-import { UPDATE_LOGGEDIN_STATUS } from '../../../src/js/login/actions';
+import reducer from '../../reducers/profile';
+import { UPDATE_LOGGEDIN_STATUS } from '../../../login/actions';
 
 import {
   ACCEPTING_LATEST_MHV_TERMS,
@@ -18,7 +18,7 @@ import {
   FETCHING_MHV_ACCOUNT,
   PROFILE_LOADING_FINISHED,
   REMOVING_SAVED_FORM_SUCCESS
-} from '../../../src/js/user-profile/actions';
+} from '../../actions';
 
 describe('Profile reducer', () => {
   it('should set loading to false when profile is done loading', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import FormList from '../../../src/js/user-profile/components/FormList.jsx';
+import FormList from '../../components/FormList';
 
 describe('<FormList>', () => {
   const props = {

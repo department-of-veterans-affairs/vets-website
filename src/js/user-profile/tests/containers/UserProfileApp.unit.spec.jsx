@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import UserProfileApp from '../../../src/js/user-profile/containers/UserProfileApp';
-import createCommonStore from '../../../src/platform/startup/store';
+import UserProfileApp from '../../containers/UserProfileApp';
+import createCommonStore from '../../../../platform/startup/store';
 
 const store = createCommonStore();
 

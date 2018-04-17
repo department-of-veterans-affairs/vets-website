@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import AuthApplicationSection from '../../../src/js/user-profile/components/AuthApplicationSection.jsx';
+import AuthApplicationSection from '../../components/AuthApplicationSection';
 
 describe('<AuthApplicationSection>', () => {
   const props = {
