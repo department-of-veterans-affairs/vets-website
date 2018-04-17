@@ -1,6 +1,6 @@
 import Raven from 'raven-js';
 /* eslint-disable */
-import { apiRequest } from '../../../common/helpers/api';
+import { apiRequest } from '../../../../platform/utilities/api';
 import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
 
 export const ITFStatuses = Object.freeze({
