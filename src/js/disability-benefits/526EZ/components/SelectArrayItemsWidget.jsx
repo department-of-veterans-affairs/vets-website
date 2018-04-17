@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import get from '../../utils/data-utils/get';
-import set from '../../utils/data-utils/set';
+import get from '../../../common/utils/data-utils/get';
+import set from '../../../common/utils/data-utils/set';
 
 // TODO: Safety checks for `selected` callback and `label` element
 

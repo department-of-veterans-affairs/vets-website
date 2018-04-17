@@ -5,6 +5,8 @@ import fileUploadUI from '../../../common/schemaform/definitions/file';
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
+import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -137,7 +139,7 @@ const formConfig = {
               // Using StringField because it doesn't do much and we just need to render the widget.
               // If this becomes a common(ish) pattern, we should make a BasicField or something.
               'ui:field': 'StringField',
-              'ui:widget': 'SelectArrayItemsWidget',
+              'ui:widget': SelectArrayItemsWidget,
               'ui:options': {
                 label: disabilityOption,
                 // TODO: Remove the selectedPropName when we get rid of the `disability` nesting
