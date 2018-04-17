@@ -144,15 +144,6 @@ const formConfig = {
                 // TODO: Remove the selectedPropName when we get rid of the `disability` nesting
                 selectedPropName: 'disability.view:selected',
                 widgetClassNames: 'widget-outline'
-              },
-              items: {
-                // TODO: Remove this unnecessary nesting when the latest schema is used
-                disability: {
-                  secondaryDisabilities: {
-                    // Same as above
-                    'ui:field': 'BasicArrayField'
-                  }
-                }
               }
             }
           },
