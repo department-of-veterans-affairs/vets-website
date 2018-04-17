@@ -22,8 +22,7 @@ export default class SelectArrayItemsWidget extends React.Component {
     const { label: Label, selectedPropName, disabled } = options;
 
     // TODO: Figure out how to handle required fields
-    // const requiredSpan = required ? <span className="form-required-span">*</span> : null;
-    const requiredSpan = null;
+    const requiredSpan = required ? <span className="form-required-span">*</span> : null;
 
     // Note: Much of this was stolen from CheckboxWidget
     return (

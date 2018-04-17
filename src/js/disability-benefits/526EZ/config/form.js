@@ -31,6 +31,8 @@ import {
   disabilityOption
 } from '../helpers';
 
+import { requireOneSelected } from '../validations';
+
 const {
   treatments,
   disabilities: disabilitiesSchema
@@ -138,6 +140,10 @@ const formConfig = {
               // If this becomes a common(ish) pattern, we should make a BasicField or something.
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
+              'ui:validations': [{
+                options: { selectedPropName: 'disability.view:selected' },
+                validator: requireOneSelected
+              }],
               'ui:options': {
                 label: disabilityOption,
                 // TODO: Remove the selectedPropName when we get rid of the `disability` nesting
