@@ -1,4 +1,5 @@
 import Raven from 'raven-js';
+/* eslint-disable */
 import { apiRequest } from '../../../common/helpers/api';
 import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
 
@@ -59,3 +60,5 @@ export function submitIntentToFile(formConfig, onChange) {
 //   );
 // };
 // }
+/* eslint-enable */
+
