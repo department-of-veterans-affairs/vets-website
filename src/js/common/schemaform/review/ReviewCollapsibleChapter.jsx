@@ -4,7 +4,8 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import { focusElement, getActivePages } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
+import { getActivePages } from '../../../../platform/forms/helpers';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
 import ArrayField from './ArrayField';

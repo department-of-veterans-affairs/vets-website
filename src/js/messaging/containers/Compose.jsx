@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { dirtyAllFields } from '../../common/model/fields';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import { dirtyAllFields } from '../../../platform/forms/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import ModalConfirmSave from '../components/compose/ModalConfirmSave';

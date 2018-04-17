@@ -8,7 +8,7 @@ import {
   loadPrescriptions
 } from '../../../rx/actions/prescriptions';
 
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import PrescriptionCard from '../components/PrescriptionCard';
 
