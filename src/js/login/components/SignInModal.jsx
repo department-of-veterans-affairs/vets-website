@@ -15,8 +15,10 @@ const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
 class SignInModal extends React.Component {
-  componentDidMount() {
-    recordEvent({ event: 'login-modal-opened' });
+  componentDidUpdate(prevProps) {
+    if (!prevProps.visible && this.props.visible) {
+      recordEvent({ event: 'login-modal-opened' });
+    }
   }
 
   renderModalContent = () => {
