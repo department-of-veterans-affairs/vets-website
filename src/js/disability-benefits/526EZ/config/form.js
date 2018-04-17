@@ -25,20 +25,19 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  releaseView
+  releaseView,
+  disabilityOption
 } from '../helpers';
 
 const {
-  treatments
+  treatments,
+  disabilities: disabilitiesSchema
 } = fullSchema526EZ.properties;
 
 const {
-  date,
-  disabilities: disabilitiesSchema
+  date
   // files
 } = fullSchema526EZ.definitions;
-
-console.log('definitions:', fullSchema526EZ.definitions);
 
 const FIFTY_MB = 52428800;
 
@@ -124,27 +123,47 @@ const formConfig = {
         }
       }
     },
-    chapterThree: {
+    ratedDisabilities: {
       title: 'Your Rated Disabilities',
       pages: {
-        pageOne: {
+        ratedDisabilities: {
           title: 'Your Rated Disabilities',
-          path: 'chapter-three/page-one',
+          path: 'select-disabilities',
           uiSchema: {
+            'view:selectDisabilitiesDescription': {
+              'ui:description': 'Please check all the disabilities that you’re filing an increase for because the condition has gotten worse.'
+            },
             disabilities: {
-              'ui:widget': 'SelectArrayItemsWidget'
+              // Using StringField because it doesn't do much and we just need to render the widget.
+              // If this becomes a common(ish) pattern, we should make a ListField or something that
+              //  renders out each item in an array.
+              'ui:field': 'StringField',
+              'ui:widget': 'SelectArrayItemsWidget',
+              'ui:options': {
+                label: disabilityOption,
+                // TODO: Remove the selectedPropName when we get rid of the `disability` nesting
+                selectedPropName: 'disability.view:selected',
+                widgetClassNames: 'widget-outline'
+              },
+              items: {
+                // TODO: Remove this unnecessary nesting when the latest schema is used
+                disability: {
+                  secondaryDisabilities: {
+                    // Same as above
+                    'ui:field': 'BasicArrayField'
+                  }
+                }
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              disabilities: {
+              'view:selectDisabilitiesDescription': {
                 type: 'object',
-                properties: {
-                  'view:preFilled': disabilitiesSchema,
-                  selected: disabilitiesSchema
-                }
-              }
+                properties: {}
+              },
+              disabilities: disabilitiesSchema
             }
           }
         }

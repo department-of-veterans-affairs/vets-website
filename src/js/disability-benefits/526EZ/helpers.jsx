@@ -282,19 +282,19 @@ export const evidenceSummaryView = ({ formData }) => {
  * @typedef {Object} Disability
  * @property {String} diagnosticCode
  * @property {String} diagnosticText
+ * @property {String} ratingPercentage
  *
  * @param {Disability} disability
  */
 export const disabilityOption = ({ disability }) => {
-  const { diagnosticCode, diagnosticText } = disability;
+  const { diagnosticCode, diagnosticText, ratingPercentage } = disability;
+  // May need to throw an error to Sentry if any of these doesn't exist
 
-  // TODO: Figure out where the rating comes from
   return (
     <div>
-      <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>
-      <p>{getDiagnosticText(diagnosticText)}</p>
-      <br/>
-      <p>Current rating: <strong>??%</strong></p>
+      {diagnosticCode && <h4>{getDiagnosticCodeName(diagnosticCode)}</h4>}
+      {diagnosticText && <p className="diagnostic-text">{getDiagnosticText(diagnosticText)}</p>}
+      {ratingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
     </div>
   );
 };
