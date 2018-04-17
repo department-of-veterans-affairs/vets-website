@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { PrintPage } from '../../../src/js/post-911-gib-status/containers/PrintPage';
+import { PrintPage } from '../../containers/PrintPage';
 
 describe('<PrintPage/>', () => {
   const pushSpy = sinon.spy();

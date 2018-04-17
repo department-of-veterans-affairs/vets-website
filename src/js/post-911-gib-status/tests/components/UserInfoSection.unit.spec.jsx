@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
 
-import UserInfoSection from '../../../src/js/post-911-gib-status/components/UserInfoSection.jsx';
+import UserInfoSection from '../../components/UserInfoSection';
 
 const props = {
   enrollmentData: {

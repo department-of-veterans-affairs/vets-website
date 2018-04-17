@@ -2,9 +2,9 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Post911GIBStatusApp from '../../../src/js/post-911-gib-status/containers/Post911GIBStatusApp.jsx';
-import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
-import createCommonStore from '../../../src/platform/startup/store';
+import Post911GIBStatusApp from '../../containers/Post911GIBStatusApp';
+import reducer from '../../reducers/index.js';
+import createCommonStore from '../../../../platform/startup/store';
 
 const store = createCommonStore(reducer);
 

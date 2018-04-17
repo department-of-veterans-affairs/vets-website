@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
 
-import EnrollmentPeriod from '../../../src/js/post-911-gib-status/components/EnrollmentPeriod.jsx';
+import EnrollmentPeriod from '../../components/EnrollmentPeriod';
 
 const defaultProps = {
   id: 'abc',

@@ -4,10 +4,10 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import StatusPage from '../../../src/js/post-911-gib-status/containers/StatusPage.jsx';
+import StatusPage from '../../containers/StatusPage';
 
-import reducer from '../../../src/js/post-911-gib-status/reducers/index.js';
-import createCommonStore from '../../../src/platform/startup/store';
+import reducer from '../../reducers/index.js';
+import createCommonStore from '../../../../platform/startup/store';
 
 const store = createCommonStore(reducer);
 const defaultProps = store.getState();

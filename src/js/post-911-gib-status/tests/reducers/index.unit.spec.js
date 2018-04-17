@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import post911GIBStatus from '../../../src/js/post-911-gib-status/reducers';
+import post911GIBStatus from '../../reducers';
 
-import { SET_SERVICE_AVAILABILITY, SERVICE_AVAILABILITY_STATES } from '../../../src/js/post-911-gib-status/utils/constants';
+import { SET_SERVICE_AVAILABILITY, SERVICE_AVAILABILITY_STATES } from '../../utils/constants';
 
 const initialState = {
   enrollmentData: null,

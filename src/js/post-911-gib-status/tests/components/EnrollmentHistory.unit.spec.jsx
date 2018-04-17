@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import EnrollmentHistory from '../../../src/js/post-911-gib-status/components/EnrollmentHistory.jsx';
+import EnrollmentHistory from '../../components/EnrollmentHistory';
 
 const defaultProps = {
   enrollmentData: {

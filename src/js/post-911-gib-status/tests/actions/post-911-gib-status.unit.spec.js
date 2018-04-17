@@ -3,14 +3,14 @@ import sinon from 'sinon';
 import {
   getEnrollmentData,
   getServiceAvailability
-} from '../../../src/js/post-911-gib-status/actions/post-911-gib-status';
+} from '../../actions/post-911-gib-status';
 import {
   BACKEND_SERVICE_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
   SET_SERVICE_AVAILABILITY,
   SERVICE_AVAILABILITY_STATES
-} from '../../../src/js/post-911-gib-status/utils/constants';
+} from '../../utils/constants';
 
 let oldFetch;
 let oldSessionStorage;

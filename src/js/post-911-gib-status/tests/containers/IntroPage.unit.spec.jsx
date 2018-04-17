@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { IntroPage } from '../../../src/js/post-911-gib-status/containers/IntroPage';
-import { SERVICE_AVAILABILITY_STATES } from '../../../src/js/post-911-gib-status/utils/constants';
+import { IntroPage } from '../../containers/IntroPage';
+import { SERVICE_AVAILABILITY_STATES } from '../../utils/constants';
 
 describe('<IntroPage/>', () => {
   const getServiceAvailability = sinon.spy();

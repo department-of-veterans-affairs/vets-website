@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import InfoPair from '../../../src/js/post-911-gib-status/components/InfoPair.jsx';
+import InfoPair from '../../components/InfoPair';
 
 describe('<InfoPair>', () => {
   it('should render', () => {
