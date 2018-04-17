@@ -12,15 +12,16 @@ class BetaDropdown extends React.Component {
     if (window.location.pathname === '/' && !window.location.search) {
       this.redirectToDashboard();
     } else {
-      document.addEventListener('mousedown', this.checkLink);
+      document.addEventListener('click', this.checkLink);
     }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.checkLink);
+    document.removeEventListener('click', this.checkLink);
   }
 
   checkLink = (event) => {
+    // debugger
     if (event.target.tagName.toLowerCase() === 'a' && event.target.pathname === '/') {
       event.preventDefault();
       event.stopPropagation();
@@ -32,6 +33,7 @@ class BetaDropdown extends React.Component {
   redirectToDashboard() {
     window.location.replace('/dashboard-beta');
   }
+
   render() {
     return (
       <ul>
