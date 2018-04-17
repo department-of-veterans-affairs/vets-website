@@ -303,6 +303,17 @@ export const UnauthenticatedAlert = (
   </div>
 );
 
+export const UnverifiedAlert = (
+  <div>
+    <div className="usa-alert usa-alert-info schemaform-sip-alert">
+      <div className="usa-alert-body">
+        To apply for a disability increase, you’ll need to verify your account.
+      </div>
+    </div>
+    <br/>
+  </div>
+);
+
 export const VerifiedAlert =  (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">

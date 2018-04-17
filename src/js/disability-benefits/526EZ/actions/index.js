@@ -2,7 +2,6 @@ import Raven from 'raven-js';
 import { apiRequest } from '../../../common/helpers/api';
 import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
 
-// TODO: Will the backend handle resubmitting ITF until successful?
 export const ITFStatuses = Object.freeze({
   active: 'active',
   claim_received: 'claim_received', // eslint-disable-line camelcase
@@ -28,9 +27,7 @@ export function submitIntentToFile(formConfig, onChange) {
       onChange({ ITFStatus });
 
       // TODO: if the backend handles resubmission, this check can be removed
-      if (ITFStatus === 'active') {
-        dispatch(fetchInProgressForm(formId, migrations, true, prefillTransformer));
-      }
+      return ITFStatus === 'active';
     })
       .catch(() => {
         const errorMessage = 'Network request failed';
@@ -49,9 +46,7 @@ export function submitIntentToFile(formConfig, onChange) {
 //     ({ data }) => {
 //       const ITFStatus = data.attributes.ITFStatus
 //       onChange({ ITFStatus });
-//       if (ITFStatus === 'active') {
-//         dispatch(fetchInProgressForm(formId, migrations, true, prefillTransformer));
-//       }
+//       return ITFStatus === 'active';
 //     },
 //     ({ errors }) => {
 //       const errorMessage = 'Network request failed';

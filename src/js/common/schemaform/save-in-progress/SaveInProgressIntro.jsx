@@ -13,7 +13,7 @@ export default class SaveInProgressIntro extends React.Component {
     let alert;
     const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
     const { profile, login } = this.props.user;
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const prefillAvailable = this.props.prefillAvailable || !!(profile && profile.prefillsAvailable.includes(this.props.formId)); // TODO: remove first clause once 526 added to list
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
@@ -101,7 +101,7 @@ export default class SaveInProgressIntro extends React.Component {
     const savedForm = profile && profile.savedForms
       .filter(f => moment.unix(f.metadata.expires_at).isAfter())
       .find(f => f.form === this.props.formId);
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const prefillAvailable = this.props.prefillAvailable || !!(profile && profile.prefillsAvailable.includes(this.props.formId)); // TODO: remove 1st clause once 526 added to list
 
     if (profile.loading && !this.props.resumeOnly) {
       return (
@@ -128,7 +128,7 @@ export default class SaveInProgressIntro extends React.Component {
           returnUrl={this.props.returnUrl}
           migrations={this.props.migrations}
           prefillTransformer={this.props.prefillTransformer}
-          handleLoadPrefill={this.props.handleLoadPrefill}
+          beforeStartForm={this.props.beforeStartForm}
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}

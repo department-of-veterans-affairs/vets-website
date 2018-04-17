@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import appendQuery from 'append-query';
 
 import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
@@ -13,8 +12,7 @@ import { toggleLoginModal } from '../../../login/actions';
 
 import formConfig from '../config/form';
 import { submitIntentToFile } from '../actions';
-import SaveInProgressIntro from './SaveInProgressIntro';
-import { UnauthenticatedAlert } from '../helpers';
+import FormStartControls from './FormStartControls';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -32,10 +30,8 @@ class IntroductionPage extends React.Component {
     this.setState(ITFStatus);
   }
 
-  handleLoadPrefill = () => {
-    this.props.submitIntentToFile(
-      formConfig,
-      this.updateITFStatus);
+  beforeStartForm = () => {
+    this.props.submitIntentToFile(formConfig, this.updateITFStatus);
   }
 
   authenticate = (e) => {
@@ -44,7 +40,8 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { saveInProgress: { user }, loginUrl, verifyUrl } = this.props;
+    const { saveInProgress: { user } } = this.props;
+    const ITFStatus = this.state ? this.state.ITFStatus : undefined;
     // TODO: determine whether content changes for returning applicants
     // const savedForm = this.hasSavedForm();
 
@@ -52,14 +49,12 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for increased disability compensation"/>
         <p>Equal to VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits).</p>
-        {!user.login.currentlyLoggedIn && <div>
-          {UnauthenticatedAlert}
-          <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>
-        </div>}
-        {user.login.currentlyLoggedIn && <SaveInProgressIntro
-            {...this.props}
-            {...this.state}
-            handleLoadPrefill={this.handleLoadPrefill}/>}
+        <FormStartControls
+          user={user}
+          authenticate={this.authenticate}
+          ITFStatus={ITFStatus}
+          {...this.props}
+          beforeStartForm={this.beforeStartForm}/>
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -101,11 +96,13 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        {!user.login.currentlyLoggedIn && <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>}
-        {user.login.currentlyLoggedIn && <SaveInProgressIntro
-            {...this.props}
-            buttonOnly
-            handleLoadPrefill={this.handleLoadPrefill}/>}
+        <FormStartControls
+          user={user}
+          authenticate={this.authenticate}
+          ITFStatus={ITFStatus}
+          {...this.props}
+          buttonOnly
+          beforeStartForm={this.beforeStartForm}/>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017"/>

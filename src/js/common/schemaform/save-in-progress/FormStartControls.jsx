@@ -23,9 +23,10 @@ class FormStartControls extends React.Component {
   }
 
   handleLoadPrefill = () => {
-    if (this.props.handleLoadPrefill) {
-      // TODO: Is this how handleLoadPrefill is intended to be used?
-      this.props.handleLoadPrefill();
+    if (this.props.beforeStartForm) {
+      this.props.beforeStartForm().then((hasValidITF) => {
+        if (hasValidITF) this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
+      });
     } else if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
     } else {
@@ -36,7 +37,13 @@ class FormStartControls extends React.Component {
   handleLoadForm = () => {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
-    this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
+    if (this.props.beforeStartForm) {
+      return this.props.beforeStartForm().then((hasValidITF) => {
+        if (hasValidITF) this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
+        return false;
+      });
+    }
+    return this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
   }
 
   toggleModal = () => {
