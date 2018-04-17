@@ -1,8 +1,10 @@
-import _ from '../../../common/utils/data-utils';
+// import _ from '../../../common/utils/data-utils';
+import _ from 'lodash/fp';
 
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
+import { pciuCountries, states, statesOnlyInPCIU } from '../../../common/utils/address';
 
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
@@ -22,7 +24,7 @@ import {
   facilityDescription,
   treatmentView,
   recordReleaseWarning,
-  validateAddress,
+  // validateAddress, // TODO: Check if needed
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
@@ -30,43 +32,60 @@ import {
 } from '../helpers';
 
 const {
-  treatments
+  treatments,
+  privateRecordReleases
 } = fullSchema526EZ.properties;
 
 const {
   date,
   // files
-  dateRange
+  dateRange,
+  privateTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
 
-// We may add these back in after the typeahead, but for now...
-const treatmentsSchema = _.set('items.properties',
-  _.omit(
-    ['treatmentCenterAddress', 'treatmentCenterType'],
-    treatments.items.properties
-  ), treatments);
+// TODO: Remove once typeahead supports auto-filling address and treatment center type
+const vaTreatments = ((treatmentsCommonDef) => {
+  const { type, maxItems, items } = treatmentsCommonDef;
 
-const privateRecordReleasesSchema = Object.assign({}, treatmentsSchema.items.properties, {
-  privateMedicalRecordsReleaseAccepted: {
-    type: 'boolean'
-  },
-  'view:privateMedicalRecordsReleasePermissionRestricted': {
-    type: 'object',
-    'ui:collapsed': true,
-    properties: {}
-  },
-  treatmentCenterStreet1: {
-    type: 'string'
-  },
-  treatmentCenterStreet2: {
-    type: 'string'
-  },
-  treatmentCenterPostalCode: {
-    type: 'number'
-  }
-});
+  return {
+    type,
+    maxItems,
+    items: {
+      type: items.type,
+      properties: _.omit(
+        ['treatmentCenterAddress', 'treatmentCenterType'],
+        items.properties
+      )
+    }
+  };
+
+})(treatments);
+
+// TODO: Replace once validations finished
+const privateTreatmentCenterAddressDef = ((address) => {
+  const usCombinedStates = [...states.USA, ...statesOnlyInPCIU];
+  const usaStatesLabels = usCombinedStates.map(state => state.label);
+  const usaStates = usCombinedStates.map(state => state.value);
+  const { type, oneOf, required, properties } = address;
+  return {
+    type,
+    oneOf: oneOf.map((obj) => _.cloneDeep(obj)),
+    required,
+    properties: _.assign(properties, {
+      country: {
+        type: 'string',
+        'enum': pciuCountries,
+      },
+      state: {
+        type: 'string',
+        'enum': usaStates,
+        enumNames: usaStatesLabels
+      }
+    })
+  };
+})(privateTreatmentCenterAddress);
 
 const formConfig = {
   urlPrefix: '/',
@@ -84,7 +103,8 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
-    dateRange
+    dateRange,
+    privateTreatmentCenterAddress: privateTreatmentCenterAddressDef
     // files
   },
   title: 'Disability Claims for Increase',
@@ -238,7 +258,7 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': facilityDescription,
-                treatments: {
+                vaTreatments: {
                   'ui:options': {
                     itemName: 'Facility',
                     viewField: treatmentView
@@ -260,19 +280,21 @@ const formConfig = {
                     //     hideIf: () => true
                     //   }
                     // },
-                    // treatmentCenterCountry: {
-                    //   'ui:options': {
-                    //     hideIf: () => true
-                    //   }
-                    // },
-                    // treatmentCenterState: {
-                    //   'ui:options': {
-                    //     hideIf: () => true
-                    //   }
-                    // },
-                    // treatmentCenterCity: {
-                    //   'ui:options': {
-                    //     hideIf: () => true
+                    // treatmentCenterAddress: {
+                    //   country: {
+                    //     'ui:options': {
+                    //       hideIf: () => true
+                    //     }
+                    //   },
+                    //   state: {
+                    //     'ui:options': {
+                    //       hideIf: () => true
+                    //     }
+                    //   },
+                    //   city: {
+                    //     'ui:options': {
+                    //       hideIf: () => true
+                    //     }
                     //   }
                     // }
                   }
@@ -288,7 +310,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    treatments: treatmentsSchema
+                    vaTreatments
                   }
                 }
               }
@@ -378,9 +400,7 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
-            // TODO: enable once previous chapter merged
-            // const requestsRecords = !_.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
-            const requestsRecords = true;
+            const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
             return hasRecords && requestsRecords;
           },
           uiSchema: {
@@ -393,58 +413,62 @@ const formConfig = {
                     viewField: releaseView
                   },
                   items: {
-                    privateRecordRelease: {
+                    'ui:order': [
+                      'treatmentCenterName',
+                      'privateMedicalRecordsReleaseAccepted',
+                      'view:privateMedicalRecordsReleasePermissionRestricted',
+                      'treatmentDateRange',
+                      'treatmentCenterAddress'
+                    ],
+                    treatmentCenterName: { // TODO: is this required?
+                      'ui:title': 'Name of private provider or hospital'
+                    },
+                    treatmentDateRange: dateRangeUI(
+                      'Approximate date of first treatment',
+                      'Approximate date of last treatment',
+                      'Date of last treatment must be after date of first treatment'
+                    ),
+                    privateMedicalRecordsReleaseAccepted: {
+                      'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
+                    },
+                    'view:privateMedicalRecordsReleasePermissionRestricted': {
+                      'ui:description': () => recordReleaseWarning,
+                      'ui:options': {
+                        expandUnder: 'privateMedicalRecordsReleaseAccepted'
+                      }
+                    },
+                    treatmentCenterAddress: {
                       'ui:order': [
-                        'treatmentCenterName',
-                        'privateMedicalRecordsReleaseAccepted',
-                        'view:privateMedicalRecordsReleasePermissionRestricted',
-                        'startTreatment', 'endTreatment',
-                        'treatmentCenterCountry', 'treatmentCenterStreet1',
-                        'treatmentCenterStreet2', 'treatmentCenterCity',
-                        'treatmentCenterState', 'treatmentCenterPostalCode'
+                        'country',
+                        'addressLine1',
+                        'addressLine2',
+                        'city',
+                        'state',
+                        'zipFirstFive'
                       ],
-                      treatmentCenterName: { // TODO: is this required?
-                        'ui:title': 'Name of private provider or hospital'
-                      },
-                      privateMedicalRecordsReleaseAccepted: {
-                        'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
-                      },
-                      'view:privateMedicalRecordsReleasePermissionRestricted': {
-                        'ui:description': () => recordReleaseWarning,
-                        'ui:options': {
-                          expandUnder: 'privateMedicalRecordsReleaseAccepted'
-                        }
-                      },
-                      startTreatment: {
-                        'ui:widget': 'date',
-                        'ui:title': 'Approximate date of first treatment since you received your rating'
-                      },
-                      endTreatment: {
-                        'ui:widget': 'date',
-                        'ui:title': 'Approximate date of last treatment'
-                      },
-                      treatmentCenterCountry: { // TODO: need to update schema to use default def
+                      // TODO: confirm validation for PCIU address across all usage
+                      // 'ui:validations': [validateAddress],
+                      country: {
                         'ui:title': 'Country'
                       },
-                      treatmentCenterStreet1: {
-                        'ui:title': 'Street'
+                      addressLine1: {
+                        'ui:title': 'Street address'
                       },
-                      treatmentCenterStreet2: {
-                        'ui:title': 'Street'
+                      addressLine2: {
+                        'ui:title': 'Street address'
                       },
-                      treatmentCenterCity: {
+                      city: {
                         'ui:title': 'City'
                       },
-                      treatmentCenterState: {
+                      state: {
                         'ui:title': 'State'
                       },
-                      treatmentCenterPostalCode: {
+                      zipFirstFive: {
                         'ui:title': 'Postal code',
                         'ui:options': {
-                          widgetClassNames: 'usa-input-medium'
+                          widgetClassNames: 'usa-input-medium',
                         }
-                      },
-                      'ui:validations': [validateAddress]
+                      }
                     }
                   }
                 }
@@ -459,31 +483,18 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    privateRecordReleases: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          privateRecordRelease: {
-                            type: 'object',
-                            properties: _.omit(['treatmentCenterType'], privateRecordReleasesSchema)
-                          }
-                        }
-                      }
-                    }
+                    privateRecordReleases
                   }
                 }
               }
-            }
+            },
           }
         },
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
             const hasRecords = _.get(`disabilities.${index}.view:privateMedicalRecords`, formData);
-            // TODO: enable once previous chapter merged
-            // const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData);
-            const uploadRecords = true;
+            const uploadRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'yes';
             return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
