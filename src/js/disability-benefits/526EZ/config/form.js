@@ -1,15 +1,15 @@
-// import _ from '../../../common/utils/data-utils';
 import _ from 'lodash/fp';
 
-import fullSchema526EZ from '/Users/adhocteam/Sites/vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// NOTE: Easier to run schema locally with hot reload for dev
+// import fullSchema526EZ from '/User/Some/Path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
-import { pciuCountries, states, statesOnlyInPCIU } from '../../../common/utils/address';
-
-import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
-
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
+// TODO: Load live user prefill data from network
+import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import {
   transform,
@@ -24,7 +24,7 @@ import {
   facilityDescription,
   treatmentView,
   recordReleaseWarning,
-  // validateAddress, // TODO: Check if needed
+  // validateAddress, // TODO: This needs to be fleshed out
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
@@ -38,7 +38,6 @@ const {
 
 const {
   date,
-  // files
   dateRange,
   privateTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
@@ -63,30 +62,6 @@ const vaTreatments = ((treatmentsCommonDef) => {
 
 })(treatments);
 
-// TODO: Replace once validations finished
-const privateTreatmentCenterAddressDef = ((address) => {
-  const usCombinedStates = [...states.USA, ...statesOnlyInPCIU];
-  const usaStatesLabels = usCombinedStates.map(state => state.label);
-  const usaStates = usCombinedStates.map(state => state.value);
-  const { type, oneOf, required, properties } = address;
-  return {
-    type,
-    oneOf: oneOf.map((obj) => _.cloneDeep(obj)),
-    required,
-    properties: _.assign(properties, {
-      country: {
-        type: 'string',
-        'enum': pciuCountries,
-      },
-      state: {
-        type: 'string',
-        'enum': usaStates,
-        enumNames: usaStatesLabels
-      }
-    })
-  };
-})(privateTreatmentCenterAddress);
-
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/21-526EZ',
@@ -104,12 +79,11 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    privateTreatmentCenterAddress: privateTreatmentCenterAddressDef
-    // files
+    privateTreatmentCenterAddress
   },
   title: 'Disability Claims for Increase',
   subTitle: 'Form 21-526EZ',
-  // getHelp: GetFormHelp,
+  // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     chapterOne: {
       title: 'Chapter One',
@@ -169,7 +143,7 @@ const formConfig = {
           }
         },
         evidenceType: {
-          title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.diagnosticText`, formData),
+          title: (formData, { pagePerItemIndex }) => _.get(`disabilities.${pagePerItemIndex}.name`, formData),
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
           arrayPath: 'disabilities',
@@ -264,9 +238,7 @@ const formConfig = {
                     viewField: treatmentView
                   },
                   items: {
-                    // Hopefully we can get rid of this annoying nesting
                     treatmentCenterName: {
-                      // May have to change this to 'Name of [first]...'
                       'ui:title': 'Name of VA medical facility'
                     },
                     treatmentDateRange: dateRangeUI(
@@ -274,29 +246,9 @@ const formConfig = {
                       'Approximate date of last treatment',
                       'Date of last treatment must be after date of first treatment'
                     ),
-                    // I think we're planning on filling these in with the typeahead?
-                    // treatmentCenterType: {
-                    //   'ui:options': {
-                    //     hideIf: () => true
-                    //   }
-                    // },
-                    // treatmentCenterAddress: {
-                    //   country: {
-                    //     'ui:options': {
-                    //       hideIf: () => true
-                    //     }
-                    //   },
-                    //   state: {
-                    //     'ui:options': {
-                    //       hideIf: () => true
-                    //     }
-                    //   },
-                    //   city: {
-                    //     'ui:options': {
-                    //       hideIf: () => true
-                    //     }
-                    //   }
-                    // }
+                    // TODO: Put these back as hidden in the UI once typeahead fills this out
+                    // treatmentCenterType: {},
+                    // treatmentCenterAddress: {}
                   }
                 }
               }
@@ -420,7 +372,7 @@ const formConfig = {
                       'treatmentDateRange',
                       'treatmentCenterAddress'
                     ],
-                    treatmentCenterName: { // TODO: is this required?
+                    treatmentCenterName: {
                       'ui:title': 'Name of private provider or hospital'
                     },
                     treatmentDateRange: dateRangeUI(
@@ -563,7 +515,7 @@ const formConfig = {
                               '1',
                               '2',
                               '3',
-                              // '4',
+                              // '4', // TODO: Confirm this should be taken out
                               '5',
                               '6'
                             ],
