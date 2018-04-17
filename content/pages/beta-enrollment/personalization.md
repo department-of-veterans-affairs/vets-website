@@ -20,25 +20,22 @@ We invite you to try out our new beta tools—designed to make it easier for you
 
 </div>
 
-### What are beta tools, and why would I want to try them?
+### What are beta tools?
 
-Based on feedback from Veterans, Servicemembers, and their family members, we're constantly working to make Vets.gov even easier to use.
-
-These beta tools are new tools we're testing out to make sure they're working the way they should before we make them available to all Vets.gov users. When you try out these tools in their "beta" (or"test") version, you'll get to use them right away. You'll also be part of helping to make the site better for others in the Veteran community.
+These are new tools we're testing out to make sure they're working the way they should before we make them available to all Vets.gov users. When you try out these tools in their beta (or test) version, you'll get to use them right away. And you'll be helping us make the site better for others in the Veteran community. 
 
 ### What will happen when I try out the beta tools?
 
 You'll still have access to all the tools and information you've always had on Vets.gov. Plus, you'll gain access to 3 new pages when you sign in:
 
 - **A personalized homepage** where you'll see all your latest updates in one place—like the status of your prescription refills or disability claims and new secure messages from your health care team
-- **A redesigned profile page** where you can review and find out how to update your personal and contact information as needed
-- **A new account page** where you can review your settings for signing in to Vets.gov and add extra security to your account, if needed
+- **A redesigned profile page** where you can review your personal and contact information—and find out how to update it as needed
+- **A new account page** where you can review your settings for signing in to Vets.gov—and add extra security to your account if you want to
+<a class=“usa-button-primary” href=“paste URL here”>Turn On Beta Tools</a>
 
-### Can I turn the beta tools off if I don't want to use them anymore?
+### Can I turn off the beta tools off if I don't want to use them anymore?
 
 Yes. You can turn off the beta tools at any time. Just look for the opt-in information at the bottom of the account page.
-
-<a class=“usa-button-primary” href=“paste URL here”>Turn On Beta Tools</a>
 
 <div id="react-root"></div>
 </div>
