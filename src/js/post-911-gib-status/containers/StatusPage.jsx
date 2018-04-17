@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from '../../../platform/monitoring/record-event';
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 
 import FormTitle from '../../common/schemaform/components/FormTitle';
 

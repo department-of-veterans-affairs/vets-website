@@ -1,6 +1,6 @@
 import merge from 'lodash/fp/merge';
 
-import environment from '../../helpers/environment';
+import environment from '../../../../platform/utilities/environment';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');

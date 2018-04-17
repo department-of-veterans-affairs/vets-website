@@ -1,4 +1,4 @@
-import environment from './environment.js';
+import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileFields, profileLoadingFinished } from '../../user-profile/actions';
