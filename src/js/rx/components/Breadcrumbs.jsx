@@ -49,26 +49,44 @@ class Breadcrumbs extends React.Component {
   }
 
   render() {
-    const { prescription } = this.props;
+    const { location: { pathname }, prescription } = this.props;
 
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/health-care/" key="healthcare">Health Care</a>,
-      <a href="/health-care/prescriptions/" key="healthcare">Prescription Refills</a>,
     ];
 
-    if (prescription) {
-      const prescriptionId = _.get(
-        prescription,
-        ['rx', 'attributes', 'prescriptionId']
-      );
+    if (pathname.match(/\/\d+$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
 
-      const prescriptionName = _.get(
-        prescription,
-        ['rx', 'attributes', 'prescriptionName']
-      );
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
+    } else if (pathname.match(/\/track\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
 
-      crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
+      if (prescription) {
+        const prescriptionId = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionId']
+        );
+
+        const prescriptionName = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionName']
+        );
+
+        crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
+      }
+    } else if (pathname.match(/\/history\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+    } else if (pathname.match(/\/glossary\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+    } else if (pathname.match(/\/settings\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
     }
 
     return (
