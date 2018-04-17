@@ -2,7 +2,7 @@ import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
-// import fullSchema526EZ from '/User/Some/Path/vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/local/path/vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
 import dateRangeUI from '../../../common/schemaform/definitions/dateRange';
 import IntroductionPage from '../components/IntroductionPage';
@@ -367,8 +367,8 @@ const formConfig = {
                   items: {
                     'ui:order': [
                       'treatmentCenterName',
-                      'privateMedicalRecordsReleaseAccepted',
-                      'view:privateMedicalRecordsReleasePermissionRestricted',
+                      'privateMedicalRecordsReleaseRestricted',
+                      'view:releaseRestrictedNotice',
                       'treatmentDateRange',
                       'treatmentCenterAddress'
                     ],
@@ -380,13 +380,13 @@ const formConfig = {
                       'Approximate date of last treatment',
                       'Date of last treatment must be after date of first treatment'
                     ),
-                    privateMedicalRecordsReleaseAccepted: {
+                    privateMedicalRecordsReleaseRestricted: {
                       'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
                     },
-                    'view:privateMedicalRecordsReleasePermissionRestricted': {
+                    'view:releaseRestrictedNotice': {
                       'ui:description': () => recordReleaseWarning,
                       'ui:options': {
-                        expandUnder: 'privateMedicalRecordsReleaseAccepted'
+                        expandUnder: 'privateMedicalRecordsReleaseRestricted'
                       }
                     },
                     treatmentCenterAddress: {
@@ -435,7 +435,15 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    privateRecordReleases
+                    privateRecordReleases: _.set(
+                      'items.properties.view:releaseRestrictedNotice',
+                      {
+                        type: 'object',
+                        'ui:collapsed': true,
+                        properties: {}
+                      },
+                      privateRecordReleases
+                    )
                   }
                 }
               }
