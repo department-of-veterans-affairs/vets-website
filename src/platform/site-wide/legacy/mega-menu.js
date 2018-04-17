@@ -4,7 +4,7 @@ import {
   isReverseTab,
   isTab,
   getTabbableElements
-} from '../../../js/common/utils/accessibility-helpers';
+} from '../../utilities/accessibility';
 
 class MegaMenu {
   constructor(menuElement, openMenuElement, closeMenuElement) {

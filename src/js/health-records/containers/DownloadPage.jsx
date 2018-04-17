@@ -6,7 +6,7 @@ import isMobile from 'ismobilejs';
 import { isEmpty } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';

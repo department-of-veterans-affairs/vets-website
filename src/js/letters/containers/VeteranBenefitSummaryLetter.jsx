@@ -10,7 +10,7 @@ import {
   optionsToAlwaysDisplay,
   getBenefitOptionText
 } from '../utils/helpers.jsx';
-import { formatDateShort } from '../../common/utils/helpers';
+import { formatDateShort } from '../../../platform/utilities/date';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
