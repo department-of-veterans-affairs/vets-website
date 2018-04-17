@@ -46,7 +46,7 @@ export const supportingEvidenceOrientation = (
 
 export const evidenceTypesDescription = ({ formData }) => {
   return (
-    <p>What supporting evidence do you have that shows how your {formData.disability.diagnosticText} <strong>has worsened since VA rated your disability</strong>?</p>
+    <p>What supporting evidence do you have that shows how your {getDiagnosticCodeName(formData.disability.diagnosticCode)} <strong>has worsened since VA rated your disability</strong>?</p>
   );
 };
 
@@ -67,14 +67,14 @@ export const evidenceTypeHelp = (
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">{formData.disability.diagnosticText}</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">{getDiagnosticCodeName(formData.disability.diagnosticCode)}</legend>
   );
 };
 
 
 export const facilityDescription = ({ formData }) => {
   return (
-    <p>Tell us about facilities where VA treated you for {formData.disability.diagnosticText}, <strong>after you got your disability rating</strong>.</p>
+    <p>Tell us about facilities where VA treated you for {getDiagnosticCodeName(formData.disability.diagnosticCode)}, <strong>after you got your disability rating</strong>.</p>
   );
 };
 
@@ -119,7 +119,7 @@ export const releaseView = ({ formData }) => {
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your VA medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>Ok, first we’ll ask about your VA medical records related to your {getDiagnosticCodeName(formData.disability.diagnosticCode)}.</p>
   );
 };
 
@@ -128,7 +128,7 @@ export const privateRecordsChoice = ({ formData }) => {
   return (
     <div>
       <h4>About private medical records</h4>
-      <p>You said you were treated for {formData.disability.diagnosticText} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
+      <p>You said you were treated for {getDiagnosticCodeName(formData.disability.diagnosticCode)} by a private doctor. If you have those records, you can upload them here, or we can get them for you. If you want us to get your records, you’ll need to authorize their release.</p>
     </div>
   );
 };
@@ -148,7 +148,7 @@ export const privateRecordsChoiceHelp = (
 
 export const privateMedicalRecordsIntro = ({ formData }) => {
   return (
-    <p>Ok, first we’ll ask about your private medical records related to your {formData.disability.diagnosticText}.</p>
+    <p>Ok, first we’ll ask about your private medical records related to your {getDiagnosticCodeName(formData.disability.diagnosticCode)}.</p>
   );
 };
 
