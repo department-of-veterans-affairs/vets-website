@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import AccordionItem from '../components/AccordionItem';
 import If from '../components/If';

@@ -19,7 +19,7 @@ import {
 } from '../helpers';
 import { relationshipLabels, locationOfDeathLabels, allowanceLabels } from '../labels.jsx';
 import { validateBooleanGroup } from '../../common/schemaform/validation';
-import { isFullDate } from '../../common/utils/validations';
+import { isFullDate } from '../../../platform/forms/validations';
 
 import * as address from '../../common/schemaform/definitions/address';
 import fullNameUI from '../../common/schemaform/definitions/fullName';

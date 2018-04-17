@@ -1,7 +1,7 @@
 import Raven from 'raven-js';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 import {
   BACKEND_AUTHENTICATION_ERROR,

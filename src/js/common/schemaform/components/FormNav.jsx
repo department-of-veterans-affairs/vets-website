@@ -4,7 +4,7 @@ import shallowEqual from 'recompose/shallowEqual';
 
 import SegmentedProgressBar from '@department-of-veterans-affairs/jean-pants/SegmentedProgressBar';
 
-import { getActivePages } from '../../utils/helpers';
+import { getActivePages } from '../../../../platform/forms/helpers';
 import { createFormPageList, createPageList, expandArrayPages } from '../helpers';
 
 export default class FormNav extends React.Component {

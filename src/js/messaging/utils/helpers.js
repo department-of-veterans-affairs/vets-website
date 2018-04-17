@@ -2,8 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 
-import environment from '../../common/helpers/environment';
-import { apiRequest as commonApiClient } from '../../common/helpers/api';
+import environment from '../../../platform/utilities/environment';
+import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
 
 function createQueryString(query) {
   const segments = [];

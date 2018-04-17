@@ -15,7 +15,7 @@ import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
