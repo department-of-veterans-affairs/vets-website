@@ -42,8 +42,6 @@ class IntroductionPage extends React.Component {
   render() {
     const { saveInProgress: { user } } = this.props;
     const ITFStatus = this.state ? this.state.ITFStatus : undefined;
-    // TODO: determine whether content changes for returning applicants
-    // const savedForm = this.hasSavedForm();
 
     return (
       <div className="schemaform-intro">
