@@ -1,5 +1,5 @@
 const AccountCreationHelpers = require('./account-creation-helpers');
-const E2eHelpers = require('./e2e-helpers');
+const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
 const GibsHelpers = require('./post-911-gib-status-helpers');
 const LettersHelpers = require('./letters-helpers');
 const LoginHelpers = require('./login-helpers');
@@ -19,7 +19,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     const appPaths = [
       // While the page is in maintenance, it doesn't need authed
-      // '/education/gi-bill/post-9-11/ch-33-benefit',
+      '/education/gi-bill/post-9-11/ch-33-benefit/status',
       '/health-care/health-records',
       '/health-care/messaging',
       '/health-care/prescriptions',

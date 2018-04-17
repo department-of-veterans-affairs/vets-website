@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../src/platform/testing/unit/schemaform-utils.jsx';
 import { schoolSelectionOptionsFor as optionsFor } from '../../../src/js/edu-benefits/pages/schoolSelection.js';
 
 import formConfig1990e from '../../../src/js/edu-benefits/1990e/config/form';

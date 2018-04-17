@@ -1,4 +1,4 @@
-import _ from '../../../common/utils/data-utils';
+import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';
@@ -12,10 +12,12 @@ import {
   transform,
   supportingEvidenceOrientation,
   evidenceTypesDescription,
-  EvidenceTypeHelp,
+  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
+  privateRecordsChoice,
+  privateRecordsChoiceHelp,
   facilityDescription,
   treatmentView,
   recordReleaseWarning,
@@ -173,7 +175,7 @@ const formConfig = {
                   'ui:title': 'Lay statements or other evidence'
                 },
                 'view:evidenceTypeHelp': {
-                  'ui:description': EvidenceTypeHelp
+                  'ui:description': evidenceTypeHelp
                 }
               }
             }
@@ -327,6 +329,55 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {}
+                }
+              }
+            }
+          }
+        },
+        privateRecordChoice: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-choice',
+          showPagePerItem: true,
+          arrayPath: 'disabilities',
+          depends: (formData, index) => _.get(`disabilities.${index}.view:privateMedicalRecords`, formData),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateRecordsChoice,
+                'view:uploadPrivateRecords': {
+                  'ui:title': 'Do you want to upload your private medical records?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No, please get them from my doctor'
+                    }
+                  }
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': privateRecordsChoiceHelp
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    'view:uploadPrivateRecords': {
+                      type: 'string',
+                      'enum': ['yes', 'no']
+                    },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {}
+                    }
+                  }
                 }
               }
             }

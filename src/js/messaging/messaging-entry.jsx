@@ -1,37 +1,32 @@
-// polyfilled elements, ie. Map, Set should theoretically
-// be included with babel-polyfill but only this import allowed
-// them to be recognized in phantomjs/e2e tests
-import 'core-js';
+import '../../platform/polyfills';
 import '../../sass/messaging/messaging.scss';
-import '../common';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createHistory } from 'history';
 import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createHistory } from 'history';
 
-import initReact from '../common/init-react';
-import routes from './routes';
+import startReactApp from '../../platform/startup/react';
+import createCommonStore from '../../platform/startup/store';
+import startSitewideComponents from '../../platform/site-wide';
+
+import routes from './routes.jsx';
 import reducer from './reducers';
-import initCommon from '../common/init-common';
-import { updateRoute } from './actions';
 import manifest from './manifest.json';
+import { updateRoute } from './actions';
 
-const store = initCommon(reducer);
+const store = createCommonStore(reducer);
+
+startSitewideComponents(store);
 
 const history = useRouterHistory(createHistory)({
   basename: manifest.rootUrl
 });
 
-function init() {
-  history.listen((location) => store.dispatch(updateRoute(location)));
+history.listen((location) => store.dispatch(updateRoute(location)));
 
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={history} routes={routes}/>
-    </Provider>
-  ), document.getElementById('react-root'));
-}
-
-initReact(init);
+startReactApp(
+  <Provider store={store}>
+    <Router history={history} routes={routes}/>
+  </Provider>
+);

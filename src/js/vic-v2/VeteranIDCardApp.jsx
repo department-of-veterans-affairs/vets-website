@@ -2,7 +2,7 @@ import React from 'react';
 
 import FormApp from '../common/schemaform/containers/FormApp';
 import formConfig from './config/form';
-import RateLimiter from '../common/components/RateLimiter';
+import RateLimiter from '../../platform/monitoring/RateLimiter';
 import RateLimitContent from './components/RateLimitContent';
 
 export default function VeteranIDCard({ location, children }) {

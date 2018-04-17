@@ -1,4 +1,5 @@
-import { apiRequest } from '../../common/helpers/api';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { apiRequest } from '../../../platform/utilities/api';
 
 export const ATTRS_FETCHING = 'ATTRS_FETCHING';
 export const ATTRS_SUCCESS = 'ATTRS_SUCCESS';
@@ -11,14 +12,14 @@ export const VIC_EMAIL_CAPTURE_FAILURE = 'VIC_EMAIL_CAPTURE_FAILURE';
 export const VIC_SET_EMAIL = 'VIC_SET_EMAIL';
 
 export function initiateIdRequest() {
-  window.dataLayer.push({ event: 'vic-submit-started' });
+  recordEvent({ event: 'vic-submit-started' });
   return dispatch => {
     dispatch({ type: ATTRS_FETCHING });
 
     apiRequest('/id_card/attributes',
       {},
       (response) => {
-        window.dataLayer.push({ event: 'vic-submit-success' });
+        recordEvent({ event: 'vic-submit-success' });
         dispatch({
           type: ATTRS_SUCCESS,
           vicUrl: response.url,
@@ -26,7 +27,7 @@ export function initiateIdRequest() {
         });
       },
       (response) => {
-        window.dataLayer.push({ event: 'vic-submit-failure' });
+        recordEvent({ event: 'vic-submit-failure' });
         dispatch({
           type: ATTRS_FAILURE,
           errors: response.errors
@@ -48,7 +49,7 @@ export function setEmail(email) {
 }
 
 export function submitEmail(email) {
-  window.dataLayer.push({ event: 'vic-email-started' });
+  recordEvent({ event: 'vic-email-started' });
   return dispatch => {
     dispatch({ type: VIC_EMAIL_CAPTURING });
 
@@ -63,13 +64,13 @@ export function submitEmail(email) {
         })
       },
       () => {
-        window.dataLayer.push({ event: 'vic-email-success' });
+        recordEvent({ event: 'vic-email-success' });
         dispatch({
           type: VIC_EMAIL_CAPTURE_SUCCESS,
         });
       },
       (response) => {
-        window.dataLayer.push({ event: 'vic-email-failure' });
+        recordEvent({ event: 'vic-email-failure' });
         dispatch({
           type: VIC_EMAIL_CAPTURE_FAILURE,
           errors: response.errors

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { ReviewPage } from '../../../../src/js/common/schemaform/review/ReviewPage';
@@ -61,6 +62,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         form={form}
         user={user}
+        openChapters={[]}
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -136,6 +138,7 @@ describe('Schemaform review: ReviewPage', () => {
         router={router}
         setData={setData}
         form={form}
+        openChapters={[]}
         user={user}
         onSubmit={onSubmit}
         setEditMode={f => f}
@@ -213,6 +216,7 @@ describe('Schemaform review: ReviewPage', () => {
         submitForm={submitForm}
         form={form}
         user={user}
+        openChapters={[]}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -286,6 +290,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        openChapters={[]}
         user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -357,6 +362,7 @@ describe('Schemaform review: ReviewPage', () => {
         setSubmission={setSubmission}
         submitForm={submitForm}
         form={form}
+        openChapters={[]}
         user={user}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
@@ -425,6 +431,7 @@ describe('Schemaform review: ReviewPage', () => {
         router={router}
         form={form}
         user={user}
+        openChapters={[]}
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         route={{ formConfig, pageList }}
@@ -496,6 +503,7 @@ describe('Schemaform review: ReviewPage', () => {
       <ReviewPage
         form={form}
         user={user}
+        openChapters={[]}
         route={{ formConfig, pageList }}
         setEditMode={setEditMode}
         setPrivacyAgreement={f => f}
@@ -506,5 +514,70 @@ describe('Schemaform review: ReviewPage', () => {
     tree.getMountedInstance().handleEdit('testPage', true);
     expect(tree.getMountedInstance().state.viewedPages.has('testPage')).to.be.true;
     expect(setEditMode.calledWith('testPage', true, null));
+  });
+
+  it('handles toggling', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {}
+          }
+        },
+        chapter2: {
+          pages: {
+            page2: {}
+          }
+        }
+      }
+    };
+
+    const pageList = [
+      {
+        path: 'previous-page'
+      },
+      {
+        path: 'next-page'
+      }
+    ];
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false
+      },
+      data: {
+        privacyAgreementAccepted: false
+      }
+    };
+
+    const user = {
+      profile: {
+        savedForms: []
+      },
+      login: {
+        currentlyLoggedIn: true
+      }
+    };
+
+    const openReviewChapter = sinon.spy();
+    const closeReviewChapter = sinon.spy();
+
+
+    const instance = mount(
+      <ReviewPage
+        closeReviewChapter={closeReviewChapter}
+        form={form}
+        user={user}
+        openReviewChapter={openReviewChapter}
+        openChapters={['chapter3']}
+        route={{ formConfig, pageList }}
+        setPrivacyAgreement={f => f}
+        location={location}/>
+    ).instance();
+
+    instance.handleToggleChapter('chapter1');
+    expect(openReviewChapter.calledWith('chapter1')).to.be.true;
+    instance.handleToggleChapter('chapter3');
+    expect(closeReviewChapter.calledWith('chapter3')).to.be.true;
   });
 });

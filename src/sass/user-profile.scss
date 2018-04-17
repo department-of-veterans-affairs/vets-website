@@ -1,7 +1,8 @@
 // Variables
 
-@import "shared-variables";
-@import "modules/m-modal";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-form-process";
 
 .user-profile-row {
   margin-bottom: 6em;

@@ -1,5 +1,5 @@
-import { apiRequest as commonApiClient } from '../../common/helpers/api';
-import environment from '../../common/helpers/environment';
+import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/health_records`;

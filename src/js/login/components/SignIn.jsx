@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { login, signup } from '../utils/helpers';
 
 const loginHandler = (loginType) => () => {
-  window.dataLayer.push({ event: `login-attempted-${loginType}` });
+  recordEvent({ event: `login-attempted-${loginType}` });
   login(loginType);
 };
 
@@ -16,7 +17,7 @@ const handleIdMe = loginHandler('idme');
 class SignIn extends React.Component {
   componentDidMount() {
     this.checkLoggedInStatus();
-    window.dataLayer.push({ event: 'login-modal-opened' });
+    recordEvent({ event: 'login-modal-opened' });
   }
 
   componentDidUpdate() {

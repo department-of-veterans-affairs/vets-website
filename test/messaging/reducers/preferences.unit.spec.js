@@ -7,7 +7,7 @@ import {
   SM_SET_NOTIFICATION_FREQUENCY
 } from '../../../src/js/messaging/utils/constants';
 
-import { makeField } from '../../../src/js/common/model/fields';
+import { makeField } from '../../../src/platform/forms/fields';
 import preferencesReducer from '../../../src/js/messaging/reducers/preferences';
 
 describe('preferencesducer', () => {

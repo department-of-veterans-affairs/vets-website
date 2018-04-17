@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { focusElement } from '../../../common/utils/helpers';
-import OMBInfo from '../../../common/components/OMBInfo';
+import { focusElement } from '../../../../platform/utilities/ui';
+import OMBInfo from '@department-of-veterans-affairs/jean-pants/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
 import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from '../../../login/actions';

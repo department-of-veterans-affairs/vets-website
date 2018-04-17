@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Raven from 'raven-js';
 
 import { formLinks, formTitles } from '../../../user-profile/helpers';
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
-import ProgressButton from '../../../common/components/form-elements/ProgressButton';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '../../../common/components/Modal';
 import { removeSavedForm } from '../../../user-profile/actions';
 
@@ -40,14 +39,6 @@ export class ApplicationStatus extends React.Component {
         'Dec.'
       ]
     });
-  }
-
-  componentDidMount() {
-    if (this.props.profile.loading) {
-      this.timeout = setTimeout(() => {
-        Raven.captureMessage('vets_application_status_slow');
-      }, 5000);
-    }
   }
 
   componentDidUpdate(oldProps) {
