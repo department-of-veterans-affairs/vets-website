@@ -10,6 +10,11 @@ function completeApplicantInformation(client, data) {
     .selectDropdown('root_serviceBranch', data.serviceBranch);
 }
 
+function selectDisabilities(client) {
+  client
+    .fillCheckbox('input[name="root_disabilities_0"]', true);
+}
+
 function completeEvidenceTypeInformation(client, data) {
   client
     .fillCheckbox('input[name="root_view:vaMedicalRecords"]', data.disabilities[0]['view:vaMedicalRecords'])
@@ -90,6 +95,7 @@ module.exports = {
   initApplicationSubmitMock,
   initDocumentUploadMock,
   completeApplicantInformation,
+  selectDisabilities,
   completeEvidenceTypeInformation,
   completeVAFacilitiesInformation,
   completeRecordReleaseInformation,
