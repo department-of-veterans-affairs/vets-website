@@ -3,7 +3,7 @@
 @import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-process-list";
 
 // ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
-@import "layouts/l-playbook";
+@import "../../../sass/layouts/l-playbook";
 
 // ----- Modules that only affect non-React pages. ---- //
 @import "modules/m-homepage-hero";
