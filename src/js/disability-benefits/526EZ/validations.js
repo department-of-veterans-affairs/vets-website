@@ -5,6 +5,6 @@ export function requireOneSelected(errors, fieldData, formData, schema, errorMes
   const foundOne = fieldData.some(data => !!get(options.selectedPropName, data));
 
   if (!foundOne) {
-    errors.addError('Please select at least one (all that apply)');
+    errors.addError('Please select at least one condition (or all that apply).');
   }
 }
