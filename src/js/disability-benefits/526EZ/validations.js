@@ -1,4 +1,4 @@
-import get from '../../common/utils/data-utils/get';
+import get from '../../../platform/utilities/data/get';
 
 export function requireOneSelected(errors, fieldData, formData, schema, errorMessages, options) {
   // TODO: If fieldData isn't an array, then what?

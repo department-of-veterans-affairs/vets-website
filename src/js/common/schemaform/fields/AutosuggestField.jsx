@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Downshift from 'downshift';
-import { sortListByFuzzyMatch } from '../../utils/helpers';
+import sortListByFuzzyMatch from '../../../../platform/utilities/fuzzy-matching';
 import classNames from 'classnames';
 
 const ESCAPE_KEY = 27;

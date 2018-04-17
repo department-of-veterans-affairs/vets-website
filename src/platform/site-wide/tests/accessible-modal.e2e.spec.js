@@ -1,5 +1,5 @@
-const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../../src/platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('../../testing/e2e/helpers');
+const Timeouts = require('../../testing/e2e/timeouts.js');
 
 const overlay = '#modal-crisisline';
 const firstModalItem = 'a[href="tel:18002738255"]';

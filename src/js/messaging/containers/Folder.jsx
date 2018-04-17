@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import SortableTable from '../../common/components/SortableTable';
 
 import {

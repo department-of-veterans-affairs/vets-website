@@ -28,6 +28,6 @@ describe('<MessageWrite>', () => {
   it('should render the expected child elements', () => {
     const tree = SkinDeep.shallowRender(<MessageWrite {...props}/>);
 
-    expect(tree.subTree('ErrorableTextarea')).to.be.ok;
+    expect(tree.subTree('ErrorableTextArea')).to.be.ok;
   });
 });

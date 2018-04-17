@@ -1,7 +1,7 @@
 import moment from 'moment';
 import _ from 'lodash/fp';
 import { convertToDateField, validateCurrentOrPastDate } from '../common/schemaform/validation';
-import { isValidDateRange } from '../common/utils/validations';
+import { isValidDateRange } from '../../platform/forms/validations';
 
 function calculateEndDate() {
   let endDateLimit;

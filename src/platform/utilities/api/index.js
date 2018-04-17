@@ -2,7 +2,7 @@ import merge from 'lodash/fp/merge';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
-import environment from './environment';
+import environment from '../environment';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');

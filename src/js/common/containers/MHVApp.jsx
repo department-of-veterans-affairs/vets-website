@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '../components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import { mhvAccessError } from '../../../platform/static-data/error-messages';
 import {
   acceptTerms,

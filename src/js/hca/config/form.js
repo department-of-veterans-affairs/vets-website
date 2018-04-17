@@ -9,7 +9,7 @@ import {
 
 import {
   states
-} from '../../common/utils/address';
+} from '../../../platform/forms/address';
 
 import { genderLabels } from '../../../platform/static-data/labels';
 

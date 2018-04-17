@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
-import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import { getDiagnosticCodeName, getDiagnosticText } from './reference-helpers';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];

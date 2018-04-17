@@ -8,7 +8,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
 import { months } from '../../../platform/static-data/options-for-select.js';
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../platform/utilities/ui';
 import { questionLabels, prevApplicationYearCutoff, answerReview } from '../config';
 import { shouldShowQuestion } from '../utils';
 
