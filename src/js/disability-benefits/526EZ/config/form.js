@@ -141,10 +141,13 @@ const formConfig = {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
               'ui:validations': [{
+                // TODO: Remove the 'disability' bit when we get rid of the nesting
                 options: { selectedPropName: 'disability.view:selected' },
                 validator: requireOneSelected
               }],
+              'ui:title': ' ',
               'ui:options': {
+                showFieldLabel: 'label',
                 label: disabilityOption,
                 // TODO: Remove the selectedPropName when we get rid of the `disability` nesting
                 selectedPropName: 'disability.view:selected',
