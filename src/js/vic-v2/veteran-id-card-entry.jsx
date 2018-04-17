@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/vic-v2.scss';
+import './sass/vic-v2.scss';
 
 import startApp from '../../platform/startup';
 
