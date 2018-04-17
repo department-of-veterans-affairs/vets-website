@@ -72,9 +72,12 @@ describe('<SelectArrayItemsWidget>', () => {
       element.find('input').first().props().onChange({ target: { checked: !!initiallySelected } });
 
       // Check that it changed back
+      // Note: Because we're not actually re-rendering, it doesn't exactly "change back," but it's probably
+      //  a close enough approximation to not worry about it.
       expect(onChangeSpy.callCount).to.equal(2);
       expect(onChangeSpy.secondCall.args[0][index])
         .to.eql({ ...defaultProps.value[index], selected: !!initiallySelected });
     });
   });
 });
+
