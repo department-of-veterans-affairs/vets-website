@@ -28,7 +28,7 @@ import FeaturesWarning from '../components/FeaturesWarning';
 import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
 import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
-import Pagination from '../../common/components/Pagination';
+import Pagination from '@department-of-veterans-affairs/jean-pants/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
