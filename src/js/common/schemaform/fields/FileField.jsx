@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
-import { focusElement } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 import ProgressBar from '../../components/ProgressBar';
 
 export default class FileField extends React.Component {

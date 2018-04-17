@@ -1,6 +1,6 @@
-@import "shared-variables";
-@import "modules/m-modal";
-@import "modules/m-process-list";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-process-list";
 
 // ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
 @import "layouts/l-playbook";

@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { formLinks, formTitles } from '../../../user-profile/helpers';
-import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '../../../common/components/Modal';
 import { removeSavedForm } from '../../../user-profile/actions';

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { countries, states, isValidUSZipCode, isValidCanPostalCode } from '../../utils/address';
+import { countries, states, isValidUSZipCode, isValidCanPostalCode } from '../../../../platform/forms/address';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
