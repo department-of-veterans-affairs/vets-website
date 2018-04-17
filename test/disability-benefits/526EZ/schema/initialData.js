@@ -2,8 +2,7 @@ export default {
   // For testing purposes only
   disabilities: [
     {
-      diagnosticText: 'PTSD',
-      decisionCode: 'Filler text', // Should this be a string?
+      name: 'PTSD',
       // Is this supposed to be an array?
       specialIssues: {
         specialIssueCode: 'Filler text',
@@ -13,21 +12,21 @@ export default {
       disabilityActionType: 'Filler text',
       ratingDecisionId: '67890',
       diagnosticCode: 'Filler text',
+      classificationCode: 'Filler Code',
       // Presumably, this should be an array...
       secondaryDisabilities: [
         {
-          diagnosticText: 'First secondary disability',
+          name: 'First secondary disability',
           disabilityActionType: 'Filler text'
         },
         {
-          diagnosticText: 'Second secondary disability',
+          name: 'Second secondary disability',
           disabilityActionType: 'Filler text'
         }
       ]
     },
     {
-      diagnosticText: 'Second Disability',
-      decisionCode: 'Filler text', // Should this be a string?
+      name: 'Second Disability',
       // Is this supposed to be an array?
       specialIssues: {
         specialIssueCode: 'Filler text',
@@ -37,14 +36,15 @@ export default {
       disabilityActionType: 'Filler text',
       ratingDecisionId: '09876',
       diagnosticCode: 'Filler text',
+      classificationCode: 'Filler Code',
       // Presumably, this should be an array...
       secondaryDisabilities: [
         {
-          diagnosticText: 'First secondary disability',
+          name: 'First secondary disability',
           disabilityActionType: 'Filler text'
         },
         {
-          diagnosticText: 'Second secondary disability',
+          name: 'Second secondary disability',
           disabilityActionType: 'Filler text'
         }
       ]
