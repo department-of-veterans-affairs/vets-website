@@ -145,6 +145,7 @@ const formConfig = {
                 options: { selectedPropName: 'disability.view:selected' },
                 validator: requireOneSelected
               }],
+              // Need a "blank" title to show the validation error message but not the property name (disabilities)
               'ui:title': ' ',
               'ui:options': {
                 showFieldLabel: 'label',
