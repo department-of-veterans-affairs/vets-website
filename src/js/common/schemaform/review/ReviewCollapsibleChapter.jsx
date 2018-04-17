@@ -94,8 +94,12 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
     const ChapterDescription = chapter.reviewDescription;
     let chapterTitle = chapter.title;
-    if (typeof chapter.title === 'function') chapterTitle = chapter.title(true);
-    if (chapter.reviewTitle) chapterTitle = chapter.reviewTitle;
+    if (typeof chapter.title === 'function') {
+      chapterTitle = chapter.title(true);
+    }
+    if (chapter.reviewTitle) {
+      chapterTitle = chapter.reviewTitle;
+    }
 
     if (this.props.open) {
       pageContent = (
