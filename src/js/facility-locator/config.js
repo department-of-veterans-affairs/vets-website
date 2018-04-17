@@ -1,8 +1,8 @@
-import environment from '../common/helpers/environment';
+import environment from '../../platform/utilities/environment';
 
 // Base URL to be used in API requests.
 export const api = {
-  url: `${environment.API_URL}/vbeta/facilities/va`,
+  url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
     headers: {
       'X-Key-Inflection': 'camel',

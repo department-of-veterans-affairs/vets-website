@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 
-import { getActivePages, getScrollOptions, scrollAndFocus } from '../utils/helpers';
+import { getScrollOptions, scrollAndFocus } from '../../../platform/utilities/ui';
+import { getActivePages } from '../../../platform/forms/helpers';
 
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 
 const scroller = Scroll.scroller;
 

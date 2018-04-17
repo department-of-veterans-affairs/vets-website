@@ -5,40 +5,81 @@ import moment from 'moment';
 import isMobile from 'ismobilejs';
 import { isEmpty } from 'lodash';
 
-import AlertBox from '../../common/components/AlertBox';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 
 import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';
 
 export class DownloadPage extends React.Component {
-  renderMessageBanner() {
-    const { form, refresh } = this.props;
-    const alertProps = {
-      isVisible: true,
+  renderIncompleteMessage = () => {
+    const outdatedStatuses = this.props.refresh.statuses.incomplete;
+    let alertProps = {
+      headline: 'Parts of your health record may not be current.',
+      content: (<p>Most of your health record should be up to date. But we’re having trouble accessing some of your data right now. Please refresh this page or try again later. If you still don’t see your updated information, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need this information right away, please call your VA health care provider.</p>)
     };
 
-    if (!form.ready) {
-      alertProps.headline = (<h4>Couldn’t generate your records</h4>);
-      alertProps.content = (<p>Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>);
-      alertProps.status = 'error';
-    } else if (refresh && !isEmpty(refresh.statuses.incomplete)) {
-      alertProps.headline = (<h4>Your health records are not up to date</h4>);
-      alertProps.content = (<p>This older version of your health records may have outdated or missing information.</p>
-      );
-      alertProps.status = 'warning';
-    } else if (refresh && !isEmpty(refresh.statuses.failed)) {
-      alertProps.headline = (<h4>Couldn’t update your records</h4>);
-      alertProps.content = (<p>Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.</p>);
-      alertProps.status = 'warning';
-    } else {
-      alertProps.headline = (<h4>Your records are ready to download</h4>);
-      alertProps.content = (<p>
-            For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you’ll have to start a new request to get your records.</p>);
-      alertProps.status = 'success';
+    if (outdatedStatuses.length === 1) {
+      const { extractType } = outdatedStatuses[0];
+      switch (extractType) {
+        case 'ImagingStudy':
+          alertProps = {
+            headline: 'Your radiology reports may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing data for VA radiology reports right now. Please refresh this page or try again later. If you still don’t see your most recent radiology reports, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need your reports right away, please call your VA health care provider.</p>)
+          };
+          break;
+        case 'ChemistryHematology':
+          alertProps = {
+            headline: 'Your labs and tests information may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing data for VA laboratory results and/or pathology reports right now. Please refresh this page or try again later. If you still don’t see your most recent lab results or pathology reports, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need your reports right away, please call your VA health care provider.</p>)
+          };
+          break;
+        case 'VPR':
+          alertProps = {
+            headline: 'Your VA electronic health record history may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing your VA electronic health record history right now. Please refresh this page or try again later. If you still don’t see your updated history information, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need this information right away, please call your VA health care provider.</p>)
+          };
+          break;
+        case 'DodMilitaryService':
+          alertProps = {
+            headline: 'Your Department of Defense information may not be current.',
+            content: (<p>Most of your health record should be up to date. But we’re having trouble accessing your Department of Defense (DoD) information right now. Please refresh this page or try again later. If you still don’t see your updated DoD information, please call the Vets.gov Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need this information right away, please call your VA health care provider.</p>)
+          };
+          break;
+        default: // Keep default message.
+      }
     }
 
-    return <AlertBox {...alertProps}/>;
+    return <AlertBox isVisible status="warning" {...alertProps}/>;
+  }
+
+  renderMessageBanner = () => {
+    const { form, refresh } = this.props;
+    let alertProps;
+
+    if (!form.ready) {
+      alertProps = {
+        headline: 'Your records couldn’t be generated.',
+        content: (<p>Unfortunately, we weren’t able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>),
+        status: 'error'
+      };
+    } else if (refresh && !isEmpty(refresh.statuses.incomplete)) {
+      return this.renderIncompleteMessage();
+    } else if (refresh && !isEmpty(refresh.statuses.failed)) {
+      alertProps = {
+        headline: 'Your records couldn’t be updated.',
+        content: (<p>Unfortunately, we weren’t able to generate your most recent health records. You can try again in 24 hours or download an older version of your records below.</p>),
+        status: 'warning'
+      };
+    } else {
+      alertProps = {
+        headline: 'Your records are ready to download.',
+        content: (<p>For security, your health records will only be available for download for 30 minutes. After that, or if you close this page, you’ll have to start a new request to get your records.</p>),
+        status: 'success'
+      };
+    }
+
+    return <AlertBox isVisible {...alertProps}/>;
   }
 
   renderConfirmModal() {

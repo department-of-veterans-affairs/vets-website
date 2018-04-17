@@ -11,7 +11,7 @@
             role="button"
             aria-haspopup="true"
             class="vetnav-level1"
-            onClick="window.dataLayer.push({ event: 'nav-header-top-level' });">Explore and Apply for Benefits</button>
+            onClick="recordEvent({ event: 'nav-header-top-level' });">Explore and Apply for Benefits</button>
           <div id="vetnav-explore" class="vetnav-panel" role="none" hidden>
             <ul role="menu" aria-label="Explore benefits">
               <li>
@@ -20,7 +20,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-disability"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Disability</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Disability</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-disability"
@@ -49,7 +49,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-healthcare"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Health Care</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Health Care</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-healthcare"
@@ -79,7 +79,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-edu"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Education and Training</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Education and Training</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-edu"
@@ -108,7 +108,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-housing"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Housing Assistance</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Housing Assistance</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-housing"
@@ -132,7 +132,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-careers"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Careers and Employment</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Careers and Employment</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-careers"
@@ -159,7 +159,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-lifeinsurance"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Life Insurance</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Life Insurance</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-lifeinsurance"
@@ -185,7 +185,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-pension"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Pension</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Pension</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-pension"
@@ -210,7 +210,7 @@
                   role="button"
                   aria-haspopup="true"
                   aria-controls="vetnav-burials"
-                  onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Burials and Memorials</button>
+                  onClick="recordEvent({ event: 'nav-header-second-level' });">Burials and Memorials</button>
                 <ul
                   class="vetnav-panel vetnav-panel--submenu"
                   id="vetnav-burials"
@@ -242,7 +242,7 @@
             role="button"
             aria-controls="vetnav-benefits"
             aria-haspopup="true"
-            onClick="window.dataLayer.push({ event: 'nav-header-top-level' });">Manage Your Health and Benefits</button>
+            onClick="recordEvent({ event: 'nav-header-top-level' });">Manage Your Health and Benefits</button>
           <div class="vetnav-panel" id="vetnav-benefits" hidden>
             <ul role="menu" aria-label="Manage your health and benefits">
               <li><a class="login-required" href="/track-claims" onClick="reportHeaderNav('Manage Health and Benefits');">Track Your Claims and Appeals</a></li>
@@ -260,7 +260,7 @@
             role="button"
             aria-controls="vetnav-records"
             aria-haspopup="true"
-            onClick="window.dataLayer.push({ event: 'nav-header-top-level' });">Request Your Records<!--and ID--></button>
+            onClick="recordEvent({ event: 'nav-header-top-level' });">Request Your Records<!--and ID--></button>
           <div class="vetnav-panel" id="vetnav-records" hidden>
             <ul role="menu" aria-label="Request your records and ID">
               <!--<li><a class="login-required" href="/veteran-id-card/how-to-get" onClick="reportHeaderNav('Request Your Records and ID');">Apply for a Veteran ID Card</a></li>-->
@@ -280,7 +280,7 @@
 
 <script>
 function reportHeaderNav(navpath) {
-  window.dataLayer.push({
+  recordEvent({
     event: 'nav-header-link',
     'nav-path': navpath
   });

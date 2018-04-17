@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';

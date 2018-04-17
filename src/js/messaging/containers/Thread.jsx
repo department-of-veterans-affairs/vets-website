@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { intersection } from 'lodash';
 
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 
 import {
   addDraftAttachments,

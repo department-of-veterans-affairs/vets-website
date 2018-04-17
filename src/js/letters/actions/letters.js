@@ -1,6 +1,7 @@
 import Raven from 'raven-js';
 import { isEqual } from 'lodash';
 
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest, stripEmpties, toGenericAddress, getStatus } from '../utils/helpers.jsx';
 import {
   ADDRESS_TYPES,
@@ -43,14 +44,14 @@ export function getLetterList(dispatch) {
     '/v0/letters',
     null,
     response => {
-      window.dataLayer.push({ event: 'letter-list-success' });
+      recordEvent({ event: 'letter-list-success' });
       return dispatch({
         type: GET_LETTERS_SUCCESS,
         data: response,
       });
     },
     (response) => {
-      window.dataLayer.push({ event: 'letter-list-failure' });
+      recordEvent({ event: 'letter-list-failure' });
       const status = getStatus(response);
       if (status === '403') {
         // Backend authentication problem
@@ -78,14 +79,14 @@ export function getBenefitSummaryOptions(dispatch) {
     '/v0/letters/beneficiary',
     null,
     (response) => {
-      window.dataLayer.push({ event: 'letter-get-bsl-success' });
+      recordEvent({ event: 'letter-get-bsl-success' });
       return dispatch({
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
       });
     },
     (response) => {
-      window.dataLayer.push({ event: 'letter-get-bsl-failure' });
+      recordEvent({ event: 'letter-get-bsl-failure' });
       dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
       const status = getStatus(response);
       throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
@@ -103,7 +104,7 @@ export function getLetterListAndBSLOptions() {
 }
 
 export function getAddressFailure() {
-  window.dataLayer.push({ event: 'letter-get-address-failure' });
+  recordEvent({ event: 'letter-get-address-failure' });
   return { type: GET_ADDRESS_FAILURE };
 }
 
@@ -113,7 +114,7 @@ export function getMailingAddress() {
       '/v0/address',
       null,
       (response) => {
-        window.dataLayer.push({ event: 'letter-get-address-success' });
+        recordEvent({ event: 'letter-get-address-success' });
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
         responseCopy.data.attributes.address = toGenericAddress(response.data.attributes.address);
@@ -132,7 +133,7 @@ export function getMailingAddress() {
 }
 
 export function getLetterPdfFailure(letterType) {
-  window.dataLayer.push({
+  recordEvent({
     event: 'letter-pdf-failure',
     'letter-type': letterType
   });
@@ -154,7 +155,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
   }
 
   return (dispatch) => {
-    window.dataLayer.push({
+    recordEvent({
       event: 'letter-pdf-pending',
       'letter-type': letterType
     });
@@ -202,7 +203,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           }
         });
         window.URL.revokeObjectURL(downloadUrl);
-        window.dataLayer.push({
+        recordEvent({
           event: 'letter-pdf-success',
           'letter-type': letterType
         });
@@ -232,7 +233,7 @@ export function saveAddressPending() {
 }
 
 export function saveAddressSuccess(address) {
-  window.dataLayer.push({ event: 'letter-update-address-success' });
+  recordEvent({ event: 'letter-update-address-success' });
   return {
     type: SAVE_ADDRESS_SUCCESS,
     address
@@ -240,7 +241,7 @@ export function saveAddressSuccess(address) {
 }
 
 export function saveAddressFailure() {
-  window.dataLayer.push({ event: 'letter-update-address-failed' });
+  recordEvent({ event: 'letter-update-address-failed' });
   return { type: SAVE_ADDRESS_FAILURE };
 }
 
@@ -259,7 +260,7 @@ export function saveAddress(address) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(transformedAddress)
   };
-  window.dataLayer.push({ event: 'letter-update-address-submit' });
+  recordEvent({ event: 'letter-update-address-submit' });
   return (dispatch) => {
     dispatch(saveAddressPending());
     return apiRequest(
@@ -289,7 +290,7 @@ export function getAddressCountries() {
       '/v0/address/countries',
       null,
       (response) => {
-        window.dataLayer.push({ event: 'letter-get-address-countries-success' });
+        recordEvent({ event: 'letter-get-address-countries-success' });
         return dispatch({
           type: GET_ADDRESS_COUNTRIES_SUCCESS,
           countries: response,
@@ -297,7 +298,7 @@ export function getAddressCountries() {
       },
       (response) => {
         const status = getStatus(response);
-        window.dataLayer.push({ event: 'letter-get-address-countries-failure' });
+        recordEvent({ event: 'letter-get-address-countries-failure' });
         Raven.captureException(new Error(`vets_letters_error_getAddressCountries: ${status}`));
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
       }
@@ -311,7 +312,7 @@ export function getAddressStates() {
       '/v0/address/states',
       null,
       (response) => {
-        window.dataLayer.push({ event: 'letter-get-address-states-success' });
+        recordEvent({ event: 'letter-get-address-states-success' });
         return dispatch({
           type: GET_ADDRESS_STATES_SUCCESS,
           states: response,
@@ -319,7 +320,7 @@ export function getAddressStates() {
       },
       (response) => {
         const status = getStatus(response);
-        window.dataLayer.push({ event: 'letter-get-address-states-success' });
+        recordEvent({ event: 'letter-get-address-states-success' });
         Raven.captureException(new Error(`vets_letters_error_getAddressStates: ${status}`));
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
       }

@@ -5,29 +5,32 @@ import DownloadLetters from './containers/DownloadLetters.jsx';
 import AddressSection from './containers/AddressSection.jsx';
 import LetterList from './containers/LetterList.jsx';
 import Main from './containers/Main.jsx';
+import LettersApp from './containers/LettersApp.jsx';
 
-const routes = [
-  <Route
-    component={Main}
-    key="main">
+const routes = (
+  <Route path="/" component={LettersApp}>
     <Route
-      component={DownloadLetters}
-      name="Download Letters"
-      key="download-letters">
-      <IndexRedirect to="confirm-address"/>,
+      component={Main}
+      key="main">
       <Route
-        component={AddressSection}
-        name="Review your address"
-        key="confirm-address"
-        path="confirm-address"/>,
-      <Route
-        component={LetterList}
-        name="Select and download"
-        key="letter-list"
-        path="letter-list"/>
+        component={DownloadLetters}
+        name="Download Letters"
+        key="download-letters">
+        <IndexRedirect to="confirm-address"/>,
+        <Route
+          component={AddressSection}
+          name="Review your address"
+          key="confirm-address"
+          path="confirm-address"/>,
+        <Route
+          component={LetterList}
+          name="Select and download"
+          key="letter-list"
+          path="letter-list"/>
+      </Route>
     </Route>
   </Route>
-];
+);
 
 export default routes;
 

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 
-import environment from '../../common/helpers/environment';
+import environment from '../../../platform/utilities/environment';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -244,14 +244,16 @@ export function getClaimType(claim) {
   return claim.attributes.claimType || 'Disability Compensation';
 }
 
-// NOTE: This shape may change once we know what the api will be returning for sure. This
-//  is just an example of what evss(?) is returning to the api.
 export const mockData = {
   data: [
     { // Status: Review your statement of the case - pending_form9
       id: '7387389',
       type: 'appealSeries',
       attributes: {
+        appealIds: [
+          '7387389',
+          '123'
+        ],
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: true,
@@ -266,7 +268,7 @@ export const mockData = {
           details: {
             lastSocDate: '2015-09-12',
             certificationTimeliness: [1, 4],
-            ssocTimeliness: [2, 16],
+            socTimeliness: [2, 16],
           }
         },
         docket: {
@@ -336,6 +338,10 @@ export const mockData = {
       id: '7387390',
       type: 'appealSeries',
       attributes: {
+        appealIds: [
+          '7387390',
+          '456'
+        ],
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
@@ -413,6 +419,10 @@ export const mockData = {
       id: '7387391',
       type: 'appealSeries',
       attributes: {
+        appealIds: [
+          '7387391',
+          '789'
+        ],
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
@@ -426,7 +436,7 @@ export const mockData = {
           type: 'bva_decision',
           details: {
             regionalOffice: 'Chicago Regional Office',
-            decisionIssues: [
+            issues: [
               {
                 description: 'Heel, increased rating',
                 disposition: 'allowed',

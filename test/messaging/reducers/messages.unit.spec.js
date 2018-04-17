@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { makeField } from '../../../src/js/common/model/fields';
+import { makeField } from '../../../src/platform/forms/fields';
 import messagesReducer from '../../../src/js/messaging/reducers/messages';
 
 import {

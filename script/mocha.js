@@ -7,25 +7,24 @@ process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
 require('babel-register');
 // require mocha setup files
-require('../test/util/mocha-setup.js');
-require('../test/util/enzyme-setup.js');
+require('../src/platform/testing/unit/mocha-setup.js');
+require('../src/platform/testing/unit/enzyme-setup.js');
 
 let showErrors = false;
-
 // keys for current require.cache
 const unwatchedModules = Object.keys(require.cache).map(file => file);
 
 process.on('message', ({tests, shouldShowErrors}) => {
   showErrors = shouldShowErrors;
   runMochaTests(tests).then(() => {
-    // create a list of src and test files imported by mocha
-    const watchedFiles = Object
+    // create a list of src and test files required by mocha
+    const requiredFiles = Object
       .keys(require.cache)
       .filter(file => !unwatchedModules.includes(file) && !file.includes('node_modules'));
     // send list of imported files and unit tests for each src file to the runner
     process.send({
-      watchedFiles,
-      unitTestsForSrc: getUnitTestsForSrc(watchedFiles)
+      requiredFiles,
+      unitTestsForSrc: getUnitTestsForSrc(requiredFiles)
     });
   });
 });
@@ -42,7 +41,6 @@ async function runMochaTests(files) {
 
   // keep errors from polluting the reporter by redirecting the error stream
   let errorStream;
-  const consoleErr = process.stderr.write;
   if (!showErrors) {
     errorStream = new Writable({
       write(chunk, encoding, callback) {
@@ -63,14 +61,18 @@ async function runMochaTests(files) {
     mocha.run()
       .once('end', function() {
         // reattach error stream
-        process.stderr.write = consoleErr;
         fulfill();
       });
+  }).catch(error => {
+    console.log(error);
+    process.send({
+      error
+    });
   });
 }
 
-function getUnitTestsForSrc(watchedFiles) {
-  return watchedFiles
+function getUnitTestsForSrc(requiredFiles) {
+  return requiredFiles
   // only use files in test directory
     .filter(file => file.includes('test'))
   // iterate over each test file

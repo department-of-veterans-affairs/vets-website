@@ -1,5 +1,5 @@
-const E2eHelpers = require('../../e2e/e2e-helpers');
-const Timeouts = require('../../e2e/timeouts.js');
+const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
+const Timeouts = require('../../../src/platform/testing/e2e/timeouts.js');
 const EduHelpers = require('../../e2e/edu-helpers');
 const Edu1990eHelpers = require('../../e2e/edu-1990e-helpers');
 const testData = require('./schema/maximal-test.json');

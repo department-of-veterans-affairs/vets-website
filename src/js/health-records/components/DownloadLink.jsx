@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { apiRequest } from '../../common/helpers/api';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { apiRequest } from '../../../platform/utilities/api';
 
 class DownloadLink extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class DownloadLink extends React.Component {
 
     if (this.state.downloading) return;
 
-    window.dataLayer.push({
+    recordEvent({
       event: 'health-record-download',
       'hr-record-type': this.props.docType,
     });

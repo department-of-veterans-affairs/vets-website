@@ -4,13 +4,14 @@ import moment from 'moment';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import {
-  genders,
   maritalStatuses
-} from '../../common/utils/options-for-select';
+} from '../../../platform/static-data/options-for-select';
 
 import {
   states
-} from '../../common/utils/address';
+} from '../../../platform/forms/address';
+
+import { genderLabels } from '../../../platform/static-data/labels';
 
 import applicantDescription from '../../common/schemaform/components/ApplicantDescription';
 import PrefillMessage from '../../common/schemaform/save-in-progress/PrefillMessage';
@@ -68,6 +69,7 @@ const emptyObjectSchema = {
 };
 
 const {
+  gender,
   mothersMaidenName,
   cityOfBirth,
   isSpanishHispanicLatino,
@@ -239,7 +241,10 @@ const formConfig = {
           },
           uiSchema: {
             gender: {
-              'ui:title': 'Gender'
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
+              }
             },
             maritalStatus: {
               'ui:title': 'Marital status'
@@ -272,11 +277,7 @@ const formConfig = {
             type: 'object',
             required: ['gender', 'maritalStatus'],
             properties: {
-              gender: {
-                type: 'string',
-                'enum': genders.map(gender => gender.value),
-                enumNames: genders.map(gender => gender.label)
-              },
+              gender,
               maritalStatus: {
                 type: 'string',
                 'enum': maritalStatuses

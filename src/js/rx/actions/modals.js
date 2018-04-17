@@ -1,5 +1,7 @@
+import recordEvent from '../../../platform/monitoring/record-event';
+
 export function closeRefillModal() {
-  window.dataLayer.push({
+  recordEvent({
     event: 'rx-cancel-refill',
   });
   return {
