@@ -132,9 +132,7 @@ const formConfig = {
           title: 'Your Rated Disabilities',
           path: 'select-disabilities',
           uiSchema: {
-            'view:selectDisabilitiesDescription': {
-              'ui:description': 'Please check all the disabilities that you’re filing an increase for because the condition has gotten worse.'
-            },
+            'ui:description': 'Please check all the disabilities that you’re filing an increase for because the condition has gotten worse.',
             disabilities: {
               // Using StringField because it doesn't do much and we just need to render the widget.
               // If this becomes a common(ish) pattern, we should make a BasicField or something.
@@ -151,10 +149,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:selectDisabilitiesDescription': {
-                type: 'object',
-                properties: {}
-              },
               disabilities: disabilitiesSchema
             }
           }
