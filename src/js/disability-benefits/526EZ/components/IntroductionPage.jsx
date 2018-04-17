@@ -8,7 +8,6 @@ import appendQuery from 'append-query';
 import { focusElement } from '../../../common/utils/helpers';
 import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/components/FormTitle';
-import RequiredLoginView from '../../../common/components/RequiredLoginView';
 import { introActions, introSelector } from '../../../common/schemaform/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from '../../../login/actions';
 
@@ -41,9 +40,6 @@ class IntroductionPage extends React.Component {
 
   authenticate = (e) => {
     e.preventDefault();
-    const nextQuery = { next: e.target.getAttribute('href') };
-    const nextPath = appendQuery('/', nextQuery);
-    history.pushState({}, e.target.textContent, nextPath);
     this.props.toggleLoginModal(true);
   }
 
@@ -60,17 +56,10 @@ class IntroductionPage extends React.Component {
           {UnauthenticatedAlert}
           <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>
         </div>}
-        {user.login.currentlyLoggedIn && <RequiredLoginView
-          serviceRequired={['disability-benefits']}
-          verify
-          user={user}
-          loginUrl={loginUrl}
-          verifyUrl={verifyUrl}>
-          {<SaveInProgressIntro
+        {user.login.currentlyLoggedIn && <SaveInProgressIntro
             {...this.props}
             {...this.state}
             handleLoadPrefill={this.handleLoadPrefill}/>}
-        </RequiredLoginView>}
         <h4>Follow the steps below to apply for increased disability compensation.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -113,17 +102,10 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         {!user.login.currentlyLoggedIn && <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={this.authenticate}>Sign In and Verify Your Identity</a>}
-        {user.login.currentlyLoggedIn && <RequiredLoginView
-          verify
-          serviceRequired={['disability-benefits']}
-          user={user}
-          loginUrl={loginUrl}
-          verifyUrl={verifyUrl}>
-          <SaveInProgressIntro
+        {user.login.currentlyLoggedIn && <SaveInProgressIntro
             {...this.props}
             buttonOnly
-            handleLoadPrefill={this.handleLoadPrefill}/>
-        </RequiredLoginView>}
+            handleLoadPrefill={this.handleLoadPrefill}/>}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017"/>
