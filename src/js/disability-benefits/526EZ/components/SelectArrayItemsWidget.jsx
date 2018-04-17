@@ -21,9 +21,6 @@ export default class SelectArrayItemsWidget extends React.Component {
     } = this.props;
     const { label: Label, selectedPropName, disabled } = options;
 
-    // TODO: Figure out how to handle required fields
-    const requiredSpan = required ? <span className="form-required-span">*</span> : null;
-
     // Note: Much of this was stolen from CheckboxWidget
     return (
       <div>
@@ -49,7 +46,7 @@ export default class SelectArrayItemsWidget extends React.Component {
                 disabled={itemIsDisabled}
                 onChange={(event) => this.onChange(index, event.target.checked)}/>
               <label className="schemaform-label" htmlFor={elementId}>
-                {labelWithData}{requiredSpan}
+                {labelWithData}
               </label>
             </div>
           );
