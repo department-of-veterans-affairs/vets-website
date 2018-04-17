@@ -54,16 +54,10 @@ class Breadcrumbs extends React.Component {
     const crumbs = [
       <a href="/" key="home">Home</a>,
       <a href="/health-care/" key="healthcare">Health Care</a>,
+      <Link to="/" key="prescriptions">Prescription Refills</Link>
     ];
 
     if (pathname.match(/\/\d+$/)) {
-      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
-
-      if (this.state.prevPath.match(/\/history\/?$/)) {
-        crumbs.push(<Link to="/history" key="history">History</Link>);
-      }
-    } else if (pathname.match(/\/track\/?$/)) {
-      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
       if (this.state.prevPath.match(/\/history\/?$/)) {
         crumbs.push(<Link to="/history" key="history">History</Link>);
       }
@@ -81,12 +75,28 @@ class Breadcrumbs extends React.Component {
 
         crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
       }
-    } else if (pathname.match(/\/history\/?$/)) {
-      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+    } else if (pathname.match(/\/track\/?$/)) {
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
+
+      if (prescription) {
+        const prescriptionId = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionId']
+        );
+
+        const prescriptionName = _.get(
+          prescription,
+          ['rx', 'attributes', 'prescriptionName']
+        );
+
+        crumbs.push(<Link to={`/${prescriptionId}`} key="history">{prescriptionName}</Link>);
+      }
     } else if (pathname.match(/\/glossary\/?$/)) {
-      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+      crumbs.push(<Link to="/" key="prescriptions">Glossary</Link>);
     } else if (pathname.match(/\/settings\/?$/)) {
-      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+      crumbs.push(<Link to="/" key="prescriptions">Settings</Link>);
     }
 
     return (

@@ -42,6 +42,6 @@ describe('<Breadcrumbs>', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/glossary/' }}/>);
     const lastSpan = tree.everySubTree('Link').pop().subTree();
     expect(lastSpan).to.be.ok;
-    expect(lastSpan.text()).to.equal('prescriptionName');
+    expect(lastSpan.text()).to.equal('Glossary');
   });
 });
