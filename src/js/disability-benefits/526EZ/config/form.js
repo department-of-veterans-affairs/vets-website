@@ -1,4 +1,4 @@
-import _ from '../../../common/utils/data-utils';
+import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import fileUploadUI from '../../../common/schemaform/definitions/file';

@@ -1,4 +1,4 @@
-import environment from '../common/helpers/environment';
+import environment from '../../platform/utilities/environment';
 
 // Base URL to be used in API requests.
 export const api = {

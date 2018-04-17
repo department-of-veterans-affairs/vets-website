@@ -3,7 +3,7 @@ import {
   isTab,
   isReverseTab,
   getTabbableElements
-} from '../../js/common/utils/accessibility-helpers';
+} from '../utilities/accessibility';
 
 /*
  * Creates function that captures/releases Veterans Crisis Line modal focus.

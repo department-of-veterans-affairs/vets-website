@@ -3,7 +3,7 @@ import '../../platform/polyfills';
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
 
-import createApplicationStatus from '../common/components/createApplicationStatus';
+import createApplicationStatus from './createApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 
 // const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);

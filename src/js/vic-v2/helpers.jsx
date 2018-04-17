@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import recordEvent from '../../platform/monitoring/record-event';
-import environment from '../common/helpers/environment.js';
+import environment from '../../platform/utilities/environment';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {

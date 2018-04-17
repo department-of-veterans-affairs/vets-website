@@ -2,8 +2,8 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../common/helpers/api';
-import environment from '../../common/helpers/environment';
+import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
 const redirectUrl = (type) => `${SESSIONS_URI}/${type}/new`;
