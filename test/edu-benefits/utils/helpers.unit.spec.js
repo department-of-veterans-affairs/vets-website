@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   formatPartialDate
 } from '../../../src/js/edu-benefits/utils/helpers';
-import { makeField } from '../../../src/js/common/model/fields';
+import { makeField } from '../../../src/platform/forms/fields';
 
 describe('edu helpers:', () => {
   describe('formatPartialDate', () => {

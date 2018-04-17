@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 class DownloadLink extends React.Component {
   constructor(props) {

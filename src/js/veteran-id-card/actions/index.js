@@ -1,5 +1,5 @@
 import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 export const ATTRS_FETCHING = 'ATTRS_FETCHING';
 export const ATTRS_SUCCESS = 'ATTRS_SUCCESS';

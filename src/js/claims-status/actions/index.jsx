@@ -1,8 +1,8 @@
 import React from 'react';
 import Raven from 'raven-js';
 import recordEvent from '../../../platform/monitoring/record-event';
-import environment from '../../common/helpers/environment';
-import { apiRequest } from '../../common/helpers/api';
+import environment from '../../../platform/utilities/environment';
+import { apiRequest } from '../../../platform/utilities/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
   getStatus,

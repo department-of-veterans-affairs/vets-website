@@ -1,5 +1,5 @@
-const E2eHelpers = require('../../../src/platform/testing/e2e/helpers');
-const Timeouts = require('../../../src/platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('../../testing/e2e/helpers');
+const Timeouts = require('../../testing/e2e/timeouts.js');
 
 const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
 const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';

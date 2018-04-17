@@ -7,7 +7,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../platform/forms/fields';
 
 import {
   fetchPreferences,

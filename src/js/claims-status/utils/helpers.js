@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 
-import environment from '../../common/helpers/environment';
+import environment from '../../../platform/utilities/environment';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';

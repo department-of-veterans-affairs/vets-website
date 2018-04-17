@@ -1,4 +1,4 @@
-import { apiRequest } from '../../common/helpers/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 export function initialAppRefresh() {
   return (dispatch) => {

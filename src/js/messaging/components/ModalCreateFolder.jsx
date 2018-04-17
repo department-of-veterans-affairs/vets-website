@@ -4,7 +4,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../platform/forms/fields';
 import { validateFolderName } from '../utils/validations';
 import { createNewFolderSettings } from '../config';
 

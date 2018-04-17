@@ -13,7 +13,7 @@ import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { getScrollOptions } from '../../common/utils/helpers';
+import { getScrollOptions } from '../../../platform/utilities/ui';
 import { validateIfDirty, isNotBlank, isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 import { setFocus } from '../utils/page';
 
