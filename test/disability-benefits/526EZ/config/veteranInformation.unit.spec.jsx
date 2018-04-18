@@ -10,7 +10,7 @@ import initialData from '../schema/initialData.js';
 initialData.prefilled = false;
 
 describe('526EZ veteran information', () => {
-  const page = formConfig.chapters.reviewVeteranDetails.pages.veteranInformation;
+  const page = formConfig.chapters.veteranDetails.pages.veteranInformation;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
@@ -21,7 +21,7 @@ describe('526EZ veteran information', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('select').length).to.equal(3);
     expect(form.find('input').length).to.equal(6);
   });
 
