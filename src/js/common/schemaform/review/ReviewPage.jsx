@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
@@ -121,15 +120,6 @@ class ReviewPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    test: true
-  };
-}
-
-const mapDispatchToProps = {
-};
-
 ReviewPage.propTypes = {
   closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
@@ -137,9 +127,6 @@ ReviewPage.propTypes = {
   openChapters: PropTypes.array.isRequired,
   openReviewChapter: PropTypes.func.isRequired,
   renderErrorMessage: PropTypes.func,
-  route: PropTypes.shape({
-    formConfig: PropTypes.object.isRequired
-  }).isRequired,
   pagesByChapter: PropTypes.object.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
@@ -149,6 +136,4 @@ ReviewPage.propTypes = {
   uploadFile: PropTypes.func.isRequired
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));
-
-export { ReviewPage };
+export default ReviewPage;

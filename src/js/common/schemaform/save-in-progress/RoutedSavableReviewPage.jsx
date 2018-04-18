@@ -19,7 +19,7 @@ import {
   getPageKeys
 } from '../helpers';
 
-import { ReviewPage } from '../review/ReviewPage';
+import ReviewPage from '../review/ReviewPage';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -41,6 +41,14 @@ class RoutedSavableReviewPage extends React.Component {
       viewedPages: new Set(
         getPageKeys(props.route.pageList, props.form.data)
       )
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextStatus = nextProps.form.submission.status;
+    const previousStatus = this.props.form.submission.status;
+    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
+      this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
     }
   }
 
@@ -87,6 +95,17 @@ class RoutedSavableReviewPage extends React.Component {
     const { eligiblePageList } = this.getEligiblePages();
     const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
     this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
+  }
+
+  /*
+   * Returns the page list without conditional pages that have not satisfied
+   * their dependencies and therefore should be skipped.
+   */
+  getEligiblePages = () => {
+    const { form, route: { pageList, path } } = this.props;
+    const eligiblePageList = getActivePages(pageList, form.data);
+    const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
+    return { eligiblePageList, pageIndex };
   }
 
   handleSubmit = () => {
@@ -164,8 +183,6 @@ class RoutedSavableReviewPage extends React.Component {
     const formConfig = this.props.route.formConfig;
 
     const disableSave = !!route.formConfig.disableSave;
-
-    console.log(disableSave);
 
     return (
       <div>

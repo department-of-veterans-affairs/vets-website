@@ -3,7 +3,6 @@ import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import FormPage from './containers/FormPage';
-import ReviewPage from './review/ReviewPage';
 import RoutedSavablePage from './save-in-progress/RoutedSavablePage';
 import RoutedSavableReviewPage from './save-in-progress/RoutedSavableReviewPage';
 import FormSaved from './save-in-progress/FormSaved';
@@ -126,7 +125,7 @@ export function createRoutes(formConfig) {
     {
       path: 'review-and-submit',
       formConfig,
-      component: formConfig.disableSave ? ReviewPage : RoutedSavableReviewPage,
+      component: RoutedSavableReviewPage,
       pageList
     },
     {
