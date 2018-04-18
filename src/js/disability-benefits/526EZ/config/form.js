@@ -29,6 +29,7 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
+  specialCircumstancesDescription
 } from '../helpers';
 
 const {
@@ -67,7 +68,8 @@ const vaTreatments = ((treatmentsCommonDef) => {
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '/v0/21-526EZ',
+  // submitUrl: '/v0/21-526EZ',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -102,17 +104,44 @@ const formConfig = {
         }
       }
     },
-    chapterTwo: {
-      title: 'Chapter Two',
+    reviewVeteranDetails: {
+      title: 'Review Veteran Details',
       pages: {
-        pageOne: {
-          title: 'Page One',
-          path: 'chapter-two/page-one',
-          uiSchema: {},
+        specialCircumstances: {
+          title: 'Special Circumstances',
+          path: 'special-circumstances',
+          uiSchema: {
+            'ui:description': specialCircumstancesDescription,
+            'view:suicidal': {
+              'ui:title': 'In crisis or thinking of suicide?'
+            },
+            'view:homeless': {
+              'ui:title': 'Homeless or at risk of becoming homeless?'
+            },
+            'view:extremeFinancialHardship': {
+              'ui:title': 'Suffering from extreme financial hardship?'
+            },
+            'view:blindOrSightImpaired': {
+              'ui:title': 'Blind or sight-impaired?'
+            }
+          },
           schema: {
             type: 'object',
-            properties: {}
-          },
+            properties: {
+              'view:suicidal': {
+                type: 'boolean'
+              },
+              'view:homeless': {
+                type: 'boolean'
+              },
+              'view:extremeFinancialHardship': {
+                type: 'boolean'
+              },
+              'view:blindOrSightImpaired': {
+                type: 'boolean'
+              }
+            }
+          }
         }
       }
     },
@@ -126,7 +155,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {}
-          },
+          }
         }
       }
     },

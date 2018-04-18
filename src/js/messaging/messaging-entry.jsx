@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../../sass/messaging/messaging.scss';
+import './sass/messaging.scss';
 
 import React from 'react';
 import { createHistory } from 'history';

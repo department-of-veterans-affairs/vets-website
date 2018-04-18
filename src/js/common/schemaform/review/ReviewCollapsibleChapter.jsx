@@ -94,6 +94,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
     const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
 
     const ChapterDescription = chapter.reviewDescription;
+    let chapterTitle = chapter.title;
+    if (typeof chapter.title === 'function') {
+      chapterTitle = chapter.title(true);
+    }
+    if (chapter.reviewTitle) {
+      chapterTitle = chapter.reviewTitle;
+    }
 
     if (this.props.open) {
       pageContent = (
@@ -202,7 +209,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}>
-                {this.props.chapter.reviewTitle || this.props.chapter.title}
+                {chapterTitle}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>
