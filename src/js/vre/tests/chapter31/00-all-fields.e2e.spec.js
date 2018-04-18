@@ -1,7 +1,7 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('../../../../../test/e2e/vre-ch31-helpers');
-const testData = require('../../../../../test/vre/chapter31/schema/maximal-test.json');
+const testData = require('../chapter31/schema/maximal-test.json');
 
 const runTest = E2eHelpers.createE2eTest(
   (client) => {
