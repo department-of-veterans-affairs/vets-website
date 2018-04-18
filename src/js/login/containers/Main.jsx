@@ -4,8 +4,14 @@ import appendQuery from 'append-query';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import { getUserData } from '../../common/helpers/login-helpers';
+import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
 
-import { updateLoggedInStatus, toggleLoginModal } from '../actions';
+import {
+  updateLoggedInStatus,
+  toggleLoginModal,
+  toggleSearchHelpUserMenu
+} from '../actions';
+
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import SignInModal from '../components/SignInModal';
 
@@ -105,7 +111,13 @@ export class Main extends React.Component {
   render() {
     return (
       <div>
-        <SearchHelpSignIn/>
+        <SearchHelpSignIn
+          isLoggedIn={this.props.login.currentlyLoggedIn}
+          isMenuOpen={this.props.login.utilitiesMenuIsOpen}
+          isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
+          profile={this.props.profile}
+          toggleLoginModal={this.props.toggleLoginModal}
+          toggleMenu={this.props.toggleSearchHelpUserMenu}/>
         <SignInModal
           onClose={this.handleCloseModal}
           visible={this.props.login.showModal}/>
@@ -124,11 +136,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
+    isUserRegisteredForBeta: (service) => {
+      dispatch(isUserRegisteredForBeta(service));
     },
     toggleLoginModal: (update) => {
       dispatch(toggleLoginModal(update));
+    },
+    toggleSearchHelpUserMenu: (menu, isOpen) => {
+      dispatch(toggleSearchHelpUserMenu(menu, isOpen));
+    },
+    updateLoggedInStatus: (update) => {
+      dispatch(updateLoggedInStatus(update));
     },
     getUserData: () => {
       getUserData(dispatch);

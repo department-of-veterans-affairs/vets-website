@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -8,10 +8,7 @@ import HelpMenu from '../../common/components/HelpMenu';
 import SearchMenu from '../../common/components/SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 
-import { toggleLoginModal, toggleSearchHelpUserMenu } from '../actions';
-import { isUserRegisteredForBeta } from '../../personalization/beta-enrollment/actions';
-
-export class SearchHelpSignIn extends React.Component {
+class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = (e) => {
     e.preventDefault();
     recordEvent({ event: 'login-link-clicked' });
@@ -19,8 +16,7 @@ export class SearchHelpSignIn extends React.Component {
   }
 
   handleMenuClick = (menu) => (() => {
-    const isMenuOpen = this.props.login.utilitiesMenuIsOpen[menu];
-    this.props.toggleSearchHelpUserMenu(menu, !isMenuOpen);
+    this.props.toggleMenu(menu, !this.props.isMenuOpen[menu]);
   });
 
   handleSearchMenuClick = this.handleMenuClick('search');
@@ -33,10 +29,10 @@ export class SearchHelpSignIn extends React.Component {
   }
 
   renderSignInContent = () => {
-    const { login, profile } = this.props;
+    const { profile } = this.props;
     const isLoading = profile.loading;
     const shouldRenderSignedInContent =
-      (!isLoading && login.currentlyLoggedIn) ||
+      (!isLoading && this.props.isLoggedIn) ||
       (isLoading && this.hasSession());
 
     // If we're done loading, and the user is logged in, or loading is in progress,
@@ -54,7 +50,7 @@ export class SearchHelpSignIn extends React.Component {
           clickHandler={this.handleAccountMenuClick}
           isUserRegisteredForBeta={this.props.isUserRegisteredForBeta}
           greeting={greeting}
-          isOpen={login.utilitiesMenuIsOpen.account}/>
+          isOpen={this.props.isMenuOpen.account}/>
       );
     }
 
@@ -70,18 +66,13 @@ export class SearchHelpSignIn extends React.Component {
   }
 
   render() {
-    const {
-      search: isSearchOpen,
-      help: isHelpOpen
-    } = this.props.login.utilitiesMenuIsOpen;
-
     return (
       <div className="profile-nav">
         <SearchMenu
-          isOpen={isSearchOpen}
+          isOpen={this.props.isMenuOpen.search}
           clickHandler={this.handleSearchMenuClick}/>
         <HelpMenu
-          isOpen={isHelpOpen}
+          isOpen={this.props.isMenuOpen.help}
           clickHandler={this.handleHelpMenuClick}/>
         <div className="sign-in-link">
           {this.renderSignInContent()}
@@ -91,18 +82,19 @@ export class SearchHelpSignIn extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const userState = state.user;
-  return {
-    login: userState.login,
-    profile: userState.profile
-  };
+SearchHelpSignIn.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
+  isUserRegisteredForBeta: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    email: PropTypes.string,
+    loading: PropTypes.bool,
+    userFullName: PropTypes.shape({
+      first: PropTypes.string
+    })
+  }).isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+  toggleMenu: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-  toggleSearchHelpUserMenu,
-  isUserRegisteredForBeta
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchHelpSignIn);
+export default SearchHelpSignIn;
