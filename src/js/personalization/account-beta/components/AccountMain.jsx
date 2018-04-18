@@ -52,7 +52,7 @@ class AccountMain extends React.Component {
       );
     }
 
-    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} isInModal/>;
+    return <AcceptTermsPrompt terms={terms} cancelPath="/profile" onAccept={this.acceptAndClose} onCancel={this.closeModal} isInModal/>;
   }
 
   render() {
