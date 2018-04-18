@@ -1,26 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash/fp';
-import recordEvent from '../../../../platform/monitoring/record-event';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import {
-  createPageListByChapter,
-} from '../helpers';
-import { getReviewPageOpenChapters } from '../state/selectors';
-import {
-  closeReviewChapter,
-  openReviewChapter,
-  setData,
-  setPrivacyAgreement,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  uploadFile
-} from '../actions';
 
 const scroller = Scroll.scroller;
 
@@ -33,10 +17,6 @@ const scrollToTop = () => {
 };
 
 export default class ReviewPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     scrollToTop();
     focusElement('h4');
@@ -60,29 +40,23 @@ export default class ReviewPage extends React.Component {
 
   render() {
     const {
-      chapters,
       chapterNames,
       chapterFormConfigs,
       form,
-      formConfig,
       formContext,
-      contentAfterButtons,
       openChapters,
       pagesByChapter,
-      renderErrorMessage,
       setData,
       setPagesViewed,
       setValid,
-      uploadFile,
       viewedPages
     } = this.props;
-    console.log(chapters);
 
     return (
       <div>
         <div className="input-section">
           <div>
-            {chapterNames.map(chapterName=> (
+            {chapterNames.map(chapterName => (
               <ReviewCollapsibleChapter
                 key={chapterName}
                 onEdit={this.handleEdit}
@@ -92,7 +66,7 @@ export default class ReviewPage extends React.Component {
                 chapterKey={chapterName}
                 setData={setData}
                 setValid={setValid}
-                uploadFile={uploadFile}
+                uploadFile={this.props.uploadFile}
                 chapterFormConfig={chapterFormConfigs[chapterName]}
                 viewedPages={viewedPages}
                 setPagesViewed={setPagesViewed}

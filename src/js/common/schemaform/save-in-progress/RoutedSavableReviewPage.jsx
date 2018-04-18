@@ -12,6 +12,7 @@ import { isValidForm } from '../validation';
 import { getActivePages } from '../../../../platform/forms/helpers';
 import ReviewCollapsibleChapter from '../review/ReviewCollapsibleChapter';
 import { focusElement } from '../../../../platform/utilities/ui';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
@@ -28,7 +29,6 @@ import {
   getPageKeys
 } from '../helpers';
 
-import ReviewPage from '../review/ReviewPage';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -83,23 +83,6 @@ class RoutedSavableReviewPage extends React.Component {
     }
   }
 
-  autoSave = () => {
-    const { form, user } = this.props;
-    if (user.login.currentlyLoggedIn) {
-      const data = form.data;
-      const { formId, version } = form;
-      const returnUrl = this.props.location.pathname;
-
-      this.props.autoSaveForm(formId, data, version, returnUrl);
-    }
-  }
-
-  goBack = () => {
-    const { eligiblePageList } = this.getEligiblePages();
-    const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
-    this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
-  }
-
   /*
    * Returns the page list without conditional pages that have not satisfied
    * their dependencies and therefore should be skipped.
@@ -109,6 +92,23 @@ class RoutedSavableReviewPage extends React.Component {
     const eligiblePageList = getActivePages(pageList, form.data);
     const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
     return { eligiblePageList, pageIndex };
+  }
+
+  goBack = () => {
+    const { eligiblePageList } = this.getEligiblePages();
+    const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
+    this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
+  }
+
+  autoSave = () => {
+    const { form, user } = this.props;
+    if (user.login.currentlyLoggedIn) {
+      const data = form.data;
+      const { formId, version } = form;
+      const returnUrl = this.props.location.pathname;
+
+      this.props.autoSaveForm(formId, data, version, returnUrl);
+    }
   }
 
   handleEdit = (pageKey, editing, index = null) => {
@@ -195,16 +195,9 @@ class RoutedSavableReviewPage extends React.Component {
       chapters,
       disableSave,
       form,
-      formConfig,
       formContext,
       location,
-      setEditMode,
-      setPrivacyAgreement,
-      setSubmission,
       setValid,
-      submitForm,
-      route,
-      uploadFile,
       user,
       viewedPages
     } = this.props;
@@ -215,7 +208,6 @@ class RoutedSavableReviewPage extends React.Component {
           <div>
             {chapters.map(chapter => (
               <ReviewCollapsibleChapter
-                activePages={chapter.activePages}
                 expandedPages={chapter.expandedPages}
                 chapterFormConfig={chapter.formConfig}
                 chapterKey={chapter.name}
@@ -229,7 +221,7 @@ class RoutedSavableReviewPage extends React.Component {
                 setValid={setValid}
                 showUnviewedPageWarning={chapter.showUnviewedPageWarning}
                 toggleButtonClicked={() => this.handleToggleChapter(chapter)}
-                uploadFile={uploadFile}
+                uploadFile={this.props.uploadFile}
                 viewedPages={viewedPages}/>
             ))}
           </div>
@@ -278,7 +270,6 @@ function mapStateToProps(state, ownProps) {
   const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
-  const chapterFormConfigs = formConfig.chapters;
   const disableSave = formConfig.disableSave;
   const formContext = getFormContext({ form, user });
   const pagesByChapter = createPageListByChapter(formConfig);
@@ -293,7 +284,6 @@ function mapStateToProps(state, ownProps) {
     const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
 
     chaptersAcc.push({
-      activePages,
       expandedPages,
       formConfig: chapterFormConfig,
       name: chapterName,

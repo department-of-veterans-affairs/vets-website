@@ -30,7 +30,7 @@ export default {
       .openChapters
       .filter(value => value !== action.closedChapter);
 
-    let newState = _.set('reviewPageView.openChapters', openChapters, state);
+    const newState = _.set('reviewPageView.openChapters', openChapters, state);
 
     const viewedPages = new Set(state
       .reviewPageView

@@ -75,7 +75,7 @@ export function setViewedPages(pageKeys) {
   return {
     type: SET_VIEWED_PAGES,
     pageKeys
-  }
+  };
 }
 
 function submitToUrl(body, submitUrl, trackingPrefix) {
