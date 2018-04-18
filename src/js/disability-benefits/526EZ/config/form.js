@@ -97,7 +97,13 @@ const formConfig = {
   // getHelp: GetFormHelp,
   chapters: {
     reviewVeteranDetails: {
-      title: 'Review Veteran Details',
+      title: (isReviewPage) => {
+        const baseString = 'Review Veteran Details';
+        if (isReviewPage) {
+          return baseString.replace('Review ', '');
+        }
+        return baseString;
+      },
       pages: {
         veteranInformation: createVerifiedVeteranInfoPage(fullSchema526EZ),
       }
