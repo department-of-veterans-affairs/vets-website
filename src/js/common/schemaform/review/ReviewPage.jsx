@@ -13,7 +13,8 @@ import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
 
 
-import { focusElement, getActivePages } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
+import { getActivePages } from '../../../../platform/forms/helpers';
 import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import {

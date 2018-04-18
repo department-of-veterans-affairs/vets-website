@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { scrollToFirstError } from '../../utils/helpers';
+import { scrollToFirstError } from '../../../../platform/utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 
 import {

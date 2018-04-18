@@ -5,10 +5,10 @@ import classNames from 'classnames';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
 import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
-import { makeField } from '../../common/model/fields';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import { makeField } from '../../../platform/forms/fields';
 
 import { closeAlert } from '../actions/alert';
 

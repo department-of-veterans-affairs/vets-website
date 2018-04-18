@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
-import { isActivePage } from '../utils/helpers';
+import { isActivePage } from '../../../platform/forms/helpers';
 
 function allPagesComplete(data, pageState, pages) {
   return pages.filter(page => isActivePage(page, data)).every(page => pageState[page.path].complete);

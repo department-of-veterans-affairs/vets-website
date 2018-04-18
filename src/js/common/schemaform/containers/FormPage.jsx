@@ -11,7 +11,7 @@ import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressB
 import { setData, uploadFile } from '../actions';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 
-import { focusElement } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend:not(.schemaform-label)');

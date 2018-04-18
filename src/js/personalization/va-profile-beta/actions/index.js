@@ -1,5 +1,5 @@
-import { apiRequest } from '../../../common/helpers/api';
-import { isValidEmail, isValidPhone } from '../../../common/utils/validations';
+import { apiRequest } from '../../../../platform/utilities/api';
+import { isValidEmail, isValidPhone } from '../../../../platform/forms/validations';
 
 export const OPEN_MODAL = 'OPEN_MODAL';
 
