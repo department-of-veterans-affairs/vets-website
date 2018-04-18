@@ -17,6 +17,7 @@ describe('526EZ veteran information', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      formData={{}}
       data={{}}
       uiSchema={uiSchema}/>
     );
@@ -30,6 +31,7 @@ describe('526EZ veteran information', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      formData={{}}
       data={{}}
       uiSchema={uiSchema}/>
     );
@@ -45,6 +47,7 @@ describe('526EZ veteran information', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
+      formData={initialData}
       data={initialData}
       onSubmit={onSubmit}
       uiSchema={uiSchema}/>
