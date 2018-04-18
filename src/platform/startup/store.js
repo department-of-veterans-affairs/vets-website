@@ -5,9 +5,9 @@
  */
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import { scheduledDowntime } from '../../js/common/reducers';
+import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import login from '../../js/login/reducers/login';
-import feedback from '../../js/feedback/reducers';
+import feedback from '../site-wide/feedback/reducers';
 import profile from '../../js/user-profile/reducers/profile';
 
 /**
@@ -28,7 +28,7 @@ export const commonReducer = {
  * sets up the Redux devtools in development and adds redux-thunk as middleware.
  *
  * @param {Object} [appReducer={}] An object with reducer functions as properties
- * @returns {Store} The Redux store with a combined reducer from the commonReducer and 
+ * @returns {Store} The Redux store with a combined reducer from the commonReducer and
  * appReducer.
  */
 export default function createCommonStore(appReducer = {}) {

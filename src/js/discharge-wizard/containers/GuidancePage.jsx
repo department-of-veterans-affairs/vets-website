@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import moment from 'moment';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import AlertBox from '@department-of-veterans-affairs/jean-pants/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
@@ -34,7 +35,7 @@ class GuidancePage extends React.Component {
 
   handleFAQToggle = (e) => {
     e.preventDefault();
-    window.dataLayer.push({ event: 'discharge-upgrade-faq-toggle' });
+    recordEvent({ event: 'discharge-upgrade-faq-toggle' });
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });
@@ -42,7 +43,7 @@ class GuidancePage extends React.Component {
 
   handlePrint(e) {
     e.preventDefault();
-    window.dataLayer.push({ event: 'discharge-upgrade-print' });
+    recordEvent({ event: 'discharge-upgrade-print' });
     if (window.print) {
       window.print();
     }

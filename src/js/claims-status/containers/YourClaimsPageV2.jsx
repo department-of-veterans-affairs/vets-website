@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import recordEvent from '../../../platform/monitoring/record-event';
 
-import Modal from '../../common/components/Modal';
+import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
 import {
   changePageV2,
   getAppealsV2,
@@ -28,7 +29,7 @@ import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
 import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -171,7 +172,7 @@ class YourClaimsPageV2 extends React.Component {
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
-                window.dataLayer.push({
+                recordEvent({
                   event: 'claims-consolidated-modal',
                 });
                 this.props.showConsolidatedMessage(true);

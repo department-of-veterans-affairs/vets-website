@@ -1,3 +1,4 @@
+import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../utils/helpers';
 
 export function loadPrescription(id) {
@@ -75,7 +76,7 @@ export function refillPrescription(prescription) {
   if (prescription.prescriptionId) {
     const url = `/${prescription.prescriptionId}/refill`;
 
-    window.dataLayer.push({
+    recordEvent({
       event: 'rx-confirm-refill',
     });
 

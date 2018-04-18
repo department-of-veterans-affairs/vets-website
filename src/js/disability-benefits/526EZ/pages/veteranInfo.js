@@ -3,7 +3,7 @@ import _ from 'lodash';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import ssnUI from '../../../common/schemaform/definitions/ssn';
-import { genderLabels } from '../../../common/utils/labels';
+import { genderLabels } from '../../../../platform/static-data/labels';
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import VerifiedReviewContainer from '../components/VerifiedReviewContainer';

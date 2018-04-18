@@ -10,7 +10,7 @@ fi
 
 # No test specified; run all of them
 if [[ -z "$1" ]] || [[ $1 == -* ]]; then
-    BABEL_ENV=test $MOCHA --recursive '$SCRIPT_DIR/../test/**/*.unit.spec.js?(x)' test/helper.js "$@"
+    BABEL_ENV=test $MOCHA --recursive '$SCRIPT_DIR/../{test,src}/**/*.unit.spec.js?(x)' test/helper.js "$@"
   exit $?
 fi
 

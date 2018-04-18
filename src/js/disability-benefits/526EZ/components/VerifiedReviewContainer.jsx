@@ -5,7 +5,7 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { focusElement } from '../../../common/utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
 import RoutedSavablePage from '../../../common/schemaform/save-in-progress/RoutedSavablePage';
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import {
@@ -29,7 +29,6 @@ import {
   getPreviousPagePath
 } from '../../../common/schemaform/routing';
 
-import formConfig from '../config/form';
 import VerifiedReviewPage from './VerifiedReviewPage';
 
 const scroller = Scroll.scroller;

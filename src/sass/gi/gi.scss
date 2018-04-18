@@ -1,8 +1,7 @@
-@import "../shared-variables";
-@import "../modules/m-modal";
-@import "../modules/m-loading-indicator";
+@import "~@department-of-veterans-affairs/jean-pants/sass/shared-variables";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/m-modal";
 
-@import "../modules/va-pagination";
+@import "~@department-of-veterans-affairs/jean-pants/sass/modules/va-pagination";
 
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";

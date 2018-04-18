@@ -3,10 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
-import { makeField } from '../../common/model/fields';
+import recordEvent from '../../../platform/monitoring/record-event';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
+import { makeField } from '../../../platform/forms/fields';
 
 import {
   fetchPreferences,
@@ -40,7 +41,7 @@ export class EmailNotifications extends React.Component {
       frequency: { value: frequency }
     } = this.props.preferences;
     this.props.savePreferences({ emailAddress, frequency });
-    window.dataLayer.push({
+    recordEvent({
       event: 'sm-notification-setting',
       'sm-notify-freq': frequency,
     });

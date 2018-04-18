@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatDateParsedZoneLong } from '../../common/utils/helpers';
+import { formatDateShort, formatDateParsedZoneLong } from '../../../platform/utilities/date';
 import {
   formatPercent,
   formatVAFileNumber,
