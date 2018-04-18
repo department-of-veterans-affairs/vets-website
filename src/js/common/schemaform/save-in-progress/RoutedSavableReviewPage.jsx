@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Raven from 'raven-js';
 import React from 'react';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
@@ -6,10 +7,16 @@ import { withRouter } from 'react-router';
 
 import SaveFormLink from '../save-in-progress/SaveFormLink';
 import SaveStatus from '../save-in-progress/SaveStatus';
+import { isValidForm } from '../validation';
 
+import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { saveAndRedirectToReturnUrl, autoSaveForm, saveErrors } from './actions';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import { toggleLoginModal } from '../../../login/actions';
+import SubmitButtons from '../review/SubmitButtons';
+import {
+  createPageListByChapter
+} from '../helpers';
 
 import { ReviewPage } from '../review/ReviewPage';
 import {
@@ -28,6 +35,7 @@ class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+    this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
   }
 
   setData = (...args) => {
@@ -43,6 +51,36 @@ class RoutedSavableReviewPage extends React.Component {
       const returnUrl = this.props.location.pathname;
 
       this.props.autoSaveForm(formId, data, version, returnUrl);
+    }
+  }
+
+  goBack = () => {
+    const { eligiblePageList } = this.getEligiblePages();
+    const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
+    this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
+  }
+
+  handleSubmit = () => {
+    const formConfig = this.props.route.formConfig;
+    const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
+    if (isValid) {
+      this.props.submitForm(formConfig, this.props.form);
+    } else {
+      // validation errors in this situation are not visible, so we’d
+      // like to know if they’re common
+      if (this.props.form.data.privacyAgreementAccepted) {
+        recordEvent({
+          event: `${formConfig.trackingPrefix}-validation-failed`,
+        });
+        Raven.captureMessage('Validation issue not displayed', {
+          extra: {
+            errors,
+            prefix: formConfig.trackingPrefix
+          }
+        });
+        this.props.setSubmission('status', 'validationError');
+      }
+      this.props.setSubmission('hasAttemptedSubmit', true);
     }
   }
 
@@ -86,32 +124,50 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   render() {
-    const { form, user, location } = this.props;
+    const {
+      form,
+      route,
+      location,
+      user
+    } = this.props;
 
-    const contentAfterButtons = (
-      <div>
-        <SaveStatus
-          isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={user.login.showModal}
-          toggleLoginModal={this.props.toggleLoginModal}
-          form={form}>
-        </SaveStatus>
-        <SaveFormLink
-          locationPathname={location.pathname}
-          form={form}
-          user={user}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}/>
-      </div>
-    );
+    const disableSave = !!route.formConfig.disableSave;
+
+    console.log(disableSave);
 
     return (
-      <ReviewPage
-        {...this.props}
-        setData={this.setData}
-        formContext={getFormContext({ user, form })}
-        contentAfterButtons={form.submission.status === 'error' ? null : contentAfterButtons}
-        renderErrorMessage={this.renderErrorMessage}/>
+      <div>
+        <ReviewPage
+          {...this.props}
+          setData={this.setData}
+          formContext={getFormContext({ user, form })}/>
+        <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
+        <PrivacyAgreement
+          required
+          onChange={this.props.setPrivacyAgreement}
+          checked={form.data.privacyAgreementAccepted}
+          showError={form.submission.hasAttemptedSubmit}/>
+        <SubmitButtons
+          onBack={this.goBack}
+          onSubmit={this.handleSubmit}
+          submission={form.submission}
+          renderErrorMessage={this.renderErrorMessage}/>
+        {!disableSave && form.submission.status === 'error' ? null : <div>
+          <SaveStatus
+            isLoggedIn={user.login.currentlyLoggedIn}
+            showLoginModal={user.login.showModal}
+            toggleLoginModal={this.props.toggleLoginModal}
+            form={form}>
+          </SaveStatus>
+          <SaveFormLink
+            locationPathname={location.pathname}
+            form={form}
+            user={user}
+            saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+            toggleLoginModal={this.props.toggleLoginModal}/>
+        </div>
+        }
+      </div>
     );
   }
 }

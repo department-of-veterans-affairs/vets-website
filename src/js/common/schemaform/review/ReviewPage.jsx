@@ -8,14 +8,15 @@ import { withRouter } from 'react-router';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
-import SubmitButtons from './SubmitButtons';
-import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
-import { isValidForm } from '../validation';
-
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import { getActivePages } from '../../../../platform/forms/helpers';
-import { createPageListByChapter, expandArrayPages, getPageKeys, getActiveChapters } from '../helpers';
+import {
+  createPageListByChapter,
+  expandArrayPages,
+  getPageKeys,
+  getActiveChapters
+} from '../helpers';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import {
   closeReviewChapter,
@@ -41,11 +42,8 @@ const scrollToTop = () => {
 class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.goBack = this.goBack.bind(this);
-    // this only needs to be run once
     this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
-
+    // this only needs to be run once
     this.state = {
       // we’re going to shallow clone this set at times later, but that does not appear
       // to be slower than shallow cloning objects
@@ -102,36 +100,6 @@ class ReviewPage extends React.Component {
     return { eligiblePageList, pageIndex };
   }
 
-  goBack() {
-    const { eligiblePageList } = this.getEligiblePages();
-    const expandedPageList = expandArrayPages(eligiblePageList, this.props.form.data);
-    this.props.router.push(expandedPageList[expandedPageList.length - 2].path);
-  }
-
-  handleSubmit() {
-    const formConfig = this.props.route.formConfig;
-    const { isValid, errors } = isValidForm(this.props.form, this.pagesByChapter);
-    if (isValid) {
-      this.props.submitForm(formConfig, this.props.form);
-    } else {
-      // validation errors in this situation are not visible, so we’d
-      // like to know if they’re common
-      if (this.props.form.data.privacyAgreementAccepted) {
-        recordEvent({
-          event: `${formConfig.trackingPrefix}-validation-failed`,
-        });
-        Raven.captureMessage('Validation issue not displayed', {
-          extra: {
-            errors,
-            prefix: formConfig.trackingPrefix
-          }
-        });
-        this.props.setSubmission('status', 'validationError');
-      }
-      this.props.setSubmission('hasAttemptedSubmit', true);
-    }
-  }
-
   handleEdit = (pageKey, editing, index = null) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
     if (editing) {
@@ -176,17 +144,6 @@ class ReviewPage extends React.Component {
             ))}
           </div>
         </div>
-        <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
-        <PrivacyAgreement required
-          onChange={this.props.setPrivacyAgreement}
-          checked={form.data.privacyAgreementAccepted}
-          showError={form.submission.hasAttemptedSubmit}/>
-        <SubmitButtons
-          onBack={this.goBack}
-          onSubmit={this.handleSubmit}
-          submission={form.submission}
-          renderErrorMessage={renderErrorMessage}/>
-        {contentAfterButtons}
       </div>
     );
   }
@@ -195,7 +152,8 @@ class ReviewPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    openChapters: getReviewPageOpenChapters(state)
+    openChapters: getReviewPageOpenChapters(state),
+    savable: state.formConfig.disableSave
   };
 }
 
