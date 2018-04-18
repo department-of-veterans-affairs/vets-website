@@ -104,11 +104,8 @@ class VerifiedReviewContainer extends React.Component {
 
   render() {
     const { form, user, formContext, route } = this.props;
-    const { chapterKey, pageKey } = route.pageConfig;
-    const { 
-      title, description, verifiedReviewComponent,
-      hideHeaderRow, contentBeforeButtons
-    } = formConfig.chapters[chapterKey].pages[pageKey];
+    const { title, description, verifiedReviewComponent,
+      hideHeaderRow, contentBeforeButtons, pageKey } = route.pageConfig;
     const isNotPrefilled = !form.data.prefilled;
 
     if (isNotPrefilled) return <RoutedSavablePage {...this.props}/>;
