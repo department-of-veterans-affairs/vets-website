@@ -19,33 +19,36 @@ export class SearchHelpSignIn extends React.Component {
   }
 
   handleMenuClick = (menu) => (() => {
-    this.props.toggleSearchHelpUserMenu(menu, !this.props.login.utilitiesMenuIsOpen[menu]);
+    const isMenuOpen = this.props.login.utilitiesMenuIsOpen[menu];
+    this.props.toggleSearchHelpUserMenu(menu, !isMenuOpen);
   });
 
   handleSearchMenuClick = this.handleMenuClick('search');
   handleHelpMenuClick = this.handleMenuClick('help');
   handleAccountMenuClick = this.handleMenuClick('account');
 
-  hasSession() {
+  hasSession = () => {
     // Includes a safety check because sessionStorage is not defined during e2e testing
     return !!(window.sessionStorage && window.sessionStorage.getItem('userFirstName'));
   }
 
-  render() {
-    let content;
-    const login = this.props.login;
-    const isLoading = this.props.profile.loading;
-    const hasSession = this.hasSession();
+  renderSignInContent = () => {
+    const { login, profile } = this.props;
+    const isLoading = profile.loading;
+    const shouldRenderSignedInContent =
+      (!isLoading && login.currentlyLoggedIn) ||
+      (isLoading && this.hasSession());
 
     // If we're done loading, and the user is logged in, or loading is in progress,
     // and we have information is session storage, we can go ahead and render.
-    if ((!isLoading && login.currentlyLoggedIn) || (isLoading && hasSession)) {
+    if (shouldRenderSignedInContent) {
       const firstName = _.startCase(_.toLower(
-        this.props.profile.userFullName.first || sessionStorage.userFirstName
+        profile.userFullName.first || sessionStorage.userFirstName
       ));
-      const greeting = firstName || this.props.profile.email;
 
-      content = (
+      const greeting = firstName || profile.email;
+
+      return (
         <SignInProfileMenu
           disabled={isLoading}
           clickHandler={this.handleAccountMenuClick}
@@ -53,24 +56,35 @@ export class SearchHelpSignIn extends React.Component {
           greeting={greeting}
           isOpen={login.utilitiesMenuIsOpen.account}/>
       );
-    } else {
-      const classes = classNames({ disabled: isLoading });
-      content = (<div>
-        <a href="#" className={classes} onClick={this.handleSignInSignUp}><span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span></a>
-      </div>
-      );
     }
+
+    const classes = classNames({ disabled: isLoading });
+
+    return (
+      <div>
+        <a href="#" className={classes} onClick={this.handleSignInSignUp}>
+          <span>Sign In</span><span className="signin-spacer">|</span><span>Sign Up</span>
+        </a>
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      search: isSearchOpen,
+      help: isHelpOpen
+    } = this.props.login.utilitiesMenuIsOpen;
 
     return (
       <div className="profile-nav">
         <SearchMenu
-          isOpen={login.utilitiesMenuIsOpen.search}
+          isOpen={isSearchOpen}
           clickHandler={this.handleSearchMenuClick}/>
         <HelpMenu
-          isOpen={login.utilitiesMenuIsOpen.help}
+          isOpen={isHelpOpen}
           clickHandler={this.handleHelpMenuClick}/>
         <div className="sign-in-link">
-          {content}
+          {this.renderSignInContent()}
         </div>
       </div>
     );
