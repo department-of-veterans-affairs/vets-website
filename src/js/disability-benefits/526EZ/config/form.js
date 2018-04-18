@@ -9,6 +9,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // TODO: Load live user prefill data from network
+// TODO: initialData for dev / testing purposes only and should be removed for production
 import initialData from '../../../../../test/disability-benefits/526EZ/schema/initialData';
 
 import {
@@ -28,7 +29,6 @@ import {
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
-  releaseView
 } from '../helpers';
 
 const {
@@ -53,6 +53,9 @@ const vaTreatments = ((treatmentsCommonDef) => {
     maxItems,
     items: {
       type: items.type,
+      // TODO: use standard required property once treatmentCenterType added
+      // back in schema (because it's required)
+      required: ['treatmentCenterName'],
       properties: _.omit(
         ['treatmentCenterAddress', 'treatmentCenterType'],
         items.properties
@@ -362,7 +365,7 @@ const formConfig = {
                 privateRecordReleases: {
                   'ui:options': {
                     itemName: 'Private Medical Record Release',
-                    viewField: releaseView
+                    viewField: treatmentView
                   },
                   items: {
                     'ui:order': [
@@ -396,7 +399,7 @@ const formConfig = {
                         'addressLine2',
                         'city',
                         'state',
-                        'zipFirstFive'
+                        'zip'
                       ],
                       // TODO: confirm validation for PCIU address across all usage
                       // 'ui:validations': [validateAddress],
@@ -415,7 +418,7 @@ const formConfig = {
                       state: {
                         'ui:title': 'State'
                       },
-                      zipFirstFive: {
+                      zip: {
                         'ui:title': 'Postal code',
                         'ui:options': {
                           widgetClassNames: 'usa-input-medium',
