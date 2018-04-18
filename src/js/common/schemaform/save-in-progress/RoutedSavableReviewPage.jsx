@@ -78,7 +78,7 @@ class RoutedSavableReviewPage extends React.Component {
 
   setData = (...args) => {
     this.props.setData(...args);
-    if (!this.props.disabledSave) {
+    if (!this.props.disableSave) {
       this.debouncedAutoSave();
     }
   }
