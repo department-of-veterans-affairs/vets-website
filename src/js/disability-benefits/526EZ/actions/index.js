@@ -1,5 +1,5 @@
 import Raven from 'raven-js';
-/* eslint-disable */
+/* eslint-disable no-unused-vars */
 import { apiRequest } from '../../../../platform/utilities/api';
 import { fetchInProgressForm } from '../../../common/schemaform/save-in-progress/actions';
 
