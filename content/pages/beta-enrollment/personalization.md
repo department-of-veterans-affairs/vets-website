@@ -34,11 +34,16 @@ You'll still have access to all the tools and information you've always had on V
 
 <br>
 
+[PLACEHOLDER FOR BUTTON: Turn On Beta Tools]
+
 <div id="react-root"></div>
 
 ### Can I turn off the beta tools off if I don't want to use them anymore?
 
 Yes. You can turn off the beta tools at any time. Just look for the opt-in information at the bottom of the account page.
+
+<br>
+<br>
 
 </div>
 </div>
