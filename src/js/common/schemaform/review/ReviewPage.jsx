@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import Raven from 'raven-js';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
@@ -14,7 +13,6 @@ import { getActivePages } from '../../../../platform/forms/helpers';
 import {
   createPageListByChapter,
   expandArrayPages,
-  getPageKeys,
   getActiveChapters
 } from '../helpers';
 import { getReviewPageOpenChapters } from '../state/selectors';
@@ -42,15 +40,6 @@ const scrollToTop = () => {
 class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
-    // this only needs to be run once
-    this.state = {
-      // we’re going to shallow clone this set at times later, but that does not appear
-      // to be slower than shallow cloning objects
-      viewedPages: new Set(
-        getPageKeys(props.route.pageList, props.form.data)
-      )
-    };
   }
 
   componentDidMount() {
@@ -63,29 +52,6 @@ class ReviewPage extends React.Component {
     const previousStatus = this.props.form.submission.status;
     if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
       this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
-    }
-  }
-
-  setPagesViewed = (keys) => {
-    const viewedPages = keys.reduce((pages, key) => {
-      if (!pages.has(key)) {
-        // if we hit a page that we need to add, check to see if
-        // we haven’t cloned the set yet; we should only do that once
-        if (pages === this.state.viewedPages) {
-          const newPages = new Set(this.state.viewedPages);
-          newPages.add(key);
-
-          return newPages;
-        }
-
-        pages.add(key);
-      }
-
-      return pages;
-    }, this.state.viewedPages);
-
-    if (viewedPages !== this.state.viewedPages) {
-      this.setState({ viewedPages });
     }
   }
 
@@ -103,7 +69,7 @@ class ReviewPage extends React.Component {
   handleEdit = (pageKey, editing, index = null) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
     if (editing) {
-      this.setPagesViewed([fullPageKey]);
+      this.props.setPagesViewed([fullPageKey]);
     }
     this.props.setEditMode(pageKey, editing, index);
   }
@@ -117,8 +83,14 @@ class ReviewPage extends React.Component {
   }
 
   render() {
-    const { route, form, contentAfterButtons, renderErrorMessage, formContext } = this.props;
-    const formConfig = route.formConfig;
+    const {
+      route,
+      form,
+      formConfig,
+      formContext,
+      contentAfterButtons,
+      renderErrorMessage,
+    } = this.props;
     const chapters = getActiveChapters(formConfig, form.data);
 
     return (
@@ -131,14 +103,14 @@ class ReviewPage extends React.Component {
                 onEdit={this.handleEdit}
                 toggleButtonClicked={() => this.handleToggleChapter(chapter)}
                 open={this.props.openChapters.includes(chapter)}
-                pages={this.pagesByChapter[chapter]}
+                pages={this.props.pagesByChapter[chapter]}
                 chapterKey={chapter}
                 setData={this.props.setData}
                 setValid={this.props.setValid}
                 uploadFile={this.props.uploadFile}
                 chapter={formConfig.chapters[chapter]}
-                viewedPages={this.state.viewedPages}
-                setPagesViewed={this.setPagesViewed}
+                viewedPages={this.props.viewedPages}
+                setPagesViewed={this.props.setPagesViewed}
                 formContext={formContext}
                 form={form}/>
             ))}
@@ -151,40 +123,30 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form,
-    openChapters: getReviewPageOpenChapters(state),
-    savable: state.formConfig.disableSave
+    test: true
   };
 }
 
 const mapDispatchToProps = {
-  closeReviewChapter,
-  openReviewChapter,
-  setEditMode,
-  setSubmission,
-  submitForm,
-  setPrivacyAgreement,
-  setData,
-  uploadFile
 };
 
 ReviewPage.propTypes = {
   closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  formContext: PropTypes.object,
+  openChapters: PropTypes.array.isRequired,
+  openReviewChapter: PropTypes.func.isRequired,
+  renderErrorMessage: PropTypes.func,
   route: PropTypes.shape({
     formConfig: PropTypes.object.isRequired
   }).isRequired,
-  openChapters: PropTypes.array.isRequired,
-  openReviewChapter: PropTypes.func.isRequired,
+  pagesByChapter: PropTypes.object.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
   setPrivacyAgreement: PropTypes.func.isRequired,
-  uploadFile: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
-  contentAfterButtons: PropTypes.element,
-  renderErrorMessage: PropTypes.func,
-  formContext: PropTypes.object
+  uploadFile: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));
