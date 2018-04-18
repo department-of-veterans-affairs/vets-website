@@ -21,7 +21,7 @@ export function submitIntentToFile(formConfig, onChange) {
   let ITFStatus = ITFStatuses.pending;
   return dispatch => {
 
-    onChange({ ITFStatus });
+    onChange(ITFStatus);
 
     return delay(2000).then(() => {
       ITFStatus = ITFStatuses.active;

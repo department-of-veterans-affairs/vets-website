@@ -27,7 +27,7 @@ class IntroductionPage extends React.Component {
   }
 
   updateITFStatus = (ITFStatus) => {
-    this.setState(ITFStatus);
+    this.setState({ ITFStatus });
   }
 
   beforeStartForm = () => {
