@@ -3,8 +3,8 @@ const E2eHelpers = require('../../src/platform/testing/e2e/helpers');
 const GibsHelpers = require('./post-911-gib-status-helpers');
 const LettersHelpers = require('./letters-helpers');
 const LoginHelpers = require('./login-helpers');
-const MessagingHelpers = require('./messaging-helpers');
-const RxHelpers = require('./rx-helpers');
+const MessagingHelpers = require('../../src/js/messaging/tests/messaging-helpers');
+const RxHelpers = require('../../src/js/rx/tests/rx-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
