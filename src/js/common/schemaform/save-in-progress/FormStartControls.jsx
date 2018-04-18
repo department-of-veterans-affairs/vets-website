@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import Raven from 'raven-js';
 
 import ProgressButton from '@department-of-veterans-affairs/jean-pants/ProgressButton';
 import Modal from '@department-of-veterans-affairs/jean-pants/Modal';
@@ -24,8 +25,10 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     if (this.props.beforeStartForm) {
-      this.props.beforeStartForm().then((hasValidITF) => {
-        if (hasValidITF) this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
+      this.props.beforeStartForm().then(() => {
+        this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
+      }, (errorMessage) => {
+        Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
       });
     } else if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
@@ -38,9 +41,10 @@ class FormStartControls extends React.Component {
     // If successful, this will set form.loadedData.metadata.returnUrl and will
     //  trickle down to this.props to be caught in componentWillReceiveProps
     if (this.props.beforeStartForm) {
-      return this.props.beforeStartForm().then((hasValidITF) => {
-        if (hasValidITF) this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
-        return false;
+      this.props.beforeStartForm().then(() => {
+        this.props.fetchInProgressForm(this.props.formId, this.props.migrations, true, this.props.prefillTransformer);
+      }, (errorMessage) => {
+        Raven.captureMessage(`vets_itf_error: ${errorMessage}`);
       });
     }
     return this.props.fetchInProgressForm(this.props.formId, this.props.migrations);

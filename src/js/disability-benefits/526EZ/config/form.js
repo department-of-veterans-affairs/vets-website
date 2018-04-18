@@ -75,7 +75,7 @@ const privateRecordReleasesSchema = Object.assign({}, treatments.items.propertie
 
 const formConfig = {
   urlPrefix: '/',
-  intentToFileUrl: '/21-526EZ', // TODO: update with ITF endpoint
+  intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   // submitUrl: '/v0/21-526EZ',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'disability-526EZ-',
