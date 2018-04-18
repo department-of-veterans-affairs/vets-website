@@ -28,20 +28,16 @@ describe('526EZ <VerifiedReviewPage>', () => {
     const tree = shallow(
       <VerifiedReviewPage
         onEdit={onEdit}
+        verifiedReviewComponent={() => 'testComponent'}
+        pageKey={'pageOne'}
+        title={() => 'testTitle'}
         onBlur={onBlur}
         uploadFile={uploadFile}
         setData={setData}
-        form={form}
-        pageKey={'pageOne'}
-        page={{
-          title: () => 'testTitle',
-          verifiedReviewComponent: () => 'testComponent',
-          uiSchema: {},
-          schema: {}
-        }}/>
+        form={form}/>
     );
 
-    expect(tree.find('verifiedReviewComponent').exists()).to.equal(true);
+    expect(tree.text()).to.contain('testComponent');
   });
 
   it('should toggle', () => {
@@ -59,17 +55,13 @@ describe('526EZ <VerifiedReviewPage>', () => {
     const tree = shallow(
       <VerifiedReviewPage
         onEdit={onEdit}
+        verifiedReviewComponent={() => 'testComponent'}
+        pageKey={'pageOne'}
+        title={() => 'testTitle'}
         onBlur={onBlur}
         uploadFile={uploadFile}
         setData={setData}
-        form={form}
-        pageKey={'pageOne'}
-        page={{
-          title: () => <span>Page One</span>,
-          verifiedReviewComponent: () => 'testComponent',
-          uiSchema: {},
-          schema: {}
-        }}/>
+        form={form}/>
     );
 
     tree.instance().handleEdit('pageOne', false);
