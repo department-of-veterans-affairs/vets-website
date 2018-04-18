@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../../../common/utils/moment-setup';
+import '../../../../platform/startup/moment-setup';
 
 import { fetchLatestTerms, acceptTerms } from '../actions';
 

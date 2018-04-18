@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getCurrentFormStep, getCurrentPageName } from '../utils/helpers';
+import { getCurrentFormStep, getCurrentPageName } from '../../../platform/forms/helpers';
 
 export default class NavHeader extends React.Component {
   render() {

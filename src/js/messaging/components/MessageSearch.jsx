@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import MessageSearchAdvanced from './MessageSearchAdvanced';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '@department-of-veterans-affairs/jean-pants/ErrorableTextInput';
 
 class MessageSearch extends React.Component {
   constructor(props) {

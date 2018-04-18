@@ -5,10 +5,10 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '@department-of-veterans-affairs/jean-pants/ErrorableRadioButtons';
 import ErrorableSelect from '@department-of-veterans-affairs/jean-pants/ErrorableSelect';
-import { months } from '../../common/utils/options-for-select.js';
-import { focusElement } from '../../common/utils/helpers';
+import { months } from '../../../platform/static-data/options-for-select.js';
+import { focusElement } from '../../../platform/utilities/ui';
 import { questionLabels, prevApplicationYearCutoff, answerReview } from '../config';
 import { shouldShowQuestion } from '../utils';
 

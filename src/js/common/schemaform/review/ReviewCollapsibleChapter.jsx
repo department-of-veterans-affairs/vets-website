@@ -4,7 +4,8 @@ import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
-import { focusElement, getActivePages } from '../../utils/helpers';
+import { focusElement } from '../../../../platform/utilities/ui';
+import { getActivePages } from '../../../../platform/forms/helpers';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, expandArrayPages, getPageKeys } from '../helpers';
 import ArrayField from './ArrayField';
@@ -93,6 +94,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
     const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
 
     const ChapterDescription = chapter.reviewDescription;
+    let chapterTitle = chapter.title;
+    if (typeof chapter.title === 'function') {
+      chapterTitle = chapter.title(true);
+    }
+    if (chapter.reviewTitle) {
+      chapterTitle = chapter.reviewTitle;
+    }
 
     if (this.props.open) {
       pageContent = (
@@ -201,7 +209,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}>
-                {this.props.chapter.reviewTitle || this.props.chapter.title}
+                {chapterTitle}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>

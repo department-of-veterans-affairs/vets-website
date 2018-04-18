@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/jean-pants/LoadingIndicator';
 import Notification from '../components/Notification';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getClaimType } from '../utils/helpers';

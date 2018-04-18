@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 
-import environment from '../../common/helpers/environment';
+import environment from '../../../platform/utilities/environment';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -268,7 +268,7 @@ export const mockData = {
           details: {
             lastSocDate: '2015-09-12',
             certificationTimeliness: [1, 4],
-            ssocTimeliness: [2, 16],
+            socTimeliness: [2, 16],
           }
         },
         docket: {
@@ -436,7 +436,7 @@ export const mockData = {
           type: 'bva_decision',
           details: {
             regionalOffice: 'Chicago Regional Office',
-            decisionIssues: [
+            issues: [
               {
                 description: 'Heel, increased rating',
                 disposition: 'allowed',

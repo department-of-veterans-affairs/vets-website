@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/address';
+import { isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../common/schemaform/definitions/address';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 import AdditionalInfo from '@department-of-veterans-affairs/jean-pants/AdditionalInfo';
-import cloneDeep from '../../common/utils/data-utils/cloneDeep';
+import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 
 const siblings = ['treatments', 'privateRecordReleases', 'privateRecords', 'additionalDocuments'];
 
@@ -275,3 +275,9 @@ export const evidenceSummaryView = ({ formData }) => {
     </div>
   );
 };
+
+export const specialCircumstancesDescription = (
+  <p>To help us better understand your situation, please tell us if
+      any of the below situations apply to you. <strong>Are you:</strong></p>
+);
+
