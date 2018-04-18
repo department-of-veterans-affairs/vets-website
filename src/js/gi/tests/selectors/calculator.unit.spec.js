@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { set } from 'lodash/fp';
 
-import { calculatorConstants } from '../../e2e/gibct-helpers';
-import createCommonStore from '../../../src/platform/startup/store';
-import reducer from '../../../src/js/gi/reducers';
-import { getCalculatedBenefits } from '../../../src/js/gi/selectors/calculator';
+import { calculatorConstants } from '../../gibct-helpers';
+import createCommonStore from '../../../../platform/startup/store';
+import reducer from '../../reducers';
+import { getCalculatedBenefits } from '../../selectors/calculator';
 
 const defaultState = createCommonStore(reducer).getState();
 

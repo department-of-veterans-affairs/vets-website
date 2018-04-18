@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import profileReducer from '../../../src/js/gi/reducers/profile.js';
+import profileReducer from '../../reducers/profile';
 
 const initialState = {
   attributes: {},
