@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
-import { withRouter } from 'react-router';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
@@ -12,7 +11,6 @@ import { getActivePages } from '../../../../platform/forms/helpers';
 import {
   createPageListByChapter,
   expandArrayPages,
-  getActiveChapters
 } from '../helpers';
 import { getReviewPageOpenChapters } from '../state/selectors';
 import {
@@ -36,7 +34,7 @@ const scrollToTop = () => {
   });
 };
 
-class ReviewPage extends React.Component {
+export default class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -44,25 +42,6 @@ class ReviewPage extends React.Component {
   componentDidMount() {
     scrollToTop();
     focusElement('h4');
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const nextStatus = nextProps.form.submission.status;
-    const previousStatus = this.props.form.submission.status;
-    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
-      this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
-    }
-  }
-
-  /*
-   * Returns the page list without conditional pages that have not satisfied
-   * their dependencies and therefore should be skipped.
-   */
-  getEligiblePages() {
-    const { form, route: { pageList, path } } = this.props;
-    const eligiblePageList = getActivePages(pageList, form.data);
-    const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
-    return { eligiblePageList, pageIndex };
   }
 
   handleEdit = (pageKey, editing, index = null) => {
@@ -83,33 +62,40 @@ class ReviewPage extends React.Component {
 
   render() {
     const {
-      route,
+      chapterNames,
+      chapterFormConfigs,
       form,
       formConfig,
       formContext,
       contentAfterButtons,
+      openChapters,
+      pagesByChapter,
       renderErrorMessage,
+      setData,
+      setPagesViewed,
+      setValid,
+      uploadFile,
+      viewedPages
     } = this.props;
-    const chapters = getActiveChapters(formConfig, form.data);
 
     return (
       <div>
         <div className="input-section">
           <div>
-            {chapters.map(chapter => (
+            {chapterNames.map(chapterName=> (
               <ReviewCollapsibleChapter
-                key={chapter}
+                key={chapterName}
                 onEdit={this.handleEdit}
-                toggleButtonClicked={() => this.handleToggleChapter(chapter)}
-                open={this.props.openChapters.includes(chapter)}
-                pages={this.props.pagesByChapter[chapter]}
-                chapterKey={chapter}
-                setData={this.props.setData}
-                setValid={this.props.setValid}
-                uploadFile={this.props.uploadFile}
-                chapter={formConfig.chapters[chapter]}
-                viewedPages={this.props.viewedPages}
-                setPagesViewed={this.props.setPagesViewed}
+                toggleButtonClicked={() => this.handleToggleChapter(chapterName)}
+                open={openChapters.includes(chapterName)}
+                pages={pagesByChapter[chapterName]}
+                chapterKey={chapterName}
+                setData={setData}
+                setValid={setValid}
+                uploadFile={uploadFile}
+                chapterFormConfig={chapterFormConfigs[chapterName]}
+                viewedPages={viewedPages}
+                setPagesViewed={setPagesViewed}
                 formContext={formContext}
                 form={form}/>
             ))}
@@ -136,4 +122,3 @@ ReviewPage.propTypes = {
   uploadFile: PropTypes.func.isRequired
 };
 
-export default ReviewPage;

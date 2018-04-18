@@ -86,14 +86,20 @@ export default class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    const { form, pages, viewedPages, chapter, formContext } = this.props;
+    const {
+      form,
+      pages,
+      viewedPages,
+      chapterFormConfig,
+      formContext
+    } = this.props;
     const activePages = getActivePages(pages, form.data);
     const expandedPages = expandArrayPages(activePages, form.data);
 
     this.pageKeys = getPageKeys(pages, form.data);
     const hasUnViewedPages = this.pageKeys.some(key => !viewedPages.has(key));
 
-    const ChapterDescription = chapter.reviewDescription;
+    const ChapterDescription = chapterFormConfig.reviewDescription;
 
     if (this.props.open) {
       pageContent = (
@@ -202,7 +208,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}>
-                {this.props.chapter.reviewTitle || this.props.chapter.title}
+                {this.props.chapterFormConfig.reviewTitle || this.props.chapterFormConfig.title}
               </button>
               {hasUnViewedPages && <span className="schemaform-review-chapter-warning-icon"/>}
             </div>
@@ -217,7 +223,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 }
 
 ReviewCollapsibleChapter.propTypes = {
-  chapter: PropTypes.object.isRequired,
+  chapterFormConfig: PropTypes.object.isRequired,
   pages: PropTypes.array.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired

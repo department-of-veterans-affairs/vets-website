@@ -16,6 +16,7 @@ import { toggleLoginModal } from '../../../login/actions';
 import SubmitButtons from '../review/SubmitButtons';
 import {
   createPageListByChapter,
+  getActiveChapters,
   getPageKeys
 } from '../helpers';
 
@@ -36,12 +37,6 @@ class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
-    this.state = {
-      pagesByChapter: createPageListByChapter(props.route.formConfig),
-      viewedPages: new Set(
-        getPageKeys(props.route.pageList, props.form.data)
-      )
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,8 +68,8 @@ class RoutedSavableReviewPage extends React.Component {
       if (!pages.has(key)) {
         // if we hit a page that we need to add, check to see if
         // we haven’t cloned the set yet; we should only do that once
-        if (pages === this.state.viewedPages) {
-          const newPages = new Set(this.state.viewedPages);
+        if (pages === this.props.viewedPages) {
+          const newPages = new Set(this.props.viewedPages);
           newPages.add(key);
 
           return newPages;
@@ -84,9 +79,9 @@ class RoutedSavableReviewPage extends React.Component {
       }
 
       return pages;
-    }, this.state.viewedPages);
+    }, this.props.viewedPages);
 
-    if (viewedPages !== this.state.viewedPages) {
+    if (viewedPages !== this.props.viewedPages) {
       this.setState({ viewedPages });
     }
   }
@@ -110,7 +105,7 @@ class RoutedSavableReviewPage extends React.Component {
 
   handleSubmit = () => {
     const formConfig = this.props.route.formConfig;
-    const { isValid, errors } = isValidForm(this.props.form, this.state.pagesByChapter);
+    const { isValid, errors } = isValidForm(this.props.form, this.props.pagesByChapter);
     if (isValid) {
       this.props.submitForm(formConfig, this.props.form);
     } else {
@@ -173,35 +168,51 @@ class RoutedSavableReviewPage extends React.Component {
 
   render() {
     const {
+      chapterNames,
+      chapterFormConfigs,
+      closeReviewChapter,
+      disableSave,
       form,
+      formConfig,
       formContext,
-      openChapters,
-      route,
       location,
-      user
+      openChapters,
+      openReviewChapter,
+      pagesByChapter,
+      setEditMode,
+      setPrivacyAgreement,
+      setSubmission,
+      submitForm,
+      route,
+      uploadFile,
+      user,
+      viewedPages
     } = this.props;
-    const formConfig = this.props.route.formConfig;
-
-    const disableSave = !!route.formConfig.disableSave;
+    // flatten these props out more
+    // put the viewed pages on the state
+    // change the layout of the review page
+    // rename the files
 
     return (
       <div>
         <ReviewPage
-          closeReviewChapter={this.props.closeReviewChapter}
+          chapterNames={chapterNames}
+          chapterFormConfigs={chapterFormConfigs}
+          closeReviewChapter={closeReviewChapter}
           form={form}
           formConfig={formConfig}
           formContext={formContext}
           openChapters={openChapters}
-          pagesByChapter={this.state.pagesByChapter}
-          openReviewChapter={this.props.openReviewChapter}
+          pagesByChapter={pagesByChapter}
+          openReviewChapter={openReviewChapter}
           setData={this.setData}
-          setEditMode={this.props.setEditMode}
+          setEditMode={setEditMode}
           setPagesViewed={this.setPagesViewed}
-          setPrivacyAgreement={this.props.setPrivacyAgreement}
-          setSubmission={this.props.setSubmission}
-          submitForm={this.props.submitForm}
-          uploadFile={this.props.uploadFile}
-          viewedPages={this.state.viewedPages}
+          setPrivacyAgreement={setPrivacyAgreement}
+          setSubmission={setSubmission}
+          submitForm={submitForm}
+          uploadFile={uploadFile}
+          viewedPages={viewedPages}
         />
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement
@@ -234,12 +245,37 @@ class RoutedSavableReviewPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  // from ownprops
+  const formConfig = ownProps.route.formConfig;
+  const pageList = ownProps.route.pageList;
+
+  // from redux state
+  const form = state.form;
+  const formData = state.form.data;
+  const openChapters = getReviewPageOpenChapters(state);
+  const user = state.user;
+
+  const chapterNames = getActiveChapters(formConfig, formData);
+  const chapterFormConfigs = formConfig.chapters;
+  const disableSave = formConfig.disableSave;
+  const formContext = getFormContext({ form, user });
+  const pagesByChapter = createPageListByChapter(formConfig);
+  const viewedPages = new Set(
+    getPageKeys(pageList, form)
+  );
+
   return {
-    form: state.form,
-    formContext: getFormContext({form: state.form, user: state.user}),
-    openChapters: getReviewPageOpenChapters(state),
-    user: state.user
+    chapterNames,
+    chapterFormConfigs,
+    disableSave,
+    form,
+    formConfig,
+    formContext,
+    openChapters,
+    pagesByChapter,
+    user,
+    viewedPages
   };
 }
 
